@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/mainWindow.qml</file>
+        <file>qml/ScreenPlay.qml</file>
+    </qresource>
+</RCC>
