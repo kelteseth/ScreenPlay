@@ -48,7 +48,7 @@ ScreenPlay::ScreenPlay(int width, int height)
         WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
     SetWindowLongPtr(hwnd, GWL_EXSTYLE,
         WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
-    ShowWindow(hwnd, SW_SHOWDEFAULT);
+
 
     this->quickRenderer = new QQuickView(QUrl(QStringLiteral("qrc:/qml/ScreenPlay.qml")), this);
 
@@ -56,6 +56,7 @@ ScreenPlay::ScreenPlay(int width, int height)
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
     this->show();
     quickRenderer->show();
+    ShowWindow(hwnd, SW_SHOWDEFAULT);
 }
 
 ScreenPlay::~ScreenPlay()
