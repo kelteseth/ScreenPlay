@@ -3,13 +3,19 @@
 #include <qt_windows.h>
 #include <QWindow>
 #include <QQuickView>
-#include "src/screenplay.h"
+#include <QLibrary>
+#include "screenplay.h"
+#include "steam_api.h"
 
 
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
+
+    if(!SteamAPI_Init()){
+        qFatal("Could not init Steam sdk!");
+    }
 
     QQmlApplicationEngine mainWindow(QUrl(QStringLiteral("qrc:/qml/mainWindow.qml")));
 

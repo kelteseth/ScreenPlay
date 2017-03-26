@@ -1,6 +1,6 @@
 TEMPLATE = app
 
-QT += qml quick gui opengl av
+QT += qml quick gui opengl
 CONFIG += c++14
 
 SOURCES += main.cpp \
@@ -32,3 +32,23 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     src/screenplay.h
+
+INCLUDEPATH += $$PWD/ThirdParty/Steam/
+INCLUDEPATH += $$PWD/src/
+
+contains(QT_ARCH, i386) {
+    #32-bit
+    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/ -lsteam_api
+    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/
+} else {
+    #64-bit
+    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/win64/ -lsteam_api64
+    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/win64
+}
+
+DISTFILES += \
+    steam_appid.txt
+
+
+
+
