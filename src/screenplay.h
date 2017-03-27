@@ -5,7 +5,6 @@
 #include <QWindow>
 #include <qt_windows.h>
 
-
 class ScreenPlay : public QWindow {
     Q_OBJECT
 public:
@@ -23,6 +22,4 @@ private:
     QQuickView* quickRenderer = nullptr;
 };
 
-
 #endif // SCREENPLAY_H
-

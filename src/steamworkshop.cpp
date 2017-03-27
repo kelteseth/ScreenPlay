@@ -2,5 +2,4 @@
 
 SteamWorkshop::SteamWorkshop()
 {
-
 }

@@ -14,7 +14,6 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
     return TRUE;
 }
 
-
 ScreenPlay::ScreenPlay(QWindow* parent)
     : QWindow(parent)
 {
@@ -22,8 +21,7 @@ ScreenPlay::ScreenPlay(QWindow* parent)
 
 ScreenPlay::ScreenPlay(int width, int height)
 {
-
-    this->setHeight(height);
+   this->setHeight(height);
     this->setWidth(width);
 
     this->hwnd = (HWND)this->winId();
@@ -49,8 +47,7 @@ ScreenPlay::ScreenPlay(int width, int height)
     SetWindowLongPtr(hwnd, GWL_EXSTYLE,
         WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
 
-
-    this->quickRenderer = new QQuickView(QUrl(QStringLiteral("qrc:/qml/Components/ScreenPlay.qml")), this);
+    this->quickRenderer = new QQuickView(QUrl(QStringLiteral("qrc:/qml/ComponentScreenPlay.qml")), this);
 
     Qt::WindowFlags flags = this->flags();
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
@@ -61,11 +58,6 @@ ScreenPlay::ScreenPlay(int width, int height)
 
 ScreenPlay::~ScreenPlay()
 {
-    qDebug()<< "exit";
+    qDebug() << "exit";
     ShowWindow(worker_hwnd, SW_HIDE);
 }
-
-
-
-
-
