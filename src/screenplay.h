@@ -20,7 +20,7 @@ public slots:
 private:
     HWND hwnd = nullptr;
     HWND worker_hwnd = nullptr;
-    QQuickView* quickRenderer;
+    QQuickView* quickRenderer = nullptr;
 };
 
 

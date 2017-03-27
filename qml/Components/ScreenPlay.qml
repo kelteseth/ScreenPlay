@@ -5,13 +5,10 @@ import QtQuick.Controls 2.1
 
 import QtAV 1.07
 
+
+
 Rectangle {
-    id: rectangle
     color: "#f29f6a"
-    visible: true
     width: 2560
     height: 1080
-
-
-
 }

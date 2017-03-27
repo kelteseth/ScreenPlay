@@ -50,7 +50,7 @@ ScreenPlay::ScreenPlay(int width, int height)
         WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
 
 
-    this->quickRenderer = new QQuickView(QUrl(QStringLiteral("qrc:/qml/ScreenPlay.qml")), this);
+    this->quickRenderer = new QQuickView(QUrl(QStringLiteral("qrc:/qml/Components/ScreenPlay.qml")), this);
 
     Qt::WindowFlags flags = this->flags();
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);

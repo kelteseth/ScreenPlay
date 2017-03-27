@@ -1,6 +1,24 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/mainWindow.qml</file>
-        <file>qml/ScreenPlay.qml</file>
+        <file>qml/Components/Navigation.qml</file>
+        <file>qml/Components/NavigationItem.qml</file>
+        <file>qml/Components/Workshop.qml</file>
+        <file>qml/Components/Installed.qml</file>
+        <file>qml/main.qml</file>
+        <file>qml/Components/ScreenPlay.qml</file>
+        <file>qml/Components/Settings.qml</file>
+        <file>qml/Components/Page.qml</file>
+        <file>assets/licenses/Apache2.txt</file>
+        <file>assets/licenses/OFL.txt</file>
+        <file>assets/fonts/LibreBaskerville-Italic.ttf</file>
+        <file>assets/fonts/Roboto-Light.ttf</file>
+        <file>assets/fonts/Roboto-Regular.ttf</file>
+        <file>assets/fonts/Roboto-Thin.ttf</file>
+        <file>assets/icons/icon_installed.svg</file>
+        <file>assets/icons/icon_search.svg</file>
+        <file>assets/icons/icon_settings.svg</file>
+        <file>assets/icons/icon_share.svg</file>
+        <file>assets/icons/icon_volume.svg</file>
+        <file>assets/icons/icon_workshop.svg</file>
     </qresource>
 </RCC>

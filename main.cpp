@@ -4,22 +4,34 @@
 #include <QWindow>
 #include <QQuickView>
 #include <QLibrary>
+#include <QScreen>
+#include <QDebug>
+#include <QDir>
+#include <QUrl>
 #include "screenplay.h"
-#include "steam_api.h"
-
+//#include "steam_api.h"
+//#include "steamworkshop.h"
 
 
 int main(int argc, char *argv[])
 {
     QGuiApplication app(argc, argv);
 
-    if(!SteamAPI_Init()){
-        qFatal("Could not init Steam sdk!");
-    }
 
-    QQmlApplicationEngine mainWindow(QUrl(QStringLiteral("qrc:/qml/mainWindow.qml")));
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    ScreenPlay sp(GetSystemMetrics(SM_CXSCREEN),GetSystemMetrics(SM_CYSCREEN));
+//    if(!SteamAPI_Init()){
+//        qFatal("Could not init Steam sdk!");
+//    }
+
+
+
+
+    QQmlApplicationEngine mainWindow(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+
+    //ScreenPlay sp(GetSystemMetrics(SM_CXSCREEN),GetSystemMetrics(SM_CYSCREEN));
+
+
 
     return app.exec();
 

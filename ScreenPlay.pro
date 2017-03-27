@@ -1,10 +1,11 @@
 TEMPLATE = app
 
-QT += qml quick gui opengl
+QT += qml quick gui opengl gui
 CONFIG += c++14
 
 SOURCES += main.cpp \
-    src/screenplay.cpp
+    src/screenplay.cpp \
+    src/steamworkshop.cpp
 
 RESOURCES += qml.qrc
 
@@ -31,7 +32,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    src/screenplay.h
+    src/screenplay.h \
+    src/steamworkshop.h
 
 INCLUDEPATH += $$PWD/ThirdParty/Steam/
 INCLUDEPATH += $$PWD/src/
@@ -47,8 +49,7 @@ contains(QT_ARCH, i386) {
 }
 
 DISTFILES += \
-    steam_appid.txt
-
+    steam_appid.txt \
 
 
 
