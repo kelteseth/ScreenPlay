@@ -6,6 +6,7 @@ Item {
     height: 180
 
     property string customTitle: "name here"
+    signal itemClicked(var screenName)
 
     Rectangle
     {
@@ -25,7 +26,18 @@ Item {
             anchors.fill: parent
             font.pixelSize: 18
             anchors.margins: 10
+
+
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+                itemClicked(customTitle)
+            }
         }
     }
+
+
 
 }

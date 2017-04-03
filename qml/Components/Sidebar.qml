@@ -7,6 +7,7 @@ Item {
     height: 768
     width:400
     state: "inactive"
+    focus: true
 
     Item {
         id: sidebarWrapper
@@ -17,6 +18,7 @@ Item {
             bottom:sidebar.bottom
             left:sidebar.left
         }
+
         Rectangle {
             id:sidebarBackground
             color: "grey"
@@ -28,15 +30,29 @@ Item {
                 leftMargin: 5
             }
 
+            Rectangle {
+                id: rectangle
+                y: 0
+                height: 237
+                color: "#2b2b2b"
+                anchors.right: parent.right
+                anchors.rightMargin: 0
+                anchors.left: parent.left
+                anchors.leftMargin: 0
+            }
+
             Button {
                 id: button
-                text: qsTr("Button")
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
+                text: qsTr("Back")
+                anchors.top: parent.top
+                anchors.topMargin: 20
+                anchors.left: parent.left
+                anchors.leftMargin: 20
                 onClicked: {
-                    sidebar.state = sidebar.state == "active" ? "inactive" : "active"
+                    sidebar.state = sidebar.state === "active" ? "inactive" : "active"
                 }
             }
+
         }
 
         Rectangle {
@@ -52,7 +68,7 @@ Item {
             LinearGradient {
                 anchors.fill: parent
                 start: Qt.point(0, 0)
-                end: Qt.point(5, 0)
+                end: Qt.point(0, 5)
                 gradient: Gradient {
                     GradientStop { position: 0.0; color: "#00000000" }
                     GradientStop { position: 1.0; color: "#22000000" }
@@ -89,7 +105,7 @@ Item {
 
             NumberAnimation {
                 properties: "anchors.leftMargin"
-                duration: 500
+                duration: 300
                 easing.type: Easing.InOutQuad
             }
         },
@@ -98,7 +114,7 @@ Item {
 
             NumberAnimation {
                 properties: "anchors.leftMargin"
-                duration: 500
+                duration: 300
                 easing.type: Easing.InOutQuad
             }
         }

@@ -25,17 +25,25 @@ Window {
             left: parent.left
         }
         source: "qrc:/qml/Components/Installed.qml"
+
+        Connections{
+            target: pageLoader.item
+            ignoreUnknownSignals: true
+            onToggleSidebar: {
+                sidebar.state = sidebar.state === "active" ? "inactive" : "active"
+            }
+
+        }
     }
 
     Sidebar {
         id: sidebar
         width:400
         anchors {
-            top:parent.top
+            top:nav.bottom
             right:parent.right
             bottom:parent.bottom
         }
-
     }
 
     Navigation {
