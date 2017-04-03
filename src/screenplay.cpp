@@ -21,7 +21,7 @@ ScreenPlay::ScreenPlay(QWindow* parent)
 
 ScreenPlay::ScreenPlay(int width, int height)
 {
-   this->setHeight(height);
+    this->setHeight(height);
     this->setWidth(width);
 
     this->hwnd = (HWND)this->winId();

@@ -44,7 +44,7 @@ Item {
                 anchors.left: icon.right
                 anchors.leftMargin: 10
                 text: name
-                font.pointSize: 16
+                font.pointSize: 14
                 color: "#626262"
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
@@ -136,6 +136,7 @@ Item {
             NumberAnimation {
                 properties: "anchors.bottomMargin"
                 duration: 100
+                easing.type: Easing.InOutQuad
             }
         },
         Transition {
@@ -144,6 +145,7 @@ Item {
             NumberAnimation {
                 properties: "anchors.bottomMargin"
                 duration: 100
+                easing.type: Easing.InOutQuad
             }
         }
     ]

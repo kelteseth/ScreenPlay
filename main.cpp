@@ -8,8 +8,12 @@
 #include <QUrl>
 #include <QWindow>
 #include <qt_windows.h>
+#include <QQmlContext>
+#include <QModelIndex>
+#include <QVariant>
 
 #include "screenplay.h"
+#include "installedlistmodel.h"
 
 int main(int argc, char* argv[])
 {
@@ -20,9 +24,20 @@ int main(int argc, char* argv[])
     QCoreApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QQmlApplicationEngine mainWindow(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    InstalledListModel ilm;
+    ilm.setData(QModelIndex(),QVariant("ascb"),0);
+
+    QQmlApplicationEngine mainWindow;
+    mainWindow.rootContext()->setContextProperty("installedListModel", &ilm);
+
+    mainWindow.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+
 
     //ScreenPlay sp(GetSystemMetrics(SM_CXSCREEN),GetSystemMetrics(SM_CYSCREEN));
 
-    return app.exec();
+    int status = app.exec();
+
+    //Shutdown
+
+    return  status;
 }

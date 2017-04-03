@@ -12,16 +12,9 @@ Window {
     visible: true
     width: 1366
     height: 768
+    Component.onCompleted: installedListModel.loadDrives()
 
-    Navigation {
-        id: nav
-        anchors {
-            top: parent.top
-            right: parent.right
-            left: parent.left
-        }
-        onChangeTab: pageLoader.setSource("qrc:/qml/Components/"+name+".qml")
-    }
+
 
     Loader {
         id: pageLoader
@@ -31,6 +24,27 @@ Window {
             bottom: parent.bottom
             left: parent.left
         }
-        source: "qrc:/qml/Components/Workshop.qml"
+        source: "qrc:/qml/Components/Installed.qml"
+    }
+
+    Sidebar {
+        id: sidebar
+        width:400
+        anchors {
+            top:parent.top
+            right:parent.right
+            bottom:parent.bottom
+        }
+
+    }
+
+    Navigation {
+        id: nav
+        anchors {
+            top: parent.top
+            right: parent.right
+            left: parent.left
+        }
+        onChangeTab: pageLoader.setSource("qrc:/qml/Components/"+name+".qml")
     }
 }

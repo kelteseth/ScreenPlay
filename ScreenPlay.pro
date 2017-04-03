@@ -5,7 +5,9 @@ CONFIG += c++14
 
 SOURCES += main.cpp \
     src/screenplay.cpp \
-    src/steamworkshop.cpp
+    src/steamworkshop.cpp \
+    src/installedlistmodel.cpp \
+    src/screenplayitem.cpp
 
 RESOURCES += qml.qrc
 
@@ -33,7 +35,9 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     src/screenplay.h \
-    src/steamworkshop.h
+    src/steamworkshop.h \
+    src/installedlistmodel.h \
+    src/screenplayitem.h
 
 INCLUDEPATH += $$PWD/ThirdParty/Steam/
 INCLUDEPATH += $$PWD/src/

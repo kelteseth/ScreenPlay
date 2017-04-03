@@ -4,6 +4,7 @@ import QtQuick.Controls 2.2
 Rectangle {
     id:navigation
     height:60
+    clip: true
     width: 1366
 
     signal changeTab(string name)
@@ -38,7 +39,7 @@ Rectangle {
 
         NavigationItem {
             id: navWorkshop
-            state: "active"
+            state: "inactive"
             name: "Workshop"
             iconSource: "qrc:/assets/icons/icon_workshop.svg"
             onTabClicked: navigation.onTabChanged(name)
@@ -46,7 +47,7 @@ Rectangle {
 
         NavigationItem {
             id: navInstalled
-            state: "inactive"
+            state: "active"
             name: "Installed"
             iconSource: "qrc:/assets/icons/icon_installed.svg"
             onTabClicked: navigation.onTabChanged(name)
@@ -63,27 +64,5 @@ Rectangle {
         }
     }
 
-    Item {
-        id:createScreenPlay
-        width: txtcreateScreenPlay.contentWidth
-
-        anchors{
-            top:parent.top
-            right: parent.right
-            rightMargin: 20
-            bottom: parent.bottom
-        }
-
-        MouseArea {
-            anchors.fill: parent
-
-            Text {
-                id: txtcreateScreenPlay
-                text: qsTr("+ Create ScreenPlay")
-                anchors.centerIn: parent
-            }
-        }
-
-    }
 
 }

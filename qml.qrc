@@ -20,5 +20,7 @@
         <file>assets/icons/icon_share.svg</file>
         <file>assets/icons/icon_volume.svg</file>
         <file>assets/icons/icon_workshop.svg</file>
+        <file>qml/Components/ScreenPlayItem.qml</file>
+        <file>qml/Components/Sidebar.qml</file>
     </qresource>
 </RCC>
