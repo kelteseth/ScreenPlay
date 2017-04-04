@@ -9,6 +9,14 @@ Item {
     state: "inactive"
     focus: true
 
+    property string activeScreen: ""
+
+    onActiveScreenChanged:{
+        print(activeScreen)
+
+    }
+
+
     Item {
         id: sidebarWrapper
 
@@ -50,6 +58,19 @@ Item {
                 anchors.leftMargin: 20
                 onClicked: {
                     sidebar.state = sidebar.state === "active" ? "inactive" : "active"
+                }
+            }
+
+            Button {
+                id: button1
+                y: 710
+                text: qsTr("Set wallpaper")
+                anchors.left: parent.left
+                anchors.leftMargin: 148
+                anchors.bottom: parent.bottom
+                anchors.bottomMargin: 18
+                onClicked: {
+
                 }
             }
 

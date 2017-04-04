@@ -22,5 +22,6 @@
         <file>assets/icons/icon_workshop.svg</file>
         <file>qml/Components/ScreenPlayItem.qml</file>
         <file>qml/Components/Sidebar.qml</file>
+        <file>assets/images/Window.svg</file>
     </qresource>
 </RCC>

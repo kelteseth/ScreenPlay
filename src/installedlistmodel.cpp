@@ -3,6 +3,19 @@
 InstalledListModel::InstalledListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
+
+    QString writablePath = QStandardPaths::writableLocation(QStandardPaths::StandardLocation::DataLocation);
+
+    if (!QDir(writablePath).exists()) {
+        if (!QDir().mkdir(writablePath)) {
+            qWarning("ERROR: Cloud not create install dir");
+            return;
+        }
+    } else {
+        _screensPath = writablePath  + "/Installed/";
+    }
+
+    loadScreens();
 }
 
 int InstalledListModel::rowCount(const QModelIndex& parent) const
@@ -23,8 +36,10 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
         switch (role) {
         case TitleRole:
             return _screenPlayFiles.at(index.row())._title;
-        case ImageRole:
-            return _screenPlayFiles.at(index.row())._description;
+        case PreviewRole:
+            return _screenPlayFiles.at(index.row())._preview;
+        case FolderIdRole:
+            return _screenPlayFiles.at(index.row())._folderId;
         default:
             return QVariant();
         }
@@ -34,44 +49,35 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
 QHash<int, QByteArray> InstalledListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles{
-        { TitleRole, "title" },
-        { ImageRole, "image" },
+        { TitleRole, "screenTitle" },
+        { PreviewRole, "screenPreview" },
+        { FolderIdRole, "screenFolderId" },
     };
     return roles;
 }
 
-void InstalledListModel::append(const QJsonObject obj)
+void InstalledListModel::append(const QJsonObject obj, const QString folderName)
 {
     int row = 0;
 
     beginInsertRows(QModelIndex(), row, row);
 
-    ScreenPlayFile tmpFile(obj);
+    ScreenPlayFile tmpFile(obj, folderName);
     _screenPlayFiles.append(tmpFile);
 
     endInsertRows();
 }
 
-void InstalledListModel::loadDrives()
+void InstalledListModel::loadScreens()
 {
-    QString writablePath = QStandardPaths::writableLocation(QStandardPaths::StandardLocation::DataLocation);
-
-    if (!QDir(writablePath).exists()) {
-        if (!QDir().mkdir(writablePath)) {
-            qWarning("ERROR: Cloud not create install dir");
-            return;
-        }
-    }
-
-    QString tmp(writablePath + "/Installed/");
     QJsonDocument jsonProject;
     QJsonParseError parseError;
 
-    QFileInfoList list = QDir(tmp).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
+    QFileInfoList list = QDir(_screensPath).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
     QString tmpPath;
 
     for (auto&& item : list) {
-        tmpPath = tmp + item.baseName() + "/project.json";
+        tmpPath = _screensPath + item.baseName() + "/project.json";
 
         if (!QFile(tmpPath).exists())
             continue;
@@ -85,6 +91,6 @@ void InstalledListModel::loadDrives()
         if (!(parseError.error == QJsonParseError::NoError))
             continue;
 
-        append(jsonProject.object());
+        append(jsonProject.object(),item.baseName());
     }
 }

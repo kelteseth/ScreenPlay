@@ -28,27 +28,35 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index,
         int role = Qt::DisplayRole) const override;
-    void append(const QJsonObject);
+    void append(const QJsonObject, const QString);
     QHash<int, QByteArray> roleNames() const;
 
-    Q_INVOKABLE void loadDrives();
+    Q_INVOKABLE void loadScreens();
+    Q_PROPERTY(QString _screensPath READ name CONSTANT)
 
     enum InstalledRole {
         TitleRole,
-        ImageRole,
-
+        PreviewRole,
+        FolderIdRole,
     };
     Q_ENUM(InstalledRole)
 
+    QString name() const
+    {
+        return _screensPath;
+    }
+
 private:
     QList<ScreenPlayFile> _screenPlayFiles;
+    QString _screensPath;
+
 };
 
 class ScreenPlayFile {
 
 public:
     ScreenPlayFile();
-    ScreenPlayFile(QJsonObject obj)
+    ScreenPlayFile(QJsonObject obj, QString folderName)
     {
         if (obj.contains("description"))
             _description = obj.value("description");
@@ -61,12 +69,15 @@ public:
 
         if (obj.contains("title"))
             _title = obj.value("title");
+
+        _folderId = folderName;
     }
 
-    QVariant _description = "as";
+    QVariant _description;
     QVariant _file;
     QVariant _preview;
-    QVariant _title= "aass";
+    QVariant _title;
+    QString _folderId;
     QUrl _absolutePath;
 
     QVariantList _tags; //TODO: Implement me!

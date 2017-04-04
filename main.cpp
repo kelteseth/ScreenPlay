@@ -38,6 +38,5 @@ int main(int argc, char* argv[])
     int status = app.exec();
 
     //Shutdown
-
     return  status;
 }
