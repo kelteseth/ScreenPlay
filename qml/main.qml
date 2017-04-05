@@ -58,6 +58,9 @@ Window {
             right: parent.right
             left: parent.left
         }
-        onChangeTab: pageLoader.setSource("qrc:/qml/Components/"+name+".qml")
+        onChangeTab: {
+            pageLoader.setSource("qrc:/qml/Components/"+name+".qml")
+            sidebar.state = "inactive"
+        }
     }
 }
