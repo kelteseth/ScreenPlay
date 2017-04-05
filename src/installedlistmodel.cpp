@@ -12,7 +12,7 @@ InstalledListModel::InstalledListModel(QObject* parent)
             return;
         }
     } else {
-        _screensPath = writablePath  + "/Installed/";
+        _screensPath = writablePath + "/Installed/";
     }
 
     loadScreens();
@@ -20,10 +20,6 @@ InstalledListModel::InstalledListModel(QObject* parent)
 
 int InstalledListModel::rowCount(const QModelIndex& parent) const
 {
-    // For list models only the root node (an invalid parent) should return the
-    // list's size. For all
-    // other (valid) parents, rowCount() should return 0 so that it does not
-    // become a tree model.
     return _screenPlayFiles.count();
 }
 
@@ -91,6 +87,24 @@ void InstalledListModel::loadScreens()
         if (!(parseError.error == QJsonParseError::NoError))
             continue;
 
-        append(jsonProject.object(),item.baseName());
+        append(jsonProject.object(), item.baseName());
     }
+}
+
+QVariantMap InstalledListModel::get(QString folderId)
+{
+
+    QVariantMap map;
+    if (_screenPlayFiles.count() == 0)
+        return map;
+
+    for (int i = 0; i < _screenPlayFiles.count(); i++) {
+
+        if (_screenPlayFiles[i]._folderId == folderId) {
+            map.insert("screenTitle", _screenPlayFiles[i]._title);
+            map.insert("screenPreview", _screenPlayFiles[i]._preview);
+        }
+    }
+
+    return map;
 }

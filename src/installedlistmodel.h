@@ -32,6 +32,7 @@ public:
     QHash<int, QByteArray> roleNames() const;
 
     Q_INVOKABLE void loadScreens();
+    Q_INVOKABLE QVariantMap get(QString folderId);
     Q_PROPERTY(QString _screensPath READ name CONSTANT)
 
     enum InstalledRole {
@@ -49,7 +50,6 @@ public:
 private:
     QList<ScreenPlayFile> _screenPlayFiles;
     QString _screensPath;
-
 };
 
 class ScreenPlayFile {
