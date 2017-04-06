@@ -1,16 +1,11 @@
-import QtQuick 2.6
+import QtQuick 2.0
 import QtAV 1.07
 
-
-Item {
-    id:empty
+Rectangle {
+    color: "orange"
     height: parent.height
     width: parent.width
 
-//    Loader {
-//        anchors.fill: parent
-//        source: "qrc:/qml/Components/Screens/ScreenVideo.qml"
-//    }
 
     Connections {
         target: installedListModel
@@ -20,12 +15,10 @@ Item {
             video.source = absolutePath;
             video.play();
         }
-
     }
     Video {
         id: video
         anchors.fill: parent
-        implicitWidth: parent.width
-        fillMode: Qt.KeepAspectRatio
     }
+
 }

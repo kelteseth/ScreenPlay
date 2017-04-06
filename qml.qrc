@@ -23,5 +23,6 @@
         <file>qml/Components/ScreenPlayItem.qml</file>
         <file>qml/Components/Sidebar.qml</file>
         <file>assets/images/Window.svg</file>
+        <file>qml/Components/Screens/ScreenVideo.qml</file>
     </qresource>
 </RCC>

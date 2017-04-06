@@ -68,6 +68,7 @@ Item {
             anchors.margins: 10
 
         }
+
         MouseArea {
             anchors.fill: parent
             onClicked: {

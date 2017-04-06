@@ -33,12 +33,16 @@ public:
 
     Q_INVOKABLE void loadScreens();
     Q_INVOKABLE QVariantMap get(QString folderId);
+    Q_INVOKABLE void setScreenVisibleFromQml(bool visible);
+    Q_INVOKABLE void setScreenToVideoFromQml(QString absolutePath);
     Q_PROPERTY(QString _screensPath READ name CONSTANT)
+
 
     enum InstalledRole {
         TitleRole,
         PreviewRole,
         FolderIdRole,
+        FileIdRole,
     };
     Q_ENUM(InstalledRole)
 
@@ -46,6 +50,10 @@ public:
     {
         return _screensPath;
     }
+
+signals:
+    void setScreenVisible(bool visible);
+    void setScreenToVideo(QString absolutePath);
 
 private:
     QList<ScreenPlayFile> _screenPlayFiles;

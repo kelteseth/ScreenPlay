@@ -14,6 +14,7 @@
 
 #include "installedlistmodel.h"
 #include "screenplay.h"
+#include "mainwindow.h"
 
 int main(int argc, char* argv[])
 {
@@ -28,10 +29,17 @@ int main(int argc, char* argv[])
 
     QQmlApplicationEngine mainWindow;
     mainWindow.rootContext()->setContextProperty("installedListModel", &ilm);
-
     mainWindow.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
-    //ScreenPlay sp(GetSystemMetrics(SM_CXSCREEN),GetSystemMetrics(SM_CYSCREEN));
+
+    ScreenPlay sp(GetSystemMetrics(SM_CXSCREEN),GetSystemMetrics(SM_CYSCREEN));
+    sp.context()->setContextProperty("installedListModel",&ilm);
+    sp.loadQQuickView(QUrl(QStringLiteral("qrc:/qml/Components/ScreenPlay.qml")));
+    sp.showQQuickView(GetSystemMetrics(SM_CXSCREEN),GetSystemMetrics(SM_CYSCREEN));
+
+    QObject::connect(&ilm, &InstalledListModel::setScreenVisible,
+                     &sp,&ScreenPlay::setVisible);
+
 
     int status = app.exec();
 

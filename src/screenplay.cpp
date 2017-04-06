@@ -21,6 +21,9 @@ ScreenPlay::ScreenPlay(QWindow* parent)
 
 ScreenPlay::ScreenPlay(int width, int height)
 {
+    this->quickRenderer = new QQuickView(this);
+    _context = quickRenderer->rootContext();
+
     this->setHeight(height);
     this->setWidth(width);
 
@@ -47,17 +50,45 @@ ScreenPlay::ScreenPlay(int width, int height)
     SetWindowLongPtr(hwnd, GWL_EXSTYLE,
         WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
 
-    this->quickRenderer = new QQuickView(QUrl(QStringLiteral("qrc:/qml/ComponentScreenPlay.qml")), this);
 
     Qt::WindowFlags flags = this->flags();
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
     this->show();
-    quickRenderer->show();
+
     ShowWindow(hwnd, SW_SHOWDEFAULT);
+
+    // We do not want to display anything initially
+    setVisible(false);
 }
 
 ScreenPlay::~ScreenPlay()
 {
-    qDebug() << "exit";
     ShowWindow(worker_hwnd, SW_HIDE);
 }
+
+void ScreenPlay::loadQQuickView(QUrl path)
+{
+    quickRenderer->setSource(path);
+}
+
+void ScreenPlay::showQQuickView(int width, int height)
+{
+    quickRenderer->setWidth(width);
+    quickRenderer->setHeight(height);
+    quickRenderer->show();
+}
+
+
+void ScreenPlay::setVisible(bool visible)
+{
+    if (visible)
+        ShowWindow(worker_hwnd, SW_SHOWDEFAULT);
+    else
+        ShowWindow(worker_hwnd, SW_HIDE);
+}
+
+QQmlContext *ScreenPlay::context() const
+{
+    return _context;
+}
+

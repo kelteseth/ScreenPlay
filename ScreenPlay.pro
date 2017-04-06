@@ -7,7 +7,8 @@ SOURCES += main.cpp \
     src/screenplay.cpp \
     src/steamworkshop.cpp \
     src/installedlistmodel.cpp \
-    src/screenplayitem.cpp
+    src/mainwindow.cpp \
+
 
 RESOURCES += qml.qrc
 
@@ -37,7 +38,7 @@ HEADERS += \
     src/screenplay.h \
     src/steamworkshop.h \
     src/installedlistmodel.h \
-    src/screenplayitem.h
+    src/mainwindow.h
 
 INCLUDEPATH += $$PWD/ThirdParty/Steam/
 INCLUDEPATH += $$PWD/src/

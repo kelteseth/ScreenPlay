@@ -36,6 +36,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return _screenPlayFiles.at(index.row())._preview;
         case FolderIdRole:
             return _screenPlayFiles.at(index.row())._folderId;
+        case FileIdRole:
+            return _screenPlayFiles.at(index.row())._file;
         default:
             return QVariant();
         }
@@ -48,6 +50,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { TitleRole, "screenTitle" },
         { PreviewRole, "screenPreview" },
         { FolderIdRole, "screenFolderId" },
+        { FileIdRole, "screenFile" },
     };
     return roles;
 }
@@ -103,8 +106,19 @@ QVariantMap InstalledListModel::get(QString folderId)
         if (_screenPlayFiles[i]._folderId == folderId) {
             map.insert("screenTitle", _screenPlayFiles[i]._title);
             map.insert("screenPreview", _screenPlayFiles[i]._preview);
+            map.insert("screenFile", _screenPlayFiles[i]._file);
         }
     }
 
     return map;
+}
+
+void InstalledListModel::setScreenVisibleFromQml(bool visible)
+{
+    emit setScreenVisible(visible);
+}
+
+void InstalledListModel::setScreenToVideoFromQml(QString absolutePath)
+{
+    emit setScreenToVideo(absolutePath);
 }

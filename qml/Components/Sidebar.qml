@@ -84,7 +84,10 @@ Item {
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 18
                 onClicked: {
-
+                    print()
+                    installedListModel.setScreenToVideoFromQml( Qt.resolvedUrl(
+                                                                   "file:///" + installedListModel._screensPath + activeScreen
+                                                                   + "/" + installedListModel.get(activeScreen).screenFile));
                 }
             }
 
