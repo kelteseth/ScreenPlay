@@ -55,7 +55,7 @@ ScreenPlay::ScreenPlay(int width, int height)
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
     this->show();
 
-    ShowWindow(hwnd, SW_SHOWDEFAULT);
+    //ShowWindow(hwnd, SW_SHOWDEFAULT);
 
     // We do not want to display anything initially
     setVisible(false);
@@ -82,9 +82,9 @@ void ScreenPlay::showQQuickView(int width, int height)
 void ScreenPlay::setVisible(bool visible)
 {
     if (visible)
-        ShowWindow(worker_hwnd, SW_SHOWDEFAULT);
+        ShowWindow(hwnd, SW_SHOWDEFAULT);
     else
-        ShowWindow(worker_hwnd, SW_HIDE);
+        ShowWindow(hwnd, SW_HIDE);
 }
 
 QQmlContext *ScreenPlay::context() const
