@@ -14,6 +14,7 @@ Rectangle {
     LinearGradient {
         id: pageShadow
         height: 5
+        z:99
 
         anchors{
             top:parent.top
