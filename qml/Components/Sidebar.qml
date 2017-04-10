@@ -102,8 +102,10 @@ Item {
             }
         }
 
-        Rectangle {
+        Item {
             id: shadow
+            width:5
+
             anchors {
                 top: parent.top
                 right: sidebarBackground.left
@@ -114,7 +116,7 @@ Item {
             LinearGradient {
                 anchors.fill: parent
                 start: Qt.point(0, 0)
-                end: Qt.point(0, 5)
+                end: Qt.point(5, 0)
                 gradient: Gradient {
                     GradientStop {
                         position: 0.0
