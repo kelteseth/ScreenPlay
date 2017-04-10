@@ -35,8 +35,14 @@ Window {
             target: pageLoader.item
             ignoreUnknownSignals: true
             onSetSidebaractiveItem: {
+                if( sidebar.activeScreen == screenId && sidebar.state ==  "active"){
+                    sidebar.state =  "inactive"
+                } else {
+                    sidebar.state =  "active"
+                }
+
                 sidebar.activeScreen = screenId
-                sidebar.state =  "active"
+
             }
         }
     }
