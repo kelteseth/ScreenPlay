@@ -24,5 +24,12 @@
         <file>qml/Components/Sidebar.qml</file>
         <file>assets/images/Window.svg</file>
         <file>qml/Components/Screens/ScreenVideo.qml</file>
+        <file>qml/Components/Monitors.qml</file>
+        <file>assets/icons/icon_arrow_left.svg</file>
+        <file>assets/icons/icon_arrow_right.svg</file>
+        <file>assets/icons/icon_indicator_down.svg</file>
+        <file>assets/icons/icon_monitor.svg</file>
+        <file>assets/icons/icon_download.svg</file>
+        <file>qml/Components/ScreenPlayItemImage.qml</file>
     </qresource>
 </RCC>
