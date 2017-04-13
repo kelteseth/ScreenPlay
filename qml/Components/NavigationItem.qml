@@ -48,6 +48,12 @@ Item {
                 color: "#626262"
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
+                font.family: font_Roboto_Regular.name
+
+                FontLoader{
+                    id: font_Roboto_Regular
+                    source: "qrc:/assets/fonts/Roboto-Regular.ttf"
+                }
             }
 
             Image {
@@ -86,6 +92,7 @@ Item {
             anchors.bottomMargin: 0
         }
     }
+
     states: [
         State {
             name: "active"
