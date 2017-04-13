@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.0
 
 Item {
     id: sidebar
@@ -23,6 +23,7 @@ Item {
                     "file:///" + installedListModel._screensPath + activeScreen
                     + "/" + installedListModel.get(activeScreen).screenPreview)
     }
+
 
     Item {
         id: sidebarWrapper
@@ -63,15 +64,24 @@ Item {
                 }
             }
 
-            Button {
+            MouseArea {
                 id: button
-                text: qsTr("Back")
+                height:30
+                width: 30
                 anchors.top: parent.top
                 anchors.topMargin: 20
                 anchors.left: parent.left
                 anchors.leftMargin: 20
                 onClicked: {
                     sidebar.state = sidebar.state === "active" ? "inactive" : "active"
+                }
+
+                Image {
+                    id: imgBack
+                    opacity: .8
+                    source: "qrc:/assets/icons/icon_arrow_left.svg"
+                    sourceSize: Qt.size(16,16)
+                    anchors.centerIn: parent
                 }
             }
 
