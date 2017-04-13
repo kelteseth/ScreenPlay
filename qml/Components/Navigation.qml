@@ -1,5 +1,6 @@
 import QtQuick 2.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.0
+
 
 Rectangle {
     id:navigation
@@ -8,6 +9,7 @@ Rectangle {
     width: 1366
 
     signal changeTab(string name)
+    signal toggleMonitors()
 
     function onTabChanged(name){
          navigation.changeTab(name);
@@ -62,6 +64,57 @@ Rectangle {
             onTabClicked: navigation.onTabChanged(name)
 
         }
+    }
+
+    Item {
+        id: monitorSelection
+        width: 321
+        anchors.right: parent.right
+        anchors.rightMargin: 0
+        anchors.bottom: parent.bottom
+        anchors.bottomMargin: 0
+        anchors.top: parent.top
+        anchors.topMargin: 0
+
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            onClicked: {
+                toggleMonitors()
+            }
+
+        }
+
+
+        Image {
+            id: image
+            width: 24
+            height: 24
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.right: parent.right
+            anchors.rightMargin: 20
+            sourceSize.height: 24
+            sourceSize.width: 24
+            source: "qrc:/assets/icons/icon_monitor.svg"
+        }
+
+        Text {
+            id: activeMonitorName
+            text: qsTr("Monitor Name")
+            anchors.right: image.right
+            anchors.rightMargin: 20 + image.width
+            horizontalAlignment: Text.AlignRight
+            color: "#626262"
+            anchors.verticalCenter: parent.verticalCenter
+            font.pixelSize: 16
+            font.family: font_Roboto_Regular.name
+
+            FontLoader{
+                id: font_Roboto_Regular
+                source: "qrc:/assets/fonts/Roboto-Regular.ttf"
+            }
+        }
+
     }
 
 

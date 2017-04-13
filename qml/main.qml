@@ -1,6 +1,5 @@
 import QtQuick 2.6
 import QtQuick.Window 2.2
-import QtCanvas3D 1.1
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 
@@ -10,7 +9,7 @@ Window {
     id: window
     color: "#eeeeee"
     visible: true
-    width: 1366
+    width: 1380
     height: 768
 
     Loader {
@@ -68,5 +67,18 @@ Window {
             pageLoader.setSource("qrc:/qml/Components/"+name+".qml")
             sidebar.state = "inactive"
         }
+
+        onToggleMonitors: {
+            monitors.state = monitors.state == "active" ? "inactive" : "active"
+        }
     }
+
+    Monitors {
+        id: monitors
+        state: "inactive"
+        anchors.fill: pageLoader
+        z:98
+    }
+
+
 }
