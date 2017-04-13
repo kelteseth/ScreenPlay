@@ -14,11 +14,12 @@ Page {
         id: gridView
         boundsBehavior: Flickable.DragOverBounds
         cacheBuffer: 1000
-        maximumFlickVelocity: 7000
+        maximumFlickVelocity: 10000
         anchors.fill: parent
-        cellWidth: 320
+        cellWidth: 330
         cellHeight: 200
         anchors.margins: 30
+
         model: installedListModel
         delegate: ScreenPlayItem {
             id:delegate
@@ -45,6 +46,7 @@ Page {
         displaced: Transition {
             NumberAnimation { properties: "x,y"; duration: 400; easing.type: Easing.OutBounce }
         }
+
 
 
 
