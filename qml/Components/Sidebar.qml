@@ -78,10 +78,17 @@ Item {
 
                 Image {
                     id: imgBack
-                    opacity: .8
+                    width: 22
+                    height: 30
+                    anchors.left: parent.left
+                    anchors.leftMargin: 0
+                    opacity: 1
                     source: "qrc:/assets/icons/icon_arrow_left.svg"
-                    sourceSize: Qt.size(16,16)
-                    anchors.centerIn: parent
+                    sourceSize: Qt.size(22,30)
+                    anchors {
+                        top:parent.top
+                        topMargin: 0
+                    }
                 }
             }
 
@@ -94,7 +101,6 @@ Item {
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 18
                 onClicked: {
-                    print()
                     installedListModel.setScreenToVideoFromQml( Qt.resolvedUrl(
                                                                    "file:///" + installedListModel._screensPath + activeScreen
                                                                    + "/" + installedListModel.get(activeScreen).screenFile));
@@ -154,6 +160,11 @@ Item {
                 target: sidebarWrapper
                 anchors.leftMargin: 0
             }
+            PropertyChanges {
+                target: image
+                opacity: 1
+                anchors.topMargin: 0
+            }
         },
         State {
             name: "inactive"
@@ -167,6 +178,12 @@ Item {
                 target: sidebarWrapper
                 anchors.leftMargin: sidebar.width
             }
+            PropertyChanges {
+                target: image
+                opacity: 0
+                anchors.topMargin: 20
+            }
+
         }
     ]
 
@@ -174,15 +191,42 @@ Item {
         Transition {
             to: "active"
 
-            NumberAnimation {
-                target: sidebarWrapper
-                properties: "anchors.leftMargin"
-                duration: 300
-                easing.type: Easing.InOutQuad
+            SequentialAnimation {
+                NumberAnimation {
+                    target: sidebarWrapper
+                    properties: "anchors.leftMargin"
+                    duration: 300
+                    easing.type: Easing.InOutQuad
+                }
+
+                ParallelAnimation {
+                    NumberAnimation {
+                        target: image
+                        property: "opacity"
+                        duration: 200
+                    }
+                    NumberAnimation {
+                        target: image
+                        property: "anchors.topMargin"
+                        duration: 100
+                    }
+                }
             }
+
         },
         Transition {
             to: "inactive"
+
+            NumberAnimation {
+                target: image
+                property: "opacity"
+                duration: 200
+            }
+            NumberAnimation {
+                target: image
+                property: "anchors.topMargin"
+                duration: 400
+            }
 
             NumberAnimation {
                 target: sidebarWrapper
