@@ -24,6 +24,7 @@ int main(int argc, char* argv[])
     QCoreApplication::setOrganizationDomain("aimber.net");
     QCoreApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
     InstalledListModel ilm;
 

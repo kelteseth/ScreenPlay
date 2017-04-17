@@ -31,5 +31,6 @@
         <file>assets/icons/icon_monitor.svg</file>
         <file>assets/icons/icon_download.svg</file>
         <file>qml/Components/ScreenPlayItemImage.qml</file>
+        <file>assets/icons/favicon.ico</file>
     </qresource>
 </RCC>
