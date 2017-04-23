@@ -55,6 +55,7 @@ contains(QT_ARCH, i386) {
 
 DISTFILES += \
     steam_appid.txt \
+    assets/icons/favicon.ico
 
 
 

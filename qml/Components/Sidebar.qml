@@ -78,13 +78,13 @@ Item {
 
                 Image {
                     id: imgBack
-                    width: 22
-                    height: 30
+
                     anchors.left: parent.left
                     anchors.leftMargin: 0
                     opacity: 1
                     source: "qrc:/assets/icons/icon_arrow_left.svg"
-                    sourceSize: Qt.size(22,30)
+                    sourceSize: Qt.size(14,23)
+                    fillMode: Image.PreserveAspectCrop
                     anchors {
                         top:parent.top
                         topMargin: 0

@@ -49,6 +49,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
                 font.family: font_Roboto_Regular.name
+                renderType: Text.NativeRendering
 
                 FontLoader{
                     id: font_Roboto_Regular

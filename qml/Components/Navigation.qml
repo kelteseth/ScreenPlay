@@ -108,6 +108,7 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             font.pixelSize: 16
             font.family: font_Roboto_Regular.name
+            renderType: Text.NativeRendering
 
             FontLoader{
                 id: font_Roboto_Regular

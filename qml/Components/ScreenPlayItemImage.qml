@@ -2,9 +2,11 @@ import QtQuick 2.7
 
 Image {
     id: image
-    width: 300
-    height: 250
+    width: 320
+    height: 121
     state: "loading"
+
+    property string sourceImage: ""
 
     states: [
         State {
@@ -39,7 +41,7 @@ Image {
         }
     ]
 
-    property string sourceImage: ""
+
 
     onSourceImageChanged: {
         image.source = sourceImage
