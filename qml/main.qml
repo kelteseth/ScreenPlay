@@ -10,7 +10,8 @@ Window {
     color: "#eeeeee"
     visible: true
     width: 1380
-    height: 768
+    minimumHeight: 768
+    minimumWidth: 1050
 
     Loader {
         id: pageLoader
