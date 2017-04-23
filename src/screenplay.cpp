@@ -1,5 +1,4 @@
 #include "screenplay.h"
-#include <QDebug>
 
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {

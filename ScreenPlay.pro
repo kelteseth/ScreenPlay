@@ -1,14 +1,16 @@
 TEMPLATE = app
 
-QT += qml quick gui opengl gui
+QT += qml quick av widgets
 CONFIG += c++14
 
 SOURCES += main.cpp \
     src/screenplay.cpp \
     src/steamworkshop.cpp \
     src/installedlistmodel.cpp \
-    src/mainwindow.cpp \
+    src/backend.cpp \
+    src/monitors.cpp \
 
+include(ThirdParty/qsyncable/qsyncable.pri)
 
 RESOURCES += qml.qrc
 
@@ -38,20 +40,21 @@ HEADERS += \
     src/screenplay.h \
     src/steamworkshop.h \
     src/installedlistmodel.h \
-    src/mainwindow.h
+    src/backend.h \
+    src/monitors.h \
 
 INCLUDEPATH += $$PWD/ThirdParty/Steam/
 INCLUDEPATH += $$PWD/src/
 
-contains(QT_ARCH, i386) {
-    #32-bit
-    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/ -lsteam_api
-    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/
-} else {
-    #64-bit
-    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/win64/ -lsteam_api64
-    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/win64
-}
+#contains(QT_ARCH, i386) {
+#    #32-bit
+#    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/ -lsteam_api
+#    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/
+#} else {
+#    #64-bit
+#    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/win64/ -lsteam_api64
+#    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/win64
+#}
 
 DISTFILES += \
     steam_appid.txt \
