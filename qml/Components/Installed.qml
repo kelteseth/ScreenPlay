@@ -24,8 +24,10 @@ Page {
         delegate: ScreenPlayItem {
             id:delegate
             focus: true
-            customTitle: title
+
+            customTitle: screenTitle
             screenId: screenFolderId
+
             Connections {
                 target: delegate
                 onItemClicked: {

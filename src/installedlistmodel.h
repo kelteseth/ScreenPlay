@@ -29,7 +29,7 @@ public:
     QVariant data(const QModelIndex& index,
         int role = Qt::DisplayRole) const override;
     void append(const QJsonObject, const QString);
-    QHash<int, QByteArray> roleNames() const;
+    QHash<int, QByteArray> roleNames() const override;
 
     Q_INVOKABLE void loadScreens();
     Q_INVOKABLE QVariantMap get(QString folderId);

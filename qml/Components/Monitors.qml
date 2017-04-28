@@ -9,8 +9,6 @@ Item {
 
     Component.onCompleted: {
 
-        var a = monitorList.get();
-        print(a[0]);
 
     }
 
@@ -52,6 +50,36 @@ Item {
                 anchors.leftMargin: 20
                 anchors.top: parent.top
                 anchors.topMargin: 20
+
+                Row {
+
+
+
+                Repeater {
+                    id:rp
+                    anchors.fill: parent
+                    model:monitorListModel
+                    delegate: Item {
+                        height: 200
+                        width: 200
+                        Column {
+                           spacing: 5
+
+                           Text {
+                               text: monitorNumber
+                               anchors.horizontalCenter: parent.horizontalCenter
+                           }
+
+
+                           Text {
+                               text: monitorAvailableGeometryRole.x + " " + monitorAvailableGeometryRole.y
+                               anchors.horizontalCenter: parent.horizontalCenter
+                           }
+
+                        }
+                    }
+                }
+                }
             }
         }
     }
