@@ -1,18 +1,31 @@
 TEMPLATE = app
 
 QT += qml quick av widgets
-CONFIG += c++14
+CONFIG += c++14 QtAV
 
 SOURCES += main.cpp \
     src/screenplay.cpp \
     src/steamworkshop.cpp \
     src/installedlistmodel.cpp \
     src/backend.cpp \
-    src/monitors.cpp \
-
-include(ThirdParty/qsyncable/qsyncable.pri)
+    src/monitorlistmodel.cpp
 
 RESOURCES += qml.qrc
+
+HEADERS += \
+    src/screenplay.h \
+    src/steamworkshop.h \
+    src/installedlistmodel.h \
+    src/backend.h \
+    src/monitorlistmodel.h
+
+INCLUDEPATH += \
+    $$PWD/ThirdParty/Steam/ \
+    $$PWD/src/\
+
+DISTFILES += \
+    steam_appid.txt \
+    assets/icons/favicon.ico
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH += [QtAVSourceCodeDir]/qml
@@ -26,25 +39,10 @@ QML_DESIGNER_IMPORT_PATH =
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-# You can also make your code fail to compile if you use deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
-
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-HEADERS += \
-    src/screenplay.h \
-    src/steamworkshop.h \
-    src/installedlistmodel.h \
-    src/backend.h \
-    src/monitors.h \
-
-INCLUDEPATH += $$PWD/ThirdParty/Steam/
-INCLUDEPATH += $$PWD/src/
 
 #contains(QT_ARCH, i386) {
 #    #32-bit
@@ -55,10 +53,4 @@ INCLUDEPATH += $$PWD/src/
 #    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/win64/ -lsteam_api64
 #    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/win64
 #}
-
-DISTFILES += \
-    steam_appid.txt \
-    assets/icons/favicon.ico
-
-
 
