@@ -5,7 +5,12 @@ MonitorListModel::MonitorListModel(QObject *parent)
 {
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
-        _monitorList.append(Monitor(screen->name(),screen->size(),screen->availableGeometry(),i));
+
+        _monitorList.append(Monitor(screen->manufacturer(),
+                                    screen->size(),
+                                    screen->availableGeometry(),
+                                    // More convenient for the user if the first monitor == 1
+                                    i + 1));
     }
 }
 
@@ -14,7 +19,7 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
     static const QHash<int, QByteArray> roles{
         { NameRole, "monitorName" },
         { SizeRole, "monitorSize" },
-        { AvailableGeometryRole, "monitorAvailableGeometryRole" },
+        { AvailableGeometryRole, "monitorAvailableGeometry" },
         { NumberRole, "monitorNumber" },
     };
     return roles;

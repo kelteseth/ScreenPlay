@@ -51,17 +51,29 @@ Item {
                 anchors.top: parent.top
                 anchors.topMargin: 20
 
-                Row {
+                Item {
+                    id:monitorListCenter
+                    width:0
+                    height:0
+                    anchors.centerIn: parent
+                }
 
 
 
                 Repeater {
                     id:rp
                     anchors.fill: parent
+                    anchors.centerIn: parent
+                    anchors.margins: 30
                     model:monitorListModel
-                    delegate: Item {
-                        height: 200
-                        width: 200
+                    delegate: Rectangle {
+                        color:"steelblue"
+                        height: monitorSize.height / 10
+                        width: monitorSize.width / 10
+                        x:monitorAvailableGeometry.x /10
+                        y: monitorAvailableGeometry.y / 10
+                        anchors.margins: 10
+
                         Column {
                            spacing: 5
 
@@ -70,16 +82,27 @@ Item {
                                anchors.horizontalCenter: parent.horizontalCenter
                            }
 
+                           Text {
+                               text: monitorName
+                               anchors.horizontalCenter: parent.horizontalCenter
+                           }
+
 
                            Text {
-                               text: monitorAvailableGeometryRole.x + " " + monitorAvailableGeometryRole.y
+                               text: monitorSize.width + " " + monitorSize.height
+                               anchors.horizontalCenter: parent.horizontalCenter
+                           }
+
+
+                           Text {
+                               text: monitorAvailableGeometry.x + " " + monitorAvailableGeometry.y
                                anchors.horizontalCenter: parent.horizontalCenter
                            }
 
                         }
                     }
                 }
-                }
+
             }
         }
     }
