@@ -8,5 +8,5 @@
 # Release
  - Compile QtAV and Screenplay as release version
  - Auto copy dependencies via  windeployqt.exe --release --qmldir <qml-dir-location> <exe-location>
- - Example : C:\Qt\5.9\mingw53_32\bin\windeployqt.exe  --release --qmldir C:\Users\Eli\Code\Qt\ScreenPlay\qml  C:\Users\Eli\Code\Qt\build-ScreenPlay-Qt_5_9_mingw-Release\release
+    - Example : C:\Qt\5.9\mingw53_32\bin\windeployqt.exe  --release --qmldir C:\Users\Eli\Code\Qt\ScreenPlay\qml  C:\Users\Eli\Code\Qt\build-ScreenPlay-Qt_5_9_mingw-Release\release
  - MinGW extra step: Copy  C:\Qt\5.9\mingw53_32\bin\libgcc_s_dw2-1.dll into the release folder!
