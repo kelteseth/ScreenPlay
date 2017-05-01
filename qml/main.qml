@@ -13,6 +13,10 @@ Window {
     minimumHeight: 768
     minimumWidth: 1050
 
+    Component.onCompleted: {
+        setX(Screen.width / 2 - width / 2);
+        setY(Screen.height / 2 - height / 2);
+    }
     Loader {
         id: pageLoader
         anchors {
