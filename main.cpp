@@ -19,6 +19,7 @@
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "screenplay.h"
+#include "settings.h"
 
 int main(int argc, char* argv[])
 {

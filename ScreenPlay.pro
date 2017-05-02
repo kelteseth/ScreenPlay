@@ -9,6 +9,7 @@ SOURCES += main.cpp \
     src/installedlistmodel.cpp \
     src/backend.cpp \
     src/monitorlistmodel.cpp
+    src/settings.cpp
 
 RESOURCES += qml.qrc
 
@@ -18,14 +19,25 @@ HEADERS += \
     src/installedlistmodel.h \
     src/backend.h \
     src/monitorlistmodel.h
+    src/settings.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/Steam/ \
     $$PWD/src/\
 
-DISTFILES += \
-    steam_appid.txt \
-    assets/icons/favicon.ico
+CONFIG(debug, debug|release) {
+    install_it.path = $${OUT_PWD}/debug/
+ } else {
+    install_it.path = $${OUT_PWD}/release/
+ }
+
+
+install_it.files += assets/templates/config.json \
+                    assets/icons/favicon.ico \
+                    steam_appid.txt \
+
+INSTALLS += install_it
+
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH += [QtAVSourceCodeDir]/qml

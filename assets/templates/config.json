@@ -1,0 +1,21 @@
+{
+  "Version" : "0.0.1",
+	"Settings" : {
+	  "Autostart" : true,
+	  "Renderer": {
+	    "Value": 0,
+	    "Enum" : ["OpenGL","Vulkan", "DirectX11", "DirectX12", "Software"]
+	  }
+	},
+	"Screens": 
+	[
+    {	"ScreenName1": {"id": "abc", "fillmode": "stretch"} },
+    {	"ScreenName2": {"id": "xyz"} }
+	],
+	"Widgets": 
+	[
+    {	"WidgetName1": {"id": "abc"} },
+    {	"WidgetName2": {"id": "aaa"} }
+  ],
+	"Plays": []
+}
