@@ -6,25 +6,38 @@ Settings::Settings(QObject* parent)
     QFile configTmp;
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
+    QJsonObject configObj;
 
-    if (QDir(QString("config.json")).exists()) {
-        configTmp.setFileName("config.json");
-        configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-        QString config = configTmp.readAll();
-        configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
+    configTmp.setFileName(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/settings.json");
 
-        if ((parseError.error == QJsonParseError::NoError)) {
-            //TODO
-        }
+    if (!configTmp.exists()) {
+        //If we cannot find the settings json file we will create one
+        //createDefaultConfig();
     }
+
+
+
+    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
+    QString config = configTmp.readAll();
+    configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
+
+    if (!(parseError.error == QJsonParseError::NoError)) {
+        return;
+    }
+
+    configObj = configJsonDocument.object();
+    m_version = configObj.value("version").toVariant();
+    m_autostart = configObj.value("autostart").toBool();
+    m_highPriorityStart = configObj.value("highPriorityStart").toBool();
+    m_sendStatistics = configObj.value("sendStatistics").toBool();
+    m_renderer = static_cast<Renderer>(configObj.value("renderer-value").toInt());
 }
 
-void Settings::setValue(const QString& key, const QVariant& value)
+void Settings::createDefaultConfig()
 {
-}
+    QFile file(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/settings.json");
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    QJsonObject tmpObj;
 
-QVariant Settings::value(const QString& key, const QVariant& defaultValue) const
-{
-    QVariant a;
-    return a;
+
 }

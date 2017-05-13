@@ -1,3 +1,6 @@
 [submodule "ThirdParty/QtAV"]
 	path = ThirdParty/QtAV
 	url = https://github.com/wang-bin/QtAV.git
+[submodule "ThirdParty/QJsonModel"]
+	path = ThirdParty/QJsonModel
+	url = https://github.com/dridk/QJsonModel.git

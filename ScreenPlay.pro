@@ -1,6 +1,7 @@
 TEMPLATE = app
 
 QT += qml quick av widgets
+QT += qml quick av widgets quickcontrols2
 CONFIG += c++14 QtAV
 
 SOURCES += main.cpp \
@@ -8,7 +9,7 @@ SOURCES += main.cpp \
     src/steamworkshop.cpp \
     src/installedlistmodel.cpp \
     src/backend.cpp \
-    src/monitorlistmodel.cpp
+    src/monitorlistmodel.cpp \
     src/settings.cpp
 
 RESOURCES += qml.qrc
@@ -18,7 +19,7 @@ HEADERS += \
     src/steamworkshop.h \
     src/installedlistmodel.h \
     src/backend.h \
-    src/monitorlistmodel.h
+    src/monitorlistmodel.h \
     src/settings.h
 
 INCLUDEPATH += \
@@ -35,6 +36,7 @@ CONFIG(debug, debug|release) {
 install_it.files += assets/templates/config.json \
                     assets/icons/favicon.ico \
                     steam_appid.txt \
+                    settings.json \
 
 INSTALLS += install_it
 

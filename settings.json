@@ -1,0 +1,10 @@
+{
+  "version" : "0.0.1",
+  "autostart" : true,
+  "highPriorityStart" : false,
+  "sendStatistics" : false,
+  "renderer": {
+    "renderer-value": 0,
+    "renderer-enum" : ["OpenGL","Vulkan", "DirectX11", "DirectX12", "Software"]
+	}
+}
