@@ -1,4 +1,6 @@
 import QtQuick 2.7
+import QtQuick.Extras 1.4
+import PackageFileHandler 1.0
 
 DropArea {
     id:dropper
@@ -13,16 +15,50 @@ DropArea {
     }
 
     onDropped: {
-        print(drop.urls)
-        print(drop.urls)
+        var a= packageFileHandler.loadPackageFromLocalZip(drop.urls,".")
+        print(LoaderStatus.AllErrors)
+
+        if(a === -1) {
+            dropper.state = "badFile"
+            timer.start()
+        } else if(a === 0){
+            dropper.state = "invisible"
+        }
+
     }
 
+    Timer {
+        id:timer
+        interval: 1000
+        onTriggered: {
+            dropper.state = "invisible"
+            timer.stop()
+        }
+    }
 
 
     Rectangle {
         id:fill
         anchors.fill: parent
         opacity: .8
+
+        Picture {
+            id: picture
+            x: 332
+            y: 208
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+            source: "qrc://assets/icons/icon_settings.svg"
+        }
+    }
+
+    Text {
+        id: text1
+        text: qsTr("Bad File!!")
+        font.pixelSize: 24
+        opacity: 1
+        anchors.horizontalCenter: parent.horizontalCenter
+        anchors.verticalCenter: parent.verticalCenter
     }
     states: [
         State {
@@ -35,12 +71,15 @@ DropArea {
                 target: fill
                 opacity: 0
             }
+        },
+        State {
+            name: "badFile"
         }
     ]
 
     transitions: [
         Transition {
-            from: "visible"
+            from: "*"
             to: "invisible"
 
             NumberAnimation {
