@@ -9,6 +9,7 @@ PackageFileHandler::PackageFileHandler(QObject* parent)
 
 int PackageFileHandler::loadPackageFromLocalZip(QList<QUrl> url, QString extractDir)
 {
+    setCurrentLoaderStatus(LoaderStatus::Extracting);
     for(int i = 0; i < url.length(); i++) {
         if(!QString(url.at(i).toString()).endsWith(".zip")){
             return LoaderStatus::SomeErrors;
