@@ -36,5 +36,6 @@
         <file>qml/Components/Settings/SettingBool.qml</file>
         <file>qml/Components/Headline.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>qml/Components/Widgets/Window.qml</file>
     </qresource>
 </RCC>
