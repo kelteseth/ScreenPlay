@@ -2,7 +2,7 @@
  - [msys2 x86_x64] (http://www.msys2.org/)
     - Run: ``` bash pacman -Syu ``` then restart terminal
     - Run: ``` pacman -Su ```
-    - Run: ``` pacman -S  mingw64/mingw-w64-x86_64-qt5 mingw64/mingw-w64-x86_64-qt-creator mingw64/mingw-w64-x86_64-quazip mingw64/mingw-w64-x86_64-zlib mingw64/mingw-w64-x86_64-cmake mingw64/mingw-w64-x86_64-gcc ```
+    - Run: ``` pacman -S  mingw64/mingw-w64-x86_64-gdb mingw64/mingw-w64-x86_64-qt5 mingw64/mingw-w64-x86_64-qt-creator mingw64/mingw-w64-x86_64-quazip mingw64/mingw-w64-x86_64-zlib mingw64/mingw-w64-x86_64-cmake mingw64/mingw-w64-x86_64-gcc ```
  - [QtAV for video encoding] (https://github.com/wang-bin/QtAV) 
     - Open QtAV project via QtCreator in the Thirdparty folder 
     - Fix 3 dll names in \lib_win_x86\ via changing *.dll.a to *.a  Bug: https://github.com/wang-bin/QtAV/issues/878
