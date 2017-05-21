@@ -1,7 +1,6 @@
 #ifndef PACKAGEFILEHANDLER_H
 #define PACKAGEFILEHANDLER_H
 
-#include "quazip/quazip/JlCompress.h"
 #include <QFile>
 #include <QList>
 #include <QObject>
@@ -12,6 +11,7 @@
 class PackageFileHandler : public QObject {
     Q_OBJECT
 
+    Q_PROPERTY(LoaderStatus currentLoaderStatus READ currentLoaderStatus WRITE setCurrentLoaderStatus NOTIFY currentLoaderStatusChanged)
 
 public:
     explicit PackageFileHandler(QObject* parent = nullptr);
@@ -27,6 +27,27 @@ public:
     };
     Q_ENUM(LoaderStatus)
 
+    LoaderStatus currentLoaderStatus() const
+    {
+        return m_currentLoaderStatus;
+    }
+
+public slots:
+    void setCurrentLoaderStatus(LoaderStatus currentLoaderStatus)
+    {
+        if (m_currentLoaderStatus == currentLoaderStatus)
+            return;
+
+        m_currentLoaderStatus = currentLoaderStatus;
+        emit currentLoaderStatusChanged(currentLoaderStatus);
+    }
+
+signals:
+    void currentLoaderStatusChanged(LoaderStatus currentLoaderStatus);
+
+private:
+
+    LoaderStatus m_currentLoaderStatus = LoaderStatus::Idle;
 };
 
 #endif // PACKAGEFILEHANDLER_H

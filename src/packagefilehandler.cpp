@@ -16,7 +16,7 @@ int PackageFileHandler::loadPackageFromLocalZip(QList<QUrl> url, QString extract
         }
     }
     for(int i = 0; i < url.length(); i++){
-        QStringList list = JlCompress::extractDir(url.at(i).toString(), extractDir);
+        //QStringList list = JlCompress::extractDir(url.at(i).toString(), extractDir);
 
     }
 
