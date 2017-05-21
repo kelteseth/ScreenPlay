@@ -12,11 +12,8 @@ Settings::Settings(QObject* parent)
 
     if (!configTmp.exists()) {
         //If we cannot find the settings json file we will create one
-        //createDefaultConfig();
+        createDefaultConfig();
     }
-
-
-
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     QString config = configTmp.readAll();
     configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
@@ -35,9 +32,18 @@ Settings::Settings(QObject* parent)
 
 void Settings::createDefaultConfig()
 {
+    Q_INIT_RESOURCE(qml);
+
     QFile file(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/settings.json");
+    QFile defaultSettings(":/settings.json");
+
     file.open(QIODevice::WriteOnly | QIODevice::Text);
-    QJsonObject tmpObj;
+    defaultSettings.open(QIODevice::ReadOnly | QIODevice::Text);
 
+    QTextStream out(&file);
+    QTextStream defaultOut(&defaultSettings);
 
+    out << defaultOut.readAll();
+
+    file.close();
 }
