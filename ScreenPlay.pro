@@ -1,8 +1,9 @@
 TEMPLATE = app
 
-QT += qml quick av widgets
 QT += qml quick av widgets quickcontrols2
-CONFIG += c++14 QtAV
+CONFIG += c++11
+
+
 
 SOURCES += main.cpp \
     src/screenplay.cpp \
@@ -10,7 +11,8 @@ SOURCES += main.cpp \
     src/installedlistmodel.cpp \
     src/backend.cpp \
     src/monitorlistmodel.cpp \
-    src/settings.cpp
+    src/settings.cpp \
+    src/packagefilehandler.cpp
 
 RESOURCES += qml.qrc
 
@@ -20,10 +22,11 @@ HEADERS += \
     src/installedlistmodel.h \
     src/backend.h \
     src/monitorlistmodel.h \
-    src/settings.h
+    src/settings.h \
+    src/packagefilehandler.h
 
 INCLUDEPATH += \
-    $$PWD/ThirdParty/Steam/ \
+    $$PWD/ThirdParty/ \
     $$PWD/src/\
 
 CONFIG(debug, debug|release) {
@@ -67,4 +70,3 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 #    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/win64/ -lsteam_api64
 #    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/win64
 #}
-
