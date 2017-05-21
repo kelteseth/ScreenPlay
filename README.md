@@ -5,8 +5,8 @@
     - Run: ``` pacman -Su ```
     - Run: ``` pacman -S  mingw64/mingw-w64-x86_64-gdb mingw64/mingw-w64-x86_64-qt5 mingw64/mingw-w64-x86_64-qt-creator mingw64/mingw-w64-x86_64-quazip mingw64/mingw-w64-x86_64-zlib mingw64/mingw-w64-x86_64-cmake mingw64/mingw-w64-x86_64-gcc mingw64/mingw-w64-x86_64-ffmpeg ```
  - [QtAV for video encoding via git submodule] (https://github.com/wang-bin/QtAV) 
-    - Open QtAV project in ScreenPlay\ThirdParty\QtAV\QtAV.pro via QtCreator and copile (use -j16 as make argument to use more cores)
-    - Fix 3 dll names in \lib_win_x86\ via changing *.dll.a to *.a  Bug: https://github.com/wang-bin/QtAV/issues/878
+    - Open QtAV project in ScreenPlay\ThirdParty\QtAV\QtAV.pro via QtCreator and copile (Click on Build->Make->Details use -j16 as make argument to use more cores)
+    - Fix 3 dll names in the build folder \lib_win_x86\ via changing *.dll.a to *.a | Bug: https://github.com/wang-bin/QtAV/issues/878
     - After compiling dont forget to copy QtVA via QtAV_buildDir/sdk_install.bat
 
 # Release
