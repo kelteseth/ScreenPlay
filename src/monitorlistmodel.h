@@ -59,7 +59,7 @@ class Monitor {
 
 public:
     Monitor();
-    Monitor(QString name, QSize size, QRect availableGeometry, int number);
+    Monitor(QString name, QSize size,  QRect availableGeometry, int number);
 
     QString _name;
     QSize _size;

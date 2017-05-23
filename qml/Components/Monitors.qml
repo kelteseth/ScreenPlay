@@ -66,6 +66,7 @@ Item {
                     anchors.centerIn: parent
                     anchors.margins: 30
                     model:monitorListModel
+
                     delegate: Rectangle {
                         color:"steelblue"
                         height: monitorSize.height / 10
