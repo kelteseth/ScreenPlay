@@ -14,14 +14,10 @@
 #include <QTextStream>
 #include <QVariant>
 #include <QVector>
-#include <QUrl>
 
 #include "wallpaper.h"
-#include "profile.h"
-
 
 class ActiveProfiles;
-class Profile;
 
 class Settings : public QObject {
     Q_OBJECT
@@ -35,7 +31,6 @@ public:
     Q_PROPERTY(Version version READ version)
 
     Q_INVOKABLE void createNewProfile(int screenNumber);
-    Q_INVOKABLE void constructWallpaper(QString profile, QString monitorID);
 
     enum Renderer {
         OpenGL,
@@ -144,20 +139,20 @@ private:
 
     QVector<Wallpaper> m_wallpapers;
     QVector<ActiveProfiles> m_activeProfiles;
-
-
 };
 
-
 class ActiveProfiles {
+
 public:
     ActiveProfiles();
-    ActiveProfiles(QString name, QString id);
+    ActiveProfiles(QString name, QString id)
+    {
+        m_name = name;
+        m_id = id;
+    }
 
-private:
     QString m_name;
     QString m_id;
-    Profile m_profile;
 };
 
 enum FillMode {

@@ -14,11 +14,8 @@
 #include <QTextStream>
 #include <QVariant>
 #include <QVector>
-#include <QUrl>
 
 #include "wallpaper.h"
-#include "profile.h"
-
 
 class ActiveProfiles;
 class Profile;
@@ -144,10 +141,7 @@ private:
 
     QVector<Wallpaper> m_wallpapers;
     QVector<ActiveProfiles> m_activeProfiles;
-
-
 };
-
 
 class ActiveProfiles {
 public:
@@ -157,7 +151,6 @@ public:
 private:
     QString m_name;
     QString m_id;
-    Profile m_profile;
 };
 
 enum FillMode {

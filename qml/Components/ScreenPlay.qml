@@ -4,13 +4,13 @@ import QtAV 1.07
 
 Item {
     id:empty
-    height: parent.height
-    width: parent.width
+    anchors.fill: parent
 
-//    Loader {
-//        anchors.fill: parent
-//        source: "qrc:/qml/Components/Screens/ScreenVideo.qml"
-//    }
+
+    Loader {
+        anchors.fill: parent
+        source: "qrc:/qml/Components/Screens/ScreenVideo.qml"
+    }
 
     Connections {
         target: installedListModel
@@ -19,6 +19,7 @@ Item {
             video.stop()
             video.source = absolutePath;
             video.play();
+            print(absolutePath)
         }
 
     }

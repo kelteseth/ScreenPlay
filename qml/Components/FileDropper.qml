@@ -14,9 +14,14 @@ DropArea {
         dropper.state = "invisible"
     }
 
+    Connections {
+        target: packageFileHandler
+        onCurrentLoaderStatusChanged:print("aaaaa")
+    }
+
     onDropped: {
         var a= packageFileHandler.loadPackageFromLocalZip(drop.urls,".")
-        print(LoaderStatus.AllErrors)
+        print(packageFileHandler.currentLoaderStatus)
 
         if(a === -1) {
             dropper.state = "badFile"
@@ -69,6 +74,11 @@ DropArea {
 
             PropertyChanges {
                 target: fill
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: text1
                 opacity: 0
             }
         },

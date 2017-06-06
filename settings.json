@@ -6,5 +6,8 @@
   "renderer": {
     "renderer-value": 0,
     "renderer-enum" : ["OpenGL","Vulkan", "DirectX11", "DirectX12", "Software"]
-	}
+    },
+   "profiles":[
+     {  "monitorID": "","profile": "" }
+     ]
 }

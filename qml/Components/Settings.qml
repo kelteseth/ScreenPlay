@@ -1,7 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 1.4
 import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.1
+
 
 import "Settings/"
 
@@ -17,7 +17,7 @@ Page {
         SettingBool {
             name: "Autostart"
             isChecked: settings.autostart
-            onCheckboxChanged: settings.setAutostart(checked)
+            //onCheckboxChanged: settings.setAutostart(checked)
         }
         Headline {
             name: "Misc"

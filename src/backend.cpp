@@ -9,3 +9,8 @@ void Backend::getTest()
 {
     emit setTest();
 }
+
+void Backend::exit()
+{
+    qDebug() << "EXIOTTT";
+}

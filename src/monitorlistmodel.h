@@ -9,12 +9,14 @@
 #include <QScreen>
 #include <QDebug>
 #include <QApplication>
+#include "settings.h"
 
 class Monitor;
 
 class MonitorListModel : public QAbstractListModel
 {
     Q_OBJECT
+    friend Settings;
 
 public:
     explicit MonitorListModel(QObject *parent = nullptr);
@@ -51,6 +53,7 @@ public:
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
+    void loadMonitors();
 private:
     QVector<Monitor> _monitorList;
 };
@@ -61,6 +64,7 @@ public:
     Monitor();
     Monitor(QString name, QSize size, QRect availableGeometry, int number);
 
+    QString _id;
     QString _name;
     QSize _size;
     QRect _availableGeometry;

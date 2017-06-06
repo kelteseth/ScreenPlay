@@ -9,13 +9,13 @@ InstalledListModel::InstalledListModel(QObject* parent)
     if (!QDir(writablePath).exists()) {
         if (!QDir().mkdir(writablePath)) {
             qWarning("ERROR: Cloud not create install dir");
+
             return;
         }
     } else {
-        _screensPath = writablePath + "/Installed/";
+        _screensPath = writablePath + "/Wallpaper/";
     }
 
-    loadScreens();
 }
 
 int InstalledListModel::rowCount(const QModelIndex& parent) const
@@ -77,7 +77,6 @@ void InstalledListModel::loadScreens()
 
     for (auto&& item : list) {
         tmpPath = _screensPath + item.baseName() + "/project.json";
-
         if (!QFile(tmpPath).exists())
             continue;
 
@@ -121,4 +120,21 @@ void InstalledListModel::setScreenVisibleFromQml(bool visible)
 void InstalledListModel::setScreenToVideoFromQml(QString absolutePath)
 {
     emit setScreenToVideo(absolutePath);
+}
+
+ScreenPlayFile::ScreenPlayFile(QJsonObject obj, QString folderName)
+{
+    if (obj.contains("description"))
+        _description = obj.value("description");
+
+    if (obj.contains("file"))
+        _file = obj.value("file");
+
+    if (obj.contains("preview"))
+        _preview = obj.value("preview");
+
+    if (obj.contains("title"))
+        _title = obj.value("title");
+
+    _folderId = folderName;
 }

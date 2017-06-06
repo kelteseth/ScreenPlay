@@ -41,8 +41,7 @@ Page {
         }
 
         add: Transition {
-                NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 400; }
-                NumberAnimation { property: "scale"; from: 0; to: 1.0; duration: 400 }
+                NumberAnimation { properties: "x,y"; from: 100; duration: 1000 }
             }
 
         displaced: Transition {

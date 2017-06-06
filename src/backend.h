@@ -2,6 +2,7 @@
 #define BACKEND_H
 
 #include <QObject>
+#include <QDebug>
 
 class Backend : public QObject
 {
@@ -14,6 +15,7 @@ signals:
 
 public slots:
     void getTest();
+    void exit();
 };
 
 #endif // BACKEND_H

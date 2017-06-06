@@ -100,7 +100,7 @@ Rectangle {
 
         Text {
             id: activeMonitorName
-            text: qsTr("Monitor Name")
+            text: qsTr("Monitor Setup")
             anchors.right: image.right
             anchors.rightMargin: 20 + image.width
             horizontalAlignment: Text.AlignRight

@@ -12,7 +12,10 @@ SOURCES += main.cpp \
     src/backend.cpp \
     src/monitorlistmodel.cpp \
     src/settings.cpp \
-    src/packagefilehandler.cpp
+    src/packagefilehandler.cpp \
+    src/wallpaper.cpp \
+    src/profilelistmodel.cpp \
+    src/profile.cpp
 
 RESOURCES += qml.qrc
 
@@ -23,11 +26,16 @@ HEADERS += \
     src/backend.h \
     src/monitorlistmodel.h \
     src/settings.h \
-    src/packagefilehandler.h
+    src/packagefilehandler.h \
+    src/wallpaper.h \
+    src/profilelistmodel.h \
+    src/profile.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \
     $$PWD/src/\
+
+INCLUDEPATH += .
 
 CONFIG(debug, debug|release) {
     install_it.path = $${OUT_PWD}/debug/

@@ -8,7 +8,6 @@
         <file>qml/Components/ScreenPlay.qml</file>
         <file>qml/Components/Settings.qml</file>
         <file>qml/Components/Page.qml</file>
-        <file>qml/Components/Settings/SettingBool.qml</file>
         <file>assets/licenses/Apache2.txt</file>
         <file>assets/licenses/OFL.txt</file>
         <file>assets/fonts/LibreBaskerville-Italic.ttf</file>
@@ -36,6 +35,8 @@
         <file>qml/Components/Settings/SettingBool.qml</file>
         <file>qml/Components/Headline.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>qml/Components/FileDropper.qml</file>
         <file>qml/Components/Widgets/Window.qml</file>
+        <file>settings.json</file>
     </qresource>
 </RCC>

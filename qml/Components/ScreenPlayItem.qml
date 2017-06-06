@@ -32,7 +32,7 @@ Item {
     Rectangle {
         id: itemWrapper
         color: "white"
-        radius: 5
+        radius: 2
         anchors {
             fill: parent
             margins: 5
@@ -67,8 +67,8 @@ Item {
             antialiasing: true
             source: rectangle1
             maskSource: mask
-
         }
+
         MouseArea {
             anchors.fill: parent
             onClicked: {

@@ -5,7 +5,7 @@ import QtQuick.Layouts 1.3
 
 import "Components"
 
-Window {
+ApplicationWindow {
     id: window
     color: "#eeeeee"
     visible: true
@@ -13,10 +13,18 @@ Window {
     minimumHeight: 768
     minimumWidth: 1050
 
+
     Component.onCompleted: {
         setX(Screen.width / 2 - width / 2);
         setY(Screen.height / 2 - height / 2);
     }
+
+    // Fixme: make ui responsive at startup without timer
+    Timer{
+        running: true; repeat: false
+        onTriggered: pageLoader.source = "qrc:/qml/Components/Installed.qml"
+    }
+
     Loader {
         id: pageLoader
         anchors {
@@ -25,7 +33,33 @@ Window {
             bottom: parent.bottom
             left: parent.left
         }
-        source: "qrc:/qml/Components/Installed.qml"
+        onStateChanged: {
+            if(pageLoader.state === Loader.Loading){
+                loaderText.visible = true
+            } else if(pageLoader.state === Loader.Ready){
+                loaderText.visible = false
+            }
+        }
+
+        Text {
+            id: loaderText
+            visible: true
+            text: qsTr("Loading...")
+            anchors.centerIn: parent
+            font.pixelSize: 32
+
+            font.family: font_LibreBaskerville_Italic.name
+            font.pointSize: 32
+            font.italic: true
+            color: "#818181"
+            FontLoader{
+                id: font_LibreBaskerville_Italic
+                source: "qrc:/assets/fonts/LibreBaskerville-Italic.ttf"
+            }
+        }
+
+
+
 //        onSourceChanged: pageLoaderAnim.running = true
 
 //        SequentialAnimation {
@@ -76,6 +110,7 @@ Window {
         onToggleMonitors: {
             monitors.state = monitors.state == "active" ? "inactive" : "active"
         }
+
     }
 
     Monitors {
@@ -85,5 +120,9 @@ Window {
         z:98
     }
 
+    FileDropper {
+        anchors.fill: parent
+        z:99
+    }
 
 }

@@ -3,15 +3,7 @@
 MonitorListModel::MonitorListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
-    for (int i = 0; i < QApplication::screens().count(); i++) {
-        QScreen* screen = QApplication::screens().at(i);
 
-        _monitorList.append(Monitor(screen->manufacturer(),
-                                    screen->size(),
-                                    screen->availableGeometry(),
-                                    // More convenient for the user if the first monitor == 1
-                                    i + 1));
-    }
 }
 
 QHash<int, QByteArray> MonitorListModel::roleNames() const
@@ -104,6 +96,20 @@ bool MonitorListModel::removeRows(int row, int count, const QModelIndex &parent)
     endRemoveRows();
 }
 
+void MonitorListModel::loadMonitors()
+{
+    for (int i = 0; i < QApplication::screens().count(); i++) {
+        QScreen* screen = QApplication::screens().at(i);
+
+        _monitorList.append(Monitor(screen->name(),
+                                    screen->size(),
+                                    screen->availableGeometry(),
+
+                                    // More convenient for the user if the first monitor == 1
+                                    i + 1));
+    }
+}
+
 Monitor::Monitor()
 {
 
@@ -115,4 +121,6 @@ Monitor::Monitor(QString name, QSize size, QRect availableGeometry, int number)
     _size = size;
     _availableGeometry = availableGeometry;
     _number = number;
+    // FIXME 5.9: Use device id and manufacturer when 5.9 is available
+    _id = name + QString::number(size.width()) + QString::number(size.height()) + QString::number(availableGeometry.x()) + QString::number( availableGeometry.y());
 }

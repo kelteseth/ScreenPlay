@@ -26,8 +26,7 @@ public:
 
     // Basic functionality:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex& index,
-        int role = Qt::DisplayRole) const override;
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     void append(const QJsonObject, const QString);
     QHash<int, QByteArray> roleNames() const override;
 
@@ -36,7 +35,6 @@ public:
     Q_INVOKABLE void setScreenVisibleFromQml(bool visible);
     Q_INVOKABLE void setScreenToVideoFromQml(QString absolutePath);
     Q_PROPERTY(QString _screensPath READ name CONSTANT)
-
 
     enum InstalledRole {
         TitleRole,
@@ -64,22 +62,7 @@ class ScreenPlayFile {
 
 public:
     ScreenPlayFile();
-    ScreenPlayFile(QJsonObject obj, QString folderName)
-    {
-        if (obj.contains("description"))
-            _description = obj.value("description");
-
-        if (obj.contains("file"))
-            _file = obj.value("file");
-
-        if (obj.contains("preview"))
-            _preview = obj.value("preview");
-
-        if (obj.contains("title"))
-            _title = obj.value("title");
-
-        _folderId = folderName;
-    }
+    ScreenPlayFile(QJsonObject obj, QString folderName);
 
     QVariant _description;
     QVariant _file;
