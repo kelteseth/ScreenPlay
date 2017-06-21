@@ -55,6 +55,10 @@ int main(int argc, char* argv[])
     mainWindow.rootContext()->setContextProperty("profileListModel", &profileListModel);
 
     mainWindow.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    // FIXME: Needed workaround to close the app because
+    // apparently some thread still runs in the background
+    QObject::connect(&app, &QGuiApplication::lastWindowClosed,
+                     [&](){exit(app.exec()); });
     ScreenPlay sp(GetSystemMetrics(SM_CXSCREEN), GetSystemMetrics(SM_CYSCREEN));
     sp.context()->setContextProperty("installedListModel", &installedListModel);
     sp.context()->setContextProperty("settings", &settings);
