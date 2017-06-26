@@ -8,17 +8,18 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QObject >
+#include <QPair>
 #include <QQmlPropertyMap>
 #include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
+#include <QUrl>
 #include <QVariant>
 #include <QVector>
-#include <QUrl>
 
-#include "wallpaper.h"
 #include "profile.h"
-
+#include "profilelistmodel.h"
+#include "wallpaper.h"
 
 class ActiveProfiles;
 class Profile;
@@ -26,7 +27,7 @@ class Profile;
 class Settings : public QObject {
     Q_OBJECT
 public:
-    explicit Settings(QObject* parent = nullptr);
+    explicit Settings(ProfileListModel* plm, QObject* parent = nullptr);
 
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
@@ -35,7 +36,7 @@ public:
     Q_PROPERTY(Version version READ version)
 
     Q_INVOKABLE void createNewProfile(int screenNumber);
-    Q_INVOKABLE void constructWallpaper(QString profile, QString monitorID);
+    Q_INVOKABLE void constructWallpaper(Profile profile, QString monitorID);
 
     enum Renderer {
         OpenGL,
@@ -46,7 +47,7 @@ public:
     struct Version {
         int major = 0;
         int minor = 0;
-        int patch = 0;
+        int patch = 1;
     };
 
     bool autostart() const
@@ -88,7 +89,6 @@ public slots:
 
     void setAutostart(bool autostart)
     {
-        qDebug() << autostart;
         if (m_autostart == autostart)
             return;
 
@@ -141,22 +141,19 @@ private:
     Renderer m_renderer = Renderer::OpenGL;
     bool m_sendStatistics;
     Version m_version;
+    ProfileListModel* m_plm;
 
     QVector<Wallpaper> m_wallpapers;
     QVector<ActiveProfiles> m_activeProfiles;
-
-
 };
-
 
 class ActiveProfiles {
 public:
     ActiveProfiles();
-    ActiveProfiles(QString name, QString id);
+    ActiveProfiles(QString monitorId, Profile profile);
 
 private:
-    QString m_name;
-    QString m_id;
+    QString m_monitorId;
     Profile m_profile;
 };
 

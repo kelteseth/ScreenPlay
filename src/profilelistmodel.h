@@ -3,11 +3,13 @@
 
 #include "profile.h"
 #include <QAbstractListModel>
+#include <QDir>
 #include <QFile>
 #include <QStandardPaths>
 #include <QString>
-#include <QDir>
 #include <QVector>
+
+#include <QDebug>
 
 class Profile;
 
@@ -26,10 +28,11 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
     void loadProfiles();
+    bool getProfileByName(QString id, Profile* profile);
 
 private:
     QHash<int, QByteArray> m_roleNames;
-    QVector<Profile*> m_profileList;
+    QVector<Profile> m_profileList;
 };
 
 #endif // PROFILELISTMODEL_H
