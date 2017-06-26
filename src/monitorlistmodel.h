@@ -62,7 +62,7 @@ class Monitor {
 
 public:
     Monitor();
-    Monitor(QString name, QSize size, QRect availableGeometry, int number);
+    Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number);
 
     QString _id;
     QString _name;
