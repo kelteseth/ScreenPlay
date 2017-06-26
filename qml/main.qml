@@ -19,14 +19,9 @@ ApplicationWindow {
         setY(Screen.height / 2 - height / 2);
     }
 
-    // Fixme: make ui responsive at startup without timer
-    Timer{
-        running: true; repeat: false
-        onTriggered: pageLoader.source = "qrc:/qml/Components/Installed.qml"
-    }
-
     Loader {
         id: pageLoader
+        source : "qrc:/qml/Components/Installed.qml"
         anchors {
             top: nav.bottom
             right: parent.right
