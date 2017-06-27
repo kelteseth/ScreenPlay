@@ -46,7 +46,7 @@ int main(int argc, char* argv[])
     ProfileListModel profileListModel;
     // Create settings at the end because for now it depends on
     // such things as the profile list model to complete
-    Settings settings(&profileListModel);
+    Settings settings(&profileListModel, &monitorListModel, &installedListModel);
 
 
     QQmlApplicationEngine mainWindowEngine;

@@ -1,10 +1,12 @@
 #include "settings.h"
 
-Settings::Settings(ProfileListModel* plm, QObject* parent)
+Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, QObject* parent)
     : QObject(parent)
 {
 
     m_plm = plm;
+    m_mlm = mlm;
+    m_ilm = ilm;
 
     QFile configTmp;
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
@@ -64,7 +66,7 @@ Settings::Settings(ProfileListModel* plm, QObject* parent)
             Profile profile;
             if (!m_plm->getProfileByName(profileName, &profile))
                 continue;
-            m_activeProfiles.append(ActiveProfiles(monitorID, profile));
+
             constructWallpaper(profile, monitorID);
         }
     }
@@ -76,8 +78,8 @@ void Settings::createNewProfile(int screenNumber)
 
 void Settings::constructWallpaper(Profile profile, QString monitorID)
 {
-    qDebug() << monitorID;
-    //m_wallpapers.append(Wallpaper(                            ));
+
+    m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(profile)));
 }
 
 void Settings::createDefaultConfig()

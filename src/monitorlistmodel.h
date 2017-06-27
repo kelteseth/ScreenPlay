@@ -9,14 +9,14 @@
 #include <QScreen>
 #include <QDebug>
 #include <QApplication>
-#include "settings.h"
+
 
 class Monitor;
 
 class MonitorListModel : public QAbstractListModel
 {
     Q_OBJECT
-    friend Settings;
+
 
 public:
     explicit MonitorListModel(QObject *parent = nullptr);

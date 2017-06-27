@@ -4,30 +4,27 @@
 #include <QDebug>
 #include <QQmlContext>
 #include <QQuickView>
+#include <QRect>
 #include <QWindow>
 #include <qt_windows.h>
 
-#include <QRect>
+#include "profile.h"
 
 class Wallpaper : public QWindow {
     Q_OBJECT
 public:
     explicit Wallpaper(QWindow* parent = 0);
-
-    Wallpaper(QRect rect, float playback, bool isLooping, int fillmode);
-
+    Wallpaper(Profile profile);
     QQmlContext* context() const;
 
-private:
-    HWND hwnd = nullptr;
-    HWND worker_hwnd = nullptr;
-    QQuickView* quickRenderer = nullptr;
-    QQmlContext* _context = nullptr;
 
-    QRect m_rect;
-    float m_playback;
-    bool m_isLooping;
-    int m_fillmode;
+private:
+    HWND m_hwnd = nullptr;
+    HWND m_worker_hwnd = nullptr;
+    QQuickView* m_quickRenderer = nullptr;
+    QQmlContext* m_context = nullptr;
+
+    Profile m_profile;
 };
 
 #endif // WALLPAPER_H

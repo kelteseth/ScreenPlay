@@ -16,18 +16,20 @@
 #include <QUrl>
 #include <QVariant>
 #include <QVector>
+#include <QSharedPointer>
 
-#include "profile.h"
+#include "monitorlistmodel.h"
+#include "installedlistmodel.h"
 #include "profilelistmodel.h"
+#include "profile.h"
 #include "wallpaper.h"
 
 class ActiveProfiles;
-class Profile;
 
 class Settings : public QObject {
     Q_OBJECT
 public:
-    explicit Settings(ProfileListModel* plm, QObject* parent = nullptr);
+    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, QObject* parent = nullptr);
 
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
@@ -142,9 +144,11 @@ private:
     bool m_sendStatistics;
     Version m_version;
     ProfileListModel* m_plm;
+    InstalledListModel* m_ilm;
+    MonitorListModel* m_mlm;
 
-    QVector<Wallpaper> m_wallpapers;
-    QVector<ActiveProfiles> m_activeProfiles;
+    QVector<QSharedPointer<Wallpaper>> m_wallpapers;
+    QVector<QSharedPointer<ActiveProfiles>> m_activeProfiles;
 };
 
 class ActiveProfiles {
