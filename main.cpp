@@ -51,6 +51,7 @@ int main(int argc, char* argv[])
 
     QQmlApplicationEngine mainWindowEngine;
 
+    installedListModel.loadScreens();
     mainWindowEngine.rootContext()->setContextProperty("monitorListModel", &monitorListModel);
     mainWindowEngine.rootContext()->setContextProperty("installedListModel", &installedListModel);
     mainWindowEngine.rootContext()->setContextProperty("settings", &settings);
@@ -64,7 +65,7 @@ int main(int argc, char* argv[])
                      [&](){exit(app.exec()); });
 
 
-    installedListModel.loadScreens();
+    profileListModel.loadProfiles();
     int status = app.exec();
 
     //Shutdown

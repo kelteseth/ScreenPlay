@@ -140,8 +140,11 @@ private:
 
     bool m_autostart = true;
     bool m_highPriorityStart = true;
-    Renderer m_renderer = Renderer::OpenGL;
     bool m_sendStatistics;
+
+    QUrl m_absoluteStoragePath;
+
+    Renderer m_renderer = Renderer::OpenGL;
     Version m_version;
     ProfileListModel* m_plm;
     InstalledListModel* m_ilm;

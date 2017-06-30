@@ -41,16 +41,8 @@ Page {
         }
 
         add: Transition {
-                NumberAnimation { properties: "x,y"; from: 100; duration: 1000 }
-            }
-
-        displaced: Transition {
-            NumberAnimation { properties: "x,y"; duration: 400; easing.type: Easing.OutBounce }
+            NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 400 }
         }
-
-
-
-
     }
 
 

@@ -8,8 +8,17 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_mlm = mlm;
     m_ilm = ilm;
 
+
     QFile configTmp;
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+
+    if (!QDir(appConfigLocation).exists()) {
+        if (!QDir().mkdir(appConfigLocation)) {
+            qWarning("ERROR: Cloud not create install dir");
+            return;
+        }
+    }
+
     configTmp.setFileName(appConfigLocation + "/settings.json");
 
     // App Settings
@@ -17,6 +26,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
         qWarning("No Settings found, creating default settings");
         createDefaultConfig();
     }
+
 
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
@@ -45,6 +55,37 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
         return;
     }
 
+
+    if(QString(configObj.value("absoluteStoragePath").toString()).isEmpty())
+        m_absoluteStoragePath = appConfigLocation;
+
+
+    //Create default folders
+    if (!QDir(appConfigLocation + "/ProfilePackages").exists()) {
+        if (!QDir().mkdir(appConfigLocation + "/ProfilePackages")) {
+            qWarning("ERROR: Cloud not create ProfilePackages dir");
+            return;
+        }
+    }
+    if (!QDir(appConfigLocation + "/Profiles").exists()) {
+        if (!QDir().mkdir(appConfigLocation + "/Profiles")) {
+            qWarning("ERROR: Cloud not create  Profiles dir");
+            return;
+        }
+    }
+    if (!QDir(appConfigLocation + "/Wallpaper").exists()) {
+        if (!QDir().mkdir(appConfigLocation + "/Wallpaper")) {
+            qWarning("ERROR: Cloud not create Wallpaper dir");
+            return;
+        }
+    }
+    if (!QDir(appConfigLocation + "/Widgets").exists()) {
+        if (!QDir().mkdir(appConfigLocation + "/Widgets")) {
+            qWarning("ERROR: Cloud not create Widgets dir");
+            return;
+        }
+    }
+
     m_autostart = configObj.value("autostart").toBool();
     m_highPriorityStart = configObj.value("highPriorityStart").toBool();
     m_sendStatistics = configObj.value("sendStatistics").toBool();
@@ -64,6 +105,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
             QString profileName = activeProfilesTmp.at(i).toObject().value("profile").toString();
             QString monitorID = activeProfilesTmp.at(i).toObject().value("monitorID").toString();
             Profile profile;
+
             if (!m_plm->getProfileByName(profileName, &profile))
                 continue;
 

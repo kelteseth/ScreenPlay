@@ -8,7 +8,7 @@
 #include <QStandardPaths>
 #include <QString>
 #include <QVector>
-
+#include <QUrl>
 #include <QDebug>
 
 class Profile;
@@ -33,6 +33,8 @@ public:
 private:
     QHash<int, QByteArray> m_roleNames;
     QVector<Profile> m_profileList;
+
+    QUrl m_absoluteStoragePath;
 };
 
 #endif // PROFILELISTMODEL_H

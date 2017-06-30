@@ -3,19 +3,6 @@
 InstalledListModel::InstalledListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-
-    QString writablePath = QStandardPaths::writableLocation(QStandardPaths::StandardLocation::DataLocation);
-
-    if (!QDir(writablePath).exists()) {
-        if (!QDir().mkdir(writablePath)) {
-            qWarning("ERROR: Cloud not create install dir");
-
-            return;
-        }
-    } else {
-        _screensPath = writablePath + "/Wallpaper/";
-    }
-
 }
 
 int InstalledListModel::rowCount(const QModelIndex& parent) const

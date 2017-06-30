@@ -5,8 +5,9 @@ Profile::Profile()
 
 }
 
-Profile::Profile(QString id, QString version, QString wallpaperId, QRect rect, bool isLooping)
+Profile::Profile(QUrl absolutePath, QString id, QString version, QString wallpaperId, QRect rect, bool isLooping)
 {
+    m_absolutePath = absolutePath;
     m_id = id;
     m_version = version;
     m_wallpaperId = wallpaperId;

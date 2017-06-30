@@ -3,6 +3,7 @@
   "autostart" : true,
   "highPriorityStart" : false,
   "sendStatistics" : false,
+  "absoluteStoragePath": "", //we use the Appdata folder if empty AppData\Local\Aimber\ScreenPlay
   "renderer": {
     "renderer-value": 0,
     "renderer-enum" : ["OpenGL","Vulkan", "DirectX11", "DirectX12", "Software"]
