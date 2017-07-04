@@ -7,11 +7,6 @@
 #ifndef STEAM_API_INTERNAL_H
 #define STEAM_API_INTERNAL_H
 
-#include "isteamugc.h"
-#include "steam_api.h"
-#include "steamtypes.h"
-
-
 S_API HSteamUser SteamAPI_GetHSteamUser();
 S_API void * S_CALLTYPE SteamInternal_ContextInit( void *pContextInitData );
 S_API void * S_CALLTYPE SteamInternal_CreateInterface( const char *ver );
