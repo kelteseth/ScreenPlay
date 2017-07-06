@@ -82,7 +82,6 @@ Item {
             y: 136
             height: 29
             text: screenTitle
-            renderType: Text.NativeRendering
             anchors.rightMargin: 108
             anchors.leftMargin: 10
             anchors.bottomMargin: 10
@@ -91,12 +90,14 @@ Item {
             anchors.right: parent.right
             anchors.bottom: parent.bottom
             anchors.left: parent.left
+            anchors.margins: 10
             wrapMode: Text.WordWrap
 
-            font.pixelSize: 12
             color: "#2F2F2F"
-            anchors.margins: 10
+            font.pointSize: 9
+            renderType: Text.NativeRendering
             font.family: font_Roboto_Regular.name
+
 
             FontLoader {
                 id: font_Roboto_Regular

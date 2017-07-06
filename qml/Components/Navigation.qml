@@ -47,7 +47,7 @@ Rectangle {
         anchors.fill: parent
         anchors.left: parent.left
         anchors.leftMargin: 20
-        spacing: 20
+        spacing: 0
 
         NavigationItem {
             id: navCreate
@@ -124,7 +124,7 @@ Rectangle {
             horizontalAlignment: Text.AlignRight
             color: "#626262"
             anchors.verticalCenter: parent.verticalCenter
-            font.pixelSize: 16
+            font.pointSize: 12
             font.family: font_Roboto_Regular.name
             renderType: Text.NativeRendering
 

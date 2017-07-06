@@ -1,6 +1,7 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.0
+import QtQuick.Extras 1.4
 
 Item {
     id: sidebar
@@ -82,9 +83,8 @@ Item {
                     anchors.left: parent.left
                     anchors.leftMargin: 0
                     opacity: 1
-                    source: "qrc:/assets/icons/icon_arrow_left.svg"
+                    source: "qrc:/assets/icons/icon_arrow_right.svg"
                     sourceSize: Qt.size(14,23)
-                    fillMode: Image.PreserveAspectCrop
                     anchors {
                         top:parent.top
                         topMargin: 0
