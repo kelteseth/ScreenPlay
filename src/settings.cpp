@@ -97,11 +97,29 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_sendStatistics = configObj.value("sendStatistics").toBool();
     m_renderer = static_cast<Renderer>(configObj.value("renderer-value").toInt());
 
-    /*
-     *  LOAD ACTIVE PROFILES
-     */
+}
 
+void Settings::createNewProfile(int screenNumber)
+{
+}
+
+void Settings::constructWallpaper(Profile profile, QString monitorID)
+{
+    m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(profile)));
+}
+
+void Settings::loadActiveProfiles()
+{
+    QJsonDocument configJsonDocument;
+    QJsonObject configObj;
     QJsonArray activeProfilesTmp;
+    QFile configTmp;
+    configTmp.setFileName(m_absoluteStoragePath.toString() + "/settings.json");
+    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
+    QString config = configTmp.readAll();
+    configJsonDocument = QJsonDocument::fromJson(config.toUtf8());
+    configObj = configJsonDocument.object();
+
     activeProfilesTmp = configObj.value("profiles").toArray();
     int size = activeProfilesTmp.size();
 
@@ -118,16 +136,6 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
             constructWallpaper(profile, monitorID);
         }
     }
-}
-
-void Settings::createNewProfile(int screenNumber)
-{
-}
-
-void Settings::constructWallpaper(Profile profile, QString monitorID)
-{
-
-    m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(profile)));
 }
 
 void Settings::createDefaultConfig()

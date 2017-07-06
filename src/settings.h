@@ -39,6 +39,7 @@ public:
 
     Q_INVOKABLE void createNewProfile(int screenNumber);
     Q_INVOKABLE void constructWallpaper(Profile profile, QString monitorID);
+    void loadActiveProfiles();
 
 
     enum Renderer {

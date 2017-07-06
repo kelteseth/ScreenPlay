@@ -47,22 +47,15 @@ QHash<int, QByteArray> ProfileListModel::roleNames() const
 void ProfileListModel::loadProfiles()
 {
 
-    QString writablePath = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/Profiles";
-    if (!QDir(writablePath).exists()) {
-        if (!QDir().mkdir(writablePath)) {
-            qWarning("Error could not create Profiles folder");
-            return;
-        }
-    }
 
-    QFileInfoList list = QDir(writablePath).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
+    QFileInfoList list = QDir(m_absoluteStoragePath.toString()+ "/Profiles/").entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
     QString tmpPath;
     QJsonDocument profileDoc;
     QJsonParseError parseError;
     QJsonObject profileObj;
 
     for (auto&& item : list) {
-        tmpPath = writablePath + "/" + item.baseName() + "/profile.json";
+        tmpPath = m_absoluteStoragePath.toString() + "/Profiles/" + item.baseName() + "/profile.json";
 
         QFile settings;
         settings.setFileName(tmpPath);
@@ -103,6 +96,7 @@ void ProfileListModel::loadProfiles()
 
         m_profileList.append(tmpProfile);
     }
+    qDebug() << m_profileList.size();
 }
 
 bool ProfileListModel::getProfileByName(QString id, Profile* profile)

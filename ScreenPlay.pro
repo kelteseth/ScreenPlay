@@ -7,7 +7,6 @@ SOURCES += main.cpp \
     src/screenplay.cpp \
     src/steamworkshop.cpp \
     src/installedlistmodel.cpp \
-    src/backend.cpp \
     src/monitorlistmodel.cpp \
     src/settings.cpp \
     src/packagefilehandler.cpp \
@@ -21,7 +20,6 @@ HEADERS += \
     src/screenplay.h \
     src/steamworkshop.h \
     src/installedlistmodel.h \
-    src/backend.h \
     src/monitorlistmodel.h \
     src/settings.h \
     src/packagefilehandler.h \

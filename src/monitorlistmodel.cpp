@@ -101,6 +101,7 @@ void MonitorListModel::loadMonitors()
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
 
+
         _monitorList.append(Monitor(screen->manufacturer(),
                                     screen->model(),
                                     screen->name(),
