@@ -67,25 +67,25 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
 
 
     //Create default folders
-    if (!QDir(appConfigLocation + "/ProfilePackages").exists()) {
+    if (!QDir(m_absoluteStoragePath.toString() + "/ProfilePackages").exists()) {
         if (!QDir().mkdir(appConfigLocation + "/ProfilePackages")) {
             qWarning("ERROR: Cloud not create ProfilePackages dir");
             return;
         }
     }
-    if (!QDir(appConfigLocation + "/Profiles").exists()) {
+    if (!QDir(m_absoluteStoragePath.toString() + "/Profiles").exists()) {
         if (!QDir().mkdir(appConfigLocation + "/Profiles")) {
             qWarning("ERROR: Cloud not create  Profiles dir");
             return;
         }
     }
-    if (!QDir(appConfigLocation + "/Wallpaper").exists()) {
+    if (!QDir(m_absoluteStoragePath.toString() + "/Wallpaper").exists()) {
         if (!QDir().mkdir(appConfigLocation + "/Wallpaper")) {
             qWarning("ERROR: Cloud not create Wallpaper dir");
             return;
         }
     }
-    if (!QDir(appConfigLocation + "/Widgets").exists()) {
+    if (!QDir(m_absoluteStoragePath.toString() + "/Widgets").exists()) {
         if (!QDir().mkdir(appConfigLocation + "/Widgets")) {
             qWarning("ERROR: Cloud not create Widgets dir");
             return;
