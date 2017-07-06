@@ -28,10 +28,6 @@ Wallpaper::Wallpaper(Profile profile)
     this->setHeight(m_profile.m_rect.height());
     this->m_hwnd = (HWND)this->winId();
 
-    this->m_quickRenderer = new QQuickView(this);
-    m_quickRenderer->setWidth(m_profile.m_rect.width());
-    m_quickRenderer->setHeight(m_profile.m_rect.height());
-    m_context = m_quickRenderer->rootContext();
 
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
 
@@ -54,8 +50,14 @@ Wallpaper::Wallpaper(Profile profile)
 
     Qt::WindowFlags flags = this->flags();
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
-    m_quickRenderer->setSource(QUrl("qrc:/qml/Components/Screens/ScreenVideo.qml"));
-    m_quickRenderer->show();
     this->show();
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+    m_quickRenderer = new QQuickView(this);
+    m_quickRenderer->setWidth(this->width());
+    m_quickRenderer->setHeight(this->height());
+    m_quickRenderer->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    m_quickRenderer->setSource(QUrl("qrc:/qml/Components/Screens/ScreenVideo.qml"));
+    m_context = m_quickRenderer->rootContext();
+    m_quickRenderer->show();
+}
 }

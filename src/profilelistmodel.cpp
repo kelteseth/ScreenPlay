@@ -82,10 +82,10 @@ void ProfileListModel::loadProfiles()
             if (profileObj.value("width").toInt() == 0 || profileObj.value("height").toInt() == 0) {
                 continue;
             }
-            tmpProfile.m_rect.setWidth(profileObj.value("width").toInt());
-            tmpProfile.m_rect.setHeight(profileObj.value("height").toInt());
             tmpProfile.m_rect.setX(profileObj.value("xPos").toInt());
             tmpProfile.m_rect.setY(profileObj.value("yPos").toInt());
+            tmpProfile.m_rect.setWidth(profileObj.value("width").toInt());
+            tmpProfile.m_rect.setHeight(profileObj.value("height").toInt());
 
         } else {
             qWarning("Parsing error");
