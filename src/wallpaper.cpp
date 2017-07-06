@@ -20,13 +20,18 @@ Wallpaper::Wallpaper(QWindow* parent)
 
 Wallpaper::Wallpaper(Profile profile)
 {
-    qDebug() << "Creating Wallpaper" << profile.m_rect;
+
     m_profile = profile;
     this->setX(m_profile.m_rect.x());
     this->setY(m_profile.m_rect.y());
     this->setWidth(m_profile.m_rect.width());
     this->setHeight(m_profile.m_rect.height());
     this->m_hwnd = (HWND)this->winId();
+
+    this->m_quickRenderer = new QQuickView(this);
+    m_quickRenderer->setWidth(m_profile.m_rect.width());
+    m_quickRenderer->setHeight(m_profile.m_rect.height());
+    m_context = m_quickRenderer->rootContext();
 
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
 
@@ -49,6 +54,8 @@ Wallpaper::Wallpaper(Profile profile)
 
     Qt::WindowFlags flags = this->flags();
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
+    m_quickRenderer->setSource(QUrl("qrc:/qml/Components/Screens/ScreenVideo.qml"));
+    m_quickRenderer->show();
     this->show();
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
 }

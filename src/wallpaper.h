@@ -7,6 +7,7 @@
 #include <QRect>
 #include <QWindow>
 #include <qt_windows.h>
+#include <QUrl>
 
 #include "profile.h"
 
@@ -15,6 +16,7 @@ class Wallpaper : public QWindow {
 public:
     explicit Wallpaper(QWindow* parent = 0);
     Wallpaper(Profile profile);
+    ~Wallpaper();
     QQmlContext* context() const;
 
 

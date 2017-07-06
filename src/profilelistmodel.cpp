@@ -96,7 +96,7 @@ void ProfileListModel::loadProfiles()
 
         m_profileList.append(tmpProfile);
     }
-    qDebug() << m_profileList.size();
+
 }
 
 bool ProfileListModel::getProfileByName(QString id, Profile* profile)
