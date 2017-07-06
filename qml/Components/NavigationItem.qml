@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtGraphicalEffects 1.0
 
 Item {
@@ -8,6 +8,12 @@ Item {
     state: "inactive"
 
     property string name: "value"
+    onNameChanged: {
+        txt.text = name
+        textMetrics.text = name
+        item2.width = textMetrics.width + 30
+    }
+
     property string iconSource: "qrc:/assets/icons/icon_installed.svg"
 
     signal tabClicked(string name)
@@ -23,6 +29,19 @@ Item {
     }
 
 
+    FontLoader{
+        id: font_Roboto_Regular
+        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
+    }
+
+    TextMetrics {
+        id: textMetrics
+        font.pointSize: 14
+        font.family: font_Roboto_Regular.name
+
+    }
+
+
     MouseArea{
         id: mouseArea
         anchors.fill: parent
@@ -31,29 +50,26 @@ Item {
             navigationItem.tabClicked(navigationItem.name)
         }
 
-        Item {
+        Rectangle {
             id: item2
+
             width: 100
             height: 31
-            anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
 
             Text {
                 id: txt
                 anchors.left: icon.right
                 anchors.leftMargin: 10
-                text: name
+                text: "name"
                 font.pointSize: 14
                 color: "#626262"
                 anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
                 font.family: font_Roboto_Regular.name
                 renderType: Text.NativeRendering
 
-                FontLoader{
-                    id: font_Roboto_Regular
-                    source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-                }
+
             }
 
             Image {
