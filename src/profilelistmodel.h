@@ -29,12 +29,12 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
     void loadProfiles();
     bool getProfileByName(QString id, Profile* profile);
+    QUrl m_absoluteStoragePath;
 
 private:
     QHash<int, QByteArray> m_roleNames;
     QVector<Profile> m_profileList;
 
-    QUrl m_absoluteStoragePath;
 };
 
 #endif // PROFILELISTMODEL_H

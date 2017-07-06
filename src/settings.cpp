@@ -56,8 +56,14 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     }
 
 
-    if(QString(configObj.value("absoluteStoragePath").toString()).isEmpty())
+    if(QString(configObj.value("absoluteStoragePath").toString()).isEmpty()){
         m_absoluteStoragePath = appConfigLocation;
+    } else {
+        m_absoluteStoragePath = configObj.value("absoluteStoragePath").toString();
+    }
+
+    m_ilm->setabsoluteStoragePath(m_absoluteStoragePath);
+    m_plm->m_absoluteStoragePath = m_absoluteStoragePath;
 
 
     //Create default folders

@@ -38,5 +38,7 @@
         <file>qml/Components/FileDropper.qml</file>
         <file>qml/Components/Widgets/Window.qml</file>
         <file>settings.json</file>
+        <file>qml/Components/Create.qml</file>
+        <file>assets/icons/icon_plus.svg</file>
     </qresource>
 </RCC>

@@ -34,8 +34,7 @@ public:
     Q_INVOKABLE QVariantMap get(QString folderId);
     Q_INVOKABLE void setScreenVisibleFromQml(bool visible);
     Q_INVOKABLE void setScreenToVideoFromQml(QString absolutePath);
-    Q_PROPERTY(QString _screensPath READ name CONSTANT)
-
+    Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setabsoluteStoragePath NOTIFY absoluteStoragePathChanged)
     enum InstalledRole {
         TitleRole,
         PreviewRole,
@@ -44,18 +43,31 @@ public:
     };
     Q_ENUM(InstalledRole)
 
-    QString name() const
+
+    QUrl absoluteStoragePath() const
     {
-        return _screensPath;
+        return m_absoluteStoragePath;
+    }
+
+public slots:
+    void setabsoluteStoragePath(QUrl absoluteStoragePath)
+    {
+        if (m_absoluteStoragePath == absoluteStoragePath)
+            return;
+
+        m_absoluteStoragePath = absoluteStoragePath;
+        emit absoluteStoragePathChanged(m_absoluteStoragePath);
     }
 
 signals:
     void setScreenVisible(bool visible);
     void setScreenToVideo(QString absolutePath);
 
+    void absoluteStoragePathChanged(QUrl absoluteStoragePath);
+
 private:
-    QList<ScreenPlayFile> _screenPlayFiles;
-    QString _screensPath;
+    QList<ScreenPlayFile> m_screenPlayFiles;
+    QUrl m_absoluteStoragePath;
 };
 
 class ScreenPlayFile {

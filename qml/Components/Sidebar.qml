@@ -20,7 +20,7 @@ Item {
     onActiveScreenChanged: {
         text1.text = installedListModel.get(activeScreen).screenTitle
         image.source = Qt.resolvedUrl(
-                    "file:///" + installedListModel._screensPath + activeScreen
+                    "file:///" + installedListModel.absoluteStoragePath + "/Wallpaper/" + activeScreen
                     + "/" + installedListModel.get(activeScreen).screenPreview)
     }
 

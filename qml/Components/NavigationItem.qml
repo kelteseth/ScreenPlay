@@ -33,10 +33,9 @@ Item {
 
         Item {
             id: item2
-            anchors.left: parent.left
-            anchors.leftMargin: 15
-            anchors.right: parent.right
-            anchors.rightMargin: 15
+            width: 100
+            height: 31
+            anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
 
             Text {

@@ -1,9 +1,7 @@
 TEMPLATE = app
 
 QT += qml quick av widgets quickcontrols2
-CONFIG += c++11
-
-
+CONFIG += c++17
 
 SOURCES += main.cpp \
     src/screenplay.cpp \
@@ -35,7 +33,6 @@ INCLUDEPATH += \
     $$PWD/ThirdParty/ \
     $$PWD/src/\
 
-INCLUDEPATH += .
 
 CONFIG(debug, debug|release) {
     install_it.path = $${OUT_PWD}/debug/
@@ -69,12 +66,26 @@ qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-#contains(QT_ARCH, i386) {
-#    #32-bit
-#    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/ -lsteam_api
-#    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/
-#} else {
-#    #64-bit
-#    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/win64/ -lsteam_api64
-#    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/win64
-#}
+win32 {
+    INCLUDEPATH += "C:\msys64\mingw64\include"
+}
+
+contains(QT_ARCH, i386) {
+    #32-bit
+    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/ -lsteam_api
+    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/
+} else {
+    #64-bit
+    win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/win64/ -lsteam_api64
+    DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/win64
+
+    #zlib
+    win32:CONFIG(release, debug|release): LIBS += -L"C:\msys64\mingw64\lib" -llibz.dll
+    else:win32:CONFIG(debug, debug|release): LIBS += -L"C:\msys64\mingw64\lib" -llibz.dll
+    #quazip
+    win32:CONFIG(release, debug|release): LIBS += -L"C:\msys64\mingw64\lib" -llibquazip.dll
+    else:win32:CONFIG(debug, debug|release): LIBS += -L"C:\msys64\mingw64\lib" -llibquazip.dll
+}
+
+
+

@@ -9,7 +9,7 @@
 ProfileListModel::ProfileListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-    loadProfiles();
+
 }
 
 int ProfileListModel::rowCount(const QModelIndex& parent) const

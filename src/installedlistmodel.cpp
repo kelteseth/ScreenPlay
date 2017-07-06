@@ -7,7 +7,7 @@ InstalledListModel::InstalledListModel(QObject* parent)
 
 int InstalledListModel::rowCount(const QModelIndex& parent) const
 {
-    return _screenPlayFiles.count();
+    return m_screenPlayFiles.count();
 }
 
 QVariant InstalledListModel::data(const QModelIndex& index, int role) const
@@ -18,13 +18,13 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
     if (index.row() < rowCount())
         switch (role) {
         case TitleRole:
-            return _screenPlayFiles.at(index.row())._title;
+            return m_screenPlayFiles.at(index.row())._title;
         case PreviewRole:
-            return _screenPlayFiles.at(index.row())._preview;
+            return m_screenPlayFiles.at(index.row())._preview;
         case FolderIdRole:
-            return _screenPlayFiles.at(index.row())._folderId;
+            return m_screenPlayFiles.at(index.row())._folderId;
         case FileIdRole:
-            return _screenPlayFiles.at(index.row())._file;
+            return m_screenPlayFiles.at(index.row())._file;
         default:
             return QVariant();
         }
@@ -49,7 +49,7 @@ void InstalledListModel::append(const QJsonObject obj, const QString folderName)
     beginInsertRows(QModelIndex(), row, row);
 
     ScreenPlayFile tmpFile(obj, folderName);
-    _screenPlayFiles.append(tmpFile);
+    m_screenPlayFiles.append(tmpFile);
 
     endInsertRows();
 }
@@ -59,11 +59,11 @@ void InstalledListModel::loadScreens()
     QJsonDocument jsonProject;
     QJsonParseError parseError;
 
-    QFileInfoList list = QDir(_screensPath).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
+    QFileInfoList list = QDir(m_absoluteStoragePath.toString() + "/Wallpaper").entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
     QString tmpPath;
 
     for (auto&& item : list) {
-        tmpPath = _screensPath + item.baseName() + "/project.json";
+        tmpPath = m_absoluteStoragePath.toString() + "/Wallpaper/" + item.baseName() + "/project.json";
         if (!QFile(tmpPath).exists())
             continue;
 
@@ -84,15 +84,15 @@ QVariantMap InstalledListModel::get(QString folderId)
 {
 
     QVariantMap map;
-    if (_screenPlayFiles.count() == 0)
+    if (m_screenPlayFiles.count() == 0)
         return map;
 
-    for (int i = 0; i < _screenPlayFiles.count(); i++) {
+    for (int i = 0; i < m_screenPlayFiles.count(); i++) {
 
-        if (_screenPlayFiles[i]._folderId == folderId) {
-            map.insert("screenTitle", _screenPlayFiles[i]._title);
-            map.insert("screenPreview", _screenPlayFiles[i]._preview);
-            map.insert("screenFile", _screenPlayFiles[i]._file);
+        if (m_screenPlayFiles[i]._folderId == folderId) {
+            map.insert("screenTitle", m_screenPlayFiles[i]._title);
+            map.insert("screenPreview", m_screenPlayFiles[i]._preview);
+            map.insert("screenFile", m_screenPlayFiles[i]._file);
         }
     }
 

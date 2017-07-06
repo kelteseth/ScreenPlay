@@ -18,18 +18,28 @@ Rectangle {
             navWorkshop.state = "active"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
+            navCreate.state = "inactive"
 
         } else if(name ==="Installed")
         {
             navWorkshop.state = "inactive"
             navInstalled.state = "active"
             navSettings.state = "inactive"
+            navCreate.state = "inactive"
 
         } else if(name ==="Settings")
         {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "active"
+            navCreate.state = "inactive"
+
+        } else if(name ==="Create")
+        {
+            navWorkshop.state = "inactive"
+            navInstalled.state = "inactive"
+            navSettings.state = "inactive"
+            navCreate.state = "active"
         }
     }
 
@@ -38,6 +48,14 @@ Rectangle {
         anchors.left: parent.left
         anchors.leftMargin: 20
         spacing: 20
+
+        NavigationItem {
+            id: navCreate
+            state: "inactive"
+            name: "Create"
+            iconSource: "qrc:/assets/icons/icon_plus.svg"
+            onTabClicked: navigation.onTabChanged(name)
+        }
 
         NavigationItem {
             id: navWorkshop

@@ -57,7 +57,7 @@ Item {
                 id: screenPlayItemImage
 
                 sourceImage: Qt.resolvedUrl(
-                                 "file:///" + installedListModel._screensPath
+                                 "file:///" + installedListModel.absoluteStoragePath + "/Wallpaper/"
                                  + screenFolderId + "/" + screenPreview)
             }
         }
