@@ -17,7 +17,6 @@
 #include <QtQuick/QQuickItem>
 #include <qt_windows.h>
 
-#include "backend.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "packagefilehandler.h"
