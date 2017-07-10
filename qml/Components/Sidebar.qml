@@ -107,6 +107,82 @@ Item {
                 }
             }
 
+            MouseArea {
+                id: mouseArea
+                anchors.rightMargin: -11
+                anchors.bottomMargin: 282
+                anchors.leftMargin: 26
+                anchors.topMargin: 486
+                anchors.fill: parent
+
+                Rectangle {
+                    id: rect
+                    color: "#dfdfdf"
+                    anchors.bottom: parent.bottom
+                    anchors.bottomMargin: -158
+                    anchors.right: parent.right
+                    anchors.rightMargin: 42
+                    anchors.left: parent.left
+                    anchors.leftMargin: -7
+                    anchors.top: parent.top
+                    anchors.topMargin: 20
+
+                    Item {
+                        id:monitorListCenter
+                        width:0
+                        height:0
+                        anchors.centerIn: parent
+                    }
+
+
+
+                    Repeater {
+                        id:rp
+                        anchors.fill: parent
+                        anchors.centerIn: parent
+                        anchors.margins: 30
+                        model:monitorListModel
+
+                        delegate: Rectangle {
+                            color:"steelblue"
+                            height: 100
+                            width: 100
+                            x:monitorAvailableGeometry.x /10
+                            y: monitorAvailableGeometry.y / 10
+                            anchors.margins: 10
+
+                            Column {
+                               spacing: 5
+
+                               Text {
+                                   text: monitorNumber
+                                   anchors.horizontalCenter: parent.horizontalCenter
+                               }
+
+                               Text {
+                                   text: monitorName
+                                   anchors.horizontalCenter: parent.horizontalCenter
+                               }
+
+
+                               Text {
+                                   text: monitorSize.width + " " + monitorSize.height
+                                   anchors.horizontalCenter: parent.horizontalCenter
+                               }
+
+
+                               Text {
+                                   text: monitorAvailableGeometry.x + " " + monitorAvailableGeometry.y
+                                   anchors.horizontalCenter: parent.horizontalCenter
+                               }
+
+                            }
+                        }
+                    }
+
+                }
+            }
+
             Text {
                 id: text1
                 text: ""
