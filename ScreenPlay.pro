@@ -12,7 +12,8 @@ SOURCES += main.cpp \
     src/packagefilehandler.cpp \
     src/wallpaper.cpp \
     src/profilelistmodel.cpp \
-    src/profile.cpp
+    src/profile.cpp \
+    src/projectfile.cpp
 
 RESOURCES += qml.qrc
 
@@ -25,7 +26,8 @@ HEADERS += \
     src/packagefilehandler.h \
     src/wallpaper.h \
     src/profilelistmodel.h \
-    src/profile.h
+    src/profile.h \
+    src/projectfile.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \

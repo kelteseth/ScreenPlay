@@ -7,7 +7,8 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QObject >
+#include <QObject>
+#include <QThread>
 #include <QPair>
 #include <QQmlPropertyMap>
 #include <QStandardPaths>
@@ -17,6 +18,7 @@
 #include <QVariant>
 #include <QVector>
 #include <QSharedPointer>
+
 
 #include "monitorlistmodel.h"
 #include "installedlistmodel.h"
@@ -30,7 +32,7 @@ class Settings : public QObject {
     Q_OBJECT
 public:
     explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, QObject* parent = nullptr);
-
+    ~Settings();
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(Renderer renderer READ renderer WRITE setRenderer NOTIFY rendererChanged)
@@ -38,8 +40,9 @@ public:
     Q_PROPERTY(Version version READ version)
 
     Q_INVOKABLE void createNewProfile(int screenNumber);
-    Q_INVOKABLE void constructWallpaper(Profile profile, QString monitorID);
+    Q_INVOKABLE void constructWallpaper(Profile profile, QString monitorID, ProjectFile spf);
     void loadActiveProfiles();
+    void removeAll();
 
 
     enum Renderer {
@@ -151,6 +154,7 @@ private:
     ProfileListModel* m_plm;
     InstalledListModel* m_ilm;
     MonitorListModel* m_mlm;
+    QThread m_thread;
 
     QVector<QSharedPointer<Wallpaper>> m_wallpapers;
     QVector<QSharedPointer<ActiveProfiles>> m_activeProfiles;

@@ -8,7 +8,6 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_mlm = mlm;
     m_ilm = ilm;
 
-
     QFile configTmp;
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
 
@@ -26,7 +25,6 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
         qWarning("No Settings found, creating default settings");
         createDefaultConfig();
     }
-
 
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
@@ -55,8 +53,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
         return;
     }
 
-
-    if(QString(configObj.value("absoluteStoragePath").toString()).isEmpty()){
+    if (QString(configObj.value("absoluteStoragePath").toString()).isEmpty()) {
         m_absoluteStoragePath = appConfigLocation;
     } else {
         m_absoluteStoragePath = configObj.value("absoluteStoragePath").toString();
@@ -64,7 +61,6 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
 
     m_ilm->setabsoluteStoragePath(m_absoluteStoragePath);
     m_plm->m_absoluteStoragePath = m_absoluteStoragePath;
-
 
     //Create default folders
     if (!QDir(m_absoluteStoragePath.toString() + "/ProfilePackages").exists()) {
@@ -96,16 +92,19 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_highPriorityStart = configObj.value("highPriorityStart").toBool();
     m_sendStatistics = configObj.value("sendStatistics").toBool();
     m_renderer = static_cast<Renderer>(configObj.value("renderer-value").toInt());
+}
 
+Settings::~Settings()
+{
 }
 
 void Settings::createNewProfile(int screenNumber)
 {
 }
 
-void Settings::constructWallpaper(Profile profile, QString monitorID)
+void Settings::constructWallpaper(Profile profile, QString monitorID, ProjectFile pf)
 {
-    m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(profile)));
+    m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(profile,pf)));
 }
 
 void Settings::loadActiveProfiles()
@@ -129,13 +128,25 @@ void Settings::loadActiveProfiles()
             QString profileName = activeProfilesTmp.at(i).toObject().value("profile").toString();
             QString monitorID = activeProfilesTmp.at(i).toObject().value("monitorID").toString();
             Profile profile;
+            ProjectFile spf;
 
             if (!m_plm->getProfileByName(profileName, &profile))
                 continue;
+            if (!m_ilm->getProjectByName(profile.m_wallpaperId, &spf))
+                continue;
 
-            constructWallpaper(profile, monitorID);
+
+
+
+            constructWallpaper(profile, monitorID, spf);
         }
     }
+}
+
+void Settings::removeAll()
+{
+    qDebug() << "destruct settings";
+    m_wallpapers.clear();
 }
 
 void Settings::createDefaultConfig()

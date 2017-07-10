@@ -1,26 +1,29 @@
-import QtQuick 2.0
-//import QtAV 1.07
+import QtQuick 2.7
+import QtAV 1.07
+
 
 Rectangle {
-    color: "orange"
+    color: "gray"
+    visible: true
+
+    Video {
+        id: video
+        anchors.fill: parent
+        videoCodecPriority: ["CUDA", "D3D11", "DXVA", "VAAPI", "FFmpeg"]
+        onPlaybackStateChanged: {
+
+        }
+
+        Component.onCompleted: {
+
+            video.source = Qt.resolvedUrl("file:///" + wallpaper.absoluteFilePath.toString())
+            video.play()
+        }
+        onStopped: {
+            video.play()
+        }
 
 
-//    height: parent.height
-//    width: parent.width
-
-
-//    Connections {
-//        target: installedListModel
-//        onSetScreenToVideo:{
-//            installedListModel.setScreenVisibleFromQml(true)
-//            video.stop()
-//            video.source = absolutePath;
-//            video.play();
-//        }
-//    }
-//    Video {
-//        id: video
-//        anchors.fill: parent
-//    }
+    }
 
 }

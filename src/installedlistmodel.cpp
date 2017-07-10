@@ -18,13 +18,13 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
     if (index.row() < rowCount())
         switch (role) {
         case TitleRole:
-            return m_screenPlayFiles.at(index.row())._title;
+            return m_screenPlayFiles.at(index.row()).m_title;
         case PreviewRole:
-            return m_screenPlayFiles.at(index.row())._preview;
+            return m_screenPlayFiles.at(index.row()).m_preview;
         case FolderIdRole:
-            return m_screenPlayFiles.at(index.row())._folderId;
+            return m_screenPlayFiles.at(index.row()).m_folderId;
         case FileIdRole:
-            return m_screenPlayFiles.at(index.row())._file;
+            return m_screenPlayFiles.at(index.row()).m_file;
         default:
             return QVariant();
         }
@@ -42,13 +42,24 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
     return roles;
 }
 
+bool InstalledListModel::getProjectByName(QString profileName, ProjectFile *spf)
+{
+    for (int i = 0; i < m_screenPlayFiles.size(); i++) {
+        if (m_screenPlayFiles.at(i).m_folderId == profileName) {
+            *spf = m_screenPlayFiles.at(i);
+            return true;
+        }
+    }
+    return false;
+}
+
 void InstalledListModel::append(const QJsonObject obj, const QString folderName)
 {
     int row = 0;
 
     beginInsertRows(QModelIndex(), row, row);
 
-    ScreenPlayFile tmpFile(obj, folderName);
+    ProjectFile tmpFile(obj, folderName);
     m_screenPlayFiles.append(tmpFile);
 
     endInsertRows();
@@ -89,39 +100,14 @@ QVariantMap InstalledListModel::get(QString folderId)
 
     for (int i = 0; i < m_screenPlayFiles.count(); i++) {
 
-        if (m_screenPlayFiles[i]._folderId == folderId) {
-            map.insert("screenTitle", m_screenPlayFiles[i]._title);
-            map.insert("screenPreview", m_screenPlayFiles[i]._preview);
-            map.insert("screenFile", m_screenPlayFiles[i]._file);
+        if (m_screenPlayFiles[i].m_folderId == folderId) {
+            map.insert("screenTitle", m_screenPlayFiles[i].m_title);
+            map.insert("screenPreview", m_screenPlayFiles[i].m_preview);
+            map.insert("screenFile", m_screenPlayFiles[i].m_file);
         }
     }
 
     return map;
 }
 
-void InstalledListModel::setScreenVisibleFromQml(bool visible)
-{
-    emit setScreenVisible(visible);
-}
 
-void InstalledListModel::setScreenToVideoFromQml(QString absolutePath)
-{
-    emit setScreenToVideo(absolutePath);
-}
-
-ScreenPlayFile::ScreenPlayFile(QJsonObject obj, QString folderName)
-{
-    if (obj.contains("description"))
-        _description = obj.value("description");
-
-    if (obj.contains("file"))
-        _file = obj.value("file");
-
-    if (obj.contains("preview"))
-        _preview = obj.value("preview");
-
-    if (obj.contains("title"))
-        _title = obj.value("title");
-
-    _folderId = folderName;
-}

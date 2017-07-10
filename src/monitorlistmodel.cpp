@@ -6,6 +6,7 @@ MonitorListModel::MonitorListModel(QObject *parent)
     loadMonitors();
 }
 
+
 QHash<int, QByteArray> MonitorListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles{

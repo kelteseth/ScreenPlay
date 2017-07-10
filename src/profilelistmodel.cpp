@@ -94,6 +94,8 @@ void ProfileListModel::loadProfiles()
         if (profileObj.contains("isLooping"))
             tmpProfile.m_isLooping = profileObj.value("isLooping").toBool();
 
+        tmpProfile.m_absolutePath = m_absoluteStoragePath;
+
         m_profileList.append(tmpProfile);
     }
 

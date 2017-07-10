@@ -18,16 +18,20 @@ Wallpaper::Wallpaper(QWindow* parent)
 {
 }
 
-Wallpaper::Wallpaper(Profile profile)
+Wallpaper::Wallpaper(Profile profile, ProjectFile projf)
 {
 
     m_profile = profile;
+    m_project = projf;
+    QString tmp = profile.m_absolutePath.toString() + "/Wallpaper/" + profile.m_wallpaperId + "/" + projf.m_file.toString();
+    tmp.replace("/","\\\\");
+    setAbsoluteFilePath(tmp);
+
     this->setX(m_profile.m_rect.x());
     this->setY(m_profile.m_rect.y());
     this->setWidth(m_profile.m_rect.width());
     this->setHeight(m_profile.m_rect.height());
     this->m_hwnd = (HWND)this->winId();
-
 
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
 
@@ -55,9 +59,9 @@ Wallpaper::Wallpaper(Profile profile)
     m_quickRenderer = new QQuickView(this);
     m_quickRenderer->setWidth(this->width());
     m_quickRenderer->setHeight(this->height());
+    m_context = m_quickRenderer->rootContext();
+    m_context->setContextProperty("wallpaper", this);
     m_quickRenderer->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_quickRenderer->setSource(QUrl("qrc:/qml/Components/Screens/ScreenVideo.qml"));
-    m_context = m_quickRenderer->rootContext();
     m_quickRenderer->show();
-}
 }
