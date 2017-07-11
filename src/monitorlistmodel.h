@@ -22,11 +22,13 @@ public:
     explicit MonitorListModel(QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;
+    Q_INVOKABLE QRect getAbsoluteDesktopSize();
 
     enum MonitorRole {
         NameRole,
         SizeRole,
         AvailableGeometryRole,
+        AvailableVirtualGeometryRole,
         NumberRole,
     };
     Q_ENUM(MonitorRole)
@@ -54,6 +56,9 @@ public:
     bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex()) override;
 
     void loadMonitors();
+
+    float GetHighestMonitorYValue();
+
 private:
     QVector<Monitor> _monitorList;
 };
@@ -62,13 +67,15 @@ class Monitor {
 
 public:
     Monitor();
-    Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number);
+    Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry);
 
     QString _id;
     QString _name;
     QSize _size;
     QRect _availableGeometry;
+    QRect _availableVirtualGeometry;
     int _number;
     bool _isVirtualDesktop;
+
 };
 #endif // MONITORLISTMODEL_H

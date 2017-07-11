@@ -1,6 +1,8 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 
+
+
 Item {
     id: monitors
     state:"inactive"
@@ -35,77 +37,76 @@ Item {
         radius: 6
         z:99
         anchors.centerIn: parent
+//        MouseArea {
+//            id: mouseArea
+//            anchors.fill: parent
 
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
+//            Rectangle {
+//                id: rectangle
+//                height: 464
+//                color: "#dfdfdf"
+//                anchors.right: parent.right
+//                anchors.rightMargin: 20
+//                anchors.left: parent.left
+//                anchors.leftMargin: 20
+//                anchors.top: parent.top
+//                anchors.topMargin: 20
 
-            Rectangle {
-                id: rectangle
-                height: 464
-                color: "#dfdfdf"
-                anchors.right: parent.right
-                anchors.rightMargin: 20
-                anchors.left: parent.left
-                anchors.leftMargin: 20
-                anchors.top: parent.top
-                anchors.topMargin: 20
-
-                Item {
-                    id:monitorListCenter
-                    width:0
-                    height:0
-                    anchors.centerIn: parent
-                }
-
+//                Item {
+//                    id:monitorListCenter
+//                    width:0
+//                    height:0
+//                    anchors.centerIn: parent
+//                }
 
 
-                Repeater {
-                    id:rp
-                    anchors.fill: parent
-                    anchors.centerIn: parent
-                    anchors.margins: 30
-                    model:monitorListModel
 
-                    delegate: Rectangle {
-                        color:"steelblue"
-                        height: monitorSize.height / 10
-                        width: monitorSize.width / 10
-                        x:monitorAvailableGeometry.x /10
-                        y: monitorAvailableGeometry.y / 10
-                        anchors.margins: 10
+//                Repeater {
+//                    id:rp
+//                    anchors.fill: parent
+//                    anchors.centerIn: parent
+//                    anchors.margins: 30
+//                    model:monitorListModel
 
-                        Column {
-                           spacing: 5
+//                    delegate: Rectangle {
+//                        color:"steelblue"
+//                        height: monitorSize.height / 10
+//                        width: monitorSize.width / 10
+//                        x:monitorAvailableGeometry.x /10
+//                        y: monitorAvailableGeometry.y / 10
+//                        anchors.margins: 10
 
-                           Text {
-                               text: monitorNumber
-                               anchors.horizontalCenter: parent.horizontalCenter
-                           }
+//                        Column {
+//                           spacing: 5
 
-                           Text {
-                               text: monitorName
-                               anchors.horizontalCenter: parent.horizontalCenter
-                           }
+//                           Text {
+//                               text: monitorNumber
+//                               anchors.horizontalCenter: parent.horizontalCenter
+//                           }
 
-
-                           Text {
-                               text: monitorSize.width + " " + monitorSize.height
-                               anchors.horizontalCenter: parent.horizontalCenter
-                           }
+//                           Text {
+//                               text: monitorName
+//                               anchors.horizontalCenter: parent.horizontalCenter
+//                           }
 
 
-                           Text {
-                               text: monitorAvailableGeometry.x + " " + monitorAvailableGeometry.y
-                               anchors.horizontalCenter: parent.horizontalCenter
-                           }
+//                           Text {
+//                               text: monitorSize.width + " " + monitorSize.height
+//                               anchors.horizontalCenter: parent.horizontalCenter
+//                           }
 
-                        }
-                    }
-                }
 
-            }
-        }
+//                           Text {
+//                               text: monitorAvailableGeometry.x + " " + monitorAvailableGeometry.y
+//                               anchors.horizontalCenter: parent.horizontalCenter
+//                           }
+
+//                        }
+//                    }
+//                }
+
+//            }
+//        }
     }
 
     DropShadow {

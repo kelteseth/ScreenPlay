@@ -13,9 +13,15 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
         { NameRole, "monitorName" },
         { SizeRole, "monitorSize" },
         { AvailableGeometryRole, "monitorAvailableGeometry" },
+        { AvailableVirtualGeometryRole, "monitorAvailableVirtualGeometry"},
         { NumberRole, "monitorNumber" },
     };
     return roles;
+}
+
+QRect MonitorListModel::getAbsoluteDesktopSize()
+{
+    return _monitorList.at(0)._availableVirtualGeometry;
 }
 
 QVariant MonitorListModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -56,6 +62,8 @@ QVariant MonitorListModel::data(const QModelIndex &index, int role) const
             return _monitorList.at(index.row())._size;
         case AvailableGeometryRole:
             return _monitorList.at(index.row())._availableGeometry;
+        case AvailableVirtualGeometryRole:
+            return _monitorList.at(index.row())._availableVirtualGeometry;
         case NumberRole:
             return _monitorList.at(index.row())._number;
         default:
@@ -102,15 +110,27 @@ void MonitorListModel::loadMonitors()
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
 
-
         _monitorList.append(Monitor(screen->manufacturer(),
                                     screen->model(),
                                     screen->name(),
                                     screen->size(),
                                     screen->availableGeometry(),
                                     // More convenient for the user if the first monitor == 1
-                                    i + 1));
+                                    i + 1,
+                                    screen->availableVirtualGeometry())
+                            );
     }
+}
+
+float MonitorListModel::GetHighestMonitorYValue()
+{
+    /*for (int i = 0; i < vector.size(); ++i)
+    {
+        _monitorList.at(i).screen->availableVirtualGeometry().x();
+        _monitorList.at(i).screen->availableGeometry().y();
+    }*/
+   // _monitorList.
+    return 0.0f;
 }
 
 Monitor::Monitor()
@@ -118,11 +138,12 @@ Monitor::Monitor()
 
 }
 
-Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number)
+Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry)
 {
     _name = name;
     _size = size;
     _availableGeometry = availableGeometry;
+    _availableVirtualGeometry = availableVirtualGeometry;
     _number = number;
     // FIXME: Use a better way to create an id
     // because name and manufacturer are allways empty

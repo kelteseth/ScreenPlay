@@ -40,5 +40,6 @@
         <file>settings.json</file>
         <file>qml/Components/Create.qml</file>
         <file>assets/icons/icon_plus.svg</file>
+        <file>qml/Components/MonitorSelection.qml</file>
     </qresource>
 </RCC>
