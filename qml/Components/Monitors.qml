@@ -1,25 +1,18 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
 
-
-
 Item {
     id: monitors
-    state:"inactive"
+    state: "inactive"
 
     property string activeMonitorName: ""
-
-    Component.onCompleted: {
-
-
-    }
 
     onStateChanged: {
         monitorWrapper.focus = monitors.state == "active" ? true : false
     }
 
     Rectangle {
-        id:background
+        id: background
         color: "#80000000"
         anchors.fill: parent
 
@@ -29,84 +22,20 @@ Item {
         }
     }
 
-
     Rectangle {
-        id:monitorWrapper
+        id: monitorWrapper
         width: 900
         height: 600
-        radius: 6
-        z:99
+
+        z: 98
         anchors.centerIn: parent
-//        MouseArea {
-//            id: mouseArea
-//            anchors.fill: parent
+        /*
 
-//            Rectangle {
-//                id: rectangle
-//                height: 464
-//                color: "#dfdfdf"
-//                anchors.right: parent.right
-//                anchors.rightMargin: 20
-//                anchors.left: parent.left
-//                anchors.leftMargin: 20
-//                anchors.top: parent.top
-//                anchors.topMargin: 20
-
-//                Item {
-//                    id:monitorListCenter
-//                    width:0
-//                    height:0
-//                    anchors.centerIn: parent
-//                }
-
-
-
-//                Repeater {
-//                    id:rp
-//                    anchors.fill: parent
-//                    anchors.centerIn: parent
-//                    anchors.margins: 30
-//                    model:monitorListModel
-
-//                    delegate: Rectangle {
-//                        color:"steelblue"
-//                        height: monitorSize.height / 10
-//                        width: monitorSize.width / 10
-//                        x:monitorAvailableGeometry.x /10
-//                        y: monitorAvailableGeometry.y / 10
-//                        anchors.margins: 10
-
-//                        Column {
-//                           spacing: 5
-
-//                           Text {
-//                               text: monitorNumber
-//                               anchors.horizontalCenter: parent.horizontalCenter
-//                           }
-
-//                           Text {
-//                               text: monitorName
-//                               anchors.horizontalCenter: parent.horizontalCenter
-//                           }
-
-
-//                           Text {
-//                               text: monitorSize.width + " " + monitorSize.height
-//                               anchors.horizontalCenter: parent.horizontalCenter
-//                           }
-
-
-//                           Text {
-//                               text: monitorAvailableGeometry.x + " " + monitorAvailableGeometry.y
-//                               anchors.horizontalCenter: parent.horizontalCenter
-//                           }
-
-//                        }
-//                    }
-//                }
-
-//            }
-//        }
+        MonitorSelection {
+            availableWidth: monitorWrapper.width
+            anchors.fill: parent
+            anchors.centerIn: parent
+        }*/
     }
 
     DropShadow {
@@ -118,7 +47,6 @@ Item {
         source: monitorWrapper
     }
 
-
     states: [
         State {
             name: "active"
@@ -126,10 +54,8 @@ Item {
             PropertyChanges {
                 target: monitors
                 opacity: 1
-                enabled:true
+                enabled: true
             }
-
-
 
             PropertyChanges {
                 target: monitorWrapper
@@ -140,14 +66,13 @@ Item {
                 target: background
                 opacity: 1
             }
-
         },
         State {
             name: "inactive"
             PropertyChanges {
                 target: monitors
                 opacity: 0
-                enabled:false
+                enabled: false
             }
 
             PropertyChanges {
@@ -159,14 +84,11 @@ Item {
                 target: background
                 opacity: 0
             }
-
-
         }
     ]
 
     transitions: [
         Transition {
-
 
             NumberAnimation {
                 target: background
@@ -174,7 +96,6 @@ Item {
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
-
 
             NumberAnimation {
                 target: monitors
@@ -187,10 +108,7 @@ Item {
                 target: monitorWrapper
                 property: "anchors.topMargin"
                 duration: 200
-
             }
-
         }
     ]
-
 }

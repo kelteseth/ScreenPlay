@@ -15,12 +15,11 @@ Rectangle {
         }
 
         Component.onCompleted: {
-
-            video.source = Qt.resolvedUrl("file:///" + wallpaper.absoluteFilePath.toString())
-            video.play()
+            //video.source = Qt.resolvedUrl("file:///" + wallpaper.absoluteFilePath.toString())
+            //video.play()
         }
         onStopped: {
-            video.play()
+            //video.play()
         }
 
 

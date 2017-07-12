@@ -19,6 +19,12 @@ Page {
             isChecked: settings.autostart
             //onCheckboxChanged: settings.setAutostart(checked)
         }
+
+        SettingBool {
+            name: "Send Statistics"
+            isChecked: settings.sendStatistics
+            onCheckboxChanged: settings.setSendStatistics(checked)
+        }
         Headline {
             name: "Misc"
 

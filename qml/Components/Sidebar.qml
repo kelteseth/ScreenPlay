@@ -21,10 +21,10 @@ Item {
     onActiveScreenChanged: {
         text1.text = installedListModel.get(activeScreen).screenTitle
         image.source = Qt.resolvedUrl(
-                    "file:///" + installedListModel.absoluteStoragePath + "/Wallpaper/" + activeScreen
-                    + "/" + installedListModel.get(activeScreen).screenPreview)
+                    "file:///" + installedListModel.absoluteStoragePath
+                    + "/Wallpaper/" + activeScreen + "/" + installedListModel.get(
+                        activeScreen).screenPreview)
     }
-
 
     Item {
         id: sidebarWrapper
@@ -67,7 +67,7 @@ Item {
 
             MouseArea {
                 id: button
-                height:30
+                height: 30
                 width: 30
                 anchors.top: parent.top
                 anchors.topMargin: 20
@@ -84,9 +84,9 @@ Item {
                     anchors.leftMargin: 0
                     opacity: 1
                     source: "qrc:/assets/icons/icon_arrow_right.svg"
-                    sourceSize: Qt.size(14,23)
+                    sourceSize: Qt.size(14, 23)
                     anchors {
-                        top:parent.top
+                        top: parent.top
                         topMargin: 0
                     }
                 }
@@ -101,17 +101,30 @@ Item {
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 18
                 onClicked: {
-                    installedListModel.setScreenToVideoFromQml( Qt.resolvedUrl(
-                                                                   "file:///" + installedListModel._screensPath + activeScreen
-                                                                   + "/" + installedListModel.get(activeScreen).screenFile));
+                    installedListModel.setScreenToVideoFromQml(
+                                Qt.resolvedUrl(
+                                    "file:///" + installedListModel._screensPath
+                                    + activeScreen + "/" + installedListModel.get(
+                                        activeScreen).screenFile))
                 }
             }
 
-MonitorSelection{
-    Component.onCompleted: {
-        print("height: ")
-    }
-}
+            Rectangle {
+                color: "gray"
+                height: 300
+                anchors {
+                    right: parent.right
+                    bottom: parent.bottom
+                    left: parent.left
+                }
+
+                anchors.bottomMargin: 100
+                MonitorSelection {
+                    anchors.centerIn: parent
+                    anchors.fill: parent
+                    availableWidth: sidebar.width
+                }
+            }
 
             Text {
                 id: text1
@@ -126,7 +139,7 @@ MonitorSelection{
 
         Item {
             id: shadow
-            width:5
+            width: 5
 
             anchors {
                 top: parent.top
@@ -189,7 +202,6 @@ MonitorSelection{
                 opacity: 0
                 anchors.topMargin: 20
             }
-
         }
     ]
 
@@ -218,7 +230,6 @@ MonitorSelection{
                     }
                 }
             }
-
         },
         Transition {
             to: "inactive"

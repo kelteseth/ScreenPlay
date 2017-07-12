@@ -1,11 +1,10 @@
 #include "monitorlistmodel.h"
 
-MonitorListModel::MonitorListModel(QObject *parent)
+MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
     loadMonitors();
 }
-
 
 QHash<int, QByteArray> MonitorListModel::roleNames() const
 {
@@ -13,7 +12,7 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
         { NameRole, "monitorName" },
         { SizeRole, "monitorSize" },
         { AvailableGeometryRole, "monitorAvailableGeometry" },
-        { AvailableVirtualGeometryRole, "monitorAvailableVirtualGeometry"},
+        { AvailableVirtualGeometryRole, "monitorAvailableVirtualGeometry" },
         { NumberRole, "monitorNumber" },
     };
     return roles;
@@ -29,7 +28,7 @@ QVariant MonitorListModel::headerData(int section, Qt::Orientation orientation, 
     // FIXME: Implement me!
 }
 
-bool MonitorListModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
+bool MonitorListModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant& value, int role)
 {
     if (value != headerData(section, orientation, role)) {
         // FIXME: Implement me!
@@ -39,7 +38,7 @@ bool MonitorListModel::setHeaderData(int section, Qt::Orientation orientation, c
     return false;
 }
 
-int MonitorListModel::rowCount(const QModelIndex &parent) const
+int MonitorListModel::rowCount(const QModelIndex& parent) const
 {
     // For list models only the root node (an invalid parent) should return the list's size. For all
     // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
@@ -49,7 +48,7 @@ int MonitorListModel::rowCount(const QModelIndex &parent) const
     return _monitorList.count();
 }
 
-QVariant MonitorListModel::data(const QModelIndex &index, int role) const
+QVariant MonitorListModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -73,7 +72,7 @@ QVariant MonitorListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-bool MonitorListModel::setData(const QModelIndex &index, const QVariant &value, int role)
+bool MonitorListModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
     if (data(index, role) != value) {
         // FIXME: Implement me!
@@ -83,7 +82,7 @@ bool MonitorListModel::setData(const QModelIndex &index, const QVariant &value, 
     return false;
 }
 
-Qt::ItemFlags MonitorListModel::flags(const QModelIndex &index) const
+Qt::ItemFlags MonitorListModel::flags(const QModelIndex& index) const
 {
     if (!index.isValid())
         return Qt::NoItemFlags;
@@ -91,14 +90,14 @@ Qt::ItemFlags MonitorListModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEditable; // FIXME: Implement me!
 }
 
-bool MonitorListModel::insertRows(int row, int count, const QModelIndex &parent)
+bool MonitorListModel::insertRows(int row, int count, const QModelIndex& parent)
 {
     beginInsertRows(parent, row, row + count - 1);
     // FIXME: Implement me!
     endInsertRows();
 }
 
-bool MonitorListModel::removeRows(int row, int count, const QModelIndex &parent)
+bool MonitorListModel::removeRows(int row, int count, const QModelIndex& parent)
 {
     beginRemoveRows(parent, row, row + count - 1);
     // FIXME: Implement me!
@@ -111,14 +110,13 @@ void MonitorListModel::loadMonitors()
         QScreen* screen = QApplication::screens().at(i);
 
         _monitorList.append(Monitor(screen->manufacturer(),
-                                    screen->model(),
-                                    screen->name(),
-                                    screen->size(),
-                                    screen->availableGeometry(),
-                                    // More convenient for the user if the first monitor == 1
-                                    i + 1,
-                                    screen->availableVirtualGeometry())
-                            );
+            screen->model(),
+            screen->name(),
+            screen->size(),
+            screen->availableGeometry(),
+            // More convenient for the user if the first monitor == 1
+            i + 1,
+            screen->availableVirtualGeometry()));
     }
 }
 
@@ -129,13 +127,12 @@ float MonitorListModel::GetHighestMonitorYValue()
         _monitorList.at(i).screen->availableVirtualGeometry().x();
         _monitorList.at(i).screen->availableGeometry().y();
     }*/
-   // _monitorList.
+    // _monitorList.
     return 0.0f;
 }
 
 Monitor::Monitor()
 {
-
 }
 
 Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry)
@@ -147,6 +144,5 @@ Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, 
     _number = number;
     // FIXME: Use a better way to create an id
     // because name and manufacturer are allways empty
-    _id = /*name + "_" +*/  QString::number(size.width()) + "x" + QString::number(size.height()) + "_" +QString::number(availableGeometry.x()) + "x" + QString::number( availableGeometry.y());
-
+    _id = /*name + "_" +*/ QString::number(size.width()) + "x" + QString::number(size.height()) + "_" + QString::number(availableGeometry.x()) + "x" + QString::number(availableGeometry.y());
 }
