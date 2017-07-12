@@ -11,6 +11,7 @@
 #include <QQuickStyle>
 #include <QQuickView>
 #include <QScreen>
+#include <QTimer>
 #include <QUrl>
 #include <QVariant>
 #include <QWindow>
@@ -22,9 +23,9 @@
 #include "packagefilehandler.h"
 #include "profilelistmodel.h"
 #include "quazip/quazip.h"
-#include "screenplay.h"
 #include "settings.h"
-
+#include "steam/steam_api.h"
+#include "steamworkshop.h"
 
 int main(int argc, char* argv[])
 {
@@ -33,6 +34,19 @@ int main(int argc, char* argv[])
 
     QGuiApplication app(argc, argv);
 
+    AppId_t steamID = 672870;
+
+    if (SteamAPI_RestartAppIfNecessary(steamID)) {
+        qWarning() << "SteamAPI_RestartAppIfNecessary";
+        return 1;
+    }
+
+    if (!SteamAPI_Init()) {
+        qWarning() << "Could not init steam sdk!";
+        return 1;
+    }
+
+    SteamWorkshop steamWorkshop(steamID);
 
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QCoreApplication::setOrganizationName("Aimber");
@@ -63,6 +77,7 @@ int main(int argc, char* argv[])
     mainWindowEngine.rootContext()->setContextProperty("settings", &settings);
     mainWindowEngine.rootContext()->setContextProperty("packageFileHandler", &packageFileHandler);
     mainWindowEngine.rootContext()->setContextProperty("profileListModel", &profileListModel);
+    mainWindowEngine.rootContext()->setContextProperty("steamWorkshop", &steamWorkshop);
     mainWindowEngine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
 
     // FIXME: Needed workaround to close the app because
@@ -70,9 +85,15 @@ int main(int argc, char* argv[])
     QObject::connect(&app, &QGuiApplication::lastWindowClosed,
         [&]() { exit(app.exec()); });
 
-    profileListModel.loadProfiles();
+    // Timer for steam polls. WTF?
+    QTimer timer;
+    QObject::connect(&timer, &QTimer::timeout, [&]() { SteamAPI_RunCallbacks(); });
+    timer.setInterval(500);
+    timer.start();
+
     int status = app.exec();
 
     //Shutdown
-    return app.exec();
+    return status;
+    SteamAPI_Shutdown();
 }

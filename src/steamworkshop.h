@@ -3,15 +3,28 @@
 
 #include <QObject>
 
-//#include "isteamugc.h"
-//#include "steam_api.h" public ISteamUGC,
+
+#include "steam/steam_api.h"
+#include <QDebug>
 
 class SteamWorkshop : public QObject {
+    Q_OBJECT
 public:
-    SteamWorkshop();
+    explicit SteamWorkshop(QObject *parent = nullptr);
+    SteamWorkshop(AppId_t nConsumerAppId);
 
-    // ISteamUGC interface
-public:
+
+private:
+    void onWorkshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure);
+    CCallResult<SteamWorkshop, CreateItemResult_t> m_createWorkshopItemCallResult;
+
+    AppId_t m_AppId;
+public slots:
+    void createWorkshopItem();
+
+signals:
+    void workshopItemCreatedQML(bool islegalAgreementAccepted, int eResult, int publishedFileId);
 };
 
 #endif // STEAMWORKSHOP_H
+#
