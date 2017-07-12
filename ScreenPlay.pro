@@ -4,7 +4,6 @@ QT += qml quick av widgets quickcontrols2
 CONFIG += c++17
 
 SOURCES += main.cpp \
-    src/screenplay.cpp \
     src/steamworkshop.cpp \
     src/installedlistmodel.cpp \
     src/monitorlistmodel.cpp \
@@ -18,7 +17,6 @@ SOURCES += main.cpp \
 RESOURCES += qml.qrc
 
 HEADERS += \
-    src/screenplay.h \
     src/steamworkshop.h \
     src/installedlistmodel.h \
     src/monitorlistmodel.h \
