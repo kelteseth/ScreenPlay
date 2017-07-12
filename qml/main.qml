@@ -20,7 +20,7 @@ ApplicationWindow {
     }
 
     Loader {
-        id: pageLoader
+        id: tabLoader
         source : "qrc:/qml/Components/Installed.qml"
         anchors {
             top: nav.bottom
@@ -29,9 +29,9 @@ ApplicationWindow {
             left: parent.left
         }
         onStateChanged: {
-            if(pageLoader.state === Loader.Loading){
+            if(tabLoader.state === Loader.Loading){
                 loaderText.visible = true
-            } else if(pageLoader.state === Loader.Ready){
+            } else if(tabLoader.state === Loader.Ready){
                 loaderText.visible = false
             }
         }
@@ -55,17 +55,17 @@ ApplicationWindow {
 
 
 
-//        onSourceChanged: pageLoaderAnim.running = true
+//        onSourceChanged: tabLoaderAnim.running = true
 
 //        SequentialAnimation {
-//            id:pageLoaderAnim
+//            id:tabLoaderAnim
 //            running: true
-//            NumberAnimation { target: pageLoader.item; property: "opacity"; from:0; to: 1; duration: 500 }
-//            NumberAnimation { target: pageLoader.item; property: "y"; from: -100; to: 0; duration: 300 }
+//            NumberAnimation { target: tabLoader.item; property: "opacity"; from:0; to: 1; duration: 500 }
+//            NumberAnimation { target: tabLoader.item; property: "y"; from: -100; to: 0; duration: 300 }
 //        }
 
         Connections{
-            target: pageLoader.item
+            target: tabLoader.item
             ignoreUnknownSignals: true
             onSetSidebaractiveItem: {
                 if( sidebar.activeScreen == screenId && sidebar.state ==  "active"){
@@ -98,7 +98,7 @@ ApplicationWindow {
             left: parent.left
         }
         onChangeTab: {
-            pageLoader.setSource("qrc:/qml/Components/"+name+".qml")
+            tabLoader.setSource("qrc:/qml/Components/"+name+".qml")
             sidebar.state = "inactive"
         }
 
@@ -111,7 +111,7 @@ ApplicationWindow {
     Monitors {
         id: monitors
         state: "inactive"
-        anchors.fill: pageLoader
+        anchors.fill: tabLoader
         z:98
     }
 
