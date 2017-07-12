@@ -7,7 +7,6 @@
         <file>qml/main.qml</file>
         <file>qml/Components/ScreenPlay.qml</file>
         <file>qml/Components/Settings.qml</file>
-        <file>qml/Components/Page.qml</file>
         <file>assets/licenses/Apache2.txt</file>
         <file>assets/licenses/OFL.txt</file>
         <file>assets/fonts/LibreBaskerville-Italic.ttf</file>
@@ -41,5 +40,6 @@
         <file>qml/Components/Create.qml</file>
         <file>assets/icons/icon_plus.svg</file>
         <file>qml/Components/MonitorSelection.qml</file>
+        <file>qml/Components/Tab.qml</file>
     </qresource>
 </RCC>

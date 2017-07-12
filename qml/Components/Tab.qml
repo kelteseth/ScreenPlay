@@ -3,16 +3,16 @@ import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
 
 Rectangle {
-    id:page
+    id:tab
     width:1366
     height:768
     color: "#eeeeee"
-    property string pageName: "pagename"
 
+    property string tabName: "tabname"
 
 
     LinearGradient {
-        id: pageShadow
+        id: tabShadow
         height: 5
         z:99
 
@@ -43,7 +43,7 @@ Rectangle {
 
     Text {
         id: txtLoading
-        text: pageName
+        text: tabName
         anchors.centerIn: parent
         font.family: font_LibreBaskerville_Italic.name
         font.pointSize: 32

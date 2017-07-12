@@ -5,8 +5,8 @@ import QtQuick.Layouts 1.3
 
 import "Settings/"
 
-Page {
-    pageName: ""
+Tab {
+    tabName: ""
 
 
     VisualItemModel {
