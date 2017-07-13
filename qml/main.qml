@@ -20,7 +20,7 @@ ApplicationWindow {
     }
 
     Loader {
-        id: tabLoader
+        id: pageLoader
         source : "qrc:/qml/Components/Installed.qml"
         anchors {
             top: nav.bottom
@@ -29,9 +29,9 @@ ApplicationWindow {
             left: parent.left
         }
         onStateChanged: {
-            if(tabLoader.state === Loader.Loading){
+            if(pageLoader.state === Loader.Loading){
                 loaderText.visible = true
-            } else if(tabLoader.state === Loader.Ready){
+            } else if(pageLoader.state === Loader.Ready){
                 loaderText.visible = false
             }
         }
@@ -55,17 +55,17 @@ ApplicationWindow {
 
 
 
-//        onSourceChanged: tabLoaderAnim.running = true
+//        onSourceChanged: pageLoaderAnim.running = true
 
 //        SequentialAnimation {
-//            id:tabLoaderAnim
+//            id:pageLoaderAnim
 //            running: true
-//            NumberAnimation { target: tabLoader.item; property: "opacity"; from:0; to: 1; duration: 500 }
-//            NumberAnimation { target: tabLoader.item; property: "y"; from: -100; to: 0; duration: 300 }
+//            NumberAnimation { target: pageLoader.item; property: "opacity"; from:0; to: 1; duration: 500 }
+//            NumberAnimation { target: pageLoader.item; property: "y"; from: -100; to: 0; duration: 300 }
 //        }
 
         Connections{
-            target: tabLoader.item
+            target: pageLoader.item
             ignoreUnknownSignals: true
             onSetSidebaractiveItem: {
                 if( sidebar.activeScreen == screenId && sidebar.state ==  "active"){
@@ -97,8 +97,8 @@ ApplicationWindow {
             right: parent.right
             left: parent.left
         }
-        onChangeTab: {
-            tabLoader.setSource("qrc:/qml/Components/"+name+".qml")
+        onChangePage: {
+            pageLoader.setSource("qrc:/qml/Components/"+name+".qml")
             sidebar.state = "inactive"
         }
 
@@ -111,7 +111,7 @@ ApplicationWindow {
     Monitors {
         id: monitors
         state: "inactive"
-        anchors.fill: tabLoader
+        anchors.fill: pageLoader
         z:98
     }
 

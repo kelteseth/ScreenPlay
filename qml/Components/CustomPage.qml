@@ -8,7 +8,7 @@ Rectangle {
     height:768
     color: "#eeeeee"
 
-    property string tabName: "tabname"
+    property string pageName: "tabname"
 
 
     LinearGradient {
@@ -43,7 +43,7 @@ Rectangle {
 
     Text {
         id: txtLoading
-        text: tabName
+        text: pageName
         anchors.centerIn: parent
         font.family: font_LibreBaskerville_Italic.name
         font.pointSize: 32

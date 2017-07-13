@@ -8,11 +8,11 @@ Rectangle {
     clip: true
     width: 1366
 
-    signal changeTab(string name)
+    signal changePage(string name)
     signal toggleMonitors()
 
-    function onTabChanged(name){
-         navigation.changeTab(name);
+    function onPageChanged(name){
+         navigation.changePage(name);
         if(name ==="Workshop")
         {
             navWorkshop.state = "active"
@@ -54,7 +54,7 @@ Rectangle {
             state: "inactive"
             name: "Create"
             iconSource: "qrc:/assets/icons/icon_plus.svg"
-            onTabClicked: navigation.onTabChanged(name)
+            onPageClicked: navigation.onPageChanged(name)
         }
 
         NavigationItem {
@@ -62,7 +62,7 @@ Rectangle {
             state: "inactive"
             name: "Workshop"
             iconSource: "qrc:/assets/icons/icon_workshop.svg"
-            onTabClicked: navigation.onTabChanged(name)
+            onPageClicked: navigation.onPageChanged(name)
         }
 
         NavigationItem {
@@ -70,7 +70,7 @@ Rectangle {
             state: "active"
             name: "Installed"
             iconSource: "qrc:/assets/icons/icon_installed.svg"
-            onTabClicked: navigation.onTabChanged(name)
+            onPageClicked: navigation.onPageChanged(name)
 
         }
 
@@ -79,7 +79,7 @@ Rectangle {
             state: "inactive"
             name: "Settings"
             iconSource: "qrc:/assets/icons/icon_settings.svg"
-            onTabClicked: navigation.onTabChanged(name)
+            onPageClicked: navigation.onPageChanged(name)
 
         }
     }

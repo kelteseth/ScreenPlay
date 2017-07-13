@@ -1,9 +1,9 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 
-Tab {
+CustomPage {
     id: page
-    tabName: ""
+    pageName: ""
 
     Rectangle {
         id: rectangle

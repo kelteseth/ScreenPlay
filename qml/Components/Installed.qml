@@ -3,9 +3,9 @@ import QtQml.Models 2.2
 
 
 
-Tab {
+CustomPage {
     id:pageInstalled
-    tabName: ""
+    pageName: ""
 
     signal setSidebaractiveItem(var screenId)
 

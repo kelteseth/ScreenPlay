@@ -16,7 +16,7 @@ Item {
 
     property string iconSource: "qrc:/assets/icons/icon_installed.svg"
 
-    signal tabClicked(string name)
+    signal pageClicked(string name)
 
     function setActive(isActive){
         if(isActive)
@@ -47,7 +47,7 @@ Item {
         anchors.fill: parent
 
         onClicked: {
-            navigationItem.tabClicked(navigationItem.name)
+            navigationItem.pageClicked(navigationItem.name)
         }
 
         Rectangle {
