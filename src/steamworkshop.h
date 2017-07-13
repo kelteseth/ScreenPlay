@@ -13,14 +13,19 @@ public:
     SteamWorkshop(AppId_t nConsumerAppId);
 
 public slots:
+    void searchWorkshop();
     void createWorkshopItem();
 
 signals:
-    void workshopItemCreated(bool userNeedsToAcceptWorkshopLegalAgreement , int eResult, int publishedFileId);
+    void workshopItemCreated(bool userNeedsToAcceptWorkshopLegalAgreement, int eResult, int publishedFileId);
+    void workshopSearched();
 
 private:
     void onWorkshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure);
     CCallResult<SteamWorkshop, CreateItemResult_t> m_createWorkshopItemCallResult;
+
+    void onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
+    CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCQueryResult;
 
     AppId_t m_AppId;
 };

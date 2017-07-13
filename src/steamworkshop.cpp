@@ -20,3 +20,23 @@ void SteamWorkshop::onWorkshopItemCreated(CreateItemResult_t* pCallback, bool bI
 {
     emit workshopItemCreated(pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement, pCallback->m_eResult, pCallback->m_nPublishedFileId);
 }
+
+void SteamWorkshop::searchWorkshop()
+{
+    qDebug() << "search";
+    UGCQueryHandle_t hUGCQueryHandle = SteamUGC()->CreateQueryAllUGCRequest(EUGCQuery::k_EUGCQuery_RankedByTrend,
+        EUGCMatchingUGCType::k_EUGCMatchingUGCType_All,
+        m_AppId,
+        m_AppId,
+        1);
+    m_steamUGCQueryResult.Set(hUGCQueryHandle, this, &SteamWorkshop::onWorkshopSearched);
+    SteamUGC()->SendQueryUGCRequest(hUGCQueryHandle);
+
+
+}
+
+void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
+{
+    qDebug() << "searchend";
+    emit workshopSearched();
+}
