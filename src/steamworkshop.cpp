@@ -1,8 +1,8 @@
 #include "steamworkshop.h"
 
-SteamWorkshop::SteamWorkshop(QObject *parent) : QObject(parent)
+SteamWorkshop::SteamWorkshop(QObject* parent)
+    : QObject(parent)
 {
-
 }
 
 SteamWorkshop::SteamWorkshop(AppId_t nConsumerAppId)
@@ -18,6 +18,5 @@ void SteamWorkshop::createWorkshopItem()
 
 void SteamWorkshop::onWorkshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure)
 {
-
-    emit workshopItemCreatedQML(pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement, pCallback->m_eResult, pCallback->m_nPublishedFileId);
+    emit workshopItemCreated(pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement, pCallback->m_eResult, pCallback->m_nPublishedFileId);
 }

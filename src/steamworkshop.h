@@ -3,27 +3,26 @@
 
 #include <QObject>
 
-
 #include "steam/steam_api.h"
 #include <QDebug>
 
 class SteamWorkshop : public QObject {
     Q_OBJECT
 public:
-    explicit SteamWorkshop(QObject *parent = nullptr);
+    explicit SteamWorkshop(QObject* parent = nullptr);
     SteamWorkshop(AppId_t nConsumerAppId);
 
+public slots:
+    void createWorkshopItem();
+
+signals:
+    void workshopItemCreated(bool userNeedsToAcceptWorkshopLegalAgreement , int eResult, int publishedFileId);
 
 private:
     void onWorkshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure);
     CCallResult<SteamWorkshop, CreateItemResult_t> m_createWorkshopItemCallResult;
 
     AppId_t m_AppId;
-public slots:
-    void createWorkshopItem();
-
-signals:
-    void workshopItemCreatedQML(bool islegalAgreementAccepted, int eResult, int publishedFileId);
 };
 
 #endif // STEAMWORKSHOP_H
