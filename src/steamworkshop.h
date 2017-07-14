@@ -4,8 +4,10 @@
 
 #include <QDebug>
 #include <QObject>
+#include <QDir>
 #include <QUrl>
 #include <QByteArray>
+#include <QFileInfo>
 
 #include "steam/steam_api.h"
 
@@ -18,8 +20,8 @@ public:
 public slots:
     void searchWorkshop();
     void createWorkshopItem();
-    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl absoluteVideoPath, QUrl absolutePreviewPath);
-
+    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl absoluteContentPath, QUrl absolutePreviewPath);
+    int getItemUpdateProcess();
 signals:
     void workshopItemCreated(bool userNeedsToAcceptWorkshopLegalAgreement, int eResult, int publishedFileId);
     void workshopSearched();

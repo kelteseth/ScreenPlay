@@ -113,7 +113,7 @@ CustomPage {
 
             ComboBox {
                 id:cbVisibility
-                model: ["Public", "Friedsonly", "Private"]
+                model: ["Public", "Friends only", "Private"]
             }
 
             spacing: 30
@@ -135,7 +135,7 @@ CustomPage {
                 id: btnOpenVideo
                 text: qsTr("Open Video ")
                 onClicked: {
-                     fileDialog.open()
+                     fileDialogOpenVideo.open()
                 }
             }
 
@@ -164,34 +164,43 @@ CustomPage {
 
             Button {
                 id: btnOpenPreview
-                text: qsTr("Open Video ")
+                text: qsTr("Open Preview Image")
                 onClicked: {
-                     fileDialog.open()
+                     fileDialogOpenPreview.open()
                 }
             }
 
             FileDialog {
                 id: fileDialogOpenPreview
-                nameFilters: ["PNG (*.png)","JPG (*.jpg)","GIF (*.gif)"]
+                nameFilters: ["*.png *.jpg *.gif","PNG (*.png)","JPG (*.jpg)","GIF (*.gif)"]
                 onAccepted: {
 
                 }
             }
 
-
-
             spacing: 30
         }
+
         Button {
             id: btnSubmit
             text: "Submit"
             onClicked: {
                 steamWorkshop.submitWorkshopItem(txtTitle.text.toString(),
                                                  txtDescription.text.toString(),
-                                                 "us",
+                                                 "english",
                                                  cbVisibility.currentIndex,
                                                  fileDialogOpenVideo.currentFile,
                                                  fileDialogOpenPreview.currentFile);
+                tiItemUpdate.start()
+            }
+        }
+        Timer {
+            id: tiItemUpdate
+            interval: 500
+            running: false
+            repeat: true
+            onTriggered: {
+                print(steamWorkshop.getItemUpdateProcess())
             }
         }
     }
