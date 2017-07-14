@@ -1,5 +1,6 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 
 CustomPage {
     pageName: ""
@@ -22,6 +23,7 @@ CustomPage {
         anchors.verticalCenter: parent.verticalCenter
         anchors.horizontalCenter: parent.horizontalCenter
         running: true
+        Material.accent: Material.Orange
     }
 
     Text {

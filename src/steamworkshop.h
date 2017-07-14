@@ -1,10 +1,13 @@
 #ifndef STEAMWORKSHOP_H
 #define STEAMWORKSHOP_H
 
+
+#include <QDebug>
 #include <QObject>
+#include <QUrl>
+#include <QByteArray>
 
 #include "steam/steam_api.h"
-#include <QDebug>
 
 class SteamWorkshop : public QObject {
     Q_OBJECT
@@ -15,6 +18,7 @@ public:
 public slots:
     void searchWorkshop();
     void createWorkshopItem();
+    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl absoluteVideoPath, QUrl absolutePreviewPath);
 
 signals:
     void workshopItemCreated(bool userNeedsToAcceptWorkshopLegalAgreement, int eResult, int publishedFileId);
@@ -28,6 +32,7 @@ private:
     CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCQueryResult;
 
     AppId_t m_AppId;
+    UGCUpdateHandle_t m_UGCUpdateHandle;
 };
 
 #endif // STEAMWORKSHOP_H

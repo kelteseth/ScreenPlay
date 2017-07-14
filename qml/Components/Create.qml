@@ -1,7 +1,8 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.2
-
+import QtQuick.Controls.Material 2.2
+import Qt.labs.platform 1.0
 CustomPage {
     id: page
     pageName: ""
@@ -9,14 +10,12 @@ CustomPage {
     Connections {
         target: steamWorkshop
         onWorkshopItemCreated: {
-            print(userNeedsToAcceptWorkshopLegalAgreement + " " + eResult + " " + publishedFileId)
             if (userNeedsToAcceptWorkshopLegalAgreement) {
                 checkDelegate.opacity = 1
             } else {
                 checkDelegate.opacity = 0
                 busyIndicator.running = false
                 page.state = "StartItemUpdate"
-
             }
         }
     }
@@ -47,6 +46,7 @@ CustomPage {
         anchors.bottomMargin: 80
         anchors.horizontalCenter: parent.horizontalCenter
         running: false
+        Material.accent: Material.Orange
     }
 
     Column {
@@ -62,7 +62,7 @@ CustomPage {
             spacing: 30
 
             Text {
-                id: text1
+                id: txtHeadlineTitle
                 text: qsTr("Title")
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: 12
@@ -70,7 +70,7 @@ CustomPage {
             }
 
             TextField {
-                id: textField
+                id: txtTitle
                 width: 240
                 text: qsTr("")
                 height: parent.height
@@ -82,7 +82,7 @@ CustomPage {
             width: parent.width
             height: 120
             Text {
-                id: text2
+                id: txtDescriptionHeadline
                 height: parent.height
                 text: qsTr("Description")
                 font.pixelSize: 12
@@ -90,11 +90,11 @@ CustomPage {
             }
 
             TextArea {
-                id: textArea
+                id: txtDescription
                 height: 120
                 text: qsTr("")
                 wrapMode: Text.WrapAnywhere
-                width: parent.width - text2.width - 30
+                width: parent.width - txtDescriptionHeadline.width - 30
 
             }
             spacing: 30
@@ -104,17 +104,18 @@ CustomPage {
             width: parent.width
             height: 120
             Text {
-                id: text3
+                id: txtVisibleDescription
                 height: parent.height
-                text: qsTr("Description")
+                text: qsTr("Visible")
                 font.pixelSize: 12
                 verticalAlignment: Text.AlignVCenter
             }
 
-            CheckDelegate {
-                id: checkDelegateVisible
-                text: qsTr("Is item visible")
+            ComboBox {
+                id:cbVisibility
+                model: ["Public", "Friedsonly", "Private"]
             }
+
             spacing: 30
         }
 
@@ -123,7 +124,7 @@ CustomPage {
             width: parent.width
             height: 120
             Text {
-                id: text4
+                id: txtVideoFileDescription
                 height: parent.height
                 text: qsTr("Video File")
                 font.pixelSize: 12
@@ -134,22 +135,64 @@ CustomPage {
                 id: btnOpenVideo
                 text: qsTr("Open Video ")
                 onClicked: {
-                   //openFileDialogLoader.source ="qrc:/qml/Components/OpenFileDialog.qml"
-                    fileDialog.open()
+                     fileDialog.open()
                 }
             }
 
             FileDialog {
-                id: fileDialog
+                id: fileDialogOpenVideo
                 nameFilters: ["Videos (*.mp4)"]
                 onAccepted: {
-                    console.log("You chose: " + fileDialog.fileUrls)
+
                 }
             }
 
 
 
             spacing: 30
+        }
+        Row {
+            width: parent.width
+            height: 120
+            Text {
+                id: txtPreviewFileDescription
+                height: parent.height
+                text: qsTr("Video File preview")
+                font.pixelSize: 12
+                verticalAlignment: Text.AlignVCenter
+            }
+
+            Button {
+                id: btnOpenPreview
+                text: qsTr("Open Video ")
+                onClicked: {
+                     fileDialog.open()
+                }
+            }
+
+            FileDialog {
+                id: fileDialogOpenPreview
+                nameFilters: ["PNG (*.png)","JPG (*.jpg)","GIF (*.gif)"]
+                onAccepted: {
+
+                }
+            }
+
+
+
+            spacing: 30
+        }
+        Button {
+            id: btnSubmit
+            text: "Submit"
+            onClicked: {
+                steamWorkshop.submitWorkshopItem(txtTitle.text.toString(),
+                                                 txtDescription.text.toString(),
+                                                 "us",
+                                                 cbVisibility.currentIndex,
+                                                 fileDialogOpenVideo.currentFile,
+                                                 fileDialogOpenPreview.currentFile);
+            }
         }
     }
 
