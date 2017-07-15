@@ -31,6 +31,8 @@ int main(int argc, char* argv[])
 {
 
     Q_INIT_RESOURCE(qml);
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
 
     QGuiApplication app(argc, argv);
 
@@ -46,9 +48,9 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+
     SteamWorkshop steamWorkshop(steamID);
 
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QCoreApplication::setOrganizationName("Aimber");
     QCoreApplication::setOrganizationDomain("aimber.net");
     QCoreApplication::setApplicationName("ScreenPlay");
@@ -82,8 +84,7 @@ int main(int argc, char* argv[])
 
     // FIXME: Needed workaround to close the app because
     // apparently some thread still runs in the background
-    QObject::connect(&app, &QGuiApplication::lastWindowClosed,
-        [&]() { exit(app.exec()); });
+    QObject::connect(&app, &QGuiApplication::lastWindowClosed, [&]() { exit(app.exec()); });
 
     // Timer for steam polls. WTF?
     QTimer timer;
