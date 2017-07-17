@@ -20,6 +20,8 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
 
 QRect MonitorListModel::getAbsoluteDesktopSize()
 {
+//    qDebug() << _monitorList.at(0)._availableVirtualGeometry;
+//    qDebug() << _monitorList.at(0)._availableGeometry;
     return _monitorList.at(0)._availableVirtualGeometry;
 }
 
@@ -137,10 +139,13 @@ Monitor::Monitor()
 
 Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry)
 {
+
     _name = name;
     _size = size;
     _availableGeometry = availableGeometry;
+
     _availableVirtualGeometry = availableVirtualGeometry;
+    //qDebug() << _availableGeometry << " " << availableVirtualGeometry;
     _number = number;
     // FIXME: Use a better way to create an id
     // because name and manufacturer are allways empty

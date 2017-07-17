@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtGraphicalEffects 1.0
 
 Item {
@@ -29,13 +29,12 @@ Item {
 
         z: 98
         anchors.centerIn: parent
-        /*
-
         MonitorSelection {
-            availableWidth: monitorWrapper.width
-            anchors.fill: parent
             anchors.centerIn: parent
-        }*/
+            anchors.fill: parent
+            availableWidth: monitorWrapper.width
+            availableHeight: monitorWrapper.height
+        }
     }
 
     DropShadow {

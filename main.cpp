@@ -27,12 +27,14 @@
 #include "steam/steam_api.h"
 #include "steamworkshop.h"
 
+
+
 int main(int argc, char* argv[])
 {
 
     Q_INIT_RESOURCE(qml);
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
+    QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
 
     QGuiApplication app(argc, argv);
 
@@ -65,7 +67,7 @@ int main(int argc, char* argv[])
     // Create settings at the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
-    Settings settings(&profileListModel, &monitorListModel, &installedListModel);
+    Settings settings(&profileListModel, &monitorListModel, &installedListModel, steamID);
     // All the list need the default path from the settings
     // to know where to look for the files
     installedListModel.loadScreens();

@@ -21,8 +21,8 @@ Item {
     onActiveScreenChanged: {
         text1.text = installedListModel.get(activeScreen).screenTitle
         image.source = Qt.resolvedUrl(
-                    "file:///" + installedListModel.absoluteStoragePath
-                    + "/Wallpaper/" + activeScreen + "/" + installedListModel.get(
+                    "file:///" + installedListModel.absoluteStoragePath + "/"
+                    + activeScreen + "/" + installedListModel.get(
                         activeScreen).screenPreview)
     }
 
@@ -110,8 +110,9 @@ Item {
             }
 
             Rectangle {
+                id:monitorSelectionWrapper
                 color: "gray"
-                height: 300
+                height: 200
                 anchors {
                     right: parent.right
                     bottom: parent.bottom
@@ -119,11 +120,12 @@ Item {
                 }
 
                 anchors.bottomMargin: 100
-                MonitorSelection {
-                    anchors.centerIn: parent
-                    anchors.fill: parent
-                    availableWidth: sidebar.width
-                }
+//                MonitorSelection {
+//                    anchors.centerIn: parent
+//                    anchors.fill: parent
+//                    availableWidth: sidebar.width
+//                    availableHeight: monitorSelectionWrapper.height
+//                }
             }
 
             Text {
