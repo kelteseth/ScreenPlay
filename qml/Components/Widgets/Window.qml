@@ -8,9 +8,10 @@ Window {
     id: mainWindow
     visible: true
     width: 640
+
     height: 480
-    color: "transparent"
-    flags: Qt.SplashScreen
+    //color: "transparent"
+    flags: Qt.SplashScreen | Qt.ToolTip  | Qt.WindowStaysOnBottomHint
 
 
     Rectangle {

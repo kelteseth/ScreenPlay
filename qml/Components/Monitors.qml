@@ -14,6 +14,7 @@ Item {
     Rectangle {
         id: background
         color: "#80000000"
+
         anchors.fill: parent
 
         MouseArea {
@@ -23,12 +24,21 @@ Item {
     }
 
     Rectangle {
-        id: monitorWrapper
+        color: "white"
         width: 900
         height: 600
 
         z: 98
         anchors.centerIn: parent
+
+        Rectangle {
+            color: "gray"
+            anchors.centerIn: parent
+            id: monitorWrapper
+            width: 200
+            height: 100
+        }
+
         MonitorSelection {
             anchors.centerIn: parent
             anchors.fill: parent
@@ -37,14 +47,14 @@ Item {
         }
     }
 
-    DropShadow {
-        anchors.fill: monitorWrapper
-        radius: 12.0
-        cached: true
-        samples: 17
-        color: "#80000000"
-        source: monitorWrapper
-    }
+//    DropShadow {
+//        anchors.fill: monitorWrapper
+//        radius: 12.0
+//        cached: true
+//        samples: 17
+//        color: "#80000000"
+//        source: monitorWrapper
+//    }
 
     states: [
         State {

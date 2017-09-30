@@ -1,15 +1,17 @@
 #include "settings.h"
 
-Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, QObject* parent)
+Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, AppId_t steamID, QObject* parent)
     : QObject(parent)
 {
 
     m_plm = plm;
     m_mlm = mlm;
     m_ilm = ilm;
+    m_steamID = steamID;
 
     QFile configTmp;
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+
 
     if (!QDir(appConfigLocation).exists()) {
         if (!QDir().mkdir(appConfigLocation)) {
@@ -53,8 +55,21 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
         return;
     }
 
+    //If empty use steam workshop location
     if (QString(configObj.value("absoluteStoragePath").toString()).isEmpty()) {
-        m_absoluteStoragePath = appConfigLocation;
+        uint32 size = 5000;
+        char folder[size];
+        SteamApps()->GetAppInstallDir(m_steamID,folder,5000);
+        QDir steamTmpUrl = QDir(QString(QByteArray(folder).data()));
+        steamTmpUrl.cdUp();
+        steamTmpUrl.cdUp();
+        steamTmpUrl.cd("workshop");
+        steamTmpUrl.cd("content");
+        steamTmpUrl.cd("672870");
+
+        qDebug() << steamTmpUrl.path();
+
+        m_absoluteStoragePath = steamTmpUrl.path();
     } else {
         m_absoluteStoragePath = configObj.value("absoluteStoragePath").toString();
     }
@@ -62,6 +77,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_ilm->setabsoluteStoragePath(m_absoluteStoragePath);
     m_plm->m_absoluteStoragePath = m_absoluteStoragePath;
 
+    /*
     //Create default folders
     if (!QDir(m_absoluteStoragePath.toString() + "/ProfilePackages").exists()) {
         if (!QDir().mkdir(appConfigLocation + "/ProfilePackages")) {
@@ -86,7 +102,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
             qWarning("ERROR: Cloud not create Widgets dir");
             return;
         }
-    }
+    }*/
 
     m_autostart = configObj.value("autostart").toBool();
     m_highPriorityStart = configObj.value("highPriorityStart").toBool();
@@ -104,7 +120,13 @@ void Settings::createNewProfile(int screenNumber)
 
 void Settings::constructWallpaper(Profile profile, QString monitorID, ProjectFile pf)
 {
+
     m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(profile,pf)));
+}
+
+void Settings::setWallpaper(int monitorIndex, QString wallpaperID)
+{
+
 }
 
 void Settings::loadActiveProfiles()
@@ -136,8 +158,6 @@ void Settings::loadActiveProfiles()
                 continue;
 
 
-
-
             constructWallpaper(profile, monitorID, spf);
         }
     }
@@ -145,8 +165,12 @@ void Settings::loadActiveProfiles()
 
 void Settings::removeAll()
 {
-    qDebug() << "destruct settings";
     m_wallpapers.clear();
+}
+
+void Settings::updateSettinsValue(QString newValue)
+{
+
 }
 
 void Settings::createDefaultConfig()

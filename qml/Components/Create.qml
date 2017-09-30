@@ -7,9 +7,12 @@ CustomPage {
     id: page
     pageName: ""
 
+
+
     Connections {
         target: steamWorkshop
         onWorkshopItemCreated: {
+            print("created")
             if (userNeedsToAcceptWorkshopLegalAgreement) {
                 checkDelegate.opacity = 1
             } else {
@@ -18,6 +21,7 @@ CustomPage {
                 page.state = "StartItemUpdate"
             }
         }
+
     }
 
     CheckDelegate {
@@ -52,7 +56,6 @@ CustomPage {
     Column {
         id: column
         anchors.fill: parent
-        opacity: 0
         anchors.margins: 30
 
         Row {
@@ -205,25 +208,5 @@ CustomPage {
         }
     }
 
-    states: [
-        State {
-            name: "StartItemUpdate"
 
-            PropertyChanges {
-                target: btnCreateWallpaper
-                opacity: 0
-            }
-
-            PropertyChanges {
-                target: busyIndicator
-                opacity: 0
-            }
-
-            PropertyChanges {
-                target: column
-                opacity: 1
-            }
-
-       }
-    ]
 }

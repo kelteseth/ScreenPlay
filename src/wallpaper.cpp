@@ -65,3 +65,8 @@ Wallpaper::Wallpaper(Profile profile, ProjectFile projf)
     m_quickRenderer->setSource(QUrl("qrc:/qml/Components/Screens/ScreenVideo.qml"));
     m_quickRenderer->show();
 }
+
+Wallpaper::~Wallpaper()
+{
+    ShowWindow(m_hwnd, SW_HIDE);
+}

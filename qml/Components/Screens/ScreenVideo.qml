@@ -9,17 +9,19 @@ Rectangle {
     Video {
         id: video
         anchors.fill: parent
-        videoCodecPriority: ["CUDA", "D3D11", "DXVA", "VAAPI", "FFmpeg"]
+        videoCodecPriority: ["CUDA", "D3D11", "DXVA","VAAPI","FFmpeg"]
+
         onPlaybackStateChanged: {
 
         }
 
         Component.onCompleted: {
             //video.source = Qt.resolvedUrl("file:///" + wallpaper.absoluteFilePath.toString())
-            //video.play()
+            //video.source = Qt.resolvedUrl("file:///" + "C:\\Users\\Eli\\Desktop\\vid.webm")
+            video.play()
         }
         onStopped: {
-            //video.play()
+            video.play()
         }
 
 

@@ -12,7 +12,10 @@ SOURCES += main.cpp \
     src/wallpaper.cpp \
     src/profilelistmodel.cpp \
     src/profile.cpp \
-    src/projectfile.cpp
+    src/projectfile.cpp \
+    src/widget.cpp \
+    src/steamworkshoplistmodel.cpp \
+    src/workshopitem.cpp
 
 RESOURCES += qml.qrc
 
@@ -25,7 +28,10 @@ HEADERS += \
     src/wallpaper.h \
     src/profilelistmodel.h \
     src/profile.h \
-    src/projectfile.h
+    src/projectfile.h \
+    src/widget.h \
+    src/steamworkshoplistmodel.h \
+    src/workshopitem.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \
@@ -81,8 +87,8 @@ contains(QT_ARCH, i386) {
     win32:CONFIG(release, debug|release): LIBS += -L"C:\msys64\mingw64\lib" -llibz.dll
     else:win32:CONFIG(debug, debug|release): LIBS += -L"C:\msys64\mingw64\lib" -llibz.dll
     #quazip
-    win32:CONFIG(release, debug|release): LIBS += -L"C:\msys64\mingw64\lib" -llibquazip.dll
-    else:win32:CONFIG(debug, debug|release): LIBS += -L"C:\msys64\mingw64\lib" -llibquazip.dll
+    win32:CONFIG(release, debug|release): LIBS += -L"C:\msys64\mingw64\lib" -llibquazip5.dll
+    else:win32:CONFIG(debug, debug|release): LIBS += -L"C:\msys64\mingw64\lib" -llibquazip5.dll
 }
 
 

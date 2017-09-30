@@ -120,12 +120,12 @@ Item {
                 }
 
                 anchors.bottomMargin: 100
-//                MonitorSelection {
-//                    anchors.centerIn: parent
-//                    anchors.fill: parent
-//                    availableWidth: sidebar.width
-//                    availableHeight: monitorSelectionWrapper.height
-//                }
+                MonitorSelection {
+                    anchors.centerIn: parent
+                    anchors.fill: parent
+                    availableWidth: sidebar.width
+                    availableHeight: monitorSelectionWrapper.height
+                }
             }
 
             Text {

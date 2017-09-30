@@ -25,13 +25,14 @@
 #include "profilelistmodel.h"
 #include "profile.h"
 #include "wallpaper.h"
+#include "steam/steam_api.h"
 
 class ActiveProfiles;
 
 class Settings : public QObject {
     Q_OBJECT
 public:
-    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, QObject* parent = nullptr);
+    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, AppId_t steamID, QObject* parent = nullptr);
     ~Settings();
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
@@ -39,10 +40,11 @@ public:
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
     Q_PROPERTY(Version version READ version)
 
-    Q_INVOKABLE void createNewProfile(int screenNumber);
-    Q_INVOKABLE void constructWallpaper(Profile profile, QString monitorID, ProjectFile spf);
+
     void loadActiveProfiles();
     void removeAll();
+
+    void updateSettinsValue(QString newValue);
 
 
     enum Renderer {
@@ -139,6 +141,12 @@ public slots:
         emit sendStatisticsChanged(m_sendStatistics);
     }
 
+    void createNewProfile(int screenNumber);
+
+    void constructWallpaper(Profile profile, QString monitorID, ProjectFile spf);
+
+    void setWallpaper(int monitorIndex, QString wallpaperID);
+
 private:
     void createDefaultConfig();
     void createProfileConfig();
@@ -148,6 +156,7 @@ private:
     bool m_sendStatistics;
 
     QUrl m_absoluteStoragePath;
+    AppId_t m_steamID;
 
     Renderer m_renderer = Renderer::OpenGL;
     Version m_version;

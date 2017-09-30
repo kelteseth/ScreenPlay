@@ -70,11 +70,12 @@ void InstalledListModel::loadScreens()
     QJsonDocument jsonProject;
     QJsonParseError parseError;
 
-    QFileInfoList list = QDir(m_absoluteStoragePath.toString() + "/Wallpaper").entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
+    QFileInfoList list = QDir(m_absoluteStoragePath.toString()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
     QString tmpPath;
 
     for (auto&& item : list) {
-        tmpPath = m_absoluteStoragePath.toString() + "/Wallpaper/" + item.baseName() + "/project.json";
+        tmpPath = m_absoluteStoragePath.toString() +"/" +item.baseName() + "/project.json";
+        qDebug() << tmpPath;
         if (!QFile(tmpPath).exists())
             continue;
 

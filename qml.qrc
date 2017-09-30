@@ -41,5 +41,6 @@
         <file>assets/icons/icon_plus.svg</file>
         <file>qml/Components/MonitorSelection.qml</file>
         <file>qml/Components/CustomPage.qml</file>
+        <file>qml/Components/MonitorSelectionItem.qml</file>
     </qresource>
 </RCC>

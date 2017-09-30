@@ -34,5 +34,4 @@ CustomPage {
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
-
 }

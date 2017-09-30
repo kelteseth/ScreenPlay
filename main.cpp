@@ -22,11 +22,12 @@
 #include "monitorlistmodel.h"
 #include "packagefilehandler.h"
 #include "profilelistmodel.h"
-#include "quazip/quazip.h"
+#include "quazip5/quazip.h"
 #include "settings.h"
 #include "steam/steam_api.h"
 #include "steamworkshop.h"
-
+#include "steamworkshoplistmodel.h"
+#include "widget.h"
 
 
 int main(int argc, char* argv[])
@@ -49,9 +50,9 @@ int main(int argc, char* argv[])
         qWarning() << "Could not init steam sdk!";
         return 1;
     }
-
-
-    SteamWorkshop steamWorkshop(steamID);
+    SteamWorkshopListModel swlm;
+    SteamWorkshop steamWorkshop(steamID,&swlm);
+    //Widget wg;
 
     QCoreApplication::setOrganizationName("Aimber");
     QCoreApplication::setOrganizationDomain("aimber.net");
@@ -64,7 +65,7 @@ int main(int argc, char* argv[])
     PackageFileHandler packageFileHandler;
     ProfileListModel profileListModel;
 
-    // Create settings at the end because for now it depends on
+    // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, steamID);
@@ -76,6 +77,7 @@ int main(int argc, char* argv[])
     settings.loadActiveProfiles();
 
     QQmlApplicationEngine mainWindowEngine;
+    mainWindowEngine.rootContext()->setContextProperty("workshopListModel", &swlm);
     mainWindowEngine.rootContext()->setContextProperty("monitorListModel", &monitorListModel);
     mainWindowEngine.rootContext()->setContextProperty("installedListModel", &installedListModel);
     mainWindowEngine.rootContext()->setContextProperty("settings", &settings);
@@ -96,7 +98,7 @@ int main(int argc, char* argv[])
 
     int status = app.exec();
 
+    SteamAPI_Shutdown();
     //Shutdown
     return status;
-    SteamAPI_Shutdown();
 }

@@ -3,10 +3,24 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
     id: rect
-    color: "gray"
+
+
     // Width of the Sidebar or Space that should be used
     property real availableWidth: 0
     property real availableHeight: 0
+
+    property int activeMonitorIndex: 0
+
+    function setActiveMonitorIndex(newIndex){
+        for(var i = 0; i < rp.count; i++){
+            if(i == newIndex){
+                rp.itemAt(i).isSelected = true
+            } else {
+                rp.itemAt(i).isSelected = false
+            }
+        }
+    }
+
 
     Repeater {
         id: rp
@@ -18,60 +32,54 @@ Rectangle {
 
             //  Absolute availableVirtualGeometry
             var absoluteDesktopSize = monitorListModel.getAbsoluteDesktopSize()
+            var isWidthGreaterThanHeight = false;
+            var windowsDelta = 0;
+
+            if(absoluteDesktopSize.width < absoluteDesktopSize.height){
+                windowsDelta = absoluteDesktopSize.width / absoluteDesktopSize.height
+                isWidthGreaterThanHeight = false
+            } else {
+                windowsDelta = absoluteDesktopSize.height / absoluteDesktopSize.width
+                isWidthGreaterThanHeight = true
+            }
+
+            var dynamicHeight = availableWidth * windowsDelta
+            var dynamicWidth = availableHeight * windowsDelta
 
             // Delta (height/width)
-            var monitorHeightRationDelta = availableHeight / absoluteDesktopSize.height
-            var monitorWidthRationDelta =  availableWidth / absoluteDesktopSize.width
-            print("DELTAS: " + monitorHeightRationDelta + ", " + monitorWidthRationDelta)
+
+            var monitorHeightRationDelta = 0;
+            var monitorWidthRationDelta =  0;
+
+            if(isWidthGreaterThanHeight){
+                monitorHeightRationDelta = dynamicHeight / absoluteDesktopSize.height
+                monitorWidthRationDelta =  availableWidth / absoluteDesktopSize.width
+            } else {
+                monitorHeightRationDelta = availableHeight / absoluteDesktopSize.height
+                monitorWidthRationDelta =  dynamicWidth / absoluteDesktopSize.width
+            }
 
             for (var i = 0; i < rp.count; i++) {
-
-
-                print(rp.itemAt(i).height + " , " + rp.itemAt(i).width+ " , " +rp.itemAt(i).x+ " , " +rp.itemAt(i).y)
-                var newHeight = rp.itemAt(i).height / monitorHeightRationDelta
-                rp.itemAt(i).height =  newHeight
-                var newWidth = rp.itemAt(i).width / monitorWidthRationDelta
-                rp.itemAt(i).width = newWidth
-                rp.itemAt(i).x = rp.itemAt(i).x / monitorWidthRationDelta
-                rp.itemAt(i).y = rp.itemAt(i).y / monitorHeightRationDelta
-
-                print(rp.itemAt(i).height + " , " + rp.itemAt(i).width+ " , " +rp.itemAt(i).x+ " , " +rp.itemAt(i).y)
-
-
+                rp.itemAt(i).index = i
+                rp.itemAt(i).height =  rp.itemAt(i).height * monitorHeightRationDelta
+                rp.itemAt(i).width = rp.itemAt(i).width * monitorWidthRationDelta
+                rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta
+                rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta
             }
         }
 
-        delegate: Rectangle {
-
-            color: "red"
+        delegate: MonitorSelectionItem {
+            id: delegate
             height: monitorAvailableGeometry.height
             width: monitorAvailableGeometry.width
             x: monitorAvailableGeometry.x
             y: monitorAvailableGeometry.y
+            monitorSize: monitorAvailableGeometry
 
-            anchors.margins: 10
-
-            Column {
-                spacing: 5
-
-                Text {
-                    text: monitorNumber
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-
-                Text {
-                    text: monitorName
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-
-                Text {
-                    text: monitorSize.width + " " + monitorSize.height
-                    anchors.horizontalCenter: parent.horizontalCenter
-                }
-
-                Text {
-                    text: monitorAvailableGeometry.x + " " + monitorAvailableGeometry.y
-                    anchors.horizontalCenter: parent.horizontalCenter
+            Connections{
+                target: delegate
+                onMonitorSelected: {
+                    setActiveMonitorIndex(index)
                 }
             }
         }

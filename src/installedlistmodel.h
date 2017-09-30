@@ -1,6 +1,8 @@
 #ifndef INSTALLEDLISTMODEL_H
 #define INSTALLEDLISTMODEL_H
 
+#include "profilelistmodel.h"
+#include "projectfile.h"
 #include <QAbstractListModel>
 #include <QByteArray>
 #include <QDebug>
@@ -15,10 +17,6 @@
 #include <QString>
 #include <QUrl>
 #include <QtConcurrent/QtConcurrent>
-#include "profilelistmodel.h"
-#include "projectfile.h"
-
-
 
 class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
@@ -37,7 +35,6 @@ public:
     Q_INVOKABLE QVariantMap get(QString folderId);
     Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setabsoluteStoragePath NOTIFY absoluteStoragePathChanged)
 
-
     enum InstalledRole {
         TitleRole,
         PreviewRole,
@@ -45,7 +42,6 @@ public:
         FileIdRole,
     };
     Q_ENUM(InstalledRole)
-
 
     QUrl absoluteStoragePath() const
     {

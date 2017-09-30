@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.7
 import QtGraphicalEffects 1.0
 
 Item {
@@ -55,10 +55,7 @@ Item {
 
             ScreenPlayItemImage {
                 id: screenPlayItemImage
-
-                sourceImage: Qt.resolvedUrl(
-                                 "file:///" + installedListModel.absoluteStoragePath + "/Wallpaper/"
-                                 + screenFolderId + "/" + screenPreview)
+                sourceImage: Qt.resolvedUrl( "file:///" + installedListModel.absoluteStoragePath +"/" + screenFolderId + "/" + screenPreview)
             }
         }
 

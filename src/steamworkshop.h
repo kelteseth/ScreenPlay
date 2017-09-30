@@ -1,27 +1,28 @@
-#ifndef STEAMWORKSHOP_H
-#define STEAMWORKSHOP_H
+#pragma once
 
-
-#include <QDebug>
-#include <QObject>
-#include <QDir>
-#include <QUrl>
 #include <QByteArray>
+#include <QDebug>
+#include <QDir>
 #include <QFileInfo>
+#include <QObject>
+#include <QUrl>
 
 #include "steam/steam_api.h"
+#include "steamworkshoplistmodel.h"
 
 class SteamWorkshop : public QObject {
     Q_OBJECT
 public:
     explicit SteamWorkshop(QObject* parent = nullptr);
-    SteamWorkshop(AppId_t nConsumerAppId);
+    SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm);
 
 public slots:
     void searchWorkshop();
     void createWorkshopItem();
     void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl absoluteContentPath, QUrl absolutePreviewPath);
     int getItemUpdateProcess();
+    void getAPICallInfo();
+
 signals:
     void workshopItemCreated(bool userNeedsToAcceptWorkshopLegalAgreement, int eResult, int publishedFileId);
     void workshopSearched();
@@ -35,7 +36,7 @@ private:
 
     AppId_t m_AppId;
     UGCUpdateHandle_t m_UGCUpdateHandle;
+    UGCQueryHandle_t m_UGCSearchHandle;
+    SteamAPICall_t m_searchCall;
+    SteamWorkshopListModel* m_workshopListModel;
 };
-
-#endif // STEAMWORKSHOP_H
-#
