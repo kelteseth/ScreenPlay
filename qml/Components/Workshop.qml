@@ -14,6 +14,8 @@ CustomPage {
         onWorkshopSearched:{
             busyIndicator.running = false
             txtBusyIndicator.visible = false
+            bannerTxt.text = workshopListModel.getBannerText()
+            bannerImg.source = workshopListModel.getBannerUrl();
         }
 
     }
@@ -34,44 +36,88 @@ CustomPage {
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
-
-    GridView {
-        id: gridView
-        boundsBehavior: Flickable.DragOverBounds
-        cacheBuffer: 1000
-        maximumFlickVelocity: 10000
-        anchors.fill: parent
-        cellWidth: 330
-        cellHeight: 200
-        anchors.margins: 30
-
-        model:  workshopListModel
-        delegate:   Rectangle {
-            color: "steelblue"
-            id:delegate
-            width: 180
-            height:100
-            focus: true
-            Image {
-                id: img
-                anchors.fill: parent
-                asynchronous: true
-                cache: true
-                source: workshopPreview
-                smooth: false
-            }
-            Text {
-                id: namea
-                anchors.fill: parent
-                text: workshopTitle
-            }
-
+    Rectangle {
+        id: banner
+        color: "#131313"
+        height: 250
+        anchors {
+            top: parent.top
+            right: parent.right
+            left:parent.left
+        }
+        Image {
+            id: bannerImg
+            anchors.fill: parent
+            fillMode: Image.PreserveAspectCrop
 
         }
 
-        add: Transition {
-            NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 400 }
+        Text {
+            id: bannerTxt
+            text: "loading"
+            font.pixelSize: 36
+            color: "white"
         }
     }
+
+    Item {
+        id: searchBar
+        height:70
+        anchors {
+            top: banner.bottom
+            right: parent.right
+            left:parent.left
+        }
+    }
+
+    Item {
+        anchors {
+            top: searchBar.bottom
+            right: parent.right
+            bottom: parent.bottom
+            left:parent.left
+        }
+        GridView {
+            id: gridView
+            boundsBehavior: Flickable.DragOverBounds
+            cacheBuffer: 1000
+            maximumFlickVelocity: 10000
+            anchors.fill: parent
+            cellWidth: 330
+            cellHeight: 200
+            anchors.margins: 30
+
+            model:  workshopListModel
+            delegate:   Rectangle {
+                color: "steelblue"
+                id:delegate
+                width: 180
+                height:100
+                focus: true
+                Image {
+                    id: img
+                    anchors.fill: parent
+                    asynchronous: true
+                    cache: true
+                    source: workshopPreview
+                    smooth: false
+                }
+                Text {
+                    id: namea
+                    anchors.fill: parent
+                    text: workshopTitle
+                    color:"white"
+                }
+
+
+            }
+
+            add: Transition {
+                NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 400 }
+            }
+        }
+    }
+
+
 
 }

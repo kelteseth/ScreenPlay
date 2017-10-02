@@ -63,6 +63,16 @@ void SteamWorkshopListModel::append(QString title, QUrl imgUrl)
     endInsertRows();
 }
 
+QUrl SteamWorkshopListModel::getBannerUrl()
+{
+    return m_workshopItemList.at(0)->m_previewImageUrl;
+}
+
+QString SteamWorkshopListModel::getBannerText()
+{
+    return  m_workshopItemList.at(0)->m_title;
+}
+
 bool SteamWorkshopListModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (data(index, role) != value) {
