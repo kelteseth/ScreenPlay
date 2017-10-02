@@ -34,4 +34,44 @@ CustomPage {
         anchors.horizontalCenter: parent.horizontalCenter
     }
 
+
+    GridView {
+        id: gridView
+        boundsBehavior: Flickable.DragOverBounds
+        cacheBuffer: 1000
+        maximumFlickVelocity: 10000
+        anchors.fill: parent
+        cellWidth: 330
+        cellHeight: 200
+        anchors.margins: 30
+
+        model:  workshopListModel
+        delegate:   Rectangle {
+            color: "steelblue"
+            id:delegate
+            width: 180
+            height:100
+            focus: true
+            Image {
+                id: img
+                anchors.fill: parent
+                asynchronous: true
+                cache: true
+                source: workshopPreview
+                smooth: false
+            }
+            Text {
+                id: namea
+                anchors.fill: parent
+                text: workshopTitle
+            }
+
+
+        }
+
+        add: Transition {
+            NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 400 }
+        }
+    }
+
 }

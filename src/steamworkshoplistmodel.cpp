@@ -3,6 +3,16 @@
 SteamWorkshopListModel::SteamWorkshopListModel(QObject *parent)
     : QAbstractListModel(parent)
 {
+
+}
+
+QHash<int, QByteArray> SteamWorkshopListModel::roleNames() const
+{
+    static const QHash<int, QByteArray> roles{
+        { TitleRole, "workshopTitle" },
+        { ImageUrlRole, "workshopPreview" },
+    };
+    return roles;
 }
 
 QVariant SteamWorkshopListModel::headerData(int section, Qt::Orientation orientation, int role) const
@@ -33,14 +43,24 @@ QVariant SteamWorkshopListModel::data(const QModelIndex &index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    // FIXME: Implement me!
+    if (index.row() < rowCount())
+        switch (role) {
+        case TitleRole:
+            return m_workshopItemList.at(index.row())->m_title;
+        case ImageUrlRole:
+            return m_workshopItemList.at(index.row())->m_previewImageUrl;
+        default:
+            return QVariant();
+        }
     return QVariant();
 }
 
 void SteamWorkshopListModel::append(QString title, QUrl imgUrl)
 {
-    qDebug() << title << imgUrl;
-    m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(title,imgUrl)));
+    int row = 0;
+    beginInsertRows(QModelIndex(), row, row);
+    m_workshopItemList.append( QSharedPointer<WorkshopItem>(new WorkshopItem(title,imgUrl)));
+    endInsertRows();
 }
 
 bool SteamWorkshopListModel::setData(const QModelIndex &index, const QVariant &value, int role)

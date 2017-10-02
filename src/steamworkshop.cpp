@@ -79,7 +79,7 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
         return;
 
     SteamUGCDetails_t details;
-    int urlLength = 200;
+    const int urlLength = 200;
     char url[urlLength];
     uint32 previews = 0;
     uint32 results = pCallback->m_unTotalMatchingResults;
@@ -88,8 +88,8 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
         if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
             if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
                 QByteArray urlData(url);
-                qDebug()<< details.m_rgchTitle;
                 previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
+
                 m_workshopListModel->append(QString(details.m_rgchTitle),QUrl(urlData));
             }
         }

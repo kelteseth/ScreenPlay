@@ -1,9 +1,9 @@
 #pragma once
 
 #include <QAbstractListModel>
-#include <QVector>
-#include <QSharedPointer>
 #include <QDebug>
+#include <QSharedPointer>
+#include <QVector>
 
 #include "workshopitem.h"
 
@@ -12,6 +12,12 @@ class SteamWorkshopListModel : public QAbstractListModel {
 
 public:
     explicit SteamWorkshopListModel(QObject* parent = nullptr);
+    QHash<int, QByteArray> roleNames() const override;
+    enum WorkshopRole {
+        TitleRole,
+        ImageUrlRole,
+    };
+    Q_ENUM(WorkshopRole)
 
     // Header:
     QVariant headerData(int section, Qt::Orientation orientation, int role = Qt::DisplayRole) const override;

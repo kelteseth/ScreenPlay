@@ -1,13 +1,13 @@
 #ifndef WORKSHOPITEM_H
 #define WORKSHOPITEM_H
 
-#include <QUrl>
 #include <QString>
+#include <QUrl>
 
-class WorkshopItem
-{
+class WorkshopItem {
 public:
     WorkshopItem(QString title, QUrl previewImageUrl);
+    ~WorkshopItem();
     QUrl m_previewImageUrl;
     QString m_title;
 };
