@@ -115,9 +115,6 @@ ApplicationWindow {
         z:98
     }
 
-    FileDropper {
-        anchors.fill: parent
-        z:99
-    }
+
 
 }

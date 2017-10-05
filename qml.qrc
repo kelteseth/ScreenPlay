@@ -42,5 +42,9 @@
         <file>qml/Components/MonitorSelection.qml</file>
         <file>qml/Components/CustomPage.qml</file>
         <file>qml/Components/MonitorSelectionItem.qml</file>
+        <file>qml/Components/FileDropperSingleFile.qml</file>
+        <file>assets/icons/icon_multiple_images.svg</file>
+        <file>assets/icons/icon_single_image.svg</file>
+        <file>assets/icons/icon_tv.svg</file>
     </qresource>
 </RCC>

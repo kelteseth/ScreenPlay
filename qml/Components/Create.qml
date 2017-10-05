@@ -1,7 +1,7 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.2
-import QtQuick.Controls.Material 2.2
+
 import Qt.labs.platform 1.0
 
 CustomPage {
@@ -11,19 +11,28 @@ CustomPage {
     Connections {
         target: steamWorkshop
         onWorkshopItemCreated: {
-            print("created")
             if (userNeedsToAcceptWorkshopLegalAgreement) {
                 checkDelegate.opacity = 1
             } else {
                 checkDelegate.opacity = 0
+                checkDelegate.checkable = false
+                checkDelegate.enabled = false
                 busyIndicator.running = false
-                page.state = "StartItemUpdate"
             }
         }
     }
 
+    FontLoader {
+        id: font_Roboto_Regular
+        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
+    }
+    FontLoader {
+        id: font_LibreBaskerville
+        source: "qrc:/assets/fonts/LibreBaskerville-Italic.ttf"
+    }
+
     Item {
-        id: left
+        id: leftArea
         width: parent.width * .5
         anchors {
             top: parent.top
@@ -68,7 +77,7 @@ CustomPage {
             Row {
                 id: rowVisible
                 width: parent.width
-                height: 120
+                height: 50
                 Text {
                     id: txtVisibleDescription
                     height: parent.height
@@ -110,117 +119,82 @@ CustomPage {
                                   "http://steamcommunity.com/sharedfiles/workshoplegalagreement")
         }
     }
+
     Item {
-        id: right
-        width: parent.width * .5
+        id: rightArea
+        width: parent.width * .4
         anchors {
             top: parent.top
             right: parent.right
             bottom: parent.bottom
             margins: 30
         }
-        Row {
+        Item {
             id: rightTop
-            height: 200
+            height: 100
             anchors {
                 top: parent.top
                 right: parent.right
                 left: parent.left
             }
-            spacing: 30
+            Item {
+                width: parent.width * .46
+                height: parent.height
+                FileDropperSingleFile {
+                    anchors.fill: parent
+                    z:99
+                    descriptionTitle: "Set Video"
+                    imagePath: "qrc:/assets/icons/icon_tv.svg"
+                }
+            }
+            Item {
+                width: parent.width * .46
+                anchors.right: parent.right
+                height: parent.height
+
+                FileDropperSingleFile {
+                    anchors.fill: parent
+                    z:99
+                    descriptionTitle: "Set Preview Image"
+                    imagePath: "qrc:/assets/icons/icon_single_image.svg"
+                }
+            }
+
             Rectangle {
-                color: "orange"
-                width: parent.width * .4
-                height: parent.height
-            }
-            Rectangle {
-                color: "steelblue"
-                width: parent.width * .4
-                height: parent.height
+                id: rightBottom
+                color: "white"
+                radius: 16
+                antialiasing: true
+                border.width: 1
+                height: 300
+                anchors {
+                    top: rightTop.bottom
+                    topMargin: 30
+                    right: parent.right
+                    left: parent.left
+                }
+                Text {
+                    id: txtAdditionalImagesInput
+                    text: qsTr("Drop additional images here")
+                    anchors.centerIn: parent
+                    font.pointSize: 12
+                    color: "#626262"
+                    horizontalAlignment: Text.AlignHCenter
+                    font.family: font_LibreBaskerville.name
+                    font.italic: true
+                    renderType: Text.NativeRendering
+                }
             }
         }
-        Rectangle {
-            id: rightBottom
-            height: 400
-            color: "gray"
-            anchors {
-                top: rightTop.bottom
-                right: parent.right
-                left:parent.left
-                bottom: parent.bottom
+
+        Timer {
+            id: tiItemUpdate
+            interval: 500
+            running: false
+            repeat: true
+            onTriggered: {
+                print(steamWorkshop.getItemUpdateProcess())
             }
-        }
-    }
-
-    /*
-        Row {
-            id: row4
-            width: parent.width
-            height: 120
-            Text {
-                id: txtVideoFileDescription
-                height: parent.height
-                text: qsTr("Video File")
-                font.pixelSize: 12
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            Button {
-                id: btnOpenVideo
-                text: qsTr("Open Video ")
-                onClicked: {
-                     fileDialogOpenVideo.open()
-                }
-            }
-
-            FileDialog {
-                id: fileDialogOpenVideo
-                nameFilters: ["Videos (*.mp4)"]
-                onAccepted: {
-
-                }
-            }
-
-
-
-            spacing: 30
-        }
-        Row {
-            width: parent.width
-            height: 120
-            Text {
-                id: txtPreviewFileDescription
-                height: parent.height
-                text: qsTr("Video File preview")
-                font.pixelSize: 12
-                verticalAlignment: Text.AlignVCenter
-            }
-
-            Button {
-                id: btnOpenPreview
-                text: qsTr("Open Preview Image")
-                onClicked: {
-                     fileDialogOpenPreview.open()
-                }
-            }
-
-            FileDialog {
-                id: fileDialogOpenPreview
-                nameFilters: ["*.png *.jpg *.gif","PNG (*.png)","JPG (*.jpg)","GIF (*.gif)"]
-                onAccepted: {
-
-                }
-            }
-
-            spacing: 30
-        }*/
-    Timer {
-        id: tiItemUpdate
-        interval: 500
-        running: false
-        repeat: true
-        onTriggered: {
-            print(steamWorkshop.getItemUpdateProcess())
         }
     }
 }
