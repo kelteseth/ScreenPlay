@@ -1,10 +1,13 @@
 import QtQuick 2.7
+import QtQuick.Dialogs 1.2
 
 Rectangle {
 
     property color background: "white"
     property string descriptionTitle: "value"
     property url imagePath: "qrc:/assets/icons/icon_plus.svg"
+    //FIXME in 5.10 with an enum
+    property bool isVideo: false
 
     id: fileDropperSingleFile
     color: fileDropperSingleFile.background
@@ -69,7 +72,33 @@ Rectangle {
         onExited: {
             fileDropperSingleFile.state = "empty"
         }
+
     }
+
+    /* FIXME: For now only drag n drop Workshop
+              because the qml file Dialog is really
+              buggy and slow
+    MouseArea{
+        anchors.fill: parent
+        onClicked: {
+            if(isVideo){
+                fileDialogOpenPreview.nameFilters =  ["*.mp4","GIF (*.mp4)"]
+            } else {
+                 fileDialogOpenPreview.nameFilters =  ["*.png *.jpg *.gif","PNG (*.png)","JPG (*.jpg)","GIF (*.gif)"]
+            }
+
+            fileDialogOpenPreview.open()
+        }
+    }
+
+    FileDialog {
+        id: fileDialogOpenPreview
+        folder: shortcuts.home
+        onAccepted: {
+
+        }
+    }*/
+
 
     states: [
         State {

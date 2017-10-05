@@ -131,7 +131,7 @@ CustomPage {
         }
         Item {
             id: rightTop
-            height: 100
+            height: 150
             anchors {
                 top: parent.top
                 right: parent.right
@@ -144,6 +144,7 @@ CustomPage {
                     anchors.fill: parent
                     z:99
                     descriptionTitle: "Set Video"
+                    isVideo: true
                     imagePath: "qrc:/assets/icons/icon_tv.svg"
                 }
             }
@@ -160,12 +161,8 @@ CustomPage {
                 }
             }
 
-            Rectangle {
+            Item {
                 id: rightBottom
-                color: "white"
-                radius: 16
-                antialiasing: true
-                border.width: 1
                 height: 300
                 anchors {
                     top: rightTop.bottom
@@ -173,16 +170,11 @@ CustomPage {
                     right: parent.right
                     left: parent.left
                 }
-                Text {
-                    id: txtAdditionalImagesInput
-                    text: qsTr("Drop additional images here")
-                    anchors.centerIn: parent
-                    font.pointSize: 12
-                    color: "#626262"
-                    horizontalAlignment: Text.AlignHCenter
-                    font.family: font_LibreBaskerville.name
-                    font.italic: true
-                    renderType: Text.NativeRendering
+                FileDropperSingleFile {
+                    anchors.fill: parent
+                    z:99
+                    descriptionTitle: "Add additional images"
+                    imagePath: "qrc:/assets/icons/icon_multiple_images.svg"
                 }
             }
         }
