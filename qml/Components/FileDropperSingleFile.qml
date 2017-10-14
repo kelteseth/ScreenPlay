@@ -40,6 +40,7 @@ Rectangle {
     Image {
         id: previewImage
         anchors.fill: parent
+        anchors.margins: 2
         z: 98
         visible: false
     }
@@ -134,6 +135,7 @@ Rectangle {
         id:videoPreviewLoader
         asynchronous: true
         anchors.fill: parent
+        anchors.margins: 2
         z: 97
         onLoaded: {
             //videoPreviewLoader.item.playVideo(drop.urls[0]);
