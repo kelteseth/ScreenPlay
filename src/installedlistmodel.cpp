@@ -75,7 +75,6 @@ void InstalledListModel::loadScreens()
 
     for (auto&& item : list) {
         tmpPath = m_absoluteStoragePath.toString() +"/" +item.baseName() + "/project.json";
-        qDebug() << tmpPath;
         if (!QFile(tmpPath).exists())
             continue;
 

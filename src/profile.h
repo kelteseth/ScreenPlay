@@ -10,6 +10,7 @@ public:
     Profile();
     Profile(QUrl absolutePath, QString id, QString version, QString wallpaperId, QRect rect, bool isLooping);
 
+
     QUrl m_absolutePath;
     QString m_id;
     QString m_version = "";

@@ -9,91 +9,80 @@ CustomPage {
         steamWorkshop.searchWorkshop()
     }
 
-    Connections{
-        target: steamWorkshop
-        onWorkshopSearched:{
-            busyIndicator.running = false
-            txtBusyIndicator.visible = false
-            bannerTxt.text = workshopListModel.getBannerText()
-            bannerImg.source = workshopListModel.getBannerUrl();
-        }
+    Flickable {
+        anchors.fill: parent
+        flickableDirection: Flickable.VerticalFlick
 
-    }
 
-    BusyIndicator {
-        id: busyIndicator
-        anchors.verticalCenter: parent.verticalCenter
-        anchors.horizontalCenter: parent.horizontalCenter
-        running: true
-        Material.accent: Material.Orange
-    }
-
-    Text {
-        id: txtBusyIndicator
-        text: qsTr("Searching for workshop content. Please stand by")
-        anchors.top: busyIndicator.bottom
-        anchors.topMargin: 30
-        anchors.horizontalCenter: parent.horizontalCenter
-    }
-
-    Rectangle {
-        id: banner
-        color: "#131313"
-        height: 250
-        anchors {
-            top: parent.top
-            right: parent.right
-            left:parent.left
-        }
-        Image {
-            id: bannerImg
-            anchors.fill: parent
-            fillMode: Image.PreserveAspectCrop
-
-        }
-
-        Text {
-            id: bannerTxt
-            text: "loading"
-            font.pixelSize: 36
-            color: "white"
-        }
-    }
-
-    Item {
-        id: searchBar
-        height:70
-        anchors {
-            top: banner.bottom
-            right: parent.right
-            left:parent.left
-        }
-    }
-
-    Item {
-        anchors {
-            top: searchBar.bottom
-            right: parent.right
-            bottom: parent.bottom
-            left:parent.left
-        }
         GridView {
             id: gridView
-            boundsBehavior: Flickable.DragOverBounds
             cacheBuffer: 1000
-            maximumFlickVelocity: 10000
+            maximumFlickVelocity: 5000
             anchors.fill: parent
             cellWidth: 330
             cellHeight: 200
-            anchors.margins: 30
 
-            model:  workshopListModel
-            delegate:   Rectangle {
+
+            boundsBehavior: Flickable.StopAtBounds
+            //boundsBehavior: Flickable.OvershootBounds
+            header: Item {
+                height: 500
+                anchors {
+                    right: parent.right
+                    left: parent.left
+                }
+                Connections {
+                    target: steamWorkshop
+                    onWorkshopSearched: {
+                        bannerTxt.text = workshopListModel.getBannerText()
+                        bannerImg.source = workshopListModel.getBannerUrl()
+                    }
+                }
+
+                Rectangle {
+                    id: banner
+                    color: "#131313"
+                    height: 350
+                    anchors {
+                        top: parent.top
+                        right: parent.right
+                        left: parent.left
+                    }
+                    Image {
+                        id: bannerImg
+                        anchors.fill: parent
+                        asynchronous: true
+                        fillMode: Image.PreserveAspectCrop
+                    }
+
+                    Text {
+                        id: bannerTxt
+                        text: "loading"
+                        font.pixelSize: 36
+                        color: "white"
+                    }
+                }
+
+                Item {
+                    id: searchBar
+                    height: 70
+                    anchors {
+                        top: banner.bottom
+                        right: parent.right
+                        left: parent.left
+                    }
+                }
+            }
+
+            model: workshopListModel
+
+            delegate: Rectangle {
                 color: "steelblue"
-                id:delegate
+                id: delegate
                 width: 180
-                height:100
+                height: 100
                 focus: true
+
                 Image {
                     id: img
                     anchors.fill: parent
@@ -106,18 +95,18 @@ CustomPage {
                     id: namea
                     anchors.fill: parent
                     text: workshopTitle
-                    color:"white"
+                    color: "white"
                 }
-
-
             }
 
             add: Transition {
-                NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 400 }
+                NumberAnimation {
+                    property: "opacity"
+                    from: 0
+                    to: 1.0
+                    duration: 400
+                }
             }
         }
     }
-
-
-
 }

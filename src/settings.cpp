@@ -67,8 +67,6 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
         steamTmpUrl.cd("content");
         steamTmpUrl.cd("672870");
 
-        qDebug() << steamTmpUrl.path();
-
         m_absoluteStoragePath = steamTmpUrl.path();
     } else {
         m_absoluteStoragePath = configObj.value("absoluteStoragePath").toString();

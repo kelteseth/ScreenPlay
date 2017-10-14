@@ -1,5 +1,6 @@
-import QtQuick 2.7
+import QtQuick 2.9
 import QtQuick.Dialogs 1.2
+
 
 Rectangle {
 
@@ -8,6 +9,7 @@ Rectangle {
     property url imagePath: "qrc:/assets/icons/icon_plus.svg"
     //FIXME in 5.10 with an enum
     property bool isVideo: false
+    property url externalFilePath
 
     id: fileDropperSingleFile
     color: fileDropperSingleFile.background
@@ -16,6 +18,24 @@ Rectangle {
     radius: 4
     state: ""
 
+    Component.onCompleted: {
+        if (isVideo) {
+
+        } else {
+
+        }
+    }
+
+    Image {
+        id: previewImage
+        anchors.fill: parent
+        z: 98
+        visible: false
+    }
+
+
+
+
     FontLoader {
         id: font_LibreBaskerville
         source: "qrc:/assets/fonts/LibreBaskerville-Italic.ttf"
@@ -23,10 +43,10 @@ Rectangle {
 
     Item {
         id: column
-        height:imageIcon.height + txtSplashInput.contentHeight
+        height: imageIcon.height + txtSplashInput.contentHeight
         anchors {
-            right:parent.right
-            left:parent.left
+            right: parent.right
+            left: parent.left
             verticalCenter: parent.verticalCenter
         }
 
@@ -38,7 +58,7 @@ Rectangle {
             sourceSize.width: 32
             source: fileDropperSingleFile.imagePath
             anchors {
-                top:parent.top
+                top: parent.top
                 horizontalCenter: parent.horizontalCenter
             }
         }
@@ -46,11 +66,11 @@ Rectangle {
             id: txtSplashInput
             text: descriptionTitle
             anchors {
-                top:imageIcon.bottom
+                top: imageIcon.bottom
                 topMargin: 10
                 horizontalCenter: parent.horizontalCenter
             }
-            height:40
+            height: 40
             font.pointSize: 12
             color: "#626262"
             horizontalAlignment: Text.AlignHCenter
@@ -58,19 +78,52 @@ Rectangle {
             font.italic: true
             renderType: Text.NativeRendering
         }
-
     }
 
     DropArea {
+        id: dropper
         anchors.fill: parent
         onEntered: {
             fileDropperSingleFile.state = "fileEntered"
         }
+
         onDropped: {
             fileDropperSingleFile.state = "fileDropped"
+            if (drop.hasUrls) {
+                if (isVideo) {
+                    if (validateVideoFileExtension(drop.urls[0])) {
+                        videoPreviewLoader.setSource("CreateVideoPreviewSmall.qml",{"source":drop.urls[0]})
+
+                    }
+                } else {
+                    if (validateImageFileExtension(drop.urls[0])) {
+                        previewImage.source = drop.urls[0]
+                        previewImage.visible = true
+                    }
+                }
+            }
         }
         onExited: {
             fileDropperSingleFile.state = "empty"
+        }
+
+        function validateImageFileExtension(filePath) {
+            var tmp = filePath.split('.').pop()
+            return tmp === "png" || tmp === "jpg"
+        }
+
+        function validateVideoFileExtension(filePath) {
+            var tmp = filePath.split('.').pop()
+            return tmp === "vp9" || tmp === "mp4"
+        }
+    }
+    Loader {
+        id:videoPreviewLoader
+        asynchronous: true
+        anchors.fill: parent
+        z: 97
+        onLoaded: {
+            //videoPreviewLoader.item.playVideo(drop.urls[0]);
         }
 
     }
@@ -99,7 +152,6 @@ Rectangle {
         }
     }*/
 
-
     states: [
         State {
             name: "fileEntered"
@@ -116,7 +168,6 @@ Rectangle {
                 target: fileDropperSingleFile
                 color: "#ffbf49"
             }
-
         },
         State {
             name: "empty"

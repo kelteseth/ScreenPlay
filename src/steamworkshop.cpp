@@ -24,7 +24,6 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     QString video = QString(tmpVideoPath).remove(0, 8);
     QString thumb = QString(absolutePreviewPath.toString()).remove(0, 8);
 
-    qDebug() << video << thumb;
     SteamUGC()->SetItemTitle(m_UGCUpdateHandle, QByteArray(title.toLatin1()).data());
     SteamUGC()->SetItemDescription(m_UGCUpdateHandle, QByteArray(description.toLatin1()).data());
     SteamUGC()->SetItemUpdateLanguage(m_UGCUpdateHandle, QByteArray(language.toLatin1()).data());
@@ -49,6 +48,11 @@ void SteamWorkshop::getAPICallInfo()
     qDebug() << SteamUtils()->GetAPICallFailureReason(m_searchCall);
 }
 
+void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath)
+{
+
+}
+
 void SteamWorkshop::onWorkshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure)
 {
     if (bIOFailure)
@@ -65,7 +69,7 @@ void SteamWorkshop::searchWorkshop()
         m_AppId,
         m_AppId,
         1);
-
+    SteamUGC()->SetAllowCachedResponse(m_UGCSearchHandle, 3000);
     //Important: First send the request to get the Steam API Call
     //           then set the handler
     m_searchCall = SteamUGC()->SendQueryUGCRequest(m_UGCSearchHandle);
