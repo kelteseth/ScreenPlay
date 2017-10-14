@@ -21,6 +21,17 @@ CustomPage {
         }
     }
 
+    Connections {
+        target: leftArea
+        onHasEmptyField:{
+            if(fieldNumber === 0){
+                fileDropperVideo.state = "error"
+            } else if (fieldNumber === 1) {
+                fileDropperPreview.state = "error"
+            }
+        }
+    }
+
     FontLoader {
         id: font_Roboto_Regular
         source: "qrc:/assets/fonts/Roboto-Regular.ttf"
@@ -38,6 +49,7 @@ CustomPage {
             left: parent.left
             margins: 10
         }
+
     }
 
     Item {
@@ -61,11 +73,13 @@ CustomPage {
                 width: parent.width * .46
                 height: parent.height
                 FileDropperSingleFile {
+                    id:fileDropperVideo
                     anchors.fill: parent
                     z: 99
                     descriptionTitle: "Drop your video here"
                     isVideo: true
                     imagePath: "qrc:/assets/icons/icon_tv.svg"
+                    onExternalFilePathChanged: leftArea.videoPath = fileDropperVideo.externalFilePath
                 }
             }
             Item {
@@ -74,10 +88,12 @@ CustomPage {
                 height: parent.height
 
                 FileDropperSingleFile {
+                    id:fileDropperPreview
                     anchors.fill: parent
                     z: 99
                     descriptionTitle: "Set Preview Image"
                     imagePath: "qrc:/assets/icons/icon_single_image.svg"
+                    onExternalFilePathChanged: leftArea.previewPath = fileDropperPreview.externalFilePath
                 }
             }
 
@@ -95,6 +111,7 @@ CustomPage {
                     z: 99
                     descriptionTitle: "Add additional images"
                     imagePath: "qrc:/assets/icons/icon_multiple_images.svg"
+
                 }
             }
         }

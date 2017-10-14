@@ -3,7 +3,6 @@ import QtQuick.Dialogs 1.2
 
 
 Rectangle {
-
     property color background: "white"
     property string descriptionTitle: "value"
     property url imagePath: "qrc:/assets/icons/icon_plus.svg"
@@ -17,6 +16,18 @@ Rectangle {
     border.width: 2
     radius: 4
     state: ""
+
+    onStateChanged: {
+        if(fileDropperSingleFile.state === "error"){
+            stateChangedTimer.start()
+        }
+    }
+    Timer {
+        id:stateChangedTimer
+        onTriggered: {
+            fileDropperSingleFile.state = "empty"
+        }
+    }
 
     Component.onCompleted: {
         if (isVideo) {
@@ -92,11 +103,13 @@ Rectangle {
             if (drop.hasUrls) {
                 if (isVideo) {
                     if (validateVideoFileExtension(drop.urls[0])) {
-                        videoPreviewLoader.setSource("CreateVideoPreviewSmall.qml",{"source":drop.urls[0]})
+                        externalFilePath = drop.urls[0]
+                        videoPreviewLoader.setSource("CreateVideoPreviewSmall.qml",{"source":externalFilePath})
 
                     }
                 } else {
                     if (validateImageFileExtension(drop.urls[0])) {
+                        externalFilePath = drop.urls[0]
                         previewImage.source = drop.urls[0]
                         previewImage.visible = true
                     }
@@ -174,6 +187,14 @@ Rectangle {
             PropertyChanges {
                 target: fileDropperSingleFile
                 color: "white"
+            }
+        },
+        State {
+            name: "error"
+
+            PropertyChanges {
+                target: fileDropperSingleFile
+                color: "#ff4d4d"
             }
         }
     ]

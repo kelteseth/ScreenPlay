@@ -10,6 +10,10 @@ Rectangle {
     height: column.childrenRect.height + (6 * 30)
     state: "workshop"
     property int steamWorkshopHeight
+    property url videoPath
+    property url previewPath
+    //Todo 5.10 ENUM
+    signal hasEmptyField(int fieldNumber)
 
     Row {
         id: rowUseSteamWorkshop
@@ -121,22 +125,33 @@ Rectangle {
             id: btnSubmit
             text: qsTr("Create New Workshop Wallpaper")
             onClicked: {
-                if (switchUseSteamWorkshop) {
-                    //TODO wait for callback
-                    steamWorkshop.createWorkshopItem()
 
-                    steamWorkshop.submitWorkshopItem(
-                                txtTitle.text.toString(),
-                                txtDescription.text.toString(), "english",
-                                cbVisibility.currentIndex,
-                                fileDialogOpenVideo.currentFile,
-                                fileDialogOpenPreview.currentFile)
-                    tiItemUpdate.start()
+                //Check for empty fields
+                if (videoPath.toString() === "") {
+                    hasEmptyField(0)
+                } else if (previewPath.toString() === "") {
+                    hasEmptyField(1)
                 } else {
-                    steamWorkshop.createLocalWorkshopItem(
-                                txtTitle.text.toString(),
-                                fileDialogOpenVideo.currentFile,
-                                fileDialogOpenPreview.currentFile)
+
+                    //Check if whether to use steamWorkshop or not
+                    if (switchUseSteamWorkshop.checked) {
+                        //TODO wait for callback
+                        steamWorkshop.createWorkshopItem()
+
+                        steamWorkshop.submitWorkshopItem(
+                                    txtTitle.text.toString(),
+                                    txtDescription.text.toString(), "english",
+                                    cbVisibility.currentIndex,
+                                    fileDialogOpenVideo.currentFile,
+                                    fileDialogOpenPreview.currentFile)
+                        tiItemUpdate.start()
+                    } else {
+
+                        steamWorkshop.createLocalWorkshopItem(
+                                    txtTitle.text.toString(),
+                                    fileDialogOpenVideo.currentFile,
+                                    fileDialogOpenPreview.currentFile)
+                    }
                 }
             }
         }
