@@ -82,6 +82,7 @@ CustomPage {
                     anchors.fill: parent
                     z: 99
                     descriptionTitle: "Drop your video here"
+                    helpText: "Supportet Video formats: mp4 for older devices and VP9 for newer like NVidia 1000 or AMD VEGA"
                     isVideo: true
                     imagePath: "qrc:/assets/icons/icon_tv.svg"
                     onExternalFilePathChanged: leftArea.videoPath = fileDropperVideo.externalFilePath
@@ -97,6 +98,7 @@ CustomPage {
                     anchors.fill: parent
                     z: 99
                     descriptionTitle: "Set Preview Image"
+                    helpText: "Use PNG for best results. The image ratio should be 21:9. Preffered resulution 123x123."
                     imagePath: "qrc:/assets/icons/icon_single_image.svg"
                     onExternalFilePathChanged: leftArea.previewPath = fileDropperPreview.externalFilePath
                 }

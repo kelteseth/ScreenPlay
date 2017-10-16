@@ -1,7 +1,6 @@
 import QtQuick 2.9
 import QtQuick.Dialogs 1.2
 
-
 Rectangle {
     property color background: "white"
     property string descriptionTitle: "value"
@@ -9,6 +8,7 @@ Rectangle {
     //FIXME in 5.10 with an enum
     property bool isVideo: false
     property url externalFilePath
+    property string helpText: "help"
 
     id: fileDropperSingleFile
     color: fileDropperSingleFile.background
@@ -18,22 +18,14 @@ Rectangle {
     state: ""
 
     onStateChanged: {
-        if(fileDropperSingleFile.state === "error"){
+        if (fileDropperSingleFile.state === "error") {
             stateChangedTimer.start()
         }
     }
     Timer {
-        id:stateChangedTimer
+        id: stateChangedTimer
         onTriggered: {
             fileDropperSingleFile.state = "empty"
-        }
-    }
-
-    Component.onCompleted: {
-        if (isVideo) {
-
-        } else {
-
         }
     }
 
@@ -42,11 +34,9 @@ Rectangle {
         anchors.fill: parent
         anchors.margins: 2
         z: 98
+        fillMode: Image.PreserveAspectCrop
         visible: false
     }
-
-
-
 
     FontLoader {
         id: font_LibreBaskerville
@@ -91,10 +81,26 @@ Rectangle {
             renderType: Text.NativeRendering
         }
     }
+    Text {
+        id: helpTextWrapper
+        color: "#626262"
+        anchors.fill: parent
+        anchors.margins: 20
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        font.family: font_LibreBaskerville.name
+        font.italic: true
+        wrapMode:  Text.WordWrap
+        font.pointSize: 12
+        opacity: 0
+        renderType: Text.NativeRendering
+        text: helpText
+    }
 
     DropArea {
         id: dropper
         anchors.fill: parent
+        focus: true
         onEntered: {
             fileDropperSingleFile.state = "fileEntered"
         }
@@ -105,8 +111,10 @@ Rectangle {
                 if (isVideo) {
                     if (validateVideoFileExtension(drop.urls[0])) {
                         externalFilePath = drop.urls[0]
-                        videoPreviewLoader.setSource("CreateVideoPreviewSmall.qml",{"source":externalFilePath})
-
+                        videoPreviewLoader.setSource(
+                                    "CreateVideoPreviewSmall.qml", {
+                                        source: externalFilePath
+                                    })
                     }
                 } else {
                     if (validateImageFileExtension(drop.urls[0])) {
@@ -117,6 +125,7 @@ Rectangle {
                 }
             }
         }
+
         onExited: {
             fileDropperSingleFile.state = "empty"
         }
@@ -130,17 +139,31 @@ Rectangle {
             var tmp = filePath.split('.').pop()
             return tmp === "vp9" || tmp === "mp4"
         }
+        MouseArea {
+            anchors.fill: parent
+            focus: true
+            z: 99
+            hoverEnabled: true
+            onHoveredChanged: {
+                if (containsMouse && videoPreviewLoader.source.toString()  === "") {
+                    fileDropperSingleFile.state = "hover"
+                } else {
+                    fileDropperSingleFile.state = ""
+                }
+            }
+        }
     }
     Loader {
-        id:videoPreviewLoader
+        id: videoPreviewLoader
         asynchronous: true
         anchors.fill: parent
         anchors.margins: 2
         z: 97
         onLoaded: {
+
+
             //videoPreviewLoader.item.playVideo(drop.urls[0]);
         }
-
     }
 
     /* FIXME: For now only drag n drop Workshop
@@ -166,7 +189,6 @@ Rectangle {
 
         }
     }*/
-
     states: [
         State {
             name: "fileEntered"
@@ -198,6 +220,17 @@ Rectangle {
                 target: fileDropperSingleFile
                 color: "#ff4d4d"
             }
+        },
+        State {
+            name: "hover"
+            PropertyChanges {
+                target: column
+                opacity: 0
+            }
+            PropertyChanges {
+                target: helpTextWrapper
+                opacity: 1
+            }
         }
     ]
     transitions: [
@@ -206,6 +239,10 @@ Rectangle {
             to: "*"
 
             ColorAnimation {
+                duration: 200
+            }
+            NumberAnimation {
+                property: "opacity"
                 duration: 200
             }
         }
