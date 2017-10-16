@@ -1,8 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material 2.1
-
 
 Item {
     id: settingsBool
@@ -11,13 +8,10 @@ Item {
     signal checkboxChanged(bool checked)
 
 
-    height: 50
-    Layout.preferredHeight: 50
-    Material.theme: Material.Dark
-    Material.accent: Material.Purple
+    height: 30
 
     Text {
-        id:txtName
+        id: txtName
         text: settingsBool.name
         renderType: Text.NativeRendering
         verticalAlignment: Text.AlignVCenter
@@ -28,7 +22,7 @@ Item {
         font.pixelSize: 16
         font.family: font_Roboto_Regular.name
 
-        FontLoader{
+        FontLoader {
             id: font_Roboto_Regular
             source: "qrc:/assets/fonts/Roboto-Regular.ttf"
         }
@@ -42,5 +36,4 @@ Item {
         checked: settingsBool.isChecked
         onCheckedChanged: checkboxChanged(radioButton.checked)
     }
-
 }

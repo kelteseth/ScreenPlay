@@ -1,51 +1,118 @@
 import QtQuick 2.7
-import QtQuick.Controls 1.4
+import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
-
 
 import "Settings/"
 
 CustomPage {
+    id: settings
     pageName: ""
 
-
     VisualItemModel {
-        id:settingsModel
-        Headline {
-            name: "General"
-        }
-        SettingBool {
-            name: "Autostart"
-            isChecked: settings.autostart
-            //onCheckboxChanged: settings.setAutostart(checked)
-        }
+        id: settingsModel
 
-        SettingBool {
-            name: "Send Statistics"
-            isChecked: settings.sendStatistics
-            onCheckboxChanged: settings.setSendStatistics(checked)
-        }
-        Headline {
-            name: "Misc"
 
-        }
-        SettingBool {
-            name: "Autostart"
-        }
+        SettingsWrapper {
+            height: 180
+            Column {
+                spacing: 10
+                anchors.margins: 30
 
+                anchors.fill: parent
+                Headline {
+                    name: "General"
+                    height: 50
+                    width: parent.width
+                }
+                SettingBool {
+                    name: "Autostart"
+                    height: 50
+                    width: parent.width
+
+                    //onCheckboxChanged: settings.setAutostart(checked)
+                }
+            }
+        }
+        SettingsWrapper {
+            height: 180
+            Column {
+                spacing: 10
+                anchors.margins: 30
+
+                anchors.fill: parent
+                Headline {
+                    name: "General"
+                    height: 50
+                    width: parent.width
+                }
+                SettingBool {
+                    name: "Autostart"
+                    height: 50
+                    width: parent.width
+
+                    //onCheckboxChanged: settings.setAutostart(checked)
+                }
+            }
+        }
+        SettingsWrapper {
+            height: 180
+            Column {
+                spacing: 10
+                anchors.margins: 30
+
+                anchors.fill: parent
+                Headline {
+                    name: "General"
+                    height: 50
+                    width: parent.width
+                }
+                SettingBool {
+                    name: "Autostart"
+                    height: 50
+                    width: parent.width
+
+                    //onCheckboxChanged: settings.setAutostart(checked)
+                }
+            }
+        }
+        SettingsWrapper {
+            height: 180
+            Column {
+                spacing: 10
+                anchors.margins: 30
+
+                anchors.fill: parent
+                Headline {
+                    name: "General"
+                    height: 50
+                    width: parent.width
+                }
+                SettingBool {
+                    name: "Autostart"
+                    height: 50
+                    width: parent.width
+
+                    //onCheckboxChanged: settings.setAutostart(checked)
+                }
+            }
+        }
     }
 
+    ListView {
+        id: settingsListView
+        anchors {
+            fill: parent
+            topMargin: 30
+            bottomMargin: 30
+            rightMargin: 15
+            leftMargin: 15
+        }
+        spacing: 30
+        model: settingsModel
 
-
-    ListView  {
-        anchors.fill: parent
-        anchors.margins: 20
-        model:settingsModel
-        boundsBehavior: Flickable.DragOverBounds
-        cacheBuffer: 1000
-        maximumFlickVelocity: 10000
-
-
-
+        cacheBuffer: 100
+        maximumFlickVelocity: 3000
+        ScrollBar.vertical: ScrollBar {
+        }
     }
 }
