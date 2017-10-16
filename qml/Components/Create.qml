@@ -43,7 +43,12 @@ CustomPage {
 
     CreateLeftArea {
         id: leftArea
-        width: parent.width * .5
+        width: parent.width * .35
+        radius: 4
+        border.width: 2
+        border.color: "#c2c2c2"
+        anchors.leftMargin: 30
+        anchors.topMargin: 30
         anchors {
             top: parent.top
             left: parent.left
@@ -54,7 +59,7 @@ CustomPage {
 
     Item {
         id: rightArea
-        width: parent.width * .4
+        width: parent.width * .58
         anchors {
             top: parent.top
             right: parent.right
@@ -63,14 +68,14 @@ CustomPage {
         }
         Item {
             id: rightTop
-            height: 150
+            height: 200
             anchors {
                 top: parent.top
                 right: parent.right
                 left: parent.left
             }
             Item {
-                width: parent.width * .46
+                width: parent.width * .48
                 height: parent.height
                 FileDropperSingleFile {
                     id:fileDropperVideo
@@ -83,7 +88,7 @@ CustomPage {
                 }
             }
             Item {
-                width: parent.width * .46
+                width: parent.width * .48
                 anchors.right: parent.right
                 height: parent.height
 
@@ -126,4 +131,32 @@ CustomPage {
             }
         }
     }
+
+    Rectangle {
+        id: rectangle
+        color: "#e6ffffff"
+        enabled: false
+        opacity: 0
+        anchors.fill: parent
+    }
+    states: [
+        State {
+            name: "createLocalWallpaper"
+
+            PropertyChanges {
+                target: rectangle
+                enabled: true
+                opacity: 1
+            }
+        }
+    ]
+    transitions: [
+        Transition {
+            from: "*"
+            to: "*"
+            PropertyAnimation{
+                properties: "opacity"; easing.type: Easing.InOutQuad
+            }
+        }
+    ]
 }
