@@ -189,6 +189,11 @@ void Settings::createDefaultConfig()
     defaultSettings.close();
 }
 
+void Settings::updateSettingsLocalPath(QUrl newPath)
+{
+
+}
+
 ActiveProfiles::ActiveProfiles()
 {
 }

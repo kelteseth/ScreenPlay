@@ -8,24 +8,23 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QObject>
-#include <QThread>
 #include <QPair>
 #include <QQmlPropertyMap>
+#include <QSharedPointer>
 #include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
+#include <QThread>
 #include <QUrl>
 #include <QVariant>
 #include <QVector>
-#include <QSharedPointer>
 
-
-#include "monitorlistmodel.h"
 #include "installedlistmodel.h"
-#include "profilelistmodel.h"
+#include "monitorlistmodel.h"
 #include "profile.h"
-#include "wallpaper.h"
+#include "profilelistmodel.h"
 #include "steam/steam_api.h"
+#include "wallpaper.h"
 
 class ActiveProfiles;
 
@@ -41,12 +40,10 @@ public:
     Q_PROPERTY(Version version READ version)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
 
-
     void loadActiveProfiles();
     void removeAll();
 
     void updateSettinsValue(QString newValue);
-
 
     enum Renderer {
         OpenGL,
@@ -161,12 +158,33 @@ public slots:
             return;
 
         m_localStoragePath = localStoragePath;
+
+        QFile configTmp;
+        QJsonDocument configJsonDocument;
+        QJsonObject configObj;
+        configTmp.setFileName(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/settings.json");
+        configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
+        QString config = configTmp.readAll();
+
+        configJsonDocument = QJsonDocument::fromJson(config.toUtf8());
+        configObj = configJsonDocument.object();
+        QDir a = QDir(localStoragePath.toString());
+
+        configObj.insert("absoluteStoragePath", QJsonValue(localStoragePath.toString()));
+
+        configTmp.close();
+        configTmp.open(QIODevice::ReadWrite | QIODevice::Truncate);
+        QTextStream out(&configTmp);
+        out << QJsonDocument(configObj).toJson();
+
+        configTmp.close();
         emit localStoragePathChanged(m_localStoragePath);
     }
 
 private:
     void createDefaultConfig();
     void createProfileConfig();
+    void updateSettingsLocalPath(QUrl newPath);
 
     bool m_autostart = true;
     bool m_highPriorityStart = true;
