@@ -157,7 +157,9 @@ public slots:
         if (m_localStoragePath == localStoragePath)
             return;
 
-        m_localStoragePath = localStoragePath;
+        QJsonValue cleanedPath = QJsonValue(QString(localStoragePath.toString()).remove(0,8));
+
+        m_localStoragePath = cleanedPath.toString();
 
         QFile configTmp;
         QJsonDocument configJsonDocument;
@@ -170,7 +172,7 @@ public slots:
         configObj = configJsonDocument.object();
         QDir a = QDir(localStoragePath.toString());
 
-        configObj.insert("absoluteStoragePath", QJsonValue(localStoragePath.toString()));
+        configObj.insert("absoluteStoragePath", cleanedPath);
 
         configTmp.close();
         configTmp.open(QIODevice::ReadWrite | QIODevice::Truncate);
@@ -190,7 +192,7 @@ private:
     bool m_highPriorityStart = true;
     bool m_sendStatistics;
 
-    QUrl m_absoluteStoragePath;
+
     AppId_t m_steamID;
 
     Renderer m_renderer = Renderer::OpenGL;

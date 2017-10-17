@@ -57,7 +57,7 @@ CustomPage {
                     Text {
                         id: txtSavePath
                         anchors.verticalCenter: parent.verticalCenter
-                        text: qsTr("C:\\Users\\Eli\\AppData\\Local\\Aimber\\ScreenPlay\\Wallpaper\\824911868")
+                        text: screenPlaySettings.localStoragePath
 
                     }
                     Button {

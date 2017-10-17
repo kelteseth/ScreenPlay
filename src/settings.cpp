@@ -67,13 +67,13 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
         steamTmpUrl.cd("content");
         steamTmpUrl.cd("672870");
 
-        m_absoluteStoragePath = steamTmpUrl.path();
+        m_localStoragePath = steamTmpUrl.path();
     } else {
-        m_absoluteStoragePath = configObj.value("absoluteStoragePath").toString();
+        m_localStoragePath = configObj.value("absoluteStoragePath").toString();
     }
 
-    m_ilm->setabsoluteStoragePath(m_absoluteStoragePath);
-    m_plm->m_absoluteStoragePath = m_absoluteStoragePath;
+    m_ilm->setabsoluteStoragePath(m_localStoragePath);
+    m_plm->m_localStoragePath = m_localStoragePath;
 
     /*
     //Create default folders
@@ -133,7 +133,7 @@ void Settings::loadActiveProfiles()
     QJsonObject configObj;
     QJsonArray activeProfilesTmp;
     QFile configTmp;
-    configTmp.setFileName(m_absoluteStoragePath.toString() + "/settings.json");
+    configTmp.setFileName(m_localStoragePath.toString() + "/settings.json");
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     QString config = configTmp.readAll();
     configJsonDocument = QJsonDocument::fromJson(config.toUtf8());
