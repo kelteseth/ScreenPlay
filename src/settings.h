@@ -39,6 +39,7 @@ public:
     Q_PROPERTY(Renderer renderer READ renderer WRITE setRenderer NOTIFY rendererChanged)
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
     Q_PROPERTY(Version version READ version)
+    Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
 
 
     void loadActiveProfiles();
@@ -84,6 +85,11 @@ public:
         return m_version;
     }
 
+    QUrl localStoragePath() const
+    {
+        return m_localStoragePath;
+    }
+
 signals:
 
     void autostartChanged(bool autostart);
@@ -93,6 +99,8 @@ signals:
     void rendererChanged(Renderer renderer);
 
     void sendStatisticsChanged(bool sendStatistics);
+
+    void localStoragePathChanged(QUrl localStoragePath);
 
 public slots:
 
@@ -147,6 +155,15 @@ public slots:
 
     void setWallpaper(int monitorIndex, QString wallpaperID);
 
+    void setLocalStoragePath(QUrl localStoragePath)
+    {
+        if (m_localStoragePath == localStoragePath)
+            return;
+
+        m_localStoragePath = localStoragePath;
+        emit localStoragePathChanged(m_localStoragePath);
+    }
+
 private:
     void createDefaultConfig();
     void createProfileConfig();
@@ -167,6 +184,7 @@ private:
 
     QVector<QSharedPointer<Wallpaper>> m_wallpapers;
     QVector<QSharedPointer<ActiveProfiles>> m_activeProfiles;
+    QUrl m_localStoragePath;
 };
 
 class ActiveProfiles {

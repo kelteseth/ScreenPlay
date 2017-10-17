@@ -1,17 +1,17 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 import QtQuick.Layouts 1.3
+import QtQuick.Dialogs 1.2
 
 import "Settings/"
 
 CustomPage {
-    id: settings
+    id: settingsWrapper
     pageName: ""
 
     VisualItemModel {
         id: settingsModel
 
-
         SettingsWrapper {
             height: 180
             Column {
@@ -28,8 +28,57 @@ CustomPage {
                     name: "Autostart"
                     height: 50
                     width: parent.width
+                    isChecked: screenPlaySettings.autostart
+                    onCheckboxChanged: screenPlaySettings.setAutostart(isChecked)
+                }
+            }
+        }
+        SettingsWrapper {
+            height: 180
+            Column {
+                spacing: 10
+                anchors.margins: 30
+                anchors.fill: parent
 
-                    //onCheckboxChanged: settings.setAutostart(checked)
+                Headline {
+                    name: "Save"
+                    height: 50
+                    width: parent.width
+                }
+                Row {
+                    height: 100
+                    width: parent.width
+                    spacing: 30
+                    Text {
+                        id: txtSavePathDescription
+                        text: qsTr("text")
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+                    Text {
+                        id: txtSavePath
+                        anchors.verticalCenter: parent.verticalCenter
+                        text: qsTr("C:\\Users\\Eli\\AppData\\Local\\Aimber\\ScreenPlay\\Wallpaper\\824911868")
+
+                    }
+                    Button {
+                        id: btnSavePath
+                        text: qsTr("Set Save Location")
+                        onClicked: fileDialogOpenSavePath.open()
+                        anchors.verticalCenter: parent.verticalCenter
+                    }
+
+                    FileDialog {
+                        id: fileDialogOpenSavePath
+                        folder: shortcuts.home
+                        selectFolder: true
+
+
+                        onAccepted: {
+                            txtSavePath.text = fileDialogOpenSavePath.folder
+                            screenPlaySettings.setLocalStoragePath(fileDialogOpenSavePath.folder)
+
+                        }
+                    }
                 }
             }
         }
@@ -41,59 +90,11 @@ CustomPage {
 
                 anchors.fill: parent
                 Headline {
-                    name: "General"
+                    name: "About"
                     height: 50
                     width: parent.width
                 }
-                SettingBool {
-                    name: "Autostart"
-                    height: 50
-                    width: parent.width
 
-                    //onCheckboxChanged: settings.setAutostart(checked)
-                }
-            }
-        }
-        SettingsWrapper {
-            height: 180
-            Column {
-                spacing: 10
-                anchors.margins: 30
-
-                anchors.fill: parent
-                Headline {
-                    name: "General"
-                    height: 50
-                    width: parent.width
-                }
-                SettingBool {
-                    name: "Autostart"
-                    height: 50
-                    width: parent.width
-
-                    //onCheckboxChanged: settings.setAutostart(checked)
-                }
-            }
-        }
-        SettingsWrapper {
-            height: 180
-            Column {
-                spacing: 10
-                anchors.margins: 30
-
-                anchors.fill: parent
-                Headline {
-                    name: "General"
-                    height: 50
-                    width: parent.width
-                }
-                SettingBool {
-                    name: "Autostart"
-                    height: 50
-                    width: parent.width
-
-                    //onCheckboxChanged: settings.setAutostart(checked)
-                }
             }
         }
     }

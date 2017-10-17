@@ -80,7 +80,7 @@ int main(int argc, char* argv[])
     mainWindowEngine.rootContext()->setContextProperty("workshopListModel", &swlm);
     mainWindowEngine.rootContext()->setContextProperty("monitorListModel", &monitorListModel);
     mainWindowEngine.rootContext()->setContextProperty("installedListModel", &installedListModel);
-    mainWindowEngine.rootContext()->setContextProperty("settings", &settings);
+    mainWindowEngine.rootContext()->setContextProperty("screenPlaySettings", &settings);
     mainWindowEngine.rootContext()->setContextProperty("packageFileHandler", &packageFileHandler);
     mainWindowEngine.rootContext()->setContextProperty("profileListModel", &profileListModel);
     mainWindowEngine.rootContext()->setContextProperty("steamWorkshop", &steamWorkshop);
