@@ -1,6 +1,6 @@
 import QtQuick 2.7
 import QtQml.Models 2.2
-
+import QtQuick.Controls 2.2
 
 
 CustomPage {
@@ -13,7 +13,7 @@ CustomPage {
     GridView {
         id: gridView
         boundsBehavior: Flickable.DragOverBounds
-        cacheBuffer: 1000
+        cacheBuffer: 10
         maximumFlickVelocity: 10000
         anchors.fill: parent
         cellWidth: 330
@@ -36,12 +36,11 @@ CustomPage {
             }
         }
 
-        Component.onCompleted: {
-
-        }
-
         add: Transition {
             NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 400 }
+        }
+        ScrollBar.vertical: ScrollBar {
+            snapMode: ScrollBar.SnapOnRelease
         }
     }
 
