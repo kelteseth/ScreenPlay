@@ -10,7 +10,7 @@ class ProjectFile
 {
 public:
     ProjectFile();
-    ProjectFile(QJsonObject obj, QString folderName);
+    ProjectFile(QJsonObject obj, QString folderName, QUrl absolutePath);
 
     QVariant m_description;
     QVariant m_file;

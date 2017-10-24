@@ -12,15 +12,16 @@
 
 #include "profile.h"
 #include "projectfile.h"
+#include "monitorlistmodel.h"
 
 class Wallpaper : public QWindow {
     Q_OBJECT
 public:
     explicit Wallpaper(QWindow* parent = 0);
-    Wallpaper(Profile profile, ProjectFile projf);
+    Wallpaper(Profile profile, ProjectFile project, Monitor monitor);
     ~Wallpaper();
     Q_PROPERTY(QString absoluteFilePath READ absoluteFilePath WRITE setAbsoluteFilePath NOTIFY absoluteFilePathChanged)
-
+    Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
 
 
 
@@ -28,6 +29,13 @@ public:
     {
         return m_absoluteFilePath;
     }
+
+    bool isPlaying() const
+    {
+        return m_isPlaying;
+    }
+
+    Monitor monitor() const;
 
 public slots:
     void setAbsoluteFilePath(QString absoluteFilePath)
@@ -39,8 +47,19 @@ public slots:
         emit absoluteFilePathChanged(m_absoluteFilePath);
     }
 
+    void setIsPlaying(bool isPlaying)
+    {
+        if (m_isPlaying == isPlaying)
+            return;
+
+        m_isPlaying = isPlaying;
+        emit isPlayingChanged(m_isPlaying);
+    }
+
 signals:
     void absoluteFilePathChanged(QString absoluteFilePath);
+
+    void isPlayingChanged(bool isPlaying);
 
 private:
     HWND m_hwnd;
@@ -50,7 +69,9 @@ private:
 
     Profile m_profile;
     ProjectFile m_project;
+    Monitor m_monitor;
     QString m_absoluteFilePath;
+    bool m_isPlaying;
 };
 
 #endif // WALLPAPER_H

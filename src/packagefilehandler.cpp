@@ -7,7 +7,7 @@ PackageFileHandler::PackageFileHandler(QObject* parent)
     qmlRegisterType<PackageFileHandler>("PackageFileHandler", 1, 0, "LoaderStatus");
 }
 
-int PackageFileHandler::loadPackageFromLocalZip(QList<QUrl> url, QString extractDir)
+int PackageFileHandler::loadPackageFromLocalZip(QVector<QUrl> url, QString extractDir)
 {
     setCurrentLoaderStatus(LoaderStatus::Extracting);
     for(int i = 0; i < url.length(); i++) {

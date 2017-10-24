@@ -2,7 +2,7 @@
 #define PACKAGEFILEHANDLER_H
 
 #include <QFile>
-#include <QList>
+#include <QVector>
 #include <QObject>
 #include <QString>
 #include <QUrl>
@@ -15,7 +15,7 @@ class PackageFileHandler : public QObject {
 
 public:
     explicit PackageFileHandler(QObject* parent = nullptr);
-    Q_INVOKABLE int loadPackageFromLocalZip(QList<QUrl> url, QString extractDir);
+    Q_INVOKABLE int loadPackageFromLocalZip(QVector<QUrl> url, QString extractDir);
 
     enum  LoaderStatus {
         Idle,

@@ -1,10 +1,11 @@
-import QtQuick 2.7
+import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.2
 import Qt.labs.platform 1.0
 
+
 CustomPage {
-    id: page
+    id: create
     pageName: ""
 
     Connections {
@@ -19,16 +20,22 @@ CustomPage {
                 busyIndicator.running = false
             }
         }
+        onLocalFileCopyCompleted:{
+            create.state = ""
+        }
     }
 
     Connections {
         target: leftArea
-        onHasEmptyField:{
-            if(fieldNumber === 0){
+        onHasEmptyField: {
+            if (fieldNumber === 0) {
                 fileDropperVideo.state = "error"
             } else if (fieldNumber === 1) {
                 fileDropperPreview.state = "error"
             }
+        }
+        onCreateLocalWallpaperStarted: {
+            create.state = "createLocalWallpaper"
         }
     }
 
@@ -54,7 +61,6 @@ CustomPage {
             left: parent.left
             margins: 10
         }
-
     }
 
     Item {
@@ -78,14 +84,15 @@ CustomPage {
                 width: parent.width * .48
                 height: parent.height
                 FileDropperSingleFile {
-                    id:fileDropperVideo
+                    id: fileDropperVideo
                     anchors.fill: parent
                     z: 99
                     descriptionTitle: "Drop your video here"
                     helpText: "Supportet Video formats: mp4 for older devices and VP9 for newer like NVidia 1000 or AMD VEGA"
                     isVideo: true
                     imagePath: "qrc:/assets/icons/icon_tv.svg"
-                    onExternalFilePathChanged: leftArea.videoPath = fileDropperVideo.externalFilePath
+                    onExternalFilePathChanged: leftArea.videoPath
+                                               = fileDropperVideo.externalFilePath
                 }
             }
             Item {
@@ -94,13 +101,14 @@ CustomPage {
                 height: parent.height
 
                 FileDropperSingleFile {
-                    id:fileDropperPreview
+                    id: fileDropperPreview
                     anchors.fill: parent
                     z: 99
                     descriptionTitle: "Set Preview Image"
                     helpText: "Use PNG for best results. The image ratio should be 21:9. Preffered resulution 123x123."
                     imagePath: "qrc:/assets/icons/icon_single_image.svg"
-                    onExternalFilePathChanged: leftArea.previewPath = fileDropperPreview.externalFilePath
+                    onExternalFilePathChanged: leftArea.previewPath
+                                               = fileDropperPreview.externalFilePath
                 }
             }
 
@@ -118,7 +126,6 @@ CustomPage {
                     z: 99
                     descriptionTitle: "Add additional images"
                     imagePath: "qrc:/assets/icons/icon_multiple_images.svg"
-
                 }
             }
         }
@@ -156,8 +163,9 @@ CustomPage {
         Transition {
             from: "*"
             to: "*"
-            PropertyAnimation{
-                properties: "opacity"; easing.type: Easing.InOutQuad
+            PropertyAnimation {
+                properties: "opacity"
+                easing.type: Easing.InOutQuad
             }
         }
     ]

@@ -18,12 +18,13 @@ Wallpaper::Wallpaper(QWindow* parent)
 {
 }
 
-Wallpaper::Wallpaper(Profile profile, ProjectFile projf)
+Wallpaper::Wallpaper(Profile profile, ProjectFile project, Monitor monitor)
 {
 
     m_profile = profile;
-    m_project = projf;
-    QString tmp = profile.m_absolutePath.toString() + "/Wallpaper/" + profile.m_wallpaperId + "/" + projf.m_file.toString();
+    m_monitor = monitor;
+    m_project = project;
+    QString tmp = profile.m_absolutePath.toString() + "/Wallpaper/" + profile.m_wallpaperId + "/" + m_project.m_file.toString();
     tmp.replace("/","\\\\");
     setAbsoluteFilePath(tmp);
 
@@ -69,4 +70,9 @@ Wallpaper::Wallpaper(Profile profile, ProjectFile projf)
 Wallpaper::~Wallpaper()
 {
     ShowWindow(m_hwnd, SW_HIDE);
+}
+
+Monitor Wallpaper::monitor() const
+{
+    return m_monitor;
 }

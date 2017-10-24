@@ -14,6 +14,7 @@ Rectangle {
     property url previewPath
     //Todo 5.10 ENUM
     signal hasEmptyField(int fieldNumber)
+    signal createLocalWallpaperStarted()
 
     Row {
         id: rowUseSteamWorkshop
@@ -125,6 +126,7 @@ Rectangle {
             }
         }
     }
+
     Button {
         id: btnSubmit
         anchors {
@@ -157,7 +159,7 @@ Rectangle {
                                 previewPath)
                     tiItemUpdate.start()
                 } else {
-
+                    createLocalWallpaperStarted()
                     steamWorkshop.createLocalWorkshopItem(
                                 txtTitle.text.toString(), videoPath,
                                 previewPath)

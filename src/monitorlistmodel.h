@@ -57,10 +57,13 @@ public:
 
     void loadMonitors();
 
+    int size();
+    bool getMonitorListItemAt(int position, Monitor *monitor);
+
     float GetHighestMonitorYValue();
 
 private:
-    QVector<Monitor> _monitorList;
+    QVector<Monitor> m_monitorList;
 };
 
 class Monitor {
@@ -69,13 +72,13 @@ public:
     Monitor();
     Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry);
 
-    QString _id;
-    QString _name;
-    QSize _size;
-    QRect _availableGeometry;
-    QRect _availableVirtualGeometry;
-    int _number;
-    bool _isVirtualDesktop;
+    QString m_id;
+    QString m_name;
+    QSize m_size;
+    QRect m_availableGeometry;
+    QRect m_availableVirtualGeometry;
+    int m_number;
+    bool m_isVirtualDesktop;
 
 };
 #endif // MONITORLISTMODEL_H

@@ -12,7 +12,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QList>
+#include <QVector>
 #include <QStandardPaths>
 #include <QString>
 #include <QUrl>
@@ -29,7 +29,8 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     void append(const QJsonObject, const QString);
     QHash<int, QByteArray> roleNames() const override;
-    bool getProjectByName(QString profileName, ProjectFile* spf);
+
+    bool getProjectByAbsoluteStoragePath(QUrl *path, ProjectFile* spf);
 
     Q_INVOKABLE void loadScreens();
     Q_INVOKABLE QVariantMap get(QString folderId);
@@ -40,6 +41,7 @@ public:
         PreviewRole,
         FolderIdRole,
         FileIdRole,
+        AbsoluteFilePathRole,
     };
     Q_ENUM(InstalledRole)
 
@@ -65,7 +67,7 @@ signals:
     void absoluteStoragePathChanged(QUrl absoluteStoragePath);
 
 private:
-    QList<ProjectFile> m_screenPlayFiles;
+    QVector<ProjectFile> m_screenPlayFiles;
     QUrl m_absoluteStoragePath;
 };
 

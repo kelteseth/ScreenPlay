@@ -48,14 +48,14 @@ void ProfileListModel::loadProfiles()
 {
 
 
-    QFileInfoList list = QDir(m_absoluteStoragePath.toString()+ "/Profiles/").entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
+    QFileInfoList list = QDir(m_localStoragePath.toString()+ "/Profiles/").entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
     QString tmpPath;
     QJsonDocument profileDoc;
     QJsonParseError parseError;
     QJsonObject profileObj;
 
     for (auto&& item : list) {
-        tmpPath = m_absoluteStoragePath.toString() + "/Profiles/" + item.baseName() + "/profile.json";
+        tmpPath = m_localStoragePath.toString() + "/Profiles/" + item.baseName() + "/profile.json";
 
         QFile settings;
         settings.setFileName(tmpPath);
@@ -94,7 +94,7 @@ void ProfileListModel::loadProfiles()
         if (profileObj.contains("isLooping"))
             tmpProfile.m_isLooping = profileObj.value("isLooping").toBool();
 
-        tmpProfile.m_absolutePath = m_absoluteStoragePath;
+        tmpProfile.m_absolutePath = m_localStoragePath;
 
         m_profileList.append(tmpProfile);
     }

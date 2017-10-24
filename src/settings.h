@@ -1,5 +1,4 @@
-#ifndef SCREENPLAYSETTINGS_H
-#define SCREENPLAYSETTINGS_H
+#pragma once
 
 #include <QDebug>
 #include <QDir>
@@ -28,6 +27,9 @@
 
 class ActiveProfiles;
 
+
+
+
 class Settings : public QObject {
     Q_OBJECT
 public:
@@ -43,7 +45,13 @@ public:
     void loadActiveProfiles();
     void removeAll();
 
-    void updateSettinsValue(QString newValue);
+    enum LocalCopyResult {
+        NoError,
+        CopyError,
+        NotEnoughDiskSpace,
+        NameCollision,
+    };
+    Q_ENUM(LocalCopyResult)
 
     enum Renderer {
         OpenGL,
@@ -87,6 +95,7 @@ public:
         return m_localStoragePath;
     }
 
+
 signals:
 
     void autostartChanged(bool autostart);
@@ -95,7 +104,7 @@ signals:
 
     void rendererChanged(Renderer renderer);
 
-    void sendStatisticsChanged(bool sendStatistics);
+    void sendStatisticsChanged(bool status);
 
     void localStoragePathChanged(QUrl localStoragePath);
 
@@ -128,15 +137,6 @@ public slots:
         emit rendererChanged(m_renderer);
     }
 
-    void setsendStatistics(bool sendStatistics)
-    {
-        if (m_sendStatistics == sendStatistics)
-            return;
-
-        m_sendStatistics = sendStatistics;
-        emit sendStatisticsChanged(m_sendStatistics);
-    }
-
     void setSendStatistics(bool sendStatistics)
     {
         if (m_sendStatistics == sendStatistics)
@@ -146,18 +146,22 @@ public slots:
         emit sendStatisticsChanged(m_sendStatistics);
     }
 
-    void createNewProfile(int screenNumber);
+    void createNewWallpaper(int monitorListPosition, Profile profile, ProjectFile projectFile);
+
+    void removeWallpaperAt(int pos);
 
     void constructWallpaper(Profile profile, QString monitorID, ProjectFile spf);
 
-    void setWallpaper(int monitorIndex, QString wallpaperID);
+    void constructWallpaper(QString folder, int monitorListAt);
+
+    void setWallpaper(int monitorIndex, QString wallpaperID, QUrl absoluteStoragePath);
 
     void setLocalStoragePath(QUrl localStoragePath)
     {
         if (m_localStoragePath == localStoragePath)
             return;
 
-        QJsonValue cleanedPath = QJsonValue(QString(localStoragePath.toString()).remove(0,8));
+        QJsonValue cleanedPath = QJsonValue(QString(localStoragePath.toString()).remove(0, 8));
 
         m_localStoragePath = cleanedPath.toString();
 
@@ -186,12 +190,10 @@ public slots:
 private:
     void createDefaultConfig();
     void createProfileConfig();
-    void updateSettingsLocalPath(QUrl newPath);
 
     bool m_autostart = true;
     bool m_highPriorityStart = true;
     bool m_sendStatistics;
-
 
     AppId_t m_steamID;
 
@@ -202,8 +204,9 @@ private:
     MonitorListModel* m_mlm;
     QThread m_thread;
 
+
     QVector<QSharedPointer<Wallpaper>> m_wallpapers;
-    QVector<QSharedPointer<ActiveProfiles>> m_activeProfiles;
+
     QUrl m_localStoragePath;
 };
 
@@ -211,6 +214,8 @@ class ActiveProfiles {
 public:
     ActiveProfiles();
     ActiveProfiles(QString monitorId, Profile profile);
+
+    QString monitorId() const;
 
 private:
     QString m_monitorId;
@@ -222,4 +227,4 @@ enum FillMode {
     PreserveAspectFit,
     PreserveAspectCrop,
 };
-#endif // SCREENPLAYSETTINGS_H
+

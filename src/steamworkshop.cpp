@@ -5,10 +5,11 @@ SteamWorkshop::SteamWorkshop(QObject* parent)
 {
 }
 
-SteamWorkshop::SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm)
+SteamWorkshop::SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm, Settings *s)
 {
     m_AppId = nConsumerAppId;
     m_workshopListModel = wlm;
+    m_settings = s;
 }
 
 void SteamWorkshop::createWorkshopItem()
@@ -51,6 +52,23 @@ void SteamWorkshop::getAPICallInfo()
 void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath)
 {
 
+    QFuture<void> future = QtConcurrent::run([&]() {
+        if(QDir(m_settings->localStoragePath().toString() + title ).exists()){
+            //emit localFileCopyCompleted()
+            return;
+        }
+
+
+
+//        bool copyResult = QFile::copy();
+//        if(copyResult){
+//            emit localFileCopyCompleted(true);
+//        } else {
+//            emit localFileCopyCompleted(false);
+//        }
+
+
+    });
 }
 
 void SteamWorkshop::onWorkshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure)
@@ -94,7 +112,7 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
                 QByteArray urlData(url);
                 previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
 
-                m_workshopListModel->append(QString(details.m_rgchTitle),QUrl(urlData));
+                m_workshopListModel->append(QString(details.m_rgchTitle), QUrl(urlData));
             }
         }
     }

@@ -1,6 +1,6 @@
 import QtQuick 2.7
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.0
+import QtQuick.Controls 2.2
 import QtQuick.Extras 1.4
 
 Item {
@@ -101,16 +101,14 @@ Item {
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 18
                 onClicked: {
-                    installedListModel.setScreenToVideoFromQml(
-                                Qt.resolvedUrl(
-                                    "file:///" + installedListModel._screensPath
-                                    + activeScreen + "/" + installedListModel.get(
-                                        activeScreen).screenFile))
+                    screenPlaySettings.constructWallpaper(
+                                activeScreen,
+                                monitorSelection.activeMonitorIndex)
                 }
             }
 
             Rectangle {
-                id:monitorSelectionWrapper
+                id: monitorSelectionWrapper
                 color: "gray"
                 height: 200
                 anchors {
@@ -121,6 +119,7 @@ Item {
 
                 anchors.bottomMargin: 100
                 MonitorSelection {
+                    id: monitorSelection
                     anchors.centerIn: parent
                     anchors.fill: parent
                     availableWidth: sidebar.width

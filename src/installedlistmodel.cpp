@@ -25,6 +25,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(index.row()).m_folderId;
         case FileIdRole:
             return m_screenPlayFiles.at(index.row()).m_file;
+        case AbsoluteFilePathRole:
+            return m_screenPlayFiles.at(index.row()).m_absolutePath;
         default:
             return QVariant();
         }
@@ -38,18 +40,21 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { PreviewRole, "screenPreview" },
         { FolderIdRole, "screenFolderId" },
         { FileIdRole, "screenFile" },
+        { AbsoluteFilePathRole, "absoluteFilePath" },
     };
     return roles;
 }
 
-bool InstalledListModel::getProjectByName(QString profileName, ProjectFile *spf)
+
+bool InstalledListModel::getProjectByAbsoluteStoragePath(QUrl* path, ProjectFile* spf)
 {
-    for (int i = 0; i < m_screenPlayFiles.size(); i++) {
-        if (m_screenPlayFiles.at(i).m_folderId == profileName) {
+    for (int i = 0; i < m_screenPlayFiles.count(); ++i) {
+        if (m_screenPlayFiles.at(i).m_absolutePath == *path) {
             *spf = m_screenPlayFiles.at(i);
             return true;
         }
     }
+
     return false;
 }
 
@@ -59,7 +64,7 @@ void InstalledListModel::append(const QJsonObject obj, const QString folderName)
 
     beginInsertRows(QModelIndex(), row, row);
 
-    ProjectFile tmpFile(obj, folderName);
+    ProjectFile tmpFile(obj, folderName, m_absoluteStoragePath);
     m_screenPlayFiles.append(tmpFile);
 
     endInsertRows();
@@ -74,7 +79,7 @@ void InstalledListModel::loadScreens()
     QString tmpPath;
 
     for (auto&& item : list) {
-        tmpPath = m_absoluteStoragePath.toString() +"/" +item.baseName() + "/project.json";
+        tmpPath = m_absoluteStoragePath.toString() + "/" + item.baseName() + "/project.json";
         if (!QFile(tmpPath).exists())
             continue;
 
@@ -109,5 +114,3 @@ QVariantMap InstalledListModel::get(QString folderId)
 
     return map;
 }
-
-

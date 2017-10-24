@@ -30,7 +30,7 @@ public:
     virtual QHash<int, QByteArray> roleNames() const override;
     void loadProfiles();
     bool getProfileByName(QString id, Profile* profile);
-    QUrl m_absoluteStoragePath;
+    QUrl m_localStoragePath;
 
 private:
     QHash<int, QByteArray> m_roleNames;
