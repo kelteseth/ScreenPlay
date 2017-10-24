@@ -95,15 +95,18 @@ void Settings::constructWallpaper(QString folder, int monitorListAt)
 {
 }
 
-void Settings::setWallpaper(int monitorIndex, QString wallpaperID, QUrl absoluteStoragePath)
+void Settings::setWallpaper(int monitorIndex,  QUrl absoluteStoragePath)
 {
 
     ProjectFile project;
     Monitor monitor;
 
+
+
     if (!m_mlm->getMonitorListItemAt(monitorIndex, &monitor)) {
         return;
     }
+
 
     if(!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath,&project)){
         return;

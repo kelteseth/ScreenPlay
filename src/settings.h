@@ -154,7 +154,7 @@ public slots:
 
     void constructWallpaper(QString folder, int monitorListAt);
 
-    void setWallpaper(int monitorIndex, QString wallpaperID, QUrl absoluteStoragePath);
+    Q_INVOKABLE void setWallpaper(int monitorIndex, QUrl absoluteStoragePath);
 
     void setLocalStoragePath(QUrl localStoragePath)
     {
