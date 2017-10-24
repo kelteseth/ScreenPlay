@@ -1,6 +1,4 @@
 import QtQuick 2.7
-import QtGraphicalEffects 1.0
-import QtQuick.Layouts 1.3
 
 Rectangle {
     id:tab
@@ -10,36 +8,6 @@ Rectangle {
 
     property string pageName: "tabname"
 
-
-    LinearGradient {
-        id: tabShadow
-        height: 5
-        z:99
-
-        anchors{
-            top:parent.top
-            right: parent.right
-            left: parent.left
-        }
-        start: Qt.point(0, 0)
-        end: Qt.point(0,5)
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "#22000000" }
-            GradientStop { position: 1.0; color: "#00000000" }
-        }
-    }
-
-    ColumnLayout {
-        id: columnLayout
-        anchors.fill: parent
-
-        Rectangle {
-            Layout.alignment: Qt.AlignCenter
-            color: "steelblue"
-            Layout.preferredHeight: 100
-        }
-
-    }
 
     Text {
         id: txtLoading
