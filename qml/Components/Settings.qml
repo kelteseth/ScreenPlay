@@ -97,22 +97,57 @@ CustomPage {
 
             }
         }
+        SettingsWrapper {
+            height: 180
+            Column {
+                spacing: 10
+                anchors.margins: 30
+
+                anchors.fill: parent
+                Headline {
+                    name: "About"
+                    height: 50
+                    width: parent.width
+                }
+
+            }
+        }
+        SettingsWrapper {
+            height: 180
+            Column {
+                spacing: 10
+                anchors.margins: 30
+
+                anchors.fill: parent
+                Headline {
+                    name: "About"
+                    height: 50
+                    width: parent.width
+                }
+
+            }
+        }
     }
+
 
     ListView {
         id: settingsListView
         anchors {
             fill: parent
-            topMargin: 30
             bottomMargin: 30
-            rightMargin: 15
-            leftMargin: 15
+            leftMargin: 30
+        }
+        header: Item {
+            height:10
+            width: parent.width
         }
         spacing: 30
         model: settingsModel
 
         cacheBuffer: 100
-        maximumFlickVelocity: 3000
+        maximumFlickVelocity: 1000
+        flickDeceleration: 500
+        boundsBehavior: Flickable.DragOverBounds
         ScrollBar.vertical: ScrollBar {
         }
     }

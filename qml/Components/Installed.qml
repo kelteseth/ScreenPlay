@@ -1,7 +1,7 @@
 import QtQuick 2.7
 import QtQml.Models 2.2
 import QtQuick.Controls 2.2
-
+import QtQuick.Controls.Styles 1.4
 
 CustomPage {
     id:pageInstalled
@@ -13,20 +13,29 @@ CustomPage {
     GridView {
         id: gridView
         boundsBehavior: Flickable.DragOverBounds
-        cacheBuffer: 10
-        maximumFlickVelocity: 10000
+        maximumFlickVelocity: 7000
+        flickDeceleration: 5000
         anchors.fill: parent
         cellWidth: 330
         cellHeight: 200
-        anchors.margins: 30
+        anchors {
+            topMargin: 0
+            rightMargin:0
+            leftMargin: 30
+        }
+        header: Item {
+            height:10
+            width: parent.width
+        }
+        model:installedListModel
 
-        model: installedListModel
         delegate: ScreenPlayItem {
             id:delegate
             focus: true
 
             customTitle: screenTitle
             screenId: screenFolderId
+            absoluteStoragePath: screenAbsoluteStoragePath
 
             Connections {
                 target: delegate
@@ -36,11 +45,11 @@ CustomPage {
             }
         }
 
-        add: Transition {
-            NumberAnimation { property: "opacity"; from: 0; to: 1.0; duration: 400 }
-        }
         ScrollBar.vertical: ScrollBar {
+            stepSize: 100
             snapMode: ScrollBar.SnapOnRelease
+
+
         }
     }
 

@@ -7,6 +7,7 @@ Item {
     height: 180
 
     property string customTitle: "name here"
+    property url absoluteStoragePath
     property string screenId: ""
     signal itemClicked(var screenId)
 
@@ -22,6 +23,7 @@ Item {
     RectangularGlow {
         id: effect
         anchors.fill: itemWrapper
+
         glowRadius: 2
         spread: 0.5
         color: "black"
@@ -55,7 +57,7 @@ Item {
 
             ScreenPlayItemImage {
                 id: screenPlayItemImage
-                sourceImage: Qt.resolvedUrl( "file:///" + installedListModel.absoluteStoragePath +"/" + screenFolderId + "/" + screenPreview)
+                sourceImage: Qt.resolvedUrl( "file:///" + screenPlayItem.absoluteStoragePath  + "/" + screenPreview)
             }
         }
 

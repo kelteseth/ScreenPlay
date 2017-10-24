@@ -101,9 +101,10 @@ Item {
                 anchors.bottom: parent.bottom
                 anchors.bottomMargin: 18
                 onClicked: {
-                    screenPlaySettings.constructWallpaper(
+                    screenPlaySettings.setWallpaper(
+                                monitorSelection.activeMonitorIndex,
                                 activeScreen,
-                                monitorSelection.activeMonitorIndex)
+                                installedListModel.get(activeScreen).absoluteFilePath)
                 }
             }
 
