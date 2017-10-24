@@ -118,6 +118,8 @@ void Settings::setWallpaper(int monitorIndex,  QUrl absoluteStoragePath)
             removeWallpaperAt(i);
         }
     }
+    m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(project, monitor)));
+
 
 
 

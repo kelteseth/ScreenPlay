@@ -18,7 +18,7 @@ class Wallpaper : public QWindow {
     Q_OBJECT
 public:
     explicit Wallpaper(QWindow* parent = 0);
-    Wallpaper(Profile profile, ProjectFile project, Monitor monitor);
+    Wallpaper( ProjectFile project, Monitor monitor);
     ~Wallpaper();
     Q_PROPERTY(QString absoluteFilePath READ absoluteFilePath WRITE setAbsoluteFilePath NOTIFY absoluteFilePathChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)

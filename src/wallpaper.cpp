@@ -18,16 +18,17 @@ Wallpaper::Wallpaper(QWindow* parent)
 {
 }
 
-Wallpaper::Wallpaper(Profile profile, ProjectFile project, Monitor monitor)
+Wallpaper::Wallpaper( ProjectFile project, Monitor monitor)
 {
 
-    m_profile = profile;
+
     m_monitor = monitor;
     m_project = project;
-    QString tmp = profile.m_absolutePath.toString() + "/Wallpaper/" + profile.m_wallpaperId + "/" + m_project.m_file.toString();
+    QString tmp = m_project.m_absoluteStoragePath.toString() + "/" + m_project.m_file.toString();
+    qDebug() << tmp;
     tmp.replace("/","\\\\");
     setAbsoluteFilePath(tmp);
-
+qDebug() << tmp;
     this->setX(m_profile.m_rect.x());
     this->setY(m_profile.m_rect.y());
     this->setWidth(m_profile.m_rect.width());
