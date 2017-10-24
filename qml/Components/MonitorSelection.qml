@@ -12,8 +12,9 @@ Rectangle {
     property int activeMonitorIndex: 0
 
     function setActiveMonitorIndex(newIndex){
+        activeMonitorIndex = newIndex
         for(var i = 0; i < rp.count; i++){
-            if(i == newIndex){
+            if(i === newIndex){
                 rp.itemAt(i).isSelected = true
             } else {
                 rp.itemAt(i).isSelected = false
