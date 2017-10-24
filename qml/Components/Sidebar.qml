@@ -19,12 +19,18 @@ Item {
     property string activeScreen: ""
 
     onActiveScreenChanged: {
-        text1.text = installedListModel.get(activeScreen).screenTitle
+        txtHeadline.text = installedListModel.get(activeScreen).screenTitle
         image.source = Qt.resolvedUrl(
                     "file:///" + installedListModel.absoluteStoragePath + "/"
                     + activeScreen + "/" + installedListModel.get(
                         activeScreen).screenPreview)
     }
+
+    FontLoader{
+        id: font_Roboto_Regular
+        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
+    }
+
 
     Item {
         id: sidebarWrapper
@@ -129,13 +135,16 @@ Item {
             }
 
             Text {
-                id: text1
+                id: txtHeadline
                 text: ""
+                renderType: Text.NativeRendering
+                font.family: font_Roboto_Regular.name
+                font.pixelSize: 21
                 anchors.left: parent.left
                 anchors.leftMargin: 20
                 anchors.top: parent.top
                 anchors.topMargin: 267
-                font.pixelSize: 12
+
             }
         }
 
