@@ -9,7 +9,7 @@ ApplicationWindow {
     id: window
     color: "#eeeeee"
     visible: true
-    width: 1380
+    width: 1400
     minimumHeight: 768
     minimumWidth: 1050
 
@@ -20,6 +20,7 @@ ApplicationWindow {
 
     Loader {
         id: pageLoader
+        asynchronous: true
         source : "qrc:/qml/Components/Installed.qml"
         anchors {
             top: nav.bottom
