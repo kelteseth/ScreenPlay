@@ -41,7 +41,7 @@ public:
         PreviewRole,
         FolderIdRole,
         FileIdRole,
-        AbsoluteFilePathRole,
+        AbsoluteStoragePathRole,
     };
     Q_ENUM(InstalledRole)
 

@@ -26,11 +26,10 @@ Item {
                         activeScreen).screenPreview)
     }
 
-    FontLoader{
+    FontLoader {
         id: font_Roboto_Regular
         source: "qrc:/assets/fonts/Roboto-Regular.ttf"
     }
-
 
     Item {
         id: sidebarWrapper
@@ -109,8 +108,9 @@ Item {
                 onClicked: {
                     screenPlaySettings.setWallpaper(
                                 monitorSelection.activeMonitorIndex,
-                                activeScreen,
-                                installedListModel.get(activeScreen).absoluteFilePath)
+
+                                     installedListModel.absoluteStoragePath
+                                    + "/" + activeScreen)
                 }
             }
 
@@ -144,7 +144,6 @@ Item {
                 anchors.leftMargin: 20
                 anchors.top: parent.top
                 anchors.topMargin: 267
-
             }
         }
 

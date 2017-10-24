@@ -25,8 +25,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(index.row()).m_folderId;
         case FileIdRole:
             return m_screenPlayFiles.at(index.row()).m_file;
-        case AbsoluteFilePathRole:
-            return m_screenPlayFiles.at(index.row()).m_absolutePath;
+        case AbsoluteStoragePathRole:
+            return m_screenPlayFiles.at(index.row()).m_absoluteStoragePath;
         default:
             return QVariant();
         }
@@ -40,16 +40,16 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { PreviewRole, "screenPreview" },
         { FolderIdRole, "screenFolderId" },
         { FileIdRole, "screenFile" },
-        { AbsoluteFilePathRole, "absoluteFilePath" },
+        { AbsoluteStoragePathRole, "screenAbsoluteStoragePath" },
     };
     return roles;
 }
 
-
 bool InstalledListModel::getProjectByAbsoluteStoragePath(QUrl* path, ProjectFile* spf)
 {
+
     for (int i = 0; i < m_screenPlayFiles.count(); ++i) {
-        if (m_screenPlayFiles.at(i).m_absolutePath == *path) {
+        if (m_screenPlayFiles.at(i).m_absoluteStoragePath  == *path) {
             *spf = m_screenPlayFiles.at(i);
             return true;
         }
@@ -109,6 +109,7 @@ QVariantMap InstalledListModel::get(QString folderId)
             map.insert("screenTitle", m_screenPlayFiles[i].m_title);
             map.insert("screenPreview", m_screenPlayFiles[i].m_preview);
             map.insert("screenFile", m_screenPlayFiles[i].m_file);
+            map.insert("screenAbsoluteStoragePath", m_screenPlayFiles[i].m_absoluteStoragePath);
         }
     }
 
