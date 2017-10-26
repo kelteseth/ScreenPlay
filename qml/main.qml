@@ -3,15 +3,38 @@ import QtQuick.Window 2.2
 import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
+import Qt.labs.platform 1.0
 import "Components"
 
 ApplicationWindow {
     id: window
     color: "#eeeeee"
     visible: true
-    width: 1400
+    width: 1383
     minimumHeight: 768
     minimumWidth: 1050
+
+    SystemTrayIcon {
+        visible: true
+        iconSource: "qrc:/assets/icons/favicon.ico"
+
+
+        menu: Menu {
+            MenuItem{
+                text:qsTr("Open ScreenPlay")
+                onTriggered: {
+                    window.show()
+                }
+            }
+
+            MenuItem {
+                text: qsTr("Quit")
+                onTriggered: Qt.quit()
+            }
+
+        }
+    }
+
 
     Component.onCompleted: {
         setX(Screen.width / 2 - width / 2);
