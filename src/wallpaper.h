@@ -56,6 +56,8 @@ public slots:
         emit isPlayingChanged(m_isPlaying);
     }
 
+    void setVisible(bool visible);
+
 signals:
     void absoluteFilePathChanged(QString absoluteFilePath);
 

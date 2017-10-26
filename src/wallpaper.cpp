@@ -25,14 +25,18 @@ Wallpaper::Wallpaper( ProjectFile project, Monitor monitor)
     m_monitor = monitor;
     m_project = project;
     QString tmp = m_project.m_absoluteStoragePath.toString() + "/" + m_project.m_file.toString();
-    qDebug() << tmp;
+
     tmp.replace("/","\\\\");
     setAbsoluteFilePath(tmp);
-qDebug() << tmp;
-    this->setX(m_profile.m_rect.x());
-    this->setY(m_profile.m_rect.y());
-    this->setWidth(m_profile.m_rect.width());
-    this->setHeight(m_profile.m_rect.height());
+
+//    this->setX(m_profile.m_rect.x());
+//    this->setY(m_profile.m_rect.y());
+//    this->setWidth(m_profile.m_rect.width());
+//    this->setHeight(m_profile.m_rect.height());
+    this->setX(m_monitor.m_availableGeometry.x());
+    this->setY(m_monitor.m_availableGeometry.y());
+    this->setWidth(m_monitor.m_availableGeometry.width());
+    this->setHeight(m_monitor.m_availableGeometry.height());
     this->m_hwnd = (HWND)this->winId();
 
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
@@ -70,10 +74,26 @@ qDebug() << tmp;
 
 Wallpaper::~Wallpaper()
 {
+    //this->setVisible(false);
+    //m_quickRenderer->destroy();
+    this->setPosition(QPoint(500,500));
     ShowWindow(m_hwnd, SW_HIDE);
+    ShowWindow(m_worker_hwnd, SW_HIDE);
+    CloseWindow(m_hwnd);
+    DestroyWindow(m_worker_hwnd);
+    DestroyWindow(m_hwnd);
 }
 
 Monitor Wallpaper::monitor() const
 {
     return m_monitor;
+}
+
+void Wallpaper::setVisible(bool visible)
+{
+    if (visible)
+        ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+    else
+        ShowWindow(m_hwnd, SW_HIDE);
+
 }
