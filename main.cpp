@@ -33,11 +33,13 @@
 int main(int argc, char* argv[])
 {
 
-    Q_INIT_RESOURCE(qml);
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
+    //Q_INIT_RESOURCE(qml);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_UseOpenGLES);
 
-    QGuiApplication app(argc, argv);
+
+    QApplication app(argc, argv);
+
 
     AppId_t steamID = 672870;
 
