@@ -29,38 +29,32 @@
 #include "steamworkshoplistmodel.h"
 #include "widget.h"
 
-
 int main(int argc, char* argv[])
 {
 
     //Q_INIT_RESOURCE(qml);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseOpenGLES);
-
-
     QApplication app(argc, argv);
-
-
     AppId_t steamID = 672870;
-
-    if (SteamAPI_RestartAppIfNecessary(steamID)) {
-        qWarning() << "SteamAPI_RestartAppIfNecessary";
-        return 1;
-    }
-
-    if (!SteamAPI_Init()) {
-        qWarning() << "Could not init steam sdk!";
-        return 1;
-    }
-    SteamWorkshopListModel swlm;
-    SteamWorkshop steamWorkshop(steamID,&swlm);
-    //Widget wg;
 
     QCoreApplication::setOrganizationName("Aimber");
     QCoreApplication::setOrganizationDomain("aimber.net");
     QCoreApplication::setApplicationName("ScreenPlay");
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
     QQuickStyle::setStyle("Material");
+
+    bool steamErrorRestart = false;
+    bool steamErrorAPIInit = false;
+    if (SteamAPI_RestartAppIfNecessary(steamID)) {
+        qWarning() << "SteamAPI_RestartAppIfNecessary";
+        steamErrorRestart = true;
+    }
+
+    if (!SteamAPI_Init()) {
+        qWarning() << "Could not init steam sdk!";
+        steamErrorAPIInit = true;
+    }
 
     InstalledListModel installedListModel;
     MonitorListModel monitorListModel;
@@ -87,6 +81,14 @@ int main(int argc, char* argv[])
     mainWindowEngine.rootContext()->setContextProperty("profileListModel", &profileListModel);
     mainWindowEngine.rootContext()->setContextProperty("steamWorkshop", &steamWorkshop);
     mainWindowEngine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    //mainWindowEngine.rootContext()->setContextProperty("stomtPlugin", &stomt);
+
+    QQmlApplicationEngine errorWindowEngine;
+    if (steamErrorRestart || steamErrorAPIInit) {
+        errorWindowEngine.load(QUrl(QStringLiteral("qrc:/qml/Components/StartupErrorWindow.qml")));
+    } else {
+        mainWindowEngine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    }
 
     // FIXME: Needed workaround to close the app because
     // apparently some thread still runs in the background
