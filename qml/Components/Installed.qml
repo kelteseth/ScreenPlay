@@ -34,6 +34,11 @@ CustomPage {
         onClicked: {
             print("as")
             installedListModel.reloadFiles()
+            if(installedListModel.getAmountItemLoaded() === 0){
+                loaderHelp.active = true
+            } else {
+                loaderHelp.active = false
+            }
         }
     }
 
