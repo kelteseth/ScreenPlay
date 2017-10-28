@@ -54,5 +54,8 @@
         <file>qml/Components/StartupErrorWindow.qml</file>
         <file>assets/icons/icon_heavy_metal.svg</file>
         <file>qml/Components/InstalledUserHelper.qml</file>
+        <file>assets/icons/icon_hand_left.svg</file>
+        <file>assets/icons/icon_hand_right.svg</file>
+        <file>assets/images/hand_give.png</file>
     </qresource>
 </RCC>

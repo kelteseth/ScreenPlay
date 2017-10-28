@@ -10,8 +10,11 @@ CustomPage {
     signal setSidebaractiveItem(var screenId)
 
     Component.onCompleted: {
+        installedListModel.reloadFiles()
         if(installedListModel.getAmountItemLoaded() === 0){
             loaderHelp.active = true
+        } else {
+            loaderHelp.active = false
         }
     }
 
@@ -21,10 +24,11 @@ CustomPage {
         active:false
         anchors.fill: parent
         source: "qrc:/qml/Components/InstalledUserHelper.qml"
-
     }
+
     Button {
         z:111
+        visible: false
         anchors {
             top: parent.top
             right: parent.right
@@ -32,7 +36,6 @@ CustomPage {
         }
         text: qsTr("Reload")
         onClicked: {
-            print("as")
             installedListModel.reloadFiles()
             if(installedListModel.getAmountItemLoaded() === 0){
                 loaderHelp.active = true
