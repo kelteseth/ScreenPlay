@@ -25,7 +25,6 @@ Wallpaper::Wallpaper( ProjectFile project, Monitor monitor)
     m_monitor = monitor;
     m_project = project;
     QString tmp = m_project.m_absoluteStoragePath.toString() + "/" + m_project.m_file.toString();
-
     tmp.replace("/","\\\\");
     setAbsoluteFilePath(tmp);
 
@@ -33,12 +32,13 @@ Wallpaper::Wallpaper( ProjectFile project, Monitor monitor)
 //    this->setY(m_profile.m_rect.y());
 //    this->setWidth(m_profile.m_rect.width());
 //    this->setHeight(m_profile.m_rect.height());
-    this->setX(m_monitor.m_availableGeometry.x());
-    this->setY(m_monitor.m_availableGeometry.y());
+    this->setX(m_monitor.m_geometry.x());
+    this->setY(m_monitor.m_geometry.y());
     this->setWidth(m_monitor.m_availableGeometry.width());
     this->setHeight(m_monitor.m_availableGeometry.height());
     this->m_hwnd = (HWND)this->winId();
 
+    qDebug() << "++++"<< this->x() << this->y() << this->width() << this->height();
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
 
     // Spawn new worker window below desktop (using some undocumented Win32 magic)

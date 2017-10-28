@@ -14,6 +14,7 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
         { AvailableGeometryRole, "monitorAvailableGeometry" },
         { AvailableVirtualGeometryRole, "monitorAvailableVirtualGeometry" },
         { NumberRole, "monitorNumber" },
+        { GeometryRole, "monitorGeometry" },
     };
     return roles;
 }
@@ -65,6 +66,8 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
             return m_monitorList.at(index.row()).m_availableVirtualGeometry;
         case NumberRole:
             return m_monitorList.at(index.row()).m_number;
+        case GeometryRole:
+            return m_monitorList.at(index.row()).m_geometry;
         default:
             return QVariant();
         }
@@ -116,7 +119,8 @@ void MonitorListModel::loadMonitors()
             screen->availableGeometry(),
             // More convenient for the user if the first monitor == 1
             i + 1,
-            screen->availableVirtualGeometry()));
+            screen->availableVirtualGeometry(),
+            screen->geometry()));
     }
 }
 
@@ -125,13 +129,12 @@ int MonitorListModel::size()
     return m_monitorList.size();
 }
 
-
 bool MonitorListModel::getMonitorListItemAt(int position, Monitor* monitor)
 {
     if (position < 0 && position > m_monitorList.size()) {
         return false;
     } else {
-         *monitor = m_monitorList.at(position);
+        *monitor = m_monitorList.at(position);
         return true;
     }
 }
@@ -151,11 +154,12 @@ Monitor::Monitor()
 {
 }
 
-Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry)
+Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry, QRect geometry)
 {
 
     m_name = name;
     m_size = size;
+    m_geometry = geometry;
     m_availableGeometry = availableGeometry;
 
     m_availableVirtualGeometry = availableVirtualGeometry;

@@ -45,6 +45,7 @@ ApplicationWindow {
         id: tabShadow
         height: 5
         z:99
+        visible: false
 
         anchors{
             top:nav.bottom

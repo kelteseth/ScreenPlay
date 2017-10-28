@@ -5,6 +5,7 @@
 #include <QUrl>
 #include <QVariant>
 #include <QVariantList>
+#include <QDebug>
 
 class ProjectFile
 {
@@ -17,7 +18,7 @@ public:
     QVariant m_preview;
     QVariant m_title;
     QString m_folderId;
-    QUrl m_absolutePath;
+    QUrl m_absoluteStoragePath;
 
     QVariantList m_tags; //TODO: Implement me!
 };

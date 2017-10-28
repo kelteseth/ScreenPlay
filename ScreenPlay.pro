@@ -18,7 +18,8 @@ SOURCES += main.cpp \
     src/steamworkshoplistmodel.cpp \
     src/workshopitem.cpp
 
-RESOURCES += qml.qrc
+RESOURCES += \
+    Resources.qrc \
 
 HEADERS += \
     src/steamworkshop.h \

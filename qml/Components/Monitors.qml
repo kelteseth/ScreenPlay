@@ -1,4 +1,5 @@
 import QtQuick 2.7
+import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
 
 Item {
@@ -40,21 +41,25 @@ Item {
         }
 
         MonitorSelection {
+            id:monitorSelection
             anchors.centerIn: parent
             anchors.fill: parent
             availableWidth: monitorWrapper.width
             availableHeight: monitorWrapper.height
         }
+
+        Button {
+            id:btn
+            text:"Remove all wallpaper"
+            onClicked: screenPlaySettings.removeAll();//screenPlaySettings.removeWallpaperAt(monitorSelection.activeMonitorIndex)
+            anchors{
+                horizontalCenter: parent.horizontalCenter
+                bottom: parent.bottom
+                bottomMargin: 30
+            }
+        }
     }
 
-//    DropShadow {
-//        anchors.fill: monitorWrapper
-//        radius: 12.0
-//        cached: true
-//        samples: 17
-//        color: "#80000000"
-//        source: monitorWrapper
-//    }
 
     states: [
         State {

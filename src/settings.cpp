@@ -56,7 +56,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
 
     //If empty use steam workshop location
     if (QString(configObj.value("absoluteStoragePath").toString()).isEmpty()) {
-        uint32 size = 5000;
+        const uint32 size = 5000;
         char folder[size];
         SteamApps()->GetAppInstallDir(m_steamID, folder, 5000);
         QDir steamTmpUrl = QDir(QString(QByteArray(folder).data()));
@@ -73,8 +73,6 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
 
     m_ilm->setabsoluteStoragePath(m_localStoragePath);
     m_plm->m_localStoragePath = m_localStoragePath;
-
-
 
     m_autostart = configObj.value("autostart").toBool();
     m_highPriorityStart = configObj.value("highPriorityStart").toBool();
@@ -95,57 +93,26 @@ void Settings::constructWallpaper(QString folder, int monitorListAt)
 {
 }
 
-void Settings::setWallpaper(int monitorIndex,  QUrl absoluteStoragePath)
+void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
 {
 
     ProjectFile project;
     Monitor monitor;
 
-
-
     if (!m_mlm->getMonitorListItemAt(monitorIndex, &monitor)) {
         return;
     }
 
-
-    if(!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath,&project)){
+    if (!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
         return;
     }
 
-    // Search for active Wallpapers on the same monitor and delte it
-    for (int i = 0; i < m_wallpapers.length(); ++i) {
-        if (m_wallpapers.at(i).data()->monitor().m_id == monitor.m_id) {
-            removeWallpaperAt(i);
-        }
-    }
-    m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(project, monitor)));
-
-
-
-
-    /*
-     * Profile profile;
-    //Does the targeted monitor has a profile ?
-    // 1. Get the requested monitor
-    if(m_mlm->getMonitorListItemAt(monitorIndex,&monitor)){
-        // 2. When found search for
-        for (int i = 0; i < m_mlm->size(); ++i) {
-            if(m_mlm->getMonitorListItemAt(i,&tmpMonitor)){
-                for(int i = 0; i < m_activeProfiles.size(); ++i){
-                    if(tmpMonitor._id == m_activeProfiles.at(i).data()->monitorId()) {
-
-                    }
-                }
-            }
-        }
+    if (m_wallpapers.length() < monitorIndex && m_wallpapers.length() > 0) {
+        m_wallpapers.replace(monitorIndex, QSharedPointer<Wallpaper>(new Wallpaper(project, monitor)));
+    } else {
+        m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(project, monitor)));
     }
 
-
-    if (m_ilm->getProjectByName(wallpaperID, &project)) {
-        if(m_mlm->getMonitorListItemAt(monitorIndex,&monitor)){
-            m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(profile, monitor)));
-        }
-    }*/
 }
 
 void Settings::loadActiveProfiles()
@@ -173,7 +140,7 @@ void Settings::loadActiveProfiles()
 
             if (!m_plm->getProfileByName(profileName, &profile))
                 continue;
-            if(!m_ilm->getProjectByAbsoluteStoragePath(&profile.m_absolutePath, &spf))
+            if (!m_ilm->getProjectByAbsoluteStoragePath(&profile.m_absolutePath, &spf))
                 continue;
 
             constructWallpaper(profile, monitorID, spf);
@@ -192,8 +159,9 @@ void Settings::createNewWallpaper(int monitorListPosition, Profile profile, Proj
 
 void Settings::removeWallpaperAt(int pos)
 {
-    //Todo is this a memory leak?
-    m_wallpapers.removeAt(pos);
+
+    if (pos > 0 && pos > m_wallpapers.size())
+        m_wallpapers.removeAt(pos);
 }
 
 void Settings::createDefaultConfig()

@@ -18,7 +18,7 @@ ProjectFile::ProjectFile(QJsonObject obj, QString folderName, QUrl absolutePath)
     if (obj.contains("title"))
         m_title = obj.value("title");
 
-    m_absolutePath = absolutePath;
+    m_absoluteStoragePath = QUrl(absolutePath.toString() +"/"+ folderName);
 
     m_folderId = folderName;
 }

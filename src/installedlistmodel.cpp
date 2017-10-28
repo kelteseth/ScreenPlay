@@ -49,7 +49,7 @@ bool InstalledListModel::getProjectByAbsoluteStoragePath(QUrl* path, ProjectFile
 {
 
     for (int i = 0; i < m_screenPlayFiles.count(); ++i) {
-        if (m_screenPlayFiles.at(i).m_absoluteStoragePath  == *path) {
+        if (m_screenPlayFiles.at(i).m_absoluteStoragePath == *path) {
             *spf = m_screenPlayFiles.at(i);
             return true;
         }
@@ -62,7 +62,7 @@ void InstalledListModel::append(const QJsonObject obj, const QString folderName)
 {
     int row = 0;
 
-    beginInsertRows(QModelIndex(), row, row);
+    beginInsertRows(QModelIndex(), m_screenPlayFiles.count(), m_screenPlayFiles.count());
 
     ProjectFile tmpFile(obj, folderName, m_absoluteStoragePath);
     m_screenPlayFiles.append(tmpFile);
@@ -114,4 +114,19 @@ QVariantMap InstalledListModel::get(QString folderId)
     }
 
     return map;
+}
+
+int InstalledListModel::getAmountItemLoaded()
+{
+    return m_screenPlayFiles.count();
+}
+
+void InstalledListModel::reloadFiles()
+{
+    beginResetModel();
+    m_screenPlayFiles.clear();
+    m_screenPlayFiles.squeeze();
+    endResetModel();
+
+    loadScreens();
 }

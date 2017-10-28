@@ -22,10 +22,10 @@ Rectangle {
         anchors.fill: parent
         Text {
             renderType: Text.NativeRendering
-            text: index + " - " + monitorSize.width + ", " + monitorSize.height
+            text: index + " " + monitorSize.width + ", " + monitorSize.height
             anchors.centerIn: parent
             color:"white"
-            font.pixelSize: 16
+            font.pixelSize: 14
         }
     }
 

@@ -24,7 +24,6 @@ Item {
             renderType: Text.NativeRendering
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
-            anchors.bottom: line.top
             anchors.bottomMargin: 5
             anchors.left: parent.left
             anchors.leftMargin: 10
@@ -39,12 +38,5 @@ Item {
             }
         }
 
-        Rectangle {
-            id: line
-            height: 1
-            width: parent.width
-            color: "#BBBBBB"
-            anchors.bottom: parent.bottom
-        }
     }
 }

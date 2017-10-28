@@ -59,11 +59,12 @@ public slots:
         m_absoluteStoragePath = absoluteStoragePath;
         emit absoluteStoragePathChanged(m_absoluteStoragePath);
     }
+    int getAmountItemLoaded();
+    void reloadFiles();
 
 signals:
     void setScreenVisible(bool visible);
     void setScreenToVideo(QString absolutePath);
-
     void absoluteStoragePathChanged(QUrl absoluteStoragePath);
 
 private:

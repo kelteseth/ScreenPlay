@@ -46,5 +46,13 @@
         <file>assets/icons/icon_multiple_images.svg</file>
         <file>assets/icons/icon_single_image.svg</file>
         <file>assets/icons/icon_tv.svg</file>
+        <file>assets/icons/icon_stomt.svg</file>
+        <file>qml/Components/Feedback.qml</file>
+        <file>qml/Components/CreateVideoPreviewSmall.qml</file>
+        <file>qml/Components/CreateLeftArea.qml</file>
+        <file>qml/Components/Settings/SettingsWrapper.qml</file>
+        <file>qml/Components/StartupErrorWindow.qml</file>
+        <file>assets/icons/icon_heavy_metal.svg</file>
+        <file>qml/Components/InstalledUserHelper.qml</file>
     </qresource>
 </RCC>

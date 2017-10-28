@@ -1,49 +1,72 @@
 import QtQuick 2.7
-import QtQuick.Controls 2.0
-
+import QtQuick.Controls 2.2
+import QtGraphicalEffects 1.0
 
 Rectangle {
-    id:navigation
-    height:60
+    id: navigation
+    height: 60
     clip: true
     width: 1366
+    //color: "#EFffffff"
+    color: "transparent"
+    LinearGradient {
+        anchors.fill: parent
+        start: Qt.point(0, 40)
+        end: Qt.point(0, 60)
+        gradient: Gradient {
+            GradientStop {
+                position: 0.0
+                color: "#ffffff"
+            }
+            GradientStop {
+                position: 1.0
+                color: "#DFffffff"
+            }
+        }
+    }
+
+    property int testyyy: 10
 
     signal changePage(string name)
-    signal toggleMonitors()
+    signal toggleMonitors
 
-    function onPageChanged(name){
-         navigation.changePage(name);
-        if(name ==="Workshop")
-        {
+    function onPageChanged(name) {
+        navigation.changePage(name)
+        if (name === "Workshop") {
             navWorkshop.state = "active"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
+            navFeedback.state = "inactive"
             navCreate.state = "inactive"
-
-        } else if(name ==="Installed")
-        {
+        } else if (name === "Installed") {
             navWorkshop.state = "inactive"
             navInstalled.state = "active"
             navSettings.state = "inactive"
+            navFeedback.state = "inactive"
             navCreate.state = "inactive"
-
-        } else if(name ==="Settings")
-        {
+        } else if (name === "Settings") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "active"
+            navFeedback.state = "inactive"
             navCreate.state = "inactive"
-
-        } else if(name ==="Create")
-        {
+        } else if (name === "Create") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
             navCreate.state = "active"
+            navFeedback.state = "inactive"
+        } else if (name === "Feedback") {
+            navWorkshop.state = "inactive"
+            navInstalled.state = "inactive"
+            navSettings.state = "inactive"
+            navFeedback.state = "active"
+            navCreate.state = "inactive"
         }
     }
 
     Row {
+        id: testy
         anchors.fill: parent
         anchors.left: parent.left
         anchors.leftMargin: 20
@@ -71,7 +94,6 @@ Rectangle {
             name: "Installed"
             iconSource: "qrc:/assets/icons/icon_installed.svg"
             onPageClicked: navigation.onPageChanged(name)
-
         }
 
         NavigationItem {
@@ -80,7 +102,13 @@ Rectangle {
             name: "Settings"
             iconSource: "qrc:/assets/icons/icon_settings.svg"
             onPageClicked: navigation.onPageChanged(name)
-
+        }
+        NavigationItem {
+            id: navFeedback
+            state: "inactive"
+            name: "Feedback"
+            iconSource: "qrc:/assets/icons/icon_stomt.svg"
+            onPageClicked: navigation.onPageChanged(name)
         }
     }
 
@@ -100,9 +128,7 @@ Rectangle {
             onClicked: {
                 toggleMonitors()
             }
-
         }
-
 
         Image {
             id: image
@@ -128,13 +154,10 @@ Rectangle {
             font.family: font_Roboto_Regular.name
             renderType: Text.NativeRendering
 
-            FontLoader{
+            FontLoader {
                 id: font_Roboto_Regular
                 source: "qrc:/assets/fonts/Roboto-Regular.ttf"
             }
         }
-
     }
-
-
 }

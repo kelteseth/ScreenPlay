@@ -11,7 +11,7 @@ CustomPage {
 
     VisualItemModel {
         id: settingsModel
-
+/*
         SettingsWrapper {
             height: 180
             Column {
@@ -19,8 +19,8 @@ CustomPage {
                 anchors.margins: 30
 
                 anchors.fill: parent
-                Headline {
-                    name: "General"
+                Text {
+                    text: "General"
                     height: 50
                     width: parent.width
                 }
@@ -29,10 +29,11 @@ CustomPage {
                     height: 50
                     width: parent.width
                     isChecked: screenPlaySettings.autostart
-                    onCheckboxChanged: screenPlaySettings.setAutostart(isChecked)
+                    onCheckboxChanged: screenPlaySettings.setAutostart(
+                                           isChecked)
                 }
             }
-        }
+        }*/
         SettingsWrapper {
             height: 180
             Column {
@@ -42,7 +43,7 @@ CustomPage {
 
                 Headline {
                     name: "Save"
-                    height: 50
+                    height: 20
                     width: parent.width
                 }
                 Row {
@@ -51,14 +52,13 @@ CustomPage {
                     spacing: 30
                     Text {
                         id: txtSavePathDescription
-                        text: qsTr("text")
+                        text: qsTr("Save Path: ")
                         anchors.verticalCenter: parent.verticalCenter
                     }
                     Text {
                         id: txtSavePath
                         anchors.verticalCenter: parent.verticalCenter
                         text: screenPlaySettings.localStoragePath
-
                     }
                     Button {
                         id: btnSavePath
@@ -72,63 +72,16 @@ CustomPage {
                         folder: shortcuts.home
                         selectFolder: true
 
-
                         onAccepted: {
                             txtSavePath.text = fileDialogOpenSavePath.folder
-                            screenPlaySettings.setLocalStoragePath(fileDialogOpenSavePath.folder)
-
+                            screenPlaySettings.setLocalStoragePath(
+                                        fileDialogOpenSavePath.folder)
                         }
-                    }
+                    }/**/
                 }
-            }
-        }
-        SettingsWrapper {
-            height: 180
-            Column {
-                spacing: 10
-                anchors.margins: 30
-
-                anchors.fill: parent
-                Headline {
-                    name: "About"
-                    height: 50
-                    width: parent.width
-                }
-
-            }
-        }
-        SettingsWrapper {
-            height: 180
-            Column {
-                spacing: 10
-                anchors.margins: 30
-
-                anchors.fill: parent
-                Headline {
-                    name: "About"
-                    height: 50
-                    width: parent.width
-                }
-
-            }
-        }
-        SettingsWrapper {
-            height: 180
-            Column {
-                spacing: 10
-                anchors.margins: 30
-
-                anchors.fill: parent
-                Headline {
-                    name: "About"
-                    height: 50
-                    width: parent.width
-                }
-
             }
         }
     }
-
 
     ListView {
         id: settingsListView
@@ -138,7 +91,7 @@ CustomPage {
             leftMargin: 30
         }
         header: Item {
-            height:10
+            height: 10
             width: parent.width
         }
         spacing: 30
@@ -149,6 +102,14 @@ CustomPage {
         flickDeceleration: 500
         boundsBehavior: Flickable.DragOverBounds
         ScrollBar.vertical: ScrollBar {
+        }
+        displaced: Transition {
+            NumberAnimation {
+                property: "opacity"
+                from: 0
+                to: 1.0
+                duration: 400
+            }
         }
     }
 }

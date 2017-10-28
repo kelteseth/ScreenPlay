@@ -50,7 +50,7 @@ Item {
             navigationItem.pageClicked(navigationItem.name)
         }
 
-        Rectangle {
+        Item {
             id: item2
 
             width: 100

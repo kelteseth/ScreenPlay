@@ -43,7 +43,7 @@ public:
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
 
     void loadActiveProfiles();
-    void removeAll();
+    Q_INVOKABLE void removeAll();
 
     enum LocalCopyResult {
         NoError,
@@ -156,6 +156,8 @@ public slots:
 
     Q_INVOKABLE void setWallpaper(int monitorIndex, QUrl absoluteStoragePath);
 
+
+
     void setLocalStoragePath(QUrl localStoragePath)
     {
         if (m_localStoragePath == localStoragePath)
@@ -184,6 +186,7 @@ public slots:
         out << QJsonDocument(configObj).toJson();
 
         configTmp.close();
+        m_ilm->setabsoluteStoragePath(m_localStoragePath);
         emit localStoragePathChanged(m_localStoragePath);
     }
 

@@ -30,6 +30,7 @@ public:
         AvailableGeometryRole,
         AvailableVirtualGeometryRole,
         NumberRole,
+        GeometryRole,
     };
     Q_ENUM(MonitorRole)
 
@@ -70,13 +71,14 @@ class Monitor {
 
 public:
     Monitor();
-    Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry);
+    Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry,QRect geometry);
 
     QString m_id;
     QString m_name;
     QSize m_size;
     QRect m_availableGeometry;
     QRect m_availableVirtualGeometry;
+    QRect m_geometry;
     int m_number;
     bool m_isVirtualDesktop;
 

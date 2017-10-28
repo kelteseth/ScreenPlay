@@ -4,10 +4,38 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Styles 1.4
 
 CustomPage {
-    id:pageInstalled
+    id: pageInstalled
     pageName: ""
 
     signal setSidebaractiveItem(var screenId)
+
+    Component.onCompleted: {
+        if(installedListModel.getAmountItemLoaded() === 0){
+            loaderHelp.active = true
+        }
+    }
+
+    Loader {
+        id:loaderHelp
+        asynchronous: true
+        active:false
+        anchors.fill: parent
+        source: "qrc:/qml/Components/InstalledUserHelper.qml"
+
+    }
+    Button {
+        z:111
+        anchors {
+            top: parent.top
+            right: parent.right
+
+        }
+        text: qsTr("Reload")
+        onClicked: {
+            print("as")
+            installedListModel.reloadFiles()
+        }
+    }
 
 
     GridView {
@@ -17,20 +45,23 @@ CustomPage {
         flickDeceleration: 5000
         anchors.fill: parent
         cellWidth: 330
+        cacheBuffer: 10000
         cellHeight: 200
         anchors {
             topMargin: 0
-            rightMargin:0
+            rightMargin: 0
             leftMargin: 30
         }
         header: Item {
-            height:10
+            height: 30
             width: parent.width
         }
-        model:installedListModel
+        model: installedListModel
+
+
 
         delegate: ScreenPlayItem {
-            id:delegate
+            id: delegate
             focus: true
 
             customTitle: screenTitle
@@ -46,12 +77,7 @@ CustomPage {
         }
 
         ScrollBar.vertical: ScrollBar {
-            stepSize: 100
             snapMode: ScrollBar.SnapOnRelease
-
-
         }
     }
-
-
 }

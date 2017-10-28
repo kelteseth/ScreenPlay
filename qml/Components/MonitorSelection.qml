@@ -76,6 +76,7 @@ Rectangle {
             x: monitorAvailableGeometry.x
             y: monitorAvailableGeometry.y
             monitorSize: monitorAvailableGeometry
+            index: delegate.index
 
             Connections{
                 target: delegate
