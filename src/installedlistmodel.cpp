@@ -91,6 +91,8 @@ void InstalledListModel::loadScreens()
 
         if (!(parseError.error == QJsonParseError::NoError))
             continue;
+        if(jsonProject.object().value("type").toString() == "scene")
+            continue;
 
         append(jsonProject.object(), item.baseName());
     }
