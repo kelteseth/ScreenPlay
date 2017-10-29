@@ -4,21 +4,51 @@ import QtQuick.Controls.Styles 1.4
 
 Item {
     id: installedUserHelper
+
+    signal helperButtonPressed(var pos)
+
     state: "invisible"
     anchors {
         fill: parent
     }
     Component.onCompleted: {
-        installedUserHelper.state = "visible"
+        timerInit.start()
+    }
+
+    Timer {
+        id: timerInit
+        interval: 300
+        onTriggered: installedUserHelper.state = "visible"
+    }
+
+    FontLoader {
+        id: font_Roboto_Regular
+        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
+    }
+
+    Text {
+        id: txtIntro
+        width:600
+        text: qsTr("Oh No! It looks like you dont have any wallpapers....")
+        font.pixelSize: 28
+        color: "#818181"
+        renderType: Text.NativeRendering
+        font.family: font_Roboto_Regular.name
+        anchors {
+            top:parent.top
+            topMargin: 80
+            horizontalCenter: parent.horizontalCenter
+
+        }
     }
 
     Item {
         id: handWrapper
-        width: 350
+        width: 500
         height: 500
         anchors {
             horizontalCenter: parent.horizontalCenter
-            bottom: parent.bottom
+            top: parent.bottom
         }
 
         Item {
@@ -36,43 +66,63 @@ Item {
                 width: 150
                 sourceSize.height: 500
                 sourceSize.width: 150
-
                 source: "qrc:/assets/images/hand_give.png"
             }
-            Button {
-                id: button
-                text: qsTr("asasas")
-                anchors.topMargin: 120
+            Item {
+                width: 140
+                anchors.topMargin: 90
                 anchors {
                     top: parent.top
                     horizontalCenter: parent.horizontalCenter
                 }
-                onClicked: {
-
-                }
-
-                background: Rectangle {
-                    implicitWidth: 100
-                    implicitHeight: 25
-                    radius: 2
-                    color:"#21A4D0"
-                    gradient: Gradient {
-                        GradientStop {
-                            position: 0
-                            color: button.hovered ? "#21B6D0" : "#21A4D0"
+                Rectangle {
+                    color: "#21A4D0"
+                    z: 3
+                    width: 140
+                    height: 40
+                    radius: 3
+                    Text {
+                        id: name2
+                        anchors.centerIn: parent
+                        text: qsTr("Create Your Own")
+                        color: "white"
+                        renderType: Text.NativeRendering
+                        font.pixelSize: 14
+                        font.family: font_Roboto_Regular.name
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            installedUserHelper.state = "invisible"
+                            timerLeft.start()
                         }
-                        GradientStop {
-                            position: 1
-                            color: button.hovered ? "#21B6D0" : "#21A4D0"
+                        Timer {
+                            id: timerLeft
+                            interval: 1000
+                            onTriggered: {
+                                helperButtonPressed(0)
+                            }
                         }
                     }
                 }
+
+                Rectangle {
+                    color: "#0E79C2"
+                    z: 1
+                    width: 140
+                    height: 44
+                    radius: 3
+                }
+
+
             }
         }
 
         Item {
             id: handLeRightWrapper
             height: 500
+
             width: 150
             anchors {
                 bottom: parent.bottom
@@ -88,47 +138,143 @@ Item {
                 mirror: true
                 source: "qrc:/assets/images/hand_give.png"
             }
-            Button {
-                text: qsTr("asasas")
-                anchors.topMargin: 120
+            Item {
+                width: 140
+                anchors.topMargin: 90
                 anchors {
                     top: parent.top
                     horizontalCenter: parent.horizontalCenter
                 }
+                Rectangle {
+                    color: "#FF5A2E"
+                    z: 3
+                    width: 140
+                    height: 40
+                    radius: 3
+                    Text {
+                        id: name
+                        anchors.centerIn: parent
+                        text: qsTr("Browse Workshop")
+                        color: "white"
+                        renderType: Text.NativeRendering
+                        font.pixelSize: 14
+                        font.family: font_Roboto_Regular.name
+                    }
+                    MouseArea {
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        onClicked: {
+                            installedUserHelper.state = "invisible"
+                            timerRight.start()
+                        }
+                        Timer {
+                            id: timerRight
+                            interval: 1000
+                            onTriggered: {
+                                helperButtonPressed(1)
+                            }
+                        }
+                    }
+                }
+
+                Rectangle {
+                    color: "#E92716"
+                    z: 1
+                    width: 140
+                    height: 44
+                    radius: 3
+                }
+
+
             }
         }
+    }
+
+    Text {
+        id: txtRightHand
+
+        font.pixelSize: 24
+        color: "#818181"
+        renderType: Text.NativeRendering
+        font.family: font_Roboto_Regular.name
+
+        anchors {
+            left: handWrapper.right
+            leftMargin: 30
+            top: handWrapper.top
+            topMargin: 50
+            right: parent.right
+            rightMargin: 50
+        }
+
+        wrapMode: Text.WordWrap
+        text: qsTr("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. ")
+    }
+
+    Text {
+        id: txtLeftHand
+        font.pixelSize: 23
+        color: "#818181"
+        renderType: Text.NativeRendering
+        font.family: font_Roboto_Regular.name
+        anchors {
+            right: handWrapper.left
+            rightMargin: 30
+            top: handWrapper.top
+            topMargin: 50
+            left: parent.left
+            leftMargin: 50
+        }
+        wrapMode: Text.WordWrap
+        horizontalAlignment: Text.AlignRight
+        text: qsTr("Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. ")
     }
 
     states: [
         State {
             name: "invisible"
-            AnchorChanges {
+
+            PropertyChanges {
                 target: handWrapper
-                anchors.top: installedUserHelper.bottom
-                anchors.bottom: undefined
+                anchors.topMargin: 00
+                opacity:0
+            }
+            PropertyChanges {
+                target: txtIntro
+                opacity:0
+                anchors.topMargin: -50
             }
         },
         State {
             name: "visible"
-            AnchorChanges {
+            PropertyChanges {
                 target: handWrapper
-                anchors.top: undefined
-                anchors.bottom: installedUserHelper.bottom
+                anchors.topMargin: -500
+                opacity:1
+            }
+
+            PropertyChanges {
+                target: txtIntro
+                opacity:1
+                anchors.topMargin: 80
+
             }
         }
     ]
 
     transitions: Transition {
-        AnchorAnimation {
-            duration: 1200
-            easing.type: Easing.InOutQuad
 
-            onStopped: {
-                print("stopped")
-                imgHandRight.source = "qrc:/assets/icons/icon_hand_right.svg"
-                imgHandRight.sourceSize.height = 500
-                imgHandRight.sourceSize.width = 150
-            }
+        NumberAnimation {
+            target: handWrapper
+            properties: "opacity,anchors.topMargin"
+            duration: 500
+            easing.type: Easing.InOutQuad
+        }
+        NumberAnimation {
+            target: txtIntro
+            properties: "opacity,anchors.topMargin"
+            duration: 500
+            easing.type: Easing.InOutQuad
         }
     }
 }

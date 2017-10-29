@@ -8,6 +8,14 @@ CustomPage {
     pageName: ""
 
     signal setSidebaractiveItem(var screenId)
+    signal setNavigationItem(var pos)
+
+    Connections {
+        target:loaderHelp.item
+        onHelperButtonPressed:{
+            setNavigationItem(pos)
+        }
+    }
 
     Component.onCompleted: {
         installedListModel.reloadFiles()
@@ -22,6 +30,7 @@ CustomPage {
         id:loaderHelp
         asynchronous: true
         active:false
+        z:99
         anchors.fill: parent
         source: "qrc:/qml/Components/InstalledUserHelper.qml"
     }

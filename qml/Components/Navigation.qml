@@ -7,8 +7,8 @@ Rectangle {
     height: 60
     clip: true
     width: 1366
-    //color: "#EFffffff"
     color: "transparent"
+
     LinearGradient {
         anchors.fill: parent
         start: Qt.point(0, 40)
@@ -24,8 +24,6 @@ Rectangle {
             }
         }
     }
-
-    property int testyyy: 10
 
     signal changePage(string name)
     signal toggleMonitors
@@ -66,7 +64,7 @@ Rectangle {
     }
 
     Row {
-        id: testy
+
         anchors.fill: parent
         anchors.left: parent.left
         anchors.leftMargin: 20

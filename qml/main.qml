@@ -18,10 +18,9 @@ ApplicationWindow {
         visible: true
         iconSource: "qrc:/assets/icons/favicon.ico"
 
-
         menu: Menu {
-            MenuItem{
-                text:qsTr("Open ScreenPlay")
+            MenuItem {
+                text: qsTr("Open ScreenPlay")
                 onTriggered: {
                     window.show()
                 }
@@ -31,39 +30,19 @@ ApplicationWindow {
                 text: qsTr("Quit")
                 onTriggered: Qt.quit()
             }
-
         }
     }
-
 
     Component.onCompleted: {
-        setX(Screen.width / 2 - width / 2);
-        setY(Screen.height / 2 - height / 2);
+        setX(Screen.width / 2 - width / 2)
+        setY(Screen.height / 2 - height / 2)
     }
 
-    LinearGradient {
-        id: tabShadow
-        height: 5
-        z:99
-        visible: false
-
-        anchors{
-            top:nav.bottom
-            right: parent.right
-            left: parent.left
-        }
-        start: Qt.point(0, 0)
-        end: Qt.point(0,5)
-        gradient: Gradient {
-            GradientStop { position: 0.0; color: "#22000000" }
-            GradientStop { position: 1.0; color: "#00000000" }
-        }
-    }
 
     Loader {
         id: pageLoader
         asynchronous: true
-        source : "qrc:/qml/Components/Installed.qml"
+        source: "qrc:/qml/Components/Installed.qml"
         anchors {
             top: nav.bottom
             right: parent.right
@@ -71,9 +50,9 @@ ApplicationWindow {
             left: parent.left
         }
         onStateChanged: {
-            if(pageLoader.state === Loader.Loading){
+            if (pageLoader.state === Loader.Loading) {
                 loaderText.visible = true
-            } else if(pageLoader.state === Loader.Ready){
+            } else if (pageLoader.state === Loader.Ready) {
                 loaderText.visible = false
             }
         }
@@ -89,46 +68,42 @@ ApplicationWindow {
             font.pointSize: 32
             font.italic: true
             color: "#818181"
-            FontLoader{
+            FontLoader {
                 id: font_LibreBaskerville_Italic
                 source: "qrc:/assets/fonts/LibreBaskerville-Italic.ttf"
             }
         }
 
-
-
-//        onSourceChanged: pageLoaderAnim.running = true
-
-//        SequentialAnimation {
-//            id:pageLoaderAnim
-//            running: true
-//            NumberAnimation { target: pageLoader.item; property: "opacity"; from:0; to: 1; duration: 500 }
-//            NumberAnimation { target: pageLoader.item; property: "y"; from: -100; to: 0; duration: 300 }
-//        }
-
-        Connections{
+        Connections {
             target: pageLoader.item
             ignoreUnknownSignals: true
             onSetSidebaractiveItem: {
-                if( sidebar.activeScreen == screenId && sidebar.state ==  "active"){
-                    sidebar.state =  "inactive"
+                if (sidebar.activeScreen == screenId
+                        && sidebar.state == "active") {
+                    sidebar.state = "inactive"
                 } else {
-                    sidebar.state =  "active"
+                    sidebar.state = "active"
                 }
 
                 sidebar.activeScreen = screenId
-
+            }
+            onSetNavigationItem: {
+                if(pos === 0){
+                    nav.onPageChanged("Create")
+                } else {
+                    nav.onPageChanged("Workshop")
+                }
             }
         }
     }
 
     Sidebar {
         id: sidebar
-        width:400
+        width: 400
         anchors {
-            top:nav.bottom
-            right:parent.right
-            bottom:parent.bottom
+            top: nav.bottom
+            right: parent.right
+            bottom: parent.bottom
         }
     }
 
@@ -140,23 +115,19 @@ ApplicationWindow {
             left: parent.left
         }
         onChangePage: {
-            pageLoader.setSource("qrc:/qml/Components/"+name+".qml")
+            pageLoader.setSource("qrc:/qml/Components/" + name + ".qml")
             sidebar.state = "inactive"
         }
 
         onToggleMonitors: {
             monitors.state = monitors.state == "active" ? "inactive" : "active"
         }
-
     }
 
     Monitors {
         id: monitors
         state: "inactive"
         anchors.fill: pageLoader
-        z:98
+        z: 98
     }
-
-
-
 }
