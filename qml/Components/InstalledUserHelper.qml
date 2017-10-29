@@ -28,17 +28,16 @@ Item {
 
     Text {
         id: txtIntro
-        width:600
+        width: 600
         text: qsTr("Oh No! It looks like you dont have any wallpapers....")
         font.pixelSize: 28
         color: "#818181"
         renderType: Text.NativeRendering
         font.family: font_Roboto_Regular.name
         anchors {
-            top:parent.top
+            top: parent.top
             topMargin: 80
             horizontalCenter: parent.horizontalCenter
-
         }
     }
 
@@ -99,7 +98,7 @@ Item {
                         }
                         Timer {
                             id: timerLeft
-                            interval: 1000
+                            interval: 800
                             onTriggered: {
                                 helperButtonPressed(0)
                             }
@@ -114,8 +113,6 @@ Item {
                     height: 44
                     radius: 3
                 }
-
-
             }
         }
 
@@ -169,7 +166,7 @@ Item {
                         }
                         Timer {
                             id: timerRight
-                            interval: 1000
+                            interval: 800
                             onTriggered: {
                                 helperButtonPressed(1)
                             }
@@ -184,8 +181,6 @@ Item {
                     height: 44
                     radius: 3
                 }
-
-
             }
         }
     }
@@ -237,12 +232,21 @@ Item {
             PropertyChanges {
                 target: handWrapper
                 anchors.topMargin: 00
-                opacity:0
+                opacity: 0
             }
             PropertyChanges {
                 target: txtIntro
-                opacity:0
+                opacity: 0
                 anchors.topMargin: -50
+            }
+
+            PropertyChanges {
+                target: txtLeftHand
+                opacity: 0
+            }
+            PropertyChanges {
+                target: txtRightHand
+                opacity: 0
             }
         },
         State {
@@ -250,31 +254,94 @@ Item {
             PropertyChanges {
                 target: handWrapper
                 anchors.topMargin: -500
-                opacity:1
+                opacity: 1
             }
-
             PropertyChanges {
                 target: txtIntro
-                opacity:1
+                opacity: 1
                 anchors.topMargin: 80
-
+            }
+            PropertyChanges {
+                target: txtLeftHand
+                opacity: 1
+            }
+            PropertyChanges {
+                target: txtRightHand
+                opacity: 1
             }
         }
     ]
 
-    transitions: Transition {
+    transitions: [
+        Transition {
+            from: "invisible"
+            to: "visible"
+            SequentialAnimation {
+                NumberAnimation {
+                    target: txtIntro
+                    properties: "opacity,anchors.topMargin"
+                    duration: 500
+                    easing.type: Easing.OutCubic
+                }
+                PauseAnimation {
+                    duration: 400
+                }
+                ParallelAnimation {
+                    NumberAnimation {
+                        target: handWrapper
+                        property: "anchors.topMargin"
+                        duration: 600
+                        easing.type: Easing.Linear
+                    }
+                    NumberAnimation {
+                        target: handWrapper
+                        property: "opacity"
+                        duration: 300
+                        easing.type: Easing.InQuart
+                    }
+                }
+                PauseAnimation {
+                    duration: 400
+                }
+                NumberAnimation {
+                    targets: [txtLeftHand, txtRightHand]
+                    property: "opacity"
+                    duration: 300
+                    easing.type: Easing.InQuart
+                }
+            }
+        },
+        Transition {
+            from: "visible"
+            to: "invisible"
+            ParallelAnimation {
+                NumberAnimation {
+                    targets: [txtLeftHand, txtRightHand]
+                    property: "opacity"
+                    duration: 300
+                    easing.type: Easing.InQuart
+                }
 
-        NumberAnimation {
-            target: handWrapper
-            properties: "opacity,anchors.topMargin"
-            duration: 500
-            easing.type: Easing.InOutQuad
+                NumberAnimation {
+                    target: txtIntro
+                    properties: "opacity,anchors.topMargin"
+                    duration: 500
+                    easing.type: Easing.OutCubic
+                }
+
+                NumberAnimation {
+                    target: handWrapper
+                    property: "anchors.topMargin"
+                    duration: 600
+                    easing.type: Easing.Linear
+                }
+                NumberAnimation {
+                    target: handWrapper
+                    property: "opacity"
+                    duration: 300
+                    easing.type: Easing.InQuart
+                }
+            }
         }
-        NumberAnimation {
-            target: txtIntro
-            properties: "opacity,anchors.topMargin"
-            duration: 500
-            easing.type: Easing.InOutQuad
-        }
-    }
+    ]
 }
