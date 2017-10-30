@@ -143,6 +143,7 @@ CustomPage {
         delegate: WorkshopItem {
             imgUrl: workshopPreview
             name: workshopTitle
+            steamID: workshopID
         }
 
         add: Transition {

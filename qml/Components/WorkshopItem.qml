@@ -1,5 +1,6 @@
 import QtQuick 2.7
 import QtGraphicalEffects 1.0
+import QtQuick.Controls 2.2
 
 Item {
     id: workshopItem
@@ -8,6 +9,7 @@ Item {
 
     property url imgUrl
     property string name
+    property int steamID
 
     FontLoader {
         id: font_Roboto_Regular
@@ -55,6 +57,15 @@ Item {
             anchors.centerIn: parent
             text: workshopItem.name
             color: "white"
+        }
+
+        Button {
+            id: button
+            text: qsTr("Subscribe")
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+            anchors.horizontalCenter: parent.horizontalCenter
+            onClicked: steamWorkshop.subscribeItem(workshopItem.steamID)
         }
     }
 }

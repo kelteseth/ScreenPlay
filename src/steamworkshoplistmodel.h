@@ -16,6 +16,7 @@ public:
     enum WorkshopRole {
         TitleRole,
         ImageUrlRole,
+        IDRole,
     };
     Q_ENUM(WorkshopRole)
 

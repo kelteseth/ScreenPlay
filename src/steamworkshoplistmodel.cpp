@@ -11,6 +11,7 @@ QHash<int, QByteArray> SteamWorkshopListModel::roleNames() const
     static const QHash<int, QByteArray> roles{
         { TitleRole, "workshopTitle" },
         { ImageUrlRole, "workshopPreview" },
+        { IDRole, "workshopID" },
     };
     return roles;
 }
@@ -49,6 +50,8 @@ QVariant SteamWorkshopListModel::data(const QModelIndex& index, int role) const
             return m_workshopItemList.at(index.row())->m_title;
         case ImageUrlRole:
             return m_workshopItemList.at(index.row())->m_previewImageUrl;
+        case IDRole:
+            return m_workshopItemList.at(index.row())->m_id;
         default:
             return QVariant();
         }
