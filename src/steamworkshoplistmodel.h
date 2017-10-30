@@ -34,6 +34,7 @@ public:
     Q_INVOKABLE QUrl getBannerUrl();
     Q_INVOKABLE QString getBannerText();
     Q_INVOKABLE unsigned int getBannerID();
+    Q_INVOKABLE void clear();
 
     // Editable:
     bool setData(const QModelIndex& index, const QVariant& value,

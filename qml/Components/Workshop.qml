@@ -6,7 +6,9 @@ CustomPage {
     pageName: ""
 
     Component.onCompleted: {
+        workshopListModel.clear()
         steamWorkshop.searchWorkshop()
+
     }
 
     GridView {
@@ -112,6 +114,7 @@ CustomPage {
             Item {
                 id: searchBar
                 height: 100
+                visible: false
                 anchors {
                     top: banner.bottom
                     right: parent.right

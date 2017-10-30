@@ -81,6 +81,14 @@ unsigned int SteamWorkshopListModel::getBannerID()
     return m_workshopItemList.at(0)->m_id;
 }
 
+void SteamWorkshopListModel::clear()
+{
+    beginResetModel();
+    m_workshopItemList.clear();
+    m_workshopItemList.squeeze();
+    endResetModel();
+}
+
 bool SteamWorkshopListModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
     if (data(index, role) != value) {
