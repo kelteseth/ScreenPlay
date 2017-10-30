@@ -57,5 +57,6 @@
         <file>assets/icons/icon_hand_left.svg</file>
         <file>assets/icons/icon_hand_right.svg</file>
         <file>assets/images/hand_give.png</file>
+        <file>qml/Components/WorkshopItem.qml</file>
     </qresource>
 </RCC>

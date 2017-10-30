@@ -1,8 +1,8 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
 
 CustomPage {
+    id: workshop
     pageName: ""
 
     Component.onCompleted: {
@@ -13,7 +13,6 @@ CustomPage {
         anchors.fill: parent
         flickableDirection: Flickable.VerticalFlick
 
-
         GridView {
             id: gridView
             cacheBuffer: 1000
@@ -21,7 +20,6 @@ CustomPage {
             anchors.fill: parent
             cellWidth: 330
             cellHeight: 200
-
 
             boundsBehavior: Flickable.StopAtBounds
             //boundsBehavior: Flickable.OvershootBounds
@@ -50,7 +48,25 @@ CustomPage {
                     }
                     Image {
                         id: bannerImg
-                        anchors.fill: parent
+                        anchors {
+
+                            right: parent.right
+                            left: parent.left
+                            bottom: parent.bottom
+                        }
+                        height: {
+                            // Calculate parallax scrolling
+                            // f(x) = (x * -1)
+                            if(gridView.contentY <= 0){
+                                return (gridView.contentY * -1)
+                            }
+                            return 500
+                        }
+
+                        onHeightChanged: {
+                            print(bannerImg.height, gridView.contentY)
+                        }
+
                         asynchronous: true
                         fillMode: Image.PreserveAspectCrop
                     }
@@ -76,27 +92,9 @@ CustomPage {
 
             model: workshopListModel
 
-            delegate: Rectangle {
-                color: "steelblue"
-                id: delegate
-                width: 180
-                height: 100
-                focus: true
-
-                Image {
-                    id: img
-                    anchors.fill: parent
-                    asynchronous: true
-                    cache: true
-                    source: workshopPreview
-                    smooth: false
-                }
-                Text {
-                    id: namea
-                    anchors.fill: parent
-                    text: workshopTitle
-                    color: "white"
-                }
+            delegate: WorkshopItem {
+                imgUrl: workshopPreview
+                name: workshopTitle
             }
 
             add: Transition {
