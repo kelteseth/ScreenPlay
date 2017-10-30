@@ -27,6 +27,7 @@ public slots:
     int getItemUpdateProcess();
     void getAPICallInfo();
     void createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath);
+    void subscribeItem(unsigned int id);
 
 signals:
     void workshopItemCreated(bool userNeedsToAcceptWorkshopLegalAgreement, int eResult, int publishedFileId);

@@ -9,102 +9,153 @@ CustomPage {
         steamWorkshop.searchWorkshop()
     }
 
-    Flickable {
+    GridView {
+        id: gridView
+        maximumFlickVelocity: 7000
+        flickDeceleration: 5000
         anchors.fill: parent
-        flickableDirection: Flickable.VerticalFlick
+        cellWidth: 330
+        cellHeight: 190
+        anchors {
+            topMargin: 0
+            rightMargin: 0
+            leftMargin: 30
+        }
+        onContentYChanged: {
+            if (gridView.contentY < 0) {
+                workshopScrollBar.active = false
+            } else if (!workshopScrollBar.active) {
+                workshopScrollBar.active = true
+            }
+        }
 
-        GridView {
-            id: gridView
-            cacheBuffer: 1000
-            maximumFlickVelocity: 5000
-            anchors.fill: parent
-            cellWidth: 330
-            cellHeight: 200
+        boundsBehavior: Flickable.StopAtBounds
 
-            boundsBehavior: Flickable.StopAtBounds
-            //boundsBehavior: Flickable.OvershootBounds
-            header: Item {
-                height: 500
+        header: Item {
+            height: 530
+            anchors {
+                right: parent.right
+                left: parent.left
+            }
+            Connections {
+                target: steamWorkshop
+                onWorkshopSearched: {
+                    bannerTxt.text = workshopListModel.getBannerText()
+                    bannerImg.source = workshopListModel.getBannerUrl()
+                }
+            }
+
+            Rectangle {
+                id: banner
+                color: "#131313"
+                height: 350
+                z: 5
                 anchors {
+                    top: parent.top
                     right: parent.right
                     left: parent.left
+                    leftMargin: -30
                 }
-                Connections {
-                    target: steamWorkshop
-                    onWorkshopSearched: {
-                        bannerTxt.text = workshopListModel.getBannerText()
-                        bannerImg.source = workshopListModel.getBannerUrl()
+                Image {
+                    id: bannerImg
+                    anchors {
+
+                        right: parent.right
+                        left: parent.left
+                        bottom: parent.bottom
                     }
+                    height: {
+                        // Calculate parallax scrolling
+                        // f(x) = (x * -1)
+                        if (gridView.contentY <= 0) {
+                            return (gridView.contentY * -1)
+                        }
+                        return 500
+                    }
+
+                    asynchronous: true
+                    fillMode: Image.PreserveAspectCrop
+
+
+                }
+
+                Text {
+                    id: bannerTxt
+                    text: "loading"
+                    font.pixelSize: 36
+                    color: "white"
+                    width: 400
+                    anchors {
+                        top: parent.top
+                        topMargin: 100
+                        left: parent.left
+                        leftMargin: 30
+                    }
+                }
+
+                Button {
+                    text: "Download"
+                    anchors {
+                        top: bannerTxt.bottom
+                        topMargin: 100
+                        left: parent.left
+                        leftMargin: 30
+                    }
+                    z:99
+                    onClicked: {
+
+                        steamWorkshop.subscribeItem(workshopListModel.getBannerID())
+                    }
+                }
+            }
+
+            Item {
+                id: searchBar
+                height: 100
+                anchors {
+                    top: banner.bottom
+                    right: parent.right
+                    rightMargin: 60
+                    left: parent.left
+                    margins: 30
                 }
 
                 Rectangle {
-                    id: banner
-                    color: "#131313"
-                    height: 350
+                    height: 60
+                    width: 400
+                    radius: 3
                     anchors {
                         top: parent.top
-                        right: parent.right
                         left: parent.left
+                        margins: 10
                     }
-                    Image {
-                        id: bannerImg
-                        anchors {
-
-                            right: parent.right
-                            left: parent.left
-                            bottom: parent.bottom
-                        }
-                        height: {
-                            // Calculate parallax scrolling
-                            // f(x) = (x * -1)
-                            if(gridView.contentY <= 0){
-                                return (gridView.contentY * -1)
-                            }
-                            return 500
-                        }
-
-                        onHeightChanged: {
-                            print(bannerImg.height, gridView.contentY)
-                        }
-
-                        asynchronous: true
-                        fillMode: Image.PreserveAspectCrop
-                    }
-
-                    Text {
-                        id: bannerTxt
-                        text: "loading"
-                        font.pixelSize: 36
-                        color: "white"
-                    }
-                }
-
-                Item {
-                    id: searchBar
-                    height: 70
-                    anchors {
-                        top: banner.bottom
-                        right: parent.right
-                        left: parent.left
+                    TextField {
+                        placeholderText: qsTr("Enter name")
+                        anchors.fill: parent
+                        anchors.margins: 5
                     }
                 }
             }
+        }
 
-            model: workshopListModel
+        model: workshopListModel
 
-            delegate: WorkshopItem {
-                imgUrl: workshopPreview
-                name: workshopTitle
+        delegate: WorkshopItem {
+            imgUrl: workshopPreview
+            name: workshopTitle
+        }
+
+        add: Transition {
+            NumberAnimation {
+                property: "opacity"
+                from: 0
+                to: 1.0
+                duration: 400
             }
-
-            add: Transition {
-                NumberAnimation {
-                    property: "opacity"
-                    from: 0
-                    to: 1.0
-                    duration: 400
-                }
-            }
+        }
+        ScrollBar.vertical: ScrollBar {
+            id: workshopScrollBar
+            snapMode: ScrollBar.SnapOnRelease
         }
     }
 }

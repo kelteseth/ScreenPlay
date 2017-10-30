@@ -29,9 +29,10 @@ public:
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-    Q_INVOKABLE void append(QString title, QUrl imgUrl);
+    Q_INVOKABLE void append(unsigned int id, QString title, QUrl imgUrl);
     Q_INVOKABLE QUrl getBannerUrl();
     Q_INVOKABLE QString getBannerText();
+    Q_INVOKABLE unsigned int getBannerID();
 
     // Editable:
     bool setData(const QModelIndex& index, const QVariant& value,

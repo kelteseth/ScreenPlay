@@ -63,7 +63,7 @@ CustomPage {
         anchors.fill: parent
         cellWidth: 330
         cacheBuffer: 10000
-        cellHeight: 200
+        cellHeight: 190
         anchors {
             topMargin: 0
             rightMargin: 0

@@ -71,6 +71,11 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
     });
 }
 
+void SteamWorkshop::subscribeItem(unsigned int id)
+{
+    SteamUGC()->SubscribeItem(static_cast<unsigned long long>(id));
+}
+
 void SteamWorkshop::onWorkshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure)
 {
     if (bIOFailure)
@@ -112,7 +117,7 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
                 QByteArray urlData(url);
                 previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
 
-                m_workshopListModel->append(QString(details.m_rgchTitle), QUrl(urlData));
+                m_workshopListModel->append(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
             }
         }
     }

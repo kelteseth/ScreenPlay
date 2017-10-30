@@ -1,30 +1,60 @@
 import QtQuick 2.7
+import QtGraphicalEffects 1.0
 
-Rectangle {
-    id:workshopItem
-    color: "steelblue"
-
-    width: 188
-    height: 106
-    clip:true
-    radius: 4
+Item {
+    id: workshopItem
+    width: 320
+    height: 180
 
     property url imgUrl
     property string name
 
-    Image {
-        id: img
-        anchors.fill: parent
-        asynchronous: true
-        clip:true
-        cache: true
-        source: workshopItem.imgUrl
-        smooth: false
+    FontLoader {
+        id: font_Roboto_Regular
+        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
     }
-    Text {
-        id: namea
-        anchors.centerIn: parent
-        text: workshopItem.name
+
+    RectangularGlow {
+        id: effect
+        anchors.fill: itemWrapper
+        cached: true
+        glowRadius: 2
+        spread: 0.5
+        color: "black"
+        opacity: .2
+        cornerRadius: itemWrapper.radius + glowRadius
+    }
+
+    Rectangle {
+        id: itemWrapper
         color: "white"
+        radius: 2
+        anchors {
+            fill: parent
+            margins: 5
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            onClicked: {
+
+            }
+        }
+
+        Image {
+            id: img
+            anchors.fill: parent
+            asynchronous: true
+            clip: true
+            cache: true
+            source: workshopItem.imgUrl
+            smooth: false
+        }
+        Text {
+            id: namea
+            anchors.centerIn: parent
+            text: workshopItem.name
+            color: "white"
+        }
     }
 }

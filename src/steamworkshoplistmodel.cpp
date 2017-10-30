@@ -20,7 +20,7 @@ QVariant SteamWorkshopListModel::headerData(int section, Qt::Orientation orienta
     // FIXME: Implement me!
 }
 
-bool SteamWorkshopListModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant &value, int role)
+bool SteamWorkshopListModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant& value, int role)
 {
     if (value != headerData(section, orientation, role)) {
         // FIXME: Implement me!
@@ -30,7 +30,7 @@ bool SteamWorkshopListModel::setHeaderData(int section, Qt::Orientation orientat
     return false;
 }
 
-int SteamWorkshopListModel::rowCount(const QModelIndex &parent) const
+int SteamWorkshopListModel::rowCount(const QModelIndex& parent) const
 {
     if (parent.isValid())
         return 0;
@@ -38,7 +38,7 @@ int SteamWorkshopListModel::rowCount(const QModelIndex &parent) const
     return m_workshopItemList.count();
 }
 
-QVariant SteamWorkshopListModel::data(const QModelIndex &index, int role) const
+QVariant SteamWorkshopListModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
         return QVariant();
@@ -55,11 +55,11 @@ QVariant SteamWorkshopListModel::data(const QModelIndex &index, int role) const
     return QVariant();
 }
 
-void SteamWorkshopListModel::append(QString title, QUrl imgUrl)
+void SteamWorkshopListModel::append(unsigned int id, QString title, QUrl imgUrl)
 {
     int row = 0;
     beginInsertRows(QModelIndex(), row, row);
-    m_workshopItemList.append( QSharedPointer<WorkshopItem>(new WorkshopItem(title,imgUrl)));
+    m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(id, title, imgUrl)));
     endInsertRows();
 }
 
@@ -70,10 +70,15 @@ QUrl SteamWorkshopListModel::getBannerUrl()
 
 QString SteamWorkshopListModel::getBannerText()
 {
-    return  m_workshopItemList.at(0)->m_title;
+    return m_workshopItemList.at(0)->m_title;
 }
 
-bool SteamWorkshopListModel::setData(const QModelIndex &index, const QVariant &value, int role)
+unsigned int SteamWorkshopListModel::getBannerID()
+{
+    return m_workshopItemList.at(0)->m_id;
+}
+
+bool SteamWorkshopListModel::setData(const QModelIndex& index, const QVariant& value, int role)
 {
     if (data(index, role) != value) {
         // FIXME: Implement me!
@@ -83,7 +88,7 @@ bool SteamWorkshopListModel::setData(const QModelIndex &index, const QVariant &v
     return false;
 }
 
-Qt::ItemFlags SteamWorkshopListModel::flags(const QModelIndex &index) const
+Qt::ItemFlags SteamWorkshopListModel::flags(const QModelIndex& index) const
 {
     if (!index.isValid())
         return Qt::NoItemFlags;
@@ -91,14 +96,14 @@ Qt::ItemFlags SteamWorkshopListModel::flags(const QModelIndex &index) const
     return Qt::ItemIsEditable; // FIXME: Implement me!
 }
 
-bool SteamWorkshopListModel::insertRows(int row, int count, const QModelIndex &parent)
+bool SteamWorkshopListModel::insertRows(int row, int count, const QModelIndex& parent)
 {
     beginInsertRows(parent, row, row + count - 1);
     // FIXME: Implement me!
     endInsertRows();
 }
 
-bool SteamWorkshopListModel::removeRows(int row, int count, const QModelIndex &parent)
+bool SteamWorkshopListModel::removeRows(int row, int count, const QModelIndex& parent)
 {
     beginRemoveRows(parent, row, row + count - 1);
     // FIXME: Implement me!

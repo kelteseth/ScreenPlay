@@ -6,10 +6,11 @@
 
 class WorkshopItem {
 public:
-    WorkshopItem(QString title, QUrl previewImageUrl);
+    WorkshopItem(unsigned int id, QString title, QUrl previewImageUrl);
     ~WorkshopItem();
     QUrl m_previewImageUrl;
     QString m_title;
+    unsigned int m_id;
 };
 
 #endif // WORKSHOPITEM_H
