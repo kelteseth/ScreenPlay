@@ -49,30 +49,6 @@ ApplicationWindow {
             bottom: parent.bottom
             left: parent.left
         }
-        onStateChanged: {
-            if (pageLoader.state === Loader.Loading) {
-                loaderText.visible = true
-            } else if (pageLoader.state === Loader.Ready) {
-                loaderText.visible = false
-            }
-        }
-
-        Text {
-            id: loaderText
-            visible: true
-            text: qsTr("Loading...")
-            anchors.centerIn: parent
-            font.pixelSize: 32
-
-            font.family: font_LibreBaskerville_Italic.name
-            font.pointSize: 32
-            font.italic: true
-            color: "#818181"
-            FontLoader {
-                id: font_LibreBaskerville_Italic
-                source: "qrc:/assets/fonts/LibreBaskerville-Italic.ttf"
-            }
-        }
 
         Connections {
             target: pageLoader.item

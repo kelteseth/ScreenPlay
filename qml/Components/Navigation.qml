@@ -34,31 +34,31 @@ Rectangle {
             navWorkshop.state = "active"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
-            navFeedback.state = "inactive"
+            navCommunity.state = "inactive"
             navCreate.state = "inactive"
         } else if (name === "Installed") {
             navWorkshop.state = "inactive"
             navInstalled.state = "active"
             navSettings.state = "inactive"
-            navFeedback.state = "inactive"
+            navCommunity.state = "inactive"
             navCreate.state = "inactive"
         } else if (name === "Settings") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "active"
-            navFeedback.state = "inactive"
+            navCommunity.state = "inactive"
             navCreate.state = "inactive"
         } else if (name === "Create") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
             navCreate.state = "active"
-            navFeedback.state = "inactive"
-        } else if (name === "Feedback") {
+            navCommunity.state = "inactive"
+        } else if (name === "Community") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
-            navFeedback.state = "active"
+            navCommunity.state = "active"
             navCreate.state = "inactive"
         }
     }
@@ -102,10 +102,10 @@ Rectangle {
             onPageClicked: navigation.onPageChanged(name)
         }
         NavigationItem {
-            id: navFeedback
+            id: navCommunity
             state: "inactive"
-            name: "Feedback"
-            iconSource: "qrc:/assets/icons/icon_stomt.svg"
+            name: "Community"
+            iconSource: "qrc:/assets/icons/icon_community.svg"
             onPageClicked: navigation.onPageChanged(name)
         }
     }
