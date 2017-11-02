@@ -31,19 +31,17 @@
 
 int main(int argc, char* argv[])
 {
-
-    //Q_INIT_RESOURCE(qml);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseOpenGLES);
-    QApplication app(argc, argv);
-    AppId_t steamID = 672870;
 
+    QApplication app(argc, argv);
+
+    AppId_t steamID = 672870;
     QCoreApplication::setOrganizationName("Aimber");
     QCoreApplication::setOrganizationDomain("aimber.net");
     QCoreApplication::setApplicationName("ScreenPlay");
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
     QQuickStyle::setStyle("Material");
-
     bool steamErrorRestart = false;
     bool steamErrorAPIInit = false;
 
@@ -61,11 +59,14 @@ int main(int argc, char* argv[])
     MonitorListModel monitorListModel;
     PackageFileHandler packageFileHandler;
     ProfileListModel profileListModel;
+    SteamWorkshopListModel steamWorkshopListModel;
+    SteamWorkshop steamWorkshop;
 
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, steamID);
+
     // All the list need the default path from the settings
     // to know where to look for the files
     installedListModel.loadScreens();
@@ -73,14 +74,14 @@ int main(int argc, char* argv[])
     settings.loadActiveProfiles();
 
     QQmlApplicationEngine mainWindowEngine;
-    mainWindowEngine.rootContext()->setContextProperty("workshopListModel", &swlm);
+    mainWindowEngine.rootContext()->setContextProperty("workshopListModel", &steamWorkshopListModel);
     mainWindowEngine.rootContext()->setContextProperty("monitorListModel", &monitorListModel);
     mainWindowEngine.rootContext()->setContextProperty("installedListModel", &installedListModel);
+    mainWindowEngine.rootContext()->setContextProperty("profileListModel", &profileListModel);
+
     mainWindowEngine.rootContext()->setContextProperty("screenPlaySettings", &settings);
     mainWindowEngine.rootContext()->setContextProperty("packageFileHandler", &packageFileHandler);
-    mainWindowEngine.rootContext()->setContextProperty("profileListModel", &profileListModel);
     mainWindowEngine.rootContext()->setContextProperty("steamWorkshop", &steamWorkshop);
-    //mainWindowEngine.rootContext()->setContextProperty("stomtPlugin", &stomt);
 
     QQmlApplicationEngine errorWindowEngine;
     if (steamErrorRestart || steamErrorAPIInit) {
