@@ -1,3 +1,7 @@
 [submodule "ThirdParty/QtAV"]
 	path = ThirdParty/QtAV
 	url = https://github.com/wang-bin/QtAV.git
+
+[submodule "ThirdParty/stomt-qt-sdk"]
+	path = ThirdParty/stomt-qt-sdk
+	url = https://github.com/Aimber/stomt-qt-sdk.git

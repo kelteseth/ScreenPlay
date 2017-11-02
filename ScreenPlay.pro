@@ -1,8 +1,9 @@
 TEMPLATE = app
 
-QT += qml quick av widgets quickcontrols2
+QT += qml quick av quickcontrols2 sql widgets
 CONFIG += c++17
 CONFIG += qtquickcompiler
+
 
 SOURCES += main.cpp \
     src/steamworkshop.cpp \

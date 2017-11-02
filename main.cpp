@@ -46,6 +46,7 @@ int main(int argc, char* argv[])
 
     bool steamErrorRestart = false;
     bool steamErrorAPIInit = false;
+
     if (SteamAPI_RestartAppIfNecessary(steamID)) {
         qWarning() << "SteamAPI_RestartAppIfNecessary";
         steamErrorRestart = true;
@@ -69,7 +70,6 @@ int main(int argc, char* argv[])
     // to know where to look for the files
     installedListModel.loadScreens();
     profileListModel.loadProfiles();
-    // The settings depend on the list of available profiles
     settings.loadActiveProfiles();
 
     QQmlApplicationEngine mainWindowEngine;
@@ -80,7 +80,6 @@ int main(int argc, char* argv[])
     mainWindowEngine.rootContext()->setContextProperty("packageFileHandler", &packageFileHandler);
     mainWindowEngine.rootContext()->setContextProperty("profileListModel", &profileListModel);
     mainWindowEngine.rootContext()->setContextProperty("steamWorkshop", &steamWorkshop);
-    mainWindowEngine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     //mainWindowEngine.rootContext()->setContextProperty("stomtPlugin", &stomt);
 
     QQmlApplicationEngine errorWindowEngine;
@@ -97,7 +96,7 @@ int main(int argc, char* argv[])
     // Timer for steam polls. WTF?
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [&]() { SteamAPI_RunCallbacks(); });
-    timer.setInterval(500);
+    timer.setInterval(200);
     timer.start();
 
     int status = app.exec();
