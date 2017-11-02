@@ -14,6 +14,24 @@ ApplicationWindow {
     minimumHeight: 768
     minimumWidth: 1050
 
+    LinearGradient {
+        id: tabShadow
+        height: 5
+        z:99
+
+        anchors{
+            top: nav.bottom
+            right: parent.right
+            left: parent.left
+        }
+        start: Qt.point(0, 0)
+        end: Qt.point(0,5)
+        gradient: Gradient {
+            GradientStop { position: 0.0; color: "#22000000" }
+            GradientStop { position: 1.0; color: "#00000000" }
+        }
+    }
+
     SystemTrayIcon {
         visible: true
         iconSource: "qrc:/assets/icons/favicon.ico"
@@ -37,7 +55,6 @@ ApplicationWindow {
         setX(Screen.width / 2 - width / 2)
         setY(Screen.height / 2 - height / 2)
     }
-
 
     Loader {
         id: pageLoader
