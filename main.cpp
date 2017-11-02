@@ -60,12 +60,12 @@ int main(int argc, char* argv[])
     PackageFileHandler packageFileHandler;
     ProfileListModel profileListModel;
     SteamWorkshopListModel steamWorkshopListModel;
-    SteamWorkshop steamWorkshop;
 
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, steamID);
+    SteamWorkshop steamWorkshop(steamID,&steamWorkshopListModel,&settings);
 
     // All the list need the default path from the settings
     // to know where to look for the files
