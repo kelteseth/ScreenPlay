@@ -211,6 +211,7 @@ private:
     QVector<QSharedPointer<Wallpaper>> m_wallpapers;
 
     QUrl m_localStoragePath;
+    QUrl m_localSettingsPath;
 };
 
 class ActiveProfiles {

@@ -11,7 +11,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
 
     QFile configTmp;
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
-
+    m_localSettingsPath = QUrl(appConfigLocation);
     if (!QDir(appConfigLocation).exists()) {
         if (!QDir().mkdir(appConfigLocation)) {
             qWarning("ERROR: Cloud not create install dir");
@@ -121,7 +121,7 @@ void Settings::loadActiveProfiles()
     QJsonObject configObj;
     QJsonArray activeProfilesTmp;
     QFile configTmp;
-    configTmp.setFileName(m_localStoragePath.toString() + "/settings.json");
+    configTmp.setFileName(m_localSettingsPath.toString() + "/settings.json");
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     QString config = configTmp.readAll();
     configJsonDocument = QJsonDocument::fromJson(config.toUtf8());
