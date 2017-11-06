@@ -69,7 +69,6 @@ int main(int argc, char* argv[])
 
     // All the list need the default path from the settings
     // to know where to look for the files
-    installedListModel.loadScreens();
     profileListModel.loadProfiles();
     settings.loadActiveProfiles();
 
@@ -90,6 +89,7 @@ int main(int argc, char* argv[])
         mainWindowEngine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
     }
 
+    installedListModel.loadScreens();
     // FIXME: Needed workaround to close the app because
     // apparently some thread still runs in the background
     QObject::connect(&app, &QGuiApplication::lastWindowClosed, [&]() { exit(app.exec()); });
