@@ -66,19 +66,58 @@ bool SteamWorkshop::contentFolderExist(QString folder)
 void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath)
 {
     QFuture<void> future = QtConcurrent::run([&]() {
-        QString fromPath = QString(videoPath.toString()).replace("file:///","");
+
+
+        QString fromVideoPath = QString(videoPath.toString()).replace("file:///", "");
+        QString fromImagePath =QString(previewPath.toString()).replace("file:///", "");
         QString toPath = m_settings->localStoragePath().toString() + "/" + title;
-        QString toPathWithFile =  toPath + "/" + videoPath.fileName();
-        qDebug() << fromPath << toPathWithFile;
+        QString toPathWithVideoFile = toPath + "/" + videoPath.fileName();
+        QString toPathWithImageFile = toPath + "/" + previewPath.fileName();
+
         if (!QDir(toPath).exists()) {
-            if (QDir().mkdir(toPath)) {
-                if (QFile::copy(fromPath, toPathWithFile)) {
-                    qDebug() << "success";
-                } else {
-                    qDebug() << "fial";
-                }
-            }
+            //TODO: Display Error
+            if (!QDir().mkdir(toPath))
+                return;
         }
+
+
+        //Copy Video File
+        if (QFile::copy(fromVideoPath, toPathWithVideoFile)) {
+            qDebug() << "success";
+        } else {
+            qDebug() << "fial";
+        }
+
+
+        //Copy Image File
+        if (QFile::copy(fromImagePath, toPathWithImageFile)) {
+            qDebug() << "success";
+        } else {
+            qDebug() << "fial";
+        }
+
+        //Copy Project File
+
+        QFile configFile(toPath + "/" + "project.json");
+        if(!configFile.open(QIODevice::ReadWrite | QIODevice::Text))
+            return;
+
+        QTextStream out(&configFile);
+
+
+        QJsonObject configObj;
+
+        //configObj = configJsonDocument.object();
+        configObj.insert("file",videoPath.fileName());
+        //TODO
+        configObj.insert("description","");
+        configObj.insert("title",title);
+        configObj.insert("preview",previewPath.fileName());
+
+        QJsonDocument configJsonDocument(configObj);
+        out << configJsonDocument.toJson();
+        configFile.close();
+
     });
 }
 
