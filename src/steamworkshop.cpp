@@ -5,7 +5,7 @@ SteamWorkshop::SteamWorkshop(QObject* parent)
 {
 }
 
-SteamWorkshop::SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm, Settings *s)
+SteamWorkshop::SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm, Settings* s)
 {
     m_AppId = nConsumerAppId;
     m_workshopListModel = wlm;
@@ -15,7 +15,7 @@ SteamWorkshop::SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm
 void SteamWorkshop::createWorkshopItem()
 {
     SteamAPICall_t hSteamAPICall = SteamUGC()->CreateItem(m_AppId, EWorkshopFileType::k_EWorkshopFileTypeCommunity);
-    m_createWorkshopItemCallResult.Set(hSteamAPICall, this, &SteamWorkshop::onWorkshopItemCreated);
+    m_createWorkshopItemCallResult.Set(hSteamAPICall, this, &SteamWorkshop::workshopItemCreated);
 }
 
 void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl absoluteContentPath, QUrl absolutePreviewPath)
@@ -32,15 +32,18 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     SteamUGC()->SetItemContent(m_UGCUpdateHandle, QByteArray(video.toLatin1()).data());
     SteamUGC()->SetItemPreview(m_UGCUpdateHandle, QByteArray(thumb.toLatin1()).data());
     SteamUGC()->SetItemVisibility(m_UGCUpdateHandle, visibility);
+
     SteamUGC()->SubmitItemUpdate(m_UGCUpdateHandle, nullptr);
 }
 
 int SteamWorkshop::getItemUpdateProcess()
 {
-    unsigned long long itemProcessed = 0;
-    unsigned long long bytesTotoal = 0;
-    EItemUpdateStatus status = SteamUGC()->GetItemUpdateProgress(m_UGCUpdateHandle, &itemProcessed, &bytesTotoal);
-    qDebug() << itemProcessed << "," << bytesTotoal;
+    unsigned long long _itemProcessed = 0;
+    unsigned long long _bytesTotoal = 0;
+    EItemUpdateStatus status = SteamUGC()->GetItemUpdateProgress(m_UGCUpdateHandle, &_itemProcessed, &_bytesTotoal);
+    qDebug() << _itemProcessed << _bytesTotoal;
+    setItemProcessed(static_cast<unsigned int>(_itemProcessed));
+    setBytesTotal(static_cast<unsigned int>(_bytesTotoal));
     return status;
 }
 
@@ -49,25 +52,33 @@ void SteamWorkshop::getAPICallInfo()
     qDebug() << SteamUtils()->GetAPICallFailureReason(m_searchCall);
 }
 
+bool SteamWorkshop::contentFolderExist(QString folder)
+{
+    QString path = m_settings->localStoragePath().toString() + folder;
+
+    if (QDir(path).exists()) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath)
 {
-
     QFuture<void> future = QtConcurrent::run([&]() {
-        if(QDir(m_settings->localStoragePath().toString() + title ).exists()){
-            //emit localFileCopyCompleted()
-            return;
+        QString fromPath = QString(videoPath.toString()).replace("file:///","");
+        QString toPath = m_settings->localStoragePath().toString() + "/" + title;
+        QString toPathWithFile =  toPath + "/" + videoPath.fileName();
+        qDebug() << fromPath << toPathWithFile;
+        if (!QDir(toPath).exists()) {
+            if (QDir().mkdir(toPath)) {
+                if (QFile::copy(fromPath, toPathWithFile)) {
+                    qDebug() << "success";
+                } else {
+                    qDebug() << "fial";
+                }
+            }
         }
-
-
-
-//        bool copyResult = QFile::copy();
-//        if(copyResult){
-//            emit localFileCopyCompleted(true);
-//        } else {
-//            emit localFileCopyCompleted(false);
-//        }
-
-
     });
 }
 
@@ -76,7 +87,7 @@ void SteamWorkshop::subscribeItem(unsigned int id)
     SteamUGC()->SubscribeItem(static_cast<unsigned long long>(id));
 }
 
-void SteamWorkshop::onWorkshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure)
+void SteamWorkshop::workshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure)
 {
     if (bIOFailure)
         return;
@@ -116,7 +127,6 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
             if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
                 QByteArray urlData(url);
                 previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
-
                 m_workshopListModel->append(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
             }
         }

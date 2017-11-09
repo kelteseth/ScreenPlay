@@ -14,7 +14,8 @@ Rectangle {
     property url previewPath
     //Todo 5.10 ENUM
     signal hasEmptyField(int fieldNumber)
-    signal createLocalWallpaperStarted()
+    signal createLocalWallpaperStarted
+    signal createSteamWallpaperStarted
 
     Row {
         id: rowUseSteamWorkshop
@@ -138,33 +139,45 @@ Rectangle {
         text: qsTr("Create New Workshop Wallpaper")
         onClicked: {
 
-            //Check for empty fields
             if (videoPath.toString() === "") {
                 hasEmptyField(0)
-            } else if (previewPath.toString() === "") {
-                hasEmptyField(1)
-            } else if (txtTitle.text === "") {
-                txtTitle.select(0, 0)
-            } else {
-
-                //Check if whether to use steamWorkshop or not
-                if (switchUseSteamWorkshop.checked) {
-                    //TODO wait for callback
-                    steamWorkshop.createWorkshopItem()
-
-                    steamWorkshop.submitWorkshopItem(
-                                txtTitle.text.toString(),
-                                txtDescription.text.toString(), "english",
-                                cbVisibility.currentIndex, videoPath,
-                                previewPath)
-                    tiItemUpdate.start()
-                } else {
-                    createLocalWallpaperStarted()
-                    steamWorkshop.createLocalWorkshopItem(
-                                txtTitle.text.toString(), videoPath,
-                                previewPath)
-                }
             }
+            if (previewPath.toString() === "") {
+                hasEmptyField(1)
+            }
+            if (txtTitle.text === "" || txtTitle.placeholderText === "Text") {
+                txtTitle.select(0, 0)
+                txtTitle.focus = true
+                return
+            }
+
+            //TODO: display error because folder exsist or empty
+            if (steamWorkshop.contentFolderExist(txtTitle.text)) {
+                return
+            }
+
+
+            //Check if whether to use steamWorkshop or not
+            if (switchUseSteamWorkshop.checked) {
+                steamWorkshop.createWorkshopItem()
+            } else {
+                createLocalWallpaperStarted()
+                steamWorkshop.createLocalWorkshopItem(txtTitle.text.toString(),
+                                                      videoPath, previewPath)
+            }
+        }
+    }
+
+    Connections {
+        target: steamWorkshop
+        onWorkshopItemCreated: {
+            steamWorkshop.submitWorkshopItem(txtTitle.text.toString(),
+                                             txtDescription.text.toString(),
+                                             "english",
+                                             cbVisibility.currentIndex,
+                                             videoPath, previewPath)
+
+            createSteamWallpaperStarted()
         }
     }
 
@@ -220,8 +233,6 @@ Rectangle {
                 target: rowVisible
                 opacity: 0
             }
-
-
         },
         State {
             name: "workshop"

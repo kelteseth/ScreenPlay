@@ -3,25 +3,30 @@ import QtQuick.Controls 2.2
 import QtQuick.Dialogs 1.2
 import Qt.labs.platform 1.0
 
-
 CustomPage {
     id: create
     pageName: ""
+    state: "init"
 
     Connections {
         target: steamWorkshop
         onWorkshopItemCreated: {
             if (userNeedsToAcceptWorkshopLegalAgreement) {
-                checkDelegate.opacity = 1
+
+                //TODO!!
             } else {
-                checkDelegate.opacity = 0
-                checkDelegate.checkable = false
-                checkDelegate.enabled = false
-                busyIndicator.running = false
+
             }
         }
-        onLocalFileCopyCompleted:{
-            create.state = ""
+        onLocalFileCopyCompleted: {
+            create.state = "init"
+        }
+    }
+
+    Connections {
+        target: createUpload
+        onUploadCompleted:{
+            create.state = "init"
         }
     }
 
@@ -36,6 +41,10 @@ CustomPage {
         }
         onCreateLocalWallpaperStarted: {
             create.state = "createLocalWallpaper"
+        }
+        onCreateSteamWallpaperStarted: {
+            create.state = "upload"
+            createUpload.startUpload()
         }
     }
 
@@ -83,6 +92,7 @@ CustomPage {
             Item {
                 width: parent.width * .48
                 height: parent.height
+
                 FileDropperSingleFile {
                     id: fileDropperVideo
                     anchors.fill: parent
@@ -130,41 +140,43 @@ CustomPage {
             }
         }
 
-        Timer {
-            id: tiItemUpdate
-            interval: 100
-            running: false
-            repeat: true
-            onTriggered: {
-                print(steamWorkshop.getItemUpdateProcess())
-            }
-        }
     }
 
-    Rectangle {
-        id: rectangle
-        color: "#e6ffffff"
-        enabled: false
-        opacity: 0
+    CreateUpload {
+        id: createUpload
         anchors.fill: parent
+        z: -1
+        opacity: 0
+        visible: false
     }
+
     states: [
         State {
-            name: "createLocalWallpaper"
-
+            name: "init"
             PropertyChanges {
-                target: rectangle
-                enabled: true
+                target: createUpload
+                z: -1
+                opacity: 0
+                visible: false
+            }
+        },
+        State {
+            name: "upload"
+            PropertyChanges {
+                target: createUpload
+                z: 99
                 opacity: 1
+                visible: true
             }
         }
     ]
     transitions: [
         Transition {
-            from: "*"
-            to: "*"
+            from: "init"
+            to: "upload"
             PropertyAnimation {
                 properties: "opacity"
+                duration: 300
                 easing.type: Easing.InOutQuad
             }
         }
