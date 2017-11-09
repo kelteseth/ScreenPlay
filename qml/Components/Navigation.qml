@@ -101,13 +101,13 @@ Rectangle {
             iconSource: "qrc:/assets/icons/icon_settings.svg"
             onPageClicked: navigation.onPageChanged(name)
         }
-        NavigationItem {
-            id: navCommunity
-            state: "inactive"
-            name: "Community"
-            iconSource: "qrc:/assets/icons/icon_community.svg"
-            onPageClicked: navigation.onPageChanged(name)
-        }
+//        NavigationItem {
+//            id: navCommunity
+//            state: "inactive"
+//            name: "Community"
+//            iconSource: "qrc:/assets/icons/icon_community.svg"
+//            onPageClicked: navigation.onPageChanged(name)
+//        }
     }
 
     Item {
