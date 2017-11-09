@@ -34,27 +34,28 @@ Rectangle {
             navWorkshop.state = "active"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
-            navCommunity.state = "inactive"
+//            navCommunity.state = "inactive"
             navCreate.state = "inactive"
         } else if (name === "Installed") {
             navWorkshop.state = "inactive"
             navInstalled.state = "active"
             navSettings.state = "inactive"
-            navCommunity.state = "inactive"
+//            navCommunity.state = "inactive"
             navCreate.state = "inactive"
         } else if (name === "Settings") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "active"
-            navCommunity.state = "inactive"
+//            navCommunity.state = "inactive"
             navCreate.state = "inactive"
         } else if (name === "Create") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
             navCreate.state = "active"
-            navCommunity.state = "inactive"
-        } else if (name === "Community") {
+//            navCommunity.state = "inactive"
+        }
+        else if (name === "Community") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
