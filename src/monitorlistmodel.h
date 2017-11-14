@@ -23,6 +23,8 @@ public:
 
     QHash<int, QByteArray> roleNames() const override;
     Q_INVOKABLE QRect getAbsoluteDesktopSize();
+    Q_INVOKABLE void reloadMonitors();
+    Q_INVOKABLE int size();
 
     enum MonitorRole {
         NameRole,
@@ -58,13 +60,14 @@ public:
 
     void loadMonitors();
 
-    int size();
     bool getMonitorListItemAt(int position, Monitor *monitor);
 
-    float GetHighestMonitorYValue();
 
 private:
     QVector<Monitor> m_monitorList;
+
+signals:
+    void monitorReloadCompleted();
 };
 
 class Monitor {
@@ -75,12 +78,15 @@ public:
 
     QString m_id;
     QString m_name;
+    QString m_manufacturer;
+    QString m_model;
     QSize m_size;
     QRect m_availableGeometry;
     QRect m_availableVirtualGeometry;
     QRect m_geometry;
     int m_number;
     bool m_isVirtualDesktop;
+
 
 };
 #endif // MONITORLISTMODEL_H

@@ -109,6 +109,19 @@ bool MonitorListModel::removeRows(int row, int count, const QModelIndex& parent)
 
 void MonitorListModel::loadMonitors()
 {
+    int offsetX = 0;
+    int offsetY = 0;
+    for (int i = 0; i < QApplication::screens().count(); i++) {
+        QScreen* screen = QApplication::screens().at(i);
+        if (screen->availableGeometry().x() < 0) {
+            offsetX += (screen->availableGeometry().x() * -1);
+        }
+        if (screen->availableGeometry().y() < 0) {
+            offsetY += (screen->availableGeometry().y() * -1);
+        }
+    }
+
+    beginInsertRows(QModelIndex(), 0, 0);
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
 
@@ -116,12 +129,15 @@ void MonitorListModel::loadMonitors()
             screen->model(),
             screen->name(),
             screen->size(),
-            screen->availableGeometry(),
+            QRect(screen->availableGeometry().x() + offsetX, screen->availableGeometry().y() + offsetY, screen->availableGeometry().width(), screen->availableGeometry().height()),
             // More convenient for the user if the first monitor == 1
             i + 1,
-            screen->availableVirtualGeometry(),
-            screen->geometry()));
+            QRect(screen->availableVirtualGeometry().x() + offsetX, screen->availableVirtualGeometry().y() + offsetY, screen->availableVirtualGeometry().width(), screen->availableVirtualGeometry().height()),
+            QRect(screen->geometry().x() + offsetX, screen->geometry().y() + offsetY, screen->geometry().width(), screen->geometry().height())));
     }
+    endInsertRows();
+
+    emit monitorReloadCompleted();
 }
 
 int MonitorListModel::size()
@@ -139,32 +155,31 @@ bool MonitorListModel::getMonitorListItemAt(int position, Monitor* monitor)
     }
 }
 
-float MonitorListModel::GetHighestMonitorYValue()
-{
-    /*for (int i = 0; i < vector.size(); ++i)
-    {
-        m_monitorList.at(i).screen->availableVirtualGeometry().x();
-        m_monitorList.at(i).screen->availableGeometry().y();
-    }*/
-    // m_monitorList.
-    return 0.0f;
-}
-
 Monitor::Monitor()
 {
 }
 
 Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry, QRect geometry)
 {
-
     m_name = name;
     m_size = size;
     m_geometry = geometry;
     m_availableGeometry = availableGeometry;
-
+    m_manufacturer = manufacturer;
+    m_model = model;
     m_availableVirtualGeometry = availableVirtualGeometry;
     m_number = number;
     // FIXME: Use a better way to create an id
     // because name and manufacturer are allways empty
     m_id = /*name + "_" +*/ QString::number(size.width()) + "x" + QString::number(size.height()) + "_" + QString::number(availableGeometry.x()) + "x" + QString::number(availableGeometry.y());
+}
+
+void MonitorListModel::reloadMonitors()
+{
+    beginResetModel();
+    m_monitorList.clear();
+    m_monitorList.squeeze();
+    endResetModel();
+
+    loadMonitors();
 }
