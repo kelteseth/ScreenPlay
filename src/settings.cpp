@@ -106,6 +106,13 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
     if (!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
         return;
     }
+    for(int i = 0; i < m_wallpapers.length();++i){
+        if(m_wallpapers.at(i).data()->monitor().m_id == monitor.m_id){
+            m_wallpapers.removeAt(i);
+            m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(project, monitor)));
+            return;
+        }
+    }
 
     if (m_wallpapers.length() < monitorIndex && m_wallpapers.length() > 0) {
         m_wallpapers.replace(monitorIndex, QSharedPointer<Wallpaper>(new Wallpaper(project, monitor)));
@@ -122,6 +129,7 @@ void Settings::loadActiveProfiles()
     QJsonArray activeProfilesTmp;
     QFile configTmp;
     configTmp.setFileName(m_localSettingsPath.toString() + "/settings.json");
+
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     QString config = configTmp.readAll();
     configJsonDocument = QJsonDocument::fromJson(config.toUtf8());

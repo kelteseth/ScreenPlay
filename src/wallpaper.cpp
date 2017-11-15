@@ -20,22 +20,16 @@ Wallpaper::Wallpaper(QWindow* parent)
 
 Wallpaper::Wallpaper( ProjectFile project, Monitor monitor)
 {
-
-
     m_monitor = monitor;
     m_project = project;
     QString tmp = m_project.m_absoluteStoragePath.toString() + "/" + m_project.m_file.toString();
     tmp.replace("/","\\\\");
     setAbsoluteFilePath(tmp);
 
-//    this->setX(m_profile.m_rect.x());
-//    this->setY(m_profile.m_rect.y());
-//    this->setWidth(m_profile.m_rect.width());
-//    this->setHeight(m_profile.m_rect.height());
     this->setX(m_monitor.m_geometry.x());
     this->setY(m_monitor.m_geometry.y());
-    this->setWidth(m_monitor.m_availableGeometry.width());
-    this->setHeight(m_monitor.m_availableGeometry.height());
+    this->setWidth(m_monitor.m_geometry.width());
+    this->setHeight(m_monitor.m_geometry.height());
     this->m_hwnd = (HWND)this->winId();
 
     qDebug() << "++++"<< this->x() << this->y() << this->width() << this->height();
@@ -68,15 +62,13 @@ Wallpaper::Wallpaper( ProjectFile project, Monitor monitor)
     m_context = m_quickRenderer->rootContext();
     m_context->setContextProperty("wallpaper", this);
     m_quickRenderer->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+
     m_quickRenderer->setSource(QUrl("qrc:/qml/Components/Screens/ScreenVideo.qml"));
     m_quickRenderer->show();
 }
 
 Wallpaper::~Wallpaper()
 {
-    //this->setVisible(false);
-    //m_quickRenderer->destroy();
-    this->setPosition(QPoint(500,500));
     ShowWindow(m_hwnd, SW_HIDE);
     ShowWindow(m_worker_hwnd, SW_HIDE);
     CloseWindow(m_hwnd);
@@ -95,5 +87,9 @@ void Wallpaper::setVisible(bool visible)
         ShowWindow(m_hwnd, SW_SHOWDEFAULT);
     else
         ShowWindow(m_hwnd, SW_HIDE);
+}
 
+void Wallpaper::setMonitor(const Monitor &monitor)
+{
+    m_monitor = monitor;
 }

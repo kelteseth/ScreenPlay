@@ -37,6 +37,8 @@ public:
 
     Monitor monitor() const;
 
+    void setMonitor(const Monitor &monitor);
+
 public slots:
     void setAbsoluteFilePath(QString absoluteFilePath)
     {
