@@ -55,6 +55,7 @@ CustomPage {
     }
 
 
+
     GridView {
         id: gridView
         boundsBehavior: Flickable.DragOverBounds
@@ -74,9 +75,6 @@ CustomPage {
             width: parent.width
         }
         model: installedListModel
-
-
-
         delegate: ScreenPlayItem {
             id: delegate
             focus: true
