@@ -179,6 +179,15 @@ Rectangle {
 
             createSteamWallpaperStarted()
         }
+        onWorkshopCreationCopyVideo:{
+
+        }
+        onWorkshopCreationCopyImage: {
+
+        }
+        onWorkshopCreationComplete:{
+
+        }
     }
 
     CheckDelegate {

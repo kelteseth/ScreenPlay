@@ -3,28 +3,34 @@ import QtAV 1.07
 
 Rectangle {
     id: createVideoPreviewSmall
+    color: "gray"
     property url source
-
-
-    Video {
-        id: previewVideo
+    onSourceChanged: {
+        player.source = Qt.resolvedUrl(createVideoPreviewSmall.source)
+        print("#####" + player.error + player.source)
+        player.play()
+    }
+    VideoOutput2 {
+        id: videoOut
         anchors.fill: parent
-        z: 99
-        source: createVideoPreviewSmall.source
-        onSourceChanged: {
-            print(previewVideo.error + previewVideo.errorString + previewVideo.source)
-            //previewVideo.source = createVideoPreviewSmall.source;
-            previewVideo.play()
-        }
-        onPlaying: {
-            print("playing")
-        }
+        source: player
+        fillMode: VideoOutput.Stretch
+    }
 
-
-        onErrorChanged: {
-            print(previewVideo.error + previewVideo.errorString)
+    MediaPlayer {
+        id: player
+        videoCodecPriority: ["CUDA", "D3D11", "DXVA", "VAAPI", "FFmpeg"]
+        loops: MediaPlayer.Infinite
+        volume: 0
+    }
+    MouseArea{
+        focus: true
+        hoverEnabled: true
+        onEntered: {
+            player.play()
         }
-
-        //videoCodecPriority: ["CUDA", "D3D11", "DXVA", "VAAPI", "FFmpeg"]
+        onExited: {
+            player.stop()
+        }
     }
 }
