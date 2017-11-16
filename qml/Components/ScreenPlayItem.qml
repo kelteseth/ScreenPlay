@@ -34,9 +34,9 @@ Item {
 
     Item {
         id: screenPlayItemWrapper
-
-        height: parent.height
-        width: parent.width
+        anchors.centerIn: parent
+        height: 180
+        width: 320
 
         Image {
             id: mask
@@ -146,7 +146,8 @@ Item {
             }
             PropertyChanges {
                 target: screenPlayItem
-                scale: 1
+                width: 320
+                height:180
 
             }
         },
@@ -156,8 +157,9 @@ Item {
         State {
             name: "hover"
             PropertyChanges {
-                target: screenPlayItem
-                scale: 1.03
+                target: screenPlayItemWrapper
+                width: 330
+                height:190
             }
             PropertyChanges {
                 target: effect
@@ -199,8 +201,8 @@ Item {
             reversible: true
 
             PropertyAnimation {
-                target: screenPlayItem
-                property: "scale"
+                target: screenPlayItemWrapper
+                properties: "width,height"
                 duration: 100
                 easing.type: Easing.InOutQuad
             }
