@@ -102,6 +102,7 @@ Item {
 
             Slider {
                 id: sider
+                visible: false
                 height:65
                 stepSize: 0.05
                 anchors {
