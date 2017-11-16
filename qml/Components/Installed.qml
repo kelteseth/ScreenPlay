@@ -62,9 +62,9 @@ CustomPage {
         maximumFlickVelocity: 7000
         flickDeceleration: 5000
         anchors.fill: parent
-        cellWidth: 330
+        cellWidth: 340
         cacheBuffer: 10000
-        cellHeight: 190
+        cellHeight: 200
         anchors {
             topMargin: 0
             rightMargin: 0
