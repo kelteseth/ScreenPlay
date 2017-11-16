@@ -5,10 +5,11 @@ import QtQuick.Extras 1.4
 
 Item {
     id: sidebar
-    height: 768
     width: 400
     state: "inactive"
     focus: true
+
+    property real navHeight
 
     MouseArea {
         id: mouseAreaHelper
@@ -41,11 +42,41 @@ Item {
             left: sidebar.left
         }
 
+        Item {
+            id: navBackground
+            height: navHeight
+            anchors {
+                top: parent.top
+                right: parent.right
+                left: parent.left
+            }
+
+            LinearGradient {
+                anchors.fill: parent
+                start: Qt.point(0, 0)
+                end: Qt.point(400, 0)
+                gradient: Gradient {
+                    GradientStop {
+                        position: 0.0
+                        color: "transparent"
+                    }
+                    GradientStop {
+                        position: 0.1
+                        color: "#AAffffff"
+                    }
+                    GradientStop {
+                        position: 1.0
+                        color: "#ffffff"
+                    }
+                }
+            }
+        }
+
         Rectangle {
             id: sidebarBackground
             color: "white"
             anchors {
-                top: parent.top
+                top: navBackground.bottom
                 right: parent.right
                 bottom: parent.bottom
                 left: parent.left
@@ -53,8 +84,7 @@ Item {
             }
 
             Rectangle {
-                id: rectangle
-                y: 0
+                id: imageWrapper
                 height: 237
                 color: "#2b2b2b"
                 anchors.right: parent.right
@@ -67,6 +97,19 @@ Item {
                     fillMode: Image.PreserveAspectCrop
                     asynchronous: true
                     anchors.fill: parent
+                }
+            }
+
+            Slider {
+                id: sider
+                height:65
+                stepSize: 0.05
+                anchors {
+                    top:imageWrapper.bottom
+                    right: parent.right
+                    rightMargin: 10
+                    leftMargin: 10
+                    left: parent.left
                 }
             }
 
@@ -108,9 +151,7 @@ Item {
                 onClicked: {
                     screenPlaySettings.setWallpaper(
                                 monitorSelection.activeMonitorIndex,
-
-                                     installedListModel.absoluteStoragePath
-                                    + "/" + activeScreen)
+                                installedListModel.absoluteStoragePath + "/" + activeScreen)
                 }
             }
 
