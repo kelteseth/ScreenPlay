@@ -10,7 +10,7 @@ ApplicationWindow {
     id: window
     color: "#eeeeee"
     visible: true
-    width: 1383
+    width: 1400
     minimumHeight: 768
     minimumWidth: 1050
 
@@ -93,8 +93,9 @@ ApplicationWindow {
     Sidebar {
         id: sidebar
         width: 400
+        navHeight: nav.height
         anchors {
-            top: nav.bottom
+            top: parent.top
             right: parent.right
             bottom: parent.bottom
         }
