@@ -42,7 +42,6 @@ public slots:
     void getAPICallInfo();
     void createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath);
     void subscribeItem(unsigned int id);
-
     void setItemProcessed(unsigned int itemProcessed)
     {
         if (m_itemProcessed == itemProcessed)
@@ -67,6 +66,11 @@ signals:
     void localFileCopyCompleted(bool successful);
     void itemProcessedChanged(unsigned int itemProcessed);
     void bytesTotalChanged(unsigned int bytesTotal);
+
+    // Workshop item creation
+    void workshopCreationCopyVideo(bool sucessful);
+    void workshopCreationCopyImage(bool sucessful);
+    void workshopCreationComplete(bool sucessful);
 
 private:
     void workshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure);

@@ -67,7 +67,6 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
 {
     QFuture<void> future = QtConcurrent::run([&]() {
 
-
         QString fromVideoPath = QString(videoPath.toString()).replace("file:///", "");
         QString fromImagePath =QString(previewPath.toString()).replace("file:///", "");
         QString toPath = m_settings->localStoragePath().toString() + "/" + title;
@@ -76,35 +75,32 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
 
         if (!QDir(toPath).exists()) {
             //TODO: Display Error
-            if (!QDir().mkdir(toPath))
+            if (!QDir().mkdir(toPath)){
+                emit workshopCreationComplete(false);
                 return;
+            }
         }
-
 
         //Copy Video File
         if (QFile::copy(fromVideoPath, toPathWithVideoFile)) {
-            qDebug() << "success";
+            emit workshopCreationCopyVideo(true);
         } else {
-            qDebug() << "fial";
+            emit workshopCreationCopyVideo(false);
         }
-
 
         //Copy Image File
         if (QFile::copy(fromImagePath, toPathWithImageFile)) {
-            qDebug() << "success";
+             emit workshopCreationCopyImage(true);
         } else {
-            qDebug() << "fial";
+            emit workshopCreationCopyImage(false);
         }
 
         //Copy Project File
-
         QFile configFile(toPath + "/" + "project.json");
         if(!configFile.open(QIODevice::ReadWrite | QIODevice::Text))
             return;
 
         QTextStream out(&configFile);
-
-
         QJsonObject configObj;
 
         //configObj = configJsonDocument.object();
@@ -117,6 +113,7 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
         QJsonDocument configJsonDocument(configObj);
         out << configJsonDocument.toJson();
         configFile.close();
+        emit workshopCreationComplete(true);
 
     });
 }
