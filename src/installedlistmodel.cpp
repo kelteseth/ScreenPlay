@@ -60,9 +60,7 @@ bool InstalledListModel::getProjectByAbsoluteStoragePath(QUrl* path, ProjectFile
 
 void InstalledListModel::append(const QJsonObject obj, const QString folderName)
 {
-    int row = 0;
-
-    beginInsertRows(QModelIndex(), m_screenPlayFiles.count(), m_screenPlayFiles.count());
+    beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
 
     ProjectFile tmpFile(obj, folderName, m_absoluteStoragePath);
     m_screenPlayFiles.append(tmpFile);
