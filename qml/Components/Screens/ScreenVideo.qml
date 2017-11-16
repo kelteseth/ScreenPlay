@@ -22,6 +22,7 @@ Rectangle {
         onPlaying: screenVideo.state = "playing"
         videoCodecPriority: ["CUDA", "D3D11", "DXVA", "VAAPI", "FFmpeg"]
         loops: MediaPlayer.Infinite
+        volume: 0
     }
 
     Rectangle {
@@ -39,6 +40,10 @@ Rectangle {
                 target: curtain
                 opacity:0
             }
+            PropertyChanges {
+                target: player
+                volume: 1
+            }
         }
     ]
     transitions: [
@@ -46,11 +51,15 @@ Rectangle {
             from: ""
             to: "playing"
 
-            NumberAnimation {
+            OpacityAnimator {
                 target: curtain
-                property: "opacity"
-                duration: 200
+                duration: 500
                 easing.type: Easing.InOutQuad
+            }
+            NumberAnimation{
+                target: player
+                property: "volume"
+                duration: 500
             }
         }
     ]
