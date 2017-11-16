@@ -27,7 +27,6 @@ public:
     // Basic functionality:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-    void append(const QJsonObject, const QString);
     QHash<int, QByteArray> roleNames() const override;
 
     bool getProjectByAbsoluteStoragePath(QUrl *path, ProjectFile* spf);
@@ -51,6 +50,7 @@ public:
     }
 
 public slots:
+    void append(const QJsonObject, const QString);
     void setabsoluteStoragePath(QUrl absoluteStoragePath)
     {
         if (m_absoluteStoragePath == absoluteStoragePath)

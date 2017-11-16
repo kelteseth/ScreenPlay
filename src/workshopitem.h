@@ -3,6 +3,7 @@
 
 #include <QString>
 #include <QUrl>
+#include <QtDebug>
 
 class WorkshopItem {
 public:

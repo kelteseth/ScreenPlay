@@ -28,11 +28,14 @@ Window {
             font.pixelSize: 29
             onTextChanged: print("changed")
         }
+
+
     }
 
     MouseArea {
-        anchors.fill: parent;
         property variant clickPos: "1,1"
+        anchors.fill: parent;
+
 
         onPressed: {
             clickPos = Qt.point(mouse.x,mouse.y)

@@ -1,8 +1,16 @@
 #include "steamworkshoplistmodel.h"
 
-SteamWorkshopListModel::SteamWorkshopListModel(QObject *parent)
+SteamWorkshopListModel::SteamWorkshopListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
+//    m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(1,"WoW Malstrom  Full 3h Animated Low-CPU 4k-HDR",
+//        QUrl("http://media.blizzard.com/wow/media/artwork/wow-cataclysm/loadscreen-maelstrom-full.jpg"))));
+//    for (int i = 0; i < 50;i++) {
+//        m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(1, "title",
+//            QUrl("http://media.blizzard.com/wow/media/artwork/wow-cataclysm/loadscreen-maelstrom-full.jpg"))));
+
+//    }
+
 
 }
 

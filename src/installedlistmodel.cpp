@@ -76,8 +76,11 @@ void InstalledListModel::loadScreens()
     QFileInfoList list = QDir(m_absoluteStoragePath.toString()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
     QString tmpPath;
 
+
+
     for (auto&& item : list) {
         tmpPath = m_absoluteStoragePath.toString() + "/" + item.baseName() + "/project.json";
+
         if (!QFile(tmpPath).exists())
             continue;
 
@@ -89,11 +92,17 @@ void InstalledListModel::loadScreens()
 
         if (!(parseError.error == QJsonParseError::NoError))
             continue;
+
         if(jsonProject.object().value("type").toString() == "scene")
             continue;
 
         append(jsonProject.object(), item.baseName());
     }
+    QFuture<void> future = QtConcurrent::run([&]() {
+
+    });
+
+
 }
 
 QVariantMap InstalledListModel::get(QString folderId)
