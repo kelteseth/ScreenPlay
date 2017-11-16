@@ -10,12 +10,14 @@ Item {
 
     onStateChanged: {
         monitorWrapper.focus = monitors.state == "active" ? true : false
+        if(monitors.state == "active"){
+             monitorListModel.reloadMonitors();
+        }
     }
 
     Rectangle {
         id: background
         color: "#80000000"
-
         anchors.fill: parent
 
         MouseArea {
@@ -28,7 +30,6 @@ Item {
         color: "white"
         width: 900
         height: 600
-
         z: 98
         anchors.centerIn: parent
 
@@ -41,7 +42,7 @@ Item {
         }
 
         MonitorSelection {
-            id:monitorSelection
+            id: monitorSelection
             anchors.centerIn: parent
             anchors.fill: parent
             availableWidth: monitorWrapper.width
@@ -49,17 +50,17 @@ Item {
         }
 
         Button {
-            id:btn
-            text:"Remove all wallpaper"
-            onClicked: screenPlaySettings.removeAll();//screenPlaySettings.removeWallpaperAt(monitorSelection.activeMonitorIndex)
-            anchors{
+            id: btn
+            text: "Remove all wallpaper"
+            onClicked: screenPlaySettings.removeAll(
+                           ) //screenPlaySettings.removeWallpaperAt(monitorSelection.activeMonitorIndex)
+            anchors {
                 horizontalCenter: parent.horizontalCenter
                 bottom: parent.bottom
                 bottomMargin: 30
             }
         }
     }
-
 
     states: [
         State {

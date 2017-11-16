@@ -5,6 +5,9 @@ Rectangle {
     anchors.margins: 10
 
     property rect monitorSize: Qt.rect(0, 0, 0, 0)
+    property string monitorModel
+    property string monitorManufacturer
+    property string monitorName
     property int index: 0
     property bool isSelected: false
 
@@ -22,10 +25,11 @@ Rectangle {
         anchors.fill: parent
         Text {
             renderType: Text.NativeRendering
-            text: index + " " + monitorSize.width + ", " + monitorSize.height
-            anchors.centerIn: parent
+            text: index + monitorName + " " + monitorSize.width + ", " + monitorSize.height + " - " + monitorSize.x + ", " + monitorSize.y + " --" + monitorManufacturer + " - "  + monitorModel
+            anchors.fill: parent
             color:"white"
-            font.pixelSize: 14
+            font.pixelSize: 8
+            wrapMode:  Text.WrapAnywhere
         }
     }
 
