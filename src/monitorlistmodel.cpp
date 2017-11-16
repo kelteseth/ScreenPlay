@@ -15,6 +15,8 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
         { AvailableVirtualGeometryRole, "monitorAvailableVirtualGeometry" },
         { NumberRole, "monitorNumber" },
         { GeometryRole, "monitorGeometry" },
+        { ModelRole, "monitorModel" },
+        { ManufacturerRole, "monitorManufacturer" },
     };
     return roles;
 }
@@ -68,6 +70,10 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
             return m_monitorList.at(index.row()).m_number;
         case GeometryRole:
             return m_monitorList.at(index.row()).m_geometry;
+        case ModelRole:
+            return m_monitorList.at(index.row()).m_model;
+        case ManufacturerRole:
+            return m_monitorList.at(index.row()).m_manufacturer;
         default:
             return QVariant();
         }
@@ -121,7 +127,7 @@ void MonitorListModel::loadMonitors()
         }
     }
 
-    beginInsertRows(QModelIndex(), 0, 0);
+    beginInsertRows(QModelIndex(), 0, QApplication::screens().count());
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
 

@@ -33,6 +33,8 @@ public:
         AvailableVirtualGeometryRole,
         NumberRole,
         GeometryRole,
+        ModelRole,
+        ManufacturerRole,
     };
     Q_ENUM(MonitorRole)
 
