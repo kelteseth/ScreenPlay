@@ -96,13 +96,14 @@ void InstalledListModel::loadScreens()
         if(jsonProject.object().value("type").toString() == "scene")
             continue;
 
+        if(jsonProject.isEmpty())
+            continue;
+
+       if(jsonProject.object().empty())
+           continue;
+
         append(jsonProject.object(), item.baseName());
     }
-    QFuture<void> future = QtConcurrent::run([&]() {
-
-    });
-
-
 }
 
 QVariantMap InstalledListModel::get(QString folderId)
