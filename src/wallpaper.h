@@ -22,6 +22,7 @@ public:
     ~Wallpaper();
     Q_PROPERTY(QString absoluteFilePath READ absoluteFilePath WRITE setAbsoluteFilePath NOTIFY absoluteFilePathChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
+    Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
 
 
 
@@ -38,6 +39,11 @@ public:
     Monitor monitor() const;
 
     void setMonitor(const Monitor &monitor);
+
+    float volume() const
+    {
+        return m_volume;
+    }
 
 public slots:
     void setAbsoluteFilePath(QString absoluteFilePath)
@@ -60,10 +66,22 @@ public slots:
 
     void setVisible(bool visible);
 
+    void setVolume(float volume)
+    {
+        qWarning("Floating point comparison needs context sanity check");
+        if (qFuzzyCompare(m_volume, volume))
+            return;
+
+        m_volume = volume;
+        emit volumeChanged(m_volume);
+    }
+
 signals:
     void absoluteFilePathChanged(QString absoluteFilePath);
 
     void isPlayingChanged(bool isPlaying);
+
+    void volumeChanged(float volume);
 
 private:
     HWND m_hwnd;
@@ -75,7 +93,9 @@ private:
     ProjectFile m_project;
     Monitor m_monitor;
     QString m_absoluteFilePath;
+
     bool m_isPlaying;
+    float m_volume;
 };
 
 #endif // WALLPAPER_H

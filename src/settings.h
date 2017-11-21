@@ -44,6 +44,10 @@ public:
 
     void loadActiveProfiles();
     Q_INVOKABLE void removeAll();
+    Q_INVOKABLE void setMuteAll(bool isMuted);
+    Q_INVOKABLE void setPlayAll(bool isPlaying);
+    Q_INVOKABLE QUrl getPreviewImageByMonitorID(QString id);
+
 
     enum LocalCopyResult {
         NoError,
@@ -155,8 +159,6 @@ public slots:
     void constructWallpaper(QString folder, int monitorListAt);
 
     Q_INVOKABLE void setWallpaper(int monitorIndex, QUrl absoluteStoragePath);
-
-
 
     void setLocalStoragePath(QUrl localStoragePath)
     {

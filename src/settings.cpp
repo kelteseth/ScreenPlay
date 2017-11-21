@@ -106,13 +106,12 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
     if (!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
         return;
     }
-    for(int i = 0; i < m_wallpapers.length();++i){
-        if(m_wallpapers.at(i).data()->monitor().m_id == monitor.m_id){
+    for (int i = 0; i < m_wallpapers.length(); ++i) {
+        if (m_wallpapers.at(i).data()->monitor().m_id == monitor.m_id) {
             m_wallpapers.removeAt(i);
         }
     }
     m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(project, monitor)));
-
 }
 
 void Settings::loadActiveProfiles()
@@ -152,6 +151,42 @@ void Settings::loadActiveProfiles()
 void Settings::removeAll()
 {
     m_wallpapers.clear();
+}
+
+void Settings::setMuteAll(bool isMuted)
+{
+    if (isMuted) {
+        for (int i = 0; i < m_wallpapers.size(); ++i) {
+            m_wallpapers.at(i).data()->setVolume(0.0f);
+        }
+    } else {
+        for (int i = 0; i < m_wallpapers.size(); ++i) {
+            m_wallpapers.at(i).data()->setVolume(1.0f);
+        }
+    }
+}
+
+void Settings::setPlayAll(bool isPlaying)
+{
+    if (isPlaying) {
+        for (int i = 0; i < m_wallpapers.size(); ++i) {
+            m_wallpapers.at(i).data()->setIsPlaying(true);
+        }
+    } else {
+        for (int i = 0; i < m_wallpapers.size(); ++i) {
+            m_wallpapers.at(i).data()->setIsPlaying(false);
+        }
+    }
+}
+
+QUrl Settings::getPreviewImageByMonitorID(QString id)
+{
+    //    for (int i = 0; i < m_mlm->m_monitorList.size(); ++i) {
+    //        if(m_mlm->m_monitorList.at(i).m_id == id){
+    //            //return m_mlm->m_monitorList.at(i).m_
+    //        }
+    //    }
+    return QUrl();
 }
 
 void Settings::createNewWallpaper(int monitorListPosition, Profile profile, ProjectFile projectFile)
