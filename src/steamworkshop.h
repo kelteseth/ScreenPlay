@@ -70,7 +70,8 @@ signals:
     // Workshop item creation
     void workshopCreationCopyVideo(bool sucessful);
     void workshopCreationCopyImage(bool sucessful);
-    void workshopCreationComplete(bool sucessful);
+    void workshopCreationCompleted(bool sucessful);
+    void workshopCreationFolderDuplicate();
 
 private:
     void workshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure);

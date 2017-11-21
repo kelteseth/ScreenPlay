@@ -65,18 +65,29 @@ bool SteamWorkshop::contentFolderExist(QString folder)
 
 void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath)
 {
-    QFuture<void> future = QtConcurrent::run([&]() {
+    QFuture<void> future = QtConcurrent::run([=]() {
+
+        if (title.isEmpty() || videoPath.fileName() == "" || previewPath.fileName() == "") {
+            emit workshopCreationCompleted(false);
+            return;
+        }
 
         QString fromVideoPath = QString(videoPath.toString()).replace("file:///", "");
-        QString fromImagePath =QString(previewPath.toString()).replace("file:///", "");
+        QString fromImagePath = QString(previewPath.toString()).replace("file:///", "");
         QString toPath = m_settings->localStoragePath().toString() + "/" + title;
         QString toPathWithVideoFile = toPath + "/" + videoPath.fileName();
         QString toPathWithImageFile = toPath + "/" + previewPath.fileName();
 
-        if (!QDir(toPath).exists()) {
+        if (QDir(toPath).exists()) {
+            if (!QDir(toPath).isEmpty()) {
+                emit workshopCreationFolderDuplicate();
+                return;
+            }
+
+        } else {
             //TODO: Display Error
-            if (!QDir().mkdir(toPath)){
-                emit workshopCreationComplete(false);
+            if (!QDir().mkdir(toPath)) {
+                emit workshopCreationCompleted(false);
                 return;
             }
         }
@@ -90,30 +101,32 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
 
         //Copy Image File
         if (QFile::copy(fromImagePath, toPathWithImageFile)) {
-             emit workshopCreationCopyImage(true);
+            emit workshopCreationCopyImage(true);
         } else {
             emit workshopCreationCopyImage(false);
         }
 
         //Copy Project File
         QFile configFile(toPath + "/" + "project.json");
-        if(!configFile.open(QIODevice::ReadWrite | QIODevice::Text))
+
+        if (!configFile.open(QIODevice::ReadWrite | QIODevice::Text))
             return;
 
         QTextStream out(&configFile);
         QJsonObject configObj;
-
-        //configObj = configJsonDocument.object();
-        configObj.insert("file",videoPath.fileName());
-        //TODO
-        configObj.insert("description","");
-        configObj.insert("title",title);
-        configObj.insert("preview",previewPath.fileName());
-
         QJsonDocument configJsonDocument(configObj);
+        configObj = configJsonDocument.object();
+
+        configObj.insert("file", videoPath.fileName());
+        configObj.insert("preview", previewPath.fileName());
+
+        //TODO
+        configObj.insert("description", "");
+        configObj.insert("title", title);
+
         out << configJsonDocument.toJson();
         configFile.close();
-        emit workshopCreationComplete(true);
+        emit workshopCreationCompleted(true);
 
     });
 }
