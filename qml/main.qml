@@ -43,7 +43,38 @@ ApplicationWindow {
                     window.show()
                 }
             }
-
+            MenuItem {
+                id:miMuteAll
+                property bool isMuted: false
+                text: qsTr("Mute all")
+                onTriggered: {
+                    if(miMuteAll.isMuted){
+                        isMuted = false
+                        miMuteAll.text = qsTr("Mute all")
+                        screenPlaySettings.setMuteAll(false)
+                    }else{
+                        isMuted = true
+                        miMuteAll.text = qsTr("Unmute all")
+                        screenPlaySettings.setMuteAll(true)
+                    }
+                }
+            }
+            MenuItem {
+                id:miStopAll
+                property bool isPlaying: false
+                text: qsTr("Stop all")
+                onTriggered: {
+                    if(miStopAll.isPlaying){
+                        isPlaying = false
+                        miStopAll.text = qsTr("Stop all")
+                        screenPlaySettings.setPlayAll(true)
+                    }else{
+                        isPlaying = true
+                        miStopAll.text = qsTr("Play all")
+                        screenPlaySettings.setPlayAll(false)
+                    }
+                }
+            }
             MenuItem {
                 text: qsTr("Quit")
                 onTriggered: Qt.quit()
