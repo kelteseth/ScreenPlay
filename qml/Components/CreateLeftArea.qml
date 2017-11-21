@@ -17,6 +17,17 @@ Rectangle {
     signal createLocalWallpaperStarted
     signal createSteamWallpaperStarted
 
+    Connections {
+        target: steamWorkshop
+        onWorkshopCreationCompleted: {
+            txtTitle.text = ""
+            txtDescription.text = ""
+            txtTags.text = ""
+            txtYouTube.text = ""
+
+        }
+    }
+
     Row {
         id: rowUseSteamWorkshop
         height: 40
@@ -141,9 +152,10 @@ Rectangle {
 
             if (videoPath.toString() === "") {
                 hasEmptyField(0)
-            }
-            if (previewPath.toString() === "") {
+                return
+            } else if (previewPath.toString() === "") {
                 hasEmptyField(1)
+                return
             }
             if (txtTitle.text === "" || txtTitle.placeholderText === "Text") {
                 txtTitle.select(0, 0)
@@ -152,7 +164,14 @@ Rectangle {
             }
 
             //TODO: display error because folder exsist or empty
-            if (steamWorkshop.contentFolderExist(txtTitle.text)) {
+            if (steamWorkshop.contentFolderExist(txtTitle.text.replace(/\s/g, ''))) {
+                return
+            }
+
+            //Check if there are any other characters than space
+            if(!(/\S/.test(txtTitle.text))){
+                txtTitle.select(0, 0)
+                txtTitle.focus = true
                 return
             }
 
@@ -162,7 +181,7 @@ Rectangle {
                 steamWorkshop.createWorkshopItem()
             } else {
                 createLocalWallpaperStarted()
-                steamWorkshop.createLocalWorkshopItem(txtTitle.text.toString(),
+                steamWorkshop.createLocalWorkshopItem(txtTitle.text.replace(/\s/g, ''),
                                                       videoPath, previewPath)
             }
         }
@@ -179,13 +198,13 @@ Rectangle {
 
             createSteamWallpaperStarted()
         }
-        onWorkshopCreationCopyVideo:{
+        onWorkshopCreationCopyVideo: {
 
         }
         onWorkshopCreationCopyImage: {
 
         }
-        onWorkshopCreationComplete:{
+        onWorkshopCreationCompleted: {
 
         }
     }

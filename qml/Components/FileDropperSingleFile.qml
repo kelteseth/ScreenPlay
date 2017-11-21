@@ -2,6 +2,8 @@ import QtQuick 2.9
 import QtQuick.Dialogs 1.2
 
 Rectangle {
+    id: fileDropperSingleFile
+
     property color background: "white"
     property string descriptionTitle: "value"
     property url imagePath: "qrc:/assets/icons/icon_plus.svg"
@@ -10,12 +12,17 @@ Rectangle {
     property url externalFilePath
     property string helpText: "help"
 
-    id: fileDropperSingleFile
     color: fileDropperSingleFile.background
     border.color: "#C2C2C2"
     border.width: 2
     radius: 4
     state: ""
+
+    function reset(){
+        fileDropperSingleFile.state = "empty"
+        previewImage.source = ""
+        videoPreviewLoader.source = ""
+    }
 
     onStateChanged: {
         if (fileDropperSingleFile.state === "error") {
@@ -158,37 +165,8 @@ Rectangle {
         asynchronous: true
         anchors.fill: parent
         anchors.margins: 2
-        z: 97
-        onLoaded: {
-
-
-            //videoPreviewLoader.item.playVideo(drop.urls[0]);
-        }
+        z: 300
     }
-
-    /* FIXME: For now only drag n drop Workshop
-              because the qml file Dialog is really
-              buggy and slow
-    MouseArea{
-        anchors.fill: parent
-        onClicked: {
-            if(isVideo){
-                fileDialogOpenPreview.nameFilters =  ["*.mp4","GIF (*.mp4)"]
-            } else {
-                 fileDialogOpenPreview.nameFilters =  ["*.png *.jpg *.gif","PNG (*.png)","JPG (*.jpg)","GIF (*.gif)"]
-            }
-
-            fileDialogOpenPreview.open()
-        }
-    }
-
-    FileDialog {
-        id: fileDialogOpenPreview
-        folder: shortcuts.home
-        onAccepted: {
-
-        }
-    }*/
     states: [
         State {
             name: "fileEntered"

@@ -11,21 +11,21 @@ CustomPage {
     Connections {
         target: steamWorkshop
         onWorkshopItemCreated: {
-            if (userNeedsToAcceptWorkshopLegalAgreement) {
-
-                //TODO!!
-            } else {
-
-            }
+            //TODO!!
+            //if (userNeedsToAcceptWorkshopLegalAgreement)
         }
         onLocalFileCopyCompleted: {
             create.state = "init"
+        }
+        onWorkshopCreationCompleted: {
+            fileDropperPreview.reset()
+            fileDropperVideo.reset()
         }
     }
 
     Connections {
         target: createUpload
-        onUploadCompleted:{
+        onUploadCompleted: {
             create.state = "init"
         }
     }
@@ -139,15 +139,12 @@ CustomPage {
                 }
             }
         }
-
     }
 
     CreateUpload {
         id: createUpload
         anchors.fill: parent
-        z: -1
-        opacity: 0
-        visible: false
+        z: 99
     }
 
     states: [
@@ -167,6 +164,13 @@ CustomPage {
                 z: 99
                 opacity: 1
                 visible: true
+            }
+        },
+        State {
+            name: "createLocalWallpaper"
+            PropertyChanges {
+                target: createUpload
+                state: "import"
             }
         }
     ]
