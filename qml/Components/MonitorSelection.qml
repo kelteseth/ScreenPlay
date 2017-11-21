@@ -7,19 +7,20 @@ Rectangle {
     // Width of the Sidebar or Space that should be used
     property real availableWidth: 0
     property real availableHeight: 0
-    property alias mlm: rp
     property int activeMonitorIndex: 0
+    property string activeMonitorID
 
     function setActiveMonitorIndex(newIndex) {
         activeMonitorIndex = newIndex
-        for (var i = 0; i < mlm.count; i++) {
+        for (var i = 0; i < rp.count; i++) {
             if (i === newIndex) {
-                mlm.itemAt(i).isSelected = true
+                rp.itemAt(i).isSelected = true
             } else {
-                mlm.itemAt(i).isSelected = false
+                rp.itemAt(i).isSelected = false
             }
         }
     }
+
     Component.onCompleted: {
         resize()
     }
@@ -76,8 +77,6 @@ Rectangle {
         anchors.centerIn: parent
         model: monitorListModel
 
-
-
         delegate: MonitorSelectionItem {
             id: delegate
             height: monitorAvailableGeometry.height
@@ -88,6 +87,7 @@ Rectangle {
             monitorName: monitorName
             monitorModel: monitorModel
             monitorSize: monitorAvailableGeometry
+            monitorID: monitorID
             index: index
 
             Connections {

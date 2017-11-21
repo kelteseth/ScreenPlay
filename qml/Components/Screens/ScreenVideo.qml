@@ -4,8 +4,23 @@ import QtAV 1.07
 Rectangle {
     id:screenVideo
 
+    Connections{
+        target: wallpaper
+        onVolumeChanged:{
+            player.volume = wallpaper.volume
+        }
+        onIsPlayingChanged:{
+            if(wallpaper.isPlaying){
+                player.play()
+            } else {
+                player.pause()
+            }
+        }
+    }
+
     Component.onCompleted: {
         player.source = Qt.resolvedUrl("file:///" + wallpaper.absoluteFilePath)
+        print("AAAA",Qt.resolvedUrl("file:///" + wallpaper.absoluteFilePath))
         player.play()
     }
 

@@ -5,13 +5,15 @@ import QtGraphicalEffects 1.0
 Item {
     id: monitors
     state: "inactive"
+    focus: true
 
     property string activeMonitorName: ""
 
     onStateChanged: {
-        monitorWrapper.focus = monitors.state == "active" ? true : false
-        if(monitors.state == "active"){
-             monitorListModel.reloadMonitors();
+        bgMouseArea.focus = monitors.state == "active" ? true : false
+        if (monitors.state == "active") {
+
+            //monitorListModel.reloadMonitors();
         }
     }
 
@@ -21,32 +23,31 @@ Item {
         anchors.fill: parent
 
         MouseArea {
+            id:bgMouseArea
             anchors.fill: parent
             onClicked: monitors.state = "inactive"
+            hoverEnabled: true
         }
     }
 
     Rectangle {
         color: "white"
         width: 900
+        radius: 3
         height: 600
         z: 98
         anchors.centerIn: parent
 
-        Rectangle {
-            color: "gray"
-            anchors.centerIn: parent
-            id: monitorWrapper
-            width: 200
-            height: 100
-        }
-
         MonitorSelection {
             id: monitorSelection
-            anchors.centerIn: parent
-            anchors.fill: parent
-            availableWidth: monitorWrapper.width
-            availableHeight: monitorWrapper.height
+            anchors{
+                top: parent.top
+                topMargin: 60
+                horizontalCenter: parent.horizontalCenter
+            }
+            width:600
+            availableWidth: 600
+            availableHeight: 600
         }
 
         Button {
@@ -73,11 +74,6 @@ Item {
             }
 
             PropertyChanges {
-                target: monitorWrapper
-                anchors.topMargin: 0
-            }
-
-            PropertyChanges {
                 target: background
                 opacity: 1
             }
@@ -90,10 +86,7 @@ Item {
                 enabled: false
             }
 
-            PropertyChanges {
-                target: monitorWrapper
-                anchors.topMargin: 50
-            }
+
 
             PropertyChanges {
                 target: background
@@ -119,11 +112,6 @@ Item {
                 easing.type: Easing.InOutQuad
             }
 
-            NumberAnimation {
-                target: monitorWrapper
-                property: "anchors.topMargin"
-                duration: 200
-            }
         }
     ]
 }

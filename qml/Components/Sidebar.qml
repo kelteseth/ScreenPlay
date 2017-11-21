@@ -8,7 +8,6 @@ Item {
     width: 400
     state: "inactive"
     focus: true
-
     property real navHeight
 
     MouseArea {
@@ -30,6 +29,11 @@ Item {
     FontLoader {
         id: font_Roboto_Regular
         source: "qrc:/assets/fonts/Roboto-Regular.ttf"
+    }
+
+    FontLoader{
+        id: font_LibreBaskerville_Italic
+        source: "qrc:/assets/fonts/LibreBaskerville-Italic.ttf"
     }
 
     Item {
@@ -97,20 +101,24 @@ Item {
                     fillMode: Image.PreserveAspectCrop
                     asynchronous: true
                     anchors.fill: parent
-                }
-            }
 
-            Slider {
-                id: sider
-                visible: false
-                height:65
-                stepSize: 0.05
-                anchors {
-                    top:imageWrapper.bottom
-                    right: parent.right
-                    rightMargin: 10
-                    leftMargin: 10
-                    left: parent.left
+                    RadialGradient {
+                        anchors.fill: parent
+                        gradient: Gradient {
+                            GradientStop {
+                                position: 0.0
+                                color: "transparent"
+                            }
+                            GradientStop {
+                                position: 0.9
+                                color: "#FA000000"
+                            }
+                            GradientStop {
+                                position: 1.0
+                                color: "black"
+                            }
+                        }
+                    }
                 }
             }
 
@@ -128,64 +136,189 @@ Item {
 
                 Image {
                     id: imgBack
-
-                    anchors.left: parent.left
-                    anchors.leftMargin: 0
-                    opacity: 1
+                    mirror: true
                     source: "qrc:/assets/icons/icon_arrow_right.svg"
-                    sourceSize: Qt.size(14, 23)
+                    sourceSize: Qt.size(15, 15)
+                    fillMode: Image.PreserveAspectFit
                     anchors {
                         top: parent.top
-                        topMargin: 0
+                        left: parent.left
                     }
                 }
             }
 
-            Button {
-                id: button1
-                y: 710
-                text: qsTr("Set wallpaper")
-                anchors.left: parent.left
-                anchors.leftMargin: 148
-                anchors.bottom: parent.bottom
-                anchors.bottomMargin: 18
-                onClicked: {
-                    screenPlaySettings.setWallpaper(
-                                monitorSelection.activeMonitorIndex,
-                                installedListModel.absoluteStoragePath + "/" + activeScreen)
+            Item {
+                id: headlineWrapper
+                height: 80
+                width: 400
+                anchors {
+                    top: imageWrapper.bottom
+                    topMargin: 10
+                    right: parent.right
+                    rightMargin: 10
+                    left: parent.left
+                    leftMargin: 10
+                }
+
+                RectangularGlow {
+                    id: effect
+                    anchors.centerIn: userImg
+                    height: userImg.height
+                    width: userImg.width
+                    cached: true
+                    glowRadius: 2
+                    spread: 0.5
+                    color: "black"
+                    opacity: 0.4
+                    cornerRadius: 20
+                }
+
+                Rectangle {
+                    id: userImg
+                    color: "gray"
+                    height: 45
+                    border.width: 3
+                    border.color: "white"
+                    width: 45
+                    radius: 45
+                    anchors {
+                        verticalCenter: parent.verticalCenter
+                        left: parent.left
+                        leftMargin: 20
+                    }
+                }
+
+                Text {
+                    id: txtHeadline
+                    text: ""
+                    width: 250
+                    renderType: Text.NativeRendering
+                    font.family: font_Roboto_Regular.name
+                    verticalAlignment: Text.AlignVCenter
+                    font.pixelSize: 12
+                    color: "#2F2F2F"
+                    wrapMode: Text.WrapAnywhere
+                    anchors {
+                        top: parent.top
+                        bottom: parent.bottom
+                        left: userImg.right
+                        leftMargin: 20
+                    }
                 }
             }
 
             Rectangle {
                 id: monitorSelectionWrapper
-                color: "gray"
-                height: 200
+                height: 60
+                width: 400
                 anchors {
-                    right: parent.right
-                    bottom: parent.bottom
-                    left: parent.left
+                    top: headlineWrapper.bottom
+                    topMargin: 10
                 }
 
-                anchors.bottomMargin: 100
                 MonitorSelection {
                     id: monitorSelection
-                    anchors.centerIn: parent
-                    anchors.fill: parent
-                    availableWidth: sidebar.width
+                    width: 360
+                    height:parent.height
+                    availableWidth: 360
                     availableHeight: monitorSelectionWrapper.height
+                    anchors {
+                        top: parent.top
+                        horizontalCenter: parent.horizontalCenter
+                    }
                 }
             }
+            Item {
+                id: sliderVolumeWrapper
+                height: 100
+                anchors {
+                    top: monitorSelectionWrapper.bottom
+                    topMargin: 40
+                    right: parent.right
+                    rightMargin: 40
+                    leftMargin: 40
+                    left: parent.left
+                }
+                Text {
+                    id: txtSliderVolume
+                    text: qsTr("Volume")
+                    height: 30
+                    renderType: Text.NativeRendering
+                    font.family: font_Roboto_Regular.name
+                    verticalAlignment: Text.AlignVCenter
+                    font.pixelSize: 14
+                    color: "#626262"
+                    wrapMode: Text.WrapAnywhere
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                    }
+                }
+                Row {
+                    id: sliderVolumeWrapperBottom
+                    height: 70
+                    spacing: 30
+                    anchors {
+                        bottom: parent.bottom
+                        left: parent.left
+                        horizontalCenter: parent.horizontalCenter
+                    }
+                    Image {
+                        width: 20
+                        height: 20
+                        anchors.verticalCenter: parent.verticalCenter
+                        source: "qrc:/assets/icons/icon_volume.svg"
+                        sourceSize: Qt.size(20,20)
+                    }
 
-            Text {
-                id: txtHeadline
-                text: ""
-                renderType: Text.NativeRendering
-                font.family: font_Roboto_Regular.name
-                font.pixelSize: 21
-                anchors.left: parent.left
-                anchors.leftMargin: 20
-                anchors.top: parent.top
-                anchors.topMargin: 267
+                    Slider {
+                        id: sliderVolume
+                        stepSize: 0.1
+                        from: 0
+                        live:true
+                        value: .8
+                        to: 1
+                        anchors.verticalCenter: parent.verticalCenter
+                        onValueChanged: {
+                            print(Math.round(sliderVolume.value * 100) / 100)
+                        }
+                    }
+
+                    Text {
+                        id: name
+                        color:"#818181"
+                        text: Math.round(sliderVolume.value * 100) / 100
+                        anchors.verticalCenter: parent.verticalCenter
+                        font.family: font_LibreBaskerville_Italic.name
+                        font.pointSize: 12
+                        font.italic: true
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+            }
+        }
+
+        Item {
+            width: 400
+            height: 100
+            anchors {
+                bottom: parent.bottom
+            }
+            Button {
+                id: btnSetWallpaper
+                text: qsTr("Set wallpaper")
+
+                anchors {
+                    bottom: parent.bottom
+                    bottomMargin: 20
+                    horizontalCenter: parent.horizontalCenter
+                }
+
+                onClicked: {
+                    screenPlaySettings.setWallpaper(
+                                monitorSelection.activeMonitorIndex,
+                                installedListModel.absoluteStoragePath + "/" + activeScreen)
+                }
             }
         }
 
