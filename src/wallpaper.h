@@ -20,11 +20,10 @@ public:
     explicit Wallpaper(QWindow* parent = 0);
     Wallpaper( ProjectFile project, Monitor monitor);
     ~Wallpaper();
+
     Q_PROPERTY(QString absoluteFilePath READ absoluteFilePath WRITE setAbsoluteFilePath NOTIFY absoluteFilePathChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
-
-
 
     QString absoluteFilePath() const
     {
@@ -94,8 +93,8 @@ private:
     Monitor m_monitor;
     QString m_absoluteFilePath;
 
-    bool m_isPlaying;
-    float m_volume;
+    bool m_isPlaying = true;
+    float m_volume = 1.0f;
 };
 
 #endif // WALLPAPER_H
