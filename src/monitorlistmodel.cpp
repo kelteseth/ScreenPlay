@@ -9,6 +9,7 @@ MonitorListModel::MonitorListModel(QObject* parent)
 QHash<int, QByteArray> MonitorListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles{
+        { IDRole, "monitorID" },
         { NameRole, "monitorName" },
         { SizeRole, "monitorSize" },
         { AvailableGeometryRole, "monitorAvailableGeometry" },
@@ -58,6 +59,8 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
 
     if (index.row() < rowCount())
         switch (role) {
+        case IDRole:
+            return m_monitorList.at(index.row()).m_id;
         case NameRole:
             return m_monitorList.at(index.row()).m_name;
         case SizeRole:

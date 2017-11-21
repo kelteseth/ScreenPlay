@@ -27,6 +27,7 @@ public:
     Q_INVOKABLE int size();
 
     enum MonitorRole {
+        IDRole,
         NameRole,
         SizeRole,
         AvailableGeometryRole,
