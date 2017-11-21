@@ -158,12 +158,14 @@ Item {
             name: "hover"
             PropertyChanges {
                 target: screenPlayItemWrapper
-                width: 330
-                height:190
+                width: 325
+                height:185
             }
             PropertyChanges {
                 target: effect
-                opacity: 0.4
+                opacity: 0.6
+                width: 325
+                height:185
             }
             PropertyChanges {
                 target: screenPlayItemWrapper
@@ -203,7 +205,12 @@ Item {
             PropertyAnimation {
                 target: screenPlayItemWrapper
                 properties: "width,height"
-                duration: 100
+                duration: 80
+            }
+            PropertyAnimation {
+                target: effect
+                properties: "width,height,opacity"
+                duration: 80
             }
         }
     ]
