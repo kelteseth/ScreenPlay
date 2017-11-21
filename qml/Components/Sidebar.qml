@@ -101,24 +101,6 @@ Item {
                     fillMode: Image.PreserveAspectCrop
                     asynchronous: true
                     anchors.fill: parent
-
-                    RadialGradient {
-                        anchors.fill: parent
-                        gradient: Gradient {
-                            GradientStop {
-                                position: 0.0
-                                color: "transparent"
-                            }
-                            GradientStop {
-                                position: 0.9
-                                color: "#FA000000"
-                            }
-                            GradientStop {
-                                position: 1.0
-                                color: "black"
-                            }
-                        }
-                    }
                 }
             }
 
@@ -136,7 +118,6 @@ Item {
 
                 Image {
                     id: imgBack
-                    mirror: true
                     source: "qrc:/assets/icons/icon_arrow_right.svg"
                     sourceSize: Qt.size(15, 15)
                     fillMode: Image.PreserveAspectFit
