@@ -7,3 +7,9 @@
 [submodule "fontawesome"]
 	path = ThirdParty/fontawesome
 	url = https://github.com/benlau/fontawesome.pri.git
+[submodule "ThirdParty/stomt-qt-sdk"]
+	path = ThirdParty/stomt-qt-sdk
+	url = https://github.com/Aimber/stomt-qt-sdk.git
+[submodule "ThirdParty/fontawesome.pri"]
+	path = ThirdParty/fontawesome.pri
+	url = https://github.com/benlau/fontawesome.pri.git
