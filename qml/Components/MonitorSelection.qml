@@ -8,10 +8,11 @@ Rectangle {
     property real availableWidth: 0
     property real availableHeight: 0
     property int activeMonitorIndex: 0
-    property string activeMonitorID
+    property string activeMonitorID: "empty"
 
     function setActiveMonitorIndex(newIndex) {
         activeMonitorIndex = newIndex
+        activeMonitorID = rp.itemAt(newIndex).monitorID
         for (var i = 0; i < rp.count; i++) {
             if (i === newIndex) {
                 rp.itemAt(i).isSelected = true

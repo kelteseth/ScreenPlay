@@ -11,6 +11,9 @@ Item {
     property int index: 0
     property bool isSelected: false
 
+    onMonitorIDChanged: print(monitorID)
+    Component.onCompleted: print(monitorID)
+
     signal monitorSelected(var index)
 
     onIsSelectedChanged: {
