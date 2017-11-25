@@ -231,7 +231,7 @@ Item {
 
             PropertyChanges {
                 target: handWrapper
-                anchors.topMargin: 00
+                anchors.topMargin: 0
                 opacity: 0
             }
             PropertyChanges {
