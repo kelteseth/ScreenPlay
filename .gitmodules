@@ -1,9 +1,9 @@
-[submodule "ThirdParty/QtAV"]
+[submodule "QtAV"]
 	path = ThirdParty/QtAV
-	url = git@github.com:wang-bin/QtAV.git
-[submodule "ThirdParty/stomt-qt-sdk"]
+	url = https://github.com/wang-bin/QtAV.git
+[submodule "stomt-qt-sdk"]
 	path = ThirdParty/stomt-qt-sdk
-	url = git@github.com:Aimber/stomt-qt-sdk.git
-[submodule "ThirdParty/fontawesome"]
+	url = https://github.com/Aimber/stomt-qt-sdk.git
+[submodule "fontawesome"]
 	path = ThirdParty/fontawesome
-	url = git@github.com:benlau/fontawesome.pri.git
+	url = https://github.com/benlau/fontawesome.pri.git
