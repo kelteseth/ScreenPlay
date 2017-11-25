@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>qml/Components/Navigation.qml</file>
         <file>qml/Components/NavigationItem.qml</file>
-        <file>qml/Components/Workshop.qml</file>
         <file>qml/Components/Installed.qml</file>
         <file>qml/main.qml</file>
         <file>qml/Components/ScreenPlay.qml</file>
@@ -57,10 +56,22 @@
         <file>assets/icons/icon_hand_left.svg</file>
         <file>assets/icons/icon_hand_right.svg</file>
         <file>assets/images/hand_give.png</file>
-        <file>qml/Components/WorkshopItem.qml</file>
-        <file>qml/Components/WorkshopBanner.qml</file>
         <file>qml/Components/CreateUpload.qml</file>
         <file>qml/Components/Community.qml</file>
         <file>assets/icons/icon_community.svg</file>
+        <file>qml/Components/Create/Create.qml</file>
+        <file>assets/images/noisy-texture.png</file>
+        <file>assets/images/noisy-texture-2.png</file>
+        <file>assets/images/noisy-texture-3.png</file>
+        <file>qml/Components/Create/CreateWallpaper.qml</file>
+        <file>qml/Components/Create/CreateWidget.qml</file>
+        <file>qml/Components/Create/CreateWidgetButton.qml</file>
+        <file>assets/icons/icon_upload.svg</file>
+        <file>qml/Components/Workshop/Workshop.qml</file>
+        <file>qml/Components/Workshop/WorkshopBanner.qml</file>
+        <file>qml/Components/Workshop/WorkshopItem.qml</file>
+        <file>qml/Components/Workshop/WorkshopAlertBanner.qml</file>
+        <file>assets/icons/font-awsome/close.svg</file>
+        <file>assets/icons/font-awsome/frown-o.svg</file>
     </qresource>
 </RCC>

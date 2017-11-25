@@ -1,14 +1,31 @@
 import QtQuick 2.7
 import QtQuick.Controls 2.2
 
-CustomPage {
+Item {
     id: workshop
-    pageName: ""
+    anchors.fill: parent
+
+    signal openCreate
 
     Component.onCompleted: {
         workshopListModel.clear()
         steamWorkshop.searchWorkshop()
+    }
 
+    Connections {
+        target: steamWorkshop
+        onWorkshopSearched: {
+            print("searched")
+            //bannerImg.source = workshopListModel.getBannerUrl()
+            //bannerTxt.text = workshopListModel.getBannerText()
+        }
+    }
+
+    Connections {
+        target: workshopAlertBanner
+        onOpenCreate:{
+            openCreate()
+        }
     }
 
     GridView {
@@ -18,6 +35,7 @@ CustomPage {
         anchors.fill: parent
         cellWidth: 330
         cellHeight: 190
+
         anchors {
             topMargin: 0
             rightMargin: 0
@@ -39,13 +57,7 @@ CustomPage {
                 right: parent.right
                 left: parent.left
             }
-            Connections {
-                target: steamWorkshop
-                onWorkshopSearched: {
-                    bannerTxt.text = workshopListModel.getBannerText()
-                    bannerImg.source = workshopListModel.getBannerUrl()
-                }
-            }
+
 
             Rectangle {
                 id: banner
@@ -161,5 +173,15 @@ CustomPage {
             id: workshopScrollBar
             snapMode: ScrollBar.SnapOnRelease
         }
+    }
+    
+    WorkshopAlertBanner {
+        id:workshopAlertBanner
+        Component.onCompleted: {
+            if(!screenPlaySettings.hasWorkshopBannerSeen){
+                workshopAlertBanner.state = "in"
+            }
+        }
+
     }
 }

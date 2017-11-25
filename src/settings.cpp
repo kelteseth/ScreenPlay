@@ -155,6 +155,7 @@ void Settings::removeAll()
 
 void Settings::setMuteAll(bool isMuted)
 {
+
     if (isMuted) {
         for (int i = 0; i < m_wallpapers.size(); ++i) {
             m_wallpapers.at(i).data()->setVolume(0.0f);

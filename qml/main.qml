@@ -17,22 +17,30 @@ ApplicationWindow {
     LinearGradient {
         id: tabShadow
         height: 5
-        z:99
+        z: 99
+        cached: true
 
-        anchors{
+        anchors {
             top: nav.bottom
             right: parent.right
             left: parent.left
         }
         start: Qt.point(0, 0)
-        end: Qt.point(0,5)
+        end: Qt.point(0, 5)
         gradient: Gradient {
-            GradientStop { position: 0.0; color: "#22000000" }
-            GradientStop { position: 1.0; color: "#00000000" }
+            GradientStop {
+                position: 0.0
+                color: "#22000000"
+            }
+            GradientStop {
+                position: 1.0
+                color: "#00000000"
+            }
         }
     }
 
     SystemTrayIcon {
+        id: sti
         visible: true
         iconSource: "qrc:/assets/icons/favicon.ico"
 
@@ -44,15 +52,15 @@ ApplicationWindow {
                 }
             }
             MenuItem {
-                id:miMuteAll
+                id: miMuteAll
                 property bool isMuted: false
                 text: qsTr("Mute all")
                 onTriggered: {
-                    if(miMuteAll.isMuted){
+                    if (miMuteAll.isMuted) {
                         isMuted = false
                         miMuteAll.text = qsTr("Mute all")
                         screenPlaySettings.setMuteAll(false)
-                    }else{
+                    } else {
                         isMuted = true
                         miMuteAll.text = qsTr("Unmute all")
                         screenPlaySettings.setMuteAll(true)
@@ -60,15 +68,15 @@ ApplicationWindow {
                 }
             }
             MenuItem {
-                id:miStopAll
+                id: miStopAll
                 property bool isPlaying: false
                 text: qsTr("Stop all")
                 onTriggered: {
-                    if(miStopAll.isPlaying){
+                    if (miStopAll.isPlaying) {
                         isPlaying = false
                         miStopAll.text = qsTr("Stop all")
                         screenPlaySettings.setPlayAll(true)
-                    }else{
+                    } else {
                         isPlaying = true
                         miStopAll.text = qsTr("Play all")
                         screenPlaySettings.setPlayAll(false)
@@ -101,6 +109,9 @@ ApplicationWindow {
         Connections {
             target: pageLoader.item
             ignoreUnknownSignals: true
+
+            property bool ignoreWorkshopBanner: false
+
             onSetSidebaractiveItem: {
                 if (sidebar.activeScreen == screenId
                         && sidebar.state == "active") {
@@ -112,11 +123,18 @@ ApplicationWindow {
                 sidebar.activeScreen = screenId
             }
             onSetNavigationItem: {
-                if(pos === 0){
+                if (pos === 0) {
                     nav.onPageChanged("Create")
                 } else {
                     nav.onPageChanged("Workshop")
                 }
+            }
+            onOpenCreate: {
+                if(!ignoreWorkshopBanner){
+                    nav.onPageChanged("Create")
+                    ignoreWorkshopBanner = true
+                }
+
             }
         }
     }
@@ -140,7 +158,12 @@ ApplicationWindow {
             left: parent.left
         }
         onChangePage: {
-            pageLoader.setSource("qrc:/qml/Components/" + name + ".qml")
+            if (name === "Create" || name === "Workshop") {
+                pageLoader.setSource(
+                            "qrc:/qml/Components/" + name + "/" + name + ".qml")
+            } else {
+                pageLoader.setSource("qrc:/qml/Components/" + name + ".qml")
+            }
             sidebar.state = "inactive"
         }
 

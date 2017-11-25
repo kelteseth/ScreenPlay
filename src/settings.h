@@ -41,7 +41,7 @@ public:
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
     Q_PROPERTY(Version version READ version)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
-
+    Q_PROPERTY(bool hasWorkshopBannerSeen READ hasWorkshopBannerSeen WRITE setHasWorkshopBannerSeen NOTIFY hasWorkshopBannerSeenChanged)
     void loadActiveProfiles();
     Q_INVOKABLE void removeAll();
     Q_INVOKABLE void setMuteAll(bool isMuted);
@@ -99,6 +99,10 @@ public:
         return m_localStoragePath;
     }
 
+    bool hasWorkshopBannerSeen() const
+    {
+        return m_hasWorkshopBannerSeen;
+    }
 
 signals:
 
@@ -111,6 +115,8 @@ signals:
     void sendStatisticsChanged(bool status);
 
     void localStoragePathChanged(QUrl localStoragePath);
+
+    void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
 
 public slots:
 
@@ -192,6 +198,16 @@ public slots:
         emit localStoragePathChanged(m_localStoragePath);
     }
 
+
+    void setHasWorkshopBannerSeen(bool hasWorkshopBannerSeen)
+    {
+        if (m_hasWorkshopBannerSeen == hasWorkshopBannerSeen)
+            return;
+
+        m_hasWorkshopBannerSeen = hasWorkshopBannerSeen;
+        emit hasWorkshopBannerSeenChanged(m_hasWorkshopBannerSeen);
+    }
+
 private:
     void createDefaultConfig();
     void createProfileConfig();
@@ -214,6 +230,8 @@ private:
 
     QUrl m_localStoragePath;
     QUrl m_localSettingsPath;
+
+    bool m_hasWorkshopBannerSeen = false;
 };
 
 class ActiveProfiles {
