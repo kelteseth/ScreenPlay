@@ -71,6 +71,7 @@ Rectangle {
     Loader {
         id: loader
         anchors.fill: parent
+        z:11
     }
 
     Image {
