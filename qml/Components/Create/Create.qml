@@ -6,8 +6,22 @@ Rectangle {
     id: create
     anchors.fill: parent
     state: "out"
-    Component.onCompleted: create.state = "in"
-    onStateChanged: print(state)
+    Component.onCompleted: create.state = "create"
+
+    FontLoader {
+        id: font_Roboto_Regular
+        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
+    }
+
+    Connections {
+        target: createWallpaper
+        onFileSelected: {
+            create.state = "import"
+            loader.setSource("CreateImport.qml", {
+                                 file: file
+                             })
+        }
+    }
 
     LinearGradient {
         id: gradient
@@ -54,6 +68,11 @@ Rectangle {
         }
     }
 
+    Loader {
+        id: loader
+        anchors.fill: parent
+    }
+
     Image {
         id: name
         source: "qrc:/assets/images/noisy-texture-3.png"
@@ -62,44 +81,40 @@ Rectangle {
         opacity: .3
     }
 
-    Rectangle{
-        id:spaceBar
-        width:2
-
+    Rectangle {
+        id: spaceBar
+        width: 2
         height: 400
         opacity: .4
         anchors {
-            top:parent.top
+            top: parent.top
             topMargin: 100
             horizontalCenter: parent.horizontalCenter
         }
     }
 
     CreateWallpaper {
+        id: createWallpaper
         width: 500
-        height: 400
+        height: 355
         anchors {
-            top:parent.top
-            topMargin: 80
+            top: parent.top
+            topMargin: 84
             left: spaceBar.right
             leftMargin: 50
         }
     }
 
     CreateWidget {
-        height: 400
+        id: createWidget
         width: 500
+        height: 400
         anchors {
-            top:parent.top
+            top: parent.top
             topMargin: 80
             right: spaceBar.left
             rightMargin: 50
         }
-    }
-
-    FontLoader{
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
     }
 
     Text {
@@ -117,7 +132,7 @@ Rectangle {
     }
 
     Rectangle {
-        id:footer
+        id: footer
         height: 80
         anchors {
             right: parent.right
@@ -155,7 +170,7 @@ Rectangle {
             }
         },
         State {
-            name: "in"
+            name: "create"
             PropertyChanges {
                 target: spaceBar
                 opacity: .4
@@ -164,14 +179,36 @@ Rectangle {
                 target: footer
                 anchors.bottomMargin: 0
             }
+        },
+        State {
+            name: "import"
+            PropertyChanges {
+                target: footer
+                anchors.bottomMargin: -80
+            }
+            PropertyChanges {
+                target: createWallpaper
+                state: "out"
+            }
+            PropertyChanges {
+                target: createWidget
+                state: "out"
+            }
+            PropertyChanges {
+                target: spaceBar
+                opacity: 0
+            }
+            PropertyChanges {
+                target: txtDescriptionBottom
+                opacity: 0
+            }
         }
     ]
     transitions: [
         Transition {
             from: "out"
-            to: "in"
+            to: "create"
             reversible: true
-
 
             NumberAnimation {
                 target: txtDescriptionBottom
@@ -187,7 +224,7 @@ Rectangle {
             }
 
             NumberAnimation {
-                target:footer
+                target: footer
                 property: "anchors.bottomMargin"
                 duration: 300
                 easing.type: Easing.InOutQuad
