@@ -2,6 +2,9 @@ import QtQuick 2.7
 import QtGraphicalEffects 1.0
 
 Item {
+    state: "out"
+    Component.onCompleted: state = "in"
+
     FontLoader {
         id: font_Roboto_Regular
         source: "qrc:/assets/fonts/Roboto-Regular.ttf"
@@ -21,7 +24,7 @@ Item {
     }
 
     CreateWidgetButton {
-        id: btnEmpty
+        id: btnCreateEmptyWidget
         text: qsTr("Create Emtpy Widget")
         anchors.top: txtCreate.bottom
         anchors.topMargin: 20
@@ -38,7 +41,7 @@ Item {
         color: "white"
 
         anchors {
-            top: btnEmpty.bottom
+            top: btnCreateEmptyWidget.bottom
             topMargin: 30
         }
     }
@@ -73,4 +76,120 @@ Item {
             }
         }
     }
+    states: [
+        State {
+            name: "out"
+
+            PropertyChanges {
+                target: btnEmpty3
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: btnEmpty2
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: btnEmpty1
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: btnCreateEmptyWidget
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: txtExamples
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: txtCreate
+                opacity: 0
+            }
+        },
+        State {
+            name: "in"
+            PropertyChanges {
+                target: btnEmpty3
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: btnEmpty2
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: btnEmpty1
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: btnCreateEmptyWidget
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: txtExamples
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: txtCreate
+                opacity: 1
+            }
+        }
+    ]
+    transitions: [
+        Transition {
+            from: "out"
+            to: "in"
+            reversible: true
+
+            SequentialAnimation {
+                PropertyAnimation {
+                    target: txtCreate
+                    property: "opacity"
+                    duration: 80
+                    easing.type: Easing.InOutCubic
+                }
+                PropertyAnimation {
+                    target: btnCreateEmptyWidget
+                    property: "opacity"
+                    duration: 80
+                    easing.type: Easing.InOutCubic
+                }
+
+                PropertyAnimation {
+                    target: txtExamples
+                    property: "opacity"
+                    duration: 80
+                    easing.type: Easing.InOutCubic
+                }
+                PropertyAnimation {
+                    target: btnEmpty1
+                    property: "opacity"
+                    duration: 80
+                    easing.type: Easing.InOutCubic
+                }
+
+                PropertyAnimation {
+                    target: btnEmpty2
+                    property: "opacity"
+                    duration: 80
+                    easing.type: Easing.InOutCubic
+                }
+
+                PropertyAnimation {
+                    target: btnEmpty3
+                    property: "opacity"
+                    duration: 80
+                    easing.type: Easing.InOutCubic
+                }
+            }
+        }
+    ]
 }

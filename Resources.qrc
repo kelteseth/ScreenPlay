@@ -5,7 +5,6 @@
         <file>qml/Components/Installed.qml</file>
         <file>qml/main.qml</file>
         <file>qml/Components/ScreenPlay.qml</file>
-        <file>qml/Components/Settings.qml</file>
         <file>assets/licenses/Apache2.txt</file>
         <file>assets/licenses/OFL.txt</file>
         <file>assets/fonts/LibreBaskerville-Italic.ttf</file>
@@ -73,5 +72,8 @@
         <file>qml/Components/Workshop/WorkshopAlertBanner.qml</file>
         <file>assets/icons/font-awsome/close.svg</file>
         <file>assets/icons/font-awsome/frown-o.svg</file>
+        <file>qml/Components/Settings/Settings.qml</file>
+        <file>qml/Components/Create/CreateImport.qml</file>
+        <file>qml/Components/Create/CreateUpload.qml</file>
     </qresource>
 </RCC>
