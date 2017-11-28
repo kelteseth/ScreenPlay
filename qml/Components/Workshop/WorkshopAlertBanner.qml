@@ -53,12 +53,15 @@ Item {
         }
         MouseArea {
             anchors {
-                top:parent.top
-                right:closeWrapper.left
+                top: parent.top
+                right: closeWrapper.left
                 bottom: parent.bottom
-                left:parent.left
+                left: parent.left
             }
-            onClicked: openCreate()
+            onClicked: {
+                screenPlaySettings.setHasWorkshopBannerSeen(true)
+                openCreate()
+            }
         }
 
         Item {
