@@ -2,6 +2,7 @@ import QtQuick 2.7
 import QtAV 1.7
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
+import Qt.labs.platform 1.0
 
 Item {
     id: createImport
@@ -12,6 +13,9 @@ Item {
     onFileChanged: {
         timerSource.start()
     }
+
+    property bool isVideoPlaying: true
+
     Timer {
         id: timerSource
         interval: 1000
@@ -47,12 +51,12 @@ Item {
     Rectangle {
         id: videoOutWrapper
         width: 500
-        height: 300
+        height: 250
         z: 12
         color: "black"
         anchors {
             top: parent.top
-            topMargin: 150
+            topMargin: 80
             horizontalCenter: parent.horizontalCenter
         }
 
@@ -64,18 +68,23 @@ Item {
             opengl: true
             fillMode: VideoOutput.Stretch
             MouseArea {
+                id:maPlayer
                 anchors.fill: parent
                 hoverEnabled: true
                 onPositionChanged: {
-                    player.seek((mouseX / videoOut.width) * player.duration)
-                    //print(mouseX / videoOut.width)
-                    //player.pause()
-                    busyIndicator.visible = true
+                    if (isVideoPlaying) {
+                        player.seek((mouseX / videoOut.width) * player.duration)
+                        busyIndicator.visible = true
+                        sliVideoPosition.value = mouseX / videoOut.width
+                    }
                 }
-                onClicked: {
-                    //player.seek((mouseX / videoOut.width) * player.duration)
-                    //player.position = player.metaData
-                }
+//                onClicked: {
+//                    if (player.playbackState === MediaPlayer.PauseState) {
+//                        player.play()
+//                    } else {
+//                        player.pause()
+//                    }
+//                }
             }
 
             BusyIndicator {
@@ -95,6 +104,7 @@ Item {
         volume: 0
         onSeekFinished: {
             busyIndicator.visible = false
+            pause()
         }
     }
     RectangularGlow {
@@ -119,8 +129,8 @@ Item {
     Rectangle {
         id: contentWrapper
         width: 800
-        height: 280
-        z:10
+        height: 300
+        z: 10
         radius: 4
         anchors {
             top: parent.top
@@ -128,8 +138,127 @@ Item {
             horizontalCenter: parent.horizontalCenter
         }
 
+        Column {
+            spacing: 5
+            anchors {
+                top: parent.top
+                topMargin: 50
+                right: parent.right
+                rightMargin: 50
+                bottom: parent.bottom
+                bottomMargin: 50
+                left: parent.left
+                leftMargin: 50
+            }
+            Item {
+                height: 60
+                width: parent.width
+                Slider {
+                    id:sliVideoPosition
+                    height: parent.height
+                    width: parent.width * .4
+                    from: 0
+                    to: 1
+                    anchors {
+                        left: parent.left
+                        verticalCenter: parent.verticalCenter
+                    }
+                    onValueChanged: {
+                        player.seek(sliVideoPosition.value * player.duration)
+
+                    }
+                }
+                FileDialog {
+                    id: fileDialogOpenPreview
+                    nameFilters: ["Image files (*.jpg *.png)"]
+                    onAccepted: {
+                        //currentFile
+                    }
+                }
+                Switch {
+                    anchors.centerIn: parent
+                    height: parent.height
+                    onPositionChanged: {
+                        if(position === 1){
+                            btnChooseImage.enabled = true
+                            sliVideoPosition.enabled = false
+                            player.pause()
+                            maPlayer.hoverEnabled = false
+                            isVideoPlaying = false
+                        } else {
+                            btnChooseImage.enabled = false
+                            sliVideoPosition.enabled = true
+                            maPlayer.hoverEnabled = true
+                            isVideoPlaying = true
+                            player.play()
+                        }
+                    }
+                }
+                Item {
+                    height: parent.height
+                    width: parent.width * .4
+                    anchors {
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
+                    }
+                    Button {
+                        id: btnChooseImage
+                        enabled: false
+                        text: qsTr("Select Image Manually")
+                        anchors {
+                            right: parent.right
+                            verticalCenter: parent.verticalCenter
+                        }
+                        onClicked: fileDialogOpenPreview.open()
+                    }
+                }
+            }
+
+            TextField {
+                id: txtTitle
+                height: 60
+                width: parent.width
+                selectByMouse: true
+                text: qsTr("")
+                placeholderText: "Title"
+            }
+            Item {
+                height: 60
+                width: parent.width
+                Text {
+                    id: txtUseSteamWorkshop
+                    text: screenPlaySettings.localStoragePath
+                    color: "#626262"
+                    anchors {
+                        left: parent.left
+                        verticalCenter: parent.verticalCenter
+                    }
+                    verticalAlignment: Text.AlignVCenter
+                    font.pointSize: 12
+                    renderType: Text.NativeRendering
+                    font.family: font_Roboto_Regular.name
+                }
+                Button {
+                    text: qsTr("Choose Folder")
+                    anchors {
+                        right: parent.right
+                        verticalCenter: parent.verticalCenter
+                    }
+                    onClicked: {
+                        fileDialogSetPath.open()
+                    }
+                }
+                FolderDialog {
+                    id: fileDialogSetPath
+                    onAccepted: {
+                        //currentFile
+                    }
+                }
+            }
+        }
+
         Button {
-            text: qsTr("Import")
+            text: qsTr("Import Video")
             anchors {
                 bottom: parent.bottom
                 bottomMargin: 10
@@ -137,8 +266,6 @@ Item {
             }
         }
     }
-
-
 
     states: [
         State {
@@ -182,7 +309,7 @@ Item {
             PropertyChanges {
                 target: contentWrapper
                 opacity: 1
-                anchors.topMargin: 300
+                anchors.topMargin: 280
             }
             PropertyChanges {
                 target: videoOutWrapper
