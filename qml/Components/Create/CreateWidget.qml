@@ -57,6 +57,7 @@ Item {
         CreateWidgetButton {
             id: btnEmpty1
             text: qsTr("Create 123")
+            buttonActive: true
             onClicked: {
 
             }
@@ -64,6 +65,7 @@ Item {
         CreateWidgetButton {
             id: btnEmpty2
             text: qsTr("Create 456")
+            buttonActive: true
             onClicked: {
 
             }
@@ -71,6 +73,7 @@ Item {
         CreateWidgetButton {
             id: btnEmpty3
             text: qsTr("Create 789")
+            buttonActive: true
             onClicked: {
 
             }
@@ -83,21 +86,25 @@ Item {
             PropertyChanges {
                 target: btnEmpty3
                 opacity: 0
+                buttonActive: false
             }
 
             PropertyChanges {
                 target: btnEmpty2
                 opacity: 0
+                buttonActive: false
             }
 
             PropertyChanges {
                 target: btnEmpty1
                 opacity: 0
+                buttonActive: false
             }
 
             PropertyChanges {
                 target: btnCreateEmptyWidget
                 opacity: 0
+                buttonActive: false
             }
 
             PropertyChanges {
@@ -115,21 +122,25 @@ Item {
             PropertyChanges {
                 target: btnEmpty3
                 opacity: 1
+                buttonActive: true
             }
 
             PropertyChanges {
                 target: btnEmpty2
                 opacity: 1
+                buttonActive: true
             }
 
             PropertyChanges {
                 target: btnEmpty1
                 opacity: 1
+                buttonActive: true
             }
 
             PropertyChanges {
                 target: btnCreateEmptyWidget
                 opacity: 1
+                buttonActive: true
             }
 
             PropertyChanges {

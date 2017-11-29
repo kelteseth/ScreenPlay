@@ -11,6 +11,7 @@ Item {
 
     property string text
     signal clicked
+    property bool buttonActive: true
 
     RectangularGlow {
         id: effectBtnEmpty
@@ -62,6 +63,7 @@ Item {
 
         MouseArea {
             anchors.fill: parent
+            enabled: buttonActive
             onClicked: {
                 clicked()
             }
