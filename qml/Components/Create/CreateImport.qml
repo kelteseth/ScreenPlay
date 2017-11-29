@@ -78,13 +78,11 @@ Item {
                         sliVideoPosition.value = mouseX / videoOut.width
                     }
                 }
-//                onClicked: {
-//                    if (player.playbackState === MediaPlayer.PauseState) {
-//                        player.play()
-//                    } else {
-//                        player.pause()
-//                    }
-//                }
+            }
+            Image {
+                id: imgPreview
+                anchors.fill: parent
+                opacity: 0
             }
 
             BusyIndicator {
@@ -107,6 +105,7 @@ Item {
             pause()
         }
     }
+
     RectangularGlow {
         id: effect2
         anchors {
@@ -126,6 +125,7 @@ Item {
         opacity: 0.4
         cornerRadius: 15
     }
+
     Rectangle {
         id: contentWrapper
         width: 800
@@ -165,13 +165,13 @@ Item {
                     }
                     onValueChanged: {
                         player.seek(sliVideoPosition.value * player.duration)
-
                     }
                 }
                 FileDialog {
                     id: fileDialogOpenPreview
                     nameFilters: ["Image files (*.jpg *.png)"]
                     onAccepted: {
+                        imgPreview.source = currentFile
                         //currentFile
                     }
                 }
@@ -185,12 +185,13 @@ Item {
                             player.pause()
                             maPlayer.hoverEnabled = false
                             isVideoPlaying = false
+                            imgPreview.opacity = 1
                         } else {
                             btnChooseImage.enabled = false
                             sliVideoPosition.enabled = true
                             maPlayer.hoverEnabled = true
                             isVideoPlaying = true
-                            player.play()
+                            imgPreview.opacity = 0
                         }
                     }
                 }
@@ -213,7 +214,6 @@ Item {
                     }
                 }
             }
-
             TextField {
                 id: txtTitle
                 height: 60
