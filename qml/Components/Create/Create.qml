@@ -135,6 +135,7 @@ Rectangle {
     Rectangle {
         id: footer
         height: 80
+        z:100
         anchors {
             right: parent.right
             bottom: parent.bottom
@@ -183,10 +184,7 @@ Rectangle {
         },
         State {
             name: "import"
-            PropertyChanges {
-                target: footer
-                anchors.bottomMargin: -80
-            }
+
             PropertyChanges {
                 target: createWallpaper
                 state: "out"
