@@ -176,6 +176,7 @@ Item {
                     }
                 }
                 Switch {
+                    id:switcherImage
                     anchors.centerIn: parent
                     height: parent.height
                     onPositionChanged: {
@@ -263,6 +264,28 @@ Item {
                 bottom: parent.bottom
                 bottomMargin: 10
                 horizontalCenter: parent.horizontalCenter
+            }
+            onClicked: {
+
+                if (txtTitle.text === "" || txtTitle.placeholderText === "Text") {
+                    txtTitle.select(0, 0)
+                    txtTitle.focus = true
+                    return
+                }
+
+                //Check if there are any other characters than space
+                if(!(/\S/.test(txtTitle.text))){
+                    txtTitle.select(0, 0)
+                    txtTitle.focus = true
+                    return
+                }
+
+                if(switcherImage.position === 1){
+                    steamWorkshop.createLocalWorkshopItem(txtTitle.text.replace(/\s/g, ''),
+                                                          file, fileDialogOpenPreview.currentFile)
+                }
+
+
             }
         }
     }
