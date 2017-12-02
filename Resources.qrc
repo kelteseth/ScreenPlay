@@ -75,5 +75,6 @@
         <file>qml/Components/Settings/Settings.qml</file>
         <file>qml/Components/Create/CreateImport.qml</file>
         <file>qml/Components/Create/CreateUpload.qml</file>
+        <file>qml/Components/Create/CreateImportStatus.qml</file>
     </qresource>
 </RCC>

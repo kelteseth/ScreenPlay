@@ -3,6 +3,7 @@
 #include <QByteArray>
 #include <QDebug>
 #include <QDir>
+#include <QDateTime>
 #include <QFile>
 #include <QFileInfo>
 #include <QObject>
@@ -32,6 +33,34 @@ public:
     {
         return m_bytesTotal;
     }
+
+    enum class LocalWorkshopCreationStatus{
+        Idle,
+        Started,
+        CopyVideoFinished,
+        CopyImageFinished,
+        CopyConfigFinished,
+        Finished,
+        ErrorFolder,
+        ErrorFolderCreation,
+        ErrorDiskSpace,
+        ErrorCopyVideo,
+        ErrorCopyImage,
+        ErrorCopyConfig,
+        ErrorUnknown,
+    };
+    Q_ENUM(LocalWorkshopCreationStatus)
+
+    enum class WorkshopCreationStatus{
+        Idle,
+        Started,
+        Importing,
+        Finished,
+        ErrorUpload,
+        ErrorWorkshopItemCreation,
+        ErrorUnknown,
+    };
+    Q_ENUM(WorkshopCreationStatus)
 
 public slots:
     void searchWorkshop();
@@ -67,11 +96,7 @@ signals:
     void itemProcessedChanged(unsigned int itemProcessed);
     void bytesTotalChanged(unsigned int bytesTotal);
 
-    // Workshop item creation
-    void workshopCreationCopyVideo(bool sucessful);
-    void workshopCreationCopyImage(bool sucessful);
-    void workshopCreationCompleted(bool sucessful);
-    void workshopCreationFolderDuplicate();
+    void localWorkshopCreationStatusChanged(SteamWorkshop::LocalWorkshopCreationStatus status);
 
 private:
     void workshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure);

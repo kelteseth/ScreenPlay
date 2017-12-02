@@ -10,6 +10,9 @@ SteamWorkshop::SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm
     m_AppId = nConsumerAppId;
     m_workshopListModel = wlm;
     m_settings = s;
+    qRegisterMetaType<SteamWorkshop::LocalWorkshopCreationStatus>();
+    qmlRegisterUncreatableType<SteamWorkshop>("LocalWorkshopCreationStatus", 1, 0, "LocalWorkshopCreationStatus", "none");
+    qmlRegisterUncreatableType<SteamWorkshop>("WorkshopCreationStatus", 1, 0, "WorkshopCreationStatus", "none");
 }
 
 void SteamWorkshop::createWorkshopItem()
@@ -65,12 +68,9 @@ bool SteamWorkshop::contentFolderExist(QString folder)
 
 void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath)
 {
-    QFuture<void> future = QtConcurrent::run([=]() {
+    QtConcurrent::run([=]() {
 
-        if (title.isEmpty() || videoPath.fileName() == "" || previewPath.fileName() == "") {
-            emit workshopCreationCompleted(false);
-            return;
-        }
+        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Started);
 
         QString fromVideoPath = QString(videoPath.toString()).replace("file:///", "");
         QString fromImagePath = QString(previewPath.toString()).replace("file:///", "");
@@ -80,55 +80,59 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
 
         if (QDir(toPath).exists()) {
             if (!QDir(toPath).isEmpty()) {
-                emit workshopCreationFolderDuplicate();
+                emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ErrorFolder);
                 return;
+            } else {
+                //if(!QDir(toPath + ))
             }
 
         } else {
             //TODO: Display Error
             if (!QDir().mkdir(toPath)) {
-                emit workshopCreationCompleted(false);
+                emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ErrorFolderCreation);
                 return;
             }
         }
 
         //Copy Video File
         if (QFile::copy(fromVideoPath, toPathWithVideoFile)) {
-            emit workshopCreationCopyVideo(true);
+            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::CopyVideoFinished);
         } else {
-            emit workshopCreationCopyVideo(false);
+            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ErrorCopyVideo);
         }
 
         //Copy Image File
         if (QFile::copy(fromImagePath, toPathWithImageFile)) {
-            emit workshopCreationCopyImage(true);
+            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::CopyImageFinished);
         } else {
-            emit workshopCreationCopyImage(false);
+            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ErrorCopyVideo);
         }
 
         //Copy Project File
         QFile configFile(toPath + "/" + "project.json");
 
-        if (!configFile.open(QIODevice::ReadWrite | QIODevice::Text))
+        if (!configFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
+            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ErrorCopyConfig);
             return;
+        }
 
         QTextStream out(&configFile);
         QJsonObject configObj;
-        QJsonDocument configJsonDocument(configObj);
-        configObj = configJsonDocument.object();
 
         configObj.insert("file", videoPath.fileName());
         configObj.insert("preview", previewPath.fileName());
-
         //TODO
         configObj.insert("description", "");
         configObj.insert("title", title);
 
+        QJsonDocument configJsonDocument(configObj);
         out << configJsonDocument.toJson();
         configFile.close();
-        emit workshopCreationCompleted(true);
 
+        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::CopyConfigFinished);
     });
+
+    emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Finished);
 }
 
 void SteamWorkshop::subscribeItem(unsigned int id)

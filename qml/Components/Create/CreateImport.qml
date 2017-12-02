@@ -50,8 +50,8 @@ Item {
 
     Rectangle {
         id: videoOutWrapper
-        width: 500
-        height: 250
+        width: 450
+        height: 263
         z: 12
         color: "black"
         anchors {
@@ -67,18 +67,18 @@ Item {
             source: player
             opengl: true
             fillMode: VideoOutput.Stretch
-            MouseArea {
-                id:maPlayer
-                anchors.fill: parent
-                hoverEnabled: true
-                onPositionChanged: {
-                    if (isVideoPlaying) {
-                        player.seek((mouseX / videoOut.width) * player.duration)
-                        busyIndicator.visible = true
-                        sliVideoPosition.value = mouseX / videoOut.width
-                    }
-                }
-            }
+//            MouseArea {
+//                id:maPlayer
+//                anchors.fill: parent
+//                hoverEnabled: true
+//                onPositionChanged: {
+//                    if (isVideoPlaying) {
+//                        player.seek((mouseX / videoOut.width) * player.duration)
+//                        busyIndicator.visible = true
+//                        sliVideoPosition.value = mouseX / videoOut.width
+//                    }
+//                }
+//            }
             Image {
                 id: imgPreview
                 anchors.fill: parent
@@ -129,26 +129,26 @@ Item {
     Rectangle {
         id: contentWrapper
         width: 800
-        height: 300
+        height: 350
         z: 10
         radius: 4
         anchors {
             top: parent.top
-            topMargin: 300
+            topMargin: 250
             horizontalCenter: parent.horizontalCenter
         }
 
         Column {
-            spacing: 5
+            spacing: 20
             anchors {
                 top: parent.top
                 topMargin: 50
                 right: parent.right
-                rightMargin: 50
+                rightMargin: 78
                 bottom: parent.bottom
                 bottomMargin: 50
                 left: parent.left
-                leftMargin: 50
+                leftMargin: 78
             }
             Item {
                 height: 60
@@ -184,13 +184,13 @@ Item {
                             btnChooseImage.enabled = true
                             sliVideoPosition.enabled = false
                             player.pause()
-                            maPlayer.hoverEnabled = false
+                            //maPlayer.hoverEnabled = false
                             isVideoPlaying = false
                             imgPreview.opacity = 1
                         } else {
                             btnChooseImage.enabled = false
                             sliVideoPosition.enabled = true
-                            maPlayer.hoverEnabled = true
+                            //maPlayer.hoverEnabled = true
                             isVideoPlaying = true
                             imgPreview.opacity = 0
                         }
@@ -283,6 +283,7 @@ Item {
                 if(switcherImage.position === 1){
                     steamWorkshop.createLocalWorkshopItem(txtTitle.text.replace(/\s/g, ''),
                                                           file, fileDialogOpenPreview.currentFile)
+                    createImport.state = "out"
                 }
 
 
@@ -310,7 +311,7 @@ Item {
             }
             PropertyChanges {
                 target: contentWrapper
-                anchors.topMargin: -300
+                anchors.topMargin: -500
                 opacity: 0
             }
         },
@@ -332,13 +333,13 @@ Item {
             PropertyChanges {
                 target: contentWrapper
                 opacity: 1
-                anchors.topMargin: 280
+                anchors.topMargin: 250
             }
             PropertyChanges {
                 target: videoOutWrapper
                 z: 12
                 opacity: 1
-                anchors.topMargin: 50
+                anchors.topMargin: 20
             }
         }
     ]
@@ -348,6 +349,7 @@ Item {
             from: "out"
             to: "in"
             reversible: true
+
             SequentialAnimation {
                 PauseAnimation {
                     duration: 500

@@ -2,6 +2,10 @@ import QtQuick 2.7
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 
+//Enums
+import LocalWorkshopCreationStatus 1.0
+import WorkshopCreationStatus 1.0
+
 Rectangle {
     id: create
     anchors.fill: parent
@@ -20,6 +24,15 @@ Rectangle {
             loader.setSource("CreateImport.qml", {
                                  file: file
                              })
+        }
+    }
+
+    Connections {
+        target: steamWorkshop
+        onLocalWorkshopCreationStatusChanged: {
+           if(status === LocalWorkshopCreationStatus.Started){
+               loader.setSource("CreateImportStatus.qml")
+           }
         }
     }
 
