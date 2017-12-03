@@ -1,6 +1,8 @@
 import QtQuick 2.7
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
+// Qt Creator does not support Namespaced enums yet
+// https://bugreports.qt.io/browse/QTCREATORBUG-17850
 import LocalWorkshopCreationStatus 1.0
 
 Item {
@@ -32,6 +34,8 @@ Item {
            case LocalWorkshopCreationStatus.Finished:
                txtStatus.text = "Finished"
                busyIndicator.running = false
+               break;
+           default:
                break;
            }
         }

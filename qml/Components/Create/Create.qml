@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 
 //Enums
 import LocalWorkshopCreationStatus 1.0
-import WorkshopCreationStatus 1.0
+
 
 Rectangle {
     id: create

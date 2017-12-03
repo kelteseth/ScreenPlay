@@ -10,9 +10,12 @@ SteamWorkshop::SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm
     m_AppId = nConsumerAppId;
     m_workshopListModel = wlm;
     m_settings = s;
-    qRegisterMetaType<SteamWorkshop::LocalWorkshopCreationStatus>();
-    qmlRegisterUncreatableType<SteamWorkshop>("LocalWorkshopCreationStatus", 1, 0, "LocalWorkshopCreationStatus", "none");
-    qmlRegisterUncreatableType<SteamWorkshop>("WorkshopCreationStatus", 1, 0, "WorkshopCreationStatus", "none");
+
+    // Register namespace seperated enums because qml has no enum scope WTF
+    qRegisterMetaType<LocalWorkshopCreationStatus::Value>();
+    qRegisterMetaType<RemoteWorkshopCreationStatus::Value>();
+    qmlRegisterUncreatableMetaObject(LocalWorkshopCreationStatus::staticMetaObject,"LocalWorkshopCreationStatus", 1, 0, "LocalWorkshopCreationStatus", "Error: only enums");
+    qmlRegisterUncreatableMetaObject(RemoteWorkshopCreationStatus::staticMetaObject,"RemoteWorkshopCreationStatus", 1, 0, "RemoteWorkshopCreationStatus", "Error: only enums");
 }
 
 void SteamWorkshop::createWorkshopItem()
@@ -70,7 +73,7 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
 {
     QtConcurrent::run([=]() {
 
-        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Started);
+        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::Started);
 
         QString fromVideoPath = QString(videoPath.toString()).replace("file:///", "");
         QString fromImagePath = QString(previewPath.toString()).replace("file:///", "");
@@ -80,7 +83,7 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
 
         if (QDir(toPath).exists()) {
             if (!QDir(toPath).isEmpty()) {
-                emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ErrorFolder);
+                emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorFolder);
                 return;
             } else {
                 //if(!QDir(toPath + ))
@@ -89,30 +92,30 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
         } else {
             //TODO: Display Error
             if (!QDir().mkdir(toPath)) {
-                emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ErrorFolderCreation);
+                emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorFolderCreation);
                 return;
             }
         }
 
         //Copy Video File
         if (QFile::copy(fromVideoPath, toPathWithVideoFile)) {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::CopyVideoFinished);
+            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::CopyVideoFinished);
         } else {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ErrorCopyVideo);
+            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorCopyVideo);
         }
 
         //Copy Image File
         if (QFile::copy(fromImagePath, toPathWithImageFile)) {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::CopyImageFinished);
+            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::CopyImageFinished);
         } else {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ErrorCopyVideo);
+            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorCopyImage);
         }
 
         //Copy Project File
         QFile configFile(toPath + "/" + "project.json");
 
         if (!configFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ErrorCopyConfig);
+            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorCopyConfig);
             return;
         }
 
@@ -129,10 +132,9 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
         out << configJsonDocument.toJson();
         configFile.close();
 
-        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::CopyConfigFinished);
+        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::Finished);
     });
 
-    emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Finished);
 }
 
 void SteamWorkshop::subscribeItem(unsigned int id)

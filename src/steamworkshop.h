@@ -1,40 +1,27 @@
 #pragma once
 
-#include <QByteArray>
-#include <QDebug>
-#include <QDir>
-#include <QDateTime>
-#include <QFile>
-#include <QFileInfo>
-#include <QObject>
-#include <QUrl>
-#include <QFuture>
-#include <QFutureWatcher>
+#include "settings.h"
 #include "steam/steam_api.h"
 #include "steamworkshoplistmodel.h"
-#include "settings.h"
+#include <QByteArray>
+#include <QDateTime>
+#include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QFuture>
+#include <QFutureWatcher>
+#include <QObject>
+#include <QUrl>
 
-class SteamWorkshop : public QObject {
-    Q_OBJECT
-public:
-    explicit SteamWorkshop(QObject* parent = nullptr);
-    SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm, Settings* s);
-
-    Q_PROPERTY(unsigned int itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
-    Q_PROPERTY(unsigned int bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)
-
-
-    unsigned int itemProcessed() const
-    {
-        return m_itemProcessed;
-    }
-
-    unsigned int bytesTotal() const
-    {
-        return m_bytesTotal;
-    }
-
-    enum class LocalWorkshopCreationStatus{
+/*  FIXME:
+ *  Workaround because QML enums are like c++98 with a
+ *  global namespace.
+ *  https://www.kdab.com/new-qt-5-8-meta-object-support-namespaces/
+ */
+namespace LocalWorkshopCreationStatus {
+    Q_NAMESPACE
+    enum Value{
         Idle,
         Started,
         CopyVideoFinished,
@@ -49,9 +36,11 @@ public:
         ErrorCopyConfig,
         ErrorUnknown,
     };
-    Q_ENUM(LocalWorkshopCreationStatus)
-
-    enum class WorkshopCreationStatus{
+    Q_ENUM_NS(Value)
+}
+namespace RemoteWorkshopCreationStatus {
+    Q_NAMESPACE
+    enum Value{
         Idle,
         Started,
         Importing,
@@ -60,7 +49,27 @@ public:
         ErrorWorkshopItemCreation,
         ErrorUnknown,
     };
-    Q_ENUM(WorkshopCreationStatus)
+    Q_ENUM_NS(Value)
+}
+
+class SteamWorkshop : public QObject {
+    Q_OBJECT
+public:
+    explicit SteamWorkshop(QObject* parent = nullptr);
+    SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm, Settings* s);
+
+    Q_PROPERTY(unsigned int itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
+    Q_PROPERTY(unsigned int bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)
+
+    unsigned int itemProcessed() const
+    {
+        return m_itemProcessed;
+    }
+
+    unsigned int bytesTotal() const
+    {
+        return m_bytesTotal;
+    }
 
 public slots:
     void searchWorkshop();
@@ -96,7 +105,7 @@ signals:
     void itemProcessedChanged(unsigned int itemProcessed);
     void bytesTotalChanged(unsigned int bytesTotal);
 
-    void localWorkshopCreationStatusChanged(SteamWorkshop::LocalWorkshopCreationStatus status);
+    void localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value status);
 
 private:
     void workshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure);
