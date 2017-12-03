@@ -5,7 +5,6 @@ import QtQuick.Controls 2.2
 //Enums
 import LocalWorkshopCreationStatus 1.0
 
-
 Rectangle {
     id: create
     anchors.fill: parent
@@ -21,6 +20,7 @@ Rectangle {
         target: createWallpaper
         onFileSelected: {
             create.state = "import"
+            loader.active = true
             loader.setSource("CreateImport.qml", {
                                  file: file
                              })
@@ -30,9 +30,21 @@ Rectangle {
     Connections {
         target: steamWorkshop
         onLocalWorkshopCreationStatusChanged: {
-           if(status === LocalWorkshopCreationStatus.Started){
-               loader.setSource("CreateImportStatus.qml")
-           }
+            if (status === LocalWorkshopCreationStatus.Started) {
+                loader.setSource("CreateImportStatus.qml")
+            }
+        }
+    }
+
+    Connections {
+        target: loader.item
+        ignoreUnknownSignals: true
+        onBackToCreate: {
+            create.state = "create"
+            loader.active = false
+        }
+        onUploadToSteamWorkshop: {
+            loader.source = "CreateUpload.qml"
         }
     }
 
@@ -84,7 +96,7 @@ Rectangle {
     Loader {
         id: loader
         anchors.fill: parent
-        z:11
+        z: 11
     }
 
     Image {
@@ -148,7 +160,7 @@ Rectangle {
     Rectangle {
         id: footer
         height: 80
-        z:100
+        z: 100
         anchors {
             right: parent.right
             bottom: parent.bottom

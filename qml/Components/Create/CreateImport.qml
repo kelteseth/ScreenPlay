@@ -9,12 +9,11 @@ Item {
     anchors.fill: parent
     state: "out"
     Component.onCompleted: state = "in"
+    property bool isVideoPlaying: true
     property url file
     onFileChanged: {
         timerSource.start()
     }
-
-    property bool isVideoPlaying: true
 
     Timer {
         id: timerSource
@@ -67,18 +66,7 @@ Item {
             source: player
             opengl: true
             fillMode: VideoOutput.Stretch
-//            MouseArea {
-//                id:maPlayer
-//                anchors.fill: parent
-//                hoverEnabled: true
-//                onPositionChanged: {
-//                    if (isVideoPlaying) {
-//                        player.seek((mouseX / videoOut.width) * player.duration)
-//                        busyIndicator.visible = true
-//                        sliVideoPosition.value = mouseX / videoOut.width
-//                    }
-//                }
-//            }
+
             Image {
                 id: imgPreview
                 anchors.fill: parent
