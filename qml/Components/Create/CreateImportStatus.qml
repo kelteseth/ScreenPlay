@@ -11,7 +11,7 @@ Item {
     state: "out"
 
     signal backToCreate
-    signal uploadToSteamWorkshop
+    signal uploadToSteamWorkshop()
 
     Timer {
         repeat: false

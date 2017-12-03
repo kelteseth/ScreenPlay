@@ -18,8 +18,6 @@ Item {
     Timer {
         id: timerSource
         interval: 1000
-        running: false
-        repeat: false
         onTriggered: {
             var tmp = Qt.resolvedUrl(file).toString()
             player.source = tmp
@@ -172,13 +170,11 @@ Item {
                             btnChooseImage.enabled = true
                             sliVideoPosition.enabled = false
                             player.pause()
-                            //maPlayer.hoverEnabled = false
                             isVideoPlaying = false
                             imgPreview.opacity = 1
                         } else {
                             btnChooseImage.enabled = false
                             sliVideoPosition.enabled = true
-                            //maPlayer.hoverEnabled = true
                             isVideoPlaying = true
                             imgPreview.opacity = 0
                         }
@@ -273,8 +269,6 @@ Item {
                                                           file, fileDialogOpenPreview.currentFile)
                     createImport.state = "out"
                 }
-
-
             }
         }
     }

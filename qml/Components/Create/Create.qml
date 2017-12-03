@@ -10,6 +10,7 @@ Rectangle {
     anchors.fill: parent
     state: "out"
     Component.onCompleted: create.state = "create"
+    property url activeVideoFile
 
     FontLoader {
         id: font_Roboto_Regular
@@ -21,6 +22,7 @@ Rectangle {
         onFileSelected: {
             create.state = "import"
             loader.active = true
+            activeVideoFile = file
             loader.setSource("CreateImport.qml", {
                                  file: file
                              })
@@ -42,9 +44,12 @@ Rectangle {
         onBackToCreate: {
             create.state = "create"
             loader.active = false
+            activeVideoFile = ""
         }
         onUploadToSteamWorkshop: {
-            loader.source = "CreateUpload.qml"
+            loader.setSource("CreateUpload.qml", {
+                                 file: activeVideoFile
+                             })
         }
     }
 
