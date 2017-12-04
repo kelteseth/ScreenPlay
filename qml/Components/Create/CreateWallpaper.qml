@@ -167,7 +167,7 @@ Item {
             FolderDialog {
                 id: fileDialogOpenFolder
                 onAccepted: {
-                    uploadExsisting(fileDialogOpenFolder.currentFile)
+                    uploadExsisting(fileDialogOpenFolder.currentFolder)
                 }
             }
         }
