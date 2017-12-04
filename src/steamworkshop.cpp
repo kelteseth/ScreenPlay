@@ -24,12 +24,26 @@ void SteamWorkshop::createWorkshopItem()
     m_createWorkshopItemCallResult.Set(hSteamAPICall, this, &SteamWorkshop::workshopItemCreated);
 }
 
-void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl absoluteContentPath, QUrl absolutePreviewPath)
+void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl absoluteContentPath)
 {
-    // We need to remove the file because steam wants a folder to upload
-    QString tmpVideoPath = QFileInfo(absoluteContentPath.toString()).path();
-    QString video = QString(tmpVideoPath).remove(0, 8);
-    QString thumb = QString(absolutePreviewPath.toString()).remove(0, 8);
+    QFile projectConfig;
+    QJsonObject jsonObject;
+    QJsonDocument jsonProject;
+    QJsonParseError parseError;
+    projectConfig.setFileName(absoluteContentPath.toString() + "project.json");
+    qDebug() << absoluteContentPath.toString() + "project.json";
+    projectConfig.open(QIODevice::ReadOnly | QIODevice::Text);
+    QString projectConfigData = projectConfig.readAll();
+    jsonProject = QJsonDocument::fromJson(projectConfigData.toUtf8(), &parseError);
+
+    if (!(parseError.error == QJsonParseError::NoError))
+        return;
+
+    jsonObject = jsonProject.object();
+
+
+    QString video = absoluteContentPath.toString() + jsonObject.contains("file");
+    QString thumb = absoluteContentPath.toString() + jsonObject.contains("preview");
 
     SteamUGC()->SetItemTitle(m_UGCUpdateHandle, QByteArray(title.toLatin1()).data());
     SteamUGC()->SetItemDescription(m_UGCUpdateHandle, QByteArray(description.toLatin1()).data());

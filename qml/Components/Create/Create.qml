@@ -11,6 +11,7 @@ Rectangle {
     state: "out"
     Component.onCompleted: create.state = "create"
     property url activeVideoFile
+    property url activeFolder
 
     FontLoader {
         id: font_Roboto_Regular
@@ -25,6 +26,14 @@ Rectangle {
             activeVideoFile = file
             loader.setSource("CreateImport.qml", {
                                  file: file
+                             })
+        }
+        onUploadExsisting:{
+            create.state = "import"
+            loader.active = true
+            activeFolder = file
+            loader.setSource("CreateUpload.qml", {
+                                 file: activeFolder
                              })
         }
     }
@@ -127,7 +136,7 @@ Rectangle {
     CreateWallpaper {
         id: createWallpaper
         width: 500
-        height: 355
+        height: 400
         anchors {
             top: parent.top
             topMargin: 84

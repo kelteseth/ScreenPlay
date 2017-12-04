@@ -74,7 +74,7 @@ public:
 public slots:
     void searchWorkshop();
     void createWorkshopItem();
-    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl absoluteContentPath, QUrl absolutePreviewPath);
+    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl absoluteContentPath);
     Q_INVOKABLE int getItemUpdateProcess();
     Q_INVOKABLE bool contentFolderExist(QString folder);
     void getAPICallInfo();

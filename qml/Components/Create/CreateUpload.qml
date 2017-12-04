@@ -15,14 +15,60 @@ Item {
         timerSource.start()
     }
 
-    Timer {
-        id: timerSource
-        interval: 1000
+    Connections {
+        target: steamWorkshop
+        onWorkshopCreationCopyVideo: {
+            print("Copy video", sucessful)
+        }
+        onWorkshopCreationCopyImage: {
+            print("Copy image", sucessful)
+        }
+        onWorkshopCreationCompleted: {
+            print("Workshop Creation Complete", sucessful)
+        }
+        onLocalFileCopyCompleted: {
+            print("Copy complete", sucessful)
+        }
+        onWorkshopCreationFolderDuplicate: {
+            print("duplicate")
+        }
+    }
 
+
+    Timer {
+        id: timerUpload
+        running: false
+        triggeredOnStart: true
+        repeat: true
+        interval: 500
+        onRunningChanged: print(timerUpload.running)
         onTriggered: {
-            var tmp = Qt.resolvedUrl(file).toString()
-            player.source = tmp
-            player.play()
+            var status = steamWorkshop.getItemUpdateProcess()
+            print(status)
+            switch (status) {
+            case 0:
+                text2.text = "The item update handle was invalid, the job might be finished. Who knows..."
+                break
+            case 1:
+                text2.text = "The item update is processing configuration data."
+                break
+            case 2:
+                text2.text = "The item update is reading and processing content files."
+                break
+            case 3:
+                text2.text = "The item update is uploading content changes to Steam."
+                break
+            case 4:
+                text2.text = "The item update is uploading new preview file image."
+                break
+            case 5:
+                text2.text = "The item update is committing all changes."
+                timerUpload.running = false
+                uploadCompleted()
+                break
+            default:
+                break
+            }
         }
     }
 
@@ -54,7 +100,7 @@ Item {
         color: "black"
         anchors {
             top: parent.top
-            topMargin: 80
+            topMargin: 30
             horizontalCenter: parent.horizontalCenter
         }
 
@@ -72,11 +118,18 @@ Item {
                 opacity: 0
             }
 
-            BusyIndicator {
-                id: busyIndicator
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                visible: false
+            Rectangle {
+                id: rectProgressBar
+                height: 5
+                color: "orange"
+                anchors {
+                    right: parent.right
+                    rightMargin: videoOutWrapper.width
+                    left: parent.left
+                    leftMargin: 0
+                    bottom: parent.bottom
+                    bottomMargin: 0
+                }
             }
         }
     }
@@ -84,13 +137,9 @@ Item {
     MediaPlayer {
         id: player
         videoCodecPriority: ["CUDA", "D3D11", "DXVA", "VAAPI", "FFmpeg"]
-        autoPlay: true
+        autoPlay: false
         loops: MediaPlayer.Infinite
         volume: 0
-        onSeekFinished: {
-            busyIndicator.visible = false
-            pause()
-        }
     }
 
     RectangularGlow {
@@ -129,11 +178,11 @@ Item {
             spacing: 20
             anchors {
                 top: parent.top
-                topMargin: 50
+                topMargin: 55
                 right: parent.right
                 rightMargin: 78
                 bottom: parent.bottom
-                bottomMargin: 50
+                bottomMargin: 71
                 left: parent.left
                 leftMargin: 78
             }
@@ -153,7 +202,7 @@ Item {
                 width: parent.width
                 selectByMouse: true
                 text: qsTr("")
-                placeholderText: "Youtube Preview"
+                placeholderText: "Youtube Preview URL"
             }
             TextField {
                 id: txtTags
@@ -161,9 +210,8 @@ Item {
                 width: parent.width
                 selectByMouse: true
                 text: qsTr("")
-                placeholderText: "Tags"
+                placeholderText: "Tags - Seperation between tags via , "
             }
-
         }
 
         Button {
@@ -174,7 +222,9 @@ Item {
                 horizontalCenter: parent.horizontalCenter
             }
             onClicked: {
-
+                steamWorkshop.submitWorkshopItem(txtTitle.text.toString(),
+                                                 txtDescription.text.toString(
+                                                     ), "english", "true", path)
             }
         }
     }
