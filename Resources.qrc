@@ -48,7 +48,6 @@
         <file>qml/Components/Feedback.qml</file>
         <file>qml/Components/CreateVideoPreviewSmall.qml</file>
         <file>qml/Components/CreateLeftArea.qml</file>
-        <file>qml/Components/Settings/SettingsWrapper.qml</file>
         <file>qml/Components/StartupErrorWindow.qml</file>
         <file>assets/icons/icon_heavy_metal.svg</file>
         <file>qml/Components/InstalledUserHelper.qml</file>
@@ -76,5 +75,7 @@
         <file>qml/Components/Create/CreateImport.qml</file>
         <file>qml/Components/Create/CreateUpload.qml</file>
         <file>qml/Components/Create/CreateImportStatus.qml</file>
+        <file>qml/Components/Settings/SettingsHeader.qml</file>
+        <file>qml/Components/Settings/SettingsHorizontalSeperator.qml</file>
     </qresource>
 </RCC>
