@@ -30,15 +30,12 @@
         <file>qml/Components/ScreenPlayItemImage.qml</file>
         <file>assets/icons/favicon.ico</file>
         <file>qml/Components/Settings/SettingBool.qml</file>
-        <file>qml/Components/Headline.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>qml/Components/FileDropper.qml</file>
         <file>qml/Components/Widgets/Window.qml</file>
         <file>settings.json</file>
-        <file>qml/Components/Create.qml</file>
         <file>assets/icons/icon_plus.svg</file>
         <file>qml/Components/MonitorSelection.qml</file>
-        <file>qml/Components/CustomPage.qml</file>
         <file>qml/Components/MonitorSelectionItem.qml</file>
         <file>qml/Components/FileDropperSingleFile.qml</file>
         <file>assets/icons/icon_multiple_images.svg</file>
@@ -46,15 +43,12 @@
         <file>assets/icons/icon_tv.svg</file>
         <file>assets/icons/icon_stomt.svg</file>
         <file>qml/Components/Feedback.qml</file>
-        <file>qml/Components/CreateVideoPreviewSmall.qml</file>
-        <file>qml/Components/CreateLeftArea.qml</file>
         <file>qml/Components/StartupErrorWindow.qml</file>
         <file>assets/icons/icon_heavy_metal.svg</file>
         <file>qml/Components/InstalledUserHelper.qml</file>
         <file>assets/icons/icon_hand_left.svg</file>
         <file>assets/icons/icon_hand_right.svg</file>
         <file>assets/images/hand_give.png</file>
-        <file>qml/Components/CreateUpload.qml</file>
         <file>qml/Components/Community.qml</file>
         <file>assets/icons/icon_community.svg</file>
         <file>qml/Components/Create/Create.qml</file>
@@ -77,5 +71,6 @@
         <file>qml/Components/Create/CreateImportStatus.qml</file>
         <file>qml/Components/Settings/SettingsHeader.qml</file>
         <file>qml/Components/Settings/SettingsHorizontalSeperator.qml</file>
+        <file>qml/Components/Settings/SettingsComboBox.qml</file>
     </qresource>
 </RCC>

@@ -3,9 +3,9 @@ import QtQml.Models 2.2
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Styles 1.4
 
-CustomPage {
+Item {
     id: pageInstalled
-    pageName: ""
+
 
     signal setSidebaractiveItem(var screenId)
     signal setNavigationItem(var pos)
