@@ -27,10 +27,10 @@ void SteamWorkshop::createWorkshopItem()
 void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl projectFile, QUrl videoFile)
 {
 
-    QString absoluteContentPath = QUrl::fromLocalFile(QStrint(projectFile.toString()));
+    QString absoluteContentPath = QUrl::fromLocalFile(QString(projectFile.toString())).toString();
 
     // Ether way one of the
-    if (videoPath.isEmpty() && projectFile.isEmpty()) {
+    if (videoFile.isEmpty() && projectFile.isEmpty()) {
         return;
     }
 
@@ -41,13 +41,13 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
         qDebug() << tmpPath;
         projectConfig.setFileName(tmpPath.toString() + "project.json");
     } else {
-        projectConfig.setFileName(absoluteContentPath.toString() + "project.json");
+        projectConfig.setFileName(absoluteContentPath + "project.json");
     }
 
     QJsonObject jsonObject;
     QJsonDocument jsonProject;
     QJsonParseError parseError;
-    qDebug() << absoluteContentPath.toString() + "project.json";
+    qDebug() << absoluteContentPath + "project.json";
     projectConfig.open(QIODevice::ReadOnly | QIODevice::Text);
     QString projectConfigData = projectConfig.readAll();
     jsonProject = QJsonDocument::fromJson(projectConfigData.toUtf8(), &parseError);
@@ -57,8 +57,8 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
 
     jsonObject = jsonProject.object();
 
-    QString video = absoluteContentPath.toString() + jsonObject.contains("file");
-    QString thumb = absoluteContentPath.toString() + jsonObject.contains("preview");
+    QString video = absoluteContentPath + jsonObject.contains("file");
+    QString thumb = absoluteContentPath + jsonObject.contains("preview");
 
     SteamUGC()->SetItemTitle(m_UGCUpdateHandle, QByteArray(title.toLatin1()).data());
     SteamUGC()->SetItemDescription(m_UGCUpdateHandle, QByteArray(description.toLatin1()).data());
