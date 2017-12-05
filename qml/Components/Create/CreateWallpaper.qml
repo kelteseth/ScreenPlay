@@ -8,8 +8,8 @@ Item {
     state: "in"
 
     //Component.onCompleted: state = "in"
-    signal fileSelected(var file)
-    signal uploadExsisting(var file)
+    signal videoFileSelected(var videoFile)
+    signal projectFileSelected(var projectFile)
 
     Text {
         id: txtHeadline
@@ -94,7 +94,7 @@ Item {
                 id: fileDialogOpenFile
                 nameFilters: ["Video files (*.mp4)"]
                 onAccepted: {
-                    fileSelected(fileDialogOpenFile.currentFile)
+                    videoFileSelected(fileDialogOpenFile.currentFile)
                 }
             }
         }
@@ -161,13 +161,14 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 anchors.horizontalCenter: parent.horizontalCenter
                 onClicked: {
-                    fileDialogOpenFolder.open()
+                    fileDialogOpenProject.open()
                 }
             }
-            FolderDialog {
-                id: fileDialogOpenFolder
+            FileDialog {
+                id: fileDialogOpenProject
+                nameFilters: ["Project files (project.json)", ]
                 onAccepted: {
-                    uploadExsisting(fileDialogOpenFolder.currentFolder)
+                    projectFileSelected(fileDialogOpenProject.currentFile)
                 }
             }
         }
@@ -196,6 +197,7 @@ Item {
             PropertyChanges {
                 target: bg1
                 anchors.leftMargin: 800
+                opacity: 0
             }
         },
         State {

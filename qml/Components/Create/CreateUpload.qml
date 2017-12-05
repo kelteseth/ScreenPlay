@@ -10,13 +10,12 @@ Item {
     state: "out"
     Component.onCompleted: state = "in"
     property bool isVideoPlaying: true
-    property url file
-    onFileChanged: {
-        timerSource.start()
-    }
+    property url videoFile: ""
+    property url projectFile: ""
 
     Connections {
         target: steamWorkshop
+        ignoreUnknownSignals: true
         onWorkshopCreationCopyVideo: {
             print("Copy video", sucessful)
         }
@@ -224,7 +223,7 @@ Item {
             onClicked: {
                 steamWorkshop.submitWorkshopItem(txtTitle.text.toString(),
                                                  txtDescription.text.toString(
-                                                     ), "english", "true", path)
+                                                     ), "english", "true", projectFile, videoFile)
             }
         }
     }

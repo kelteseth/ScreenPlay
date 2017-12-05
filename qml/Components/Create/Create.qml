@@ -20,20 +20,20 @@ Rectangle {
 
     Connections {
         target: createWallpaper
-        onFileSelected: {
+        onVideoFileSelected: {
             create.state = "import"
             loader.active = true
-            activeVideoFile = file
+            activeVideoFile = videoFile
             loader.setSource("CreateImport.qml", {
-                                 file: file
+                                 videoFile: videoFile
                              })
         }
-        onUploadExsisting:{
+        onProjectFileSelected:{
             create.state = "import"
             loader.active = true
-            activeFolder = file
+            activeFolder = projectFile
             loader.setSource("CreateUpload.qml", {
-                                 file: activeFolder
+                                 projectFile: projectFile
                              })
         }
     }

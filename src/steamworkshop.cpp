@@ -14,8 +14,8 @@ SteamWorkshop::SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm
     // Register namespace seperated enums because qml has no enum scope WTF
     qRegisterMetaType<LocalWorkshopCreationStatus::Value>();
     qRegisterMetaType<RemoteWorkshopCreationStatus::Value>();
-    qmlRegisterUncreatableMetaObject(LocalWorkshopCreationStatus::staticMetaObject,"LocalWorkshopCreationStatus", 1, 0, "LocalWorkshopCreationStatus", "Error: only enums");
-    qmlRegisterUncreatableMetaObject(RemoteWorkshopCreationStatus::staticMetaObject,"RemoteWorkshopCreationStatus", 1, 0, "RemoteWorkshopCreationStatus", "Error: only enums");
+    qmlRegisterUncreatableMetaObject(LocalWorkshopCreationStatus::staticMetaObject, "LocalWorkshopCreationStatus", 1, 0, "LocalWorkshopCreationStatus", "Error: only enums");
+    qmlRegisterUncreatableMetaObject(RemoteWorkshopCreationStatus::staticMetaObject, "RemoteWorkshopCreationStatus", 1, 0, "RemoteWorkshopCreationStatus", "Error: only enums");
 }
 
 void SteamWorkshop::createWorkshopItem()
@@ -24,13 +24,29 @@ void SteamWorkshop::createWorkshopItem()
     m_createWorkshopItemCallResult.Set(hSteamAPICall, this, &SteamWorkshop::workshopItemCreated);
 }
 
-void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl absoluteContentPath)
+void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl projectFile, QUrl videoFile)
 {
+
+    QString absoluteContentPath = QUrl::fromLocalFile(QStrint(projectFile.toString()));
+
+    // Ether way one of the
+    if (videoPath.isEmpty() && projectFile.isEmpty()) {
+        return;
+    }
+
     QFile projectConfig;
+
+    if(!videoFile.isEmpty()) {
+        QUrl tmpPath = QUrl::fromLocalFile(QString(videoFile.toString()));
+        qDebug() << tmpPath;
+        projectConfig.setFileName(tmpPath.toString() + "project.json");
+    } else {
+        projectConfig.setFileName(absoluteContentPath.toString() + "project.json");
+    }
+
     QJsonObject jsonObject;
     QJsonDocument jsonProject;
     QJsonParseError parseError;
-    projectConfig.setFileName(absoluteContentPath.toString() + "project.json");
     qDebug() << absoluteContentPath.toString() + "project.json";
     projectConfig.open(QIODevice::ReadOnly | QIODevice::Text);
     QString projectConfigData = projectConfig.readAll();
@@ -40,7 +56,6 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
         return;
 
     jsonObject = jsonProject.object();
-
 
     QString video = absoluteContentPath.toString() + jsonObject.contains("file");
     QString thumb = absoluteContentPath.toString() + jsonObject.contains("preview");
@@ -148,7 +163,6 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
 
         emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::Finished);
     });
-
 }
 
 void SteamWorkshop::subscribeItem(unsigned int id)

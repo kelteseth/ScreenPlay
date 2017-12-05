@@ -20,36 +20,36 @@
  *  https://www.kdab.com/new-qt-5-8-meta-object-support-namespaces/
  */
 namespace LocalWorkshopCreationStatus {
-    Q_NAMESPACE
-    enum Value{
-        Idle,
-        Started,
-        CopyVideoFinished,
-        CopyImageFinished,
-        CopyConfigFinished,
-        Finished,
-        ErrorFolder,
-        ErrorFolderCreation,
-        ErrorDiskSpace,
-        ErrorCopyVideo,
-        ErrorCopyImage,
-        ErrorCopyConfig,
-        ErrorUnknown,
-    };
-    Q_ENUM_NS(Value)
+Q_NAMESPACE
+enum Value {
+    Idle,
+    Started,
+    CopyVideoFinished,
+    CopyImageFinished,
+    CopyConfigFinished,
+    Finished,
+    ErrorFolder,
+    ErrorFolderCreation,
+    ErrorDiskSpace,
+    ErrorCopyVideo,
+    ErrorCopyImage,
+    ErrorCopyConfig,
+    ErrorUnknown,
+};
+Q_ENUM_NS(Value)
 }
 namespace RemoteWorkshopCreationStatus {
-    Q_NAMESPACE
-    enum Value{
-        Idle,
-        Started,
-        Importing,
-        Finished,
-        ErrorUpload,
-        ErrorWorkshopItemCreation,
-        ErrorUnknown,
-    };
-    Q_ENUM_NS(Value)
+Q_NAMESPACE
+enum Value {
+    Idle,
+    Started,
+    Importing,
+    Finished,
+    ErrorUpload,
+    ErrorWorkshopItemCreation,
+    ErrorUnknown,
+};
+Q_ENUM_NS(Value)
 }
 
 class SteamWorkshop : public QObject {
@@ -74,7 +74,7 @@ public:
 public slots:
     void searchWorkshop();
     void createWorkshopItem();
-    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl absoluteContentPath);
+    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl projectFile, QUrl videoFile);
     Q_INVOKABLE int getItemUpdateProcess();
     Q_INVOKABLE bool contentFolderExist(QString folder);
     void getAPICallInfo();
