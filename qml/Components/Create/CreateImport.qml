@@ -1,8 +1,9 @@
 import QtQuick 2.9
-import QtAV 1.7
+import QtAV 1.07
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import Qt.labs.platform 1.0
+import QtQuick.Controls.Material 2.2
 
 Item {
     id: createImport
@@ -19,8 +20,8 @@ Item {
         id: timerSource
         interval: 1000
         onTriggered: {
-            var tmp = Qt.resolvedUrl(file).toString()
-            player.source = tmp
+            //var tmp = Qt.resolvedUrl(file).toString()
+            player.source = Qt.resolvedUrl(file)
             player.play()
         }
     }
@@ -140,7 +141,7 @@ Item {
                 height: 60
                 width: parent.width
                 Slider {
-                    id:sliVideoPosition
+                    id: sliVideoPosition
                     height: parent.height
                     width: parent.width * .4
                     from: 0
@@ -162,11 +163,11 @@ Item {
                     }
                 }
                 Switch {
-                    id:switcherImage
+                    id: switcherImage
                     anchors.centerIn: parent
                     height: parent.height
                     onPositionChanged: {
-                        if(position === 1){
+                        if (position === 1) {
                             btnChooseImage.enabled = true
                             sliVideoPosition.enabled = false
                             player.pause()
@@ -191,6 +192,8 @@ Item {
                         id: btnChooseImage
                         enabled: false
                         text: qsTr("Select Image Manually")
+                        Material.background: Material.Orange
+                        Material.foreground: "white"
                         anchors {
                             right: parent.right
                             verticalCenter: parent.verticalCenter
@@ -225,6 +228,8 @@ Item {
                 }
                 Button {
                     text: qsTr("Choose Folder")
+                    Material.background: Material.Orange
+                    Material.foreground: "white"
                     anchors {
                         right: parent.right
                         verticalCenter: parent.verticalCenter
@@ -236,6 +241,7 @@ Item {
                 FolderDialog {
                     id: fileDialogSetPath
                     onAccepted: {
+
                         //currentFile
                     }
                 }
@@ -244,6 +250,8 @@ Item {
 
         Button {
             text: qsTr("Import Video")
+            Material.background: Material.Orange
+            Material.foreground: "white"
             anchors {
                 bottom: parent.bottom
                 bottomMargin: 10
@@ -251,22 +259,24 @@ Item {
             }
             onClicked: {
 
-                if (txtTitle.text === "" || txtTitle.placeholderText === "Text") {
+                if (txtTitle.text === ""
+                        || txtTitle.placeholderText === "Text") {
                     txtTitle.select(0, 0)
                     txtTitle.focus = true
                     return
                 }
 
                 //Check if there are any other characters than space
-                if(!(/\S/.test(txtTitle.text))){
+                if (!(/\S/.test(txtTitle.text))) {
                     txtTitle.select(0, 0)
                     txtTitle.focus = true
                     return
                 }
 
-                if(switcherImage.position === 1){
-                    steamWorkshop.createLocalWorkshopItem(txtTitle.text.replace(/\s/g, ''),
-                                                          file, fileDialogOpenPreview.currentFile)
+                if (switcherImage.position === 1) {
+                    steamWorkshop.createLocalWorkshopItem(
+                                txtTitle.text.replace(/\s/g, ''), file,
+                                fileDialogOpenPreview.currentFile)
                     createImport.state = "out"
                 }
             }
