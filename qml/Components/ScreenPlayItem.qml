@@ -1,4 +1,4 @@
-import QtQuick 2.7
+import QtQuick 2.9
 import QtGraphicalEffects 1.0
 
 Item {
@@ -31,6 +31,7 @@ Item {
         opacity: 0.4
         cornerRadius: 15
     }
+
 
     Item {
         id: screenPlayItemWrapper
