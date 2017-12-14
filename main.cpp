@@ -34,14 +34,13 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseOpenGLES);
 
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
 
     AppId_t steamID = 672870;
     QCoreApplication::setOrganizationName("Aimber");
     QCoreApplication::setOrganizationDomain("aimber.net");
     QCoreApplication::setApplicationName("ScreenPlay");
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
-    QQuickStyle::setStyle("Material");
     bool steamErrorRestart = false;
     bool steamErrorAPIInit = false;
 
@@ -65,7 +64,7 @@ int main(int argc, char* argv[])
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, steamID);
-    SteamWorkshop steamWorkshop(steamID,&steamWorkshopListModel,&settings);
+    SteamWorkshop steamWorkshop(steamID, &steamWorkshopListModel, &settings);
 
     // All the list need the default path from the settings
     // to know where to look for the files

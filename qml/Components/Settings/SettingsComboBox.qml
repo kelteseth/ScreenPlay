@@ -1,21 +1,23 @@
-import QtQuick 2.0
-import QtQuick.Controls 1.4
-import QtQuick.Controls.Material 2.2
+import QtQuick 2.9
+import QtQuick.Controls 2.2
+
 
 Item {
     id: settingsBool
     property string headline: "Headline"
     property string description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
     property bool isChecked: false
+    property bool enabled: true
+    onEnabledChanged: {
+
+    }
+
     signal checkboxChanged(bool checked)
+
 
     height: 50
     width: parent.width
 
-    FontLoader {
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-    }
     Text {
         id: txtHeadline
         color: "#5D5D5D"
@@ -31,8 +33,8 @@ Item {
 
         }
 
-        font.pixelSize: 16
-        font.family: font_Roboto_Regular.name
+       font.pixelSize: 16
+//        font.family: font_Roboto_Regular.name
     }
 
     Text {
