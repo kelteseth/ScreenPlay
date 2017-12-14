@@ -15,6 +15,11 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
     if (!index.isValid())
         return QVariant();
 
+    int row = index.row();
+    if(row < 0 || row >= m_screenPlayFiles.count()) {
+        return QVariant();
+    }
+
     if (index.row() < rowCount())
         switch (role) {
         case TitleRole:

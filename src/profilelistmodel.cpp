@@ -28,6 +28,10 @@ QVariant ProfileListModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     int row = index.row();
+    if(row < 0 || row >= m_profileList.count()) {
+        return QVariant();
+    }
+
     if (row < 0 || row >= m_profileList.count()) {
         return QVariant();
     }
