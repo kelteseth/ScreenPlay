@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import QtQuick.Extras 1.4
+import QtQuick.Controls.Material 2.2
 
 Item {
     id: sidebar
@@ -31,7 +32,7 @@ Item {
         source: "qrc:/assets/fonts/Roboto-Regular.ttf"
     }
 
-    FontLoader{
+    FontLoader {
         id: font_LibreBaskerville_Italic
         source: "qrc:/assets/fonts/LibreBaskerville-Italic.ttf"
     }
@@ -200,7 +201,7 @@ Item {
                 MonitorSelection {
                     id: monitorSelection
                     width: 360
-                    height:parent.height
+                    height: parent.height
                     availableWidth: 360
                     availableHeight: monitorSelectionWrapper.height
                     anchors {
@@ -249,25 +250,25 @@ Item {
                         height: 20
                         anchors.verticalCenter: parent.verticalCenter
                         source: "qrc:/assets/icons/icon_volume.svg"
-                        sourceSize: Qt.size(20,20)
+                        sourceSize: Qt.size(20, 20)
                     }
 
                     Slider {
                         id: sliderVolume
-                        stepSize: 0.1
+                        stepSize: 0.01
                         from: 0
-                        live:true
+                        live: true
                         value: .8
                         to: 1
                         anchors.verticalCenter: parent.verticalCenter
                         onValueChanged: {
-                            print(Math.round(sliderVolume.value * 100) / 100)
+
                         }
                     }
 
                     Text {
                         id: name
-                        color:"#818181"
+                        color: "#818181"
                         text: Math.round(sliderVolume.value * 100) / 100
                         anchors.verticalCenter: parent.verticalCenter
                         font.family: font_LibreBaskerville_Italic.name
@@ -288,6 +289,10 @@ Item {
             Button {
                 id: btnSetWallpaper
                 text: qsTr("Set wallpaper")
+                Material.accent: Material.Orange
+                Material.background: Material.Orange
+                Material.foreground: "white"
+
 
                 anchors {
                     bottom: parent.bottom
