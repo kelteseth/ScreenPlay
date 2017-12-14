@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
-
+import QtQuick.Controls.Material 2.2
 //Enums
 import LocalWorkshopCreationStatus 1.0
 
@@ -10,8 +10,8 @@ Rectangle {
     anchors.fill: parent
     state: "out"
     Component.onCompleted: create.state = "create"
-    property url activeVideoFile
-    property url activeFolder
+    property url activeVideoFile: ""
+    property url activeFolder: ""
 
     FontLoader {
         id: font_Roboto_Regular
@@ -185,15 +185,23 @@ Rectangle {
             spacing: 20
             Button {
                 text: qsTr("Quickstart Guide")
+                Material.background: Material.Blue
+                Material.foreground: "white"
             }
             Button {
                 text: qsTr("Documentation")
+                Material.background: Material.LightGreen
+                Material.foreground: "white"
             }
             Button {
                 text: qsTr("Lore Ipsum")
+                Material.background: Material.Orange
+                Material.foreground: "white"
             }
             Button {
                 text: qsTr("Community")
+                Material.background: Material.Red
+                Material.foreground: "white"
             }
         }
     }
