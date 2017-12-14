@@ -25,7 +25,7 @@ Rectangle {
             loader.active = true
             activeVideoFile = videoFile
             loader.setSource("CreateImport.qml", {
-                                 videoFile: videoFile
+                                 file: videoFile
                              })
         }
         onProjectFileSelected:{
