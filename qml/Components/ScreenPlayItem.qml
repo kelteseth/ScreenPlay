@@ -7,12 +7,33 @@ Item {
     height: 180
     state: "invisible"
     Component.onCompleted: screenPlayItem.state = "visible"
-
     property string customTitle: "name here"
     property url absoluteStoragePath
 
     property real introTime: Math.random() * (1 - .5) + .5
     property string screenId: ""
+    property int screenPlayType: ScreenPlayItem.ItemType.WallpaperVideo
+
+    onScreenPlayTypeChanged:{
+        switch(screenPlayType) {
+        case ScreenPlayItem.ItemType.WallpaperVideo:
+            icnType.source = "qrc:/assets/icons/icon_movie.svg"
+            break;
+        case ScreenPlayItem.ItemType.WallpaperCustom:
+            break;
+        case ScreenPlayItem.ItemType.Widget:
+            break;
+        default:
+            break;
+        }
+    }
+
+    enum ItemType {
+        WallpaperVideo,
+        WallpaperCustom,
+        Widget
+    }
+
     signal itemClicked(var screenId)
 
     RectangularGlow {
@@ -60,6 +81,20 @@ Item {
                 sourceImage: Qt.resolvedUrl(
                                  "file:///" + screenPlayItem.absoluteStoragePath
                                  + "/" + screenPreview)
+            }
+
+            Image {
+                id: icnType
+                width: 15
+                height: 15
+                opacity: 0
+                source: "qrc:/assets/icons/icon_movie.svg"
+                sourceSize: Qt.size(15,15)
+                anchors{
+                    top:parent.top
+                    left: parent.left
+                    margins: 10
+                }
             }
 
             Rectangle {
@@ -149,7 +184,15 @@ Item {
                 target: screenPlayItem
                 width: 320
                 height:180
-
+            }
+            PropertyChanges {
+                target: icnType
+                opacity: 0
+            }
+            PropertyChanges {
+                target: screenPlayItemWrapper
+                y: 0
+                opacity: 1
             }
         },
         State {
@@ -172,6 +215,10 @@ Item {
                 target: screenPlayItemWrapper
                 y: 0
                 opacity: 1
+            }
+            PropertyChanges {
+                target: icnType
+                opacity: .5
             }
         }
     ]
@@ -211,6 +258,11 @@ Item {
             PropertyAnimation {
                 target: effect
                 properties: "width,height,opacity"
+                duration: 80
+            }
+            PropertyAnimation {
+                target: icnType
+                property: "opacity"
                 duration: 80
             }
         }

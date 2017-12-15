@@ -72,5 +72,6 @@
         <file>qml/Components/Settings/SettingsHeader.qml</file>
         <file>qml/Components/Settings/SettingsHorizontalSeperator.qml</file>
         <file>qml/Components/Settings/SettingsComboBox.qml</file>
+        <file>assets/icons/icon_movie.svg</file>
     </qresource>
 </RCC>
