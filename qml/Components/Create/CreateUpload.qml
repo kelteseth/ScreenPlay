@@ -4,6 +4,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
+import QtQuick.Controls.Styles 1.4
 
 import RemoteWorkshopCreationStatus 1.0
 
@@ -12,6 +13,7 @@ Item {
     anchors.fill: parent
     state: "out"
     Component.onCompleted: state = "in"
+
     property bool isVideoPlaying: true
     property url videoFile: ""
     property url projectFile: ""
@@ -34,15 +36,19 @@ Item {
         target: steamWorkshop
         ignoreUnknownSignals: true
         onWorkshopItemCreated: {
+            print(userNeedsToAcceptWorkshopLegalAgreement,publishedFileId)
             steamWorkshop.submitWorkshopItem(txtTitle.text.toString(),
                                              txtDescription.text.toString(),
-                                             "english", "true", projectFile,
+                                             "english", 0, projectFile,
                                              videoFile)
         }
         onRemoteWorkshopCreationStatusChanged: {
             switch (status){
             case RemoteWorkshopCreationStatus.Started:
                 timerUpload.start();
+                break;
+            case RemoteWorkshopCreationStatus.ErrorUnknown:
+                timerUpload.stop();
                 break;
             }
         }
@@ -51,30 +57,44 @@ Item {
     Timer {
         id: timerUpload
         running: false
-        triggeredOnStart: true
         repeat: true
-        interval: 200
+        interval: 100
         onTriggered: {
             var status = steamWorkshop.getItemUpdateProcess()
-            print(status + steamWorkshop.steamWorkshop + " / " + steamWorkshop.bytesTotal)
+            print(status + " -  "+ steamWorkshop.itemProcessed + " / " + steamWorkshop.bytesTotal)
             switch (status) {
             case 0:
-                txtUploadStatus.text = "The item update handle was invalid, the job might be finished. Who knows..."
+                txtUploadStatus.text = "0. The item update handle was invalid, the job might be finished. Who knows..."
                 break
             case 1:
-                txtUploadStatus.text = "The item update is processing configuration data."
+                txtUploadStatus.text = "1. The item update is processing configuration data."
+                pbUpload.indeterminate = true
                 break
             case 2:
-                txtUploadStatus.text = "The item update is reading and processing content files."
+                txtUploadStatus.text = "2. The item update is reading and processing content files."
+                pbUpload.indeterminate = false
+                pbUpload.value = steamWorkshop.itemProcessed / steamWorkshop.bytesTotal
                 break
             case 3:
-                txtUploadStatus.text = "The item update is uploading content changes to Steam."
+                txtUploadStatus.text = "3. The item update is uploading content changes to Steam."
+                if(steamWorkshop.itemProcessed === 0){
+                    if(!pbUpload.indeterminate)
+                        pbUpload.indeterminate = true
+                } else {
+
+                    if(pbUpload.indeterminate)
+                        pbUpload.indeterminate = false
+
+                    pbUpload.value = steamWorkshop.itemProcessed / steamWorkshop.bytesTotal
+                }
                 break
             case 4:
-                txtUploadStatus.text = "The item update is uploading new preview file image."
+                txtUploadStatus.text = "4. The item update is uploading new preview file image."
+                pbUpload.indeterminate = true
+                pbUpload.value = 1
                 break
             case 5:
-                txtUploadStatus.text = "The item update is committing all changes."
+                txtUploadStatus.text = "5. The item update is committing all changes."
                 timerUpload.running = false
                 break
             default:
@@ -373,6 +393,7 @@ Item {
                 opacity: 1
             }
         }
+
     ]
 
     transitions: [

@@ -24,11 +24,22 @@ void SteamWorkshop::createWorkshopItem()
     m_createWorkshopItemCallResult.Set(hSteamAPICall, this, &SteamWorkshop::workshopItemCreated);
 }
 
+void SteamWorkshop::workshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure)
+{
+    if (bIOFailure)
+        return;
+
+    m_UGCUpdateHandle = SteamUGC()->StartItemUpdate(m_AppId, pCallback->m_nPublishedFileId);
+    emit workshopItemCreated(pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement, pCallback->m_eResult, pCallback->m_nPublishedFileId);
+
+}
+
 void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile, const QUrl videoFile)
 {
 
     // Ether way one of the url must have a value
     if (videoFile.isEmpty() && projectFile.isEmpty()) {
+        emit remoteWorkshopCreationStatusChanged(RemoteWorkshopCreationStatus::ErrorUnknown);
         return;
     }
 
@@ -39,10 +50,8 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     tmp.setFile(projectFile.toString());
     absoluteContentPath = tmp.path();
     absoluteContentPath = absoluteContentPath.replace("file:///", "");
-
+    absoluteContentPath += "/";
     projectConfig.setFileName(absoluteContentPath + "/project.json");
-
-    qDebug() << "####" << projectFile << "###" <<  absoluteContentPath;
 
     QJsonObject jsonObject;
     QJsonDocument jsonProject;
@@ -52,27 +61,26 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     QString projectConfigData = projectConfig.readAll();
     jsonProject = QJsonDocument::fromJson(projectConfigData.toUtf8(), &parseError);
 
-    if (!(parseError.error == QJsonParseError::NoError))
+    if (!(parseError.error == QJsonParseError::NoError)) {
+        emit remoteWorkshopCreationStatusChanged(RemoteWorkshopCreationStatus::ErrorUnknown);
         return;
+    }
 
     jsonObject = jsonProject.object();
-
-    QString video = absoluteContentPath + "/" + jsonObject.value("file").toString();
-    QString thumb = absoluteContentPath + "/" + jsonObject.value("preview").toString();
-
-    qDebug() << jsonObject << video << thumb;
+    QString preview = absoluteContentPath + jsonObject.value("preview").toString();
+    //absoluteContentPath = absoluteContentPath.replace("/", "\\\\");
 
     SteamUGC()->SetItemTitle(m_UGCUpdateHandle, QByteArray(title.toLatin1()).data());
     SteamUGC()->SetItemDescription(m_UGCUpdateHandle, QByteArray(description.toLatin1()).data());
     SteamUGC()->SetItemUpdateLanguage(m_UGCUpdateHandle, QByteArray(language.toLatin1()).data());
+    SteamUGC()->SetItemContent(m_UGCUpdateHandle, QByteArray(absoluteContentPath.toLatin1()).data());
+    SteamUGC()->SetItemPreview(m_UGCUpdateHandle, QByteArray(preview.toLatin1()).data());
+
     auto visibility = static_cast<ERemoteStoragePublishedFileVisibility>(remoteStoragePublishedFileVisibility);
-    SteamUGC()->SetItemContent(m_UGCUpdateHandle, QByteArray(video.toLatin1()).data());
-    SteamUGC()->SetItemPreview(m_UGCUpdateHandle, QByteArray(thumb.toLatin1()).data());
     SteamUGC()->SetItemVisibility(m_UGCUpdateHandle, visibility);
+    SteamUGC()->SubmitItemUpdate(m_UGCUpdateHandle, nullptr);
 
     emit remoteWorkshopCreationStatusChanged(RemoteWorkshopCreationStatus::Started);
-
-    SteamUGC()->SubmitItemUpdate(m_UGCUpdateHandle, nullptr);
 }
 
 int SteamWorkshop::getItemUpdateProcess()
@@ -80,9 +88,9 @@ int SteamWorkshop::getItemUpdateProcess()
     unsigned long long _itemProcessed = 0;
     unsigned long long _bytesTotoal = 0;
     EItemUpdateStatus status = SteamUGC()->GetItemUpdateProgress(m_UGCUpdateHandle, &_itemProcessed, &_bytesTotoal);
-    qDebug() << _itemProcessed << _bytesTotoal;
-    setItemProcessed(static_cast<unsigned int>(_itemProcessed));
-    setBytesTotal(static_cast<unsigned int>(_bytesTotoal));
+    qDebug() << _itemProcessed << _bytesTotoal << status ;
+    setItemProcessed(_itemProcessed);
+    setBytesTotal(_bytesTotoal);
     return status;
 }
 
@@ -172,15 +180,6 @@ void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl 
 void SteamWorkshop::subscribeItem(unsigned int id)
 {
     SteamUGC()->SubscribeItem(static_cast<unsigned long long>(id));
-}
-
-void SteamWorkshop::workshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure)
-{
-    if (bIOFailure)
-        return;
-
-    emit workshopItemCreated(pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement, pCallback->m_eResult, pCallback->m_nPublishedFileId);
-    m_UGCUpdateHandle = SteamUGC()->StartItemUpdate(m_AppId, pCallback->m_nPublishedFileId);
 }
 
 void SteamWorkshop::searchWorkshop()

@@ -96,7 +96,7 @@ int main(int argc, char* argv[])
     // Timer for steam polls. WTF?
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [&]() { SteamAPI_RunCallbacks(); });
-    timer.setInterval(200);
+    timer.setInterval(100);
     timer.start();
 
     int status = app.exec();

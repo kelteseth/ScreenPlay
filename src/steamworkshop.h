@@ -71,7 +71,7 @@ public:
 public slots:
     void searchWorkshop();
     void createWorkshopItem();
-    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile , const QUrl videoFile);
+    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile, const QUrl videoFile);
     void getAPICallInfo();
     void createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath);
     void subscribeItem(unsigned int id);
@@ -113,11 +113,11 @@ private:
     CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCQueryResult;
 
     AppId_t m_AppId;
-    UGCUpdateHandle_t m_UGCUpdateHandle;
-    UGCQueryHandle_t m_UGCSearchHandle;
+    UGCUpdateHandle_t m_UGCUpdateHandle = 0;
+    UGCQueryHandle_t m_UGCSearchHandle = 0;
     SteamAPICall_t m_searchCall;
     SteamWorkshopListModel* m_workshopListModel;
     Settings* m_settings;
-    unsigned int m_itemProcessed;
-    unsigned int m_bytesTotal;
+    unsigned int m_itemProcessed = 0;
+    unsigned int m_bytesTotal = 0;
 };
