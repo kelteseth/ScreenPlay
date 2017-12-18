@@ -60,6 +60,20 @@ Item {
                 verticalCenter: parent.verticalCenter
             }
         }
+        Text {
+
+            text: ">"
+            font.family: font_Roboto_Regular.name
+            renderType: Text.NativeRendering
+            font.pixelSize: 24
+            color: "#b9b9b9"
+            anchors {
+                right: parent.right
+                rightMargin: 20
+                verticalCenter: parent.verticalCenter
+            }
+        }
+
 
         MouseArea {
             anchors.fill: parent

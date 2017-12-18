@@ -2,7 +2,7 @@ import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import Qt.labs.platform 1.0
-
+import QtQuick.Controls.Material 2.2
 Item {
     id: createWallpaper
     state: "in"
@@ -87,6 +87,8 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: 20
                 }
+                Material.background: Material.Orange
+                Material.foreground: "white"
                 onClicked: fileDialogOpenFile.open()
             }
 
@@ -158,8 +160,9 @@ Item {
             z: 10
             Button {
                 text: qsTr("Upload Exsisting Project to Steam")
-                anchors.verticalCenter: parent.verticalCenter
-                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.centerIn: parent
+                Material.background: Material.Orange
+                Material.foreground: "white"
                 onClicked: {
                     fileDialogOpenProject.open()
                 }
@@ -168,6 +171,7 @@ Item {
                 id: fileDialogOpenProject
                 nameFilters: ["Project files (project.json)", ]
                 onAccepted: {
+                    print(fileDialogOpenProject.currentFile)
                     projectFileSelected(fileDialogOpenProject.currentFile)
                 }
             }

@@ -3,6 +3,9 @@ import QtAV 1.7
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import Qt.labs.platform 1.0
+import QtQuick.Controls.Material 2.2
+
+import RemoteWorkshopCreationStatus 1.0
 
 Item {
     id: createUpload
@@ -12,58 +15,67 @@ Item {
     property bool isVideoPlaying: true
     property url videoFile: ""
     property url projectFile: ""
+    property var jsonProjectFile
+
+    // First we parse the content of the project file
+    // TODO: Implement parse error
+    onProjectFileChanged: {
+        jsonProjectFile = JSON.parse(screenPlaySettings.loadProject(
+                                         projectFile))
+    }
+
+    // Now we add the content
+    onJsonProjectFileChanged: {
+        txtTitle.text = jsonProjectFile.title
+        txtDescription.text = jsonProjectFile.description
+    }
 
     Connections {
         target: steamWorkshop
         ignoreUnknownSignals: true
-        onWorkshopCreationCopyVideo: {
-            print("Copy video", sucessful)
+        onWorkshopItemCreated: {
+            steamWorkshop.submitWorkshopItem(txtTitle.text.toString(),
+                                             txtDescription.text.toString(),
+                                             "english", "true", projectFile,
+                                             videoFile)
         }
-        onWorkshopCreationCopyImage: {
-            print("Copy image", sucessful)
-        }
-        onWorkshopCreationCompleted: {
-            print("Workshop Creation Complete", sucessful)
-        }
-        onLocalFileCopyCompleted: {
-            print("Copy complete", sucessful)
-        }
-        onWorkshopCreationFolderDuplicate: {
-            print("duplicate")
+        onRemoteWorkshopCreationStatusChanged: {
+            switch (status){
+            case RemoteWorkshopCreationStatus.Started:
+                timerUpload.start();
+                break;
+            }
         }
     }
-
 
     Timer {
         id: timerUpload
         running: false
         triggeredOnStart: true
         repeat: true
-        interval: 500
-        onRunningChanged: print(timerUpload.running)
+        interval: 200
         onTriggered: {
             var status = steamWorkshop.getItemUpdateProcess()
-            print(status)
+            print(status + steamWorkshop.steamWorkshop + " / " + steamWorkshop.bytesTotal)
             switch (status) {
             case 0:
-                text2.text = "The item update handle was invalid, the job might be finished. Who knows..."
+                txtUploadStatus.text = "The item update handle was invalid, the job might be finished. Who knows..."
                 break
             case 1:
-                text2.text = "The item update is processing configuration data."
+                txtUploadStatus.text = "The item update is processing configuration data."
                 break
             case 2:
-                text2.text = "The item update is reading and processing content files."
+                txtUploadStatus.text = "The item update is reading and processing content files."
                 break
             case 3:
-                text2.text = "The item update is uploading content changes to Steam."
+                txtUploadStatus.text = "The item update is uploading content changes to Steam."
                 break
             case 4:
-                text2.text = "The item update is uploading new preview file image."
+                txtUploadStatus.text = "The item update is uploading new preview file image."
                 break
             case 5:
-                text2.text = "The item update is committing all changes."
+                txtUploadStatus.text = "The item update is committing all changes."
                 timerUpload.running = false
-                uploadCompleted()
                 break
             default:
                 break
@@ -174,7 +186,7 @@ Item {
         }
 
         Column {
-            spacing: 20
+
             anchors {
                 top: parent.top
                 topMargin: 55
@@ -188,6 +200,14 @@ Item {
 
             TextField {
                 id: txtTitle
+                height: 60
+                width: parent.width
+                selectByMouse: true
+                text: qsTr("")
+                placeholderText: "Title"
+            }
+            TextField {
+                id: txtDescription
                 height: 60
                 width: parent.width
                 selectByMouse: true
@@ -220,10 +240,49 @@ Item {
                 bottomMargin: 10
                 horizontalCenter: parent.horizontalCenter
             }
+            Material.background: Material.Orange
+            Material.foreground: "white"
             onClicked: {
-                steamWorkshop.submitWorkshopItem(txtTitle.text.toString(),
-                                                 txtDescription.text.toString(
-                                                     ), "english", "true", projectFile, videoFile)
+                createUpload.state = "upload"
+                // We need to first create a workshop item
+                // after we received the new item handle
+                // from steam we can upload the content
+                steamWorkshop.createWorkshopItem()
+            }
+        }
+    }
+
+    Item {
+        id: uploadWrapper
+        opacity: 0
+        width: 600
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            top: videoOutWrapper.bottom
+            topMargin: 20
+            bottom: parent.bottom
+        }
+
+        Text {
+            id: txtUploadStatus
+            text: qsTr("Creating Workshop Item")
+            color: "white"
+            font.pixelSize: 16
+            height: 30
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: parent.top
+            }
+            font.family: font_Roboto_Regular.name
+            renderType: Text.NativeRendering
+        }
+
+        ProgressBar {
+            id: pbUpload
+            value: .1
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: txtUploadStatus.bottom
             }
         }
     }
@@ -278,6 +337,41 @@ Item {
                 opacity: 1
                 anchors.topMargin: 20
             }
+            PropertyChanges {
+                target: uploadWrapper
+                opacity: 0
+            }
+        },
+        State {
+            name: "upload"
+            PropertyChanges {
+                target: createUpload
+                opacity: 1
+            }
+            PropertyChanges {
+                target: videoOut
+                opacity: 1
+            }
+            PropertyChanges {
+                target: effect
+                opacity: 0
+                color: "transparent"
+            }
+            PropertyChanges {
+                target: contentWrapper
+                opacity: 1
+                anchors.topMargin: -500
+            }
+            PropertyChanges {
+                target: videoOutWrapper
+                z: 12
+                opacity: 1
+                anchors.topMargin: 150
+            }
+            PropertyChanges {
+                target: uploadWrapper
+                opacity: 1
+            }
         }
     ]
 
@@ -314,6 +408,44 @@ Item {
                         duration: 250
                         target: effect
                         properties: "color, opacity"
+                    }
+                }
+            }
+        },
+        Transition {
+            from: "in"
+            to: "upload"
+            reversible: true
+
+            SequentialAnimation {
+                ParallelAnimation {
+                    PropertyAnimation {
+                        duration: 300
+                        target: contentWrapper
+                        property: "opacity"
+                    }
+                    PropertyAnimation {
+                        duration: 300
+                        target: contentWrapper
+                        property: "anchors.topMargin"
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+                ParallelAnimation {
+                    PropertyAnimation {
+                        duration: 250
+                        target: videoOutWrapper
+                        property: "topMargin"
+                    }
+                    PropertyAnimation {
+                        duration: 250
+                        target: effect
+                        properties: "color, opacity"
+                    }
+                    PropertyAnimation {
+                        duration: 250
+                        target: uploadWrapper
+                        property: "opacity"
                     }
                 }
             }

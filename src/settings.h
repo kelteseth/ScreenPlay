@@ -47,6 +47,7 @@ public:
     Q_INVOKABLE void setMuteAll(bool isMuted);
     Q_INVOKABLE void setPlayAll(bool isPlaying);
     Q_INVOKABLE QUrl getPreviewImageByMonitorID(QString id);
+    Q_INVOKABLE QString fixWindowsPath(QString url);
 
 
     enum LocalCopyResult {
@@ -166,6 +167,8 @@ public slots:
 
     Q_INVOKABLE void setWallpaper(int monitorIndex, QUrl absoluteStoragePath);
 
+    Q_INVOKABLE QString loadProject(QString file);
+
     void setLocalStoragePath(QUrl localStoragePath)
     {
         if (m_localStoragePath == localStoragePath)
@@ -198,7 +201,6 @@ public slots:
         emit localStoragePathChanged(m_localStoragePath);
     }
 
-
     void setHasWorkshopBannerSeen(bool hasWorkshopBannerSeen)
     {
         if (m_hasWorkshopBannerSeen == hasWorkshopBannerSeen)
@@ -207,6 +209,7 @@ public slots:
         m_hasWorkshopBannerSeen = hasWorkshopBannerSeen;
         emit hasWorkshopBannerSeenChanged(m_hasWorkshopBannerSeen);
     }
+
 
 private:
     void createDefaultConfig();

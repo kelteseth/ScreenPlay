@@ -114,6 +114,15 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
     m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(project, monitor)));
 }
 
+QString Settings::loadProject(QString file)
+{
+    QFile configTmp;
+    file = file.replace("file:///", "");
+    configTmp.setFileName(file);
+    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
+    return configTmp.readAll();
+}
+
 void Settings::loadActiveProfiles()
 {
     QJsonDocument configJsonDocument;
@@ -188,6 +197,11 @@ QUrl Settings::getPreviewImageByMonitorID(QString id)
     //        }
     //    }
     return QUrl();
+}
+
+QString Settings::fixWindowsPath(QString url)
+{
+    return url.replace("/", "\\\\");
 }
 
 void Settings::createNewWallpaper(int monitorListPosition, Profile profile, ProjectFile projectFile)
