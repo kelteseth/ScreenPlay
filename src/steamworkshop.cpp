@@ -24,30 +24,30 @@ void SteamWorkshop::createWorkshopItem()
     m_createWorkshopItemCallResult.Set(hSteamAPICall, this, &SteamWorkshop::workshopItemCreated);
 }
 
-void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl projectFile, QUrl videoFile)
+void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile, const QUrl videoFile)
 {
 
-    QString absoluteContentPath = QUrl::fromLocalFile(QString(projectFile.toString())).toString();
-
-    // Ether way one of the
+    // Ether way one of the url must have a value
     if (videoFile.isEmpty() && projectFile.isEmpty()) {
         return;
     }
 
+    QString absoluteContentPath;
     QFile projectConfig;
 
-    if(!videoFile.isEmpty()) {
-        QUrl tmpPath = QUrl::fromLocalFile(QString(videoFile.toString()));
-        qDebug() << tmpPath;
-        projectConfig.setFileName(tmpPath.toString() + "project.json");
-    } else {
-        projectConfig.setFileName(absoluteContentPath + "project.json");
-    }
+    QFileInfo tmp;
+    tmp.setFile(projectFile.toString());
+    absoluteContentPath = tmp.path();
+    absoluteContentPath = absoluteContentPath.replace("file:///", "");
+
+    projectConfig.setFileName(absoluteContentPath + "/project.json");
+
+    qDebug() << "####" << projectFile << "###" <<  absoluteContentPath;
 
     QJsonObject jsonObject;
     QJsonDocument jsonProject;
     QJsonParseError parseError;
-    qDebug() << absoluteContentPath + "project.json";
+
     projectConfig.open(QIODevice::ReadOnly | QIODevice::Text);
     QString projectConfigData = projectConfig.readAll();
     jsonProject = QJsonDocument::fromJson(projectConfigData.toUtf8(), &parseError);
@@ -57,8 +57,10 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
 
     jsonObject = jsonProject.object();
 
-    QString video = absoluteContentPath + jsonObject.contains("file");
-    QString thumb = absoluteContentPath + jsonObject.contains("preview");
+    QString video = absoluteContentPath + "/" + jsonObject.value("file").toString();
+    QString thumb = absoluteContentPath + "/" + jsonObject.value("preview").toString();
+
+    qDebug() << jsonObject << video << thumb;
 
     SteamUGC()->SetItemTitle(m_UGCUpdateHandle, QByteArray(title.toLatin1()).data());
     SteamUGC()->SetItemDescription(m_UGCUpdateHandle, QByteArray(description.toLatin1()).data());
@@ -67,6 +69,8 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     SteamUGC()->SetItemContent(m_UGCUpdateHandle, QByteArray(video.toLatin1()).data());
     SteamUGC()->SetItemPreview(m_UGCUpdateHandle, QByteArray(thumb.toLatin1()).data());
     SteamUGC()->SetItemVisibility(m_UGCUpdateHandle, visibility);
+
+    emit remoteWorkshopCreationStatusChanged(RemoteWorkshopCreationStatus::Started);
 
     SteamUGC()->SubmitItemUpdate(m_UGCUpdateHandle, nullptr);
 }

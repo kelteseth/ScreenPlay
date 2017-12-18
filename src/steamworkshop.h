@@ -58,28 +58,25 @@ public:
     explicit SteamWorkshop(QObject* parent = nullptr);
     SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm, Settings* s);
 
+    Q_INVOKABLE int getItemUpdateProcess();
+    Q_INVOKABLE bool contentFolderExist(QString folder);
+
     Q_PROPERTY(unsigned int itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
     Q_PROPERTY(unsigned int bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)
 
-    unsigned int itemProcessed() const
-    {
-        return m_itemProcessed;
-    }
-
-    unsigned int bytesTotal() const
-    {
-        return m_bytesTotal;
-    }
+    // Properties
+    unsigned int itemProcessed() const { return m_itemProcessed; }
+    unsigned int bytesTotal() const { return m_bytesTotal; }
 
 public slots:
     void searchWorkshop();
     void createWorkshopItem();
-    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, QUrl projectFile, QUrl videoFile);
-    Q_INVOKABLE int getItemUpdateProcess();
-    Q_INVOKABLE bool contentFolderExist(QString folder);
+    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile , const QUrl videoFile);
     void getAPICallInfo();
     void createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath);
     void subscribeItem(unsigned int id);
+
+    // Properties
     void setItemProcessed(unsigned int itemProcessed)
     {
         if (m_itemProcessed == itemProcessed)
@@ -101,11 +98,12 @@ public slots:
 signals:
     void workshopItemCreated(bool userNeedsToAcceptWorkshopLegalAgreement, int eResult, int publishedFileId);
     void workshopSearched();
-    void localFileCopyCompleted(bool successful);
+    void localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value status);
+    void remoteWorkshopCreationStatusChanged(RemoteWorkshopCreationStatus::Value status);
+
+    // Properties
     void itemProcessedChanged(unsigned int itemProcessed);
     void bytesTotalChanged(unsigned int bytesTotal);
-
-    void localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value status);
 
 private:
     void workshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure);
