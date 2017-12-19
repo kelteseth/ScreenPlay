@@ -158,7 +158,7 @@ ApplicationWindow {
             left: parent.left
         }
         onChangePage: {
-            if (name === "Create" || name === "Workshop" || name === "Settings") {
+            if (name === "Create" || name === "Workshop" || name === "Settings" || name === "Community") {
                 pageLoader.setSource(
                             "qrc:/qml/Components/" + name + "/" + name + ".qml")
             } else {

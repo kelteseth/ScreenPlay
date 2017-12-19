@@ -11,12 +11,10 @@
         <file>assets/fonts/Roboto-Light.ttf</file>
         <file>assets/fonts/Roboto-Regular.ttf</file>
         <file>assets/fonts/Roboto-Thin.ttf</file>
-        <file>assets/icons/icon_installed.svg</file>
         <file>assets/icons/icon_search.svg</file>
         <file>assets/icons/icon_settings.svg</file>
         <file>assets/icons/icon_share.svg</file>
         <file>assets/icons/icon_volume.svg</file>
-        <file>assets/icons/icon_workshop.svg</file>
         <file>qml/Components/ScreenPlayItem.qml</file>
         <file>qml/Components/Sidebar.qml</file>
         <file>assets/images/Window.svg</file>
@@ -42,14 +40,12 @@
         <file>assets/icons/icon_single_image.svg</file>
         <file>assets/icons/icon_tv.svg</file>
         <file>assets/icons/icon_stomt.svg</file>
-        <file>qml/Components/Feedback.qml</file>
         <file>qml/Components/StartupErrorWindow.qml</file>
         <file>assets/icons/icon_heavy_metal.svg</file>
         <file>qml/Components/InstalledUserHelper.qml</file>
         <file>assets/icons/icon_hand_left.svg</file>
         <file>assets/icons/icon_hand_right.svg</file>
         <file>assets/images/hand_give.png</file>
-        <file>qml/Components/Community.qml</file>
         <file>assets/icons/icon_community.svg</file>
         <file>qml/Components/Create/Create.qml</file>
         <file>assets/images/noisy-texture.png</file>
@@ -72,6 +68,11 @@
         <file>qml/Components/Settings/SettingsHeader.qml</file>
         <file>qml/Components/Settings/SettingsHorizontalSeperator.qml</file>
         <file>qml/Components/Settings/SettingsComboBox.qml</file>
+        <file>assets/fonts/PermanentMarker-Regular.ttf</file>
         <file>assets/icons/icon_movie.svg</file>
+        <file>qml/Components/Community/Community.qml</file>
+        <file>qml/Components/Community/Feedback.qml</file>
+        <file>assets/icons/icon_steam.svg</file>
+        <file>assets/icons/icon_installed.svg</file>
     </qresource>
 </RCC>

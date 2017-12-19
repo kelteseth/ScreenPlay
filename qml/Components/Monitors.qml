@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtGraphicalEffects 1.0
+import QtQuick.Controls.Material 2.2
 
 Item {
     id: monitors
@@ -52,7 +53,9 @@ Item {
 
         Button {
             id: btn
-            text: "Remove all wallpaper"
+            text: qsTr("Remove all wallpaper")
+            Material.background: Material.Orange
+            Material.foreground: "white"
             onClicked: screenPlaySettings.removeAll(
                            ) //screenPlaySettings.removeWallpaperAt(monitorSelection.activeMonitorIndex)
             anchors {
