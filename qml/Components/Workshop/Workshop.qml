@@ -5,6 +5,7 @@ Item {
     id: workshop
     anchors.fill: parent
 
+    //property alias bannerImgProxy: bannerImg2
     signal openCreate
 
     Component.onCompleted: {
@@ -13,17 +14,8 @@ Item {
     }
 
     Connections {
-        target: steamWorkshop
-        onWorkshopSearched: {
-            print("searched")
-            //bannerImg.source = workshopListModel.getBannerUrl()
-            //bannerTxt.text = workshopListModel.getBannerText()
-        }
-    }
-
-    Connections {
         target: workshopAlertBanner
-        onOpenCreate:{
+        onOpenCreate: {
             openCreate()
         }
     }
@@ -58,7 +50,13 @@ Item {
                 left: parent.left
             }
 
-
+            Connections {
+                target: steamWorkshop
+                onWorkshopSearched: {
+                    bannerImg2.source = workshopListModel.getBannerUrl()
+                    bannerTxt.text = workshopListModel.getBannerText()
+                }
+            }
             Rectangle {
                 id: banner
                 color: "#131313"
@@ -71,9 +69,8 @@ Item {
                     leftMargin: -30
                 }
                 Image {
-                    id: bannerImg
+                    id: bannerImg2
                     anchors {
-
                         right: parent.right
                         left: parent.left
                         bottom: parent.bottom
@@ -89,8 +86,6 @@ Item {
 
                     asynchronous: true
                     fillMode: Image.PreserveAspectCrop
-
-
                 }
 
                 Text {
@@ -115,10 +110,11 @@ Item {
                         left: parent.left
                         leftMargin: 30
                     }
-                    z:99
+                    z: 99
                     onClicked: {
 
-                        steamWorkshop.subscribeItem(workshopListModel.getBannerID())
+                        steamWorkshop.subscribeItem(
+                                    workshopListModel.getBannerID())
                     }
                 }
             }
@@ -174,14 +170,13 @@ Item {
             snapMode: ScrollBar.SnapOnRelease
         }
     }
-    
+
     WorkshopAlertBanner {
-        id:workshopAlertBanner
+        id: workshopAlertBanner
         Component.onCompleted: {
-            if(!screenPlaySettings.hasWorkshopBannerSeen){
+            if (!screenPlaySettings.hasWorkshopBannerSeen) {
                 workshopAlertBanner.state = "in"
             }
         }
-
     }
 }

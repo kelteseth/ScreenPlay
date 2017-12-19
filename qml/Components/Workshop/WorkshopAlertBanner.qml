@@ -22,7 +22,7 @@ Item {
     Rectangle {
         id: workshopAltertBanner
         height: 50
-        color: "#AA3498db"
+        color: "#3498db"
         anchors {
             top: parent.top
             right: parent.right
