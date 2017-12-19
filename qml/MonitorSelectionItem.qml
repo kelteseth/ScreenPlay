@@ -10,10 +10,6 @@ Item {
     property string monitorID
     property int index: 0
     property bool isSelected: false
-
-    onMonitorIDChanged: print(monitorID)
-    Component.onCompleted: print(monitorID)
-
     signal monitorSelected(var index)
 
     onIsSelectedChanged: {
@@ -62,7 +58,8 @@ Item {
 
         Text {
             renderType: Text.NativeRendering
-            text: index + "\n" + monitorName + " " + monitorSize.width + "x" + monitorSize.height
+            text: index + "\n" + monitorName + " " + monitorManufacturer + " "
+                  + monitorSize.width + "x" + monitorSize.height
             anchors.fill: parent
 
             horizontalAlignment: Text.AlignHCenter

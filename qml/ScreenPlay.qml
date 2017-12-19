@@ -9,7 +9,7 @@ Item {
 
     Loader {
         anchors.fill: parent
-        source: "qrc:/qml/Components/Screens/ScreenVideo.qml"
+        source: "qrc:/qml/Screens/ScreenVideo.qml"
     }
 
     Connections {

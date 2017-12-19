@@ -18,7 +18,7 @@ Item {
     }
 
     Component.onCompleted: {
-        installedListModel.reloadFiles()
+        //installedListModel.reloadFiles()
         if(installedListModel.getAmountItemLoaded() === 0){
             loaderHelp.active = true
         } else {
@@ -32,7 +32,7 @@ Item {
         active:false
         z:99
         anchors.fill: parent
-        source: "qrc:/qml/Components/InstalledUserHelper.qml"
+        source: "qrc:/qml/InstalledUserHelper.qml"
     }
 
     Button {

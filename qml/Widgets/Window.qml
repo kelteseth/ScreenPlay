@@ -26,7 +26,6 @@ Window {
             color: "#ffffff"
             text: "empty"
             font.pixelSize: 29
-            onTextChanged: print("changed")
         }
 
 

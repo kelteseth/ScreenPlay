@@ -145,9 +145,10 @@ Item {
             spread: 0.2
             cornerRadius: 15
             opacity: 0
-            z:9
+            z:11
             visible: false
         }
+
         Rectangle {
             id: bg1
             width: parent.width
@@ -171,7 +172,6 @@ Item {
                 id: fileDialogOpenProject
                 nameFilters: ["Project files (project.json)", ]
                 onAccepted: {
-                    print(fileDialogOpenProject.currentFile)
                     projectFileSelected(fileDialogOpenProject.currentFile)
                 }
             }

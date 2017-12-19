@@ -83,9 +83,9 @@ int main(int argc, char* argv[])
 
     QQmlApplicationEngine errorWindowEngine;
     if (steamErrorRestart || steamErrorAPIInit) {
-        errorWindowEngine.load(QUrl(QStringLiteral("qrc:/qml/Components/StartupErrorWindow.qml")));
+        errorWindowEngine.load(QUrl(QStringLiteral("qrc:/qml/StartupErrorWindow.qml")));
     } else {
-        mainWindowEngine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+        mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     }
 
     installedListModel.loadScreens();

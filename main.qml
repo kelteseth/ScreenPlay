@@ -4,7 +4,9 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
-import "Components"
+
+import "qml/"
+import "qml/Installed"
 
 ApplicationWindow {
     id: window
@@ -98,7 +100,7 @@ ApplicationWindow {
     Loader {
         id: pageLoader
         asynchronous: true
-        source: "qrc:/qml/Components/Installed.qml"
+        source: "qrc:/qml/Installed/Installed.qml"
         anchors {
             top: nav.bottom
             right: parent.right
@@ -130,11 +132,10 @@ ApplicationWindow {
                 }
             }
             onOpenCreate: {
-                if(!ignoreWorkshopBanner){
+                if (!ignoreWorkshopBanner) {
                     nav.onPageChanged("Create")
                     ignoreWorkshopBanner = true
                 }
-
             }
         }
     }
@@ -158,12 +159,7 @@ ApplicationWindow {
             left: parent.left
         }
         onChangePage: {
-            if (name === "Create" || name === "Workshop" || name === "Settings" || name === "Community") {
-                pageLoader.setSource(
-                            "qrc:/qml/Components/" + name + "/" + name + ".qml")
-            } else {
-                pageLoader.setSource("qrc:/qml/Components/" + name + ".qml")
-            }
+            pageLoader.setSource("qrc:/qml/" + name + "/" + name + ".qml")
             sidebar.state = "inactive"
         }
 

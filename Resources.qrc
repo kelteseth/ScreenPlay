@@ -1,10 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>qml/Components/Navigation.qml</file>
-        <file>qml/Components/NavigationItem.qml</file>
-        <file>qml/Components/Installed.qml</file>
-        <file>qml/main.qml</file>
-        <file>qml/Components/ScreenPlay.qml</file>
         <file>assets/licenses/Apache2.txt</file>
         <file>assets/licenses/OFL.txt</file>
         <file>assets/fonts/LibreBaskerville-Italic.ttf</file>
@@ -15,64 +10,70 @@
         <file>assets/icons/icon_settings.svg</file>
         <file>assets/icons/icon_share.svg</file>
         <file>assets/icons/icon_volume.svg</file>
-        <file>qml/Components/ScreenPlayItem.qml</file>
-        <file>qml/Components/Sidebar.qml</file>
         <file>assets/images/Window.svg</file>
-        <file>qml/Components/Screens/ScreenVideo.qml</file>
-        <file>qml/Components/Monitors.qml</file>
         <file>assets/icons/icon_arrow_left.svg</file>
         <file>assets/icons/icon_arrow_right.svg</file>
         <file>assets/icons/icon_indicator_down.svg</file>
         <file>assets/icons/icon_monitor.svg</file>
         <file>assets/icons/icon_download.svg</file>
-        <file>qml/Components/ScreenPlayItemImage.qml</file>
         <file>assets/icons/favicon.ico</file>
-        <file>qml/Components/Settings/SettingBool.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>qml/Components/FileDropper.qml</file>
-        <file>qml/Components/Widgets/Window.qml</file>
         <file>settings.json</file>
         <file>assets/icons/icon_plus.svg</file>
-        <file>qml/Components/MonitorSelection.qml</file>
-        <file>qml/Components/MonitorSelectionItem.qml</file>
-        <file>qml/Components/FileDropperSingleFile.qml</file>
         <file>assets/icons/icon_multiple_images.svg</file>
         <file>assets/icons/icon_single_image.svg</file>
         <file>assets/icons/icon_tv.svg</file>
         <file>assets/icons/icon_stomt.svg</file>
-        <file>qml/Components/StartupErrorWindow.qml</file>
         <file>assets/icons/icon_heavy_metal.svg</file>
-        <file>qml/Components/InstalledUserHelper.qml</file>
         <file>assets/icons/icon_hand_left.svg</file>
         <file>assets/icons/icon_hand_right.svg</file>
         <file>assets/images/hand_give.png</file>
         <file>assets/icons/icon_community.svg</file>
-        <file>qml/Components/Create/Create.qml</file>
         <file>assets/images/noisy-texture.png</file>
         <file>assets/images/noisy-texture-2.png</file>
         <file>assets/images/noisy-texture-3.png</file>
-        <file>qml/Components/Create/CreateWallpaper.qml</file>
-        <file>qml/Components/Create/CreateWidget.qml</file>
-        <file>qml/Components/Create/CreateWidgetButton.qml</file>
         <file>assets/icons/icon_upload.svg</file>
-        <file>qml/Components/Workshop/Workshop.qml</file>
-        <file>qml/Components/Workshop/WorkshopBanner.qml</file>
-        <file>qml/Components/Workshop/WorkshopItem.qml</file>
-        <file>qml/Components/Workshop/WorkshopAlertBanner.qml</file>
         <file>assets/icons/font-awsome/close.svg</file>
         <file>assets/icons/font-awsome/frown-o.svg</file>
-        <file>qml/Components/Settings/Settings.qml</file>
-        <file>qml/Components/Create/CreateImport.qml</file>
-        <file>qml/Components/Create/CreateUpload.qml</file>
-        <file>qml/Components/Create/CreateImportStatus.qml</file>
-        <file>qml/Components/Settings/SettingsHeader.qml</file>
-        <file>qml/Components/Settings/SettingsHorizontalSeperator.qml</file>
-        <file>qml/Components/Settings/SettingsComboBox.qml</file>
         <file>assets/fonts/PermanentMarker-Regular.ttf</file>
         <file>assets/icons/icon_movie.svg</file>
-        <file>qml/Components/Community/Community.qml</file>
-        <file>qml/Components/Community/Feedback.qml</file>
         <file>assets/icons/icon_steam.svg</file>
         <file>assets/icons/icon_installed.svg</file>
+        <file>qml/FileDropper.qml</file>
+        <file>qml/FileDropperSingleFile.qml</file>
+        <file>qml/Monitors.qml</file>
+        <file>qml/MonitorSelection.qml</file>
+        <file>qml/MonitorSelectionItem.qml</file>
+        <file>qml/Navigation.qml</file>
+        <file>qml/NavigationItem.qml</file>
+        <file>qml/ScreenPlay.qml</file>
+        <file>qml/SettingsItemBool.qml</file>
+        <file>qml/StartupErrorWindow.qml</file>
+        <file>qml/Community/Community.qml</file>
+        <file>qml/Community/Feedback.qml</file>
+        <file>qml/Create/Create.qml</file>
+        <file>qml/Create/CreateImport.qml</file>
+        <file>qml/Create/CreateImportStatus.qml</file>
+        <file>qml/Create/CreateUpload.qml</file>
+        <file>qml/Create/CreateWallpaper.qml</file>
+        <file>qml/Create/CreateWidget.qml</file>
+        <file>qml/Create/CreateWidgetButton.qml</file>
+        <file>main.qml</file>
+        <file>qml/Installed/Installed.qml</file>
+        <file>qml/Installed/InstalledUserHelper.qml</file>
+        <file>qml/Installed/ScreenPlayItem.qml</file>
+        <file>qml/Installed/ScreenPlayItemImage.qml</file>
+        <file>qml/Installed/Sidebar.qml</file>
+        <file>qml/Screens/ScreenVideo.qml</file>
+        <file>qml/Settings/SettingBool.qml</file>
+        <file>qml/Settings/Settings.qml</file>
+        <file>qml/Settings/SettingsComboBox.qml</file>
+        <file>qml/Settings/SettingsHeader.qml</file>
+        <file>qml/Settings/SettingsHorizontalSeperator.qml</file>
+        <file>qml/Widgets/Window.qml</file>
+        <file>qml/Workshop/Workshop.qml</file>
+        <file>qml/Workshop/WorkshopAlertBanner.qml</file>
+        <file>qml/Workshop/WorkshopBanner.qml</file>
+        <file>qml/Workshop/WorkshopItem.qml</file>
     </qresource>
 </RCC>

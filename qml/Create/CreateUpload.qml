@@ -36,20 +36,20 @@ Item {
         target: steamWorkshop
         ignoreUnknownSignals: true
         onWorkshopItemCreated: {
-            print(userNeedsToAcceptWorkshopLegalAgreement,publishedFileId)
+            print(userNeedsToAcceptWorkshopLegalAgreement, publishedFileId)
             steamWorkshop.submitWorkshopItem(txtTitle.text.toString(),
                                              txtDescription.text.toString(),
                                              "english", 0, projectFile,
                                              videoFile)
         }
         onRemoteWorkshopCreationStatusChanged: {
-            switch (status){
+            switch (status) {
             case RemoteWorkshopCreationStatus.Started:
-                timerUpload.start();
-                break;
+                timerUpload.start()
+                break
             case RemoteWorkshopCreationStatus.ErrorUnknown:
-                timerUpload.stop();
-                break;
+                timerUpload.stop()
+                break
             }
         }
     }
@@ -61,7 +61,7 @@ Item {
         interval: 100
         onTriggered: {
             var status = steamWorkshop.getItemUpdateProcess()
-            print(status + " -  "+ steamWorkshop.itemProcessed + " / " + steamWorkshop.bytesTotal)
+            print(status + " -  " + steamWorkshop.itemProcessed + " / " + steamWorkshop.bytesTotal)
             switch (status) {
             case 0:
                 txtUploadStatus.text = "0. The item update handle was invalid, the job might be finished. Who knows..."
@@ -73,18 +73,20 @@ Item {
             case 2:
                 txtUploadStatus.text = "2. The item update is reading and processing content files."
                 pbUpload.indeterminate = false
+                txtUploadSize.text = steamWorkshop.itemProcessed + "/" + steamWorkshop.bytesTotal
                 pbUpload.value = steamWorkshop.itemProcessed / steamWorkshop.bytesTotal
                 break
             case 3:
                 txtUploadStatus.text = "3. The item update is uploading content changes to Steam."
-                if(steamWorkshop.itemProcessed === 0){
-                    if(!pbUpload.indeterminate)
+                if (steamWorkshop.itemProcessed === 0) {
+                    if (!pbUpload.indeterminate)
                         pbUpload.indeterminate = true
                 } else {
-
-                    if(pbUpload.indeterminate)
+                    if (pbUpload.indeterminate)
                         pbUpload.indeterminate = false
 
+                    txtUploadSize.text = steamWorkshop.itemProcessed + "/"
+                            + steamWorkshop.bytesTotal
                     pbUpload.value = steamWorkshop.itemProcessed / steamWorkshop.bytesTotal
                 }
                 break
@@ -92,10 +94,11 @@ Item {
                 txtUploadStatus.text = "4. The item update is uploading new preview file image."
                 pbUpload.indeterminate = true
                 pbUpload.value = 1
+                txtUploadSize.text = ""
                 break
             case 5:
-                txtUploadStatus.text = "5. The item update is committing all changes."
-                timerUpload.running = false
+                txtUploadStatus.text = "5. Done!"
+                timerUpload.visible = false
                 break
             default:
                 break
@@ -272,26 +275,41 @@ Item {
         }
     }
 
-    Item {
+    Rectangle {
         id: uploadWrapper
         opacity: 0
         width: 600
+        height: 120
+        radius: 4
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: videoOutWrapper.bottom
-            topMargin: 20
-            bottom: parent.bottom
+            topMargin: 30
         }
 
         Text {
-            id: txtUploadStatus
-            text: qsTr("Creating Workshop Item")
-            color: "white"
+            id: txtUploadSize
+            color: "gray"
             font.pixelSize: 16
             height: 30
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 top: parent.top
+                topMargin: 20
+            }
+            font.family: font_Roboto_Regular.name
+            renderType: Text.NativeRendering
+        }
+        Text {
+            id: txtUploadStatus
+            text: qsTr("Creating Workshop Item")
+            color: "gray"
+            font.pixelSize: 16
+            height: 30
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top: txtUploadSize.bottom
+                topMargin: 20
             }
             font.family: font_Roboto_Regular.name
             renderType: Text.NativeRendering
@@ -393,7 +411,6 @@ Item {
                 opacity: 1
             }
         }
-
     ]
 
     transitions: [

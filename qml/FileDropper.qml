@@ -16,12 +16,14 @@ DropArea {
 
     Connections {
         target: packageFileHandler
-        onCurrentLoaderStatusChanged:print("aaaaa")
+        onCurrentLoaderStatusChanged:{
+
+        }
     }
 
     onDropped: {
         var a= packageFileHandler.loadPackageFromLocalZip(drop.urls,".")
-        print(packageFileHandler.currentLoaderStatus)
+
 
         if(a === -1) {
             dropper.state = "badFile"

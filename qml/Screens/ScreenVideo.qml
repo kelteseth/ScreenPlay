@@ -1,6 +1,5 @@
-import QtAV 1.07
-
 import QtQuick 2.9
+import QtAV 1.7
 Rectangle {
     id:screenVideo
 
@@ -8,6 +7,7 @@ Rectangle {
         target: wallpaper
         onVolumeChanged:{
             player.volume = wallpaper.volume
+            print(player.volume)
         }
         onIsPlayingChanged:{
             if(wallpaper.isPlaying){
@@ -28,16 +28,16 @@ Rectangle {
         id: videoOut
         anchors.fill: parent
         source: player
-        opengl: true
         fillMode: VideoOutput.Stretch
     }
 
     MediaPlayer {
         id: player
         onPlaying: screenVideo.state = "playing"
-        videoCodecPriority: ["CUDA", "D3D11", "DXVA", "VAAPI", "FFmpeg"]
+        videoCodecPriority: ["CUDA","FFmpeg", "D3D11", "DXVA", "VAAPI"] //,
         loops: MediaPlayer.Infinite
         volume: 0
+
     }
 
     Rectangle {
