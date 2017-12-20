@@ -1,11 +1,10 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
+import QtQuick.Controls.Material 2.2
 
 Item {
     id: workshop
     anchors.fill: parent
-
-    //property alias bannerImgProxy: bannerImg2
     signal openCreate
 
     Component.onCompleted: {
@@ -44,7 +43,7 @@ Item {
         boundsBehavior: Flickable.StopAtBounds
 
         header: Item {
-            height: 530
+            height: 440
             anchors {
                 right: parent.right
                 left: parent.left
@@ -91,28 +90,33 @@ Item {
                 Text {
                     id: bannerTxt
                     text: "loading"
-                    font.pixelSize: 36
+                    font.pixelSize: 42
                     color: "white"
                     width: 400
                     anchors {
                         top: parent.top
                         topMargin: 100
                         left: parent.left
-                        leftMargin: 30
+                        leftMargin: 50
                     }
                 }
 
                 Button {
-                    text: "Download"
+                    text: qsTr("Download now!")
+                    Material.background: Material.Orange
+                    Material.foreground: "white"
+                    icon.source: "qrc:/assets/icons/icon_download.svg"
+                    icon.width: 16
+                    icon.height: 16
                     anchors {
                         top: bannerTxt.bottom
-                        topMargin: 100
+                        topMargin: 50
                         left: parent.left
-                        leftMargin: 30
+                        leftMargin: 50
                     }
                     z: 99
                     onClicked: {
-
+                        text = qsTr("Downloading...")
                         steamWorkshop.subscribeItem(
                                     workshopListModel.getBannerID())
                     }
@@ -121,29 +125,24 @@ Item {
 
             Item {
                 id: searchBar
-                height: 100
-                visible: false
+                height: 50
                 anchors {
                     top: banner.bottom
+                    topMargin: 20
                     right: parent.right
-                    rightMargin: 60
                     left: parent.left
-                    margins: 30
+                    leftMargin: 20
                 }
 
-                Rectangle {
-                    height: 60
-                    width: 400
-                    radius: 3
+                Text {
+                    id: txtCategory
+                    text: qsTr("Trendig Today")
+                    color: "#818181"
+                    font.pointSize: 18
+                    verticalAlignment: Text.AlignVCenter
                     anchors {
                         top: parent.top
-                        left: parent.left
-                        margins: 10
-                    }
-                    TextField {
-                        placeholderText: qsTr("Enter name")
-                        anchors.fill: parent
-                        anchors.margins: 5
+                        bottom: parent.bottom
                     }
                 }
             }
@@ -157,14 +156,6 @@ Item {
             steamID: workshopID
         }
 
-        add: Transition {
-            NumberAnimation {
-                property: "opacity"
-                from: 0
-                to: 1.0
-                duration: 400
-            }
-        }
         ScrollBar.vertical: ScrollBar {
             id: workshopScrollBar
             snapMode: ScrollBar.SnapOnRelease

@@ -7,6 +7,7 @@
 
 class WorkshopItem {
 public:
+    WorkshopItem();
     WorkshopItem(unsigned int id, QString title, QUrl previewImageUrl);
     ~WorkshopItem();
     QUrl m_previewImageUrl;

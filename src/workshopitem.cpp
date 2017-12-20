@@ -1,6 +1,8 @@
 #include "workshopitem.h"
 
+WorkshopItem::WorkshopItem(){
 
+}
 WorkshopItem::WorkshopItem(unsigned int id, QString title, QUrl previewImageUrl)
 {
     m_id = id;

@@ -12,7 +12,7 @@ Item {
 
     Rectangle {
         id: banner
-        color: "#131313"
+        color: "#44131313"
         height: 350
         anchors {
             top: parent.top
