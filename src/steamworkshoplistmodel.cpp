@@ -3,13 +3,7 @@
 SteamWorkshopListModel::SteamWorkshopListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-//    m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(1,"WoW Malstrom  Full 3h Animated Low-CPU 4k-HDR",
-//        QUrl("http://media.blizzard.com/wow/media/artwork/wow-cataclysm/loadscreen-maelstrom-full.jpg"))));
-//    for (int i = 0; i < 50;i++) {
-//        m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(1, "title",
-//            QUrl("http://media.blizzard.com/wow/media/artwork/wow-cataclysm/loadscreen-maelstrom-full.jpg"))));
 
-//    }
 
 
 }
@@ -52,6 +46,11 @@ QVariant SteamWorkshopListModel::data(const QModelIndex& index, int role) const
     if (!index.isValid())
         return QVariant();
 
+    int row = index.row();
+    if(row < 0 || row >= m_workshopItemList.count()) {
+        return QVariant();
+    }
+
     if (index.row() < rowCount())
         switch (role) {
         case TitleRole:
@@ -76,17 +75,17 @@ void SteamWorkshopListModel::append(unsigned int id, QString title, QUrl imgUrl)
 
 QUrl SteamWorkshopListModel::getBannerUrl()
 {
-    return m_workshopItemList.at(0)->m_previewImageUrl;
+    return m_workshopBannerItem.m_previewImageUrl;
 }
 
 QString SteamWorkshopListModel::getBannerText()
 {
-    return m_workshopItemList.at(0)->m_title;
+    return m_workshopBannerItem.m_title;
 }
 
 unsigned int SteamWorkshopListModel::getBannerID()
 {
-    return m_workshopItemList.at(0)->m_id;
+    return m_workshopBannerItem.m_id;
 }
 
 void SteamWorkshopListModel::clear()
@@ -95,6 +94,13 @@ void SteamWorkshopListModel::clear()
     m_workshopItemList.clear();
     m_workshopItemList.squeeze();
     endResetModel();
+}
+
+void SteamWorkshopListModel::setBannerWorkshopItem(unsigned int id, QString title, QUrl imgUrl)
+{
+    m_workshopBannerItem.m_id = id;
+    m_workshopBannerItem.m_title = title;
+    m_workshopBannerItem.m_previewImageUrl = imgUrl;
 }
 
 bool SteamWorkshopListModel::setData(const QModelIndex& index, const QVariant& value, int role)

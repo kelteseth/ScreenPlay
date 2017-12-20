@@ -213,7 +213,11 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
             if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
                 QByteArray urlData(url);
                 previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
-                m_workshopListModel->append(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
+                if(i == 0){
+                    m_workshopListModel->setBannerWorkshopItem(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
+                } else {
+                    m_workshopListModel->append(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
+                }
             }
         }
     }

@@ -36,6 +36,8 @@ public:
     Q_INVOKABLE unsigned int getBannerID();
     Q_INVOKABLE void clear();
 
+    void setBannerWorkshopItem(unsigned int id, QString title, QUrl imgUrl);
+
     // Editable:
     bool setData(const QModelIndex& index, const QVariant& value,
         int role = Qt::EditRole) override;
@@ -50,4 +52,5 @@ public:
 
 private:
     QVector<QSharedPointer<WorkshopItem>> m_workshopItemList;
+    WorkshopItem m_workshopBannerItem;
 };
