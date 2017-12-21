@@ -104,6 +104,12 @@ Item {
                     fillMode: Image.PreserveAspectCrop
                     asynchronous: true
                     anchors.fill: parent
+                    onStatusChanged: {
+                         if(image.status === Image.Error){
+                            source = "qrc:/assets/images/missingPreview.png"
+                        }
+
+                    }
                 }
             }
 
