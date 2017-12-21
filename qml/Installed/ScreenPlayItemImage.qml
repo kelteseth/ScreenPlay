@@ -74,8 +74,13 @@ Item {
 
         onStatusChanged: {
 
-            if (image.status === Image.Ready)
+            if (image.status === Image.Ready){
                 screenPlayItemImage.state = "loaded"
+            } else if(image.status === Image.Error){
+                source = "qrc:/assets/images/missingPreview.png"
+                screenPlayItemImage.state = "loaded"
+            }
+
         }
     }
 
