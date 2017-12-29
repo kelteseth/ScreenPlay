@@ -48,6 +48,7 @@ int main(int argc, char* argv[])
     QCoreApplication::setOrganizationDomain("aimber.net");
     QCoreApplication::setApplicationName("ScreenPlay");
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
+
     bool steamErrorRestart = false;
     bool steamErrorAPIInit = false;
 
@@ -73,6 +74,9 @@ int main(int argc, char* argv[])
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, steamID);
     SteamWorkshop steamWorkshop(steamID, &steamWorkshopListModel, &settings);
 
+    QObject::connect(&steamWorkshop,&SteamWorkshop::workshopSearchResult,
+                     &steamWorkshopListModel,&SteamWorkshopListModel::append,Qt::QueuedConnection);
+
     // All the list need the default path from the settings
     // to know where to look for the files
     profileListModel.loadProfiles();
@@ -95,7 +99,7 @@ int main(int argc, char* argv[])
         mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     }
 
-    installedListModel.loadScreens();
+    //installedListModel.loadScreens();
     // FIXME: Needed workaround to close the app because
     // apparently some thread still runs in the background
     QObject::connect(&app, &QGuiApplication::lastWindowClosed, [&]() { exit(app.exec()); });

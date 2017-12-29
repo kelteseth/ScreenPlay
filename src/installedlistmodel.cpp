@@ -3,6 +3,8 @@
 InstalledListModel::InstalledListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
+    QObject::connect(this, &InstalledListModel::addInstalledItem,
+        this, &InstalledListModel::append, Qt::QueuedConnection);
 }
 
 int InstalledListModel::rowCount(const QModelIndex& parent) const
@@ -16,7 +18,7 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     int row = index.row();
-    if(row < 0 || row >= m_screenPlayFiles.count()) {
+    if (row < 0 || row >= m_screenPlayFiles.count()) {
         return QVariant();
     }
 
@@ -75,40 +77,42 @@ void InstalledListModel::append(const QJsonObject obj, const QString folderName)
 
 void InstalledListModel::loadScreens()
 {
-    QJsonDocument jsonProject;
-    QJsonParseError parseError;
+    QtConcurrent::run([this]() {
+        QJsonDocument jsonProject;
+        QJsonParseError parseError;
 
-    QFileInfoList list = QDir(m_absoluteStoragePath.toString()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
-    QString tmpPath;
+        QFileInfoList list = QDir(m_absoluteStoragePath.toString()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
+        QString tmpPath;
 
+        for (auto&& item : list) {
+            tmpPath = m_absoluteStoragePath.toString() + "/" + item.baseName() + "/project.json";
 
+            if (!QFile(tmpPath).exists())
+                continue;
 
-    for (auto&& item : list) {
-        tmpPath = m_absoluteStoragePath.toString() + "/" + item.baseName() + "/project.json";
+            QFile projectConfig;
+            projectConfig.setFileName(tmpPath);
+            projectConfig.open(QIODevice::ReadOnly | QIODevice::Text);
+            QString projectConfigData = projectConfig.readAll();
+            jsonProject = QJsonDocument::fromJson(projectConfigData.toUtf8(), &parseError);
 
-        if (!QFile(tmpPath).exists())
-            continue;
+            if (!(parseError.error == QJsonParseError::NoError))
+                continue;
 
-        QFile projectConfig;
-        projectConfig.setFileName(tmpPath);
-        projectConfig.open(QIODevice::ReadOnly | QIODevice::Text);
-        QString projectConfigData = projectConfig.readAll();
-        jsonProject = QJsonDocument::fromJson(projectConfigData.toUtf8(), &parseError);
+            if (jsonProject.object().value("type").toString() == "scene")
+                continue;
 
-        if (!(parseError.error == QJsonParseError::NoError))
-            continue;
+            if (jsonProject.isEmpty())
+                continue;
 
-        if(jsonProject.object().value("type").toString() == "scene")
-            continue;
+            if (jsonProject.object().empty())
+                continue;
+            //qDebug() <<
 
-        if(jsonProject.isEmpty())
-            continue;
-
-       if(jsonProject.object().empty())
-           continue;
-
-        append(jsonProject.object(), item.baseName());
-    }
+            emit addInstalledItem(jsonProject.object(), item.baseName());
+        }
+        emit installedLoadingFinished();
+    });
 }
 
 QVariantMap InstalledListModel::get(QString folderId)
@@ -136,12 +140,11 @@ int InstalledListModel::getAmountItemLoaded()
     return m_screenPlayFiles.count();
 }
 
-void InstalledListModel::reloadFiles()
+void InstalledListModel::reset()
 {
     beginResetModel();
     m_screenPlayFiles.clear();
     m_screenPlayFiles.squeeze();
     endResetModel();
 
-    loadScreens();
 }

@@ -31,7 +31,6 @@ void SteamWorkshop::workshopItemCreated(CreateItemResult_t* pCallback, bool bIOF
 
     m_UGCUpdateHandle = SteamUGC()->StartItemUpdate(m_AppId, pCallback->m_nPublishedFileId);
     emit workshopItemCreated(pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement, pCallback->m_eResult, pCallback->m_nPublishedFileId);
-
 }
 
 void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile, const QUrl videoFile)
@@ -88,7 +87,7 @@ int SteamWorkshop::getItemUpdateProcess()
     unsigned long long _itemProcessed = 0;
     unsigned long long _bytesTotoal = 0;
     EItemUpdateStatus status = SteamUGC()->GetItemUpdateProgress(m_UGCUpdateHandle, &_itemProcessed, &_bytesTotoal);
-    qDebug() << _itemProcessed << _bytesTotoal << status ;
+    qDebug() << _itemProcessed << _bytesTotoal << status;
     setItemProcessed(_itemProcessed);
     setBytesTotal(_bytesTotoal);
     return status;
@@ -202,27 +201,35 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
     if (bIOFailure)
         return;
 
-    SteamUGCDetails_t details;
-    const int urlLength = 200;
-    char url[urlLength];
-    uint32 previews = 0;
-    uint32 results = pCallback->m_unTotalMatchingResults;
+    QtConcurrent::run([this, pCallback]() {    });
 
-    for (uint32 i = 0; i < results; i++) {
-        if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
-            if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
-                QByteArray urlData(url);
-                previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
-                if(i == 0){
-                    m_workshopListModel->setBannerWorkshopItem(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
-                } else {
-                    m_workshopListModel->append(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
+        SteamUGCDetails_t details;
+        const int urlLength = 200;
+        char url[urlLength];
+        uint32 previews = 0;
+        uint32 results = pCallback->m_unTotalMatchingResults;
+        //qDebug() << results;
+
+        for (uint32 i = 0; i < results; i++) {
+            if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
+                //qDebug() << "ok " << pCallback;
+                if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
+                    QByteArray urlData(url);
+                    previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
+                    //qDebug() << i;
+                    if (i == 0) {
+                        m_workshopListModel->setBannerWorkshopItem(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
+                        emit workshopSearched();
+                    } else {
+                        emit workshopSearchResult(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
+                        //m_workshopListModel->append(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
+                    }
                 }
+            } else {
+                //qDebug() << "bug " << pCallback;
             }
         }
-    }
 
-    SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+        SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
 
-    emit workshopSearched();
 }

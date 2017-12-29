@@ -60,12 +60,15 @@ public slots:
         emit absoluteStoragePathChanged(m_absoluteStoragePath);
     }
     int getAmountItemLoaded();
-    void reloadFiles();
+    void reset();
+
 
 signals:
     void setScreenVisible(bool visible);
     void setScreenToVideo(QString absolutePath);
     void absoluteStoragePathChanged(QUrl absoluteStoragePath);
+    void addInstalledItem(const QJsonObject, const QString);
+    void installedLoadingFinished();
 
 private:
     QVector<ProjectFile> m_screenPlayFiles;

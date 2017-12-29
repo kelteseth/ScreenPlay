@@ -30,13 +30,11 @@ public:
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-    Q_INVOKABLE void append(unsigned int id, QString title, QUrl imgUrl);
     Q_INVOKABLE QUrl getBannerUrl();
     Q_INVOKABLE QString getBannerText();
     Q_INVOKABLE unsigned int getBannerID();
     Q_INVOKABLE void clear();
 
-    void setBannerWorkshopItem(unsigned int id, QString title, QUrl imgUrl);
 
     // Editable:
     bool setData(const QModelIndex& index, const QVariant& value,
@@ -49,6 +47,11 @@ public:
 
     // Remove data:
     bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex()) override;
+
+public slots:
+    void setBannerWorkshopItem(unsigned int id, QString title, QUrl imgUrl);
+    void append(unsigned int id, QString title, QUrl imgUrl);
+    void addWorkshopItem(WorkshopItem wi);
 
 private:
     QVector<QSharedPointer<WorkshopItem>> m_workshopItemList;

@@ -4,8 +4,6 @@ SteamWorkshopListModel::SteamWorkshopListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
 
-
-
 }
 
 QHash<int, QByteArray> SteamWorkshopListModel::roleNames() const
@@ -73,6 +71,11 @@ void SteamWorkshopListModel::append(unsigned int id, QString title, QUrl imgUrl)
     endInsertRows();
 }
 
+void SteamWorkshopListModel::addWorkshopItem(WorkshopItem wi)
+{
+
+}
+
 QUrl SteamWorkshopListModel::getBannerUrl()
 {
     return m_workshopBannerItem.m_previewImageUrl;
@@ -101,6 +104,7 @@ void SteamWorkshopListModel::setBannerWorkshopItem(unsigned int id, QString titl
     m_workshopBannerItem.m_id = id;
     m_workshopBannerItem.m_title = title;
     m_workshopBannerItem.m_previewImageUrl = imgUrl;
+
 }
 
 bool SteamWorkshopListModel::setData(const QModelIndex& index, const QVariant& value, int role)

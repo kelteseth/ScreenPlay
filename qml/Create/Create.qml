@@ -17,7 +17,7 @@ Rectangle {
         target: createWallpaper
         onVideoFileSelected: {
             create.state = "import"
-            loader.active = true
+
             activeVideoFile = videoFile
             loader.setSource("CreateImport.qml", {
                                  file: videoFile
@@ -25,7 +25,7 @@ Rectangle {
         }
         onProjectFileSelected:{
             create.state = "import"
-            loader.active = true
+
             activeFolder = projectFile
             loader.setSource("CreateUpload.qml", {
                                  projectFile: projectFile

@@ -1,6 +1,6 @@
-import QtQuick 2.6
+import QtQuick 2.9
 import QtQuick.Window 2.2
-import QtQuick.Controls 2.1
+import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
@@ -107,35 +107,79 @@ ApplicationWindow {
             bottom: parent.bottom
             left: parent.left
         }
+        onStatusChanged: {
+            if(status == Loader.Ready){
+                if(pageLoaderCreate.source != "qrc:/qml/Create/Create.qml")
+                timerLoader.start()
 
-        Connections {
-            target: pageLoader.item
-            ignoreUnknownSignals: true
-
-            property bool ignoreWorkshopBanner: false
-
-            onSetSidebaractiveItem: {
-                if (sidebar.activeScreen == screenId
-                        && sidebar.state == "active") {
-                    sidebar.state = "inactive"
-                } else {
-                    sidebar.state = "active"
-                }
-
-                sidebar.activeScreen = screenId
             }
-            onSetNavigationItem: {
-                if (pos === 0) {
-                    nav.onPageChanged("Create")
-                } else {
-                    nav.onPageChanged("Workshop")
-                }
+        }
+    }
+    Timer {
+        id:timerLoader
+        interval: 500
+        onTriggered: {
+            print("AAAAAA")
+            pageLoaderCreate.source = "qrc:/qml/Create/Create.qml"
+        }
+
+    }
+
+    Loader {
+        id: pageLoaderCreate
+        visible: false
+        asynchronous: true
+        anchors {
+            top: nav.bottom
+            right: parent.right
+            bottom: parent.bottom
+            left: parent.left
+        }
+        onStatusChanged: {
+            if(status == Loader.Ready){
+                pageLoaderWorkshop.source = "qrc:/qml/Workshop/Workshop.qml"
+
             }
-            onOpenCreate: {
-                if (!ignoreWorkshopBanner) {
-                    nav.onPageChanged("Create")
-                    ignoreWorkshopBanner = true
-                }
+        }
+    }
+    Loader {
+        id: pageLoaderWorkshop
+        visible: false
+        asynchronous: true
+        anchors {
+            top: nav.bottom
+            right: parent.right
+            bottom: parent.bottom
+            left: parent.left
+        }
+    }
+    Connections {
+        target: pageLoader.item
+        ignoreUnknownSignals: true
+
+        property bool ignoreWorkshopBanner: false
+
+        onSetSidebaractiveItem: {
+            if (sidebar.activeScreen == screenId
+                    && sidebar.state == "active") {
+                sidebar.state = "inactive"
+            } else {
+                sidebar.state = "active"
+            }
+
+            sidebar.activeScreen = screenId
+        }
+        onSetNavigationItem: {
+            if (pos === 0) {
+                nav.onPageChanged("Create")
+            } else {
+                nav.onPageChanged("Workshop")
+            }
+        }
+        onOpenCreate: {
+            if (!ignoreWorkshopBanner) {
+                nav.onPageChanged("Create")
+                ignoreWorkshopBanner = true
             }
         }
     }
@@ -159,8 +203,26 @@ ApplicationWindow {
             left: parent.left
         }
         onChangePage: {
-            pageLoader.setSource("qrc:/qml/" + name + "/" + name + ".qml")
-            sidebar.state = "inactive"
+            if(name === "Create"){
+                pageLoader.visible = false
+                pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
+                pageLoaderCreate.visible = true
+                pageLoaderWorkshop.visible = false
+                sidebar.state = "inactive"
+            } else if(name === "Workshop"){
+                pageLoader.visible = false
+                pageLoaderCreate.visible = false
+                pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
+                pageLoaderWorkshop.visible = true
+                sidebar.state = "inactive"
+            } else {
+                pageLoader.visible = true
+                pageLoaderCreate.visible = false
+                pageLoaderWorkshop.visible = false
+                pageLoader.setSource("qrc:/qml/" + name + "/" + name + ".qml")
+                sidebar.state = "inactive"
+            }
+
         }
 
         onToggleMonitors: {

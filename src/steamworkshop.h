@@ -100,6 +100,7 @@ signals:
     void workshopSearched();
     void localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value status);
     void remoteWorkshopCreationStatusChanged(RemoteWorkshopCreationStatus::Value status);
+    void workshopSearchResult(unsigned int id, QString title, QUrl imgUrl);
 
     // Properties
     void itemProcessedChanged(unsigned int itemProcessed);
