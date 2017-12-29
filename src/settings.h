@@ -29,23 +29,25 @@ class ActiveProfiles;
 
 class Settings : public QObject {
     Q_OBJECT
+
 public:
     explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, AppId_t steamID, QObject* parent = nullptr);
     ~Settings();
+
+    Q_PROPERTY(Version version READ version)
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
-    Q_PROPERTY(Version version READ version)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
-    Q_PROPERTY(bool hasWorkshopBannerSeen READ hasWorkshopBannerSeen WRITE setHasWorkshopBannerSeen NOTIFY hasWorkshopBannerSeenChanged)
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
-
 
     Q_INVOKABLE void removeAll();
     Q_INVOKABLE void setMuteAll(bool isMuted);
     Q_INVOKABLE void setPlayAll(bool isPlaying);
     Q_INVOKABLE QUrl getPreviewImageByMonitorID(QString id);
     Q_INVOKABLE QString fixWindowsPath(QString url);
+
+    void loadActiveProfiles();
 
     enum LocalCopyResult {
         NoError,
@@ -55,27 +57,23 @@ public:
     };
     Q_ENUM(LocalCopyResult)
 
-
     struct Version {
         int major = 0;
         int minor = 0;
         int patch = 1;
     };
 
-    void loadActiveProfiles();
-
-    bool autostart() const
+    Q_INVOKABLE bool autostart() const
     {
         return m_autostart;
     }
 
-    bool highPriorityStart() const
+    Q_INVOKABLE bool highPriorityStart() const
     {
         return m_highPriorityStart;
     }
 
-
-    bool sendStatistics() const
+    Q_INVOKABLE bool sendStatistics() const
     {
         return m_sendStatistics;
     }
@@ -95,7 +93,7 @@ public:
         return m_hasWorkshopBannerSeen;
     }
 
-    QString decoder() const
+    Q_INVOKABLE QString decoder() const
     {
         return m_decoder;
     }
@@ -109,6 +107,7 @@ signals:
     void decoderChanged(QString decoder);
 
 public slots:
+    void writeSingleSettingConfig(QString name, QVariant value);
 
     void setAutostart(bool autostart)
     {
@@ -128,8 +127,6 @@ public slots:
         emit highPriorityStartChanged(m_highPriorityStart);
     }
 
-
-
     void setSendStatistics(bool sendStatistics)
     {
         if (m_sendStatistics == sendStatistics)
@@ -147,9 +144,9 @@ public slots:
 
     void constructWallpaper(QString folder, int monitorListAt);
 
-    Q_INVOKABLE void setWallpaper(int monitorIndex, QUrl absoluteStoragePath);
+    void setWallpaper(int monitorIndex, QUrl absoluteStoragePath);
 
-    Q_INVOKABLE QString loadProject(QString file);
+    QString loadProject(QString file);
 
     void setLocalStoragePath(QUrl localStoragePath)
     {
@@ -169,8 +166,6 @@ public slots:
 
         configJsonDocument = QJsonDocument::fromJson(config.toUtf8());
         configObj = configJsonDocument.object();
-        QDir a = QDir(localStoragePath.toString());
-
         configObj.insert("absoluteStoragePath", cleanedPath);
 
         configTmp.close();
@@ -183,21 +178,13 @@ public slots:
         emit localStoragePathChanged(m_localStoragePath);
     }
 
-    void setHasWorkshopBannerSeen(bool hasWorkshopBannerSeen)
-    {
-        if (m_hasWorkshopBannerSeen == hasWorkshopBannerSeen)
-            return;
-
-        m_hasWorkshopBannerSeen = hasWorkshopBannerSeen;
-        emit hasWorkshopBannerSeenChanged(m_hasWorkshopBannerSeen);
-    }
-
     void setDecoder(QString decoder)
     {
         if (m_decoder == decoder)
             return;
 
         m_decoder = decoder;
+        qDebug() << m_decoder;
         emit decoderChanged(m_decoder);
     }
 
@@ -210,7 +197,6 @@ private:
     bool m_sendStatistics;
 
     AppId_t m_steamID;
-
 
     Version m_version;
     ProfileListModel* m_plm;

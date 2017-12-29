@@ -11,7 +11,6 @@ Item {
     height: 50
     width: parent.width
 
-
     Text {
         id: txtHeadline
         color: "#5D5D5D"
@@ -57,6 +56,12 @@ Item {
         }
 
         checked: settingsBool.isChecked
-        onCheckedChanged: checkboxChanged(radioButton.checked)
+        onCheckedChanged: {
+            if(radioButton.checkState === Qt.Checked){
+                checkboxChanged(true)
+            } else {
+                checkboxChanged(false)
+            }
+        }
     }
 }

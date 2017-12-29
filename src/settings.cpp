@@ -78,7 +78,6 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_highPriorityStart = configObj.value("highPriorityStart").toBool();
     m_sendStatistics = configObj.value("sendStatistics").toBool();
     int renderer = static_cast<int>(configObj.value("renderer-value").toInt());
-
 }
 
 Settings::~Settings()
@@ -158,6 +157,35 @@ void Settings::loadActiveProfiles()
     }
 }
 
+void Settings::writeSingleSettingConfig(QString name, QVariant value)
+{
+    qDebug() << name << value;
+    QJsonDocument configJsonDocument;
+    QJsonParseError parseError;
+    QJsonObject configObj;
+    QFile configTmp;
+
+    configTmp.setFileName(m_localSettingsPath.toString() + "/settings.json");
+    configTmp.open(QIODevice::ReadOnly| QIODevice::Text);
+    QString config = configTmp.readAll();
+    configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
+
+    if (!(parseError.error == QJsonParseError::NoError)) {
+        qWarning("Settings Json Parse Error ");
+        return;
+    }
+    configObj = configJsonDocument.object();
+    configObj.insert(name, value.toJsonValue());
+
+    configTmp.close();
+    // Reopen to empty the file via Truncate
+    configTmp.open(QIODevice::ReadWrite | QIODevice::Truncate);
+    QTextStream out(&configTmp);
+    out << QJsonDocument(configObj).toJson();
+
+    configTmp.close();
+}
+
 void Settings::removeAll()
 {
     m_wallpapers.clear();
@@ -211,7 +239,6 @@ void Settings::createNewWallpaper(int monitorListPosition, Profile profile, Proj
 
 void Settings::removeWallpaperAt(int pos)
 {
-
     if (pos > 0 && pos > m_wallpapers.size())
         m_wallpapers.removeAt(pos);
 }

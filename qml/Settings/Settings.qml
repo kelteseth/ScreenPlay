@@ -8,16 +8,27 @@ Item {
     id: settingsWrapper
     anchors.fill: parent
 
-
-    ScrollView{
-
+    Connections {
+        target: screenPlaySettings
+        onDecoderChanged:{
+            if(decoder === "CUDA"){
+                settingsComboBox.currentIndex = 0
+            } else if(decoder === "D3D11"){
+                settingsComboBox.currentIndex = 1
+            }else if(decoder === "DXVA"){
+                settingsComboBox.currentIndex = 2
+            }else if(decoder === "VAAPI"){
+                settingsComboBox.currentIndex = 3
+            }else if(decoder === "FFmpeg"){
+                settingsComboBox.currentIndex = 4
+            }
+        }
     }
 
     Column {
         width: 800
         height: parent.height
         spacing: 30
-        //anchors.fill: parent
         anchors {
             top: parent.top
             topMargin: 40
@@ -27,7 +38,6 @@ Item {
             id: settingsGeneralWrapper
             height: 320
             width: 800
-
 
             RectangularGlow {
                 id: effectBtnEmpty
@@ -61,6 +71,7 @@ Item {
                 }
 
                 Column {
+                    spacing: 10
                     anchors {
                         top: headerGeneral.bottom
                         margins: 20
@@ -68,22 +79,31 @@ Item {
                         bottom: parent.bottom
                         left: parent.left
                     }
-                    spacing: 10
                     SettingBool {
                         headline: qsTr("Autostart")
                         description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
+                        onCheckboxChanged: {
+                            screenPlaySettings.setAutostart(checked)
+                            screenPlaySettings.writeSingleSettingConfig("autostart",checked)
+                        }
+                        Component.onCompleted: isChecked = screenPlaySettings.autostart
                     }
                     SettingsHorizontalSeperator {
                     }
                     SettingBool {
                         headline: qsTr("High priority Autostart")
                         description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
+                        isChecked: screenPlaySettings.highPriorityStart
+                        onCheckboxChanged: {
+                            screenPlaySettings.setHighPriorityStart(checked)
+                            screenPlaySettings.writeSingleSettingConfig("highPriorityStart",checked)
+                        }
                     }
                     SettingsHorizontalSeperator {
                     }
                     SettingsButton {
-                        headline: qsTr("Set Save location")
-                        description: qsTr("Choose where to find you content. The default save location is you steam installation")
+                        headline: qsTr("Set save location")
+                        description: screenPlaySettings.localStoragePath //qsTr("Choose where to find you content. The default save location is you steam installation")
                         buttonText: qsTr("Set save location")
                         onButtonPressed: {
                             folderDialogSaveLocation.open()
@@ -148,7 +168,20 @@ Item {
 
 
                     SettingsComboBox {
-
+                        id:settingsComboBox
+                        headline: qsTr("Set decoder")
+                        description: qsTr("ScreenPlay supports different encoders for different hardware requirements.")
+                        onCurrentIndexChanged: {
+                            screenPlaySettings.setDecoder(settingsComboBox.comboBoxListModel.get(settingsComboBox.currentIndex).text.toString())
+                        }
+                        comboBoxListModel: ListModel {
+                            id: model
+                            ListElement { text: "CUDA" }
+                            ListElement { text: "D3D11" }
+                            ListElement { text: "DXVA" }
+                            ListElement { text: "VAAPI" }
+                            ListElement { text: "FFmpeg" }
+                        }
                     }
 
                 }

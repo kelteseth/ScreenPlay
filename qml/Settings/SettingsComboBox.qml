@@ -3,11 +3,14 @@ import QtQuick.Controls 2.3
 
 
 Item {
-    id: settingsBool
+    id: settingsComboBox
     property string headline: "Headline"
     property string description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+    property int currentIndex:0
     property bool isChecked: false
     property bool enabled: true
+    property ListModel comboBoxListModel
+
     onEnabledChanged: {
 
     }
@@ -21,7 +24,7 @@ Item {
     Text {
         id: txtHeadline
         color: "#5D5D5D"
-        text: settingsBool.headline
+        text: settingsComboBox.headline
         renderType: Text.NativeRendering
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
@@ -34,12 +37,12 @@ Item {
         }
 
        font.pixelSize: 16
-//        font.family: "Roboto"
+       font.family: "Roboto"
     }
 
     Text {
         id: txtDescription
-        text: settingsBool.description
+        text: settingsComboBox.description
         color: "#B5B5B5"
         renderType: Text.NativeRendering
         verticalAlignment: Text.AlignVCenter
@@ -56,6 +59,7 @@ Item {
 
 
     ComboBox {
+        id:comboBox
 
         anchors {
             right: parent.right
@@ -63,14 +67,11 @@ Item {
             verticalCenter: parent.verticalCenter
         }
 
-        model: ListModel {
-            id: model
-            ListElement { text: "CUDA" }
-            ListElement { text: "D3D11" }
-            ListElement { text: "DXVA" }
-            ListElement { text: "VAAPI" }
-            ListElement { text: "FFmpeg" }
+        model: comboBoxListModel
+        onCurrentIndexChanged: {
+            settingsComboBox.currentIndex = currentIndex
         }
+
         onAccepted: {
 
         }
