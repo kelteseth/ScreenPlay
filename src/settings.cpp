@@ -77,7 +77,8 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_autostart = configObj.value("autostart").toBool();
     m_highPriorityStart = configObj.value("highPriorityStart").toBool();
     m_sendStatistics = configObj.value("sendStatistics").toBool();
-    m_renderer = static_cast<Renderer>(configObj.value("renderer-value").toInt());
+    int renderer = static_cast<int>(configObj.value("renderer-value").toInt());
+
 }
 
 Settings::~Settings()

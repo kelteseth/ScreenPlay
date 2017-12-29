@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 
 
 Item {
@@ -34,7 +34,7 @@ Item {
         }
 
        font.pixelSize: 16
-//        font.family: font_Roboto_Regular.name
+//        font.family: "Roboto"
     }
 
     Text {
@@ -45,7 +45,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: 12
-        font.family: font_Roboto_Regular.name
+        font.family: "Roboto"
         anchors{
             top:txtHeadline.bottom
             topMargin: 6

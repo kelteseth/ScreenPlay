@@ -6,7 +6,7 @@
   "absoluteStoragePath": "",
   "renderer": {
     "renderer-value": 0,
-    "renderer-enum" : ["OpenGL","Vulkan", "DirectX11", "DirectX12", "Software"]
+    "renderer-enum" : ["CUDA","FFmpeg", "D3D11", "DXVA", "VAAPI"]
     },
    "profiles":[
      {  "monitorID": "","profile": "" }

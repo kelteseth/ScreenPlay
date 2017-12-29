@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtQml.Models 2.2
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
 
 Item {
@@ -10,20 +10,27 @@ Item {
     signal setSidebaractiveItem(var screenId)
     signal setNavigationItem(var pos)
 
+
     Connections {
         target:loaderHelp.item
         onHelperButtonPressed:{
             setNavigationItem(pos)
         }
     }
+    Connections {
+        target: installedListModel
+        onInstalledLoadingFinished:{
+            if(installedListModel.getAmountItemLoaded() === 0){
+                loaderHelp.active = true
+            } else {
+                loaderHelp.active = false
+            }
+        }
+    }
 
     Component.onCompleted: {
-        //installedListModel.reloadFiles()
-        if(installedListModel.getAmountItemLoaded() === 0){
-            loaderHelp.active = true
-        } else {
-            loaderHelp.active = false
-        }
+        installedListModel.reset()
+        installedListModel.loadScreens()
     }
 
     Loader {
@@ -32,7 +39,7 @@ Item {
         active:false
         z:99
         anchors.fill: parent
-        source: "qrc:/qml/InstalledUserHelper.qml"
+        source: "qrc:/qml/Installed/InstalledUserHelper.qml"
     }
 
     Button {
@@ -41,16 +48,11 @@ Item {
         anchors {
             top: parent.top
             right: parent.right
-
         }
         text: qsTr("Reload")
         onClicked: {
             installedListModel.reloadFiles()
-            if(installedListModel.getAmountItemLoaded() === 0){
-                loaderHelp.active = true
-            } else {
-                loaderHelp.active = false
-            }
+
         }
     }
 
@@ -75,6 +77,7 @@ Item {
             width: parent.width
         }
         model: installedListModel
+
         delegate: ScreenPlayItem {
             id: delegate
             focus: true

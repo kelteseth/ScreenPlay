@@ -1,19 +1,13 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 import QtQuick.Dialogs 1.2
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
-
-
 
 Item {
     id: settingsWrapper
     anchors.fill: parent
 
-    FontLoader {
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-    }
 
     ScrollView{
 
@@ -31,7 +25,7 @@ Item {
         }
         Item {
             id: settingsGeneralWrapper
-            height: 240
+            height: 320
             width: 800
 
 
@@ -84,6 +78,22 @@ Item {
                     SettingBool {
                         headline: qsTr("High priority Autostart")
                         description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
+                    }
+                    SettingsHorizontalSeperator {
+                    }
+                    SettingsButton {
+                        headline: qsTr("Set Save location")
+                        description: qsTr("Choose where to find you content. The default save location is you steam installation")
+                        buttonText: qsTr("Set save location")
+                        onButtonPressed: {
+                            folderDialogSaveLocation.open()
+                        }
+                        FolderDialog {
+                            id: folderDialogSaveLocation
+                            onAccepted: {
+                                screenPlaySettings.setLocalStoragePath(folderDialogSaveLocation.currentFolder)
+                            }
+                        }
                     }
                 }
             }

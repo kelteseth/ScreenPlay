@@ -27,9 +27,6 @@
 
 class ActiveProfiles;
 
-
-
-
 class Settings : public QObject {
     Q_OBJECT
 public:
@@ -37,18 +34,18 @@ public:
     ~Settings();
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
-    Q_PROPERTY(Renderer renderer READ renderer WRITE setRenderer NOTIFY rendererChanged)
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
     Q_PROPERTY(Version version READ version)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
     Q_PROPERTY(bool hasWorkshopBannerSeen READ hasWorkshopBannerSeen WRITE setHasWorkshopBannerSeen NOTIFY hasWorkshopBannerSeenChanged)
-    void loadActiveProfiles();
+    Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
+
+
     Q_INVOKABLE void removeAll();
     Q_INVOKABLE void setMuteAll(bool isMuted);
     Q_INVOKABLE void setPlayAll(bool isPlaying);
     Q_INVOKABLE QUrl getPreviewImageByMonitorID(QString id);
     Q_INVOKABLE QString fixWindowsPath(QString url);
-
 
     enum LocalCopyResult {
         NoError,
@@ -58,17 +55,14 @@ public:
     };
     Q_ENUM(LocalCopyResult)
 
-    enum Renderer {
-        OpenGL,
-        Softare,
-    };
-    Q_ENUM(Renderer)
 
     struct Version {
         int major = 0;
         int minor = 0;
         int patch = 1;
     };
+
+    void loadActiveProfiles();
 
     bool autostart() const
     {
@@ -80,10 +74,6 @@ public:
         return m_highPriorityStart;
     }
 
-    Renderer renderer() const
-    {
-        return m_renderer;
-    }
 
     bool sendStatistics() const
     {
@@ -105,19 +95,18 @@ public:
         return m_hasWorkshopBannerSeen;
     }
 
+    QString decoder() const
+    {
+        return m_decoder;
+    }
+
 signals:
-
     void autostartChanged(bool autostart);
-
     void highPriorityStartChanged(bool highPriorityStart);
-
-    void rendererChanged(Renderer renderer);
-
     void sendStatisticsChanged(bool status);
-
     void localStoragePathChanged(QUrl localStoragePath);
-
     void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
+    void decoderChanged(QString decoder);
 
 public slots:
 
@@ -139,14 +128,7 @@ public slots:
         emit highPriorityStartChanged(m_highPriorityStart);
     }
 
-    void setRenderer(Renderer renderer)
-    {
-        if (m_renderer == renderer)
-            return;
 
-        m_renderer = renderer;
-        emit rendererChanged(m_renderer);
-    }
 
     void setSendStatistics(bool sendStatistics)
     {
@@ -210,6 +192,14 @@ public slots:
         emit hasWorkshopBannerSeenChanged(m_hasWorkshopBannerSeen);
     }
 
+    void setDecoder(QString decoder)
+    {
+        if (m_decoder == decoder)
+            return;
+
+        m_decoder = decoder;
+        emit decoderChanged(m_decoder);
+    }
 
 private:
     void createDefaultConfig();
@@ -221,13 +211,12 @@ private:
 
     AppId_t m_steamID;
 
-    Renderer m_renderer = Renderer::OpenGL;
+
     Version m_version;
     ProfileListModel* m_plm;
     InstalledListModel* m_ilm;
     MonitorListModel* m_mlm;
     QThread m_thread;
-
 
     QVector<QSharedPointer<Wallpaper>> m_wallpapers;
 
@@ -235,6 +224,7 @@ private:
     QUrl m_localSettingsPath;
 
     bool m_hasWorkshopBannerSeen = false;
+    QString m_decoder;
 };
 
 class ActiveProfiles {
@@ -254,4 +244,3 @@ enum FillMode {
     PreserveAspectFit,
     PreserveAspectCrop,
 };
-

@@ -5,11 +5,10 @@ Item {
     id: settingsHeader
     state: "out"
     Component.onCompleted: state = "in"
-    property color background: "#3498db"
+    property color background: "#FFAB00"
     property string text: "HEADLINE"
     property url image: "qrc:/assets/icons/icon_settings.svg"
     height: 50
-
     width: parent.width
 
     Rectangle {
@@ -33,10 +32,7 @@ Item {
             right: parent.right
             left:parent.left
         }
-        FontLoader {
-            id: font_Roboto_Regular
-            source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-        }
+
 
         Item {
             anchors {
@@ -72,7 +68,7 @@ Item {
                 font.pixelSize: 18
                 color: "white"
                 renderType: Text.NativeRendering
-                font.family: font_Roboto_Regular.name
+                font.family: "Roboto"
                 anchors{
                     top:parent.top
                     topMargin: 3

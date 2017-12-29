@@ -76,5 +76,6 @@
         <file>qml/Workshop/WorkshopBanner.qml</file>
         <file>qml/Workshop/WorkshopItem.qml</file>
         <file>assets/images/missingPreview.png</file>
+        <file>qml/Settings/SettingsButton.qml</file>
     </qresource>
 </RCC>
