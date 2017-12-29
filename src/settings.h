@@ -17,6 +17,7 @@
 #include <QUrl>
 #include <QVariant>
 #include <QVector>
+#include <QSettings>
 
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -113,6 +114,19 @@ public slots:
     {
         if (m_autostart == autostart)
             return;
+
+        if (autostart) {
+#ifdef Q_OS_WIN
+            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+            settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
+            settings.sync();
+#endif
+        } else {
+#ifdef Q_OS_WIN
+            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+            settings.remove("ScreenPlay");
+#endif
+        }
 
         m_autostart = autostart;
         emit autostartChanged(m_autostart);

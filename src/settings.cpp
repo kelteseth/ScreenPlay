@@ -159,7 +159,7 @@ void Settings::loadActiveProfiles()
 
 void Settings::writeSingleSettingConfig(QString name, QVariant value)
 {
-    qDebug() << name << value;
+
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
     QJsonObject configObj;

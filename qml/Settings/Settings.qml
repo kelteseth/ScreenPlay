@@ -82,11 +82,12 @@ Item {
                     SettingBool {
                         headline: qsTr("Autostart")
                         description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
+                        isChecked: screenPlaySettings.autostart
                         onCheckboxChanged: {
                             screenPlaySettings.setAutostart(checked)
                             screenPlaySettings.writeSingleSettingConfig("autostart",checked)
                         }
-                        Component.onCompleted: isChecked = screenPlaySettings.autostart
+
                     }
                     SettingsHorizontalSeperator {
                     }
