@@ -32,6 +32,27 @@ Rectangle {
     signal changePage(string name)
     signal toggleMonitors
 
+    Action {
+        shortcut: "F1"
+        onTriggered: onPageChanged("Create")
+    }
+    Action {
+        shortcut: "F2"
+        onTriggered: onPageChanged("Workshop")
+    }
+    Action {
+        shortcut: "F3"
+        onTriggered: onPageChanged("Installed")
+    }
+    Action {
+        shortcut: "F4"
+        onTriggered: onPageChanged("Community")
+    }
+    Action {
+        shortcut: "F5"
+        onTriggered: onPageChanged("Settings")
+    }
+
     function onPageChanged(name) {
         navigation.changePage(name)
         if (name === "Workshop") {
@@ -58,8 +79,7 @@ Rectangle {
             navSettings.state = "inactive"
             navCreate.state = "active"
             navCommunity.state = "inactive"
-        }
-        else if (name === "Community") {
+        } else if (name === "Community") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
@@ -156,8 +176,6 @@ Rectangle {
             font.pointSize: 12
             font.family: "Roboto"
             renderType: Text.NativeRendering
-
-
         }
     }
 }
