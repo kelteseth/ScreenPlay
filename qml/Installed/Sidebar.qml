@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Material 2.2
 
@@ -29,15 +29,9 @@ Item {
                         activeScreen).screenPreview)
     }
 
-    FontLoader {
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-    }
 
-    FontLoader {
-        id: font_LibreBaskerville_Italic
-        source: "qrc:/assets/fonts/LibreBaskerville-Italic.ttf"
-    }
+
+
 
     Item {
         id: sidebarWrapper
@@ -150,6 +144,7 @@ Item {
                     leftMargin: 10
                 }
 
+
                 RectangularGlow {
                     id: effect
                     anchors.centerIn: userImg
@@ -183,7 +178,7 @@ Item {
                     text: ""
                     width: 250
                     renderType: Text.NativeRendering
-                    font.family: font_Roboto_Regular.name
+                    font.family: "Roboto"
                     verticalAlignment: Text.AlignVCenter
                     font.pixelSize: 12
                     color: "#2F2F2F"
@@ -234,7 +229,7 @@ Item {
                     text: qsTr("Volume")
                     height: 30
                     renderType: Text.NativeRendering
-                    font.family: font_Roboto_Regular.name
+                    font.family: "Roboto"
                     verticalAlignment: Text.AlignVCenter
                     font.pixelSize: 14
                     color: "#626262"
@@ -279,7 +274,7 @@ Item {
                         color: "#818181"
                         text: Math.round(sliderVolume.value * 100) / 100
                         anchors.verticalCenter: parent.verticalCenter
-                        font.family: font_LibreBaskerville_Italic.name
+                        font.family: "Libre Baskerville"
                         font.pointSize: 12
                         font.italic: true
                         verticalAlignment: Text.AlignVCenter
@@ -392,7 +387,7 @@ Item {
                 NumberAnimation {
                     target: sidebarWrapper
                     properties: "anchors.leftMargin"
-                    duration: 300
+                    duration: 250
                     easing.type: Easing.InOutQuad
                 }
 
@@ -427,7 +422,7 @@ Item {
             NumberAnimation {
                 target: sidebarWrapper
                 properties: "anchors.leftMargin"
-                duration: 300
+                duration: 250
                 easing.type: Easing.InOutQuad
             }
         }

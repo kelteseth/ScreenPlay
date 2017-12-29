@@ -14,10 +14,7 @@ Item {
         left: parent.left
     }
 
-    FontLoader {
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-    }
+
 
     Rectangle {
         id: workshopAltertBanner
@@ -44,7 +41,7 @@ Item {
             color: "white"
             font.pointSize: 11
             renderType: Text.NativeRendering
-            font.family: font_Roboto_Regular.name
+            font.family: "Roboto"
             anchors {
                 left: icoFrown.right
                 leftMargin: 20

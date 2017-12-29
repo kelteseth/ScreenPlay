@@ -22,10 +22,7 @@ Item {
         }
     }
 
-    FontLoader {
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-    }
+
     RectangularGlow {
         id: effect
         anchors.centerIn: parent
@@ -66,7 +63,7 @@ Item {
             verticalAlignment: Text.AlignVCenter
             color: "white"
             font.pixelSize: 12
-            font.family: font_Roboto_Regular.name
+            font.family: "Roboto"
             wrapMode: Text.WrapAnywhere
         }
 

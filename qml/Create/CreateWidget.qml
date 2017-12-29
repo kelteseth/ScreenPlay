@@ -5,10 +5,6 @@ Item {
     state: "out"
     Component.onCompleted: state = "in"
 
-    FontLoader {
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-    }
     Text {
         id: txtCreate
         text: qsTr("Create Widget")
@@ -20,7 +16,7 @@ Item {
         color: "white"
         font.pixelSize: 28
         renderType: Text.NativeRendering
-        font.family: font_Roboto_Regular.name
+        font.family: "Roboto"
     }
 
     CreateWidgetButton {
@@ -35,7 +31,7 @@ Item {
     Text {
         id: txtExamples
         text: qsTr("Examples")
-        font.family: font_Roboto_Regular.name
+        font.family: "Roboto"
         renderType: Text.NativeRendering
         font.pixelSize: 18
         color: "white"

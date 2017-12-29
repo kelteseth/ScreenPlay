@@ -13,11 +13,6 @@ Rectangle {
     property url activeVideoFile: ""
     property url activeFolder: ""
 
-    FontLoader {
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-    }
-
     Connections {
         target: createWallpaper
         onVideoFileSelected: {
@@ -160,7 +155,7 @@ Rectangle {
     Text {
         id: txtDescriptionBottom
         text: qsTr("Create wallpapers and widgets for local usage or the steam workshop!")
-        font.family: font_Roboto_Regular.name
+        font.family: "Roboto"
         renderType: Text.NativeRendering
         font.pixelSize: 14
         color: "white"

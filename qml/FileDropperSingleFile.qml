@@ -45,10 +45,7 @@ Rectangle {
         visible: false
     }
 
-    FontLoader {
-        id: font_LibreBaskerville
-        source: "qrc:/assets/fonts/LibreBaskerville-Italic.ttf"
-    }
+
 
     Item {
         id: column
@@ -83,7 +80,7 @@ Rectangle {
             font.pointSize: 12
             color: "#626262"
             horizontalAlignment: Text.AlignHCenter
-            font.family: font_LibreBaskerville.name
+            font.family: "Libre Baskerville"
             font.italic: true
             renderType: Text.NativeRendering
         }
@@ -95,7 +92,7 @@ Rectangle {
         anchors.margins: 20
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        font.family: font_LibreBaskerville.name
+        font.family: "Libre Baskerville"
         font.italic: true
         wrapMode:  Text.WordWrap
         font.pointSize: 12

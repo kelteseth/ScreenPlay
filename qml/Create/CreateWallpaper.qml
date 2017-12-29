@@ -3,6 +3,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
+
 Item {
     id: createWallpaper
     state: "in"
@@ -23,12 +24,7 @@ Item {
         color: "white"
         font.pixelSize: 28
         renderType: Text.NativeRendering
-        font.family: font_Roboto_Regular.name
-
-        FontLoader {
-            id: font_Roboto_Regular
-            source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-        }
+        font.family: "Roboto"
     }
 
     Item {
@@ -71,7 +67,7 @@ Item {
                     top: imgUpload.bottom
                     topMargin: 10
                 }
-                font.family: font_LibreBaskerville_Italic.name
+                font.family: "Libre Baskerville"
                 font.pixelSize: 18
                 font.italic: true
                 color: "#818181"

@@ -50,7 +50,7 @@ Item {
         Text {
             id: name
             text: btnEmpty.text
-            font.family: font_Roboto_Regular.name
+            font.family: "Roboto"
             renderType: Text.NativeRendering
             font.pixelSize: 18
             color: "gray"
@@ -63,7 +63,7 @@ Item {
         Text {
 
             text: ">"
-            font.family: font_Roboto_Regular.name
+            font.family: "Roboto"
             renderType: Text.NativeRendering
             font.pixelSize: 24
             color: "#b9b9b9"

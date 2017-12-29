@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 
 // Qt Creator does not support Namespaced enums yet
 // https://bugreports.qt.io/browse/QTCREATORBUG-17850
@@ -21,11 +21,6 @@ Item {
         onTriggered: {
             createImportStatus.state = "in"
         }
-    }
-
-    FontLoader {
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
     }
 
     Connections {
@@ -89,7 +84,7 @@ Item {
         Text {
             id: txtStatus
             height: 80
-            font.family: font_Roboto_Regular.name
+            font.family: "Roboto"
             renderType: Text.NativeRendering
             font.pixelSize: 24
             color: "gray"

@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
 
 Item {
@@ -21,10 +21,7 @@ Item {
         onTriggered: installedUserHelper.state = "visible"
     }
 
-    FontLoader {
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-    }
+
 
     Text {
         id: txtIntro
@@ -33,7 +30,7 @@ Item {
         font.pixelSize: 28
         color: "#818181"
         renderType: Text.NativeRendering
-        font.family: font_Roboto_Regular.name
+        font.family: "Roboto"
         anchors {
             top: parent.top
             topMargin: 80
@@ -87,7 +84,7 @@ Item {
                         color: "white"
                         renderType: Text.NativeRendering
                         font.pixelSize: 14
-                        font.family: font_Roboto_Regular.name
+                        font.family: "Roboto"
                     }
                     MouseArea {
                         anchors.fill: parent
@@ -155,7 +152,7 @@ Item {
                         color: "white"
                         renderType: Text.NativeRendering
                         font.pixelSize: 14
-                        font.family: font_Roboto_Regular.name
+                        font.family: "Roboto"
                     }
                     MouseArea {
                         anchors.fill: parent
@@ -191,7 +188,7 @@ Item {
         font.pixelSize: 24
         color: "#818181"
         renderType: Text.NativeRendering
-        font.family: font_Roboto_Regular.name
+        font.family: "Roboto"
 
         anchors {
             left: handWrapper.right
@@ -211,7 +208,7 @@ Item {
         font.pixelSize: 23
         color: "#818181"
         renderType: Text.NativeRendering
-        font.family: font_Roboto_Regular.name
+        font.family: "Roboto"
         anchors {
             right: handWrapper.left
             rightMargin: 30

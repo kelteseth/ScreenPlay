@@ -15,10 +15,6 @@ Item {
     property string name
     property int steamID
 
-    FontLoader {
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-    }
 
     RectangularGlow {
         id: effect

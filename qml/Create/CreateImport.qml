@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import QtAV 1.07
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
 
@@ -224,7 +224,7 @@ Item {
                     verticalAlignment: Text.AlignVCenter
                     font.pointSize: 12
                     renderType: Text.NativeRendering
-                    font.family: font_Roboto_Regular.name
+                    font.family: "Roboto"
                 }
                 Button {
                     text: qsTr("Choose Folder")

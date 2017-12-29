@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import QtAV 1.7
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Controls.Styles 1.4
@@ -297,7 +297,7 @@ Item {
                 top: parent.top
                 topMargin: 20
             }
-            font.family: font_Roboto_Regular.name
+            font.family: "Roboto"
             renderType: Text.NativeRendering
         }
         Text {
@@ -311,7 +311,7 @@ Item {
                 top: txtUploadSize.bottom
                 topMargin: 20
             }
-            font.family: font_Roboto_Regular.name
+            font.family: "Roboto"
             renderType: Text.NativeRendering
         }
 

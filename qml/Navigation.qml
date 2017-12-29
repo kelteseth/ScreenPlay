@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 
 Rectangle {
@@ -154,13 +154,10 @@ Rectangle {
             color: "#626262"
             anchors.verticalCenter: parent.verticalCenter
             font.pointSize: 12
-            font.family: font_Roboto_Regular.name
+            font.family: "Roboto"
             renderType: Text.NativeRendering
 
-            FontLoader {
-                id: font_Roboto_Regular
-                source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-            }
+
         }
     }
 }

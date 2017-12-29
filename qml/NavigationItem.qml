@@ -29,15 +29,12 @@ Item {
     }
 
 
-    FontLoader{
-        id: font_Roboto_Regular
-        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-    }
+
 
     TextMetrics {
         id: textMetrics
         font.pointSize: 14
-        font.family: font_Roboto_Regular.name
+        font.family: "Roboto"
 
     }
 
@@ -66,10 +63,9 @@ Item {
                 font.pointSize: 14
                 color: "#626262"
                 anchors.verticalCenter: parent.verticalCenter
-                font.family: font_Roboto_Regular.name
+                font.family: "Roboto"
+                font.weight: Font.Normal
                 renderType: Text.NativeRendering
-
-
             }
 
             Image {

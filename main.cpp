@@ -16,6 +16,7 @@
 #include <QVariant>
 #include <QWindow>
 #include <QtQuick/QQuickItem>
+#include <QFontDatabase>
 #include <qt_windows.h>
 
 #include "installedlistmodel.h"
@@ -35,6 +36,12 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_UseOpenGLES);
 
     QGuiApplication app(argc, argv);
+
+    QFontDatabase::addApplicationFont(":/assets/fonts/PermanentMarker-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Light.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Thin.ttf");
 
     AppId_t steamID = 672870;
     QCoreApplication::setOrganizationName("Aimber");

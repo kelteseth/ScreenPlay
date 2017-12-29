@@ -122,12 +122,9 @@ Item {
                     color: "#2F2F2F"
                     font.pointSize: 9
                     renderType: Text.NativeRendering
-                    font.family: font_Roboto_Regular.name
+                    font.family: "Roboto"
 
-                    FontLoader {
-                        id: font_Roboto_Regular
-                        source: "qrc:/assets/fonts/Roboto-Regular.ttf"
-                    }
+
                 }
             }
         }
