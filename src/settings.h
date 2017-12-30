@@ -106,6 +106,7 @@ signals:
     void localStoragePathChanged(QUrl localStoragePath);
     void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
     void decoderChanged(QString decoder);
+    void setMainWindowVisible(bool visible);
 
 public slots:
     void writeSingleSettingConfig(QString name, QVariant value);
@@ -118,7 +119,7 @@ public slots:
         if (autostart) {
 #ifdef Q_OS_WIN
             QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
-            settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
+            settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
             settings.sync();
 #endif
         } else {

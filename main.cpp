@@ -18,6 +18,7 @@
 #include <QtQuick/QQuickItem>
 #include <QFontDatabase>
 #include <qt_windows.h>
+#include <QStringList>
 
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -74,9 +75,6 @@ int main(int argc, char* argv[])
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, steamID);
     SteamWorkshop steamWorkshop(steamID, &steamWorkshopListModel, &settings);
 
-    QObject::connect(&steamWorkshop,&SteamWorkshop::workshopSearchResult,
-                     &steamWorkshopListModel,&SteamWorkshopListModel::append,Qt::QueuedConnection);
-
     // All the list need the default path from the settings
     // to know where to look for the files
     profileListModel.loadProfiles();
@@ -99,6 +97,12 @@ int main(int argc, char* argv[])
         mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     }
 
+    // Set visible if the -silent parameter was not set
+    QStringList argumentList = app.arguments();
+    if(!argumentList.contains("-silent")){
+        settings.setMainWindowVisible(true);
+    }
+
     //installedListModel.loadScreens();
     // FIXME: Needed workaround to close the app because
     // apparently some thread still runs in the background
@@ -109,6 +113,11 @@ int main(int argc, char* argv[])
     QObject::connect(&timer, &QTimer::timeout, [&]() { SteamAPI_RunCallbacks(); });
     timer.setInterval(100);
     timer.start();
+
+    QObject::connect(&steamWorkshop,&SteamWorkshop::workshopSearchResult,
+                     &steamWorkshopListModel,&SteamWorkshopListModel::append,Qt::QueuedConnection);
+
+
 
     int status = app.exec();
 

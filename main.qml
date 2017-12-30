@@ -11,10 +11,20 @@ import "qml/Installed"
 ApplicationWindow {
     id: window
     color: "#eeeeee"
-    visible: true
+    // Set visible if the -silent parameter was not set
+    visible: false
     width: 1400
     minimumHeight: 768
     minimumWidth: 1050
+
+    Connections{
+        target: screenPlaySettings
+        onSetMainWindowVisible:{
+            window.visible = visible
+            setX(Screen.width / 2 - width / 2)
+            setY(Screen.height / 2 - height / 2)
+        }
+    }
 
     LinearGradient {
         id: tabShadow
@@ -90,11 +100,6 @@ ApplicationWindow {
                 onTriggered: Qt.quit()
             }
         }
-    }
-
-    Component.onCompleted: {
-        setX(Screen.width / 2 - width / 2)
-        setY(Screen.height / 2 - height / 2)
     }
 
     Loader {
