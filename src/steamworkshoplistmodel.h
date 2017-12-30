@@ -49,8 +49,8 @@ public:
     bool removeRows(int row, int count, const QModelIndex& parent = QModelIndex()) override;
 
 public slots:
-    void setBannerWorkshopItem(unsigned int id, QString title, QUrl imgUrl);
-    void append(unsigned int id, QString title, QUrl imgUrl);
+    void setBannerWorkshopItem(unsigned int id, QString title, QUrl imgUrl, int numSubscriptions);
+    void append(unsigned int id, QString title, QUrl imgUrl, int numSubscriptions);
     void addWorkshopItem(WorkshopItem wi);
 
 private:

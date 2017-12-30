@@ -63,11 +63,11 @@ QVariant SteamWorkshopListModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-void SteamWorkshopListModel::append(unsigned int id, QString title, QUrl imgUrl)
+void SteamWorkshopListModel::append(unsigned int id, QString title, QUrl imgUrl, int numSubscriptions)
 {
     int row = 0;
     beginInsertRows(QModelIndex(), row, row);
-    m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(id, title, imgUrl)));
+    m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(id, title, imgUrl, numSubscriptions)));
     endInsertRows();
 }
 
@@ -99,11 +99,12 @@ void SteamWorkshopListModel::clear()
     endResetModel();
 }
 
-void SteamWorkshopListModel::setBannerWorkshopItem(unsigned int id, QString title, QUrl imgUrl)
+void SteamWorkshopListModel::setBannerWorkshopItem(unsigned int id, QString title, QUrl imgUrl, int numSubscriptions)
 {
     m_workshopBannerItem.m_id = id;
     m_workshopBannerItem.m_title = title;
     m_workshopBannerItem.m_previewImageUrl = imgUrl;
+    m_workshopBannerItem.m_numSubscriptions = numSubscriptions;
 
 }
 

@@ -207,6 +207,7 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
         const int urlLength = 200;
         char url[urlLength];
         uint32 previews = 0;
+        uint32 subscriber = 0;
         uint32 results = pCallback->m_unTotalMatchingResults;
         //qDebug() << results;
 
@@ -215,18 +216,19 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
                 //qDebug() << "ok " << pCallback;
                 if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
                     QByteArray urlData(url);
+
+                    //Todo use multiple preview for gif hover effect
                     previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
-                    //qDebug() << i;
                     if (i == 0) {
-                        m_workshopListModel->setBannerWorkshopItem(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
+                        m_workshopListModel->setBannerWorkshopItem(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData),0);
                         emit workshopSearched();
                     } else {
-                        emit workshopSearchResult(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
-                        //m_workshopListModel->append(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData));
+                        emit workshopSearchResult(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData),0);
                     }
+//                    if(SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle,i,EItemStatistic::k_EItemStatistic_NumSubscriptions,&subscriber)){
+
+//                    }
                 }
-            } else {
-                //qDebug() << "bug " << pCallback;
             }
         }
 

@@ -8,10 +8,11 @@
 class WorkshopItem {
 public:
     WorkshopItem();
-    WorkshopItem(unsigned int id, QString title, QUrl previewImageUrl);
+    WorkshopItem(unsigned int id, QString title, QUrl previewImageUrl, int numSubscriptions);
     ~WorkshopItem();
     QUrl m_previewImageUrl;
     QString m_title;
+    int m_numSubscriptions;
     unsigned int m_id;
 };
 
