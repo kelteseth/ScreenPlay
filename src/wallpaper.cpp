@@ -1,5 +1,7 @@
 #include "wallpaper.h"
 
+#include <QPropertyAnimation>
+
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
     // 0xXXXXXXX "" WorkerW
@@ -18,21 +20,21 @@ Wallpaper::Wallpaper(QWindow* parent)
 {
 }
 
-Wallpaper::Wallpaper( ProjectFile project, Monitor monitor)
+Wallpaper::Wallpaper(ProjectFile project, Monitor monitor)
 {
     m_monitor = monitor;
     m_project = project;
     QString tmp = m_project.m_absoluteStoragePath.toString() + "/" + m_project.m_file.toString();
-    tmp.replace("/","\\\\");
+    tmp.replace("/", "\\\\");
     setAbsoluteFilePath(tmp);
 
-    this->setX(m_monitor.m_geometry.x());
-    this->setY(m_monitor.m_geometry.y());
-    this->setWidth(m_monitor.m_geometry.width());
-    this->setHeight(m_monitor.m_geometry.height());
+    this->setX(m_monitor.m_availableGeometry.x());
+    this->setY(m_monitor.m_availableGeometry.y());
+    this->setWidth(m_monitor.m_availableGeometry.width());
+    this->setHeight(m_monitor.m_availableGeometry.height());
     this->m_hwnd = (HWND)this->winId();
 
-    qDebug() << "++++"<< this->x() << this->y() << this->width() << this->height();
+
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
 
     // Spawn new worker window below desktop (using some undocumented Win32 magic)
@@ -44,27 +46,39 @@ Wallpaper::Wallpaper( ProjectFile project, Monitor monitor)
         1000, nullptr);
 
     EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_worker_hwnd));
-    ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
 
     SetParent(m_hwnd, m_worker_hwnd);
+    SetLayeredWindowAttributes(m_hwnd,RGB(255,0,0),0,LWA_ALPHA);
     SetWindowLongPtr(m_hwnd, GWL_STYLE,
         WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
     SetWindowLongPtr(m_hwnd, GWL_EXSTYLE,
         WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
 
     Qt::WindowFlags flags = this->flags();
-    this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
-    this->show();
-    ShowWindow(m_hwnd, SW_SHOWDEFAULT);
-    m_quickRenderer = new QQuickView(this);
-    m_quickRenderer->setWidth(this->width());
-    m_quickRenderer->setHeight(this->height());
-    m_context = m_quickRenderer->rootContext();
-    m_context->setContextProperty("wallpaper", this);
-    m_quickRenderer->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
 
-    m_quickRenderer->setSource(QUrl("qrc:/qml/Components/Screens/ScreenVideo.qml"));
-    m_quickRenderer->show();
+    this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
+//    this->setOpacity(0.0f);
+    this->show();
+
+
+    m_quickRenderer = QSharedPointer<QQuickView>(new QQuickView(this));
+
+//    QSurfaceFormat surfaceFormat;
+//    surfaceFormat.setAlphaBufferSize(8);
+//    surfaceFormat.setRenderableType(QSurfaceFormat::OpenGL);
+//    m_quickRenderer.data()->setFormat(surfaceFormat);
+
+    //m_quickRenderer.data()->setColor(QColor(Qt::transparent));
+    m_quickRenderer.data()->setWidth(this->width());
+    m_quickRenderer.data()->setHeight(this->height());
+    //m_quickRenderer.data()->setClearBeforeRendering(true);
+
+    m_context = m_quickRenderer.data()->rootContext();
+    m_context->setContextProperty("wallpaper", this);
+    m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    m_quickRenderer.data()->setSource(QUrl("qrc:/qml/Screens/ScreenVideo.qml"));
+    m_quickRenderer.data()->showFullScreen();
+    setVisible(true);
 }
 
 Wallpaper::~Wallpaper()
@@ -76,6 +90,15 @@ Wallpaper::~Wallpaper()
     DestroyWindow(m_hwnd);
 }
 
+void Wallpaper::setupWindow()
+{
+        QPropertyAnimation* anim = new QPropertyAnimation(this, "opacity");
+        anim->setDuration(2000);
+        anim->setStartValue(0);
+        anim->setEndValue(1);
+        anim->start(QAbstractAnimation::DeleteWhenStopped);
+}
+
 Monitor Wallpaper::monitor() const
 {
     return m_monitor;
@@ -83,13 +106,17 @@ Monitor Wallpaper::monitor() const
 
 void Wallpaper::setVisible(bool visible)
 {
-    if (visible)
+    if (visible){
+        ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
         ShowWindow(m_hwnd, SW_SHOWDEFAULT);
-    else
+    }
+    else{
+        ShowWindow(m_worker_hwnd, SW_HIDE);
         ShowWindow(m_hwnd, SW_HIDE);
+    }
 }
 
-void Wallpaper::setMonitor(const Monitor &monitor)
+void Wallpaper::setMonitor(const Monitor& monitor)
 {
     m_monitor = monitor;
 }

@@ -1,29 +1,37 @@
 #ifndef WALLPAPER_H
 #define WALLPAPER_H
 
+#include <QColor>
 #include <QDebug>
+#include <QDir>
+#include <QGraphicsOpacityEffect>
 #include <QQmlContext>
 #include <QQuickView>
 #include <QRect>
+#include <QSharedPointer>
+#include <QSurfaceFormat>
+#include <QUrl>
 #include <QWindow>
 #include <qt_windows.h>
-#include <QUrl>
-#include <QDir>
 
+#include "monitorlistmodel.h"
 #include "profile.h"
 #include "projectfile.h"
-#include "monitorlistmodel.h"
 
 class Wallpaper : public QWindow {
     Q_OBJECT
 public:
     explicit Wallpaper(QWindow* parent = 0);
-    Wallpaper( ProjectFile project, Monitor monitor);
+    Wallpaper(ProjectFile project, Monitor monitor);
     ~Wallpaper();
 
     Q_PROPERTY(QString absoluteFilePath READ absoluteFilePath WRITE setAbsoluteFilePath NOTIFY absoluteFilePathChanged)
+    Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
+    Q_PROPERTY(float opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
+
+    Q_INVOKABLE void setupWindow();
 
     QString absoluteFilePath() const
     {
@@ -37,11 +45,21 @@ public:
 
     Monitor monitor() const;
 
-    void setMonitor(const Monitor &monitor);
+    void setMonitor(const Monitor& monitor);
 
     float volume() const
     {
         return m_volume;
+    }
+
+    float opacity() const
+    {
+        return m_opacity;
+    }
+
+    QString decoder() const
+    {
+        return m_decoder;
     }
 
 public slots:
@@ -75,17 +93,38 @@ public slots:
         emit volumeChanged(m_volume);
     }
 
+    void setOpacity(float opacity)
+    {
+        qDebug() << opacity;
+        //this->setOpacity(opacity);
+        qWarning("Floating point comparison needs context sanity check");
+        if (qFuzzyCompare(m_opacity, opacity))
+            return;
+
+        m_opacity = opacity;
+        emit opacityChanged(m_opacity);
+    }
+
+    void setDecoder(QString decoder)
+    {
+        if (m_decoder == decoder)
+            return;
+
+        m_decoder = decoder;
+        emit decoderChanged(m_decoder);
+    }
+
 signals:
     void absoluteFilePathChanged(QString absoluteFilePath);
-
     void isPlayingChanged(bool isPlaying);
-
     void volumeChanged(float volume);
+    void opacityChanged(float opacity);
+    void decoderChanged(QString decoder);
 
 private:
     HWND m_hwnd;
     HWND m_worker_hwnd;
-    QQuickView* m_quickRenderer = nullptr;
+    QSharedPointer<QQuickView> m_quickRenderer = nullptr;
     QQmlContext* m_context = nullptr;
 
     Profile m_profile;
@@ -95,6 +134,8 @@ private:
 
     bool m_isPlaying = true;
     float m_volume = 1.0f;
+    float m_opacity;
+    QString m_decoder;
 };
 
 #endif // WALLPAPER_H

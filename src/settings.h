@@ -199,7 +199,9 @@ public slots:
             return;
 
         m_decoder = decoder;
-        qDebug() << m_decoder;
+        for (int i = 0; i < m_wallpapers.size(); ++i) {
+            m_wallpapers.at(i).data()->setDecoder(decoder);
+        }
         emit decoderChanged(m_decoder);
     }
 
