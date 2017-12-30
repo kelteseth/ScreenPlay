@@ -28,8 +28,8 @@ ApplicationWindow {
 
     LinearGradient {
         id: tabShadow
-        height: 5
-        z: 99
+        height: 6
+        z: 500
         cached: true
 
         anchors {
@@ -38,11 +38,11 @@ ApplicationWindow {
             left: parent.left
         }
         start: Qt.point(0, 0)
-        end: Qt.point(0, 5)
+        end: Qt.point(0, 6)
         gradient: Gradient {
             GradientStop {
                 position: 0.0
-                color: "#22000000"
+                color: "#33000000"
             }
             GradientStop {
                 position: 1.0
@@ -120,6 +120,7 @@ ApplicationWindow {
             }
         }
     }
+
     Timer {
         id:timerLoader
         interval: 500

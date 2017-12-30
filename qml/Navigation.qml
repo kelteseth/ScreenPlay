@@ -7,27 +7,7 @@ Rectangle {
     height: 60
     clip: true
     width: 1366
-    color: "transparent"
-
-    LinearGradient {
-        anchors.fill: parent
-        start: Qt.point(0, 40)
-        end: Qt.point(0, 60)
-        gradient: Gradient {
-            GradientStop {
-                position: 0.0
-                color: "#ffffff"
-            }
-            GradientStop {
-                position: 0.1
-                color: "#fAffffff"
-            }
-            GradientStop {
-                position: 1.0
-                color: "#DFffffff"
-            }
-        }
-    }
+    color: "#ffffff"
 
     signal changePage(string name)
     signal toggleMonitors
