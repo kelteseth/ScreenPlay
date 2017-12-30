@@ -36,6 +36,7 @@ public:
     ~Settings();
 
     Q_PROPERTY(Version version READ version)
+    Q_PROPERTY(bool hasWorkshopBannerSeen READ hasWorkshopBannerSeen WRITE setHasWorkshopBannerSeen NOTIFY hasWorkshopBannerSeenChanged)
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
@@ -203,6 +204,15 @@ public slots:
             m_wallpapers.at(i).data()->setDecoder(decoder);
         }
         emit decoderChanged(m_decoder);
+    }
+
+    void setHasWorkshopBannerSeen(bool hasWorkshopBannerSeen)
+    {
+        if (m_hasWorkshopBannerSeen == hasWorkshopBannerSeen)
+            return;
+
+        m_hasWorkshopBannerSeen = hasWorkshopBannerSeen;
+        emit hasWorkshopBannerSeenChanged(m_hasWorkshopBannerSeen);
     }
 
 private:
