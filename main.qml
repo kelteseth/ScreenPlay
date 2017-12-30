@@ -125,7 +125,6 @@ ApplicationWindow {
         id:timerLoader
         interval: 500
         onTriggered: {
-            print("AAAAAA")
             pageLoaderCreate.source = "qrc:/qml/Create/Create.qml"
         }
 
@@ -141,12 +140,7 @@ ApplicationWindow {
             bottom: parent.bottom
             left: parent.left
         }
-        onStatusChanged: {
-            if(status == Loader.Ready){
-                pageLoaderWorkshop.source = "qrc:/qml/Workshop/Workshop.qml"
 
-            }
-        }
     }
     Loader {
         id: pageLoaderWorkshop
@@ -157,6 +151,22 @@ ApplicationWindow {
             right: parent.right
             bottom: parent.bottom
             left: parent.left
+        }
+        onStatusChanged: {
+            if(status == Loader.Ready){
+                connectionsPageLoaderWorkshop.target = pageLoaderWorkshop
+            }
+        }
+    }
+    Connections{
+        id:connectionsPageLoaderWorkshop
+        ignoreUnknownSignals: true
+        onOpenCreate: {
+            print("lellele")
+            if (!ignoreWorkshopBanner) {
+                switchPage("Workshop")
+                ignoreWorkshopBanner = true
+            }
         }
     }
     Connections {
@@ -182,12 +192,6 @@ ApplicationWindow {
                 nav.onPageChanged("Workshop")
             }
         }
-        onOpenCreate: {
-            if (!ignoreWorkshopBanner) {
-                nav.onPageChanged("Create")
-                ignoreWorkshopBanner = true
-            }
-        }
     }
 
     Sidebar {
@@ -209,30 +213,33 @@ ApplicationWindow {
             left: parent.left
         }
         onChangePage: {
-            if(name === "Create"){
-                pageLoader.visible = false
-                pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
-                pageLoaderCreate.visible = true
-                pageLoaderWorkshop.visible = false
-                sidebar.state = "inactive"
-            } else if(name === "Workshop"){
-                pageLoader.visible = false
-                pageLoaderCreate.visible = false
-                pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
-                pageLoaderWorkshop.visible = true
-                sidebar.state = "inactive"
-            } else {
-                pageLoader.visible = true
-                pageLoaderCreate.visible = false
-                pageLoaderWorkshop.visible = false
-                pageLoader.setSource("qrc:/qml/" + name + "/" + name + ".qml")
-                sidebar.state = "inactive"
-            }
-
+            switchPage(name)
         }
 
         onToggleMonitors: {
             monitors.state = monitors.state == "active" ? "inactive" : "active"
+        }
+    }
+
+    function switchPage(name){
+        if(name === "Create"){
+            pageLoader.visible = false
+            pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
+            pageLoaderCreate.visible = true
+            pageLoaderWorkshop.visible = false
+            sidebar.state = "inactive"
+        } else if(name === "Workshop"){
+            pageLoader.visible = false
+            pageLoaderCreate.visible = false
+            pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
+            pageLoaderWorkshop.visible = true
+            sidebar.state = "inactive"
+        } else {
+            pageLoader.visible = true
+            pageLoaderCreate.visible = false
+            pageLoaderWorkshop.visible = false
+            pageLoader.setSource("qrc:/qml/" + name + "/" + name + ".qml")
+            sidebar.state = "inactive"
         }
     }
 
