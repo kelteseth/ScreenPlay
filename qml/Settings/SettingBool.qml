@@ -6,6 +6,16 @@ Item {
     property string headline: "Headline"
     property string description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
     property bool isChecked: false
+    property bool available: true
+    onAvailableChanged: {
+        if(!available){
+            settingsBool.opacity = .5
+            radioButton.enabled = false
+        } else {
+            settingsButton.opacity = 1
+            radioButton.enabled = true
+        }
+    }
     signal checkboxChanged(bool checked)
 
     height: 50

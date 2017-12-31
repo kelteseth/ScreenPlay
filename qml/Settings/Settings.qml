@@ -112,6 +112,7 @@ Item {
                         }
                         SettingBool {
                             headline: qsTr("High priority Autostart")
+                            available: false
                             description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
                             isChecked: screenPlaySettings.highPriorityStart
                             onCheckboxChanged: {

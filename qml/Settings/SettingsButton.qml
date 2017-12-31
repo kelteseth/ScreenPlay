@@ -11,6 +11,17 @@ Item {
     property string buttonText: "value"
     property bool isChecked: false
     property bool enabled: true
+    property bool available: true
+    onAvailableChanged: {
+        if(!available){
+            settingsButton.opacity = .5
+            btnSettings.enabled = false
+        } else {
+            settingsButton.opacity = 1
+            btnSettings.enabled = true
+        }
+    }
+
     signal buttonPressed()
 
     height: 50
@@ -53,6 +64,7 @@ Item {
 
 
     Button {
+        id:btnSettings
         text: settingsButton.buttonText
         Material.background: Material.Orange
         Material.foreground: "white"
