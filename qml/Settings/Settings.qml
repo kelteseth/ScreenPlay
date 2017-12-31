@@ -10,181 +10,315 @@ Item {
 
     Connections {
         target: screenPlaySettings
-        onDecoderChanged:{
-            if(decoder === "CUDA"){
+        onDecoderChanged: {
+            if (decoder === "CUDA") {
                 settingsComboBox.currentIndex = 0
-            } else if(decoder === "D3D11"){
+            } else if (decoder === "D3D11") {
                 settingsComboBox.currentIndex = 1
-            }else if(decoder === "DXVA"){
+            } else if (decoder === "DXVA") {
                 settingsComboBox.currentIndex = 2
-            }else if(decoder === "VAAPI"){
+            } else if (decoder === "VAAPI") {
                 settingsComboBox.currentIndex = 3
-            }else if(decoder === "FFmpeg"){
+            } else if (decoder === "FFmpeg") {
                 settingsComboBox.currentIndex = 4
             }
         }
     }
 
-    Column {
+    Flickable {
+        id: flickableWrapper
         width: 800
         height: parent.height
-        spacing: 30
+        contentHeight: columnWrapper.childrenRect.height
+        contentWidth: 800
+        flickableDirection: Flickable.VerticalFlick
+        maximumFlickVelocity: 7000
+        flickDeceleration: 5000
+
         anchors {
             top: parent.top
-            topMargin: 40
+            topMargin: 20
+            bottom:parent.bottom
+            bottomMargin: 20
             horizontalCenter: parent.horizontalCenter
         }
-        Item {
-            id: settingsGeneralWrapper
-            height: 320
-            width: 800
 
-            RectangularGlow {
-                id: effectBtnEmpty
-                anchors {
-                    top: parent.top
-                }
+        ScrollBar.vertical: ScrollBar {
+            snapMode: ScrollBar.SnapOnRelease
+        }
+        Column {
+            id: columnWrapper
+            anchors.margins: 20
+            //            height: 1200
+            width: 760
+            spacing: 30
 
-                height: parent.height
+            Item {
+                id: settingsGeneralWrapper
+                height: 320
                 width: parent.width
-                cached: true
-                glowRadius: 3
-                spread: 0.2
-                color: "black"
-                opacity: 0.2
-                cornerRadius: 15
-            }
 
-            Rectangle {
-                anchors.fill: parent
-                radius: 4
-                clip: true
-
-                SettingsHeader {
-                    id: headerGeneral
-                    text: qsTr("General")
+                RectangularGlow {
+                    id: effectBtnEmpty
                     anchors {
                         top: parent.top
-                        left: parent.left
-                        right: parent.right
                     }
+
+                    height: parent.height
+                    width: parent.width
+                    cached: true
+                    glowRadius: 3
+                    spread: 0.2
+                    color: "black"
+                    opacity: 0.2
+                    cornerRadius: 15
                 }
 
-                Column {
-                    spacing: 10
-                    anchors {
-                        top: headerGeneral.bottom
-                        margins: 20
-                        right: parent.right
-                        bottom: parent.bottom
-                        left: parent.left
-                    }
-                    SettingBool {
-                        headline: qsTr("Autostart")
-                        description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
-                        isChecked: screenPlaySettings.autostart
-                        onCheckboxChanged: {
-                            screenPlaySettings.setAutostart(checked)
-                            screenPlaySettings.writeSingleSettingConfig("autostart",checked)
-                        }
+                Rectangle {
+                    anchors.fill: parent
+                    radius: 4
+                    clip: true
 
-                    }
-                    SettingsHorizontalSeperator {
-                    }
-                    SettingBool {
-                        headline: qsTr("High priority Autostart")
-                        description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
-                        isChecked: screenPlaySettings.highPriorityStart
-                        onCheckboxChanged: {
-                            screenPlaySettings.setHighPriorityStart(checked)
-                            screenPlaySettings.writeSingleSettingConfig("highPriorityStart",checked)
+                    SettingsHeader {
+                        id: headerGeneral
+                        text: qsTr("General")
+                        anchors {
+                            top: parent.top
+                            left: parent.left
+                            right: parent.right
                         }
                     }
-                    SettingsHorizontalSeperator {
-                    }
-                    SettingsButton {
-                        headline: qsTr("Set save location")
-                        description: screenPlaySettings.localStoragePath //qsTr("Choose where to find you content. The default save location is you steam installation")
-                        buttonText: qsTr("Set save location")
-                        onButtonPressed: {
-                            folderDialogSaveLocation.open()
+
+                    Column {
+                        spacing: 10
+                        anchors {
+                            top: headerGeneral.bottom
+                            margins: 20
+                            right: parent.right
+                            bottom: parent.bottom
+                            left: parent.left
                         }
-                        FolderDialog {
-                            id: folderDialogSaveLocation
-                            onAccepted: {
-                                screenPlaySettings.setLocalStoragePath(folderDialogSaveLocation.currentFolder)
+                        SettingBool {
+                            headline: qsTr("Autostart")
+                            description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
+                            isChecked: screenPlaySettings.autostart
+                            onCheckboxChanged: {
+                                screenPlaySettings.setAutostart(checked)
+                                screenPlaySettings.writeSingleSettingConfig(
+                                            "autostart", checked)
+                            }
+                        }
+                        SettingsHorizontalSeperator {
+                        }
+                        SettingBool {
+                            headline: qsTr("High priority Autostart")
+                            description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
+                            isChecked: screenPlaySettings.highPriorityStart
+                            onCheckboxChanged: {
+                                screenPlaySettings.setHighPriorityStart(checked)
+                                screenPlaySettings.writeSingleSettingConfig(
+                                            "highPriorityStart", checked)
+                            }
+                        }
+                        SettingsHorizontalSeperator {
+                        }
+                        SettingsButton {
+                            headline: qsTr("Set save location")
+                            description: screenPlaySettings.localStoragePath //qsTr("Choose where to find you content. The default save location is you steam installation")
+                            buttonText: qsTr("Set save location")
+                            onButtonPressed: {
+                                folderDialogSaveLocation.open()
+                            }
+                            FolderDialog {
+                                id: folderDialogSaveLocation
+                                onAccepted: {
+                                    screenPlaySettings.setLocalStoragePath(
+                                                folderDialogSaveLocation.currentFolder)
+                                }
                             }
                         }
                     }
                 }
             }
-        }
 
-        Item {
-            id: settingsPerformanceWrapper
-            height: 150
-            width: 800
-
-
-            RectangularGlow {
-                id: effect2
-                anchors {
-                    top: parent.top
-                }
-
-                height: parent.height
+            Item {
+                id: settingsPerformanceWrapper
+                height: 150
                 width: parent.width
-                cached: true
-                glowRadius: 3
-                spread: 0.2
-                color: "black"
-                opacity: 0.2
-                cornerRadius: 15
-            }
 
-            Rectangle {
-                anchors.fill: parent
-                radius: 4
-                clip: true
-
-                SettingsHeader {
-                    id: headerPerformance
-                    text: qsTr("Performance")
+                RectangularGlow {
+                    id: effect2
                     anchors {
                         top: parent.top
-                        left: parent.left
-                        right: parent.right
                     }
+
+                    height: parent.height
+                    width: parent.width
+                    cached: true
+                    glowRadius: 3
+                    spread: 0.2
+                    color: "black"
+                    opacity: 0.2
+                    cornerRadius: 15
                 }
 
-                Column {
+                Rectangle {
+                    anchors.fill: parent
+                    radius: 4
+                    clip: true
+
+                    SettingsHeader {
+                        id: headerPerformance
+                        text: qsTr("Performance")
+                        image: "qrc:/assets/icons/icon_build.svg"
+                        anchors {
+                            top: parent.top
+                            left: parent.left
+                            right: parent.right
+                        }
+                    }
+
+                    Column {
+                        anchors {
+                            top: headerPerformance.bottom
+                            margins: 20
+                            right: parent.right
+                            bottom: parent.bottom
+                            left: parent.left
+                        }
+                        spacing: 10
+
+                        SettingsComboBox {
+                            id: settingsComboBox
+                            headline: qsTr("Set decoder")
+                            description: qsTr("ScreenPlay supports different encoders for different hardware requirements.")
+                            onCurrentIndexChanged: {
+                                screenPlaySettings.setDecoder(
+                                            settingsComboBox.comboBoxListModel.get(
+                                                settingsComboBox.currentIndex).text.toString(
+                                                ))
+                            }
+                            comboBoxListModel: ListModel {
+                                id: model
+                                ListElement {
+                                    text: "CUDA"
+                                }
+                                ListElement {
+                                    text: "D3D11"
+                                }
+                                ListElement {
+                                    text: "DXVA"
+                                }
+                                ListElement {
+                                    text: "VAAPI"
+                                }
+                                ListElement {
+                                    text: "FFmpeg"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            Item {
+                id: settingsAboutrapper
+                height: 300
+                width: parent.width
+
+                RectangularGlow {
+                    id: effect3
                     anchors {
-                        top: headerPerformance.bottom
-                        margins: 20
-                        right: parent.right
-                        bottom: parent.bottom
-                        left: parent.left
-                    }
-                    spacing: 10
-
-
-                    SettingsComboBox {
-                        id:settingsComboBox
-                        headline: qsTr("Set decoder")
-                        description: qsTr("ScreenPlay supports different encoders for different hardware requirements.")
-                        onCurrentIndexChanged: {
-                            screenPlaySettings.setDecoder(settingsComboBox.comboBoxListModel.get(settingsComboBox.currentIndex).text.toString())
-                        }
-                        comboBoxListModel: ListModel {
-                            id: model
-                            ListElement { text: "CUDA" }
-                            ListElement { text: "D3D11" }
-                            ListElement { text: "DXVA" }
-                            ListElement { text: "VAAPI" }
-                            ListElement { text: "FFmpeg" }
-                        }
+                        top: parent.top
                     }
 
+                    height: parent.height
+                    width: parent.width
+                    cached: true
+                    glowRadius: 3
+                    spread: 0.2
+                    color: "black"
+                    opacity: 0.2
+                    cornerRadius: 15
+                }
+
+                Rectangle {
+                    anchors.fill: parent
+                    radius: 4
+                    clip: true
+
+                    SettingsHeader {
+                        id: headerAbout
+                        text: qsTr("About")
+                        image: "qrc:/assets/icons/icon_cake.svg"
+                        anchors {
+                            top: parent.top
+                            left: parent.left
+                            right: parent.right
+                        }
+                    }
+
+                    Column {
+                        width: parent.width
+                        spacing: 10
+                        anchors {
+                            top: headerAbout.bottom
+                            left: parent.left
+                            right: parent.right
+                            margins: 20
+                        }
+
+                        Item {
+                            width: parent.width
+                            height: 90
+                            Text {
+                                id: txtHeadline
+                                color: "#5D5D5D"
+                                text: "Lore Ipsum"
+                                renderType: Text.NativeRendering
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
+                                font.pixelSize: 16
+                                anchors {
+                                    top: parent.top
+                                    topMargin: 6
+                                    left: parent.left
+                                    leftMargin: 20
+                                }
+                            }
+                            Text {
+                                id: txtDescription
+                                text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. "
+                                color: "#B5B5B5"
+                                renderType: Text.NativeRendering
+                                wrapMode: Text.WrapAnywhere
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
+                                font.pixelSize: 12
+                                font.family: "Roboto"
+                                width: parent.width
+                                anchors{
+                                    top:txtHeadline.bottom
+                                    topMargin: 6
+                                    left:parent.left
+                                    leftMargin: 20
+                                    right:parent.right
+                                    rightMargin: 20
+                                }
+                            }
+                        }
+                        SettingsHorizontalSeperator {
+                        }
+                        SettingsButton {
+                            headline: qsTr("Third Party Software")
+                            description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")
+                            buttonText: qsTr("Licenses")
+                            onButtonPressed: {
+
+                            }
+                        }
+
+                    }
                 }
             }
         }

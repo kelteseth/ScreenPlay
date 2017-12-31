@@ -78,5 +78,8 @@
         <file>assets/images/missingPreview.png</file>
         <file>qml/Screens/ScreenVideoPlayer.qml</file>
         <file>qml/Settings/SettingsButton.qml</file>
+        <file>assets/icons/icon_cake.svg</file>
+        <file>assets/icons/icon_local_movies.svg</file>
+        <file>assets/icons/icon_build.svg</file>
     </qresource>
 </RCC>
