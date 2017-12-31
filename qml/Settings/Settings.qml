@@ -223,7 +223,7 @@ Item {
 
             Item {
                 id: settingsAboutrapper
-                height: 300
+                height: 350
                 width: parent.width
 
                 RectangularGlow {
@@ -270,7 +270,7 @@ Item {
 
                         Item {
                             width: parent.width
-                            height: 90
+                            height: 180
                             Text {
                                 id: txtHeadline
                                 color: "#5D5D5D"
@@ -288,22 +288,37 @@ Item {
                             }
                             Text {
                                 id: txtDescription
-                                text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. "
+                                text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. \n \n Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. "
                                 color: "#B5B5B5"
                                 renderType: Text.NativeRendering
-                                wrapMode: Text.WrapAnywhere
-                                verticalAlignment: Text.AlignVCenter
+                                wrapMode: Text.WordWrap
+                                verticalAlignment: Text.AlignTop
                                 horizontalAlignment: Text.AlignLeft
-                                font.pixelSize: 12
+                                font.pixelSize: 14
                                 font.family: "Roboto"
-                                width: parent.width
+                                width: parent.width *.6
                                 anchors{
                                     top:txtHeadline.bottom
                                     topMargin: 6
                                     left:parent.left
                                     leftMargin: 20
+                                    right:imgLogoHead.left
+                                    rightMargin: 20
+                                    bottom: parent.bottom
+                                }
+                            }
+                            Image {
+                                id: imgLogoHead
+                                source: "qrc:/assets/icons/icon_logo_head.svg"
+                                width: 150
+                                height: 150
+                                sourceSize: Qt.size(150,150)
+                                anchors{
+                                    top:txtHeadline.bottom
+                                    topMargin: -10
                                     right:parent.right
                                     rightMargin: 20
+
                                 }
                             }
                         }

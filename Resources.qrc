@@ -81,5 +81,6 @@
         <file>assets/icons/icon_cake.svg</file>
         <file>assets/icons/icon_local_movies.svg</file>
         <file>assets/icons/icon_build.svg</file>
+        <file>assets/icons/icon_logo_head.svg</file>
     </qresource>
 </RCC>
