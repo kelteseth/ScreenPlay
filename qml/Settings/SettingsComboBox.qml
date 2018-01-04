@@ -68,12 +68,6 @@ Item {
         }
 
         model: comboBoxListModel
-        onCurrentIndexChanged: {
-            settingsComboBox.currentIndex = currentIndex
-        }
-
-        onAccepted: {
-
-        }
+        onActivated:settingsComboBox.currentIndex = currentIndex
     }
 }
