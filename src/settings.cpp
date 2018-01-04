@@ -109,6 +109,7 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
     for (int i = 0; i < m_wallpapers.length(); ++i) {
         if (m_wallpapers.at(i).data()->monitor().m_id == monitor.m_id) {
             m_wallpapers.removeAt(i);
+            decreaseActiveWallpaperCounter();
         }
     }
     increaseActiveWallpaperCounter();
