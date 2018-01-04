@@ -55,7 +55,7 @@ Item {
 
             Item {
                 id: settingsGeneralWrapper
-                height: 320
+                height: 390
                 width: parent.width
 
                 RectangularGlow {
@@ -113,6 +113,7 @@ Item {
                         SettingBool {
                             headline: qsTr("High priority Autostart")
                             available: false
+
                             description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
                             isChecked: screenPlaySettings.highPriorityStart
                             onCheckboxChanged: {
@@ -136,6 +137,17 @@ Item {
                                     screenPlaySettings.setLocalStoragePath(
                                                 folderDialogSaveLocation.currentFolder)
                                 }
+                            }
+                        }
+                        SettingsHorizontalSeperator {
+                        }
+                        SettingBool {
+                            headline: qsTr("Send anonymous crash reports and statistics")
+                            description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely used for development purposes!")
+                            isChecked: screenPlaySettings.sendStatistics
+                            onCheckboxChanged: {
+                                screenPlaySettings.setSendStatistics(checked)
+                                screenPlaySettings.writeSingleSettingConfig("sendStatistics",checked)
                             }
                         }
                     }
