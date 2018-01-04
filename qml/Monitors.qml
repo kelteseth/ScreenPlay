@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.2
+import QtQuick.Layouts 1.3
 
 Item {
     id: monitors
@@ -14,6 +15,7 @@ Item {
         bgMouseArea.focus = monitors.state == "active" ? true : false
         if (monitors.state == "active") {
 
+
             //monitorListModel.reloadMonitors();
         }
     }
@@ -24,7 +26,7 @@ Item {
         anchors.fill: parent
 
         MouseArea {
-            id:bgMouseArea
+            id: bgMouseArea
             anchors.fill: parent
             onClicked: monitors.state = "inactive"
             hoverEnabled: true
@@ -39,29 +41,122 @@ Item {
         z: 98
         anchors.centerIn: parent
 
-        MonitorSelection {
-            id: monitorSelection
-            anchors{
-                top: parent.top
-                topMargin: 60
-                horizontalCenter: parent.horizontalCenter
-            }
-            width:600
-            availableWidth: 600
-            availableHeight: 600
-        }
+        ColumnLayout {
+            anchors.fill: parent
+            anchors.margins: 20
+            spacing: 20
 
-        Button {
-            id: btn
-            text: qsTr("Remove all wallpaper")
-            Material.background: Material.Orange
-            Material.foreground: "white"
-            onClicked: screenPlaySettings.removeAll(
-                           ) //screenPlaySettings.removeWallpaperAt(monitorSelection.activeMonitorIndex)
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                bottom: parent.bottom
-                bottomMargin: 30
+            MonitorSelection {
+                id: monitorSelection
+                background: "#eeeeee"
+                radius: 3
+                height: 200
+                width: 800
+                Layout.fillWidth: true
+                availableWidth: 800
+                availableHeight: 200
+            }
+
+            Item {
+                id: sliderVolumeWrapper
+                height: 100
+                width:320
+                Layout.alignment: Qt.AlignHCenter
+                Text {
+                    id: txtSliderVolume
+                    text: qsTr("Volume")
+                    height: 30
+                    renderType: Text.NativeRendering
+                    font.family: "Roboto"
+                    verticalAlignment: Text.AlignVCenter
+                    font.pixelSize: 14
+                    color: "#626262"
+                    wrapMode: Text.WrapAnywhere
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                    }
+                }
+                Row {
+                    id: sliderVolumeWrapperBottom
+                    height: 70
+                    width: parent.width
+                    spacing: 30
+                    anchors {
+                        top: txtSliderVolume.bottom
+                        topMargin: 5
+                        left: parent.left
+                        right: parent.right
+                        bottom: parent.bottom
+                    }
+
+                    Image {
+                        width: 20
+                        height: 20
+                        anchors.verticalCenter: parent.verticalCenter
+                        source: "qrc:/assets/icons/icon_volume.svg"
+                        sourceSize: Qt.size(20, 20)
+                    }
+
+                    Slider {
+                        id: sliderVolume
+                        stepSize: 0.01
+                        from: 0
+                        live: true
+                        value: .8
+                        to: 1
+                        anchors.verticalCenter: parent.verticalCenter
+                        Layout.fillWidth: true
+                        onValueChanged: {
+                            screenPlaySettings.setGlobalVolume(
+                                        sliderVolume.value)
+                        }
+                    }
+
+                    Text {
+                        id: name
+                        color: "#818181"
+                        text: Math.round(sliderVolume.value * 100) / 100
+                        anchors.verticalCenter: parent.verticalCenter
+                        font.family: "Libre Baskerville"
+                        font.pointSize: 12
+                        font.italic: true
+                        verticalAlignment: Text.AlignVCenter
+                    }
+                }
+            }
+            ComboBox {
+                id: comboBox
+                width:300
+                Layout.alignment: Qt.AlignHCenter
+                Layout.fillWidth:true
+
+                model: ListModel {
+                    id: model
+                    ListElement {
+                        text: "Stretch"
+                    }
+                    ListElement {
+                        text: "PreserveAspectFit"
+                    }
+                    ListElement {
+                        text: "PreserveAspectCrop"
+                    }
+                }
+
+                onActivated: screenPlaySettings.setGlobalFillMode(currentText)
+
+            }
+
+            Button {
+                id: btnRemoveAllWallpaper
+                text: qsTr("Remove all wallpaper")
+                Material.background: Material.Orange
+                Material.foreground: "white"
+                enabled: screenPlaySettings.activeWallpaperCounterChanged === 0 ? false : true
+                onClicked: screenPlaySettings.removeAll(
+                               ) //screenPlaySettings.removeWallpaperAt(monitorSelection.activeMonitorIndex)
+                Layout.alignment: Qt.AlignHCenter
             }
         }
     }
@@ -89,8 +184,6 @@ Item {
                 enabled: false
             }
 
-
-
             PropertyChanges {
                 target: background
                 opacity: 0
@@ -114,7 +207,6 @@ Item {
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
-
         }
     ]
 }

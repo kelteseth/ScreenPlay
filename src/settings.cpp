@@ -111,6 +111,7 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
             m_wallpapers.removeAt(i);
         }
     }
+    increaseActiveWallpaperCounter();
     m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(project, monitor)));
 }
 
@@ -157,6 +158,20 @@ void Settings::loadActiveProfiles()
     }
 }
 
+void Settings::setGlobalVolume(float volume)
+{
+    for (int i = 0; i < m_wallpapers.size(); ++i) {
+        m_wallpapers.at(i).data()->setVolume(volume);
+    }
+}
+
+void Settings::setGlobalFillMode(QString fillMode)
+{
+    for (int i = 0; i < m_wallpapers.size(); ++i) {
+        m_wallpapers.at(i).data()->setFillMode(fillMode);
+    }
+}
+
 void Settings::writeSingleSettingConfig(QString name, QVariant value)
 {
 
@@ -189,6 +204,7 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
 void Settings::removeAll()
 {
     m_wallpapers.clear();
+    setActiveWallpaperCounter(0);
 }
 
 void Settings::setMuteAll(bool isMuted)

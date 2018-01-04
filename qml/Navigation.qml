@@ -143,6 +143,24 @@ Rectangle {
             sourceSize.height: 24
             sourceSize.width: 24
             source: "qrc:/assets/icons/icon_monitor.svg"
+
+            Text {
+                id: txtAmountActiveWallpapers
+                text: screenPlaySettings.activeWallpaperCounter
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    top:parent.top
+                    topMargin: 1
+                }
+
+                horizontalAlignment: Text.AlignHCenter
+                verticalAlignment: Text.AlignVCenter
+                color: "orange"
+                font.pointSize: 10
+                font.bold: true
+                font.family: "Roboto"
+                renderType: Text.NativeRendering
+            }
         }
 
         Text {

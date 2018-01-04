@@ -3,7 +3,11 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
     id: rect
+    color: background
+    radius: cornerRadius
 
+    property color background: "transparent"
+    property real cornerRadius: 0
     // Width of the Sidebar or Space that should be used
     property real availableWidth: 0
     property real availableHeight: 0

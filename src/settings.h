@@ -42,6 +42,7 @@ public:
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
+    Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
 
     Q_INVOKABLE void removeAll();
     Q_INVOKABLE void setMuteAll(bool isMuted);
@@ -100,6 +101,11 @@ public:
         return m_decoder;
     }
 
+    int activeWallpaperCounter() const
+    {
+        return m_activeWallpaperCounter;
+    }
+
 signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
@@ -108,8 +114,15 @@ signals:
     void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
     void decoderChanged(QString decoder);
     void setMainWindowVisible(bool visible);
+    void activeWallpaperCounterChanged(int activeWallpaperCounter);
 
 public slots:
+
+
+    //Global settings
+    void setGlobalVolume(float volume);
+    void setGlobalFillMode(QString fillMode);
+
     void writeSingleSettingConfig(QString name, QVariant value);
 
     void setAutostart(bool autostart)
@@ -215,6 +228,28 @@ public slots:
         emit hasWorkshopBannerSeenChanged(m_hasWorkshopBannerSeen);
     }
 
+    void setActiveWallpaperCounter(int activeWallpaperCounter)
+    {
+        if (m_activeWallpaperCounter == activeWallpaperCounter)
+            return;
+
+        m_activeWallpaperCounter = activeWallpaperCounter;
+        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
+    }
+
+    void increaseActiveWallpaperCounter(){
+        m_activeWallpaperCounter++;
+        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
+    }
+
+    void decreaseActiveWallpaperCounter(){
+        if(m_activeWallpaperCounter <= 0){
+            return;
+        }
+        m_activeWallpaperCounter--;
+        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
+    }
+
 private:
     void createDefaultConfig();
     void createProfileConfig();
@@ -238,6 +273,7 @@ private:
 
     bool m_hasWorkshopBannerSeen = false;
     QString m_decoder;
+    int m_activeWallpaperCounter = 0;
 };
 
 class ActiveProfiles {
