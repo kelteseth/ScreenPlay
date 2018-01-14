@@ -97,17 +97,17 @@ Item {
     }
     function onPageChanged(name) {
         if (name === "All") {
-            installedListFilter.sortBy("All")
+            installedListFilter.sortByRoleType("All")
             navAll.state = "active"
             navWallpaper.state = "inactive"
             navWidgets.state = "inactive"
         } else if (name === "Wallpaper") {
-            installedListFilter.sortBy("Wallpaper")
+            installedListFilter.sortByRoleType("Wallpaper")
             navAll.state = "inactive"
             navWallpaper.state = "active"
             navWidgets.state = "inactive"
         } else if (name === "Widgets") {
-            installedListFilter.sortBy("Widgets")
+            installedListFilter.sortByRoleType("Widgets")
             navAll.state = "inactive"
             navWallpaper.state = "inactive"
             navWidgets.state = "active"
@@ -194,6 +194,13 @@ Item {
                     rightMargin: 30
                     bottom: parent.bottom
                     bottomMargin: 10
+                }
+                onTextChanged: {
+                    if (txtSearch.text.length === 0) {
+                        installedListFilter.resetFilter()
+                    } else {
+                        installedListFilter.sortByName(txtSearch.text)
+                    }
                 }
 
                 selectByMouse: true

@@ -5,7 +5,7 @@ InstalledListFilter::InstalledListFilter(InstalledListModel* ilm)
     setSourceModel(ilm);
 }
 
-void InstalledListFilter::sortBy(QString type)
+void InstalledListFilter::sortByRoleType(QString type)
 {
     if (type == "All") {
         setFilterRole(InstalledListModel::InstalledRole::TitleRole);
@@ -18,5 +18,19 @@ void InstalledListFilter::sortBy(QString type)
         setFilterFixedString("widget");
     }
 
+    sort(0);
+}
+
+void InstalledListFilter::sortByName(QString name)
+{
+    setFilterRole(InstalledListModel::InstalledRole::TitleRole);
+    setFilterFixedString(name);
+    sort(0);
+}
+
+void InstalledListFilter::resetFilter()
+{
+    setFilterRole(InstalledListModel::InstalledRole::TitleRole);
+    setFilterWildcard("*");
     sort(0);
 }
