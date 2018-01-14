@@ -43,6 +43,7 @@ Item {
     Text {
         id: txtDescription
         text: settingsBool.description
+        wrapMode: Text.WordWrap
         color: "#B5B5B5"
         renderType: Text.NativeRendering
         verticalAlignment: Text.AlignVCenter
@@ -54,6 +55,8 @@ Item {
             topMargin: 6
             left:parent.left
             leftMargin: 20
+            right:radioButton.left
+            rightMargin: 20
         }
     }
 

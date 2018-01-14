@@ -1,9 +1,9 @@
 TEMPLATE = app
-
-QT += qml quick av quickcontrols2 sql widgets
+QT += qml quick av  sql widgets quickcontrols2 webkit
 CONFIG += c++17
-CONFIG += qtquickcompiler
 
+
+TARGETPATH = ScreenPlay
 
 SOURCES += main.cpp \
     src/steamworkshop.cpp \
@@ -17,10 +17,13 @@ SOURCES += main.cpp \
     src/projectfile.cpp \
     src/widget.cpp \
     src/steamworkshoplistmodel.cpp \
-    src/workshopitem.cpp
+    src/workshopitem.cpp \
+    src/widgetbridge.cpp \
+    src/installedlistfilter.cpp
 
 RESOURCES += \
     Resources.qrc \
+
 
 HEADERS += \
     src/steamworkshop.h \
@@ -34,7 +37,9 @@ HEADERS += \
     src/projectfile.h \
     src/widget.h \
     src/steamworkshoplistmodel.h \
-    src/workshopitem.h
+    src/workshopitem.h \
+    src/widgetbridge.h \
+    src/installedlistfilter.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \
@@ -59,8 +64,10 @@ INSTALLS += install_it
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH += [QtAVSourceCodeDir]/qml
 
+
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
+QT_QUICK_CONTROLS_STYLE = "Material"
 
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
@@ -76,6 +83,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 win32 {
     INCLUDEPATH += "C:\msys64\mingw64\include"
 }
+
 
 contains(QT_ARCH, i386) {
     #32-bit

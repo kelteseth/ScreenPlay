@@ -143,7 +143,7 @@ Item {
                         }
                         SettingBool {
                             headline: qsTr("Send anonymous crash reports and statistics")
-                            description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely used for development purposes!")
+                            description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!")
                             isChecked: screenPlaySettings.sendStatistics
                             onCheckboxChanged: {
                                 screenPlaySettings.setSendStatistics(checked)
@@ -156,7 +156,7 @@ Item {
 
             Item {
                 id: settingsPerformanceWrapper
-                height: 150
+                height: 220
                 width: parent.width
 
                 RectangularGlow {
@@ -203,7 +203,7 @@ Item {
 
                         SettingsComboBox {
                             id: settingsComboBox
-                            headline: qsTr("Set decoder")
+                            headline: qsTr("Default decoder")
                             description: qsTr("ScreenPlay supports different encoders for different hardware requirements.")
                             onCurrentIndexChanged: {
                                 screenPlaySettings.setDecoder(
@@ -227,6 +227,27 @@ Item {
                                 }
                                 ListElement {
                                     text: "FFmpeg"
+                                }
+                            }
+                        }
+                        SettingsHorizontalSeperator {
+                        }
+                        SettingsComboBox {
+                            id: settingsFillModeComboBox
+                            headline: qsTr("Default Fill Mode")
+                            description: qsTr("Set this property to define how the video is scaled to fit the target area.")
+                            onCurrentIndexChanged: {
+
+                            }
+                            comboBoxListModel: ListModel {
+                                ListElement {
+                                    text: "Stretch"
+                                }
+                                ListElement {
+                                    text: "PreserveAspectFit"
+                                }
+                                ListElement {
+                                    text: "PreserveAspectCrop"
                                 }
                             }
                         }

@@ -17,6 +17,11 @@ Rectangle {
 
     Connections{
         target: wallpaper
+        onPrepareDestroy:{
+            player.stop();
+            wallpaper.destroyWindow()
+        }
+
         onVolumeChanged:{
             player.volume = wallpaper.volume
         }
@@ -61,6 +66,7 @@ Rectangle {
         loops: MediaPlayer.Infinite
         volume: 0
     }
+
     states: [
         State {
             name: "playing"

@@ -68,6 +68,7 @@ Item {
         anchors.fill: parent
         antialiasing: false
         asynchronous: true
+
         //sourceSize: Qt.size(320,121)
         fillMode: Image.PreserveAspectCrop
         source: screenPlayItemImage.sourceImage.trim()

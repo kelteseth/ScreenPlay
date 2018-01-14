@@ -4,7 +4,7 @@ import QtGraphicalEffects 1.0
 Item {
     id: navigationItem
     width: 150
-    height: 60
+    height: 65
     state: "inactive"
     clip: true
 
@@ -131,7 +131,7 @@ Item {
 
             PropertyChanges {
                 target: iconColorOverlay
-                color: "#00000000"
+                color: "#BEBEBE"
             }
         }
     ]

@@ -1,5 +1,4 @@
-#ifndef WALLPAPER_H
-#define WALLPAPER_H
+#pragma once
 
 #include <QColor>
 #include <QDebug>
@@ -12,7 +11,9 @@
 #include <QSurfaceFormat>
 #include <QUrl>
 #include <QWindow>
+#include <QScreen>
 #include <qt_windows.h>
+#include <QSharedPointer>
 
 #include "monitorlistmodel.h"
 #include "profile.h"
@@ -25,6 +26,7 @@ public:
     Wallpaper(ProjectFile project, Monitor monitor);
     ~Wallpaper();
 
+    Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
     Q_PROPERTY(QString absoluteFilePath READ absoluteFilePath WRITE setAbsoluteFilePath NOTIFY absoluteFilePathChanged)
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
@@ -62,7 +64,22 @@ public:
         return m_decoder;
     }
 
+    QString fillMode() const
+    {
+        return m_fillMode;
+    }
+
 public slots:
+
+    void destroyWallpaper(){
+        emit prepareDestroy();
+    }
+
+    void destroyWindow(){
+        //deleteLater();
+        emit destroyThis(this);
+    }
+
     void setAbsoluteFilePath(QString absoluteFilePath)
     {
         if (m_absoluteFilePath == absoluteFilePath)
@@ -114,12 +131,24 @@ public slots:
         emit decoderChanged(m_decoder);
     }
 
+    void setFillMode(QString fillMode)
+    {
+        if (m_fillMode == fillMode)
+            return;
+
+        m_fillMode = fillMode;
+        emit fillModeChanged(m_fillMode);
+    }
+
 signals:
     void absoluteFilePathChanged(QString absoluteFilePath);
     void isPlayingChanged(bool isPlaying);
     void volumeChanged(float volume);
     void opacityChanged(float opacity);
     void decoderChanged(QString decoder);
+    void prepareDestroy();
+    void destroyThis(Wallpaper* ref);
+    void fillModeChanged(QString fillMode);
 
 private:
     HWND m_hwnd;
@@ -135,7 +164,7 @@ private:
     bool m_isPlaying = true;
     float m_volume = 1.0f;
     float m_opacity;
-    QString m_decoder;
+    QString m_decoder = "FFMPEG";
+    QString m_fillMode = "Stretch";
 };
 
-#endif // WALLPAPER_H

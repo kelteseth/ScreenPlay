@@ -77,6 +77,7 @@ Item {
             }
             MouseArea {
                 anchors.fill: parent
+                z:99
                 onClicked: {
                     screenPlaySettings.setHasWorkshopBannerSeen(true)
                     workshopAltertBannerWrapper.state = "out"

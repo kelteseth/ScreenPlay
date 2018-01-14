@@ -6,35 +6,23 @@ Item {
     width: 320
     height: 180
     state: "invisible"
-    Component.onCompleted: screenPlayItem.state = "visible"
     property string customTitle: "name here"
     property url absoluteStoragePath
-
-    property real introTime: Math.random() * (1 - .5) + .5
-    property string screenId: ""
-    property int screenPlayType: ScreenPlayItem.ItemType.WallpaperVideo
-
-    onScreenPlayTypeChanged:{
-        switch(screenPlayType) {
-        case ScreenPlayItem.ItemType.WallpaperVideo:
-            icnType.source = "qrc:/assets/icons/icon_movie.svg"
-            break;
-        case ScreenPlayItem.ItemType.WallpaperCustom:
-            break;
-        case ScreenPlayItem.ItemType.Widget:
-            break;
-        default:
-            break;
+    property string type
+    onTypeChanged: {
+        if (type === "widget") {
+            icnType.source = "qrc:/assets/icons/icon_widgets.svg"
         }
     }
 
-    enum ItemType {
-        WallpaperVideo,
-        WallpaperCustom,
-        Widget
-    }
+    property real introTime: Math.random() * (1 - .5) + .5
+    property string screenId: ""
 
-    signal itemClicked(var screenId)
+    signal itemClicked(var screenId, var type)
+
+    Component.onCompleted: {
+        screenPlayItem.state = "visible"
+    }
 
     RectangularGlow {
         id: effect
@@ -52,7 +40,6 @@ Item {
         opacity: 0.4
         cornerRadius: 15
     }
-
 
     Item {
         id: screenPlayItemWrapper
@@ -89,9 +76,9 @@ Item {
                 height: 15
                 opacity: 0
                 source: "qrc:/assets/icons/icon_movie.svg"
-                sourceSize: Qt.size(15,15)
-                anchors{
-                    top:parent.top
+                sourceSize: Qt.size(15, 15)
+                anchors {
+                    top: parent.top
                     left: parent.left
                     margins: 10
                 }
@@ -123,8 +110,6 @@ Item {
                     font.pointSize: 9
                     renderType: Text.NativeRendering
                     font.family: "Roboto"
-
-
                 }
             }
         }
@@ -146,7 +131,7 @@ Item {
                 }
 
                 onClicked: {
-                    itemClicked(screenId)
+                    itemClicked(screenId, type)
                 }
             }
         }
@@ -180,7 +165,7 @@ Item {
             PropertyChanges {
                 target: screenPlayItem
                 width: 320
-                height:180
+                height: 180
             }
             PropertyChanges {
                 target: icnType
@@ -200,13 +185,13 @@ Item {
             PropertyChanges {
                 target: screenPlayItemWrapper
                 width: 325
-                height:185
+                height: 185
             }
             PropertyChanges {
                 target: effect
                 opacity: 0.6
                 width: 325
-                height:185
+                height: 185
             }
             PropertyChanges {
                 target: screenPlayItemWrapper

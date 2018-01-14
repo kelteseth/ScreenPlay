@@ -1,6 +1,4 @@
-#ifndef PROFILE_H
-#define PROFILE_H
-
+#pragma once
 #include <QRect>
 #include <QString>
 #include <QUrl>
@@ -19,4 +17,3 @@ public:
     bool m_isLooping = true;
 };
 
-#endif // PROFILE_H

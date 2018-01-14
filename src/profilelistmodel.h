@@ -1,5 +1,4 @@
-#ifndef PROFILELISTMODEL_H
-#define PROFILELISTMODEL_H
+#pragma once
 
 #include "profile.h"
 #include <QAbstractListModel>
@@ -38,4 +37,4 @@ private:
 
 };
 
-#endif // PROFILELISTMODEL_H
+

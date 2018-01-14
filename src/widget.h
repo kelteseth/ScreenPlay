@@ -1,5 +1,4 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#pragma once
 
 #include <QQuickItem>
 #include <QQuickView>
@@ -21,4 +20,4 @@ private:
     QUrl m_source;
 };
 
-#endif // WIDGET_H
+

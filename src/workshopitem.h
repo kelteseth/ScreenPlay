@@ -1,5 +1,4 @@
-#ifndef WORKSHOPITEM_H
-#define WORKSHOPITEM_H
+#pragma once
 
 #include <QString>
 #include <QUrl>
@@ -16,4 +15,4 @@ public:
     unsigned int m_id;
 };
 
-#endif // WORKSHOPITEM_H
+

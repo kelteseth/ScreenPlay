@@ -22,14 +22,13 @@ Item {
 
     Rectangle {
         id: background
-        color: "#80000000"
+        color: "#99000000"
         anchors.fill: parent
 
         MouseArea {
             id: bgMouseArea
             anchors.fill: parent
             onClicked: monitors.state = "inactive"
-            hoverEnabled: true
         }
     }
 
@@ -40,6 +39,10 @@ Item {
         height: 600
         z: 98
         anchors.centerIn: parent
+
+        MouseArea {
+            anchors.fill: parent
+        }
 
         ColumnLayout {
             anchors.fill: parent
@@ -53,14 +56,14 @@ Item {
                 height: 200
                 width: 800
                 Layout.fillWidth: true
-                availableWidth: 800
-                availableHeight: 200
+                availableWidth: 700
+                availableHeight: 150
             }
 
             Item {
                 id: sliderVolumeWrapper
                 height: 100
-                width:320
+                width: 320
                 Layout.alignment: Qt.AlignHCenter
                 Text {
                     id: txtSliderVolume
@@ -127,9 +130,9 @@ Item {
             }
             ComboBox {
                 id: comboBox
-                width:300
+                width: 200
                 Layout.alignment: Qt.AlignHCenter
-                Layout.fillWidth:true
+                Layout.preferredWidth: 200
 
                 model: ListModel {
                     id: model
@@ -145,7 +148,6 @@ Item {
                 }
 
                 onActivated: screenPlaySettings.setGlobalFillMode(currentText)
-
             }
 
             Button {

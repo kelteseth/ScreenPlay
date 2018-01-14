@@ -209,7 +209,7 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
         uint32 previews = 0;
         uint32 subscriber = 0;
         uint32 results = pCallback->m_unTotalMatchingResults;
-        //qDebug() << results;
+        qDebug() << results;
 
         for (uint32 i = 0; i < results; i++) {
             if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
@@ -229,6 +229,8 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
 
 //                    }
                 }
+            } else {
+                qDebug() << "Loading error!";
             }
         }
 

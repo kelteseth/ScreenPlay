@@ -17,9 +17,9 @@ ApplicationWindow {
     minimumHeight: 768
     minimumWidth: 1050
 
-    Connections{
+    Connections {
         target: screenPlaySettings
-        onSetMainWindowVisible:{
+        onSetMainWindowVisible: {
             window.visible = visible
             setX(Screen.width / 2 - width / 2)
             setY(Screen.height / 2 - height / 2)
@@ -86,7 +86,7 @@ ApplicationWindow {
                 onTriggered: {
                     if (miStopAll.isPlaying) {
                         isPlaying = false
-                        miStopAll.text = qsTr("Stop all")
+                        miStopAll.text = qsTr("Pause all")
                         screenPlaySettings.setPlayAll(true)
                     } else {
                         isPlaying = true
@@ -113,21 +113,19 @@ ApplicationWindow {
             left: parent.left
         }
         onStatusChanged: {
-            if(status == Loader.Ready){
-                if(pageLoaderCreate.source != "qrc:/qml/Create/Create.qml")
-                timerLoader.start()
-
+            if (status == Loader.Ready) {
+                if (pageLoaderCreate.source != "qrc:/qml/Create/Create.qml")
+                    timerLoader.start()
             }
         }
     }
 
     Timer {
-        id:timerLoader
+        id: timerLoader
         interval: 500
         onTriggered: {
             pageLoaderCreate.source = "qrc:/qml/Create/Create.qml"
         }
-
     }
 
     Loader {
@@ -140,7 +138,6 @@ ApplicationWindow {
             bottom: parent.bottom
             left: parent.left
         }
-
     }
     Loader {
         id: pageLoaderWorkshop
@@ -153,13 +150,13 @@ ApplicationWindow {
             left: parent.left
         }
         onStatusChanged: {
-            if(status == Loader.Ready){
+            if (status == Loader.Ready) {
                 connectionsPageLoaderWorkshop.target = pageLoaderWorkshop
             }
         }
     }
-    Connections{
-        id:connectionsPageLoaderWorkshop
+    Connections {
+        id: connectionsPageLoaderWorkshop
         ignoreUnknownSignals: true
         onOpenCreate: {
             print("lellele")
@@ -176,14 +173,24 @@ ApplicationWindow {
         property bool ignoreWorkshopBanner: false
 
         onSetSidebaractiveItem: {
-            if (sidebar.activeScreen == screenId
-                    && sidebar.state == "active") {
-                sidebar.state = "inactive"
-            } else {
-                sidebar.state = "active"
-            }
 
+            if (type === "video") {
+                if (sidebar.activeScreen == screenId
+                        && sidebar.state == "active") {
+                    sidebar.state = "inactive"
+                } else {
+                    sidebar.state = "active"
+                }
+            } else if (type === "widget") {
+                if (sidebar.activeScreen == screenId
+                        && sidebar.state == "activeWidget") {
+                    sidebar.state = "inactive"
+                } else {
+                    sidebar.state = "activeWidget"
+                }
+            }
             sidebar.activeScreen = screenId
+            sidebar.type = type
         }
         onSetNavigationItem: {
             if (pos === 0) {
@@ -221,14 +228,14 @@ ApplicationWindow {
         }
     }
 
-    function switchPage(name){
-        if(name === "Create"){
+    function switchPage(name) {
+        if (name === "Create") {
             pageLoader.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
             pageLoaderCreate.visible = true
             pageLoaderWorkshop.visible = false
             sidebar.state = "inactive"
-        } else if(name === "Workshop"){
+        } else if (name === "Workshop") {
             pageLoader.visible = false
             pageLoaderCreate.visible = false
             pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")

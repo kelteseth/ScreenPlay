@@ -6,6 +6,9 @@ Rectangle {
     color: background
     radius: cornerRadius
 
+    height: availableHeight
+    width: availableWidth
+
     property color background: "transparent"
     property real cornerRadius: 0
     // Width of the Sidebar or Space that should be used
@@ -38,42 +41,41 @@ Rectangle {
     }
 
     function resize() {
-            //  Absolute availableVirtualGeometry
-            var absoluteDesktopSize = monitorListModel.getAbsoluteDesktopSize()
-            var isWidthGreaterThanHeight = false
-            var windowsDelta = 0
+        //  Absolute availableVirtualGeometry
+        var absoluteDesktopSize = monitorListModel.getAbsoluteDesktopSize()
+        var isWidthGreaterThanHeight = false
+        var windowsDelta = 0
 
-            if (absoluteDesktopSize.width < absoluteDesktopSize.height) {
-                windowsDelta = absoluteDesktopSize.width / absoluteDesktopSize.height
-                isWidthGreaterThanHeight = false
-            } else {
-                windowsDelta = absoluteDesktopSize.height / absoluteDesktopSize.width
-                isWidthGreaterThanHeight = true
-            }
+        if (absoluteDesktopSize.width < absoluteDesktopSize.height) {
+            windowsDelta = absoluteDesktopSize.width / absoluteDesktopSize.height
+            isWidthGreaterThanHeight = false
+        } else {
+            windowsDelta = absoluteDesktopSize.height / absoluteDesktopSize.width
+            isWidthGreaterThanHeight = true
+        }
 
-            var dynamicHeight = availableWidth * windowsDelta
-            var dynamicWidth = availableHeight * windowsDelta
+        var dynamicHeight = availableWidth * windowsDelta
+        var dynamicWidth = availableHeight * windowsDelta
 
+        // Delta (height/width)
+        var monitorHeightRationDelta = 0
+        var monitorWidthRationDelta = 0
 
-            // Delta (height/width)
-            var monitorHeightRationDelta = 0
-            var monitorWidthRationDelta = 0
+        if (isWidthGreaterThanHeight) {
+            monitorHeightRationDelta = dynamicHeight / absoluteDesktopSize.height
+            monitorWidthRationDelta = availableWidth / absoluteDesktopSize.width
+        } else {
+            monitorHeightRationDelta = availableHeight / absoluteDesktopSize.height
+            monitorWidthRationDelta = dynamicWidth / absoluteDesktopSize.width
+        }
 
-            if (isWidthGreaterThanHeight) {
-                monitorHeightRationDelta = dynamicHeight / absoluteDesktopSize.height
-                monitorWidthRationDelta = availableWidth / absoluteDesktopSize.width
-            } else {
-                monitorHeightRationDelta = availableHeight / absoluteDesktopSize.height
-                monitorWidthRationDelta = dynamicWidth / absoluteDesktopSize.width
-            }
-
-            for (var i = 0; i < rp.count; i++) {
-                rp.itemAt(i).index = i
-                rp.itemAt(i).height = rp.itemAt(i).height * monitorHeightRationDelta
-                rp.itemAt(i).width = rp.itemAt(i).width * monitorWidthRationDelta
-                rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta
-                rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta
-            }
+        for (var i = 0; i < rp.count; i++) {
+            rp.itemAt(i).index = i
+            rp.itemAt(i).height = rp.itemAt(i).height * monitorHeightRationDelta
+            rp.itemAt(i).width = rp.itemAt(i).width * monitorWidthRationDelta
+            rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta
+            rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta
+        }
     }
 
     Repeater {
@@ -88,7 +90,7 @@ Rectangle {
             width: monitorAvailableGeometry.width
             x: monitorAvailableGeometry.x
             y: monitorAvailableGeometry.y
-            monitorManufacturer:  monitorManufacturer
+            monitorManufacturer: monitorManufacturer
             monitorName: monitorName
             monitorModel: monitorModel
             monitorSize: monitorAvailableGeometry
@@ -101,7 +103,6 @@ Rectangle {
                     setActiveMonitorIndex(index)
                 }
             }
-
         }
     }
 }

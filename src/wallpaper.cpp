@@ -28,12 +28,8 @@ Wallpaper::Wallpaper(ProjectFile project, Monitor monitor)
     tmp.replace("/", "\\\\");
     setAbsoluteFilePath(tmp);
 
-    this->setX(m_monitor.m_availableGeometry.x());
-    this->setY(m_monitor.m_availableGeometry.y());
-    this->setWidth(m_monitor.m_availableGeometry.width());
-    this->setHeight(m_monitor.m_availableGeometry.height());
+    qDebug() << m_monitor.m_availableGeometry;
     this->m_hwnd = (HWND)this->winId();
-
 
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
 
@@ -49,18 +45,20 @@ Wallpaper::Wallpaper(ProjectFile project, Monitor monitor)
 
     SetParent(m_hwnd, m_worker_hwnd);
     SetLayeredWindowAttributes(m_hwnd,RGB(255,0,0),0,LWA_ALPHA);
+
     SetWindowLongPtr(m_hwnd, GWL_STYLE,
         WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
     SetWindowLongPtr(m_hwnd, GWL_EXSTYLE,
         WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
 
     Qt::WindowFlags flags = this->flags();
-
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
-//    this->setOpacity(0.0f);
-    this->show();
 
-
+    //IMPORTANT: Set the size _after_ doing the windows hack above!
+    this->setX(m_monitor.m_availableGeometry.x());
+    this->setY(m_monitor.m_availableGeometry.y());
+    this->setWidth(m_monitor.m_size.width());
+    this->setHeight(m_monitor.m_size.height());
     m_quickRenderer = QSharedPointer<QQuickView>(new QQuickView(this));
 
 //    QSurfaceFormat surfaceFormat;
@@ -69,20 +67,24 @@ Wallpaper::Wallpaper(ProjectFile project, Monitor monitor)
 //    m_quickRenderer.data()->setFormat(surfaceFormat);
 
     //m_quickRenderer.data()->setColor(QColor(Qt::transparent));
-    m_quickRenderer.data()->setWidth(this->width());
-    m_quickRenderer.data()->setHeight(this->height());
+    m_quickRenderer.data()->setWidth(m_monitor.m_size.width());
+    m_quickRenderer.data()->setHeight(m_monitor.m_size.height());
     //m_quickRenderer.data()->setClearBeforeRendering(true);
 
     m_context = m_quickRenderer.data()->rootContext();
     m_context->setContextProperty("wallpaper", this);
     m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_quickRenderer.data()->setSource(QUrl("qrc:/qml/Screens/ScreenVideo.qml"));
-    m_quickRenderer.data()->showFullScreen();
+    m_quickRenderer.data()->show();
+    //ShowWindow(m_hwnd, SW_MAXIMIZE);
+    this->show();
     setVisible(true);
+
 }
 
 Wallpaper::~Wallpaper()
 {
+
     ShowWindow(m_hwnd, SW_HIDE);
     ShowWindow(m_worker_hwnd, SW_HIDE);
     CloseWindow(m_hwnd);
@@ -92,11 +94,11 @@ Wallpaper::~Wallpaper()
 
 void Wallpaper::setupWindow()
 {
-        QPropertyAnimation* anim = new QPropertyAnimation(this, "opacity");
-        anim->setDuration(2000);
-        anim->setStartValue(0);
-        anim->setEndValue(1);
-        anim->start(QAbstractAnimation::DeleteWhenStopped);
+    QPropertyAnimation* anim = new QPropertyAnimation(this, "opacity");
+    anim->setDuration(2000);
+    anim->setStartValue(0);
+    anim->setEndValue(1);
+    anim->start(QAbstractAnimation::DeleteWhenStopped);
 }
 
 Monitor Wallpaper::monitor() const

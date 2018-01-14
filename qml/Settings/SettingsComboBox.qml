@@ -47,6 +47,7 @@ Item {
         renderType: Text.NativeRendering
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
+        wrapMode: Text.WordWrap
         font.pixelSize: 12
         font.family: "Roboto"
         anchors{
@@ -54,6 +55,8 @@ Item {
             topMargin: 6
             left:parent.left
             leftMargin: 20
+            right:comboBox.left
+            rightMargin: 20
         }
     }
 

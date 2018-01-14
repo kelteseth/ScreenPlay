@@ -69,7 +69,6 @@ Rectangle {
     }
 
     Row {
-
         anchors.fill: parent
         anchors.left: parent.left
         anchors.leftMargin: 20
@@ -103,14 +102,14 @@ Rectangle {
             id: navCommunity
             state: "inactive"
             name: "Community"
-            iconSource: "qrc:/assets/icons/icon_community.svg"
+            //iconSource: "qrc:/assets/icons/icon_community.svg"
             onPageClicked: navigation.onPageChanged(name)
         }
         NavigationItem {
             id: navSettings
             state: "inactive"
             name: "Settings"
-            iconSource: "qrc:/assets/icons/icon_settings.svg"
+            //iconSource: "qrc:/assets/icons/icon_settings.svg"
             onPageClicked: navigation.onPageChanged(name)
         }
     }
@@ -149,7 +148,7 @@ Rectangle {
                 text: screenPlaySettings.activeWallpaperCounter
                 anchors {
                     horizontalCenter: parent.horizontalCenter
-                    top:parent.top
+                    top: parent.top
                     topMargin: 1
                 }
 
@@ -165,9 +164,9 @@ Rectangle {
 
         Text {
             id: activeMonitorName
-            text: qsTr("Monitor Setup")
+            text: qsTr("Multi Monitor Setup")
             anchors.right: image.right
-            anchors.rightMargin: 20 + image.width
+            anchors.rightMargin: 10 + image.width
             horizontalAlignment: Text.AlignRight
             color: "#626262"
             anchors.verticalCenter: parent.verticalCenter

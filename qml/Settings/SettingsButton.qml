@@ -51,6 +51,7 @@ Item {
         color: "#B5B5B5"
         renderType: Text.NativeRendering
         verticalAlignment: Text.AlignVCenter
+        wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: 12
         font.family: "Roboto"
@@ -59,6 +60,8 @@ Item {
             topMargin: 6
             left:parent.left
             leftMargin: 20
+            right:btnSettings.left
+            rightMargin: 20
         }
     }
 

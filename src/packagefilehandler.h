@@ -1,5 +1,4 @@
-#ifndef PACKAGEFILEHANDLER_H
-#define PACKAGEFILEHANDLER_H
+#pragma once
 
 #include <QFile>
 #include <QVector>
@@ -50,4 +49,3 @@ private:
     LoaderStatus m_currentLoaderStatus = LoaderStatus::Idle;
 };
 
-#endif // PACKAGEFILEHANDLER_H

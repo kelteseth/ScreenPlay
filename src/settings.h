@@ -118,6 +118,7 @@ signals:
 
 public slots:
 
+    void destroyWallpaper(QObject *ref);
 
     //Global settings
     void setGlobalVolume(float volume);
@@ -165,13 +166,7 @@ public slots:
         emit sendStatisticsChanged(m_sendStatistics);
     }
 
-    void createNewWallpaper(int monitorListPosition, Profile profile, ProjectFile projectFile);
-
     void removeWallpaperAt(int pos);
-
-    void constructWallpaper(Profile profile, QString monitorID, ProjectFile spf);
-
-    void constructWallpaper(QString folder, int monitorListAt);
 
     void setWallpaper(int monitorIndex, QUrl absoluteStoragePath);
 

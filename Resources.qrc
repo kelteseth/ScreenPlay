@@ -47,7 +47,6 @@
         <file>qml/Navigation.qml</file>
         <file>qml/NavigationItem.qml</file>
         <file>qml/ScreenPlay.qml</file>
-        <file>qml/SettingsItemBool.qml</file>
         <file>qml/StartupErrorWindow.qml</file>
         <file>qml/Community/Community.qml</file>
         <file>qml/Community/Feedback.qml</file>
@@ -82,5 +81,7 @@
         <file>assets/icons/icon_local_movies.svg</file>
         <file>assets/icons/icon_build.svg</file>
         <file>assets/icons/icon_logo_head.svg</file>
+        <file>assets/icons/icon_widgets.svg</file>
+        <file>qml/Installed/InstalledNavigation.qml</file>
     </qresource>
 </RCC>

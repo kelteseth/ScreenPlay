@@ -30,6 +30,8 @@
 #include "steamworkshop.h"
 #include "steamworkshoplistmodel.h"
 #include "widget.h"
+#include "widgetbridge.h"
+#include "installedlistfilter.h"
 
 int main(int argc, char* argv[])
 {
@@ -37,6 +39,7 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_UseOpenGLES);
 
     QGuiApplication app(argc, argv);
+    QObject::connect(&app,&QGuiApplication::screenRemoved,[&]() { qDebug() << "removed"; });
 
     QFontDatabase::addApplicationFont(":/assets/fonts/PermanentMarker-Regular.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
@@ -48,6 +51,7 @@ int main(int argc, char* argv[])
     QCoreApplication::setOrganizationName("Aimber");
     QCoreApplication::setOrganizationDomain("aimber.net");
     QCoreApplication::setApplicationName("ScreenPlay");
+    QCoreApplication::setApplicationVersion("0.1.0");
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
     bool steamErrorRestart = false;
@@ -69,6 +73,11 @@ int main(int argc, char* argv[])
     ProfileListModel profileListModel;
     SteamWorkshopListModel steamWorkshopListModel;
 
+    WidgetBridge widgetBridge;
+
+    InstalledListFilter installedListFilter(&installedListModel);
+
+
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
@@ -81,6 +90,7 @@ int main(int argc, char* argv[])
     settings.loadActiveProfiles();
 
     QQmlApplicationEngine mainWindowEngine;
+    mainWindowEngine.rootContext()->setContextProperty("installedListFilter", &installedListFilter);
     mainWindowEngine.rootContext()->setContextProperty("workshopListModel", &steamWorkshopListModel);
     mainWindowEngine.rootContext()->setContextProperty("monitorListModel", &monitorListModel);
     mainWindowEngine.rootContext()->setContextProperty("installedListModel", &installedListModel);

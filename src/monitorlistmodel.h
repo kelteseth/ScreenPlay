@@ -1,5 +1,4 @@
-#ifndef MONITORLISTMODEL_H
-#define MONITORLISTMODEL_H
+#pragma once
 
 #include <QAbstractListModel>
 #include <QSize>
@@ -77,7 +76,7 @@ class Monitor {
 
 public:
     Monitor();
-    Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry,QRect geometry);
+    Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry,QRect geometry, QScreen *screen);
 
     QString m_id;
     QString m_name;
@@ -89,7 +88,8 @@ public:
     QRect m_geometry;
     int m_number;
     bool m_isVirtualDesktop;
+    QScreen* m_screen = nullptr;
 
 
 };
-#endif // MONITORLISTMODEL_H
+

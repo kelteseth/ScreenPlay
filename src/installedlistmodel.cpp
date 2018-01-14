@@ -28,6 +28,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(index.row()).m_title;
         case PreviewRole:
             return m_screenPlayFiles.at(index.row()).m_preview;
+        case TypeRole:
+            return m_screenPlayFiles.at(index.row()).m_type;
         case FolderIdRole:
             return m_screenPlayFiles.at(index.row()).m_folderId;
         case FileIdRole:
@@ -44,6 +46,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles{
         { TitleRole, "screenTitle" },
+        { TypeRole, "screenType" },
         { PreviewRole, "screenPreview" },
         { FolderIdRole, "screenFolderId" },
         { FileIdRole, "screenFile" },
@@ -107,7 +110,17 @@ void InstalledListModel::loadScreens()
 
             if (jsonProject.object().empty())
                 continue;
-            //qDebug() <<
+
+            //Some settings dont have a file type
+            if(!jsonProject.object().contains("type")){
+                if(jsonProject.object().contains("file")){
+                    QString fileEnding = jsonProject.object().value("file").toString();
+                    if(fileEnding.endsWith(".mp4") || fileEnding.endsWith(".vp9")){
+                        jsonProject.object().insert("type","video");
+                    }
+                }
+            }
+
 
             emit addInstalledItem(jsonProject.object(), item.baseName());
         }
@@ -128,6 +141,7 @@ QVariantMap InstalledListModel::get(QString folderId)
             map.insert("screenTitle", m_screenPlayFiles[i].m_title);
             map.insert("screenPreview", m_screenPlayFiles[i].m_preview);
             map.insert("screenFile", m_screenPlayFiles[i].m_file);
+            map.insert("screenType", m_screenPlayFiles[i].m_type);
             map.insert("screenAbsoluteStoragePath", m_screenPlayFiles[i].m_absoluteStoragePath);
         }
     }

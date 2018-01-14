@@ -37,6 +37,7 @@ public:
 
     enum InstalledRole {
         TitleRole,
+        TypeRole,
         PreviewRole,
         FolderIdRole,
         FileIdRole,

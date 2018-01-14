@@ -8,11 +8,4 @@ Rectangle {
     ScreenVideoPlayer {
         id: screenVideoPlayer
     }
-//    Rectangle {
-//        anchors.centerIn: parent
-//        width:400
-//        height:400
-//        color: "red"
-//    }
-//    Component.onCompleted: wallpaper.setupWindow()
 }

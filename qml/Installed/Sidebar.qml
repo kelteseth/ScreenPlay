@@ -19,8 +19,7 @@ Item {
         enabled: true
     }
 
-    property string activeScreen: ""
-
+    property string activeScreen
     onActiveScreenChanged: {
         txtHeadline.text = installedListModel.get(activeScreen).screenTitle
         image.source = Qt.resolvedUrl(
@@ -29,9 +28,12 @@ Item {
                         activeScreen).screenPreview)
     }
 
-
-
-
+    property string type
+    onTypeChanged: {
+        if (type === "widget") {
+            state = "activeWidget"
+        }
+    }
 
     Item {
         id: sidebarWrapper
@@ -99,10 +101,32 @@ Item {
                     asynchronous: true
                     anchors.fill: parent
                     onStatusChanged: {
-                         if(image.status === Image.Error){
+                        if (image.status === Image.Error) {
                             source = "qrc:/assets/images/missingPreview.png"
                         }
+                    }
+                }
+                LinearGradient {
+                    id: tabShadow
+                    height: 20
+                    cached: true
 
+                    anchors {
+                        bottom: parent.bottom
+                        right: parent.right
+                        left: parent.left
+                    }
+                    start: Qt.point(0, 30)
+                    end: Qt.point(0, 0)
+                    gradient: Gradient {
+                        GradientStop {
+                            position: 0.0
+                            color: "#88000000"
+                        }
+                        GradientStop {
+                            position: 1.0
+                            color: "#00000000"
+                        }
                     }
                 }
             }
@@ -143,7 +167,6 @@ Item {
                     left: parent.left
                     leftMargin: 10
                 }
-
 
                 RectangularGlow {
                     id: effect
@@ -194,7 +217,7 @@ Item {
 
             Rectangle {
                 id: monitorSelectionWrapper
-                height: 60
+                height: 80
                 width: 400
                 anchors {
                     top: headlineWrapper.bottom
@@ -206,7 +229,7 @@ Item {
                     width: 360
                     height: parent.height
                     availableWidth: 360
-                    availableHeight: monitorSelectionWrapper.height
+                    availableHeight: 50
                     anchors {
                         top: parent.top
                         horizontalCenter: parent.horizontalCenter
@@ -218,7 +241,7 @@ Item {
                 height: 100
                 anchors {
                     top: monitorSelectionWrapper.bottom
-                    topMargin: 40
+                    topMargin: 20
                     right: parent.right
                     rightMargin: 40
                     leftMargin: 40
@@ -296,7 +319,6 @@ Item {
                 Material.background: Material.Orange
                 Material.foreground: "white"
 
-
                 anchors {
                     bottom: parent.bottom
                     bottomMargin: 20
@@ -304,9 +326,14 @@ Item {
                 }
 
                 onClicked: {
-                    screenPlaySettings.setWallpaper(
-                                monitorSelection.activeMonitorIndex,
-                                installedListModel.absoluteStoragePath + "/" + activeScreen)
+                    print(type)
+                    if (type === "video") {
+                        screenPlaySettings.setWallpaper(
+                                    monitorSelection.activeMonitorIndex,
+                                    installedListModel.absoluteStoragePath + "/" + activeScreen)
+                    } else if (type === "widget") {
+
+                    }
                 }
             }
         }
@@ -376,6 +403,38 @@ Item {
                 opacity: 0
                 anchors.topMargin: 20
             }
+        },
+        State {
+            name: "activeWidget"
+            PropertyChanges {
+                target: mouseAreaHelper
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: sidebarWrapper
+                anchors.leftMargin: 0
+            }
+
+            PropertyChanges {
+                target: image
+                opacity: 1
+                anchors.topMargin: 0
+            }
+
+            PropertyChanges {
+                target: sliderVolumeWrapper
+                enabled: false
+                visible: true
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: monitorSelectionWrapper
+                enabled: false
+                visible: true
+                opacity: 0
+            }
         }
     ]
 
@@ -424,6 +483,31 @@ Item {
                 properties: "anchors.leftMargin"
                 duration: 250
                 easing.type: Easing.InOutQuad
+            }
+        },
+        Transition {
+            to: "activeWidget"
+
+            SequentialAnimation {
+                NumberAnimation {
+                    target: sidebarWrapper
+                    properties: "anchors.leftMargin"
+                    duration: 250
+                    easing.type: Easing.InOutQuad
+                }
+
+                ParallelAnimation {
+                    NumberAnimation {
+                        target: image
+                        property: "opacity"
+                        duration: 200
+                    }
+                    NumberAnimation {
+                        target: image
+                        property: "anchors.topMargin"
+                        duration: 100
+                    }
+                }
             }
         }
     ]

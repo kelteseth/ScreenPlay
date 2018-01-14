@@ -84,15 +84,6 @@ Settings::~Settings()
 {
 }
 
-void Settings::constructWallpaper(Profile profile, QString monitorID, ProjectFile pf)
-{
-    //m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(profile, pf)));
-}
-
-void Settings::constructWallpaper(QString folder, int monitorListAt)
-{
-}
-
 void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
 {
 
@@ -106,6 +97,7 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
     if (!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
         return;
     }
+
     for (int i = 0; i < m_wallpapers.length(); ++i) {
         if (m_wallpapers.at(i).data()->monitor().m_id == monitor.m_id) {
             m_wallpapers.removeAt(i);
@@ -113,7 +105,9 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
         }
     }
     increaseActiveWallpaperCounter();
-    m_wallpapers.append(QSharedPointer<Wallpaper>(new Wallpaper(project, monitor)));
+    auto tmpWallpaper = QSharedPointer<Wallpaper>(new Wallpaper(project, monitor));
+    QObject::connect(tmpWallpaper.data(),&Wallpaper::destroyed,this, &Settings::destroyWallpaper);
+    m_wallpapers.append(tmpWallpaper);
 }
 
 QString Settings::loadProject(QString file)
@@ -147,14 +141,26 @@ void Settings::loadActiveProfiles()
             QString profileName = activeProfilesTmp.at(i).toObject().value("profile").toString();
             QString monitorID = activeProfilesTmp.at(i).toObject().value("monitorID").toString();
             Profile profile;
-            ProjectFile spf;
+//            auto spf = new QSharedPointer<ProjectFile>(new ProjectFile());
 
-            if (!m_plm->getProfileByName(profileName, &profile))
-                continue;
-            if (!m_ilm->getProjectByAbsoluteStoragePath(&profile.m_absolutePath, &spf))
-                continue;
+//            if (!m_plm->getProfileByName(profileName, &profile))
+//                continue;
 
-            constructWallpaper(profile, monitorID, spf);
+//            if (!m_ilm->getProjectByAbsoluteStoragePath(&profile.m_absolutePath, spf))
+//                continue;
+
+//            constructWallpaper(profile, monitorID, spf);
+        }
+    }
+}
+
+void Settings::destroyWallpaper(QObject *ref)
+{
+    for (int i = 0; i < m_wallpapers.count(); ++i) {
+        if(m_wallpapers.at(i) == ref){
+            //m_wallpapers.at(i).data()->deleteLater();
+            m_wallpapers.remove(i);
+            return;
         }
     }
 }
@@ -204,7 +210,10 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
 
 void Settings::removeAll()
 {
-    m_wallpapers.clear();
+    for (int i = 0; i < m_wallpapers.size(); ++i) {
+        m_wallpapers.at(i).data()->destroyWallpaper();
+    }
+    //m_wallpapers.clear();
     setActiveWallpaperCounter(0);
 }
 
@@ -250,9 +259,6 @@ QString Settings::fixWindowsPath(QString url)
     return url.replace("/", "\\\\");
 }
 
-void Settings::createNewWallpaper(int monitorListPosition, Profile profile, ProjectFile projectFile)
-{
-}
 
 void Settings::removeWallpaperAt(int pos)
 {
