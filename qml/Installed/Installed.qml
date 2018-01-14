@@ -71,6 +71,10 @@ Item {
             height: 30
             width: parent.width
         }
+        footer: Item {
+            height: 70
+            width: parent.width
+        }
 
         model: installedListFilter
 
@@ -139,7 +143,7 @@ Item {
 
         Rectangle {
             id: nav
-            height: 65
+            height: 55
             anchors {
                 bottom: parent.bottom
                 right: parent.right
@@ -149,7 +153,7 @@ Item {
             Row {
                 anchors {
                     top: parent.top
-                    right: txtSearch.left
+                    right: icnSearch.left
                     left: parent.left
                     leftMargin: 20
                     bottom: parent.bottom
@@ -186,6 +190,18 @@ Item {
                     }
                 }
             }
+            Image {
+                id: icnSearch
+                source: "qrc:/assets/icons/icon_search.svg"
+                height: 15
+                width: 15
+                sourceSize: Qt.size(15, 15)
+                anchors {
+                    right: txtSearch.left
+                    rightMargin: 15
+                    verticalCenter: parent.verticalCenter
+                }
+            }
             TextField {
                 id: txtSearch
                 width: 300
@@ -193,7 +209,7 @@ Item {
                     right: parent.right
                     rightMargin: 30
                     bottom: parent.bottom
-                    bottomMargin: 10
+                    bottomMargin: 5
                 }
                 onTextChanged: {
                     if (txtSearch.text.length === 0) {

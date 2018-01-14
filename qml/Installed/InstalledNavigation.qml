@@ -4,7 +4,7 @@ import QtGraphicalEffects 1.0
 Item {
     id: navigationItem
     width: 150
-    height: 65
+    height: 55
     state: "inactive"
     clip: true
 
