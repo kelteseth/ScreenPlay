@@ -77,6 +77,7 @@ public slots:
 
     void destroyWindow(){
         //deleteLater();
+        setVisible(false);
         emit destroyThis(this);
     }
 

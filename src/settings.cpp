@@ -158,8 +158,8 @@ void Settings::destroyWallpaper(QObject *ref)
 {
     for (int i = 0; i < m_wallpapers.count(); ++i) {
         if(m_wallpapers.at(i) == ref){
-            //m_wallpapers.at(i).data()->deleteLater();
-            m_wallpapers.remove(i);
+            m_wallpapers.at(i).data()->deleteLater();
+            //m_wallpapers.remove(i);
             return;
         }
     }
