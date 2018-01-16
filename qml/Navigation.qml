@@ -102,14 +102,14 @@ Rectangle {
             id: navCommunity
             state: "inactive"
             name: "Community"
-            //iconSource: "qrc:/assets/icons/icon_community.svg"
+            iconSource: "qrc:/assets/icons/icon_community.svg"
             onPageClicked: navigation.onPageChanged(name)
         }
         NavigationItem {
             id: navSettings
             state: "inactive"
             name: "Settings"
-            //iconSource: "qrc:/assets/icons/icon_settings.svg"
+            iconSource: "qrc:/assets/icons/icon_settings.svg"
             onPageClicked: navigation.onPageChanged(name)
         }
     }
