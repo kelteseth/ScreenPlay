@@ -82,7 +82,7 @@ ApplicationWindow {
             MenuItem {
                 id: miStopAll
                 property bool isPlaying: false
-                text: qsTr("Stop all")
+                text: qsTr("Pause all")
                 onTriggered: {
                     if (miStopAll.isPlaying) {
                         isPlaying = false
