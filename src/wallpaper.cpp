@@ -30,6 +30,7 @@ Wallpaper::Wallpaper(ProjectFile project, Monitor monitor)
 
     this->m_hwnd = (HWND)this->winId();
 
+
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
 
     // Spawn new worker window below desktop (using some undocumented Win32 magic)
@@ -48,6 +49,7 @@ Wallpaper::Wallpaper(ProjectFile project, Monitor monitor)
     SetLayeredWindowAttributes(m_worker_hwnd, RGB(0, 0, 0), 0, LWA_ALPHA);
     ShowWindow(m_worker_hwnd, SW_HIDE);
     ShowWindow(m_hwnd, SW_HIDE);
+    SetParent(m_hwnd, m_worker_hwnd);
 
     int xProxy = m_monitor.m_screen->geometry().x();
     int yProxy = m_monitor.m_screen->geometry().y();
@@ -57,13 +59,6 @@ Wallpaper::Wallpaper(ProjectFile project, Monitor monitor)
     SetWindowPos(m_worker_hwnd, HWND_BOTTOM, xProxy, yProxy, widthProxy, heightProxy, SWP_SHOWWINDOW);
     SetWindowPos(m_hwnd, HWND_BOTTOM, xProxy, yProxy, widthProxy, heightProxy, SWP_SHOWWINDOW);
 
-    SetParent(m_hwnd, m_worker_hwnd);
-
-
-    SetWindowLongPtr(m_hwnd, GWL_STYLE,
-        WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
-    SetWindowLongPtr(m_hwnd, GWL_EXSTYLE,
-        WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
 
     Qt::WindowFlags flags = this->flags();
     setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
@@ -81,6 +76,7 @@ Wallpaper::Wallpaper(ProjectFile project, Monitor monitor)
     setVisible(true);
     show();
     m_quickRenderer.data()->show();
+
 }
 
 Wallpaper::~Wallpaper()
