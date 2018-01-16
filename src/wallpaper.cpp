@@ -28,7 +28,6 @@ Wallpaper::Wallpaper(ProjectFile project, Monitor monitor)
     tmp.replace("/", "\\\\");
     setAbsoluteFilePath(tmp);
 
-    qDebug() << m_monitor.m_availableGeometry;
     this->m_hwnd = (HWND)this->winId();
 
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
@@ -43,8 +42,23 @@ Wallpaper::Wallpaper(ProjectFile project, Monitor monitor)
 
     EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_worker_hwnd));
 
+    // First hide the two proxy windows
+    // to avoid flickering
+    SetLayeredWindowAttributes(m_hwnd, RGB(0, 0, 0), 0, LWA_ALPHA);
+    SetLayeredWindowAttributes(m_worker_hwnd, RGB(0, 0, 0), 0, LWA_ALPHA);
+    ShowWindow(m_worker_hwnd, SW_HIDE);
+    ShowWindow(m_hwnd, SW_HIDE);
+
+    int xProxy = m_monitor.m_screen->geometry().x();
+    int yProxy = m_monitor.m_screen->geometry().y();
+    int widthProxy = m_monitor.m_screen->geometry().width();
+    int heightProxy = m_monitor.m_screen->geometry().height();
+
+    SetWindowPos(m_worker_hwnd, HWND_BOTTOM, xProxy, yProxy, widthProxy, heightProxy, SWP_SHOWWINDOW);
+    SetWindowPos(m_hwnd, HWND_BOTTOM, xProxy, yProxy, widthProxy, heightProxy, SWP_SHOWWINDOW);
+
     SetParent(m_hwnd, m_worker_hwnd);
-    SetLayeredWindowAttributes(m_hwnd,RGB(255,0,0),0,LWA_ALPHA);
+
 
     SetWindowLongPtr(m_hwnd, GWL_STYLE,
         WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
@@ -52,39 +66,25 @@ Wallpaper::Wallpaper(ProjectFile project, Monitor monitor)
         WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
 
     Qt::WindowFlags flags = this->flags();
-    this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
+    setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
 
-    //IMPORTANT: Set the size _after_ doing the windows hack above!
-    this->setX(m_monitor.m_availableGeometry.x());
-    this->setY(m_monitor.m_availableGeometry.y());
-    this->setWidth(m_monitor.m_size.width());
-    this->setHeight(m_monitor.m_size.height());
+    setGeometry(m_monitor.m_screen->geometry());
+
     m_quickRenderer = QSharedPointer<QQuickView>(new QQuickView(this));
-
-//    QSurfaceFormat surfaceFormat;
-//    surfaceFormat.setAlphaBufferSize(8);
-//    surfaceFormat.setRenderableType(QSurfaceFormat::OpenGL);
-//    m_quickRenderer.data()->setFormat(surfaceFormat);
-
-    //m_quickRenderer.data()->setColor(QColor(Qt::transparent));
-    m_quickRenderer.data()->setWidth(m_monitor.m_size.width());
-    m_quickRenderer.data()->setHeight(m_monitor.m_size.height());
-    //m_quickRenderer.data()->setClearBeforeRendering(true);
+    m_quickRenderer.data()->setGeometry(m_monitor.m_screen->geometry());
 
     m_context = m_quickRenderer.data()->rootContext();
     m_context->setContextProperty("wallpaper", this);
     m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_quickRenderer.data()->setSource(QUrl("qrc:/qml/Screens/ScreenVideo.qml"));
-    m_quickRenderer.data()->show();
-    //ShowWindow(m_hwnd, SW_MAXIMIZE);
-    this->show();
-    setVisible(true);
 
+    setVisible(true);
+    show();
+    m_quickRenderer.data()->show();
 }
 
 Wallpaper::~Wallpaper()
 {
-
     ShowWindow(m_hwnd, SW_HIDE);
     ShowWindow(m_worker_hwnd, SW_HIDE);
     CloseWindow(m_hwnd);
@@ -108,11 +108,10 @@ Monitor Wallpaper::monitor() const
 
 void Wallpaper::setVisible(bool visible)
 {
-    if (visible){
+    if (visible) {
         ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
         ShowWindow(m_hwnd, SW_SHOWDEFAULT);
-    }
-    else{
+    } else {
         ShowWindow(m_worker_hwnd, SW_HIDE);
         ShowWindow(m_hwnd, SW_HIDE);
     }
