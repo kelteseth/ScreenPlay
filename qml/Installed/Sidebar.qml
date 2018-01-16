@@ -32,6 +32,9 @@ Item {
     onTypeChanged: {
         if (type === "widget") {
             state = "activeWidget"
+            btnSetWallpaper.text = qsTr("Set Widget")
+        } else if (type === "video") {
+            btnSetWallpaper.text = qsTr("Set Wallpaper")
         }
     }
 
@@ -158,6 +161,8 @@ Item {
             Item {
                 id: headlineWrapper
                 height: 80
+                opacity: 0
+                enabled: false
                 width: 400
                 anchors {
                     top: imageWrapper.bottom
@@ -218,6 +223,8 @@ Item {
             Rectangle {
                 id: monitorSelectionWrapper
                 height: 80
+                opacity: 0
+                enabled: false
                 width: 400
                 anchors {
                     top: headlineWrapper.bottom
@@ -239,6 +246,8 @@ Item {
             Item {
                 id: sliderVolumeWrapper
                 height: 100
+                opacity: 0
+                enabled: false
                 anchors {
                     top: monitorSelectionWrapper.bottom
                     topMargin: 20
@@ -307,8 +316,11 @@ Item {
         }
 
         Item {
+            id: item1
             width: 400
             height: 100
+            opacity: 0
+            enabled: false
             anchors {
                 bottom: parent.bottom
             }
@@ -385,6 +397,30 @@ Item {
                 opacity: 1
                 anchors.topMargin: 0
             }
+
+            PropertyChanges {
+                target: item1
+                opacity: 1
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: sliderVolumeWrapper
+                enabled: true
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: monitorSelectionWrapper
+                enabled: true
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: headlineWrapper
+                enabled: true
+                opacity: 1
+            }
         },
         State {
             name: "inactive"
@@ -435,6 +471,18 @@ Item {
                 visible: true
                 opacity: 0
             }
+
+            PropertyChanges {
+                target: item1
+                opacity: 1
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: headlineWrapper
+                opacity: 1
+                enabled: true
+            }
         }
     ]
 
@@ -461,6 +509,11 @@ Item {
                         property: "anchors.topMargin"
                         duration: 100
                     }
+                    NumberAnimation {
+                        targets: ["headlineWrapper", "monitorSelectionWrapper", "sliderVolumeWrapper"]
+                        property: "opacity"
+                        duration: 100
+                    }
                 }
             }
         },
@@ -484,6 +537,11 @@ Item {
                 duration: 250
                 easing.type: Easing.InOutQuad
             }
+            NumberAnimation {
+                targets: ["headlineWrapper", "monitorSelectionWrapper", "sliderVolumeWrapper"]
+                property: "opacity"
+                duration: 100
+            }
         },
         Transition {
             to: "activeWidget"
@@ -505,6 +563,11 @@ Item {
                     NumberAnimation {
                         target: image
                         property: "anchors.topMargin"
+                        duration: 100
+                    }
+                    NumberAnimation {
+                        targets: ["headlineWrapper", "monitorSelectionWrapper", "sliderVolumeWrapper"]
+                        property: "opacity"
                         duration: 100
                     }
                 }
