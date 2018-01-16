@@ -98,6 +98,7 @@ void InstalledListModel::loadScreens()
             projectConfig.open(QIODevice::ReadOnly | QIODevice::Text);
             QString projectConfigData = projectConfig.readAll();
             jsonProject = QJsonDocument::fromJson(projectConfigData.toUtf8(), &parseError);
+            QJsonObject obj = jsonProject.object();
 
             if (!(parseError.error == QJsonParseError::NoError))
                 continue;
@@ -112,17 +113,16 @@ void InstalledListModel::loadScreens()
                 continue;
 
             //Some settings dont have a file type
-            if(!jsonProject.object().contains("type")){
-                if(jsonProject.object().contains("file")){
-                    QString fileEnding = jsonProject.object().value("file").toString();
-                    if(fileEnding.endsWith(".mp4") || fileEnding.endsWith(".vp9")){
-                        jsonProject.object().insert("type","video");
+            if (!obj.contains("type")) {
+                if (obj.contains("file")) {
+                    QString fileEnding = obj.value("file").toString();
+                    if (fileEnding.endsWith(".mp4") || fileEnding.endsWith(".vp9")) {
+                        obj.insert("type", "video");
                     }
                 }
             }
 
-
-            emit addInstalledItem(jsonProject.object(), item.baseName());
+            emit addInstalledItem(obj, item.baseName());
         }
         emit installedLoadingFinished();
     });
@@ -160,5 +160,4 @@ void InstalledListModel::reset()
     m_screenPlayFiles.clear();
     m_screenPlayFiles.squeeze();
     endResetModel();
-
 }
