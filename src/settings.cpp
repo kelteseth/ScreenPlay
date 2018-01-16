@@ -110,6 +110,20 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
     m_wallpapers.append(tmpWallpaper);
 }
 
+void Settings::setWidget(QUrl absoluteStoragePath)
+{
+    ProjectFile project;
+    if (!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
+        return;
+    }
+    QProcess* pro = new QProcess(this);
+    m_widgets.append(pro);
+    QString fullPath = absoluteStoragePath.toString() + "/" + project.m_file.toString();
+
+    m_widgets.last()->setProgram(fullPath);
+    m_widgets.last()->start();
+}
+
 QString Settings::loadProject(QString file)
 {
     QFile configTmp;

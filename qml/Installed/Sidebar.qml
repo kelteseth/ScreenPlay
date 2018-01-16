@@ -332,7 +332,7 @@ Item {
                                     monitorSelection.activeMonitorIndex,
                                     installedListModel.absoluteStoragePath + "/" + activeScreen)
                     } else if (type === "widget") {
-
+                        screenPlaySettings.setWidget(installedListModel.absoluteStoragePath + "/" + activeScreen)
                     }
                 }
             }

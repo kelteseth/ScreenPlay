@@ -18,6 +18,7 @@
 #include <QVariant>
 #include <QVector>
 #include <QSettings>
+#include <QProcess>
 
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -170,6 +171,8 @@ public slots:
 
     void setWallpaper(int monitorIndex, QUrl absoluteStoragePath);
 
+    void setWidget(QUrl absoluteStoragePath);
+
     QString loadProject(QString file);
 
     void setLocalStoragePath(QUrl localStoragePath)
@@ -262,6 +265,7 @@ private:
     QThread m_thread;
 
     QVector<QSharedPointer<Wallpaper>> m_wallpapers;
+    QVector<QProcess*> m_widgets;
 
     QUrl m_localStoragePath;
     QUrl m_localSettingsPath;
