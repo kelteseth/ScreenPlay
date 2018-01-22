@@ -28,7 +28,8 @@ ApplicationWindow {
 
     LinearGradient {
         id: tabShadow
-        height: 6
+        height: 4
+        visible: true
         z: 500
         cached: true
 
@@ -38,7 +39,7 @@ ApplicationWindow {
             left: parent.left
         }
         start: Qt.point(0, 0)
-        end: Qt.point(0, 6)
+        end: Qt.point(0, 4)
         gradient: Gradient {
             GradientStop {
                 position: 0.0

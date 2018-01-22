@@ -82,5 +82,7 @@
         <file>assets/icons/icon_logo_head.svg</file>
         <file>assets/icons/icon_widgets.svg</file>
         <file>qml/Installed/InstalledNavigation.qml</file>
+        <file>assets/images/ScreenPlayIconStomt.png</file>
+        <file>assets/images/Stomt_Logo+Wordmark_Mono_BLK.svg</file>
     </qresource>
 </RCC>

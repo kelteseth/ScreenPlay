@@ -8,6 +8,7 @@ Item {
     id: pageInstalled
 
     signal setSidebaractiveItem(var screenId, var type)
+
     signal setNavigationItem(var pos)
 
     property bool refresh: false
@@ -21,19 +22,24 @@ Item {
     Connections {
         target: installedListModel
         onInstalledLoadingFinished: {
-            refresh = false
+
+
             if (installedListModel.getAmountItemLoaded() === 0) {
                 loaderHelp.active = true
+                gridView.footerItem.isVisible = true
             } else {
                 loaderHelp.active = false
+                gridView.footerItem.isVisible = false
+                refresh = false
+                gridView.contentY = -82
             }
         }
     }
 
-    Component.onCompleted: {
-        installedListModel.reset()
-        installedListModel.loadScreens()
-    }
+//    Component.onCompleted: {
+//        installedListModel.reset()
+//        installedListModel.loadScreens()
+//    }
 
     Loader {
         id: loaderHelp
@@ -41,6 +47,10 @@ Item {
         active: false
         z: 99
         anchors.fill: parent
+        onStatusChanged: {
+            print(status)
+        }
+
         source: "qrc:/qml/Installed/InstalledUserHelper.qml"
     }
 
@@ -53,28 +63,51 @@ Item {
         cellWidth: 340
         cacheBuffer: 10000
         cellHeight: 200
-
-        //        onContentYChanged: {
-        //            //Pull to refresh
-        //            if (contentY <= -120 && !refresh) {
-        //                refresh = true
-        //                installedListModel.reset()
-        //                installedListModel.loadScreens()
-        //            }
-        //        }
         anchors {
             topMargin: 0
             rightMargin: 0
             leftMargin: 30
         }
         header: Item {
-            height: 30
+            height: 82
             width: parent.width
+            property bool isVisible: true
+            Text {
+                id: txtHeader
+                visible: isVisible
+                text: qsTr("Pull to refresh!")
+                anchors.centerIn: parent
+                color: "gray"
+            }
+
         }
         footer: Item {
-            height: 70
+            property bool isVisible: true
+            height: 100
+            visible: isVisible
             width: parent.width
+
+            Text {
+                id: txtFooter
+                text: qsTr("Get more Wallpaper & Widgets via the Steam workshop!")
+                anchors.centerIn: parent
+
+                color: "gray"
+            }
         }
+        property bool isDragging: false
+        onDragStarted: isDragging = true
+        onDragEnded:  isDragging = false
+        onContentYChanged: {
+
+            //Pull to refresh
+            if (contentY <= -180 && !refresh && !isDragging) {
+                installedListModel.reset()
+                installedListModel.loadScreens()
+            }
+
+        }
+
 
         model: installedListFilter
 
@@ -119,11 +152,11 @@ Item {
     }
     Item {
         id: navWrapper
-        height: 120
+        height: 115
         z: 999
         width: parent.width
         anchors {
-            bottom: parent.bottom
+            top: parent.top
             right: parent.right
             left: parent.left
         }
@@ -143,9 +176,10 @@ Item {
 
         Rectangle {
             id: nav
-            height: 55
+            color: "#ffffff"
+            height: 50
             anchors {
-                bottom: parent.bottom
+                top: parent.top
                 right: parent.right
                 left: parent.left
             }
@@ -199,7 +233,8 @@ Item {
                 anchors {
                     right: txtSearch.left
                     rightMargin: 15
-                    verticalCenter: parent.verticalCenter
+                    bottom: parent.bottom
+                    bottomMargin: 15
                 }
             }
             TextField {
@@ -209,7 +244,7 @@ Item {
                     right: parent.right
                     rightMargin: 30
                     bottom: parent.bottom
-                    bottomMargin: 5
+
                 }
                 onTextChanged: {
                     if (txtSearch.text.length === 0) {

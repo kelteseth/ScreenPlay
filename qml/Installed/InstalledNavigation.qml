@@ -4,7 +4,7 @@ import QtGraphicalEffects 1.0
 Item {
     id: navigationItem
     width: 150
-    height: 55
+    height: 50
     state: "inactive"
     clip: true
 
@@ -43,7 +43,7 @@ Item {
         Item {
             id: item2
 
-            width: 100
+            width: 80
             height: 31
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
@@ -53,7 +53,7 @@ Item {
                 anchors.left: icon.right
                 anchors.leftMargin: 10
                 text: "name"
-                font.pointSize: 14
+                font.pointSize: 12
                 color: "#626262"
                 anchors.verticalCenter: parent.verticalCenter
                 font.family: "Roboto"
@@ -64,10 +64,10 @@ Item {
             Image {
                 id: icon
                 source: iconSource
-                width: 16
-                height: 16
-                sourceSize.height: 16
-                sourceSize.width: 16
+                width: 12
+                height: 12
+                sourceSize.height: 12
+                sourceSize.width: 12
                 fillMode: Image.PreserveAspectFit
                 anchors.left: parent.left
                 anchors.leftMargin: 0
@@ -88,7 +88,9 @@ Item {
             height: 3
             color: "#FFAB00"
             anchors.left: parent.left
+            anchors.leftMargin: 0
             anchors.right: parent.right
+            anchors.rightMargin: 0
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 0
         }

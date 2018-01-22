@@ -54,6 +54,7 @@ int main(int argc, char* argv[])
     QCoreApplication::setApplicationVersion("0.1.0");
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
+
     bool steamErrorRestart = false;
     bool steamErrorAPIInit = false;
 
@@ -88,6 +89,7 @@ int main(int argc, char* argv[])
     // to know where to look for the files
     profileListModel.loadProfiles();
     settings.loadActiveProfiles();
+    installedListModel.loadScreens();
 
     QQmlApplicationEngine mainWindowEngine;
     mainWindowEngine.rootContext()->setContextProperty("installedListFilter", &installedListFilter);
