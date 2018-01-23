@@ -71,13 +71,21 @@ Item {
         header: Item {
             height: 82
             width: parent.width
-            property bool isVisible: true
+            property bool isVisible: false
+            onIsVisibleChanged: {
+                if(isVisible){
+                    txtHeader.color = "orange"
+                } else {
+                    txtHeader.color = "gray"
+                }
+            }
+
             Text {
                 id: txtHeader
-                visible: isVisible
                 text: qsTr("Pull to refresh!")
                 anchors.centerIn: parent
                 color: "gray"
+                font.pixelSize: 18
             }
 
         }
@@ -91,7 +99,6 @@ Item {
                 id: txtFooter
                 text: qsTr("Get more Wallpaper & Widgets via the Steam workshop!")
                 anchors.centerIn: parent
-
                 color: "gray"
             }
         }
@@ -99,6 +106,11 @@ Item {
         onDragStarted: isDragging = true
         onDragEnded:  isDragging = false
         onContentYChanged: {
+            if (contentY <= -180) {
+                gridView.headerItem.isVisible = true
+            } else {
+                gridView.headerItem.isVisible = false
+            }
 
             //Pull to refresh
             if (contentY <= -180 && !refresh && !isDragging) {
