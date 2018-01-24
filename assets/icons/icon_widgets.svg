@@ -1,4 +1,1 @@
-<svg fill="#FFFFFF" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
-    <path d="M13 13v8h8v-8h-8zM3 21h8v-8H3v8zM3 3v8h8V3H3zm13.66-1.31L11 7.34 16.66 13l5.66-5.66-5.66-5.65z"/>
-    <path d="M0 0h24v24H0z" fill="none"/>
-</svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 48 48" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path d="M24.821,27.995l0,19.313l19.312,0l0,-19.313l-19.312,0Zm-24.141,19.313l19.313,0l0,-19.313l-19.313,0l0,19.313Zm0,-43.453l0,19.312l19.313,0l0,-19.312l-19.313,0Zm32.976,-3.163l-13.663,13.64l13.663,13.663l13.664,-13.663l-13.664,-13.64Z" style="fill:#fff;fill-rule:nonzero;"/><rect x="0" y="0" width="48" height="48" style="fill:none;"/></svg>

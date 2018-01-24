@@ -64,10 +64,10 @@ Item {
             Image {
                 id: icon
                 source: iconSource
-                width: 12
-                height: 12
-                sourceSize.height: 12
-                sourceSize.width: 12
+                width: 14
+                height: 14
+                sourceSize.height: 14
+                sourceSize.width: 14
                 fillMode: Image.PreserveAspectFit
                 anchors.left: parent.left
                 anchors.leftMargin: 0

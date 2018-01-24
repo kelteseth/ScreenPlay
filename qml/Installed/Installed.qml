@@ -150,16 +150,25 @@ Item {
             navAll.state = "active"
             navWallpaper.state = "inactive"
             navWidgets.state = "inactive"
+            navScenes.state = "inactive"
         } else if (name === "Wallpaper") {
             installedListFilter.sortByRoleType("Wallpaper")
             navAll.state = "inactive"
             navWallpaper.state = "active"
             navWidgets.state = "inactive"
+            navScenes.state = "inactive"
         } else if (name === "Widgets") {
             installedListFilter.sortByRoleType("Widgets")
             navAll.state = "inactive"
             navWallpaper.state = "inactive"
             navWidgets.state = "active"
+            navScenes.state = "inactive"
+        }else if (name === "Scenes") {
+            installedListFilter.sortByRoleType("Scenes")
+            navAll.state = "inactive"
+            navWallpaper.state = "inactive"
+            navWidgets.state = "inactive"
+            navScenes.state = "active"
         }
     }
     Item {
@@ -222,6 +231,15 @@ Item {
                     state: "inactive"
                     name: qsTr("Wallpaper")
                     iconSource: "qrc:/assets/icons/icon_movie.svg"
+                    onPageClicked: {
+                        onPageChanged(name)
+                    }
+                }
+                InstalledNavigation {
+                    id: navScenes
+                    state: "inactive"
+                    name: qsTr("Scenes")
+                    iconSource: "qrc:/assets/icons/icon_code.svg"
                     onPageClicked: {
                         onPageChanged(name)
                     }

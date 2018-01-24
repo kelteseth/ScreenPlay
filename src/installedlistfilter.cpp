@@ -3,6 +3,7 @@
 InstalledListFilter::InstalledListFilter(InstalledListModel* ilm)
 {
     setSourceModel(ilm);
+    setFilterRole(InstalledListModel::InstalledRole::TitleRole);
 }
 
 void InstalledListFilter::sortByRoleType(QString type)
@@ -16,6 +17,9 @@ void InstalledListFilter::sortByRoleType(QString type)
     } else if (type == "Widgets") {
         setFilterRole(InstalledListModel::InstalledRole::TypeRole);
         setFilterFixedString("widget");
+    } if (type == "Scenes") {
+        setFilterRole(InstalledListModel::InstalledRole::TypeRole);
+        setFilterFixedString("Scenes");
     }
 
     sort(0);
