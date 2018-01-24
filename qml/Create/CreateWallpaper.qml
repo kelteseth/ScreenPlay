@@ -55,27 +55,10 @@ Item {
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     top: parent.top
-                    topMargin: 30
+                    topMargin: 50
                 }
             }
-            Text {
-                id: txtDragAndDrop
-                text: qsTr("Drag n' Drop")
-                visible: true
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    top: imgUpload.bottom
-                    topMargin: 10
-                }
-                font.family: "Libre Baskerville"
-                font.pixelSize: 18
-                font.italic: true
-                color: "#818181"
-                FontLoader {
-                    id: font_LibreBaskerville_Italic
-                    source: "qrc:/assets/fonts/LibreBaskerville-Italic.ttf"
-                }
-            }
+
             Button {
                 text: qsTr("Select File")
                 anchors {
