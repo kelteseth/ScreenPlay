@@ -32,7 +32,7 @@ Item {
         contentHeight: columnWrapper.childrenRect.height
         contentWidth: 800
         flickableDirection: Flickable.VerticalFlick
-        maximumFlickVelocity: 7000
+        maximumFlickVelocity: 5000
         flickDeceleration: 5000
 
         anchors {
