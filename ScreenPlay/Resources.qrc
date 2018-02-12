@@ -97,5 +97,7 @@
         <file>assets/images/Intro_PC.png</file>
         <file>assets/fonts/RobotoMono-Light.ttf</file>
         <file>assets/fonts/RobotoMono-Thin.ttf</file>
+        <file>assets/particle/backgroundGlow.png</file>
+        <file>assets/particle/dot.png</file>
     </qresource>
 </RCC>

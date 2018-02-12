@@ -1,7 +1,10 @@
 import QtQuick 2.9
-import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
+
+import QtGraphicalEffects 1.0
+import QtQuick.Particles 2.0
+
 //Enums
 import LocalWorkshopCreationStatus 1.0
 
@@ -12,6 +15,8 @@ Rectangle {
     Component.onCompleted: create.state = "create"
     property url activeVideoFile: ""
     property url activeFolder: ""
+
+
 
     Connections {
         target: createWallpaper
@@ -98,6 +103,88 @@ Rectangle {
                         duration: 100000
                     }
                 }
+            }
+        }
+    }
+
+    Item {
+        anchors.fill: parent
+
+        MouseArea {
+            id:ma
+            anchors.fill: parent
+            hoverEnabled: true
+            onPressed:     {
+                attractor.enabled = true
+            }
+            onPositionChanged: {
+
+                if(ma.pressed){
+                    attractor.pointX = mouseX
+                    attractor.pointY = mouseY
+                }
+            }
+            onReleased: {
+                attractor.enabled = false
+            }
+        }
+
+        Attractor {
+            id:attractor
+            system: particleSystem
+            affectedParameter: Attractor.Acceleration
+            strength: 8000000
+            proportionalToDistance: Attractor.InverseQuadratic
+        }
+
+
+        ParticleSystem {
+            id: particleSystem
+        }
+
+        Emitter {
+            id: emitter
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                bottom: parent.bottom
+            }
+
+            width: parent.width
+            height: 80
+            system: particleSystem
+            emitRate: 25
+            lifeSpan: 5000
+            lifeSpanVariation: 1000
+            size: 8
+            endSize: 18
+            sizeVariation: 4
+            velocity: AngleDirection {
+                angle: -90
+                magnitude: 50
+                magnitudeVariation: 25
+                angleVariation: 10
+            }
+        }
+
+        ImageParticle {
+            height: 16
+            width: 16
+            color: "orange"
+            source: "qrc:/assets/particle/dot.png"
+            system: particleSystem
+            opacity: .5
+        }
+
+        Image {
+            id: bgGlow
+            width: 500
+            height: width
+            opacity: .3
+            source: "qrc:/assets/particle/backgroundGlow.png"
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                bottom: parent.bottom
+                bottomMargin: -width * .65
             }
         }
     }
@@ -200,6 +287,9 @@ Rectangle {
             }
         }
     }
+
+
+
     states: [
         State {
             name: "out"
