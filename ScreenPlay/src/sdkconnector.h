@@ -1,15 +1,17 @@
-
-
+#pragma once
 
 #include <QObject>
 #include <QLocalSocket>
 #include <QLocalServer>
 #include <QSharedPointer>
+#include <QVector>
+#include <QTimer>
 
-class WidgetBridge : public QObject {
+class SDKConnector : public QObject
+{
     Q_OBJECT
 public:
-    explicit WidgetBridge(QObject* parent = nullptr);
+    explicit SDKConnector(QObject *parent = nullptr);
 
 signals:
 
@@ -18,5 +20,7 @@ public slots:
 
 private:
     QSharedPointer<QLocalServer> m_server;
+    QVector<QLocalSocket*> m_clients;
+
 };
 

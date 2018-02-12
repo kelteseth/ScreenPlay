@@ -19,7 +19,8 @@ SOURCES += main.cpp \
     src/steamworkshoplistmodel.cpp \
     src/workshopitem.cpp \
     src/widgetbridge.cpp \
-    src/installedlistfilter.cpp
+    src/installedlistfilter.cpp \
+    src/sdkconnector.cpp
 
 RESOURCES += \
     Resources.qrc \
@@ -40,7 +41,8 @@ HEADERS += \
     src/steamworkshoplistmodel.h \
     src/workshopitem.h \
     src/widgetbridge.h \
-    src/installedlistfilter.h
+    src/installedlistfilter.h \
+    src/sdkconnector.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \

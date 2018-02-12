@@ -19,7 +19,9 @@
 #include <QVector>
 #include <QSettings>
 #include <QProcess>
+#include <QObject>
 
+#include "sdkconnector.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "profile.h"
@@ -33,7 +35,7 @@ class Settings : public QObject {
     Q_OBJECT
 
 public:
-    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, AppId_t steamID, QObject* parent = nullptr);
+    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, AppId_t steamID, QObject* parent = nullptr);
     ~Settings();
 
     Q_PROPERTY(Version version READ version)
@@ -106,6 +108,9 @@ public:
     {
         return m_activeWallpaperCounter;
     }
+
+    QUrl getScreenPlayWindowPath() const;
+    void setScreenPlayWindowPath(const QUrl &screenPlayWindowPath);
 
 signals:
     void autostartChanged(bool autostart);
@@ -264,13 +269,17 @@ private:
     ProfileListModel* m_plm;
     InstalledListModel* m_ilm;
     MonitorListModel* m_mlm;
+    SDKConnector* m_sdkc;
+
     QThread m_thread;
 
     QVector<QSharedPointer<Wallpaper>> m_wallpapers;
     QVector<QProcess*> m_widgets;
+    QVector<QProcess*> m_windows;
 
     QUrl m_localStoragePath;
     QUrl m_localSettingsPath;
+    QUrl m_screenPlayWindowPath;
 
     bool m_hasWorkshopBannerSeen = false;
     QString m_decoder;

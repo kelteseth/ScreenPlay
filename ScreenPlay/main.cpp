@@ -1,5 +1,6 @@
 ﻿#include <QDebug>
 #include <QDir>
+#include <QFontDatabase>
 #include <QGuiApplication>
 #include <QIcon>
 #include <QLibrary>
@@ -11,31 +12,31 @@
 #include <QQuickStyle>
 #include <QQuickView>
 #include <QScreen>
+#include <QStringList>
 #include <QTimer>
+#include <QTransform>
 #include <QUrl>
 #include <QVariant>
 #include <QWindow>
 #include <QtQuick/QQuickItem>
-#include <QFontDatabase>
 #include <qt_windows.h>
-#include <QStringList>
-#include <QTransform>
 
+#include "installedlistfilter.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "packagefilehandler.h"
 #include "profilelistmodel.h"
-#include "quazip5/quazip.h"
 #include "settings.h"
 #include "steam/steam_api.h"
 #include "steamworkshop.h"
 #include "steamworkshoplistmodel.h"
 #include "widget.h"
-#include "widgetbridge.h"
-#include "installedlistfilter.h"
+#include "sdkconnector.h"
 
 int main(int argc, char* argv[])
 {
+
+
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseOpenGLES);
 
@@ -45,7 +46,7 @@ int main(int argc, char* argv[])
     trsl.load(":/languages/ScreenPlay_de.qm");
     app.installTranslator(&trsl);
 
-    QObject::connect(&app,&QGuiApplication::screenRemoved,[&]() { qDebug() << "removed"; });
+    QObject::connect(&app, &QGuiApplication::screenRemoved, [&]() { qDebug() << "removed"; });
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Light.ttf");
@@ -60,7 +61,6 @@ int main(int argc, char* argv[])
     QCoreApplication::setApplicationName("ScreenPlay");
     QCoreApplication::setApplicationVersion("0.1.0");
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
-
 
     bool steamErrorRestart = false;
     bool steamErrorAPIInit = false;
@@ -80,22 +80,25 @@ int main(int argc, char* argv[])
     PackageFileHandler packageFileHandler;
     ProfileListModel profileListModel;
     SteamWorkshopListModel steamWorkshopListModel;
-
-    WidgetBridge widgetBridge;
-
+    SDKConnector sdkConnector;
     InstalledListFilter installedListFilter(&installedListModel);
 
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
-    Settings settings(&profileListModel, &monitorListModel, &installedListModel, steamID);
+    Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, steamID);
+
+    #ifdef QT_DEBUG
+        settings.setScreenPlayWindowPath(QUrl("C:/Users/Eli/Code/Qt/build-ScreenPlay-Desktop-Debug/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
+    #elif QT_NO_DEBUG
+        settings.setScreenPlayWindowPath(QUrl("ScreenPlayWindow.exe"));
+    #endif
     SteamWorkshop steamWorkshop(steamID, &steamWorkshopListModel, &settings);
 
     // All the list need the default path from the settings
     // to know where to look for the files
     profileListModel.loadProfiles();
     settings.loadActiveProfiles();
-
 
     QQmlApplicationEngine mainWindowEngine;
     mainWindowEngine.rootContext()->setContextProperty("installedListFilter", &installedListFilter);
@@ -117,7 +120,7 @@ int main(int argc, char* argv[])
 
     // Set visible if the -silent parameter was not set
     QStringList argumentList = app.arguments();
-    if(!argumentList.contains("-silent")){
+    if (!argumentList.contains("-silent")) {
         settings.setMainWindowVisible(true);
     }
 
@@ -132,10 +135,8 @@ int main(int argc, char* argv[])
     timer.setInterval(100);
     timer.start();
 
-    QObject::connect(&steamWorkshop,&SteamWorkshop::workshopSearchResult,
-                     &steamWorkshopListModel,&SteamWorkshopListModel::append,Qt::QueuedConnection);
-
-
+    QObject::connect(&steamWorkshop, &SteamWorkshop::workshopSearchResult,
+        &steamWorkshopListModel, &SteamWorkshopListModel::append, Qt::QueuedConnection);
 
     int status = app.exec();
 

@@ -1,5 +1,5 @@
 TEMPLATE = app
-QT += qml quick av widgets quickcontrols2 
+QT += qml quick av widgets quickcontrols2
 CONFIG += c++17
 
 
@@ -28,17 +28,9 @@ CONFIG(debug, debug|release) {
  }
 
 
-install_it.files += assets/templates/config.json \
-                    assets/icons/favicon.ico \
-                    steam_appid.txt \
-                    settings.json \
-
-INSTALLS += install_it
-
-
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH += [QtAVSourceCodeDir]/qml
-
+QML_IMPORT_PATH += "C:\msys64\mingw64\share\qt5\qml"
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
@@ -59,5 +51,5 @@ win32 {
     INCLUDEPATH += "C:\msys64\mingw64\include"
 }
 
-
-
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../build-ScreenPlay-Desktop-Release/ScreenPlaySDK/release -llibScreenPlaySDK.dll
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../build-ScreenPlay-Desktop-Debug/ScreenPlaySDK/debug -llibScreenPlaySDKd.dll

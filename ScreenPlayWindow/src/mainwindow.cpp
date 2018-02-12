@@ -1,6 +1,5 @@
 #include "mainwindow.h"
 
-
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
     // 0xXXXXXXX "" WorkerW
@@ -17,13 +16,16 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 MainWindow::MainWindow(QScreen* parent)
     : QWindow(parent)
 {
-//    for (int var = 0; var < QApplication::screens().count(); ++var) {
-//        QScreen* screen = QApplication::screens().at(i);
-//    }
+    //    for (int var = 0; var < QApplication::screens().count(); ++var) {
+    //        QScreen* screen = QApplication::screens().at(i);
+    //    }
+
+    setOpacity(0);
+
     this->m_hwnd = (HWND)this->winId();
 
     QScreen* screen = QApplication::screens().at(0);
-    //setGeometry(screen->geometry());
+
     setScreen(screen);
 
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
@@ -37,13 +39,12 @@ MainWindow::MainWindow(QScreen* parent)
         1000, nullptr);
 
     EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_worker_hwnd));
+    ShowWindow(m_worker_hwnd, SW_HIDE);
+    ShowWindow(m_hwnd, SW_HIDE);
+    SetParent(m_hwnd, m_worker_hwnd);
 
-    //SetWindowPos(m_worker_hwnd,HWND_BOTTOM,screen->geometry().x(),screen->geometry().y(),screen->geometry().width(),screen->geometry().height(),SWP_SHOWWINDOW);
-    SetWindowPos(m_hwnd,HWND_BOTTOM,screen->geometry().x(),screen->geometry().y(),screen->size().width(),screen->size().height(),SWP_SHOWWINDOW);
-    WINDOWINFO objWinInfo;
-    GetWindowInfo(m_hwnd, &objWinInfo);
-
-    qDebug() << objWinInfo.rcClient.bottom << objWinInfo.rcWindow.bottom;
+    SetWindowPos(m_worker_hwnd, HWND_BOTTOM, screen->geometry().x(), screen->geometry().y(), screen->geometry().width(), screen->geometry().height(), SWP_SHOWWINDOW);
+    SetWindowPos(m_hwnd, HWND_BOTTOM, screen->geometry().x(), screen->geometry().y(), screen->size().width(), screen->size().height(), SWP_SHOWWINDOW);
 
     SetWindowLongPtr(m_hwnd, GWL_STYLE,
         WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
@@ -54,13 +55,35 @@ MainWindow::MainWindow(QScreen* parent)
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
 
     m_quickRenderer = QSharedPointer<QQuickView>(new QQuickView(this));
+    //m_quickRenderer.data()->engine()->addImportPath("C:/msys64/mingw64/share/qt5/qml");
+    //m_quickRenderer.data()->engine()->addImportPath("C:/msys64/mingw64/share/qt5");
+
+    m_quickRenderer.data()->rootContext()->setContextProperty("mainwindow", this);
+
     m_quickRenderer.data()->setGeometry(screen->geometry());
     m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_quickRenderer.data()->setSource(QUrl("qrc:/main.qml"));
+
+    QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
+    animation->setDuration(250);
+    animation->setEasingCurve(QEasingCurve::OutCubic);
+    animation->setStartValue(0);
+    animation->setEndValue(1);
+
     m_quickRenderer.data()->show();
     show();
-    SetParent(m_hwnd, m_worker_hwnd);
 
+    ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
+    ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+
+    animation->start();
+}
+
+void MainWindow::destroyThis()
+{
+    ShowWindow(m_worker_hwnd, SW_HIDE);
+    ShowWindow(m_hwnd, SW_HIDE);
+    QCoreApplication::quit();
 }
 
 MainWindow::~MainWindow()

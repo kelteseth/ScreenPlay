@@ -1,12 +1,13 @@
 #include "settings.h"
 
-Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, AppId_t steamID, QObject* parent)
+Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, AppId_t steamID, QObject* parent)
     : QObject(parent)
 {
 
     m_plm = plm;
     m_mlm = mlm;
     m_ilm = ilm;
+    m_sdkc = sdkc;
     m_steamID = steamID;
 
     QFile configTmp;
@@ -105,9 +106,8 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
         }
     }
     increaseActiveWallpaperCounter();
-    auto tmpWallpaper = QSharedPointer<Wallpaper>(new Wallpaper(project, monitor));
-    QObject::connect(tmpWallpaper.data(),&Wallpaper::destroyed,this, &Settings::destroyWallpaper);
-    m_wallpapers.append(tmpWallpaper);
+    m_windows.append(new QProcess());
+    m_windows.last()->start(m_screenPlayWindowPath.toString());
 }
 
 void Settings::setWidget(QUrl absoluteStoragePath)
@@ -155,23 +155,23 @@ void Settings::loadActiveProfiles()
             QString profileName = activeProfilesTmp.at(i).toObject().value("profile").toString();
             QString monitorID = activeProfilesTmp.at(i).toObject().value("monitorID").toString();
             Profile profile;
-//            auto spf = new QSharedPointer<ProjectFile>(new ProjectFile());
+            //            auto spf = new QSharedPointer<ProjectFile>(new ProjectFile());
 
-//            if (!m_plm->getProfileByName(profileName, &profile))
-//                continue;
+            //            if (!m_plm->getProfileByName(profileName, &profile))
+            //                continue;
 
-//            if (!m_ilm->getProjectByAbsoluteStoragePath(&profile.m_absolutePath, spf))
-//                continue;
+            //            if (!m_ilm->getProjectByAbsoluteStoragePath(&profile.m_absolutePath, spf))
+            //                continue;
 
-//            constructWallpaper(profile, monitorID, spf);
+            //            constructWallpaper(profile, monitorID, spf);
         }
     }
 }
 
-void Settings::destroyWallpaper(QObject *ref)
+void Settings::destroyWallpaper(QObject* ref)
 {
     for (int i = 0; i < m_wallpapers.count(); ++i) {
-        if(m_wallpapers.at(i) == ref){
+        if (m_wallpapers.at(i) == ref) {
             m_wallpapers.at(i).data()->deleteLater();
             //m_wallpapers.remove(i);
             return;
@@ -202,7 +202,7 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
     QFile configTmp;
 
     configTmp.setFileName(m_localSettingsPath.toString() + "/settings.json");
-    configTmp.open(QIODevice::ReadOnly| QIODevice::Text);
+    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     QString config = configTmp.readAll();
     configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
 
@@ -227,7 +227,9 @@ void Settings::removeAll()
     for (int i = 0; i < m_wallpapers.size(); ++i) {
         m_wallpapers.at(i).data()->destroyWallpaper();
     }
-    //m_wallpapers.clear();
+    for (int i = 0; i < m_windows.size(); ++i) {
+
+    }
     setActiveWallpaperCounter(0);
 }
 
@@ -273,7 +275,6 @@ QString Settings::fixWindowsPath(QString url)
     return url.replace("/", "\\\\");
 }
 
-
 void Settings::removeWallpaperAt(int pos)
 {
     if (pos > 0 && pos > m_wallpapers.size())
@@ -296,6 +297,16 @@ void Settings::createDefaultConfig()
 
     file.close();
     defaultSettings.close();
+}
+
+QUrl Settings::getScreenPlayWindowPath() const
+{
+    return m_screenPlayWindowPath;
+}
+
+void Settings::setScreenPlayWindowPath(const QUrl& screenPlayWindowPath)
+{
+    m_screenPlayWindowPath = screenPlayWindowPath;
 }
 
 ActiveProfiles::ActiveProfiles()
