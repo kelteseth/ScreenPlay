@@ -106,7 +106,11 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
         }
     }
     increaseActiveWallpaperCounter();
-    m_windows.append(new QProcess());
+    auto pro = new QProcess();
+    QStringList proArgs;
+    proArgs.append(absoluteStoragePath.toString());
+
+    m_windows.append(pro);
     m_windows.last()->start(m_screenPlayWindowPath.toString());
 }
 

@@ -1,5 +1,7 @@
 #include "mainwindow.h"
 
+#include <QJsonDocument>
+
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
     // 0xXXXXXXX "" WorkerW
@@ -13,20 +15,60 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
     return TRUE;
 }
 
-MainWindow::MainWindow(QScreen* parent)
+MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
     : QWindow(parent)
 {
-    //    for (int var = 0; var < QApplication::screens().count(); ++var) {
-    //        QScreen* screen = QApplication::screens().at(i);
-    //    }
 
     setOpacity(0);
+    m_projectPath = projectPath;
+
+    QFile configTmp;
+    QJsonDocument configJsonDocument;
+    QJsonParseError parseError;
+
+    configTmp.setFileName(projectPath + "/project.json");
+    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
+    QString config = configTmp.readAll();
+    configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
+
+    if (!(parseError.error == QJsonParseError::NoError)) {
+        qWarning("Settings Json Parse Error ");
+        return;
+    }
+
+    m_project = configJsonDocument.object();
+
+    //Some settings dont have a file type
+    if (!m_project.contains("type")) {
+        if (m_project.contains("file")) {
+            QString fileEnding = m_project.value("file").toString();
+            if (fileEnding.endsWith(".mp4") || fileEnding.endsWith(".vp9")) {
+                m_project.insert("type", "video");
+            }
+        }
+    }
+
+    if (m_project.contains("file"))
+        m_projectFile = m_project.value("file").toString();
 
     this->m_hwnd = (HWND)this->winId();
 
-    QScreen* screen = QApplication::screens().at(0);
+    // Recalculate window coordiantes because of point (0,0)
+    // Is at the origin monitor or the most left
+    QScreen* screen = QApplication::screens().at(i);
+    int offsetX = 0;
+    int offsetY = 0;
 
-    setScreen(screen);
+    for (int i = 0; i < QApplication::screens().count(); i++) {
+        QScreen* screen = QApplication::screens().at(i);
+        qDebug() << screen->availableGeometry().x();
+        if (screen->availableGeometry().x() < 0) {
+            offsetX += (screen->availableGeometry().x() * -1);
+        }
+        if (screen->availableGeometry().y() < 0) {
+            offsetY += (screen->availableGeometry().y() * -1);
+        }
+    }
 
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
 
@@ -39,13 +81,13 @@ MainWindow::MainWindow(QScreen* parent)
         1000, nullptr);
 
     EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_worker_hwnd));
+
+    //Hide first to avoid flickering
     ShowWindow(m_worker_hwnd, SW_HIDE);
     ShowWindow(m_hwnd, SW_HIDE);
-    SetParent(m_hwnd, m_worker_hwnd);
 
-    SetWindowPos(m_worker_hwnd, HWND_BOTTOM, screen->geometry().x(), screen->geometry().y(), screen->geometry().width(), screen->geometry().height(), SWP_SHOWWINDOW);
-    SetWindowPos(m_hwnd, HWND_BOTTOM, screen->geometry().x(), screen->geometry().y(), screen->size().width(), screen->size().height(), SWP_SHOWWINDOW);
-
+    MoveWindow(m_hwnd, screen->geometry().x() + offsetX, screen->geometry().y() + offsetY, screen->size().width(), screen->size().height(), true);
+        SetParent(m_hwnd, m_worker_hwnd);
     SetWindowLongPtr(m_hwnd, GWL_STYLE,
         WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
     SetWindowLongPtr(m_hwnd, GWL_EXSTYLE,
@@ -53,14 +95,11 @@ MainWindow::MainWindow(QScreen* parent)
 
     Qt::WindowFlags flags = this->flags();
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
+    this->show();
 
     m_quickRenderer = QSharedPointer<QQuickView>(new QQuickView(this));
-    //m_quickRenderer.data()->engine()->addImportPath("C:/msys64/mingw64/share/qt5/qml");
-    //m_quickRenderer.data()->engine()->addImportPath("C:/msys64/mingw64/share/qt5");
-
     m_quickRenderer.data()->rootContext()->setContextProperty("mainwindow", this);
-
-    m_quickRenderer.data()->setGeometry(screen->geometry());
+    m_quickRenderer.data()->setGeometry(0,0, screen->size().width(), screen->size().height());
     m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_quickRenderer.data()->setSource(QUrl("qrc:/main.qml"));
 
@@ -69,21 +108,52 @@ MainWindow::MainWindow(QScreen* parent)
     animation->setEasingCurve(QEasingCurve::OutCubic);
     animation->setStartValue(0);
     animation->setEndValue(1);
-
     m_quickRenderer.data()->show();
-    show();
 
     ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
 
     animation->start();
+
+    QObject::connect(animation, &QPropertyAnimation::finished, [&]() {
+        if (m_project.contains("type")) {
+            if (m_project.value("type") == "video") {
+                QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
+                tmpPath.replace("/", "\\\\");
+                emit playVideo(tmpPath);
+            } else if (m_project.value("type") == "scene") {
+                return;
+            }
+        }
+    });
 }
 
 void MainWindow::destroyThis()
 {
+
     ShowWindow(m_worker_hwnd, SW_HIDE);
     ShowWindow(m_hwnd, SW_HIDE);
     QCoreApplication::quit();
+    /*
+    QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
+    animation->setDuration(5000);
+    animation->setStartValue(1);
+    animation->setEndValue(0);
+    animation->start();
+
+    QObject::connect(animation,&QPropertyAnimation::finished, [&]() {
+
+    });*/
+}
+
+QUrl MainWindow::projectPath() const
+{
+    return m_projectPath;
+}
+
+void MainWindow::setProjectPath(const QUrl& projectPath)
+{
+    m_projectPath = projectPath;
 }
 
 MainWindow::~MainWindow()

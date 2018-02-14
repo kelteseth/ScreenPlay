@@ -1,5 +1,5 @@
 TEMPLATE = app
-QT += qml quick av widgets quickcontrols2
+QT += qml quick av widgets quickcontrols2 widgets
 CONFIG += c++17
 
 

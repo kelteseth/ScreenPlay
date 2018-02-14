@@ -19,35 +19,29 @@ Rectangle {
 
         onSdkDisconnected:  {
             name.text = "disconnected"
-            mainwindow.destroyThis()
+            //mainwindow.destroyThis()
         }
     }
 
-    Text {
-        id: name
-        text: qsTr("text")
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-        }
-        y:-100
+    Connections {
+        target: mainwindow
+        onPlayVideo:{
+            loaderVideo.active = true
+            print(path)
+            //loaderVideo.item.videoPath = path
 
-        font.pixelSize: 36
-        SequentialAnimation {
-            loops: SequentialAnimation.Infinite
-            running: true
-            NumberAnimation {
-                target: name
-                property: "y"
-                duration: 2000
-                easing.type: Easing.InOutQuad
-                to:500
-            }
-            NumberAnimation {
-                target: name
-                property: "y"
-                duration: 2000
-                easing.type: Easing.InOutQuad
-                to:300
+        }
+    }
+
+    Loader {
+        id:loaderVideo
+        anchors.fill: parent
+        asynchronous: true
+        active: false
+        source: "qrc:/ScreenVideo.qml"
+        onStateChanged: {
+            if(status == Loader.Ready){
+                loaderVideo.item.isPlaying = true
             }
         }
     }
