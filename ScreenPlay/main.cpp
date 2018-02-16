@@ -89,7 +89,10 @@ int main(int argc, char* argv[])
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, steamID);
 
     #ifdef QT_DEBUG
-        settings.setScreenPlayWindowPath(QUrl("C:/Users/Eli/Code/Qt/build-ScreenPlay-Desktop-Debug/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
+    QDir SPWorkingDir(QDir::currentPath());
+    if(SPWorkingDir.cdUp()){
+        settings.setScreenPlayWindowPath(QUrl( SPWorkingDir.path() +"/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
+    }
     #elif QT_NO_DEBUG
         settings.setScreenPlayWindowPath(QUrl("ScreenPlayWindow.exe"));
     #endif
