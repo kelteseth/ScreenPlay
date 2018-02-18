@@ -42,7 +42,7 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
     if (!m_project.contains("type")) {
         if (m_project.contains("file")) {
             QString fileEnding = m_project.value("file").toString();
-            if (fileEnding.endsWith(".mp4") || fileEnding.endsWith(".vp9")) {
+            if (fileEnding.endsWith(".mp4") || fileEnding.endsWith(".vp9") || fileEnding.endsWith(".webm")) {
                 m_project.insert("type", "video");
             }
         }

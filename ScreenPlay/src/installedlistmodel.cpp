@@ -116,7 +116,7 @@ void InstalledListModel::loadScreens()
             if (!obj.contains("type")) {
                 if (obj.contains("file")) {
                     QString fileEnding = obj.value("file").toString();
-                    if (fileEnding.endsWith(".mp4") || fileEnding.endsWith(".vp9")) {
+                    if (fileEnding.endsWith(".mp4") || fileEnding.endsWith(".vp9") || fileEnding.endsWith(".webm")) {
                         obj.insert("type", "video");
                     }
                 }
