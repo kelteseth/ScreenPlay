@@ -234,11 +234,7 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
 
 void Settings::removeAll()
 {
-    for (int i = 0; i < m_wallpapers.size(); ++i) {
-        m_wallpapers.at(i).data()->destroyWallpaper();
-    }
-    for (int i = 0; i < m_windows.size(); ++i) {
-    }
+    m_sdkc->closeAllWallpapers();
     setActiveWallpaperCounter(0);
 }
 

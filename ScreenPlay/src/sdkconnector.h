@@ -17,6 +17,7 @@ signals:
 
 public slots:
     void newConnection();
+    void closeAllWallpapers();
 
 private:
     QSharedPointer<QLocalServer> m_server;

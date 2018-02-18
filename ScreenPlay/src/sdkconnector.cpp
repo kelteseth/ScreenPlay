@@ -18,23 +18,27 @@ void SDKConnector::newConnection()
     QLocalSocket* socket = m_server.data()->nextPendingConnection();
     m_clients.append(socket);
 
-    connect(socket,&QLocalSocket::readyRead, [&]() {
+    connect(socket, &QLocalSocket::readyRead, [&]() {
         qDebug() << socket->readAll();
     });
 
-//    connect(socket,&QLocalSocket::stateChanged, [&]() {
-//        switch (socket->state()) {
-//        case QLocalSocket::UnconnectedState:;
-//            break;
-//        case QLocalSocket::ConnectingState:;
-//            break;
-//        case QLocalSocket::ConnectedState:;
-//            break;
-//        case QLocalSocket::ClosingState:;
-//            break;
-//        }
-//    });
+    //    connect(socket,&QLocalSocket::stateChanged, [&]() {
+    //        switch (socket->state()) {
+    //        case QLocalSocket::UnconnectedState:;
+    //            break;
+    //        case QLocalSocket::ConnectingState:;
+    //            break;
+    //        case QLocalSocket::ConnectedState:;
+    //            break;
+    //        case QLocalSocket::ClosingState:;
+    //            break;
+    //        }
+    //    });
 }
 
-
-
+void SDKConnector::closeAllWallpapers()
+{
+    for (int i = 0; i < m_clients.size(); ++i) {
+        m_clients.at(i)->close();
+    }
+}
