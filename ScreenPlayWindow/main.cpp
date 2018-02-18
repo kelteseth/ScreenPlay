@@ -24,7 +24,6 @@ int main(int argc, char* argv[])
     }
 
     MainWindow w(monitor,argumentList.at(2));
-    //MainWindow w(0,"D:/672870/786361026");
 
     return a.exec();
 }

@@ -102,30 +102,33 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
     m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_quickRenderer.data()->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
 
+    if (m_project.contains("type")) {
+        if (m_project.value("type") == "video") {
+            QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
+            emit playVideo(tmpPath);
+        } else if (m_project.value("type") == "scene") {
+            return;
+        }
+    }
+}
+void MainWindow::init()
+{
+    ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
+    ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+    m_quickRenderer.data()->show();
+    this->setVisible(true);
+    setOpacity(0);
     QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
     animation->setDuration(250);
     animation->setEasingCurve(QEasingCurve::OutCubic);
     animation->setStartValue(0);
     animation->setEndValue(1);
-
     animation->start();
-
-    QObject::connect(animation, &QPropertyAnimation::finished, [&]() {
-        if (m_project.contains("type")) {
-            if (m_project.value("type") == "video") {
-                QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
-                emit playVideo(tmpPath);
-            } else if (m_project.value("type") == "scene") {
-                return;
-            }
-        }
-    });
 }
-
 void MainWindow::destroyThis()
 {
     QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
-    animation->setDuration(5000);
+    animation->setDuration(500);
     animation->setStartValue(1);
     animation->setEndValue(0);
     animation->start();
@@ -135,14 +138,6 @@ void MainWindow::destroyThis()
         ShowWindow(m_hwnd, SW_HIDE);
         QCoreApplication::quit();
     });
-}
-
-void MainWindow::init()
-{
-    ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
-    ShowWindow(m_hwnd, SW_SHOWDEFAULT);
-    m_quickRenderer.data()->show();
-    this->show();
 }
 
 QUrl MainWindow::projectPath() const
