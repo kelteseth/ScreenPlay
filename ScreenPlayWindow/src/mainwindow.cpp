@@ -1,7 +1,5 @@
 #include "mainwindow.h"
 
-#include <QJsonDocument>
-
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
     // 0xXXXXXXX "" WorkerW
@@ -33,7 +31,7 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
 
     if (!(parseError.error == QJsonParseError::NoError)) {
         qWarning("Settings Json Parse Error ");
-        return;
+        QApplication::exit(-4);
     }
 
     m_project = configJsonDocument.object();
@@ -51,8 +49,6 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
     if (m_project.contains("file"))
         m_projectFile = m_project.value("file").toString();
 
-    this->m_hwnd = (HWND)this->winId();
-
     // Recalculate window coordiantes because of point (0,0)
     // Is at the origin monitor or the most left
     QScreen* screen = QApplication::screens().at(i);
@@ -61,7 +57,6 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
 
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
-        qDebug() << screen->availableGeometry().x();
         if (screen->availableGeometry().x() < 0) {
             offsetX += (screen->availableGeometry().x() * -1);
         }
@@ -70,6 +65,7 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
         }
     }
 
+    m_hwnd = (HWND)this->winId();
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
 
     // Spawn new worker window below desktop (using some undocumented Win32 magic)
@@ -80,38 +76,37 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
     SendMessageTimeoutW(progman_hwnd, WM_SPAWN_WORKER, 0xD, 0x1, SMTO_NORMAL,
         1000, nullptr);
 
-    EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_worker_hwnd));
+    bool foundWorker = EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_worker_hwnd));
+
+    if (!foundWorker) {
+        qDebug() << "No worker window found";
+    }
 
     //Hide first to avoid flickering
+
     ShowWindow(m_worker_hwnd, SW_HIDE);
     ShowWindow(m_hwnd, SW_HIDE);
-
     MoveWindow(m_hwnd, screen->geometry().x() + offsetX, screen->geometry().y() + offsetY, screen->size().width(), screen->size().height(), true);
-        SetParent(m_hwnd, m_worker_hwnd);
-    SetWindowLongPtr(m_hwnd, GWL_STYLE,
-        WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU);
-    SetWindowLongPtr(m_hwnd, GWL_EXSTYLE,
-        WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
+    SetParent(m_hwnd, m_worker_hwnd);
+
+    SetWindowLongPtr(m_hwnd, GWL_STYLE, WS_CHILDWINDOW | WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU | WS_POPUP);
+    SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
 
     Qt::WindowFlags flags = this->flags();
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
-    this->show();
 
     m_quickRenderer = QSharedPointer<QQuickView>(new QQuickView(this));
     m_quickRenderer.data()->rootContext()->setContextProperty("mainwindow", this);
-    m_quickRenderer.data()->setGeometry(0,0, screen->size().width(), screen->size().height());
-    m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_quickRenderer.data()->setSource(QUrl("qrc:/main.qml"));
+    m_quickRenderer.data()->setGeometry(0, 0, width(), height());
+    m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    m_quickRenderer.data()->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
 
     QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
     animation->setDuration(250);
     animation->setEasingCurve(QEasingCurve::OutCubic);
     animation->setStartValue(0);
     animation->setEndValue(1);
-    m_quickRenderer.data()->show();
-
-    ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
-    ShowWindow(m_hwnd, SW_SHOWDEFAULT);
 
     animation->start();
 
@@ -119,7 +114,6 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
         if (m_project.contains("type")) {
             if (m_project.value("type") == "video") {
                 QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
-                tmpPath.replace("/", "\\\\");
                 emit playVideo(tmpPath);
             } else if (m_project.value("type") == "scene") {
                 return;
@@ -130,20 +124,25 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
 
 void MainWindow::destroyThis()
 {
-
-    ShowWindow(m_worker_hwnd, SW_HIDE);
-    ShowWindow(m_hwnd, SW_HIDE);
-    QCoreApplication::quit();
-    /*
     QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
     animation->setDuration(5000);
     animation->setStartValue(1);
     animation->setEndValue(0);
     animation->start();
 
-    QObject::connect(animation,&QPropertyAnimation::finished, [&]() {
+    QObject::connect(animation, &QPropertyAnimation::finished, [&]() {
+        ShowWindow(m_worker_hwnd, SW_HIDE);
+        ShowWindow(m_hwnd, SW_HIDE);
+        QCoreApplication::quit();
+    });
+}
 
-    });*/
+void MainWindow::init()
+{
+    ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
+    ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+    m_quickRenderer.data()->show();
+    this->show();
 }
 
 QUrl MainWindow::projectPath() const

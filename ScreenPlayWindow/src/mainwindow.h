@@ -1,7 +1,10 @@
 #pragma once
 
+
 #include <QApplication>
 #include <QEasingCurve>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QObject>
 #include <QPropertyAnimation>
 #include <QQmlContext>
@@ -11,22 +14,19 @@
 #include <QWindow>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
-#include <QJsonObject>
-
 #include "qt_windows.h"
-
 class MainWindow : public QWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(int i,  QString projectPath, QScreen* parent = 0);
-    void init();
+    explicit MainWindow(int i, QString projectPath, QScreen* parent = 0);
     ~MainWindow();
     QUrl projectPath() const;
-    void setProjectPath(const QUrl &projectPath);
+    void setProjectPath(const QUrl& projectPath);
 
 public slots:
     void destroyThis();
+    void init();
 
 signals:
     void playVideo(QString path);
@@ -38,5 +38,4 @@ private:
     QUrl m_projectPath;
     QString m_projectFile;
     QJsonObject m_project;
-
 };
