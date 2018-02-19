@@ -51,5 +51,5 @@ win32 {
     INCLUDEPATH += "C:\msys64\mingw64\include"
 }
 
-win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../build-ScreenPlay-Desktop-Release/ScreenPlaySDK/release -llibScreenPlaySDK.dll
-else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../build-ScreenPlay-Desktop-Debug/ScreenPlaySDK/debug -llibScreenPlaySDKd.dll
+win32:CONFIG(release, debug|release): LIBS += -L$${OUT_PWD}/../ScreenPlaySDK/release -llibScreenPlaySDK.dll
+else:win32:CONFIG(debug, debug|release): LIBS += -L$${OUT_PWD}/../ScreenPlaySDK/debug -llibScreenPlaySDKd.dll

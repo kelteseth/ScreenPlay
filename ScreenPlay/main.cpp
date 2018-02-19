@@ -88,13 +88,17 @@ int main(int argc, char* argv[])
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, steamID);
 
+        QDir SPWorkingDir(QDir::currentPath());
     #ifdef QT_DEBUG
-    QDir SPWorkingDir(QDir::currentPath());
+
     if(SPWorkingDir.cdUp()){
         settings.setScreenPlayWindowPath(QUrl( SPWorkingDir.path() +"/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
     }
     #elif QT_NO_DEBUG
-        settings.setScreenPlayWindowPath(QUrl("ScreenPlayWindow.exe"));
+    if(SPWorkingDir.cdUp()){
+        settings.setScreenPlayWindowPath(QUrl( SPWorkingDir.path() +"/ScreenPlayWindow/release/ScreenPlayWindow.exe"));
+    }
+        //settings.setScreenPlayWindowPath(QUrl("ScreenPlayWindow.exe"));
     #endif
     SteamWorkshop steamWorkshop(steamID, &steamWorkshopListModel, &settings);
 

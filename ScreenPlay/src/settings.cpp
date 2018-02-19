@@ -107,17 +107,18 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
     }
 
     increaseActiveWallpaperCounter();
-    auto pro = new QProcess();
-    QObject::connect(pro, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus) {
-        qDebug() << "EX: " <<exitCode;
+    QProcess* pro = new QProcess();
+    m_windows.append(pro);
+    connect(pro, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus) {
+        qDebug() << "EX: " <<exitCode ;
     });
 
     QStringList proArgs;
     proArgs.append(QString::number(monitorIndex));
     proArgs.append(absoluteStoragePath.toString());
-    qDebug() << proArgs;
-    m_windows.append(pro);
-    pro->start(m_screenPlayWindowPath.toString(),proArgs);
+    pro->setArguments(proArgs);
+    pro->setProgram(m_screenPlayWindowPath.toString());
+    pro->start();
 }
 
 void Settings::setWidget(QUrl absoluteStoragePath)

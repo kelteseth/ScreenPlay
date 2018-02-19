@@ -15,12 +15,13 @@ SDKConnector::SDKConnector(QObject* parent)
 
 void SDKConnector::newConnection()
 {
-    QLocalSocket* socket = m_server.data()->nextPendingConnection();
+    QLocalSocket* socket = new QLocalSocket(this);
+    socket = m_server.data()->nextPendingConnection();
     m_clients.append(socket);
 
-    connect(socket, &QLocalSocket::readyRead, [&]() {
-        qDebug() << socket->readAll();
-    });
+//    connect(socket, &QLocalSocket::readyRead, [&]() {
+//        qDebug() << socket->readAll();
+//    });
 
     //    connect(socket,&QLocalSocket::stateChanged, [&]() {
     //        switch (socket->state()) {
