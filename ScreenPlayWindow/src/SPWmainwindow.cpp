@@ -106,6 +106,7 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
             QApplication::exit(-16);
         }
     });
+
     if (m_project.contains("type")) {
         if (m_project.value("type") == "video") {
             QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
@@ -117,6 +118,7 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
 }
 void MainWindow::init()
 {
+    setOpacity(0);
     ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
     m_quickRenderer.data()->show();
