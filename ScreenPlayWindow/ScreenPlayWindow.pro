@@ -6,14 +6,14 @@ CONFIG += c++17
 TARGETPATH = ScreenPlayWindow
 
 SOURCES += \
-        main.cpp \
-        src/mainwindow.cpp
+    SPWmain.cpp \
+    src/SPWmainwindow.cpp
 
 HEADERS += \
-        src/mainwindow.h
+    src/SPWmainwindow.h
 
 RESOURCES += \
-        Resources.qrc \
+    SPWResources.qrc
 
 
 INCLUDEPATH += \

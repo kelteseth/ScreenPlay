@@ -5,16 +5,17 @@ Rectangle {
     color: "gray"
     anchors.fill: parent
     property string tmpVideoPath
+    //Component.onCompleted: mainwindow.init()
 
     ScreenPlaySDK {
         contentType: "wallpaper"
 
         onIncommingMessageError: {
-            //name.text = msg
+
         }
 
         onSdkConnected: {
-            //name.text = "connected"
+
         }
 
         onSdkDisconnected: {

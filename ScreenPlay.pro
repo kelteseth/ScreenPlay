@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 SUBDIRS =   \
-            ScreenPlay/ScreenPlay.pro \
-            ScreenPlayWindow/ScreenPlayWindow.pro \
-            ScreenPlaySDK/Screenplaysdk.pro
+    ScreenPlay/ScreenPlay.pro \
+    ScreenPlaySDK/Screenplaysdk.pro \
+    ScreenPlayWindow/ScreenPlayWindow.pro
 
 ScreenPlayWindow.depends = ScreenPlaySDK

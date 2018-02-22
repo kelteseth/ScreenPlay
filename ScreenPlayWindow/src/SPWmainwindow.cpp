@@ -1,4 +1,4 @@
-#include "mainwindow.h"
+#include "SPWmainwindow.h"
 
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
@@ -31,7 +31,6 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
 
     if (!(parseError.error == QJsonParseError::NoError)) {
         qWarning("Settings Json Parse Error ");
-        QApplication::exit(-4);
     }
 
     m_project = configJsonDocument.object();
@@ -102,6 +101,11 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
     m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_quickRenderer.data()->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
 
+    connect(m_quickRenderer.data(), &QQuickView::statusChanged, [=](QQuickView::Status status) {
+        if (status == QQuickView::Error) {
+            QApplication::exit(-16);
+        }
+    });
     if (m_project.contains("type")) {
         if (m_project.value("type") == "video") {
             QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
@@ -116,7 +120,7 @@ void MainWindow::init()
     ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
     m_quickRenderer.data()->show();
-    this->setVisible(true);
+    //this->setVisible(true);
     setOpacity(0);
     QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
     animation->setDuration(250);

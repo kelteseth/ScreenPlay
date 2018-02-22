@@ -107,11 +107,19 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
     }
 
     increaseActiveWallpaperCounter();
+
+    // We do not want to parent the QProcess because the
+    // Process manages its lifetime and destructing (animation) itself
+    // via a disconnection from the ScreenPlay SDK
     QProcess* pro = new QProcess();
     m_windows.append(pro);
     connect(pro, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus) {
-        qDebug() << "EX: " <<exitCode ;
+        qDebug() << "EX: " << exitCode;
     });
+    connect(pro, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
+        qDebug() << "EX: " << error;
+    });
+
 
     QStringList proArgs;
     proArgs.append(QString::number(monitorIndex));

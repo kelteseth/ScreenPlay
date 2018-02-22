@@ -20,6 +20,7 @@
 #include <QSettings>
 #include <QProcess>
 #include <QObject>
+#include <QProcessEnvironment>
 
 #include "sdkconnector.h"
 #include "installedlistmodel.h"

@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, steamID);
 
     QDir SPWorkingDir(QDir::currentPath());
-    qDebug() << "1 " << SPWorkingDir.path();
+
 #ifdef QT_DEBUG
     if (SPWorkingDir.cdUp()) {
         settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
@@ -103,10 +103,13 @@ int main(int argc, char* argv[])
     SPWorkingDir.cd("ScreenPlayWindow");
 
     if (QDir(SPWorkingDir.path() + "/release").exists()) {
+        // If started by QtCreator
         SPWorkingDir.cd("release");
-        qDebug() << "3 " << settings.getScreenPlayWindowPath();
+        settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow.exe"));
+    } else {
+        // If started by Steam
+        settings.setScreenPlayWindowPath(QUrl("ScreenPlayWindow.exe"));
     }
-    settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow.exe"));
 
 #endif
     SteamWorkshop steamWorkshop(steamID, &steamWorkshopListModel, &settings);

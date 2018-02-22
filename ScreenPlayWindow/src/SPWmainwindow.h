@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <QApplication>
 #include <QEasingCurve>
 #include <QJsonDocument>
@@ -14,7 +13,9 @@
 #include <QWindow>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
+#include <QDir>
 #include "qt_windows.h"
+
 class MainWindow : public QWindow {
     Q_OBJECT
 
