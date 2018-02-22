@@ -14,6 +14,7 @@ Item {
     property bool refresh: false
 
     Component.onCompleted: {
+        installedListFilter.sortByRoleType("All")
         installedListModel.reset()
         installedListModel.loadScreens()
     }
