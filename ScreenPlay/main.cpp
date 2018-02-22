@@ -40,6 +40,7 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_UseOpenGLES);
 
     QGuiApplication app(argc, argv);
+    app.setQuitOnLastWindowClosed(false);
 
     QTranslator trsl;
     trsl.load(":/languages/ScreenPlay_de.qm");
@@ -59,6 +60,7 @@ int main(int argc, char* argv[])
     QCoreApplication::setOrganizationDomain("aimber.net");
     QCoreApplication::setApplicationName("ScreenPlay");
     QCoreApplication::setApplicationVersion("0.1.0");
+
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
     bool steamErrorRestart = false;
@@ -143,11 +145,6 @@ int main(int argc, char* argv[])
         settings.setMainWindowVisible(true);
     }
 
-    //installedListModel.loadScreens();
-    // FIXME: Needed workaround to close the app because
-    // apparently some thread still runs in the background
-    QObject::connect(&app, &QGuiApplication::lastWindowClosed, [&]() { exit(app.exec()); });
-
     // Timer for steam polls. WTF?
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, [&]() { SteamAPI_RunCallbacks(); });
@@ -160,6 +157,6 @@ int main(int argc, char* argv[])
     int status = app.exec();
 
     SteamAPI_Shutdown();
-    //Shutdown
+
     return status;
 }
