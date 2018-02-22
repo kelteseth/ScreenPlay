@@ -49,7 +49,6 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     tmp.setFile(projectFile.toString());
     absoluteContentPath = tmp.path();
     absoluteContentPath = absoluteContentPath.replace("file:///", "");
-    absoluteContentPath += "/";
     projectConfig.setFileName(absoluteContentPath + "/project.json");
 
     QJsonObject jsonObject;
@@ -66,7 +65,7 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     }
 
     jsonObject = jsonProject.object();
-    QString preview = absoluteContentPath + jsonObject.value("preview").toString();
+    QString preview = absoluteContentPath +"/"+ jsonObject.value("preview").toString();
     //absoluteContentPath = absoluteContentPath.replace("/", "\\\\");
 
     SteamUGC()->SetItemTitle(m_UGCUpdateHandle, QByteArray(title.toLatin1()).data());

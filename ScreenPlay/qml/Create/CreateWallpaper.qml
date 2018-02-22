@@ -100,8 +100,6 @@ Item {
 
     }
 
-
-
     Item {
         id: item2
         width: parent.width
@@ -124,7 +122,6 @@ Item {
             spread: 0.2
             cornerRadius: 15
             opacity: 0
-            z:11
             visible: false
         }
 
@@ -173,6 +170,12 @@ Item {
                 color: "transparent"
             }
             PropertyChanges {
+                target: effect1
+                opacity: 0
+                visible: false
+                color: "transparent"
+            }
+            PropertyChanges {
                 target: txtHeadline
                 opacity: 0
             }
@@ -192,7 +195,13 @@ Item {
             }
             PropertyChanges {
                 target: effect
-                opacity: .4
+                opacity: .3
+                color: "black"
+                visible: true
+            }
+            PropertyChanges {
+                target: effect1
+                opacity: .3
                 color: "black"
                 visible: true
             }
