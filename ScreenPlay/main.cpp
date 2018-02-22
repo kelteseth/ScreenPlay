@@ -26,16 +26,15 @@
 #include "monitorlistmodel.h"
 #include "packagefilehandler.h"
 #include "profilelistmodel.h"
+#include "sdkconnector.h"
 #include "settings.h"
 #include "steam/steam_api.h"
 #include "steamworkshop.h"
 #include "steamworkshoplistmodel.h"
 #include "widget.h"
-#include "sdkconnector.h"
 
 int main(int argc, char* argv[])
 {
-
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_UseOpenGLES);
@@ -88,18 +87,28 @@ int main(int argc, char* argv[])
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, steamID);
 
-        QDir SPWorkingDir(QDir::currentPath());
-    #ifdef QT_DEBUG
+    QDir SPWorkingDir(QDir::currentPath());
+    qDebug() << "1 " << SPWorkingDir.path();
+#ifdef QT_DEBUG
+    if (SPWorkingDir.cdUp()) {
+        settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
+    }
+#elif QT_NO_DEBUG
 
-    if(SPWorkingDir.cdUp()){
-        settings.setScreenPlayWindowPath(QUrl( SPWorkingDir.path() +"/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
+    // If we build in the release version we must be cautious!
+    // The working dir in steam is the ScreenPlay.exe location
+    // In QtCreator is the dir above ScreenPlay.exe (!)
+
+    SPWorkingDir.cdUp();
+    SPWorkingDir.cd("ScreenPlayWindow");
+
+    if (QDir(SPWorkingDir.path() + "/release").exists()) {
+        SPWorkingDir.cd("release");
+        qDebug() << "3 " << settings.getScreenPlayWindowPath();
     }
-    #elif QT_NO_DEBUG
-    if(SPWorkingDir.cdUp()){
-        settings.setScreenPlayWindowPath(QUrl( SPWorkingDir.path() +"/ScreenPlayWindow/release/ScreenPlayWindow.exe"));
-    }
-        //settings.setScreenPlayWindowPath(QUrl("ScreenPlayWindow.exe"));
-    #endif
+    settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow.exe"));
+
+#endif
     SteamWorkshop steamWorkshop(steamID, &steamWorkshopListModel, &settings);
 
     // All the list need the default path from the settings
