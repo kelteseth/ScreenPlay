@@ -9,6 +9,7 @@ Item {
 
     signal setSidebaractiveItem(var screenId, var type)
     signal setNavigationItem(var pos)
+    signal setSidebarActive(var active)
 
     property bool refresh: false
 
@@ -146,6 +147,7 @@ Item {
         }
     }
     function onPageChanged(name) {
+        setSidebarActive(false)
         if (name === "All") {
             installedListFilter.sortByRoleType("All")
             navAll.state = "active"

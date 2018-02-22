@@ -189,6 +189,14 @@ ApplicationWindow {
 
         property bool ignoreWorkshopBanner: false
 
+        onSetSidebarActive: {
+            if(active){
+                 sidebar.state = "active"
+            } else {
+                 sidebar.state = "inactive"
+            }
+        }
+
         onSetSidebaractiveItem: {
 
             if (type === "video") {
