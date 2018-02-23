@@ -44,6 +44,7 @@ public:
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
+    Q_PROPERTY(bool pauseWallpaperWhenIngame READ pauseWallpaperWhenIngame WRITE setPauseWallpaperWhenIngame NOTIFY pauseWallpaperWhenIngameChanged)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
@@ -113,6 +114,11 @@ public:
     QUrl getScreenPlayWindowPath() const;
     void setScreenPlayWindowPath(const QUrl &screenPlayWindowPath);
 
+    bool pauseWallpaperWhenIngame() const
+    {
+        return m_pauseWallpaperWhenIngame;
+    }
+
 signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
@@ -123,7 +129,11 @@ signals:
     void setMainWindowVisible(bool visible);
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
 
+    void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
+
 public slots:
+
+    void checkForOtherFullscreenApplication();
 
     void destroyWallpaper(QObject *ref);
 
@@ -256,6 +266,15 @@ public slots:
         emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
     }
 
+    void setPauseWallpaperWhenIngame(bool pauseWallpaperWhenIngame)
+    {
+        if (m_pauseWallpaperWhenIngame == pauseWallpaperWhenIngame)
+            return;
+
+        m_pauseWallpaperWhenIngame = pauseWallpaperWhenIngame;
+        emit pauseWallpaperWhenIngameChanged(m_pauseWallpaperWhenIngame);
+    }
+
 private:
     void createDefaultConfig();
     void createProfileConfig();
@@ -272,7 +291,7 @@ private:
     MonitorListModel* m_mlm;
     SDKConnector* m_sdkc;
 
-    QThread m_thread;
+    QTimer* m_checkForOtherFullscreenApplicationTimer;
 
     QVector<QSharedPointer<Wallpaper>> m_wallpapers;
     QVector<QProcess*> m_widgets;
@@ -285,6 +304,7 @@ private:
     bool m_hasWorkshopBannerSeen = false;
     QString m_decoder;
     int m_activeWallpaperCounter = 0;
+    bool m_pauseWallpaperWhenIngame = true;
 };
 
 class ActiveProfiles {

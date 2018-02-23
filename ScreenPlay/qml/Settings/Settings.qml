@@ -38,7 +38,7 @@ Item {
         anchors {
             top: parent.top
             topMargin: 20
-            bottom:parent.bottom
+            bottom: parent.bottom
             bottomMargin: 20
             horizontalCenter: parent.horizontalCenter
         }
@@ -124,6 +124,19 @@ Item {
                         }
                         SettingsHorizontalSeperator {
                         }
+                        SettingBool {
+                            headline: qsTr("Send anonymous crash reports and statistics")
+                            description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!")
+                            isChecked: screenPlaySettings.sendStatistics
+                            onCheckboxChanged: {
+                                screenPlaySettings.setSendStatistics(checked)
+                                screenPlaySettings.writeSingleSettingConfig(
+                                            "sendStatistics", checked)
+                            }
+                        }
+                        SettingsHorizontalSeperator {
+                        }
+
                         SettingsButton {
                             headline: qsTr("Set save location")
                             description: screenPlaySettings.localStoragePath //qsTr("Choose where to find you content. The default save location is you steam installation")
@@ -139,24 +152,13 @@ Item {
                                 }
                             }
                         }
-                        SettingsHorizontalSeperator {
-                        }
-                        SettingBool {
-                            headline: qsTr("Send anonymous crash reports and statistics")
-                            description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!")
-                            isChecked: screenPlaySettings.sendStatistics
-                            onCheckboxChanged: {
-                                screenPlaySettings.setSendStatistics(checked)
-                                screenPlaySettings.writeSingleSettingConfig("sendStatistics",checked)
-                            }
-                        }
                     }
                 }
             }
 
             Item {
                 id: settingsPerformanceWrapper
-                height: 220
+                height: 300
                 width: parent.width
 
                 RectangularGlow {
@@ -201,6 +203,18 @@ Item {
                         }
                         spacing: 10
 
+
+                        SettingBool {
+                            headline: qsTr("Pause wallpaper when ingame")
+                            description: qsTr("To maximise your framerates ingame, you can enable this setting to pause all active wallpapers!")
+                            isChecked: screenPlaySettings.pauseWallpaperWhenIngame
+                            onCheckboxChanged: {
+                                screenPlaySettings.setPauseWallpaperWhenIngame(checked)
+                                screenPlaySettings.writeSingleSettingConfig("setPauseWallpaperWhenIngame",checked)
+                            }
+                        }
+                        SettingsHorizontalSeperator {
+                        }
                         SettingsComboBox {
                             id: settingsComboBox
                             headline: qsTr("Default decoder")
@@ -330,13 +344,13 @@ Item {
                                 horizontalAlignment: Text.AlignLeft
                                 font.pixelSize: 14
                                 font.family: "Roboto"
-                                width: parent.width *.6
-                                anchors{
-                                    top:txtHeadline.bottom
+                                width: parent.width * .6
+                                anchors {
+                                    top: txtHeadline.bottom
                                     topMargin: 6
-                                    left:parent.left
+                                    left: parent.left
                                     leftMargin: 20
-                                    right:imgLogoHead.left
+                                    right: imgLogoHead.left
                                     rightMargin: 20
                                     bottom: parent.bottom
                                 }
@@ -346,13 +360,12 @@ Item {
                                 source: "qrc:/assets/icons/icon_logo_head.svg"
                                 width: 150
                                 height: 150
-                                sourceSize: Qt.size(150,150)
-                                anchors{
-                                    top:txtHeadline.bottom
+                                sourceSize: Qt.size(150, 150)
+                                anchors {
+                                    top: txtHeadline.bottom
                                     topMargin: -10
-                                    right:parent.right
+                                    right: parent.right
                                     rightMargin: 20
-
                                 }
                             }
                         }
@@ -366,7 +379,6 @@ Item {
 
                             }
                         }
-
                     }
                 }
             }

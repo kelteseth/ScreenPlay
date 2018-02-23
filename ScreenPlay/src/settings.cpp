@@ -79,6 +79,11 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_highPriorityStart = configObj.value("highPriorityStart").toBool();
     m_sendStatistics = configObj.value("sendStatistics").toBool();
     int renderer = static_cast<int>(configObj.value("renderer-value").toInt());
+
+    m_checkForOtherFullscreenApplicationTimer = new QTimer(this);
+    QObject::connect(&m_checkForOtherFullscreenApplicationTimer, &QTimer::timeout, this, &Settings::checkForOtherFullscreenApplication);
+    timer.start(1500);
+
 }
 
 Settings::~Settings()
@@ -321,6 +326,20 @@ QUrl Settings::getScreenPlayWindowPath() const
 void Settings::setScreenPlayWindowPath(const QUrl& screenPlayWindowPath)
 {
     m_screenPlayWindowPath = screenPlayWindowPath;
+}
+
+void Settings::checkForOtherFullscreenApplication()
+{
+    Wnd = GetForegroundWindow();
+    RECT appBounds;
+    RECT rc;
+    GetWindowRect(GetDesktopWindow(), &rc);
+    if(hWnd =! GetDesktopWindow() && hWnd != GetShellWindow())
+    {
+        GetWindowRect(hWnd, &appBounds);
+    } else {
+
+    }
 }
 
 ActiveProfiles::ActiveProfiles()
