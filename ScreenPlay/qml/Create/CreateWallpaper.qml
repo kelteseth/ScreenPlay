@@ -25,6 +25,7 @@ Item {
         font.pixelSize: 28
         renderType: Text.NativeRendering
         font.family: "Roboto"
+        font.weight: Font.Thin
     }
 
     Item {

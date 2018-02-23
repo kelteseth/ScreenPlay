@@ -114,11 +114,10 @@ Rectangle {
             id:ma
             anchors.fill: parent
             hoverEnabled: true
-            onPressed:     {
+            onPressed: {
                 attractor.enabled = true
             }
             onPositionChanged: {
-
                 if(ma.pressed){
                     attractor.pointX = mouseX
                     attractor.pointY = mouseY
@@ -172,7 +171,7 @@ Rectangle {
             color: "orange"
             source: "qrc:/assets/particle/dot.png"
             system: particleSystem
-            opacity: .5
+            opacity: .75
         }
 
         Image {

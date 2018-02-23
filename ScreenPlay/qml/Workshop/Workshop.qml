@@ -92,6 +92,8 @@ Item {
                     text: "loading"
                     font.pixelSize: 42
                     color: "white"
+                    font.family: "Roboto"
+                    font.weight: Font.Thin
                     width: 400
                     anchors {
                         top: parent.top
