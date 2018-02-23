@@ -294,6 +294,17 @@ QString Settings::fixWindowsPath(QString url)
     return url.replace("/", "\\\\");
 }
 
+void Settings::openFolderInExplorer(QString url)
+{
+    QProcess explorer;
+    explorer.setProgram("explorer.exe");
+    QStringList args;
+    args.append(QDir::toNativeSeparators(url));
+    explorer.setArguments(args);
+    explorer.startDetached();
+
+}
+
 void Settings::removeWallpaperAt(int pos)
 {
     if (pos > 0 && pos > m_wallpapers.size())

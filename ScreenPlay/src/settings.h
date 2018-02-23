@@ -54,6 +54,7 @@ public:
     Q_INVOKABLE void setPlayAll(bool isPlaying);
     Q_INVOKABLE QUrl getPreviewImageByMonitorID(QString id);
     Q_INVOKABLE QString fixWindowsPath(QString url);
+    Q_INVOKABLE void openFolderInExplorer(QString url);
 
     void loadActiveProfiles();
 

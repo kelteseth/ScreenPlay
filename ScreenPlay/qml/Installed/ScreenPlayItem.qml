@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
+import QtQuick.Controls 2.3
 
 Item {
     id: screenPlayItem
@@ -9,11 +10,12 @@ Item {
     property string customTitle: "name here"
     property url absoluteStoragePath
     property string type
+    property bool hasMenuOpen: false
     onTypeChanged: {
         if (type === "widget") {
             icnType.source = "qrc:/assets/icons/icon_widgets.svg"
-        } else if(type === "qmlScene"){
-            icnType.source = "qrc:/assets/icons/icon_scene.svg"
+        } else if (type === "qmlScene") {
+            icnType.source = "qrc:/assets/icons/icon_code.svg"
         }
     }
 
@@ -125,15 +127,34 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
+
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onEntered: {
-                    screenPlayItem.state = "hover"
+                    if (!hasMenuOpen)
+                        screenPlayItem.state = "hover"
                 }
                 onExited: {
-                    screenPlayItem.state = "visible"
+                    if (!hasMenuOpen)
+                        screenPlayItem.state = "visible"
                 }
 
                 onClicked: {
-                    itemClicked(screenId, type)
+                    if (mouse.button === Qt.LeftButton) {
+                        itemClicked(screenId, type)
+                    } else if (mouse.button === Qt.RightButton) {
+                        contextMenu.popup()
+                        hasMenuOpen = true
+                    }
+                }
+            }
+        }
+        Menu {
+            id: contextMenu
+            onClosed: hasMenuOpen = false
+            MenuItem {
+                text: qsTr("Open containing folder")
+                onClicked: {
+                    screenPlaySettings.openFolderInExplorer(absoluteStoragePath)
                 }
             }
         }
