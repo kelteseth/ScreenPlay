@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtQuick.Dialogs 1.2
+import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 
@@ -55,7 +56,7 @@ Item {
 
             Item {
                 id: settingsGeneralWrapper
-                height: 390
+                height: 420
                 width: parent.width
 
                 RectangularGlow {
@@ -125,6 +126,7 @@ Item {
                         SettingsHorizontalSeperator {
                         }
                         SettingBool {
+                            height: 70
                             headline: qsTr("Send anonymous crash reports and statistics")
                             description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!")
                             isChecked: screenPlaySettings.sendStatistics
@@ -133,6 +135,7 @@ Item {
                                 screenPlaySettings.writeSingleSettingConfig(
                                             "sendStatistics", checked)
                             }
+
                         }
                         SettingsHorizontalSeperator {
                         }
