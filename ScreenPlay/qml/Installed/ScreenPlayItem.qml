@@ -12,6 +12,8 @@ Item {
     onTypeChanged: {
         if (type === "widget") {
             icnType.source = "qrc:/assets/icons/icon_widgets.svg"
+        } else if(type === "qmlScene"){
+            icnType.source = "qrc:/assets/icons/icon_scene.svg"
         }
     }
 
@@ -72,11 +74,11 @@ Item {
 
             Image {
                 id: icnType
-                width: 15
-                height: 15
+                width: 20
+                height: 20
                 opacity: 0
                 source: "qrc:/assets/icons/icon_movie.svg"
-                sourceSize: Qt.size(15, 15)
+                sourceSize: Qt.size(20, 20)
                 anchors {
                     top: parent.top
                     left: parent.left

@@ -338,13 +338,13 @@ Item {
                 }
 
                 onClicked: {
-                    print(type)
-                    if (type === "video") {
+                    if (type === "video" || type === "qmlScene") {
                         screenPlaySettings.setWallpaper(
                                     monitorSelection.activeMonitorIndex,
                                     installedListModel.absoluteStoragePath + "/" + activeScreen)
                     } else if (type === "widget") {
-                        screenPlaySettings.setWidget(installedListModel.absoluteStoragePath + "/" + activeScreen)
+                        screenPlaySettings.setWidget(
+                                    installedListModel.absoluteStoragePath + "/" + activeScreen)
                     }
                 }
             }

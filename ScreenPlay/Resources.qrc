@@ -99,5 +99,6 @@
         <file>assets/fonts/RobotoMono-Thin.ttf</file>
         <file>assets/particle/backgroundGlow.png</file>
         <file>assets/particle/dot.png</file>
+        <file>assets/icons/icon_scene.svg</file>
     </qresource>
 </RCC>

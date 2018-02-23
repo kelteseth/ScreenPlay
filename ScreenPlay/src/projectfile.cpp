@@ -23,6 +23,8 @@ ProjectFile::ProjectFile(QJsonObject obj, QString folderName, QUrl absolutePath)
             m_type = "video";
         } else if (tmp == "widget") {
             m_type = "widget";
+        }else if (tmp == "qmlscene") {
+            m_type = "qmlScene";
         }
     }
 

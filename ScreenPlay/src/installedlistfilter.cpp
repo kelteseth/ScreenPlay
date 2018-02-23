@@ -19,7 +19,7 @@ void InstalledListFilter::sortByRoleType(QString type)
         setFilterFixedString("widget");
     } if (type == "Scenes") {
         setFilterRole(InstalledListModel::InstalledRole::TypeRole);
-        setFilterFixedString("Scenes");
+        setFilterFixedString("qmlScene");
     }
 
     sort(0);

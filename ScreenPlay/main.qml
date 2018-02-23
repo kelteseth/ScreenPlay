@@ -198,7 +198,6 @@ ApplicationWindow {
         }
 
         onSetSidebaractiveItem: {
-
             if (type === "video") {
                 if (sidebar.activeScreen == screenId
                         && sidebar.state == "active") {
@@ -207,6 +206,13 @@ ApplicationWindow {
                     sidebar.state = "active"
                 }
             } else if (type === "widget") {
+                if (sidebar.activeScreen == screenId
+                        && sidebar.state == "activeWidget") {
+                    sidebar.state = "inactive"
+                } else {
+                    sidebar.state = "activeWidget"
+                }
+            } else if (type === "qmlScene") {
                 if (sidebar.activeScreen == screenId
                         && sidebar.state == "activeWidget") {
                     sidebar.state = "inactive"

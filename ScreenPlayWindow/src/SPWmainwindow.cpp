@@ -26,8 +26,8 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
 
     configTmp.setFileName(projectPath + "/project.json");
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString config = configTmp.readAll();
-    configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
+    m_projectConfig = configTmp.readAll();
+    configJsonDocument = QJsonDocument::fromJson(m_projectConfig.toUtf8(), &parseError);
 
     if (!(parseError.error == QJsonParseError::NoError)) {
         qWarning("Settings Json Parse Error ");
@@ -113,6 +113,9 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
             emit playVideo(tmpPath);
         } else if (m_project.value("type") == "scene") {
             return;
+        } else if(m_project.value("type") == "qmlScene") {
+            QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
+            emit playQmlScene(tmpPath);
         }
     }
 }

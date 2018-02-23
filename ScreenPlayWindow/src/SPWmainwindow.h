@@ -1,6 +1,8 @@
 #pragma once
 
+#include "qt_windows.h"
 #include <QApplication>
+#include <QDir>
 #include <QEasingCurve>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -13,8 +15,6 @@
 #include <QWindow>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
-#include <QDir>
-#include "qt_windows.h"
 
 class MainWindow : public QWindow {
     Q_OBJECT
@@ -24,13 +24,30 @@ public:
     ~MainWindow();
     QUrl projectPath() const;
     void setProjectPath(const QUrl& projectPath);
+    Q_PROPERTY(QString projectConfig READ projectConfig WRITE setProjectConfig NOTIFY projectConfigChanged)
+
+    QString projectConfig() const
+    {
+        return m_projectConfig;
+    }
 
 public slots:
     void destroyThis();
     void init();
 
+    void setProjectConfig(QString projectConfig)
+    {
+        if (m_projectConfig == projectConfig)
+            return;
+
+        m_projectConfig = projectConfig;
+        emit projectConfigChanged(m_projectConfig);
+    }
+
 signals:
     void playVideo(QString path);
+    void playQmlScene(QString file);
+    void projectConfigChanged(QString projectConfig);
 
 private:
     HWND m_hwnd;
@@ -39,4 +56,5 @@ private:
     QUrl m_projectPath;
     QString m_projectFile;
     QJsonObject m_project;
+    QString m_projectConfig;
 };

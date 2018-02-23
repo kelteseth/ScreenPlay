@@ -5,7 +5,14 @@ Rectangle {
     color: "gray"
     anchors.fill: parent
     property string tmpVideoPath
-    //Component.onCompleted: mainwindow.init()
+    property var jsonProjectFile
+   Component.onCompleted: {
+//        jsonProjectFile = JSON.parse(mainwindow.projectConfig)
+
+//        if(jsonProjectFile.type === "qmlScene"){
+
+//        }
+    }
 
     ScreenPlaySDK {
         contentType: "wallpaper"
@@ -30,10 +37,28 @@ Rectangle {
         target: mainwindow
         onPlayVideo: {
             screenVideo.videoPath = path
+            //screenVideoLoader.setSource("qrc:/ScreenVideo.qml", {videoPath: path})
         }
+        onPlayQmlScene: {
+            var tmp = Qt.resolvedUrl("file:///" + file)
+            print(tmp)
+            sceneLoader.setSource(tmp)
+            mainwindow.init()
+        }
+
     }
 
     ScreenVideo {
         id:screenVideo
+    }
+//    Loader {
+//        id:screenVideoLoader
+//        anchors.fill: parent
+//    }
+
+    Loader {
+        id:sceneLoader
+        anchors.fill: parent
+        z:11
     }
 }
