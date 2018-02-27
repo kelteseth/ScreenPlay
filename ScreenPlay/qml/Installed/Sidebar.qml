@@ -236,80 +236,11 @@ Item {
                     width: 360
                     height: parent.height
                     availableWidth: 360
+                    fontSize:11
                     availableHeight: 50
                     anchors {
                         top: parent.top
                         horizontalCenter: parent.horizontalCenter
-                    }
-                }
-            }
-            Item {
-                id: sliderVolumeWrapper
-                height: 100
-                opacity: 0
-                enabled: false
-                anchors {
-                    top: monitorSelectionWrapper.bottom
-                    topMargin: 20
-                    right: parent.right
-                    rightMargin: 40
-                    leftMargin: 40
-                    left: parent.left
-                }
-                Text {
-                    id: txtSliderVolume
-                    text: qsTr("Volume")
-                    height: 30
-                    renderType: Text.NativeRendering
-                    font.family: "Roboto"
-                    verticalAlignment: Text.AlignVCenter
-                    font.pixelSize: 14
-                    color: "#626262"
-                    wrapMode: Text.WrapAnywhere
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                    }
-                }
-                Row {
-                    id: sliderVolumeWrapperBottom
-                    height: 70
-                    spacing: 30
-                    anchors {
-                        bottom: parent.bottom
-                        left: parent.left
-                        horizontalCenter: parent.horizontalCenter
-                    }
-                    Image {
-                        width: 20
-                        height: 20
-                        anchors.verticalCenter: parent.verticalCenter
-                        source: "qrc:/assets/icons/icon_volume.svg"
-                        sourceSize: Qt.size(20, 20)
-                    }
-
-                    Slider {
-                        id: sliderVolume
-                        stepSize: 0.01
-                        from: 0
-                        live: true
-                        value: .8
-                        to: 1
-                        anchors.verticalCenter: parent.verticalCenter
-                        onValueChanged: {
-
-                        }
-                    }
-
-                    Text {
-                        id: name
-                        color: "#818181"
-                        text: Math.round(sliderVolume.value * 100) / 100
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.family: "Libre Baskerville"
-                        font.pointSize: 12
-                        font.italic: true
-                        verticalAlignment: Text.AlignVCenter
                     }
                 }
             }
@@ -404,11 +335,6 @@ Item {
                 enabled: true
             }
 
-            PropertyChanges {
-                target: sliderVolumeWrapper
-                enabled: true
-                opacity: 1
-            }
 
             PropertyChanges {
                 target: monitorSelectionWrapper
