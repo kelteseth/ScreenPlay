@@ -14,6 +14,7 @@ ApplicationWindow {
     // Set visible if the -silent parameter was not set
     visible: false
     width: 1400
+    title: "ScreenPlay Alpha"
     minimumHeight: 788
     minimumWidth: 1050
 
