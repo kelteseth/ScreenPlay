@@ -25,6 +25,12 @@ ApplicationWindow {
             setY(Screen.height / 2 - height / 2)
         }
     }
+    Connections {
+        target: globalNavigationHelper
+        onRequestNavigation:{
+            switchPage(nav)
+        }
+    }
 
     LinearGradient {
         id: tabShadow
@@ -244,6 +250,10 @@ ApplicationWindow {
             left: parent.left
         }
         onChangePage: {
+            if(monitors.state === "active"){
+                monitors.state = "inactive"
+            }
+
             switchPage(name)
         }
 

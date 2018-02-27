@@ -1,4 +1,5 @@
-﻿#include <QDebug>
+﻿
+#include <QDebug>
 #include <QDir>
 #include <QFontDatabase>
 #include <QGuiApplication>
@@ -32,6 +33,8 @@
 #include "steamworkshop.h"
 #include "steamworkshoplistmodel.h"
 #include "widget.h"
+#include "globalnavigationhelper.h"
+
 
 int main(int argc, char* argv[])
 {
@@ -76,6 +79,7 @@ int main(int argc, char* argv[])
         steamErrorAPIInit = true;
     }
 
+    GlobalNavigationHelper gnh;
     InstalledListModel installedListModel;
     MonitorListModel monitorListModel;
     PackageFileHandler packageFileHandler;
@@ -122,6 +126,8 @@ int main(int argc, char* argv[])
     settings.loadActiveProfiles();
 
     QQmlApplicationEngine mainWindowEngine;
+
+    mainWindowEngine.rootContext()->setContextProperty("globalNavigationHelper", &gnh);
     mainWindowEngine.rootContext()->setContextProperty("installedListFilter", &installedListFilter);
     mainWindowEngine.rootContext()->setContextProperty("workshopListModel", &steamWorkshopListModel);
     mainWindowEngine.rootContext()->setContextProperty("monitorListModel", &monitorListModel);
