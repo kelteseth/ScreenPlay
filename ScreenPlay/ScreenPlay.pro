@@ -21,8 +21,8 @@ SOURCES += main.cpp \
     src/widgetbridge.cpp \
     src/installedlistfilter.cpp \
     src/sdkconnector.cpp \
-    src/projectfile.cpp \
-    src/projectsettingslistitem.cpp
+    src/projectsettingslistitem.cpp \
+    src/globalnavigationhelper.cpp
 
 RESOURCES += \
     Resources.qrc \
@@ -45,8 +45,8 @@ HEADERS += \
     src/widgetbridge.h \
     src/installedlistfilter.h \
     src/sdkconnector.h \
-    src/projectfile.h \
-    src/projectsettingslistitem.h
+    src/projectsettingslistitem.h \
+    src/globalnavigationhelper.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \
