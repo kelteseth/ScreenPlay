@@ -3,6 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
+import QtQuick.XmlListModel 2.0
 
 Item {
     id: community
@@ -19,6 +20,7 @@ Item {
         }
         LinearGradient {
             id: tabShadow
+            antialiasing: true
             cached: true
             anchors.fill: parent
             start: Qt.point(0, 0)
@@ -100,6 +102,15 @@ Item {
             }
         }
     }
+
+        XmlListModel {
+            id: feedModel
+
+            source: "http://www.screen-play.rocks/index.php?format=feed&type=rss"
+            query: "/rss/channel/item"
+            XmlRole { name: "title"; query: "title/string()" }
+
+        }
     Flickable {
         id: changelogFlickableWrapper
         width: 800
@@ -170,6 +181,21 @@ Item {
                             horizontalCenter: parent.horizontalCenter
                         }
                     }
+                            ListView {
+                                model: feedModel
+
+                                anchors {
+                                    top:name.bottom
+                                    margins: 20
+                                    right:parent.right
+                                    left:parent.left
+                                    bottom: parent.bottom
+                                }
+
+                                delegate: Text {
+                                    text: title
+                                }
+                            }
                 }
             }
         }
