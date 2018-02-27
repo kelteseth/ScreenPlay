@@ -173,48 +173,22 @@ Item {
                     leftMargin: 10
                 }
 
-                RectangularGlow {
-                    id: effect
-                    anchors.centerIn: userImg
-                    height: userImg.height
-                    width: userImg.width
-                    cached: true
-                    glowRadius: 2
-                    spread: 0.5
-                    color: "black"
-                    opacity: 0.4
-                    cornerRadius: 20
-                }
-
-                Rectangle {
-                    id: userImg
-                    color: "gray"
-                    height: 45
-                    border.width: 3
-                    border.color: "white"
-                    width: 45
-                    radius: 45
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: parent.left
-                        leftMargin: 20
-                    }
-                }
-
                 Text {
                     id: txtHeadline
                     text: ""
-                    width: 250
+                    height:150
                     renderType: Text.NativeRendering
                     font.family: "Roboto"
+                    font.weight: Font.Thin
                     verticalAlignment: Text.AlignVCenter
-                    font.pixelSize: 12
+                    font.pixelSize: 21
                     color: "#2F2F2F"
                     wrapMode: Text.WrapAnywhere
                     anchors {
                         top: parent.top
+                        right:parent.right
                         bottom: parent.bottom
-                        left: userImg.right
+                        left: parent.left
                         leftMargin: 20
                     }
                 }
@@ -382,13 +356,6 @@ Item {
                 target: image
                 opacity: 1
                 anchors.topMargin: 0
-            }
-
-            PropertyChanges {
-                target: sliderVolumeWrapper
-                enabled: false
-                visible: true
-                opacity: 0
             }
 
             PropertyChanges {
