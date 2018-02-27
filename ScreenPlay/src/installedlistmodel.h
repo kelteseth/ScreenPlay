@@ -1,5 +1,4 @@
-#ifndef INSTALLEDLISTMODEL_H
-#define INSTALLEDLISTMODEL_H
+#pragma once
 
 #include "profilelistmodel.h"
 #include "projectfile.h"
@@ -76,4 +75,4 @@ private:
     QUrl m_absoluteStoragePath;
 };
 
-#endif // INSTALLEDLISTMODEL_H
+
