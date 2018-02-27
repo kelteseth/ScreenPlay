@@ -71,7 +71,7 @@ public:
 public slots:
     void searchWorkshop();
     void createWorkshopItem();
-    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile, const QUrl videoFile);
+    void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile, const QUrl videoFile, int publishedFileId);
     void getAPICallInfo();
     void createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath);
     void subscribeItem(unsigned int id);

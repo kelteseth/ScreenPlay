@@ -46,7 +46,8 @@ Item {
             steamWorkshop.submitWorkshopItem(txtTitle.text.toString(),
                                              txtDescription.text.toString(),
                                              "english", 0, projectFile,
-                                             videoFile)
+                                             videoFile,
+                                             publishedFileId)
         }
         onRemoteWorkshopCreationStatusChanged: {
             switch (status) {
@@ -104,7 +105,8 @@ Item {
                 break
             case 5:
                 txtUploadStatus.text = "5. Done!"
-                timerUpload.visible = false
+                createUpload.state = "uploadComplete"
+                //globalNavigationHelper.setNavigation("Create")
                 break
             default:
                 break
@@ -395,6 +397,37 @@ Item {
             PropertyChanges {
                 target: videoOut
                 opacity: 1
+            }
+            PropertyChanges {
+                target: effect
+                opacity: 0
+                color: "transparent"
+            }
+            PropertyChanges {
+                target: contentWrapper
+                opacity: 1
+                anchors.topMargin: -500
+            }
+            PropertyChanges {
+                target: videoOutWrapper
+                z: 12
+                opacity: 1
+                anchors.topMargin: 150
+            }
+            PropertyChanges {
+                target: uploadWrapper
+                opacity: 1
+            }
+        },
+        State {
+            name: "uploadComplete"
+            PropertyChanges {
+                target: createUpload
+                opacity: 1
+            }
+            PropertyChanges {
+                target: videoOut
+                opacity: 0
             }
             PropertyChanges {
                 target: effect

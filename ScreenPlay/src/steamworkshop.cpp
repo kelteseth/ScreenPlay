@@ -33,7 +33,7 @@ void SteamWorkshop::workshopItemCreated(CreateItemResult_t* pCallback, bool bIOF
     emit workshopItemCreated(pCallback->m_bUserNeedsToAcceptWorkshopLegalAgreement, pCallback->m_eResult, pCallback->m_nPublishedFileId);
 }
 
-void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile, const QUrl videoFile)
+void SteamWorkshop::submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile, const QUrl videoFile, int publishedFileId)
 {
 
     // Ether way one of the url must have a value
@@ -55,7 +55,7 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     QJsonDocument jsonProject;
     QJsonParseError parseError;
 
-    projectConfig.open(QIODevice::ReadOnly | QIODevice::Text);
+    projectConfig.open(QIODevice::ReadOnly);
     QString projectConfigData = projectConfig.readAll();
     jsonProject = QJsonDocument::fromJson(projectConfigData.toUtf8(), &parseError);
 
@@ -65,8 +65,18 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     }
 
     jsonObject = jsonProject.object();
-    QString preview = absoluteContentPath +"/"+ jsonObject.value("preview").toString();
-    //absoluteContentPath = absoluteContentPath.replace("/", "\\\\");
+    QString preview = absoluteContentPath + "/" + jsonObject.value("preview").toString();
+
+    // Only now we have an workshop id, so we have to add this for later use
+    if (!jsonObject.contains("workshopid")) {
+        jsonObject.insert("workshopid", publishedFileId);
+    }
+    projectConfig.close();
+    // Reopen to empty the file via Truncate
+    projectConfig.open(QIODevice::ReadWrite | QIODevice::Truncate);
+    QTextStream out(&projectConfig);
+    out << QJsonDocument(jsonObject).toJson();
+    projectConfig.close();
 
     SteamUGC()->SetItemTitle(m_UGCUpdateHandle, QByteArray(title.toLatin1()).data());
     SteamUGC()->SetItemDescription(m_UGCUpdateHandle, QByteArray(description.toLatin1()).data());
@@ -86,7 +96,7 @@ int SteamWorkshop::getItemUpdateProcess()
     unsigned long long _itemProcessed = 0;
     unsigned long long _bytesTotoal = 0;
     EItemUpdateStatus status = SteamUGC()->GetItemUpdateProgress(m_UGCUpdateHandle, &_itemProcessed, &_bytesTotoal);
-    qDebug() << _itemProcessed << _bytesTotoal << status;
+
     setItemProcessed(_itemProcessed);
     setBytesTotal(_bytesTotoal);
     return status;
@@ -200,39 +210,38 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
     if (bIOFailure)
         return;
 
-    QtConcurrent::run([this, pCallback]() {    });
+    QtConcurrent::run([this, pCallback]() {});
 
-        SteamUGCDetails_t details;
-        const int urlLength = 200;
-        char url[urlLength];
-        uint32 previews = 0;
-        uint32 subscriber = 0;
-        uint32 results = pCallback->m_unTotalMatchingResults;
-        qDebug() << results;
+    SteamUGCDetails_t details;
+    const int urlLength = 200;
+    char url[urlLength];
+    uint32 previews = 0;
+    uint32 subscriber = 0;
+    uint32 results = pCallback->m_unTotalMatchingResults;
+    qDebug() << results;
 
-        for (uint32 i = 0; i < results; i++) {
-            if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
-                //qDebug() << "ok " << pCallback;
-                if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
-                    QByteArray urlData(url);
+    for (uint32 i = 0; i < results; i++) {
+        if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
+            //qDebug() << "ok " << pCallback;
+            if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
+                QByteArray urlData(url);
 
-                    //Todo use multiple preview for gif hover effect
-                    previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
-                    if (i == 0) {
-                        m_workshopListModel->setBannerWorkshopItem(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData),0);
-                        emit workshopSearched();
-                    } else {
-                        emit workshopSearchResult(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData),0);
-                    }
-//                    if(SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle,i,EItemStatistic::k_EItemStatistic_NumSubscriptions,&subscriber)){
-
-//                    }
+                //Todo use multiple preview for gif hover effect
+                previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
+                if (i == 0) {
+                    m_workshopListModel->setBannerWorkshopItem(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData), 0);
+                    emit workshopSearched();
+                } else {
+                    emit workshopSearchResult(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData), 0);
                 }
-            } else {
-                qDebug() << "Loading error!";
+                //                    if(SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle,i,EItemStatistic::k_EItemStatistic_NumSubscriptions,&subscriber)){
+
+                //                    }
             }
+        } else {
+            qDebug() << "Loading error!";
         }
+    }
 
-        SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
-
+    SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
 }
