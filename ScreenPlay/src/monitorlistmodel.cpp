@@ -151,7 +151,7 @@ void MonitorListModel::loadMonitors()
             screen->model(),
             screen->name(),
             screen->size(),
-            QRect(screen->availableGeometry().x() + offsetX , screen->availableGeometry().y() + offsetY , screen->availableGeometry().width(), screen->availableGeometry().height()),
+            QRect(screen->availableGeometry().x() + offsetX , screen->availableGeometry().y() + offsetY , screen->geometry().width(), screen->geometry().height()),
             // More convenient for the user if the first monitor == 1
             i + 1,
             QRect(screen->availableVirtualGeometry().x() , screen->availableVirtualGeometry().y() , screen->availableVirtualGeometry().width(), screen->availableVirtualGeometry().height()),
