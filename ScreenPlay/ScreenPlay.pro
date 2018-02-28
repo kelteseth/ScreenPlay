@@ -10,7 +10,6 @@ SOURCES += main.cpp \
     src/installedlistmodel.cpp \
     src/monitorlistmodel.cpp \
     src/settings.cpp \
-    src/packagefilehandler.cpp \
     src/wallpaper.cpp \
     src/profilelistmodel.cpp \
     src/profile.cpp \
@@ -22,6 +21,7 @@ SOURCES += main.cpp \
     src/installedlistfilter.cpp \
     src/sdkconnector.cpp \
     src/projectsettingslistitem.cpp \
+    src/projectsettingslistmodel.cpp \
     src/globalnavigationhelper.cpp
 
 RESOURCES += \
@@ -34,7 +34,6 @@ HEADERS += \
     src/installedlistmodel.h \
     src/monitorlistmodel.h \
     src/settings.h \
-    src/packagefilehandler.h \
     src/wallpaper.h \
     src/profilelistmodel.h \
     src/profile.h \
@@ -46,6 +45,7 @@ HEADERS += \
     src/installedlistfilter.h \
     src/sdkconnector.h \
     src/projectsettingslistitem.h \
+    src/projectsettingslistmodel.h \
     src/globalnavigationhelper.h
 
 INCLUDEPATH += \
