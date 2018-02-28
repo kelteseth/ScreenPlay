@@ -8,7 +8,7 @@
 #include <QScreen>
 #include <QDebug>
 #include <QApplication>
-
+#include <QGuiApplication>
 
 class Monitor;
 
@@ -18,7 +18,7 @@ class MonitorListModel : public QAbstractListModel
 
 
 public:
-    explicit MonitorListModel(QObject *parent = nullptr);
+    explicit MonitorListModel(QGuiApplication *guiapp, QObject *parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;
     Q_INVOKABLE QRect getAbsoluteDesktopSize();
@@ -64,9 +64,14 @@ public:
 
     bool getMonitorListItemAt(int position, Monitor *monitor);
 
+    void screenAdded(QScreen *screen);
+    void screenRemoved(QScreen *screen);
+
+    void reset();
 
 private:
     QVector<Monitor> m_monitorList;
+    QGuiApplication* m_qGuiApplication;
 
 signals:
     void monitorReloadCompleted();

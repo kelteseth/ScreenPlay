@@ -64,6 +64,7 @@ int main(int argc, char* argv[])
     QCoreApplication::setApplicationName("ScreenPlay");
     QCoreApplication::setApplicationVersion("0.1.0");
 
+
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
     bool steamErrorRestart = false;
@@ -81,7 +82,7 @@ int main(int argc, char* argv[])
 
     GlobalNavigationHelper gnh;
     InstalledListModel installedListModel;
-    MonitorListModel monitorListModel;
+    MonitorListModel monitorListModel(&app);
     PackageFileHandler packageFileHandler;
     ProfileListModel profileListModel;
     SteamWorkshopListModel steamWorkshopListModel;
@@ -126,6 +127,7 @@ int main(int argc, char* argv[])
     settings.loadActiveProfiles();
 
     QQmlApplicationEngine mainWindowEngine;
+
 
     mainWindowEngine.rootContext()->setContextProperty("globalNavigationHelper", &gnh);
     mainWindowEngine.rootContext()->setContextProperty("installedListFilter", &installedListFilter);
