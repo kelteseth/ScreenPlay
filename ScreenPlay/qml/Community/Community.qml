@@ -119,6 +119,14 @@ Item {
             name: "link"
             query: "link/string()"
         }
+        XmlRole {
+            name: "pubDate"
+            query: "pubDate/string()"
+        }
+        XmlRole {
+            name: "category"
+            query: "category/string()"
+        }
     }
 
     GridView {
@@ -220,6 +228,7 @@ Item {
                 }
 
                 Text {
+                    id: txtTitle
                     text: title
                     anchors {
                         right:parent.right
@@ -231,6 +240,26 @@ Item {
                     font.family: "Roboto"
                     font.weight: Font.Light
                     font.pixelSize: 18
+                    wrapMode: Text.WordWrap
+                }
+                Text {
+                    id: txtPubDate
+                    text: {
+
+                        return pubDate.replace("+0000","")
+                    }
+                    anchors {
+                        right:parent.right
+                        rightMargin: 20
+                        bottom:txtTitle.top
+                        bottomMargin: 10
+                        left:parent.left
+                        leftMargin: 20
+                    }
+                    color: "#3E3E3E"
+                    font.family: "Roboto"
+                    font.weight: Font.Light
+                    font.pixelSize: 14
                     wrapMode: Text.WordWrap
                 }
                 MouseArea {
