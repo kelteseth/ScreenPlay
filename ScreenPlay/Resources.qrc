@@ -62,7 +62,6 @@
         <file>qml/Installed/ScreenPlayItem.qml</file>
         <file>qml/Installed/ScreenPlayItemImage.qml</file>
         <file>qml/Installed/Sidebar.qml</file>
-        <file>qml/Screens/ScreenVideo.qml</file>
         <file>qml/Settings/SettingBool.qml</file>
         <file>qml/Settings/Settings.qml</file>
         <file>qml/Settings/SettingsComboBox.qml</file>
@@ -74,7 +73,6 @@
         <file>qml/Workshop/WorkshopBanner.qml</file>
         <file>qml/Workshop/WorkshopItem.qml</file>
         <file>assets/images/missingPreview.png</file>
-        <file>qml/Screens/ScreenVideoPlayer.qml</file>
         <file>qml/Settings/SettingsButton.qml</file>
         <file>assets/icons/icon_cake.svg</file>
         <file>assets/icons/icon_local_movies.svg</file>
