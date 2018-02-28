@@ -24,16 +24,4 @@ public:
 
     QVariantList m_tags; //TODO: Implement me!
 
-    QVariant description() const;
-    void setDescription(const QVariant& description);
-    QVariant file() const;
-    void setFile(const QVariant& file);
-    QVariant preview() const;
-    void setPreview(const QVariant& preview);
-    QVariant title() const;
-    void setTitle(const QVariant& title);
-    QString folderId() const;
-    void setFolderId(const QString& folderId);
-    QUrl absoluteStoragePath() const;
-    void setAbsoluteStoragePath(const QUrl& absoluteStoragePath);
 };
