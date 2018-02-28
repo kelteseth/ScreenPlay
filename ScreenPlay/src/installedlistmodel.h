@@ -41,6 +41,7 @@ public:
         FolderIdRole,
         FileIdRole,
         AbsoluteStoragePathRole,
+        WorkshopIDRole,
     };
     Q_ENUM(InstalledRole)
 

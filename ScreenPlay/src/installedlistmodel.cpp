@@ -36,6 +36,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(index.row()).m_file;
         case AbsoluteStoragePathRole:
             return m_screenPlayFiles.at(index.row()).m_absoluteStoragePath;
+        case WorkshopIDRole:
+            return m_screenPlayFiles.at(index.row()).m_workshopID;
         default:
             return QVariant();
         }
@@ -51,6 +53,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { FolderIdRole, "screenFolderId" },
         { FileIdRole, "screenFile" },
         { AbsoluteStoragePathRole, "screenAbsoluteStoragePath" },
+        { WorkshopIDRole, "screenWorkshopID" },
     };
     return roles;
 }
@@ -143,6 +146,7 @@ QVariantMap InstalledListModel::get(QString folderId)
             map.insert("screenFile", m_screenPlayFiles[i].m_file);
             map.insert("screenType", m_screenPlayFiles[i].m_type);
             map.insert("screenAbsoluteStoragePath", m_screenPlayFiles[i].m_absoluteStoragePath);
+            map.insert("screenWorkshopID", m_screenPlayFiles[i].m_workshopID);
         }
     }
 

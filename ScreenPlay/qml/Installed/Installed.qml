@@ -134,6 +134,7 @@ Item {
             type: screenType
             screenId: screenFolderId
             absoluteStoragePath: screenAbsoluteStoragePath
+            workshopID: screenWorkshopID
 
             Connections {
                 target: delegate

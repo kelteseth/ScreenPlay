@@ -11,6 +11,8 @@ Item {
     property url absoluteStoragePath
     property string type
     property bool hasMenuOpen: false
+    property int workshopID:0
+
     onTypeChanged: {
         if (type === "widget") {
             icnType.source = "qrc:/assets/icons/icon_widgets.svg"
@@ -142,6 +144,10 @@ Item {
                     if (mouse.button === Qt.LeftButton) {
                         itemClicked(screenId, type)
                     } else if (mouse.button === Qt.RightButton) {
+                        if(workshopID != 0) {
+                            miWorkshop.enabled = true
+                        }
+
                         contextMenu.popup()
                         hasMenuOpen = true
                     }
@@ -155,6 +161,15 @@ Item {
                 text: qsTr("Open containing folder")
                 onClicked: {
                     screenPlaySettings.openFolderInExplorer(absoluteStoragePath)
+                }
+            }
+            MenuItem {
+                id: miWorkshop
+                text: qsTr("Open workshop Page")
+                enabled: false
+
+                onClicked: {
+                    Qt.openUrlExternally("http://steamcommunity.com/sharedfiles/filedetails/?id=" + workshopID)
                 }
             }
         }
