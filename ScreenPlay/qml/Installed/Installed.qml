@@ -78,8 +78,10 @@ Item {
             onIsVisibleChanged: {
                 if(isVisible){
                     txtHeader.color = "orange"
+                    txtHeader.text = qsTr("Refreshing!")
                 } else {
                     txtHeader.color = "gray"
+                    txtHeader.text = qsTr("Pull to refresh!")
                 }
             }
 
