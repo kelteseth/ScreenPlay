@@ -10,13 +10,13 @@ Item {
     anchors.fill: parent
 
     Rectangle {
-        id:stomtWrapper
-        width:500
+        id: stomtWrapper
+        width: 500
         color: "gray"
         anchors {
-            top:parent.top
-            bottom:parent.bottom
-            left:parent.left
+            top: parent.top
+            bottom: parent.bottom
+            left: parent.left
         }
         LinearGradient {
             id: tabShadow
@@ -39,9 +39,9 @@ Item {
         Image {
             id: imgStomt
             source: "qrc:/assets/images/Stomt_Logo+Wordmark_Mono_BLK.svg"
-            width:250
-            height:250
-            sourceSize: Qt.size(250,250)
+            width: 250
+            height: 250
+            sourceSize: Qt.size(250, 250)
             anchors {
                 top: parent.top
                 topMargin: 0
@@ -103,103 +103,149 @@ Item {
         }
     }
 
-        XmlListModel {
-            id: feedModel
-
-            source: "http://www.screen-play.rocks/index.php?format=feed&type=rss"
-            query: "/rss/channel/item"
-            XmlRole { name: "title"; query: "title/string()" }
-
+    XmlListModel {
+        id: feedModel
+        source: "http://screen-play.rocks/index.php?option=com_content&view=category&layout=blog&id=10&format=feed&type=rss"
+        query: "/rss/channel/item"
+        XmlRole {
+            name: "title"
+            query: "title/string()"
         }
-    Flickable {
+        XmlRole {
+            name: "backgroundImage"
+            query: "description/string()"
+        }
+        XmlRole {
+            name: "link"
+            query: "link/string()"
+        }
+    }
+
+    GridView {
         id: changelogFlickableWrapper
-        width: 800
-        height: parent.height
-        contentHeight: columnWrapper.childrenRect.height
-        contentWidth: 800
         flickableDirection: Flickable.VerticalFlick
         maximumFlickVelocity: 5000
         flickDeceleration: 5000
+        cellHeight: 205
+        cellWidth: 360
+        model: feedModel
 
         anchors {
             top: parent.top
             topMargin: 20
-            right:parent.right
+            right: parent.right
             rightMargin: 20
-            bottom:footer.top
+            bottom: footer.top
 
-            left:stomtWrapper.right
-            leftMargin: 40
+            left: stomtWrapper.right
+            leftMargin: 90
+        }
+
+        header: Item {
+            height: 100
+            width: parent.width
+
+            Text {
+                id: name
+                text: qsTr("News & Patchnotes")
+                wrapMode: Text.WordWrap
+                color: "#FFAB00"
+                renderType: Text.NativeRendering
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                font.pixelSize: 32
+                font.family: "Roboto"
+                anchors {
+                    top: parent.top
+                    topMargin: 30
+                    horizontalCenter: parent.horizontalCenter
+                }
+            }
+        }
+
+        delegate: Item {
+            width: 352
+            height: 197
+
+            RectangularGlow {
+                id: effectchangelogWrapper
+                anchors {
+                    top: parent.top
+                    topMargin: 3
+                }
+                height: parent.height
+                width: parent.width
+                cached: true
+                glowRadius: 3
+                spread: 0.2
+                color: "black"
+                opacity: 0.2
+                cornerRadius: 15
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: 5
+                radius: 4
+
+                Image {
+                    anchors.fill: parent
+                    source: {
+                        var a = backgroundImage
+                        var r = new RegExp(/<img[^>]+src="([^">]+)"/)
+                        var url = r.exec(a)
+                        return url[1].toString()
+                    }
+                }
+
+                LinearGradient {
+                    visible: true
+                    anchors.fill: parent
+                    start: Qt.point(0, 0)
+                    end: Qt.point(0, parent.height)
+                    gradient: Gradient {
+                        GradientStop {
+                            position: 1.0
+                            color: "#ffffffff"
+                        }
+                        GradientStop {
+                            position: 0.4
+                            color: "#AAffffff"
+                        }
+                        GradientStop {
+                            position: 0.0
+                            color: "#00ffffff"
+                        }
+                    }
+                }
+
+                Text {
+                    text: title
+                    anchors {
+                        right:parent.right
+                        bottom:parent.bottom
+                        left:parent.left
+                        margins: 20
+                    }
+                    color: "#3E3E3E"
+                    font.family: "Roboto"
+                    font.weight: Font.Light
+                    font.pixelSize: 18
+                    wrapMode: Text.WordWrap
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: Qt.openUrlExternally(link)
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                }
+            }
         }
 
         ScrollBar.vertical: ScrollBar {
             snapMode: ScrollBar.SnapOnRelease
             policy: ScrollBar.AlwaysOn
         }
-
-        Column {
-            id: columnWrapper
-            spacing: 30
-            Item {
-                id: changelogWrapper
-                width: 800
-                height: 1020
-
-                RectangularGlow {
-                    id: effectchangelogWrapper
-                    anchors {
-                        top: parent.top
-                    }
-                    height: 1000
-                    width: parent.width
-                    cached: true
-                    glowRadius: 3
-                    spread: 0.2
-                    color: "black"
-                    opacity: 0.2
-                    cornerRadius: 15
-                }
-
-                Rectangle {
-                    height: 1000
-                    width: parent.width
-                    radius: 4
-
-                    Text {
-                        id: name
-                        text: qsTr("News & Patchnotes")
-                        wrapMode: Text.WordWrap
-                        color: "#FFAB00"
-                        renderType: Text.NativeRendering
-                        verticalAlignment: Text.AlignVCenter
-                        horizontalAlignment: Text.AlignLeft
-                        font.pixelSize: 32
-                        font.family: "Roboto"
-                        anchors {
-                            top:parent.top
-                            topMargin: 40
-                            horizontalCenter: parent.horizontalCenter
-                        }
-                    }
-                            ListView {
-                                model: feedModel
-
-                                anchors {
-                                    top:name.bottom
-                                    margins: 20
-                                    right:parent.right
-                                    left:parent.left
-                                    bottom: parent.bottom
-                                }
-
-                                delegate: Text {
-                                    text: title
-                                }
-                            }
-                }
-            }
-        }
-
     }
 
     Rectangle {
@@ -234,7 +280,8 @@ Item {
                 text: qsTr("Workshop")
                 Material.background: Material.Red
                 Material.foreground: "white"
-                onClicked: Qt.openUrlExternally("http://steamcommunity.com/app/672870/workshop/")
+                onClicked: Qt.openUrlExternally(
+                               "http://steamcommunity.com/app/672870/workshop/")
             }
         }
     }
