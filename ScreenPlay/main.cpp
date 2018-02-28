@@ -25,7 +25,6 @@
 #include "installedlistfilter.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
-#include "packagefilehandler.h"
 #include "profilelistmodel.h"
 #include "sdkconnector.h"
 #include "settings.h"
@@ -83,7 +82,7 @@ int main(int argc, char* argv[])
     GlobalNavigationHelper gnh;
     InstalledListModel installedListModel;
     MonitorListModel monitorListModel(&app);
-    PackageFileHandler packageFileHandler;
+
     ProfileListModel profileListModel;
     SteamWorkshopListModel steamWorkshopListModel;
     SDKConnector sdkConnector;
@@ -137,7 +136,7 @@ int main(int argc, char* argv[])
     mainWindowEngine.rootContext()->setContextProperty("profileListModel", &profileListModel);
 
     mainWindowEngine.rootContext()->setContextProperty("screenPlaySettings", &settings);
-    mainWindowEngine.rootContext()->setContextProperty("packageFileHandler", &packageFileHandler);
+
     mainWindowEngine.rootContext()->setContextProperty("steamWorkshop", &steamWorkshop);
 
     QQmlApplicationEngine errorWindowEngine;
