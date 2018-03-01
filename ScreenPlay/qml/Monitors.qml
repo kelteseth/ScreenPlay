@@ -34,120 +34,51 @@ Item {
 
     Rectangle {
         color: "white"
-        width: 900
         radius: 3
-        height: 600
         z: 98
-        anchors.centerIn: parent
-
-        MouseArea {
-            anchors.fill: parent
+        anchors {
+            fill: parent
+            margins: 50
         }
 
-        ColumnLayout {
-            anchors.fill: parent
-            anchors.margins: 20
-            spacing: 20
-
+        Item {
+            width: parent.width * .5
+            anchors {
+                top: parent.top
+                left: parent.left
+                bottom: parent.bottom
+                margins: 10
+            }
+            Text {
+                id: txtHeadline
+                text: qsTr("Wallpaper Configuration")
+                font.pixelSize: 21
+                color: "#626262"
+                font.family: "Roboto"
+                font.weight: Font.Thin
+                width: 400
+                anchors {
+                    top: parent.top
+                    topMargin: 10
+                    left: parent.left
+                    leftMargin: 20
+                }
+            }
             MonitorSelection {
                 id: monitorSelection
-                background: "#eeeeee"
+                background: "#E4E4E4"
                 radius: 3
                 height: 200
-                width: 800
-                Layout.fillWidth: true
-                availableWidth: 700
+                z: 99
+                width: parent.width * .9
+                anchors {
+                    top: txtHeadline.bottom
+                    topMargin: 20
+                    left: parent.left
+                    leftMargin: 20
+                }
+                availableWidth: width - 20
                 availableHeight: 150
-            }
-
-            Item {
-                id: sliderVolumeWrapper
-                height: 100
-                width: 320
-                Layout.alignment: Qt.AlignHCenter
-                Text {
-                    id: txtSliderVolume
-                    text: qsTr("Volume")
-                    height: 30
-                    renderType: Text.NativeRendering
-                    font.family: "Roboto"
-                    verticalAlignment: Text.AlignVCenter
-                    font.pixelSize: 14
-                    color: "#626262"
-                    wrapMode: Text.WrapAnywhere
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                    }
-                }
-                Row {
-                    id: sliderVolumeWrapperBottom
-                    height: 70
-                    width: parent.width
-                    spacing: 30
-                    anchors {
-                        top: txtSliderVolume.bottom
-                        topMargin: 5
-                        left: parent.left
-                        right: parent.right
-                        bottom: parent.bottom
-                    }
-
-                    Image {
-                        width: 20
-                        height: 20
-                        anchors.verticalCenter: parent.verticalCenter
-                        source: "qrc:/assets/icons/icon_volume.svg"
-                        sourceSize: Qt.size(20, 20)
-                    }
-
-                    Slider {
-                        id: sliderVolume
-                        stepSize: 0.01
-                        from: 0
-                        live: true
-                        value: .8
-                        to: 1
-                        anchors.verticalCenter: parent.verticalCenter
-                        Layout.fillWidth: true
-                        onValueChanged: {
-                            screenPlaySettings.setGlobalVolume(
-                                        sliderVolume.value)
-                        }
-                    }
-
-                    Text {
-                        id: name
-                        color: "#818181"
-                        text: Math.round(sliderVolume.value * 100) / 100
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.family: "Libre Baskerville"
-                        font.pointSize: 12
-                        font.italic: true
-                        verticalAlignment: Text.AlignVCenter
-                    }
-                }
-            }
-            ComboBox {
-                id: comboBox
-                width: 200
-                Layout.alignment: Qt.AlignHCenter
-                Layout.preferredWidth: 200
-
-                model: ListModel {
-                    id: model
-                    ListElement {
-                        text: "Stretch"
-                    }
-                    ListElement {
-                        text: "PreserveAspectFit"
-                    }
-                    ListElement {
-                        text: "PreserveAspectCrop"
-                    }
-                }
-
-                onActivated: screenPlaySettings.setGlobalFillMode(currentText)
             }
 
             Button {
@@ -156,12 +87,100 @@ Item {
                 Material.background: Material.Orange
                 Material.foreground: "white"
                 enabled: screenPlaySettings.activeWallpaperCounterChanged === 0 ? false : true
-                onClicked: screenPlaySettings.removeAll(
-                               ) //screenPlaySettings.removeWallpaperAt(monitorSelection.activeMonitorIndex)
-                Layout.alignment: Qt.AlignHCenter
+                onClicked: screenPlaySettings.removeAll()
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.bottom
+                    bottomMargin: 30
+                }
+            }
+        }
+
+        GridView {
+            id: gridView
+            boundsBehavior: Flickable.DragOverBounds
+            maximumFlickVelocity: 7000
+            flickDeceleration: 5000
+            cellWidth: 340
+            cacheBuffer: 10000
+            width: parent.width * .5
+            anchors {
+                top: parent.top
+                right: parent.right
+                bottom: parent.bottom
+                margins: 10
+            }
+
+            delegate: Rectangle {
+                color: isHeadline ? "gray" : "steelblue"
+                id: delegate
+                focus: true
+                height: isHeadline ? 50 : 30
+                width: 300
+                anchors {
+                    left: parent.left
+                    leftMargin: isHeadline ? 0 : 25
+                }
+
+                Text {
+                    id: txtDescription
+                    text: name
+                    width: 100
+                    font.pixelSize: isHeadline ? 21 : 14
+                    anchors {
+                        left: parent.left
+                    }
+                }
+
+                Rectangle {
+                    height: parent.height
+                    color: "gray"
+                    visible: !isHeadline
+                    anchors {
+                        left: txtDescription.right
+                        leftMargin: 20
+                        right: parent.right
+                    }
+
+                    TextEdit {
+                        anchors.fill: parent
+                        anchors.margins: 4
+                        focus: true
+                        // We need to convert to a string because of large numbers js uses scientific notation x*e^x
+                        text: value.toString()
+                    }
+                }
+            }
+        }
+        MouseArea {
+            anchors {
+                top:parent.top
+                right: parent.right
+                margins: 5
+
+            }
+            width: 32
+            height: width
+            onClicked: monitors.state = "inactive"
+
+            Image {
+                id: imgClose
+                source: "qrc:/assets/icons/font-awsome/close.svg"
+                width: 16
+                height: 16
+                anchors.centerIn: parent
+                sourceSize: Qt.size(width,width)
+            }
+            ColorOverlay {
+                id: iconColorOverlay
+                anchors.fill: imgClose
+                source: imgClose
+                color: "gray"
             }
         }
     }
+
+
 
     states: [
         State {

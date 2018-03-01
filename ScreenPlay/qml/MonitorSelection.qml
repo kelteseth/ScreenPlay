@@ -15,6 +15,7 @@ Rectangle {
     property real availableWidth: 0
     property real availableHeight: 0
     property int activeMonitorIndex: 0
+    property int fontSize: 14
     property string activeMonitorID: "empty"
 
     function setActiveMonitorIndex(newIndex) {
@@ -76,6 +77,9 @@ Rectangle {
             rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta
             rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta
         }
+        for(var i = 0; i < rp.count; i++){
+
+        }
     }
 
     Repeater {
@@ -83,6 +87,8 @@ Rectangle {
         anchors.fill: parent
         anchors.centerIn: parent
         model: monitorListModel
+
+        Component.onCompleted:  rp.itemAt(0).isSelected = true
 
         delegate: MonitorSelectionItem {
             id: delegate
@@ -95,14 +101,17 @@ Rectangle {
             monitorModel: monitorModel
             monitorSize: monitorAvailableGeometry
             monitorID: monitorID
+            fontSize: rect.fontSize
             index: index
 
             Connections {
                 target: delegate
                 onMonitorSelected: {
+                    print(index)
                     setActiveMonitorIndex(index)
                 }
             }
         }
+
     }
 }

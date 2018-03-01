@@ -2,49 +2,37 @@ import QtQuick 2.9
 import QtGraphicalEffects 1.0
 
 Item {
-
+    id:monitorSelectionItem
     property rect monitorSize: Qt.rect(0, 0, 0, 0)
     property string monitorModel
     property string monitorManufacturer
     property string monitorName
     property string monitorID
+    property int fontSize: 14
     property int index: 0
     property bool isSelected: false
     signal monitorSelected(var index)
 
     onIsSelectedChanged: {
         if (isSelected) {
-            wrapper.border.color = "orange"
-            effect.opacity = .4
+            wrapper.border.color = "#F28E0D"
+
         } else {
-            wrapper.border.color = "white"
-            effect.opacity = .2
+            wrapper.border.color = "#373737"
+
         }
     }
 
 
-    RectangularGlow {
-        id: effect
-        anchors.centerIn: parent
-
-        height: wrapper.height
-        width: wrapper.width
-        cached: true
-        glowRadius: 5
-        spread: 0
-        color: "black"
-        opacity: 0.2
-        cornerRadius: 3
-    }
-
     Rectangle {
         id: wrapper
-        color: "gray"
+        color: "#373737"
         anchors.fill: parent
         anchors.margins: 10
-        border.color: "white"
+        border.color: "#373737"
         border.width: 3
         radius: 3
+        clip:true
 
         Image {
             id: imgPreview
@@ -55,14 +43,12 @@ Item {
 
         Text {
             renderType: Text.NativeRendering
-            text: index + "\n" + monitorName + " " + monitorManufacturer + " "
-                  + monitorSize.width + "x" + monitorSize.height
+            text: monitorSize.width + "x" + monitorSize.height
             anchors.fill: parent
-
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             color: "white"
-            font.pixelSize: 12
+            font.pixelSize: monitorSelectionItem.fontSize
             font.family: "Roboto"
             wrapMode: Text.WrapAnywhere
         }
