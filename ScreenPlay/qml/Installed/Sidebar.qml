@@ -188,6 +188,22 @@ Item {
                     }
                 }
             }
+            Text {
+                id: txtHeadlineMonitor
+                text: qsTr("Select a Monitor to display the content")
+                height:50
+                renderType: Text.NativeRendering
+                font.family: "Roboto"
+                font.pixelSize: 18
+                color: "#2F2F2F"
+                wrapMode: Text.WrapAnywhere
+                anchors {
+                    top: headlineWrapper.bottom
+                    topMargin: 20
+                    left: parent.left
+                    leftMargin: 20
+                }
+            }
 
             Rectangle {
                 id: monitorSelectionWrapper
@@ -196,8 +212,7 @@ Item {
                 enabled: false
                 width: 400
                 anchors {
-                    top: headlineWrapper.bottom
-                    topMargin: 10
+                    top: txtHeadlineMonitor.bottom
                 }
 
                 MonitorSelection {
