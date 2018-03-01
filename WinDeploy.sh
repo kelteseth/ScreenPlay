@@ -74,8 +74,8 @@ echo 'Deploying Steam SDK'
 cp $SourcePath'/'$SteamSDK'steam_api64.dll' $DeployPath'ScreenPlay'
 cp $SourcePath'/'$SteamSDK'steam_api64.lib' $DeployPath'ScreenPlay'
 cp $SourcePath'/ScreenPlay/''steam_appid.txt' $DeployPath'ScreenPlay'
-
-
+cp -R $SourcePath'/ScreenPlay/legal/' $DeployPath'ScreenPlay/'
+read customMsys2Pathss
 echo ''
 echo 'Deploying DLLs'
 for item in ${array[*]}

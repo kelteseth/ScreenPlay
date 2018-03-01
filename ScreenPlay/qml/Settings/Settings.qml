@@ -379,7 +379,7 @@ Item {
                             description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")
                             buttonText: qsTr("Licenses")
                             onButtonPressed: {
-
+                                screenPlaySettings.openLicenceFolder()
                             }
                         }
                     }

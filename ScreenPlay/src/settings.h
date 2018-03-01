@@ -134,6 +134,7 @@ signals:
 
 public slots:
 
+    void openLicenceFolder();
     void checkForOtherFullscreenApplication();
 
     void destroyWallpaper(QObject *ref);

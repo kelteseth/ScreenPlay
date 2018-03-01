@@ -339,6 +339,21 @@ void Settings::setScreenPlayWindowPath(const QUrl& screenPlayWindowPath)
     m_screenPlayWindowPath = screenPlayWindowPath;
 }
 
+void Settings::openLicenceFolder()
+{
+    QProcess explorer;
+    explorer.setProgram("explorer.exe");
+    QStringList args;
+    const int folderLength = 2000;
+    char folder[folderLength];
+    SteamApps()->GetAppInstallDir(672870,folder,static_cast<uint32>(folderLength));
+    QByteArray folderData(folder);
+    args.append(QDir::toNativeSeparators(QString(folderData+ "/ScreenPlay/legal")));
+    qDebug() << args;
+    explorer.setArguments(args);
+    explorer.startDetached();
+}
+
 void Settings::checkForOtherFullscreenApplication()
 {
     Wnd = GetForegroundWindow();
