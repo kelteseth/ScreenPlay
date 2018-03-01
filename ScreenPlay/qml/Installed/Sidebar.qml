@@ -136,12 +136,10 @@ Item {
 
             MouseArea {
                 id: button
-                height: 30
-                width: 30
+                height: 50
+                width: 50
                 anchors.top: parent.top
-                anchors.topMargin: 20
                 anchors.left: parent.left
-                anchors.leftMargin: 20
                 onClicked: {
                     sidebar.state = sidebar.state === "active" ? "inactive" : "active"
                 }
@@ -151,10 +149,7 @@ Item {
                     source: "qrc:/assets/icons/icon_arrow_right.svg"
                     sourceSize: Qt.size(15, 15)
                     fillMode: Image.PreserveAspectFit
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                    }
+                    anchors.centerIn: parent
                 }
             }
 
