@@ -75,6 +75,12 @@ cp $SourcePath'/'$SteamSDK'steam_api64.dll' $DeployPath'ScreenPlay'
 cp $SourcePath'/'$SteamSDK'steam_api64.lib' $DeployPath'ScreenPlay'
 cp $SourcePath'/ScreenPlay/''steam_appid.txt' $DeployPath'ScreenPlay'
 cp -R $SourcePath'/ScreenPlay/legal/' $DeployPath'ScreenPlay/'
+
+echo 'Copying OpenSSL'
+cp $Msys2Path'/libeay32.dll' $DeployPath'ScreenPlay' 
+cp $Msys2Path'/ssleay32.dll' $DeployPath'ScreenPlay'
+
+
 read customMsys2Pathss
 echo ''
 echo 'Deploying DLLs'
