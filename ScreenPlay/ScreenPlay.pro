@@ -1,5 +1,5 @@
 TEMPLATE = app
-QT += qml quick av  sql widgets quickcontrols2 webkit
+QT += qml quick av widgets quickcontrols2 webkit
 CONFIG += c++17
 #DEFINES  += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
 
