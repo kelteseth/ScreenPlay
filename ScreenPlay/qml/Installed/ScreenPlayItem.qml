@@ -169,7 +169,8 @@ Item {
                 enabled: false
 
                 onClicked: {
-                    Qt.openUrlExternally("http://steamcommunity.com/sharedfiles/filedetails/?id=" + workshopID)
+                    //Qt.openUrlExternally("http://steamcommunity.com/sharedfiles/filedetails/?id=" + workshopID)
+                    Qt.openUrlExternally("steam://url/CommunityFilePage/" + workshopID)
                 }
             }
         }
