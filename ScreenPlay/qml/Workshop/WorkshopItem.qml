@@ -15,6 +15,7 @@ Item {
     property string name
     property int steamID
 
+    property bool isDownloading: false
 
     RectangularGlow {
         id: effect
@@ -67,17 +68,15 @@ Item {
 
             LinearGradient {
                 id: shadow
-                height: 50
+                height: 80
                 opacity: 0
-
                 cached: true
-
                 anchors {
                     bottom: parent.bottom
                     right: parent.right
                     left: parent.left
                 }
-                start: Qt.point(0, 50)
+                start: Qt.point(0, 80)
                 end: Qt.point(0, 0)
                 gradient: Gradient {
                     GradientStop {
@@ -94,12 +93,14 @@ Item {
                 id: txtTitle
                 text: workshopItem.name
                 renderType: Text.NativeRendering
-                wrapMode: Text.WrapAnywhere
                 opacity: 0
                 height: 30
                 width: 180
                 verticalAlignment: Text.AlignVCenter
                 color: "white"
+                font.pixelSize: 18
+                wrapMode: Text.WordWrap
+                font.family: "Roboto"
                 anchors {
                     bottom: parent.bottom
                     right: button.left
@@ -112,7 +113,7 @@ Item {
 
             Button {
                 id: button
-                text: qsTr("Subscribe")
+                text: qsTr("Download")
                 anchors.right: parent.right
                 anchors.rightMargin: 20
                 opacity: 0
@@ -135,24 +136,66 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-                onEntered: {
-
-                }
-                onExited: {
-
-                }
+                cursorShape: Qt.PointingHandCursor
                 onContainsMouseChanged: {
-                    if (containsMouse) {
-                        workshopItem.state = "hover"
-                    } else {
-                        workshopItem.state = ""
+                    if (!isDownloading) {
+                        if (containsMouse) {
+                            workshopItem.state = "hover"
+                        } else {
+                            workshopItem.state = ""
+                        }
                     }
                 }
 
                 onClicked: {
-                    button.icon.color = "orange"
-                    button.display = AbstractButton.IconOnly
+                    isDownloading = true
+                    workshopItem.state = "downloading"
                     steamWorkshop.subscribeItem(workshopItem.steamID)
+                }
+            }
+        }
+        FastBlur {
+            id: effBlur
+            anchors.fill: itemWrapper
+            source: itemWrapper
+            radius: 0
+        }
+
+        Item {
+            id: itmDownloading
+            opacity: 0
+            anchors {
+                top: parent.top
+                topMargin: 50
+                right: parent.right
+                bottom: parent.bottom
+                left: parent.left
+            }
+
+            Text {
+                id: txtDownloading
+                text: qsTr("Downloading Workshop content shortly!")
+                color: "white"
+                font.pixelSize: 21
+                wrapMode: Text.WordWrap
+                font.family: "Roboto"
+                horizontalAlignment: Qt.AlignHCenter
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    right: parent.right
+                    rightMargin: 20
+                    left: parent.left
+                    leftMargin: 20
+                }
+            }
+
+            ProgressBar {
+                id: pbDownloading
+                indeterminate: true
+                anchors {
+                    bottom: parent.bottom
+                    bottomMargin: 20
+                    horizontalCenter: parent.horizontalCenter
                 }
             }
         }
@@ -178,6 +221,39 @@ Item {
                 target: shadow
                 opacity: 1
             }
+            PropertyChanges {
+                target: effBlur
+                radius: 0
+            }
+        },
+        State {
+            name: "downloading"
+
+            PropertyChanges {
+                target: button
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: txtTitle
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: shadow
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: effBlur
+                radius: 64
+            }
+
+            PropertyChanges {
+                target: itmDownloading
+                opacity: 1
+                anchors.topMargin: 0
+            }
         }
     ]
     transitions: [
@@ -188,18 +264,51 @@ Item {
 
             PropertyAnimation {
                 target: button
-                duration: 200
+                duration: 100
                 properties: "opacity, anchors.bottomMargin"
             }
             PropertyAnimation {
                 target: txtTitle
-                duration: 200
+                duration: 100
                 properties: "opacity, anchors.bottomMargin"
             }
             PropertyAnimation {
                 target: shadow
-                duration: 200
+                duration: 100
                 properties: "opacity"
+            }
+        },
+        Transition {
+            from: "*"
+            to: "downloading"
+            reversible: true
+
+            PropertyAnimation {
+                target: button
+                duration: 100
+                properties: "opacity"
+            }
+            PropertyAnimation {
+                target: txtTitle
+                duration: 100
+                properties: "opacity"
+            }
+            PropertyAnimation {
+                target: shadow
+                duration: 100
+                properties: "opacity"
+            }
+            SequentialAnimation {
+                PropertyAnimation {
+                    target: effBlur
+                    duration: 200
+                    properties: "radius"
+                }
+                PropertyAnimation {
+                    target: txtTitle
+                    duration: 200
+                    properties: "opacity, anchors.topMargin"
+                }
             }
         }
     ]
