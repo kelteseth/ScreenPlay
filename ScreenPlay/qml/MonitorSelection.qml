@@ -39,6 +39,19 @@ Rectangle {
         onMonitorReloadCompleted: {
             resize()
         }
+        onSetNewActiveMonitor:{
+            rp.itemAt(index).previewImage = "file:///" + path.trim()
+            rp.itemAt(index).isSelected = true
+        }
+    }
+    Connections {
+        target: screenPlaySettings
+        onAllWallpaperRemoved:{
+            for(var i = 0; i < rp.count; i++){
+                rp.itemAt(i).isSelected = false
+                rp.itemAt(i).previewImage =""
+            }
+        }
     }
 
     function resize() {
@@ -103,11 +116,12 @@ Rectangle {
             monitorID: monitorID
             fontSize: rect.fontSize
             index: index
+            isWallpaperActive: monitorIsWallpaperActive
+            previewImage: monitorPreviewImage
 
             Connections {
                 target: delegate
                 onMonitorSelected: {
-                    print(index)
                     setActiveMonitorIndex(index)
                 }
             }

@@ -1,6 +1,6 @@
 #include "settings.h"
 
-Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, AppId_t steamID, QObject* parent)
+Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, AppId_t steamID, QGuiApplication* app, QObject* parent)
     : QObject(parent)
 {
 
@@ -9,6 +9,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_ilm = ilm;
     m_sdkc = sdkc;
     m_steamID = steamID;
+    m_qGuiApplication = app;
 
     QFile configTmp;
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
@@ -81,34 +82,27 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     int renderer = static_cast<int>(configObj.value("renderer-value").toInt());
 
     m_checkForOtherFullscreenApplicationTimer = new QTimer(this);
-    QObject::connect(&m_checkForOtherFullscreenApplicationTimer, &QTimer::timeout, this, &Settings::checkForOtherFullscreenApplication);
-    timer.start(1500);
-
+    connect(m_checkForOtherFullscreenApplicationTimer, &QTimer::timeout, this, &Settings::checkForOtherFullscreenApplication);
+    m_checkForOtherFullscreenApplicationTimer->start(1500);
 }
 
 Settings::~Settings()
 {
 }
 
-void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
+void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage)
 {
 
     ProjectFile project;
     Monitor monitor;
 
+    // Replace wallpaper
     if (!m_mlm->getMonitorListItemAt(monitorIndex, &monitor)) {
         return;
     }
 
     if (!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
         return;
-    }
-
-    for (int i = 0; i < m_wallpapers.length(); ++i) {
-        if (m_wallpapers.at(i).data()->monitor().m_id == monitor.m_id) {
-            m_wallpapers.removeAt(i);
-            decreaseActiveWallpaperCounter();
-        }
     }
 
     increaseActiveWallpaperCounter();
@@ -118,6 +112,7 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
     // via a disconnection from the ScreenPlay SDK
     QProcess* pro = new QProcess();
     m_windows.append(pro);
+
     connect(pro, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus) {
         qDebug() << "EX: " << exitCode;
     });
@@ -125,13 +120,15 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath)
         qDebug() << "EX: " << error;
     });
 
-
     QStringList proArgs;
     proArgs.append(QString::number(monitorIndex));
     proArgs.append(absoluteStoragePath.toString());
     pro->setArguments(proArgs);
     pro->setProgram(m_screenPlayWindowPath.toString());
     pro->start();
+
+
+    m_mlm->setWallpaperActiveMonitor(m_qGuiApplication->screens().at(monitorIndex), absoluteStoragePath.toString() + "/" + previewImage);
 }
 
 void Settings::setWidget(QUrl absoluteStoragePath)
@@ -192,29 +189,18 @@ void Settings::loadActiveProfiles()
     }
 }
 
-void Settings::destroyWallpaper(QObject* ref)
-{
-    for (int i = 0; i < m_wallpapers.count(); ++i) {
-        if (m_wallpapers.at(i) == ref) {
-            m_wallpapers.at(i).data()->deleteLater();
-            //m_wallpapers.remove(i);
-            return;
-        }
-    }
-}
-
 void Settings::setGlobalVolume(float volume)
 {
-    for (int i = 0; i < m_wallpapers.size(); ++i) {
-        m_wallpapers.at(i).data()->setVolume(volume);
-    }
+    //    for (int i = 0; i < m_wallpapers.size(); ++i) {
+    //        m_wallpapers.at(i).data()->setVolume(volume);
+    //    }
 }
 
 void Settings::setGlobalFillMode(QString fillMode)
 {
-    for (int i = 0; i < m_wallpapers.size(); ++i) {
-        m_wallpapers.at(i).data()->setFillMode(fillMode);
-    }
+    //    for (int i = 0; i < m_wallpapers.size(); ++i) {
+    //        m_wallpapers.at(i).data()->setFillMode(fillMode);
+    //    }
 }
 
 void Settings::writeSingleSettingConfig(QString name, QVariant value)
@@ -250,33 +236,34 @@ void Settings::removeAll()
 {
     m_sdkc->closeAllWallpapers();
     setActiveWallpaperCounter(0);
+    emit allWallpaperRemoved();
 }
 
 void Settings::setMuteAll(bool isMuted)
 {
 
-    if (isMuted) {
-        for (int i = 0; i < m_wallpapers.size(); ++i) {
-            m_wallpapers.at(i).data()->setVolume(0.0f);
-        }
-    } else {
-        for (int i = 0; i < m_wallpapers.size(); ++i) {
-            m_wallpapers.at(i).data()->setVolume(1.0f);
-        }
-    }
+    //    if (isMuted) {
+    //        for (int i = 0; i < m_wallpapers.size(); ++i) {
+    //            m_wallpapers.at(i).data()->setVolume(0.0f);
+    //        }
+    //    } else {
+    //        for (int i = 0; i < m_wallpapers.size(); ++i) {
+    //            m_wallpapers.at(i).data()->setVolume(1.0f);
+    //        }
+    //    }
 }
 
 void Settings::setPlayAll(bool isPlaying)
 {
-    if (isPlaying) {
-        for (int i = 0; i < m_wallpapers.size(); ++i) {
-            m_wallpapers.at(i).data()->setIsPlaying(true);
-        }
-    } else {
-        for (int i = 0; i < m_wallpapers.size(); ++i) {
-            m_wallpapers.at(i).data()->setIsPlaying(false);
-        }
-    }
+    //    if (isPlaying) {
+    //        for (int i = 0; i < m_wallpapers.size(); ++i) {
+    //            m_wallpapers.at(i).data()->setIsPlaying(true);
+    //        }
+    //    } else {
+    //        for (int i = 0; i < m_wallpapers.size(); ++i) {
+    //            m_wallpapers.at(i).data()->setIsPlaying(false);
+    //        }
+    //    }
 }
 
 QUrl Settings::getPreviewImageByMonitorID(QString id)
@@ -302,13 +289,10 @@ void Settings::openFolderInExplorer(QString url)
     args.append(QDir::toNativeSeparators(url));
     explorer.setArguments(args);
     explorer.startDetached();
-
 }
 
 void Settings::removeWallpaperAt(int pos)
 {
-    if (pos > 0 && pos > m_wallpapers.size())
-        m_wallpapers.removeAt(pos);
 }
 
 void Settings::createDefaultConfig()
@@ -346,26 +330,25 @@ void Settings::openLicenceFolder()
     QStringList args;
     const int folderLength = 2000;
     char folder[folderLength];
-    SteamApps()->GetAppInstallDir(672870,folder,static_cast<uint32>(folderLength));
+    SteamApps()->GetAppInstallDir(672870, folder, static_cast<uint32>(folderLength));
     QByteArray folderData(folder);
-    args.append(QDir::toNativeSeparators(QString(folderData+ "/ScreenPlay/legal")));
-    qDebug() << args;
+    args.append(QDir::toNativeSeparators(QString(folderData + "/ScreenPlay/legal")));
     explorer.setArguments(args);
     explorer.startDetached();
 }
 
 void Settings::checkForOtherFullscreenApplication()
 {
-    Wnd = GetForegroundWindow();
+    HWND hWnd = GetForegroundWindow();
     RECT appBounds;
     RECT rc;
     GetWindowRect(GetDesktopWindow(), &rc);
-    if(hWnd =! GetDesktopWindow() && hWnd != GetShellWindow())
-    {
-        GetWindowRect(hWnd, &appBounds);
-    } else {
+    //    if(hWnd =! (HWND)GetDesktopWindow() && hWnd != (HWND)GetShellWindow())
+    //    {
+    //        GetWindowRect(hWnd, &appBounds);
+    //    } else {
 
-    }
+    //    }
 }
 
 ActiveProfiles::ActiveProfiles()

@@ -21,6 +21,8 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
         { GeometryRole, "monitorGeometry" },
         { ModelRole, "monitorModel" },
         { ManufacturerRole, "monitorManufacturer" },
+        { IsWallpaperActiveRole, "monitorIsWallpaperActive" },
+        { PreviewImageRole, "monitorPreviewImage" },
     };
     return roles;
 }
@@ -28,21 +30,6 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
 QRect MonitorListModel::getAbsoluteDesktopSize()
 {
     return m_monitorList.at(0).m_availableVirtualGeometry;
-}
-
-QVariant MonitorListModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-    // FIXME: Implement me!
-}
-
-bool MonitorListModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant& value, int role)
-{
-    if (value != headerData(section, orientation, role)) {
-        // FIXME: Implement me!
-        emit headerDataChanged(orientation, section, section);
-        return true;
-    }
-    return false;
 }
 
 int MonitorListModel::rowCount(const QModelIndex& parent) const
@@ -85,43 +72,15 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
             return m_monitorList.at(index.row()).m_model;
         case ManufacturerRole:
             return m_monitorList.at(index.row()).m_manufacturer;
+        case PreviewImageRole:
+            return m_monitorList.at(index.row()).m_wallpaperPreviewPath;
+        case IsWallpaperActiveRole:
+            return m_monitorList.at(index.row()).m_isWallpaperActive;
         default:
             return QVariant();
         }
 
     return QVariant();
-}
-
-bool MonitorListModel::setData(const QModelIndex& index, const QVariant& value, int role)
-{
-    if (data(index, role) != value) {
-        // FIXME: Implement me!
-        emit dataChanged(index, index, QVector<int>() << role);
-        return true;
-    }
-    return false;
-}
-
-Qt::ItemFlags MonitorListModel::flags(const QModelIndex& index) const
-{
-    if (!index.isValid())
-        return Qt::NoItemFlags;
-
-    return Qt::ItemIsEditable; // FIXME: Implement me!
-}
-
-bool MonitorListModel::insertRows(int row, int count, const QModelIndex& parent)
-{
-    beginInsertRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
-    endInsertRows();
-}
-
-bool MonitorListModel::removeRows(int row, int count, const QModelIndex& parent)
-{
-    beginRemoveRows(parent, row, row + count - 1);
-    // FIXME: Implement me!
-    endRemoveRows();
 }
 
 void MonitorListModel::loadMonitors()
@@ -131,7 +90,6 @@ void MonitorListModel::loadMonitors()
 
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
-        qDebug() << screen->availableGeometry().x();
         if (screen->availableGeometry().x() < 0) {
             offsetX += (screen->availableGeometry().x() * -1);
         }
@@ -140,23 +98,21 @@ void MonitorListModel::loadMonitors()
         }
     }
 
-    qDebug() << offsetX << offsetY;
-
     beginInsertRows(QModelIndex(), 0, QApplication::screens().count());
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
-        qDebug() << screen->availableGeometry();
 
-        m_monitorList.append(Monitor(screen->manufacturer(),
-            screen->model(),
-            screen->name(),
-            screen->size(),
-            QRect(screen->availableGeometry().x() + offsetX, screen->availableGeometry().y() + offsetY, screen->geometry().width(), screen->geometry().height()),
-            // More convenient for the user if the first monitor == 1
-            i + 1,
-            QRect(screen->availableVirtualGeometry().x(), screen->availableVirtualGeometry().y(), screen->availableVirtualGeometry().width(), screen->availableVirtualGeometry().height()),
-            QRect(screen->geometry().x() + offsetX, screen->geometry().y() + offsetY, screen->geometry().width(), screen->geometry().height()),
-            screen));
+        m_monitorList.append(
+            Monitor(screen->manufacturer(),
+                screen->model(),
+                screen->name(),
+                screen->size(),
+                QRect(screen->availableGeometry().x() + offsetX, screen->availableGeometry().y() + offsetY, screen->geometry().width(), screen->geometry().height()),
+                // More convenient for the user if the first monitor == 1
+                i + 1,
+                QRect(screen->availableVirtualGeometry().x(), screen->availableVirtualGeometry().y(), screen->availableVirtualGeometry().width(), screen->availableVirtualGeometry().height()),
+                QRect(screen->geometry().x() + offsetX, screen->geometry().y() + offsetY, screen->geometry().width(), screen->geometry().height()),
+                screen));
     }
     endInsertRows();
 
@@ -170,12 +126,13 @@ int MonitorListModel::size()
 
 bool MonitorListModel::getMonitorListItemAt(int position, Monitor* monitor)
 {
-    if (position < 0 && position > m_monitorList.size()) {
-        return false;
-    } else {
-        *monitor = m_monitorList.at(position);
-        return true;
-    }
+    //TODO Reimplement wallpaper replacement
+    //    if (position < 0 && position > m_monitorList.size()) {
+    //        return false;
+    //    } else {
+    //        *monitor = m_monitorList.at(position);
+    //        return true;
+    //    }
 }
 
 void MonitorListModel::screenAdded(QScreen* screen)
@@ -198,6 +155,32 @@ void MonitorListModel::reset()
     endResetModel();
 }
 
+void MonitorListModel::setWallpaperActiveMonitor(QScreen* screen, QString fullPreviewImagePath)
+{
+//    qDebug() << fullPreviewImagePath;
+//    for (int i = 0; i < m_monitorList.size(); ++i) {
+//        if (m_monitorList.at(i).m_screen == screen) {
+//            m_monitorList[i].m_wallpaperPreviewPath = fullPreviewImagePath;
+//        }
+//    }
+//    beginResetModel();
+//    endResetModel();
+    for (int i = 0; i < m_qGuiApplication->screens().length(); ++i) {
+        if(m_qGuiApplication->screens().at(i) == screen){
+            emit setNewActiveMonitor(i,fullPreviewImagePath);
+        }
+    }
+    //emit monitorReloadCompleted();
+}
+void MonitorListModel::reloadMonitors()
+{
+    beginResetModel();
+    m_monitorList.clear();
+    m_monitorList.squeeze();
+    endResetModel();
+    loadMonitors();
+}
+
 Monitor::Monitor()
 {
 }
@@ -205,7 +188,6 @@ Monitor::Monitor()
 Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry, QRect geometry, QScreen* screen)
 {
     m_screen = screen;
-
     m_name = name;
     m_size = size;
     m_geometry = geometry;
@@ -217,14 +199,4 @@ Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, 
     // FIXME: Use a better way to create an id
     // because name and manufacturer are allways empty
     m_id = name + "_" + QString::number(size.width()) + "x" + QString::number(size.height()) + "_" + QString::number(availableGeometry.x()) + "x" + QString::number(availableGeometry.y());
-}
-
-void MonitorListModel::reloadMonitors()
-{
-    beginResetModel();
-    m_monitorList.clear();
-    m_monitorList.squeeze();
-    endResetModel();
-
-    loadMonitors();
 }

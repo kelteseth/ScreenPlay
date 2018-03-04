@@ -8,7 +8,10 @@
 #include <QJsonObject>
 #include <QObject>
 #include <QPair>
+#include <QProcess>
+#include <QProcessEnvironment>
 #include <QQmlPropertyMap>
+#include <QSettings>
 #include <QSharedPointer>
 #include <QStandardPaths>
 #include <QString>
@@ -17,16 +20,12 @@
 #include <QUrl>
 #include <QVariant>
 #include <QVector>
-#include <QSettings>
-#include <QProcess>
-#include <QObject>
-#include <QProcessEnvironment>
 
-#include "sdkconnector.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "profile.h"
 #include "profilelistmodel.h"
+#include "sdkconnector.h"
 #include "steam/steam_api.h"
 #include "wallpaper.h"
 
@@ -36,7 +35,7 @@ class Settings : public QObject {
     Q_OBJECT
 
 public:
-    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, AppId_t steamID, QObject* parent = nullptr);
+    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, AppId_t steamID, QGuiApplication* app, QObject* parent = nullptr);
     ~Settings();
 
     Q_PROPERTY(Version version READ version)
@@ -113,7 +112,7 @@ public:
     }
 
     QUrl getScreenPlayWindowPath() const;
-    void setScreenPlayWindowPath(const QUrl &screenPlayWindowPath);
+    void setScreenPlayWindowPath(const QUrl& screenPlayWindowPath);
 
     bool pauseWallpaperWhenIngame() const
     {
@@ -129,15 +128,13 @@ signals:
     void decoderChanged(QString decoder);
     void setMainWindowVisible(bool visible);
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
-
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
+    void allWallpaperRemoved();
 
 public slots:
 
     void openLicenceFolder();
     void checkForOtherFullscreenApplication();
-
-    void destroyWallpaper(QObject *ref);
 
     //Global settings
     void setGlobalVolume(float volume);
@@ -187,7 +184,7 @@ public slots:
 
     void removeWallpaperAt(int pos);
 
-    void setWallpaper(int monitorIndex, QUrl absoluteStoragePath);
+    void setWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage);
 
     void setWidget(QUrl absoluteStoragePath);
 
@@ -231,9 +228,9 @@ public slots:
             return;
 
         m_decoder = decoder;
-        for (int i = 0; i < m_wallpapers.size(); ++i) {
-            m_wallpapers.at(i).data()->setDecoder(decoder);
-        }
+        //        for (int i = 0; i < m_wallpapers.size(); ++i) {
+        //            m_wallpapers.at(i).data()->setDecoder(decoder);
+        //        }
         emit decoderChanged(m_decoder);
     }
 
@@ -255,13 +252,15 @@ public slots:
         emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
     }
 
-    void increaseActiveWallpaperCounter(){
+    void increaseActiveWallpaperCounter()
+    {
         m_activeWallpaperCounter++;
         emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
     }
 
-    void decreaseActiveWallpaperCounter(){
-        if(m_activeWallpaperCounter <= 0){
+    void decreaseActiveWallpaperCounter()
+    {
+        if (m_activeWallpaperCounter <= 0) {
             return;
         }
         m_activeWallpaperCounter--;
@@ -281,12 +280,6 @@ private:
     void createDefaultConfig();
     void createProfileConfig();
 
-    bool m_autostart = true;
-    bool m_highPriorityStart = true;
-    bool m_sendStatistics;
-
-    AppId_t m_steamID;
-
     Version m_version;
     ProfileListModel* m_plm;
     InstalledListModel* m_ilm;
@@ -295,7 +288,6 @@ private:
 
     QTimer* m_checkForOtherFullscreenApplicationTimer;
 
-    QVector<QSharedPointer<Wallpaper>> m_wallpapers;
     QVector<QProcess*> m_widgets;
     QVector<QProcess*> m_windows;
 
@@ -304,9 +296,14 @@ private:
     QUrl m_screenPlayWindowPath;
 
     bool m_hasWorkshopBannerSeen = false;
+    bool m_pauseWallpaperWhenIngame = true;
+    bool m_autostart = true;
+    bool m_highPriorityStart = true;
+    bool m_sendStatistics;
+    AppId_t m_steamID;
     QString m_decoder;
     int m_activeWallpaperCounter = 0;
-    bool m_pauseWallpaperWhenIngame = true;
+    QGuiApplication* m_qGuiApplication;
 };
 
 class ActiveProfiles {
@@ -315,10 +312,12 @@ public:
     ActiveProfiles(QString monitorId, Profile profile);
 
     QString monitorId() const;
+    int monitorIndex;
 
 private:
     QString m_monitorId;
     Profile m_profile;
+    QProcess* m_process;
 };
 
 enum FillMode {

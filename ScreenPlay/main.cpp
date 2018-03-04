@@ -91,7 +91,7 @@ int main(int argc, char* argv[])
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
-    Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, steamID);
+    Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, steamID, &app);
 
     QDir SPWorkingDir(QDir::currentPath());
 

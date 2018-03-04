@@ -27,6 +27,13 @@ ProjectFile::ProjectFile(QJsonObject obj, QString folderName, QUrl absolutePath)
         }
     }
 
+    if (obj.contains("workshopid")){
+        m_workshopID = obj.value("workshopid").toInt();
+    } else {
+        m_workshopID = 0;
+    }
+
+
     m_absoluteStoragePath = QUrl(absolutePath.toString() + "/" + folderName);
 
     m_folderId = folderName;

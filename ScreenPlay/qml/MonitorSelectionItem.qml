@@ -8,9 +8,12 @@ Item {
     property string monitorManufacturer
     property string monitorName
     property string monitorID
+    property string previewImage
+    onPreviewImageChanged:  imgPreview.source = previewImage
     property int fontSize: 14
     property int index: 0
     property bool isSelected: false
+    property bool isWallpaperActive: false
     signal monitorSelected(var index)
 
     onIsSelectedChanged: {
@@ -26,19 +29,21 @@ Item {
 
     Rectangle {
         id: wrapper
-        color: "#373737"
+        color: isSelected ? "#373737" : "#828282"
         anchors.fill: parent
         anchors.margins: 10
-        border.color: "#373737"
+        border.color: "black"
         border.width: 3
         radius: 3
         clip:true
 
         Image {
             id: imgPreview
+            sourceSize: Qt.size(parent.width,parent.height)
+            anchors.margins: 3
             anchors.fill: parent
             asynchronous: true
-            source: screenPlaySettings.getPreviewImageByMonitorID(monitorID)
+            fillMode: Image.PreserveAspectCrop
         }
 
         Text {

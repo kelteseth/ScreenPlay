@@ -21,6 +21,8 @@ public:
     QString m_folderId;
     QUrl m_absoluteStoragePath;
     QString m_type;
+    QJsonObject m_settings;
+    int m_workshopID;
 
     QVariantList m_tags; //TODO: Implement me!
 
