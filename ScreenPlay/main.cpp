@@ -22,18 +22,18 @@
 #include <QtQuick/QQuickItem>
 #include <qt_windows.h>
 
+#include "globalnavigationhelper.h"
 #include "installedlistfilter.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "profilelistmodel.h"
 #include "sdkconnector.h"
 #include "settings.h"
+#include "startuperror.h"
 #include "steam/steam_api.h"
 #include "steamworkshop.h"
 #include "steamworkshoplistmodel.h"
 #include "widget.h"
-#include "globalnavigationhelper.h"
-
 
 int main(int argc, char* argv[])
 {
@@ -63,7 +63,6 @@ int main(int argc, char* argv[])
     QCoreApplication::setApplicationName("ScreenPlay");
     QCoreApplication::setApplicationVersion("0.1.0");
 
-
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
     bool steamErrorRestart = false;
@@ -87,6 +86,7 @@ int main(int argc, char* argv[])
     SteamWorkshopListModel steamWorkshopListModel;
     SDKConnector sdkConnector;
     InstalledListFilter installedListFilter(&installedListModel);
+
 
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
@@ -125,23 +125,22 @@ int main(int argc, char* argv[])
     profileListModel.loadProfiles();
     settings.loadActiveProfiles();
 
-    QQmlApplicationEngine mainWindowEngine;
-
-
+    QQmlApplicationEngine errorWindowEngine,mainWindowEngine;
+    StartupError suError(&mainWindowEngine, &errorWindowEngine);
     mainWindowEngine.rootContext()->setContextProperty("globalNavigationHelper", &gnh);
     mainWindowEngine.rootContext()->setContextProperty("installedListFilter", &installedListFilter);
     mainWindowEngine.rootContext()->setContextProperty("workshopListModel", &steamWorkshopListModel);
     mainWindowEngine.rootContext()->setContextProperty("monitorListModel", &monitorListModel);
     mainWindowEngine.rootContext()->setContextProperty("installedListModel", &installedListModel);
     mainWindowEngine.rootContext()->setContextProperty("profileListModel", &profileListModel);
-
     mainWindowEngine.rootContext()->setContextProperty("screenPlaySettings", &settings);
-
     mainWindowEngine.rootContext()->setContextProperty("steamWorkshop", &steamWorkshop);
 
-    QQmlApplicationEngine errorWindowEngine;
     if (steamErrorRestart || steamErrorAPIInit) {
         errorWindowEngine.load(QUrl(QStringLiteral("qrc:/qml/StartupErrorWindow.qml")));
+        errorWindowEngine.rootContext()->setContextProperty("suError", &suError);
+        settings.setOfflineMode(true);
+
     } else {
         mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
     }

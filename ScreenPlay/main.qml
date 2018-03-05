@@ -17,6 +17,11 @@ ApplicationWindow {
     title: "ScreenPlay Alpha"
     minimumHeight: 788
     minimumWidth: 1050
+    Component.onCompleted: {
+        if(!screenPlaySettings.autostart){
+            show()
+        }
+    }
 
     Connections {
         target: screenPlaySettings
@@ -270,7 +275,7 @@ ApplicationWindow {
             pageLoaderCreate.visible = true
             pageLoaderWorkshop.visible = false
             sidebar.state = "inactive"
-        } else if (name === "Workshop") {
+        } else if (name === "Workshop" ) {
             pageLoader.visible = false
             pageLoaderCreate.visible = false
             pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")

@@ -34,6 +34,10 @@ Rectangle {
     }
 
     function onPageChanged(name) {
+        if(name === "Workshop" && screenPlaySettings.offlineMode){
+            return
+        }
+
         navigation.changePage(name)
         if (name === "Workshop") {
             navWorkshop.state = "active"

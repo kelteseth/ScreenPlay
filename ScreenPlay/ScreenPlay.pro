@@ -22,7 +22,8 @@ SOURCES += main.cpp \
     src/sdkconnector.cpp \
     src/projectsettingslistitem.cpp \
     src/projectsettingslistmodel.cpp \
-    src/globalnavigationhelper.cpp
+    src/globalnavigationhelper.cpp \
+    src/startuperror.cpp
 
 RESOURCES += \
     Resources.qrc \
@@ -46,7 +47,8 @@ HEADERS += \
     src/sdkconnector.h \
     src/projectsettingslistitem.h \
     src/projectsettingslistmodel.h \
-    src/globalnavigationhelper.h
+    src/globalnavigationhelper.h \
+    src/startuperror.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \
