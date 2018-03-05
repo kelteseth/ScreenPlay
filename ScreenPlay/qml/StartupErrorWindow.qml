@@ -11,6 +11,7 @@ ApplicationWindow {
     visible: true
     height: 500
     width: 400
+    onClosing: Qt.quit()
 
     Component.onCompleted: {
         setX(Screen.width / 2 - width / 2)
