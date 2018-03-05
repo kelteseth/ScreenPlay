@@ -44,6 +44,7 @@ public:
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
     Q_PROPERTY(bool pauseWallpaperWhenIngame READ pauseWallpaperWhenIngame WRITE setPauseWallpaperWhenIngame NOTIFY pauseWallpaperWhenIngameChanged)
+    Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
@@ -119,6 +120,15 @@ public:
         return m_pauseWallpaperWhenIngame;
     }
 
+
+
+
+
+    bool offlineMode() const
+    {
+        return m_offlineMode;
+    }
+
 signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
@@ -130,6 +140,10 @@ signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
     void allWallpaperRemoved();
+
+
+
+    void offlineModeChanged(bool offlineMode);
 
 public slots:
 
@@ -276,6 +290,15 @@ public slots:
         emit pauseWallpaperWhenIngameChanged(m_pauseWallpaperWhenIngame);
     }
 
+    void setOfflineMode(bool offlineMode)
+    {
+        if (m_offlineMode == offlineMode)
+            return;
+
+        m_offlineMode = offlineMode;
+        emit offlineModeChanged(m_offlineMode);
+    }
+
 private:
     void createDefaultConfig();
     void createProfileConfig();
@@ -300,10 +323,13 @@ private:
     bool m_autostart = true;
     bool m_highPriorityStart = true;
     bool m_sendStatistics;
+
     AppId_t m_steamID;
     QString m_decoder;
     int m_activeWallpaperCounter = 0;
     QGuiApplication* m_qGuiApplication;
+
+    bool m_offlineMode = false;
 };
 
 class ActiveProfiles {
