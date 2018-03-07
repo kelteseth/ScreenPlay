@@ -19,9 +19,9 @@ SOURCES += main.cpp \
     src/sdkconnector.cpp \
     src/projectsettingslistitem.cpp \
     src/projectsettingslistmodel.cpp \
-    src/globalnavigationhelper.cpp \
     src/startuperror.cpp \
-    src/screenplay.cpp
+    src/screenplay.cpp \
+    src/qmlutilities.cpp
 
 RESOURCES += \
     Resources.qrc \
@@ -42,9 +42,9 @@ HEADERS += \
     src/sdkconnector.h \
     src/projectsettingslistitem.h \
     src/projectsettingslistmodel.h \
-    src/globalnavigationhelper.h \
     src/startuperror.h \
-    src/screenplay.h
+    src/screenplay.h \
+    src/qmlutilities.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \
