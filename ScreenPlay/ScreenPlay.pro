@@ -20,7 +20,8 @@ SOURCES += main.cpp \
     src/projectsettingslistitem.cpp \
     src/projectsettingslistmodel.cpp \
     src/globalnavigationhelper.cpp \
-    src/startuperror.cpp
+    src/startuperror.cpp \
+    src/screenplay.cpp
 
 RESOURCES += \
     Resources.qrc \
@@ -42,7 +43,8 @@ HEADERS += \
     src/projectsettingslistitem.h \
     src/projectsettingslistmodel.h \
     src/globalnavigationhelper.h \
-    src/startuperror.h
+    src/startuperror.h \
+    src/screenplay.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \

@@ -17,7 +17,7 @@
 
 /*!
     \class Steam Workshop
-    \brief A wrapper class between the C Steam API and ScreenPlay. Uses The Steam Workshop List Model
+    \brief A wrapper class between the C Steam API and ScreenPlay
 
     \todo Workaround because QML enums are like c++98 with a global namespace. https://www.kdab.com/new-qt-5-8-meta-object-support-namespaces/
 */
@@ -61,7 +61,6 @@ class SteamWorkshop : public QObject {
 public:
     explicit SteamWorkshop(QObject* parent = nullptr);
     SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm, Settings* s);
-
 
     Q_PROPERTY(unsigned int itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
     Q_PROPERTY(unsigned int bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)

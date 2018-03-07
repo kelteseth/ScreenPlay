@@ -33,7 +33,7 @@
 #include "steam/steam_api.h"
 #include "steamworkshop.h"
 #include "steamworkshoplistmodel.h"
-#include "widget.h"
+
 
 int main(int argc, char* argv[])
 {
