@@ -81,7 +81,6 @@ cp $Msys2Path'/libeay32.dll' $DeployPath'ScreenPlay'
 cp $Msys2Path'/ssleay32.dll' $DeployPath'ScreenPlay'
 
 
-read customMsys2Pathss
 echo ''
 echo 'Deploying DLLs'
 for item in ${array[*]}
