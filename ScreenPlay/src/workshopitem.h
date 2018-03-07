@@ -4,6 +4,13 @@
 #include <QUrl>
 #include <QtDebug>
 
+/*!
+    \class Steam Workshop Item
+    \brief Used by the Steam Workshop List Model Class
+
+*/
+
+
 class WorkshopItem {
 public:
     WorkshopItem();

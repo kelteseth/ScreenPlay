@@ -1,8 +1,13 @@
 #pragma once
 
-
 #include <QString>
 #include <QVariant>
+
+/*!
+    \class Project Settings List Item
+    \brief List Item for Project Settings List Model. See Project Settings List Model for more informations
+
+*/
 
 
 class ProjectSettingsListItem

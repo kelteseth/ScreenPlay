@@ -28,7 +28,17 @@
 #include "projectsettingslistmodel.h"
 #include "sdkconnector.h"
 #include "steam/steam_api.h"
-#include "wallpaper.h"
+
+/*!
+    \class Settings
+    \brief Used for:
+    \list
+        \i User configuration
+        \i Creation of Wallpaper, Scenes and Widgets
+        \i Communication via the SDK Connector
+    \endlist
+
+*/
 
 class ActiveProfile;
 

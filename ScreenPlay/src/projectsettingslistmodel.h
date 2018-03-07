@@ -1,4 +1,5 @@
 #pragma once
+
 #include <QAbstractListModel>
 #include <QFile>
 #include <QQmlContext>
@@ -8,8 +9,13 @@
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QVector>
-
 #include "projectsettingslistitem.h"
+
+/*!
+    \class Project Settings List Model
+    \brief Reads the project.json for every Wallpaper, Scene or Widget "general" object and displays it for the user to modify
+
+*/
 
 class ProjectSettingsListModel : public QAbstractListModel
 {

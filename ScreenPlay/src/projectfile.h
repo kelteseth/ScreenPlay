@@ -6,8 +6,14 @@
 #include <QVariant>
 #include <QVariantList>
 
-class ProjectFile {
 
+/*!
+    \class ProjectFile
+    \brief In ScreenPlay every Wallpaper, Scene or Widget has an project.json to store its configuration
+
+*/
+
+class ProjectFile {
 
 public:
     explicit ProjectFile(QJsonObject obj, QString folderName, QUrl absolutePath);

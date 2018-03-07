@@ -7,6 +7,13 @@
 
 #include "workshopitem.h"
 
+/*!
+    \class Steam Workshop List Model
+    \brief Gets filled and managed by the Steam Workshop Class
+
+*/
+
+
 class SteamWorkshopListModel : public QAbstractListModel {
     Q_OBJECT
 

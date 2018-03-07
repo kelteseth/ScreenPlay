@@ -14,11 +14,14 @@
 #include <QObject>
 #include <QUrl>
 
-/*  FIXME:
- *  Workaround because QML enums are like c++98 with a
- *  global namespace.
- *  https://www.kdab.com/new-qt-5-8-meta-object-support-namespaces/
- */
+/*!
+    \class Steam Workshop
+    \brief A wrapper class between the C Steam API and ScreenPlay. Uses The Steam Workshop List Model
+
+    \todo Workaround because QML enums are like c++98 with a global namespace. https://www.kdab.com/new-qt-5-8-meta-object-support-namespaces/
+*/
+
+
 namespace LocalWorkshopCreationStatus {
 Q_NAMESPACE
 enum Value {

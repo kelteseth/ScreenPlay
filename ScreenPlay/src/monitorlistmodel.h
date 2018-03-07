@@ -12,6 +12,13 @@
 #include <QString>
 #include <QVector>
 
+/*!
+    \class Monitor List Model
+    \brief Lists all monitors dynamically
+
+*/
+
+
 class Monitor;
 
 class MonitorListModel : public QAbstractListModel {

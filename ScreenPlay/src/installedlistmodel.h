@@ -11,11 +11,18 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QVector>
 #include <QStandardPaths>
 #include <QString>
 #include <QUrl>
+#include <QVector>
 #include <QtConcurrent/QtConcurrent>
+
+
+/*!
+    \class Installed List Model
+    \brief Lists all installed items from a given Path
+
+*/
 
 class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
@@ -28,8 +35,7 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    bool getProjectByAbsoluteStoragePath(QUrl *path, ProjectFile* spf);
-
+    bool getProjectByAbsoluteStoragePath(QUrl* path, ProjectFile* spf);
 
     Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setabsoluteStoragePath NOTIFY absoluteStoragePathChanged)
 
@@ -64,7 +70,6 @@ public slots:
     int getAmountItemLoaded();
     void reset();
 
-
 signals:
     void setScreenVisible(bool visible);
     void setScreenToVideo(QString absolutePath);
@@ -76,5 +81,3 @@ private:
     QVector<ProjectFile> m_screenPlayFiles;
     QUrl m_absoluteStoragePath;
 };
-
-

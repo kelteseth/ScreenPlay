@@ -10,6 +10,14 @@
 #include <QUrl>
 #include <QDebug>
 
+/*!
+    \class Profile List Model
+    \todo Implement this!
+    \brief Use to save all active wallpapers and widgets position and configurations after a restart
+
+*/
+
+
 class Profile;
 
 class ProfileListModel : public QAbstractListModel {
