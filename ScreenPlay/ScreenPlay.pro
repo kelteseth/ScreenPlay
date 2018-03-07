@@ -10,14 +10,11 @@ SOURCES += main.cpp \
     src/installedlistmodel.cpp \
     src/monitorlistmodel.cpp \
     src/settings.cpp \
-    src/wallpaper.cpp \
     src/profilelistmodel.cpp \
     src/profile.cpp \
     src/projectfile.cpp \
-    src/widget.cpp \
     src/steamworkshoplistmodel.cpp \
     src/workshopitem.cpp \
-    src/widgetbridge.cpp \
     src/installedlistfilter.cpp \
     src/sdkconnector.cpp \
     src/projectsettingslistitem.cpp \
@@ -35,14 +32,11 @@ HEADERS += \
     src/installedlistmodel.h \
     src/monitorlistmodel.h \
     src/settings.h \
-    src/wallpaper.h \
     src/profilelistmodel.h \
     src/profile.h \
     src/projectfile.h \
-    src/widget.h \
     src/steamworkshoplistmodel.h \
     src/workshopitem.h \
-    src/widgetbridge.h \
     src/installedlistfilter.h \
     src/sdkconnector.h \
     src/projectsettingslistitem.h \
