@@ -3,39 +3,12 @@
 ProjectSettingsListModel::ProjectSettingsListModel(QString file, QObject* parent)
     : QAbstractListModel(parent)
 {
-    QFile configTmp;
-    configTmp.setFileName(file);
-    QJsonDocument configJsonDocument;
-    QJsonParseError parseError;
-    QJsonObject obj;
+    init(file);
+}
 
-    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString config = configTmp.readAll();
-    configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
+ProjectSettingsListModel::ProjectSettingsListModel()
+{
 
-    if (!(parseError.error == QJsonParseError::NoError)) {
-        qWarning("Settings Json Parse Error ");
-    }
-
-    obj = configJsonDocument.object();
-    QJsonObject tmpParent;
-
-    if (obj.contains("general")) {
-        if (obj.value("general").toObject().contains("properties")) {
-            tmpParent = obj.value("general").toObject().value("properties").toObject();
-        }
-    }
-
-    QJsonObject::iterator itParent, itChild;
-    for (itParent = tmpParent.begin(); itParent != tmpParent.end(); itParent++) {
-        QJsonObject tmpChildObj = tmpParent.value(itParent.key()).toObject();
-
-        append(itParent.key(), true, "");
-
-        for (itChild = tmpChildObj.begin(); itChild != tmpChildObj.end(); itChild++) {
-                append(itChild.key(), false, tmpChildObj.value(itChild.key()));
-        }
-    }
 }
 
 int ProjectSettingsListModel::rowCount(const QModelIndex& parent) const
@@ -78,6 +51,43 @@ QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
         { ValueRole, "value" },
     };
     return roles;
+}
+
+void ProjectSettingsListModel::init(QString file)
+{
+    QFile configTmp;
+    configTmp.setFileName(file);
+    QJsonDocument configJsonDocument;
+    QJsonParseError parseError;
+    QJsonObject obj;
+
+    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
+    QString config = configTmp.readAll();
+    configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
+
+    if (!(parseError.error == QJsonParseError::NoError)) {
+        qWarning("Settings Json Parse Error ");
+    }
+
+    obj = configJsonDocument.object();
+    QJsonObject tmpParent;
+
+    if (obj.contains("general")) {
+        if (obj.value("general").toObject().contains("properties")) {
+            tmpParent = obj.value("general").toObject().value("properties").toObject();
+        }
+    }
+
+    QJsonObject::iterator itParent, itChild;
+    for (itParent = tmpParent.begin(); itParent != tmpParent.end(); itParent++) {
+        QJsonObject tmpChildObj = tmpParent.value(itParent.key()).toObject();
+
+        append(itParent.key(), true, "");
+
+        for (itChild = tmpChildObj.begin(); itChild != tmpChildObj.end(); itChild++) {
+                append(itChild.key(), false, tmpChildObj.value(itChild.key()));
+        }
+    }
 }
 
 void ProjectSettingsListModel::append(QString name, bool isHeadline, QVariant value)

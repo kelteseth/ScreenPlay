@@ -18,7 +18,7 @@ class ProjectSettingsListModel : public QAbstractListModel
 
 public:
     explicit ProjectSettingsListModel(QString file, QObject *parent = nullptr);
-
+    ProjectSettingsListModel();
     int rowCount(const QModelIndex &parent = QModelIndex()) const override;
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
@@ -30,6 +30,7 @@ public:
     };
     Q_ENUM(ProjectSettingsRole)
 
+    void init(QString file);
 
 public slots:
     void append(QString name, bool isHeadline, QVariant value);
