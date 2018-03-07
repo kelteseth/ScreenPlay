@@ -21,9 +21,6 @@ public:
     explicit MonitorListModel(QGuiApplication* guiapp, QObject* parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;
-    Q_INVOKABLE QRect getAbsoluteDesktopSize();
-    Q_INVOKABLE void reloadMonitors();
-    Q_INVOKABLE int size();
 
     enum MonitorRole {
         IDRole,
@@ -50,6 +47,11 @@ public:
     void reset();
 
     void setWallpaperActiveMonitor(QScreen* screen, QString fullPreviewImagePath);
+
+public slots:
+    QRect getAbsoluteDesktopSize();
+    void reloadMonitors();
+    int size();
 
 private:
     QVector<Monitor> m_monitorList;

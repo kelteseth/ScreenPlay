@@ -33,7 +33,7 @@ public:
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(float opacity READ opacity WRITE setOpacity NOTIFY opacityChanged)
 
-    Q_INVOKABLE void setupWindow();
+
 
     QString absoluteFilePath() const
     {
@@ -70,7 +70,7 @@ public:
     }
 
 public slots:
-
+    void setupWindow();
     void destroyWallpaper(){
         emit prepareDestroy();
     }

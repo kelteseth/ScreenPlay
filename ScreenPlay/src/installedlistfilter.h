@@ -12,9 +12,10 @@ class InstalledListFilter : public QSortFilterProxyModel
 public:
     InstalledListFilter(InstalledListModel *ilm);
 
-    Q_INVOKABLE void sortByRoleType(QString type);
-    Q_INVOKABLE void sortByName(QString name);
-    Q_INVOKABLE void resetFilter();
+public slots:
+    void sortByRoleType(QString type);
+    void sortByName(QString name);
+    void resetFilter();
 
 };
 

@@ -30,8 +30,7 @@ public:
 
     bool getProjectByAbsoluteStoragePath(QUrl *path, ProjectFile* spf);
 
-    Q_INVOKABLE void loadScreens();
-    Q_INVOKABLE QVariantMap get(QString folderId);
+
     Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setabsoluteStoragePath NOTIFY absoluteStoragePathChanged)
 
     enum InstalledRole {
@@ -51,6 +50,8 @@ public:
     }
 
 public slots:
+    void loadScreens();
+    QVariantMap get(QString folderId);
     void append(const QJsonObject, const QString);
     void setabsoluteStoragePath(QUrl absoluteStoragePath)
     {

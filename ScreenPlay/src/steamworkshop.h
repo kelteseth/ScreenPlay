@@ -58,8 +58,6 @@ public:
     explicit SteamWorkshop(QObject* parent = nullptr);
     SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm, Settings* s);
 
-    Q_INVOKABLE int getItemUpdateProcess();
-    Q_INVOKABLE bool contentFolderExist(QString folder);
 
     Q_PROPERTY(unsigned int itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
     Q_PROPERTY(unsigned int bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)
@@ -69,6 +67,9 @@ public:
     unsigned int bytesTotal() const { return m_bytesTotal; }
 
 public slots:
+
+    int getItemUpdateProcess();
+    bool contentFolderExist(QString folder);
     void searchWorkshop();
     void createWorkshopItem();
     void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile, const QUrl videoFile, int publishedFileId);

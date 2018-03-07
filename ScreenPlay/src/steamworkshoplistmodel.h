@@ -30,10 +30,6 @@ public:
 
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-    Q_INVOKABLE QUrl getBannerUrl();
-    Q_INVOKABLE QString getBannerText();
-    Q_INVOKABLE unsigned int getBannerID();
-    Q_INVOKABLE void clear();
 
 
     // Editable:
@@ -53,6 +49,10 @@ public slots:
     void append(unsigned int id, QString title, QUrl imgUrl, int numSubscriptions);
     void addWorkshopItem(WorkshopItem wi);
 
+   QUrl getBannerUrl();
+   QString getBannerText();
+   unsigned int getBannerID();
+   void clear();
 private:
     QVector<QSharedPointer<WorkshopItem>> m_workshopItemList;
     WorkshopItem m_workshopBannerItem;
