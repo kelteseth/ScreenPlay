@@ -22,7 +22,7 @@
 #include <QtQuick/QQuickItem>
 #include <qt_windows.h>
 
-#include "globalnavigationhelper.h"
+#include "qmlutilities.h"
 #include "installedlistfilter.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
         steamErrorAPIInit = true;
     }
 
-    GlobalNavigationHelper gnh;
+    QMLUtilities qmlUtil;
     InstalledListModel installedListModel;
     MonitorListModel monitorListModel(&app);
 
@@ -127,7 +127,7 @@ int main(int argc, char* argv[])
 
     QQmlApplicationEngine errorWindowEngine,mainWindowEngine;
     StartupError suError(&mainWindowEngine, &errorWindowEngine);
-    mainWindowEngine.rootContext()->setContextProperty("globalNavigationHelper", &gnh);
+    mainWindowEngine.rootContext()->setContextProperty("utility", &qmlUtil);
     mainWindowEngine.rootContext()->setContextProperty("installedListFilter", &installedListFilter);
     mainWindowEngine.rootContext()->setContextProperty("workshopListModel", &steamWorkshopListModel);
     mainWindowEngine.rootContext()->setContextProperty("monitorListModel", &monitorListModel);

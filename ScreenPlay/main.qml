@@ -32,7 +32,7 @@ ApplicationWindow {
         }
     }
     Connections {
-        target: globalNavigationHelper
+        target: utility
         onRequestNavigation:{
             switchPage(nav)
         }

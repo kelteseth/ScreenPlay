@@ -71,7 +71,7 @@ Item {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            globalNavigationHelper.setToggleWallpaperConfiguration()
+            utility.setToggleWallpaperConfiguration()
         }
     }
 
