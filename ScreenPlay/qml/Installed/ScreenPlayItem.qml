@@ -160,7 +160,7 @@ Item {
             MenuItem {
                 text: qsTr("Open containing folder")
                 onClicked: {
-                    screenPlaySettings.openFolderInExplorer(absoluteStoragePath)
+                    utility.openFolderInExplorer(absoluteStoragePath)
                 }
             }
             MenuItem {

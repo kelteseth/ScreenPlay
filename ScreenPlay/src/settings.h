@@ -130,9 +130,7 @@ public slots:
     void setMuteAll(bool isMuted);
     void setPlayAll(bool isPlaying);
     QUrl getPreviewImageByMonitorID(QString id);
-    QString fixWindowsPath(QString url);
-    void openFolderInExplorer(QString url);
-    void openLicenceFolder();
+
     void checkForOtherFullscreenApplication();
 
     //Global settings

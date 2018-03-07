@@ -33,7 +33,7 @@ Item {
 
         var newStr = projectFile.substring(0, projectFile.length-12);
 
-        player.source = screenPlaySettings.fixWindowsPath(newStr + jsonProjectFile.file)
+        player.source = utility.fixWindowsPath(newStr + jsonProjectFile.file)
         print(player.source)
         player.play()
     }

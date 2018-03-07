@@ -2,6 +2,10 @@
 
 #include <QObject>
 #include <QString>
+#include <QDir>
+#include <QProcess>
+
+#include "steam/steam_api.h"
 
 /*!
     \class Global QML Utilities
@@ -12,11 +16,10 @@
     \endlist
 */
 
-class QMLUtilities : public QObject
-{
+class QMLUtilities : public QObject {
     Q_OBJECT
 public:
-    explicit QMLUtilities(QObject *parent = nullptr);
+    explicit QMLUtilities(QObject* parent = nullptr);
 
 signals:
     void requestNavigation(QString nav);
@@ -25,4 +28,7 @@ signals:
 public slots:
     void setNavigation(QString nav);
     void setToggleWallpaperConfiguration();
+    QString fixWindowsPath(QString url);
+    void openFolderInExplorer(QString url);
+    void openLicenceFolder();
 };

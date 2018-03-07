@@ -271,20 +271,7 @@ QUrl Settings::getPreviewImageByMonitorID(QString id)
     return QUrl();
 }
 
-QString Settings::fixWindowsPath(QString url)
-{
-    return url.replace("/", "\\\\");
-}
 
-void Settings::openFolderInExplorer(QString url)
-{
-    QProcess explorer;
-    explorer.setProgram("explorer.exe");
-    QStringList args;
-    args.append(QDir::toNativeSeparators(url));
-    explorer.setArguments(args);
-    explorer.startDetached();
-}
 
 void Settings::removeWallpaperAt(int pos)
 {
@@ -318,19 +305,6 @@ void Settings::setScreenPlayWindowPath(const QUrl& screenPlayWindowPath)
     m_screenPlayWindowPath = screenPlayWindowPath;
 }
 
-void Settings::openLicenceFolder()
-{
-    QProcess explorer;
-    explorer.setProgram("explorer.exe");
-    QStringList args;
-    const int folderLength = 2000;
-    char folder[folderLength];
-    SteamApps()->GetAppInstallDir(672870, folder, static_cast<uint32>(folderLength));
-    QByteArray folderData(folder);
-    args.append(QDir::toNativeSeparators(QString(folderData + "/ScreenPlay/legal")));
-    explorer.setArguments(args);
-    explorer.startDetached();
-}
 
 void Settings::checkForOtherFullscreenApplication()
 {
