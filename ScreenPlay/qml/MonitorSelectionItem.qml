@@ -9,7 +9,11 @@ Item {
     property string monitorName
     property string monitorID
     property string previewImage
-    onPreviewImageChanged:  imgPreview.source = previewImage
+    onPreviewImageChanged:  {
+        imgPreview.source = previewImage
+        imgPreview.opacity = 1
+    }
+
     property int fontSize: 14
     property int index: 0
     property bool isSelected: false
@@ -32,7 +36,7 @@ Item {
         color: isSelected ? "#373737" : "#828282"
         anchors.fill: parent
         anchors.margins: 10
-        border.color: "black"
+        border.color: "#1e1e1e"
         border.width: 3
         radius: 3
         clip:true
@@ -41,9 +45,11 @@ Item {
             id: imgPreview
             sourceSize: Qt.size(parent.width,parent.height)
             anchors.margins: 3
+            opacity: 0
             anchors.fill: parent
             asynchronous: true
             fillMode: Image.PreserveAspectCrop
+
         }
 
         Text {
@@ -63,6 +69,8 @@ Item {
             onClicked: {
                 monitorSelected(index)
             }
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
         }
     }
 }

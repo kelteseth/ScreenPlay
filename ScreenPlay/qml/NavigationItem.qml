@@ -37,7 +37,7 @@ Item {
         id: mouseArea
         anchors.fill: parent
         onClicked: {
-            navigationItem.pageClicked(navigationItem.name)
+             navigationItem.pageClicked(navigationItem.name)
         }
 
         Item {

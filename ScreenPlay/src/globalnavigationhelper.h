@@ -10,9 +10,11 @@ public:
 
 signals:
     void requestNavigation(QString nav);
+    void requestToggleWallpaperConfiguration();
 
 public slots:
     void setNavigation(QString nav);
+    void setToggleWallpaperConfiguration();
 };
 
 

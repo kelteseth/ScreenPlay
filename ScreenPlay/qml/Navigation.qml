@@ -10,7 +10,6 @@ Rectangle {
     color: "#ffffff"
 
     signal changePage(string name)
-    signal toggleMonitors
 
     Action {
         shortcut: "F1"
@@ -36,7 +35,7 @@ Rectangle {
     function onPageChanged(name) {
 
         //Avoid crashing screenplay when steam is not available
-        if(name === "Workshop" && screenPlaySettings.offlineMode){
+        if (name === "Workshop" && screenPlaySettings.offlineMode) {
             return
         }
 
@@ -120,65 +119,5 @@ Rectangle {
         }
     }
 
-    Item {
-        id: monitorSelection
-        width: 321
-        anchors.right: parent.right
-        anchors.rightMargin: 0
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
-        anchors.top: parent.top
-        anchors.topMargin: 0
-
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
-            onClicked: {
-                toggleMonitors()
-            }
-        }
-
-        Image {
-            id: image
-            width: 24
-            height: 24
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.right: parent.right
-            anchors.rightMargin: 20
-            sourceSize.height: 24
-            sourceSize.width: 24
-            source: "qrc:/assets/icons/icon_monitor.svg"
-
-            Text {
-                id: txtAmountActiveWallpapers
-                text: screenPlaySettings.activeWallpaperCounter
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    top: parent.top
-                    topMargin: 1
-                }
-
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
-                color: "orange"
-                font.pointSize: 10
-                font.bold: true
-                font.family: "Roboto"
-                renderType: Text.NativeRendering
-            }
-        }
-
-        Text {
-            id: activeMonitorName
-            text: qsTr("Multi Monitor Setup")
-            anchors.right: image.right
-            anchors.rightMargin: 10 + image.width
-            horizontalAlignment: Text.AlignRight
-            color: "#626262"
-            anchors.verticalCenter: parent.verticalCenter
-            font.pointSize: 12
-            font.family: "Roboto"
-            renderType: Text.NativeRendering
-        }
-    }
+    NavigationWallpaperConfiguration {}
 }

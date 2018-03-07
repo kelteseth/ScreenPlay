@@ -36,6 +36,9 @@ ApplicationWindow {
         onRequestNavigation:{
             switchPage(nav)
         }
+        onRequestToggleWallpaperConfiguration: {
+            monitors.state = monitors.state == "active" ? "inactive" : "active"
+        }
     }
 
     LinearGradient {
@@ -262,11 +265,9 @@ ApplicationWindow {
 
             switchPage(name)
         }
-
-        onToggleMonitors: {
-            monitors.state = monitors.state == "active" ? "inactive" : "active"
-        }
     }
+
+
 
     function switchPage(name) {
         if (name === "Create") {

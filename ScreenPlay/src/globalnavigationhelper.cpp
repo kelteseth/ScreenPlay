@@ -9,3 +9,8 @@ void GlobalNavigationHelper::setNavigation(QString nav)
 {
     emit requestNavigation(nav);
 }
+
+void GlobalNavigationHelper::setToggleWallpaperConfiguration()
+{
+    emit requestToggleWallpaperConfiguration();
+}

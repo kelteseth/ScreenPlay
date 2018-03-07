@@ -25,11 +25,12 @@
 #include "monitorlistmodel.h"
 #include "profile.h"
 #include "profilelistmodel.h"
+#include "projectsettingslistmodel.h"
 #include "sdkconnector.h"
 #include "steam/steam_api.h"
 #include "wallpaper.h"
 
-class ActiveProfiles;
+class ActiveProfile;
 
 class Settings : public QObject {
     Q_OBJECT
@@ -49,13 +50,6 @@ public:
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
 
-    Q_INVOKABLE void removeAll();
-    Q_INVOKABLE void setMuteAll(bool isMuted);
-    Q_INVOKABLE void setPlayAll(bool isPlaying);
-    Q_INVOKABLE QUrl getPreviewImageByMonitorID(QString id);
-    Q_INVOKABLE QString fixWindowsPath(QString url);
-    Q_INVOKABLE void openFolderInExplorer(QString url);
-
     void loadActiveProfiles();
 
     enum LocalCopyResult {
@@ -72,20 +66,6 @@ public:
         int patch = 1;
     };
 
-    Q_INVOKABLE bool autostart() const
-    {
-        return m_autostart;
-    }
-
-    Q_INVOKABLE bool highPriorityStart() const
-    {
-        return m_highPriorityStart;
-    }
-
-    Q_INVOKABLE bool sendStatistics() const
-    {
-        return m_sendStatistics;
-    }
 
     Version version() const
     {
@@ -102,10 +82,6 @@ public:
         return m_hasWorkshopBannerSeen;
     }
 
-    Q_INVOKABLE QString decoder() const
-    {
-        return m_decoder;
-    }
 
     int activeWallpaperCounter() const
     {
@@ -119,10 +95,6 @@ public:
     {
         return m_pauseWallpaperWhenIngame;
     }
-
-
-
-
 
     bool offlineMode() const
     {
@@ -140,13 +112,15 @@ signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
     void allWallpaperRemoved();
-
-
-
     void offlineModeChanged(bool offlineMode);
 
 public slots:
-
+    void removeAll();
+    void setMuteAll(bool isMuted);
+    void setPlayAll(bool isPlaying);
+    QUrl getPreviewImageByMonitorID(QString id);
+    QString fixWindowsPath(QString url);
+    void openFolderInExplorer(QString url);
     void openLicenceFolder();
     void checkForOtherFullscreenApplication();
 
@@ -156,6 +130,25 @@ public slots:
 
     void writeSingleSettingConfig(QString name, QVariant value);
 
+    bool autostart() const
+    {
+        return m_autostart;
+    }
+
+    bool highPriorityStart() const
+    {
+        return m_highPriorityStart;
+    }
+
+    bool sendStatistics() const
+    {
+        return m_sendStatistics;
+    }
+
+    QString decoder() const
+    {
+        return m_decoder;
+    }
     void setAutostart(bool autostart)
     {
         if (m_autostart == autostart)
@@ -313,6 +306,7 @@ private:
 
     QVector<QProcess*> m_widgets;
     QVector<QProcess*> m_windows;
+    QVector<QSharedPointer<ActiveProfile>> m_activeProfiles;
 
     QUrl m_localStoragePath;
     QUrl m_localSettingsPath;
@@ -332,18 +326,19 @@ private:
     bool m_offlineMode = false;
 };
 
-class ActiveProfiles {
+class ActiveProfile {
 public:
-    ActiveProfiles();
-    ActiveProfiles(QString monitorId, Profile profile);
-
+    ActiveProfile();
+    ActiveProfile(QString monitorId, Profile profile);
+    ActiveProfile(int monitorIndex, QString absoluteStoragePath);
     QString monitorId() const;
-    int monitorIndex;
 
 private:
-    QString m_monitorId;
+    QString m_monitorId, m_absoluteStoragePath;
+    int m_monitorIndex;
     Profile m_profile;
     QProcess* m_process;
+    ProjectSettingsListModel m_proSettingsListModel;
 };
 
 enum FillMode {

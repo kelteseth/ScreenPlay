@@ -97,9 +97,9 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString 
     Monitor monitor;
 
     // Replace wallpaper
-    if (!m_mlm->getMonitorListItemAt(monitorIndex, &monitor)) {
-        return;
-    }
+    //    if (!m_mlm->getMonitorListItemAt(monitorIndex, &monitor)) {
+    //        return;
+    //    }
 
     if (!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
         return;
@@ -107,18 +107,13 @@ void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString 
 
     increaseActiveWallpaperCounter();
 
+    m_activeProfiles.append(QSharedPointer<ActiveProfile>(new ActiveProfile(monitorIndex,absoluteStoragePath.toString())));
+
     // We do not want to parent the QProcess because the
     // Process manages its lifetime and destructing (animation) itself
     // via a disconnection from the ScreenPlay SDK
     QProcess* pro = new QProcess();
     m_windows.append(pro);
-
-    connect(pro, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus) {
-        qDebug() << "EX: " << exitCode;
-    });
-    connect(pro, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
-        qDebug() << "EX: " << error;
-    });
 
     QStringList proArgs;
     proArgs.append(QString::number(monitorIndex));
@@ -351,17 +346,25 @@ void Settings::checkForOtherFullscreenApplication()
     //    }
 }
 
-ActiveProfiles::ActiveProfiles()
+ActiveProfile::ActiveProfile()
 {
 }
 
-ActiveProfiles::ActiveProfiles(QString wallpaperId, Profile profile)
+ActiveProfile::ActiveProfile(QString wallpaperId, Profile profile)
 {
     m_monitorId = wallpaperId;
     m_profile = profile;
 }
 
-QString ActiveProfiles::monitorId() const
+ActiveProfile::ActiveProfile(int monitorIndex, QString absoluteStoragePath)
+{
+    m_monitorIndex = monitorIndex;
+    m_absoluteStoragePath = absoluteStoragePath;
+    m_proSettingsListModel.init(absoluteStoragePath +"/project.json");
+
+}
+
+QString ActiveProfile::monitorId() const
 {
     return m_monitorId;
 }
