@@ -28,6 +28,7 @@
 #include "projectsettingslistmodel.h"
 #include "sdkconnector.h"
 #include "steam/steam_api.h"
+#include "qt_windows.h"
 
 /*!
     \class Settings

@@ -4,6 +4,7 @@
 #include "steam/steam_api.h"
 #include "steamworkshoplistmodel.h"
 #include <QByteArray>
+#include <QQmlEngine>
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
