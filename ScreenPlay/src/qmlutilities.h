@@ -28,7 +28,8 @@ signals:
 public slots:
     void setNavigation(QString nav);
     void setToggleWallpaperConfiguration();
-    QString fixWindowsPath(QString url);
     void openFolderInExplorer(QString url);
     void openLicenceFolder();
+
+    QString fixWindowsPath(QString url);
 };

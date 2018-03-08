@@ -129,15 +129,12 @@ public slots:
     void removeAll();
     void setMuteAll(bool isMuted);
     void setPlayAll(bool isPlaying);
-    QUrl getPreviewImageByMonitorID(QString id);
-
     void checkForOtherFullscreenApplication();
-
-    //Global settings
     void setGlobalVolume(float volume);
     void setGlobalFillMode(QString fillMode);
-
     void writeSingleSettingConfig(QString name, QVariant value);
+
+    QUrl getPreviewImageByMonitorID(QString id);
 
     bool autostart() const
     {
@@ -158,6 +155,7 @@ public slots:
     {
         return m_decoder;
     }
+
     void setAutostart(bool autostart)
     {
         if (m_autostart == autostart)
@@ -303,7 +301,6 @@ public slots:
 
 private:
     void createDefaultConfig();
-    void createProfileConfig();
 
     Version m_version;
     ProfileListModel* m_plm;
