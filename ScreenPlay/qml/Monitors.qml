@@ -13,11 +13,6 @@ Item {
 
     onStateChanged: {
         bgMouseArea.focus = monitors.state == "active" ? true : false
-        if (monitors.state == "active") {
-
-
-            //monitorListModel.reloadMonitors();
-        }
     }
 
     Rectangle {
@@ -42,6 +37,7 @@ Item {
         }
 
         Item {
+            id: itmLeftWrapper
             width: parent.width * .5
             anchors {
                 top: parent.top
@@ -79,6 +75,10 @@ Item {
                 }
                 availableWidth: width - 20
                 availableHeight: 150
+                onRequestProjectSettings: {
+                    // This will return in line 98
+                    screenPlay.requestProjectSettingsListModelAt(at)
+                }
             }
 
             Button {
@@ -95,23 +95,35 @@ Item {
             }
         }
 
+        Connections {
+            target: screenPlay
+            onProjectSettingsListModelFound: {
+                gridView.model = li
+            }
+            onProjectSettingsListModelNotFound: {
+                gridView.model = null
+            }
+        }
+
         GridView {
             id: gridView
             boundsBehavior: Flickable.DragOverBounds
             maximumFlickVelocity: 7000
             flickDeceleration: 5000
             cellWidth: 340
+            cellHeight: 50
             cacheBuffer: 10000
-            width: parent.width * .5
+            clip: true
             anchors {
                 top: parent.top
+                topMargin: 60
                 right: parent.right
                 bottom: parent.bottom
-                margins: 10
+                margins: 30
+                left: itmLeftWrapper.right
             }
 
             delegate: Rectangle {
-                color: isHeadline ? "gray" : "steelblue"
                 id: delegate
                 focus: true
                 height: isHeadline ? 50 : 30
@@ -126,6 +138,10 @@ Item {
                     text: name
                     width: 100
                     font.pixelSize: isHeadline ? 21 : 14
+                    anchors.verticalCenter: parent.verticalCenter
+                    font.family: "Roboto"
+                    font.weight: Font.Normal
+                    renderType: Text.NativeRendering
                     anchors {
                         left: parent.left
                     }
@@ -133,7 +149,6 @@ Item {
 
                 Rectangle {
                     height: parent.height
-                    color: "gray"
                     visible: !isHeadline
                     anchors {
                         left: txtDescription.right
@@ -145,6 +160,9 @@ Item {
                         anchors.fill: parent
                         anchors.margins: 4
                         focus: true
+                        font.family: "Roboto"
+                        font.weight: Font.Normal
+                        renderType: Text.NativeRendering
                         // We need to convert to a string because of large numbers js uses scientific notation x*e^x
                         text: value.toString()
                     }
@@ -153,10 +171,9 @@ Item {
         }
         MouseArea {
             anchors {
-                top:parent.top
+                top: parent.top
                 right: parent.right
                 margins: 5
-
             }
             width: 32
             height: width
@@ -168,7 +185,7 @@ Item {
                 width: 16
                 height: 16
                 anchors.centerIn: parent
-                sourceSize: Qt.size(width,width)
+                sourceSize: Qt.size(width, width)
             }
             ColorOverlay {
                 id: iconColorOverlay
@@ -178,8 +195,6 @@ Item {
             }
         }
     }
-
-
 
     states: [
         State {

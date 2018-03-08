@@ -9,6 +9,7 @@
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "projectfile.h"
+#include "projectsettingslistmodel.h"
 #include "sdkconnector.h"
 #include "settings.h"
 
@@ -16,7 +17,6 @@
     \class ScreenPlay
     \brief Used for Creation of Wallpaper, Scenes and Widgets
 */
-
 
 class ScreenPlayWallpaper;
 class ScreenPlayWidget;
@@ -30,15 +30,19 @@ public:
 
 signals:
     void allWallpaperRemoved();
+    void projectSettingsListModelFound(ProjectSettingsListModel* li);
+    void projectSettingsListModelNotFound();
 
 public slots:
     void createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage);
     void createWidget(QUrl absoluteStoragePath, QString previewImage);
     void removeAllWallpaper();
+    void requestProjectSettingsListModelAt(int index);
 
 private:
     QVector<QSharedPointer<ScreenPlayWallpaper>> m_screenPlayWallpaperList;
     QVector<QSharedPointer<ScreenPlayWidget>> m_screenPlayWidgetList;
+
     InstalledListModel* m_ilm;
     Settings* m_settings;
     MonitorListModel* m_mlm;
@@ -71,7 +75,10 @@ public:
         m_process->setArguments(proArgs);
         m_process->setProgram(parent->settings()->screenPlayWindowPath().toString());
         m_process->start();
+        m_projectSettingsListModel = QSharedPointer<ProjectSettingsListModel>(new ProjectSettingsListModel(projectPath + "/project.json"));
     }
+
+    QSharedPointer<ProjectSettingsListModel> projectSettingsListModel() const;
 
     QVector<int> screenNumber() const
     {
@@ -89,12 +96,10 @@ public:
     }
 
 signals:
-
     void screenNumberChanged(QVector<int> screenNumber);
-
     void projectPathChanged(QString projectPath);
-
     void previewImageChanged(QString previewImage);
+    void projectSettingsListModelAt(ProjectSettingsListModel* li);
 
 public slots:
 
@@ -130,6 +135,7 @@ private:
     QString m_projectPath;
     QString m_previewImage;
     QProcess* m_process;
+    QSharedPointer<ProjectSettingsListModel> m_projectSettingsListModel;
 };
 
 class ScreenPlayWidget : public QObject {

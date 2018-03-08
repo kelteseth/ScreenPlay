@@ -103,13 +103,13 @@ void MonitorListModel::loadMonitors()
         QScreen* screen = QApplication::screens().at(i);
 
         m_monitorList.append(
-            Monitor(screen->manufacturer(),
+            Monitor(
+                screen->manufacturer(),
                 screen->model(),
                 screen->name(),
                 screen->size(),
                 QRect(screen->availableGeometry().x() + offsetX, screen->availableGeometry().y() + offsetY, screen->geometry().width(), screen->geometry().height()),
-                // More convenient for the user if the first monitor == 1
-                i + 1,
+                i,
                 QRect(screen->availableVirtualGeometry().x(), screen->availableVirtualGeometry().y(), screen->availableVirtualGeometry().width(), screen->availableVirtualGeometry().height()),
                 QRect(screen->geometry().x() + offsetX, screen->geometry().y() + offsetY, screen->geometry().width(), screen->geometry().height()),
                 screen));

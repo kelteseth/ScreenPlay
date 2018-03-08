@@ -38,6 +38,7 @@ public:
 
     void init(QString file);
 
+
 public slots:
     void append(QString name, bool isHeadline, QVariant value);
 

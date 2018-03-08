@@ -15,7 +15,7 @@ Item {
     }
 
     property int fontSize: 14
-    property int index: 0
+    property int index
     property bool isSelected: false
     property bool isWallpaperActive: false
     signal monitorSelected(var index)

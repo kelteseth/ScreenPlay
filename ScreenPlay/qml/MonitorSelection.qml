@@ -18,10 +18,9 @@ Rectangle {
     property int fontSize: 14
     property string activeMonitorID: "empty"
 
+    signal requestProjectSettings(var at)
+
     function setActiveMonitorIndex(newIndex) {
-
-
-
         activeMonitorIndex = newIndex
         activeMonitorID = rp.itemAt(newIndex).monitorID
         for (var i = 0; i < rp.count; i++) {
@@ -118,7 +117,7 @@ Rectangle {
             monitorSize: monitorAvailableGeometry
             monitorID: monitorID
             fontSize: rect.fontSize
-            index: index
+            index: monitorNumber
             //isWallpaperActive: monitorIsWallpaperActive
             //previewImage: monitorPreviewImage
 
@@ -126,6 +125,7 @@ Rectangle {
                 target: delegate
                 onMonitorSelected: {
                     setActiveMonitorIndex(index)
+                    requestProjectSettings(index)
                 }
             }
         }

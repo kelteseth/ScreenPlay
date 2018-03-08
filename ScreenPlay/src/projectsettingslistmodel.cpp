@@ -67,6 +67,7 @@ void ProjectSettingsListModel::init(QString file)
 
     if (!(parseError.error == QJsonParseError::NoError)) {
         qWarning("Settings Json Parse Error ");
+        return;
     }
 
     obj = configJsonDocument.object();
@@ -76,6 +77,8 @@ void ProjectSettingsListModel::init(QString file)
         if (obj.value("general").toObject().contains("properties")) {
             tmpParent = obj.value("general").toObject().value("properties").toObject();
         }
+    } else {
+        return;
     }
 
     QJsonObject::iterator itParent, itChild;
@@ -99,3 +102,4 @@ void ProjectSettingsListModel::append(QString name, bool isHeadline, QVariant va
 
     endInsertRows();
 }
+

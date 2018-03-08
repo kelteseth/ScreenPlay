@@ -38,6 +38,7 @@ ApplicationWindow {
         }
         onRequestToggleWallpaperConfiguration: {
             monitors.state = monitors.state == "active" ? "inactive" : "active"
+            screenPlay.requestProjectSettingsListModelAt(0)
         }
     }
 
