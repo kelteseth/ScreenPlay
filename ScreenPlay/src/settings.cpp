@@ -90,56 +90,6 @@ Settings::~Settings()
 {
 }
 
-void Settings::setWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage)
-{
-
-    ProjectFile project;
-    Monitor monitor;
-
-    // Replace wallpaper
-    //    if (!m_mlm->getMonitorListItemAt(monitorIndex, &monitor)) {
-    //        return;
-    //    }
-
-    if (!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
-        return;
-    }
-
-    increaseActiveWallpaperCounter();
-
-    m_activeProfiles.append(QSharedPointer<ActiveProfile>(new ActiveProfile(monitorIndex,absoluteStoragePath.toString())));
-
-    // We do not want to parent the QProcess because the
-    // Process manages its lifetime and destructing (animation) itself
-    // via a disconnection from the ScreenPlay SDK
-    QProcess* pro = new QProcess();
-    m_windows.append(pro);
-
-    QStringList proArgs;
-    proArgs.append(QString::number(monitorIndex));
-    proArgs.append(absoluteStoragePath.toString());
-    pro->setArguments(proArgs);
-    pro->setProgram(m_screenPlayWindowPath.toString());
-    pro->start();
-
-
-    m_mlm->setWallpaperActiveMonitor(m_qGuiApplication->screens().at(monitorIndex), absoluteStoragePath.toString() + "/" + previewImage);
-}
-
-void Settings::setWidget(QUrl absoluteStoragePath)
-{
-    ProjectFile project;
-    if (!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
-        return;
-    }
-    QProcess* pro = new QProcess(this);
-    m_widgets.append(pro);
-    QString fullPath = absoluteStoragePath.toString() + "/" + project.m_file.toString();
-
-    m_widgets.last()->setProgram(fullPath);
-    m_widgets.last()->start();
-}
-
 QString Settings::loadProject(QString file)
 {
     QFile configTmp;
@@ -227,13 +177,6 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
     configTmp.close();
 }
 
-void Settings::removeAll()
-{
-    m_sdkc->closeAllWallpapers();
-    setActiveWallpaperCounter(0);
-    emit allWallpaperRemoved();
-}
-
 void Settings::setMuteAll(bool isMuted)
 {
 
@@ -259,22 +202,6 @@ void Settings::setPlayAll(bool isPlaying)
     //            m_wallpapers.at(i).data()->setIsPlaying(false);
     //        }
     //    }
-}
-
-QUrl Settings::getPreviewImageByMonitorID(QString id)
-{
-    //    for (int i = 0; i < m_mlm->m_monitorList.size(); ++i) {
-    //        if(m_mlm->m_monitorList.at(i).m_id == id){
-    //            //return m_mlm->m_monitorList.at(i).m_
-    //        }
-    //    }
-    return QUrl();
-}
-
-
-
-void Settings::removeWallpaperAt(int pos)
-{
 }
 
 void Settings::createDefaultConfig()
@@ -305,7 +232,6 @@ void Settings::setScreenPlayWindowPath(const QUrl& screenPlayWindowPath)
     m_screenPlayWindowPath = screenPlayWindowPath;
 }
 
-
 void Settings::checkForOtherFullscreenApplication()
 {
     HWND hWnd = GetForegroundWindow();
@@ -320,25 +246,3 @@ void Settings::checkForOtherFullscreenApplication()
     //    }
 }
 
-ActiveProfile::ActiveProfile()
-{
-}
-
-ActiveProfile::ActiveProfile(QString wallpaperId, Profile profile)
-{
-    m_monitorId = wallpaperId;
-    m_profile = profile;
-}
-
-ActiveProfile::ActiveProfile(int monitorIndex, QString absoluteStoragePath)
-{
-    m_monitorIndex = monitorIndex;
-    m_absoluteStoragePath = absoluteStoragePath;
-    m_proSettingsListModel.init(absoluteStoragePath +"/project.json");
-
-}
-
-QString ActiveProfile::monitorId() const
-{
-    return m_monitorId;
-}

@@ -83,6 +83,11 @@ public:
         return m_version;
     }
 
+    QUrl screenPlayWindowPath() const
+    {
+        return m_screenPlayWindowPath;
+    }
+
     QUrl localStoragePath() const
     {
         return m_localStoragePath;
@@ -122,19 +127,16 @@ signals:
     void setMainWindowVisible(bool visible);
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
-    void allWallpaperRemoved();
+
     void offlineModeChanged(bool offlineMode);
 
 public slots:
-    void removeAll();
     void setMuteAll(bool isMuted);
     void setPlayAll(bool isPlaying);
     void checkForOtherFullscreenApplication();
     void setGlobalVolume(float volume);
     void setGlobalFillMode(QString fillMode);
     void writeSingleSettingConfig(QString name, QVariant value);
-
-    QUrl getPreviewImageByMonitorID(QString id);
 
     bool autostart() const
     {
@@ -195,12 +197,6 @@ public slots:
         m_sendStatistics = sendStatistics;
         emit sendStatisticsChanged(m_sendStatistics);
     }
-
-    void removeWallpaperAt(int pos);
-
-    void setWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage);
-
-    void setWidget(QUrl absoluteStoragePath);
 
     QString loadProject(QString file);
 
@@ -310,10 +306,6 @@ private:
 
     QTimer* m_checkForOtherFullscreenApplicationTimer;
 
-    QVector<QProcess*> m_widgets;
-    QVector<QProcess*> m_windows;
-    QVector<QSharedPointer<ActiveProfile>> m_activeProfiles;
-
     QUrl m_localStoragePath;
     QUrl m_localSettingsPath;
     QUrl m_screenPlayWindowPath;
@@ -332,23 +324,3 @@ private:
     bool m_offlineMode = false;
 };
 
-class ActiveProfile {
-public:
-    ActiveProfile();
-    ActiveProfile(QString monitorId, Profile profile);
-    ActiveProfile(int monitorIndex, QString absoluteStoragePath);
-    QString monitorId() const;
-
-private:
-    QString m_monitorId, m_absoluteStoragePath;
-    int m_monitorIndex;
-    Profile m_profile;
-    QProcess* m_process;
-    ProjectSettingsListModel m_proSettingsListModel;
-};
-
-enum FillMode {
-    Stretch,
-    PreserveAspectFit,
-    PreserveAspectCrop,
-};

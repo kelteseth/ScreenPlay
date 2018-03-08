@@ -48,7 +48,7 @@ Rectangle {
         }
     }
     Connections {
-        target: screenPlaySettings
+        target: screenPlay
         onAllWallpaperRemoved:{
             for(var i = 0; i < rp.count; i++){
                 rp.itemAt(i).isSelected = false

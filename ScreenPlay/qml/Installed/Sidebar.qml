@@ -254,13 +254,14 @@ Item {
 
                 onClicked: {
                     if (type === "video" || type === "qmlScene") {
-                        screenPlaySettings.setWallpaper(
+                        screenPlay.createWallpaper(
                                     monitorSelection.activeMonitorIndex,
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,
                                     installedListModel.get(activeScreen).screenPreview)
                     } else if (type === "widget") {
-                        screenPlaySettings.setWidget(
-                                    installedListModel.absoluteStoragePath + "/" + activeScreen)
+                        screenPlay.createWidget(
+                                    installedListModel.absoluteStoragePath + "/" + activeScreen,
+                                    installedListModel.get(activeScreen).screenPreview)
                     }
                 }
             }

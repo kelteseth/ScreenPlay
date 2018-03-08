@@ -86,8 +86,7 @@ Item {
                 text: qsTr("Remove all wallpaper")
                 Material.background: Material.Orange
                 Material.foreground: "white"
-                enabled: screenPlaySettings.activeWallpaperCounterChanged === 0 ? false : true
-                onClicked: screenPlaySettings.removeAll()
+                onClicked: screenPlay.removeAllWallpaper()
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
