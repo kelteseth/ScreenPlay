@@ -137,6 +137,7 @@ Item {
             screenId: screenFolderId
             absoluteStoragePath: screenAbsoluteStoragePath
             workshopID: screenWorkshopID
+            itemIndex: index
 
             Connections {
                 target: delegate

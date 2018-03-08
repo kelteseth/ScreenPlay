@@ -11,7 +11,9 @@ Item {
     property url absoluteStoragePath
     property string type
     property bool hasMenuOpen: false
-    property int workshopID:0
+    property int workshopID: 0
+    property int itemIndex
+    opacity: 0
 
     onTypeChanged: {
         if (type === "widget") {
@@ -28,6 +30,74 @@ Item {
 
     Component.onCompleted: {
         screenPlayItem.state = "visible"
+    }
+
+    Timer {
+        id: timerAnim
+        interval: 45 * itemIndex
+        running: true
+        repeat: false
+        onTriggered: showAnim.start()
+    }
+
+    transform: [
+        Rotation {
+            id: rt
+            origin.x: width * .5
+            origin.y: height * .5
+            axis {
+                x: -.5
+                y: 0
+                z: 0
+            }
+            angle: 0
+        },
+        Translate {
+            id: tr
+
+        },
+        Scale {
+            id:sc
+            origin.x: width * .5
+            origin.y: height * .5
+        }
+
+    ]
+    ParallelAnimation {
+        id: showAnim
+        running: false
+        RotationAnimation {
+            target: rt
+            from: 90
+            to: 0
+            duration: 500
+            easing.type: Easing.OutQuint
+            property: "angle"
+        }
+        PropertyAnimation {
+            target: screenPlayItem
+            from: 0
+            to: 1
+            duration: 500
+            easing.type: Easing.OutQuint
+            property: "opacity"
+        }
+        PropertyAnimation {
+            target: tr
+            from: 80
+            to: 0
+            duration: 500
+            easing.type: Easing.OutQuint
+            property: "y"
+        }
+        PropertyAnimation {
+            target: sc
+            from: .8
+            to: 1
+            duration: 500
+            easing.type: Easing.OutQuint
+            properties: "xScale,yScale"
+        }
     }
 
     RectangularGlow {
@@ -144,7 +214,7 @@ Item {
                     if (mouse.button === Qt.LeftButton) {
                         itemClicked(screenId, type)
                     } else if (mouse.button === Qt.RightButton) {
-                        if(workshopID != 0) {
+                        if (workshopID != 0) {
                             miWorkshop.enabled = true
                         }
 
@@ -170,7 +240,8 @@ Item {
 
                 onClicked: {
                     //Qt.openUrlExternally("http://steamcommunity.com/sharedfiles/filedetails/?id=" + workshopID)
-                    Qt.openUrlExternally("steam://url/CommunityFilePage/" + workshopID)
+                    Qt.openUrlExternally(
+                                "steam://url/CommunityFilePage/" + workshopID)
                 }
             }
         }
