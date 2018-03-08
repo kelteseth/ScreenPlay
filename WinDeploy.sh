@@ -68,6 +68,12 @@ cd 'ScreenPlayWindow'
 cd 'release'
 cp -r ./* $DeployPath'ScreenPlay'
 
+cd ..
+cd ..
+cd 'ScreenPlayWidget'
+cd 'release'
+cp -r ./* $DeployPath'ScreenPlay'
+
 
 echo ''
 echo 'Deploying Steam SDK'
