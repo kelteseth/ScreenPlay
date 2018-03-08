@@ -168,6 +168,10 @@ Item {
                     }
                 }
             }
+            ScrollBar.vertical: ScrollBar {
+                policy: ScrollBar.AlwaysOn
+                snapMode: ScrollBar.SnapOnRelease
+            }
         }
         MouseArea {
             anchors {
