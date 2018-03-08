@@ -7,13 +7,16 @@ Item {
     width: 320
     height: 180
     state: "invisible"
+    opacity: 0
+
     property string customTitle: "name here"
     property url absoluteStoragePath
     property string type
     property bool hasMenuOpen: false
     property int workshopID: 0
     property int itemIndex
-    opacity: 0
+    property string screenId: ""
+    signal itemClicked(var screenId, var type)
 
     onTypeChanged: {
         if (type === "widget") {
@@ -23,18 +26,13 @@ Item {
         }
     }
 
-    property real introTime: Math.random() * (1 - .5) + .5
-    property string screenId: ""
-
-    signal itemClicked(var screenId, var type)
-
     Component.onCompleted: {
         screenPlayItem.state = "visible"
     }
 
     Timer {
         id: timerAnim
-        interval: 45 * itemIndex
+        interval: 40 * itemIndex * Math.random()
         running: true
         repeat: false
         onTriggered: showAnim.start()
@@ -54,14 +52,12 @@ Item {
         },
         Translate {
             id: tr
-
         },
         Scale {
-            id:sc
+            id: sc
             origin.x: width * .5
             origin.y: height * .5
         }
-
     ]
     ParallelAnimation {
         id: showAnim
@@ -237,9 +233,7 @@ Item {
                 id: miWorkshop
                 text: qsTr("Open workshop Page")
                 enabled: false
-
                 onClicked: {
-                    //Qt.openUrlExternally("http://steamcommunity.com/sharedfiles/filedetails/?id=" + workshopID)
                     Qt.openUrlExternally(
                                 "steam://url/CommunityFilePage/" + workshopID)
                 }
@@ -319,23 +313,23 @@ Item {
             from: "invisible"
             to: "visible"
 
-            PropertyAnimation {
-                target: screenPlayItemWrapper
-                properties: "y"
-                duration: 300 * introTime //* (number *.1)
-                easing.type: Easing.InOutQuad
-            }
-            OpacityAnimator {
-                target: screenPlayItemWrapper
-                duration: 50 * introTime //* (number *.1)
-                easing.type: Easing.InOutQuad
-            }
-            PropertyAnimation {
-                target: effect
-                property: "opacity"
-                duration: 500
-                easing.type: Easing.InOutQuad
-            }
+            //            PropertyAnimation {
+            //                target: screenPlayItemWrapper
+            //                properties: "y"
+            //                duration: 300
+            //                easing.type: Easing.InOutQuad
+            //            }
+            //            OpacityAnimator {
+            //                target: screenPlayItemWrapper
+            //                duration: 500
+            //                easing.type: Easing.InOutQuad
+            //            }
+            //            PropertyAnimation {
+            //                target: effect
+            //                property: "opacity"
+            //                duration: 500
+            //                easing.type: Easing.InOutQuad
+            //            }
         },
         Transition {
             from: "visible"
