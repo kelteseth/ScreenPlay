@@ -2,7 +2,7 @@
   "version" : "0.0.1",
   "autostart" : true,
   "highPriorityStart" : false,
-  "sendStatistics" : true,
+  "sendStatistics" : false,
   "absoluteStoragePath": "",
   "renderer": {
     "renderer-value": 0,
