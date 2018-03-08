@@ -33,6 +33,7 @@
 #include "steam/steam_api.h"
 #include "steamworkshop.h"
 #include "steamworkshoplistmodel.h"
+#include "screenplay.h"
 
 
 int main(int argc, char* argv[])
@@ -92,7 +93,7 @@ int main(int argc, char* argv[])
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, steamID, &app);
-
+    ScreenPlay screenPlay(&installedListModel,&settings,&monitorListModel,&app, &sdkConnector);
     QDir SPWorkingDir(QDir::currentPath());
 
 #ifdef QT_DEBUG
@@ -127,6 +128,7 @@ int main(int argc, char* argv[])
 
     QQmlApplicationEngine errorWindowEngine,mainWindowEngine;
     StartupError suError(&mainWindowEngine, &errorWindowEngine);
+    mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("utility", &qmlUtil);
     mainWindowEngine.rootContext()->setContextProperty("installedListFilter", &installedListFilter);
     mainWindowEngine.rootContext()->setContextProperty("workshopListModel", &steamWorkshopListModel);
