@@ -35,7 +35,6 @@
     \brief Used for:
     \list
         \i User configuration
-        \i Creation of Wallpaper, Scenes and Widgets
         \i Communication via the SDK Connector
     \endlist
 

@@ -12,6 +12,12 @@
 #include "sdkconnector.h"
 #include "settings.h"
 
+/*!
+    \class ScreenPlay
+    \brief Used for Creation of Wallpaper, Scenes and Widgets
+*/
+
+
 class ScreenPlayWallpaper;
 class ScreenPlayWidget;
 
