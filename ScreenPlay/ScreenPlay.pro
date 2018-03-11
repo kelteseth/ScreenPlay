@@ -86,3 +86,13 @@ win32 {
     win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/win64/ -lsteam_api64
     DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/win64
 }
+
+unix {
+    LIBS += -L$$PWD/ThirdParty/steam/redistributable_bin/linux64/ -lsteam_api
+    DEPENDPATH += $$PWD/ThirdParty/steam/redistributable_bin/linux64
+
+    INCLUDEPATH += $$PWD/ThirdParty/steam/lib/linux64
+    DEPENDPATH += $$PWD/ThirdParty/steam/lib/linux64s
+
+    LIBS += -L$$PWD/ThirdParty/steam/lib/linux64/ -lsdkencryptedappticket
+}

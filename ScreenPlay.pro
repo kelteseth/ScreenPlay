@@ -3,6 +3,6 @@ SUBDIRS =   \
     ScreenPlay/ScreenPlay.pro \
     ScreenPlaySDK/Screenplaysdk.pro \
     ScreenPlayWindow/ScreenPlayWindow.pro \
-    ScreenPlayWidget
+    ScreenPlayWidget/
 
 ScreenPlayWindow.depends = ScreenPlaySDK

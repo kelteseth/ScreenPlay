@@ -1,5 +1,5 @@
 #include "SPWmainwindow.h"
-
+#ifdef Q_OS_WIN
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
     // 0xXXXXXXX "" WorkerW
@@ -12,11 +12,11 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
         *reinterpret_cast<HWND*>(lparam) = FindWindowExW(nullptr, hwnd, L"WorkerW", nullptr);
     return TRUE;
 }
-
+#endif
 MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
     : QWindow(parent)
 {
-
+#ifdef Q_OS_WIN
     setOpacity(0);
     m_projectPath = projectPath;
 
@@ -118,12 +118,15 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
             emit playQmlScene(tmpPath);
         }
     }
+    #endif
 }
 void MainWindow::init()
 {
     setOpacity(0);
+    #ifdef Q_OS_WIN
     ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+    #endif
     m_quickRenderer.data()->show();
     //this->setVisible(true);
     setOpacity(0);
@@ -143,8 +146,10 @@ void MainWindow::destroyThis()
     animation->start();
 
     QObject::connect(animation, &QPropertyAnimation::finished, [&]() {
+        #ifdef Q_OS_WIN
         ShowWindow(m_worker_hwnd, SW_HIDE);
         ShowWindow(m_hwnd, SW_HIDE);
+        #endif
         QCoreApplication::quit();
     });
 }
