@@ -1,9 +1,6 @@
 #include "src/SPWmainwindow.h"
 #include <QApplication>
 #include <QStringList>
-#ifdef Q_OS_WIN
-    #include <qt_windows.h>
-#endif
 
 int main(int argc, char* argv[])
 {
@@ -24,6 +21,7 @@ int main(int argc, char* argv[])
         return -4;
     }
 
+    // Args: which monitor, path to project, wallpaper secret to identify the connected socket
     MainWindow w(monitor,argumentList.at(2), argumentList.at(3));
     //MainWindow w(0,"D:/672870/827148653");
 
