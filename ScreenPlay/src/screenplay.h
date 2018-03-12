@@ -1,10 +1,13 @@
 #pragma once
 
+#include <QCryptographicHash>
 #include <QObject>
 #include <QPoint>
 #include <QProcess>
+#include <QRandomGenerator>
 #include <QSharedPointer>
 #include <QVector>
+#include <QGuiApplication>
 
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -38,6 +41,8 @@ public slots:
     void createWidget(QUrl absoluteStoragePath, QString previewImage);
     void removeAllWallpaper();
     void requestProjectSettingsListModelAt(int index);
+    QString generateID();
+    void setWallpaperValue(int at, QString key, QString value);
 
 private:
     QVector<QSharedPointer<ScreenPlayWallpaper>> m_screenPlayWallpaperList;
@@ -56,6 +61,7 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
+    Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
 
 public:
     explicit ScreenPlayWallpaper(QVector<int> screenNumber, QString projectPath, QString previewImage, ScreenPlay* parent)
@@ -72,6 +78,8 @@ public:
         QStringList proArgs;
         proArgs.append(QString::number(m_screenNumber.at(0)));
         proArgs.append(m_projectPath);
+        m_appID =  parent->generateID();
+        proArgs.append(m_appID);
         m_process->setArguments(proArgs);
         m_process->setProgram(parent->settings()->screenPlayWindowPath().toString());
         m_process->start();
@@ -95,11 +103,17 @@ public:
         return m_previewImage;
     }
 
+    QString appID() const
+    {
+        return m_appID;
+    }
+
 signals:
     void screenNumberChanged(QVector<int> screenNumber);
     void projectPathChanged(QString projectPath);
     void previewImageChanged(QString previewImage);
     void projectSettingsListModelAt(ProjectSettingsListModel* li);
+    void appIDChanged(QString appID);
 
 public slots:
 
@@ -130,12 +144,24 @@ public slots:
         emit previewImageChanged(m_previewImage);
     }
 
+
+    void setAppID(QString appID)
+    {
+        if (m_appID == appID)
+            return;
+
+        m_appID = appID;
+        emit appIDChanged(m_appID);
+    }
+
 private:
     QVector<int> m_screenNumber;
     QString m_projectPath;
     QString m_previewImage;
     QProcess* m_process;
     QSharedPointer<ProjectSettingsListModel> m_projectSettingsListModel;
+
+    QString m_appID;
 };
 
 class ScreenPlayWidget : public QObject {

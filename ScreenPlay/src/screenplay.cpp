@@ -62,6 +62,32 @@ void ScreenPlay::requestProjectSettingsListModelAt(int index)
     emit projectSettingsListModelNotFound();
 }
 
+QString ScreenPlay::generateID()
+{
+    const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
+    const int randomStringLength = 32;
+
+    QString randomString;
+    for (int i = 0; i < randomStringLength; ++i) {
+        int index = qrand() % possibleCharacters.length();
+        QChar nextChar = possibleCharacters.at(index);
+        randomString.append(nextChar);
+    }
+    return "appID="+randomString;
+}
+
+void ScreenPlay::setWallpaperValue(int at, QString key, QString value)
+{
+
+    for (int i = 0; i < m_screenPlayWallpaperList.count(); ++i) {
+        if(m_screenPlayWallpaperList.at(i).data()->screenNumber().at(0) == at){
+
+            m_sdkc->setWallpaperValue(m_screenPlayWallpaperList.at(i).data()->appID(), key, value);
+            return;
+        }
+    }
+}
+
 Settings* ScreenPlay::settings() const
 {
     return m_settings;
