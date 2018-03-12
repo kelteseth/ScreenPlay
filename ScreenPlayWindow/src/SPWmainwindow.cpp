@@ -13,12 +13,13 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
     return TRUE;
 }
 
-MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
+MainWindow::MainWindow(int i, QString projectPath, QString id, QScreen* parent)
     : QWindow(parent)
 {
 
     setOpacity(0);
     m_projectPath = projectPath;
+    m_appID = id;
 
     QFile configTmp;
     QJsonDocument configJsonDocument;
@@ -110,6 +111,7 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
     if (m_project.contains("type")) {
         if (m_project.value("type") == "video") {
             QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
+            setIsVideo(true);
             emit playVideo(tmpPath);
         } else if (m_project.value("type") == "scene") {
             return;
@@ -122,16 +124,15 @@ MainWindow::MainWindow(int i, QString projectPath, QScreen* parent)
 void MainWindow::init()
 {
     setOpacity(0);
+    m_quickRenderer.data()->show();
     ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
-    m_quickRenderer.data()->show();
-    //this->setVisible(true);
-    setOpacity(0);
+
     QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
-    animation->setDuration(250);
-    animation->setEasingCurve(QEasingCurve::OutCubic);
-    animation->setStartValue(0);
-    animation->setEndValue(1);
+    animation->setDuration(200);
+    //animation->setEasingCurve(QEasingCurve::OutCubic);
+    animation->setStartValue(0.0);
+    animation->setEndValue(1.0);
     animation->start();
 }
 void MainWindow::destroyThis()

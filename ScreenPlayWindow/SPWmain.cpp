@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
 
     QStringList argumentList  = a.arguments();
 
-    if(argumentList.length() != 3) {
+    if(argumentList.length() != 4) {
         return -3;
     }
 
@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
         return -4;
     }
 
-    MainWindow w(monitor,argumentList.at(2));
+    MainWindow w(monitor,argumentList.at(2), argumentList.at(3));
     //MainWindow w(0,"D:/672870/827148653");
 
     return a.exec();
