@@ -99,5 +99,6 @@
         <file>assets/particle/dot.png</file>
         <file>assets/icons/icon_scene.svg</file>
         <file>qml/NavigationWallpaperConfiguration.qml</file>
+        <file>qml/MonitorsProjectSettingItem.qml</file>
     </qresource>
 </RCC>

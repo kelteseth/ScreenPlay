@@ -11,6 +11,7 @@ Item {
 
     property string activeMonitorName: ""
 
+
     onStateChanged: {
         bgMouseArea.focus = monitors.state == "active" ? true : false
     }
@@ -114,6 +115,8 @@ Item {
             cellHeight: 50
             cacheBuffer: 10000
             clip: true
+
+
             anchors {
                 top: parent.top
                 topMargin: 60
@@ -123,51 +126,11 @@ Item {
                 left: itmLeftWrapper.right
             }
 
-            delegate: Rectangle {
+            delegate: MonitorsProjectSettingItem {
                 id: delegate
-                focus: true
-                height: isHeadline ? 50 : 30
-                width: 300
-                anchors {
-                    left: parent.left
-                    leftMargin: isHeadline ? 0 : 25
-                }
-
-                Text {
-                    id: txtDescription
-                    text: name
-                    width: 100
-                    font.pixelSize: isHeadline ? 21 : 14
-                    anchors.verticalCenter: parent.verticalCenter
-                    font.family: "Roboto"
-                    font.weight: Font.Normal
-                    renderType: Text.NativeRendering
-                    anchors {
-                        left: parent.left
-                    }
-                }
-
-                Rectangle {
-                    height: parent.height
-                    visible: !isHeadline
-                    anchors {
-                        left: txtDescription.right
-                        leftMargin: 20
-                        right: parent.right
-                    }
-
-                    TextEdit {
-                        anchors.fill: parent
-                        anchors.margins: 4
-                        focus: true
-                        font.family: "Roboto"
-                        font.weight: Font.Normal
-                        renderType: Text.NativeRendering
-                        // We need to convert to a string because of large numbers js uses scientific notation x*e^x
-                        text: value.toString()
-                    }
-                }
+                selectedMonitor: monitorSelection.activeMonitorIndex
             }
+
             ScrollBar.vertical: ScrollBar {
                 policy: ScrollBar.AlwaysOn
                 snapMode: ScrollBar.SnapOnRelease
