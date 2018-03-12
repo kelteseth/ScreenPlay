@@ -9,6 +9,10 @@ Item {
     focus: true
     height: isHeadline ? 50 : 30
     width: 300
+
+
+    property int selectedMonitor
+
     anchors {
         left: parent.left
         leftMargin: isHeadline ? 0 : 25
@@ -28,7 +32,7 @@ Item {
         }
     }
     
-    Rectangle {
+    Item {
         height: parent.height
         visible: !isHeadline
         anchors {
@@ -47,7 +51,7 @@ Item {
             renderType: Text.NativeRendering
             // We need to convert to a string because of large numbers js uses scientific notation x*e^x
             text: value.toString()
-            Keys.onReturnPressed: screenPlay.setWallpaperValue(0,txtDescription.text,teValue.text)
+            Keys.onReturnPressed: screenPlay.setWallpaperValue(selectedMonitor,txtDescription.text,teValue.text)
             
         }
     }
