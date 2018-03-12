@@ -1,7 +1,9 @@
 #include "src/SPWmainwindow.h"
 #include <QApplication>
 #include <QStringList>
-#include "qt_windows.h"
+#ifdef Q_OS_WIN
+    #include <qt_windows.h>
+#endif
 
 int main(int argc, char* argv[])
 {

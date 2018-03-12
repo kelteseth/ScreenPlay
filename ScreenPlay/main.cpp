@@ -20,8 +20,10 @@
 #include <QVariant>
 #include <QWindow>
 #include <QtQuick/QQuickItem>
-#include <qt_windows.h>
 
+#ifdef Q_OS_WIN
+    #include <qt_windows.h>
+#endif
 #include "qmlutilities.h"
 #include "installedlistfilter.h"
 #include "installedlistmodel.h"

@@ -1,6 +1,8 @@
 #pragma once
 
-#include "qt_windows.h"
+#ifdef Q_OS_WIN
+    #include <qt_windows.h>
+#endif
 #include <QApplication>
 #include <QDir>
 #include <QEasingCurve>
@@ -87,8 +89,10 @@ signals:
     void nameChanged(QString appID);
 
 private:
+    #ifdef Q_OS_WIN
     HWND m_hwnd;
     HWND m_worker_hwnd;
+    #endif
     QSharedPointer<QQuickView> m_quickRenderer = nullptr;
     QUrl m_projectPath;
     QString m_projectFile;

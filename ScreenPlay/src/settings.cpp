@@ -234,10 +234,13 @@ void Settings::setScreenPlayWindowPath(const QUrl& screenPlayWindowPath)
 
 void Settings::checkForOtherFullscreenApplication()
 {
+#ifdef Q_OS_WIN
+
     HWND hWnd = GetForegroundWindow();
     RECT appBounds;
     RECT rc;
     GetWindowRect(GetDesktopWindow(), &rc);
+#endif
     //    if(hWnd =! (HWND)GetDesktopWindow() && hWnd != (HWND)GetShellWindow())
     //    {
     //        GetWindowRect(hWnd, &appBounds);

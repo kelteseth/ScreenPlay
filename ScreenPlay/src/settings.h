@@ -28,8 +28,9 @@
 #include "projectsettingslistmodel.h"
 #include "sdkconnector.h"
 #include "steam/steam_api.h"
-#include "qt_windows.h"
-
+#ifdef Q_OS_WIN
+    #include <qt_windows.h>
+#endif
 /*!
     \class Settings
     \brief Used for:
