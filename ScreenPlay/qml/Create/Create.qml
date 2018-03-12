@@ -268,21 +268,37 @@ Rectangle {
                 text: qsTr("Quickstart Guide")
                 Material.background: Material.Blue
                 Material.foreground: "white"
+                icon.source: "qrc:/assets/icons/icon_info.svg"
+                icon.color:"white"
+                icon.width: 16
+                icon.height: 16
             }
             Button {
                 text: qsTr("Documentation")
                 Material.background: Material.LightGreen
                 Material.foreground: "white"
+                icon.source: "qrc:/assets/icons/icon_document.svg"
+                icon.color:"white"
+                icon.width: 16
+                icon.height: 16
             }
             Button {
                 text: qsTr("Lore Ipsum")
                 Material.background: Material.Orange
                 Material.foreground: "white"
+                icon.source: "qrc:/assets/icons/icon_plus.svg"
+                icon.color:"white"
+                icon.width: 16
+                icon.height: 16
             }
             Button {
                 text: qsTr("Community")
                 Material.background: Material.Red
                 Material.foreground: "white"
+                icon.source: "qrc:/assets/icons/icon_people.svg"
+                icon.color:"white"
+                icon.width: 16
+                icon.height: 16
             }
         }
     }

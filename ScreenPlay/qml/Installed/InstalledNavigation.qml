@@ -36,6 +36,7 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
+        cursorShape: Qt.PointingHandCursor
         onClicked: {
             navigationItem.pageClicked(navigationItem.name)
         }

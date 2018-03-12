@@ -140,6 +140,7 @@ Item {
                 width: 50
                 anchors.top: parent.top
                 anchors.left: parent.left
+                cursorShape: Qt.PointingHandCursor
                 onClicked: {
                     sidebar.state = sidebar.state === "active" ? "inactive" : "active"
                 }
@@ -246,6 +247,10 @@ Item {
                 Material.background: Material.Orange
                 Material.foreground: "white"
 
+                icon.source: "qrc:/assets/icons/icon_plus.svg"
+                icon.color:"white"
+                icon.width: 16
+                icon.height: 16
                 anchors {
                     bottom: parent.bottom
                     bottomMargin: 20

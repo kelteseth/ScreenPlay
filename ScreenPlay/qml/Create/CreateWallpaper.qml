@@ -1,6 +1,6 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
 
@@ -53,11 +53,19 @@ Item {
             Image {
                 id: imgUpload
                 source: "qrc:/assets/icons/icon_upload.svg"
+                height: 120
+                width: 120
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     top: parent.top
                     topMargin: 50
                 }
+                sourceSize: Qt.size(width, height)
+            }
+            ColorOverlay {
+                anchors.fill: imgUpload
+                source: imgUpload
+                color: "#C6C6C6"
             }
 
             Button {
@@ -69,6 +77,10 @@ Item {
                 }
                 Material.background: Material.Orange
                 Material.foreground: "white"
+                icon.source: "qrc:/assets/icons/icon_upload.svg"
+                icon.color: "white"
+                icon.width: 16
+                icon.height: 16
                 onClicked: fileDialogOpenFile.open()
             }
 
@@ -98,7 +110,6 @@ Item {
             visible: false
             cornerRadius: 15
         }
-
     }
 
     Item {
@@ -141,20 +152,22 @@ Item {
                 anchors.centerIn: parent
                 Material.background: Material.Orange
                 Material.foreground: "white"
+                icon.source: "qrc:/assets/icons/icon_steam.svg"
+                icon.color: "white"
+                icon.width: 16
+                icon.height: 16
                 onClicked: {
                     fileDialogOpenProject.open()
                 }
             }
             FileDialog {
                 id: fileDialogOpenProject
-                nameFilters: ["Project files (project.json)", ]
+                nameFilters: ["Project files (project.json)"]
                 onAccepted: {
                     projectFileSelected(fileDialogOpenProject.currentFile)
                 }
             }
         }
-
-
     }
     states: [
         State {
@@ -219,7 +232,7 @@ Item {
             reversible: true
             SequentialAnimation {
                 PropertyAnimation {
-                    targets: [bg,bg1]
+                    targets: [bg, bg1]
                     duration: 300
                     properties: "opacity, anchors.leftMargin"
                 }

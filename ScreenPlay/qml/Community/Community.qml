@@ -44,7 +44,7 @@ Item {
             sourceSize: Qt.size(250, 250)
             anchors {
                 top: parent.top
-                topMargin: 0
+                topMargin: -30
                 horizontalCenter: parent.horizontalCenter
             }
             MouseArea {
@@ -53,12 +53,34 @@ Item {
                 onClicked: Qt.openUrlExternally("https://stomt.com/")
             }
         }
+        Text {
+            id:txtStomtDescription
+            font.pointSize: 14
+            color: "white"
+            height:100
+            text: qsTr("We use Stomt because it provides quick and easy feedback via I like/I wish. So you can easily give us feedback and speak your mind. We will read these wishes on a daily basis!")
+            font.family: "Roboto"
+            font.weight: Font.Normal
+            wrapMode: Text.WordWrap
+            horizontalAlignment: Qt.AlignHCenter
+            renderType: Text.NativeRendering
+            anchors {
+                top: imgStomt.bottom
+                topMargin: -50
+                right: parent.right
+                rightMargin: 50
+                left: parent.left
+                leftMargin: 50
+            }
+        }
+
         Feedback {
+            id: feedback
             height: 236
             width: 420
             anchors {
-                top: parent.top
-                topMargin: 170
+                top: txtStomtDescription.bottom
+                topMargin: 0
                 horizontalCenter: parent.horizontalCenter
             }
         }
@@ -73,6 +95,11 @@ Item {
             }
             Material.background: Material.Orange
             Material.foreground: "white"
+
+            icon.source: "qrc:/assets/icons/icon_share.svg"
+            icon.color: "white"
+            icon.width: 16
+            icon.height: 16
             onClicked: {
                 Qt.openUrlExternally("https://www.stomt.com/screenplay")
             }
@@ -157,12 +184,13 @@ Item {
                 id: name
                 text: qsTr("News & Patchnotes")
                 wrapMode: Text.WordWrap
-                color: "#FFAB00"
+                color: "#626262"
                 renderType: Text.NativeRendering
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 font.pixelSize: 32
                 font.family: "Roboto"
+
                 anchors {
                     top: parent.top
                     topMargin: 30
@@ -172,6 +200,7 @@ Item {
         }
 
         delegate: Item {
+            id: root
             width: 352
             height: 197
 
@@ -208,21 +237,18 @@ Item {
 
                 LinearGradient {
                     visible: true
+                    opacity: .5
                     anchors.fill: parent
-                    start: Qt.point(0, 0)
-                    end: Qt.point(0, parent.height)
+                    start: Qt.point(0, parent.height)
+                    end: Qt.point(0, parent.height - 150)
                     gradient: Gradient {
                         GradientStop {
-                            position: 1.0
-                            color: "#ffffffff"
-                        }
-                        GradientStop {
-                            position: 0.4
-                            color: "#AAffffff"
-                        }
-                        GradientStop {
                             position: 0.0
-                            color: "#00ffffff"
+                            color: "#BB000000"
+                        }
+                        GradientStop {
+                            position: 1.0
+                            color: "#00000000"
                         }
                     }
                 }
@@ -230,35 +256,36 @@ Item {
                 Text {
                     id: txtTitle
                     text: title
+                    renderType: Text.NativeRendering
                     anchors {
-                        right:parent.right
-                        bottom:parent.bottom
-                        left:parent.left
+                        right: parent.right
+                        bottom: parent.bottom
+                        left: parent.left
                         margins: 20
                     }
-                    color: "#3E3E3E"
+                    color: "white"
                     font.family: "Roboto"
-                    font.weight: Font.Light
+                    font.weight: Font.Normal
                     font.pixelSize: 18
                     wrapMode: Text.WordWrap
                 }
                 Text {
                     id: txtPubDate
                     text: {
-
-                        return pubDate.replace("+0000","")
+                        return pubDate.replace("+0000", "")
                     }
                     anchors {
-                        right:parent.right
+                        right: parent.right
                         rightMargin: 20
-                        bottom:txtTitle.top
+                        bottom: txtTitle.top
                         bottomMargin: 10
-                        left:parent.left
+                        left: parent.left
                         leftMargin: 20
                     }
-                    color: "#3E3E3E"
+                    color: "white"
                     font.family: "Roboto"
-                    font.weight: Font.Light
+                    renderType: Text.NativeRendering
+                    font.weight: Font.Normal
                     font.pixelSize: 14
                     wrapMode: Text.WordWrap
                 }
@@ -293,22 +320,42 @@ Item {
                 text: qsTr("Forums")
                 Material.background: Material.Blue
                 Material.foreground: "white"
+
+                icon.source: "qrc:/assets/icons/icon_people.svg"
+                icon.color: "white"
+                icon.width: 16
+                icon.height: 16
             }
             Button {
                 text: qsTr("Documentation")
                 Material.background: Material.LightGreen
                 Material.foreground: "white"
+
+                icon.source: "qrc:/assets/icons/icon_document.svg"
+                icon.color: "white"
+                icon.width: 16
+                icon.height: 16
             }
             Button {
                 text: qsTr("Github")
                 Material.background: Material.Orange
                 Material.foreground: "white"
+
+                icon.source: "qrc:/assets/icons/icon_code.svg"
+                icon.color: "white"
+                icon.width: 16
+                icon.height: 16
                 onClicked: Qt.openUrlExternally("https://github.com/Aimber/")
             }
             Button {
                 text: qsTr("Workshop")
                 Material.background: Material.Red
                 Material.foreground: "white"
+
+                icon.source: "qrc:/assets/icons/icon_steam.svg"
+                icon.color: "white"
+                icon.width: 16
+                icon.height: 16
                 onClicked: Qt.openUrlExternally(
                                "http://steamcommunity.com/app/672870/workshop/")
             }

@@ -15,10 +15,11 @@ Rectangle {
     property real availableWidth: 0
     property real availableHeight: 0
     property int activeMonitorIndex: 0
-    property int fontSize: 14
+    property int fontSize: 12
     property string activeMonitorID: "empty"
 
     signal requestProjectSettings(var at)
+
 
     function setActiveMonitorIndex(newIndex) {
         activeMonitorIndex = newIndex

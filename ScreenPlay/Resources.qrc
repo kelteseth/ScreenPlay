@@ -100,5 +100,9 @@
         <file>assets/icons/icon_scene.svg</file>
         <file>qml/NavigationWallpaperConfiguration.qml</file>
         <file>qml/MonitorsProjectSettingItem.qml</file>
+        <file>assets/icons/icon_people.svg</file>
+        <file>assets/icons/icon_info.svg</file>
+        <file>assets/icons/icon_document.svg</file>
+        <file>assets/icons/icon_folder_open.svg</file>
     </qresource>
 </RCC>

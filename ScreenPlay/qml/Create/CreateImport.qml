@@ -194,6 +194,10 @@ Item {
                         text: qsTr("Select Image Manually")
                         Material.background: Material.Orange
                         Material.foreground: "white"
+                        icon.source: "qrc:/assets/icons/icon_folder_open.svg"
+                        icon.color:"white"
+                        icon.width: 16
+                        icon.height: 16
                         anchors {
                             right: parent.right
                             verticalCenter: parent.verticalCenter
@@ -230,6 +234,10 @@ Item {
                     text: qsTr("Choose Folder")
                     Material.background: Material.Orange
                     Material.foreground: "white"
+                    icon.source: "qrc:/assets/icons/icon_folder_open.svg"
+                    icon.color:"white"
+                    icon.width: 16
+                    icon.height: 16
                     anchors {
                         right: parent.right
                         verticalCenter: parent.verticalCenter
@@ -252,6 +260,10 @@ Item {
             text: qsTr("Import Video")
             Material.background: Material.Orange
             Material.foreground: "white"
+            icon.source: "qrc:/assets/icons/icon_upload.svg"
+            icon.color:"white"
+            icon.width: 16
+            icon.height: 16
             anchors {
                 bottom: parent.bottom
                 bottomMargin: 10

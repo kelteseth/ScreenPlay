@@ -15,6 +15,7 @@ Item {
         appKey: "C1IfJAruqWFdkM8e7BMPK3dx1"
         targetDisplayName: "ScreenPlay"
         targetImageUrl: "qrc:/assets/images/ScreenPlayIconStomt.png"
+
     }
 }
 

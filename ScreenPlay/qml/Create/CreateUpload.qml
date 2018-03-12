@@ -273,6 +273,10 @@ Item {
             }
             Material.background: Material.Orange
             Material.foreground: "white"
+            icon.source: "qrc:/assets/icons/icon_upload.svg"
+            icon.color:"white"
+            icon.width: 16
+            icon.height: 16
             onClicked: {
                 createUpload.state = "upload"
                 // We need to first create a workshop item
