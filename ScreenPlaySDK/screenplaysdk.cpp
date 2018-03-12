@@ -43,13 +43,18 @@ void ScreenPlaySDK::readyRead()
 {
     QString tmp = m_socket.data()->readAll();
     QJsonParseError err;
-    QJsonDocument jdoc = QJsonDocument::fromJson(QByteArray::fromStdString(tmp.toStdString()),&err);
+    auto doc = QJsonDocument::fromJson(QByteArray::fromStdString(tmp.toStdString()),&err);
 
     if (!(err.error == QJsonParseError::NoError)) {
-        emit incommingMessageError(tmp);
+        emit incommingMessageError(err.errorString());
         return;
     }
-    emit incommingMessage(tmp);
+    QJsonObject ob = doc.object();
+    QJsonObject::iterator iterator;
+    for (iterator = ob.begin(); iterator != ob.end(); iterator++) {
+        qDebug() << iterator.key() << ob.value(iterator.key()).toString();
+        emit incommingMessage(iterator.key(), ob.value(iterator.key()).toString());
+    }
 }
 
 void ScreenPlaySDK::error(QLocalSocket::LocalSocketError socketError)

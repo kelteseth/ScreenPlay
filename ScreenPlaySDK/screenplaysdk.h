@@ -10,6 +10,7 @@
 #include <QJsonParseError>
 #include <QByteArray>
 #include <QTimer>
+#include <QJsonObject>
 
 class ScreenPlaySDK : public QQuickItem
 {
@@ -22,6 +23,8 @@ public:
 
     Q_PROPERTY(QString contentType READ contentType WRITE setContentType NOTIFY contentTypeChanged)
     Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
+    Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
+
     QString contentType() const
     {
         return m_contentType;
@@ -30,6 +33,12 @@ public:
     bool isConnected() const
     {
         return m_isConnected;
+    }
+
+
+    QString appID() const
+    {
+        return m_appID;
     }
 
 public slots:
@@ -63,8 +72,19 @@ public slots:
         emit isConnectedChanged(m_isConnected);
     }
 
+    void setAppID(QString appID)
+    {
+        if (m_appID == appID)
+            return;
+
+        m_appID = appID;
+        emit appIDChanged(m_appID);
+        m_socket.data()->write(QByteArray(appID.toUtf8()));
+        m_socket.data()->waitForBytesWritten();
+    }
+
 signals:
-    void incommingMessage(QString msg);
+    void incommingMessage(QString key, QString value);
     void incommingMessageError(QString msg);
 
 
@@ -73,13 +93,16 @@ signals:
     void sdkSocketError(QString type);
 
     void contentTypeChanged(QString contentType);
-
     void isConnectedChanged(bool isConnected);
+
+    void appIDChanged(QString appID);
 
 private:
     QSharedPointer<QLocalSocket> m_socket;
 
     QString m_contentType = "undefined";
     bool m_isConnected = false;
+
+    QString m_appID;
 };
 
