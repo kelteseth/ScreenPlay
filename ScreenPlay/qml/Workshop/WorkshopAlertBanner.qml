@@ -6,20 +6,16 @@ Item {
     height: 50
     state: "out"
 
-    signal openCreate
-
     anchors {
         top: parent.top
         right: parent.right
         left: parent.left
     }
 
-
-
     Rectangle {
         id: workshopAltertBanner
         height: 50
-        color: "#3498db"
+        color: "#AA3498db"
         anchors {
             top: parent.top
             right: parent.right
@@ -55,9 +51,10 @@ Item {
                 bottom: parent.bottom
                 left: parent.left
             }
+            cursorShape: Qt.PointingHandCursor
             onClicked: {
                 screenPlaySettings.setHasWorkshopBannerSeen(true)
-                openCreate()
+                utility.setNavigation("Create")
             }
         }
 
@@ -77,7 +74,7 @@ Item {
             }
             MouseArea {
                 anchors.fill: parent
-                z:99
+                z: 99
                 onClicked: {
                     screenPlaySettings.setHasWorkshopBannerSeen(true)
                     workshopAltertBannerWrapper.state = "out"

@@ -5,18 +5,10 @@ import QtQuick.Controls.Material 2.2
 Item {
     id: workshop
     anchors.fill: parent
-    signal openCreate
 
     Component.onCompleted: {
         workshopListModel.clear()
         steamWorkshop.searchWorkshop()
-    }
-
-    Connections {
-        target: workshopAlertBanner
-        onOpenCreate: {
-            openCreate()
-        }
     }
 
     GridView {
@@ -156,6 +148,7 @@ Item {
             imgUrl: workshopPreview
             name: workshopTitle
             steamID: workshopID
+            itemIndex: index
         }
 
         ScrollBar.vertical: ScrollBar {
