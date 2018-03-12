@@ -30,6 +30,22 @@ Item {
         }
     }
 
+    Text {
+        renderType: Text.NativeRendering
+        text: monitorSize.width + "x" + monitorSize.height
+        anchors{
+            horizontalCenter: parent.horizontalCenter
+            top:wrapper.bottom
+            topMargin: 5
+        }
+
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        //color: "white"
+        font.pixelSize: monitorSelectionItem.fontSize
+        font.family: "Roboto"
+        wrapMode: Text.WrapAnywhere
+    }
 
     Rectangle {
         id: wrapper
@@ -50,18 +66,6 @@ Item {
             asynchronous: true
             fillMode: Image.PreserveAspectCrop
 
-        }
-
-        Text {
-            renderType: Text.NativeRendering
-            text: monitorSize.width + "x" + monitorSize.height
-            anchors.fill: parent
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            color: "white"
-            font.pixelSize: monitorSelectionItem.fontSize
-            font.family: "Roboto"
-            wrapMode: Text.WrapAnywhere
         }
 
         MouseArea {
