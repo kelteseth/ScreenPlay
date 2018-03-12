@@ -1,8 +1,6 @@
 #pragma once
 
-#ifdef Q_OS_WIN
-    #include <qt_windows.h>
-#endif
+
 #include <QApplication>
 #include <QDir>
 #include <QEasingCurve>
@@ -17,7 +15,10 @@
 #include <QWindow>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
-
+#include <QtGlobal>
+#ifdef Q_OS_WIN
+    #include <qt_windows.h>
+#endif
 class MainWindow : public QWindow {
     Q_OBJECT
 
@@ -39,7 +40,6 @@ public:
     {
         return m_isVideo;
     }
-
 
     QString name() const
     {
@@ -68,8 +68,6 @@ public slots:
         emit isVideoChanged(m_isVideo);
     }
 
-
-
     void setname(QString appID)
     {
         if (m_appID == appID)
@@ -84,7 +82,6 @@ signals:
     void playQmlScene(QString file);
     void projectConfigChanged(QString projectConfig);
     void isVideoChanged(bool isVideo);
-
 
     void nameChanged(QString appID);
 

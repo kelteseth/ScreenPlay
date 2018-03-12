@@ -1,5 +1,6 @@
 #include "SPWmainwindow.h"
 #ifdef Q_OS_WIN
+
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
     // 0xXXXXXXX "" WorkerW
@@ -17,6 +18,7 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QScreen* parent)
     : QWindow(parent)
 {
 #ifdef Q_OS_WIN
+
     setOpacity(0);
     m_projectPath = projectPath;
     m_appID = id;
@@ -115,7 +117,7 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QScreen* parent)
             emit playVideo(tmpPath);
         } else if (m_project.value("type") == "scene") {
             return;
-        } else if(m_project.value("type") == "qmlScene") {
+        } else if (m_project.value("type") == "qmlScene") {
             QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
             emit playQmlScene(tmpPath);
         }
@@ -126,6 +128,7 @@ void MainWindow::init()
 {
     setOpacity(0);
     #ifdef Q_OS_WIN
+    m_quickRenderer.data()->show();
     ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
     #endif
