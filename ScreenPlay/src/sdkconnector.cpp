@@ -1,5 +1,8 @@
 #include "sdkconnector.h"
 
+#include <QJsonDocument>
+#include <QJsonObject>
+
 SDKConnector::SDKConnector(QObject* parent)
     : QObject(parent)
 {
@@ -7,34 +10,13 @@ SDKConnector::SDKConnector(QObject* parent)
     connect(m_server.data(), &QLocalServer::newConnection, this, &SDKConnector::newConnection);
 
     if (!m_server.data()->listen("ScreenPlay")) {
-        qDebug() << "SERVER: Server could not start";
-    } else {
-        qDebug() << "SERVER: Server started!";
+        //TODO
     }
 }
 
 void SDKConnector::newConnection()
 {
-    QLocalSocket* socket = new QLocalSocket(this);
-    socket = m_server.data()->nextPendingConnection();
-    m_clients.append(socket);
-
-//    connect(socket, &QLocalSocket::readyRead, [&]() {
-//        qDebug() << socket->readAll();
-//    });
-
-    //    connect(socket,&QLocalSocket::stateChanged, [&]() {
-    //        switch (socket->state()) {
-    //        case QLocalSocket::UnconnectedState:;
-    //            break;
-    //        case QLocalSocket::ConnectingState:;
-    //            break;
-    //        case QLocalSocket::ConnectedState:;
-    //            break;
-    //        case QLocalSocket::ClosingState:;
-    //            break;
-    //        }
-    //    });
+    m_clients.append(QSharedPointer<SDKConnection>(new SDKConnection(m_server.data()->nextPendingConnection())));
 }
 
 void SDKConnector::closeAllWallpapers()
@@ -42,4 +24,30 @@ void SDKConnector::closeAllWallpapers()
     for (int i = 0; i < m_clients.size(); ++i) {
         m_clients.at(i)->close();
     }
+}
+
+
+void SDKConnector::setWallpaperValue(QString appID, QString key, QString value)
+{
+
+    for (int i = 0; i < m_clients.count(); ++i) {
+        if (m_clients.at(i).data()->appID() == appID) {
+            QJsonObject obj;
+            obj.insert(key, QJsonValue(value));
+
+            QByteArray send = QJsonDocument(obj).toJson();
+            m_clients.at(i).data()->socket()->write(send);
+            m_clients.at(i).data()->socket()->waitForBytesWritten();
+        }
+    }
+}
+
+void SDKConnection::setSocket(QLocalSocket* socket)
+{
+    m_socket = socket;
+}
+
+QLocalSocket* SDKConnection::socket() const
+{
+    return m_socket;
 }
