@@ -28,6 +28,7 @@ void InstalledListFilter::sortByRoleType(QString type)
 void InstalledListFilter::sortByName(QString name)
 {
     setFilterRole(InstalledListModel::InstalledRole::TitleRole);
+    setFilterCaseSensitivity(Qt::CaseInsensitive);
     setFilterFixedString(name);
     sort(0);
 }
