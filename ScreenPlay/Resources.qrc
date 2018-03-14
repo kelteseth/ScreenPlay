@@ -45,7 +45,6 @@
         <file>qml/MonitorSelectionItem.qml</file>
         <file>qml/Navigation.qml</file>
         <file>qml/NavigationItem.qml</file>
-        <file>qml/ScreenPlay.qml</file>
         <file>qml/StartupErrorWindow.qml</file>
         <file>qml/Community/Community.qml</file>
         <file>qml/Community/Feedback.qml</file>
