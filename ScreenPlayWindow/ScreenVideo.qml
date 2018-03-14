@@ -5,7 +5,23 @@ Rectangle {
     id: screenVideoPlayer
     color: "black"
     anchors.fill: parent
+
     property string videoPath
+    property string decoder:  "DXVA" //["CUDA", "VAAPI", "D3D11", "DXVA", "FFmpeg"]
+    property string fillMode
+    onFillModeChanged: {
+        if(fillMode === "Stretch"){
+            videoOut.fillMode = VideoOutput.Stretch
+        } else if(fillMode === "PreserveAspectFit"){
+            videoOut.fillMode = VideoOutput.PreserveAspectFit
+        } else if(fillMode === "PreserveAspectCrop"){
+            videoOut.fillMode = VideoOutput.PreserveAspectCrop
+        }
+    }
+
+    property bool loops: true
+    property real volume: 0
+
     onVideoPathChanged: {
         player.source = Qt.resolvedUrl("file:///" + videoPath)
         player.play()
@@ -23,11 +39,11 @@ Rectangle {
 
     MediaPlayer {
         id: player
-        videoCodecPriority: ["CUDA", "VAAPI", "D3D11", "DXVA", "FFmpeg"]
+        videoCodecPriority: screenVideoPlayer.decoder
         loops: MediaPlayer.Infinite
-        volume: 0
-        onStatusChanged: {
-            if (player.status === MediaPlayer.Loaded) {
+        volume: screenVideoPlayer.volume
+        onPlaybackStateChanged: {
+            if (player.playbackState === MediaPlayer.PlayingState) {
                 state = "playing"
                 mainwindow.init()
             }
@@ -39,7 +55,7 @@ Rectangle {
             name: "playing"
             PropertyChanges {
                 target: player
-                volume: 1
+                volume: screenVideoPlayer.volume
             }
         },
         State {
@@ -70,7 +86,7 @@ Rectangle {
             NumberAnimation {
                 target: player
                 property: "volume"
-                duration: 450
+                duration: 200
             }
         }
     ]

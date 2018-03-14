@@ -10,7 +10,7 @@ ScreenPlay::ScreenPlay(InstalledListModel* ilm, Settings* set, MonitorListModel*
     m_sdkc = sdkc;
 }
 
-void ScreenPlay::createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage)
+void ScreenPlay::createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage, float volume, QString fillMode)
 {
     ProjectFile project;
 
@@ -18,10 +18,17 @@ void ScreenPlay::createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QSt
         return;
     }
 
+    // Remove previous wallpaper
+//    for (int i = 0; i < m_screenPlayWallpaperList.length(); ++i) {
+//        if(m_screenPlayWallpaperList.at(i).data()->screenNumber().at(0) == monitorIndex){
+//            m_sdkc->closeWallpapersAt(i);
+//        }
+//    }
+
     m_settings->increaseActiveWallpaperCounter();
     QVector<int> tmpMonitorIndex;
     tmpMonitorIndex.append(monitorIndex);
-    m_screenPlayWallpaperList.append(QSharedPointer<ScreenPlayWallpaper>(new ScreenPlayWallpaper(tmpMonitorIndex, absoluteStoragePath.toString(), previewImage, this)));
+    m_screenPlayWallpaperList.append(QSharedPointer<ScreenPlayWallpaper>(new ScreenPlayWallpaper(tmpMonitorIndex, absoluteStoragePath.toString(), previewImage, volume, fillMode, this)));
 
     m_mlm->setWallpaperActiveMonitor(m_qGuiApplication->screens().at(monitorIndex), absoluteStoragePath.toString() + "/" + previewImage);
 }

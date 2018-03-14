@@ -14,7 +14,7 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
     return TRUE;
 }
 #endif
-MainWindow::MainWindow(int i, QString projectPath, QString id, QScreen* parent)
+MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, QString volume, QString fillmode, QScreen* parent)
     : QWindow(parent)
 {
 #ifdef Q_OS_WIN
@@ -22,6 +22,7 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QScreen* parent)
     setOpacity(0);
     m_projectPath = projectPath;
     m_appID = id;
+    m_screenNumber.insert(0, i);
 
     QFile configTmp;
     QJsonDocument configJsonDocument;
@@ -103,6 +104,11 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QScreen* parent)
     m_quickRenderer.data()->setGeometry(0, 0, width(), height());
     m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_quickRenderer.data()->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
+    m_quickRenderer.data()->show();
+
+    setDecoder(decoder);
+    setVolume(volume.toFloat());
+    setFillMode(fillmode);
 
     connect(m_quickRenderer.data(), &QQuickView::statusChanged, [=](QQuickView::Status status) {
         if (status == QQuickView::Error) {
@@ -113,7 +119,7 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QScreen* parent)
     if (m_project.contains("type")) {
         if (m_project.value("type") == "video") {
             QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
-            setIsVideo(true);
+
             emit playVideo(tmpPath);
         } else if (m_project.value("type") == "scene") {
             return;
@@ -122,22 +128,27 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QScreen* parent)
             emit playQmlScene(tmpPath);
         }
     }
-    #endif
+#endif
 }
 void MainWindow::init()
 {
     setOpacity(0);
-    #ifdef Q_OS_WIN
-    m_quickRenderer.data()->show();
+#ifdef Q_OS_WIN
+
     ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
-    #endif
+#endif
     QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
     animation->setDuration(200);
     //animation->setEasingCurve(QEasingCurve::OutCubic);
     animation->setStartValue(0.0);
     animation->setEndValue(1.0);
     animation->start();
+}
+
+void MainWindow::setScreenNumber(const QVector<int>& screenNumber)
+{
+    m_screenNumber = screenNumber;
 }
 void MainWindow::destroyThis()
 {
@@ -148,10 +159,10 @@ void MainWindow::destroyThis()
     animation->start();
 
     QObject::connect(animation, &QPropertyAnimation::finished, [&]() {
-        #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
         ShowWindow(m_worker_hwnd, SW_HIDE);
         ShowWindow(m_hwnd, SW_HIDE);
-        #endif
+#endif
         QCoreApplication::quit();
     });
 }

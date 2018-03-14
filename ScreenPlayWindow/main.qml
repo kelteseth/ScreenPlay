@@ -57,6 +57,19 @@ Rectangle {
             sceneLoader.setSource(tmp)
             mainwindow.init()
         }
+
+        onDecoderChanged:{
+            screenVideo.decoder = decoder
+        }
+        onFillModeChanged:{
+            screenVideo.fillMode = fillMode
+        }
+        onLoopsChanged:{
+            screenVideo.loops = loops
+        }
+        onVolumeChanged:{
+            screenVideo.volume = volume
+        }
     }
 
     ScreenVideo {

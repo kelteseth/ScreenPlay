@@ -156,8 +156,7 @@ Item {
 
             Item {
                 id: headlineWrapper
-                height: 80
-                width: 400
+                height: 60
                 anchors {
                     top: imageWrapper.bottom
                     topMargin: 10
@@ -170,8 +169,7 @@ Item {
                 Text {
                     id: txtHeadline
                     text: qsTr("Headline")
-                    height: 100
-                    width: 400
+                    height: 60
                     renderType: Text.NativeRendering
                     font.family: "Roboto"
                     font.weight: Font.Thin
@@ -188,10 +186,11 @@ Item {
                     }
                 }
             }
+
             Text {
                 id: txtHeadlineMonitor
                 text: qsTr("Select a Monitor to display the content")
-                height: 30
+                height: 20
                 renderType: Text.NativeRendering
                 horizontalAlignment: Qt.AlignHCenter
                 font.family: "Roboto"
@@ -201,7 +200,7 @@ Item {
                 anchors {
                     top: headlineWrapper.bottom
                     topMargin: 20
-                    right:parent.right
+                    right: parent.right
                     left: parent.left
                 }
             }
@@ -212,7 +211,7 @@ Item {
                 width: 400
                 anchors {
                     top: txtHeadlineMonitor.bottom
-                    right:parent.right
+                    right: parent.right
                     left: parent.left
                 }
 
@@ -229,6 +228,7 @@ Item {
                     }
                 }
             }
+
             Item {
                 id: sliderVolumeWrapper
                 height: 100
@@ -248,7 +248,7 @@ Item {
                     renderType: Text.NativeRendering
                     font.family: "Roboto"
                     verticalAlignment: Text.AlignVCenter
-                    font.pixelSize: 18
+                    font.pixelSize: 14
                     color: "#626262"
                     wrapMode: Text.WrapAnywhere
                     anchors {
@@ -275,15 +275,11 @@ Item {
 
                     Slider {
                         id: sliderVolume
-                        stepSize: 0.1
+                        stepSize: 0.01
                         from: 0
-                        live: true
-                        value: .8
+                        value: 1
                         to: 1
                         anchors.verticalCenter: parent.verticalCenter
-                        onValueChanged: {
-                            print(Math.round(sliderVolume.value * 100) / 100)
-                        }
                     }
 
                     Text {
@@ -298,14 +294,46 @@ Item {
                     }
                 }
             }
-        }
 
-        Item {
-            id: item1
-            width: 400
-            height: 100
-            anchors {
-                bottom: parent.bottom
+            Text {
+                id: txtComboBoxFillMode
+                text: qsTr("Fill Mode")
+                height: 30
+                renderType: Text.NativeRendering
+                font.family: "Roboto"
+                verticalAlignment: Text.AlignVCenter
+                font.pixelSize: 14
+                color: "#626262"
+                wrapMode: Text.WrapAnywhere
+                anchors {
+                    top: sliderVolumeWrapper.bottom
+                    left: parent.left
+                    leftMargin: 30
+                }
+            }
+
+            ComboBox {
+                id:settingsComboBox
+                width: 200
+
+                anchors {
+                    top: txtComboBoxFillMode.bottom
+                    topMargin: 10
+
+                    horizontalCenter: parent.horizontalCenter
+                }
+
+                model: ListModel {
+                    ListElement {
+                        text: "Stretch"
+                    }
+                    ListElement {
+                        text: "PreserveAspectFit"
+                    }
+                    ListElement {
+                        text: "PreserveAspectCrop"
+                    }
+                }
             }
 
             Button {
@@ -330,8 +358,10 @@ Item {
                         screenPlay.createWallpaper(
                                     monitorSelection.activeMonitorIndex,
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,
-                                    installedListModel.get(
-                                        activeScreen).screenPreview)
+                                    installedListModel.get(activeScreen).screenPreview,
+                                    (Math.round(sliderVolume.value * 100) / 100),
+                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString())
+                        sidebar.state = "inactive"
                     } else if (type === "widget") {
                         screenPlay.createWidget(
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,
@@ -340,7 +370,11 @@ Item {
                     }
                 }
             }
+
         }
+
+
+
 
         Item {
             id: shadow
@@ -400,7 +434,7 @@ Item {
 
             PropertyChanges {
                 target: sidebar
-                anchors.rightMargin: - sidebar.width
+                anchors.rightMargin: -sidebar.width
             }
             PropertyChanges {
                 target: image
@@ -414,8 +448,6 @@ Item {
                 target: mouseAreaHelper
                 enabled: true
             }
-
-
 
             PropertyChanges {
                 target: image

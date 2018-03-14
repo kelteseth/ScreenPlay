@@ -31,13 +31,19 @@ public:
 
     Settings* settings() const;
 
+    InstalledListModel* m_ilm;
+    Settings* m_settings;
+    MonitorListModel* m_mlm;
+    QGuiApplication* m_qGuiApplication;
+    SDKConnector* m_sdkc;
+
 signals:
     void allWallpaperRemoved();
     void projectSettingsListModelFound(ProjectSettingsListModel* li);
     void projectSettingsListModelNotFound();
 
 public slots:
-    void createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage);
+    void createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage, float volume, QString fillMode);
     void createWidget(QUrl absoluteStoragePath, QString previewImage);
     void removeAllWallpaper();
     void requestProjectSettingsListModelAt(int index);
@@ -48,11 +54,6 @@ private:
     QVector<QSharedPointer<ScreenPlayWallpaper>> m_screenPlayWallpaperList;
     QVector<QSharedPointer<ScreenPlayWidget>> m_screenPlayWidgetList;
 
-    InstalledListModel* m_ilm;
-    Settings* m_settings;
-    MonitorListModel* m_mlm;
-    QGuiApplication* m_qGuiApplication;
-    SDKConnector* m_sdkc;
 };
 
 class ScreenPlayWallpaper : public QObject {
@@ -64,7 +65,7 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
 
 public:
-    explicit ScreenPlayWallpaper(QVector<int> screenNumber, QString projectPath, QString previewImage, ScreenPlay* parent)
+    explicit ScreenPlayWallpaper(QVector<int> screenNumber, QString projectPath, QString previewImage, float volume, QString fillMode, ScreenPlay* parent)
     {
         m_screenNumber = screenNumber;
         m_projectPath = projectPath;
@@ -75,11 +76,21 @@ public:
         // via a disconnection from the ScreenPlay SDK
         QProcess* m_process = new QProcess();
 
+        connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus) {
+            qDebug() << "EX: " << exitCode;
+        });
+        connect(m_process, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
+            qDebug() << "EX: " << error;
+        });
+
         QStringList proArgs;
         proArgs.append(QString::number(m_screenNumber.at(0)));
         proArgs.append(m_projectPath);
         m_appID =  parent->generateID();
         proArgs.append(m_appID);
+        proArgs.append(parent->m_settings->decoder());
+        proArgs.append(QString::number(volume));
+        proArgs.append(fillMode);
         m_process->setArguments(proArgs);
         m_process->setProgram(parent->settings()->screenPlayWindowPath().toString());
         m_process->start();
