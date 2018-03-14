@@ -87,7 +87,11 @@ Item {
                 text: qsTr("Remove all wallpaper")
                 Material.background: Material.Orange
                 Material.foreground: "white"
-                onClicked: screenPlay.removeAllWallpaper()
+                onClicked: {
+                    screenPlay.removeAllWallpaper()
+                    monitors.state = "inactive"
+                }
+
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -132,7 +136,6 @@ Item {
             }
 
             ScrollBar.vertical: ScrollBar {
-                policy: ScrollBar.AlwaysOn
                 snapMode: ScrollBar.SnapOnRelease
             }
         }
