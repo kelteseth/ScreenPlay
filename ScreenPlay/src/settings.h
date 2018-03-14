@@ -178,6 +178,7 @@ public slots:
         }
 
         m_autostart = autostart;
+        writeSingleSettingConfig("autostart", autostart);
         emit autostartChanged(m_autostart);
     }
 
@@ -187,6 +188,7 @@ public slots:
             return;
 
         m_highPriorityStart = highPriorityStart;
+        writeSingleSettingConfig("highPriorityStart", highPriorityStart);
         emit highPriorityStartChanged(m_highPriorityStart);
     }
 
@@ -196,6 +198,8 @@ public slots:
             return;
 
         m_sendStatistics = sendStatistics;
+
+        writeSingleSettingConfig("sendStatistics", sendStatistics);
         emit sendStatisticsChanged(m_sendStatistics);
     }
 
@@ -206,29 +210,13 @@ public slots:
         if (m_localStoragePath == localStoragePath)
             return;
 
+        //Remove: "file:///"
         QJsonValue cleanedPath = QJsonValue(QString(localStoragePath.toString()).remove(0, 8));
 
-        m_localStoragePath = cleanedPath.toString();
+        writeSingleSettingConfig("absoluteStoragePath", cleanedPath);
 
-        QFile configTmp;
-        QJsonDocument configJsonDocument;
-        QJsonObject configObj;
-        configTmp.setFileName(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/settings.json");
-        configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-        QString config = configTmp.readAll();
-
-        configJsonDocument = QJsonDocument::fromJson(config.toUtf8());
-        configObj = configJsonDocument.object();
-        configObj.insert("absoluteStoragePath", cleanedPath);
-
-        configTmp.close();
-        configTmp.open(QIODevice::ReadWrite | QIODevice::Truncate);
-        QTextStream out(&configTmp);
-        out << QJsonDocument(configObj).toJson();
-
-        configTmp.close();
-        m_ilm->setabsoluteStoragePath(m_localStoragePath);
-        emit localStoragePathChanged(m_localStoragePath);
+        m_ilm->setabsoluteStoragePath(cleanedPath.toString());
+        emit localStoragePathChanged(cleanedPath.toString());
         m_ilm->reset();
         m_ilm->loadScreens();
     }
@@ -239,9 +227,7 @@ public slots:
             return;
 
         m_decoder = decoder;
-        //        for (int i = 0; i < m_wallpapers.size(); ++i) {
-        //            m_wallpapers.at(i).data()->setDecoder(decoder);
-        //        }
+
         emit decoderChanged(m_decoder);
     }
 
