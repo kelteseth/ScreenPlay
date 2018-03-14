@@ -150,6 +150,7 @@ Item {
             }
             width: 32
             height: width
+            cursorShape: Qt.PointingHandCursor
             onClicked: monitors.state = "inactive"
 
             Image {
