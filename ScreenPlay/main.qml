@@ -17,12 +17,34 @@ ApplicationWindow {
     title: "ScreenPlay Alpha"
     minimumHeight: 788
     minimumWidth: 1050
+
     Component.onCompleted: {
         if(!screenPlaySettings.autostart){
             show()
         }
     }
 
+    function switchPage(name) {
+        if (name === "Create") {
+            pageLoader.visible = false
+            pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
+            pageLoaderCreate.visible = true
+            pageLoaderWorkshop.visible = false
+            sidebar.state = "inactive"
+        } else if (name === "Workshop" ) {
+            pageLoader.visible = false
+            pageLoaderCreate.visible = false
+            pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
+            pageLoaderWorkshop.visible = true
+            sidebar.state = "inactive"
+        } else {
+            pageLoader.visible = true
+            pageLoaderCreate.visible = false
+            pageLoaderWorkshop.visible = false
+            pageLoader.setSource("qrc:/qml/" + name + "/" + name + ".qml")
+            sidebar.state = "inactive"
+        }
+    }
     Connections {
         target: screenPlaySettings
         onSetMainWindowVisible: {
@@ -31,6 +53,7 @@ ApplicationWindow {
             setY(Screen.height / 2 - height / 2)
         }
     }
+
     Connections {
         target: utility
         onRequestNavigation:{
@@ -155,11 +178,6 @@ ApplicationWindow {
             bottom: parent.bottom
             left: parent.left
         }
-        onStatusChanged: {
-            if (status == Loader.Ready) {
-                connectionsPageLoaderWorkshop.target = pageLoaderWorkshop
-            }
-        }
     }
 //    Loader {
 //        id: pageLoaderCommunity
@@ -172,6 +190,7 @@ ApplicationWindow {
 //            left: parent.left
 //        }
 //    }
+
     Loader {
         id: pageLoaderWorkshop
         visible: false
@@ -182,23 +201,8 @@ ApplicationWindow {
             bottom: parent.bottom
             left: parent.left
         }
-        onStatusChanged: {
-            if (status == Loader.Ready) {
-                connectionsPageLoaderWorkshop.target = pageLoaderWorkshop
-            }
-        }
     }
 
-    Connections {
-        id: connectionsPageLoaderWorkshop
-        ignoreUnknownSignals: true
-        onOpenCreate: {
-            if (!ignoreWorkshopBanner) {
-                switchPage("Workshop")
-                ignoreWorkshopBanner = true
-            }
-        }
-    }
     Connections {
         target: pageLoader.item
         ignoreUnknownSignals: true
@@ -265,30 +269,6 @@ ApplicationWindow {
             }
 
             switchPage(name)
-        }
-    }
-
-
-
-    function switchPage(name) {
-        if (name === "Create") {
-            pageLoader.visible = false
-            pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
-            pageLoaderCreate.visible = true
-            pageLoaderWorkshop.visible = false
-            sidebar.state = "inactive"
-        } else if (name === "Workshop" ) {
-            pageLoader.visible = false
-            pageLoaderCreate.visible = false
-            pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
-            pageLoaderWorkshop.visible = true
-            sidebar.state = "inactive"
-        } else {
-            pageLoader.visible = true
-            pageLoaderCreate.visible = false
-            pageLoaderWorkshop.visible = false
-            pageLoader.setSource("qrc:/qml/" + name + "/" + name + ".qml")
-            sidebar.state = "inactive"
         }
     }
 

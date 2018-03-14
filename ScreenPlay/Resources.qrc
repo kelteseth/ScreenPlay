@@ -104,5 +104,8 @@
         <file>assets/icons/icon_info.svg</file>
         <file>assets/icons/icon_document.svg</file>
         <file>assets/icons/icon_folder_open.svg</file>
+        <file>assets/icons/icon_library_music.svg</file>
+        <file>assets/icons/icon_time.svg</file>
+        <file>assets/icons/icon_emptyWidget.svg</file>
     </qresource>
 </RCC>

@@ -7,7 +7,7 @@ Item {
 
     Text {
         id: txtCreate
-        text: qsTr("Create Widget")
+        text: qsTr("Create Widgets and Scenes")
         anchors {
             top: parent.top
             horizontalCenter: parent.horizontalCenter
@@ -25,13 +25,14 @@ Item {
         text: qsTr("Create Emtpy Widget")
         anchors.top: txtCreate.bottom
         anchors.topMargin: 20
+        imgSource: "qrc:/assets/icons/icon_emptyWidget.svg"
         onClicked: {
 
         }
     }
     Text {
         id: txtExamples
-        text: qsTr("Examples")
+        text: qsTr("Examples Widgets")
         font.family: "Roboto"
         renderType: Text.NativeRendering
         font.pixelSize: 18
@@ -53,23 +54,26 @@ Item {
         }
         CreateWidgetButton {
             id: btnEmpty1
-            text: qsTr("Create 123")
+            text: qsTr("Simple clock widget")
             buttonActive: true
+            imgSource: "qrc:/assets/icons/icon_time.svg"
             onClicked: {
 
             }
         }
         CreateWidgetButton {
             id: btnEmpty2
-            text: qsTr("Create 456")
+            text: qsTr("Musik scene wallpaper visualizer")
             buttonActive: true
+            imgSource: "qrc:/assets/icons/icon_library_music.svg"
             onClicked: {
 
             }
         }
         CreateWidgetButton {
             id: btnEmpty3
-            text: qsTr("Create 789")
+            text: qsTr("Changing scene wallpaper via unsplash.com")
+            imgSource: "qrc:/assets/icons/icon_scene.svg"
             buttonActive: true
             onClicked: {
 
