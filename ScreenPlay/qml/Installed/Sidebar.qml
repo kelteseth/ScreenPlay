@@ -157,8 +157,6 @@ Item {
             Item {
                 id: headlineWrapper
                 height: 80
-                opacity: 0
-                enabled: false
                 width: 400
                 anchors {
                     top: imageWrapper.bottom
@@ -171,8 +169,9 @@ Item {
 
                 Text {
                     id: txtHeadline
-                    text: ""
-                    height:150
+                    text: qsTr("Headline")
+                    height: 100
+                    width: 400
                     renderType: Text.NativeRendering
                     font.family: "Roboto"
                     font.weight: Font.Thin
@@ -182,7 +181,7 @@ Item {
                     wrapMode: Text.WrapAnywhere
                     anchors {
                         top: parent.top
-                        right:parent.right
+                        right: parent.right
                         bottom: parent.bottom
                         left: parent.left
                         leftMargin: 20
@@ -192,8 +191,9 @@ Item {
             Text {
                 id: txtHeadlineMonitor
                 text: qsTr("Select a Monitor to display the content")
-                height:50
+                height: 30
                 renderType: Text.NativeRendering
+                horizontalAlignment: Qt.AlignHCenter
                 font.family: "Roboto"
                 font.pixelSize: 18
                 color: "#2F2F2F"
@@ -201,19 +201,19 @@ Item {
                 anchors {
                     top: headlineWrapper.bottom
                     topMargin: 20
+                    right:parent.right
                     left: parent.left
-                    leftMargin: 20
                 }
             }
 
             Rectangle {
                 id: monitorSelectionWrapper
                 height: 80
-                opacity: 0
-                enabled: false
                 width: 400
                 anchors {
                     top: txtHeadlineMonitor.bottom
+                    right:parent.right
+                    left: parent.left
                 }
 
                 MonitorSelection {
@@ -221,11 +221,80 @@ Item {
                     width: 360
                     height: parent.height
                     availableWidth: 360
-                    fontSize:11
+                    fontSize: 11
                     availableHeight: 50
                     anchors {
                         top: parent.top
                         horizontalCenter: parent.horizontalCenter
+                    }
+                }
+            }
+            Item {
+                id: sliderVolumeWrapper
+                height: 100
+                width: 400
+                anchors {
+                    top: monitorSelectionWrapper.bottom
+                    topMargin: 30
+                    right: parent.right
+                    rightMargin: 30
+                    leftMargin: 30
+                    left: parent.left
+                }
+                Text {
+                    id: txtSliderVolume
+                    text: qsTr("Volume")
+                    height: 30
+                    renderType: Text.NativeRendering
+                    font.family: "Roboto"
+                    verticalAlignment: Text.AlignVCenter
+                    font.pixelSize: 18
+                    color: "#626262"
+                    wrapMode: Text.WrapAnywhere
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                    }
+                }
+                Row {
+                    id: sliderVolumeWrapperBottom
+                    height: 70
+                    spacing: 30
+                    width: 300
+                    anchors {
+                        bottom: parent.bottom
+                        horizontalCenter: parent.horizontalCenter
+                    }
+                    Image {
+                        width: 20
+                        height: 20
+                        anchors.verticalCenter: parent.verticalCenter
+                        source: "qrc:/assets/icons/icon_volume.svg"
+                        sourceSize: Qt.size(20, 20)
+                    }
+
+                    Slider {
+                        id: sliderVolume
+                        stepSize: 0.1
+                        from: 0
+                        live: true
+                        value: .8
+                        to: 1
+                        anchors.verticalCenter: parent.verticalCenter
+                        onValueChanged: {
+                            print(Math.round(sliderVolume.value * 100) / 100)
+                        }
+                    }
+
+                    Text {
+                        id: name
+                        color: "#818181"
+                        text: Math.round(sliderVolume.value * 100) / 100
+                        anchors.verticalCenter: parent.verticalCenter
+                        font.family: "Libre Baskerville"
+                        font.pointSize: 12
+                        font.italic: true
+                        verticalAlignment: Text.AlignVCenter
                     }
                 }
             }
@@ -235,11 +304,10 @@ Item {
             id: item1
             width: 400
             height: 100
-            opacity: 0
-            enabled: false
             anchors {
                 bottom: parent.bottom
             }
+
             Button {
                 id: btnSetWallpaper
                 text: qsTr("Set wallpaper")
@@ -248,7 +316,7 @@ Item {
                 Material.foreground: "white"
 
                 icon.source: "qrc:/assets/icons/icon_plus.svg"
-                icon.color:"white"
+                icon.color: "white"
                 icon.width: 16
                 icon.height: 16
                 anchors {
@@ -262,11 +330,13 @@ Item {
                         screenPlay.createWallpaper(
                                     monitorSelection.activeMonitorIndex,
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,
-                                    installedListModel.get(activeScreen).screenPreview)
+                                    installedListModel.get(
+                                        activeScreen).screenPreview)
                     } else if (type === "widget") {
                         screenPlay.createWidget(
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,
-                                    installedListModel.get(activeScreen).screenPreview)
+                                    installedListModel.get(
+                                        activeScreen).screenPreview)
                     }
                 }
             }
@@ -311,32 +381,13 @@ Item {
             }
 
             PropertyChanges {
-                target: sidebarWrapper
-                anchors.leftMargin: 0
+                target: sidebar
+                anchors.rightMargin: 0
             }
             PropertyChanges {
                 target: image
                 opacity: 1
                 anchors.topMargin: 0
-            }
-
-            PropertyChanges {
-                target: item1
-                opacity: 1
-                enabled: true
-            }
-
-
-            PropertyChanges {
-                target: monitorSelectionWrapper
-                enabled: true
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: headlineWrapper
-                enabled: true
-                opacity: 1
             }
         },
         State {
@@ -348,8 +399,8 @@ Item {
             }
 
             PropertyChanges {
-                target: sidebarWrapper
-                anchors.leftMargin: sidebar.width
+                target: sidebar
+                anchors.rightMargin: - sidebar.width
             }
             PropertyChanges {
                 target: image
@@ -364,28 +415,12 @@ Item {
                 enabled: true
             }
 
-            PropertyChanges {
-                target: sidebarWrapper
-                anchors.leftMargin: 0
-            }
+
 
             PropertyChanges {
                 target: image
                 opacity: 1
                 anchors.topMargin: 0
-            }
-
-            PropertyChanges {
-                target: monitorSelectionWrapper
-                enabled: false
-                visible: true
-                opacity: 0
-            }
-
-            PropertyChanges {
-                target: item1
-                opacity: 1
-                enabled: true
             }
 
             PropertyChanges {
@@ -402,8 +437,8 @@ Item {
 
             SequentialAnimation {
                 NumberAnimation {
-                    target: sidebarWrapper
-                    properties: "anchors.leftMargin"
+                    target: sidebar
+                    properties: "anchors.rightMargin"
                     duration: 250
                     easing.type: Easing.InOutQuad
                 }
@@ -417,11 +452,6 @@ Item {
                     NumberAnimation {
                         target: image
                         property: "anchors.topMargin"
-                        duration: 100
-                    }
-                    NumberAnimation {
-                        targets: ["headlineWrapper", "monitorSelectionWrapper", "sliderVolumeWrapper"]
-                        property: "opacity"
                         duration: 100
                     }
                 }
@@ -442,15 +472,10 @@ Item {
             }
 
             NumberAnimation {
-                target: sidebarWrapper
-                properties: "anchors.leftMargin"
+                target: sidebar
+                properties: "anchors.rightMargin"
                 duration: 250
                 easing.type: Easing.InOutQuad
-            }
-            NumberAnimation {
-                targets: ["headlineWrapper", "monitorSelectionWrapper", "sliderVolumeWrapper"]
-                property: "opacity"
-                duration: 100
             }
         },
         Transition {
@@ -458,8 +483,8 @@ Item {
 
             SequentialAnimation {
                 NumberAnimation {
-                    target: sidebarWrapper
-                    properties: "anchors.leftMargin"
+                    target: sidebar
+                    properties: "anchors.rightMargin"
                     duration: 250
                     easing.type: Easing.InOutQuad
                 }
@@ -473,11 +498,6 @@ Item {
                     NumberAnimation {
                         target: image
                         property: "anchors.topMargin"
-                        duration: 100
-                    }
-                    NumberAnimation {
-                        targets: ["headlineWrapper", "monitorSelectionWrapper", "sliderVolumeWrapper"]
-                        property: "opacity"
                         duration: 100
                     }
                 }
