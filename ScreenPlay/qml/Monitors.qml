@@ -11,7 +11,6 @@ Item {
 
     property string activeMonitorName: ""
 
-
     onStateChanged: {
         bgMouseArea.focus = monitors.state == "active" ? true : false
     }
@@ -29,11 +28,16 @@ Item {
     }
 
     Rectangle {
+        id: monitorsSettingsWrapper
         color: "white"
         radius: 3
         z: 98
+        width: 1000
+        height: 500
         anchors {
-            fill: parent
+            top: parent.top
+            topMargin: 50
+            horizontalCenter: parent.horizontalCenter
             margins: 50
         }
 
@@ -120,7 +124,6 @@ Item {
             cacheBuffer: 10000
             clip: true
 
-
             anchors {
                 top: parent.top
                 topMargin: 60
@@ -180,6 +183,11 @@ Item {
                 target: background
                 opacity: 1
             }
+
+            PropertyChanges {
+                target: monitorsSettingsWrapper
+                anchors.topMargin: 50
+            }
         },
         State {
             name: "inactive"
@@ -193,15 +201,29 @@ Item {
                 target: background
                 opacity: 0
             }
+            PropertyChanges {
+                target: monitorsSettingsWrapper
+                anchors.topMargin: 150
+            }
         }
     ]
 
     transitions: [
         Transition {
+            from: "active"
+            to: "inactive"
+            reversible: true
 
             NumberAnimation {
                 target: background
                 property: "opacity"
+                duration: 200
+                easing.type: Easing.InOutQuad
+            }
+
+            NumberAnimation {
+                target: monitorsSettingsWrapper
+                property: "anchors.topMargin"
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
