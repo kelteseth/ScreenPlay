@@ -263,13 +263,14 @@ Rectangle {
             anchors.centerIn: parent
             spacing: 20
             Button {
-                text: qsTr("Quickstart Guide")
+                text: qsTr("QML Quickstart Guide")
                 Material.background: Material.Blue
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_info.svg"
                 icon.color:"white"
                 icon.width: 16
                 icon.height: 16
+                onClicked: Qt.openUrlExternally("http://qmlbook.github.io/en/ch04/index.html#qml-syntax")
             }
             Button {
                 text: qsTr("Documentation")
