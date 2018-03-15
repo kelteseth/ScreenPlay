@@ -54,7 +54,7 @@ Item {
 
     Text {
         id: activeMonitorName
-        text: qsTr("Wallpaper Configuration")
+        text: qsTr("Configurate active Wallpaper")
         anchors {
             right: image.right
             rightMargin: 30
