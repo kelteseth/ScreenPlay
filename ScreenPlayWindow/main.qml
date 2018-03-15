@@ -24,8 +24,8 @@ Rectangle {
         appID: mainwindow.appID
 
         onIncommingMessageError: {
-            rctError.opacity = 1
-            txtDebug.text = "ERROR: " + msg.toString()
+            //rctError.opacity = 1
+            //txtDebug.text = "ERROR: " + msg.toString()
         }
         onIncommingMessage: {
             var obj2 = 'import QtQuick 2.9; Item {Component.onCompleted: sceneLoader.item.' + key + ' = ' + value + '; }'

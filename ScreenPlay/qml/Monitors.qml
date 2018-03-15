@@ -81,8 +81,20 @@ Item {
                 availableWidth: width - 20
                 availableHeight: 150
                 onRequestProjectSettings: {
-                    // This will return in line 98
+                    // This will return in the connection with target: screenPlay
+                    print(at)
                     screenPlay.requestProjectSettingsListModelAt(at)
+                }
+                Connections {
+                    target: screenPlay
+                    onProjectSettingsListModelFound: {
+                        print("found")
+                        gridView.model = li
+                    }
+                    onProjectSettingsListModelNotFound: {
+                        print("not found")
+                        gridView.model = null
+                    }
                 }
             }
 
@@ -104,15 +116,7 @@ Item {
             }
         }
 
-        Connections {
-            target: screenPlay
-            onProjectSettingsListModelFound: {
-                gridView.model = li
-            }
-            onProjectSettingsListModelNotFound: {
-                gridView.model = null
-            }
-        }
+
 
         GridView {
             id: gridView
@@ -142,6 +146,7 @@ Item {
                 snapMode: ScrollBar.SnapOnRelease
             }
         }
+
         MouseArea {
             anchors {
                 top: parent.top

@@ -9,6 +9,9 @@
 
 */
 
+class ProjectSettingsListItemBool;
+class ProjectSettingsListItemSlider;
+class ProjectSettingsListItemFile;
 
 class ProjectSettingsListItem
 {

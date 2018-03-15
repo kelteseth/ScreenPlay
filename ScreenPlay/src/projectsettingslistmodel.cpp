@@ -8,7 +8,6 @@ ProjectSettingsListModel::ProjectSettingsListModel(QString file, QObject* parent
 
 ProjectSettingsListModel::ProjectSettingsListModel()
 {
-
 }
 
 int ProjectSettingsListModel::rowCount(const QModelIndex& parent) const
@@ -73,10 +72,8 @@ void ProjectSettingsListModel::init(QString file)
     obj = configJsonDocument.object();
     QJsonObject tmpParent;
 
-    if (obj.contains("general")) {
-        if (obj.value("general").toObject().contains("properties")) {
-            tmpParent = obj.value("general").toObject().value("properties").toObject();
-        }
+    if (obj.contains("properties")) {
+        tmpParent = obj.value("properties").toObject();
     } else {
         return;
     }
@@ -84,11 +81,10 @@ void ProjectSettingsListModel::init(QString file)
     QJsonObject::iterator itParent, itChild;
     for (itParent = tmpParent.begin(); itParent != tmpParent.end(); itParent++) {
         QJsonObject tmpChildObj = tmpParent.value(itParent.key()).toObject();
-
         append(itParent.key(), true, "");
 
         for (itChild = tmpChildObj.begin(); itChild != tmpChildObj.end(); itChild++) {
-                append(itChild.key(), false, tmpChildObj.value(itChild.key()));
+            append(itChild.key(), false, QJsonDocument(tmpChildObj.value(itChild.key()).toObject()).toJson());
         }
     }
 }
@@ -102,4 +98,3 @@ void ProjectSettingsListModel::append(QString name, bool isHeadline, QVariant va
 
     endInsertRows();
 }
-
