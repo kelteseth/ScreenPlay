@@ -23,6 +23,8 @@ void SDKConnector::closeAllWallpapers()
 {
     for (int i = 0; i < m_clients.size(); ++i) {
         m_clients.at(i)->close();
+        m_clients.clear();
+        m_clients.squeeze();
     }
 }
 

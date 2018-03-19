@@ -55,6 +55,7 @@ void ScreenPlay::removeAllWallpaper()
 {
     m_sdkc->closeAllWallpapers();
     m_settings->setActiveWallpaperCounter(0);
+    m_screenPlayWallpaperList.clear();
     emit allWallpaperRemoved();
 }
 
