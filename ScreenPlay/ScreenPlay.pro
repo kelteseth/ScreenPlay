@@ -21,7 +21,8 @@ SOURCES += main.cpp \
     src/projectsettingslistmodel.cpp \
     src/startuperror.cpp \
     src/screenplay.cpp \
-    src/qmlutilities.cpp
+    src/qmlutilities.cpp \
+    src/create.cpp
 
 RESOURCES += \
     Resources.qrc \
@@ -44,7 +45,8 @@ HEADERS += \
     src/projectsettingslistmodel.h \
     src/startuperror.h \
     src/screenplay.h \
-    src/qmlutilities.h
+    src/qmlutilities.h \
+    src/create.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \

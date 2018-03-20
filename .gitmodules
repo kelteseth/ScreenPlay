@@ -1,6 +1,3 @@
-[submodule "QtAV"]
-	path = ScreenPlay/ThirdParty/QtAV
-	url = https://github.com/wang-bin/QtAV.git
-[submodule "stomt-qt-sdk"]
-	path = ScreenPlay/ThirdParty/stomt-qt-sdk
-	url = https://github.com/Aimber/stomt-qt-sdk.git
+[submodule "ScreenPlay/examples"]
+	path = ScreenPlay/examples
+	url = https://github.com/Aimber/ScreenPlay-examples.git

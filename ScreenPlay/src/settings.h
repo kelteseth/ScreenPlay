@@ -118,6 +118,9 @@ public:
         return m_offlineMode;
     }
 
+    QUrl getScreenPlayBasePath() const;
+    void setScreenPlayBasePath(QUrl screenPlayBasePath);
+
 signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
@@ -296,6 +299,7 @@ private:
     QUrl m_localStoragePath;
     QUrl m_localSettingsPath;
     QUrl m_screenPlayWindowPath;
+    QUrl m_screenPlayBasePath;
 
     bool m_hasWorkshopBannerSeen = false;
     bool m_pauseWallpaperWhenIngame = true;

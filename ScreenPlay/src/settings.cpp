@@ -222,6 +222,16 @@ void Settings::createDefaultConfig()
     defaultSettings.close();
 }
 
+QUrl Settings::getScreenPlayBasePath() const
+{
+    return m_screenPlayBasePath;
+}
+
+void Settings::setScreenPlayBasePath(QUrl screenPlayBasePath)
+{
+    m_screenPlayBasePath = screenPlayBasePath;
+}
+
 QUrl Settings::getScreenPlayWindowPath() const
 {
     return m_screenPlayWindowPath;

@@ -1,5 +1,6 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
+import Qt.labs.platform 1.0
 
 Item {
     state: "out"
@@ -27,8 +28,15 @@ Item {
         anchors.topMargin: 20
         imgSource: "qrc:/assets/icons/icon_emptyWidget.svg"
         onClicked: {
-
+            folderDialog.open()
         }
+        FolderDialog {
+            id: folderDialog
+            onAccepted: {
+                screenPlayCreate.copyProject("/examples/scenes/empty", folderDialog.currentFolder)
+            }
+        }
+
     }
     Text {
         id: txtExamples
@@ -76,6 +84,7 @@ Item {
             imgSource: "qrc:/assets/icons/icon_scene.svg"
             buttonActive: true
             onClicked: {
+
 
             }
         }

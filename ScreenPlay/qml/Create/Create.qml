@@ -264,7 +264,7 @@ Rectangle {
             spacing: 20
             Button {
                 text: qsTr("QML Quickstart Guide")
-                Material.background: Material.Blue
+                Material.background: Material.Orange
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_info.svg"
                 icon.color:"white"
@@ -280,25 +280,29 @@ Rectangle {
                 icon.color:"white"
                 icon.width: 16
                 icon.height: 16
-
+                onClicked: Qt.openUrlExternally("https://qmlbook.github.io/index.html")
             }
-//            Button {
-//                text: qsTr("Lore Ipsum")
-//                Material.background: Material.Orange
-//                Material.foreground: "white"
-//                icon.source: "qrc:/assets/icons/icon_plus.svg"
-//                icon.color:"white"
-//                icon.width: 16
-//                icon.height: 16
-//            }
             Button {
-                text: qsTr("Community")
-                Material.background: Material.Orange
+                text: qsTr("Forums")
+                Material.background: Material.Blue
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_people.svg"
                 icon.color:"white"
                 icon.width: 16
                 icon.height: 16
+                onClicked: Qt.openUrlExternally("http://forum.screen-play.rocks:4567/")
+            }
+            Button {
+                text: qsTr("Workshop")
+                Material.background: Material.Red
+                Material.foreground: "white"
+
+                icon.source: "qrc:/assets/icons/icon_steam.svg"
+                icon.color: "white"
+                icon.width: 16
+                icon.height: 16
+                onClicked: Qt.openUrlExternally(
+                               "steam://url/SteamWorkshopPage/672870")
             }
         }
     }

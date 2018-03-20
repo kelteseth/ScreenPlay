@@ -85,7 +85,7 @@ Item {
             enabled: buttonActive
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-
+                btnEmpty.clicked()
             }
         }
     }
