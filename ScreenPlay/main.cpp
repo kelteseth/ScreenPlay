@@ -37,6 +37,7 @@
 #include "steamworkshop.h"
 #include "steamworkshoplistmodel.h"
 #include "screenplay.h"
+#include "create.h"
 
 
 int main(int argc, char* argv[])
@@ -89,6 +90,7 @@ int main(int argc, char* argv[])
     ProfileListModel profileListModel;
     SteamWorkshopListModel steamWorkshopListModel;
     SDKConnector sdkConnector;
+
     InstalledListFilter installedListFilter(&installedListModel);
 
 
@@ -98,12 +100,20 @@ int main(int argc, char* argv[])
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, steamID, &app);
     ScreenPlay screenPlay(&installedListModel,&settings,&monitorListModel,&app, &sdkConnector);
     QDir SPWorkingDir(QDir::currentPath());
+    QDir SPBaseDir(QDir::currentPath());
 
 #ifdef QT_DEBUG
     if (SPWorkingDir.cdUp()) {
         settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
     }
+    SPBaseDir.cdUp();
+    SPBaseDir.cdUp();
+    SPBaseDir.cd("ScreenPlay");
+    SPBaseDir.cd("ScreenPlay");
+    settings.setScreenPlayBasePath(QUrl(SPBaseDir.path()));
+
 #elif QT_NO_DEBUG
+    settings.setScreenPlayBasePath(QUrl(SPWorkingDir.path()));
 
     // If we build in the release version we must be cautious!
     // The working dir in steam is the ScreenPlay.exe location
@@ -123,6 +133,7 @@ int main(int argc, char* argv[])
 
 #endif
     SteamWorkshop steamWorkshop(steamID, &steamWorkshopListModel, &settings);
+    Create create(&settings,&qmlUtil);
 
     // All the list need the default path from the settings
     // to know where to look for the files
@@ -132,6 +143,7 @@ int main(int argc, char* argv[])
     QQmlApplicationEngine errorWindowEngine,mainWindowEngine;
     StartupError suError(&mainWindowEngine, &errorWindowEngine);
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
+    mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
     mainWindowEngine.rootContext()->setContextProperty("utility", &qmlUtil);
     mainWindowEngine.rootContext()->setContextProperty("installedListFilter", &installedListFilter);
     mainWindowEngine.rootContext()->setContextProperty("workshopListModel", &steamWorkshopListModel);
