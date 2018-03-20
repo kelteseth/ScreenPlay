@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
     app.setQuitOnLastWindowClosed(false);
 
     QTranslator trsl;
-    trsl.load(":/languages/ScreenPlay_de.qm");
+    trsl.load(":/translations/ScreenPlay_de.qm");
     app.installTranslator(&trsl);
 
     QObject::connect(&app, &QGuiApplication::screenRemoved, [&]() { qDebug() << "removed"; });
