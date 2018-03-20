@@ -320,7 +320,7 @@ Item {
                 text: qsTr("Forums")
                 Material.background: Material.Blue
                 Material.foreground: "white"
-
+                onClicked: Qt.openUrlExternally("http://forum.screen-play.rocks:4567/")
                 icon.source: "qrc:/assets/icons/icon_people.svg"
                 icon.color: "white"
                 icon.width: 16
@@ -330,11 +330,11 @@ Item {
                 text: qsTr("Documentation")
                 Material.background: Material.LightGreen
                 Material.foreground: "white"
-
                 icon.source: "qrc:/assets/icons/icon_document.svg"
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
+                onClicked: Qt.openUrlExternally("https://qmlbook.github.io/index.html")
             }
             Button {
                 text: qsTr("Github")
@@ -357,7 +357,7 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 onClicked: Qt.openUrlExternally(
-                               "http://steamcommunity.com/app/672870/workshop/")
+                               "steam://url/SteamWorkshopPage/672870")
             }
         }
     }
