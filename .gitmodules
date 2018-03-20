@@ -1,3 +1,6 @@
 [submodule "ScreenPlay/examples"]
 	path = ScreenPlay/examples
 	url = https://github.com/Aimber/ScreenPlay-examples.git
+[submodule "ScreenPlay/translations"]
+	path = ScreenPlay/translations
+	url = https://github.com/Aimber/ScreenPlay-translations.git
