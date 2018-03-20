@@ -27,7 +27,8 @@ SOURCES += main.cpp \
 RESOURCES += \
     Resources.qrc \
 
-TRANSLATIONS = languages/ScreenPlay_en.ts  languages/ScreenPlay_de.ts
+TRANSLATIONS =  translations/ScreenPlay_en.ts   \
+                translations/ScreenPlay_de.ts
 
 HEADERS += \
     src/steamworkshop.h \
