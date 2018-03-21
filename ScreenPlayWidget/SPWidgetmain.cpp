@@ -1,16 +1,24 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QStringList>
 
-int main(int argc, char *argv[])
+#include "src/spwidgetmainwindow.h"
+
+int main(int argc, char* argv[])
 {
-    QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
 
     QGuiApplication app(argc, argv);
 
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    if (engine.rootObjects().isEmpty())
-        return -1;
+    QStringList argumentList = app.arguments();
+
+    if (argumentList.length() != 3) {
+        return -3;
+    }
+
+    SPWidgetmainwindow spwmw(argumentList.at(1), argumentList.at(2));
+    //SPWidgetmainwindow spwmw("asasasasd", "D:/672870/xkcd");
 
     return app.exec();
 }

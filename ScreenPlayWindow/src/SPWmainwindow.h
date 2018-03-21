@@ -23,7 +23,7 @@ class MainWindow : public QWindow {
     Q_OBJECT
 
 public:
-    explicit MainWindow(int i, QString projectPath, QString id, QString decoder,QString volume, QString fillmode, QScreen* parent = 0);
+    explicit MainWindow(int i, QString projectPath, QString id, QString decoder,QString volume, QString fillmode, QScreen* parent = nullptr);
     ~MainWindow();
 
 
