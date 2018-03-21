@@ -20,7 +20,7 @@ ProjectFile::ProjectFile(QJsonObject obj, QString folderName, QUrl absolutePath)
         tmp = tmp.toLower();
         if (tmp == "video") {
             m_type = "video";
-        } else if (tmp == "widget") {
+        } else if (tmp == "qmlwidget"  || tmp == "standalonewidget") {
             m_type = "widget";
         } else if (tmp == "qmlscene") {
             m_type = "qmlScene";

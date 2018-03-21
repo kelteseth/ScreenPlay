@@ -1,13 +1,13 @@
 #pragma once
 
 #include <QCryptographicHash>
+#include <QGuiApplication>
 #include <QObject>
 #include <QPoint>
 #include <QProcess>
 #include <QRandomGenerator>
 #include <QSharedPointer>
 #include <QVector>
-#include <QGuiApplication>
 
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -53,7 +53,6 @@ public slots:
 private:
     QVector<QSharedPointer<ScreenPlayWallpaper>> m_screenPlayWallpaperList;
     QVector<QSharedPointer<ScreenPlayWidget>> m_screenPlayWidgetList;
-
 };
 
 class ScreenPlayWallpaper : public QObject {
@@ -86,7 +85,7 @@ public:
         QStringList proArgs;
         proArgs.append(QString::number(m_screenNumber.at(0)));
         proArgs.append(m_projectPath);
-        m_appID =  parent->generateID();
+        m_appID = parent->generateID();
         proArgs.append(m_appID);
         proArgs.append(parent->m_settings->decoder());
         proArgs.append(QString::number(volume));
@@ -155,7 +154,6 @@ public slots:
         emit previewImageChanged(m_previewImage);
     }
 
-
     void setAppID(QString appID)
     {
         if (m_appID == appID)
@@ -182,13 +180,29 @@ class ScreenPlayWidget : public QObject {
     Q_PROPERTY(QString fullPath READ fullPath WRITE setFullPath NOTIFY fullPathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
 
 public:
-    explicit ScreenPlayWidget(QString projectPath, QString previewImage, QString fullPath, ScreenPlay* parent)
+    ScreenPlayWidget(QString projectPath, QString previewImage, QString fullPath, ScreenPlay* parent)
     {
+        m_projectPath = projectPath;
+        m_fullPath = fullPath;
+        m_previewImage = previewImage;
         m_process = new QProcess(this);
 
-        m_process->setProgram(fullPath);
+        QStringList proArgs;
+        proArgs.append(m_projectPath);
+        m_appID = parent->generateID();
+        proArgs.append(m_appID);
+        m_process->setArguments(proArgs);
+
+
+        if (fullPath.endsWith(".exe")) {
+            m_process->setProgram(fullPath);
+        } else if (fullPath.endsWith(".qml")) {
+            m_process->setProgram(parent->m_settings->getScreenPlayWidgetPath().toString());
+        }
+        qDebug() << m_process->program();
         m_process->start();
     }
 
@@ -212,6 +226,11 @@ public:
         return m_fullPath;
     }
 
+    QString appID() const
+    {
+        return m_appID;
+    }
+
 signals:
 
     void projectPathChanged(QString projectPath);
@@ -221,6 +240,8 @@ signals:
     void positionChanged(QPoint position);
 
     void fullPathChanged(QString fullPath);
+
+    void appIDChanged(QString appID);
 
 public slots:
 
@@ -260,10 +281,20 @@ public slots:
         emit fullPathChanged(m_fullPath);
     }
 
+    void setAppID(QString appID)
+    {
+        if (m_appID == appID)
+            return;
+
+        m_appID = appID;
+        emit appIDChanged(m_appID);
+    }
+
 private:
     QString m_projectPath;
     QString m_previewImage;
     QPoint m_position;
     QProcess* m_process;
     QString m_fullPath;
+    QString m_appID;
 };

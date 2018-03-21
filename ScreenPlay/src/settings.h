@@ -121,6 +121,9 @@ public:
     QUrl getScreenPlayBasePath() const;
     void setScreenPlayBasePath(QUrl screenPlayBasePath);
 
+    QUrl getScreenPlayWidgetPath() const;
+    void setScreenPlayWidgetPath(const QUrl &screenPlayWidgetPath);
+
 signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
@@ -299,6 +302,7 @@ private:
     QUrl m_localStoragePath;
     QUrl m_localSettingsPath;
     QUrl m_screenPlayWindowPath;
+    QUrl m_screenPlayWidgetPath;
     QUrl m_screenPlayBasePath;
 
     bool m_hasWorkshopBannerSeen = false;

@@ -43,8 +43,8 @@
 int main(int argc, char* argv[])
 {
 
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication::setAttribute(Qt::AA_UseOpenGLES);
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
 
     QGuiApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false);
@@ -105,7 +105,10 @@ int main(int argc, char* argv[])
 #ifdef QT_DEBUG
     if (SPWorkingDir.cdUp()) {
         settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
+        settings.setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
     }
+
+    // We need to detect the right base path so we can copy later the example projects
     SPBaseDir.cdUp();
     SPBaseDir.cdUp();
     SPBaseDir.cd("ScreenPlay");
@@ -126,9 +129,15 @@ int main(int argc, char* argv[])
         // If started by QtCreator
         SPWorkingDir.cd("release");
         settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow.exe"));
+        SPWorkingDir.cdUp();
+        SPWorkingDir.cdUp();
+        SPWorkingDir.cd("ScreenPlayWidget");
+        SPWorkingDir.cd("release");
+        settings.setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget.exe"));
     } else {
         // If started by Steam
         settings.setScreenPlayWindowPath(QUrl("ScreenPlayWindow.exe"));
+        settings.setScreenPlayWindowPath(QUrl("ScreenPlayWidget.exe"));
     }
 
 #endif
