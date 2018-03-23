@@ -17,11 +17,15 @@ SPWidgetmainwindow::SPWidgetmainwindow(QString projectPath, QString appid, QScre
     if (!(parseError.error == QJsonParseError::NoError)) {
         qWarning("Settings Json Parse Error ");
     }
-
     m_project = configJsonDocument.object();
+    QString fullPath = projectPath + "/" + m_project.value("file").toString();
+    qDebug() << fullPath;
 
-    emit setWidgetSource(projectPath + "/" + m_project.value("file").toString());
+    m_quickRenderer = QSharedPointer<QQmlApplicationEngine>(new QQmlApplicationEngine());
+    m_quickRenderer.data()->rootContext()->setContextProperty("backend", this);
+    m_quickRenderer.data()->load(QUrl("qrc:/main.qml"));
 
-    m_quickRenderer = QSharedPointer<QQuickView>(new QQuickView(this));
-    m_quickRenderer.data()->rootContext()->setContextProperty("mainwindow", this);
+    emit setWidgetSource(fullPath);
+
 }
+

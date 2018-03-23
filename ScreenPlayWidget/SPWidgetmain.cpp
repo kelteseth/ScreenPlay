@@ -11,6 +11,7 @@ int main(int argc, char* argv[])
 
     QGuiApplication app(argc, argv);
 
+
     QStringList argumentList = app.arguments();
 
     if (argumentList.length() != 3) {
@@ -18,7 +19,7 @@ int main(int argc, char* argv[])
     }
 
     SPWidgetmainwindow spwmw(argumentList.at(1), argumentList.at(2));
-    //SPWidgetmainwindow spwmw("asasasasd", "D:/672870/xkcd");
+    //SPWidgetmainwindow spwmw("D:/672870/xkcd","asasasasd" );
 
     return app.exec();
 }

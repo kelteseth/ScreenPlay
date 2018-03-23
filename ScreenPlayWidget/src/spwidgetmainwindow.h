@@ -1,20 +1,23 @@
 #pragma once
 
-#include <QWindow>
-#include <QSharedPointer>
-#include <QQuickView>
-#include <QString>
-#include <QJsonParseError>
+#include <QDebug>
+#include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonParseError>
+#include <QPoint>
 #include <QQmlContext>
-
+#include <QQuickView>
+#include <QSharedPointer>
+#include <QString>
+#include <QWindow>
+#include <QQmlApplicationEngine>
 
 class SPWidgetmainwindow : public QWindow {
     Q_OBJECT
 
 public:
-    explicit SPWidgetmainwindow( QString projectPath, QString appid,QScreen* parent = nullptr);
+    explicit SPWidgetmainwindow(QString projectPath, QString appid, QScreen* parent = nullptr);
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
@@ -73,5 +76,5 @@ private:
     QString m_projectConfig;
     QJsonObject m_project;
 
-    QSharedPointer<QQuickView> m_quickRenderer = nullptr;
+    QSharedPointer<QQmlApplicationEngine> m_quickRenderer = nullptr;
 };
