@@ -290,7 +290,7 @@ Rectangle {
                 icon.color:"white"
                 icon.width: 16
                 icon.height: 16
-                onClicked: Qt.openUrlExternally("http://forum.screen-play.rocks:4567/")
+                onClicked: Qt.openUrlExternally("https://forum.screen-play.rocks/")
             }
             Button {
                 text: qsTr("Workshop")
