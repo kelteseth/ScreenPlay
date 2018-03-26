@@ -226,6 +226,7 @@ Item {
                 radius: 4
 
                 Image {
+                    fillMode: Image.PreserveAspectCrop
                     anchors.fill: parent
                     source: {
                         var a = backgroundImage
@@ -320,21 +321,21 @@ Item {
                 text: qsTr("Forums")
                 Material.background: Material.Blue
                 Material.foreground: "white"
-                onClicked: Qt.openUrlExternally("http://forum.screen-play.rocks:4567/")
+                onClicked: Qt.openUrlExternally("https://forum.screen-play.rocks/")
                 icon.source: "qrc:/assets/icons/icon_people.svg"
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
             }
             Button {
-                text: qsTr("Documentation")
+                text: qsTr("Blog")
                 Material.background: Material.LightGreen
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_document.svg"
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                onClicked: Qt.openUrlExternally("https://qmlbook.github.io/index.html")
+                onClicked: Qt.openUrlExternally("https://screen-play.rocks/index.php/blog")
             }
             Button {
                 text: qsTr("Github")
