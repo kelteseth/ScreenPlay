@@ -271,15 +271,8 @@ ApplicationWindow {
             left: parent.left
         }
         onChangePage: {
-
             if (monitors.state === "active") {
                 monitors.state = "inactive"
-            } else if (type === "video") {
-                monitors.state = "active"
-            } else if (type === "widget") {
-                monitors.state = "activeWidget"
-            } else if (type === "qmlScene") {
-                monitors.state = "activeScene"
             }
 
             switchPage(name)
