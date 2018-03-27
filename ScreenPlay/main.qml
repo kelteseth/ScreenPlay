@@ -19,7 +19,7 @@ ApplicationWindow {
     minimumWidth: 1050
 
     Component.onCompleted: {
-        if(!screenPlaySettings.autostart){
+        if (!screenPlaySettings.autostart) {
             show()
         }
     }
@@ -31,7 +31,7 @@ ApplicationWindow {
             pageLoaderCreate.visible = true
             pageLoaderWorkshop.visible = false
             sidebar.state = "inactive"
-        } else if (name === "Workshop" ) {
+        } else if (name === "Workshop") {
             pageLoader.visible = false
             pageLoaderCreate.visible = false
             pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
@@ -56,7 +56,7 @@ ApplicationWindow {
 
     Connections {
         target: utility
-        onRequestNavigation:{
+        onRequestNavigation: {
             switchPage(nav)
         }
         onRequestToggleWallpaperConfiguration: {
@@ -179,18 +179,18 @@ ApplicationWindow {
             left: parent.left
         }
     }
-//    Loader {
-//        id: pageLoaderCommunity
-//        visible: false
-//        asynchronous: true
-//        anchors {
-//            top: nav.bottom
-//            right: parent.right
-//            bottom: parent.bottom
-//            left: parent.left
-//        }
-//    }
 
+    //    Loader {
+    //        id: pageLoaderCommunity
+    //        visible: false
+    //        asynchronous: true
+    //        anchors {
+    //            top: nav.bottom
+    //            right: parent.right
+    //            bottom: parent.bottom
+    //            left: parent.left
+    //        }
+    //    }
     Loader {
         id: pageLoaderWorkshop
         visible: false
@@ -210,15 +210,15 @@ ApplicationWindow {
         property bool ignoreWorkshopBanner: false
 
         onSetSidebarActive: {
-            if(active){
-                 sidebar.state = "active"
+            if (active) {
+                sidebar.state = "active"
             } else {
-                 sidebar.state = "inactive"
+                sidebar.state = "inactive"
             }
         }
 
         onSetSidebaractiveItem: {
-            if ((type === "video") ||(type === "qmlScene")) {
+            if ((type === "video")) {
                 if (sidebar.activeScreen == screenId
                         && sidebar.state == "active") {
                     sidebar.state = "inactive"
@@ -231,6 +231,13 @@ ApplicationWindow {
                     sidebar.state = "inactive"
                 } else {
                     sidebar.state = "activeWidget"
+                }
+            }else if (type === "qmlScene") {
+                if (sidebar.activeScreen == screenId
+                        && sidebar.state == "activeScene") {
+                    sidebar.state = "inactive"
+                } else {
+                    sidebar.state = "activeScene"
                 }
             }
             sidebar.activeScreen = screenId
@@ -264,8 +271,15 @@ ApplicationWindow {
             left: parent.left
         }
         onChangePage: {
-            if(monitors.state === "active"){
+
+            if (monitors.state === "active") {
                 monitors.state = "inactive"
+            } else if (type === "video") {
+                monitors.state = "active"
+            } else if (type === "widget") {
+                monitors.state = "activeWidget"
+            } else if (type === "qmlScene") {
+                monitors.state = "activeScene"
             }
 
             switchPage(name)

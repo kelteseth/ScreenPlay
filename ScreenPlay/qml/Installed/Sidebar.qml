@@ -29,14 +29,7 @@ Item {
     }
 
     property string type
-    onTypeChanged: {
-        if (type === "widget") {
-            state = "activeWidget"
-            btnSetWallpaper.text = qsTr("Set Widget")
-        } else if (type === "video") {
-            btnSetWallpaper.text = qsTr("Set Wallpaper")
-        }
-    }
+
 
     Item {
         id: sidebarWrapper
@@ -313,7 +306,7 @@ Item {
             }
 
             ComboBox {
-                id:settingsComboBox
+                id: settingsComboBox
                 width: 200
 
                 anchors {
@@ -370,11 +363,7 @@ Item {
                     }
                 }
             }
-
         }
-
-
-
 
         Item {
             id: shadow
@@ -423,6 +412,30 @@ Item {
                 opacity: 1
                 anchors.topMargin: 0
             }
+            PropertyChanges {
+                target: btnSetWallpaper
+                text: qsTr("Set Wallpaper")
+            }
+            PropertyChanges {
+                target: txtHeadlineMonitor
+                opacity: 1
+            }
+            PropertyChanges {
+                target: monitorSelectionWrapper
+                opacity: 1
+            }
+            PropertyChanges {
+                target: sliderVolumeWrapper
+                opacity: 1
+            }
+            PropertyChanges {
+                target: txtComboBoxFillMode
+                opacity: 1
+            }
+            PropertyChanges {
+                target: settingsComboBox
+                opacity: 1
+            }
         },
         State {
             name: "inactive"
@@ -459,6 +472,73 @@ Item {
                 target: headlineWrapper
                 opacity: 1
                 enabled: true
+            }
+            PropertyChanges {
+                target: btnSetWallpaper
+                text: qsTr("Set Widget")
+            }
+            PropertyChanges {
+                target: txtHeadlineMonitor
+                opacity: 0
+            }
+            PropertyChanges {
+                target: monitorSelectionWrapper
+                opacity: 0
+            }
+            PropertyChanges {
+                target: sliderVolumeWrapper
+                opacity: 0
+            }
+            PropertyChanges {
+                target: txtComboBoxFillMode
+                opacity: 0
+            }
+            PropertyChanges {
+                target: settingsComboBox
+                opacity: 0
+            }
+        },
+        State {
+            name: "activeScene"
+            PropertyChanges {
+                target: mouseAreaHelper
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: image
+                opacity: 1
+                anchors.topMargin: 0
+            }
+
+            PropertyChanges {
+                target: headlineWrapper
+                opacity: 1
+                enabled: true
+            }
+            PropertyChanges {
+                target: btnSetWallpaper
+                text: qsTr("Set Scene")
+            }
+            PropertyChanges {
+                target: txtHeadlineMonitor
+                opacity: 1
+            }
+            PropertyChanges {
+                target: monitorSelectionWrapper
+                opacity: 1
+            }
+            PropertyChanges {
+                target: sliderVolumeWrapper
+                opacity: 0
+            }
+            PropertyChanges {
+                target: txtComboBoxFillMode
+                opacity: 0
+            }
+            PropertyChanges {
+                target: settingsComboBox
+                opacity: 0
             }
         }
     ]
@@ -512,6 +592,31 @@ Item {
         },
         Transition {
             to: "activeWidget"
+
+            SequentialAnimation {
+                NumberAnimation {
+                    target: sidebar
+                    properties: "anchors.rightMargin"
+                    duration: 250
+                    easing.type: Easing.InOutQuad
+                }
+
+                ParallelAnimation {
+                    NumberAnimation {
+                        target: image
+                        property: "opacity"
+                        duration: 200
+                    }
+                    NumberAnimation {
+                        target: image
+                        property: "anchors.topMargin"
+                        duration: 100
+                    }
+                }
+            }
+        },
+        Transition {
+            to: "activeScene"
 
             SequentialAnimation {
                 NumberAnimation {
