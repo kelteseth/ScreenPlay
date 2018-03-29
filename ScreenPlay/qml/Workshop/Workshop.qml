@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
+import QtGraphicalEffects 1.0
 
 Item {
     id: workshop
@@ -115,6 +116,31 @@ Item {
                                     workshopListModel.getBannerID())
                     }
                 }
+
+                LinearGradient {
+                    id: tabShadow
+                    height: 60
+                    visible: true
+                    z: 500
+
+                    anchors {
+                        bottom: parent.bottom
+                        right: parent.right
+                        left: parent.left
+                    }
+                    start: Qt.point(0, 0)
+                    end: Qt.point(0, tabShadow.height)
+                    gradient: Gradient {
+                        GradientStop {
+                            position: 1.0
+                            color: "#BB000000"
+                        }
+                        GradientStop {
+                            position: 0.0
+                            color: "#00000000"
+                        }
+                    }
+                }
             }
 
             Item {
@@ -130,7 +156,7 @@ Item {
 
                 Text {
                     id: txtCategory
-                    text: qsTr("Trendig Today")
+                    text: qsTr("Top trendig today")
                     color: "#818181"
                     font.pointSize: 18
                     verticalAlignment: Text.AlignVCenter
@@ -151,18 +177,42 @@ Item {
             itemIndex: index
         }
 
+        footer: Item {
+            height: 150
+            anchors {
+                right: parent.right
+                left: parent.left
+            }
+            Button {
+                text: qsTr("Open Workshop via the Steam Client")
+                Material.background: Material.Orange
+                Material.foreground: "white"
+                icon.source: "qrc:/assets/icons/icon_steam.svg"
+                icon.color:"white"
+                icon.width: 16
+                icon.height: 16
+                onClicked: Qt.openUrlExternally("steam://url/SteamWorkshopPage/672870")
+                anchors{
+                    horizontalCenter: parent.horizontalCenter
+                    top:parent.top
+                    topMargin: 50
+                }
+            }
+
+        }
+
         ScrollBar.vertical: ScrollBar {
             id: workshopScrollBar
             snapMode: ScrollBar.SnapOnRelease
         }
     }
 
-    WorkshopAlertBanner {
-        id: workshopAlertBanner
-        Component.onCompleted: {
-            if (!screenPlaySettings.hasWorkshopBannerSeen) {
-                workshopAlertBanner.state = "in"
-            }
-        }
-    }
+//    WorkshopAlertBanner {
+//        id: workshopAlertBanner
+//        Component.onCompleted: {
+//            if (!screenPlaySettings.hasWorkshopBannerSeen) {
+//                workshopAlertBanner.state = "in"
+//            }
+//        }
+//    }
 }

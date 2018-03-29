@@ -7,7 +7,7 @@ Item {
     state: "out"
 
     anchors {
-        top: parent.top
+        bottom: parent.bottom
         right: parent.right
         left: parent.left
     }
@@ -15,7 +15,7 @@ Item {
     Rectangle {
         id: workshopAltertBanner
         height: 50
-        color: "#AA3498db"
+        color: "#3498db"
         anchors {
             top: parent.top
             right: parent.right
@@ -87,14 +87,14 @@ Item {
             name: "out"
             PropertyChanges {
                 target: workshopAltertBanner
-                anchors.topMargin: -50
+                anchors.bottomMargin: -50
             }
         },
         State {
             name: "in"
             PropertyChanges {
                 target: workshopAltertBanner
-                anchors.topMargin: 0
+                anchors.bottomMargin: 0
             }
         }
     ]
@@ -105,7 +105,7 @@ Item {
             reversible: true
             NumberAnimation {
                 target: footer
-                property: "anchors.topMargin"
+                property: "anchors.bottomMargin"
                 duration: 300
                 easing.type: Easing.InOutQuad
             }

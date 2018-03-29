@@ -14,6 +14,7 @@ Item {
     property url imgUrl
     property string name
     property int steamID
+    property int itemIndex
 
     property bool isDownloading: false
 
@@ -32,6 +33,71 @@ Item {
         color: "black"
         opacity: 0.4
         cornerRadius: 15
+    }
+    Timer {
+        id: timerAnim
+        interval: 40 * itemIndex * Math.random()
+        running: false
+        repeat: false
+        onTriggered: showAnim.start()
+    }
+
+    transform: [
+        Rotation {
+            id: rt
+            origin.x: width * .5
+            origin.y: height * .5
+            axis {
+                x: -.5
+                y: 0
+                z: 0
+            }
+            angle: 0
+        },
+        Translate {
+            id: tr
+        },
+        Scale {
+            id: sc
+            origin.x: width * .5
+            origin.y: height * .5
+        }
+    ]
+    ParallelAnimation {
+        id: showAnim
+        running: false
+        RotationAnimation {
+            target: rt
+            from: 90
+            to: 0
+            duration: 500
+            easing.type: Easing.OutQuint
+            property: "angle"
+        }
+        PropertyAnimation {
+            target: workshopItem
+            from: 0
+            to: 1
+            duration: 500
+            easing.type: Easing.OutQuint
+            property: "opacity"
+        }
+        PropertyAnimation {
+            target: tr
+            from: 80
+            to: 0
+            duration: 500
+            easing.type: Easing.OutQuint
+            property: "y"
+        }
+        PropertyAnimation {
+            target: sc
+            from: .8
+            to: 1
+            duration: 500
+            easing.type: Easing.OutQuint
+            properties: "xScale,yScale"
+        }
     }
 
     Item {
@@ -136,7 +202,6 @@ Item {
             MouseArea {
                 anchors.fill: parent
                 hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
                 onContainsMouseChanged: {
                     if (!isDownloading) {
                         if (containsMouse) {
@@ -145,6 +210,15 @@ Item {
                             workshopItem.state = ""
                         }
                     }
+                }
+            }
+            MouseArea {
+                cursorShape: Qt.PointingHandCursor
+                height: 50
+                anchors {
+                    right: parent.right
+                    left: parent.left
+                    bottom: parent.bottom
                 }
 
                 onClicked: {
