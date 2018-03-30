@@ -235,9 +235,7 @@ Rectangle {
         }
         onButtonPressed: {
             create.state = "new"
-            loader.setSource("CreateNew.qml", {
-                                 project: type
-                             })
+            loader.setSource("CreateNew.qml", {project: type, projectTitle: title, icon: iconSource })
         }
     }
 

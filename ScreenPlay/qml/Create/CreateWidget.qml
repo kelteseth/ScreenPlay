@@ -6,7 +6,7 @@ Item {
     state: "out"
     Component.onCompleted: state = "in"
 
-    signal buttonPressed(var type)
+    signal buttonPressed(var type, var title, var iconSource)
 
     Text {
         id: txtCreate
@@ -31,7 +31,7 @@ Item {
         imgSource: "qrc:/assets/icons/icon_emptyWidget.svg"
         onClicked: {
 
-            buttonPressed("empty")
+            buttonPressed("empty", btnCreateEmptyWidget.text , btnCreateEmptyWidget.imgSource)
             //folderDialog.open()
         }
         FolderDialog {
@@ -42,6 +42,7 @@ Item {
         }
 
     }
+
     Text {
         id: txtExamples
         text: qsTr("Examples Widgets and Scenes")
@@ -70,7 +71,7 @@ Item {
             buttonActive: true
             imgSource: "qrc:/assets/icons/icon_time.svg"
             onClicked: {
-                buttonPressed("clock")
+                buttonPressed("clock", btnEmpty1.text, btnEmpty1.imgSource)
 
             }
         }
@@ -80,7 +81,7 @@ Item {
             buttonActive: true
             imgSource: "qrc:/assets/icons/icon_library_music.svg"
             onClicked: {
-                buttonPressed("music")
+                buttonPressed("music",btnEmpty2.text, btnEmpty2.imgSource)
             }
         }
         CreateWidgetButton {
@@ -89,7 +90,7 @@ Item {
             imgSource: "qrc:/assets/icons/icon_scene.svg"
             buttonActive: true
             onClicked: {
-                buttonPressed("slideshow")
+                buttonPressed("slideshow",btnEmpty3.text, btnEmpty3.imgSource)
 
             }
         }

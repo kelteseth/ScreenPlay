@@ -10,6 +10,8 @@ Item {
     anchors.fill: parent
     state: "out"
     property string project
+    property string icon
+    property string projectTitle
     Component.onCompleted: createNew.state = "in"
 
     RectangularGlow {
@@ -45,35 +47,65 @@ Item {
         ColumnLayout {
             anchors {
                 top: parent.top
-                margins: 20
+                margins: 50
                 bottom: parent.bottom
                 left: parent.left
-                right:parent.right
+                right: parent.right
             }
             spacing: 50
 
-            Rectangle {
-                radius: 4
-                color: "gray"
+            Item {
+
                 width: 300
                 height: 180
-                Layout.alignment: Qt.AlignHCenter
+                Layout.alignment: Qt.AlignCenter
+
+                Image {
+                    id: imgIcon
+                    width: 120
+                    height: 120
+                    sourceSize: Qt.size(120, 120)
+                    source: createNew.icon
+                    anchors.centerIn: parent
+                }
+                ColorOverlay {
+                    color: "gray"
+                    source: imgIcon
+                    anchors.fill: imgIcon
+                }
+                Text {
+                    text: projectTitle
+                    color: "#5D5D5D"
+                    font.pixelSize: 16
+                    font.family: "Roboto"
+                    renderType: Text.NativeRendering
+                    verticalAlignment: Qt.AlignVCenter
+                    horizontalAlignment: Qt.AlignHCenter
+                    wrapMode: Text.WrapAnywhere
+                    clip: true
+                    height: 30
+
+                    anchors {
+                        left: parent.left
+                        bottom: parent.bottom
+                        right: parent.right
+                    }
+                }
             }
 
             TextField {
                 id: txtTitle
                 height: 60
                 anchors {
-                    right:parent.right
-                    left:parent.left
+                    right: parent.right
+                    left: parent.left
                 }
-
 
                 selectByMouse: true
                 text: qsTr("")
                 placeholderText: "Project Name"
                 onTextChanged: {
-                    txtPath.text = folderDialog.currentFolder + "/" +txtTitle.text
+                    txtPath.text = folderDialog.currentFolder + "/" + txtTitle.text
                 }
             }
             Item {
@@ -82,7 +114,8 @@ Item {
 
                 Text {
                     id: txtPath
-                    text: StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
+                    text: StandardPaths.standardLocations(
+                              StandardPaths.HomeLocation)[0]
                     color: "#5D5D5D"
                     font.pixelSize: 16
                     font.family: "Roboto"
@@ -103,10 +136,6 @@ Item {
                     text: qsTr("Set Folder")
                     Material.background: Material.Orange
                     Material.foreground: "white"
-                    icon.source: "qrc:/assets/icons/icon_plus.svg"
-                    icon.color: "white"
-                    icon.width: 16
-                    icon.height: 16
                     anchors {
                         right: parent.right
                         bottom: parent.bottom
@@ -118,9 +147,10 @@ Item {
                     }
                     FolderDialog {
                         id: folderDialog
-                        folder:StandardPaths.standardLocations(StandardPaths.HomeLocation)[0]
+                        folder: StandardPaths.standardLocations(
+                                    StandardPaths.HomeLocation)[0]
                         onAccepted: {
-                            txtPath.text = folderDialog.currentFolder + "/" +txtTitle.text
+                            txtPath.text = folderDialog.currentFolder + "/" + txtTitle.text
                         }
                     }
                 }
@@ -130,7 +160,7 @@ Item {
                 text: qsTr("Create")
                 Material.background: Material.Orange
                 Material.foreground: "white"
-                icon.source: "qrc:/assets/icons/icon_info.svg"
+                icon.source: "qrc:/assets/icons/icon_plus.svg"
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
@@ -140,10 +170,6 @@ Item {
                 }
             }
         }
-
-
-
-
 
         MouseArea {
             anchors {
