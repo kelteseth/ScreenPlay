@@ -56,7 +56,7 @@ Item {
 
             Item {
                 id: settingsGeneralWrapper
-                height: 420
+                height: 450
                 width: parent.width
 
                 RectangularGlow {
@@ -143,7 +143,7 @@ Item {
                         SettingsButton {
                             headline: qsTr("Set save location")
                             description: screenPlaySettings.localStoragePath //qsTr("Choose where to find you content. The default save location is you steam installation")
-                            buttonText: qsTr("Set save location")
+                            buttonText: qsTr("Set location")
                             onButtonPressed: {
                                 folderDialogSaveLocation.open()
                             }
@@ -155,6 +155,25 @@ Item {
                                 }
                             }
                         }
+
+                        Text {
+                            text: qsTr("Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!")
+                            color: "#B5B5B5"
+                            height: 30
+                            width: parent.width
+                            renderType: Text.NativeRendering
+                            verticalAlignment: Text.AlignVCenter
+                            wrapMode: Text.WordWrap
+                            horizontalAlignment: Text.AlignLeft
+                            font.pixelSize: 14
+                            font.family: "Roboto"
+                            anchors{
+                                right:parent.right
+                                left:parent.left
+                                leftMargin: 20
+                            }
+                        }
+
                     }
                 }
             }
@@ -338,7 +357,7 @@ Item {
                                 }
                             }
                             Text {
-                                id: txtDescription
+                                id: txtDescriptionAbout
                                 text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. \n \n Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. "
                                 color: "#B5B5B5"
                                 renderType: Text.NativeRendering
