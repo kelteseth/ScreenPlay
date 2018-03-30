@@ -26,7 +26,7 @@ Rectangle {
                                  file: videoFile
                              })
         }
-        onProjectFileSelected:{
+        onProjectFileSelected: {
             create.state = "import"
 
             activeFolder = projectFile
@@ -109,14 +109,14 @@ Rectangle {
         anchors.fill: parent
 
         MouseArea {
-            id:ma
+            id: ma
             anchors.fill: parent
             hoverEnabled: true
             onPressed: {
                 attractor.enabled = true
             }
             onPositionChanged: {
-                if(ma.pressed){
+                if (ma.pressed) {
                     attractor.pointX = mouseX
                     attractor.pointY = mouseY
                 }
@@ -127,13 +127,12 @@ Rectangle {
         }
 
         Attractor {
-            id:attractor
+            id: attractor
             system: particleSystem
             affectedParameter: Attractor.Acceleration
             strength: 8000000
             proportionalToDistance: Attractor.InverseQuadratic
         }
-
 
         ParticleSystem {
             id: particleSystem
@@ -234,6 +233,12 @@ Rectangle {
             right: spaceBar.left
             rightMargin: 50
         }
+        onButtonPressed: {
+            create.state = "new"
+            loader.setSource("CreateNew.qml", {
+                                 project: type
+                             })
+        }
     }
 
     Text {
@@ -267,30 +272,33 @@ Rectangle {
                 Material.background: Material.Orange
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_info.svg"
-                icon.color:"white"
+                icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                onClicked: Qt.openUrlExternally("http://qmlbook.github.io/en/ch04/index.html#qml-syntax")
+                onClicked: Qt.openUrlExternally(
+                               "http://qmlbook.github.io/en/ch04/index.html#qml-syntax")
             }
             Button {
                 text: qsTr("Documentation")
                 Material.background: Material.LightGreen
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_document.svg"
-                icon.color:"white"
+                icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                onClicked: Qt.openUrlExternally("https://qmlbook.github.io/index.html")
+                onClicked: Qt.openUrlExternally(
+                               "https://qmlbook.github.io/index.html")
             }
             Button {
                 text: qsTr("Forums")
                 Material.background: Material.Blue
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_people.svg"
-                icon.color:"white"
+                icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                onClicked: Qt.openUrlExternally("https://forum.screen-play.rocks/")
+                onClicked: Qt.openUrlExternally(
+                               "https://forum.screen-play.rocks/")
             }
             Button {
                 text: qsTr("Workshop")
@@ -306,8 +314,6 @@ Rectangle {
             }
         }
     }
-
-
 
     states: [
         State {
@@ -352,6 +358,26 @@ Rectangle {
                 target: txtDescriptionBottom
                 opacity: 0
             }
+        },
+        State {
+            name: "new"
+
+            PropertyChanges {
+                target: createWallpaper
+                state: "out"
+            }
+            PropertyChanges {
+                target: createWidget
+                state: "out"
+            }
+            PropertyChanges {
+                target: spaceBar
+                opacity: 0
+            }
+            PropertyChanges {
+                target: txtDescriptionBottom
+                opacity: 0
+            }
         }
     ]
     transitions: [
@@ -366,11 +392,9 @@ Rectangle {
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
-            ParallelAnimation {
 
-                PauseAnimation {
-                    duration: 200
-                }
+            PauseAnimation {
+                duration: 200
             }
 
             NumberAnimation {

@@ -6,6 +6,8 @@ Item {
     state: "out"
     Component.onCompleted: state = "in"
 
+    signal buttonPressed(var type)
+
     Text {
         id: txtCreate
         text: qsTr("Create Widgets and Scenes")
@@ -28,7 +30,9 @@ Item {
         anchors.topMargin: 20
         imgSource: "qrc:/assets/icons/icon_emptyWidget.svg"
         onClicked: {
-            folderDialog.open()
+
+            buttonPressed("empty")
+            //folderDialog.open()
         }
         FolderDialog {
             id: folderDialog
@@ -40,7 +44,7 @@ Item {
     }
     Text {
         id: txtExamples
-        text: qsTr("Examples Widgets")
+        text: qsTr("Examples Widgets and Scenes")
         font.family: "Roboto"
         renderType: Text.NativeRendering
         font.pixelSize: 18
@@ -66,6 +70,7 @@ Item {
             buttonActive: true
             imgSource: "qrc:/assets/icons/icon_time.svg"
             onClicked: {
+                buttonPressed("clock")
 
             }
         }
@@ -75,7 +80,7 @@ Item {
             buttonActive: true
             imgSource: "qrc:/assets/icons/icon_library_music.svg"
             onClicked: {
-
+                buttonPressed("music")
             }
         }
         CreateWidgetButton {
@@ -84,7 +89,7 @@ Item {
             imgSource: "qrc:/assets/icons/icon_scene.svg"
             buttonActive: true
             onClicked: {
-
+                buttonPressed("slideshow")
 
             }
         }
