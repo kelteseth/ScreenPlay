@@ -22,6 +22,7 @@ ApplicationWindow {
         if (!screenPlaySettings.autostart) {
             show()
         }
+        steamWorkshop.initSteam()
     }
 
     function switchPage(name) {

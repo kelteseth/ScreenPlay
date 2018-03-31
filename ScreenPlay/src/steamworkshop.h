@@ -3,6 +3,7 @@
 #include "settings.h"
 #include "steam/steam_api.h"
 #include "steamworkshoplistmodel.h"
+#include <QScopedPointer>
 #include <QByteArray>
 #include <QQmlEngine>
 #include <QDateTime>
@@ -14,6 +15,7 @@
 #include <QFutureWatcher>
 #include <QObject>
 #include <QUrl>
+#include <QTimer>
 
 /*!
     \class Steam Workshop
@@ -64,15 +66,22 @@ public:
 
     Q_PROPERTY(unsigned int itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
     Q_PROPERTY(unsigned int bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)
-
+    Q_PROPERTY(unsigned int appID READ appID WRITE setAppID NOTIFY appIDChanged)
     // Properties
     unsigned int itemProcessed() const { return m_itemProcessed; }
     unsigned int bytesTotal() const { return m_bytesTotal; }
+
+    unsigned int appID() const
+    {
+        return m_appID;
+    }
 
 public slots:
 
     int getItemUpdateProcess();
     bool contentFolderExist(QString folder);
+
+    void initSteam();
     void searchWorkshop();
     void createWorkshopItem();
     void submitWorkshopItem(QString title, QString description, QString language, int remoteStoragePublishedFileVisibility, const QUrl projectFile, const QUrl videoFile, int publishedFileId);
@@ -99,30 +108,50 @@ public slots:
         emit bytesTotalChanged(m_bytesTotal);
     }
 
+    void setAppID(unsigned int appID)
+    {
+        if (m_appID == appID)
+            return;
+
+        m_appID = appID;
+        emit appIDChanged(m_appID);
+    }
+
 signals:
     void workshopItemCreated(bool userNeedsToAcceptWorkshopLegalAgreement, int eResult, int publishedFileId);
     void workshopSearched();
     void localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value status);
     void remoteWorkshopCreationStatusChanged(RemoteWorkshopCreationStatus::Value status);
     void workshopSearchResult(unsigned int id, QString title, QUrl imgUrl,int subscriber);
+    void workshopItemInstalled(int appID,int publishedFile);
 
     // Properties
     void itemProcessedChanged(unsigned int itemProcessed);
     void bytesTotalChanged(unsigned int bytesTotal);
 
+    void appIDChanged(unsigned int appID);
+
 private:
+
     void workshopItemCreated(CreateItemResult_t* pCallback, bool bIOFailure);
     CCallResult<SteamWorkshop, CreateItemResult_t> m_createWorkshopItemCallResult;
 
     void onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
     CCallResult<SteamWorkshop, SteamUGCQueryCompleted_t> m_steamUGCQueryResult;
 
-    AppId_t m_AppId;
+    STEAM_CALLBACK( SteamWorkshop, onWorkshopItemInstalled, ItemInstalled_t );
+
+
     UGCUpdateHandle_t m_UGCUpdateHandle = 0;
     UGCQueryHandle_t m_UGCSearchHandle = 0;
     SteamAPICall_t m_searchCall;
     SteamWorkshopListModel* m_workshopListModel;
     Settings* m_settings;
+    QTimer* m_pollTimer;
+
+    bool m_steamErrorRestart = false;
+    bool m_steamErrorAPIInit = false;
     unsigned int m_itemProcessed = 0;
     unsigned int m_bytesTotal = 0;
+    unsigned int m_appID;
 };

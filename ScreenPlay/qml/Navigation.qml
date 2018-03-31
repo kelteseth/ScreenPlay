@@ -36,6 +36,7 @@ Rectangle {
 
         //Avoid crashing screenplay when steam is not available
         if (name === "Workshop" && screenPlaySettings.offlineMode) {
+            steamWorkshop.initSteam()
             return
         }
 

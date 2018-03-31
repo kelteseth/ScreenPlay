@@ -1,5 +1,4 @@
-﻿
-#include <QDebug>
+﻿#include <QDebug>
 #include <QDir>
 #include <QFontDatabase>
 #include <QGuiApplication>
@@ -53,8 +52,6 @@ int main(int argc, char* argv[])
     trsl.load(":/translations/ScreenPlay_de.qm");
     app.installTranslator(&trsl);
 
-    QObject::connect(&app, &QGuiApplication::screenRemoved, [&]() { qDebug() << "removed"; });
-
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Light.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Regular.ttf");
@@ -69,19 +66,6 @@ int main(int argc, char* argv[])
     QCoreApplication::setApplicationVersion("0.1.0");
 
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
-
-    bool steamErrorRestart = false;
-    bool steamErrorAPIInit = false;
-
-    if (SteamAPI_RestartAppIfNecessary(steamID)) {
-        qWarning() << "SteamAPI_RestartAppIfNecessary";
-        steamErrorRestart = true;
-    }
-
-    if (!SteamAPI_Init()) {
-        qWarning() << "Could not init steam sdk!";
-        steamErrorAPIInit = true;
-    }
 
     QMLUtilities qmlUtil;
     InstalledListModel installedListModel;
@@ -115,7 +99,7 @@ int main(int argc, char* argv[])
     SPBaseDir.cd("ScreenPlay");
     settings.setScreenPlayBasePath(QUrl(SPBaseDir.path()));
 
-#elif QT_NO_DEBUG
+#elif
     settings.setScreenPlayBasePath(QUrl(SPWorkingDir.path()));
 
     // If we build in the release version we must be cautious!
@@ -149,8 +133,7 @@ int main(int argc, char* argv[])
     profileListModel.loadProfiles();
     settings.loadActiveProfiles();
 
-    QQmlApplicationEngine errorWindowEngine,mainWindowEngine;
-    StartupError suError(&mainWindowEngine, &errorWindowEngine);
+    QQmlApplicationEngine mainWindowEngine;
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
     mainWindowEngine.rootContext()->setContextProperty("utility", &qmlUtil);
@@ -161,27 +144,13 @@ int main(int argc, char* argv[])
     mainWindowEngine.rootContext()->setContextProperty("profileListModel", &profileListModel);
     mainWindowEngine.rootContext()->setContextProperty("screenPlaySettings", &settings);
     mainWindowEngine.rootContext()->setContextProperty("steamWorkshop", &steamWorkshop);
-
-    if (steamErrorRestart || steamErrorAPIInit) {
-        errorWindowEngine.load(QUrl(QStringLiteral("qrc:/qml/StartupErrorWindow.qml")));
-        errorWindowEngine.rootContext()->setContextProperty("suError", &suError);
-        settings.setOfflineMode(true);
-
-    } else {
-        mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-    }
+    mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     // Set visible if the -silent parameter was not set
     QStringList argumentList = app.arguments();
     if (!argumentList.contains("-silent")) {
         settings.setMainWindowVisible(true);
     }
-
-    // Timer for steam polls. WTF?
-    QTimer timer;
-    QObject::connect(&timer, &QTimer::timeout, [&]() { SteamAPI_RunCallbacks(); });
-    timer.setInterval(100);
-    timer.start();
 
     QObject::connect(&steamWorkshop, &SteamWorkshop::workshopSearchResult,
         &steamWorkshopListModel, &SteamWorkshopListModel::append, Qt::QueuedConnection);

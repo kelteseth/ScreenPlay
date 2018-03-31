@@ -220,6 +220,11 @@ void Settings::createDefaultConfig()
     defaultSettings.close();
 }
 
+bool Settings::getOfflineMode() const
+{
+    return m_offlineMode;
+}
+
 QUrl Settings::getScreenPlayWidgetPath() const
 {
     return m_screenPlayWidgetPath;

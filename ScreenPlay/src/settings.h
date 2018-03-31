@@ -30,7 +30,7 @@
 #include "sdkconnector.h"
 #include "steam/steam_api.h"
 #ifdef Q_OS_WIN
-    #include <qt_windows.h>
+#include <qt_windows.h>
 #endif
 /*!
     \class Settings
@@ -98,7 +98,6 @@ public:
         return m_hasWorkshopBannerSeen;
     }
 
-
     int activeWallpaperCounter() const
     {
         return m_activeWallpaperCounter;
@@ -121,7 +120,9 @@ public:
     void setScreenPlayBasePath(QUrl screenPlayBasePath);
 
     QUrl getScreenPlayWidgetPath() const;
-    void setScreenPlayWidgetPath(const QUrl &screenPlayWidgetPath);
+    void setScreenPlayWidgetPath(const QUrl& screenPlayWidgetPath);
+
+    bool getOfflineMode() const;
 
 signals:
     void autostartChanged(bool autostart);
@@ -171,9 +172,15 @@ public slots:
 
         if (autostart) {
 #ifdef Q_OS_WIN
+#ifdef QT_DEBUG
             QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
             settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
             settings.sync();
+#else
+            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+            settings.setValue("ScreenPlay", QDir::toNativeSeparators("C:/Program Files (x86)/Steam/steamapps/common/ScreenPlay/ScreenPlay/ScreenPlay.exe") + " -silent");
+            settings.sync();
+#endif
 #endif
         } else {
 #ifdef Q_OS_WIN
@@ -315,6 +322,5 @@ private:
     int m_activeWallpaperCounter = 0;
     QGuiApplication* m_qGuiApplication;
 
-    bool m_offlineMode = false;
+    bool m_offlineMode = true;
 };
-
