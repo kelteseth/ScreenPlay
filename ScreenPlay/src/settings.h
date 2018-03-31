@@ -1,6 +1,5 @@
 #pragma once
 
-#include <QtGlobal>
 #include <QDebug>
 #include <QDir>
 #include <QFile>
@@ -21,6 +20,7 @@
 #include <QUrl>
 #include <QVariant>
 #include <QVector>
+#include <QtGlobal>
 
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -77,7 +77,6 @@ public:
         int minor = 0;
         int patch = 1;
     };
-
 
     Version version() const
     {

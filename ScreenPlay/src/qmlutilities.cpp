@@ -36,11 +36,7 @@ void QMLUtilities::openLicenceFolder()
     QProcess explorer;
     explorer.setProgram("explorer.exe");
     QStringList args;
-    const int folderLength = 2000;
-    char folder[folderLength];
-    SteamApps()->GetAppInstallDir(672870, folder, static_cast<uint32>(folderLength));
-    QByteArray folderData(folder);
-    args.append(QDir::toNativeSeparators(QString(folderData + "/ScreenPlay/legal")));
+    args.append(QDir::toNativeSeparators(QString(QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + "/ScreenPlay/legal")));
     explorer.setArguments(args);
     explorer.startDetached();
 }

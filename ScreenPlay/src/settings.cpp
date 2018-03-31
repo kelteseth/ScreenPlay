@@ -58,10 +58,8 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
 
     //If empty use steam workshop location
     if (QString(configObj.value("absoluteStoragePath").toString()).isEmpty()) {
-        const uint32 size = 5000;
-        char folder[size];
-        SteamApps()->GetAppInstallDir(m_steamID, folder, 5000);
-        QDir steamTmpUrl = QDir(QString(QByteArray(folder).data()));
+        QDir steamTmpUrl = QDir::toNativeSeparators(QCoreApplication::applicationFilePath());
+        steamTmpUrl.cdUp();
         steamTmpUrl.cdUp();
         steamTmpUrl.cdUp();
         steamTmpUrl.cd("workshop");

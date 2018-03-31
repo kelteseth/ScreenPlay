@@ -4,8 +4,7 @@
 #include <QString>
 #include <QDir>
 #include <QProcess>
-
-#include "steam/steam_api.h"
+#include <QCoreApplication>
 
 /*!
     \class Global QML Utilities
