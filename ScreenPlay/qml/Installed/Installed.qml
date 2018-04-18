@@ -12,6 +12,7 @@ Item {
     signal setSidebarActive(var active)
 
     property bool refresh: false
+    property bool enabled: true
 
     Component.onCompleted: {
         installedListFilter.sortByRoleType("All")
@@ -50,10 +51,6 @@ Item {
         active: false
         z: 99
         anchors.fill: parent
-        onStatusChanged: {
-            print(status)
-        }
-
         source: "qrc:/qml/Installed/InstalledUserHelper.qml"
     }
 
@@ -66,6 +63,7 @@ Item {
         cellWidth: 340
         cacheBuffer: 10000
         cellHeight: 200
+        interactive: pageInstalled.enabled
         anchors {
             topMargin: 0
             rightMargin: 0
@@ -76,7 +74,7 @@ Item {
             width: parent.width
             property bool isVisible: false
             onIsVisibleChanged: {
-                if(isVisible){
+                if (isVisible) {
                     txtHeader.color = "orange"
                     txtHeader.text = qsTr("Refreshing!")
                 } else {
@@ -92,7 +90,6 @@ Item {
                 color: "gray"
                 font.pixelSize: 18
             }
-
         }
         footer: Item {
             property bool isVisible: true
@@ -109,7 +106,7 @@ Item {
         }
         property bool isDragging: false
         onDragStarted: isDragging = true
-        onDragEnded:  isDragging = false
+        onDragEnded: isDragging = false
         onContentYChanged: {
             if (contentY <= -180) {
                 gridView.headerItem.isVisible = true
@@ -122,9 +119,7 @@ Item {
                 installedListModel.reset()
                 installedListModel.loadScreens()
             }
-
         }
-
 
         model: installedListFilter
 
@@ -159,7 +154,7 @@ Item {
             navWallpaper.state = "inactive"
             navWidgets.state = "inactive"
             navScenes.state = "inactive"
-        } else if (name === "Wallpaper") {
+        } else if (name === "Videos") {
             installedListFilter.sortByRoleType("Wallpaper")
             navAll.state = "inactive"
             navWallpaper.state = "active"
@@ -171,7 +166,7 @@ Item {
             navWallpaper.state = "inactive"
             navWidgets.state = "active"
             navScenes.state = "inactive"
-        }else if (name === "Scenes") {
+        } else if (name === "Scenes") {
             installedListFilter.sortByRoleType("Scenes")
             navAll.state = "inactive"
             navWallpaper.state = "inactive"
@@ -238,7 +233,7 @@ Item {
                 InstalledNavigation {
                     id: navWallpaper
                     state: "inactive"
-                    name: qsTr("Wallpaper")
+                    name: qsTr("Videos")
                     iconSource: "qrc:/assets/icons/icon_movie.svg"
                     onPageClicked: {
                         onPageChanged(name)
@@ -283,7 +278,6 @@ Item {
                     right: parent.right
                     rightMargin: 30
                     bottom: parent.bottom
-
                 }
                 onTextChanged: {
                     if (txtSearch.text.length === 0) {
@@ -295,8 +289,10 @@ Item {
 
                 selectByMouse: true
                 text: qsTr("")
-                placeholderText: "Search for Wallpaper & Widgets"
+                placeholderText: qsTr("Search for Wallpaper & Widgets")
             }
         }
     }
+
+
 }

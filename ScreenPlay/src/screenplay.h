@@ -47,8 +47,10 @@ public slots:
     void createWidget(QUrl absoluteStoragePath, QString previewImage);
     void removeAllWallpaper();
     void requestProjectSettingsListModelAt(int index);
-    QString generateID();
     void setWallpaperValue(int at, QString key, QString value);
+    void removeWallpaperAt(int at);
+    QVector<int> getMonitorByAppID(QString appID);
+    QString generateID();
 
 private:
     QVector<QSharedPointer<ScreenPlayWallpaper>> m_screenPlayWallpaperList;
@@ -86,7 +88,7 @@ public:
         proArgs.append(QString::number(m_screenNumber.at(0)));
         proArgs.append(m_projectPath);
         m_appID = parent->generateID();
-        proArgs.append(m_appID);
+        proArgs.append("appID="+m_appID);
         proArgs.append(parent->m_settings->decoder());
         proArgs.append(QString::number(volume));
         proArgs.append(fillMode);

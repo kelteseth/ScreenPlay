@@ -54,7 +54,7 @@ Item {
         color: "black"
         anchors {
             top: parent.top
-            topMargin: 80
+            topMargin: 180
             horizontalCenter: parent.horizontalCenter
         }
 
@@ -65,6 +65,23 @@ Item {
             source: player
             opengl: true
             fillMode: VideoOutput.Stretch
+
+            Slider {
+                id: sliVideoPosition
+                height: 30
+                width: parent.width * .8
+                from: 0
+                to: 1
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.bottom
+                    bottomMargin: 20
+                }
+                onValueChanged: {
+                    print(player.position)
+                    player.seek(sliVideoPosition.value * player.duration)
+                }
+            }
 
             Image {
                 id: imgPreview
@@ -78,6 +95,20 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 visible: false
             }
+            Text {
+                id: txtDescriptionThumbnail
+                text: qsTr("Select preview image")
+                font.family: "Roboto"
+                opacity: .5
+                renderType: Text.NativeRendering
+                font.pixelSize: 14
+                color: "white"
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.bottom
+                    bottomMargin: 10
+                }
+            }
         }
     }
 
@@ -90,6 +121,7 @@ Item {
         onSeekFinished: {
             busyIndicator.visible = false
             pause()
+            print(player.metaData.videoFrameRate)
         }
     }
 
@@ -116,19 +148,53 @@ Item {
     Rectangle {
         id: contentWrapper
         width: 800
-        height: 350
+        height: 300
         z: 10
         radius: 4
         anchors {
             top: parent.top
-            topMargin: 250
+            topMargin: 300
             horizontalCenter: parent.horizontalCenter
+        }
+
+        Item {
+            id: chooseImageWrapper
+            height: 60
+            anchors {
+                top: parent.top
+                topMargin: 50
+                right: parent.right
+                left: parent.left
+            }
+
+            FileDialog {
+                id: fileDialogOpenPreview
+                nameFilters: ["Image files (*.jpg *.png)"]
+                onAccepted: {
+                    imgPreview.source = currentFile
+                    imgPreview.opacity = 1
+                    //currentFile
+                }
+            }
+
+            Button {
+                id: btnChooseImage
+                text: qsTr("Select Image Manually")
+                Material.background: Material.Orange
+                Material.foreground: "white"
+                icon.source: "qrc:/assets/icons/icon_folder_open.svg"
+                icon.color: "white"
+                icon.width: 16
+                icon.height: 16
+                anchors.centerIn: parent
+                onClicked: fileDialogOpenPreview.open()
+            }
         }
 
         Column {
             spacing: 20
             anchors {
-                top: parent.top
+                top: chooseImageWrapper.top
                 topMargin: 50
                 right: parent.right
                 rightMargin: 78
@@ -137,75 +203,7 @@ Item {
                 left: parent.left
                 leftMargin: 78
             }
-            Item {
-                height: 60
-                width: parent.width
-                Slider {
-                    id: sliVideoPosition
-                    height: parent.height
-                    width: parent.width * .4
-                    from: 0
-                    to: 1
-                    anchors {
-                        left: parent.left
-                        verticalCenter: parent.verticalCenter
-                    }
-                    onValueChanged: {
-                        player.seek(sliVideoPosition.value * player.duration)
-                    }
-                }
-                FileDialog {
-                    id: fileDialogOpenPreview
-                    nameFilters: ["Image files (*.jpg *.png)"]
-                    onAccepted: {
-                        imgPreview.source = currentFile
-                        //currentFile
-                    }
-                }
-                Switch {
-                    id: switcherImage
-                    anchors.centerIn: parent
-                    height: parent.height
-                    onPositionChanged: {
-                        if (position === 1) {
-                            btnChooseImage.enabled = true
-                            sliVideoPosition.enabled = false
-                            player.pause()
-                            isVideoPlaying = false
-                            imgPreview.opacity = 1
-                        } else {
-                            btnChooseImage.enabled = false
-                            sliVideoPosition.enabled = true
-                            isVideoPlaying = true
-                            imgPreview.opacity = 0
-                        }
-                    }
-                }
-                Item {
-                    height: parent.height
-                    width: parent.width * .4
-                    anchors {
-                        right: parent.right
-                        verticalCenter: parent.verticalCenter
-                    }
-                    Button {
-                        id: btnChooseImage
-                        enabled: false
-                        text: qsTr("Select Image Manually")
-                        Material.background: Material.Orange
-                        Material.foreground: "white"
-                        icon.source: "qrc:/assets/icons/icon_folder_open.svg"
-                        icon.color:"white"
-                        icon.width: 16
-                        icon.height: 16
-                        anchors {
-                            right: parent.right
-                            verticalCenter: parent.verticalCenter
-                        }
-                        onClicked: fileDialogOpenPreview.open()
-                    }
-                }
-            }
+
             TextField {
                 id: txtTitle
                 height: 60
@@ -214,46 +212,6 @@ Item {
                 text: qsTr("")
                 placeholderText: "Title"
             }
-            Item {
-                height: 60
-                width: parent.width
-                Text {
-                    id: txtUseSteamWorkshop
-                    text: screenPlaySettings.localStoragePath
-                    color: "#626262"
-                    anchors {
-                        left: parent.left
-                        verticalCenter: parent.verticalCenter
-                    }
-                    verticalAlignment: Text.AlignVCenter
-                    font.pointSize: 12
-                    renderType: Text.NativeRendering
-                    font.family: "Roboto"
-                }
-                Button {
-                    text: qsTr("Choose Folder")
-                    Material.background: Material.Orange
-                    Material.foreground: "white"
-                    icon.source: "qrc:/assets/icons/icon_folder_open.svg"
-                    icon.color:"white"
-                    icon.width: 16
-                    icon.height: 16
-                    anchors {
-                        right: parent.right
-                        verticalCenter: parent.verticalCenter
-                    }
-                    onClicked: {
-                        fileDialogSetPath.open()
-                    }
-                }
-                FolderDialog {
-                    id: fileDialogSetPath
-                    onAccepted: {
-
-                        //currentFile
-                    }
-                }
-            }
         }
 
         Button {
@@ -261,7 +219,7 @@ Item {
             Material.background: Material.Orange
             Material.foreground: "white"
             icon.source: "qrc:/assets/icons/icon_upload.svg"
-            icon.color:"white"
+            icon.color: "white"
             icon.width: 16
             icon.height: 16
             anchors {
@@ -285,12 +243,20 @@ Item {
                     return
                 }
 
-                if (switcherImage.position === 1) {
-                    steamWorkshop.createLocalWorkshopItem(
+                if (fileDialogOpenPreview.currentFile != "") {
+                    screenPlayCreate.importVideo(
                                 txtTitle.text.replace(/\s/g, ''), file,
-                                fileDialogOpenPreview.currentFile)
-                    createImport.state = "out"
+                                fileDialogOpenPreview.currentFile,
+                                player.duration)
+                } else {
+                    screenPlayCreate.importVideo(
+                                txtTitle.text.replace(/\s/g, ''), file,
+                                player.position,
+                                player.duration,
+                                player.metaData.videoFrameRate)
                 }
+                player.stop()
+                createImport.state = "out"
             }
         }
     }
@@ -337,13 +303,13 @@ Item {
             PropertyChanges {
                 target: contentWrapper
                 opacity: 1
-                anchors.topMargin: 250
+                anchors.topMargin: 300
             }
             PropertyChanges {
                 target: videoOutWrapper
                 z: 12
                 opacity: 1
-                anchors.topMargin: 20
+                anchors.topMargin: 70
             }
         }
     ]

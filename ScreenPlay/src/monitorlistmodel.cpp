@@ -124,6 +124,11 @@ int MonitorListModel::size()
     return m_monitorList.size();
 }
 
+void MonitorListModel::wallpaperRemoved()
+{
+
+}
+
 bool MonitorListModel::getMonitorListItemAt(int position, Monitor* monitor)
 {
     //TODO Reimplement wallpaper replacement

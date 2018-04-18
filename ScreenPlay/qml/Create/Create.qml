@@ -37,7 +37,7 @@ Rectangle {
     }
 
     Connections {
-        target: steamWorkshop
+        target: screenPlayCreate
         onLocalWorkshopCreationStatusChanged: {
             if (status === LocalWorkshopCreationStatus.Started) {
                 loader.setSource("CreateImportStatus.qml")

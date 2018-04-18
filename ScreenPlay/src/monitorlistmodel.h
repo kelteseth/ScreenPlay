@@ -59,6 +59,7 @@ public slots:
     QRect getAbsoluteDesktopSize();
     void reloadMonitors();
     int size();
+    void wallpaperRemoved();
 
 private:
     QVector<Monitor> m_monitorList;

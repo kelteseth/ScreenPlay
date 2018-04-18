@@ -54,6 +54,7 @@ QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
 
 void ProjectSettingsListModel::init(QString file)
 {
+    qDebug() << file;
     QFile configTmp;
     configTmp.setFileName(file);
     QJsonDocument configJsonDocument;
@@ -75,6 +76,7 @@ void ProjectSettingsListModel::init(QString file)
     if (obj.contains("properties")) {
         tmpParent = obj.value("properties").toObject();
     } else {
+        qWarning("Could not find settings");
         return;
     }
 

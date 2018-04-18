@@ -101,7 +101,7 @@ Item {
     }
 
     Item {
-        id: screenPlayItemWrapper
+        id: screenPlay
         anchors.centerIn: parent
         height: 180
         width: 320
@@ -109,8 +109,8 @@ Item {
         Image {
             id: mask
             source: "qrc:/assets/images/Window.svg"
-            sourceSize: Qt.size(screenPlayItemWrapper.width,
-                                screenPlayItemWrapper.height)
+            sourceSize: Qt.size(screenPlay.width,
+                                screenPlay.height)
             visible: false
             smooth: true
             asynchronous: true
@@ -226,12 +226,30 @@ Item {
                     workshopItem.state = "downloading"
                     steamWorkshop.subscribeItem(workshopItem.steamID)
                 }
+
+                Connections {
+                    target: steamWorkshop
+                    onWorkshopItemInstalled:{
+                        print(appID)
+                        if(appID === steamWorkshop.appID){
+                            workshopItem.state = "installed"
+                            print("match!")
+                        }
+
+                        print(workshopItem.steamID, publishedFile)
+
+                        if(workshopItem.steamID == publishedFile){
+
+                        }
+                    }
+
+                }
             }
         }
         FastBlur {
             id: effBlur
             anchors.fill: itemWrapper
-            source: itemWrapper
+            source:itemWrapper
             radius: 0
         }
 
@@ -328,6 +346,40 @@ Item {
                 opacity: 1
                 anchors.topMargin: 0
             }
+
+        },
+        State {
+            name: "installed"
+
+            PropertyChanges {
+                target: button
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: txtTitle
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: shadow
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: effBlur
+                radius: 64
+            }
+
+            PropertyChanges {
+                target: itmDownloading
+                opacity: 1
+                anchors.topMargin: 0
+            }
+            PropertyChanges {
+                target: txtDownloading
+                text: qsTr("Download complete!")
+            }
         }
     ]
     transitions: [
@@ -375,7 +427,7 @@ Item {
             SequentialAnimation {
                 PropertyAnimation {
                     target: effBlur
-                    duration: 200
+                    duration: 500
                     properties: "radius"
                 }
                 PropertyAnimation {

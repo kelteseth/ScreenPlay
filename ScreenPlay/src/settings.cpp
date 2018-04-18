@@ -30,7 +30,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     }
 
     QJsonDocument configJsonDocument;
-    QJsonParseError parseError;
+    QJsonParseError parseError{};
     QJsonObject configObj;
 
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -51,7 +51,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
 
     //Checks if the settings file has the same version as ScreeenPlay
     if (!(major == m_version.major && minor == m_version.minor && patch == m_version.patch)) {
-        //TODO Display error message
+        // TODO(Kelteseth): Display error message
         qWarning("Version missmatch");
         return;
     }
@@ -150,7 +150,7 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
 {
 
     QJsonDocument configJsonDocument;
-    QJsonParseError parseError;
+    QJsonParseError parseError{};
     QJsonObject configObj;
     QFile configTmp;
 

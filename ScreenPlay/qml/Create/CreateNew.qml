@@ -180,7 +180,10 @@ Item {
             width: 32
             height: width
             cursorShape: Qt.PointingHandCursor
-            onClicked: createNew.state = "out"
+            onClicked: {
+                createNew.state = "out"
+                timerBack.start()
+            }
 
             Image {
                 id: imgClose
@@ -195,6 +198,11 @@ Item {
                 anchors.fill: imgClose
                 source: imgClose
                 color: "gray"
+            }
+            Timer {
+                id:timerBack
+                interval: 800
+                onTriggered: utility.setNavigation("Create")
             }
         }
     }

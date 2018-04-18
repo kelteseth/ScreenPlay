@@ -1,6 +1,7 @@
 import QtQuick 2.9
 import net.aimber.screenplaysdk 1.0
 import QtQuick.Window 2.3
+import QtQuick.Controls 2.3
 
 Window {
     id: mainWindow
@@ -52,9 +53,21 @@ Window {
             }
         }
     }
+
+    Connections{
+        target: loader.item
+        ignoreUnknownSignals: true
+        onSizeChanged:{
+            print(size)
+            mainWindow.width = size.width
+            mainWindow.height = size.height
+        }
+    }
+
     MouseArea {
         property point clickPos: "1,1"
         anchors.fill: parent
+        acceptedButtons: Qt.LeftButton | Qt.RightButton
         z:99
 
         onPressed: {
@@ -67,6 +80,21 @@ Window {
             var new_y = mainWindow.y + delta.y
             mainWindow.x = new_x
             mainWindow.y = new_y
+        }
+
+        onClicked: {
+            if (mouse.button === Qt.RightButton) {
+                contextMenu.popup()
+            }
+        }
+    }
+    Menu {
+        id: contextMenu
+        MenuItem {
+            text: qsTr("Close")
+            onClicked: {
+                Qt.quit();
+            }
         }
     }
 }

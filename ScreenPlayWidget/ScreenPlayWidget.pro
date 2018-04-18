@@ -19,6 +19,10 @@ SOURCES += \
 RESOURCES += \
     SPWidgetResources.qrc
 
+# Additional import path used to resolve QML modules just for Qt Quick Designer
+# QML_DESIGNER_IMPORT_PATH =
+QT_QUICK_CONTROLS_STYLE = "Material"
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
 

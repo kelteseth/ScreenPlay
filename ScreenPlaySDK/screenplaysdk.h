@@ -1,24 +1,23 @@
 #pragma once
 
-#include <QQuickItem>
-#include <QObject>
-#include <QLocalSocket>
-#include <QLocalServer>
-#include <QSharedPointer>
-#include <QSharedDataPointer>
-#include <QJsonDocument>
-#include <QJsonParseError>
 #include <QByteArray>
-#include <QTimer>
+#include <QJsonDocument>
 #include <QJsonObject>
+#include <QJsonParseError>
+#include <QLocalServer>
+#include <QLocalSocket>
+#include <QObject>
+#include <QQuickItem>
+#include <QSharedDataPointer>
+#include <QSharedPointer>
+#include <QTimer>
 
-class ScreenPlaySDK : public QQuickItem
-{
+class ScreenPlaySDK : public QQuickItem {
     Q_OBJECT
     Q_DISABLE_COPY(ScreenPlaySDK)
 
 public:
-    ScreenPlaySDK(QQuickItem *parent = nullptr);
+    ScreenPlaySDK(QQuickItem* parent = nullptr);
     ~ScreenPlaySDK();
 
     Q_PROPERTY(QString contentType READ contentType WRITE setContentType NOTIFY contentTypeChanged)
@@ -34,7 +33,6 @@ public:
     {
         return m_isConnected;
     }
-
 
     QString appID() const
     {
@@ -55,7 +53,7 @@ public slots:
 
         m_contentType = contentType;
 
-        if(isConnected()){
+        if (isConnected()) {
             m_socket.data()->write(QByteArray(m_contentType.toLatin1()));
             m_socket.data()->flush();
             m_socket.data()->waitForBytesWritten();
@@ -79,6 +77,7 @@ public slots:
 
         m_appID = appID;
         emit appIDChanged(m_appID);
+
         m_socket.data()->write(QByteArray(appID.toUtf8()));
         m_socket.data()->waitForBytesWritten();
     }
@@ -86,7 +85,6 @@ public slots:
 signals:
     void incommingMessage(QString key, QString value);
     void incommingMessageError(QString msg);
-
 
     void sdkConnected();
     void sdkDisconnected();
@@ -105,4 +103,3 @@ private:
 
     QString m_appID;
 };
-

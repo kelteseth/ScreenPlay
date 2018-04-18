@@ -3,46 +3,45 @@
 SteamWorkshop::SteamWorkshop(QObject* parent)
     : QObject(parent)
 {
-
-    initSteam();
 }
 
 void SteamWorkshop::initSteam()
 {
-    if(m_settings->offlineMode()){
+    if (m_settings->offlineMode()) {
 
-    if (SteamAPI_RestartAppIfNecessary(m_appID)) {
-        qWarning() << "SteamAPI_RestartAppIfNecessary";
-        m_steamErrorRestart = true;
-    }
+        if (SteamAPI_RestartAppIfNecessary(m_appID)) {
+            qWarning() << "SteamAPI_RestartAppIfNecessary";
+            m_steamErrorRestart = true;
+        }
 
-    if (!SteamAPI_Init()) {
-        qWarning() << "Could not init steam sdk!";
-        m_steamErrorAPIInit = true;
-    }
+        if (!SteamAPI_Init()) {
+            qWarning() << "Could not init steam sdk!";
+            m_steamErrorAPIInit = true;
+        }
 
-
-    if(!(m_steamErrorAPIInit || m_steamErrorRestart)){
-        m_settings->setOfflineMode(false);
-        m_pollTimer = new QTimer(this);
-        QObject::connect(m_pollTimer, &QTimer::timeout, [&]() { SteamAPI_RunCallbacks(); });
-        m_pollTimer->setInterval(250);
-        m_pollTimer->start();
-    }
+        if (!(m_steamErrorAPIInit || m_steamErrorRestart)) {
+            m_settings->setOfflineMode(false);
+            m_pollTimer = new QTimer(this);
+            QObject::connect(m_pollTimer, &QTimer::timeout, [&]() { SteamAPI_RunCallbacks(); });
+            m_pollTimer->setInterval(250);
+            m_pollTimer->start();
+        }
     }
 }
 
 SteamWorkshop::SteamWorkshop(AppId_t nConsumerAppId, SteamWorkshopListModel* wlm, Settings* s)
 {
+
     m_appID = nConsumerAppId;
     m_workshopListModel = wlm;
     m_settings = s;
 
     // Register namespace seperated enums because qml has no enum scope WTF
-    qRegisterMetaType<LocalWorkshopCreationStatus::Value>();
+
     qRegisterMetaType<RemoteWorkshopCreationStatus::Value>();
-    qmlRegisterUncreatableMetaObject(LocalWorkshopCreationStatus::staticMetaObject, "LocalWorkshopCreationStatus", 1, 0, "LocalWorkshopCreationStatus", "Error: only enums");
     qmlRegisterUncreatableMetaObject(RemoteWorkshopCreationStatus::staticMetaObject, "RemoteWorkshopCreationStatus", 1, 0, "RemoteWorkshopCreationStatus", "Error: only enums");
+
+    initSteam();
 }
 
 void SteamWorkshop::createWorkshopItem()
@@ -112,14 +111,12 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     SteamUGC()->SetItemPreview(m_UGCUpdateHandle, QByteArray(preview.toLatin1()).data());
     auto tagList = new QScopedPointer<SteamParamStringArray_t>(new SteamParamStringArray_t);
 
-
     //const char** cchKey[5][2000];
-
 
     //tagList->data()->m_ppStrings = cchKey;
     //tagList->data()->m_nNumStrings = 1;
     //tagList->data()->m_ppStrings[1][0]  = QByteArray("asas").data();
-    SteamUGC()->SetItemTags(m_UGCUpdateHandle,tagList->data());
+    SteamUGC()->SetItemTags(m_UGCUpdateHandle, tagList->data());
 
     auto visibility = static_cast<ERemoteStoragePublishedFileVisibility>(remoteStoragePublishedFileVisibility);
     SteamUGC()->SetItemVisibility(m_UGCUpdateHandle, visibility);
@@ -155,72 +152,6 @@ bool SteamWorkshop::contentFolderExist(QString folder)
     }
 }
 
-void SteamWorkshop::createLocalWorkshopItem(QString title, QUrl videoPath, QUrl previewPath)
-{
-    QtConcurrent::run([=]() {
-
-        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::Started);
-
-        QString fromVideoPath = QString(videoPath.toString()).replace("file:///", "");
-        QString fromImagePath = QString(previewPath.toString()).replace("file:///", "");
-        QString toPath = m_settings->localStoragePath().toString() + "/" + title;
-        QString toPathWithVideoFile = toPath + "/" + videoPath.fileName();
-        QString toPathWithImageFile = toPath + "/" + previewPath.fileName();
-
-        if (QDir(toPath).exists()) {
-            if (!QDir(toPath).isEmpty()) {
-                emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorFolder);
-                return;
-            } else {
-                //if(!QDir(toPath + ))
-            }
-
-        } else {
-            //TODO: Display Error
-            if (!QDir().mkdir(toPath)) {
-                emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorFolderCreation);
-                return;
-            }
-        }
-
-        //Copy Video File
-        if (QFile::copy(fromVideoPath, toPathWithVideoFile)) {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::CopyVideoFinished);
-        } else {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorCopyVideo);
-        }
-
-        //Copy Image File
-        if (QFile::copy(fromImagePath, toPathWithImageFile)) {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::CopyImageFinished);
-        } else {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorCopyImage);
-        }
-
-        //Copy Project File
-        QFile configFile(toPath + "/" + "project.json");
-
-        if (!configFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorCopyConfig);
-            return;
-        }
-
-        QTextStream out(&configFile);
-        QJsonObject configObj;
-
-        configObj.insert("file", videoPath.fileName());
-        configObj.insert("preview", previewPath.fileName());
-        //TODO
-        configObj.insert("description", "");
-        configObj.insert("title", title);
-
-        QJsonDocument configJsonDocument(configObj);
-        out << configJsonDocument.toJson();
-        configFile.close();
-
-        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::Finished);
-    });
-}
 
 void SteamWorkshop::subscribeItem(unsigned int id)
 {
@@ -249,51 +180,50 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
 
     //QtConcurrent::run([this, pCallback]() {   });
 
-        SteamUGCDetails_t details;
-        const int urlLength = 200;
-        char url[urlLength];
-        uint32 previews = 0;
-        uint32 subscriber = 0;
+    SteamUGCDetails_t details;
+    const int urlLength = 200;
+    char url[urlLength];
+    uint32 previews = 0;
+    uint32 subscriber = 0;
 
-        // Tags
-        uint32 keyValueTags = 0;
-        const int cchKeySize = 2000;
-        char* cchKey[cchKeySize];
-        const int cchValueSize = 2000;
-        char* pchValue[cchValueSize];
+    // Tags
+    uint32 keyValueTags = 0;
+    const int cchKeySize = 2000;
+    char* cchKey[cchKeySize];
+    const int cchValueSize = 2000;
+    char* pchValue[cchValueSize];
 
-        uint32 results = pCallback->m_unTotalMatchingResults;
+    uint32 results = pCallback->m_unTotalMatchingResults;
 
-        for (uint32 i = 0; i < results; i++) {
-            if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
-                //qDebug() << "ok " << pCallback;
-                if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
-                    QByteArray urlData(url);
+    for (uint32 i = 0; i < results; i++) {
+        if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
+            //qDebug() << "ok " << pCallback;
+            if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
+                QByteArray urlData(url);
 
-                    //Todo use multiple preview for gif hover effect
-                    previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
-                    if (i == 0) {
-                        m_workshopListModel->setBannerWorkshopItem(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData), 0);
-                        emit workshopSearched();
-                    } else {
-                        emit workshopSearchResult(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData), 0);
-                    }
-//                    keyValueTags = SteamUGC()->GetQueryUGCNumKeyValueTags(pCallback->m_handle, i);
-//                    if (keyValueTags >= 0) {
-//                        if (SteamUGC()->GetQueryUGCKeyValueTag(pCallback->m_handle, i, 0, cchKey, cchKeySize, cchValueSize, pchValue)) {
-//                            qDebug() << QByteArray(pchKey) << QByteArray(pchValue);
-//                        }
-//                    }
-                    //                    if(SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle,i,EItemStatistic::k_EItemStatistic_NumSubscriptions,&subscriber)){
-
-                    //                    }
+                //Todo use multiple preview for gif hover effect
+                previews = SteamUGC()->GetQueryUGCNumAdditionalPreviews(pCallback->m_handle, i);
+                if (i == 0) {
+                    m_workshopListModel->setBannerWorkshopItem(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData), 0);
+                    emit workshopSearched();
+                } else {
+                    emit workshopSearchResult(details.m_nPublishedFileId, QString(details.m_rgchTitle), QUrl(urlData), 0);
                 }
-            } else {
-                qDebug() << "Loading error!";
-            }
-        }
-        SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+                //                    keyValueTags = SteamUGC()->GetQueryUGCNumKeyValueTags(pCallback->m_handle, i);
+                //                    if (keyValueTags >= 0) {
+                //                        if (SteamUGC()->GetQueryUGCKeyValueTag(pCallback->m_handle, i, 0, cchKey, cchKeySize, cchValueSize, pchValue)) {
+                //                            qDebug() << QByteArray(pchKey) << QByteArray(pchValue);
+                //                        }
+                //                    }
+                //                    if(SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle,i,EItemStatistic::k_EItemStatistic_NumSubscriptions,&subscriber)){
 
+                //                    }
+            }
+        } else {
+            qDebug() << "Loading error!";
+        }
+    }
+    SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
 }
 
 void SteamWorkshop::onWorkshopItemInstalled(ItemInstalled_t* itemInstalled)

@@ -18,26 +18,26 @@
 #include <QUrl>
 #include <QVariant>
 #include <QWindow>
+#include <QtGlobal>
 #include <QtQuick/QQuickItem>
 
-#include <QtGlobal>
 #ifdef Q_OS_WIN
-    #include <qt_windows.h>
+#include <qt_windows.h>
 #endif
-#include "qmlutilities.h"
+
+#include "create.h"
 #include "installedlistfilter.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "profilelistmodel.h"
+#include "qmlutilities.h"
+#include "screenplay.h"
 #include "sdkconnector.h"
 #include "settings.h"
 #include "startuperror.h"
 #include "steam/steam_api.h"
 #include "steamworkshop.h"
 #include "steamworkshoplistmodel.h"
-#include "screenplay.h"
-#include "create.h"
-
 
 int main(int argc, char* argv[])
 {
@@ -77,12 +77,11 @@ int main(int argc, char* argv[])
 
     InstalledListFilter installedListFilter(&installedListModel);
 
-
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, steamID, &app);
-    ScreenPlay screenPlay(&installedListModel,&settings,&monitorListModel,&app, &sdkConnector);
+    ScreenPlay screenPlay(&installedListModel, &settings, &monitorListModel, &app, &sdkConnector);
     QDir SPWorkingDir(QDir::currentPath());
     QDir SPBaseDir(QDir::currentPath());
 
@@ -126,7 +125,7 @@ int main(int argc, char* argv[])
 
 #endif
     SteamWorkshop steamWorkshop(steamID, &steamWorkshopListModel, &settings);
-    Create create(&settings,&qmlUtil);
+    Create create(&settings, &qmlUtil);
 
     // All the list need the default path from the settings
     // to know where to look for the files

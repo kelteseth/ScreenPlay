@@ -14,7 +14,7 @@ Item {
     onStateChanged: {
         bgMouseArea.focus = monitors.state == "active" ? true : false
         if(monitors.state === "active"){
-            screenPlay.requestProjectSettingsListModelAt(at)
+            screenPlay.requestProjectSettingsListModelAt(0)
         }
     }
 

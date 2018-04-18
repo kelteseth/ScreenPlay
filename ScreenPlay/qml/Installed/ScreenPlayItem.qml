@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.3
-
+import QtQuick.Controls.Styles 1.4
 Item {
     id: screenPlayItem
     width: 320
@@ -233,6 +233,7 @@ Item {
                 id: miWorkshop
                 text: qsTr("Open workshop Page")
                 enabled: false
+
                 onClicked: {
                     Qt.openUrlExternally(
                                 "steam://url/CommunityFilePage/" + workshopID)

@@ -24,7 +24,7 @@ Item {
     }
 
     Connections {
-        target: steamWorkshop
+        target: screenPlayCreate
         onLocalWorkshopCreationStatusChanged: {
             switch (status) {
             case LocalWorkshopCreationStatus.Started:

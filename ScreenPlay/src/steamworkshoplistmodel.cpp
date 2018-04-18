@@ -67,7 +67,7 @@ void SteamWorkshopListModel::append(unsigned int id, QString title, QUrl imgUrl,
 {
     int row = 0;
     beginInsertRows(QModelIndex(), row, row);
-    m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(id, title, imgUrl, numSubscriptions)));
+    m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(id, title, imgUrl , "", numSubscriptions)));
     endInsertRows();
 }
 
