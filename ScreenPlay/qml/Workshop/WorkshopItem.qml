@@ -109,8 +109,7 @@ Item {
         Image {
             id: mask
             source: "qrc:/assets/images/Window.svg"
-            sourceSize: Qt.size(screenPlay.width,
-                                screenPlay.height)
+            sourceSize: Qt.size(screenPlay.width, screenPlay.height)
             visible: false
             smooth: true
             asynchronous: true
@@ -191,6 +190,25 @@ Item {
                 icon.width: 12
                 icon.height: 12
             }
+
+            Item {
+                id:openInWorkshop
+                height: 20
+                width: 20
+                z: 99
+                opacity: 0
+                anchors {
+                    margins: 10
+                    top: parent.top
+                    right: parent.right
+                }
+                Image {
+                    source: "qrc:/assets/icons/icon_open_in_new.svg"
+                    sourceSize: Qt.size(parent.width, parent.height)
+                    fillMode: Image.PreserveAspectFit
+
+                }
+            }
         }
 
         OpacityMask {
@@ -229,27 +247,40 @@ Item {
 
                 Connections {
                     target: steamWorkshop
-                    onWorkshopItemInstalled:{
+                    onWorkshopItemInstalled: {
                         print(appID)
-                        if(appID === steamWorkshop.appID){
+                        if (appID === steamWorkshop.appID) {
                             workshopItem.state = "installed"
                             print("match!")
                         }
 
                         print(workshopItem.steamID, publishedFile)
 
-                        if(workshopItem.steamID == publishedFile){
+                        if (workshopItem.steamID == publishedFile) {
 
                         }
                     }
+                }
+            }
 
+            MouseArea {
+                height: 20
+                width: 20
+                cursorShape: Qt.PointingHandCursor
+                anchors {
+                    margins: 10
+                    top: parent.top
+                    right: parent.right
+                }
+                onClicked: {
+                    Qt.openUrlExternally(                                "steam://url/CommunityFilePage/" + steamID)
                 }
             }
         }
         FastBlur {
             id: effBlur
             anchors.fill: itemWrapper
-            source:itemWrapper
+            source: itemWrapper
             radius: 0
         }
 
@@ -303,6 +334,12 @@ Item {
                 anchors.bottomMargin: 10
             }
 
+
+            PropertyChanges {
+                target: openInWorkshop
+                opacity: .75
+            }
+
             PropertyChanges {
                 target: txtTitle
                 opacity: 1
@@ -323,6 +360,10 @@ Item {
 
             PropertyChanges {
                 target: button
+                opacity: 0
+            }
+            PropertyChanges {
+                target: openInWorkshop
                 opacity: 0
             }
 
@@ -346,7 +387,6 @@ Item {
                 opacity: 1
                 anchors.topMargin: 0
             }
-
         },
         State {
             name: "installed"
@@ -392,6 +432,11 @@ Item {
                 target: button
                 duration: 100
                 properties: "opacity, anchors.bottomMargin"
+            }
+            PropertyAnimation {
+                target: openInWorkshop
+                duration: 100
+                properties: "opacity"
             }
             PropertyAnimation {
                 target: txtTitle
