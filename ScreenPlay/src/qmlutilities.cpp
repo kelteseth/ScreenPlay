@@ -2,9 +2,9 @@
 
 #include <QProcess>
 
-QMLUtilities::QMLUtilities(QObject *parent) : QObject(parent)
+QMLUtilities::QMLUtilities(QObject* parent)
+    : QObject(parent)
 {
-
 }
 void QMLUtilities::setNavigation(QString nav)
 {
@@ -34,9 +34,9 @@ void QMLUtilities::openFolderInExplorer(QString url)
 void QMLUtilities::openLicenceFolder()
 {
     QProcess explorer;
-    explorer.setProgram("explorer.exe");
     QStringList args;
-    args.append(QDir::toNativeSeparators(QString(QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + "/ScreenPlay/legal")));
+    args.append(QDir::toNativeSeparators(QCoreApplication::applicationDirPath()+ "/legal"));
+    explorer.setProgram("explorer.exe");
     explorer.setArguments(args);
     explorer.startDetached();
 }
