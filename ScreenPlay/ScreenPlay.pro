@@ -1,8 +1,9 @@
 TEMPLATE = app
-QT += qml quick av widgets quickcontrols2 webkit
+QT += qml quick widgets quickcontrols2 core
 CONFIG += c++17
+CONFIG += qtquickcompiler
 #DEFINES  += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
-
+msvc: LIBS += -luser32
 TARGETPATH = ScreenPlay
 
 SOURCES += main.cpp \
@@ -82,6 +83,13 @@ QT_QUICK_CONTROLS_STYLE = "Material"
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
+
+debug {
+  DEFINES += SP_DEBUG
+}
+release {
+  DEFINES += SP_RELEASE
+}
 
 win32 {
     INCLUDEPATH += "C:\msys64\mingw64\include"

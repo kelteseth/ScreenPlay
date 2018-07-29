@@ -1,8 +1,8 @@
 TEMPLATE = app
-QT += qml quick av widgets quickcontrols2 widgets
+QT += qml quick quickcontrols2 widgets core
 CONFIG += c++17
-
-
+CONFIG += qtquickcompiler
+msvc: LIBS += -luser32
 TARGETPATH = ScreenPlayWindow
 
 SOURCES += \
@@ -51,5 +51,3 @@ win32 {
     INCLUDEPATH += "C:\msys64\mingw64\include"
 }
 
-win32:CONFIG(release, debug|release): LIBS += -L$${OUT_PWD}/../ScreenPlaySDK/release -lScreenPlaySDK.dll
-else:win32:CONFIG(debug, debug|release): LIBS += -L$${OUT_PWD}/../ScreenPlaySDK/debug -lScreenPlaySDKd.dll
