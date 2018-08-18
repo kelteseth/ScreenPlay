@@ -14,21 +14,7 @@ Item {
     property bool buttonActive: true
     property string imgSource: "qrc:/assets/icons/icon_library_music.svg"
 
-    RectangularGlow {
-        id: effectBtnEmpty
-        anchors {
-            top: btnEmpty.top
-        }
 
-        height: btnEmpty.height
-        width: btnEmpty.width
-        cached: true
-        glowRadius: 3
-        spread: 0.2
-        color: "black"
-        opacity: 0.2
-        cornerRadius: 15
-    }
 
     Rectangle {
         width: parent.width

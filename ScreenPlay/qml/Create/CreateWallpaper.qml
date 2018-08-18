@@ -52,7 +52,7 @@ Item {
 
             Image {
                 id: imgUpload
-                source: "qrc:/assets/icons/icon_upload.svg"
+                source: "qrc:/assets/icons/icon_movie.svg"
                 height: 120
                 width: 120
                 anchors {

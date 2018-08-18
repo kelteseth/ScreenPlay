@@ -1,11 +1,10 @@
 import QtQuick 2.9
-import QtAV 1.7
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Controls.Styles 1.4
-
+import QtQuick.Layouts 1.3
 import RemoteWorkshopCreationStatus 1.0
 
 Item {
@@ -31,23 +30,21 @@ Item {
         txtTitle.text = jsonProjectFile.title
         txtDescription.text = jsonProjectFile.description
 
-        var newStr = projectFile.substring(0, projectFile.length-12);
+        var newStr = projectFile.substring(0, projectFile.length - 12)
 
-        player.source = utility.fixWindowsPath(newStr + jsonProjectFile.file)
-        print(player.source)
-        player.play()
+        imgPreview.source = Qt.resolvedUrl(newStr + jsonProjectFile.preview)
     }
 
     Connections {
         target: steamWorkshop
         ignoreUnknownSignals: true
         onWorkshopItemCreated: {
-            print(userNeedsToAcceptWorkshopLegalAgreement, publishedFileId + "" + projectFile)
+            print(userNeedsToAcceptWorkshopLegalAgreement,
+                  publishedFileId + "" + projectFile)
             steamWorkshop.submitWorkshopItem(txtTitle.text.toString(),
                                              txtDescription.text.toString(),
                                              "english", 0, projectFile,
-                                             videoFile,
-                                             publishedFileId)
+                                             videoFile, publishedFileId)
         }
         onRemoteWorkshopCreationStatusChanged: {
             switch (status) {
@@ -146,42 +143,24 @@ Item {
             horizontalCenter: parent.horizontalCenter
         }
 
-        VideoOutput2 {
-            id: videoOut
-            z: 13
+        Image {
+            id: imgPreview
             anchors.fill: parent
-            source: player
-            fillMode: VideoOutput.Stretch
+        }
 
-            Image {
-                id: imgPreview
-                anchors.fill: parent
-                opacity: 0
-            }
-
-            Rectangle {
-                id: rectProgressBar
-                height: 5
-                color: "orange"
-                anchors {
-                    right: parent.right
-                    rightMargin: videoOutWrapper.width
-                    left: parent.left
-                    leftMargin: 0
-                    bottom: parent.bottom
-                    bottomMargin: 0
-                }
+        Rectangle {
+            id: rectProgressBar
+            height: 5
+            color: "orange"
+            anchors {
+                right: parent.right
+                rightMargin: videoOutWrapper.width
+                left: parent.left
+                leftMargin: 0
+                bottom: parent.bottom
+                bottomMargin: 0
             }
         }
-    }
-
-    MediaPlayer {
-        id: player
-        videoCodecPriority: ["CUDA", "D3D11", "DXVA", "VAAPI", "FFmpeg"]
-        autoPlay: false
-        onPlaying: print("playing")
-        loops: MediaPlayer.Infinite
-        volume: 0
     }
 
     RectangularGlow {
@@ -216,7 +195,7 @@ Item {
             horizontalCenter: parent.horizontalCenter
         }
 
-        Column {
+        ColumnLayout {
 
             anchors {
                 top: parent.top
@@ -232,7 +211,7 @@ Item {
             TextField {
                 id: txtTitle
                 height: 60
-                width: parent.width
+                Layout.preferredWidth: parent.width
                 selectByMouse: true
                 text: qsTr("")
                 placeholderText: "Title"
@@ -240,7 +219,7 @@ Item {
             TextField {
                 id: txtDescription
                 height: 60
-                width: parent.width
+                Layout.preferredWidth: parent.width
                 selectByMouse: true
                 text: qsTr("")
                 placeholderText: "Description"
@@ -249,18 +228,42 @@ Item {
             TextField {
                 id: txtYoutube
                 height: 60
-                width: parent.width
+                Layout.preferredWidth: parent.width
                 selectByMouse: true
                 text: qsTr("")
                 placeholderText: "Youtube Preview URL"
             }
-            TextField {
-                id: txtTags
-                height: 60
-                width: parent.width
-                selectByMouse: true
-                text: qsTr("")
-                placeholderText: "Tags - Seperation between tags via , "
+            Row {
+                height: 50
+                Layout.alignment: Qt.AlignHCenter
+                Item {
+                    width: 100
+                    height: 50
+                    CheckBox {
+                        text: qsTr("Videos")
+                    }
+                }
+                Item {
+                    width: 100
+                    height: 50
+                    CheckBox {
+                        text: qsTr("Scenes")
+                    }
+                }
+                Item {
+                    width: 100
+                    height: 50
+                    CheckBox {
+                        text: qsTr("Widgets")
+                    }
+                }
+                Item {
+                    width: 100
+                    height: 50
+                    CheckBox {
+                        text: qsTr("AppDrawer")
+                    }
+                }
             }
         }
 
@@ -274,7 +277,7 @@ Item {
             Material.background: Material.Orange
             Material.foreground: "white"
             icon.source: "qrc:/assets/icons/icon_upload.svg"
-            icon.color:"white"
+            icon.color: "white"
             icon.width: 16
             icon.height: 16
             onClicked: {
@@ -367,10 +370,7 @@ Item {
                 target: createUpload
                 opacity: 1
             }
-            PropertyChanges {
-                target: videoOut
-                opacity: 1
-            }
+
             PropertyChanges {
                 target: effect
                 opacity: .4
@@ -398,10 +398,7 @@ Item {
                 target: createUpload
                 opacity: 1
             }
-            PropertyChanges {
-                target: videoOut
-                opacity: 1
-            }
+
             PropertyChanges {
                 target: effect
                 opacity: 0
@@ -429,10 +426,7 @@ Item {
                 target: createUpload
                 opacity: 1
             }
-            PropertyChanges {
-                target: videoOut
-                opacity: 0
-            }
+
             PropertyChanges {
                 target: effect
                 opacity: 0
