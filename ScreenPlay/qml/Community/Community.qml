@@ -132,7 +132,7 @@ Item {
 
     XmlListModel {
         id: feedModel
-        source: "http://screen-play.rocks/index.php?option=com_content&view=category&layout=blog&id=10&format=feed&type=rss"
+        source: "http://screen-play.app/index.php?option=com_content&view=category&layout=blog&id=10&format=feed&type=rss"
         query: "/rss/channel/item"
         XmlRole {
             name: "title"
@@ -321,7 +321,7 @@ Item {
                 text: qsTr("Forums")
                 Material.background: Material.Blue
                 Material.foreground: "white"
-                onClicked: Qt.openUrlExternally("https://forum.screen-play.rocks/")
+                onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
                 icon.source: "qrc:/assets/icons/icon_people.svg"
                 icon.color: "white"
                 icon.width: 16
@@ -335,7 +335,7 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                onClicked: Qt.openUrlExternally("https://screen-play.rocks/index.php/blog")
+                onClicked: Qt.openUrlExternally("https://screen-play.app/index.php/blog")
             }
             Button {
                 text: qsTr("Github")

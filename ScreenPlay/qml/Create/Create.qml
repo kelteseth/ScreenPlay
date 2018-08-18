@@ -296,7 +296,7 @@ Rectangle {
                 icon.width: 16
                 icon.height: 16
                 onClicked: Qt.openUrlExternally(
-                               "https://forum.screen-play.rocks/")
+                               "https://forum.screen-play.app/")
             }
             Button {
                 text: qsTr("Workshop")
