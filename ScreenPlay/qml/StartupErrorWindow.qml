@@ -205,7 +205,7 @@ ApplicationWindow {
             Material.background: Material.LightGreen
             Material.foreground: "white"
             Layout.alignment: Qt.AlignCenter
-            onClicked: Qt.openUrlExternally("https://forum.screen-play.rocks")
+            onClicked: Qt.openUrlExternally("https://forum.screen-play.app")
         }
     }
 }
