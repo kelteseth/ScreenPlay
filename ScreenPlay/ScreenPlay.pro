@@ -60,14 +60,17 @@ CONFIG(debug, debug|release) {
  } else {
     install_it.path = $${OUT_PWD}/release/
  }
-
+installOut.path =  $${OUT_PWD}/
 
 install_it.files += assets/templates/config.json \
                     assets/icons/favicon.ico \
-                    steam_appid.txt \
                     settings.json \
+                    steam_appid.txt \
+
+installOut.files += steam_appid.txt \
 
 INSTALLS += install_it
+INSTALLS += installOut
 
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
