@@ -1,6 +1,5 @@
 #pragma once
 
-
 #include <QApplication>
 #include <QDir>
 #include <QEasingCurve>
@@ -16,9 +15,11 @@
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
 #include <QtGlobal>
+
 #ifdef Q_OS_WIN
     #include <qt_windows.h>
 #endif
+
 class MainWindow : public QWindow {
     Q_OBJECT
 
@@ -36,6 +37,7 @@ public:
     Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
     Q_PROPERTY(bool loops READ loops WRITE setLoops NOTIFY loopsChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
+    Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
 
 
     QString projectConfig() const
@@ -84,6 +86,11 @@ public:
     QString decoder() const
     {
         return m_decoder;
+    }
+
+    QString fullContentPath() const
+    {
+        return m_fullContentPath;
     }
 
 public slots:
@@ -155,6 +162,17 @@ public slots:
         emit decoderChanged(m_decoder);
     }
 
+    QString getApplicationPath();
+
+    void setFullContentPath(QString fullContentPath)
+    {
+        if (m_fullContentPath == fullContentPath)
+            return;
+
+        m_fullContentPath = fullContentPath;
+        emit fullContentPathChanged(m_fullContentPath);
+    }
+
 signals:
     void playVideo(QString path);
     void playQmlScene(QString file);
@@ -166,6 +184,8 @@ signals:
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
     void decoderChanged(QString decoder);
+
+    void fullContentPathChanged(QString fullContentPath);
 
 private:
     #ifdef Q_OS_WIN
@@ -185,4 +205,5 @@ private:
     bool m_loops;
     float m_volume;
     QString m_decoder;
+    QString m_fullContentPath;
 };

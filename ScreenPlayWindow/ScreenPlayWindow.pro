@@ -1,7 +1,7 @@
 TEMPLATE = app
 QT += qml quick quickcontrols2 widgets core
 CONFIG += c++17
-CONFIG += qtquickcompiler
+#CONFIG += qtquickcompiler
 msvc: LIBS += -luser32
 TARGETPATH = ScreenPlayWindow
 
@@ -28,9 +28,15 @@ CONFIG(debug, debug|release) {
  }
 
 
+install_it.files += index.html \
+
+INSTALLS += install_it
+
+DISTFILES += \
+    index.html
+
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH += [QtAVSourceCodeDir]/qml
-QML_IMPORT_PATH += "C:\msys64\mingw64\share\qt5\qml"
+QML_IMPORT_PATH =
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 QML_DESIGNER_IMPORT_PATH =
@@ -46,8 +52,3 @@ DEFINES += QT_DEPRECATED_WARNINGS
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
-
-win32 {
-    INCLUDEPATH += "C:\msys64\mingw64\include"
-}
-

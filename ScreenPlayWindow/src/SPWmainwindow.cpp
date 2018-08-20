@@ -1,4 +1,5 @@
 #include "SPWmainwindow.h"
+
 #ifdef Q_OS_WIN
 
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
@@ -14,6 +15,7 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
     return TRUE;
 }
 #endif
+
 MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, QString volume, QString fillmode, QScreen* parent)
     : QWindow(parent)
 {
@@ -51,6 +53,20 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
 
     if (m_project.contains("file"))
         m_projectFile = m_project.value("file").toString();
+
+    if (m_project.contains("type")) {
+        if (m_project.value("type") == "video") {
+            QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
+            setFullContentPath(tmpPath);
+
+            emit playVideo(tmpPath);
+        } else if (m_project.value("type") == "scene") {
+            return;
+        } else if (m_project.value("type") == "qmlScene") {
+            QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
+            emit playQmlScene(tmpPath);
+        }
+    }
 
     // Recalculate window coordiantes because of point (0,0)
     // Is at the origin monitor or the most left
@@ -116,34 +132,28 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
         }
     });
 
-    if (m_project.contains("type")) {
-        if (m_project.value("type") == "video") {
-            QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
 
-            emit playVideo(tmpPath);
-        } else if (m_project.value("type") == "scene") {
-            return;
-        } else if (m_project.value("type") == "qmlScene") {
-            QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
-            emit playQmlScene(tmpPath);
-        }
-    }
 #endif
 }
 void MainWindow::init()
 {
     setOpacity(0);
 #ifdef Q_OS_WIN
-
     ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
 #endif
+    setOpacity(0);
     QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
     animation->setDuration(200);
     //animation->setEasingCurve(QEasingCurve::OutCubic);
     animation->setStartValue(0.0);
     animation->setEndValue(1.0);
     animation->start();
+}
+
+QString MainWindow::getApplicationPath()
+{
+    return QApplication::applicationDirPath();
 }
 
 void MainWindow::setScreenNumber(const QVector<int>& screenNumber)

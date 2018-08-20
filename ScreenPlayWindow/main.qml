@@ -1,22 +1,13 @@
 import QtQuick 2.9
+import QtWebEngine 1.6
 import net.aimber.screenplaysdk 1.0
 
 Rectangle {
     id: root
-    color: "gray"
+    color: "transparent"
     anchors.fill: parent
     property string tmpVideoPath
     property var jsonProjectFile
-
-    Component.onCompleted: {
-
-
-        //        jsonProjectFile = JSON.parse(mainwindow.projectConfig)
-
-        //        if(jsonProjectFile.type === "qmlScene"){
-
-        //        }
-    }
 
     ScreenPlaySDK {
         id: spSDK
@@ -24,13 +15,14 @@ Rectangle {
         appID: mainwindow.appID
 
         onIncommingMessageError: {
-            //rctError.opacity = 1
-            //txtDebug.text = "ERROR: " + msg.toString()
+
         }
         onIncommingMessage: {
-            var obj2 = 'import QtQuick 2.9; Item {Component.onCompleted: sceneLoader.item.' + key + ' = ' + value + '; }'
-            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
-            newObject.destroy(10000)
+
+
+            //            var obj2 = 'import QtQuick 2.9; Item {Component.onCompleted: sceneLoader.item.' + key + ' = ' + value + '; }'
+            //            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
+            //            newObject.destroy(10000)
         }
 
         onSdkConnected: {
@@ -38,8 +30,6 @@ Rectangle {
         }
 
         onSdkDisconnected: {
-            //name.text = "disconnected"
-            screenVideo.state = "destroy"
             mainwindow.destroyThis()
         }
     }
@@ -48,53 +38,60 @@ Rectangle {
         target: mainwindow
 
         onPlayVideo: {
-            screenVideo.videoPath = path
-            //screenVideoLoader.setSource("qrc:/ScreenVideo.qml", {videoPath: path})
+
         }
         onPlayQmlScene: {
-            var tmp = Qt.resolvedUrl("file:///" + file)
-            print(tmp)
-            sceneLoader.setSource(tmp)
-            mainwindow.init()
+
         }
 
-        onDecoderChanged:{
-            screenVideo.decoder = decoder
+        onDecoderChanged: {
+
         }
-        onFillModeChanged:{
-            screenVideo.fillMode = fillMode
+        onFillModeChanged: {
+
         }
-        onLoopsChanged:{
-            screenVideo.loops = loops
+        onLoopsChanged: {
+
         }
-        onVolumeChanged:{
-            screenVideo.volume = volume
+        onVolumeChanged: {
+
         }
     }
 
-    ScreenVideo {
-        id: screenVideo
-    }
-
-    //    Loader {
-    //        id:screenVideoLoader
-    //        anchors.fill: parent
-    //    }
-    Loader {
-        id: sceneLoader
+    WebEngineView {
+        id: webView
         anchors.fill: parent
+        url: Qt.resolvedUrl("file:///" + mainwindow.getApplicationPath() + "/index.html")
+        onLoadProgressChanged: {
+            print(loadProgress)
+            if (loadProgress === 100) {
+                timerShowDelay.start()
+            }
+        }
+        userScripts: [scriptPlayer]
+        onJavaScriptConsoleMessage: print(message)
+        settings.allowRunningInsecureContent: true
+
+        WebEngineScript {
+            id: scriptPlayer
+            injectionPoint: WebEngineScript.DocumentReady
+            worldId: WebEngineScript.MainWorld
+            sourceCode: {
+                return "var videoPlayer = document.getElementById('videoPlayer');
+                        var videoSource = document.getElementById('videoSource');
+                        videoSource.src = \"file:///" + mainwindow.fullContentPath + "\";
+                        videoPlayer.load();"
+            }
+        }
+
+
     }
 
-    Rectangle {
-        id: rctError
-        opacity: 0
-        height: 300
-        width: 600
-        anchors.centerIn: parent
-        Text {
-            id: txtDebug
-            font.pixelSize: 32
-            anchors.centerIn: parent
+    Timer {
+        id: timerShowDelay
+        interval: 2000
+        onTriggered: {
+            mainwindow.init()
         }
     }
 }
