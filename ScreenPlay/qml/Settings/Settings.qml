@@ -9,23 +9,6 @@ Item {
     id: settingsWrapper
     anchors.fill: parent
 
-    Connections {
-        target: screenPlaySettings
-        onDecoderChanged: {
-            if (decoder === "CUDA") {
-                settingsComboBox.currentIndex = 0
-            } else if (decoder === "D3D11") {
-                settingsComboBox.currentIndex = 1
-            } else if (decoder === "DXVA") {
-                settingsComboBox.currentIndex = 2
-            } else if (decoder === "VAAPI") {
-                settingsComboBox.currentIndex = 3
-            } else if (decoder === "FFmpeg") {
-                settingsComboBox.currentIndex = 4
-            }
-        }
-    }
-
     Flickable {
         id: flickableWrapper
         width: 800
@@ -180,7 +163,7 @@ Item {
 
             Item {
                 id: settingsPerformanceWrapper
-                height: 300
+                height: 220
                 width: parent.width
 
                 RectangularGlow {
@@ -233,37 +216,6 @@ Item {
                             onCheckboxChanged: {
                                 screenPlaySettings.setPauseWallpaperWhenIngame(checked)
                                 screenPlaySettings.writeSingleSettingConfig("setPauseWallpaperWhenIngame",checked)
-                            }
-                        }
-                        SettingsHorizontalSeperator {
-                        }
-                        SettingsComboBox {
-                            id: settingsComboBox
-                            headline: qsTr("Default decoder")
-                            description: qsTr("ScreenPlay supports different encoders for different hardware requirements.")
-                            onCurrentIndexChanged: {
-                                screenPlaySettings.setDecoder(
-                                            settingsComboBox.comboBoxListModel.get(
-                                                settingsComboBox.currentIndex).text.toString(
-                                                ))
-                            }
-                            comboBoxListModel: ListModel {
-                                id: model
-                                ListElement {
-                                    text: "CUDA"
-                                }
-                                ListElement {
-                                    text: "D3D11"
-                                }
-                                ListElement {
-                                    text: "DXVA"
-                                }
-                                ListElement {
-                                    text: "VAAPI"
-                                }
-                                ListElement {
-                                    text: "FFmpeg"
-                                }
                             }
                         }
                         SettingsHorizontalSeperator {
