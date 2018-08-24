@@ -137,18 +137,10 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
 }
 void MainWindow::init()
 {
-    setOpacity(0);
 #ifdef Q_OS_WIN
-    ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+    ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
 #endif
-    setOpacity(0);
-    QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
-    animation->setDuration(200);
-    //animation->setEasingCurve(QEasingCurve::OutCubic);
-    animation->setStartValue(0.0);
-    animation->setEndValue(1.0);
-    animation->start();
 }
 
 QString MainWindow::getApplicationPath()

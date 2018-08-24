@@ -65,33 +65,39 @@ Rectangle {
         onLoadProgressChanged: {
             print(loadProgress)
             if (loadProgress === 100) {
-                timerShowDelay.start()
-            }
-        }
-        userScripts: [scriptPlayer]
-        onJavaScriptConsoleMessage: print(message)
-        settings.allowRunningInsecureContent: true
-
-        WebEngineScript {
-            id: scriptPlayer
-            injectionPoint: WebEngineScript.DocumentReady
-            worldId: WebEngineScript.MainWorld
-            sourceCode: {
-                return "var videoPlayer = document.getElementById('videoPlayer');
+                runJavaScript("var videoPlayer = document.getElementById('videoPlayer');
                         var videoSource = document.getElementById('videoSource');
                         videoSource.src = \"file:///" + mainwindow.fullContentPath + "\";
-                        videoPlayer.load();"
+                        videoPlayer.load();", function(result) {  mainwindow.init(); timer.start()});
+
             }
         }
-
-
+        onJavaScriptConsoleMessage: print(message)
+        settings.allowRunningInsecureContent: true
     }
-
     Timer {
-        id: timerShowDelay
-        interval: 2000
+        id:timer
+        interval: 200
         onTriggered: {
-            mainwindow.init()
+            curtain.opacity = 0
+            anim.start()
+            print("start")
         }
     }
+
+    Rectangle {
+        id:curtain
+        anchors.fill: parent
+        color: "black"
+
+        PropertyAnimation {
+            id:anim
+            property: "opacity"
+            target: curtain
+            from: "1"
+            to: "0"
+            duration: 300
+        }
+    }
+
 }
