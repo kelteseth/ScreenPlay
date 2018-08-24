@@ -192,27 +192,37 @@ void Create::importVideo(QString title, QUrl videoPath, int timeStamp, int video
         qDebug() << "Start converting video to thumbnail";
 #ifdef QT_DEBUG
         pro.data()->setProgram("C:/msys64/mingw64/bin/ffmpeg.exe");
-#elif
+#endif
+#ifdef QT_NO_DEBUG
         pro.data()->setProgram("ffmpeg.exe");
 #endif
+        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ConvertingPreviewImage);
         pro.data()->start();
         pro.data()->waitForFinished(-1);
         qDebug() << "Done converting video to thumbnail" << pro.data()->readAllStandardOutput();
+        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ConvertingPreviewImageFinished);
         pro.data()->close();
 
     });
+
+    createVideoPreview(tmpPath,((videoDurationInSeconds * videoFrameRate) / 120));
+
+}
+
+void Create::createVideoPreview(QString path, int framesToSkip)
+{
 
     QtConcurrent::run([=]() {
         QStringList args;
         args.append("-y");
         args.append("-i");
-        args.append(tmpPath);
+        args.append(path);
         args.append("-speed");
         args.append("ultrafast");
         args.append("-vf");
         // We allways want to have a 5 second clip via 24fps -> 120
         // Divided by the number of frames we can skip (timeInSeconds * Framrate)
-        args.append("select='not(mod(n\\," + QString::number((videoDurationInSeconds * videoFrameRate) / 120) + "))',setpts=N/FRAME_RATE/TB,scale=480:-1");
+        args.append("select='not(mod(n\\," + QString::number(framesToSkip) + "))',setpts=N/FRAME_RATE/TB,scale=480:-1");
         args.append("-an");
         args.append("preview.mp4");
         QScopedPointer<QProcess> pro(new QProcess());
@@ -221,12 +231,14 @@ void Create::importVideo(QString title, QUrl videoPath, int timeStamp, int video
         qDebug() << "Start converting video to preview";
 #ifdef QT_DEBUG
         pro.data()->setProgram("C:/msys64/mingw64/bin/ffmpeg.exe");
-#elif
+#else
         pro.data()->setProgram("ffmpeg.exe");
 #endif
+        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ConvertingPreviewVideo);
         pro.data()->start();
         pro.data()->waitForFinished(-1);
         qDebug() << "Done converting video to preview" << pro.data()->readAllStandardOutput();
+        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ConvertingPreviewVideoFinished);
         pro.data()->close();
 
     });

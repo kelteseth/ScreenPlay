@@ -22,6 +22,10 @@ enum Value {
     CopyVideoFinished,
     CopyImageFinished,
     CopyConfigFinished,
+    ConvertingPreviewImage,
+    ConvertingPreviewImageFinished,
+    ConvertingPreviewVideo,
+    ConvertingPreviewVideoFinished,
     Finished,
     ErrorFolder,
     ErrorFolderCreation,
@@ -49,6 +53,7 @@ public slots:
 
     void importVideo(QString title, QUrl videoPath, QUrl previewPath, int videoDuration);
     void importVideo(QString title, QUrl videoPath, int timeStamp, int videoDuration, int videoFrameRate);
+    void createVideoPreview(QString path, int framesToSkip);
 
 private:
     Settings* m_settings;
