@@ -116,16 +116,16 @@ void InstalledListModel::loadScreens()
                 continue;
 
             //Some settings dont have a file type
-            if (!obj.contains("type")) {
-                if (obj.contains("file")) {
-                    QString fileEnding = obj.value("file").toString();
-                    if (fileEnding.endsWith(".mp4") || fileEnding.endsWith(".vp9") || fileEnding.endsWith(".webm")) {
-                        obj.insert("type", "video");
-                    }
-                }
-            }
 
-            emit addInstalledItem(obj, item.baseName());
+            QString fileEnding;
+            if (obj.contains("file")) {
+                fileEnding = obj.value("file").toString();
+                if (!obj.contains("type")) {
+                    obj.insert("type", "video");
+                }
+                if (fileEnding.endsWith(".webm"))
+                    emit addInstalledItem(obj, item.baseName());
+            }
         }
         emit installedLoadingFinished();
     });
