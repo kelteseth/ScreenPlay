@@ -1,4 +1,5 @@
-﻿#include <QDebug>
+#include <QThread>
+#include <QDebug>
 #include <QDir>
 #include <QFontDatabase>
 #include <QGuiApplication>
@@ -9,7 +10,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQmlEngine>
-#include <QQuickStyle>
+
 #include <QQuickView>
 #include <QScreen>
 #include <QStringList>
@@ -25,25 +26,26 @@
 #include <qt_windows.h>
 #endif
 
-#include "create.h"
-#include "installedlistfilter.h"
-#include "installedlistmodel.h"
-#include "monitorlistmodel.h"
-#include "profilelistmodel.h"
-#include "qmlutilities.h"
-#include "screenplay.h"
-#include "sdkconnector.h"
-#include "settings.h"
-#include "startuperror.h"
-#include "steam/steam_api.h"
-#include "steamworkshop.h"
-#include "steamworkshoplistmodel.h"
+#include "src/create.h"
+#include "src/installedlistfilter.h"
+#include "src/installedlistmodel.h"
+#include "src/monitorlistmodel.h"
+#include "src/profilelistmodel.h"
+#include "src/qmlutilities.h"
+#include "src/screenplay.h"
+#include "src/sdkconnector.h"
+#include "src/settings.h"
+#include "src/startuperror.h"
+#include "ThirdParty/steam/steam_api.h"
+#include "src/steamworkshop.h"
+#include "src/steamworkshoplistmodel.h"
+#include "globalconstans.h"
 
 int main(int argc, char* argv[])
 {
 
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
+    QGuiApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
 
     QGuiApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false);
@@ -86,6 +88,7 @@ int main(int argc, char* argv[])
     QDir SPBaseDir(QDir::currentPath());
 
 #ifdef QT_DEBUG
+    qDebug() << "Starting in Debug mode!";
     if (SPWorkingDir.cdUp()) {
         settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
         settings.setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
@@ -97,8 +100,9 @@ int main(int argc, char* argv[])
     SPBaseDir.cd("ScreenPlay");
     SPBaseDir.cd("ScreenPlay");
     settings.setScreenPlayBasePath(QUrl(SPBaseDir.path()));
-
-#elif
+#endif
+#ifdef QT_NO_DEBUG
+    qDebug() << "Starting in Release mode!";
     settings.setScreenPlayBasePath(QUrl(SPWorkingDir.path()));
 
     // If we build in the release version we must be cautious!
@@ -120,9 +124,8 @@ int main(int argc, char* argv[])
     } else {
         // If started by Steam
         settings.setScreenPlayWindowPath(QUrl("ScreenPlayWindow.exe"));
-        settings.setScreenPlayWindowPath(QUrl("ScreenPlayWidget.exe"));
+        settings.setScreenPlayWidgetPath(QUrl("ScreenPlayWidget.exe"));
     }
-
 #endif
     SteamWorkshop steamWorkshop(steamID, &steamWorkshopListModel, &settings);
     Create create(&settings, &qmlUtil);

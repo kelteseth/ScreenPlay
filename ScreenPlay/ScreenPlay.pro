@@ -6,6 +6,8 @@ CONFIG += qtquickcompiler
 msvc: LIBS += -luser32
 TARGETPATH = ScreenPlay
 
+ICON = favicon.ico
+
 SOURCES += main.cpp \
     src/steamworkshop.cpp \
     src/installedlistmodel.cpp \
@@ -25,8 +27,7 @@ SOURCES += main.cpp \
     src/qmlutilities.cpp \
     src/create.cpp
 
-RESOURCES += \
-    Resources.qrc \
+RESOURCES += Resources.qrc
 
 TRANSLATIONS =  translations/ScreenPlay_en.ts   \
                 translations/ScreenPlay_de.ts
@@ -52,7 +53,7 @@ HEADERS += \
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \
-    $$PWD/src/\
+    $$PWD/src/
 
 
 CONFIG(debug, debug|release) {
@@ -72,10 +73,8 @@ installOut.files += steam_appid.txt \
 INSTALLS += install_it
 INSTALLS += installOut
 
-
 # Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH += [QtAVSourceCodeDir]/qml
-
+QML_IMPORT_PATH =
 
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 # QML_DESIGNER_IMPORT_PATH =
@@ -95,8 +94,6 @@ release {
 }
 
 win32 {
-    INCLUDEPATH += "C:\msys64\mingw64\include"
-
     win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/win64/ -lsteam_api64
     DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/win64
 }
