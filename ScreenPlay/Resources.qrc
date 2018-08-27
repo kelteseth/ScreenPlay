@@ -106,5 +106,7 @@
         <file>assets/icons/icon_emptyWidget.svg</file>
         <file>qml/Create/CreateNew.qml</file>
         <file>assets/icons/icon_open_in_new.svg</file>
+        <file>translations/ScreenPlay_de.qm</file>
+        <file>translations/ScreenPlay_en.qm</file>
     </qresource>
 </RCC>
