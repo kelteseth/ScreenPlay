@@ -138,6 +138,7 @@ bool MonitorListModel::getMonitorListItemAt(int position, Monitor* monitor)
     //        *monitor = m_monitorList.at(position);
     //        return true;
     //    }
+    return true;
 }
 
 void MonitorListModel::screenAdded(QScreen* screen)

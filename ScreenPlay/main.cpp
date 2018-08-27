@@ -39,7 +39,7 @@
 #include "ThirdParty/steam/steam_api.h"
 #include "src/steamworkshop.h"
 #include "src/steamworkshoplistmodel.h"
-#include "globalconstans.h"
+
 
 int main(int argc, char* argv[])
 {

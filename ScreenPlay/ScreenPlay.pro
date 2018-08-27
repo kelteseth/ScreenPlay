@@ -1,7 +1,7 @@
 TEMPLATE = app
 QT += qml quick widgets quickcontrols2 core
 CONFIG += c++17
-CONFIG += qtquickcompiler
+#CONFIG += qtquickcompiler
 #DEFINES  += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
 msvc: LIBS += -luser32
 TARGETPATH = ScreenPlay

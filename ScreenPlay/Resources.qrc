@@ -104,8 +104,6 @@
         <file>assets/icons/icon_library_music.svg</file>
         <file>assets/icons/icon_time.svg</file>
         <file>assets/icons/icon_emptyWidget.svg</file>
-        <file>translations/ScreenPlay_de.qm</file>
-        <file>translations/ScreenPlay_en.qm</file>
         <file>qml/Create/CreateNew.qml</file>
         <file>assets/icons/icon_open_in_new.svg</file>
     </qresource>

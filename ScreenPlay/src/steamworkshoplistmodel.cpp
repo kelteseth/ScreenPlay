@@ -19,6 +19,7 @@ QHash<int, QByteArray> SteamWorkshopListModel::roleNames() const
 QVariant SteamWorkshopListModel::headerData(int section, Qt::Orientation orientation, int role) const
 {
     // FIXME: Implement me!
+    return  QVariant();
 }
 
 bool SteamWorkshopListModel::setHeaderData(int section, Qt::Orientation orientation, const QVariant& value, int role)
@@ -130,7 +131,9 @@ bool SteamWorkshopListModel::insertRows(int row, int count, const QModelIndex& p
 {
     beginInsertRows(parent, row, row + count - 1);
     // FIXME: Implement me!
+
     endInsertRows();
+    return true;
 }
 
 bool SteamWorkshopListModel::removeRows(int row, int count, const QModelIndex& parent)
@@ -138,4 +141,5 @@ bool SteamWorkshopListModel::removeRows(int row, int count, const QModelIndex& p
     beginRemoveRows(parent, row, row + count - 1);
     // FIXME: Implement me!
     endRemoveRows();
+    return true;
 }
