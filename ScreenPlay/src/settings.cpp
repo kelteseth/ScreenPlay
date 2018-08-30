@@ -175,44 +175,46 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
     configTmp.close();
 }
 
-QString Settings::getAllLicenes()
+void Settings::requestAllLicenses()
 {
 
-    QString tmp;
-    QFile file;
-    QTextStream out(&file);
+    QtConcurrent::run([this]() {
+        QString tmp;
+        QFile file;
+        QTextStream out(&file);
 
-    file.setFileName(":/legal/Font Awesome Free License.txt");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    tmp += out.readAll();
-    file.close();
+        file.setFileName(":/legal/Font Awesome Free License.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
 
-    file.setFileName(":/legal/gpl-3.0.txt");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    tmp += out.readAll();
-    file.close();
+        file.setFileName(":/legal/gpl-3.0.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
 
-    file.setFileName(":/legal/gpl-3.0.txt");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    tmp += out.readAll();
-    file.close();
+        file.setFileName(":/legal/gpl-3.0.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
 
-    file.setFileName(":/legal/OFL.txt");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    tmp += out.readAll();
-    file.close();
+        file.setFileName(":/legal/OFL.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
 
-    file.setFileName(":/legal/OpenSSL.txt");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    tmp += out.readAll();
-    file.close();
+        file.setFileName(":/legal/OpenSSL.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
 
-    file.setFileName(":/legal/Qt LGPLv3.txt");
-    file.open(QIODevice::ReadOnly | QIODevice::Text);
-    tmp += out.readAll();
-    file.close();
+        file.setFileName(":/legal/Qt LGPLv3.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
 
-    return  tmp;
+        emit this->allLicenseLoaded(tmp);
+    });
 }
 
 void Settings::setMuteAll(bool isMuted)
@@ -270,7 +272,7 @@ QUrl Settings::getScreenPlayWidgetPath() const
     return m_screenPlayWidgetPath;
 }
 
-void Settings::setScreenPlayWidgetPath(const QUrl &screenPlayWidgetPath)
+void Settings::setScreenPlayWidgetPath(const QUrl& screenPlayWidgetPath)
 {
     m_screenPlayWidgetPath = screenPlayWidgetPath;
 }
@@ -311,4 +313,3 @@ void Settings::checkForOtherFullscreenApplication()
 
     //    }
 }
-

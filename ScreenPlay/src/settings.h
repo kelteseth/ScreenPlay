@@ -11,6 +11,7 @@
 #include <QProcess>
 #include <QProcessEnvironment>
 #include <QQmlPropertyMap>
+#include <QtConcurrent/QtConcurrent>
 #include <QSettings>
 #include <QSharedPointer>
 #include <QStandardPaths>
@@ -134,8 +135,8 @@ signals:
     void setMainWindowVisible(bool visible);
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
-
     void offlineModeChanged(bool offlineMode);
+    void allLicenseLoaded(QString licenses);
 
 public slots:
     void setMuteAll(bool isMuted);
@@ -144,7 +145,7 @@ public slots:
     void setGlobalVolume(float volume);
     void setGlobalFillMode(QString fillMode);
     void writeSingleSettingConfig(QString name, QVariant value);
-    QString getAllLicenes();
+    void requestAllLicenses();
 
     bool autostart() const
     {

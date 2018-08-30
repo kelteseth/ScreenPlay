@@ -8,6 +8,15 @@ Rectangle {
     state: "off"
     clip: true
 
+    Component.onCompleted: screenPlaySettings.requestAllLicenses()
+
+    Connections {
+        target: screenPlaySettings
+        onAllLicenseLoaded: {
+            txtLegal.text = licenses
+        }
+    }
+
     Flickable {
         anchors.fill: parent
         contentHeight: txtLegal.paintedHeight
@@ -29,8 +38,6 @@ Rectangle {
             color: "#626262"
             renderType: Text.NativeRendering
             height: txtLegal.paintedHeight
-            onHeightChanged: print(height)
-            text: screenPlaySettings.getAllLicenes()
         }
     }
 
