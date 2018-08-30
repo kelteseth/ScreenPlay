@@ -108,5 +108,12 @@
         <file>assets/icons/icon_open_in_new.svg</file>
         <file>translations/ScreenPlay_de.qm</file>
         <file>translations/ScreenPlay_en.qm</file>
+        <file>qml/Settings/SettingsExpander.qml</file>
+        <file>legal/Font Awesome Free License.txt</file>
+        <file>legal/gpl-3.0.txt</file>
+        <file>legal/lgpl-2.1.txt</file>
+        <file>legal/OFL.txt</file>
+        <file>legal/OpenSSL.txt</file>
+        <file>legal/Qt LGPLv3.txt</file>
     </qresource>
 </RCC>

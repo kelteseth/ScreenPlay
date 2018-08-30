@@ -245,7 +245,7 @@ Item {
 
             Item {
                 id: settingsAboutrapper
-                height: 350
+                height: settingsAboutrapperWrapper.childrenRect.height + 100
                 width: parent.width
 
                 RectangularGlow {
@@ -265,6 +265,7 @@ Item {
                 }
 
                 Rectangle {
+
                     anchors.fill: parent
                     radius: 4
                     clip: true
@@ -281,6 +282,7 @@ Item {
                     }
 
                     Column {
+                        id:settingsAboutrapperWrapper
                         width: parent.width
                         spacing: 10
                         anchors {
@@ -350,7 +352,14 @@ Item {
                             description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")
                             buttonText: qsTr("Licenses")
                             onButtonPressed: {
-                                utility.openLicenceFolder()
+                                expander.toggle()
+                            }
+                        }
+                        SettingsExpander {
+                            id:expander
+                            anchors {
+                                left: parent.left
+                                right: parent.right
                             }
                         }
                     }

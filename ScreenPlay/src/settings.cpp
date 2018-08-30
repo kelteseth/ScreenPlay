@@ -175,6 +175,46 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
     configTmp.close();
 }
 
+QString Settings::getAllLicenes()
+{
+
+    QString tmp;
+    QFile file;
+    QTextStream out(&file);
+
+    file.setFileName(":/legal/Font Awesome Free License.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    tmp += out.readAll();
+    file.close();
+
+    file.setFileName(":/legal/gpl-3.0.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    tmp += out.readAll();
+    file.close();
+
+    file.setFileName(":/legal/gpl-3.0.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    tmp += out.readAll();
+    file.close();
+
+    file.setFileName(":/legal/OFL.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    tmp += out.readAll();
+    file.close();
+
+    file.setFileName(":/legal/OpenSSL.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    tmp += out.readAll();
+    file.close();
+
+    file.setFileName(":/legal/Qt LGPLv3.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    tmp += out.readAll();
+    file.close();
+
+    return  tmp;
+}
+
 void Settings::setMuteAll(bool isMuted)
 {
 

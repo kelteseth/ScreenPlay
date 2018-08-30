@@ -144,6 +144,7 @@ public slots:
     void setGlobalVolume(float volume);
     void setGlobalFillMode(QString fillMode);
     void writeSingleSettingConfig(QString name, QVariant value);
+    QString getAllLicenes();
 
     bool autostart() const
     {
