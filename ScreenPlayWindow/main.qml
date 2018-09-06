@@ -10,20 +10,16 @@ Rectangle {
 
     Connections {
         target: mainwindow
-
-        onPlayVideo: {
-
-        }
-        onPlayQmlScene: {
-
-        }
-
         onFillModeChanged: {
 
         }
         onLoopsChanged: {
 
         }
+        onTypeChanged: {
+            print(mainwindow.type)
+        }
+
         onVolumeChanged: {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
@@ -43,36 +39,55 @@ Rectangle {
         }
     }
 
+    Component.onCompleted: {
+        if (mainwindow.type === "qmlScene") {
+            loader.setSource(Qt.resolvedUrl(
+                                 "file:///" + mainwindow.fullContentPath))
+            print("LOADING QMLSCENE" + loader.source)
+            mainwindow.init()
+            timer.start()
+        } else if (mainwindow.type === "video") {
+            webView.visible = true
+            webView.url = Qt.resolvedUrl("file:///" + mainwindow.getApplicationPath(
+                                                   ) + "/index.html")
+        }
+    }
+
     WebEngineView {
         id: webView
         anchors.fill: parent
-        url: Qt.resolvedUrl("file:///" + mainwindow.getApplicationPath(
-                                ) + "/index.html")
+        visible: false
+
         onLoadProgressChanged: {
             if (loadProgress === 100) {
                 runJavaScript(("
-                var videoPlayer = document.getElementById('videoPlayer');
-                var videoSource = document.getElementById('videoSource');
-                videoSource.src = \"file:///" + mainwindow.fullContentPath + "\";
-                videoPlayer.load();
-                videoPlayer.volume = " + mainwindow.volume + ";"),
-                function (result) {
-                    mainwindow.init()
-                    timer.start()
-                })
+var videoPlayer = document.getElementById('videoPlayer');
+var videoSource = document.getElementById('videoSource');
+videoSource.src = \"file:///" + mainwindow.fullContentPath + "\";
+videoPlayer.load();
+videoPlayer.volume = " + mainwindow.volume + ";"), function (result) {
+    mainwindow.init()
+    timer.start()
+})
             }
         }
         onJavaScriptConsoleMessage: print(message)
         settings.allowRunningInsecureContent: true
     }
 
+    Loader {
+        id: loader
+        anchors.fill: parent
+        onStatusChanged: {
+            print(webViewWrapper.errorString())
+        }
+    }
+
     Timer {
         id: timer
         interval: 200
         onTriggered: {
-            curtain.opacity = 0
             anim.start()
-            print("start")
         }
     }
 

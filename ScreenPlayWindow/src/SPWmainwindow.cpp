@@ -59,13 +59,13 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
         if (m_project.value("type") == "video") {
             QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
             setFullContentPath(tmpPath);
-
-            emit playVideo(tmpPath);
+            setType("video");
         } else if (m_project.value("type") == "scene") {
             return;
         } else if (m_project.value("type") == "qmlScene") {
             QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
-            emit playQmlScene(tmpPath);
+            setFullContentPath(tmpPath);
+            setType("qmlScene");
         }
     }
 
