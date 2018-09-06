@@ -46,6 +46,7 @@ ApplicationWindow {
             sidebar.state = "inactive"
         }
     }
+
     Connections {
         target: screenPlaySettings
         onSetMainWindowVisible: {
@@ -112,11 +113,11 @@ ApplicationWindow {
                     if (miMuteAll.isMuted) {
                         isMuted = false
                         miMuteAll.text = qsTr("Mute all")
-                        screenPlaySettings.setMuteAll(false)
+                        screenPlay.setWallpaperValue(0, "volume", "1")
                     } else {
                         isMuted = true
                         miMuteAll.text = qsTr("Unmute all")
-                        screenPlaySettings.setMuteAll(true)
+                        screenPlay.setWallpaperValue(0, "volume", "0")
                     }
                 }
             }
@@ -128,11 +129,11 @@ ApplicationWindow {
                     if (miStopAll.isPlaying) {
                         isPlaying = false
                         miStopAll.text = qsTr("Pause all")
-                        screenPlaySettings.setPlayAll(true)
+                        screenPlay.setWallpaperValue(0, "isPlaying", "false")
                     } else {
                         isPlaying = true
                         miStopAll.text = qsTr("Play all")
-                        screenPlaySettings.setPlayAll(false)
+                        screenPlay.setWallpaperValue(0, "isPlaying", "true")
                     }
                 }
             }
@@ -181,17 +182,6 @@ ApplicationWindow {
         }
     }
 
-    //    Loader {
-    //        id: pageLoaderCommunity
-    //        visible: false
-    //        asynchronous: true
-    //        anchors {
-    //            top: nav.bottom
-    //            right: parent.right
-    //            bottom: parent.bottom
-    //            left: parent.left
-    //        }
-    //    }
     Loader {
         id: pageLoaderWorkshop
         visible: false
@@ -233,7 +223,7 @@ ApplicationWindow {
                 } else {
                     sidebar.state = "activeWidget"
                 }
-            }else if (type === "qmlScene") {
+            } else if (type === "qmlScene") {
                 if (sidebar.activeScreen == screenId
                         && sidebar.state == "activeScene") {
                     sidebar.state = "inactive"

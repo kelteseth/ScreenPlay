@@ -106,6 +106,8 @@ QVector<int> ScreenPlay::getMonitorByAppID(QString appID)
             return m_screenPlayWallpaperList.at(i).data()->screenNumber();
         }
     }
+
+    return QVector<int>();
 }
 
 Settings* ScreenPlay::settings() const

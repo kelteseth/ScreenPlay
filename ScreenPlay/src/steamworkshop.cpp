@@ -1,5 +1,8 @@
 #include "steamworkshop.h"
 
+#include "stdlib.h"
+#include "cstring"
+
 SteamWorkshop::SteamWorkshop(QObject* parent)
     : QObject(parent)
 {
@@ -97,6 +100,7 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     if (!jsonObject.contains("workshopid")) {
         jsonObject.insert("workshopid", publishedFileId);
     }
+
     projectConfig.close();
     // Reopen to empty the file via Truncate
     projectConfig.open(QIODevice::ReadWrite | QIODevice::Truncate);
@@ -109,17 +113,21 @@ void SteamWorkshop::submitWorkshopItem(QString title, QString description, QStri
     SteamUGC()->SetItemUpdateLanguage(m_UGCUpdateHandle, QByteArray(language.toLatin1()).data());
     SteamUGC()->SetItemContent(m_UGCUpdateHandle, QByteArray(absoluteContentPath.toLatin1()).data());
     SteamUGC()->SetItemPreview(m_UGCUpdateHandle, QByteArray(preview.toLatin1()).data());
-    auto tagList = new QScopedPointer<SteamParamStringArray_t>(new SteamParamStringArray_t);
-
-    //const char** cchKey[5][2000];
-
-    //tagList->data()->m_ppStrings = cchKey;
-    //tagList->data()->m_nNumStrings = 1;
-    //tagList->data()->m_ppStrings[1][0]  = QByteArray("asas").data();
-    SteamUGC()->SetItemTags(m_UGCUpdateHandle, tagList->data());
 
     auto visibility = static_cast<ERemoteStoragePublishedFileVisibility>(remoteStoragePublishedFileVisibility);
     SteamUGC()->SetItemVisibility(m_UGCUpdateHandle, visibility);
+
+    auto tagList = new QScopedPointer<SteamParamStringArray_t>(new SteamParamStringArray_t);
+
+    int numStrings = 2;
+    tagList->data()->m_nNumStrings = numStrings;
+    const char *a[2];
+    a[0] = "Videos";
+    a[1] = "Scenes";
+
+    tagList->data()->m_ppStrings = a;
+    SteamUGC()->SetItemTags(m_UGCUpdateHandle, tagList->data());
+
     SteamUGC()->SubmitItemUpdate(m_UGCUpdateHandle, nullptr);
 
     emit remoteWorkshopCreationStatusChanged(RemoteWorkshopCreationStatus::Started);
@@ -152,7 +160,6 @@ bool SteamWorkshop::contentFolderExist(QString folder)
     }
 }
 
-
 void SteamWorkshop::subscribeItem(unsigned int id)
 {
     SteamUGC()->SubscribeItem(static_cast<unsigned long long>(id));
@@ -178,7 +185,7 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
     if (bIOFailure)
         return;
 
-    //QtConcurrent::run([this, pCallback]() {   });
+    QtConcurrent::run([this, &pCallback]() {  });
 
     SteamUGCDetails_t details;
     const int urlLength = 200;
@@ -194,10 +201,11 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
     char* pchValue[cchValueSize];
 
     uint32 results = pCallback->m_unTotalMatchingResults;
+    qDebug() << "ok " << results;
 
     for (uint32 i = 0; i < results; i++) {
         if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {
-            //qDebug() << "ok " << pCallback;
+
             if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
                 QByteArray urlData(url);
 
@@ -223,7 +231,9 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
             qDebug() << "Loading error!";
         }
     }
+
     SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+
 }
 
 void SteamWorkshop::onWorkshopItemInstalled(ItemInstalled_t* itemInstalled)

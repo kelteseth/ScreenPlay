@@ -4,6 +4,7 @@
 #include <QDebug>
 #include <QSharedPointer>
 #include <QVector>
+#include <QVariant>
 
 #include "workshopitem.h"
 

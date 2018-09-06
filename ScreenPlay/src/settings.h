@@ -29,7 +29,7 @@
 #include "profilelistmodel.h"
 #include "projectsettingslistmodel.h"
 #include "sdkconnector.h"
-#include "steam/steam_api.h"
+#include "../ThirdParty/steam/steam_api.h"
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #endif

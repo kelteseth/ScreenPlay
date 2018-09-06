@@ -1,7 +1,7 @@
 TEMPLATE = app
 QT += qml quick quickcontrols2 widgets core
 CONFIG += c++17
-#CONFIG += qtquickcompiler
+CONFIG += qtquickcompiler
 msvc: LIBS += -luser32
 TARGETPATH = ScreenPlayWindow
 
@@ -18,15 +18,19 @@ RESOURCES += \
 
 INCLUDEPATH += \
     $$PWD/../../ThirdParty/ \
-    $$PWD/../../src/\
+    $$PWD/../../src/ \
 
+include(../ScreenPlaySDK/Screenplaysdk.pri)
+LIBS += -lScreenplaysdk
 
 CONFIG(debug, debug|release) {
     install_it.path = $${OUT_PWD}/debug/
+    QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
  } else {
     install_it.path = $${OUT_PWD}/release/
+    QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
  }
-
+QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
 
 install_it.files += index.html \
 
@@ -52,3 +56,5 @@ DEFINES += QT_DEPRECATED_WARNINGS
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+

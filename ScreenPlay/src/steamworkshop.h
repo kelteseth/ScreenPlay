@@ -1,7 +1,7 @@
 #pragma once
 
 #include "settings.h"
-#include "steam/steam_api.h"
+#include "../ThirdParty/steam/steam_api.h"
 #include "steamworkshoplistmodel.h"
 #include <QByteArray>
 #include <QDateTime>

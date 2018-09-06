@@ -123,7 +123,7 @@ void InstalledListModel::loadScreens()
                 if (!obj.contains("type")) {
                     obj.insert("type", "video");
                 }
-                if (fileEnding.endsWith(".webm"))
+                if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene"))
                     emit addInstalledItem(obj, item.baseName());
             }
         }

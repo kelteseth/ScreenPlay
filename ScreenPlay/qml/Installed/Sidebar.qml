@@ -183,7 +183,7 @@ Item {
             Text {
                 id: txtHeadlineMonitor
                 text: qsTr("Select a Monitor to display the content")
-                height: 20
+                height: 50
                 renderType: Text.NativeRendering
                 horizontalAlignment: Qt.AlignHCenter
                 font.family: "Roboto"
@@ -192,7 +192,7 @@ Item {
                 wrapMode: Text.WrapAnywhere
                 anchors {
                     top: headlineWrapper.bottom
-                    topMargin: 20
+                    margins: 20
                     right: parent.right
                     left: parent.left
                 }
@@ -289,6 +289,7 @@ Item {
             }
 
             Text {
+                visible: false
                 id: txtComboBoxFillMode
                 text: qsTr("Fill Mode")
                 height: 30
@@ -306,6 +307,7 @@ Item {
             }
 
             ComboBox {
+                visible: false
                 id: settingsComboBox
                 width: 200
 

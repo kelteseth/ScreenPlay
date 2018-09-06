@@ -7,10 +7,12 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QObject>
+#include <QPluginLoader>
 #include <QQuickItem>
 #include <QSharedDataPointer>
 #include <QSharedPointer>
 #include <QTimer>
+#include <QtGlobal>
 
 class ScreenPlaySDK : public QQuickItem {
     Q_OBJECT
@@ -39,12 +41,14 @@ public:
         return m_appID;
     }
 
+
 public slots:
     void connected();
     void disconnected();
     void bytesWritten(qint64 bytes);
     void readyRead();
     void error(QLocalSocket::LocalSocketError socketError);
+    void redirectMessage(QByteArray &msg);
 
     void setContentType(QString contentType)
     {
@@ -54,9 +58,9 @@ public slots:
         m_contentType = contentType;
 
         if (isConnected()) {
-            m_socket.data()->write(QByteArray(m_contentType.toLatin1()));
-            m_socket.data()->flush();
-            m_socket.data()->waitForBytesWritten();
+            m_socket.write(QByteArray(m_contentType.toLatin1()));
+            m_socket.flush();
+            m_socket.waitForBytesWritten();
         }
         emit contentTypeChanged(m_contentType);
     }
@@ -78,9 +82,12 @@ public slots:
         m_appID = appID;
         emit appIDChanged(m_appID);
 
-        m_socket.data()->write(QByteArray(appID.toUtf8()));
-        m_socket.data()->waitForBytesWritten();
+        m_socket.write(QByteArray(appID.toUtf8()));
+        m_socket.waitForBytesWritten();
     }
+
+private:
+    //qint64 writeData(const char *data, qint64 c) override;
 
 signals:
     void incommingMessage(QString key, QString value);
@@ -88,15 +95,15 @@ signals:
 
     void sdkConnected();
     void sdkDisconnected();
-    void sdkSocketError(QString type);
 
     void contentTypeChanged(QString contentType);
     void isConnectedChanged(bool isConnected);
 
     void appIDChanged(QString appID);
+    void newRedirectMessage(QByteArray &msg);
 
 private:
-    QSharedPointer<QLocalSocket> m_socket;
+    QLocalSocket m_socket;
 
     QString m_contentType = "undefined";
     bool m_isConnected = false;

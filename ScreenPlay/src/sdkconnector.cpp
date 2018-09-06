@@ -9,10 +9,14 @@ SDKConnector::SDKConnector(QObject* parent)
 
     m_server = QSharedPointer<QLocalServer>(new QLocalServer(this));
     connect(m_server.data(), &QLocalServer::newConnection, this, &SDKConnector::newConnection);
-
     if (!m_server.data()->listen("ScreenPlay")) {
         //TODO
     }
+}
+
+void SDKConnector::readyRead()
+{
+
 }
 
 void SDKConnector::newConnection()
@@ -76,11 +80,6 @@ void SDKConnector::setSceneValue(QString appID, QString key, QString value)
     }
 }
 
-
-void SDKConnection::setSocket(QLocalSocket* socket)
-{
-    m_socket = socket;
-}
 
 QLocalSocket* SDKConnection::socket() const
 {

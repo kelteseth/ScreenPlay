@@ -26,6 +26,7 @@ public:
 signals:
 
 public slots:
+    void readyRead();
     void newConnection();
     void closeAllWallpapers();
     void closeWallpapersAt(int at);
@@ -56,7 +57,6 @@ public:
         qDebug() << "destroying SDKConnection Object";
     }
 
-    void setSocket(QLocalSocket* socket);
 
     QString appID() const
     {

@@ -8,12 +8,12 @@ uri = net.aimber.screenplaysdk
 
 # Input
 SOURCES += \
-    screenplay-sdk_plugin.cpp \
-    screenplaysdk.cpp
+    $$PWD/screenplay-sdk_plugin.cpp \
+    $$PWD/screenplaysdk.cpp
 
 HEADERS += \
-    screenplay-sdk_plugin.h \
-    screenplaysdk.h
+    $$PWD/screenplay-sdk_plugin.h \
+    $$PWD/screenplaysdk.h
 
 DISTFILES = qmldir
 

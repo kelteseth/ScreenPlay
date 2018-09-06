@@ -3,7 +3,6 @@
 SteamWorkshopListModel::SteamWorkshopListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-
 }
 
 QHash<int, QByteArray> SteamWorkshopListModel::roleNames() const
@@ -46,7 +45,7 @@ QVariant SteamWorkshopListModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     int row = index.row();
-    if(row < 0 || row >= m_workshopItemList.count()) {
+    if (row < 0 || row >= m_workshopItemList.count()) {
         return QVariant();
     }
 
@@ -68,13 +67,12 @@ void SteamWorkshopListModel::append(unsigned int id, QString title, QUrl imgUrl,
 {
     int row = 0;
     beginInsertRows(QModelIndex(), row, row);
-    m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(id, title, imgUrl , "", numSubscriptions)));
+    m_workshopItemList.append(QSharedPointer<WorkshopItem>(new WorkshopItem(id, title, imgUrl, "", numSubscriptions)));
     endInsertRows();
 }
 
 void SteamWorkshopListModel::addWorkshopItem(WorkshopItem wi)
 {
-
 }
 
 QUrl SteamWorkshopListModel::getBannerUrl()
@@ -106,7 +104,6 @@ void SteamWorkshopListModel::setBannerWorkshopItem(unsigned int id, QString titl
     m_workshopBannerItem.m_title = title;
     m_workshopBannerItem.m_previewImageUrl = imgUrl;
     m_workshopBannerItem.m_numSubscriptions = numSubscriptions;
-
 }
 
 bool SteamWorkshopListModel::setData(const QModelIndex& index, const QVariant& value, int role)

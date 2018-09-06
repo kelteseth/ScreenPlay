@@ -54,7 +54,7 @@ QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
 
 void ProjectSettingsListModel::init(QString file)
 {
-    qDebug() << file;
+    qDebug() << "ProjectSettingsListModel loading: " << file;
     QFile configTmp;
     configTmp.setFileName(file);
     QJsonDocument configJsonDocument;

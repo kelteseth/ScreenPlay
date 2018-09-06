@@ -19,6 +19,7 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, QString volume, QString fillmode, QScreen* parent)
     : QWindow(parent)
 {
+
 #ifdef Q_OS_WIN
 
     setOpacity(0);
@@ -45,7 +46,7 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
     if (!m_project.contains("type")) {
         if (m_project.contains("file")) {
             QString fileEnding = m_project.value("file").toString();
-            if (fileEnding.endsWith(".mp4") || fileEnding.endsWith(".vp9") || fileEnding.endsWith(".webm")) {
+            if (fileEnding.endsWith(".webm")) {
                 m_project.insert("type", "video");
             }
         }
@@ -102,7 +103,6 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
     }
 
     //Hide first to avoid flickering
-
     ShowWindow(m_worker_hwnd, SW_HIDE);
     ShowWindow(m_hwnd, SW_HIDE);
     MoveWindow(m_hwnd, screen->geometry().x() + offsetX, screen->geometry().y() + offsetY, screen->size().width(), screen->size().height(), true);
@@ -122,7 +122,6 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
     m_quickRenderer.data()->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
     m_quickRenderer.data()->show();
 
-    setDecoder(decoder);
     setVolume(volume.toFloat());
     setFillMode(fillmode);
 
@@ -131,7 +130,6 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
             QApplication::exit(-16);
         }
     });
-
 
 #endif
 }
@@ -152,21 +150,33 @@ void MainWindow::setScreenNumber(const QVector<int>& screenNumber)
 {
     m_screenNumber = screenNumber;
 }
+
+void MainWindow::connected()
+{
+}
+
+void MainWindow::disconnected()
+{
+}
+
+void MainWindow::bytesWritten(qint64 bytes)
+{
+}
+
+void MainWindow::readyRead()
+{
+}
+
+void MainWindow::error(QLocalSocket::LocalSocketError socketError)
+{
+}
 void MainWindow::destroyThis()
 {
-    QPropertyAnimation* animation = new QPropertyAnimation(this, "opacity");
-    animation->setDuration(500);
-    animation->setStartValue(1);
-    animation->setEndValue(0);
-    animation->start();
-
-    QObject::connect(animation, &QPropertyAnimation::finished, [&]() {
 #ifdef Q_OS_WIN
-        ShowWindow(m_worker_hwnd, SW_HIDE);
-        ShowWindow(m_hwnd, SW_HIDE);
+    ShowWindow(m_worker_hwnd, SW_HIDE);
+    ShowWindow(m_hwnd, SW_HIDE);
 #endif
-        QCoreApplication::quit();
-    });
+    QCoreApplication::quit();
 }
 
 QUrl MainWindow::projectPath() const
