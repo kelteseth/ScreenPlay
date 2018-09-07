@@ -1,23 +1,28 @@
 import QtQuick 2.9
-import QtWebEngine 1.6
+import QtWebEngine 1.7
 
 Rectangle {
     id: root
-    color: "transparent"
     anchors.fill: parent
-    property string tmpVideoPath
-    property var jsonProjectFile
 
     Connections {
         target: mainwindow
         onFillModeChanged: {
-
+            //TODO
         }
+
+        onMessageReceived: {
+            var obj2 = 'import QtQuick 2.9; Item {Component.onCompleted: loader.item.'
+                    + key + ' = ' + value + '; }'
+            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
+            newObject.destroy(10000)
+        }
+
         onLoopsChanged: {
-
-        }
-        onTypeChanged: {
-            print(mainwindow.type)
+            if (webView.loadProgress === 100) {
+                webView.runJavaScript(
+                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.loop = " + loops + ";")
+            }
         }
 
         onVolumeChanged: {
@@ -26,6 +31,14 @@ Rectangle {
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + volume + ";")
             }
         }
+
+        onPlaybackRateChanged: {
+            if (webView.loadProgress === 100) {
+                webView.runJavaScript(
+                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.playbackRate  = " + playbackRate + ";")
+            }
+        }
+
         onIsPlayingChanged: {
             if (webView.loadProgress === 100) {
                 if (isPlaying === "false") {
@@ -43,13 +56,13 @@ Rectangle {
         if (mainwindow.type === "qmlScene") {
             loader.setSource(Qt.resolvedUrl(
                                  "file:///" + mainwindow.fullContentPath))
-            print("LOADING QMLSCENE" + loader.source)
             mainwindow.init()
             timer.start()
         } else if (mainwindow.type === "video") {
             webView.visible = true
-            webView.url = Qt.resolvedUrl("file:///" + mainwindow.getApplicationPath(
-                                                   ) + "/index.html")
+            webView.url = Qt.resolvedUrl(
+                        "file:///" + mainwindow.getApplicationPath(
+                            ) + "/index.html")
         }
     }
 
