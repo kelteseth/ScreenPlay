@@ -80,10 +80,10 @@ public slots:
     void readyRead()
     {
         QString msg = QString(m_socket->readAll());
-        qDebug() << msg;
-        if (msg.contains("appID=")) {
+        qDebug() << "SDK CONNECTOR "<< msg;
+        if (msg.startsWith("appID=")) {
             m_appID = msg.remove("appID=");
-            //m_monitor.append(m_sp->getMonitorByAppID(m_appID).at(0));
+
             qDebug() << m_appID << m_monitor;
         }
     }
