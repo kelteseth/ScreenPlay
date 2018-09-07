@@ -5,7 +5,6 @@
 #include <QEasingCurve>
 #include <QJsonDocument>
 #include <QJsonObject>
-#include <QLocalSocket>
 #include <QObject>
 #include <QPropertyAnimation>
 #include <QQmlContext>
@@ -21,24 +20,24 @@
 #include <qt_windows.h>
 #endif
 
-
 class MainWindow : public QWindow {
     Q_OBJECT
 
 public:
     explicit MainWindow(int i, QString projectPath, QString id, QString decoder, QString volume, QString fillmode, QScreen* parent = nullptr);
-    ~MainWindow();
 
     Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
     Q_PROPERTY(QString projectConfig READ projectConfig WRITE setProjectConfig NOTIFY projectConfigChanged)
     Q_PROPERTY(QString appID READ name WRITE setname NOTIFY nameChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
 
     Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
     Q_PROPERTY(bool loops READ loops WRITE setLoops NOTIFY loopsChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
-    Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
+    Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
+    Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged) // Not yet needed
 
     QString projectConfig() const
     {
@@ -55,15 +54,15 @@ public:
         return m_screenNumber;
     }
 
-    QUrl projectPath() const;
-    void setProjectPath(const QUrl& projectPath);
+    QUrl projectPath() const
+    {
+        return m_projectPath;
+    }
 
     QString type() const
     {
         return m_type;
     }
-
-    void setScreenNumber(const QVector<int>& screenNumber);
 
     QString fillMode() const
     {
@@ -89,14 +88,24 @@ public:
     {
         return m_isPlaying;
     }
+    float playbackRate() const
+    {
+        return m_playbackRate;
+    }
+
+    QString decoder() const
+    {
+        return m_decoder;
+    }
+
 public slots:
-    void connected();
-    void disconnected();
-    void bytesWritten(qint64 bytes);
-    void readyRead();
-    void error(QLocalSocket::LocalSocketError socketError);
     void destroyThis();
     void init();
+
+    QString getApplicationPath()
+    {
+        return QApplication::applicationDirPath();
+    }
 
     void setProjectConfig(QString projectConfig)
     {
@@ -153,7 +162,15 @@ public slots:
         emit volumeChanged(m_volume);
     }
 
-    QString getApplicationPath();
+    void setProjectPath(const QUrl& projectPath)
+    {
+        m_projectPath = projectPath;
+    }
+
+    void setScreenNumber(const QVector<int>& screenNumber)
+    {
+        m_screenNumber = screenNumber;
+    }
 
     void setFullContentPath(QString fullContentPath)
     {
@@ -173,6 +190,25 @@ public slots:
         emit isPlayingChanged(m_isPlaying);
     }
 
+    void setPlaybackRate(float playbackRate)
+    {
+        qWarning("Floating point comparison needs context sanity check");
+        if (qFuzzyCompare(m_playbackRate, playbackRate))
+            return;
+
+        m_playbackRate = playbackRate;
+        emit playbackRateChanged(m_playbackRate);
+    }
+
+    void setDecoder(QString decoder)
+    {
+        if (m_decoder == decoder)
+            return;
+
+        m_decoder = decoder;
+        emit decoderChanged(m_decoder);
+    }
+
 signals:
     void playVideo(QString path);
     void playQmlScene(QString file);
@@ -184,8 +220,11 @@ signals:
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
     void fullContentPathChanged(QString fullContentPath);
-
+    void messageReceived(QString key, QString value);
     void isPlayingChanged(bool isPlaying);
+    void playbackRateChanged(float playbackRate);
+
+    void decoderChanged(QString decoder);
 
 private:
 #ifdef Q_OS_WIN
@@ -197,7 +236,6 @@ private:
     QString m_projectFile;
     QJsonObject m_project;
     QString m_projectConfig;
-    QSharedPointer<QLocalSocket> m_socket;
 
     QString m_appID;
     QVector<int> m_screenNumber;
@@ -207,4 +245,6 @@ private:
     float m_volume;
     QString m_fullContentPath;
     bool m_isPlaying;
+    float m_playbackRate;
+    QString m_decoder;
 };

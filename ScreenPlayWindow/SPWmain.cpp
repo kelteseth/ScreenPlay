@@ -28,10 +28,12 @@ int main(int argc, char* argv[])
     // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (4) decoder, (5) volume, (6) fillmode
     // See screenplay.h @ScreenPlayWallpaper constructor how the args get created
     // MainWindow w(0,"D:/672870/827148653","","","","");
-    qDebug() << "Starting: " << argumentList.at(2) << argumentList.at(3) << argumentList.at(4) << argumentList.at(5)<< argumentList.at(6);
+    sdk.setAppID(argumentList.at(3));
+    qDebug() << "Starting MainWindow: " << argumentList.at(2) << argumentList.at(3) << argumentList.at(4) << argumentList.at(5) << argumentList.at(6);
     MainWindow w(monitor, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5), argumentList.at(6));
 
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &w, &MainWindow::destroyThis);
+    QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &w, &MainWindow::messageReceived);
 
     return a.exec();
 }

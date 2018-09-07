@@ -1,7 +1,6 @@
 #include "SPWmainwindow.h"
 
 #ifdef Q_OS_WIN
-
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
     // 0xXXXXXXX "" WorkerW
@@ -22,22 +21,23 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
 
 #ifdef Q_OS_WIN
 
-    setOpacity(0);
-    m_projectPath = projectPath;
     m_appID = id;
     m_screenNumber.insert(0, i);
+    setDecoder(decoder);
+    setProjectPath(projectPath);
 
-    QFile configTmp;
+    QFile projectFile;
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
 
-    configTmp.setFileName(projectPath + "/project.json");
-    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-    m_projectConfig = configTmp.readAll();
+    projectFile.setFileName(projectPath + "/project.json");
+    projectFile.open(QIODevice::ReadOnly | QIODevice::Text);
+    m_projectConfig = projectFile.readAll();
     configJsonDocument = QJsonDocument::fromJson(m_projectConfig.toUtf8(), &parseError);
 
     if (!(parseError.error == QJsonParseError::NoError)) {
-        qWarning("Settings Json Parse Error ");
+        qWarning("Settings Json Parse Error. Exiting now!");
+        destroyThis();
     }
 
     m_project = configJsonDocument.object();
@@ -141,35 +141,7 @@ void MainWindow::init()
 #endif
 }
 
-QString MainWindow::getApplicationPath()
-{
-    return QApplication::applicationDirPath();
-}
 
-void MainWindow::setScreenNumber(const QVector<int>& screenNumber)
-{
-    m_screenNumber = screenNumber;
-}
-
-void MainWindow::connected()
-{
-}
-
-void MainWindow::disconnected()
-{
-}
-
-void MainWindow::bytesWritten(qint64 bytes)
-{
-}
-
-void MainWindow::readyRead()
-{
-}
-
-void MainWindow::error(QLocalSocket::LocalSocketError socketError)
-{
-}
 void MainWindow::destroyThis()
 {
 #ifdef Q_OS_WIN
@@ -177,18 +149,4 @@ void MainWindow::destroyThis()
     ShowWindow(m_hwnd, SW_HIDE);
 #endif
     QCoreApplication::quit();
-}
-
-QUrl MainWindow::projectPath() const
-{
-    return m_projectPath;
-}
-
-void MainWindow::setProjectPath(const QUrl& projectPath)
-{
-    m_projectPath = projectPath;
-}
-
-MainWindow::~MainWindow()
-{
 }
