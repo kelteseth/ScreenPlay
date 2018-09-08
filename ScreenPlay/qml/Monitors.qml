@@ -4,16 +4,19 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
+import "Controls/" as SP
+
 Item {
     id: monitors
     state: "inactive"
     focus: true
 
     property string activeMonitorName: ""
+    property int activeMonitorIndex
 
     onStateChanged: {
         bgMouseArea.focus = monitors.state == "active" ? true : false
-        if(monitors.state === "active"){
+        if (monitors.state === "active") {
             screenPlay.requestProjectSettingsListModelAt(0)
         }
     }
@@ -85,17 +88,27 @@ Item {
                 availableHeight: 150
                 onRequestProjectSettings: {
                     // This will return in the connection with target: screenPlay
-                    print(at)
                     screenPlay.requestProjectSettingsListModelAt(at)
+                    activeMonitorIndex = at
                 }
                 Connections {
                     target: screenPlay
                     onProjectSettingsListModelFound: {
-                        print("found")
                         gridView.model = li
+                        // TODO via states
+                        if (type == "video") {
+                            videoControlWrapper.z = 10
+                            gridView.z = 0
+                            videoControlWrapper.visible = true
+                            gridView.visible = false
+                        } else {
+                            videoControlWrapper.visible = false
+                            gridView.visible = true
+                            videoControlWrapper.z = 0
+                            gridView.z = 10
+                        }
                     }
                     onProjectSettingsListModelNotFound: {
-                        print("not found")
                         gridView.model = null
                     }
                 }
@@ -118,8 +131,26 @@ Item {
                 }
             }
         }
+        Column {
+            id: videoControlWrapper
+            anchors {
+                top: parent.top
+                topMargin: 60
+                right: parent.right
+                bottom: parent.bottom
+                margins: 30
+                left: itmLeftWrapper.right
+            }
 
-
+            SP.Slider {
+                headline: qsTr("Volume")
+                onValueChanged: screenPlay.setWallpaperValue(activeMonitorIndex,"volume", value)
+            }
+            SP.Slider {
+                headline: qsTr("Playback rate")
+                onValueChanged: screenPlay.setWallpaperValue(activeMonitorIndex,"playbackRate", value)
+            }
+        }
 
         GridView {
             id: gridView
@@ -246,3 +277,8 @@ Item {
         }
     ]
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:500;width:1000}
+}
+ ##^##*/

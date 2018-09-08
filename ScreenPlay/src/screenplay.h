@@ -39,15 +39,16 @@ public:
 
 signals:
     void allWallpaperRemoved();
-    void projectSettingsListModelFound(ProjectSettingsListModel* li);
+    void projectSettingsListModelFound(ProjectSettingsListModel* li,QString type);
     void projectSettingsListModelNotFound();
 
 public slots:
-    void createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage, float volume, QString fillMode);
+    void createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage, float volume, QString fillMode,  QString type);
     void createWidget(QUrl absoluteStoragePath, QString previewImage);
     void removeAllWallpaper();
     void requestProjectSettingsListModelAt(int index);
     void setWallpaperValue(int at, QString key, QString value);
+    void setAllWallpaperValue(QString key, QString value);
     void removeWallpaperAt(int at);
     QVector<int> getMonitorByAppID(QString appID);
     QString generateID();
@@ -64,13 +65,15 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
+    Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
 
 public:
-    explicit ScreenPlayWallpaper(QVector<int> screenNumber, QString projectPath, QString previewImage, float volume, QString fillMode, ScreenPlay* parent)
+    explicit ScreenPlayWallpaper(QVector<int> screenNumber, QString projectPath, QString previewImage, float volume, QString fillMode, QString type, ScreenPlay* parent)
     {
         m_screenNumber = screenNumber;
         m_projectPath = projectPath;
         m_previewImage = previewImage;
+        m_type = type;
 
         // We do not want to parent the QProcess because the
         // Process manages its lifetime and destructing (animation) itself
@@ -88,7 +91,7 @@ public:
         proArgs.append(QString::number(m_screenNumber.at(0)));
         proArgs.append(m_projectPath);
         m_appID = parent->generateID();
-        proArgs.append("appID="+m_appID);
+        proArgs.append("appID=" + m_appID);
         proArgs.append(parent->m_settings->decoder());
         proArgs.append(QString::number(volume));
         proArgs.append(fillMode);
@@ -96,6 +99,11 @@ public:
         m_process->setProgram(parent->settings()->screenPlayWindowPath().toString());
         m_process->start();
         m_projectSettingsListModel = QSharedPointer<ProjectSettingsListModel>(new ProjectSettingsListModel(projectPath + "/project.json"));
+    }
+
+    ~ScreenPlayWallpaper()
+    {
+        qDebug() << "Destructing wallpaper " << m_appID;
     }
 
     QSharedPointer<ProjectSettingsListModel> projectSettingsListModel() const;
@@ -120,12 +128,19 @@ public:
         return m_appID;
     }
 
+    QString type() const
+    {
+        return m_type;
+    }
+
 signals:
     void screenNumberChanged(QVector<int> screenNumber);
     void projectPathChanged(QString projectPath);
     void previewImageChanged(QString previewImage);
     void projectSettingsListModelAt(ProjectSettingsListModel* li);
     void appIDChanged(QString appID);
+
+    void typeChanged(QString type);
 
 public slots:
 
@@ -165,14 +180,25 @@ public slots:
         emit appIDChanged(m_appID);
     }
 
+    void setType(QString type)
+    {
+        if (m_type == type)
+            return;
+
+        m_type = type;
+        emit typeChanged(m_type);
+    }
+
 private:
     QVector<int> m_screenNumber;
     QString m_projectPath;
     QString m_previewImage;
     QProcess* m_process;
+
     QSharedPointer<ProjectSettingsListModel> m_projectSettingsListModel;
 
     QString m_appID;
+    QString m_type;
 };
 
 class ScreenPlayWidget : public QObject {
@@ -197,7 +223,6 @@ public:
         m_appID = parent->generateID();
         proArgs.append(m_appID);
         m_process->setArguments(proArgs);
-
 
         if (fullPath.endsWith(".exe")) {
             m_process->setProgram(fullPath);

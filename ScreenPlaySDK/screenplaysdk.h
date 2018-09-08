@@ -41,14 +41,13 @@ public:
         return m_appID;
     }
 
-
 public slots:
     void connected();
     void disconnected();
     void bytesWritten(qint64 bytes);
     void readyRead();
     void error(QLocalSocket::LocalSocketError socketError);
-    void redirectMessage(QByteArray &msg);
+    void redirectMessage(QByteArray& msg);
 
     void setContentType(QString contentType)
     {
@@ -86,9 +85,6 @@ public slots:
         m_socket.waitForBytesWritten();
     }
 
-private:
-    //qint64 writeData(const char *data, qint64 c) override;
-
 signals:
     void incommingMessage(QString key, QString value);
     void incommingMessageError(QString msg);
@@ -100,7 +96,7 @@ signals:
     void isConnectedChanged(bool isConnected);
 
     void appIDChanged(QString appID);
-    void newRedirectMessage(QByteArray &msg);
+    void newRedirectMessage(QByteArray& msg);
 
 private:
     QLocalSocket m_socket;

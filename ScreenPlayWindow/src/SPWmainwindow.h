@@ -101,6 +101,7 @@ public:
 public slots:
     void destroyThis();
     void init();
+    void messageReceived(QString key, QString value);
 
     QString getApplicationPath()
     {
@@ -220,10 +221,9 @@ signals:
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
     void fullContentPathChanged(QString fullContentPath);
-    void messageReceived(QString key, QString value);
     void isPlayingChanged(bool isPlaying);
     void playbackRateChanged(float playbackRate);
-
+    void qmlSceneValueReceived(QString key, QString value);
     void decoderChanged(QString decoder);
 
 private:

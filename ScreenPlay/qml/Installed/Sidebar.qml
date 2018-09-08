@@ -355,7 +355,8 @@ Item {
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,
                                     installedListModel.get(activeScreen).screenPreview,
                                     (Math.round(sliderVolume.value * 100) / 100),
-                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString())
+                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(),
+                                    type)
                         sidebar.state = "inactive"
                     } else if (type === "widget") {
                         screenPlay.createWidget(

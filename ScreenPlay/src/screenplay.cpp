@@ -8,10 +8,9 @@ ScreenPlay::ScreenPlay(InstalledListModel* ilm, Settings* set, MonitorListModel*
     m_mlm = mlm;
     m_qGuiApplication = qGuiApplication;
     m_sdkc = sdkc;
-
 }
 
-void ScreenPlay::createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage, float volume, QString fillMode)
+void ScreenPlay::createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage, float volume, QString fillMode, QString type)
 {
     ProjectFile project;
 
@@ -25,7 +24,7 @@ void ScreenPlay::createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QSt
     m_settings->increaseActiveWallpaperCounter();
     QVector<int> tmpMonitorIndex;
     tmpMonitorIndex.append(monitorIndex);
-    m_screenPlayWallpaperList.append(QSharedPointer<ScreenPlayWallpaper>(new ScreenPlayWallpaper(tmpMonitorIndex, absoluteStoragePath.toString(), previewImage, volume, fillMode, this)));
+    m_screenPlayWallpaperList.append(QSharedPointer<ScreenPlayWallpaper>(new ScreenPlayWallpaper(tmpMonitorIndex, absoluteStoragePath.toString(), previewImage, volume, fillMode, type, this)));
 
     m_mlm->setWallpaperActiveMonitor(m_qGuiApplication->screens().at(monitorIndex), absoluteStoragePath.toString() + "/" + previewImage);
 }
@@ -54,7 +53,8 @@ void ScreenPlay::requestProjectSettingsListModelAt(int index)
 {
     for (int i = 0; i < m_screenPlayWallpaperList.count(); ++i) {
         if (m_screenPlayWallpaperList.at(i).data()->screenNumber().at(0) == index) {
-            emit projectSettingsListModelFound(m_screenPlayWallpaperList.at(i).data()->projectSettingsListModel().data());
+            emit projectSettingsListModelFound(m_screenPlayWallpaperList.at(i).data()->projectSettingsListModel().data(),
+                m_screenPlayWallpaperList.at(i).get()->type());
             return;
         }
     }
@@ -80,10 +80,16 @@ void ScreenPlay::setWallpaperValue(int at, QString key, QString value)
 
     for (int i = 0; i < m_screenPlayWallpaperList.count(); ++i) {
         if (m_screenPlayWallpaperList.at(i).data()->screenNumber().at(0) == at) {
-
             m_sdkc->setWallpaperValue(m_screenPlayWallpaperList.at(i).data()->appID(), key, value);
             return;
         }
+    }
+}
+
+void ScreenPlay::setAllWallpaperValue(QString key, QString value)
+{
+    for (int i = 0; i < m_screenPlayWallpaperList.count(); ++i) {
+        m_sdkc->setWallpaperValue(m_screenPlayWallpaperList.at(i).data()->appID(), key, value);
     }
 }
 
@@ -102,7 +108,7 @@ void ScreenPlay::removeWallpaperAt(int at)
 QVector<int> ScreenPlay::getMonitorByAppID(QString appID)
 {
     for (int i = 0; i < m_screenPlayWallpaperList.length(); ++i) {
-        if(m_screenPlayWallpaperList.at(i).data()->appID() == appID){
+        if (m_screenPlayWallpaperList.at(i).data()->appID() == appID) {
             return m_screenPlayWallpaperList.at(i).data()->screenNumber();
         }
     }

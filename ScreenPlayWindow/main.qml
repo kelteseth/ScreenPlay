@@ -11,7 +11,7 @@ Rectangle {
             //TODO
         }
 
-        onMessageReceived: {
+        onQmlSceneValueReceived: {
             var obj2 = 'import QtQuick 2.9; Item {Component.onCompleted: loader.item.'
                     + key + ' = ' + value + '; }'
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err")

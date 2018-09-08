@@ -141,6 +141,59 @@ void MainWindow::init()
 #endif
 }
 
+void MainWindow::messageReceived(QString key, QString value)
+{
+    if (key == "decoder") {
+        setDecoder(value);
+        return;
+    }
+
+    if (key == "volume") {
+        bool ok = false;
+        auto tmp = value.toFloat(&ok);
+
+        if (ok)
+            setVolume(tmp);
+        else
+            qDebug() << "ERROR with " << key << " " << value;
+
+        return;
+    }
+
+    if (key == "fillmode") {
+        setFillMode(value);
+        return;
+    }
+
+    if (key == "isPlaying") {
+        if (value == "true")
+            setIsPlaying(true);
+        else
+            setIsPlaying(false);
+        return;
+    }
+
+    if (key == "playbackRate") {
+        bool ok = false;
+        auto tmp = value.toFloat(&ok);
+
+        if (ok)
+            setPlaybackRate(tmp);
+        else
+            qDebug() << "ERROR with " << key << " " << value;
+        return;
+    }
+
+    if (key == "loops") {
+        if (value == "true")
+            setLoops(true);
+        else
+            setLoops(false);
+        return;
+    }
+
+    emit qmlSceneValueReceived(key, value);
+}
 
 void MainWindow::destroyThis()
 {

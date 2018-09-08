@@ -113,11 +113,11 @@ ApplicationWindow {
                     if (miMuteAll.isMuted) {
                         isMuted = false
                         miMuteAll.text = qsTr("Mute all")
-                        screenPlay.setWallpaperValue(0, "volume", "1")
+                        screenPlay.setAllWallpaperValue("volume", "1")
                     } else {
                         isMuted = true
                         miMuteAll.text = qsTr("Unmute all")
-                        screenPlay.setWallpaperValue(0, "volume", "0")
+                        screenPlay.setAllWallpaperValue("volume", "0")
                     }
                 }
             }
@@ -129,11 +129,11 @@ ApplicationWindow {
                     if (miStopAll.isPlaying) {
                         isPlaying = false
                         miStopAll.text = qsTr("Pause all")
-                        screenPlay.setWallpaperValue(0, "isPlaying", "false")
+                        screenPlay.setAllWallpaperValue("isPlaying", "false")
                     } else {
                         isPlaying = true
                         miStopAll.text = qsTr("Play all")
-                        screenPlay.setWallpaperValue(0, "isPlaying", "true")
+                        screenPlay.setAllWallpaperValue("isPlaying", "true")
                     }
                 }
             }

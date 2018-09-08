@@ -17,7 +17,7 @@ void redirectMessageOutputToMainWindow(QtMsgType type, const QMessageLogContext&
 
     switch (type) {
     case QtDebugMsg:
-        localMsg = "Debug " /*+  QByteArray::fromStdString(global_sdkPtr->contentType().toStdString()) + " "*/ + localMsg;
+        localMsg = "SDK START: " /*+  QByteArray::fromStdString(global_sdkPtr->contentType().toStdString()) + " "*/ + localMsg + " SDK END!";
         global_sdkPtr->redirectMessage(localMsg);
         break;
     case QtInfoMsg:
@@ -74,6 +74,7 @@ void ScreenPlaySDK::bytesWritten(qint64 bytes)
 void ScreenPlaySDK::readyRead()
 {
     QString tmp = m_socket.readAll();
+    qDebug() << "SDK MESSAGE RECEIVED: " << tmp;
     QJsonParseError err;
     auto doc = QJsonDocument::fromJson(QByteArray::fromStdString(tmp.toStdString()), &err);
 
@@ -101,5 +102,6 @@ void ScreenPlaySDK::redirectMessage(QByteArray& msg)
     if (isConnected()) {
         m_socket.write(msg);
         m_socket.waitForBytesWritten();
+
     }
 }
