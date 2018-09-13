@@ -74,3 +74,4 @@ Thumbs.db
 *.lnk
 
 !ScreenPlay/ThirdParty/**
+!ScreenPlay/translations/**
