@@ -1,5 +1,5 @@
 TEMPLATE = app
-QT += qml quick quickcontrols2 widgets core
+QT += qml quick quickcontrols2 widgets core webengine
 CONFIG += c++17
 CONFIG += qtquickcompiler
 msvc: LIBS += -luser32

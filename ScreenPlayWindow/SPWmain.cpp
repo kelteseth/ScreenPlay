@@ -3,14 +3,16 @@
 #include <QApplication>
 #include <QObject>
 #include <QStringList>
+#include <QtWebEngine>
 
 int main(int argc, char* argv[])
 {
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-
+    QApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
     QApplication a(argc, argv);
     ScreenPlaySDK sdk;
+    QtWebEngine::initialize();
 
     // 6 parameter + 1 OS working directory default paramter
     QStringList argumentList = a.arguments();
