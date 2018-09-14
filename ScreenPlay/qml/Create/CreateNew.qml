@@ -5,6 +5,8 @@ import QtQuick.Controls.Material 2.2
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.3
 
+import "../Wizard"
+
 Item {
     id: createNew
     anchors.fill: parent
@@ -35,140 +37,46 @@ Item {
 
     Rectangle {
         id: wrapper
+
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
         }
 
-        width: 510
+        width: 910
         radius: 4
         height: 560
 
-        ColumnLayout {
-            anchors {
-                top: parent.top
-                margins: 50
-                bottom: parent.bottom
-                left: parent.left
-                right: parent.right
+        SwipeView {
+            id: view
+            clip: true
+            currentIndex: 0
+            anchors.fill: parent
+            anchors.margins: 40
+
+            Rectangle {
+                id: firstPage
+                color: "orange"
             }
-            spacing: 50
-
-            Item {
-
-                width: 300
-                height: 180
-                Layout.alignment: Qt.AlignCenter
-
-                Image {
-                    id: imgIcon
-                    width: 120
-                    height: 120
-                    sourceSize: Qt.size(120, 120)
-                    source: createNew.icon
-                    anchors.centerIn: parent
-                }
-                ColorOverlay {
-                    color: "gray"
-                    source: imgIcon
-                    anchors.fill: imgIcon
-                }
-                Text {
-                    text: projectTitle
-                    color: "#5D5D5D"
-                    font.pixelSize: 16
-                    font.family: "Roboto"
-                    renderType: Text.NativeRendering
-                    verticalAlignment: Qt.AlignVCenter
-                    horizontalAlignment: Qt.AlignHCenter
-                    wrapMode: Text.WrapAnywhere
-                    clip: true
-                    height: 30
-
-                    anchors {
-                        left: parent.left
-                        bottom: parent.bottom
-                        right: parent.right
-                    }
-                }
+            Rectangle {
+                id: secondPage
+                color: "grey"
             }
-
-            TextField {
-                id: txtTitle
-                height: 60
-                anchors {
-                    right: parent.right
-                    left: parent.left
-                }
-
-                selectByMouse: true
-                text: qsTr("")
-                placeholderText: "Project Name"
-                onTextChanged: {
-                    txtPath.text = folderDialog.currentFolder + "/" + txtTitle.text
-                }
+            Rectangle {
+                id: thirdPage
+                color: "steelblue"
             }
-            Item {
-                height: 60
-                width: parent.width
+        }
 
-                Text {
-                    id: txtPath
-                    text: StandardPaths.standardLocations(
-                              StandardPaths.HomeLocation)[0]
-                    color: "#5D5D5D"
-                    font.pixelSize: 16
-                    font.family: "Roboto"
-                    renderType: Text.NativeRendering
-                    verticalAlignment: Qt.AlignVCenter
-                    wrapMode: Text.WrapAnywhere
-                    clip: true
-                    anchors {
-                        top: parent.top
-                        left: parent.left
-                        bottom: parent.bottom
-                        right: btnFolder.left
-                        rightMargin: 30
-                    }
-                }
-                Button {
-                    id: btnFolder
-                    text: qsTr("Set Folder")
-                    Material.background: Material.Orange
-                    Material.foreground: "white"
-                    anchors {
-                        right: parent.right
-                        bottom: parent.bottom
-                    }
+        PageIndicator {
+            id: indicator
 
-                    onClicked: {
+            count: view.count
+            currentIndex: view.currentIndex
 
-                        folderDialog.open()
-                    }
-                    FolderDialog {
-                        id: folderDialog
-                        folder: StandardPaths.standardLocations(
-                                    StandardPaths.HomeLocation)[0]
-                        onAccepted: {
-                            txtPath.text = folderDialog.currentFolder + "/" + txtTitle.text
-                        }
-                    }
-                }
-            }
-
-            Button {
-                text: qsTr("Create")
-                Material.background: Material.Orange
-                Material.foreground: "white"
-                icon.source: "qrc:/assets/icons/icon_plus.svg"
-                icon.color: "white"
-                icon.width: 16
-                icon.height: 16
-                Layout.alignment: Qt.AlignHCenter
-                onClicked: {
-
-                }
-            }
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 20
+            anchors.horizontalCenter: parent.horizontalCenter
         }
 
         MouseArea {
@@ -200,7 +108,7 @@ Item {
                 color: "gray"
             }
             Timer {
-                id:timerBack
+                id: timerBack
                 interval: 800
                 onTriggered: utility.setNavigation("Create")
             }

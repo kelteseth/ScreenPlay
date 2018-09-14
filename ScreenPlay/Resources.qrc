@@ -115,6 +115,8 @@
         <file>legal/OFL.txt</file>
         <file>legal/OpenSSL.txt</file>
         <file>legal/Qt LGPLv3.txt</file>
+        <file>qml/Wizard/Wizard.qml</file>
+        <file>assets/shader/movingcolorramp.fsh</file>
         <file>qml/Controls/Slider.qml</file>
     </qresource>
 </RCC>

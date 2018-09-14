@@ -23,7 +23,7 @@ Rectangle {
 
             activeVideoFile = videoFile
             loader.setSource("CreateImport.qml", {
-                                 file: videoFile
+                                 "file": videoFile
                              })
         }
         onProjectFileSelected: {
@@ -31,7 +31,7 @@ Rectangle {
 
             activeFolder = projectFile
             loader.setSource("CreateUpload.qml", {
-                                 projectFile: projectFile
+                                 "projectFile": projectFile
                              })
         }
     }
@@ -55,54 +55,26 @@ Rectangle {
         }
         onUploadToSteamWorkshop: {
             loader.setSource("CreateUpload.qml", {
-                                 file: activeVideoFile
+                                 "file": activeVideoFile
                              })
         }
     }
 
-    LinearGradient {
-        id: gradient
-        anchors.fill: parent
-        cached: true
-        start: Qt.point(0, 0)
-        end: Qt.point(gradient.width, gradient.height)
-        gradient: Gradient {
-            GradientStop {
-                position: 0.0
-                color: "#FF9700"
-                SequentialAnimation on color {
-                    loops: Animation.Infinite
-                    ColorAnimation {
-                        from: "#FF9700"
-                        to: "#F83C3C"
-                        duration: 5000
-                    }
-                    ColorAnimation {
-                        from: "#F83C3C"
-                        to: "#FF9700"
-                        duration: 5000
-                    }
-                }
-            }
-            GradientStop {
-                position: 1.0
-                color: "#F83C3C"
-                SequentialAnimation on color {
-                    loops: Animation.Infinite
+    property var myDate: new Date()
 
-                    ColorAnimation {
-                        from: "#F83C3C"
-                        to: "#FF9700"
-                        duration: 100000
-                    }
-                    ColorAnimation {
-                        from: "#FF9700"
-                        to: "#F83C3C"
-                        duration: 100000
-                    }
-                }
-            }
-        }
+    Timer {
+        interval: 1
+        running: true
+        repeat: true
+        onTriggered: colorShader.time = myDate.getMilliseconds()
+    }
+
+    ShaderEffect {
+        id: colorShader
+        anchors.fill: parent
+        property real time: 45
+        property vector2d resolution: Qt.vector2d(parent.width, parent.height)
+        fragmentShader: "qrc:/assets/shader/movingcolorramp.fsh"
     }
 
     Item {
@@ -235,7 +207,11 @@ Rectangle {
         }
         onButtonPressed: {
             create.state = "new"
-            loader.setSource("CreateNew.qml", {project: type, projectTitle: title, icon: iconSource })
+            loader.setSource("CreateNew.qml", {
+                                 "project": type,
+                                 "projectTitle": title,
+                                 "icon": iconSource
+                             })
         }
     }
 
