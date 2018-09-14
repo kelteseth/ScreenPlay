@@ -100,6 +100,7 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
 
     if (!foundWorker) {
         qDebug() << "No worker window found";
+        destroyThis();
     }
 
     //Hide first to avoid flickering
@@ -127,7 +128,7 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
 
     connect(m_quickRenderer.data(), &QQuickView::statusChanged, [=](QQuickView::Status status) {
         if (status == QQuickView::Error) {
-            QApplication::exit(-16);
+            destroyThis();
         }
     });
 
@@ -136,9 +137,19 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
 void MainWindow::init()
 {
 #ifdef Q_OS_WIN
-    ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+    // This needs to be set in this order or
+    // the window will be opened as fullscreen!
     ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
+    ShowWindow(m_hwnd, SW_SHOWDEFAULT);
 #endif
+}
+void MainWindow::destroyThis()
+{
+#ifdef Q_OS_WIN
+    ShowWindow(m_worker_hwnd, SW_HIDE);
+    ShowWindow(m_hwnd, SW_HIDE);
+#endif
+    QCoreApplication::quit();
 }
 
 void MainWindow::messageReceived(QString key, QString value)
@@ -193,13 +204,4 @@ void MainWindow::messageReceived(QString key, QString value)
     }
 
     emit qmlSceneValueReceived(key, value);
-}
-
-void MainWindow::destroyThis()
-{
-#ifdef Q_OS_WIN
-    ShowWindow(m_worker_hwnd, SW_HIDE);
-    ShowWindow(m_hwnd, SW_HIDE);
-#endif
-    QCoreApplication::quit();
 }
