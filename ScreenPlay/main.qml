@@ -4,6 +4,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
+import analytics 0.1
 
 import "qml/"
 import "qml/Installed"
@@ -18,7 +19,16 @@ ApplicationWindow {
     minimumHeight: 788
     minimumWidth: 1050
 
+    Tracker {
+      id: tracker
+      Component.onCompleted: tracker.sendScreenView("Main Screen")
+      trackingID: "UA-43193236-3"
+    }
+
+
+
     Component.onCompleted: {
+
         if (!screenPlaySettings.autostart) {
             show()
         }

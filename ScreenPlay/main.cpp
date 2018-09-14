@@ -26,6 +26,7 @@
 #include <qt_windows.h>
 #endif
 
+#include "ThirdParty/qt-google-analytics/ganalytics.h"
 #include "src/create.h"
 #include "src/installedlistfilter.h"
 #include "src/installedlistmodel.h"
@@ -50,6 +51,7 @@ int main(int argc, char* argv[])
     QGuiApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false);
 
+
     QTranslator trsl;
     trsl.load(":/translations/ScreenPlay_de.qm");
     app.installTranslator(&trsl);
@@ -63,7 +65,7 @@ int main(int argc, char* argv[])
 
     AppId_t steamID = 672870;
     QCoreApplication::setOrganizationName("Aimber");
-    QCoreApplication::setOrganizationDomain("aimber.net");
+    QCoreApplication::setOrganizationDomain("screen-play.app");
     QCoreApplication::setApplicationName("ScreenPlay");
     QCoreApplication::setApplicationVersion("0.1.0");
 
@@ -136,6 +138,7 @@ int main(int argc, char* argv[])
     settings.loadActiveProfiles();
 
     QQmlApplicationEngine mainWindowEngine;
+    qmlRegisterType<GAnalytics>("analytics", 0, 1, "Tracker");
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
     mainWindowEngine.rootContext()->setContextProperty("utility", &qmlUtil);

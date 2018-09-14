@@ -1,8 +1,9 @@
 TEMPLATE = app
 QT += qml quick widgets quickcontrols2 core
 CONFIG += c++17
-#CONFIG += qtquickcompiler
+CONFIG += qtquickcompiler
 #DEFINES  += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
+
 msvc: LIBS += -luser32
 TARGETPATH = ScreenPlay
 
@@ -55,12 +56,19 @@ INCLUDEPATH += \
     $$PWD/ThirdParty/ \
     $$PWD/src/
 
+include(ThirdParty/qt-google-analytics/qt-google-analytics.pri)
+LIBS += -lqt-google-analytics
 
 CONFIG(debug, debug|release) {
     install_it.path = $${OUT_PWD}/debug/
+    QMAKE_LIBDIR += $$OUT_PWD/ThirdParty/qt-google-analytics/debug
+
  } else {
     install_it.path = $${OUT_PWD}/release/
+    QMAKE_LIBDIR += $$OUT_PWD/ThirdParty/qt-google-analytics/release
  }
+
+
 installOut.path =  $${OUT_PWD}/
 
 install_it.files += assets/templates/config.json \
@@ -107,3 +115,7 @@ unix {
 
     LIBS += -L$$PWD/ThirdParty/steam/lib/linux64/ -lsdkencryptedappticket
 }
+
+DISTFILES += \
+    favicon.ico \
+    assets/shader/movingcolorramp.fsh
