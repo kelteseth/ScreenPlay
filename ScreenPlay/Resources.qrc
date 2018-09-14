@@ -118,5 +118,6 @@
         <file>qml/Wizard/Wizard.qml</file>
         <file>assets/shader/movingcolorramp.fsh</file>
         <file>qml/Controls/Slider.qml</file>
+        <file>legal/DataProtection.txt</file>
     </qresource>
 </RCC>

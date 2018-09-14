@@ -136,7 +136,8 @@ signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
     void offlineModeChanged(bool offlineMode);
-    void allLicenseLoaded(QString licenses);
+    void allLicenseLoaded(QString licensesText);
+    void allDataProtectionLoaded(QString dataProtectionText);
 
 public slots:
     void setMuteAll(bool isMuted);
@@ -146,6 +147,7 @@ public slots:
     void setGlobalFillMode(QString fillMode);
     void writeSingleSettingConfig(QString name, QVariant value);
     void requestAllLicenses();
+    void requestAllLDataProtection();
 
     bool autostart() const
     {
