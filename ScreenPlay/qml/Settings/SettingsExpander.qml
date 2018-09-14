@@ -8,18 +8,11 @@ Rectangle {
     state: "off"
     clip: true
 
-    Component.onCompleted: screenPlaySettings.requestAllLicenses()
-
-    Connections {
-        target: screenPlaySettings
-        onAllLicenseLoaded: {
-            txtLegal.text = licenses
-        }
-    }
+    property alias text: txtExpander.text
 
     Flickable {
         anchors.fill: parent
-        contentHeight: txtLegal.paintedHeight
+        contentHeight: txtExpander.paintedHeight
         z: 999
         focus: true
         contentWidth: parent.width
@@ -28,7 +21,7 @@ Rectangle {
             policy: ScrollBar.AlwaysOn
         }
         Text {
-            id: txtLegal
+            id: txtExpander
             anchors {
                 top: parent.top
                 right: parent.right
@@ -37,7 +30,8 @@ Rectangle {
             }
             color: "#626262"
             renderType: Text.NativeRendering
-            height: txtLegal.paintedHeight
+            height: txtExpander.paintedHeight
+            wrapMode: Text.Wrap
         }
     }
 

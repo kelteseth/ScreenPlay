@@ -345,21 +345,55 @@ Item {
                                 }
                             }
                         }
-                        SettingsHorizontalSeperator {
-                        }
+                        SettingsHorizontalSeperator {}
                         SettingsButton {
                             headline: qsTr("Third Party Software")
                             description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")
                             buttonText: qsTr("Licenses")
                             onButtonPressed: {
-                                expander.toggle()
+                                expanderCopyright.toggle()
                             }
                         }
                         SettingsExpander {
-                            id:expander
+                            id:expanderCopyright
                             anchors {
                                 left: parent.left
                                 right: parent.right
+                            }
+
+                            Component.onCompleted: screenPlaySettings.requestAllLicenses()
+
+                            Connections {
+                                target: screenPlaySettings
+                                onAllLicenseLoaded: {
+                                    expanderCopyright.text = licensesText
+                                }
+                            }
+                        }
+
+                        SettingsHorizontalSeperator {}
+                        SettingsButton {
+                            headline: qsTr("Data Protection")
+                            description: qsTr("We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!")
+                            buttonText: qsTr("Privacy")
+                            onButtonPressed: {
+                                expanderDataProtection.toggle()
+                            }
+                        }
+                        SettingsExpander {
+                            id:expanderDataProtection
+                            anchors {
+                                left: parent.left
+                                right: parent.right
+                            }
+
+                            Component.onCompleted: screenPlaySettings.requestAllLDataProtection()
+
+                            Connections {
+                                target: screenPlaySettings
+                                onAllDataProtectionLoaded: {
+                                    expanderDataProtection.text = dataProtectionText
+                                }
                             }
                         }
                     }

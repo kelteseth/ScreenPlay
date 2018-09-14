@@ -217,6 +217,22 @@ void Settings::requestAllLicenses()
     });
 }
 
+void Settings::requestAllLDataProtection()
+{
+    QtConcurrent::run([this]() {
+        QString tmp;
+        QFile file;
+        QTextStream out(&file);
+
+        file.setFileName(":/legal/DataProtection.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        emit this->allDataProtectionLoaded(tmp);
+    });
+}
+
 void Settings::setMuteAll(bool isMuted)
 {
 
