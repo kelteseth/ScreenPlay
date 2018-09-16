@@ -120,5 +120,6 @@
         <file>settings.json</file>
         <file>translations/ScreenPlay_de.qm</file>
         <file>translations/ScreenPlay_en.qm</file>
+        <file>qml/Create/Wizards/CreateWallpaper/Page_0.qml</file>
     </qresource>
 </RCC>

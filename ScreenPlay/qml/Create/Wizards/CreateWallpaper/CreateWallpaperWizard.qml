@@ -11,6 +11,13 @@ Item {
     Component.onCompleted: state = "in"
     state: "out"
 
+    property string filePath
+
+    //Blocks some MouseArea from create page
+    MouseArea {
+        anchors.fill: parent
+    }
+
     RectangularGlow {
         id: effect
         anchors {
@@ -44,8 +51,11 @@ Item {
 
         Text {
             id: txtHeadline
-            text: qsTr("Headline")
+            text: qsTr("Convert a video to a wallpaper")
             height: 40
+            font.family: "Roboto"
+            font.weight: Font.Light
+            color: "#757575"
             renderType: Text.NativeRendering
             font.pixelSize: 23
             anchors {
@@ -60,7 +70,10 @@ Item {
             id: view
             clip: true
             currentIndex: 0
-            onCurrentIndexChanged: print(view.currentIndex, view.count)
+            onCurrentIndexChanged: {
+
+            }
+
             anchors {
                 top: txtHeadline.bottom
                 right: parent.right
@@ -73,17 +86,24 @@ Item {
 
             interactive: false
 
-            Rectangle {
+            Page_0 {
                 id: firstPage
-                color: "orange"
             }
             Rectangle {
                 id: secondPage
-                color: "grey"
+                Text {
+                    id: name2
+                    text: "secondPage"
+                    anchors.centerIn: parent
+                }
             }
             Rectangle {
                 id: thirdPage
-                color: "steelblue"
+                Text {
+                    id: name3
+                    text: "thirdPage"
+                    anchors.centerIn: parent
+                }
             }
         }
 
@@ -99,30 +119,39 @@ Item {
             }
 
             delegate: Item {
-                width: 100
+                width: txtStep.paintedWidth + 20
                 height: 30
+                property bool filled
                 Text {
-                    id: name
+                    id: txtStep
                     text: {
                         switch (index) {
                         case 0:
-                            return "1. sdfwerf"
-                            break
+                            return "1. Configure"
                         case 1:
-                            return "2. 34t3 345t w4"
-                            break
+                            return "2. Convert"
                         case 2:
-                            return "3. 45zde erg3q45t"
-                            break
+                            return "3. Finish"
                         default:
                             return "Undefiend"
                         }
                     }
                     color: view.currentIndex == index ? "orange" : "gray"
-
+                    renderType: Text.NativeRendering
+                    font.family: "Roboto"
+                    font.pixelSize: 14
                     anchors {
                         left: parent.left
                         verticalCenter: parent.verticalCenter
+                    }
+
+                    MouseArea {
+                        anchors.fill: parent
+                        onClicked: {
+                            view.setCurrentIndex(index)
+                        }
+
+                        cursorShape: Qt.PointingHandCursor
                     }
                 }
             }
