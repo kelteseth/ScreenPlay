@@ -8,6 +8,7 @@ import QtQuick.Particles 2.0
 //Enums
 import LocalWorkshopCreationStatus 1.0
 
+
 Rectangle {
     id: create
     anchors.fill: parent
@@ -22,16 +23,14 @@ Rectangle {
             create.state = "import"
 
             activeVideoFile = videoFile
-            loader.setSource("CreateImport.qml", {
-                                 "file": videoFile
-                             })
+            loader.setSource("Wizards/CreateWallpaper/CreateWallpaperWizard.qml")
         }
         onProjectFileSelected: {
             create.state = "import"
 
             activeFolder = projectFile
-            loader.setSource("CreateUpload.qml", {
-                                 "projectFile": projectFile
+            loader.setSource("CreateNew.qml", {
+
                              })
         }
     }
@@ -73,7 +72,7 @@ Rectangle {
         id: colorShader
         anchors.fill: parent
         property real time: 45
-        property vector2d resolution: Qt.vector2d(parent.width, parent.height)
+        property vector2d resolution: Qt.vector2d(parent.width, parent.height* 2)
         fragmentShader: "qrc:/assets/shader/movingcolorramp.fsh"
     }
 
@@ -288,6 +287,7 @@ Rectangle {
             }
         }
     }
+
 
     states: [
         State {

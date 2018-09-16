@@ -117,5 +117,4 @@ unix {
 }
 
 DISTFILES += \
-    favicon.ico \
-    assets/shader/movingcolorramp.fsh
+    favicon.ico
