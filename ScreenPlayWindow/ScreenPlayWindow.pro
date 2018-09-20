@@ -21,12 +21,14 @@ INCLUDEPATH += \
     $$PWD/../../src/ \
 
 include(../ScreenPlaySDK/Screenplaysdk.pri)
-LIBS += -lScreenplaysdk
+
 
 CONFIG(debug, debug|release) {
+LIBS += -lScreenplaysdkd
     install_it.path = $${OUT_PWD}/debug/
     QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
  } else {
+LIBS += -lScreenplaysdk
     install_it.path = $${OUT_PWD}/release/
     QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
  }
