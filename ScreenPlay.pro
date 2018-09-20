@@ -1,7 +1,7 @@
 TEMPLATE = subdirs
 SUBDIRS =   \
     ScreenPlay/ScreenPlay.pro \
-    ScreenPlaySDK/Screenplaysdk.pro \
+    ScreenPlaySDK/ScreenPlaySDK.pro \
     ScreenPlaySysInfo/ScreenPlaySysInfo.pro \
     ScreenPlayWindow/ScreenPlayWindow.pro \
     ScreenPlay/ThirdParty/qt-google-analytics/qt-google-analytics.pro \
