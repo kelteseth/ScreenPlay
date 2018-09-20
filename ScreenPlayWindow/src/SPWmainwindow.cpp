@@ -104,7 +104,7 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
     }
 
     //Hide first to avoid flickering
-    ShowWindow(m_worker_hwnd, SW_HIDE);
+    //ShowWindow(m_worker_hwnd, SW_HIDE);
     ShowWindow(m_hwnd, SW_HIDE);
     MoveWindow(m_hwnd, screen->geometry().x() + offsetX, screen->geometry().y() + offsetY, screen->size().width(), screen->size().height(), true);
     SetParent(m_hwnd, m_worker_hwnd);
@@ -139,7 +139,7 @@ void MainWindow::init()
 #ifdef Q_OS_WIN
     // This needs to be set in this order or
     // the window will be opened as fullscreen!
-    ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
+    //ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
     ShowWindow(m_hwnd, SW_SHOWDEFAULT);
 #endif
 }

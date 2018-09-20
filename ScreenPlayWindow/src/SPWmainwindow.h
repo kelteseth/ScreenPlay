@@ -225,6 +225,7 @@ signals:
     void playbackRateChanged(float playbackRate);
     void qmlSceneValueReceived(QString key, QString value);
     void decoderChanged(QString decoder);
+    void qmlExit();
 
 private:
 #ifdef Q_OS_WIN

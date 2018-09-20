@@ -7,6 +7,13 @@ Rectangle {
 
     Connections {
         target: mainwindow
+
+        onQmlExit:{
+            webView.runJavaScript(
+                        "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
+            mainwindow.destroyThis()
+        }
+
         onFillModeChanged: {
             //TODO
         }
