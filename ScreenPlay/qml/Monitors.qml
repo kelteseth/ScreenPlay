@@ -277,8 +277,3 @@ Item {
         }
     ]
 }
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:500;width:1000}
-}
- ##^##*/
