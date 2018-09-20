@@ -89,21 +89,11 @@ Item {
             Page_0 {
                 id: firstPage
             }
-            Rectangle {
+            Page_1 {
                 id: secondPage
-                Text {
-                    id: name2
-                    text: "secondPage"
-                    anchors.centerIn: parent
-                }
             }
-            Rectangle {
+            Page_2 {
                 id: thirdPage
-                Text {
-                    id: name3
-                    text: "thirdPage"
-                    anchors.centerIn: parent
-                }
             }
         }
 

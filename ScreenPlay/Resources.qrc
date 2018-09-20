@@ -121,5 +121,7 @@
         <file>translations/ScreenPlay_de.qm</file>
         <file>translations/ScreenPlay_en.qm</file>
         <file>qml/Create/Wizards/CreateWallpaper/Page_0.qml</file>
+        <file>qml/Create/Wizards/CreateWallpaper/Page_1.qml</file>
+        <file>qml/Create/Wizards/CreateWallpaper/Page_2.qml</file>
     </qresource>
 </RCC>
