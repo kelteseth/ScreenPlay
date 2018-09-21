@@ -8,13 +8,15 @@ Rectangle {
     Connections {
         target: mainwindow
 
-        onQmlExit:{
+        onQmlExit: {
+
             webView.runJavaScript(
                         "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
             mainwindow.destroyThis()
         }
 
         onFillModeChanged: {
+
             //TODO
         }
 
@@ -70,6 +72,12 @@ Rectangle {
             webView.url = Qt.resolvedUrl(
                         "file:///" + mainwindow.getApplicationPath(
                             ) + "/index.html")
+        } else if (mainwindow.type === "html") {
+            webView.visible = true
+            webView.url = Qt.resolvedUrl(
+                        "file:///" + mainwindow.fullContentPath)
+            mainwindow.init()
+            timer.start()
         }
     }
 

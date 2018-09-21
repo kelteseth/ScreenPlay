@@ -240,6 +240,13 @@ ApplicationWindow {
                 } else {
                     sidebar.state = "activeScene"
                 }
+            } else if (type === "html") {
+                if (sidebar.activeScreen == screenId
+                        && sidebar.state == "activeScene") {
+                    sidebar.state = "inactive"
+                } else {
+                    sidebar.state = "activeScene"
+                }
             }
             sidebar.activeScreen = screenId
             sidebar.type = type

@@ -16,23 +16,23 @@ ProjectFile::ProjectFile(QJsonObject obj, QString folderName, QUrl absolutePath)
         m_title = obj.value("title");
 
     if (obj.contains("type")) {
-        QString tmp = obj.value("type").toString();
-        tmp = tmp.toLower();
+        QString tmp = obj.value("type").toString().toLower();
         if (tmp == "video") {
             m_type = "video";
-        } else if (tmp == "qmlwidget"  || tmp == "standalonewidget") {
+        } else if (tmp == "qmlwidget" || tmp == "standalonewidget") {
             m_type = "widget";
         } else if (tmp == "qmlscene") {
             m_type = "qmlScene";
+        } else if (tmp == "html") {
+            m_type = "html";
         }
     }
 
-    if (obj.contains("workshopid")){
+    if (obj.contains("workshopid")) {
         m_workshopID = obj.value("workshopid").toInt();
     } else {
         m_workshopID = 0;
     }
-
 
     m_absoluteStoragePath = QUrl(absolutePath.toString() + "/" + folderName);
 
@@ -46,5 +46,3 @@ ProjectFile::ProjectFile()
 ProjectFile::~ProjectFile()
 {
 }
-
-

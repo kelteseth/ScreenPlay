@@ -12,6 +12,8 @@ Item {
     state: "inactive"
     focus: true
     property real navHeight
+    property string type
+    property string activeScreen
 
     MouseArea {
         id: mouseAreaHelper
@@ -19,7 +21,6 @@ Item {
         enabled: true
     }
 
-    property string activeScreen
     onActiveScreenChanged: {
         txtHeadline.text = installedListModel.get(activeScreen).screenTitle
         image.source = Qt.resolvedUrl(
@@ -27,9 +28,6 @@ Item {
                     + activeScreen + "/" + installedListModel.get(
                         activeScreen).screenPreview)
     }
-
-    property string type
-
 
     Item {
         id: sidebarWrapper
@@ -349,16 +347,18 @@ Item {
                 }
 
                 onClicked: {
-                    if (type === "video" || type === "qmlScene") {
+                    print(type + " "+activeScreen + " " + installedListModel.absoluteStoragePath+ "/" + activeScreen,
+                          installedListModel.get(
+                              activeScreen).screenPreview)
+                    if (type === "video" || type === "qmlScene" || type === "html") {
                         screenPlay.createWallpaper(
-                                    monitorSelection.activeMonitorIndex,
-                                    installedListModel.absoluteStoragePath + "/" + activeScreen,
+                                    monitorSelection.activeMonitorIndex, installedListModel.absoluteStoragePath + "/" + activeScreen,
                                     installedListModel.get(activeScreen).screenPreview,
                                     (Math.round(sliderVolume.value * 100) / 100),
-                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(),
-                                    type)
+                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
+                                        ), type)
                         sidebar.state = "inactive"
-                    } else if (type === "widget") {
+                    } else if (type === "widget" ) {
                         screenPlay.createWidget(
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,
                                     installedListModel.get(

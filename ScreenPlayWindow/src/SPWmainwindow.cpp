@@ -66,6 +66,10 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
             QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
             setFullContentPath(tmpPath);
             setType("qmlScene");
+        } else if (m_project.value("type") == "html") {
+            QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
+            setFullContentPath(tmpPath);
+            setType("html");
         }
     }
 

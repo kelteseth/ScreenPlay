@@ -46,7 +46,7 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
 
 QHash<int, QByteArray> InstalledListModel::roleNames() const
 {
-    static const QHash<int, QByteArray> roles{
+    static const QHash<int, QByteArray> roles {
         { TitleRole, "screenTitle" },
         { TypeRole, "screenType" },
         { PreviewRole, "screenPreview" },
@@ -116,14 +116,14 @@ void InstalledListModel::loadScreens()
                 continue;
 
             //Some settings dont have a file type
-
             QString fileEnding;
             if (obj.contains("file")) {
                 fileEnding = obj.value("file").toString();
                 if (!obj.contains("type")) {
                     obj.insert("type", "video");
                 }
-                if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene"))
+                qDebug() << fileEnding << obj.value("type");
+                if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene") || fileEnding.endsWith(".html"))
                     emit addInstalledItem(obj, item.baseName());
             }
         }
