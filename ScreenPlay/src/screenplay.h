@@ -39,11 +39,11 @@ public:
 
 signals:
     void allWallpaperRemoved();
-    void projectSettingsListModelFound(ProjectSettingsListModel* li,QString type);
+    void projectSettingsListModelFound(ProjectSettingsListModel* li, QString type);
     void projectSettingsListModelNotFound();
 
 public slots:
-    void createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage, float volume, QString fillMode,  QString type);
+    void createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage, float volume, QString fillMode, QString type);
     void createWidget(QUrl absoluteStoragePath, QString previewImage);
     void removeAllWallpaper();
     void requestProjectSettingsListModelAt(int index);
@@ -81,7 +81,8 @@ public:
         QProcess* m_process = new QProcess();
 
         connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus) {
-            qDebug() << "EX: " << exitCode;
+            if (exitCode != 0)
+                qDebug() << "WARNING EXIT CODE: " << exitCode;
         });
         connect(m_process, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
             qDebug() << "EX: " << error;
@@ -99,11 +100,6 @@ public:
         m_process->setProgram(parent->settings()->screenPlayWindowPath().toString());
         m_process->start();
         m_projectSettingsListModel = QSharedPointer<ProjectSettingsListModel>(new ProjectSettingsListModel(projectPath + "/project.json"));
-    }
-
-    ~ScreenPlayWallpaper()
-    {
-        qDebug() << "Destructing wallpaper " << m_appID;
     }
 
     QSharedPointer<ProjectSettingsListModel> projectSettingsListModel() const;

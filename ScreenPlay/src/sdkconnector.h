@@ -8,8 +8,6 @@
 #include <QTimer>
 #include <QVector>
 
-
-
 /*!
     \class SDKConnector
     \brief Used for every Wallpaper, Scene or Widget communication via Windows pipes/QLocalSocket
@@ -21,7 +19,6 @@ class SDKConnector : public QObject {
     Q_OBJECT
 public:
     explicit SDKConnector(QObject* parent = nullptr);
-
 
 signals:
 
@@ -36,7 +33,6 @@ public slots:
 private:
     QSharedPointer<QLocalServer> m_server;
     QVector<QSharedPointer<SDKConnection>> m_clients;
-
 };
 
 class SDKConnection : public QObject {
@@ -52,11 +48,6 @@ public:
         connect(m_socket, &QLocalSocket::readyRead, this, &SDKConnection::readyRead);
         connect(m_socket, &QLocalSocket::disconnected, this, &SDKConnection::disconnected);
     }
-    ~SDKConnection()
-    {
-        qDebug() << "destroying SDKConnection Object";
-    }
-
 
     QString appID() const
     {
@@ -70,7 +61,6 @@ public:
         return m_monitor;
     }
 
-
 signals:
     void requestCloseAt(int at);
     void appIDChanged(QString appID);
@@ -80,17 +70,19 @@ public slots:
     void readyRead()
     {
 
-        QString msg = QString(m_socket->readAll());
+        auto msg = QString(m_socket->readAll());
 
         // The first message allways contains the appID
         if (msg.startsWith("appID=")) {
             //Only use the first 32 chars for the appID
-            m_appID = msg.remove("appID=").mid(0,32);
+            m_appID = msg.remove("appID=").mid(0, 32);
             msg.remove(m_appID);
-
-            qDebug() << "### APPID:\t "<< m_appID << "\n### Monitor: "<< m_monitor.at(0);
+            qDebug() << "###### Wallpaper created at:";
+            qDebug() << "### APPID:\t " << m_appID << "\n### Monitor: " << m_monitor.at(0) << "\n";
         }
-        qDebug() << "SDK CONNECTOR "<< msg;
+
+        // TODO We now get all debug messages from apps here
+        // show them inside ScreenPlay somewhere
     }
 
     void disconnected()
@@ -100,8 +92,14 @@ public slots:
 
     void close()
     {
-        m_socket->disconnect();
+        if ((m_socket->state()) == QLocalSocket::UnconnectedState || (m_socket->state()) == QLocalSocket::ClosingState )
+            return;
+
+        m_socket->disconnectFromServer();
         m_socket->close();
+
+        qDebug() << "###### Destroy: ";
+        qDebug() << "### APPID:\t " << m_appID << "\n### Monitor: " << m_monitor.at(0) << " State: " << m_socket->state();
     }
 
     void setAppID(QString appID)
@@ -126,5 +124,4 @@ private:
     QLocalSocket* m_socket;
     QString m_appID;
     QVector<int> m_monitor;
-
 };
