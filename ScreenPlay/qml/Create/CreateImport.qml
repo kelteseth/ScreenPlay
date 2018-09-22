@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtAV 1.07
+
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.3
 import Qt.labs.platform 1.0
@@ -13,17 +13,7 @@ Item {
     property bool isVideoPlaying: true
     property url file
     onFileChanged: {
-        timerSource.start()
-    }
 
-    Timer {
-        id: timerSource
-        interval: 1000
-        onTriggered: {
-            //var tmp = Qt.resolvedUrl(file).toString()
-            player.source = Qt.resolvedUrl(file)
-            player.play()
-        }
     }
 
     RectangularGlow {
@@ -57,73 +47,8 @@ Item {
             topMargin: 180
             horizontalCenter: parent.horizontalCenter
         }
-
-        VideoOutput2 {
-            id: videoOut
-            z: 13
-            anchors.fill: parent
-            source: player
-            opengl: true
-            fillMode: VideoOutput.Stretch
-
-            Slider {
-                id: sliVideoPosition
-                height: 30
-                width: parent.width * .8
-                from: 0
-                to: 1
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    bottom: parent.bottom
-                    bottomMargin: 20
-                }
-                onValueChanged: {
-                    print(player.position)
-                    player.seek(sliVideoPosition.value * player.duration)
-                }
-            }
-
-            Image {
-                id: imgPreview
-                anchors.fill: parent
-                opacity: 0
-            }
-
-            BusyIndicator {
-                id: busyIndicator
-                anchors.horizontalCenter: parent.horizontalCenter
-                anchors.verticalCenter: parent.verticalCenter
-                visible: false
-            }
-            Text {
-                id: txtDescriptionThumbnail
-                text: qsTr("Select preview image")
-                font.family: "Roboto"
-                opacity: .5
-                renderType: Text.NativeRendering
-                font.pixelSize: 14
-                color: "white"
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    bottom: parent.bottom
-                    bottomMargin: 10
-                }
-            }
-        }
     }
 
-    MediaPlayer {
-        id: player
-        videoCodecPriority: ["CUDA", "D3D11", "DXVA", "VAAPI", "FFmpeg"]
-        autoPlay: true
-        loops: MediaPlayer.Infinite
-        volume: 0
-        onSeekFinished: {
-            busyIndicator.visible = false
-            pause()
-            print(player.metaData.videoFrameRate)
-        }
-    }
 
     RectangularGlow {
         id: effect2
@@ -291,15 +216,7 @@ Item {
                 target: createImport
                 opacity: 1
             }
-            PropertyChanges {
-                target: videoOut
-                opacity: 1
-            }
-            PropertyChanges {
-                target: effect
-                opacity: .4
-                color: "black"
-            }
+
             PropertyChanges {
                 target: contentWrapper
                 opacity: 1

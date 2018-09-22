@@ -8,7 +8,6 @@ Item {
     id: createWallpaper
     state: "in"
 
-    //Component.onCompleted: state = "in"
     signal videoFileSelected(var videoFile)
     signal projectFileSelected(var projectFile)
 

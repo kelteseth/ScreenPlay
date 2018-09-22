@@ -5,16 +5,11 @@ import QtQuick.Controls.Material 2.2
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.3
 
-import "../Wizard"
 
 Item {
     id: createNew
     anchors.fill: parent
     state: "out"
-    property string project
-    property string icon
-    property string projectTitle
-    Component.onCompleted: createNew.state = "in"
 
     RectangularGlow {
         id: effect
@@ -46,38 +41,6 @@ Item {
         width: 910
         radius: 4
         height: 560
-
-        SwipeView {
-            id: view
-            clip: true
-            currentIndex: 0
-            anchors.fill: parent
-            anchors.margins: 40
-
-            Rectangle {
-                id: firstPage
-                color: "orange"
-            }
-            Rectangle {
-                id: secondPage
-                color: "grey"
-            }
-            Rectangle {
-                id: thirdPage
-                color: "steelblue"
-            }
-        }
-
-        PageIndicator {
-            id: indicator
-
-            count: view.count
-            currentIndex: view.currentIndex
-
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 20
-            anchors.horizontalCenter: parent.horizontalCenter
-        }
 
         MouseArea {
             anchors {

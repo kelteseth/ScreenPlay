@@ -2,7 +2,7 @@
 
 QtPath='C:/Qt/5.11.1/msvc2017_64/bin'
 QtCreatorPath='C:\Qt\Tools\QtCreator\bin'
-ReleasePath='C:/Users/Eli/Code/Qt/build-ScreenPlay-Desktop_Qt_5_11_1_MSVC2017_64bit-Release/ScreenPlay/release/'
+ReleasePath='C:\Users\Eli\Code\Qt\build-ScreenPlay-Desktop_Qt_5_11_1_MSVC2017_64bit-Release/ScreenPlay/release/'
 DeployPath='C:/Users/Eli/Code/Qt/ScreenPlay-Deploy/'
 SourcePath=$PWD
 SteamSDK='ScreenPlay/ThirdParty/steam/redistributable_bin/win64/'

@@ -20,22 +20,25 @@ ApplicationWindow {
     minimumWidth: 1050
 
     Tracker {
-      id: tracker
-      Component.onCompleted: tracker.sendScreenView("Main Screen")
-      trackingID: "UA-43193236-3"
+        id: tracker
+        Component.onCompleted: tracker.sendScreenView("Installed")
+        trackingID: "UA-43193236-3"
+        sendInterval: 100
     }
 
-
-
     Component.onCompleted: {
-
+        tracker.startSession()
         if (!screenPlaySettings.autostart) {
             show()
         }
         steamWorkshop.initSteam()
     }
+    Component.onDestruction: {
+        tracker.endSession()
+    }
 
     function switchPage(name) {
+        tracker.sendScreenView(name)
         if (name === "Create") {
             pageLoader.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
@@ -54,6 +57,7 @@ ApplicationWindow {
             pageLoaderWorkshop.visible = false
             pageLoader.setSource("qrc:/qml/" + name + "/" + name + ".qml")
             sidebar.state = "inactive"
+
         }
     }
 

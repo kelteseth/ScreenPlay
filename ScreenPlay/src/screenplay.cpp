@@ -19,7 +19,7 @@ void ScreenPlay::createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QSt
     }
 
     // Remove previous wallpaper
-    removeWallpaperAt(monitorIndex);
+    //removeWallpaperAt(monitorIndex);
 
     m_settings->increaseActiveWallpaperCounter();
     QVector<int> tmpMonitorIndex;
@@ -51,10 +51,10 @@ void ScreenPlay::removeAllWallpaper()
 
 void ScreenPlay::requestProjectSettingsListModelAt(int index)
 {
+    Q_ASSERT(index < m_screenPlayWallpaperList.size());
     for (int i = 0; i < m_screenPlayWallpaperList.count(); ++i) {
         if (m_screenPlayWallpaperList.at(i).data()->screenNumber().at(0) == index) {
-            emit projectSettingsListModelFound(m_screenPlayWallpaperList.at(i).data()->projectSettingsListModel().data(),
-                m_screenPlayWallpaperList.at(i).get()->type());
+            emit projectSettingsListModelFound(m_screenPlayWallpaperList.at(i).data()->projectSettingsListModel().data(), m_screenPlayWallpaperList.at(i).data()->type());
             return;
         }
     }
@@ -77,7 +77,7 @@ QString ScreenPlay::generateID()
 
 void ScreenPlay::setWallpaperValue(int at, QString key, QString value)
 {
-
+    Q_ASSERT(at < m_screenPlayWallpaperList.size());
     for (int i = 0; i < m_screenPlayWallpaperList.count(); ++i) {
         if (m_screenPlayWallpaperList.at(i).data()->screenNumber().at(0) == at) {
             m_sdkc->setWallpaperValue(m_screenPlayWallpaperList.at(i).data()->appID(), key, value);
@@ -95,12 +95,16 @@ void ScreenPlay::setAllWallpaperValue(QString key, QString value)
 
 void ScreenPlay::removeWallpaperAt(int at)
 {
+    Q_ASSERT(at < m_screenPlayWallpaperList.size());
+    //    if(m_screenPlayWallpaperList.isEmpty())
+    //        return;
+
     for (int i = 0; i < m_screenPlayWallpaperList.length(); ++i) {
 
         if (m_screenPlayWallpaperList.at(i).data()->screenNumber().at(0) == at) {
             qDebug() << i << m_screenPlayWallpaperList.at(i).data()->screenNumber().at(0);
             m_sdkc->closeWallpapersAt(at);
-            //m_screenPlayWallpaperList.removeAt(i);
+            m_screenPlayWallpaperList.removeAt(i);
         }
     }
 }

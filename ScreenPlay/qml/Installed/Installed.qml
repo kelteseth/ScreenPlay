@@ -3,6 +3,7 @@ import QtQml.Models 2.2
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
+import analytics 0.1
 
 Item {
     id: pageInstalled
@@ -116,6 +117,7 @@ Item {
 
             //Pull to refresh
             if (contentY <= -180 && !refresh && !isDragging) {
+                tracker.sendEvent("ui_event", "pulltorefresh", "refresh")
                 installedListModel.reset()
                 installedListModel.loadScreens()
             }
@@ -146,6 +148,13 @@ Item {
             snapMode: ScrollBar.SnapOnRelease
         }
     }
+
+    Tracker {
+      id: tracker
+      trackingID: "UA-43193236-3"
+      sendInterval: 1000
+    }
+
     function onPageChanged(name) {
         setSidebarActive(false)
         if (name === "All") {

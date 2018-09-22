@@ -6,8 +6,6 @@ Rectangle {
     id: root
     property bool allNecessaryConfigsSet: false
 
-
-
     Rectangle {
         id: rectangle1
         width: parent.width * .5

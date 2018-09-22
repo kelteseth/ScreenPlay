@@ -347,9 +347,6 @@ Item {
                 }
 
                 onClicked: {
-                    print(type + " "+activeScreen + " " + installedListModel.absoluteStoragePath+ "/" + activeScreen,
-                          installedListModel.get(
-                              activeScreen).screenPreview)
                     if (type === "video" || type === "qmlScene" || type === "html") {
                         screenPlay.createWallpaper(
                                     monitorSelection.activeMonitorIndex, installedListModel.absoluteStoragePath + "/" + activeScreen,
