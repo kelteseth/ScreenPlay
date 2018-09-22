@@ -79,13 +79,18 @@ signals:
 public slots:
     void readyRead()
     {
-        QString msg = QString(m_socket->readAll());
-        qDebug() << "SDK CONNECTOR "<< msg;
-        if (msg.startsWith("appID=")) {
-            m_appID = msg.remove("appID=");
 
-            qDebug() << m_appID << m_monitor;
+        QString msg = QString(m_socket->readAll());
+
+        // The first message allways contains the appID
+        if (msg.startsWith("appID=")) {
+            //Only use the first 32 chars for the appID
+            m_appID = msg.remove("appID=").mid(0,32);
+            msg.remove(m_appID);
+
+            qDebug() << "### APPID:\t "<< m_appID << "\n### Monitor: "<< m_monitor.at(0);
         }
+        qDebug() << "SDK CONNECTOR "<< msg;
     }
 
     void disconnected()
@@ -95,6 +100,7 @@ public slots:
 
     void close()
     {
+        m_socket->disconnect();
         m_socket->close();
     }
 

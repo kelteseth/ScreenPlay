@@ -17,7 +17,7 @@ void redirectMessageOutputToMainWindow(QtMsgType type, const QMessageLogContext&
 
     switch (type) {
     case QtDebugMsg:
-        localMsg = "SDK START: " /*+  QByteArray::fromStdString(global_sdkPtr->contentType().toStdString()) + " "*/ + localMsg + " SDK END!";
+        localMsg = " SDK START: " /*+  QByteArray::fromStdString(global_sdkPtr->contentType().toStdString()) + " "*/ + localMsg + " SDK END!";
         global_sdkPtr->redirectMessage(localMsg);
         break;
     case QtInfoMsg:
@@ -85,7 +85,6 @@ void ScreenPlaySDK::readyRead()
     QJsonObject ob = doc.object();
     QJsonObject::iterator iterator;
     for (iterator = ob.begin(); iterator != ob.end(); iterator++) {
-        qDebug() << iterator.key() << ob.value(iterator.key()).toString();
         emit incommingMessage(iterator.key(), ob.value(iterator.key()).toString());
     }
 }

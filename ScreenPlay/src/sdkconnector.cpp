@@ -16,7 +16,6 @@ SDKConnector::SDKConnector(QObject* parent)
 
 void SDKConnector::readyRead()
 {
-
 }
 
 void SDKConnector::newConnection()
@@ -27,6 +26,7 @@ void SDKConnector::newConnection()
 void SDKConnector::closeAllWallpapers()
 {
     for (int i = 0; i < m_clients.size(); ++i) {
+        qDebug() << m_clients.data()->get()->appID();
         m_clients.at(i)->close();
         m_clients.clear();
         m_clients.squeeze();
@@ -36,11 +36,8 @@ void SDKConnector::closeAllWallpapers()
 void SDKConnector::closeWallpapersAt(int at)
 {
     for (int i = 0; i < m_clients.size(); ++i) {
-        qDebug() << i << m_clients.length();
-        if(m_clients.at(i).data()->monitor().size() > 0){
-
-            if(m_clients.at(i).data()->monitor().at(0) == at){
-                qDebug() << "SDKC" << i ;
+        if (m_clients.at(i).data()->monitor().size() > 0) {
+            if (m_clients.at(i).data()->monitor().at(0) == at) {
                 m_clients.at(i).data()->close();
             }
         } else {
@@ -49,11 +46,11 @@ void SDKConnector::closeWallpapersAt(int at)
     }
 }
 
-
 void SDKConnector::setWallpaperValue(QString appID, QString key, QString value)
 {
 
     for (int i = 0; i < m_clients.count(); ++i) {
+        qDebug() << appID << " " << m_clients.at(i).data()->appID() << " " << m_clients.count() << " " << key << " " << value;
         if (m_clients.at(i).data()->appID() == appID) {
             QJsonObject obj;
             obj.insert(key, QJsonValue(value));
@@ -70,7 +67,7 @@ void SDKConnector::setSceneValue(QString appID, QString key, QString value)
     for (int i = 0; i < m_clients.count(); ++i) {
         if (m_clients.at(i).data()->appID() == appID) {
             QJsonObject obj;
-            obj.insert("type",QJsonValue("qmlScene"));
+            obj.insert("type", QJsonValue("qmlScene"));
             obj.insert(key, QJsonValue(value));
 
             QByteArray send = QJsonDocument(obj).toJson();
@@ -79,7 +76,6 @@ void SDKConnector::setSceneValue(QString appID, QString key, QString value)
         }
     }
 }
-
 
 QLocalSocket* SDKConnection::socket() const
 {

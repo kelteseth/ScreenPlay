@@ -19,7 +19,6 @@ SPWidgetmainwindow::SPWidgetmainwindow(QString projectPath, QString appid, QScre
     }
     m_project = configJsonDocument.object();
     QString fullPath = projectPath + "/" + m_project.value("file").toString();
-    qDebug() << fullPath;
 
     m_quickRenderer = QSharedPointer<QQmlApplicationEngine>(new QQmlApplicationEngine());
     m_quickRenderer.data()->rootContext()->setContextProperty("backend", this);
