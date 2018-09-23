@@ -46,7 +46,7 @@ public:
 
         m_socket = socket;
         connect(m_socket, &QLocalSocket::readyRead, this, &SDKConnection::readyRead);
-        connect(m_socket, &QLocalSocket::disconnected, this, &SDKConnection::disconnected);
+        connect(m_socket, &QLocalSocket::disconnected, this, &SDKConnection::close);
     }
 
     QString appID() const
@@ -78,28 +78,23 @@ public slots:
             m_appID = msg.remove("appID=").mid(0, 32);
             msg.remove(m_appID);
             qDebug() << "###### Wallpaper created at:";
-            qDebug() << "### APPID:\t " << m_appID << "\n### Monitor: " << m_monitor.at(0) << "\n";
+            qDebug() << "### APPID:\t " << m_appID; // TODO << "\n### Monitor: "<< m_monitor.at(0);
         }
 
         // TODO We now get all debug messages from apps here
         // show them inside ScreenPlay somewhere
     }
 
-    void disconnected()
-    {
-        close();
-    }
-
     void close()
     {
-        if ((m_socket->state()) == QLocalSocket::UnconnectedState || (m_socket->state()) == QLocalSocket::ClosingState )
+        if ((m_socket->state()) == QLocalSocket::UnconnectedState || (m_socket->state()) == QLocalSocket::ClosingState)
             return;
 
         m_socket->disconnectFromServer();
         m_socket->close();
 
         qDebug() << "###### Destroy: ";
-        qDebug() << "### APPID:\t " << m_appID << "\n### Monitor: " << m_monitor.at(0) << " State: " << m_socket->state();
+        qDebug() << "### APPID:\t " << m_appID << " State: " << m_socket->state();
     }
 
     void setAppID(QString appID)
