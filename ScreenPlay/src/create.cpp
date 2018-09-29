@@ -3,10 +3,18 @@
 Create::Create(Settings* st, QMLUtilities* util, QObject* parent)
     : QObject(parent)
 {
+
     m_settings = st;
     m_utils = util;
-    qRegisterMetaType<LocalWorkshopCreationStatus::Value>();
-    qmlRegisterUncreatableMetaObject(LocalWorkshopCreationStatus::staticMetaObject, "LocalWorkshopCreationStatus", 1, 0, "LocalWorkshopCreationStatus", "Error: only enums");
+    qmlRegisterType<Create>("net.aimber.create", 1, 0, "Create");
+}
+
+Create::Create()
+{
+}
+
+Create::~Create()
+{
 }
 
 void Create::copyProject(QString relativeProjectPath, QString toPath)
@@ -48,8 +56,7 @@ bool Create::copyRecursively(const QString& srcFilePath, const QString& tgtFileP
 void Create::importVideo(QString title, QUrl videoPath, QUrl previewPath, int videoDuration)
 {
     QtConcurrent::run([=]() {
-
-        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::Started);
+        emit localWorkshopCreationStatusChanged(State::Started);
 
         QString fromVideoPath = QString(videoPath.toString()).replace("file:///", "");
         QString fromImagePath = QString(previewPath.toString()).replace("file:///", "");
@@ -59,7 +66,7 @@ void Create::importVideo(QString title, QUrl videoPath, QUrl previewPath, int vi
 
         if (QDir(toPath).exists()) {
             if (!QDir(toPath).isEmpty()) {
-                emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorFolder);
+                emit localWorkshopCreationStatusChanged(State::ErrorFolder);
                 return;
             } else {
                 //if(!QDir(toPath + ))
@@ -68,30 +75,30 @@ void Create::importVideo(QString title, QUrl videoPath, QUrl previewPath, int vi
         } else {
             //TODO: Display Error
             if (!QDir().mkdir(toPath)) {
-                emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorFolderCreation);
+                emit localWorkshopCreationStatusChanged(State::ErrorFolderCreation);
                 return;
             }
         }
 
         //Copy Video File
         if (QFile::copy(fromVideoPath, toPathWithVideoFile)) {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::CopyVideoFinished);
+            emit localWorkshopCreationStatusChanged(State::CopyVideoFinished);
         } else {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorCopyVideo);
+            emit localWorkshopCreationStatusChanged(State::ErrorCopyVideo);
         }
 
         //Copy Image File
         if (QFile::copy(fromImagePath, toPathWithImageFile)) {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::CopyImageFinished);
+            emit localWorkshopCreationStatusChanged(State::CopyImageFinished);
         } else {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorCopyImage);
+            emit localWorkshopCreationStatusChanged(State::ErrorCopyImage);
         }
 
         //Copy Project File
         QFile configFile(toPath + "/" + "project.json");
 
         if (!configFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
-            emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::ErrorCopyConfig);
+            emit localWorkshopCreationStatusChanged(State::ErrorCopyConfig);
             return;
         }
 
@@ -108,7 +115,7 @@ void Create::importVideo(QString title, QUrl videoPath, QUrl previewPath, int vi
         out << configJsonDocument.toJson();
         configFile.close();
 
-        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::Value::Finished);
+        emit localWorkshopCreationStatusChanged(State::Finished);
     });
 }
 
@@ -196,22 +203,20 @@ void Create::importVideo(QString title, QUrl videoPath, int timeStamp, int video
 #ifdef QT_NO_DEBUG
         pro.data()->setProgram("ffmpeg.exe");
 #endif
-        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ConvertingPreviewImage);
+        emit localWorkshopCreationStatusChanged(State::ConvertingPreviewImage);
         pro.data()->start();
         pro.data()->waitForFinished(-1);
         qDebug() << "Done converting video to thumbnail" << pro.data()->readAllStandardOutput();
-        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ConvertingPreviewImageFinished);
+        emit localWorkshopCreationStatusChanged(State::ConvertingPreviewImageFinished);
         pro.data()->close();
-
     });
 
-    createVideoPreview(tmpPath,((videoDurationInSeconds * videoFrameRate) / 120));
-
+    //createVideoPreview(tmpPath, ((videoDurationInSeconds * videoFrameRate) / 120));
 }
 
-void Create::createVideoPreview(QString path, int framesToSkip)
+void Create::createVideoPreview(QString path, int frames, int length)
 {
-
+    qDebug() << frames * length;
     QtConcurrent::run([=]() {
         QStringList args;
         args.append("-y");
@@ -220,26 +225,97 @@ void Create::createVideoPreview(QString path, int framesToSkip)
         args.append("-speed");
         args.append("ultrafast");
         args.append("-vf");
-        // We allways want to have a 5 second clip via 24fps -> 120
+        // We allways want to have a 5 second clip via 24fps -> 120 frames
         // Divided by the number of frames we can skip (timeInSeconds * Framrate)
-        args.append("select='not(mod(n\\," + QString::number(framesToSkip) + "))',setpts=N/FRAME_RATE/TB,scale=480:-1");
+        args.append("select='not(mod(n\\," + QString::number(((frames * length) / 120)) + "))',setpts=N/FRAME_RATE/TB,scale=480:");
+        // Disable audio
         args.append("-an");
         args.append("preview.mp4");
         QScopedPointer<QProcess> pro(new QProcess());
 
         pro.data()->setArguments(args);
         qDebug() << "Start converting video to preview";
-#ifdef QT_DEBUG
-        pro.data()->setProgram("C:/msys64/mingw64/bin/ffmpeg.exe");
-#else
-        pro.data()->setProgram("ffmpeg.exe");
+#ifdef Q_OS_WIN
+        pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
-        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ConvertingPreviewVideo);
         pro.data()->start();
         pro.data()->waitForFinished(-1);
-        qDebug() << "Done converting video to preview" << pro.data()->readAllStandardOutput();
-        emit localWorkshopCreationStatusChanged(LocalWorkshopCreationStatus::ConvertingPreviewVideoFinished);
+        qDebug() << pro.data()->program() << pro.data()->arguments();
+        qDebug() << "Done converting video to preview" << pro.data()->readAll() << "\n"
+                 << pro.data()->readAllStandardError();
+        pro.data()->close();
+    });
+}
+
+void Create::createWallpaper(QString videoPath)
+{
+    videoPath.remove("file:///");
+
+    QtConcurrent::run([=]() {
+        // Get video info
+        QStringList args;
+        args.append("-print_format");
+        args.append("json");
+        args.append("-show_format");
+        args.append("-show_streams");
+        args.append(videoPath);
+        QScopedPointer<QProcess> pro(new QProcess());
+        pro.data()->setArguments(args);
+
+#ifdef Q_OS_WIN
+        pro.data()->setProgram(QApplication::applicationDirPath() + "/ffprobe.exe");
+#endif
+
+        pro.data()->start();
+        pro.data()->waitForFinished(-1);
+        QJsonObject obj;
+        QJsonParseError err;
+        QJsonDocument doc = QJsonDocument::fromJson(pro.data()->readAll(), &err);
+        if (err.error == QJsonParseError::NoError) {
+            obj = doc.object();
+        }
+
         pro.data()->close();
 
+        // Get video length
+        QJsonObject objFormat = obj.value("format").toObject();
+        bool okParseDuration = false;
+        auto tmpLength = objFormat.value("duration").toVariant().toFloat(&okParseDuration);
+
+        if (!okParseDuration) {
+            qDebug() << "Error parsing video length";
+            return;
+        }
+
+        int length = 0;
+        length = static_cast<int>(tmpLength);
+
+        // Get framerate
+        QJsonArray arrSteams = obj.value("streams").toArray();
+        if (arrSteams.size() < 1) {
+            qDebug() << "Error container does not have any video streams";
+            return;
+        }
+
+        QJsonObject tmpObjStreams = arrSteams.at(0).toObject();
+
+        // The paramter gets us the exact framerate
+        // "avg_frame_rate":"47850000/797509"
+        // so we need no calc the value by dividing the two numbers
+        QString avgFrameRate = tmpObjStreams.value("avg_frame_rate").toVariant().toString();
+
+        QStringList avgFrameRateList = avgFrameRate.split('/', QString::SkipEmptyParts);
+        if (avgFrameRateList.length() != 2) {
+            qDebug() << "Error could not parse streams with length: " << avgFrameRateList.length();
+            return;
+        }
+
+        int framerate = 0;
+        float value1 = static_cast<float>(avgFrameRateList.at(0).toInt());
+        float value2 = static_cast<float>(avgFrameRateList.at(1).toInt());
+
+        framerate = qCeil(value1 / value2);
+
+        this->createVideoPreview(videoPath, length, framerate);
     });
 }

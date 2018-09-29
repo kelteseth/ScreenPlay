@@ -5,14 +5,15 @@ import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.Particles 2.0
 
-//Enums
-import LocalWorkshopCreationStatus 1.0
+import net.aimber.create 1.0
 
 Rectangle {
     id: create
     anchors.fill: parent
     state: "out"
-    Component.onCompleted: create.state = "create"
+    Component.onCompleted: {
+        create.state = "create"
+    }
     property url activeVideoFile: ""
     property url activeFolder: ""
 
@@ -40,7 +41,7 @@ Rectangle {
     Connections {
         target: screenPlayCreate
         onLocalWorkshopCreationStatusChanged: {
-            if (status === LocalWorkshopCreationStatus.Started) {
+            if (status === Create.State.Started) {
                 loader.setSource("CreateImportStatus.qml")
             }
         }
