@@ -111,7 +111,6 @@
         <file>qml/Settings/SettingsHorizontalSeperator.qml</file>
         <file>qml/StartupErrorWindow.qml</file>
         <file>qml/Widgets/Window.qml</file>
-        <file>qml/Wizard/Wizard.qml</file>
         <file>qml/Workshop/Workshop.qml</file>
         <file>qml/Workshop/WorkshopAlertBanner.qml</file>
         <file>qml/Workshop/WorkshopBanner.qml</file>
