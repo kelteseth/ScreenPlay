@@ -31,12 +31,3 @@ void QMLUtilities::openFolderInExplorer(QString url)
     explorer.startDetached();
 }
 
-void QMLUtilities::openLicenceFolder()
-{
-    QProcess explorer;
-    QStringList args;
-    args.append(QDir::toNativeSeparators(QCoreApplication::applicationDirPath()+ "/legal"));
-    explorer.setProgram("explorer.exe");
-    explorer.setArguments(args);
-    explorer.startDetached();
-}

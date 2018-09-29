@@ -29,7 +29,6 @@ public slots:
     void setNavigation(QString nav);
     void setToggleWallpaperConfiguration();
     void openFolderInExplorer(QString url);
-    void openLicenceFolder();
 
     QString fixWindowsPath(QString url);
 };
