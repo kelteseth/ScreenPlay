@@ -75,6 +75,18 @@ install_it.files += assets/templates/config.json \
                     assets/icons/favicon.ico \
                     settings.json \
                     steam_appid.txt \
+                    ThirdParty/ffmpeg/Windows/avcodec-58.dll \
+                    ThirdParty/ffmpeg/Windows/avdevice-58.dll \
+                    ThirdParty/ffmpeg/Windows/avfilter-7.dll \
+                    ThirdParty/ffmpeg/Windows/avformat-58.dll \
+                    ThirdParty/ffmpeg/Windows/avutil-56.dll \
+                    ThirdParty/ffmpeg/Windows/ffmpeg.exe \
+                    ThirdParty/ffmpeg/Windows/ffplay.exe \
+                    ThirdParty/ffmpeg/Windows/ffprobe.exe \
+                    ThirdParty/ffmpeg/Windows/postproc-55.dll \
+                    ThirdParty/ffmpeg/Windows/swresample-3.dll \
+                    ThirdParty/ffmpeg/Windows/swscale-5.dll
+
 
 installOut.files += steam_appid.txt \
 
@@ -117,4 +129,5 @@ unix {
 }
 
 DISTFILES += \
-    favicon.ico
+    favicon.ico \
+
