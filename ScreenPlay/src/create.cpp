@@ -55,6 +55,10 @@ bool Create::copyRecursively(const QString& srcFilePath, const QString& tgtFileP
 
 void Create::importVideo(QString title, QUrl videoPath, QUrl previewPath, int videoDuration)
 {
+
+    if(m_importState != Create::State::Idle) {
+        return;
+    }
     QtConcurrent::run([=]() {
         emit localWorkshopCreationStatusChanged(State::Started);
 
@@ -122,6 +126,9 @@ void Create::importVideo(QString title, QUrl videoPath, QUrl previewPath, int vi
 void Create::importVideo(QString title, QUrl videoPath, int timeStamp, int videoDuration, int videoFrameRate)
 {
 
+    if(m_importState != Create::State::Idle) {
+        return;
+    }
     qDebug() << title << videoPath << timeStamp;
 
     QString tmpPath = videoPath.toString();
@@ -214,12 +221,17 @@ void Create::importVideo(QString title, QUrl videoPath, int timeStamp, int video
     //createVideoPreview(tmpPath, ((videoDurationInSeconds * videoFrameRate) / 120));
 }
 
-void Create::createVideoPreview(QString path, int frames, int length)
+void Create::createVideoPreview(QString path, int frames, int frameRate)
 {
-    qDebug() << frames * length;
+
+    if(m_importState != Create::State::Idle) {
+        return;
+    }
+    qDebug() << frames << frameRate;
     QtConcurrent::run([=]() {
         QStringList args;
         args.append("-y");
+        args.append("-stats");
         args.append("-i");
         args.append(path);
         args.append("-speed");
@@ -227,7 +239,8 @@ void Create::createVideoPreview(QString path, int frames, int length)
         args.append("-vf");
         // We allways want to have a 5 second clip via 24fps -> 120 frames
         // Divided by the number of frames we can skip (timeInSeconds * Framrate)
-        args.append("select='not(mod(n\\," + QString::number(((frames * length) / 120)) + "))',setpts=N/FRAME_RATE/TB,scale=480:");
+        // scale & crop parameter: https://unix.stackexchange.com/a/284731
+        args.append("select='not(mod(n," + QString::number((frames / 5 )) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400");
         // Disable audio
         args.append("-an");
         args.append("preview.mp4");
@@ -249,6 +262,10 @@ void Create::createVideoPreview(QString path, int frames, int length)
 
 void Create::createWallpaper(QString videoPath)
 {
+
+    if(m_importState != Create::State::Idle) {
+        return;
+    }
     videoPath.remove("file:///");
 
     QtConcurrent::run([=]() {
