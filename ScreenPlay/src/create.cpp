@@ -244,19 +244,48 @@ void Create::createVideoPreview(QString path, int frames, int frameRate)
         // Disable audio
         args.append("-an");
         args.append("preview.mp4");
-        QScopedPointer<QProcess> pro(new QProcess());
+        QScopedPointer<QProcess> proConvertPreviewMP4(new QProcess());
 
-        pro.data()->setArguments(args);
-        qDebug() << "Start converting video to preview";
+        proConvertPreviewMP4.data()->setArguments(args);
+        qDebug() << "Start converting video to preview mp4";
 #ifdef Q_OS_WIN
-        pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+        proConvertPreviewMP4.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
-        pro.data()->start();
-        pro.data()->waitForFinished(-1);
-        qDebug() << pro.data()->program() << pro.data()->arguments();
-        qDebug() << "Done converting video to preview" << pro.data()->readAll() << "\n"
-                 << pro.data()->readAllStandardError();
-        pro.data()->close();
+        proConvertPreviewMP4.data()->start();
+        proConvertPreviewMP4.data()->waitForFinished(-1);
+        qDebug() << proConvertPreviewMP4.data()->program() << proConvertPreviewMP4.data()->arguments();
+        qDebug() << "Done converting video to preview" << proConvertPreviewMP4.data()->readAll() << "\n"
+                 << proConvertPreviewMP4.data()->readAllStandardError();
+        proConvertPreviewMP4.data()->close();
+
+
+        /*
+         *
+         * Create gif
+         *
+         */
+
+        args.clear();
+        args.append("-y");
+        args.append("-stats");
+        args.append("-i");
+        args.append("preview.mp4");
+        args.append("-filter_complex");
+        args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
+        args.append("preview.gif");
+
+        QScopedPointer<QProcess> proConvertGif(new QProcess());
+        proConvertGif.data()->setArguments(args);
+        qDebug() << "Start converting video to preview gif";
+#ifdef Q_OS_WIN
+        proConvertGif.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+        proConvertGif.data()->start();
+        proConvertGif.data()->waitForFinished(-1);
+        qDebug() << proConvertGif.data()->program() << proConvertGif.data()->arguments();
+        qDebug() << "Done converting video to preview" << proConvertGif.data()->readAll() << "\n"
+                 << proConvertGif.data()->readAllStandardError();
+        proConvertGif.data()->close();
     });
 }
 
