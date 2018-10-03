@@ -15,6 +15,7 @@
 #include <QJsonParseError>
 #include <QJsonArray>
 #include <QtMath>
+#include <QTime>
 
 #include "qmlutilities.h"
 #include "settings.h"
@@ -81,6 +82,7 @@ public slots:
 private:
     Settings* m_settings;
     QMLUtilities* m_utils;
+    QString m_workingDir;
 
     State m_importState = State::Idle;
 };

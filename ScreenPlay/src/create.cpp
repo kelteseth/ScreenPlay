@@ -56,7 +56,7 @@ bool Create::copyRecursively(const QString& srcFilePath, const QString& tgtFileP
 void Create::importVideo(QString title, QUrl videoPath, QUrl previewPath, int videoDuration)
 {
 
-    if(m_importState != Create::State::Idle) {
+    if (m_importState != Create::State::Idle) {
         return;
     }
     QtConcurrent::run([=]() {
@@ -126,7 +126,7 @@ void Create::importVideo(QString title, QUrl videoPath, QUrl previewPath, int vi
 void Create::importVideo(QString title, QUrl videoPath, int timeStamp, int videoDuration, int videoFrameRate)
 {
 
-    if(m_importState != Create::State::Idle) {
+    if (m_importState != Create::State::Idle) {
         return;
     }
     qDebug() << title << videoPath << timeStamp;
@@ -204,11 +204,8 @@ void Create::importVideo(QString title, QUrl videoPath, int timeStamp, int video
 
         pro.data()->setArguments(args);
         qDebug() << "Start converting video to thumbnail";
-#ifdef QT_DEBUG
-        pro.data()->setProgram("C:/msys64/mingw64/bin/ffmpeg.exe");
-#endif
-#ifdef QT_NO_DEBUG
-        pro.data()->setProgram("ffmpeg.exe");
+#ifdef Q_OS_WIN
+        pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
         emit localWorkshopCreationStatusChanged(State::ConvertingPreviewImage);
         pro.data()->start();
@@ -217,14 +214,12 @@ void Create::importVideo(QString title, QUrl videoPath, int timeStamp, int video
         emit localWorkshopCreationStatusChanged(State::ConvertingPreviewImageFinished);
         pro.data()->close();
     });
-
-    //createVideoPreview(tmpPath, ((videoDurationInSeconds * videoFrameRate) / 120));
 }
 
 void Create::createVideoPreview(QString path, int frames, int frameRate)
 {
 
-    if(m_importState != Create::State::Idle) {
+    if (m_importState != Create::State::Idle) {
         return;
     }
     qDebug() << frames << frameRate;
@@ -240,10 +235,10 @@ void Create::createVideoPreview(QString path, int frames, int frameRate)
         // We allways want to have a 5 second clip via 24fps -> 120 frames
         // Divided by the number of frames we can skip (timeInSeconds * Framrate)
         // scale & crop parameter: https://unix.stackexchange.com/a/284731
-        args.append("select='not(mod(n," + QString::number((frames / 5 )) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400");
+        args.append("select='not(mod(n," + QString::number((frames / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400");
         // Disable audio
         args.append("-an");
-        args.append("preview.mp4");
+        args.append(m_workingDir + "/preview.mp4");
         QScopedPointer<QProcess> proConvertPreviewMP4(new QProcess());
 
         proConvertPreviewMP4.data()->setArguments(args);
@@ -258,7 +253,6 @@ void Create::createVideoPreview(QString path, int frames, int frameRate)
                  << proConvertPreviewMP4.data()->readAllStandardError();
         proConvertPreviewMP4.data()->close();
 
-
         /*
          *
          * Create gif
@@ -269,10 +263,10 @@ void Create::createVideoPreview(QString path, int frames, int frameRate)
         args.append("-y");
         args.append("-stats");
         args.append("-i");
-        args.append("preview.mp4");
+        args.append(m_workingDir + "/preview.mp4");
         args.append("-filter_complex");
         args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
-        args.append("preview.gif");
+        args.append(m_workingDir + "/preview.gif");
 
         QScopedPointer<QProcess> proConvertGif(new QProcess());
         proConvertGif.data()->setArguments(args);
@@ -292,10 +286,22 @@ void Create::createVideoPreview(QString path, int frames, int frameRate)
 void Create::createWallpaper(QString videoPath)
 {
 
-    if(m_importState != Create::State::Idle) {
+    if (m_importState != Create::State::Idle) {
         return;
     }
     videoPath.remove("file:///");
+
+    QDir dir;
+    dir.cd(m_settings->localStoragePath().toString());
+    m_workingDir = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
+
+    if (dir.mkdir(m_workingDir)) {
+
+    } else {
+        return;
+    }
+
+    m_workingDir = dir.path() + "/" + m_workingDir;
 
     QtConcurrent::run([=]() {
         // Get video info
