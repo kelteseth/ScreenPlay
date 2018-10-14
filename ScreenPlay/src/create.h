@@ -34,6 +34,9 @@ class Create : public QObject {
     Q_OBJECT
 public:
     explicit Create(Settings* st, QMLUtilities* util, QObject* parent = nullptr);
+
+    Q_PROPERTY(QString workingDir READ workingDir WRITE setWorkingDir NOTIFY workingDirChanged)
+
     Create() {}
     ~Create() {}
 
@@ -58,10 +61,17 @@ public:
     Q_ENUM(State)
 
 
+    QString workingDir() const
+    {
+        return m_workingDir;
+    }
+
 signals:
     void createWallpaperStateChanged(Create::State state);
     void processOutput(QString text);
 
+
+    void workingDirChanged(QString workingDir);
 
 public slots:
     void copyProject(QString relativeProjectPath, QString toPath);
@@ -75,8 +85,18 @@ public slots:
     bool createWallpaperVideo(CreateWallpaperData& createWallpaperData);
     bool createWallpaperProjectFile(CreateWallpaperData& createWallpaperData);
 
+    void setWorkingDir(QString workingDir)
+    {
+        if (m_workingDir == workingDir)
+            return;
+
+        m_workingDir = workingDir;
+        emit workingDirChanged(m_workingDir);
+    }
+
 private:
     Settings* m_settings;
     QMLUtilities* m_utils;
 
+    QString m_workingDir;
 };

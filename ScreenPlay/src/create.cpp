@@ -49,26 +49,24 @@ bool Create::copyRecursively(const QString& srcFilePath, const QString& tgtFileP
 
 void Create::createWallpaperStart(QString videoPath)
 {
-
     videoPath.remove("file:///");
 
     QtConcurrent::run([=]() {
 
         QDir dir;
-        dir.cd(m_settings->localStoragePath().toString());
+        dir.cd(this->m_settings->localStoragePath().toString());
 
         CreateWallpaperData createWallpaperData;
         createWallpaperData.videoPath = videoPath;
 
         // Create a temp dir so we can later alter it to the workshop id
-        createWallpaperData.exportPath = QString(dir.path() + "/" + "_tmp_" + QTime::currentTime().toString()).replace(":", "");
+        auto folderName = QString( "_tmp_" + QTime::currentTime().toString()).replace(":", "");
 
-
-        if (dir.mkdir(createWallpaperData.exportPath)) {
-            // TODO
-        } else {
+        if (!dir.mkdir(folderName))
             return;
-        }
+
+        createWallpaperData.exportPath = dir.path() + "/" + folderName;
+        m_workingDir = createWallpaperData.exportPath;
 
         // If we return early/false this means the creation
         // process did not work
@@ -205,10 +203,10 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoFinished);
 
     /*
-         *
-         * Create gif
-         *
-         */
+     *
+     * Create gif
+     *
+     */
 
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewGif);
     args.clear();
@@ -239,7 +237,7 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
 
 bool Create::createWallpaperVideo(CreateWallpaperData& createWallpaperData)
 {
-     return true;
+    return true;
 }
 
 bool Create::createWallpaperProjectFile(CreateWallpaperData& createWallpaperData)
