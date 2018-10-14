@@ -1,7 +1,7 @@
 import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
+import QtQuick.Controls.Material 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.3
 import net.aimber.create 1.0
@@ -22,8 +22,8 @@ Item {
         target: screenPlayCreate
         onCreateWallpaperStateChanged: {
             print(state)
-            if (state === Create.State.ConvertingPreviewGifError ||
-                    state === Create.State.ConvertingPreviewVideoError) {
+            if (state === Create.State.ConvertingPreviewGifError
+                    || state === Create.State.ConvertingPreviewVideoError) {
                 createNew.state = "error"
             }
         }
@@ -232,40 +232,110 @@ Item {
                     }
                 }
             }
+        }
 
-            MouseArea {
+        Item {
+            id: wrapperError
+            anchors.fill: parent
+
+            Text {
+                id: txtErrorHeadline
+                text: qsTr("An error occurred!")
                 anchors {
                     top: parent.top
-                    right: parent.right
-                    margins: 5
+                    topMargin: 30
+                    horizontalCenter: parent.horizontalCenter
                 }
-                width: 32
-                height: width
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    createNew.state = "out"
-                    timerBack.start()
+                height: 40
+                font.family: "Roboto"
+                font.weight: Font.Light
+                color: Material.color(Material.Red)
+                renderType: Text.NativeRendering
+                font.pixelSize: 32
+            }
+
+            Rectangle {
+                id: rectangle1
+                color: "#eeeeee"
+                radius: 3
+                anchors {
+                    top: txtErrorHeadline.bottom
+                    right: parent.right
+                    bottom: btnBack.top
+                    left: parent.left
+                    margins: 30
+                    bottomMargin: 10
                 }
 
-                Image {
-                    id: imgClose
-                    source: "qrc:/assets/icons/font-awsome/close.svg"
-                    width: 16
-                    height: 16
-                    anchors.centerIn: parent
-                    sourceSize: Qt.size(width, width)
+                Flickable {
+                    anchors.fill: parent
+                    contentHeight: txtFFMPEG.paintedHeight
+                    ScrollBar.vertical: ScrollBar {
+                        snapMode: ScrollBar.SnapOnRelease
+                        policy: ScrollBar.AlwaysOn
+                    }
+                    Text {
+                        id: txtFFMPEG
+                        anchors {
+                            fill: parent
+                            margins: 20
+                        }
+                        wrapMode: Text.WordWrap
+                        color: "#626262"
+                        renderType: Text.NativeRendering
+                        height: txtFFMPEG.paintedHeight
+                    }
                 }
-                ColorOverlay {
-                    id: iconColorOverlay
-                    anchors.fill: imgClose
-                    source: imgClose
-                    color: "gray"
+            }
+
+            Button {
+                id: btnBack
+                text: qsTr("Back to create and send an error report!")
+                Material.background: Material.Orange
+                Material.foreground: "white"
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.bottom
+                    margins: 10
                 }
-                Timer {
-                    id: timerBack
-                    interval: 800
-                    onTriggered: utility.setNavigation("Create")
+                onClicked: {
+                    utility.setNavigation("Create")
                 }
+            }
+        }
+
+        MouseArea {
+            anchors {
+                top: parent.top
+                right: parent.right
+                margins: 5
+            }
+            width: 32
+            height: width
+            cursorShape: Qt.PointingHandCursor
+            onClicked: {
+                createNew.state = "out"
+                timerBack.start()
+            }
+
+            Image {
+                id: imgClose
+                source: "qrc:/assets/icons/font-awsome/close.svg"
+                width: 16
+                height: 16
+                anchors.centerIn: parent
+                sourceSize: Qt.size(width, width)
+            }
+            ColorOverlay {
+                id: iconColorOverlay
+                anchors.fill: imgClose
+                source: imgClose
+                color: "gray"
+            }
+            Timer {
+                id: timerBack
+                interval: 800
+                onTriggered: utility.setNavigation("Create")
             }
         }
     }
@@ -282,6 +352,10 @@ Item {
                 target: effect
                 opacity: 0
             }
+            PropertyChanges {
+                target: wrapperError
+                opacity: 0
+            }
         },
         State {
             name: "in"
@@ -293,6 +367,10 @@ Item {
             PropertyChanges {
                 target: effect
                 opacity: .4
+            }
+            PropertyChanges {
+                target: wrapperError
+                opacity: 0
             }
         },
         State {
@@ -309,6 +387,10 @@ Item {
             PropertyChanges {
                 target: wrapperSteps
                 opacity: 0
+            }
+            PropertyChanges {
+                target: wrapperError
+                opacity: 1
             }
         }
     ]
@@ -385,11 +467,22 @@ Item {
         Transition {
             from: "in"
             to: "error"
-            PropertyAnimation {
-                target: wrapperSteps
-                duration: 600
-                property: "opacity"
-                easing.type: Easing.InOutQuad
+            SequentialAnimation {
+                PropertyAnimation {
+                    target: wrapperSteps
+                    duration: 600
+                    property: "opacity"
+                    easing.type: Easing.InOutQuad
+                }
+                PauseAnimation {
+                    duration: 50
+                }
+                PropertyAnimation {
+                    target: wrapperError
+                    duration: 200
+                    property: "opacity"
+                    easing.type: Easing.InOutQuad
+                }
             }
         }
     ]
