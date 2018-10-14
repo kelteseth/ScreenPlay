@@ -18,6 +18,17 @@ Item {
         anchors.fill: parent
     }
 
+    Connections {
+        target: screenPlayCreate
+        onCreateWallpaperStateChanged: {
+            print(state)
+            if (state === Create.State.ConvertingPreviewGifError ||
+                    state === Create.State.ConvertingPreviewVideoError) {
+                createNew.state = "error"
+            }
+        }
+    }
+
     Timer {
         interval: 1000
         triggeredOnStart: false
@@ -63,189 +74,198 @@ Item {
         radius: 4
         height: 560
 
-        Text {
-            id: txtHeadline
-            text: qsTr("Convert a video to a wallpaper")
-            height: 40
-            font.family: "Roboto"
-            font.weight: Font.Light
-            color: "#757575"
-            renderType: Text.NativeRendering
-            font.pixelSize: 23
-            anchors {
-                top: parent.top
-                left: parent.left
-                margins: 40
-                bottomMargin: 0
-            }
-        }
+        Item {
+            id: wrapperSteps
+            anchors.fill: parent
 
-        SwipeView {
-            id: view
-            clip: true
-            currentIndex: 0
-            interactive: false
-            onCurrentIndexChanged: {
-
+            Text {
+                id: txtHeadline
+                text: qsTr("Convert a video to a wallpaper")
+                height: 40
+                font.family: "Roboto"
+                font.weight: Font.Light
+                color: "#757575"
+                renderType: Text.NativeRendering
+                font.pixelSize: 23
+                anchors {
+                    top: parent.top
+                    left: parent.left
+                    margins: 40
+                    bottomMargin: 0
+                }
             }
 
-            anchors {
-                top: txtHeadline.bottom
-                right: parent.right
-                bottom: indicator.top
-                left: parent.left
-                margins: 40
-                bottomMargin: 20
-                topMargin: 0
-            }
+            SwipeView {
+                id: view
+                clip: true
+                currentIndex: 0
+                interactive: false
+                onCurrentIndexChanged: {
 
-            Page_0 {
-                id: page_0
-                onCanNextChanged: {
-                    if (canNext) {
-                        btnNext.state = "enabledPage0"
-                    } else {
+                }
+
+                anchors {
+                    top: txtHeadline.bottom
+                    right: parent.right
+                    bottom: indicator.top
+                    left: parent.left
+                    margins: 40
+                    bottomMargin: 20
+                    topMargin: 0
+                }
+
+                Page_0 {
+                    id: page_0
+                    onCanNextChanged: {
+                        if (canNext) {
+                            btnNext.state = "enabledPage0"
+                        } else {
+                            if (gifCreated) {
+                                btnNext.state = "diabledPage0NoTitle"
+                            } else {
+                                btnNext.state = "diabledPage0"
+                            }
+                        }
+                    }
+                    onGifCreatedChanged: {
                         if (gifCreated) {
                             btnNext.state = "diabledPage0NoTitle"
-                        } else {
-                            btnNext.state = "diabledPage0"
                         }
                     }
                 }
-                onGifCreatedChanged: {
-                    if (gifCreated) {
-                        btnNext.state = "diabledPage0NoTitle"
+                Page_1 {
+                    id: secondPage
+                }
+                Page_2 {
+                    id: thirdPage
+                }
+            }
+
+            PageIndicator {
+                id: indicator
+                count: view.count
+                currentIndex: view.currentIndex
+                anchors {
+                    bottom: parent.bottom
+                    bottomMargin: 20
+                    left: parent.left
+                    leftMargin: 40
+                }
+
+                delegate: Item {
+                    width: txtStep.paintedWidth + 20
+                    height: 30
+                    property bool filled
+                    Text {
+                        id: txtStep
+                        text: {
+                            switch (index) {
+                            case 0:
+                                return "1. Configure"
+                            case 1:
+                                return "2. Convert"
+                            case 2:
+                                return "3. Finish"
+                            default:
+                                return "Undefiend"
+                            }
+                        }
+                        color: view.currentIndex == index ? "orange" : "gray"
+                        renderType: Text.NativeRendering
+                        font.family: "Roboto"
+                        font.pixelSize: 14
+                        anchors {
+                            left: parent.left
+                            verticalCenter: parent.verticalCenter
+                        }
+
+                        MouseArea {
+                            anchors.fill: parent
+                            onClicked: {
+
+                                if (!page_0.canNext || !page_0.gifCreated)
+                                    return
+
+                                view.setCurrentIndex(index)
+                            }
+
+                            cursorShape: Qt.PointingHandCursor
+                        }
                     }
                 }
             }
-            Page_1 {
-                id: secondPage
-            }
-            Page_2 {
-                id: thirdPage
-            }
-        }
 
-        PageIndicator {
-            id: indicator
-            count: view.count
-            currentIndex: view.currentIndex
-            anchors {
-                bottom: parent.bottom
-                bottomMargin: 20
-                left: parent.left
-                leftMargin: 40
-            }
+            Row {
+                width: childrenRect.width
+                height: 50
+                spacing: 20
+                anchors {
+                    bottom: parent.bottom
+                    right: parent.right
+                    margins: 20
+                    rightMargin: 40
+                }
+                Button {
+                    text: qsTr("Back")
+                    Material.background: Material.Gray
+                    Material.foreground: "white"
 
-            delegate: Item {
-                width: txtStep.paintedWidth + 20
-                height: 30
-                property bool filled
-                Text {
-                    id: txtStep
-                    text: {
-                        switch (index) {
-                        case 0:
-                            return "1. Configure"
-                        case 1:
-                            return "2. Convert"
-                        case 2:
-                            return "3. Finish"
-                        default:
-                            return "Undefiend"
-                        }
+                    icon.source: "qrc:/assets/icons/icon_arrow_left.svg"
+                    icon.color: "white"
+                    icon.width: 16
+                    icon.height: 16
+                    onClicked: {
+                        if (view.currentIndex > 0)
+                            view.setCurrentIndex(view.currentIndex - 1)
                     }
-                    color: view.currentIndex == index ? "orange" : "gray"
-                    renderType: Text.NativeRendering
-                    font.family: "Roboto"
-                    font.pixelSize: 14
-                    anchors {
-                        left: parent.left
-                        verticalCenter: parent.verticalCenter
-                    }
+                }
+                NextButton {
+                    id: btnNext
+                    state: "diabledPage0"
+                    onClicked: {
 
-                    MouseArea {
-                        anchors.fill: parent
-                        onClicked: {
-                            view.setCurrentIndex(index)
-                        }
+                        if (!page_0.canNext || !page_0.gifCreated)
+                            return
 
-                        cursorShape: Qt.PointingHandCursor
+                        if (view.currentIndex < view.count - 1)
+                            view.setCurrentIndex(view.currentIndex + 1)
                     }
                 }
             }
-        }
 
-        Row {
-            width: childrenRect.width
-            height: 50
-            spacing: 20
-            anchors {
-                bottom: parent.bottom
-                right: parent.right
-                margins: 20
-                rightMargin: 40
-            }
-            Button {
-                text: qsTr("Back")
-                Material.background: Material.Gray
-                Material.foreground: "white"
-
-                icon.source: "qrc:/assets/icons/icon_arrow_left.svg"
-                icon.color: "white"
-                icon.width: 16
-                icon.height: 16
+            MouseArea {
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    margins: 5
+                }
+                width: 32
+                height: width
+                cursorShape: Qt.PointingHandCursor
                 onClicked: {
-                    if (view.currentIndex > 0)
-                        view.setCurrentIndex(view.currentIndex - 1)
+                    createNew.state = "out"
+                    timerBack.start()
                 }
-            }
-            NextButton {
-                id: btnNext
-                state: "diabledPage0"
-                onClicked: {
 
-                    if (!page_0.canNext || !page_0.gifCreated )
-                        return
-
-                    if (view.currentIndex < view.count - 1)
-                        view.setCurrentIndex(view.currentIndex + 1)
+                Image {
+                    id: imgClose
+                    source: "qrc:/assets/icons/font-awsome/close.svg"
+                    width: 16
+                    height: 16
+                    anchors.centerIn: parent
+                    sourceSize: Qt.size(width, width)
                 }
-            }
-        }
-
-        MouseArea {
-            anchors {
-                top: parent.top
-                right: parent.right
-                margins: 5
-            }
-            width: 32
-            height: width
-            cursorShape: Qt.PointingHandCursor
-            onClicked: {
-                createNew.state = "out"
-                timerBack.start()
-            }
-
-            Image {
-                id: imgClose
-                source: "qrc:/assets/icons/font-awsome/close.svg"
-                width: 16
-                height: 16
-                anchors.centerIn: parent
-                sourceSize: Qt.size(width, width)
-            }
-            ColorOverlay {
-                id: iconColorOverlay
-                anchors.fill: imgClose
-                source: imgClose
-                color: "gray"
-            }
-            Timer {
-                id: timerBack
-                interval: 800
-                onTriggered: utility.setNavigation("Create")
+                ColorOverlay {
+                    id: iconColorOverlay
+                    anchors.fill: imgClose
+                    source: imgClose
+                    color: "gray"
+                }
+                Timer {
+                    id: timerBack
+                    interval: 800
+                    onTriggered: utility.setNavigation("Create")
+                }
             }
         }
     }
@@ -273,6 +293,22 @@ Item {
             PropertyChanges {
                 target: effect
                 opacity: .4
+            }
+        },
+        State {
+            name: "error"
+            PropertyChanges {
+                target: wrapper
+                anchors.topMargin: 40
+                opacity: 1
+            }
+            PropertyChanges {
+                target: effect
+                opacity: .4
+            }
+            PropertyChanges {
+                target: wrapperSteps
+                opacity: 0
             }
         }
     ]
@@ -344,6 +380,16 @@ Item {
                         easing.type: Easing.InOutQuad
                     }
                 }
+            }
+        },
+        Transition {
+            from: "in"
+            to: "error"
+            PropertyAnimation {
+                target: wrapperSteps
+                duration: 600
+                property: "opacity"
+                easing.type: Easing.InOutQuad
             }
         }
     ]

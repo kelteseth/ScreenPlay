@@ -52,7 +52,6 @@ void Create::createWallpaperStart(QString videoPath)
     videoPath.remove("file:///");
 
     QtConcurrent::run([=]() {
-
         QDir dir;
         dir.cd(this->m_settings->localStoragePath().toString());
 
@@ -60,7 +59,7 @@ void Create::createWallpaperStart(QString videoPath)
         createWallpaperData.videoPath = videoPath;
 
         // Create a temp dir so we can later alter it to the workshop id
-        auto folderName = QString( "_tmp_" + QTime::currentTime().toString()).replace(":", "");
+        auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
 
         if (!dir.mkdir(folderName))
             return;
@@ -189,15 +188,20 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
 
     QScopedPointer<QTimer> processOutputTimer(new QTimer());
 
-    connect(processOutputTimer.data(), &QTimer::timeout, [&]() {
-        qDebug() << "### " << proConvertPreviewMP4.data()->readAll();
-        this->processOutput(proConvertPreviewMP4.data()->readAll());
-    });
+    //    connect(processOutputTimer.data(), &QTimer::timeout, [&]() {
+    //        qDebug() << "### " << proConvertPreviewMP4.data()->readAll();
+    //        this->processOutput(proConvertPreviewMP4.data()->readAll());
+    //    });
     processOutputTimer.data()->start(100);
     proConvertPreviewMP4.data()->waitForFinished(-1);
+    if (!proConvertPreviewMP4.data()->readAllStandardError().isEmpty()) {
+        emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoError);
+        return false;
+    }
     //        qDebug() << proConvertPreviewMP4.data()->program() << proConvertPreviewMP4.data()->arguments();
     //        qDebug() << "Done converting video to preview" << proConvertPreviewMP4.data()->readAll() << "\n"
     //                 << proConvertPreviewMP4.data()->readAllStandardError();
+    this->processOutput(proConvertPreviewMP4.data()->readAll());
     proConvertPreviewMP4.data()->close();
     processOutputTimer.data()->stop();
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoFinished);
@@ -226,9 +230,15 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
 #endif
     proConvertGif.data()->start();
     proConvertGif.data()->waitForFinished(-1);
+    if (!proConvertGif.data()->readAllStandardError().isEmpty()) {
+        emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifError);
+        return false;
+    }
+
     //        qDebug() << proConvertGif.data()->program() << proConvertGif.data()->arguments();
     //        qDebug() << "Done converting video to preview" << proConvertGif.data()->readAll() << "\n"
     //                 << proConvertGif.data()->readAllStandardError();
+    this->processOutput(proConvertPreviewMP4.data()->readAll());
     proConvertGif.data()->close();
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifFinished);
 

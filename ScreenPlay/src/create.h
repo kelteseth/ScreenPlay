@@ -45,17 +45,14 @@ public:
         Started,
         ConvertingPreviewImage,
         ConvertingPreviewImageFinished,
+        ConvertingPreviewImageError,
         ConvertingPreviewVideo,
         ConvertingPreviewVideoFinished,
+        ConvertingPreviewVideoError,
         ConvertingPreviewGif,
         ConvertingPreviewGifFinished,
+        ConvertingPreviewGifError,
         Finished,
-        ErrorFolder,
-        ErrorFolderCreation,
-        ErrorDiskSpace,
-        ErrorCopyVideo,
-        ErrorCopyImage,
-        ErrorCopyConfig,
         ErrorUnknown,
     };
     Q_ENUM(State)
@@ -69,8 +66,6 @@ public:
 signals:
     void createWallpaperStateChanged(Create::State state);
     void processOutput(QString text);
-
-
     void workingDirChanged(QString workingDir);
 
 public slots:
