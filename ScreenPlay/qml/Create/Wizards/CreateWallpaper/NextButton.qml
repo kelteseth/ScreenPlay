@@ -48,15 +48,16 @@ Button {
             }
         }
     ]
-    transitions: [
-        Transition {
-            from: "*"
-            to: "*"
-            NumberAnimation {
-                property: "width"
-                easing.type: Easing.InOutQuad
-                duration: 2000
-            }
-        }
-    ]
+// TODO find  a way to smoothly change with on text change
+//    transitions: [
+//        Transition {
+//            from: "*"
+//            to: "*"
+//            NumberAnimation {
+//                property: "width"
+//                easing.type: Easing.InOutQuad
+//                duration: 2000
+//            }
+//        }
+//    ]
 }

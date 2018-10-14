@@ -56,9 +56,9 @@ Rectangle {
             }
 
             Text {
-                id: text1
+                id: txtConvert
                 color: "white"
-                text: qsTr("Generating preview...")
+                text: qsTr("Generating preview video...")
                 font.pixelSize: 14
                 anchors {
                     horizontalCenter: parent.horizontalCenter
@@ -71,6 +71,10 @@ Rectangle {
                 target: screenPlayCreate
 
                 onCreateWallpaperStateChanged: {
+                    if (state === Create.State.ConvertingPreviewGif) {
+                        txtConvert.text = qsTr("Generating preview gif...")
+                    }
+
                     if (state === Create.State.ConvertingPreviewGifFinished) {
                         imgPreview.source = "file:///"
                                 + screenPlayCreate.workingDir + "/preview.gif"

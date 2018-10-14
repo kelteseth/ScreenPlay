@@ -205,7 +205,7 @@ Item {
                 state: "diabledPage0"
                 onClicked: {
 
-                    if (!page_0.canNext && !page_0.gifCreated )
+                    if (!page_0.canNext || !page_0.gifCreated )
                         return
 
                     if (view.currentIndex < view.count - 1)
