@@ -4,11 +4,11 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.3
+import net.aimber.create 1.0
 
 Item {
     id: createNew
     anchors.fill: parent
-    Component.onCompleted: state = "in"
     state: "out"
 
     property string filePath
@@ -16,6 +16,20 @@ Item {
     //Blocks some MouseArea from create page
     MouseArea {
         anchors.fill: parent
+    }
+
+    Timer {
+        interval: 1000
+        triggeredOnStart: false
+        running: true
+        repeat: false
+        onTriggered: {
+            screenPlayCreate.createWallpaperStart(filePath)
+        }
+    }
+
+    Component.onCompleted: {
+        state = "in"
     }
 
     RectangularGlow {
@@ -70,6 +84,7 @@ Item {
             id: view
             clip: true
             currentIndex: 0
+            interactive: false
             onCurrentIndexChanged: {
 
             }
@@ -84,10 +99,24 @@ Item {
                 topMargin: 0
             }
 
-            interactive: false
-
             Page_0 {
-                id: firstPage
+                id: page_0
+                onCanNextChanged: {
+                    if (canNext) {
+                        btnNext.state = "enabledPage0"
+                    } else {
+                        if (gifCreated) {
+                            btnNext.state = "diabledPage0NoTitle"
+                        } else {
+                            btnNext.state = "diabledPage0"
+                        }
+                    }
+                }
+                onGifCreatedChanged: {
+                    if (gifCreated) {
+                        btnNext.state = "diabledPage0NoTitle"
+                    }
+                }
             }
             Page_1 {
                 id: secondPage
@@ -148,7 +177,7 @@ Item {
         }
 
         Row {
-            width: 160
+            width: childrenRect.width
             height: 50
             spacing: 20
             anchors {
@@ -171,16 +200,14 @@ Item {
                         view.setCurrentIndex(view.currentIndex - 1)
                 }
             }
-            Button {
-                text: qsTr("Next")
-                Material.background: Material.Orange
-                Material.foreground: "white"
-
-                icon.source: "qrc:/assets/icons/icon_arrow_right.svg"
-                icon.color: "white"
-                icon.width: 16
-                icon.height: 16
+            NextButton {
+                id: btnNext
+                state: "diabledPage0"
                 onClicked: {
+
+                    if (!page_0.canNext && !page_0.gifCreated )
+                        return
+
                     if (view.currentIndex < view.count - 1)
                         view.setCurrentIndex(view.currentIndex + 1)
                 }

@@ -122,5 +122,6 @@
         <file>qml/Create/Wizards/CreateWallpaper/Page_0.qml</file>
         <file>qml/Create/Wizards/CreateWallpaper/Page_1.qml</file>
         <file>qml/Create/Wizards/CreateWallpaper/Page_2.qml</file>
+        <file>qml/Create/Wizards/CreateWallpaper/NextButton.qml</file>
     </qresource>
 </RCC>
