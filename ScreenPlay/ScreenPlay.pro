@@ -129,5 +129,5 @@ unix {
 }
 
 DISTFILES += \
-    favicon.ico \
+    favicon.ico
 
