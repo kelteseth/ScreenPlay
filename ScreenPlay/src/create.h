@@ -43,6 +43,9 @@ public:
     enum class State {
         Idle,
         Started,
+        AnalyseVideo,
+        AnalyseVideoFinished,
+        AnalyseVideoError,
         ConvertingPreviewImage,
         ConvertingPreviewImageFinished,
         ConvertingPreviewImageError,

@@ -102,14 +102,19 @@ bool Create::createWallpaperInfo(CreateWallpaperData& createWallpaperData)
 #endif
 
     pro.data()->start();
+    emit createWallpaperStateChanged(Create::State::AnalyseVideo);
     pro.data()->waitForFinished(-1);
+    emit createWallpaperStateChanged(Create::State::AnalyseVideoFinished);
     QJsonObject obj;
     QJsonParseError err;
     QJsonDocument doc = QJsonDocument::fromJson(pro.data()->readAll(), &err);
-    if (err.error == QJsonParseError::NoError) {
-        obj = doc.object();
+    if (err.error != QJsonParseError::NoError) {
+        emit processOutput("Error parsing ffmpeg json output");
+        emit createWallpaperStateChanged(Create::State::AnalyseVideoError);
+        return false;
     }
 
+    obj = doc.object();
     pro.data()->close();
 
     // Get video length
@@ -119,6 +124,8 @@ bool Create::createWallpaperInfo(CreateWallpaperData& createWallpaperData)
 
     if (!okParseDuration) {
         qDebug() << "Error parsing video length";
+        emit processOutput("Error parsing video length");
+        emit createWallpaperStateChanged(Create::State::AnalyseVideoError);
         return false;
     }
 
@@ -161,6 +168,9 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
 
     qDebug() << createWallpaperData.length << createWallpaperData.framerate;
     QStringList args;
+    //    args.append("-hide_banner");
+    args.append("-loglevel");
+    args.append("error");
     args.append("-y");
     args.append("-stats");
     args.append("-i");
@@ -194,7 +204,17 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
     //    });
     processOutputTimer.data()->start(100);
     proConvertPreviewMP4.data()->waitForFinished(-1);
-    if (!proConvertPreviewMP4.data()->readAllStandardError().isEmpty()) {
+    if (proConvertPreviewMP4.data()->exitStatus() == QProcess::NormalExit) {
+        qDebug() << "normal exit";
+    } else {
+        qDebug() << "crash exit";
+    }
+    QString tmpErr = proConvertPreviewMP4.data()->readAllStandardError();
+    if (!tmpErr.isEmpty()) {
+        qDebug() << tmpErr;
+        qDebug() << proConvertPreviewMP4.data()->readAllStandardOutput();
+        qDebug() << proConvertPreviewMP4.data()->readAll();
+        emit processOutput(tmpErr);
         emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoError);
         return false;
     }
