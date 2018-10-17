@@ -51,7 +51,8 @@ void ScreenPlay::removeAllWallpaper()
 
 void ScreenPlay::requestProjectSettingsListModelAt(int index)
 {
-    Q_ASSERT(index < m_screenPlayWallpaperList.size());
+    qDebug() << index << m_mlm->size();
+    //Q_ASSERT(index > m_mlm->size());
     for (int i = 0; i < m_screenPlayWallpaperList.count(); ++i) {
         if (m_screenPlayWallpaperList.at(i).data()->screenNumber().at(0) == index) {
             emit projectSettingsListModelFound(m_screenPlayWallpaperList.at(i).data()->projectSettingsListModel().data(), m_screenPlayWallpaperList.at(i).data()->type());

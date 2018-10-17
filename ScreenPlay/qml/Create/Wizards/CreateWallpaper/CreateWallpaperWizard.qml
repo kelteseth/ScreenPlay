@@ -23,7 +23,9 @@ Item {
         onCreateWallpaperStateChanged: {
             print(state)
             if (state === Create.State.ConvertingPreviewGifError
-                    || state === Create.State.ConvertingPreviewVideoError) {
+                    || state === Create.State.ConvertingPreviewVideoError
+                    || state === Create.State.AnalyseVideoError)
+            {
                 createNew.state = "error"
             }
         }
@@ -269,6 +271,7 @@ Item {
 
                 Flickable {
                     anchors.fill: parent
+                    clip: true
                     contentHeight: txtFFMPEG.paintedHeight
                     ScrollBar.vertical: ScrollBar {
                         snapMode: ScrollBar.SnapOnRelease
@@ -277,13 +280,21 @@ Item {
                     Text {
                         id: txtFFMPEG
                         anchors {
-                            fill: parent
+                            top: parent.top
+                            right: parent.right
+                            left: parent.left
                             margins: 20
                         }
                         wrapMode: Text.WordWrap
                         color: "#626262"
                         renderType: Text.NativeRendering
                         height: txtFFMPEG.paintedHeight
+                    }
+                    Connections {
+                        target: screenPlayCreate
+                        onProcessOutput: {
+                            txtFFMPEG.text = text
+                        }
                     }
                 }
             }

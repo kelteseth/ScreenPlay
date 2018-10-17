@@ -38,14 +38,14 @@ Rectangle {
         }
     }
 
-    Connections {
-        target: screenPlayCreate
-        onLocalWorkshopCreationStatusChanged: {
-            if (status === Create.State.Started) {
-                loader.setSource("CreateImportStatus.qml")
-            }
-        }
-    }
+//    Connections {
+//        target: screenPlayCreate
+//        onLocalWorkshopCreationStatusChanged: {
+//            if (status === Create.State.Started) {
+//                loader.setSource("CreateImportStatus.qml")
+//            }
+//        }
+//    }
 
     Connections {
         target: loader.item

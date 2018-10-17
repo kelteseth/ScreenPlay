@@ -17,6 +17,7 @@ Item {
 
         Flickable {
             anchors.fill: parent
+            focus: true
             contentHeight: txtFFMPEG.paintedHeight
             ScrollBar.vertical: ScrollBar {
                 snapMode: ScrollBar.SnapOnRelease
@@ -25,13 +26,16 @@ Item {
             Text {
                 id: txtFFMPEG
                 anchors {
-                    fill: parent
+                    top: parent.top
+                    right: parent.right
+                    left: parent.left
                     margins: 20
                 }
                 wrapMode: Text.WordWrap
                 color: "#626262"
                 renderType: Text.NativeRendering
                 height: txtFFMPEG.paintedHeight
+
             }
         }
     }

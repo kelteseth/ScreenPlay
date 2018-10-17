@@ -73,6 +73,7 @@ Rectangle {
                 onCreateWallpaperStateChanged: {
                     if (state === Create.State.ConvertingPreviewGif) {
                         txtConvert.text = qsTr("Generating preview gif...")
+
                     }
 
                     if (state === Create.State.ConvertingPreviewGifFinished) {

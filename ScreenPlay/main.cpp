@@ -14,7 +14,6 @@
 #include <QQuickView>
 #include <QScreen>
 #include <QStringList>
-#include <QTimer>
 #include <QTransform>
 #include <QUrl>
 #include <QVariant>
@@ -138,6 +137,7 @@ int main(int argc, char* argv[])
     settings.loadActiveProfiles();
 
     QQmlApplicationEngine mainWindowEngine;
+
     qmlRegisterType<GAnalytics>("analytics", 0, 1, "Tracker");
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
