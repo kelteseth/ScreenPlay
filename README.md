@@ -1,8 +1,11 @@
 # Requirements
- - [Download and install Qt 5] (https://www.qt.io/download-qt-installer)
-    - Install Maintaince tool
+- [Download and install MSVC 2017 Community](https://visualstudio.microsoft.com/vs/community/)
+- [Download and install Win 10 SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
+    - Select debugging support during the installation (CDB)
+- [Download and install Qt 5](https://www.qt.io/download-qt-installer)
+    - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.11.1
+        - Qt 5.11.2
             - MSVC 2017 64-bit
             - Qt WebEngine
         - Tools
