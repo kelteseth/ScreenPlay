@@ -214,9 +214,12 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
         qDebug() << tmpErr;
         qDebug() << proConvertPreviewMP4.data()->readAllStandardOutput();
         qDebug() << proConvertPreviewMP4.data()->readAll();
-        emit processOutput(tmpErr);
-        emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoError);
-        return false;
+        QFile previewVideo(createWallpaperData.exportPath + "/preview.mp4");
+        if (!previewVideo.exists() && !(previewVideo.size() > 0)) {
+            emit processOutput(tmpErr);
+            emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoError);
+            return false;
+        }
     }
     //        qDebug() << proConvertPreviewMP4.data()->program() << proConvertPreviewMP4.data()->arguments();
     //        qDebug() << "Done converting video to preview" << proConvertPreviewMP4.data()->readAll() << "\n"
@@ -251,8 +254,11 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
     proConvertGif.data()->start();
     proConvertGif.data()->waitForFinished(-1);
     if (!proConvertGif.data()->readAllStandardError().isEmpty()) {
-        emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifError);
-        return false;
+        QFile previewGif(createWallpaperData.exportPath + "/preview.gif");
+        if (!previewGif.exists() && !(previewGif.size() > 0)) {
+            emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifError);
+            return false;
+        }
     }
 
     //        qDebug() << proConvertGif.data()->program() << proConvertGif.data()->arguments();

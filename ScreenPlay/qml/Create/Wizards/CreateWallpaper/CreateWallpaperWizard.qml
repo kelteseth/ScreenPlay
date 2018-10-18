@@ -78,6 +78,7 @@ Item {
 
         Item {
             id: wrapperSteps
+            z:10
             anchors.fill: parent
 
             Text {
@@ -398,11 +399,13 @@ Item {
             PropertyChanges {
                 target: wrapperSteps
                 opacity: 0
+                z:0
             }
             PropertyChanges {
                 target: wrapperError
                 opacity: 1
             }
+
         }
     ]
     transitions: [
