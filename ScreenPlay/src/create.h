@@ -36,6 +36,7 @@ public:
     explicit Create(Settings* st, QMLUtilities* util, QObject* parent = nullptr);
 
     Q_PROPERTY(QString workingDir READ workingDir WRITE setWorkingDir NOTIFY workingDirChanged)
+    Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
 
     Create() {}
     ~Create() {}
@@ -55,6 +56,9 @@ public:
         ConvertingPreviewGif,
         ConvertingPreviewGifFinished,
         ConvertingPreviewGifError,
+        ConvertingVideo,
+        ConvertingVideoFinished,
+        ConvertingVideoError,
         Finished,
         ErrorUnknown,
     };
@@ -66,10 +70,17 @@ public:
         return m_workingDir;
     }
 
+    float progress() const
+    {
+        return m_progress;
+    }
+
 signals:
     void createWallpaperStateChanged(Create::State state);
     void processOutput(QString text);
     void workingDirChanged(QString workingDir);
+
+    void progressChanged(float progress);
 
 public slots:
     void copyProject(QString relativeProjectPath, QString toPath);
@@ -92,9 +103,20 @@ public slots:
         emit workingDirChanged(m_workingDir);
     }
 
+    void setProgress(float progress)
+    {
+        if (qFuzzyCompare(m_progress, progress))
+            return;
+
+        qDebug() << progress;
+        m_progress = progress;
+        emit progressChanged(m_progress);
+    }
+
 private:
     Settings* m_settings;
     QMLUtilities* m_utils;
 
     QString m_workingDir;
+    float m_progress = 0.0f;
 };
