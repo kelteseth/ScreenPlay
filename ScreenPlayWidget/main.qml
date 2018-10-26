@@ -1,14 +1,42 @@
 import QtQuick 2.9
 import net.aimber.screenplaysdk 1.0
-import QtQuick.Window 2.3
 import QtQuick.Controls 2.3
 
-Window {
+Item {
     id: mainWindow
     visible: true
-    width: 250
-    height: 250
-    flags: Qt.SplashScreen | Qt.ToolTip | Qt.SplashScreen
+    anchors.fill: parent
+
+    Rectangle {
+        id:bgColor
+        anchors.fill: parent
+        color: "white"
+        //color: "#1A1F22"
+        opacity: .15
+    }
+
+    Image {
+        id: bg
+        source: "qrc:/assets/image/noisy-texture-3.png"
+        anchors.fill: parent
+        opacity: .05
+        fillMode: Image.Tile
+    }
+
+
+    MouseArea {
+        id: mouseArea
+        anchors.fill: parent
+
+        onPressed: {
+            backend.setClickPos(Qt.point(mouse.x, mouse.y))
+        }
+
+        onPositionChanged: {
+            backend.setPos(mouse.x, mouse.y)
+        }
+
+    }
 
     ScreenPlaySDK {
         id: spSDK
@@ -50,50 +78,6 @@ Window {
         onStatusChanged: {
             if (loader.status === Loader.Ready) {
 
-            }
-        }
-    }
-
-    Connections{
-        target: loader.item
-        ignoreUnknownSignals: true
-        onSizeChanged:{
-            print(size)
-            mainWindow.width = size.width
-            mainWindow.height = size.height
-        }
-    }
-
-    MouseArea {
-        property point clickPos: "1,1"
-        anchors.fill: parent
-        acceptedButtons: Qt.LeftButton | Qt.RightButton
-        z:99
-
-        onPressed: {
-            clickPos = Qt.point(mouse.x, mouse.y)
-        }
-
-        onPositionChanged: {
-            var delta = Qt.point(mouse.x - clickPos.x, mouse.y - clickPos.y)
-            var new_x = mainWindow.x + delta.x
-            var new_y = mainWindow.y + delta.y
-            mainWindow.x = new_x
-            mainWindow.y = new_y
-        }
-
-        onClicked: {
-            if (mouse.button === Qt.RightButton) {
-                contextMenu.popup()
-            }
-        }
-    }
-    Menu {
-        id: contextMenu
-        MenuItem {
-            text: qsTr("Close")
-            onClicked: {
-                Qt.quit();
             }
         }
     }
