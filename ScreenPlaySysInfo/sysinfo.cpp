@@ -3,13 +3,13 @@
 SysInfo::SysInfo(QQuickItem *parent):
     QQuickItem(parent)
 {
-    // By default, QQuickItem does not draw anything. If you subclass
-    // QQuickItem to create a visual item, you will need to uncomment the
-    // following line and re-implement updatePaintNode()
-
-    // setFlag(ItemHasContents, true);
+    // FIXME Elias 2018 QQmlEngine cannot handle smartpointers yet....
+    m_ram = new RAM();
+    m_cpu = new CPU();
 }
 
 SysInfo::~SysInfo()
 {
+    delete m_cpu;
+    delete m_ram;
 }
