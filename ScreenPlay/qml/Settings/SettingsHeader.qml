@@ -71,7 +71,7 @@ Item {
                 font.family: "Roboto"
                 anchors{
                     top:parent.top
-                    topMargin: 3
+                    topMargin: 0
                     left:parent.left
                     leftMargin: 30
                 }
@@ -104,7 +104,7 @@ Item {
 
             PropertyChanges {
                 target: txtHeadline
-                anchors.topMargin: 3
+                anchors.topMargin: 0
                 opacity: 1
             }
         }
