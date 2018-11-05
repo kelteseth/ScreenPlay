@@ -232,6 +232,7 @@ public slots:
         writeSingleSettingConfig("absoluteStoragePath", cleanedPath);
 
         m_ilm->setabsoluteStoragePath(cleanedPath.toString());
+        m_localStoragePath = cleanedPath.toString();
         emit localStoragePathChanged(cleanedPath.toString());
         m_ilm->reset();
         m_ilm->loadScreens();
