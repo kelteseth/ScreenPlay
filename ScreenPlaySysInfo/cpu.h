@@ -73,5 +73,6 @@ private:
 
     static int c_NumOfProcessors;
     static ULONG c_BufferSize;
-    int m_tickRate;
+    int m_tickRate = 500;
+    QTimer m_updateTimer;
 };

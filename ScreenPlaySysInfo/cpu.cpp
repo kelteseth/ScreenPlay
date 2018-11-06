@@ -7,9 +7,9 @@
 CPU::CPU(QObject *parent) : QObject(parent)
 {
 
-    m_updateTimer.start(m_updateTimer);
     // signal obj, signal function pointer, slot obj, slot function pointer
     connect(&m_updateTimer,&QTimer::timeout,this,&CPU::update);
+    m_updateTimer.start(m_tickRate);
 }
 
 
