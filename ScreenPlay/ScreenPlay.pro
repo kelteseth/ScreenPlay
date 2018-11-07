@@ -73,7 +73,6 @@ installOut.path =  $${OUT_PWD}/
 
 install_it.files += assets/templates/config.json \
                     assets/icons/favicon.ico \
-                    settings.json \
                     steam_appid.txt \
                     ThirdParty/ffmpeg/Windows/avcodec-58.dll \
                     ThirdParty/ffmpeg/Windows/avdevice-58.dll \
