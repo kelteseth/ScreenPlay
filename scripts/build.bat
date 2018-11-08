@@ -7,9 +7,11 @@ set root=%cd%
 
 call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsx86_amd64.bat"
 
-echo "Begin build of ScreenPlay "
+mkdir package
+cd package
 
-qmake.exe ScreenPlay.pro -spec win32-msvc "CONFIG+=release"
+echo "Begin build of ScreenPlay "
+../qmake.exe ScreenPlay.pro -spec win32-msvc "CONFIG+=release"
 jom.exe  -j8
 echo "Build ScreenPlay finished!"
 
