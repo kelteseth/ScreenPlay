@@ -11,7 +11,7 @@ mkdir package
 cd package
 
 echo "Begin build of ScreenPlay "
-../qmake.exe ScreenPlay.pro -spec win32-msvc "CONFIG+=release"
+qmake.exe ../ScreenPlay.pro -spec win32-msvc "CONFIG+=release"
 jom.exe  -j8
 echo "Build ScreenPlay finished!"
 
