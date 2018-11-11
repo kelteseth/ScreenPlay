@@ -28,6 +28,7 @@ windeployqt.exe  --release  --qmldir ScreenPlay/qml PACKAGE/ScreenPlay.exe
 cd PACKAGE
 
 del /f *.cpp
+del /f *.moc
 del /f *.h
 del /f *.obj
 del /f *.res
