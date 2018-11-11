@@ -17,6 +17,10 @@ xcopy /s  ScreenPlayWidget\release ..\PACKAGE
 xcopy /s  ScreenPlayWindow\release ..\PACKAGE
 xcopy /s  ScreenPlayWorkshop\release ..\PACKAGE
 
+xcopy  C:\Qt\Tools\QtCreator\bin\libeay32.dll ..\PACKAGE
+xcopy  C:\Qt\Tools\QtCreator\bin\ssleay32.dll ..\PACKAGE
+
+
 cd ..
 
 windeployqt.exe  --release  --qmldir ScreenPlay/qml PACKAGE/ScreenPlay.exe
