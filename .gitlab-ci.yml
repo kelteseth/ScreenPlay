@@ -16,4 +16,4 @@ build:windows:
     artifacts:
         expire_in: '2 hrs'
         paths:
-            - package/
+            - PACKAGE/
