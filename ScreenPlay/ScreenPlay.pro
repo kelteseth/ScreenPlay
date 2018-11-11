@@ -74,7 +74,6 @@ installOut.path =  $${OUT_PWD}/
 install_it.files += assets/templates/config.json \
                     assets/icons/favicon.ico \
                     steam_appid.txt \
-                    ThirdParty\steam\redistributable_bin\steam_api.dll \
                     ThirdParty/ffmpeg/Windows/avcodec-58.dll \
                     ThirdParty/ffmpeg/Windows/avdevice-58.dll \
                     ThirdParty/ffmpeg/Windows/avfilter-7.dll \
@@ -116,6 +115,8 @@ release {
 win32 {
     win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/win64/ -lsteam_api64
     DEPENDPATH += $$PWD/ThirdParty/Steam/redistributable_bin/win64
+
+    install_it.files += ThirdParty\steam\redistributable_bin\win64\steam_api64.dll
 }
 
 unix {
@@ -126,6 +127,8 @@ unix {
     DEPENDPATH += $$PWD/ThirdParty/steam/lib/linux64s
 
     LIBS += -L$$PWD/ThirdParty/steam/lib/linux64/ -lsdkencryptedappticket
+
+    install_it.files += ThirdParty\steam\redistributable_bin\linux64\libsteam_api.so
 }
 
 DISTFILES += \
