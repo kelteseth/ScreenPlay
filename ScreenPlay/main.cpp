@@ -45,10 +45,10 @@ int main(int argc, char* argv[])
 {
 
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setAttribute(Qt::AA_UseDesktopOpenGL);
 
     QGuiApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false);
+    qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
 
 
     QTranslator trsl;
