@@ -11,11 +11,16 @@ echo "Begin packaging"
 mkdir PACKAGE
 cd BUILD
 
-xcopy /s  ScreenPlay\release ..\PACKAGE
-xcopy /s  ScreenPlaySDK\release ..\PACKAGE
-xcopy /s  ScreenPlayWidget\release ..\PACKAGE
-xcopy /s  ScreenPlayWindow\release ..\PACKAGE
-xcopy /s  ScreenPlayWorkshop\release ..\PACKAGE
+echo "Copy ScreenPlay"
+xcopy /s /y ScreenPlay\release ..\PACKAGE
+echo "Copy ScreenPlaySDK"
+xcopy /s /y ScreenPlaySDK\release ..\PACKAGE
+echo "Copy ScreenPlayWidget"
+xcopy /s /y ScreenPlayWidget\release ..\PACKAGE
+echo "Copy ScreenPlayWindow"
+xcopy /s /y ScreenPlayWindow\release ..\PACKAGE
+echo "Copy ScreenPlayWorkshop"
+xcopy /s /y ScreenPlayWorkshop\release ..\PACKAGE
 
 xcopy  C:\Qt\Tools\QtCreator\bin\libeay32.dll ..\PACKAGE
 xcopy  C:\Qt\Tools\QtCreator\bin\ssleay32.dll ..\PACKAGE
