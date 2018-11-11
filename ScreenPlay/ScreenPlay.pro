@@ -1,5 +1,5 @@
 TEMPLATE = app
-QT += qml quick widgets quickcontrols2 core
+QT += qml quick widgets quickcontrols2 core webengine
 CONFIG += c++17
 CONFIG += qtquickcompiler
 #DEFINES  += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
