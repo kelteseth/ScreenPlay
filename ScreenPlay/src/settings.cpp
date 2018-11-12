@@ -1,4 +1,5 @@
 #include "settings.h"
+#include <QGuiApplication>
 
 Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, AppId_t steamID, QGuiApplication* app, QObject* parent)
     : QObject(parent)
@@ -12,7 +13,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_qGuiApplication = app;
 
     QFile configTmp;
-    QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    QString appConfigLocation = QGuiApplication::applicationDirPath();
     m_localSettingsPath = QUrl(appConfigLocation);
     if (!QDir(appConfigLocation).exists()) {
         if (!QDir().mkdir(appConfigLocation)) {
@@ -30,7 +31,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     }
 
     QJsonDocument configJsonDocument;
-    QJsonParseError parseError{};
+    QJsonParseError parseError {};
     QJsonObject configObj;
 
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -150,7 +151,7 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
 {
 
     QJsonDocument configJsonDocument;
-    QJsonParseError parseError{};
+    QJsonParseError parseError {};
     QJsonObject configObj;
     QFile configTmp;
 
@@ -263,7 +264,7 @@ void Settings::setPlayAll(bool isPlaying)
 void Settings::createDefaultConfig()
 {
 
-    QFile file(QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation) + "/settings.json");
+    QFile file(QGuiApplication::applicationDirPath() + "/settings.json");
     QFile defaultSettings(":/settings.json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);

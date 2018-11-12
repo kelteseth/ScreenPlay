@@ -195,14 +195,6 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideo);
 
     proConvertPreviewMP4.data()->start();
-
-    QScopedPointer<QTimer> processOutputTimer(new QTimer());
-
-    //    connect(processOutputTimer.data(), &QTimer::timeout, [&]() {
-    //        qDebug() << "### " << proConvertPreviewMP4.data()->readAll();
-    //        this->processOutput(proConvertPreviewMP4.data()->readAll());
-    //    });
-    processOutputTimer.data()->start(100);
     proConvertPreviewMP4.data()->waitForFinished(-1);
     if (proConvertPreviewMP4.data()->exitStatus() == QProcess::NormalExit) {
         qDebug() << "normal exit";
@@ -211,19 +203,17 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
     }
     QString tmpErr = proConvertPreviewMP4.data()->readAllStandardError();
     if (!tmpErr.isEmpty()) {
-        qDebug() << tmpErr;
-        qDebug() << proConvertPreviewMP4.data()->readAllStandardOutput();
-        qDebug() << proConvertPreviewMP4.data()->readAll();
-        emit processOutput(tmpErr);
-        emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoError);
-        return false;
+        QFile previewVideo(createWallpaperData.exportPath + "/preview.mp4");
+        if (!previewVideo.exists() && !(previewVideo.size() > 0)) {
+            emit processOutput(tmpErr);
+            emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoError);
+            return false;
+        }
     }
-    //        qDebug() << proConvertPreviewMP4.data()->program() << proConvertPreviewMP4.data()->arguments();
-    //        qDebug() << "Done converting video to preview" << proConvertPreviewMP4.data()->readAll() << "\n"
-    //                 << proConvertPreviewMP4.data()->readAllStandardError();
+
     this->processOutput(proConvertPreviewMP4.data()->readAll());
     proConvertPreviewMP4.data()->close();
-    processOutputTimer.data()->stop();
+
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoFinished);
 
     /*
@@ -250,14 +240,15 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
 #endif
     proConvertGif.data()->start();
     proConvertGif.data()->waitForFinished(-1);
-    if (!proConvertGif.data()->readAllStandardError().isEmpty()) {
-        emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifError);
-        return false;
+    QString tmpErrGif = proConvertGif.data()->readAllStandardError();
+    if (!tmpErrGif.isEmpty()) {
+        QFile previewGif(createWallpaperData.exportPath + "/preview.gif");
+        if (!previewGif.exists() && !(previewGif.size() > 0)) {
+            emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifError);
+            return false;
+        }
     }
 
-    //        qDebug() << proConvertGif.data()->program() << proConvertGif.data()->arguments();
-    //        qDebug() << "Done converting video to preview" << proConvertGif.data()->readAll() << "\n"
-    //                 << proConvertGif.data()->readAllStandardError();
     this->processOutput(proConvertPreviewMP4.data()->readAll());
     proConvertGif.data()->close();
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifFinished);
@@ -267,6 +258,74 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
 
 bool Create::createWallpaperVideo(CreateWallpaperData& createWallpaperData)
 {
+    emit createWallpaperStateChanged(Create::State::ConvertingVideo);
+
+    QStringList args;
+    args.append("-hide_banner");
+    args.append("-y");
+    args.append("-stats");
+    args.append("-i");
+    args.append(createWallpaperData.videoPath);
+    args.append("-c:v");
+    args.append("libvpx-vp9");
+    args.append("-crf");
+    args.append("30");
+    args.append("-threads");
+    args.append("16");
+    args.append("-slices");
+    args.append("16");
+    args.append("-cpu-used");
+    args.append("4");
+    args.append("-pix_fmt");
+    args.append("yuv420p");
+    args.append("-b:v");
+    args.append("0");
+    args.append(createWallpaperData.exportPath + "/video.webm");
+
+    QScopedPointer<QProcess> proConvertVideo(new QProcess());
+    proConvertVideo.data()->setArguments(args);
+    proConvertVideo.data()->setProcessChannelMode(QProcess::MergedChannels);
+    proConvertVideo.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+    qDebug() << "Start converting video";
+
+    connect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, this, [&]() {
+        QString tmpOut = proConvertVideo.data()->readAllStandardOutput();
+        auto tmpList = tmpOut.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+        if (tmpList.length() > 2) {
+            bool ok = false;
+            float currentFrame = QString(tmpList.at(1)).toFloat(&ok);
+
+            if (!ok)
+                return;
+
+            float progress = currentFrame / createWallpaperData.length;
+
+            this->setProgress(progress);
+        }
+        this->processOutput(tmpOut);
+    });
+
+    // For some reason we only get output if we use execute instead of start....?!
+#ifdef Q_OS_WIN
+    //proConvertVideo.data()->execute(QApplication::applicationDirPath() + "/ffmpeg.exe", args);
+#endif
+    proConvertVideo.data()->start(QIODevice::ReadOnly);
+    proConvertVideo.data()->waitForFinished(-1);
+    QString out = proConvertVideo.data()->readAllStandardOutput();
+
+    this->processOutput(out);
+    QString tmpErrVideo = proConvertVideo.data()->readAllStandardError();
+    if (!tmpErrVideo.isEmpty()) {
+        QFile video(createWallpaperData.exportPath + "/video.webm");
+        if (!video.exists() && !(video.size() > 0)) {
+            emit createWallpaperStateChanged(Create::State::ConvertingVideoError);
+            return false;
+        }
+    }
+
+    proConvertVideo.data()->close();
+    emit createWallpaperStateChanged(Create::State::ConvertingVideoFinished);
+
     return true;
 }
 

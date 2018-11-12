@@ -1,0 +1,19 @@
+stages:
+    - build
+
+build:windows:
+    stage: build
+    tags:
+        - vs2017
+        - windows
+    before_script:
+        - git clean -xdf
+        - git submodule sync --recursive
+        - git submodule update --init --recursive
+    script:
+        - call scripts/build.bat
+        - call scripts/package.bat
+    artifacts:
+        expire_in: '2 hrs'
+        paths:
+            - PACKAGE/

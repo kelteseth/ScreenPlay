@@ -1,5 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
+        <file>assets/image/noisy-texture-3.png</file>
     </qresource>
 </RCC>

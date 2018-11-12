@@ -6,12 +6,15 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QPoint>
+#include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QQuickView>
+#include <QtQuick/QQuickView>
+#include <QtQuick/QQuickWindow>
+#include <QQuickWindow>
 #include <QSharedPointer>
 #include <QString>
 #include <QWindow>
-#include <QQmlApplicationEngine>
+#include <qt_windows.h>
 
 class SPWidgetmainwindow : public QWindow {
     Q_OBJECT
@@ -45,6 +48,7 @@ signals:
     void setWidgetSource(QString source);
 
 public slots:
+    void setSize(QSize size);
     void setAppID(QString appID)
     {
         if (m_appID == appID)
@@ -70,11 +74,17 @@ public slots:
         emit projectConfigChanged(m_projectConfig);
     }
 
+    void setPos(int xPos, int yPos);
+    void setClickPos(const QPoint& clickPos);
+    void SetWindowBlur(HWND hWnd);
+
 private:
     QString m_appID;
     QString m_type = "qmlWidget";
     QString m_projectConfig;
     QJsonObject m_project;
+    HWND m_hwnd;
+    QPoint m_clickPos = { 0, 0 };
 
-    QSharedPointer<QQmlApplicationEngine> m_quickRenderer = nullptr;
+    QSharedPointer<QQuickView> m_quickRenderer;
 };

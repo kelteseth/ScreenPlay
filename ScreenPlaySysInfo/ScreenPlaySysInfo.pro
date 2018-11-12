@@ -9,11 +9,15 @@ uri = net.aimber.sysinfo
 # Input
 SOURCES += \
         screenplaysysinfo_plugin.cpp \
-        sysinfo.cpp
+        sysinfo.cpp \
+    cpu.cpp \
+    ram.cpp
 
 HEADERS += \
         screenplaysysinfo_plugin.h \
-        sysinfo.h
+        sysinfo.h \
+    cpu.h \
+    ram.h
 
 DISTFILES = qmldir
 
