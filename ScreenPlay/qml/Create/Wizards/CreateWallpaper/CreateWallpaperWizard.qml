@@ -12,6 +12,7 @@ Item {
     state: "out"
 
     property string filePath
+    property bool canNext: false
 
     //Blocks some MouseArea from create page
     MouseArea {
@@ -24,9 +25,10 @@ Item {
             print(state)
             if (state === Create.State.ConvertingPreviewGifError
                     || state === Create.State.ConvertingPreviewVideoError
-                    || state === Create.State.AnalyseVideoError)
-            {
+                    || state === Create.State.ConvertingPreviewImageError
+                    || state === Create.State.AnalyseVideoError) {
                 createNew.state = "error"
+                return
             }
         }
     }
@@ -77,8 +79,8 @@ Item {
         height: 560
 
         Item {
-            id: wrapperSteps
-            z:10
+            id: wrapperContent
+            z: 10
             anchors.fill: parent
 
             Text {
@@ -98,140 +100,148 @@ Item {
                 }
             }
 
-            SwipeView {
-                id: view
-                clip: true
-                currentIndex: 0
-                interactive: false
-                onCurrentIndexChanged: {
-
-                }
-
+            Item {
+                id: wrapperLeft
+                width: parent.width * .5
                 anchors {
+                    left: parent.left
                     top: txtHeadline.bottom
-                    right: parent.right
-                    bottom: indicator.top
-                    left: parent.left
-                    margins: 40
-                    bottomMargin: 20
-                    topMargin: 0
-                }
-
-                Page_0 {
-                    id: page_0
-                    onCanNextChanged: {
-                        if (canNext) {
-                            btnNext.state = "enabledPage0"
-                        } else {
-                            if (gifCreated) {
-                                btnNext.state = "diabledPage0NoTitle"
-                            } else {
-                                btnNext.state = "diabledPage0"
-                            }
-                        }
-                    }
-                    onGifCreatedChanged: {
-                        if (gifCreated) {
-                            btnNext.state = "diabledPage0NoTitle"
-                        }
-                    }
-                }
-                Page_1 {
-                    id: secondPage
-                }
-                Page_2 {
-                    id: thirdPage
-                }
-            }
-
-            PageIndicator {
-                id: indicator
-                count: view.count
-                currentIndex: view.currentIndex
-                anchors {
+                    margins: 30
                     bottom: parent.bottom
-                    bottomMargin: 20
-                    left: parent.left
-                    leftMargin: 40
                 }
 
-                delegate: Item {
-                    width: txtStep.paintedWidth + 20
-                    height: 30
-                    property bool filled
+                Rectangle {
+                    id: imgWrapper
+                    width: 425
+                    height: 247
+                    anchors {
+                        top: parent.top
+                        left: parent.left
+                    }
+
+                    color: "gray"
+
+                    BusyIndicator {
+                        id: busyIndicator
+                        anchors.centerIn: parent
+                        running: true
+                    }
+
                     Text {
-                        id: txtStep
-                        text: {
-                            switch (index) {
-                            case 0:
-                                return "1. Configure"
-                            case 1:
-                                return "2. Convert"
-                            case 2:
-                                return "3. Finish"
-                            default:
-                                return "Undefiend"
-                            }
-                        }
-                        color: view.currentIndex == index ? "orange" : "gray"
-                        renderType: Text.NativeRendering
-                        font.family: "Roboto"
+                        id: txtConvert
+                        color: "white"
+                        text: qsTr("Generating preview video...")
                         font.pixelSize: 14
                         anchors {
-                            left: parent.left
-                            verticalCenter: parent.verticalCenter
+                            horizontalCenter: parent.horizontalCenter
+                            bottom: parent.bottom
+                            bottomMargin: 30
                         }
+                    }
 
-                        MouseArea {
-                            anchors.fill: parent
-                            onClicked: {
+                    Connections {
+                        target: screenPlayCreate
 
-                                if (!page_0.canNext || !page_0.gifCreated)
-                                    return
-
-                                view.setCurrentIndex(index)
+                        onCreateWallpaperStateChanged: {
+                            if (state === Create.State.ConvertingPreviewGif) {
+                                txtConvert.text = qsTr(
+                                            "Generating preview gif...")
                             }
 
-                            cursorShape: Qt.PointingHandCursor
+                            if (state === Create.State.ConvertingPreviewGifFinished) {
+                                imgPreview.source = "file:///"
+                                        + screenPlayCreate.workingDir + "/preview.gif"
+                                imgPreview.visible = true
+
+                            }
+                        }
+                    }
+
+                    AnimatedImage {
+                        id: imgPreview
+                        asynchronous: true
+                        playing: true
+                        visible: false
+                        anchors.fill: parent
+                    }
+                }
+
+            }
+
+            Item {
+                id: wrapperRight
+                width: parent.width * .5
+                anchors {
+                    top: txtHeadline.bottom
+                    topMargin: 30
+                    bottom: parent.bottom
+                    right: parent.right
+                }
+
+                Column {
+                    id: column
+                    spacing: 20
+                    anchors.fill: parent
+                    anchors.margins: 30
+                    anchors.topMargin: 0
+
+                    TextField {
+                        id: textField
+                        placeholderText: qsTr("Name")
+                        anchors.right: parent.right
+                        anchors.left: parent.left
+                        onTextChanged: {
+                            if (textField.text.length >= 3 ) {
+                                canNext = true
+
+                            } else {
+                                canNext = false
+                            }
+                        }
+                    }
+
+                    TextField {
+                        id: textField1
+                        placeholderText: qsTr("Description")
+                        anchors.right: parent.right
+                        anchors.left: parent.left
+                    }
+
+                    TextField {
+                        id: textField2
+                        placeholderText: qsTr("Youtube URL")
+                        anchors.right: parent.right
+                        anchors.left: parent.left
+                    }
+
+                    TextField {
+                        id: textField3
+                        placeholderText: qsTr("Tags")
+                        anchors.right: parent.right
+                        anchors.left: parent.left
+                    }
+                }
+
+                NextButton {
+                    id: btnFinish
+                    anchors {
+                        horizontalCenter: parent.horizontalCenter
+                        bottom: parent.bottom
+                        margins: 30
+                    }
+                    onClicked: {
+                        if (btnFinish.state === "enabled" && canNext) {
+                            screenPlayCreate.createWallpaperProjectFile(
+                                        textField.text, textField1.text)
                         }
                     }
                 }
-            }
-
-            Row {
-                width: childrenRect.width
-                height: 50
-                spacing: 20
-                anchors {
-                    bottom: parent.bottom
-                    right: parent.right
-                    margins: 20
-                    rightMargin: 40
-                }
-                Button {
-                    text: qsTr("Back")
-                    Material.background: Material.Gray
-                    Material.foreground: "white"
-
-                    icon.source: "qrc:/assets/icons/icon_arrow_left.svg"
-                    icon.color: "white"
-                    icon.width: 16
-                    icon.height: 16
-                    onClicked: {
-                        if (view.currentIndex > 0)
-                            view.setCurrentIndex(view.currentIndex - 1)
-                    }
-                }
-                NextButton {
-                    id: btnNext
-                    state: "diabledPage0"
-                    onClicked: {
-
-                        if (!page_0.canNext || !page_0.gifCreated)
-                            return
-
-                        if (view.currentIndex < view.count - 1)
-                            view.setCurrentIndex(view.currentIndex + 1)
+                Connections {
+                    target: screenPlayCreate
+                    onCreateWallpaperStateChanged: {
+                        if (state === Create.State.ConvertingVideoFinished) {
+                            btnFinish.state = "enabled"
+                        }
                     }
                 }
             }
@@ -240,6 +250,7 @@ Item {
         Item {
             id: wrapperError
             anchors.fill: parent
+            opacity: 0
 
             Text {
                 id: txtErrorHeadline
@@ -250,7 +261,7 @@ Item {
                     horizontalCenter: parent.horizontalCenter
                 }
                 height: 40
-                font.family: "Roboto"
+                font.family: "Segoe UI, Roboto"
                 font.weight: Font.Light
                 color: Material.color(Material.Red)
                 renderType: Text.NativeRendering
@@ -273,13 +284,13 @@ Item {
                 Flickable {
                     anchors.fill: parent
                     clip: true
-                    contentHeight: txtFFMPEG.paintedHeight
+                    contentHeight: txtFFMPEGDebug.paintedHeight
                     ScrollBar.vertical: ScrollBar {
                         snapMode: ScrollBar.SnapOnRelease
                         policy: ScrollBar.AlwaysOn
                     }
                     Text {
-                        id: txtFFMPEG
+                        id: txtFFMPEGDebug
                         anchors {
                             top: parent.top
                             right: parent.right
@@ -289,12 +300,12 @@ Item {
                         wrapMode: Text.WordWrap
                         color: "#626262"
                         renderType: Text.NativeRendering
-                        height: txtFFMPEG.paintedHeight
+                        height: txtFFMPEGDebug.paintedHeight
                     }
                     Connections {
                         target: screenPlayCreate
                         onProcessOutput: {
-                            txtFFMPEG.text = text
+                            txtFFMPEGDebug.text = text
                         }
                     }
                 }
@@ -303,6 +314,43 @@ Item {
             Button {
                 id: btnBack
                 text: qsTr("Back to create and send an error report!")
+                Material.background: Material.Orange
+                Material.foreground: "white"
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.bottom
+                    margins: 10
+                }
+                onClicked: {
+                    utility.setNavigation("Create")
+                }
+            }
+        }
+
+        Item {
+            id: wrapperSuccess
+            anchors.fill: parent
+            opacity: 0
+
+            Text {
+                id: txtSuccessHeadline
+                text: qsTr("An error occurred!")
+                anchors {
+                    top: parent.top
+                    topMargin: 30
+                    horizontalCenter: parent.horizontalCenter
+                }
+                height: 40
+                font.family: "Segoe UI, Roboto"
+                font.weight: Font.Light
+                color: Material.color(Material.Orange)
+                renderType: Text.NativeRendering
+                font.pixelSize: 32
+            }
+
+            Button {
+                id: btnSuccessBack
+                text: qsTr("Back to create!")
                 Material.background: Material.Orange
                 Material.foreground: "white"
                 anchors {
@@ -397,15 +445,35 @@ Item {
                 opacity: .4
             }
             PropertyChanges {
-                target: wrapperSteps
+                target: wrapperContent
                 opacity: 0
-                z:0
+                z: 0
             }
             PropertyChanges {
                 target: wrapperError
                 opacity: 1
             }
-
+        },
+        State {
+            name: "success"
+            PropertyChanges {
+                target: wrapper
+                anchors.topMargin: 40
+                opacity: 1
+            }
+            PropertyChanges {
+                target: effect
+                opacity: .4
+            }
+            PropertyChanges {
+                target: wrapperContent
+                opacity: 0
+                z: 0
+            }
+            PropertyChanges {
+                target: wrapperError
+                opacity: 1
+            }
         }
     ]
     transitions: [
@@ -483,7 +551,7 @@ Item {
             to: "error"
             SequentialAnimation {
                 PropertyAnimation {
-                    target: wrapperSteps
+                    target: wrapperContent
                     duration: 600
                     property: "opacity"
                     easing.type: Easing.InOutQuad
@@ -498,6 +566,33 @@ Item {
                     easing.type: Easing.InOutQuad
                 }
             }
+        },
+        Transition {
+            from: "in"
+            to: "success"
+            SequentialAnimation {
+                PropertyAnimation {
+                    target: wrapperContent
+                    duration: 600
+                    property: "opacity"
+                    easing.type: Easing.InOutQuad
+                }
+                PauseAnimation {
+                    duration: 50
+                }
+                PropertyAnimation {
+                    target: wrapperSuccess
+                    duration: 200
+                    property: "opacity"
+                    easing.type: Easing.InOutQuad
+                }
+            }
         }
     ]
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:767;width:1366}
+}
+ ##^##*/
+

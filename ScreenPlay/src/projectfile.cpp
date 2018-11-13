@@ -12,6 +12,9 @@ ProjectFile::ProjectFile(QJsonObject obj, QString folderName, QUrl absolutePath)
     if (obj.contains("preview"))
         m_preview = obj.value("preview");
 
+    if (obj.contains("previewGIF"))
+        m_previewGIF = obj.value("previewGIF");
+
     if (obj.contains("title"))
         m_title = obj.value("title");
 

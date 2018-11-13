@@ -43,6 +43,7 @@ public:
         TitleRole,
         TypeRole,
         PreviewRole,
+        PreviewGIFRole,
         FolderIdRole,
         FileIdRole,
         AbsoluteStoragePathRole,
