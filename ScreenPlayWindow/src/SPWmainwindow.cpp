@@ -121,7 +121,7 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
 
     m_quickRenderer = QSharedPointer<QQuickView>(new QQuickView(this));
     m_quickRenderer.data()->rootContext()->setContextProperty("mainwindow", this);
-    m_quickRenderer.data()->setSource(QUrl("qrc:/main.qml"));
+    m_quickRenderer.data()->setSource(QUrl("qrc:/qml/main.qml"));
     m_quickRenderer.data()->setGeometry(0, 0, width(), height());
     m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_quickRenderer.data()->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);

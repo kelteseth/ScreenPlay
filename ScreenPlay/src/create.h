@@ -89,10 +89,10 @@ public slots:
     // Steps to convert any video to a wallpaper broken down into
     // several methods in this order:
     void createWallpaperStart(QString videoPath);
-    bool createWallpaperInfo(CreateWallpaperData& createWallpaperData);
-    bool createWallpaperVideoPreview(CreateWallpaperData& createWallpaperData);
-    bool createWallpaperVideo(CreateWallpaperData& createWallpaperData);
-    bool createWallpaperProjectFile(CreateWallpaperData& createWallpaperData);
+    bool createWallpaperInfo();
+    bool createWallpaperVideoPreview();
+    bool createWallpaperVideo();
+    bool createWallpaperProjectFile(const QString title, const QString description);
 
     void setWorkingDir(QString workingDir)
     {
@@ -116,7 +116,7 @@ public slots:
 private:
     Settings* m_settings;
     QMLUtilities* m_utils;
-
+    CreateWallpaperData m_createWallpaperData;
     QString m_workingDir;
     float m_progress = 0.0f;
 };

@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
+
 Item {
     id: screenPlayItem
     width: 320
@@ -140,6 +141,16 @@ Item {
                 sourceImage: Qt.resolvedUrl(
                                  "file:///" + screenPlayItem.absoluteStoragePath
                                  + "/" + screenPreview)
+                sourceImageGIF: {
+                    if (screenPreviewGIF === undefined) {
+                        return ""
+                    } else {
+                        return Qt.resolvedUrl(
+                                    "file:///" + screenPlayItem.absoluteStoragePath
+                                    + "/" + screenPreviewGIF)
+
+                    }
+                }
             }
 
             Image {
@@ -181,7 +192,7 @@ Item {
                     color: "#2F2F2F"
                     font.pointSize: 9
                     renderType: Text.NativeRendering
-                    font.family: "Roboto"
+                    font.family: "Segoe UI, Roboto"
                 }
             }
         }
@@ -198,12 +209,16 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onEntered: {
-                    if (!hasMenuOpen)
+                    if (!hasMenuOpen) {
                         screenPlayItem.state = "hover"
+                        screenPlayItemImage.enter()
+                    }
                 }
                 onExited: {
-                    if (!hasMenuOpen)
+                    if (!hasMenuOpen) {
                         screenPlayItem.state = "visible"
+                        screenPlayItemImage.exit()
+                    }
                 }
 
                 onClicked: {

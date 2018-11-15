@@ -23,6 +23,7 @@ public:
     QVariant m_description;
     QVariant m_file;
     QVariant m_preview;
+    QVariant m_previewGIF;
     QVariant m_title;
     QString m_folderId;
     QUrl m_absoluteStoragePath;

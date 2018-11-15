@@ -8,43 +8,24 @@ import QtQuick.Layouts 1.3
 Button {
     id: root
     text: qsTr("Next")
+    state: "disabled"
     Material.background: Material.Orange
     Material.foreground: "white"
-
-    icon.source: "qrc:/assets/icons/icon_arrow_right.svg"
-    icon.color: "white"
-    icon.width: 16
-    icon.height: 16
 
     states: [
         State {
             name: "enabled"
             PropertyChanges {
                 target: root
+                text: qsTr("Finish")
             }
         },
         State {
-            name: "diabledPage0"
+            name: "disabled"
             PropertyChanges {
                 target: root
-                text: qsTr("Creating preview")
+                text: qsTr("Creating")
                 Material.background: Material.Grey
-            }
-        },
-        State {
-            name: "diabledPage0NoTitle"
-            PropertyChanges {
-                target: root
-                text: qsTr("No title set!")
-                Material.background: Material.Grey
-            }
-        },
-        State {
-            name: "enabledPage0"
-            PropertyChanges {
-                target: root
-                text: qsTr("Next")
-                Material.background: Material.Orange
             }
         }
     ]

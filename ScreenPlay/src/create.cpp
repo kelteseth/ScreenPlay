@@ -55,8 +55,7 @@ void Create::createWallpaperStart(QString videoPath)
         QDir dir;
         dir.cd(this->m_settings->localStoragePath().toString());
 
-        CreateWallpaperData createWallpaperData;
-        createWallpaperData.videoPath = videoPath;
+        m_createWallpaperData.videoPath = videoPath;
 
         // Create a temp dir so we can later alter it to the workshop id
         auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
@@ -64,28 +63,25 @@ void Create::createWallpaperStart(QString videoPath)
         if (!dir.mkdir(folderName))
             return;
 
-        createWallpaperData.exportPath = dir.path() + "/" + folderName;
-        m_workingDir = createWallpaperData.exportPath;
+        m_createWallpaperData.exportPath = dir.path() + "/" + folderName;
+        m_workingDir = m_createWallpaperData.exportPath;
 
         // If we return early/false this means the creation
         // process did not work
         // Todo: cleanup!
 
-        if (!this->createWallpaperInfo(createWallpaperData))
+        if (!this->createWallpaperInfo())
             return;
 
-        if (!this->createWallpaperVideoPreview(createWallpaperData))
+        if (!this->createWallpaperVideoPreview())
             return;
 
-        if (!this->createWallpaperVideo(createWallpaperData))
-            return;
-
-        if (!this->createWallpaperProjectFile(createWallpaperData))
+        if (!this->createWallpaperVideo())
             return;
     });
 }
 
-bool Create::createWallpaperInfo(CreateWallpaperData& createWallpaperData)
+bool Create::createWallpaperInfo()
 {
     // Get video info
     QStringList args;
@@ -93,7 +89,7 @@ bool Create::createWallpaperInfo(CreateWallpaperData& createWallpaperData)
     args.append("json");
     args.append("-show_format");
     args.append("-show_streams");
-    args.append(createWallpaperData.videoPath);
+    args.append(m_createWallpaperData.videoPath);
     QScopedPointer<QProcess> pro(new QProcess());
     pro.data()->setArguments(args);
 
@@ -131,7 +127,7 @@ bool Create::createWallpaperInfo(CreateWallpaperData& createWallpaperData)
 
     int length = 0;
     length = static_cast<int>(tmpLength);
-    createWallpaperData.length = length;
+    m_createWallpaperData.length = length;
 
     // Get framerate
     QJsonArray arrSteams = obj.value("streams").toArray();
@@ -158,15 +154,15 @@ bool Create::createWallpaperInfo(CreateWallpaperData& createWallpaperData)
     float value2 = static_cast<float>(avgFrameRateList.at(1).toInt());
 
     framerate = qCeil(value1 / value2);
-    createWallpaperData.framerate = framerate;
+    m_createWallpaperData.framerate = framerate;
 
     return true;
 }
 
-bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperData)
+bool Create::createWallpaperVideoPreview()
 {
 
-    qDebug() << createWallpaperData.length << createWallpaperData.framerate;
+    qDebug() << m_createWallpaperData.length << m_createWallpaperData.framerate;
     QStringList args;
     //    args.append("-hide_banner");
     args.append("-loglevel");
@@ -174,17 +170,17 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
     args.append("-y");
     args.append("-stats");
     args.append("-i");
-    args.append(createWallpaperData.videoPath);
+    args.append(m_createWallpaperData.videoPath);
     args.append("-speed");
     args.append("ultrafast");
     args.append("-vf");
     // We allways want to have a 5 second clip via 24fps -> 120 frames
     // Divided by the number of frames we can skip (timeInSeconds * Framrate)
     // scale & crop parameter: https://unix.stackexchange.com/a/284731
-    args.append("select='not(mod(n," + QString::number((createWallpaperData.length / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400");
+    args.append("select='not(mod(n," + QString::number((m_createWallpaperData.length / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400");
     // Disable audio
     args.append("-an");
-    args.append(createWallpaperData.exportPath + "/preview.mp4");
+    args.append(m_createWallpaperData.exportPath + "/preview.mp4");
     QScopedPointer<QProcess> proConvertPreviewMP4(new QProcess());
 
     proConvertPreviewMP4.data()->setArguments(args);
@@ -203,7 +199,7 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
     }
     QString tmpErr = proConvertPreviewMP4.data()->readAllStandardError();
     if (!tmpErr.isEmpty()) {
-        QFile previewVideo(createWallpaperData.exportPath + "/preview.mp4");
+        QFile previewVideo(m_createWallpaperData.exportPath + "/preview.mp4");
         if (!previewVideo.exists() && !(previewVideo.size() > 0)) {
             emit processOutput(tmpErr);
             emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoError);
@@ -227,10 +223,10 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
     args.append("-y");
     args.append("-stats");
     args.append("-i");
-    args.append(createWallpaperData.exportPath + "/preview.mp4");
+    args.append(m_createWallpaperData.exportPath + "/preview.mp4");
     args.append("-filter_complex");
     args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
-    args.append(createWallpaperData.exportPath + "/preview.gif");
+    args.append(m_createWallpaperData.exportPath + "/preview.gif");
 
     QScopedPointer<QProcess> proConvertGif(new QProcess());
     proConvertGif.data()->setArguments(args);
@@ -242,7 +238,7 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
     proConvertGif.data()->waitForFinished(-1);
     QString tmpErrGif = proConvertGif.data()->readAllStandardError();
     if (!tmpErrGif.isEmpty()) {
-        QFile previewGif(createWallpaperData.exportPath + "/preview.gif");
+        QFile previewGif(m_createWallpaperData.exportPath + "/preview.gif");
         if (!previewGif.exists() && !(previewGif.size() > 0)) {
             emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifError);
             return false;
@@ -253,10 +249,51 @@ bool Create::createWallpaperVideoPreview(CreateWallpaperData& createWallpaperDat
     proConvertGif.data()->close();
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifFinished);
 
+    /*
+     *
+     * Create png
+     *
+     */
+
+    emit createWallpaperStateChanged(Create::State::ConvertingPreviewImage);
+    args.clear();
+    args.append("-y");
+    args.append("-stats");
+    args.append("-ss");
+    args.append("00:00:02");
+    args.append("-i");
+    args.append(m_createWallpaperData.videoPath);
+    args.append("-vframes");
+    args.append("1");
+    args.append("-q:v");
+    args.append("2");
+    args.append(m_createWallpaperData.exportPath + "/preview.png");
+
+    QScopedPointer<QProcess> proConvertImage(new QProcess());
+    proConvertImage.data()->setArguments(args);
+    qDebug() << "Start converting video to preview gif";
+#ifdef Q_OS_WIN
+    proConvertImage.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+    proConvertImage.data()->start();
+    proConvertImage.data()->waitForFinished(-1);
+    QString tmpErrImg = proConvertImage.data()->readAllStandardError();
+    if (!tmpErrImg.isEmpty()) {
+        QFile previewImg(m_createWallpaperData.exportPath + "/preview.png");
+        if (!previewImg.exists() && !(previewImg.size() > 0)) {
+            emit createWallpaperStateChanged(Create::State::ConvertingPreviewImageError);
+            return false;
+        }
+    }
+
+    this->processOutput(proConvertImage.data()->readAll());
+    proConvertImage.data()->close();
+    emit createWallpaperStateChanged(Create::State::ConvertingPreviewImageFinished);
+
     return true;
 }
 
-bool Create::createWallpaperVideo(CreateWallpaperData& createWallpaperData)
+bool Create::createWallpaperVideo()
 {
     emit createWallpaperStateChanged(Create::State::ConvertingVideo);
 
@@ -265,7 +302,7 @@ bool Create::createWallpaperVideo(CreateWallpaperData& createWallpaperData)
     args.append("-y");
     args.append("-stats");
     args.append("-i");
-    args.append(createWallpaperData.videoPath);
+    args.append(m_createWallpaperData.videoPath);
     args.append("-c:v");
     args.append("libvpx-vp9");
     args.append("-crf");
@@ -280,7 +317,7 @@ bool Create::createWallpaperVideo(CreateWallpaperData& createWallpaperData)
     args.append("yuv420p");
     args.append("-b:v");
     args.append("0");
-    args.append(createWallpaperData.exportPath + "/video.webm");
+    args.append(m_createWallpaperData.exportPath + "/video.webm");
 
     QScopedPointer<QProcess> proConvertVideo(new QProcess());
     proConvertVideo.data()->setArguments(args);
@@ -290,6 +327,7 @@ bool Create::createWallpaperVideo(CreateWallpaperData& createWallpaperData)
 
     connect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, this, [&]() {
         QString tmpOut = proConvertVideo.data()->readAllStandardOutput();
+        qDebug() << tmpOut << m_createWallpaperData.length;
         auto tmpList = tmpOut.split(QRegExp("\\s+"), QString::SkipEmptyParts);
         if (tmpList.length() > 2) {
             bool ok = false;
@@ -298,7 +336,7 @@ bool Create::createWallpaperVideo(CreateWallpaperData& createWallpaperData)
             if (!ok)
                 return;
 
-            float progress = currentFrame / createWallpaperData.length;
+            float progress = currentFrame / m_createWallpaperData.length;
 
             this->setProgress(progress);
         }
@@ -311,12 +349,14 @@ bool Create::createWallpaperVideo(CreateWallpaperData& createWallpaperData)
 #endif
     proConvertVideo.data()->start(QIODevice::ReadOnly);
     proConvertVideo.data()->waitForFinished(-1);
+    disconnect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, 0, 0);
+
     QString out = proConvertVideo.data()->readAllStandardOutput();
 
     this->processOutput(out);
     QString tmpErrVideo = proConvertVideo.data()->readAllStandardError();
     if (!tmpErrVideo.isEmpty()) {
-        QFile video(createWallpaperData.exportPath + "/video.webm");
+        QFile video(m_createWallpaperData.exportPath + "/video.webm");
         if (!video.exists() && !(video.size() > 0)) {
             emit createWallpaperStateChanged(Create::State::ConvertingVideoError);
             return false;
@@ -329,27 +369,29 @@ bool Create::createWallpaperVideo(CreateWallpaperData& createWallpaperData)
     return true;
 }
 
-bool Create::createWallpaperProjectFile(CreateWallpaperData& createWallpaperData)
+bool Create::createWallpaperProjectFile(const QString title, const QString description)
 {
     //Copy Project File
-    QFile configFile(createWallpaperData.exportPath + "/project.json");
+    QFile configFile(m_createWallpaperData.exportPath + "/project.json");
 
     if (!configFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
-
         return false;
     }
 
-    //    QTextStream out(&configFile);
-    //    QJsonObject configObj;
+    QTextStream out(&configFile);
+    QJsonObject configObj;
 
-    //    configObj.insert("file", videoPath.fileName());
-    //    configObj.insert("preview", previewPath.fileName());
-    //    //TODO
-    //    configObj.insert("description", "");
-    //    configObj.insert("title", title);
+    configObj.insert("description", description);
+    configObj.insert("title", title);
 
-    //    QJsonDocument configJsonDocument(configObj);
-    //    out << configJsonDocument.toJson();
+    configObj.insert("file", "video.webm");
+    configObj.insert("preview", "preview.png");
+    configObj.insert("previewGIF", "preview.gif");
+    configObj.insert("previewMP4", "preview.mp4");
+    configObj.insert("type", "video");
+
+    QJsonDocument configJsonDocument(configObj);
+    out << configJsonDocument.toJson();
     configFile.close();
     return true;
 }

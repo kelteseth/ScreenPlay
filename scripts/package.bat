@@ -29,6 +29,7 @@ xcopy  C:\Qt\Tools\QtCreator\bin\ssleay32.dll ..\PACKAGE
 cd ..
 
 windeployqt.exe  --release  --qmldir ScreenPlay/qml PACKAGE/ScreenPlay.exe
+windeployqt.exe  --release  --qmldir ScreenPlayWindow/qml PACKAGE/ScreenPlayWindow.exe
 
 cd PACKAGE
 
@@ -37,4 +38,6 @@ del /f *.moc
 del /f *.h
 del /f *.obj
 del /f *.res
+del /f *.exp
+del /f *.lib
 

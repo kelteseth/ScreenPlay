@@ -28,6 +28,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(index.row()).m_title;
         case PreviewRole:
             return m_screenPlayFiles.at(index.row()).m_preview;
+        case PreviewGIFRole:
+            return m_screenPlayFiles.at(index.row()).m_previewGIF;
         case TypeRole:
             return m_screenPlayFiles.at(index.row()).m_type;
         case FolderIdRole:
@@ -50,6 +52,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { TitleRole, "screenTitle" },
         { TypeRole, "screenType" },
         { PreviewRole, "screenPreview" },
+        { PreviewGIFRole, "screenPreviewGIF" },
         { FolderIdRole, "screenFolderId" },
         { FileIdRole, "screenFile" },
         { AbsoluteStoragePathRole, "screenAbsoluteStoragePath" },
@@ -125,6 +128,10 @@ void InstalledListModel::loadScreens()
 
                 if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene") || fileEnding.endsWith(".html"))
                     emit addInstalledItem(obj, item.baseName());
+
+                if(obj.value("type") == "qmlWidget")
+                    emit addInstalledItem(obj, item.baseName());
+
             }
         }
         emit installedLoadingFinished();
@@ -143,6 +150,7 @@ QVariantMap InstalledListModel::get(QString folderId)
         if (m_screenPlayFiles[i].m_folderId == folderId) {
             map.insert("screenTitle", m_screenPlayFiles[i].m_title);
             map.insert("screenPreview", m_screenPlayFiles[i].m_preview);
+            map.insert("screenPreviewGIF", m_screenPlayFiles[i].m_previewGIF);
             map.insert("screenFile", m_screenPlayFiles[i].m_file);
             map.insert("screenType", m_screenPlayFiles[i].m_type);
             map.insert("screenAbsoluteStoragePath", m_screenPlayFiles[i].m_absoluteStoragePath);
