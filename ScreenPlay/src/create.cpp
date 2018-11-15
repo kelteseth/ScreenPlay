@@ -277,6 +277,7 @@ bool Create::createWallpaperVideoPreview()
 #endif
     proConvertImage.data()->start();
     proConvertImage.data()->waitForFinished(-1);
+
     QString tmpErrImg = proConvertImage.data()->readAllStandardError();
     if (!tmpErrImg.isEmpty()) {
         QFile previewImg(m_createWallpaperData.exportPath + "/preview.png");
@@ -325,8 +326,16 @@ bool Create::createWallpaperVideo()
     proConvertVideo.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
     qDebug() << "Start converting video";
 
-    connect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, this, [&]() {
-        QString tmpOut = proConvertVideo.data()->readAllStandardOutput();
+    connect(proConvertVideo.data(), &QProcess::readyRead, this, [&]() {
+
+        // Somehow readyRead gets seldom called in the end with an
+        // not valid QProcess pointer....
+        if(proConvertVideo.isNull()) {
+            qDebug() << "EROR NULL";
+            return;
+        }
+
+        QString tmpOut = proConvertVideo.data()->readAll();
         qDebug() << tmpOut << m_createWallpaperData.length;
         auto tmpList = tmpOut.split(QRegExp("\\s+"), QString::SkipEmptyParts);
         if (tmpList.length() > 2) {
@@ -336,12 +345,13 @@ bool Create::createWallpaperVideo()
             if (!ok)
                 return;
 
-            float progress = currentFrame / m_createWallpaperData.length;
+            float progress = currentFrame / (m_createWallpaperData.length * m_createWallpaperData.framerate);
 
             this->setProgress(progress);
         }
         this->processOutput(tmpOut);
-    });
+    },
+        Qt::QueuedConnection);
 
     // For some reason we only get output if we use execute instead of start....?!
 #ifdef Q_OS_WIN
@@ -349,7 +359,7 @@ bool Create::createWallpaperVideo()
 #endif
     proConvertVideo.data()->start(QIODevice::ReadOnly);
     proConvertVideo.data()->waitForFinished(-1);
-    disconnect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, 0, 0);
+    disconnect(proConvertVideo.data(), &QProcess::readyRead, 0, 0);
 
     QString out = proConvertVideo.data()->readAllStandardOutput();
 
