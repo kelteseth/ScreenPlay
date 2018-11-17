@@ -1,4 +1,4 @@
-QT += quick qml quickcontrols2 core charts widgets gui
+QT += quick qml quickcontrols2 core  widgets gui
 CONFIG += c++17
 CONFIG += qtquickcompiler
 # The following define makes your compiler emit warnings if you use

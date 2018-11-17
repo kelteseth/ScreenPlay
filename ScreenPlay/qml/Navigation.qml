@@ -46,6 +46,7 @@ Rectangle {
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
             navCommunity.state = "inactive"
+            navScreen.state = "inactive"
             navCreate.state = "inactive"
         } else if (name === "Installed") {
             navWorkshop.state = "inactive"
@@ -53,24 +54,35 @@ Rectangle {
             navSettings.state = "inactive"
             navCommunity.state = "inactive"
             navCreate.state = "inactive"
+            navScreen.state = "inactive"
         } else if (name === "Settings") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "active"
             navCommunity.state = "inactive"
             navCreate.state = "inactive"
+            navScreen.state = "inactive"
         } else if (name === "Create") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
             navCreate.state = "active"
             navCommunity.state = "inactive"
+            navScreen.state = "inactive"
         } else if (name === "Community") {
             navWorkshop.state = "inactive"
             navInstalled.state = "inactive"
             navSettings.state = "inactive"
             navCommunity.state = "active"
             navCreate.state = "inactive"
+            navScreen.state = "inactive"
+        }else if (name === "Screen") {
+            navWorkshop.state = "inactive"
+            navInstalled.state = "inactive"
+            navSettings.state = "inactive"
+            navCommunity.state = "inactive"
+            navCreate.state = "inactive"
+            navScreen.state = "active"
         }
     }
 
@@ -101,6 +113,14 @@ Rectangle {
             state: "active"
             name: "Installed"
             iconSource: "qrc:/assets/icons/icon_installed.svg"
+            onPageClicked: navigation.onPageChanged(name)
+        }
+
+        NavigationItem {
+            id: navScreen
+            state: "inactive"
+            name: "Screen"
+            iconSource: "qrc:/assets/icons/icon_monitor.svg"
             onPageClicked: navigation.onPageChanged(name)
         }
 

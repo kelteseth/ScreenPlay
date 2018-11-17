@@ -127,6 +127,25 @@ Item {
                         running: true
                     }
 
+                    AnimatedImage {
+                        id: imgPreview
+                        asynchronous: true
+                        playing: true
+                        visible: false
+                        anchors.fill: parent
+                    }
+                    Text {
+                        id: txtConvertNumber
+                        color: "white"
+                        text: qsTr("")
+                        font.pixelSize: 21
+                        anchors {
+                            horizontalCenter: parent.horizontalCenter
+                            bottom: parent.bottom
+                            bottomMargin: 40
+                        }
+                    }
+
                     Text {
                         id: txtConvert
                         color: "white"
@@ -135,7 +154,7 @@ Item {
                         anchors {
                             horizontalCenter: parent.horizontalCenter
                             bottom: parent.bottom
-                            bottomMargin: 30
+                            bottomMargin: 20
                         }
                     }
 
@@ -152,20 +171,17 @@ Item {
                                 imgPreview.source = "file:///"
                                         + screenPlayCreate.workingDir + "/preview.gif"
                                 imgPreview.visible = true
-
+                                txtConvert.text = qsTr("Converting Video")
                             }
                         }
-                    }
-
-                    AnimatedImage {
-                        id: imgPreview
-                        asynchronous: true
-                        playing: true
-                        visible: false
-                        anchors.fill: parent
+                        onProgressChanged: {
+                            var percentage = Math.floor(progress * 100)
+                            if (percentage > 100)
+                                percentage = 100
+                            txtConvertNumber.text = percentage + "%"
+                        }
                     }
                 }
-
             }
 
             Item {
@@ -191,9 +207,8 @@ Item {
                         anchors.right: parent.right
                         anchors.left: parent.left
                         onTextChanged: {
-                            if (textField.text.length >= 3 ) {
+                            if (textField.text.length >= 3) {
                                 canNext = true
-
                             } else {
                                 canNext = false
                             }

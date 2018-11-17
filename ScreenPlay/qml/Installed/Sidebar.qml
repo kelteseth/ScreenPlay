@@ -225,8 +225,8 @@ Item {
                 height: 100
                 width: 400
                 anchors {
-                    top: monitorSelectionWrapper.bottom
-                    topMargin: 30
+                    bottom: btnSetWallpaper.top
+                    bottomMargin: 20
                     right: parent.right
                     rightMargin: 30
                     leftMargin: 30

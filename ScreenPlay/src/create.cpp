@@ -330,8 +330,18 @@ bool Create::createWallpaperVideo()
 
         // Somehow readyRead gets seldom called in the end with an
         // not valid QProcess pointer....
-        if(proConvertVideo.isNull()) {
+        if (proConvertVideo.isNull()) {
             qDebug() << "EROR NULL";
+            return;
+        }
+
+        if (!proConvertVideo.data()->isOpen()) {
+            qDebug() << "ERROR NOT OPEN";
+            return;
+        }
+
+        if (!proConvertVideo.data()->isReadable()) {
+            qDebug() << "ERROR CANNOT READ LINE";
             return;
         }
 
@@ -344,9 +354,10 @@ bool Create::createWallpaperVideo()
 
             if (!ok)
                 return;
+            qDebug() << currentFrame << m_createWallpaperData.length << m_createWallpaperData.framerate;
 
             float progress = currentFrame / (m_createWallpaperData.length * m_createWallpaperData.framerate);
-
+            qDebug() << progress  ;
             this->setProgress(progress);
         }
         this->processOutput(tmpOut);

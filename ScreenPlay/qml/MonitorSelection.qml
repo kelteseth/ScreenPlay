@@ -93,9 +93,7 @@ Rectangle {
             rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta
             rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta
         }
-        for(var i = 0; i < rp.count; i++){
 
-        }
     }
 
     Repeater {
