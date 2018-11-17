@@ -10,12 +10,12 @@ uri = net.aimber.workshop
 SOURCES += \
         screenplayworkshop_plugin.cpp \
         workshop.cpp \
-    aimberapi.cpp
+        aimberapi.cpp
 
 HEADERS += \
         screenplayworkshop_plugin.h \
         workshop.h \
-    aimberapi.h
+        aimberapi.h
 
 DISTFILES = qmldir
 
@@ -32,7 +32,7 @@ qmldir.files = qmldir
 installPath = $$[QT_INSTALL_QML]/$$replace(uri, \\., /)
 qmldir.path = $$installPath
 target.path = $$installPath
-INSTALLS += target qmldir
+INSTALLS += target qmldir install_it
 
 
 win32 {
@@ -50,8 +50,9 @@ unix {
     LIBS += -L$$PWD/ThirdParty/steam/lib/linux64/ -lsdkencryptedappticket
 }
 
-win32 {
-    INCLUDEPATH += "../../Common/ProtocolBuffer/google/protobuf/"
-    LIBS += -L"../../Common/ProtocolBuffer/google/protobuf/bin" -llibprotobuf.dll
-}
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/../../Common/ProtocolBuffer/google/protobuf/bin/ -llibprotobuf
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/../../Common/ProtocolBuffer/google/protobuf/bin/ -llibprotobufd
+else:unix: LIBS += -L$$PWD/../../Common/ProtocolBuffer/google/protobuf/bin/ -llibprotobuf
 
+INCLUDEPATH += $$PWD/../../Common/ProtocolBuffer/google/protobuf
+DEPENDPATH += $$PWD/../../Common/ProtocolBuffer/google/protobuf
