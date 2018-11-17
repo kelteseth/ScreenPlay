@@ -2,7 +2,8 @@
 #define WORKSHOP_H
 
 #include <QQuickItem>
-
+#include <QtDebug>
+#include "aimberapi.h"
 class Workshop : public QQuickItem
 {
     Q_OBJECT
@@ -11,6 +12,14 @@ class Workshop : public QQuickItem
 public:
     Workshop(QQuickItem *parent = nullptr);
     ~Workshop();
+
+public slots:
+    void hello(){
+       qDebug() << "bla";
+    }
+signals:
+private:
+    AimberAPI m_aimberAPI;
 };
 
 #endif // WORKSHOP_H
