@@ -13,7 +13,7 @@
 
 # Optional
 This is only needed for a standalone Steam release build to run WinDeploy.sh!
-- [Download and install msys2 x86_x64] (http://www.msys2.org/)
+- [Download and install msys2 x86_x64](http://www.msys2.org/)
    - Start msys2
    - Run: ``` pacman -Syu ``` then restart terminal
    - Run: ``` pacman -Su ```
