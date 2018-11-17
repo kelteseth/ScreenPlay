@@ -296,9 +296,59 @@ bool Create::createWallpaperVideoPreview()
 
 bool Create::createWallpaperVideo()
 {
-    emit createWallpaperStateChanged(Create::State::ConvertingVideo);
+
+    /*
+     *
+     * Extract audio
+     *
+     */
+
+    emit createWallpaperStateChanged(Create::State::ConvertingAudio);
 
     QStringList args;
+    args.clear();
+    args.append("-y");
+    args.append("-stats");
+    args.append("-i");
+    args.append(m_createWallpaperData.videoPath);
+    args.append("-f");
+    args.append("mp3");
+    args.append("-ab");
+    args.append("192000");
+    args.append("-vn");
+    args.append(m_createWallpaperData.exportPath + "/audio.mp3");
+
+    QScopedPointer<QProcess> proConvertImage(new QProcess());
+    proConvertImage.data()->setArguments(args);
+    qDebug() << "Start extracting video to audio";
+#ifdef Q_OS_WIN
+    proConvertImage.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+    proConvertImage.data()->start();
+    proConvertImage.data()->waitForFinished(-1);
+
+    QString tmpErrImg = proConvertImage.data()->readAllStandardError();
+    if (!tmpErrImg.isEmpty()) {
+        QFile previewImg(m_createWallpaperData.exportPath + "/preview.png");
+        if (!previewImg.exists() && !(previewImg.size() > 0)) {
+            emit createWallpaperStateChanged(Create::State::ConvertingAudioError);
+            return false;
+        }
+    }
+
+    this->processOutput(proConvertImage.data()->readAll());
+    proConvertImage.data()->close();
+    emit createWallpaperStateChanged(Create::State::ConvertingAudioFinished);
+
+    /*
+     *
+     * Create video
+     *
+     */
+
+    emit createWallpaperStateChanged(Create::State::ConvertingVideo);
+
+    args.clear();
     args.append("-hide_banner");
     args.append("-y");
     args.append("-stats");
@@ -327,7 +377,6 @@ bool Create::createWallpaperVideo()
     qDebug() << "Start converting video";
 
     connect(proConvertVideo.data(), &QProcess::readyRead, this, [&]() {
-
         // Somehow readyRead gets seldom called in the end with an
         // not valid QProcess pointer....
         if (proConvertVideo.isNull()) {
@@ -357,7 +406,7 @@ bool Create::createWallpaperVideo()
             qDebug() << currentFrame << m_createWallpaperData.length << m_createWallpaperData.framerate;
 
             float progress = currentFrame / (m_createWallpaperData.length * m_createWallpaperData.framerate);
-            qDebug() << progress  ;
+            qDebug() << progress;
             this->setProgress(progress);
         }
         this->processOutput(tmpOut);
