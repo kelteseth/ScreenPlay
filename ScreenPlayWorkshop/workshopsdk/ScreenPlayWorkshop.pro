@@ -51,7 +51,7 @@ unix {
 }
 
 win32 {
-    INCLUDEPATH += "..\..\Common\ProtocolBuffer\google\protobuf\"
-    LIBS += -L"..\..\Common\ProtocolBuffer\google\protobuf\bin" -llibprotobuf.dll
+    INCLUDEPATH += "../../Common/ProtocolBuffer/google/protobuf/"
+    LIBS += -L"../../Common/ProtocolBuffer/google/protobuf/bin" -llibprotobuf.dll
 }
 
