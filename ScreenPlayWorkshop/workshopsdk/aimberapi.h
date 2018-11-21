@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QObject>
 #include <QtWebSockets/QWebSocket>
+//#include "../../Common/ProtocolBuffer/GenCode/account.pb.h"
 
 class AimberAPI : public QObject {
     Q_OBJECT

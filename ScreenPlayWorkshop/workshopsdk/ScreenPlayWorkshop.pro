@@ -10,12 +10,16 @@ uri = net.aimber.workshop
 SOURCES += \
         screenplayworkshop_plugin.cpp \
         workshop.cpp \
-    aimberapi.cpp
+    aimberapi.cpp \
+    account.pb.cc \
+    container.pb.cc
 
 HEADERS += \
         screenplayworkshop_plugin.h \
         workshop.h \
-    aimberapi.h
+    aimberapi.h \
+    account.pb.h \
+    container.pb.h
 
 DISTFILES = qmldir
 
@@ -51,7 +55,14 @@ unix {
 }
 
 win32 {
-    INCLUDEPATH += "..\..\Common\ProtocolBuffer\google\protobuf\"
-    LIBS += -L"..\..\Common\ProtocolBuffer\google\protobuf\bin" -llibprotobuf.dll
+    INCLUDEPATH += "C:\Users\DANI\Documents\ScreenPlay\Common\ProtocolBuffer"
+    LIBS += -L"C:\Users\DANI\Documents\vcpkg\buildtrees\protobuf\x64-windows-rel" -llibprotobuf
+    #LIBS += -L"C:/Users/DANI/Documents/ScreenPlay/Common/ProtocolBuffer/google/protobuf" -llibprotobuf
 }
+
+win32:CONFIG(release, debug|release): LIBS += -L$$PWD/workshopsdk/google/protobuf/ -llibprotobuf
+else:win32:CONFIG(debug, debug|release): LIBS += -L$$PWD/workshopsdk/google/protobuf/ -llibprotobufd
+
+INCLUDEPATH += $$PWD/workshopsdk/google/protobuf
+DEPENDPATH += $$PWD/workshopsdk/google/protobuf
 

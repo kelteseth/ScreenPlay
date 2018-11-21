@@ -4,3 +4,4 @@ SUBDIRS =   \
             example/WorkshopExample.pro
 
 WorkshopExample.depends = ScreenPlayWorkshop
+

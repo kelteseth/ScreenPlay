@@ -8,9 +8,11 @@ SUBDIRS =   \
     ScreenPlay/ThirdParty/stomt-qt-sdk/sdk/stomt-qt-sdk.pro \
     ScreenPlayWidget/ScreenPlayWidget.pro \
     ScreenPlayWorkshop/ScreenPlayWorkshop.pro \
-    ScreenPlayServer
+    ScreenPlayServer \
+    Common/Common.pro
 
 ScreenPlayWindow.depends = ScreenPlaySDK
 ScreenPlayWidget.depends = ScreenPlaySDK
 ScreenPlay.depends = qt-google-analytics
 ScreenPlay.depends = ScreenPlayWorkshop
+
