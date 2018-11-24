@@ -31,6 +31,7 @@ Rectangle {
         shortcut: "F5"
         onTriggered: onPageChanged("Settings")
     }
+    property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity]
 
     function onPageChanged(name) {
 
@@ -41,36 +42,13 @@ Rectangle {
         }
 
         navigation.changePage(name)
-        if (name === "Workshop") {
-            navWorkshop.state = "active"
-            navInstalled.state = "inactive"
-            navSettings.state = "inactive"
-            navCommunity.state = "inactive"
-            navCreate.state = "inactive"
-        } else if (name === "Installed") {
-            navWorkshop.state = "inactive"
-            navInstalled.state = "active"
-            navSettings.state = "inactive"
-            navCommunity.state = "inactive"
-            navCreate.state = "inactive"
-        } else if (name === "Settings") {
-            navWorkshop.state = "inactive"
-            navInstalled.state = "inactive"
-            navSettings.state = "active"
-            navCommunity.state = "inactive"
-            navCreate.state = "inactive"
-        } else if (name === "Create") {
-            navWorkshop.state = "inactive"
-            navInstalled.state = "inactive"
-            navSettings.state = "inactive"
-            navCreate.state = "active"
-            navCommunity.state = "inactive"
-        } else if (name === "Community") {
-            navWorkshop.state = "inactive"
-            navInstalled.state = "inactive"
-            navSettings.state = "inactive"
-            navCommunity.state = "active"
-            navCreate.state = "inactive"
+
+        for (var i = 0; i < navArray.length; i++) {
+            if (navArray[i].name === name)
+                navArray[i].state = "active"
+            else {
+                navArray[i].state = "inactive"
+            }
         }
     }
 
