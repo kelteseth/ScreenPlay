@@ -46,9 +46,12 @@ signals:
     void typeChanged(QString type);
     void projectConfigChanged(QString projectConfig);
     void setWidgetSource(QString source);
+    void qmlSceneValueReceived(QString key, QString value);
 
 public slots:
     void setSize(QSize size);
+    void destroyThis();
+    void messageReceived(QString key, QString value);
     void setAppID(QString appID)
     {
         if (m_appID == appID)

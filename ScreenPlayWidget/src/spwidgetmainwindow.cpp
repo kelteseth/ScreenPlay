@@ -1,5 +1,7 @@
 #include "spwidgetmainwindow.h"
 
+#include <QCoreApplication>
+
 SPWidgetmainwindow::SPWidgetmainwindow(QString projectPath, QString appid, QScreen* parent)
     : QWindow(parent)
 {
@@ -50,6 +52,16 @@ void SPWidgetmainwindow::setSize(QSize size)
     this->setHeight(size.height());
     m_quickRenderer.data()->setWidth(size.width());
     m_quickRenderer.data()->setHeight(size.height());
+}
+
+void SPWidgetmainwindow::destroyThis()
+{
+    QCoreApplication::quit();
+}
+
+void SPWidgetmainwindow::messageReceived(QString key, QString value)
+{
+    emit qmlSceneValueReceived(key, value);
 }
 
 void SPWidgetmainwindow::setPos(int xPos, int yPos)

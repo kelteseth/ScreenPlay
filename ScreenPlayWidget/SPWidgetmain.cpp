@@ -3,12 +3,13 @@
 #include <QStringList>
 
 #include "src/spwidgetmainwindow.h"
+#include "../ScreenPlaySDK/screenplaysdk.h"
 
 int main(int argc, char* argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
-
+    ScreenPlaySDK sdk;
     QGuiApplication app(argc, argv);
 
 
@@ -20,6 +21,9 @@ int main(int argc, char* argv[])
 
     SPWidgetmainwindow spwmw(argumentList.at(1), argumentList.at(2));
     //SPWidgetmainwindow spwmw("D:/672870/xkcd","asasasasd" );
+
+    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &spwmw, &SPWidgetmainwindow::destroyThis);
+    QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &spwmw, &SPWidgetmainwindow::messageReceived);
 
     return app.exec();
 }

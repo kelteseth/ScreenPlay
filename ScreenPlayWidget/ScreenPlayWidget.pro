@@ -19,6 +19,24 @@ SOURCES += \
 RESOURCES += \
     SPWidgetResources.qrc
 
+INCLUDEPATH += \
+    $$PWD/../../ThirdParty/ \
+    $$PWD/../../src/ \
+
+include(../ScreenPlaySDK/Screenplaysdk.pri)
+
+CONFIG(debug, debug|release) {
+LIBS += -lScreenplaysdkd
+    install_it.path = $${OUT_PWD}/debug/
+    QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
+ } else {
+LIBS += -lScreenplaysdk
+    install_it.path = $${OUT_PWD}/release/
+    QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
+ }
+QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
+
+
 # Additional import path used to resolve QML modules just for Qt Quick Designer
 # QML_DESIGNER_IMPORT_PATH =
 QT_QUICK_CONTROLS_STYLE = "Material"

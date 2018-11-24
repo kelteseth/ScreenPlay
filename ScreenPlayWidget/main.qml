@@ -8,7 +8,7 @@ Item {
     anchors.fill: parent
 
     Rectangle {
-        id:bgColor
+        id: bgColor
         anchors.fill: parent
         color: "white"
         //color: "#1A1F22"
@@ -23,7 +23,6 @@ Item {
         fillMode: Image.Tile
     }
 
-
     MouseArea {
         id: mouseArea
         anchors.fill: parent
@@ -35,31 +34,6 @@ Item {
         onPositionChanged: {
             backend.setPos(mouse.x, mouse.y)
         }
-
-    }
-
-    ScreenPlaySDK {
-        id: spSDK
-        contentType: "ScreenPlayWindow"
-        appID: backend.appID
-
-        onIncommingMessageError: {
-
-        }
-        onIncommingMessage: {
-            var obj2 = 'import QtQuick 2.9; Item {Component.onCompleted: sceneLoader.item.'
-                    + key + ' = ' + value + '; }'
-            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
-            newObject.destroy(10000)
-        }
-
-        onSdkConnected: {
-
-        }
-
-        onSdkDisconnected: {
-            Qt.quit()
-        }
     }
 
     Connections {
@@ -68,6 +42,13 @@ Item {
         onSetWidgetSource: {
             loader.source = Qt.resolvedUrl("file:///" + source)
             print(loader.source)
+        }
+
+        onQmlSceneValueReceived: {
+            var obj2 = 'import QtQuick 2.9; Item {Component.onCompleted: loader.item.'
+                    + key + ' = ' + value + '; }'
+            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
+            newObject.destroy(10000)
         }
     }
 
