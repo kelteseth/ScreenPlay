@@ -11,27 +11,7 @@ Rectangle {
 
     signal changePage(string name)
 
-    Action {
-        shortcut: "F1"
-        onTriggered: onPageChanged("Create")
-    }
-    Action {
-        shortcut: "F2"
-        onTriggered: onPageChanged("Workshop")
-    }
-    Action {
-        shortcut: "F3"
-        onTriggered: onPageChanged("Installed")
-    }
-    Action {
-        shortcut: "F4"
-        onTriggered: onPageChanged("Community")
-    }
-    Action {
-        shortcut: "F5"
-        onTriggered: onPageChanged("Settings")
-    }
-    property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity]
+    property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity, navScreen]
 
     function onPageChanged(name) {
 
@@ -83,6 +63,14 @@ Rectangle {
         }
 
         NavigationItem {
+            id: navScreen
+            state: "inactive"
+            name: "Screen"
+            iconSource: "qrc:/assets/icons/icon_screen.svg"
+            onPageClicked: navigation.onPageChanged(name)
+        }
+
+        NavigationItem {
             id: navCommunity
             state: "inactive"
             name: "Community"
@@ -98,5 +86,6 @@ Rectangle {
         }
     }
 
-    NavigationWallpaperConfiguration {}
+    NavigationWallpaperConfiguration {
+    }
 }

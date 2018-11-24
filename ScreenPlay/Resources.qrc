@@ -120,5 +120,7 @@
         <file>translations/ScreenPlay_de.qm</file>
         <file>translations/ScreenPlay_en.qm</file>
         <file>qml/Create/Wizards/CreateWallpaper/NextButton.qml</file>
+        <file>qml/Screen/Screen.qml</file>
+        <file>assets/icons/icon_screen.svg</file>
     </qresource>
 </RCC>
