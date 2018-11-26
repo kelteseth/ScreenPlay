@@ -3,7 +3,7 @@ import QtQml.Models 2.2
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
-import analytics 0.1
+
 
 Item {
     id: pageInstalled
@@ -147,12 +147,6 @@ Item {
         ScrollBar.vertical: ScrollBar {
             snapMode: ScrollBar.SnapOnRelease
         }
-    }
-
-    Tracker {
-      id: tracker
-      trackingID: "UA-43193236-3"
-      sendInterval: 1000
     }
 
     function onPageChanged(name) {

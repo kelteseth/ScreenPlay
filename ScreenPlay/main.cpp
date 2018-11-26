@@ -25,7 +25,7 @@
 #include <qt_windows.h>
 #endif
 
-#include "ThirdParty/qt-google-analytics/ganalytics.h"
+//#include "ThirdParty/qt-google-analytics/ganalytics.h"
 #include "src/create.h"
 #include "src/installedlistfilter.h"
 #include "src/installedlistmodel.h"
@@ -138,7 +138,7 @@ int main(int argc, char* argv[])
 
     QQmlApplicationEngine mainWindowEngine;
 
-    qmlRegisterType<GAnalytics>("analytics", 0, 1, "Tracker");
+    //qmlRegisterType<GAnalytics>("analytics", 0, 1, "Tracker");
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
     mainWindowEngine.rootContext()->setContextProperty("utility", &qmlUtil);

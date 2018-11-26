@@ -56,16 +56,16 @@ INCLUDEPATH += \
     $$PWD/ThirdParty/ \
     $$PWD/src/
 
-include(ThirdParty/qt-google-analytics/qt-google-analytics.pri)
-LIBS += -lqt-google-analytics
+#include(ThirdParty/qt-google-analytics/qt-google-analytics.pri)
+#LIBS += -lqt-google-analytics
 
 CONFIG(debug, debug|release) {
     install_it.path = $${OUT_PWD}/debug/
-    QMAKE_LIBDIR += $$OUT_PWD/ThirdParty/qt-google-analytics/debug
+    #QMAKE_LIBDIR += $$OUT_PWD/ThirdParty/qt-google-analytics/debug
 
  } else {
     install_it.path = $${OUT_PWD}/release/
-    QMAKE_LIBDIR += $$OUT_PWD/ThirdParty/qt-google-analytics/release
+    #QMAKE_LIBDIR += $$OUT_PWD/ThirdParty/qt-google-analytics/release
  }
 
 
