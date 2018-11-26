@@ -90,9 +90,19 @@ int main(int argc, char* argv[])
 
 #ifdef QT_DEBUG
     qDebug() << "Starting in Debug mode!";
+
     if (SPWorkingDir.cdUp()) {
+#ifdef Q_OS_OSX
+        settings.setScreenPlayWindowPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWindow/ScreenPlayWindow.app/Contents/MacOS/ScreenPlayWindow").toLocalFile());
+        settings.setScreenPlayWidgetPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
+        qDebug() << "Setting ScreenPlayWindow Path to " << settings.getScreenPlayWindowPath();
+        qDebug() << "Setting ScreenPlayWdiget Path to " << settings.getScreenPlayWidgetPath();
+#endif
+
+#ifdef Q_OS_WIN
         settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
         settings.setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
+#endif
     }
 
     // We need to detect the right base path so we can copy later the example projects
