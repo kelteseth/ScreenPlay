@@ -71,3 +71,6 @@ Thumbs.db
 !ScreenPlay/ThirdParty/**
 !ScreenPlay/translations/**
 /build-*/**
+*_qmlcache.qrc
+ScreenPlay/ThirdParty/.DS_Store
+*.DS_Store
