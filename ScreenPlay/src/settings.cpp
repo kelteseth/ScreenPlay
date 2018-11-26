@@ -14,7 +14,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
 
     QFile configTmp;
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    m_localSettingsPath = QUrl(appConfigLocation);
+    m_localSettingsPath = QUrl::fromUserInput(appConfigLocation);
     if (!QDir(appConfigLocation).exists()) {
         if (!QDir().mkpath(appConfigLocation)) {
             qWarning("ERROR: Cloud not create install dir");
@@ -92,7 +92,7 @@ Settings::~Settings()
 QString Settings::loadProject(QString file)
 {
     QFile configTmp;
-    file = file.replace("file:///", "");
+    //file = file.replace("file:///", "");
     configTmp.setFileName(file);
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     return configTmp.readAll();
@@ -104,7 +104,7 @@ void Settings::loadActiveProfiles()
     QJsonObject configObj;
     QJsonArray activeProfilesTmp;
     QFile configTmp;
-    configTmp.setFileName(m_localSettingsPath.toString() + "/settings.json");
+    configTmp.setFileName(m_localSettingsPath.toLocalFile() + "/settings.json");
 
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     QString config = configTmp.readAll();
@@ -155,7 +155,7 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
     QJsonObject configObj;
     QFile configTmp;
 
-    configTmp.setFileName(m_localSettingsPath.toString() + "/settings.json");
+    configTmp.setFileName(m_localSettingsPath.toLocalFile() + "/settings.json");
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     QString config = configTmp.readAll();
     configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
@@ -264,7 +264,7 @@ void Settings::setPlayAll(bool isPlaying)
 void Settings::createDefaultConfig()
 {
 
-    QFile file(m_localSettingsPath.toString() + "/settings.json");
+    QFile file(m_localSettingsPath.toLocalFile() + "/settings.json");
     QFile defaultSettings(":/settings.json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
