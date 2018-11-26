@@ -22,17 +22,23 @@ INCLUDEPATH += \
 
 include(../ScreenPlaySDK/Screenplaysdk.pri)
 
+macx: {
+QMAKE_LIBDIR += $$OUT_PWD/
+install_it.path = $${OUT_PWD}/../ScreenPlaySDK
+}
 
-CONFIG(debug, debug|release) {
-LIBS += -lScreenplaysdkd
-    install_it.path = $${OUT_PWD}/debug/
-    QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
- } else {
-LIBS += -lScreenplaysdk
-    install_it.path = $${OUT_PWD}/release/
-    QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
- }
-QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
+!macx: {
+    CONFIG(debug, debug|release) {
+    LIBS += -lScreenplaysdkd
+        install_it.path = $${OUT_PWD}/debug/
+        QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
+     } else {
+    LIBS += -lScreenplaysdk
+        install_it.path = $${OUT_PWD}/release/
+        QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
+     }
+    QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
+}
 
 install_it.files += index.html \
 

@@ -119,7 +119,7 @@ win32 {
     install_it.files += ThirdParty\steam\redistributable_bin\win64\steam_api64.dll
 }
 
-unix {
+unix:!macx {
     LIBS += -L$$PWD/ThirdParty/steam/redistributable_bin/linux64/ -lsteam_api
     DEPENDPATH += $$PWD/ThirdParty/steam/redistributable_bin/linux64
 
@@ -129,6 +129,22 @@ unix {
     LIBS += -L$$PWD/ThirdParty/steam/lib/linux64/ -lsdkencryptedappticket
 
     install_it.files += ThirdParty\steam\redistributable_bin\linux64\libsteam_api.so
+}
+
+macx: {
+    LIBS += -L$$PWD/ThirdParty/steam/redistributable_bin/osx32/ -lsteam_api
+    DEPENDPATH += $$PWD/ThirdParty/steam/redistributable_bin/osx32
+
+    INCLUDEPATH += $$PWD/ThirdParty/steam/lib/osx32
+    DEPENDPATH += $$PWD/ThirdParty/steam/lib/osx32s
+
+    LIBS += -L$$PWD/ThirdParty/steam/lib/osx32/ -lsdkencryptedappticket
+
+    install_it.files += ThirdParty\steam\redistributable_bin\osx32\libsteam_api.so
+
+    steam_data.files = steam_appid.txt
+    steam_data.path = Contents/MacOS
+    QMAKE_BUNDLE_DATA += steam_data
 }
 
 DISTFILES += \
