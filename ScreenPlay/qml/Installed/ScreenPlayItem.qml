@@ -139,14 +139,14 @@ Item {
                 id: screenPlayItemImage
                 anchors.fill: parent
                 sourceImage: Qt.resolvedUrl(
-                                 "file:///" + screenPlayItem.absoluteStoragePath
+                                 screenPlayItem.absoluteStoragePath
                                  + "/" + screenPreview)
                 sourceImageGIF: {
                     if (screenPreviewGIF === undefined) {
                         return ""
                     } else {
                         return Qt.resolvedUrl(
-                                    "file:///" + screenPlayItem.absoluteStoragePath
+                                    screenPlayItem.absoluteStoragePath
                                     + "/" + screenPreviewGIF)
 
                     }
