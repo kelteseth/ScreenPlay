@@ -135,16 +135,18 @@ macx: {
     LIBS += -L$$PWD/ThirdParty/steam/redistributable_bin/osx32/ -lsteam_api
     DEPENDPATH += $$PWD/ThirdParty/steam/redistributable_bin/osx32
 
-    INCLUDEPATH += $$PWD/ThirdParty/steam/lib/osx32
-    DEPENDPATH += $$PWD/ThirdParty/steam/lib/osx32s
+    INCLUDEPATH += $$PWD/ThirdParty/steam/
+    DEPENDPATH += $$PWD/ThirdParty/steam/
 
     LIBS += -L$$PWD/ThirdParty/steam/lib/osx32/ -lsdkencryptedappticket
 
-    install_it.files += ThirdParty\steam\redistributable_bin\osx32\libsteam_api.so
-
-    steam_data.files = steam_appid.txt
+    steam_data.files += steam_appid.txt
     steam_data.path = Contents/MacOS
+    steam_data_lib.files += $$PWD/ThirdParty/steam/redistributable_bin/osx32/libsteam_api.dylib
+    steam_data_lib.path = Contents/MacOS/lib
     QMAKE_BUNDLE_DATA += steam_data
+    QMAKE_BUNDLE_DATA += steam_data_lib
+
 }
 
 DISTFILES += \

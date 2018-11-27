@@ -17,6 +17,7 @@ void SteamWorkshop::initSteam()
             m_steamErrorRestart = true;
         }
 
+        //IF THE FAMILY SHARING IS ENABLED THIS WILL FAIL ! #13
         if (!SteamAPI_Init()) {
             qWarning() << "Could not init steam sdk!";
             m_steamErrorAPIInit = true;
