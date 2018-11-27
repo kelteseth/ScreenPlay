@@ -12,6 +12,14 @@ SOURCES += \
 HEADERS += \
     src/SPWmainwindow.h
 
+macx: {
+QMAKE_LFLAGS += -framework Cocoa
+SOURCES +=  src/macintegration.cpp
+HEADERS +=  src/macintegration.h \
+            src/macbridge.h
+OBJECTIVE_SOURCES += src/MacBridge.mm
+}
+
 RESOURCES += \
     SPWResources.qrc
 
