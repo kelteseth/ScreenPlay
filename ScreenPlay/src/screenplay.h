@@ -96,6 +96,9 @@ public:
         proArgs.append(parent->m_settings->decoder());
         proArgs.append(QString::number(volume));
         proArgs.append(fillMode);
+
+        qDebug() << proArgs;
+
         m_process->setArguments(proArgs);
         m_process->setProgram(parent->settings()->screenPlayWindowPath().toString());
         m_process->start();
