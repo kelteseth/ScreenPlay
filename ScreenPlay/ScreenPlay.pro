@@ -143,7 +143,7 @@ macx: {
     steam_data.files += steam_appid.txt
     steam_data.path = Contents/MacOS
     steam_data_lib.files += $$PWD/ThirdParty/steam/redistributable_bin/osx32/libsteam_api.dylib
-    steam_data_lib.path = Contents/MacOS/lib
+    steam_data_lib.path = Contents/MacOS/
     QMAKE_BUNDLE_DATA += steam_data
     QMAKE_BUNDLE_DATA += steam_data_lib
 
