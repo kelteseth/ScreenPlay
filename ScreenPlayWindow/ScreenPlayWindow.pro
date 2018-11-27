@@ -48,12 +48,19 @@ install_it.path = $${OUT_PWD}/../ScreenPlaySDK
     QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
 }
 
+macx: {
+    html_data.files = index.html
+    html_data.path = Contents/MacOS
+    QMAKE_BUNDLE_DATA += html_data
+}
+
+!macx: {
 install_it.files += index.html \
-
 INSTALLS += install_it
-
 DISTFILES += \
     index.html
+}
+
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
