@@ -24,7 +24,11 @@ QString QMLUtilities::fixWindowsPath(QString url)
 void QMLUtilities::openFolderInExplorer(QString url)
 {
     QProcess explorer;
+    #ifdef Q_OS_WIN
     explorer.setProgram("explorer.exe");
+    #elif defined(Q_OS_OSX)
+    explorer.setProgram("open");
+    #endif
     QStringList args;
     args.append(QDir::toNativeSeparators(url));
     explorer.setArguments(args);
