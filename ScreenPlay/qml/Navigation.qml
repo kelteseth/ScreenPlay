@@ -12,6 +12,23 @@ Rectangle {
     signal changePage(string name)
 
     property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity, navScreen]
+    property bool navActive: true
+
+    Connections {
+        target: utility
+        onRequestNavigationActive: {
+            setActive(isActive)
+        }
+    }
+
+    function setActive(active) {
+        navActive = active
+        if (active) {
+            navigation.state = "enabled"
+        } else {
+            navigation.state = "disabled"
+        }
+    }
 
     function onPageChanged(name) {
 
@@ -20,6 +37,9 @@ Rectangle {
             steamWorkshop.initSteam()
             return
         }
+
+        if (!navActive)
+            return
 
         navigation.changePage(name)
 
@@ -33,6 +53,7 @@ Rectangle {
     }
 
     Row {
+        id: row
         anchors.fill: parent
         anchors.left: parent.left
         anchors.leftMargin: 20
@@ -42,6 +63,7 @@ Rectangle {
             id: navCreate
             state: "inactive"
             name: "Create"
+
             iconSource: "qrc:/assets/icons/icon_plus.svg"
             onPageClicked: navigation.onPageChanged(name)
         }
@@ -88,4 +110,27 @@ Rectangle {
 
     NavigationWallpaperConfiguration {
     }
+    states: [
+        State {
+            name: "enabled"
+        },
+        State {
+            name: "disabled"
+
+            PropertyChanges {
+                target: row
+                opacity: 0.3
+            }
+        }
+    ]
+    transitions: [
+        Transition {
+            from: "*"
+            to: "*"
+            PropertyAnimation {
+                target: row
+                duration: 300
+            }
+        }
+    ]
 }

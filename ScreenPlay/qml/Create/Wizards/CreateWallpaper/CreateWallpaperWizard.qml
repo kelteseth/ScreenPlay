@@ -14,6 +14,12 @@ Item {
     property string filePath
     property bool canNext: false
 
+    Component.onCompleted: {
+        state = "in"
+        utility.setNavigationActive(false)
+    }
+
+
     //Blocks some MouseArea from create page
     MouseArea {
         anchors.fill: parent
@@ -22,7 +28,7 @@ Item {
     Connections {
         target: screenPlayCreate
         onCreateWallpaperStateChanged: {
-            print(state)
+
             if (state === Create.State.ConvertingPreviewGifError
                     || state === Create.State.ConvertingPreviewVideoError
                     || state === Create.State.ConvertingPreviewImageError
@@ -41,10 +47,6 @@ Item {
         onTriggered: {
             screenPlayCreate.createWallpaperStart(filePath)
         }
-    }
-
-    Component.onCompleted: {
-        state = "in"
     }
 
     RectangularGlow {
@@ -121,6 +123,14 @@ Item {
 
                     color: "gray"
 
+                    AnimatedImage {
+                        id: imgPreview
+                        asynchronous: true
+                        playing: true
+                        visible: false
+                        anchors.fill: parent
+                    }
+
                     BusyIndicator {
                         id: busyIndicator
                         anchors.centerIn: parent
@@ -148,6 +158,13 @@ Item {
                                             "Generating preview gif...")
                             }
 
+                            if (state === Create.State.ConvertingPreviewImageFinished) {
+                                imgPreview.source = "file:///"
+                                        + screenPlayCreate.workingDir + "/preview.png"
+                                imgPreview.visible = true
+
+                            }
+
                             if (state === Create.State.ConvertingPreviewGifFinished) {
                                 imgPreview.source = "file:///"
                                         + screenPlayCreate.workingDir + "/preview.gif"
@@ -157,13 +174,7 @@ Item {
                         }
                     }
 
-                    AnimatedImage {
-                        id: imgPreview
-                        asynchronous: true
-                        playing: true
-                        visible: false
-                        anchors.fill: parent
-                    }
+
                 }
 
             }
@@ -222,20 +233,41 @@ Item {
                     }
                 }
 
-                NextButton {
-                    id: btnFinish
+
+                Row {
+                    id: column1
+                    height: 100
+                    width:childrenRect.width
+                    spacing: 10
                     anchors {
                         horizontalCenter: parent.horizontalCenter
                         bottom: parent.bottom
-                        margins: 30
                     }
-                    onClicked: {
-                        if (btnFinish.state === "enabled" && canNext) {
-                            screenPlayCreate.createWallpaperProjectFile(
-                                        textField.text, textField1.text)
+
+                    Button {
+                        id: btnExit
+                        text: qsTr("Abort")
+                        Material.background: Material.Gray
+                        Material.foreground: "white"
+                        onClicked: {
+                            screenPlayCreate.abort()
+                            utility.setNavigationActive(true)
+                            utility.setNavigation("Create")
                         }
                     }
+
+                    NextButton {
+                        id: btnFinish
+                        onClicked: {
+                            if (btnFinish.state === "enabled" && canNext) {
+                                screenPlayCreate.createWallpaperProjectFile(
+                                            textField.text, textField1.text)
+                            }
+                        }
+                    }
+
                 }
+
                 Connections {
                     target: screenPlayCreate
                     onCreateWallpaperStateChanged: {
@@ -244,6 +276,7 @@ Item {
                         }
                     }
                 }
+
             }
         }
 
@@ -322,6 +355,7 @@ Item {
                     margins: 10
                 }
                 onClicked: {
+                    utility.setNavigationActive(true)
                     utility.setNavigation("Create")
                 }
             }
@@ -359,6 +393,7 @@ Item {
                     margins: 10
                 }
                 onClicked: {
+                    utility.setNavigationActive(true)
                     utility.setNavigation("Create")
                 }
             }
@@ -395,7 +430,11 @@ Item {
             Timer {
                 id: timerBack
                 interval: 800
-                onTriggered: utility.setNavigation("Create")
+                onTriggered:{
+                    screenPlayCreate.abort()
+                    utility.setNavigationActive(true)
+                    utility.setNavigation("Create")
+                }
             }
         }
     }
@@ -590,9 +629,4 @@ Item {
         }
     ]
 }
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:767;width:1366}
-}
- ##^##*/
 

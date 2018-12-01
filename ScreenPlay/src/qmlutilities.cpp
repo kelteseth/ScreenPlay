@@ -11,6 +11,11 @@ void QMLUtilities::setNavigation(QString nav)
     emit requestNavigation(nav);
 }
 
+void QMLUtilities::setNavigationActive(bool isActive)
+{
+    emit requestNavigationActive(isActive);
+}
+
 void QMLUtilities::setToggleWallpaperConfiguration()
 {
     emit requestToggleWallpaperConfiguration();

@@ -23,10 +23,13 @@ public:
 
 signals:
     void requestNavigation(QString nav);
+    void requestNavigationActive(bool isActive);
     void requestToggleWallpaperConfiguration();
 
 public slots:
     void setNavigation(QString nav);
+    void setNavigationActive(bool isActive);
+
     void setToggleWallpaperConfiguration();
     void openFolderInExplorer(QString url);
 

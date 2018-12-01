@@ -43,7 +43,6 @@ Item {
 
         Item {
             id: item2
-
             width: 100
             height: 31
             anchors.verticalCenter: parent.verticalCenter
