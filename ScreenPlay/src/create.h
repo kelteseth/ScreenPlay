@@ -62,6 +62,7 @@ public:
         ConvertingVideo,
         ConvertingVideoFinished,
         ConvertingVideoError,
+        AbortCleanupError,
         Finished,
         ErrorUnknown,
     };
@@ -97,6 +98,7 @@ public slots:
     bool createWallpaperProjectFile(const QString title, const QString description);
 
     void abort();
+
 
     void setWorkingDir(QString workingDir)
     {

@@ -51,10 +51,8 @@ bool Create::copyRecursively(const QString& srcFilePath, const QString& tgtFileP
 void Create::createWallpaperStart(QString videoPath)
 {
     videoPath.remove("file:///");
-    qDebug() << this;
 
     m_future = QtConcurrent::run([=]() {
-        qDebug() << this;
         QDir dir;
         dir.cd(this->m_settings->localStoragePath().toString());
 
@@ -86,7 +84,6 @@ void Create::createWallpaperStart(QString videoPath)
 
 bool Create::createWallpaperInfo()
 {
-    qDebug() << this;
     // Get video info
     QStringList args;
     args.append("-print_format");
@@ -99,6 +96,9 @@ bool Create::createWallpaperInfo()
 
 #ifdef Q_OS_WIN
     pro.data()->setProgram(QApplication::applicationDirPath() + "/ffprobe.exe");
+#endif
+#ifdef Q_OS_MACOS
+    pro.data()->setProgram(QApplication::applicationDirPath() + "/ffprobe");
 #endif
 
     pro.data()->start();
@@ -194,6 +194,10 @@ bool Create::createWallpaperVideoPreview()
 #ifdef Q_OS_WIN
     proConvertImage.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
+
+#ifdef Q_OS_MACOS
+    pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+#endif
     proConvertImage.data()->start();
 
     while (!proConvertImage.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
@@ -242,6 +246,9 @@ bool Create::createWallpaperVideoPreview()
 #ifdef Q_OS_WIN
     proConvertPreviewMP4.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
+#ifdef Q_OS_MACOS
+    pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+#endif
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideo);
 
     connect(this, &Create::abortCreateWallpaper, proConvertPreviewMP4.data(), &QProcess::kill);
@@ -251,11 +258,6 @@ bool Create::createWallpaperVideoPreview()
         QCoreApplication::processEvents();
     }
     disconnect(this, &Create::abortCreateWallpaper, proConvertPreviewMP4.data(), &QProcess::kill);
-    if (proConvertPreviewMP4.data()->exitStatus() == QProcess::NormalExit) {
-        qDebug() << "normal exit";
-    } else {
-        qDebug() << "crash exit";
-    }
     QString tmpErr = proConvertPreviewMP4.data()->readAllStandardError();
     if (!tmpErr.isEmpty()) {
         QFile previewVideo(m_createWallpaperData.exportPath + "/preview.mp4");
@@ -292,6 +294,9 @@ bool Create::createWallpaperVideoPreview()
     qDebug() << "Start converting video to preview gif";
 #ifdef Q_OS_WIN
     proConvertGif.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+#ifdef Q_OS_MACOS
+    pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
 #endif
     connect(this, &Create::abortCreateWallpaper, proConvertGif.data(), &QProcess::kill);
     proConvertGif.data()->start();
@@ -346,7 +351,12 @@ bool Create::createWallpaperVideo()
     QScopedPointer<QProcess> proConvertVideo(new QProcess());
     proConvertVideo.data()->setArguments(args);
     proConvertVideo.data()->setProcessChannelMode(QProcess::MergedChannels);
+#ifdef Q_OS_WIN
     proConvertVideo.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+#ifdef Q_OS_MACOS
+    pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+#endif
     qDebug() << "Start converting video";
 
     connect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, this, [&]() {
@@ -367,10 +377,6 @@ bool Create::createWallpaperVideo()
         this->processOutput(tmpOut);
     });
 
-    // For some reason we only get output if we use execute instead of start....?!
-#ifdef Q_OS_WIN
-    //proConvertVideo.data()->execute(QApplication::applicationDirPath() + "/ffmpeg.exe", args);
-#endif
     connect(this, &Create::abortCreateWallpaper, proConvertVideo.data(), &QProcess::kill);
     proConvertVideo.data()->start(QIODevice::ReadOnly);
     while (!proConvertVideo.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
@@ -430,4 +436,12 @@ void Create::abort()
     emit abortCreateWallpaper();
     m_futureWatcher.cancel();
 
+    QDir exportPath(m_createWallpaperData.exportPath);
+
+    if (exportPath.exists()) {
+        if (!exportPath.removeRecursively()) {
+            emit createWallpaperStateChanged(Create::State::AbortCleanupError);
+            qWarning() << "Could not delete temp exportPath: " << exportPath;
+        }
+    }
 }
