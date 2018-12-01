@@ -8,7 +8,7 @@
 int main(int argc, char* argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setAttribute(Qt::AA_UseOpenGLES);
+
     ScreenPlaySDK sdk;
     QGuiApplication app(argc, argv);
 
