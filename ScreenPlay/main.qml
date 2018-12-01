@@ -4,7 +4,6 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
-import analytics 0.1
 
 import "qml/"
 import "qml/Installed"
@@ -19,26 +18,16 @@ ApplicationWindow {
     minimumHeight: 788
     minimumWidth: 1050
 
-    Tracker {
-        id: tracker
-        Component.onCompleted: tracker.sendScreenView("Installed")
-        trackingID: "UA-43193236-3"
-        sendInterval: 100
-    }
+
 
     Component.onCompleted: {
-        tracker.startSession()
         if (!screenPlaySettings.autostart) {
             show()
         }
         steamWorkshop.initSteam()
     }
-    Component.onDestruction: {
-        tracker.endSession()
-    }
 
     function switchPage(name) {
-        tracker.sendScreenView(name)
         if (name === "Create") {
             pageLoader.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")

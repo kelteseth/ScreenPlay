@@ -227,7 +227,7 @@ public slots:
             return;
 
         //Remove: "file:///"
-        QJsonValue cleanedPath = QJsonValue(QString(localStoragePath.toString()).remove(0, 8));
+        QJsonValue cleanedPath = QJsonValue(localStoragePath.toString()); // QJsonValue(QString(localStoragePath.toString()).remove(0, 8));
 
         writeSingleSettingConfig("absoluteStoragePath", cleanedPath);
 

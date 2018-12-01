@@ -25,7 +25,7 @@
 #include <qt_windows.h>
 #endif
 
-#include "ThirdParty/qt-google-analytics/ganalytics.h"
+//#include "ThirdParty/qt-google-analytics/ganalytics.h"
 #include "src/create.h"
 #include "src/installedlistfilter.h"
 #include "src/installedlistmodel.h"
@@ -90,9 +90,19 @@ int main(int argc, char* argv[])
 
 #ifdef QT_DEBUG
     qDebug() << "Starting in Debug mode!";
+
     if (SPWorkingDir.cdUp()) {
+#ifdef Q_OS_OSX
+        settings.setScreenPlayWindowPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWindow/ScreenPlayWindow.app/Contents/MacOS/ScreenPlayWindow").toLocalFile());
+        settings.setScreenPlayWidgetPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
+        qDebug() << "Setting ScreenPlayWindow Path to " << settings.getScreenPlayWindowPath();
+        qDebug() << "Setting ScreenPlayWdiget Path to " << settings.getScreenPlayWidgetPath();
+#endif
+
+#ifdef Q_OS_WIN
         settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
         settings.setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
+#endif
     }
 
     // We need to detect the right base path so we can copy later the example projects
@@ -138,7 +148,7 @@ int main(int argc, char* argv[])
 
     QQmlApplicationEngine mainWindowEngine;
 
-    qmlRegisterType<GAnalytics>("analytics", 0, 1, "Tracker");
+    //qmlRegisterType<GAnalytics>("analytics", 0, 1, "Tracker");
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
     mainWindowEngine.rootContext()->setContextProperty("utility", &qmlUtil);

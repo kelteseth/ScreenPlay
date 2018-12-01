@@ -14,7 +14,11 @@
 #include <QSharedPointer>
 #include <QString>
 #include <QWindow>
+#ifdef Q_OS_WIN
 #include <qt_windows.h>
+#else
+typedef long HWND;
+#endif
 
 class SPWidgetmainwindow : public QWindow {
     Q_OBJECT

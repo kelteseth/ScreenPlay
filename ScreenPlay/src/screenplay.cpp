@@ -24,9 +24,9 @@ void ScreenPlay::createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QSt
     m_settings->increaseActiveWallpaperCounter();
     QVector<int> tmpMonitorIndex;
     tmpMonitorIndex.append(monitorIndex);
-    m_screenPlayWallpaperList.append(QSharedPointer<ScreenPlayWallpaper>(new ScreenPlayWallpaper(tmpMonitorIndex, absoluteStoragePath.toString(), previewImage, volume, fillMode, type, this)));
+    m_screenPlayWallpaperList.append(QSharedPointer<ScreenPlayWallpaper>(new ScreenPlayWallpaper(tmpMonitorIndex, absoluteStoragePath.toLocalFile(), previewImage, volume, fillMode, type, this)));
 
-    m_mlm->setWallpaperActiveMonitor(m_qGuiApplication->screens().at(monitorIndex), absoluteStoragePath.toString() + "/" + previewImage);
+    m_mlm->setWallpaperActiveMonitor(m_qGuiApplication->screens().at(monitorIndex), absoluteStoragePath.toLocalFile() + "/" + previewImage);
 }
 
 void ScreenPlay::createWidget(QUrl absoluteStoragePath, QString previewImage)
@@ -36,9 +36,9 @@ void ScreenPlay::createWidget(QUrl absoluteStoragePath, QString previewImage)
         return;
     }
 
-    QString fullPath = absoluteStoragePath.toString() + "/" + project.m_file.toString();
+    QString fullPath = absoluteStoragePath.toLocalFile() + "/" + project.m_file.toString();
 
-    m_screenPlayWidgetList.append(QSharedPointer<ScreenPlayWidget>(new ScreenPlayWidget(absoluteStoragePath.toString(), previewImage, fullPath, this)));
+    m_screenPlayWidgetList.append(QSharedPointer<ScreenPlayWidget>(new ScreenPlayWidget(absoluteStoragePath.toLocalFile(), previewImage, fullPath, this)));
 }
 
 void ScreenPlay::removeAllWallpaper()

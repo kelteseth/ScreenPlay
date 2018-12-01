@@ -1,6 +1,6 @@
 #include "settings.h"
 #include <QGuiApplication>
-
+#include <QStandardPaths>
 Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, AppId_t steamID, QGuiApplication* app, QObject* parent)
     : QObject(parent)
 {
@@ -13,10 +13,10 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_qGuiApplication = app;
 
     QFile configTmp;
-    QString appConfigLocation = QGuiApplication::applicationDirPath();
-    m_localSettingsPath = QUrl(appConfigLocation);
+    QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
+    m_localSettingsPath = QUrl::fromUserInput(appConfigLocation);
     if (!QDir(appConfigLocation).exists()) {
-        if (!QDir().mkdir(appConfigLocation)) {
+        if (!QDir().mkpath(appConfigLocation)) {
             qWarning("ERROR: Cloud not create install dir");
             return;
         }
@@ -69,7 +69,7 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
 
         m_localStoragePath = steamTmpUrl.path();
     } else {
-        m_localStoragePath = configObj.value("absoluteStoragePath").toString();
+        m_localStoragePath = QUrl::fromUserInput(configObj.value("absoluteStoragePath").toString());
     }
 
     m_ilm->setabsoluteStoragePath(m_localStoragePath);
@@ -92,7 +92,7 @@ Settings::~Settings()
 QString Settings::loadProject(QString file)
 {
     QFile configTmp;
-    file = file.replace("file:///", "");
+    //file = file.replace("file:///", "");
     configTmp.setFileName(file);
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     return configTmp.readAll();
@@ -104,7 +104,7 @@ void Settings::loadActiveProfiles()
     QJsonObject configObj;
     QJsonArray activeProfilesTmp;
     QFile configTmp;
-    configTmp.setFileName(m_localSettingsPath.toString() + "/settings.json");
+    configTmp.setFileName(m_localSettingsPath.toLocalFile() + "/settings.json");
 
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     QString config = configTmp.readAll();
@@ -155,7 +155,7 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
     QJsonObject configObj;
     QFile configTmp;
 
-    configTmp.setFileName(m_localSettingsPath.toString() + "/settings.json");
+    configTmp.setFileName(m_localSettingsPath.toLocalFile() + "/settings.json");
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     QString config = configTmp.readAll();
     configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
@@ -264,7 +264,7 @@ void Settings::setPlayAll(bool isPlaying)
 void Settings::createDefaultConfig()
 {
 
-    QFile file(QGuiApplication::applicationDirPath() + "/settings.json");
+    QFile file(m_localSettingsPath.toLocalFile() + "/settings.json");
     QFile defaultSettings(":/settings.json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);

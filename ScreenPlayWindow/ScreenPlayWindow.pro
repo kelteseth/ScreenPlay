@@ -12,6 +12,14 @@ SOURCES += \
 HEADERS += \
     src/SPWmainwindow.h
 
+macx: {
+QMAKE_LFLAGS += -framework Cocoa
+SOURCES +=  src/macintegration.cpp
+HEADERS +=  src/macintegration.h \
+            src/macbridge.h
+OBJECTIVE_SOURCES += src/MacBridge.mm
+}
+
 RESOURCES += \
     SPWResources.qrc
 
@@ -22,24 +30,37 @@ INCLUDEPATH += \
 
 include(../ScreenPlaySDK/Screenplaysdk.pri)
 
+macx: {
+QMAKE_LIBDIR += $$OUT_PWD/
+install_it.path = $${OUT_PWD}/../ScreenPlaySDK
+}
 
-CONFIG(debug, debug|release) {
-LIBS += -lScreenplaysdkd
-    install_it.path = $${OUT_PWD}/debug/
-    QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
- } else {
-LIBS += -lScreenplaysdk
-    install_it.path = $${OUT_PWD}/release/
-    QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
- }
-QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
+!macx: {
+    CONFIG(debug, debug|release) {
+    LIBS += -lScreenplaysdkd
+        install_it.path = $${OUT_PWD}/debug/
+        QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
+     } else {
+    LIBS += -lScreenplaysdk
+        install_it.path = $${OUT_PWD}/release/
+        QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
+     }
+    QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
+}
 
+macx: {
+    html_data.files = index.html
+    html_data.path = Contents/MacOS
+    QMAKE_BUNDLE_DATA += html_data
+}
+
+!macx: {
 install_it.files += index.html \
-
 INSTALLS += install_it
-
 DISTFILES += \
     index.html
+}
+
 
 # Additional import path used to resolve QML modules in Qt Creator's code model
 QML_IMPORT_PATH =
@@ -54,9 +75,5 @@ QT_QUICK_CONTROLS_STYLE = "Material"
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-# Default rules for deployment.
-qnx: target.path = /tmp/$${TARGET}/bin
-else: unix:!android: target.path = /opt/$${TARGET}/bin
-!isEmpty(target.path): INSTALLS += target
 
 

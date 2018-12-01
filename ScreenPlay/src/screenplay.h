@@ -96,6 +96,9 @@ public:
         proArgs.append(parent->m_settings->decoder());
         proArgs.append(QString::number(volume));
         proArgs.append(fillMode);
+
+        qDebug() << proArgs;
+
         m_process->setArguments(proArgs);
         m_process->setProgram(parent->settings()->screenPlayWindowPath().toString());
         m_process->start();
@@ -212,7 +215,7 @@ public:
         m_projectPath = projectPath;
         m_fullPath = fullPath;
         m_previewImage = previewImage;
-        m_process = new QProcess(this);
+        m_process = new QProcess(this); //PLS LESS BEHINDERT @Elias
 
         QStringList proArgs;
         proArgs.append(m_projectPath);
@@ -223,9 +226,13 @@ public:
         if (fullPath.endsWith(".exe")) {
             m_process->setProgram(fullPath);
         } else if (fullPath.endsWith(".qml")) {
-            m_process->setProgram(parent->m_settings->getScreenPlayWidgetPath().toString());
+            m_process->setProgram(parent->m_settings->getScreenPlayWidgetPath().path());
         }
         qDebug() << m_process->program();
+        connect(m_process,&QProcess::errorOccurred, this, [](QProcess::ProcessError error){
+            qDebug() << "error: " << error;
+
+        });
         m_process->start();
     }
 

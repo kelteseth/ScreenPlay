@@ -24,7 +24,7 @@ Item {
     onActiveScreenChanged: {
         txtHeadline.text = installedListModel.get(activeScreen).screenTitle
         image.source = Qt.resolvedUrl(
-                    "file:///" + installedListModel.absoluteStoragePath + "/"
+                    installedListModel.absoluteStoragePath + "/"
                     + activeScreen + "/" + installedListModel.get(
                         activeScreen).screenPreview)
     }

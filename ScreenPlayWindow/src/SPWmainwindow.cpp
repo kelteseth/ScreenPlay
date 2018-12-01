@@ -1,4 +1,5 @@
 #include "SPWmainwindow.h"
+#include "macintegration.h"
 
 #ifdef Q_OS_WIN
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
@@ -15,11 +16,13 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 }
 #endif
 
+//for mac https://github.com/silvansky/QtMacApp/search?q=myprivate&unscoped_q=myprivate
+
 MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, QString volume, QString fillmode, QScreen* parent)
     : QWindow(parent)
 {
 
-#ifdef Q_OS_WIN
+
 
     m_appID = id;
     m_screenNumber.insert(0, i);
@@ -89,6 +92,8 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
         }
     }
 
+    #ifdef Q_OS_WIN
+
     m_hwnd = (HWND)this->winId();
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
 
@@ -116,6 +121,17 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
     SetWindowLongPtr(m_hwnd, GWL_STYLE, WS_CHILDWINDOW | WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU | WS_POPUP);
     SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
 
+    #endif
+
+#ifdef Q_OS_MACOS
+    //debug
+    this->setWidth(screen->size().width());
+    this->setHeight(screen->size().height());
+    int x = screen->geometry().x();
+    int y = screen->geometry().y();
+    this->setX(screen->geometry().x());// + offsetX);
+    this->setY(screen->geometry().y());// + offsetY);#endif
+#endif
     Qt::WindowFlags flags = this->flags();
     this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
 
@@ -136,7 +152,14 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
         }
     });
 
+    setVisible(true);
+
+
+#ifdef Q_OS_MACOS
+    MacIntegration* integration = new MacIntegration(this);
+    integration->SetBackgroundLevel(this);
 #endif
+
 }
 void MainWindow::init()
 {

@@ -9,8 +9,9 @@
 #endif
 
 // https://github.com/rainmeter/rainmeter/blob/master/Library/MeasureCPU.cpp
-
+#ifdef Q_OS_WIN
 typedef LONG(WINAPI* FPNTQSI)(UINT, PVOID, ULONG, PULONG);
+#endif
 
 class CPU : public QObject {
     Q_OBJECT
@@ -69,10 +70,10 @@ private:
 
     double m_OldTime[2];
 
-    static FPNTQSI c_NtQuerySystemInformation;
+    //static FPNTQSI c_NtQuerySystemInformation;
 
     static int c_NumOfProcessors;
-    static ULONG c_BufferSize;
+    //static ULONG c_BufferSize;
     int m_tickRate = 500;
     QTimer m_updateTimer;
 };
