@@ -6,6 +6,7 @@ Create::Create(Settings* st, QMLUtilities* util, QObject* parent)
 
     m_settings = st;
     m_utils = util;
+    m_futureWatcher.setFuture(m_future);
 
     qRegisterMetaType<Create::State>();
     qmlRegisterType<Create>("net.aimber.create", 1, 0, "Create");
@@ -50,8 +51,10 @@ bool Create::copyRecursively(const QString& srcFilePath, const QString& tgtFileP
 void Create::createWallpaperStart(QString videoPath)
 {
     videoPath.remove("file:///");
+    qDebug() << this;
 
-    QtConcurrent::run([=]() {
+    m_future = QtConcurrent::run([=]() {
+        qDebug() << this;
         QDir dir;
         dir.cd(this->m_settings->localStoragePath().toString());
 
@@ -83,6 +86,7 @@ void Create::createWallpaperStart(QString videoPath)
 
 bool Create::createWallpaperInfo()
 {
+    qDebug() << this;
     // Get video info
     QStringList args;
     args.append("-print_format");
@@ -162,9 +166,59 @@ bool Create::createWallpaperInfo()
 bool Create::createWallpaperVideoPreview()
 {
 
-    qDebug() << m_createWallpaperData.length << m_createWallpaperData.framerate;
+    /*
+     *
+     * Create png
+     *
+     */
+
+    emit createWallpaperStateChanged(Create::State::ConvertingPreviewImage);
+
     QStringList args;
-    //    args.append("-hide_banner");
+    args.clear();
+    args.append("-y");
+    args.append("-stats");
+    args.append("-ss");
+    args.append("00:00:02");
+    args.append("-i");
+    args.append(m_createWallpaperData.videoPath);
+    args.append("-vframes");
+    args.append("1");
+    args.append("-q:v");
+    args.append("2");
+    args.append(m_createWallpaperData.exportPath + "/preview.png");
+
+    QScopedPointer<QProcess> proConvertImage(new QProcess());
+    proConvertImage.data()->setArguments(args);
+    qDebug() << "Start converting video to preview gif";
+#ifdef Q_OS_WIN
+    proConvertImage.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+    proConvertImage.data()->start();
+
+    while (!proConvertImage.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
+    {
+        QCoreApplication::processEvents();
+    }
+    QString tmpErrImg = proConvertImage.data()->readAllStandardError();
+    if (!tmpErrImg.isEmpty()) {
+        QFile previewImg(m_createWallpaperData.exportPath + "/preview.png");
+        if (!previewImg.exists() && !(previewImg.size() > 0)) {
+            emit createWallpaperStateChanged(Create::State::ConvertingPreviewImageError);
+            return false;
+        }
+    }
+
+    this->processOutput(proConvertImage.data()->readAll());
+    proConvertImage.data()->close();
+    emit createWallpaperStateChanged(Create::State::ConvertingPreviewImageFinished);
+
+    /*
+     *
+     * Create preview mp4
+     *
+     */
+
     args.append("-loglevel");
     args.append("error");
     args.append("-y");
@@ -190,8 +244,13 @@ bool Create::createWallpaperVideoPreview()
 #endif
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideo);
 
+    connect(this, &Create::abortCreateWallpaper, proConvertPreviewMP4.data(), &QProcess::kill);
     proConvertPreviewMP4.data()->start();
-    proConvertPreviewMP4.data()->waitForFinished(-1);
+    while (!proConvertPreviewMP4.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
+    {
+        QCoreApplication::processEvents();
+    }
+    disconnect(this, &Create::abortCreateWallpaper, proConvertPreviewMP4.data(), &QProcess::kill);
     if (proConvertPreviewMP4.data()->exitStatus() == QProcess::NormalExit) {
         qDebug() << "normal exit";
     } else {
@@ -234,8 +293,14 @@ bool Create::createWallpaperVideoPreview()
 #ifdef Q_OS_WIN
     proConvertGif.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
+    connect(this, &Create::abortCreateWallpaper, proConvertGif.data(), &QProcess::kill);
     proConvertGif.data()->start();
-    proConvertGif.data()->waitForFinished(-1);
+    while (!proConvertGif.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
+    {
+
+        QCoreApplication::processEvents();
+    }
+    disconnect(this, &Create::abortCreateWallpaper, proConvertGif.data(), &QProcess::kill);
     QString tmpErrGif = proConvertGif.data()->readAllStandardError();
     if (!tmpErrGif.isEmpty()) {
         QFile previewGif(m_createWallpaperData.exportPath + "/preview.gif");
@@ -248,47 +313,6 @@ bool Create::createWallpaperVideoPreview()
     this->processOutput(proConvertPreviewMP4.data()->readAll());
     proConvertGif.data()->close();
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifFinished);
-
-    /*
-     *
-     * Create png
-     *
-     */
-
-    emit createWallpaperStateChanged(Create::State::ConvertingPreviewImage);
-    args.clear();
-    args.append("-y");
-    args.append("-stats");
-    args.append("-ss");
-    args.append("00:00:02");
-    args.append("-i");
-    args.append(m_createWallpaperData.videoPath);
-    args.append("-vframes");
-    args.append("1");
-    args.append("-q:v");
-    args.append("2");
-    args.append(m_createWallpaperData.exportPath + "/preview.png");
-
-    QScopedPointer<QProcess> proConvertImage(new QProcess());
-    proConvertImage.data()->setArguments(args);
-    qDebug() << "Start converting video to preview gif";
-#ifdef Q_OS_WIN
-    proConvertImage.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
-#endif
-    proConvertImage.data()->start();
-    proConvertImage.data()->waitForFinished(-1);
-    QString tmpErrImg = proConvertImage.data()->readAllStandardError();
-    if (!tmpErrImg.isEmpty()) {
-        QFile previewImg(m_createWallpaperData.exportPath + "/preview.png");
-        if (!previewImg.exists() && !(previewImg.size() > 0)) {
-            emit createWallpaperStateChanged(Create::State::ConvertingPreviewImageError);
-            return false;
-        }
-    }
-
-    this->processOutput(proConvertImage.data()->readAll());
-    proConvertImage.data()->close();
-    emit createWallpaperStateChanged(Create::State::ConvertingPreviewImageFinished);
 
     return true;
 }
@@ -347,9 +371,14 @@ bool Create::createWallpaperVideo()
 #ifdef Q_OS_WIN
     //proConvertVideo.data()->execute(QApplication::applicationDirPath() + "/ffmpeg.exe", args);
 #endif
+    connect(this, &Create::abortCreateWallpaper, proConvertVideo.data(), &QProcess::kill);
     proConvertVideo.data()->start(QIODevice::ReadOnly);
-    proConvertVideo.data()->waitForFinished(-1);
-    disconnect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, 0, 0);
+    while (!proConvertVideo.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
+    {
+        QCoreApplication::processEvents();
+    }
+    disconnect(this, &Create::abortCreateWallpaper, proConvertVideo.data(), &QProcess::kill);
+    disconnect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, nullptr, nullptr);
 
     QString out = proConvertVideo.data()->readAllStandardOutput();
 
@@ -394,4 +423,11 @@ bool Create::createWallpaperProjectFile(const QString title, const QString descr
     out << configJsonDocument.toJson();
     configFile.close();
     return true;
+}
+
+void Create::abort()
+{
+    emit abortCreateWallpaper();
+    m_futureWatcher.cancel();
+
 }

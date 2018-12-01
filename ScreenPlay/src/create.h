@@ -3,6 +3,8 @@
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
+#include <QFuture>
+#include <QFutureWatcher>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -17,6 +19,7 @@
 #include <QTimer>
 #include <QUrl>
 #include <QtMath>
+#include <QTimer>
 
 #include "qmlutilities.h"
 #include "settings.h"
@@ -64,7 +67,6 @@ public:
     };
     Q_ENUM(State)
 
-
     QString workingDir() const
     {
         return m_workingDir;
@@ -79,8 +81,8 @@ signals:
     void createWallpaperStateChanged(Create::State state);
     void processOutput(QString text);
     void workingDirChanged(QString workingDir);
-
     void progressChanged(float progress);
+    void abortCreateWallpaper();
 
 public slots:
     void copyProject(QString relativeProjectPath, QString toPath);
@@ -93,6 +95,8 @@ public slots:
     bool createWallpaperVideoPreview();
     bool createWallpaperVideo();
     bool createWallpaperProjectFile(const QString title, const QString description);
+
+    void abort();
 
     void setWorkingDir(QString workingDir)
     {
@@ -119,4 +123,6 @@ private:
     CreateWallpaperData m_createWallpaperData;
     QString m_workingDir;
     float m_progress = 0.0f;
+    QFuture<void> m_future;
+    QFutureWatcher<void> m_futureWatcher;
 };
