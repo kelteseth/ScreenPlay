@@ -3,21 +3,20 @@
 #include <QObject>
 #include <QDebug>
 #include <QTimer>
+#include <QString>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #endif
 
 // https://github.com/rainmeter/rainmeter/blob/master/Library/MeasureCPU.cpp
-#ifdef Q_OS_WIN
-typedef LONG(WINAPI* FPNTQSI)(UINT, PVOID, ULONG, PULONG);
-#endif
 
 class CPU : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(float usage READ usage NOTIFY usageChanged)
     Q_PROPERTY(int tickRate READ tickRate WRITE setTickRate NOTIFY tickRateChanged)
+
 
 public:
     explicit CPU(QObject* parent = nullptr);
@@ -39,12 +38,12 @@ signals:
 
     void tickRateChanged(int tickRate);
 
+
 public slots:
     void update();
 
     void setUsage(float usage)
     {
-        qWarning("Floating point comparison needs context sanity check");
         if (qFuzzyCompare(m_usage, usage))
             return;
 
@@ -63,17 +62,15 @@ public slots:
         emit tickRateChanged(m_tickRate);
     }
 
+
+
 private:
-    float m_usage = 42.0f;
+    float m_usage = 0.0f;
 
-    int m_Processor;
+    uint64_t lastIdleTime = 0;
+    uint64_t lastKernelTime = 0;
+    uint64_t lastUserTime = 0;
 
-    double m_OldTime[2];
-
-    //static FPNTQSI c_NtQuerySystemInformation;
-
-    static int c_NumOfProcessors;
-    //static ULONG c_BufferSize;
-    int m_tickRate = 500;
+    int m_tickRate = 1000;
     QTimer m_updateTimer;
 };

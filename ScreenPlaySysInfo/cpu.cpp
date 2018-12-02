@@ -1,13 +1,13 @@
 #include "cpu.h"
 #include <QtQml/qqml.h>
+#include "mathhelper.h"
 
 #define STATUS_SUCCESS					0
 #define STATUS_INFO_LENGTH_MISMATCH	0xC0000004
 
 CPU::CPU(QObject *parent) : QObject(parent)
 {
-
-    // signal obj, signal function pointer, slot obj, slot function pointer
+     // signal obj, signal function pointer, slot obj, slot function pointer
     connect(&m_updateTimer,&QTimer::timeout,this,&CPU::update);
     m_updateTimer.start(m_tickRate);
 }
@@ -15,22 +15,35 @@ CPU::CPU(QObject *parent) : QObject(parent)
 
 void CPU::update()
 {
-//    long status = 0;
-//    unsigned long bufSize = c_BufferSize;
-//    byte* buf = (bufSize > 0) ? new BYTE[bufSize] : nullptr;
+    BOOL status;
+    FILETIME ftIdleTime, ftKernelTime, ftUserTime;
 
+    // get new CPU's idle/kernel/user time
+    status = GetSystemTimes(&ftIdleTime, &ftKernelTime, &ftUserTime);
+    if (status == 0) return;
 
+    //convert times to uint by appending low and high bits
+    uint64_t newIdleTime = FileTimeToInt64(ftIdleTime);
+    uint64_t newKernelTime = FileTimeToInt64(ftKernelTime);
+    uint64_t newUserTime = FileTimeToInt64(ftUserTime);
 
-//    status = c_NtQuerySystemInformation(SystemProcessorPerformanceInformation, buf, bufSize, &size);
+    //subtract old times
+    uint64_t userTime = newUserTime - lastUserTime;
+    uint64_t kernelTime = newKernelTime - lastKernelTime;
+    double idleTime = newIdleTime - lastIdleTime;
 
-//    switch (status) {
-//    case STATUS_INFO_LENGTH_MISMATCH:
-//        qWarning() << "Warning: Status info length mismatch!";
-//        break;
-//    case STATUS_SUCCESS:
+    //calculate the usage
+    double sysTime = kernelTime + userTime;
+    float currentUsage = float((sysTime - idleTime) * 100 / sysTime);
 
-//        break;
-//    default:
-//        break;
-//    }
+    //save the new values
+    lastIdleTime = newIdleTime;
+    lastKernelTime = newKernelTime;
+    lastUserTime = newUserTime;
+
+    float cu = int(currentUsage * 100);
+    currentUsage = float(cu / 100);
+
+    //publish result
+    setUsage(currentUsage);
 }

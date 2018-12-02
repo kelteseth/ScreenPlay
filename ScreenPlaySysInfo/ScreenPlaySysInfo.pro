@@ -17,7 +17,8 @@ HEADERS += \
         screenplaysysinfo_plugin.h \
         sysinfo.h \
     cpu.h \
-    ram.h
+    ram.h \
+    mathhelper.h
 
 DISTFILES = qmldir
 
