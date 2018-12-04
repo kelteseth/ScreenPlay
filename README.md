@@ -12,13 +12,12 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 
 
 
-# Contributing requirements
+# Getting started
 
-### ScreenPlay
-1. Download ScreenPlay with  __all submodules__
+### Basic
+1. Install latest git + git-lfs
+2. Download ScreenPlay with  __all submodules__
 ``` bash
-# SSH
-git clone --recursive git@gitlab.com:aimber/ScreenPlay.git
 # HTTPS
 git clone --recursive https://gitlab.com/aimber/ScreenPlay.git
 ```
