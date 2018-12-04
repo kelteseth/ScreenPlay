@@ -251,7 +251,7 @@ Item {
                         duration: 300
                         target: contentWrapper
                         property: "anchors.topMargin"
-                        easing.type: Easing.InOutQuad
+                        easing.type: Easing.OutQuart
                     }
                 }
                 ParallelAnimation {

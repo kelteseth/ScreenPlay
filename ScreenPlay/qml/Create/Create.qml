@@ -339,7 +339,7 @@ Item {
                 target: txtDescriptionBottom
                 property: "opacity"
                 duration: 200
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
 
             PauseAnimation {
@@ -350,7 +350,7 @@ Item {
                 target: footer
                 property: "anchors.bottomMargin"
                 duration: 300
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
         }
     ]

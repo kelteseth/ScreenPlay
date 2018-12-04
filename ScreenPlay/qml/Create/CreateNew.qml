@@ -119,13 +119,13 @@ Item {
                         target: wrapper
                         duration: 600
                         property: "anchors.topMargin"
-                        easing.type: Easing.InOutQuad
+                        easing.type: Easing.OutQuart
                     }
                     PropertyAnimation {
                         target: wrapper
                         duration: 600
                         property: "opacity"
-                        easing.type: Easing.InOutQuad
+                        easing.type: Easing.OutQuart
                     }
                     SequentialAnimation {
 
@@ -136,7 +136,7 @@ Item {
                             target: effect
                             duration: 300
                             property: "opacity"
-                            easing.type: Easing.InOutQuad
+                            easing.type: Easing.OutQuart
                         }
                     }
                 }
@@ -152,13 +152,13 @@ Item {
                     target: wrapper
                     duration: 600
                     property: "anchors.topMargin"
-                    easing.type: Easing.InOutQuad
+                    easing.type: Easing.OutQuart
                 }
                 PropertyAnimation {
                     target: wrapper
                     duration: 600
                     property: "opacity"
-                    easing.type: Easing.InOutQuad
+                    easing.type: Easing.OutQuart
                 }
                 SequentialAnimation {
 
@@ -169,7 +169,7 @@ Item {
                         target: effect
                         duration: 300
                         property: "opacity"
-                        easing.type: Easing.InOutQuad
+                        easing.type: Easing.OutQuart
                     }
                 }
             }

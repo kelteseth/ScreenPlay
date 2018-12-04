@@ -172,13 +172,13 @@ Item {
                     target: wrapper
                     properties: "opacity, anchors.topMargin"
                     duration: 200
-                    easing.type: Easing.InOutQuad
+                    easing.type: Easing.OutQuart
                 }
                 NumberAnimation {
                     target: effect
                     properties: "opacity, color"
                     duration: 200
-                    easing.type: Easing.InOutQuad
+                    easing.type: Easing.OutQuart
                 }
             }
         }

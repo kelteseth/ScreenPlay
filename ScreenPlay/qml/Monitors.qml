@@ -258,21 +258,21 @@ Item {
                 target: background
                 property: "opacity"
                 duration: 200
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
 
             NumberAnimation {
                 target: monitorsSettingsWrapper
                 property: "anchors.topMargin"
                 duration: 200
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
 
             NumberAnimation {
                 target: monitors
                 property: "opacity"
                 duration: 200
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
         }
     ]

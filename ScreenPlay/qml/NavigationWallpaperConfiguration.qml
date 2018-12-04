@@ -103,7 +103,7 @@ Item {
                 target: navigationWallpaperConfiguration
                 properties: "anchors.topMargin, opacity"
                 duration: 250
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
         }
     ]

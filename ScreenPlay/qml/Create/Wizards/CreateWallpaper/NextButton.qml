@@ -36,7 +36,7 @@ Button {
 //            to: "*"
 //            NumberAnimation {
 //                property: "width"
-//                easing.type: Easing.InOutQuad
+//                easing.type: Easing.OutQuart
 //                duration: 2000
 //            }
 //        }

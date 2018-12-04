@@ -552,7 +552,7 @@ Item {
                     target: sidebar
                     properties: "anchors.rightMargin"
                     duration: 250
-                    easing.type: Easing.InOutQuad
+                    easing.type: Easing.OutQuart
                 }
 
                 ParallelAnimation {
@@ -587,7 +587,7 @@ Item {
                 target: sidebar
                 properties: "anchors.rightMargin"
                 duration: 250
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
         },
         Transition {
@@ -598,7 +598,7 @@ Item {
                     target: sidebar
                     properties: "anchors.rightMargin"
                     duration: 250
-                    easing.type: Easing.InOutQuad
+                    easing.type: Easing.OutQuart
                 }
 
                 ParallelAnimation {
@@ -623,7 +623,7 @@ Item {
                     target: sidebar
                     properties: "anchors.rightMargin"
                     duration: 250
-                    easing.type: Easing.InOutQuad
+                    easing.type: Easing.OutQuart
                 }
 
                 ParallelAnimation {

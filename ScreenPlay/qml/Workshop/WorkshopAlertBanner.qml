@@ -107,7 +107,7 @@ Item {
                 target: footer
                 property: "anchors.bottomMargin"
                 duration: 300
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
         }
     ]

@@ -143,7 +143,7 @@ Item {
             NumberAnimation {
                 properties: "anchors.bottomMargin"
                 duration: 100
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
         },
         Transition {
@@ -152,7 +152,7 @@ Item {
             NumberAnimation {
                 properties: "anchors.bottomMargin"
                 duration: 100
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
         }
     ]

@@ -120,7 +120,7 @@ Item {
                 targets: [imgIcon,txtHeadline]
                 properties: "opacity, anchors.topMargin, anchors.leftMargin"
                 duration: 300
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
         }
     ]

@@ -273,7 +273,7 @@ Item {
                     right: parent.right
                 }
                 onClicked: {
-                    Qt.openUrlExternally(                                "steam://url/CommunityFilePage/" + steamID)
+                    Qt.openUrlExternally("steam://url/CommunityFilePage/" + steamID)
                 }
             }
         }

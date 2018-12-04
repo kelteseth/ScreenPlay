@@ -98,7 +98,7 @@ DropArea {
                 target: fill
                 property: "opacity"
                 duration: 200
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
         },
         Transition {
@@ -109,7 +109,7 @@ DropArea {
                 target: fill
                 property: "opacity"
                 duration: 200
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
         }
     ]

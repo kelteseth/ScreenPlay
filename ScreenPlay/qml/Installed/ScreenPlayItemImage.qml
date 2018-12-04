@@ -84,13 +84,13 @@ Item {
                 target: image
                 property: "opacity"
                 duration: 300
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
             NumberAnimation {
                 target: text1
                 property: "opacity"
                 duration: 300
-                easing.type: Easing.InOutQuad
+                easing.type: Easing.OutQuart
             }
         }
     ]

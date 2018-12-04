@@ -333,18 +333,18 @@ Item {
             //                target: screenPlayItemWrapper
             //                properties: "y"
             //                duration: 300
-            //                easing.type: Easing.InOutQuad
+            //                easing.type: Easing.OutQuart
             //            }
             //            OpacityAnimator {
             //                target: screenPlayItemWrapper
             //                duration: 500
-            //                easing.type: Easing.InOutQuad
+            //                easing.type: Easing.OutQuart
             //            }
             //            PropertyAnimation {
             //                target: effect
             //                property: "opacity"
             //                duration: 500
-            //                easing.type: Easing.InOutQuad
+            //                easing.type: Easing.OutQuart
             //            }
         },
         Transition {
