@@ -122,5 +122,6 @@
         <file>qml/Create/Wizards/CreateWallpaper/NextButton.qml</file>
         <file>qml/Screen/Screen.qml</file>
         <file>assets/icons/icon_screen.svg</file>
+        <file>qml/Background.qml</file>
     </qresource>
 </RCC>

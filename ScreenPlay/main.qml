@@ -18,8 +18,6 @@ ApplicationWindow {
     minimumHeight: 788
     minimumWidth: 1050
 
-
-
     Component.onCompleted: {
         if (!screenPlaySettings.autostart) {
             show()
@@ -29,25 +27,33 @@ ApplicationWindow {
 
     function switchPage(name) {
         if (name === "Create") {
+            bg.state = "create"
             pageLoader.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
             pageLoaderCreate.visible = true
             pageLoaderWorkshop.visible = false
             sidebar.state = "inactive"
         } else if (name === "Workshop") {
+            bg.state = "init"
             pageLoader.visible = false
             pageLoaderCreate.visible = false
             pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
             pageLoaderWorkshop.visible = true
             sidebar.state = "inactive"
         } else {
+            bg.state = "init"
             pageLoader.visible = true
             pageLoaderCreate.visible = false
             pageLoaderWorkshop.visible = false
             pageLoader.setSource("qrc:/qml/" + name + "/" + name + ".qml")
             sidebar.state = "inactive"
-
         }
+    }
+
+
+    Background {
+        id: bg
+        anchors.fill: parent
     }
 
     Connections {

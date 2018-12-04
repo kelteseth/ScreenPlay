@@ -1,13 +1,12 @@
 import QtQuick 2.9
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.2
-
-import QtGraphicalEffects 1.0
 import QtQuick.Particles 2.0
+import QtGraphicalEffects 1.0
 
 import net.aimber.create 1.0
 
-Rectangle {
+Item {
     id: create
     anchors.fill: parent
     state: "out"
@@ -38,15 +37,6 @@ Rectangle {
         }
     }
 
-//    Connections {
-//        target: screenPlayCreate
-//        onLocalWorkshopCreationStatusChanged: {
-//            if (status === Create.State.Started) {
-//                loader.setSource("CreateImportStatus.qml")
-//            }
-//        }
-//    }
-
     Connections {
         target: loader.item
         ignoreUnknownSignals: true
@@ -60,24 +50,6 @@ Rectangle {
                                  "file": activeVideoFile
                              })
         }
-    }
-
-    property var myDate: new Date()
-
-    Timer {
-        interval: 1
-        running: true
-        repeat: true
-        onTriggered: colorShader.time = myDate.getMilliseconds()
-    }
-
-    ShaderEffect {
-        id: colorShader
-        anchors.fill: parent
-        property real time: 45
-        property vector2d resolution: Qt.vector2d(parent.width,
-                                                  parent.height * 2)
-        fragmentShader: "qrc:/assets/shader/movingcolorramp.fsh"
     }
 
     Item {
