@@ -13,6 +13,15 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 
 
 # Contributing requirements
+
+### ScreenPlay
+1. Download ScreenPlay with  __all submodules__
+``` bash
+# SSH
+git clone --recursive git@gitlab.com:aimber/ScreenPlay.git
+# HTTPS
+git clone --recursive https://gitlab.com/aimber/ScreenPlay.git
+```
 ### Windows
 1. [Download and install MSVC 2017 Community](https://visualstudio.microsoft.com/vs/community/)
 2. [Download and install Win 10 SDK (debugging support. Not included via the MSVC installer)](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
@@ -47,7 +56,9 @@ sudo zypper install -t pattern devel_basis
         - Tools
             - Qt Creator 4.x CDB Debugger Support
 ### OSX
-1. Install xcode via the app store
+1. Install XCode via the app store
+2. Launch XCode and install the XCode command line tools. (This may take a few minutes)
+    - If in doubt or unsure, execute 'xcode-select --install'
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
