@@ -1,8 +1,26 @@
-<div  style="display: flex; justify-content:center;">
+<div>
 <img width="100%" height="93" src="https://screen-play.app/images/logo_gitlab_fullwidth.svg">
 </div>
 
-# Requirements
+<div align="center">
+ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. It is written in modern C++17/Qt5/QML. Binaries with workshop support are available for Windows/Linux/MacOSX via <a href="https://store.steampowered.com/about/">Steam</a>. 
+Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="https://forum.screen-play.app/">Forum</a>, <a href="https://discord.gg/3RygPHZ">Discord</a>
+<br>
+<h3><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h3>
+</div>
+<br>
+
+
+
+# Getting started
+
+### Basic
+1. Install latest git + git-lfs
+2. Download ScreenPlay with  __all submodules__
+``` bash
+# HTTPS
+git clone --recursive https://gitlab.com/aimber/ScreenPlay.git
+```
 ### Windows
 1. [Download and install MSVC 2017 Community](https://visualstudio.microsoft.com/vs/community/)
 2. [Download and install Win 10 SDK (debugging support. Not included via the MSVC installer)](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
@@ -34,14 +52,13 @@ sudo zypper install -t pattern devel_basis
         - Qt 5.11.2
             - GCC
             - Qt WebEngine
-        - Tools
-            - Qt Creator 4.x CDB Debugger Support
 ### OSX
-1. Install xcode via the app store
-2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
+1. Install XCode via the app store
+2. Launch XCode and install the XCode command line tools. (This may take a few minutes)
+    - If in doubt or unsure, execute 'xcode-select --install'
+3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
         - Qt 5.11.2
             - Qt WebEngine
-        - Tools
-            - Qt Creator 4.x CDB Debugger Support
+4. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.11.2) -> Change c and c++ Compiler to Apple Clang (x86_64)
