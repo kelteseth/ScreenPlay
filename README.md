@@ -1,6 +1,6 @@
-<p align="center">
-<img width="400" height="93" src="https://screen-play.app/images/logo_gitlab.svg">
-</p>
+<div  style="display: flex; justify-content:center;">
+<img width="100%" height="93" src="https://screen-play.app/images/logo_gitlab_fullwidth.svg">
+</div>
 
 # Requirements
 ### Windows
