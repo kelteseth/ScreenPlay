@@ -7,13 +7,19 @@ Item {
     id: element
     anchors.fill: parent
     state: "init"
-    onStateChanged: print(state)
+    onStateChanged: {
+        if (state === "init") {
+            colorShaderCreateTimer.stop()
+        } else {
+            colorShaderCreateTimer.start()
+        }
+    }
 
     property var myDate: new Date()
 
     Timer {
+        id: colorShaderCreateTimer
         interval: 16
-        running: true
         repeat: true
         onTriggered: colorShaderCreate.time = myDate.getMilliseconds()
     }
@@ -50,25 +56,22 @@ Item {
         Transition {
             from: "init"
             to: "create"
-            reversible: true
 
             PropertyAnimation {
-                target: colorShaderCreateWrapper
+                target: colorShaderCreate
                 property: "shaderOpacity"
-                duration: 200
-                easing.type: Easing.InOutQuad
+                duration: 400
+                easing.type: Easing.OutQuart
             }
         },
         Transition {
             from: "create"
             to: "*"
-            reversible: true
 
             PropertyAnimation {
-                target: colorShaderCreateWrapper
+                target: colorShaderCreate
                 property: "shaderOpacity"
-                duration: 50
-                easing.type: Easing.InOutQuad
+                duration: 0
             }
         }
     ]
