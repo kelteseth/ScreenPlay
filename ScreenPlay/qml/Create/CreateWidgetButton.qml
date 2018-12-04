@@ -3,7 +3,7 @@ import QtGraphicalEffects 1.0
 
 Item {
     id: btnEmpty
-    height: 63
+    height: 75
     anchors {
         right: parent.right
         left: parent.left
@@ -15,11 +15,34 @@ Item {
     property string imgSource: "qrc:/assets/icons/icon_library_music.svg"
 
 
+    RectangularGlow {
+        id: effect
+        anchors {
+            top: bg.top
+            topMargin: 3
+            left: bg.left
+            right: bg.right
+        }
+        height: bg.height
+        width: bg.width
+        glowRadius: 3
+        spread: 0.2
+        color: "black"
+        opacity: .4
+        cornerRadius: 15
+    }
 
     Rectangle {
+        id:bg
         width: parent.width
-        height: 60
-        anchors.top: parent.top
+        anchors {
+            top:parent.top
+            right:parent.right
+            bottom:parent.bottom
+            left:parent.left
+            margins: 10
+        }
+
         radius: 3
         Image {
             id:imgIcon

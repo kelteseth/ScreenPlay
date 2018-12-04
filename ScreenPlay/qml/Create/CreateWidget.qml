@@ -27,7 +27,7 @@ Item {
         id: btnCreateEmptyWidget
         text: qsTr("Create Emtpy Widget")
         anchors.top: txtCreate.bottom
-        anchors.topMargin: 20
+        anchors.topMargin: 10
         imgSource: "qrc:/assets/icons/icon_emptyWidget.svg"
         onClicked: {
 
@@ -59,7 +59,7 @@ Item {
 
     Column {
         width: parent.width
-        spacing: 20
+        spacing: 5
         anchors {
             top: txtExamples.bottom
             topMargin: 10
@@ -220,3 +220,10 @@ Item {
         }
     ]
 }
+
+
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/

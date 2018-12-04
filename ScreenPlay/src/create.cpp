@@ -190,7 +190,6 @@ bool Create::createWallpaperVideoPreview()
 
     QScopedPointer<QProcess> proConvertImage(new QProcess());
     proConvertImage.data()->setArguments(args);
-    qDebug() << "Start converting video to preview gif";
 #ifdef Q_OS_WIN
     proConvertImage.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
@@ -242,7 +241,6 @@ bool Create::createWallpaperVideoPreview()
     QScopedPointer<QProcess> proConvertPreviewMP4(new QProcess());
 
     proConvertPreviewMP4.data()->setArguments(args);
-    qDebug() << "Start converting video to preview mp4";
 #ifdef Q_OS_WIN
     proConvertPreviewMP4.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
@@ -291,7 +289,6 @@ bool Create::createWallpaperVideoPreview()
 
     QScopedPointer<QProcess> proConvertGif(new QProcess());
     proConvertGif.data()->setArguments(args);
-    qDebug() << "Start converting video to preview gif";
 #ifdef Q_OS_WIN
     proConvertGif.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
