@@ -1,3 +1,7 @@
+<p align="center">
+<img width="400" height="93" src="https://screen-play.app/images/logo_gitlab.svg">
+</p>
+
 # Requirements
 ### Windows
 1. [Download and install MSVC 2017 Community](https://visualstudio.microsoft.com/vs/community/)
