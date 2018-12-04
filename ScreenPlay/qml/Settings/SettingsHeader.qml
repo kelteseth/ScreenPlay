@@ -67,6 +67,7 @@ Item {
                 text: settingsHeader.text
                 font.pixelSize: 18
                 color: "white"
+                verticalAlignment: Text.AlignTop
                 renderType: Text.NativeRendering
                 font.family: "Roboto"
                 anchors{

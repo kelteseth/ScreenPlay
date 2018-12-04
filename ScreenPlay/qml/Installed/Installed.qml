@@ -117,7 +117,6 @@ Item {
 
             //Pull to refresh
             if (contentY <= -180 && !refresh && !isDragging) {
-                tracker.sendEvent("ui_event", "pulltorefresh", "refresh")
                 installedListModel.reset()
                 installedListModel.loadScreens()
             }

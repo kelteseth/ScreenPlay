@@ -1,4 +1,3 @@
-#include <QThread>
 #include <QDebug>
 #include <QDir>
 #include <QFontDatabase>
@@ -10,6 +9,7 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QThread>
 
 #include <QQuickView>
 #include <QScreen>
@@ -26,6 +26,7 @@
 #endif
 
 //#include "ThirdParty/qt-google-analytics/ganalytics.h"
+#include "ThirdParty/steam/steam_api.h"
 #include "src/create.h"
 #include "src/installedlistfilter.h"
 #include "src/installedlistmodel.h"
@@ -36,10 +37,8 @@
 #include "src/sdkconnector.h"
 #include "src/settings.h"
 #include "src/startuperror.h"
-#include "ThirdParty/steam/steam_api.h"
 #include "src/steamworkshop.h"
 #include "src/steamworkshoplistmodel.h"
-
 
 int main(int argc, char* argv[])
 {
@@ -49,7 +48,6 @@ int main(int argc, char* argv[])
     QGuiApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false);
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
-
 
     QTranslator trsl;
     trsl.load(":/translations/ScreenPlay_de.qm");

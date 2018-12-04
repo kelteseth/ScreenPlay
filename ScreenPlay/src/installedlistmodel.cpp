@@ -129,7 +129,7 @@ void InstalledListModel::loadScreens()
                 if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene") || fileEnding.endsWith(".html"))
                     emit addInstalledItem(obj, item.baseName());
 
-                if(obj.value("type") == "qmlWidget")
+                if(obj.value("type") == "qmlWidget" || obj.value("type") == "standalonewidget")
                     emit addInstalledItem(obj, item.baseName());
 
             }

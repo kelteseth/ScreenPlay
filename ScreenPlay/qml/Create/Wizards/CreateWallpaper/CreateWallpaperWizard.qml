@@ -19,7 +19,6 @@ Item {
         utility.setNavigationActive(false)
     }
 
-
     //Blocks some MouseArea from create page
     MouseArea {
         anchors.fill: parent
@@ -138,6 +137,18 @@ Item {
                     }
 
                     Text {
+                        id: txtConvertNumber
+                        color: "white"
+                        text: qsTr("")
+                        font.pixelSize: 21
+                        anchors {
+                            horizontalCenter: parent.horizontalCenter
+                            bottom: parent.bottom
+                            bottomMargin: 40
+                        }
+                    }
+
+                    Text {
                         id: txtConvert
                         color: "white"
                         text: qsTr("Generating preview video...")
@@ -145,7 +156,7 @@ Item {
                         anchors {
                             horizontalCenter: parent.horizontalCenter
                             bottom: parent.bottom
-                            bottomMargin: 30
+                            bottomMargin: 20
                         }
                     }
 
@@ -162,368 +173,398 @@ Item {
                                 imgPreview.source = "file:///"
                                         + screenPlayCreate.workingDir + "/preview.png"
                                 imgPreview.visible = true
-
                             }
 
                             if (state === Create.State.ConvertingPreviewGifFinished) {
                                 imgPreview.source = "file:///"
                                         + screenPlayCreate.workingDir + "/preview.gif"
                                 imgPreview.visible = true
+                                txtConvert.text = qsTr("Converting Video")
+                            }
+                        }
+                        onProgressChanged: {
+                            var percentage = Math.floor(progress * 100)
+                            if (percentage > 100)
+                                percentage = 100
+                            txtConvertNumber.text = percentage + "%"
+                        }
+                    }
+                }
 
+                Item {
+                    id: wrapperRight
+                    width: parent.width * .5
+                    anchors {
+                        top: txtHeadline.bottom
+                        topMargin: 30
+                        bottom: parent.bottom
+                        right: parent.right
+                    }
+
+                    Column {
+                        id: column
+                        spacing: 20
+                        anchors.fill: parent
+                        anchors.margins: 30
+                        anchors.topMargin: 0
+
+                        TextField {
+                            id: textField
+                            placeholderText: qsTr("Name")
+                            anchors.right: parent.right
+                            anchors.left: parent.left
+                            onTextChanged: {
+                                if (textField.text.length >= 3) {
+                                    canNext = true
+                                } else {
+                                    canNext = false
+                                }
+                            }
+                        }
+
+                        TextField {
+                            id: textField1
+                            placeholderText: qsTr("Description")
+                            anchors.right: parent.right
+                            anchors.left: parent.left
+                        }
+
+                        TextField {
+                            id: textField2
+                            placeholderText: qsTr("Youtube URL")
+                            anchors.right: parent.right
+                            anchors.left: parent.left
+                        }
+
+                        TextField {
+                            id: textField3
+                            placeholderText: qsTr("Tags")
+                            anchors.right: parent.right
+                            anchors.left: parent.left
+                        }
+                    }
+
+                    Row {
+                        id: column1
+                        height: 100
+                        width: childrenRect.width
+                        spacing: 10
+                        anchors {
+                            horizontalCenter: parent.horizontalCenter
+                            bottom: parent.bottom
+                        }
+
+                        Button {
+                            id: btnExit
+                            text: qsTr("Abort")
+                            Material.background: Material.Gray
+                            Material.foreground: "white"
+                            onClicked: {
+                                screenPlayCreate.abort()
+                                utility.setNavigationActive(true)
+                                utility.setNavigation("Create")
+                            }
+                        }
+
+                        NextButton {
+                            id: btnFinish
+                            onClicked: {
+                                if (btnFinish.state === "enabled" && canNext) {
+                                    screenPlayCreate.createWallpaperProjectFile(
+                                                textField.text, textField1.text)
+                                }
                             }
                         }
                     }
 
-
+                    Connections {
+                        target: screenPlayCreate
+                        onCreateWallpaperStateChanged: {
+                            if (state === Create.State.ConvertingVideoFinished) {
+                                btnFinish.state = "enabled"
+                            }
+                        }
+                    }
                 }
-
             }
 
             Item {
-                id: wrapperRight
-                width: parent.width * .5
-                anchors {
-                    top: txtHeadline.bottom
-                    topMargin: 30
-                    bottom: parent.bottom
-                    right: parent.right
+                id: wrapperError
+                anchors.fill: parent
+                opacity: 0
+
+                Text {
+                    id: txtErrorHeadline
+                    text: qsTr("An error occurred!")
+                    anchors {
+                        top: parent.top
+                        topMargin: 30
+                        horizontalCenter: parent.horizontalCenter
+                    }
+                    height: 40
+                    font.family: "Segoe UI, Roboto"
+                    font.weight: Font.Light
+                    color: Material.color(Material.Red)
+                    renderType: Text.NativeRendering
+                    font.pixelSize: 32
                 }
 
-                Column {
-                    id: column
-                    spacing: 20
-                    anchors.fill: parent
-                    anchors.margins: 30
-                    anchors.topMargin: 0
+                Rectangle {
+                    id: rectangle1
+                    color: "#eeeeee"
+                    radius: 3
+                    anchors {
+                        top: txtErrorHeadline.bottom
+                        right: parent.right
+                        bottom: btnBack.top
+                        left: parent.left
+                        margins: 30
+                        bottomMargin: 10
+                    }
 
-                    TextField {
-                        id: textField
-                        placeholderText: qsTr("Name")
-                        anchors.right: parent.right
-                        anchors.left: parent.left
-                        onTextChanged: {
-                            if (textField.text.length >= 3 ) {
-                                canNext = true
-
-                            } else {
-                                canNext = false
+                    Flickable {
+                        anchors.fill: parent
+                        clip: true
+                        contentHeight: txtFFMPEGDebug.paintedHeight
+                        ScrollBar.vertical: ScrollBar {
+                            snapMode: ScrollBar.SnapOnRelease
+                            policy: ScrollBar.AlwaysOn
+                        }
+                        Text {
+                            id: txtFFMPEGDebug
+                            anchors {
+                                top: parent.top
+                                right: parent.right
+                                left: parent.left
+                                margins: 20
+                            }
+                            wrapMode: Text.WordWrap
+                            color: "#626262"
+                            renderType: Text.NativeRendering
+                            height: txtFFMPEGDebug.paintedHeight
+                        }
+                        Connections {
+                            target: screenPlayCreate
+                            onProcessOutput: {
+                                txtFFMPEGDebug.text = text
                             }
                         }
                     }
-
-                    TextField {
-                        id: textField1
-                        placeholderText: qsTr("Description")
-                        anchors.right: parent.right
-                        anchors.left: parent.left
-                    }
-
-                    TextField {
-                        id: textField2
-                        placeholderText: qsTr("Youtube URL")
-                        anchors.right: parent.right
-                        anchors.left: parent.left
-                    }
-
-                    TextField {
-                        id: textField3
-                        placeholderText: qsTr("Tags")
-                        anchors.right: parent.right
-                        anchors.left: parent.left
-                    }
                 }
 
-
-                Row {
-                    id: column1
-                    height: 100
-                    width:childrenRect.width
-                    spacing: 10
+                Button {
+                    id: btnBack
+                    text: qsTr("Back to create and send an error report!")
+                    Material.background: Material.Orange
+                    Material.foreground: "white"
                     anchors {
                         horizontalCenter: parent.horizontalCenter
                         bottom: parent.bottom
+                        margins: 10
                     }
+                    onClicked: {
+                        utility.setNavigationActive(true)
+                        utility.setNavigation("Create")
+                    }
+                }
+            }
 
-                    Button {
-                        id: btnExit
-                        text: qsTr("Abort")
-                        Material.background: Material.Gray
-                        Material.foreground: "white"
-                        onClicked: {
-                            screenPlayCreate.abort()
-                            utility.setNavigationActive(true)
-                            utility.setNavigation("Create")
+            Item {
+                id: wrapperSuccess
+                anchors.fill: parent
+                opacity: 0
+
+                Text {
+                    id: txtSuccessHeadline
+                    text: qsTr("An error occurred!")
+                    anchors {
+                        top: parent.top
+                        topMargin: 30
+                        horizontalCenter: parent.horizontalCenter
+                    }
+                    height: 40
+                    font.family: "Segoe UI, Roboto"
+                    font.weight: Font.Light
+                    color: Material.color(Material.Orange)
+                    renderType: Text.NativeRendering
+                    font.pixelSize: 32
+                }
+
+                Button {
+                    id: btnSuccessBack
+                    text: qsTr("Back to create!")
+                    Material.background: Material.Orange
+                    Material.foreground: "white"
+                    anchors {
+                        horizontalCenter: parent.horizontalCenter
+                        bottom: parent.bottom
+                        margins: 10
+                    }
+                    onClicked: {
+                        utility.setNavigationActive(true)
+                        utility.setNavigation("Create")
+                    }
+                }
+            }
+
+            MouseArea {
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    margins: 5
+                }
+                width: 32
+                height: width
+                cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    createNew.state = "out"
+                    timerBack.start()
+                }
+
+                Image {
+                    id: imgClose
+                    source: "qrc:/assets/icons/font-awsome/close.svg"
+                    width: 16
+                    height: 16
+                    anchors.centerIn: parent
+                    sourceSize: Qt.size(width, width)
+                }
+                ColorOverlay {
+                    id: iconColorOverlay
+                    anchors.fill: imgClose
+                    source: imgClose
+                    color: "gray"
+                }
+                Timer {
+                    id: timerBack
+                    interval: 800
+                    onTriggered: {
+                        screenPlayCreate.abort()
+                        utility.setNavigationActive(true)
+                        utility.setNavigation("Create")
+                    }
+                }
+            }
+        }
+
+        states: [
+            State {
+                name: "out"
+                PropertyChanges {
+                    target: wrapper
+                    anchors.topMargin: 800
+                    opacity: 0
+                }
+                PropertyChanges {
+                    target: effect
+                    opacity: 0
+                }
+                PropertyChanges {
+                    target: wrapperError
+                    opacity: 0
+                }
+            },
+            State {
+                name: "in"
+                PropertyChanges {
+                    target: wrapper
+                    anchors.topMargin: 40
+                    opacity: 1
+                }
+                PropertyChanges {
+                    target: effect
+                    opacity: .4
+                }
+                PropertyChanges {
+                    target: wrapperError
+                    opacity: 0
+                }
+            },
+            State {
+                name: "error"
+                PropertyChanges {
+                    target: wrapper
+                    anchors.topMargin: 40
+                    opacity: 1
+                }
+                PropertyChanges {
+                    target: effect
+                    opacity: .4
+                }
+                PropertyChanges {
+                    target: wrapperContent
+                    opacity: 0
+                    z: 0
+                }
+                PropertyChanges {
+                    target: wrapperError
+                    opacity: 1
+                }
+            },
+            State {
+                name: "success"
+                PropertyChanges {
+                    target: wrapper
+                    anchors.topMargin: 40
+                    opacity: 1
+                }
+                PropertyChanges {
+                    target: effect
+                    opacity: .4
+                }
+                PropertyChanges {
+                    target: wrapperContent
+                    opacity: 0
+                    z: 0
+                }
+                PropertyChanges {
+                    target: wrapperError
+                    opacity: 1
+                }
+            }
+        ]
+        transitions: [
+            Transition {
+                from: "out"
+                to: "in"
+                SequentialAnimation {
+
+                    PauseAnimation {
+                        duration: 400
+                    }
+                    ParallelAnimation {
+
+                        PropertyAnimation {
+                            target: wrapper
+                            duration: 600
+                            property: "anchors.topMargin"
+                            easing.type: Easing.InOutQuad
                         }
-                    }
+                        PropertyAnimation {
+                            target: wrapper
+                            duration: 600
+                            property: "opacity"
+                            easing.type: Easing.InOutQuad
+                        }
+                        SequentialAnimation {
 
-                    NextButton {
-                        id: btnFinish
-                        onClicked: {
-                            if (btnFinish.state === "enabled" && canNext) {
-                                screenPlayCreate.createWallpaperProjectFile(
-                                            textField.text, textField1.text)
+                            PauseAnimation {
+                                duration: 1000
+                            }
+                            PropertyAnimation {
+                                target: effect
+                                duration: 300
+                                property: "opacity"
+                                easing.type: Easing.InOutQuad
                             }
                         }
                     }
-
                 }
+            },
+            Transition {
+                from: "in"
+                to: "out"
 
-                Connections {
-                    target: screenPlayCreate
-                    onCreateWallpaperStateChanged: {
-                        if (state === Create.State.ConvertingVideoFinished) {
-                            btnFinish.state = "enabled"
-                        }
-                    }
-                }
-
-            }
-        }
-
-        Item {
-            id: wrapperError
-            anchors.fill: parent
-            opacity: 0
-
-            Text {
-                id: txtErrorHeadline
-                text: qsTr("An error occurred!")
-                anchors {
-                    top: parent.top
-                    topMargin: 30
-                    horizontalCenter: parent.horizontalCenter
-                }
-                height: 40
-                font.family: "Segoe UI, Roboto"
-                font.weight: Font.Light
-                color: Material.color(Material.Red)
-                renderType: Text.NativeRendering
-                font.pixelSize: 32
-            }
-
-            Rectangle {
-                id: rectangle1
-                color: "#eeeeee"
-                radius: 3
-                anchors {
-                    top: txtErrorHeadline.bottom
-                    right: parent.right
-                    bottom: btnBack.top
-                    left: parent.left
-                    margins: 30
-                    bottomMargin: 10
-                }
-
-                Flickable {
-                    anchors.fill: parent
-                    clip: true
-                    contentHeight: txtFFMPEGDebug.paintedHeight
-                    ScrollBar.vertical: ScrollBar {
-                        snapMode: ScrollBar.SnapOnRelease
-                        policy: ScrollBar.AlwaysOn
-                    }
-                    Text {
-                        id: txtFFMPEGDebug
-                        anchors {
-                            top: parent.top
-                            right: parent.right
-                            left: parent.left
-                            margins: 20
-                        }
-                        wrapMode: Text.WordWrap
-                        color: "#626262"
-                        renderType: Text.NativeRendering
-                        height: txtFFMPEGDebug.paintedHeight
-                    }
-                    Connections {
-                        target: screenPlayCreate
-                        onProcessOutput: {
-                            txtFFMPEGDebug.text = text
-                        }
-                    }
-                }
-            }
-
-            Button {
-                id: btnBack
-                text: qsTr("Back to create and send an error report!")
-                Material.background: Material.Orange
-                Material.foreground: "white"
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    bottom: parent.bottom
-                    margins: 10
-                }
-                onClicked: {
-                    utility.setNavigationActive(true)
-                    utility.setNavigation("Create")
-                }
-            }
-        }
-
-        Item {
-            id: wrapperSuccess
-            anchors.fill: parent
-            opacity: 0
-
-            Text {
-                id: txtSuccessHeadline
-                text: qsTr("An error occurred!")
-                anchors {
-                    top: parent.top
-                    topMargin: 30
-                    horizontalCenter: parent.horizontalCenter
-                }
-                height: 40
-                font.family: "Segoe UI, Roboto"
-                font.weight: Font.Light
-                color: Material.color(Material.Orange)
-                renderType: Text.NativeRendering
-                font.pixelSize: 32
-            }
-
-            Button {
-                id: btnSuccessBack
-                text: qsTr("Back to create!")
-                Material.background: Material.Orange
-                Material.foreground: "white"
-                anchors {
-                    horizontalCenter: parent.horizontalCenter
-                    bottom: parent.bottom
-                    margins: 10
-                }
-                onClicked: {
-                    utility.setNavigationActive(true)
-                    utility.setNavigation("Create")
-                }
-            }
-        }
-
-        MouseArea {
-            anchors {
-                top: parent.top
-                right: parent.right
-                margins: 5
-            }
-            width: 32
-            height: width
-            cursorShape: Qt.PointingHandCursor
-            onClicked: {
-                createNew.state = "out"
-                timerBack.start()
-            }
-
-            Image {
-                id: imgClose
-                source: "qrc:/assets/icons/font-awsome/close.svg"
-                width: 16
-                height: 16
-                anchors.centerIn: parent
-                sourceSize: Qt.size(width, width)
-            }
-            ColorOverlay {
-                id: iconColorOverlay
-                anchors.fill: imgClose
-                source: imgClose
-                color: "gray"
-            }
-            Timer {
-                id: timerBack
-                interval: 800
-                onTriggered:{
-                    screenPlayCreate.abort()
-                    utility.setNavigationActive(true)
-                    utility.setNavigation("Create")
-                }
-            }
-        }
-    }
-
-    states: [
-        State {
-            name: "out"
-            PropertyChanges {
-                target: wrapper
-                anchors.topMargin: 800
-                opacity: 0
-            }
-            PropertyChanges {
-                target: effect
-                opacity: 0
-            }
-            PropertyChanges {
-                target: wrapperError
-                opacity: 0
-            }
-        },
-        State {
-            name: "in"
-            PropertyChanges {
-                target: wrapper
-                anchors.topMargin: 40
-                opacity: 1
-            }
-            PropertyChanges {
-                target: effect
-                opacity: .4
-            }
-            PropertyChanges {
-                target: wrapperError
-                opacity: 0
-            }
-        },
-        State {
-            name: "error"
-            PropertyChanges {
-                target: wrapper
-                anchors.topMargin: 40
-                opacity: 1
-            }
-            PropertyChanges {
-                target: effect
-                opacity: .4
-            }
-            PropertyChanges {
-                target: wrapperContent
-                opacity: 0
-                z: 0
-            }
-            PropertyChanges {
-                target: wrapperError
-                opacity: 1
-            }
-        },
-        State {
-            name: "success"
-            PropertyChanges {
-                target: wrapper
-                anchors.topMargin: 40
-                opacity: 1
-            }
-            PropertyChanges {
-                target: effect
-                opacity: .4
-            }
-            PropertyChanges {
-                target: wrapperContent
-                opacity: 0
-                z: 0
-            }
-            PropertyChanges {
-                target: wrapperError
-                opacity: 1
-            }
-        }
-    ]
-    transitions: [
-        Transition {
-            from: "out"
-            to: "in"
-            SequentialAnimation {
-
-                PauseAnimation {
-                    duration: 400
-                }
                 ParallelAnimation {
 
                     PropertyAnimation {
@@ -541,7 +582,7 @@ Item {
                     SequentialAnimation {
 
                         PauseAnimation {
-                            duration: 1000
+                            duration: 500
                         }
                         PropertyAnimation {
                             target: effect
@@ -551,82 +592,49 @@ Item {
                         }
                     }
                 }
-            }
-        },
-        Transition {
-            from: "in"
-            to: "out"
-
-            ParallelAnimation {
-
-                PropertyAnimation {
-                    target: wrapper
-                    duration: 600
-                    property: "anchors.topMargin"
-                    easing.type: Easing.InOutQuad
-                }
-                PropertyAnimation {
-                    target: wrapper
-                    duration: 600
-                    property: "opacity"
-                    easing.type: Easing.InOutQuad
-                }
+            },
+            Transition {
+                from: "in"
+                to: "error"
                 SequentialAnimation {
-
+                    PropertyAnimation {
+                        target: wrapperContent
+                        duration: 600
+                        property: "opacity"
+                        easing.type: Easing.InOutQuad
+                    }
                     PauseAnimation {
-                        duration: 500
+                        duration: 50
                     }
                     PropertyAnimation {
-                        target: effect
-                        duration: 300
+                        target: wrapperError
+                        duration: 200
+                        property: "opacity"
+                        easing.type: Easing.InOutQuad
+                    }
+                }
+            },
+            Transition {
+                from: "in"
+                to: "success"
+                SequentialAnimation {
+                    PropertyAnimation {
+                        target: wrapperContent
+                        duration: 600
+                        property: "opacity"
+                        easing.type: Easing.InOutQuad
+                    }
+                    PauseAnimation {
+                        duration: 50
+                    }
+                    PropertyAnimation {
+                        target: wrapperSuccess
+                        duration: 200
                         property: "opacity"
                         easing.type: Easing.InOutQuad
                     }
                 }
             }
-        },
-        Transition {
-            from: "in"
-            to: "error"
-            SequentialAnimation {
-                PropertyAnimation {
-                    target: wrapperContent
-                    duration: 600
-                    property: "opacity"
-                    easing.type: Easing.InOutQuad
-                }
-                PauseAnimation {
-                    duration: 50
-                }
-                PropertyAnimation {
-                    target: wrapperError
-                    duration: 200
-                    property: "opacity"
-                    easing.type: Easing.InOutQuad
-                }
-            }
-        },
-        Transition {
-            from: "in"
-            to: "success"
-            SequentialAnimation {
-                PropertyAnimation {
-                    target: wrapperContent
-                    duration: 600
-                    property: "opacity"
-                    easing.type: Easing.InOutQuad
-                }
-                PauseAnimation {
-                    duration: 50
-                }
-                PropertyAnimation {
-                    target: wrapperSuccess
-                    duration: 200
-                    property: "opacity"
-                    easing.type: Easing.InOutQuad
-                }
-            }
-        }
-    ]
+        ]
+    }
 }
-

@@ -85,6 +85,7 @@ Item {
 
             FileDialog {
                 id: fileDialogOpenFile
+               // nameFilters: ["Video files (*.mp4)"]
                 onAccepted: {
                     videoFileSelected(fileDialogOpenFile.currentFile)
                 }

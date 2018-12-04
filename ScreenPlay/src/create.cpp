@@ -324,9 +324,67 @@ bool Create::createWallpaperVideoPreview()
 
 bool Create::createWallpaperVideo()
 {
-    emit createWallpaperStateChanged(Create::State::ConvertingVideo);
+
+    /*
+     *
+     * Extract audio
+     *
+     */
+
+    emit createWallpaperStateChanged(Create::State::ConvertingAudio);
 
     QStringList args;
+    args.clear();
+    args.append("-y");
+    args.append("-stats");
+    args.append("-i");
+    args.append(m_createWallpaperData.videoPath);
+    args.append("-f");
+    args.append("mp3");
+    args.append("-ab");
+    args.append("192000");
+    args.append("-vn");
+    args.append(m_createWallpaperData.exportPath + "/audio.mp3");
+
+    QScopedPointer<QProcess> proConvertImage(new QProcess());
+    proConvertImage.data()->setArguments(args);
+    qDebug() << "Start extracting video to audio";
+#ifdef Q_OS_WIN
+    proConvertImage.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+#ifdef Q_OS_MACOS
+    pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+#endif
+
+    connect(this, &Create::abortCreateWallpaper, proConvertImage.data(), &QProcess::kill);
+    proConvertImage.data()->start(QIODevice::ReadOnly);
+    while (!proConvertImage.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
+    {
+        QCoreApplication::processEvents();
+    }
+
+    QString tmpErrImg = proConvertImage.data()->readAllStandardError();
+    if (!tmpErrImg.isEmpty()) {
+        QFile previewImg(m_createWallpaperData.exportPath + "/preview.png");
+        if (!previewImg.exists() && !(previewImg.size() > 0)) {
+            emit createWallpaperStateChanged(Create::State::ConvertingAudioError);
+            return false;
+        }
+    }
+
+    this->processOutput(proConvertImage.data()->readAll());
+    proConvertImage.data()->close();
+    emit createWallpaperStateChanged(Create::State::ConvertingAudioFinished);
+
+    /*
+     *
+     * Create video
+     *
+     */
+
+    emit createWallpaperStateChanged(Create::State::ConvertingVideo);
+
+    args.clear();
     args.append("-hide_banner");
     args.append("-y");
     args.append("-stats");
@@ -359,8 +417,25 @@ bool Create::createWallpaperVideo()
 #endif
     qDebug() << "Start converting video";
 
-    connect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, this, [&]() {
-        QString tmpOut = proConvertVideo.data()->readAllStandardOutput();
+    connect(proConvertVideo.data(), &QProcess::readyRead, this, [&]() {
+        // Somehow readyRead gets seldom called in the end with an
+        // not valid QProcess pointer....
+        if (proConvertVideo.isNull()) {
+            qDebug() << "EROR NULL";
+            return;
+        }
+
+        if (!proConvertVideo.data()->isOpen()) {
+            qDebug() << "ERROR NOT OPEN";
+            return;
+        }
+
+        if (!proConvertVideo.data()->isReadable()) {
+            qDebug() << "ERROR CANNOT READ LINE";
+            return;
+        }
+
+        QString tmpOut = proConvertVideo.data()->readAll();
         qDebug() << tmpOut << m_createWallpaperData.length;
         auto tmpList = tmpOut.split(QRegExp("\\s+"), QString::SkipEmptyParts);
         if (tmpList.length() > 2) {
@@ -369,13 +444,15 @@ bool Create::createWallpaperVideo()
 
             if (!ok)
                 return;
+            qDebug() << currentFrame << m_createWallpaperData.length << m_createWallpaperData.framerate;
 
-            float progress = currentFrame / m_createWallpaperData.length;
-
+            float progress = currentFrame / (m_createWallpaperData.length * m_createWallpaperData.framerate);
+            qDebug() << progress;
             this->setProgress(progress);
         }
         this->processOutput(tmpOut);
-    });
+    },
+        Qt::QueuedConnection);
 
     connect(this, &Create::abortCreateWallpaper, proConvertVideo.data(), &QProcess::kill);
     proConvertVideo.data()->start(QIODevice::ReadOnly);
