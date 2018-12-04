@@ -2,9 +2,17 @@
 <img width="100%" height="93" src="https://screen-play.app/images/logo_gitlab_fullwidth.svg">
 </div>
 
+<div align="center">
+ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. It is written in modern C++17/Qt5/QML. Binaries with workshop support are available for Windows/Linux/MacOSX via <a href="https://steamcommunity.com/app/672870/">Steam</a>. 
+Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="https://forum.screen-play.app/">Forum</a>, <a href="https://discord.gg/3RygPHZ">Discord</a>
+<br>
+<h3><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h3>
+</div>
+<br>
 
 
-# Requirements
+
+# Contributing requirements
 ### Windows
 1. [Download and install MSVC 2017 Community](https://visualstudio.microsoft.com/vs/community/)
 2. [Download and install Win 10 SDK (debugging support. Not included via the MSVC installer)](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
