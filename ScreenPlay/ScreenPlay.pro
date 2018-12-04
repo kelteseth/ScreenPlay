@@ -1,7 +1,7 @@
 TEMPLATE = app
 QT += qml quick widgets quickcontrols2 core webengine
 CONFIG += c++17
-CONFIG += qtquickcompiler
+#CONFIG += qtquickcompiler
 #DEFINES  += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
 
 msvc: LIBS += -luser32
@@ -56,16 +56,10 @@ INCLUDEPATH += \
     $$PWD/ThirdParty/ \
     $$PWD/src/
 
-#include(ThirdParty/qt-google-analytics/qt-google-analytics.pri)
-#LIBS += -lqt-google-analytics
-
 CONFIG(debug, debug|release) {
     install_it.path = $${OUT_PWD}/debug/
-    #QMAKE_LIBDIR += $$OUT_PWD/ThirdParty/qt-google-analytics/debug
-
- } else {
+} else {
     install_it.path = $${OUT_PWD}/release/
-    #QMAKE_LIBDIR += $$OUT_PWD/ThirdParty/qt-google-analytics/release
  }
 
 
@@ -84,7 +78,9 @@ install_it.files += assets/templates/config.json \
                     ThirdParty/ffmpeg/Windows/ffprobe.exe \
                     ThirdParty/ffmpeg/Windows/postproc-55.dll \
                     ThirdParty/ffmpeg/Windows/swresample-3.dll \
-                    ThirdParty/ffmpeg/Windows/swscale-5.dll
+                    ThirdParty/ffmpeg/Windows/swscale-5.dll \
+                    ThirdParty/OpenSSL/libeay32.dll \
+                    ThirdParty/OpenSSL/ssleay32.dll \
 
 
 installOut.files += steam_appid.txt \
@@ -150,5 +146,5 @@ macx: {
 }
 
 DISTFILES += \
-    favicon.ico
+    favicon.ico \
 
