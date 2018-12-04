@@ -1,8 +1,9 @@
 # Requirements
-- [Download and install MSVC 2017 Community](https://visualstudio.microsoft.com/vs/community/)
-- [Download and install Win 10 SDK](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
+### Windows
+1. [Download and install MSVC 2017 Community](https://visualstudio.microsoft.com/vs/community/)
+2. [Download and install Win 10 SDK (debugging support. Not included via the MSVC installer)](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
     - Select debugging support during the installation (CDB)
-- [Download and install Qt 5](https://www.qt.io/download-qt-installer)
+3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
         - Qt 5.11.2
@@ -10,17 +11,33 @@
             - Qt WebEngine
         - Tools
             - Qt Creator 4.x CDB Debugger Support
+### Linux
+1. Install dependencies for your distro:
+``` bash
+# Debian/Ubuntu
+sudo apt install build-essential libgl1-mesa-dev
 
-# Optional
-This is only needed for a standalone Steam release build to run WinDeploy.sh!
-- [Download and install msys2 x86_x64](http://www.msys2.org/)
-   - Start msys2
-   - Run: ``` pacman -Syu ``` then restart terminal
-   - Run: ``` pacman -Su ```
+# Fedora/RHEL/CentOS (yum)
+sudo yum groupinstall "C Development Tools and Libraries"
+sudo yum install mesa-libGL-devel
 
-# Release
-- Change in WinDeploy.sh the paths in Line 4 - 5 according to your setup
-    - ReleasePath='C:\\Users\\Eli\\Code\\Qt\\build-ScreenPlay-Desktop-Release\\ScreenPlay\\release\\'
-    - DeployPath='C:\\Users\\Eli\\Code\\Qt\\ScreenPlay-Deploy\\'
-- Run WinDeploy.sh
-
+# openSUSE (zypper)
+sudo zypper install -t pattern devel_basis
+```
+2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
+    - Install the Maintaince tool
+    - Select the following features to install:
+        - Qt 5.11.2
+            - GCC
+            - Qt WebEngine
+        - Tools
+            - Qt Creator 4.x CDB Debugger Support
+### OSX
+1. Install xcode via the app store
+2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
+    - Install the Maintaince tool
+    - Select the following features to install:
+        - Qt 5.11.2
+            - Qt WebEngine
+        - Tools
+            - Qt Creator 4.x CDB Debugger Support
