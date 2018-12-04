@@ -195,7 +195,7 @@ bool Create::createWallpaperVideoPreview()
 #endif
 
 #ifdef Q_OS_MACOS
-    pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+    proConvertImage.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
 #endif
     proConvertImage.data()->start();
 
@@ -245,7 +245,7 @@ bool Create::createWallpaperVideoPreview()
     proConvertPreviewMP4.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
 #ifdef Q_OS_MACOS
-    pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+    proConvertPreviewMP4.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
 #endif
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideo);
 
@@ -293,7 +293,7 @@ bool Create::createWallpaperVideoPreview()
     proConvertGif.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
 #ifdef Q_OS_MACOS
-    pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+    proConvertGif.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
 #endif
     connect(this, &Create::abortCreateWallpaper, proConvertGif.data(), &QProcess::kill);
     proConvertGif.data()->start();
@@ -410,7 +410,7 @@ bool Create::createWallpaperVideo()
     proConvertVideo.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
 #ifdef Q_OS_MACOS
-    pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+    proConvertVideo.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
 #endif
     qDebug() << "Start converting video";
 
