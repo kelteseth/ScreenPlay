@@ -1,6 +1,8 @@
-<div  style="display: flex; justify-content:center;">
+<div>
 <img width="100%" height="93" src="https://screen-play.app/images/logo_gitlab_fullwidth.svg">
 </div>
+
+
 
 # Requirements
 ### Windows
