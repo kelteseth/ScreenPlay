@@ -25,7 +25,6 @@
 #include <qt_windows.h>
 #endif
 
-//#include "ThirdParty/qt-google-analytics/ganalytics.h"
 #include "ThirdParty/steam/steam_api.h"
 #include "src/create.h"
 #include "src/installedlistfilter.h"
