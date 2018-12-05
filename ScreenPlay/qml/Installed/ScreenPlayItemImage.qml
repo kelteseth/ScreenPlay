@@ -54,11 +54,6 @@ Item {
                 target: image
                 opacity: 0
             }
-
-            PropertyChanges {
-                target: text1
-                wrapMode: Text.WrapAnywhere
-            }
         },
         State {
             name: "loaded"
@@ -66,11 +61,6 @@ Item {
             PropertyChanges {
                 target: image
                 opacity: 1
-            }
-
-            PropertyChanges {
-                target: text1
-                opacity: 0
             }
         }
     ]
@@ -82,12 +72,6 @@ Item {
 
             NumberAnimation {
                 target: image
-                property: "opacity"
-                duration: 300
-                easing.type: Easing.OutQuart
-            }
-            NumberAnimation {
-                target: text1
                 property: "opacity"
                 duration: 300
                 easing.type: Easing.OutQuart
