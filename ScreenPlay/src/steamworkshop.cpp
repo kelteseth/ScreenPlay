@@ -202,7 +202,6 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
     char* pchValue[cchValueSize];
 
     uint32 results = pCallback->m_unTotalMatchingResults;
-    qDebug() << "ok " << results;
 
     for (uint32 i = 0; i < results; i++) {
         if (SteamUGC()->GetQueryUGCResult(pCallback->m_handle, i, &details)) {

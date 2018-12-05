@@ -117,7 +117,6 @@ public slots:
         if (qFuzzyCompare(m_progress, progress))
             return;
 
-        qDebug() << progress;
         m_progress = progress;
         emit progressChanged(m_progress);
     }

@@ -164,22 +164,42 @@ Item {
                         target: screenPlayCreate
 
                         onCreateWallpaperStateChanged: {
-                            if (state === Create.State.ConvertingPreviewGif) {
-                                txtConvert.text = qsTr(
-                                            "Generating preview gif...")
-                            }
-
                             if (state === Create.State.ConvertingPreviewImageFinished) {
                                 imgPreview.source = "file:///"
                                         + screenPlayCreate.workingDir + "/preview.png"
                                 imgPreview.visible = true
+                                txtConvert.text = qsTr(
+                                            "Converting Video preview mp4")
+                            }
+
+                            if (state === Create.State.ConvertingPreviewVideo) {
+                                txtConvert.text = qsTr(
+                                            "Generating preview video...")
+                            }
+
+                            if (state === Create.State.ConvertingPreviewGif) {
+                                txtConvert.text = qsTr(
+                                            "Generating preview gif...")
                             }
 
                             if (state === Create.State.ConvertingPreviewGifFinished) {
                                 imgPreview.source = "file:///"
                                         + screenPlayCreate.workingDir + "/preview.gif"
                                 imgPreview.visible = true
-                                txtConvert.text = qsTr("Converting Video")
+                                imgPreview.playing = true
+                            }
+                            if (state === Create.State.ConvertingAudio) {
+                                txtConvert.text = qsTr("Converting Audio...")
+                            }
+                            if (state === Create.State.ConvertingVideo) {
+                                txtConvert.text = qsTr("Converting Video...")
+                            }
+
+                            if (state === Create.State.Finished) {
+                                imgSuccess.source = "file:///"
+                                        + screenPlayCreate.workingDir + "/preview.gif"
+                                imgPreview.visible = true
+                                imgPreview.playing = true
                             }
                         }
                         onProgressChanged: {
@@ -272,6 +292,8 @@ Item {
                             if (btnFinish.state === "enabled" && canNext) {
                                 screenPlayCreate.createWallpaperProjectFile(
                                             textField.text, textField1.text)
+                                utility.setNavigationActive(true)
+                                createNew.state = "success"
                             }
                         }
                     }
@@ -376,7 +398,7 @@ Item {
 
             Text {
                 id: txtSuccessHeadline
-                text: qsTr("An error occurred!")
+                text: qsTr("Video creation success!")
                 anchors {
                     top: parent.top
                     topMargin: 30
@@ -385,9 +407,19 @@ Item {
                 height: 40
                 font.family: "Segoe UI, Roboto"
                 font.weight: Font.Light
-                color: Material.color(Material.Orange)
+                color: Material.color(Material.Green)
                 renderType: Text.NativeRendering
                 font.pixelSize: 32
+            }
+
+            AnimatedImage {
+                id: imgSuccess
+                asynchronous: true
+                playing: true
+                visible: false
+                anchors.centerIn: parent
+                width: 800
+                height: 600
             }
 
             Button {
@@ -518,7 +550,7 @@ Item {
                 z: 0
             }
             PropertyChanges {
-                target: wrapperError
+                target: wrapperSuccess
                 opacity: 1
             }
         }
