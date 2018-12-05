@@ -74,16 +74,29 @@ Item {
             }
         }
 
-        Feedback {
-            id: feedback
+       Component {
+            id: component_feedback
+            Feedback {
+                id: feedback
+                anchors.fill: parent
+            }
+        }
+        Loader {
+            id: loader_feedback
             height: 236
             width: 420
             anchors {
                 top: txtStomtDescription.bottom
-                topMargin: 0
                 horizontalCenter: parent.horizontalCenter
             }
         }
+
+        Timer {
+            interval: 500; running: true; repeat: false
+            onTriggered:loader_feedback.sourceComponent = component_feedback
+
+        }
+
 
         Button {
             id: btnStomt
@@ -338,7 +351,7 @@ Item {
                 onClicked: Qt.openUrlExternally("https://screen-play.app/index.php/blog")
             }
             Button {
-                text: qsTr("Github")
+                text: qsTr("Source Code")
                 Material.background: Material.Orange
                 Material.foreground: "white"
 
@@ -346,7 +359,7 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                onClicked: Qt.openUrlExternally("https://github.com/Aimber/")
+                onClicked: Qt.openUrlExternally("https://gitlab.com/aimber/ScreenPlay/")
             }
             Button {
                 text: qsTr("Workshop")
