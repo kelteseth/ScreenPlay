@@ -54,7 +54,7 @@ void Create::createWallpaperStart(QString videoPath)
 
     m_future = QtConcurrent::run([=]() {
         QDir dir;
-        dir.cd(this->m_settings->localStoragePath().toString());
+        dir.cd(this->m_settings->localStoragePath().toLocalFile());
 
         m_createWallpaperData.videoPath = videoPath;
 
