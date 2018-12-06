@@ -313,7 +313,7 @@ bool Create::createWallpaperVideoPreview()
         }
     }
 
-    this->processOutput(proConvertPreviewMP4.data()->readAll());
+    this->processOutput(proConvertGif.data()->readAll());
     proConvertGif.data()->close();
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifFinished);
 
@@ -455,8 +455,8 @@ bool Create::createWallpaperVideo()
     {
         QCoreApplication::processEvents();
     }
-    disconnect(this, &Create::abortCreateWallpaper, proConvertVideo.data(), &QProcess::kill);
     disconnect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, nullptr, nullptr);
+    disconnect(this, &Create::abortCreateWallpaper, proConvertVideo.data(), &QProcess::kill);
 
     QString out = proConvertVideo.data()->readAllStandardOutput();
 
