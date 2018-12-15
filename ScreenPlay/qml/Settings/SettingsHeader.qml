@@ -12,27 +12,26 @@ Item {
     width: parent.width
 
     Rectangle {
-        id:radiusWorkaround
-        height:5
+        id: radiusWorkaround
+        height: 5
         radius: 4
         color: settingsHeader.background
-        anchors{
-            top:parent.top
+        anchors {
+            top: parent.top
             right: parent.right
-            left:parent.left
+            left: parent.left
         }
     }
 
     Rectangle {
         color: settingsHeader.background
-        height:47
-        anchors{
-            top:radiusWorkaround.bottom
+        height: 47
+        anchors {
+            top: radiusWorkaround.bottom
             topMargin: -2
             right: parent.right
-            left:parent.left
+            left: parent.left
         }
-
 
         Item {
             anchors {
@@ -41,26 +40,24 @@ Item {
                 leftMargin: 20
             }
 
-
             Image {
                 id: imgIcon
                 source: settingsHeader.image
                 height: 20
                 width: 20
                 sourceSize: Qt.size(20, 20)
-                anchors{
-                    top:parent.top
+                anchors {
+                    top: parent.top
                     topMargin: 3
-                    left:parent.left
+                    left: parent.left
                     leftMargin: 0
                 }
             }
             ColorOverlay {
-                id:iconColorOverlay
+                id: iconColorOverlay
                 anchors.fill: imgIcon
                 source: imgIcon
                 color: "#ffffff"
-
             }
             Text {
                 id: txtHeadline
@@ -70,10 +67,10 @@ Item {
                 verticalAlignment: Text.AlignTop
                 renderType: Text.NativeRendering
                 font.family: "Roboto"
-                anchors{
-                    top:parent.top
+                anchors {
+                    top: parent.top
                     topMargin: 0
-                    left:parent.left
+                    left: parent.left
                     leftMargin: 30
                 }
             }
@@ -117,10 +114,10 @@ Item {
             reversible: true
 
             NumberAnimation {
-                targets: [imgIcon,txtHeadline]
+                targets: [imgIcon, txtHeadline]
                 properties: "opacity, anchors.topMargin, anchors.leftMargin"
-                duration: 300
-                easing.type: Easing.OutQuart
+                duration: 400
+                easing.type: Easing.InOutQuart
             }
         }
     ]
