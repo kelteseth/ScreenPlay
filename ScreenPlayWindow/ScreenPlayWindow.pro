@@ -1,7 +1,7 @@
 TEMPLATE = app
 QT += qml quick quickcontrols2 widgets core webengine
 CONFIG += c++17
-CONFIG += qtquickcompiler
+#CONFIG += qtquickcompiler
 msvc: LIBS += -luser32
 TARGETPATH = ScreenPlayWindow
 
@@ -11,14 +11,6 @@ SOURCES += \
 
 HEADERS += \
     src/SPWmainwindow.h
-
-macx: {
-QMAKE_LFLAGS += -framework Cocoa
-SOURCES +=  src/macintegration.cpp
-HEADERS +=  src/macintegration.h \
-            src/macbridge.h
-OBJECTIVE_SOURCES += src/MacBridge.mm
-}
 
 RESOURCES += \
     SPWResources.qrc
@@ -31,8 +23,18 @@ INCLUDEPATH += \
 include(../ScreenPlaySDK/Screenplaysdk.pri)
 
 macx: {
-QMAKE_LIBDIR += $$OUT_PWD/
-install_it.path = $${OUT_PWD}/../ScreenPlaySDK
+    QMAKE_LIBDIR += $$OUT_PWD/
+    install_it.path = $${OUT_PWD}/../ScreenPlaySDK
+
+    html_data.files = index.html
+    html_data.path = Contents/MacOS
+    QMAKE_BUNDLE_DATA += html_data
+
+    QMAKE_LFLAGS += -framework Cocoa
+    SOURCES +=  src/macintegration.cpp
+    HEADERS +=  src/macintegration.h \
+                src/macbridge.h
+    OBJECTIVE_SOURCES += src/MacBridge.mm
 }
 
 !macx: {
@@ -46,19 +48,12 @@ install_it.path = $${OUT_PWD}/../ScreenPlaySDK
         QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
      }
     QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
-}
 
-macx: {
-    html_data.files = index.html
-    html_data.path = Contents/MacOS
-    QMAKE_BUNDLE_DATA += html_data
-}
-
-!macx: {
-install_it.files += index.html \
-INSTALLS += install_it
-DISTFILES += \
-    index.html
+    install_it.files += index.html \
+    install_it.path = $${OUT_PWD}/
+    INSTALLS += install_it
+    DISTFILES += \
+        index.html
 }
 
 
