@@ -236,7 +236,7 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 onClicked: Qt.openUrlExternally(
-                               "https://qmlbook.github.io/index.html")
+                               "https://aimber.gitlab.io/ScreenPlayDocs/")
             }
             Button {
                 text: qsTr("Forums")
@@ -338,19 +338,28 @@ Item {
             NumberAnimation {
                 target: txtDescriptionBottom
                 property: "opacity"
-                duration: 200
-                easing.type: Easing.OutQuart
+                duration: 400
+                easing.type: Easing.InOutQuart
             }
+            SequentialAnimation {
 
-            PauseAnimation {
-                duration: 200
+                PauseAnimation {
+                    duration: 300
+                }
+
+                NumberAnimation {
+                    target: spaceBar
+                    property: "opacity"
+                    duration: 250
+                    easing.type: Easing.InOutQuart
+                }
             }
 
             NumberAnimation {
                 target: footer
                 property: "anchors.bottomMargin"
-                duration: 300
-                easing.type: Easing.OutQuart
+                duration: 400
+                easing.type: Easing.InOutQuart
             }
         }
     ]

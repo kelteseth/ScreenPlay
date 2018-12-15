@@ -4,16 +4,19 @@ import QtGraphicalEffects 1.0
 Item {
     id: btnEmpty
     height: 75
+    state: "out"
     anchors {
         right: parent.right
         left: parent.left
     }
 
+    Component.onCompleted: btnEmpty.state = "in"
+    property int animOffset: 0
+
     property string text
     signal clicked
     property bool buttonActive: true
     property string imgSource: "qrc:/assets/icons/icon_library_music.svg"
-
 
     RectangularGlow {
         id: effect
@@ -28,27 +31,26 @@ Item {
         glowRadius: 3
         spread: 0.2
         color: "black"
-        opacity: .4
+        opacity: 0
         cornerRadius: 15
     }
 
     Rectangle {
-        id:bg
-        width: parent.width
+        id: bg
+        height: parent.height - 10
         anchors {
-            top:parent.top
-            right:parent.right
-            bottom:parent.bottom
-            left:parent.left
+            top: parent.top
+            right: parent.right
+            left: parent.left
             margins: 10
         }
 
         radius: 3
         Image {
-            id:imgIcon
+            id: imgIcon
             width: 30
             height: 30
-            sourceSize: Qt.size(30,30)
+            sourceSize: Qt.size(30, 30)
             source: imgSource
             anchors {
                 left: parent.left
@@ -56,7 +58,7 @@ Item {
                 verticalCenter: parent.verticalCenter
             }
         }
-        ColorOverlay{
+        ColorOverlay {
             color: "gray"
             source: imgIcon
             anchors.fill: imgIcon
@@ -98,4 +100,77 @@ Item {
             }
         }
     }
+
+    states: [
+        State {
+            name: "out"
+
+            PropertyChanges {
+                target: bg
+                anchors.topMargin: -30
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: effect
+                opacity: 0
+            }
+        },
+        State {
+            name: "in"
+
+            PropertyChanges {
+                target: bg
+                anchors.topMargin: 10
+                opacity: 1
+            }
+
+            PropertyChanges {
+                target: effect
+                opacity: .4
+            }
+        }
+    ]
+    transitions: [
+        Transition {
+            from: "out"
+            to: "in"
+            reversible: true
+
+            SequentialAnimation {
+                PauseAnimation {
+                    duration: btnEmpty.animOffset
+                }
+                ParallelAnimation {
+                    ParallelAnimation {
+
+                        NumberAnimation {
+                            target: bg
+                            property: "opacity"
+                            duration: 400
+                            easing.type: Easing.InOutQuart
+                        }
+
+                        NumberAnimation {
+                            target: bg
+                            property: "anchors.topMargin"
+                            easing.type: Easing.InOutQuart
+                            duration: 400
+                        }
+                    }
+                    SequentialAnimation {
+                        PauseAnimation {
+                            duration: 200
+                        }
+                        NumberAnimation {
+                            target: effect
+                            property: "opacity"
+                            duration: 400
+                            easing.type: Easing.InOutQuart
+                        }
+                    }
+                }
+            }
+        }
+    ]
 }

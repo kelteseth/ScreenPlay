@@ -28,19 +28,21 @@ Item {
         text: qsTr("Create Emtpy Widget")
         anchors.top: txtCreate.bottom
         anchors.topMargin: 10
+        animOffset: 50
         imgSource: "qrc:/assets/icons/icon_emptyWidget.svg"
         onClicked: {
 
-            buttonPressed("empty", btnCreateEmptyWidget.text , btnCreateEmptyWidget.imgSource)
+            buttonPressed("empty", btnCreateEmptyWidget.text,
+                          btnCreateEmptyWidget.imgSource)
             //folderDialog.open()
         }
         FolderDialog {
             id: folderDialog
             onAccepted: {
-                screenPlayCreate.copyProject("/examples/scenes/empty", folderDialog.currentFolder)
+                screenPlayCreate.copyProject("/examples/scenes/empty",
+                                             folderDialog.currentFolder)
             }
         }
-
     }
 
     Text {
@@ -61,27 +63,28 @@ Item {
         width: parent.width
         spacing: 5
         anchors {
-            top: txtExamples.bottom
-            topMargin: 10
+            top: parent.top
+            topMargin: 200
             bottom: parent.bottom
         }
         CreateWidgetButton {
             id: btnEmpty1
             text: qsTr("Simple clock widget")
             buttonActive: true
+            animOffset: 150
             imgSource: "qrc:/assets/icons/icon_time.svg"
             onClicked: {
                 buttonPressed("clock", btnEmpty1.text, btnEmpty1.imgSource)
-
             }
         }
         CreateWidgetButton {
             id: btnEmpty2
             text: qsTr("Musik scene wallpaper visualizer")
             buttonActive: true
+            animOffset: 200
             imgSource: "qrc:/assets/icons/icon_library_music.svg"
             onClicked: {
-                buttonPressed("music",btnEmpty2.text, btnEmpty2.imgSource)
+                buttonPressed("music", btnEmpty2.text, btnEmpty2.imgSource)
             }
         }
         CreateWidgetButton {
@@ -89,9 +92,9 @@ Item {
             text: qsTr("Changing scene wallpaper via unsplash.com")
             imgSource: "qrc:/assets/icons/icon_scene.svg"
             buttonActive: true
+            animOffset: 250
             onClicked: {
-                buttonPressed("slideshow",btnEmpty3.text, btnEmpty3.imgSource)
-
+                buttonPressed("slideshow", btnEmpty3.text, btnEmpty3.imgSource)
             }
         }
     }
@@ -100,73 +103,30 @@ Item {
             name: "out"
 
             PropertyChanges {
-                target: btnEmpty3
-                opacity: 0
-                buttonActive: false
-            }
-
-            PropertyChanges {
-                target: btnEmpty2
-                opacity: 0
-                buttonActive: false
-            }
-
-            PropertyChanges {
-                target: btnEmpty1
-                opacity: 0
-                buttonActive: false
-            }
-
-            PropertyChanges {
-                target: btnCreateEmptyWidget
-                opacity: 0
-                buttonActive: false
-            }
-
-            PropertyChanges {
                 target: txtExamples
                 opacity: 0
+                anchors.topMargin: -50
             }
 
             PropertyChanges {
                 target: txtCreate
                 opacity: 0
+                anchors.topMargin: -50
             }
         },
         State {
             name: "in"
-            PropertyChanges {
-                target: btnEmpty3
-                opacity: 1
-                buttonActive: true
-            }
-
-            PropertyChanges {
-                target: btnEmpty2
-                opacity: 1
-                buttonActive: true
-            }
-
-            PropertyChanges {
-                target: btnEmpty1
-                opacity: 1
-                buttonActive: true
-            }
-
-            PropertyChanges {
-                target: btnCreateEmptyWidget
-                opacity: 1
-                buttonActive: true
-            }
 
             PropertyChanges {
                 target: txtExamples
                 opacity: 1
+                anchors.topMargin: 30
             }
 
             PropertyChanges {
                 target: txtCreate
                 opacity: 1
+                anchors.topMargin: 0
             }
         }
     ]
@@ -176,50 +136,31 @@ Item {
             to: "in"
             reversible: true
 
-            SequentialAnimation {
+            ParallelAnimation {
                 PropertyAnimation {
                     target: txtCreate
-                    property: "opacity"
-                    duration: 80
-                    easing.type: Easing.InOutCubic
-                }
-                PropertyAnimation {
-                    target: btnCreateEmptyWidget
-                    property: "opacity"
-                    duration: 80
-                    easing.type: Easing.InOutCubic
+                    properties: "opacity,anchors.topMargin"
+                    duration: 400
+                    easing.type: Easing.InOutQuart
                 }
 
-                PropertyAnimation {
-                    target: txtExamples
-                    property: "opacity"
-                    duration: 80
-                    easing.type: Easing.InOutCubic
-                }
-                PropertyAnimation {
-                    target: btnEmpty1
-                    property: "opacity"
-                    duration: 80
-                    easing.type: Easing.InOutCubic
-                }
+                SequentialAnimation {
 
-                PropertyAnimation {
-                    target: btnEmpty2
-                    property: "opacity"
-                    duration: 80
-                    easing.type: Easing.InOutCubic
-                }
-
-                PropertyAnimation {
-                    target: btnEmpty3
-                    property: "opacity"
-                    duration: 80
-                    easing.type: Easing.InOutCubic
+                    PauseAnimation {
+                        duration: 50
+                    }
+                    PropertyAnimation {
+                        target: txtExamples
+                        properties: "opacity,anchors.topMargin"
+                        duration: 400
+                        easing.type: Easing.InOutQuart
+                    }
                 }
             }
         }
     ]
 }
+
 
 
 

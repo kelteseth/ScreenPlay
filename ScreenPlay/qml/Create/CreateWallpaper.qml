@@ -6,7 +6,9 @@ import QtQuick.Controls.Material 2.2
 
 Item {
     id: createWallpaper
-    state: "in"
+    state: "out"
+
+    Component.onCompleted: createWallpaper.state = "in"
 
     signal videoFileSelected(var videoFile)
     signal projectFileSelected(var projectFile)
@@ -28,29 +30,27 @@ Item {
     }
 
     Item {
-        id: item1
-        width: parent.width
-        height: 250
-        anchors.top: parent.top
-        anchors.topMargin: 50
+        id: wrapperImportVideo
+        width: parent.width * .48
+        height: 275
+        anchors {
+            top: parent.top
+            topMargin: 50
+            left:parent.left
+        }
+
 
         Rectangle {
-            id: bg
-            x: 0
-            y: 50
-            height: parent.height
-            width: parent.width
+            id: importVideoBg
             radius: 3
             z: 10
             anchors {
-                top: parent.top
-                topMargin: 0
-                left: parent.left
-                leftMargin: 0
+                fill: parent
+                margins: 10
             }
 
             Image {
-                id: imgUpload
+                id: imgUploadImportVideo
                 source: "qrc:/assets/icons/icon_movie.svg"
                 height: 120
                 width: 120
@@ -62,8 +62,8 @@ Item {
                 sourceSize: Qt.size(width, height)
             }
             ColorOverlay {
-                anchors.fill: imgUpload
-                source: imgUpload
+                anchors.fill: imgUploadImportVideo
+                source: imgUploadImportVideo
                 color: "#C6C6C6"
             }
 
@@ -80,14 +80,14 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                onClicked: fileDialogOpenFile.open()
+                onClicked: fileDialogImportVideo.open()
             }
 
             FileDialog {
-                id: fileDialogOpenFile
-               // nameFilters: ["Video files (*.mp4)"]
+                id: fileDialogImportVideo
+                // nameFilters: ["Video files (*.mp4)"]
                 onAccepted: {
-                    videoFileSelected(fileDialogOpenFile.currentFile)
+                    videoFileSelected(fileDialogImportVideo.currentFile)
                 }
             }
         }
@@ -95,56 +95,135 @@ Item {
         RectangularGlow {
             id: effect
             anchors {
-                top: bg.top
+                top: importVideoBg.top
                 topMargin: 3
-                left: bg.left
-                right: bg.right
+                left: importVideoBg.left
+                right: importVideoBg.right
             }
-            height: bg.height
-            width: bg.width
+            height: importVideoBg.height
+            width: importVideoBg.width
             glowRadius: 3
             spread: 0.2
             color: "black"
             opacity: 0
-            visible: false
+            cornerRadius: 15
+        }
+    }
+    Item {
+        id: wrapperConvertVideo
+        width: parent.width * .48
+        height: 275
+        anchors {
+            top: parent.top
+            topMargin: 50
+            left:wrapperImportVideo.right
+            leftMargin: 20
+        }
+
+        Rectangle {
+            id: convertVideoBg
+            radius: 3
+            z: 10
+            anchors {
+                fill: parent
+                margins: 10
+            }
+
+            Image {
+                id: imgUploadImportVideo2
+                source: "qrc:/assets/icons/icon_movie.svg"
+                height: 120
+                width: 120
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    top: parent.top
+                    topMargin: 50
+                }
+                sourceSize: Qt.size(width, height)
+            }
+            ColorOverlay {
+                anchors.fill: imgUploadImportVideo2
+                source: imgUploadImportVideo2
+                color: "#C6C6C6"
+            }
+
+            Button {
+                text: qsTr("Select File")
+                anchors {
+                    horizontalCenter: parent.horizontalCenter
+                    bottom: parent.bottom
+                    bottomMargin: 20
+                }
+                Material.background: Material.Orange
+                Material.foreground: "white"
+                icon.source: "qrc:/assets/icons/icon_upload.svg"
+                icon.color: "white"
+                icon.width: 16
+                icon.height: 16
+                onClicked: fileDialogImportVideo.open()
+            }
+
+            FileDialog {
+                id: fileDialogImportVideo2
+                // nameFilters: ["Video files (*.mp4)"]
+                onAccepted: {
+                    videoFileSelected(fileDialogImportVideo.currentFile)
+                }
+            }
+        }
+
+        RectangularGlow {
+            id: effect2
+            anchors {
+                top: convertVideoBg.top
+                topMargin: 3
+                left: convertVideoBg.left
+                right: convertVideoBg.right
+            }
+            height: convertVideoBg.height
+            width: convertVideoBg.width
+            glowRadius: 3
+            spread: 0.2
+            color: "black"
+            opacity: 0
             cornerRadius: 15
         }
     }
 
     Item {
-        id: item2
+        id: wrapperUploadProject
         width: parent.width
-        height: 80
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 0
+        height: 120
+
+        anchors {
+            top: wrapperConvertVideo.bottom
+            left:parent.left
+        }
 
         RectangularGlow {
-            id: effect1
-            width: bg1.width
-            height: bg1.height
+            id: effect3
+            width: importVideoBg3.width
+            height: importVideoBg3.height
             anchors {
-                top: bg1.top
+                top: importVideoBg3.top
                 topMargin: 3
-                left: bg1.left
-                right: bg1.right
+                left: importVideoBg3.left
+                right: importVideoBg3.right
             }
             color: "#000000"
             glowRadius: 3
             spread: 0.2
             cornerRadius: 15
             opacity: 0
-            visible: false
         }
 
         Rectangle {
-            id: bg1
-            width: parent.width
-            height: parent.height
+            id: importVideoBg3
             radius: 3
-            anchors.top: parent.top
-            anchors.left: parent.left
-            anchors.leftMargin: 0
-            anchors.topMargin: 0
+            anchors {
+                fill: parent
+                margins: 10
+            }
             z: 10
             Button {
                 text: qsTr("Upload Exsisting Project to Steam")
@@ -160,7 +239,7 @@ Item {
                 }
             }
             FileDialog {
-                id: fileDialogOpenProject
+                id: fileDialogOpenProject3
                 nameFilters: ["Project files (project.json)"]
                 onAccepted: {
                     projectFileSelected(fileDialogOpenProject.currentFile)
@@ -168,74 +247,142 @@ Item {
             }
         }
     }
+
     states: [
         State {
             name: "out"
             PropertyChanges {
-                target: bg
+                target: wrapperUploadProject
                 opacity: 0
                 anchors.leftMargin: 300
             }
             PropertyChanges {
-                target: effect
+                target: wrapperConvertVideo
+                anchors.leftMargin: 800
                 opacity: 0
-                visible: false
-                color: "transparent"
             }
             PropertyChanges {
-                target: effect1
+                target: wrapperImportVideo
+                anchors.leftMargin: 800
                 opacity: 0
-                visible: false
-                color: "transparent"
+            }
+            PropertyChanges {
+                target: effect3
+                opacity: 0
+            }
+            PropertyChanges {
+                target: effect2
+                opacity: 0
+            }
+            PropertyChanges {
+                target: effect
+                opacity: 0
             }
             PropertyChanges {
                 target: txtHeadline
                 opacity: 0
+                anchors.topMargin: -100
             }
 
-            PropertyChanges {
-                target: bg1
-                anchors.leftMargin: 800
-                opacity: 0
-            }
         },
         State {
             name: "in"
             PropertyChanges {
-                target: bg
+                target: wrapperUploadProject
                 opacity: 1
                 anchors.leftMargin: 0
             }
             PropertyChanges {
-                target: effect
-                opacity: .3
-                color: "black"
-                visible: true
+                target: wrapperConvertVideo
+                anchors.leftMargin: 20
+                opacity: 1
             }
             PropertyChanges {
-                target: effect1
-                opacity: .3
-                color: "black"
-                visible: true
+                target: wrapperImportVideo
+                anchors.leftMargin: 0
+                opacity: 1
+            }
+            PropertyChanges {
+                target: effect
+                opacity: .4
+            }
+            PropertyChanges {
+                target: effect2
+                opacity: .4
+            }
+            PropertyChanges {
+                target: effect3
+                opacity: .4
             }
             PropertyChanges {
                 target: txtHeadline
                 opacity: 1
+                anchors.topMargin: 0
             }
         }
     ]
     transitions: [
         Transition {
-            from: "in"
-            to: "out"
+            from: "out"
+            to: "in"
             reversible: true
-            SequentialAnimation {
+
+            ParallelAnimation {
                 PropertyAnimation {
-                    targets: [bg, bg1]
-                    duration: 300
+                    targets: [wrapperImportVideo, wrapperConvertVideo, wrapperUploadProject]
+                    duration: 500
                     properties: "opacity, anchors.leftMargin"
+                    easing.type: Easing.InOutQuart
                 }
+                SequentialAnimation {
+
+                    PauseAnimation {
+                        duration: 200
+                    }
+                    PropertyAnimation {
+                        targets: [effect, effect2, effect3]
+                        duration: 500
+                        property: "opacity"
+                        easing.type: Easing.InOutQuart
+                    }
+                }
+
+
+            }
+            PropertyAnimation {
+                targets: [txtHeadline]
+                duration: 400
+                properties: "opacity, anchors.topMargin"
+                easing.type: Easing.InOutQuart
             }
         }
     ]
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/
