@@ -126,7 +126,7 @@ void InstalledListModel::loadScreens()
                     obj.insert("type", "video");
                 }
 
-                if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene") || fileEnding.endsWith(".html"))
+                if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene" || fileEnding.endsWith(".mp4") ) || fileEnding.endsWith(".html"))
                     emit addInstalledItem(obj, item.baseName());
 
                 if(obj.value("type") == "qmlWidget" || obj.value("type") == "standalonewidget")
