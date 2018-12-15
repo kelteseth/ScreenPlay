@@ -62,28 +62,28 @@ CONFIG(debug, debug|release) {
     install_it.path = $${OUT_PWD}/release/
  }
 
-
 installOut.path =  $${OUT_PWD}/
+installOut.files += steam_appid.txt \
 
 install_it.files += assets/templates/config.json \
                     assets/icons/favicon.ico \
                     steam_appid.txt \
-                    ThirdParty/ffmpeg/Windows/avcodec-58.dll \
-                    ThirdParty/ffmpeg/Windows/avdevice-58.dll \
-                    ThirdParty/ffmpeg/Windows/avfilter-7.dll \
-                    ThirdParty/ffmpeg/Windows/avformat-58.dll \
-                    ThirdParty/ffmpeg/Windows/avutil-56.dll \
-                    ThirdParty/ffmpeg/Windows/ffmpeg.exe \
-                    ThirdParty/ffmpeg/Windows/ffplay.exe \
-                    ThirdParty/ffmpeg/Windows/ffprobe.exe \
-                    ThirdParty/ffmpeg/Windows/postproc-55.dll \
-                    ThirdParty/ffmpeg/Windows/swresample-3.dll \
-                    ThirdParty/ffmpeg/Windows/swscale-5.dll \
-                    ThirdParty/OpenSSL/libeay32.dll \
-                    ThirdParty/OpenSSL/ssleay32.dll \
 
-
-installOut.files += steam_appid.txt \
+win32 {
+    install_it.files += ThirdParty/ffmpeg/Windows/avcodec-58.dll \
+                        ThirdParty/ffmpeg/Windows/avdevice-58.dll \
+                        ThirdParty/ffmpeg/Windows/avfilter-7.dll \
+                        ThirdParty/ffmpeg/Windows/avformat-58.dll \
+                        ThirdParty/ffmpeg/Windows/avutil-56.dll \
+                        ThirdParty/ffmpeg/Windows/ffmpeg.exe \
+                        ThirdParty/ffmpeg/Windows/ffplay.exe \
+                        ThirdParty/ffmpeg/Windows/ffprobe.exe \
+                        ThirdParty/ffmpeg/Windows/postproc-55.dll \
+                        ThirdParty/ffmpeg/Windows/swresample-3.dll \
+                        ThirdParty/ffmpeg/Windows/swscale-5.dll \
+                        ThirdParty/OpenSSL/libeay32.dll \
+                        ThirdParty/OpenSSL/ssleay32.dll \
+}
 
 INSTALLS += install_it
 INSTALLS += installOut
@@ -100,13 +100,6 @@ QT_QUICK_CONTROLS_STYLE = "Material"
 # depend on your compiler). Please consult the documentation of the
 # deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
-
-debug {
-  DEFINES += SP_DEBUG
-}
-release {
-  DEFINES += SP_RELEASE
-}
 
 win32 {
     win32: LIBS += -L$$PWD/ThirdParty/Steam/redistributable_bin/win64/ -lsteam_api64
