@@ -1,5 +1,5 @@
 import QtQuick 2.9
-import QtWebEngine 1.7
+import QtWebEngine 1.8
 
 Rectangle {
     id: root
@@ -62,6 +62,7 @@ Rectangle {
     }
 
     Component.onCompleted: {
+
         if (mainwindow.type === "qmlScene") {
             loader.setSource(Qt.resolvedUrl(
                                  "file:///" + mainwindow.fullContentPath))
@@ -79,13 +80,13 @@ Rectangle {
             mainwindow.init()
             timer.start()
         }
+        mainwindow.init()
+        timer.start()
     }
 
     WebEngineView {
         id: webView
         anchors.fill: parent
-        visible: false
-
         onLoadProgressChanged: {
             if (loadProgress === 100) {
                 runJavaScript(("
@@ -93,44 +94,61 @@ var videoPlayer = document.getElementById('videoPlayer');
 var videoSource = document.getElementById('videoSource');
 videoSource.src = \"file:///" + mainwindow.fullContentPath + "\";
 videoPlayer.load();
-videoPlayer.volume = " + mainwindow.volume + ";"), function (result) {
-    mainwindow.init()
-    timer.start()
+videoPlayer.volume = " + mainwindow.volume + ";" +
+" videoPlayer.play();"), function (result) {
+
 })
             }
         }
-        onJavaScriptConsoleMessage: print(message)
+        onJavaScriptConsoleMessage: {
+            print(message)
+//            runJavaScript("
+//                var videoPlayer = document.getElementById('errorMsg');
+//                var text = document.createTextNode("+message+");
+
+//                videoPlayer.appendChild(text);
+
+//");
+
+        }
+
         settings.allowRunningInsecureContent: true
+        settings.accelerated2dCanvasEnabled: true
+        settings.javascriptCanOpenWindows: false
+        settings.printElementBackgrounds: false
+        settings.showScrollBars: false
+        settings.playbackRequiresUserGesture: false
     }
 
-    Loader {
-        id: loader
-        anchors.fill: parent
-        onStatusChanged: {
-            print(webViewWrapper.errorString())
+        Loader {
+            id: loader
+            anchors.fill: parent
+            onStatusChanged: {
+                print(webViewWrapper.errorString())
+            }
         }
-    }
 
-    Timer {
-        id: timer
-        interval: 200
-        onTriggered: {
-            anim.start()
+        Timer {
+            id: timer
+            interval: 200
+            onTriggered: {
+                anim.start()
+            }
         }
-    }
 
-    Rectangle {
-        id: curtain
-        anchors.fill: parent
-        color: "black"
+        Rectangle {
+            id: curtain
+            anchors.fill: parent
+            color: "black"
 
-        PropertyAnimation {
-            id: anim
-            property: "opacity"
-            target: curtain
-            from: "1"
-            to: "0"
-            duration: 300
+            PropertyAnimation {
+                id: anim
+                property: "opacity"
+                target: curtain
+                from: "1"
+                to: "0"
+                duration: 300
+            }
         }
-    }
+
 }
