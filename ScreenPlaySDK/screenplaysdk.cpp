@@ -13,11 +13,11 @@ void redirectMessageOutputToMainWindow(QtMsgType type, const QMessageLogContext&
     QByteArray line = "in line " + QByteArray::number(context.line) + ", ";
     //QByteArray function = "function " + QByteArray(context.function) + ", Message: ";
 
-    localMsg = file + line +  localMsg;
+    //localMsg = file + line +  localMsg;
 
     switch (type) {
     case QtDebugMsg:
-        localMsg = " SDK START: " /*+  QByteArray::fromStdString(global_sdkPtr->contentType().toStdString()) + " "*/ + localMsg + " SDK END!";
+        //localMsg = " SDK START: " /*+  QByteArray::fromStdString(global_sdkPtr->contentType().toStdString()) + " "*/ + localMsg;
         global_sdkPtr->redirectMessage(localMsg);
         break;
     case QtInfoMsg:
