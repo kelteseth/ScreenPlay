@@ -9,6 +9,7 @@ Item {
     id: community
     anchors.fill: parent
 
+
     Rectangle {
         id: stomtWrapper
         width: 500
@@ -92,8 +93,11 @@ Item {
         }
 
         Timer {
-            interval: 500; running: true; repeat: false
-            onTriggered:loader_feedback.sourceComponent = component_feedback
+            interval: 200; running: true; repeat: false
+            onTriggered: {
+                feedModel.source  = "https://screen-play.app/index.php?option=com_content&view=category&layout=blog&id=10&format=feed&type=rss"
+                loader_feedback.sourceComponent = component_feedback
+            }
 
         }
 
@@ -145,7 +149,7 @@ Item {
 
     XmlListModel {
         id: feedModel
-        source: "http://screen-play.app/index.php?option=com_content&view=category&layout=blog&id=10&format=feed&type=rss"
+
         query: "/rss/channel/item"
         XmlRole {
             name: "title"
