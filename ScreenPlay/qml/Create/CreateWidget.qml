@@ -3,7 +3,9 @@ import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 
 Item {
+    id:createWidget
     state: "out"
+
     Component.onCompleted: state = "in"
 
     signal buttonPressed(var type, var title, var iconSource)
@@ -29,6 +31,7 @@ Item {
         anchors.top: txtCreate.bottom
         anchors.topMargin: 10
         animOffset: 50
+        state: createWidget.state
         imgSource: "qrc:/assets/icons/icon_emptyWidget.svg"
         onClicked: {
 
@@ -72,6 +75,7 @@ Item {
             text: qsTr("Simple clock widget")
             buttonActive: true
             animOffset: 150
+            state: createWidget.state
             imgSource: "qrc:/assets/icons/icon_time.svg"
             onClicked: {
                 buttonPressed("clock", btnEmpty1.text, btnEmpty1.imgSource)
@@ -82,6 +86,7 @@ Item {
             text: qsTr("Musik scene wallpaper visualizer")
             buttonActive: true
             animOffset: 200
+            state: createWidget.state
             imgSource: "qrc:/assets/icons/icon_library_music.svg"
             onClicked: {
                 buttonPressed("music", btnEmpty2.text, btnEmpty2.imgSource)
@@ -93,6 +98,7 @@ Item {
             imgSource: "qrc:/assets/icons/icon_scene.svg"
             buttonActive: true
             animOffset: 250
+            state: createWidget.state
             onClicked: {
                 buttonPressed("slideshow", btnEmpty3.text, btnEmpty3.imgSource)
             }
@@ -112,6 +118,26 @@ Item {
                 target: txtCreate
                 opacity: 0
                 anchors.topMargin: -50
+            }
+
+            PropertyChanges {
+                target: btnEmpty1
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: btnEmpty2
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: btnEmpty3
+                opacity: 0
+            }
+
+            PropertyChanges {
+                target: btnCreateEmptyWidget
+                opacity: 0
             }
         },
         State {
@@ -136,30 +162,32 @@ Item {
             to: "in"
             reversible: true
 
-            ParallelAnimation {
+            PropertyAnimation {
+                target: txtCreate
+                properties: "opacity,anchors.topMargin"
+                duration: 400
+                easing.type: Easing.InOutQuart
+            }
+
+            SequentialAnimation {
+
+                PauseAnimation {
+                    duration: 50
+                }
                 PropertyAnimation {
-                    target: txtCreate
+                    target: txtExamples
                     properties: "opacity,anchors.topMargin"
                     duration: 400
                     easing.type: Easing.InOutQuart
-                }
-
-                SequentialAnimation {
-
-                    PauseAnimation {
-                        duration: 50
-                    }
-                    PropertyAnimation {
-                        target: txtExamples
-                        properties: "opacity,anchors.topMargin"
-                        duration: 400
-                        easing.type: Easing.InOutQuart
-                    }
                 }
             }
         }
     ]
 }
+
+
+
+
 
 
 

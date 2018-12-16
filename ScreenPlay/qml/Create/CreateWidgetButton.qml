@@ -135,7 +135,45 @@ Item {
         Transition {
             from: "out"
             to: "in"
-            reversible: true
+
+            SequentialAnimation {
+                PauseAnimation {
+                    duration: btnEmpty.animOffset
+                }
+                ParallelAnimation {
+                    ParallelAnimation {
+
+                        NumberAnimation {
+                            target: bg
+                            property: "opacity"
+                            duration: 400
+                            easing.type: Easing.InOutQuart
+                        }
+
+                        NumberAnimation {
+                            target: bg
+                            property: "anchors.topMargin"
+                            easing.type: Easing.InOutQuart
+                            duration: 400
+                        }
+                    }
+                    SequentialAnimation {
+                        PauseAnimation {
+                            duration: 200
+                        }
+                        NumberAnimation {
+                            target: effect
+                            property: "opacity"
+                            duration: 400
+                            easing.type: Easing.InOutQuart
+                        }
+                    }
+                }
+            }
+        },
+        Transition {
+            from: "in"
+            to: "out"
 
             SequentialAnimation {
                 PauseAnimation {

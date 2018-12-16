@@ -10,8 +10,9 @@ Item {
     id: create
     anchors.fill: parent
     state: "out"
+
     Component.onCompleted: {
-        create.state = "create"
+        create.state = "in"
     }
     property url activeVideoFile: ""
     property url activeFolder: ""
@@ -41,7 +42,7 @@ Item {
         target: loader.item
         ignoreUnknownSignals: true
         onBackToCreate: {
-            create.state = "create"
+            create.state = "in"
             loader.active = false
             activeVideoFile = ""
         }
@@ -278,7 +279,7 @@ Item {
             }
         },
         State {
-            name: "create"
+            name: "in"
             PropertyChanges {
                 target: spaceBar
                 opacity: .4
@@ -307,10 +308,18 @@ Item {
                 target: txtDescriptionBottom
                 opacity: 0
             }
+            PropertyChanges {
+                target: footer
+                anchors.bottomMargin: -80
+            }
         },
         State {
             name: "new"
 
+            PropertyChanges {
+                target: footer
+                anchors.bottomMargin: -80
+            }
             PropertyChanges {
                 target: createWallpaper
                 state: "out"
@@ -332,11 +341,11 @@ Item {
     transitions: [
         Transition {
             from: "out"
-            to: "create"
+            to: "in"
             reversible: true
 
             NumberAnimation {
-                target: txtDescriptionBottom
+                targets: [txtDescriptionBottom, footer]
                 property: "opacity"
                 duration: 400
                 easing.type: Easing.InOutQuart
@@ -361,6 +370,24 @@ Item {
                 duration: 400
                 easing.type: Easing.InOutQuart
             }
+        },
+        Transition {
+            from: "in"
+            to: "new"
+            reversible: true
+
+            NumberAnimation {
+                target: footer
+                property: "anchors.bottomMargin"
+                duration: 400
+                easing.type: Easing.InOutQuart
+            }
         }
     ]
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:768;width:1366}
+}
+ ##^##*/
+
