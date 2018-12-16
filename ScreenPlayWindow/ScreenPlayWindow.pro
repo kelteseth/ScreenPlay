@@ -50,7 +50,7 @@ macx: {
     QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
 
     install_it.files += index.html \
-    install_it.path = $${OUT_PWD}/
+
     INSTALLS += install_it
     DISTFILES += \
         index.html
