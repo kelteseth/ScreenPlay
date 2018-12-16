@@ -4,9 +4,9 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 
-
 Item {
     id: pageInstalled
+    state: "out"
 
     signal setSidebaractiveItem(var screenId, var type)
     signal setNavigationItem(var pos)
@@ -19,6 +19,7 @@ Item {
         installedListFilter.sortByRoleType("All")
         installedListModel.reset()
         installedListModel.loadScreens()
+        pageInstalled.state = "in"
     }
 
     Connections {
@@ -74,6 +75,7 @@ Item {
             height: 82
             width: parent.width
             property bool isVisible: false
+            opacity: 0
             onIsVisibleChanged: {
                 if (isVisible) {
                     txtHeader.color = "orange"
@@ -82,6 +84,22 @@ Item {
                     txtHeader.color = "gray"
                     txtHeader.text = qsTr("Pull to refresh!")
                 }
+            }
+
+            Timer {
+                interval: 400
+                running: true
+                onTriggered: {
+                    animFadeIn.start()
+                }
+            }
+
+            PropertyAnimation on opacity {
+                id:animFadeIn
+                from:0
+                to:1
+                running: false
+                duration: 1000
             }
 
             Text {
@@ -296,5 +314,34 @@ Item {
         }
     }
 
+    states: [
+        State {
+            name: "out"
+            PropertyChanges {
+                target: navWrapper
+                anchors.topMargin: -115
+            }
+        },
+        State {
+            name: "in"
+            PropertyChanges {
+                target: navWrapper
+                anchors.topMargin: 0
+            }
+        }
+    ]
 
+    transitions: [
+        Transition {
+            from: "out"
+            to: "in"
+
+            NumberAnimation {
+                target: navWrapper
+                property: "anchors.topMargin"
+                duration: 400
+                easing.type: Easing.InOutQuart
+            }
+        }
+    ]
 }
