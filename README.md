@@ -30,7 +30,7 @@ git clone --recursive https://gitlab.com/aimber/ScreenPlay.git
 3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.11.2
+        - Qt 5.12.0 LTS
             - MSVC 2017 64-bit
             - Qt WebEngine
         - Tools
@@ -51,7 +51,7 @@ sudo zypper install -t pattern devel_basis
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.11.2
+        - Qt 5.12.0 LTS
             - GCC
             - Qt WebEngine
 ### OSX
@@ -61,6 +61,6 @@ sudo zypper install -t pattern devel_basis
 3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.11.2
+        - Qt 5.12.0 LTS
             - Qt WebEngine
 4. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.11.2) -> Change c and c++ Compiler to Apple Clang (x86_64)
