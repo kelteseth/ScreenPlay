@@ -2,6 +2,8 @@ import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 
+import "Workshop"
+
 Rectangle {
     id: navigation
     height: 60
@@ -52,6 +54,10 @@ Rectangle {
         }
     }
 
+    WorkshopLoader {
+        id:wl
+    }
+
     Row {
         id: row
         anchors.fill: parent
@@ -72,6 +78,7 @@ Rectangle {
             id: navWorkshop
             state: "inactive"
             name: "Workshop"
+            enabled: wl.available
             iconSource: "qrc:/assets/icons/icon_steam.svg"
             onPageClicked: navigation.onPageChanged(name)
         }

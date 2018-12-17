@@ -9,6 +9,14 @@ Item {
     clip: true
 
     property string name: "value"
+    property bool enabled: true
+    onEnabledChanged: {
+        if(!enabled){
+            navigationItem.width = 0
+            navigationItem.opacity = 0
+        }
+    }
+
     onNameChanged: {
         txt.text = name
         textMetrics.text = name
