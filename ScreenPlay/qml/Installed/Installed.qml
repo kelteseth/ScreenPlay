@@ -113,6 +113,7 @@ Item {
         footer: Item {
             property bool isVisible: true
             height: 100
+            opacity: 0
             visible: isVisible
             width: parent.width
 
@@ -121,6 +122,23 @@ Item {
                 text: qsTr("Get more Wallpaper & Widgets via the Steam workshop!")
                 anchors.centerIn: parent
                 color: "gray"
+
+
+                Timer {
+                    interval: 400
+                    running: true
+                    onTriggered: {
+                        animFadeInTxtFooter.start()
+                    }
+                }
+
+                PropertyAnimation on opacity {
+                    id:animFadeInTxtFooter
+                    from:0
+                    to:1
+                    running: false
+                    duration: 1000
+                }
             }
         }
         property bool isDragging: false
