@@ -15,6 +15,11 @@ Item {
         }
     }
 
+    Rectangle {
+        id: bgCommunity
+        anchors.fill: parent
+    }
+
     property var myDate: new Date()
 
     Timer {
@@ -42,12 +47,31 @@ Item {
                 target: colorShaderCreate
                 shaderOpacity: 0
             }
+            PropertyChanges {
+                target: bgCommunity
+                opacity: 0
+            }
         },
         State {
             name: "create"
             PropertyChanges {
                 target: colorShaderCreate
                 shaderOpacity: 1
+            }
+            PropertyChanges {
+                target: bgCommunity
+                opacity: 0
+            }
+        },
+        State {
+            name: "community"
+            PropertyChanges {
+                target: colorShaderCreate
+                shaderOpacity: 0
+            }
+            PropertyChanges {
+                target: bgCommunity
+                opacity: 1
             }
         }
     ]
@@ -72,6 +96,18 @@ Item {
                 target: colorShaderCreate
                 property: "shaderOpacity"
                 duration: 0
+            }
+        },
+
+        Transition {
+            from: "*"
+            to: "community"
+
+            PropertyAnimation {
+                target: bgCommunity
+                property: "opacity"
+                duration: 400
+                easing.type: Easing.InOutQuart
             }
         }
     ]

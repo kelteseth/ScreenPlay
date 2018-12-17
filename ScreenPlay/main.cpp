@@ -20,6 +20,7 @@
 #include <QWindow>
 #include <QtGlobal>
 #include <QtQuick/QQuickItem>
+#include <QtWebEngine>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
@@ -51,6 +52,8 @@ int main(int argc, char* argv[])
     QTranslator trsl;
     trsl.load(":/translations/ScreenPlay_de.qm");
     app.installTranslator(&trsl);
+
+    QtWebEngine::initialize();
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Light.ttf");

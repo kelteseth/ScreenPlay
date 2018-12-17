@@ -5,6 +5,7 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 
+
 import "qml/"
 import "qml/Installed"
 
@@ -29,16 +30,23 @@ ApplicationWindow {
         if (name === "Create") {
             bg.state = "create"
             pageLoader.visible = false
-            pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
             pageLoaderCreate.visible = true
             pageLoaderWorkshop.visible = false
+            pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
             sidebar.state = "inactive"
         } else if (name === "Workshop") {
             bg.state = "init"
             pageLoader.visible = false
             pageLoaderCreate.visible = false
-            pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
             pageLoaderWorkshop.visible = true
+            pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
+            sidebar.state = "inactive"
+        } else if (name === "Community") {
+            bg.state = "community"
+            pageLoader.visible = true
+            pageLoaderCreate.visible = false
+            pageLoaderWorkshop.visible = false
+            pageLoader.setSource("qrc:/qml/Community/Community.qml")
             sidebar.state = "inactive"
         } else {
             bg.state = "init"
@@ -49,7 +57,6 @@ ApplicationWindow {
             sidebar.state = "inactive"
         }
     }
-
 
     Background {
         id: bg

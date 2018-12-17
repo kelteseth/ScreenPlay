@@ -3,12 +3,12 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
-import QtQuick.XmlListModel 2.0
+//import QtQuick.XmlListModel 2.0
+import QtWebEngine 1.8
 
 Item {
     id: community
     anchors.fill: parent
-
 
     Rectangle {
         id: stomtWrapper
@@ -55,10 +55,10 @@ Item {
             }
         }
         Text {
-            id:txtStomtDescription
+            id: txtStomtDescription
             font.pointSize: 14
             color: "white"
-            height:100
+            height: 100
             text: qsTr("We use Stomt because it provides quick and easy feedback via I like/I wish. So you can easily give us feedback and speak your mind. We will read these wishes on a daily basis!")
             font.family: "Roboto"
             font.weight: Font.Normal
@@ -75,7 +75,7 @@ Item {
             }
         }
 
-       Component {
+        Component {
             id: component_feedback
             Feedback {
                 id: feedback
@@ -93,14 +93,13 @@ Item {
         }
 
         Timer {
-            interval: 200; running: true; repeat: false
+            interval: 200
+            running: true
+            repeat: false
             onTriggered: {
-                feedModel.source  = "https://screen-play.app/index.php?option=com_content&view=category&layout=blog&id=10&format=feed&type=rss"
                 loader_feedback.sourceComponent = component_feedback
             }
-
         }
-
 
         Button {
             id: btnStomt
@@ -147,179 +146,38 @@ Item {
         }
     }
 
-    XmlListModel {
-        id: feedModel
-
-        query: "/rss/channel/item"
-        XmlRole {
-            name: "title"
-            query: "title/string()"
+    //    XMLNewsfeed {
+    //        id: changelogFlickableWrapper
+    //        anchors {
+    //            bottom: footer.top
+    //            left: stomtWrapper.right
+    //            leftMargin: 90
+    //            right: parent.right
+    //            rightMargin: 20
+    //            top: parent.top
+    //            topMargin: 20
+    //        }
+    //    }
+    WebEngineView {
+        id: we
+        url:"https://forum.screen-play.app/"
+        onUrlChanged: {
+            var tmp = we.url.toString()
+            if(!tmp.includes("https://forum.screen-play.app/")) {
+                we.url = "https://forum.screen-play.app/"
+            }
         }
-        XmlRole {
-            name: "backgroundImage"
-            query: "description/string()"
-        }
-        XmlRole {
-            name: "link"
-            query: "link/string()"
-        }
-        XmlRole {
-            name: "pubDate"
-            query: "pubDate/string()"
-        }
-        XmlRole {
-            name: "category"
-            query: "category/string()"
-        }
-    }
-
-    GridView {
-        id: changelogFlickableWrapper
-        flickableDirection: Flickable.VerticalFlick
-        maximumFlickVelocity: 5000
-        flickDeceleration: 5000
-        cellHeight: 205
-        cellWidth: 360
-        model: feedModel
 
         anchors {
-            top: parent.top
-            topMargin: 20
-            right: parent.right
-            rightMargin: 20
             bottom: footer.top
-
             left: stomtWrapper.right
-            leftMargin: 90
+            leftMargin: 0
+            right: parent.right
+            rightMargin: 0
+            top: parent.top
+            topMargin:0
         }
 
-        header: Item {
-            height: 100
-            width: parent.width
-
-            Text {
-                id: name
-                text: qsTr("News & Patchnotes")
-                wrapMode: Text.WordWrap
-                color: "#626262"
-                renderType: Text.NativeRendering
-                verticalAlignment: Text.AlignVCenter
-                horizontalAlignment: Text.AlignLeft
-                font.pixelSize: 32
-                font.family: "Roboto"
-
-                anchors {
-                    top: parent.top
-                    topMargin: 30
-                    horizontalCenter: parent.horizontalCenter
-                }
-            }
-        }
-
-        delegate: Item {
-            id: root
-            width: 352
-            height: 197
-
-            RectangularGlow {
-                id: effectchangelogWrapper
-                anchors {
-                    top: parent.top
-                    topMargin: 3
-                }
-                height: parent.height
-                width: parent.width
-                cached: true
-                glowRadius: 3
-                spread: 0.2
-                color: "black"
-                opacity: 0.2
-                cornerRadius: 15
-            }
-
-            Rectangle {
-                anchors.fill: parent
-                anchors.margins: 5
-                radius: 4
-
-                Image {
-                    fillMode: Image.PreserveAspectCrop
-                    anchors.fill: parent
-                    source: {
-                        var a = backgroundImage
-                        var r = new RegExp(/<img[^>]+src="([^">]+)"/)
-                        var url = r.exec(a)
-                        return url[1].toString()
-                    }
-                }
-
-                LinearGradient {
-                    visible: true
-                    opacity: .5
-                    anchors.fill: parent
-                    start: Qt.point(0, parent.height)
-                    end: Qt.point(0, parent.height - 150)
-                    gradient: Gradient {
-                        GradientStop {
-                            position: 0.0
-                            color: "#BB000000"
-                        }
-                        GradientStop {
-                            position: 1.0
-                            color: "#00000000"
-                        }
-                    }
-                }
-
-                Text {
-                    id: txtTitle
-                    text: title
-                    renderType: Text.NativeRendering
-                    anchors {
-                        right: parent.right
-                        bottom: parent.bottom
-                        left: parent.left
-                        margins: 20
-                    }
-                    color: "white"
-                    font.family: "Roboto"
-                    font.weight: Font.Normal
-                    font.pixelSize: 18
-                    wrapMode: Text.WordWrap
-                }
-                Text {
-                    id: txtPubDate
-                    text: {
-                        return pubDate.replace("+0000", "")
-                    }
-                    anchors {
-                        right: parent.right
-                        rightMargin: 20
-                        bottom: txtTitle.top
-                        bottomMargin: 10
-                        left: parent.left
-                        leftMargin: 20
-                    }
-                    color: "white"
-                    font.family: "Roboto"
-                    renderType: Text.NativeRendering
-                    font.weight: Font.Normal
-                    font.pixelSize: 14
-                    wrapMode: Text.WordWrap
-                }
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: Qt.openUrlExternally(link)
-                    hoverEnabled: true
-                    cursorShape: Qt.PointingHandCursor
-                }
-            }
-        }
-
-        ScrollBar.vertical: ScrollBar {
-            snapMode: ScrollBar.SnapOnRelease
-            policy: ScrollBar.AlwaysOn
-        }
     }
 
     Rectangle {
@@ -338,7 +196,8 @@ Item {
                 text: qsTr("Forums")
                 Material.background: Material.Blue
                 Material.foreground: "white"
-                onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
+                onClicked: Qt.openUrlExternally(
+                               "https://forum.screen-play.app/")
                 icon.source: "qrc:/assets/icons/icon_people.svg"
                 icon.color: "white"
                 icon.width: 16
@@ -352,7 +211,8 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                onClicked: Qt.openUrlExternally("https://screen-play.app/index.php/blog")
+                onClicked: Qt.openUrlExternally(
+                               "https://screen-play.app/index.php/blog")
             }
             Button {
                 text: qsTr("Source Code")
@@ -363,7 +223,8 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                onClicked: Qt.openUrlExternally("https://gitlab.com/aimber/ScreenPlay/")
+                onClicked: Qt.openUrlExternally(
+                               "https://gitlab.com/aimber/ScreenPlay/")
             }
             Button {
                 text: qsTr("Workshop")

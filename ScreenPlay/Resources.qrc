@@ -123,6 +123,7 @@
         <file>qml/Screen/Screen.qml</file>
         <file>assets/icons/icon_screen.svg</file>
         <file>qml/Background.qml</file>
+        <file>qml/Community/XMLNewsfeed.qml</file>
         <file>qml/Workshop/WorkshopAvailableTest.qml</file>
         <file>qml/Workshop/WorkshopLoader.qml</file>
     </qresource>
