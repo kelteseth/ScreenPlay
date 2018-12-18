@@ -4,15 +4,21 @@ import QtQuick.Controls 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
 
+import "../Workshop"
+
 Item {
     id: createWallpaper
     state: "out"
 
     Component.onCompleted: createWallpaper.state = "in"
 
-    signal videoFileSelected(var videoFile)
-    signal projectFileSelected(var projectFile)
+    signal videoImportConvertFileSelected(var videoFile)
+    signal videoImportFileSelected(var videoFile)
 
+    signal projectFileSelected(var projectFile)
+    WorkshopLoader {
+        id: wl
+    }
     Text {
         id: txtHeadline
         text: qsTr("Import Video Wallpaper")
@@ -68,7 +74,7 @@ Item {
             }
 
             Button {
-                text: qsTr("Select File")
+                text: qsTr("Import video")
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -87,7 +93,7 @@ Item {
                 id: fileDialogImportVideo
                 // nameFilters: ["Video files (*.mp4)"]
                 onAccepted: {
-                    videoFileSelected(fileDialogImportVideo.currentFile)
+                    videoImportConvertFileSelected(fileDialogImportVideo.currentFile)
                 }
             }
         }
@@ -148,7 +154,7 @@ Item {
             }
 
             Button {
-                text: qsTr("Select File")
+                text: qsTr("Convert Video")
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -167,7 +173,7 @@ Item {
                 id: fileDialogImportVideo2
                 // nameFilters: ["Video files (*.mp4)"]
                 onAccepted: {
-                    videoFileSelected(fileDialogImportVideo.currentFile)
+                    videoImportConvertFileSelected(fileDialogImportVideo.currentFile)
                 }
             }
         }
@@ -194,6 +200,7 @@ Item {
         id: wrapperUploadProject
         width: parent.width
         height: 120
+        visible: wl.available
 
         anchors {
             top: wrapperConvertVideo.bottom
@@ -217,9 +224,11 @@ Item {
             opacity: 0
         }
 
+
         Rectangle {
             id: importVideoBg3
             radius: 3
+
             anchors {
                 fill: parent
                 margins: 10
@@ -358,6 +367,20 @@ Item {
         }
     ]
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

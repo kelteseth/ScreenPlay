@@ -7,6 +7,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
 import RemoteWorkshopCreationStatus 1.0
 
+
 Item {
     id: createUpload
     anchors.fill: parent
@@ -17,6 +18,8 @@ Item {
     property url videoFile: ""
     property string projectFile
     property var jsonProjectFile
+
+
 
     // First we parse the content of the project file
     // TODO: Implement parse error
@@ -527,3 +530,8 @@ Item {
         }
     ]
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/

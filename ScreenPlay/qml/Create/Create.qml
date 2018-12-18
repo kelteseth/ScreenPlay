@@ -6,6 +6,8 @@ import QtGraphicalEffects 1.0
 
 import net.aimber.create 1.0
 
+import "Wizards/CreateWallpaper"
+
 Item {
     id: create
     anchors.fill: parent
@@ -19,15 +21,28 @@ Item {
 
     Connections {
         target: createWallpaper
-        onVideoFileSelected: {
+        onVideoImportConvertFileSelected: {
             create.state = "import"
 
             activeVideoFile = videoFile
             loader.setSource(
                         "Wizards/CreateWallpaper/CreateWallpaperWizard.qml", {
-                            "filePath": activeVideoFile
+                            "filePath": activeVideoFile,
+                            "importState": CreateWallpaperWizard.ImportState.Convert
                         })
         }
+        onVideoImportFileSelected: {
+            create.state = "import"
+
+
+            activeVideoFile = videoFile
+            loader.setSource(
+                        "Wizards/CreateWallpaper/CreateWallpaperWizard.qml", {
+                            "filePath": activeVideoFile,
+                            "importState": CreateWallpaperWizard.ImportState.Import
+                        })
+        }
+
         onProjectFileSelected: {
             create.state = "import"
 
