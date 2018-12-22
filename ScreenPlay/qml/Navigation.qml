@@ -2,6 +2,7 @@ import QtQuick 2.9
 import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 
+
 import "Workshop"
 
 Rectangle {
@@ -33,12 +34,6 @@ Rectangle {
     }
 
     function onPageChanged(name) {
-
-        //Avoid crashing screenplay when steam is not available
-        if (name === "Workshop" && screenPlaySettings.offlineMode) {
-            steamWorkshop.initSteam()
-            return
-        }
 
         if (!navActive)
             return

@@ -29,7 +29,7 @@
 #include "profilelistmodel.h"
 #include "projectsettingslistmodel.h"
 #include "sdkconnector.h"
-#include "../ThirdParty/steam/steam_api.h"
+
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #endif
@@ -49,7 +49,7 @@ class Settings : public QObject {
     Q_OBJECT
 
 public:
-    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, AppId_t steamID, QGuiApplication* app, QObject* parent = nullptr);
+    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc,  QGuiApplication* app, QObject* parent = nullptr);
     ~Settings();
 
     Q_PROPERTY(Version version READ version)
@@ -322,7 +322,6 @@ private:
     bool m_highPriorityStart = true;
     bool m_sendStatistics;
 
-    AppId_t m_steamID;
     QString m_decoder;
     int m_activeWallpaperCounter = 0;
     QGuiApplication* m_qGuiApplication;

@@ -26,7 +26,6 @@
 #include <qt_windows.h>
 #endif
 
-#include "ThirdParty/steam/steam_api.h"
 #include "src/create.h"
 #include "src/installedlistfilter.h"
 #include "src/installedlistmodel.h"
@@ -36,9 +35,6 @@
 #include "src/screenplay.h"
 #include "src/sdkconnector.h"
 #include "src/settings.h"
-#include "src/startuperror.h"
-#include "src/steamworkshop.h"
-#include "src/steamworkshoplistmodel.h"
 
 int main(int argc, char* argv[])
 {
@@ -50,6 +46,8 @@ int main(int argc, char* argv[])
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
 
     QTranslator trsl;
+    QString locale = QLocale::system().name();
+    qDebug() << locale;
     trsl.load(":/translations/ScreenPlay_de.qm");
     app.installTranslator(&trsl);
 
@@ -62,7 +60,6 @@ int main(int argc, char* argv[])
     QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Light.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Thin.ttf");
 
-    AppId_t steamID = 672870;
     QCoreApplication::setOrganizationName("Aimber");
     QCoreApplication::setOrganizationDomain("screen-play.app");
     QCoreApplication::setApplicationName("ScreenPlay");
@@ -75,7 +72,6 @@ int main(int argc, char* argv[])
     MonitorListModel monitorListModel(&app);
 
     ProfileListModel profileListModel;
-    SteamWorkshopListModel steamWorkshopListModel;
     SDKConnector sdkConnector;
 
     InstalledListFilter installedListFilter(&installedListModel);
@@ -83,7 +79,7 @@ int main(int argc, char* argv[])
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
-    Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, steamID, &app);
+    Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, &app);
     ScreenPlay screenPlay(&installedListModel, &settings, &monitorListModel, &app, &sdkConnector);
     QDir SPWorkingDir(QDir::currentPath());
     QDir SPBaseDir(QDir::currentPath());
@@ -138,7 +134,6 @@ int main(int argc, char* argv[])
         settings.setScreenPlayWidgetPath(QUrl("ScreenPlayWidget.exe"));
     }
 #endif
-    SteamWorkshop steamWorkshop(steamID, &steamWorkshopListModel, &settings);
     Create create(&settings, &qmlUtil);
 
     // All the list need the default path from the settings
@@ -152,12 +147,11 @@ int main(int argc, char* argv[])
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
     mainWindowEngine.rootContext()->setContextProperty("utility", &qmlUtil);
     mainWindowEngine.rootContext()->setContextProperty("installedListFilter", &installedListFilter);
-    mainWindowEngine.rootContext()->setContextProperty("workshopListModel", &steamWorkshopListModel);
     mainWindowEngine.rootContext()->setContextProperty("monitorListModel", &monitorListModel);
     mainWindowEngine.rootContext()->setContextProperty("installedListModel", &installedListModel);
     mainWindowEngine.rootContext()->setContextProperty("profileListModel", &profileListModel);
     mainWindowEngine.rootContext()->setContextProperty("screenPlaySettings", &settings);
-    mainWindowEngine.rootContext()->setContextProperty("steamWorkshop", &steamWorkshop);
+
     mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     // Set visible if the -silent parameter was not set
@@ -165,13 +159,7 @@ int main(int argc, char* argv[])
     if (!argumentList.contains("-silent")) {
         settings.setMainWindowVisible(true);
     }
-
-    QObject::connect(&steamWorkshop, &SteamWorkshop::workshopSearchResult,
-        &steamWorkshopListModel, &SteamWorkshopListModel::append, Qt::QueuedConnection);
-
     int status = app.exec();
-
-    SteamAPI_Shutdown();
 
     return status;
 }

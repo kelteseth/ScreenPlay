@@ -1,7 +1,7 @@
 #include "settings.h"
 #include <QGuiApplication>
 #include <QStandardPaths>
-Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, AppId_t steamID, QGuiApplication* app, QObject* parent)
+Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, QGuiApplication* app, QObject* parent)
     : QObject(parent)
 {
 
@@ -9,7 +9,6 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_mlm = mlm;
     m_ilm = ilm;
     m_sdkc = sdkc;
-    m_steamID = steamID;
     m_qGuiApplication = app;
 
     QFile configTmp;

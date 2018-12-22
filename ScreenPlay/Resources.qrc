@@ -112,9 +112,6 @@
         <file>qml/StartupErrorWindow.qml</file>
         <file>qml/Widgets/Window.qml</file>
         <file>qml/Workshop/Workshop.qml</file>
-        <file>qml/Workshop/WorkshopAlertBanner.qml</file>
-        <file>qml/Workshop/WorkshopBanner.qml</file>
-        <file>qml/Workshop/WorkshopItem.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>settings.json</file>
         <file>translations/ScreenPlay_de.qm</file>
