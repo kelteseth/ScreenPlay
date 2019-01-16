@@ -40,16 +40,17 @@ int main(int argc, char* argv[])
 {
 
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setOrganizationName("Aimber");
+    QGuiApplication::setOrganizationDomain("screen-play.app");
+    QGuiApplication::setApplicationName("ScreenPlay");
+    QGuiApplication::setApplicationVersion("0.2.0");
 
     QGuiApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false);
-    qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
+    app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
-    QTranslator trsl;
-    QString locale = QLocale::system().name();
-    qDebug() << locale;
-    trsl.load(":/translations/ScreenPlay_de.qm");
-    app.installTranslator(&trsl);
+    qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
+    qDebug() << QThread::currentThreadId();
 
     QtWebEngine::initialize();
 
@@ -60,27 +61,20 @@ int main(int argc, char* argv[])
     QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Light.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Thin.ttf");
 
-    QCoreApplication::setOrganizationName("Aimber");
-    QCoreApplication::setOrganizationDomain("screen-play.app");
-    QCoreApplication::setApplicationName("ScreenPlay");
-    QCoreApplication::setApplicationVersion("0.1.0");
-
-    app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
-
     QMLUtilities qmlUtil;
     InstalledListModel installedListModel;
+    InstalledListFilter installedListFilter(&installedListModel);
     MonitorListModel monitorListModel(&app);
-
     ProfileListModel profileListModel;
     SDKConnector sdkConnector;
-
-    InstalledListFilter installedListFilter(&installedListModel);
 
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, &app);
     ScreenPlay screenPlay(&installedListModel, &settings, &monitorListModel, &app, &sdkConnector);
+    Create create(&settings, &qmlUtil);
+
     QDir SPWorkingDir(QDir::currentPath());
     QDir SPBaseDir(QDir::currentPath());
 
@@ -134,7 +128,6 @@ int main(int argc, char* argv[])
         settings.setScreenPlayWidgetPath(QUrl("ScreenPlayWidget.exe"));
     }
 #endif
-    Create create(&settings, &qmlUtil);
 
     // All the list need the default path from the settings
     // to know where to look for the files
@@ -165,7 +158,6 @@ int main(int argc, char* argv[])
     if (!argumentList.contains("-silent")) {
         settings.setMainWindowVisible(true);
     }
-    int status = app.exec();
 
-    return status;
+    return app.exec();
 }
