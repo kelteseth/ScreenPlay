@@ -241,7 +241,7 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 onClicked: Qt.openUrlExternally(
-                               "http://qmlbook.github.io/en/ch04/index.html#qml-syntax")
+                               "http://qmlbook.github.io/ch04-qmlstart/qmlstart.html")
             }
             Button {
                 text: qsTr("Documentation")
