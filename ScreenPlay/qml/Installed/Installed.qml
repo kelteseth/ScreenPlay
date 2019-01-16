@@ -326,7 +326,6 @@ Item {
                 }
 
                 selectByMouse: true
-                text: qsTr("")
                 placeholderText: qsTr("Search for Wallpaper & Widgets")
             }
         }

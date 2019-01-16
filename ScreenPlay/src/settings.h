@@ -148,6 +148,8 @@ public slots:
     void writeSingleSettingConfig(QString name, QVariant value);
     void requestAllLicenses();
     void requestAllLDataProtection();
+    void saveWallpaper(int monitorIndex, QUrl absoluteStoragePath, QStringList properties, QString type);
+    void setqSetting(const QString& key, const QString& value);
 
     bool autostart() const
     {
@@ -176,15 +178,10 @@ public slots:
 
         if (autostart) {
 #ifdef Q_OS_WIN
-#ifdef QT_DEBUG
+
             QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
             settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
             settings.sync();
-#else
-            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
-            settings.setValue("ScreenPlay", QDir::toNativeSeparators("C:/Program Files (x86)/Steam/steamapps/common/ScreenPlay/ScreenPlay/ScreenPlay.exe") + " -silent");
-            settings.sync();
-#endif
 #endif
         } else {
 #ifdef Q_OS_WIN
@@ -303,6 +300,8 @@ private:
     void createDefaultConfig();
 
     Version m_version;
+    QSettings m_qSettings;
+    QTranslator m_translator;
     ProfileListModel* m_plm;
     InstalledListModel* m_ilm;
     MonitorListModel* m_mlm;
@@ -324,7 +323,7 @@ private:
 
     QString m_decoder;
     int m_activeWallpaperCounter = 0;
-    QGuiApplication* m_qGuiApplication;
+    QGuiApplication* m_app;
 
     bool m_offlineMode = true;
 };

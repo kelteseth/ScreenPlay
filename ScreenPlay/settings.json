@@ -4,11 +4,7 @@
   "highPriorityStart" : false,
   "sendStatistics" : false,
   "absoluteStoragePath": "",
-  "renderer": {
-    "renderer-value": 0,
-    "renderer-enum" : ["CUDA","FFmpeg", "D3D11", "DXVA", "VAAPI"]
-    },
-   "profiles":[
-     {  "monitorID": "","profile": "" }
-     ]
+  "profiles":[
+    {  "monitorID": "","profile": "" }
+  ]
 }

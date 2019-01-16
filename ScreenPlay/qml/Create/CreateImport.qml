@@ -134,7 +134,7 @@ Item {
                 height: 60
                 width: parent.width
                 selectByMouse: true
-                text: qsTr("")
+                text: qsTr("Title")
                 placeholderText: "Title"
             }
         }

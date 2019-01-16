@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de_DE">
+<TS version="2.1" language="en_US">
 <context>
     <name>Community</name>
     <message>
@@ -71,13 +71,8 @@
     </message>
     <message>
         <location filename="../qml/Create/CreateImport.qml" line="137"/>
-        <source>Title</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateImport.qml" line="137"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateImport.qml" line="143"/>
@@ -103,35 +98,45 @@
     <message>
         <location filename="../qml/Create/CreateUpload.qml" line="219"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="243"/>
+        <location filename="../qml/Create/CreateUpload.qml" line="227"/>
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/CreateUpload.qml" line="236"/>
+        <source></source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/CreateUpload.qml" line="246"/>
         <source>Videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="250"/>
+        <location filename="../qml/Create/CreateUpload.qml" line="253"/>
         <source>Scenes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="257"/>
+        <location filename="../qml/Create/CreateUpload.qml" line="260"/>
         <source>Widgets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="264"/>
+        <location filename="../qml/Create/CreateUpload.qml" line="267"/>
         <source>AppDrawer</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="271"/>
+        <location filename="../qml/Create/CreateUpload.qml" line="274"/>
         <source>Upload to Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="320"/>
+        <location filename="../qml/Create/CreateUpload.qml" line="323"/>
         <source>Creating Workshop Item</source>
         <translation type="unfinished"></translation>
     </message>
@@ -241,10 +246,10 @@
     <message>
         <location filename="../qml/Installed/Installed.qml" line="329"/>
         <source></source>
-        <translation></translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="329"/>
+        <location filename="../qml/Installed/Installed.qml" line="330"/>
         <source>Search for Wallpaper &amp; Widgets</source>
         <translation type="unfinished"></translation>
     </message>
@@ -332,122 +337,112 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="67"/>
+        <location filename="../qml/Settings/Settings.qml" line="68"/>
         <source>General</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="85"/>
+        <location filename="../qml/Settings/Settings.qml" line="86"/>
         <source>Autostart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="86"/>
+        <location filename="../qml/Settings/Settings.qml" line="87"/>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="97"/>
+        <location filename="../qml/Settings/Settings.qml" line="98"/>
         <source>High priority Autostart</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="100"/>
+        <location filename="../qml/Settings/Settings.qml" line="101"/>
         <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="112"/>
+        <location filename="../qml/Settings/Settings.qml" line="113"/>
         <source>Send anonymous crash reports and statistics</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="113"/>
+        <location filename="../qml/Settings/Settings.qml" line="114"/>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="126"/>
+        <location filename="../qml/Settings/Settings.qml" line="127"/>
         <source>Set save location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="128"/>
+        <location filename="../qml/Settings/Settings.qml" line="129"/>
         <source>Set location</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="142"/>
+        <location filename="../qml/Settings/Settings.qml" line="143"/>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="163"/>
-        <source>Language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="164"/>
-        <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="234"/>
+        <location filename="../qml/Settings/Settings.qml" line="192"/>
         <source>Performance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="255"/>
+        <location filename="../qml/Settings/Settings.qml" line="213"/>
         <source>Pause wallpaper when ingame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="256"/>
+        <location filename="../qml/Settings/Settings.qml" line="214"/>
         <source>To maximise your framerates ingame, you can enable this setting to pause all active wallpapers!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="267"/>
+        <location filename="../qml/Settings/Settings.qml" line="225"/>
         <source>Default Fill Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="268"/>
+        <location filename="../qml/Settings/Settings.qml" line="226"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="318"/>
+        <location filename="../qml/Settings/Settings.qml" line="275"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="393"/>
+        <location filename="../qml/Settings/Settings.qml" line="350"/>
         <source>Third Party Software</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="394"/>
+        <location filename="../qml/Settings/Settings.qml" line="351"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="395"/>
+        <location filename="../qml/Settings/Settings.qml" line="352"/>
         <source>Licenses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="419"/>
+        <location filename="../qml/Settings/Settings.qml" line="376"/>
         <source>Data Protection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="420"/>
+        <location filename="../qml/Settings/Settings.qml" line="377"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="421"/>
+        <location filename="../qml/Settings/Settings.qml" line="378"/>
         <source>Privacy</source>
         <translation type="unfinished"></translation>
     </message>

@@ -216,7 +216,6 @@ Item {
                 height: 60
                 Layout.preferredWidth: parent.width
                 selectByMouse: true
-                text: qsTr("")
                 placeholderText: "Title"
             }
             TextField {
@@ -224,7 +223,6 @@ Item {
                 height: 60
                 Layout.preferredWidth: parent.width
                 selectByMouse: true
-                text: qsTr("")
                 placeholderText: "Description"
             }
 
@@ -233,7 +231,6 @@ Item {
                 height: 60
                 Layout.preferredWidth: parent.width
                 selectByMouse: true
-                text: qsTr("")
                 placeholderText: "Youtube Preview URL"
             }
             Row {

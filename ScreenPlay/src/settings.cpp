@@ -1,15 +1,43 @@
 #include "settings.h"
 #include <QGuiApplication>
 #include <QStandardPaths>
+
 Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, QGuiApplication* app, QObject* parent)
     : QObject(parent)
+    , m_qSettings(QSettings(QSettings::NativeFormat, QSettings::Scope::UserScope, app->organizationName(), app->applicationName()))
 {
 
     m_plm = plm;
     m_mlm = mlm;
     m_ilm = ilm;
     m_sdkc = sdkc;
-    m_qGuiApplication = app;
+    m_app = app;
+
+    if (m_qSettings.value("language").isNull()) {
+        auto locale = QLocale::system().uiLanguages();
+        auto localeSplits = locale.at(0).split("-");
+
+        // Only install a translator if one exsists
+        QFile tsFile;
+        qDebug() << ":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm";
+        if (tsFile.exists(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm")) {
+            m_translator.load(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm");
+            m_qSettings.setValue("language", QVariant(localeSplits.at(0)));
+            m_qSettings.sync();
+            app->installTranslator(&m_translator);
+        }
+    } else {
+        QFile tsFile;
+        if (tsFile.exists(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm")) {
+            m_translator.load(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm");
+            app->installTranslator(&m_translator);
+        }
+    }
+
+    if (m_qSettings.value("ScreenPlayExecutable").isNull()) {
+        m_qSettings.setValue("ScreenPlayExecutable", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
+        m_qSettings.sync();
+    }
 
     QFile configTmp;
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
@@ -231,6 +259,16 @@ void Settings::requestAllLDataProtection()
 
         emit this->allDataProtectionLoaded(tmp);
     });
+}
+
+void Settings::saveWallpaper(int monitorIndex, QUrl absoluteStoragePath, QStringList properties, QString type)
+{
+}
+
+void Settings::setqSetting(const QString &key, const QString &value)
+{
+    m_qSettings.setValue(key, value);
+    m_qSettings.sync();
 }
 
 void Settings::setMuteAll(bool isMuted)
