@@ -191,6 +191,7 @@ Item {
 
                     color: "#2F2F2F"
                     font.pointSize: 9
+
                     font.family: "Segoe UI, Roboto"
                 }
             }
@@ -289,11 +290,6 @@ Item {
             PropertyChanges {
                 target: icnType
                 opacity: 0
-            }
-            PropertyChanges {
-                target: screenPlayItemWrapper
-                y: 0
-                opacity: 1
             }
         },
         State {
