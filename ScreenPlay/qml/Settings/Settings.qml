@@ -33,13 +33,12 @@ Item {
         Column {
             id: columnWrapper
             anchors.margins: 20
-            //            height: 1200
             width: 760
             spacing: 30
 
             Item {
                 id: settingsGeneralWrapper
-                height: 450
+                height: 520
                 width: parent.width
 
                 RectangularGlow {
@@ -144,6 +143,7 @@ Item {
                             color: "#B5B5B5"
                             height: 30
                             width: parent.width
+
                             verticalAlignment: Text.AlignVCenter
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignLeft
@@ -156,6 +156,49 @@ Item {
                             }
                         }
 
+                        SettingsHorizontalSeperator {
+                        }
+                        SettingsComboBox {
+                            id: settingsLanguage
+                            headline: qsTr("Language")
+                            description: qsTr("Set the ScreenPlay UI Language")
+                            onCurrentIndexChanged: {
+                                var key = settingsLanguage.comboBoxListModel.get(
+                                            settingsLanguage.currentIndex).text.toString();
+
+                                var languageKey;
+
+                                switch (key) {
+                                case "German":
+                                    languageKey = "de"
+                                    break;
+                                case "English":
+                                    languageKey = "en"
+                                    break;
+                                case "Russian":
+                                    languageKey = "ru"
+                                    break;
+                                default:
+                                    languageKey = "en"
+                                    break;
+                                }
+                                print(key, languageKey)
+
+                                screenPlaySettings.setqSetting("language", languageKey)
+
+                            }
+                            comboBoxListModel: ListModel {
+                                ListElement {
+                                    text: "English"
+                                }
+                                ListElement {
+                                    text: "German"
+                                }
+                                ListElement {
+                                    text: "Russian"
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -229,6 +272,7 @@ Item {
                             comboBoxListModel: ListModel {
                                 ListElement {
                                     text: "Stretch"
+
                                 }
                                 ListElement {
                                     text: "PreserveAspectFit"
@@ -298,6 +342,7 @@ Item {
                                 id: txtHeadline
                                 color: "#5D5D5D"
                                 text: "Lore Ipsum"
+
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
                                 font.pixelSize: 16
@@ -312,6 +357,7 @@ Item {
                                 id: txtDescriptionAbout
                                 text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. \n \n Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. "
                                 color: "#B5B5B5"
+
                                 wrapMode: Text.WordWrap
                                 verticalAlignment: Text.AlignTop
                                 horizontalAlignment: Text.AlignLeft
