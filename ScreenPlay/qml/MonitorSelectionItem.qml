@@ -31,7 +31,7 @@ Item {
     }
 
     Text {
-        renderType: Text.NativeRendering
+        
         text: monitorSize.width + "x" + monitorSize.height
         anchors{
             horizontalCenter: parent.horizontalCenter

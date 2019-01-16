@@ -66,7 +66,7 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 font.family: "Roboto"
                 font.weight: Font.Normal
-                renderType: Text.NativeRendering
+
             }
 
             Image {

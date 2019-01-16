@@ -58,7 +58,7 @@ GridView {
             text: qsTr("News & Patchnotes")
             wrapMode: Text.WordWrap
             color: "#626262"
-            renderType: Text.NativeRendering
+            
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
             font.pixelSize: 32
@@ -130,7 +130,7 @@ GridView {
             Text {
                 id: txtTitle
                 text: title
-                renderType: Text.NativeRendering
+                
                 anchors {
                     right: parent.right
                     bottom: parent.bottom
@@ -158,7 +158,7 @@ GridView {
                 }
                 color: "white"
                 font.family: "Roboto"
-                renderType: Text.NativeRendering
+                
                 font.weight: Font.Normal
                 font.pixelSize: 14
                 wrapMode: Text.WordWrap

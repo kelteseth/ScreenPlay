@@ -29,7 +29,7 @@ Rectangle {
                 margins: 20
             }
             color: "#626262"
-            renderType: Text.NativeRendering
+
             height: txtExpander.paintedHeight
             wrapMode: Text.Wrap
         }

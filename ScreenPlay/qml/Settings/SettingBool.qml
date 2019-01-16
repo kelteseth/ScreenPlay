@@ -25,7 +25,7 @@ Item {
         id: txtHeadline
         color: "#5D5D5D"
         text: settingsBool.headline
-        renderType: Text.NativeRendering
+        
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         anchors{
@@ -45,7 +45,7 @@ Item {
         text: settingsBool.description
         wrapMode: Text.WordWrap
         color: "#B5B5B5"
-        renderType: Text.NativeRendering
+        
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: 12

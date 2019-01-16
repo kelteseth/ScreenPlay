@@ -144,7 +144,6 @@ Item {
                             color: "#B5B5B5"
                             height: 30
                             width: parent.width
-                            renderType: Text.NativeRendering
                             verticalAlignment: Text.AlignVCenter
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignLeft
@@ -299,7 +298,6 @@ Item {
                                 id: txtHeadline
                                 color: "#5D5D5D"
                                 text: "Lore Ipsum"
-                                renderType: Text.NativeRendering
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
                                 font.pixelSize: 16
@@ -314,7 +312,6 @@ Item {
                                 id: txtDescriptionAbout
                                 text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. \n \n Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. "
                                 color: "#B5B5B5"
-                                renderType: Text.NativeRendering
                                 wrapMode: Text.WordWrap
                                 verticalAlignment: Text.AlignTop
                                 horizontalAlignment: Text.AlignLeft

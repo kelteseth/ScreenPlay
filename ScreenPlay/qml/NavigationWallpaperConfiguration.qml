@@ -42,7 +42,7 @@ Item {
             font.pointSize: 10
             font.bold: true
             font.family: "Roboto"
-            renderType: Text.NativeRendering
+            
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 top: parent.top
@@ -64,7 +64,7 @@ Item {
         color: "#626262"
         font.pointSize: 12
         font.family: "Roboto"
-        renderType: Text.NativeRendering
+        
     }
     MouseArea {
         id: mouseArea

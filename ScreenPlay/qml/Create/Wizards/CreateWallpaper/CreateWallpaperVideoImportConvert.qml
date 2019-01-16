@@ -15,7 +15,7 @@ Item {
         font.family: "Roboto"
         font.weight: Font.Light
         color: "#757575"
-        renderType: Text.NativeRendering
+
         font.pixelSize: 23
         anchors {
             top: parent.top

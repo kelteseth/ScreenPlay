@@ -63,7 +63,7 @@ Item {
             font.family: "Roboto"
             color: "white"
             font.weight: Font.Normal
-            renderType: Text.NativeRendering
+            
         }
 
         Text {
@@ -73,7 +73,7 @@ Item {
             font.pixelSize: 75
             color: "white"
             font.weight: Font.Normal
-            renderType: Text.NativeRendering
+            
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 top: parent.top

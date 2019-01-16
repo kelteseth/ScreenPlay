@@ -316,7 +316,7 @@ Item {
                 topMargin: 20
             }
             font.family: "Roboto"
-            renderType: Text.NativeRendering
+
         }
         Text {
             id: txtUploadStatus
@@ -330,7 +330,7 @@ Item {
                 topMargin: 20
             }
             font.family: "Roboto"
-            renderType: Text.NativeRendering
+
         }
 
         ProgressBar {

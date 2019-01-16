@@ -191,7 +191,6 @@ Item {
 
                     color: "#2F2F2F"
                     font.pointSize: 9
-                    renderType: Text.NativeRendering
                     font.family: "Segoe UI, Roboto"
                 }
             }

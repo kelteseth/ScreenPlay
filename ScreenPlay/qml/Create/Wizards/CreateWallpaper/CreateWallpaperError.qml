@@ -22,7 +22,7 @@ Item {
         font.family: "Segoe UI, Roboto"
         font.weight: Font.Light
         color: Material.color(Material.Red)
-        renderType: Text.NativeRendering
+        
         font.pixelSize: 32
     }
     
@@ -57,7 +57,7 @@ Item {
                 }
                 wrapMode: Text.WordWrap
                 color: "#626262"
-                renderType: Text.NativeRendering
+                
                 height: txtFFMPEGDebug.paintedHeight
             }
             Connections {

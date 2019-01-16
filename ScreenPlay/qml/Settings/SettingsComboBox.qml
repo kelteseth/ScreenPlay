@@ -25,7 +25,7 @@ Item {
         id: txtHeadline
         color: "#5D5D5D"
         text: settingsComboBox.headline
-        renderType: Text.NativeRendering
+        
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         anchors{
@@ -44,7 +44,7 @@ Item {
         id: txtDescription
         text: settingsComboBox.description
         color: "#B5B5B5"
-        renderType: Text.NativeRendering
+        
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         wrapMode: Text.WordWrap

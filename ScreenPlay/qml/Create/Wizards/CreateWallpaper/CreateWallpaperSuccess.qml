@@ -22,7 +22,7 @@ Item {
         font.family: "Segoe UI, Roboto"
         font.weight: Font.Light
         color: Material.color(Material.Green)
-        renderType: Text.NativeRendering
+        
         font.pixelSize: 32
     }
 

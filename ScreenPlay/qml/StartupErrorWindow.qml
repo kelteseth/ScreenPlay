@@ -147,7 +147,7 @@ ApplicationWindow {
         text: qsTr("Could not connect to Steam :(")
         color: "white"
         font.family: "Roboto"
-        renderType: Text.NativeRendering
+        
         wrapMode: Text.WordWrap
         font.pixelSize: 25
         anchors {
@@ -163,7 +163,7 @@ ApplicationWindow {
         text: qsTr("To use ScreenPlay with all its features you have to have Steam running!")
         color: "white"
         font.family: "Roboto"
-        renderType: Text.NativeRendering
+        
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignHCenter
         font.pixelSize: 18

@@ -31,7 +31,7 @@ Item {
         id: txtHeadline
         color: "#5D5D5D"
         text: settingsButton.headline
-        renderType: Text.NativeRendering
+        
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         anchors{
@@ -49,7 +49,7 @@ Item {
         id: txtDescription
         text: settingsButton.description
         color: "#B5B5B5"
-        renderType: Text.NativeRendering
+        
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignLeft

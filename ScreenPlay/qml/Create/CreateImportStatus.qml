@@ -85,7 +85,7 @@ Item {
             id: txtStatus
             height: 80
             font.family: "Roboto"
-            renderType: Text.NativeRendering
+            
             font.pixelSize: 24
             color: "gray"
             verticalAlignment: Text.AlignVCenter

@@ -141,7 +141,13 @@ int main(int argc, char* argv[])
     profileListModel.loadProfiles();
     settings.loadActiveProfiles();
 
+
     QQmlApplicationEngine mainWindowEngine;
+
+    // Instead of setting "renderType: Text.NativeRendering" every time
+    // we can set it here once :)
+    auto* window = static_cast<QQuickWindow*>(mainWindowEngine.rootObjects().first());
+    window->setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);

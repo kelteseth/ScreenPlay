@@ -21,7 +21,7 @@ Item {
         font.pixelSize: 14
         font.family: "Roboto"
         color: "#5D5D5D"
-        renderType: Text.NativeRendering
+
         anchors {
             top: parent.top
             right: parent.right
@@ -61,7 +61,7 @@ Item {
             color: "#818181"
             text: Math.round(slider.value * 100) / 100
             anchors.verticalCenter: parent.verticalCenter
-            font.family: "Libre Baskerville"
+            //font.family: "Libre Baskerville"
             font.pointSize: 12
             font.italic: true
             verticalAlignment: Text.AlignVCenter

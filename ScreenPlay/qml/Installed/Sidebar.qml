@@ -161,7 +161,7 @@ Item {
                     id: txtHeadline
                     text: qsTr("Headline")
                     height: 60
-                    renderType: Text.NativeRendering
+                    
                     font.family: "Roboto"
                     font.weight: Font.Thin
                     verticalAlignment: Text.AlignVCenter
@@ -182,7 +182,7 @@ Item {
                 id: txtHeadlineMonitor
                 text: qsTr("Select a Monitor to display the content")
                 height: 50
-                renderType: Text.NativeRendering
+                
                 horizontalAlignment: Qt.AlignHCenter
                 font.family: "Roboto"
                 font.pixelSize: 18
@@ -236,7 +236,7 @@ Item {
                     id: txtSliderVolume
                     text: qsTr("Volume")
                     height: 30
-                    renderType: Text.NativeRendering
+                    
                     font.family: "Roboto"
                     verticalAlignment: Text.AlignVCenter
                     font.pixelSize: 14
@@ -291,7 +291,7 @@ Item {
                 id: txtComboBoxFillMode
                 text: qsTr("Fill Mode")
                 height: 30
-                renderType: Text.NativeRendering
+                
                 font.family: "Roboto"
                 verticalAlignment: Text.AlignVCenter
                 font.pixelSize: 14

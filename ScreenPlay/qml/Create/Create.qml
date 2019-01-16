@@ -210,7 +210,7 @@ Item {
         id: txtDescriptionBottom
         text: qsTr("Create wallpapers and widgets for local usage or the steam workshop!")
         font.family: "Roboto"
-        renderType: Text.NativeRendering
+
         font.pixelSize: 14
         color: "white"
         anchors {

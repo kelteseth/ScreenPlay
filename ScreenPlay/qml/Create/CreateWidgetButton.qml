@@ -68,7 +68,7 @@ Item {
             id: name
             text: btnEmpty.text
             font.family: "Roboto"
-            renderType: Text.NativeRendering
+            
             font.pixelSize: 18
             color: "gray"
             anchors {
@@ -81,7 +81,7 @@ Item {
 
             text: ">"
             font.family: "Roboto"
-            renderType: Text.NativeRendering
+            
             font.pixelSize: 24
             color: "#b9b9b9"
             anchors {

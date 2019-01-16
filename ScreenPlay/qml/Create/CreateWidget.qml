@@ -20,7 +20,7 @@ Item {
 
         color: "white"
         font.pixelSize: 28
-        renderType: Text.NativeRendering
+        
         font.family: "Roboto"
         font.weight: Font.Thin
     }
@@ -52,7 +52,7 @@ Item {
         id: txtExamples
         text: qsTr("Examples Widgets and Scenes")
         font.family: "Roboto"
-        renderType: Text.NativeRendering
+        
         font.pixelSize: 18
         color: "white"
 

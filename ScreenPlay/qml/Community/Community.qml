@@ -64,7 +64,7 @@ Item {
             font.weight: Font.Normal
             wrapMode: Text.WordWrap
             horizontalAlignment: Qt.AlignHCenter
-            renderType: Text.NativeRendering
+            
             anchors {
                 top: imgStomt.bottom
                 topMargin: -50

@@ -82,7 +82,7 @@ Rectangle {
             horizontalAlignment: Text.AlignHCenter
             font.family: "Libre Baskerville"
             font.italic: true
-            renderType: Text.NativeRendering
+            
         }
     }
     Text {
@@ -97,7 +97,7 @@ Rectangle {
         wrapMode:  Text.WordWrap
         font.pointSize: 12
         opacity: 0
-        renderType: Text.NativeRendering
+        
         text: helpText
     }
 
