@@ -4,6 +4,7 @@
 
 Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, QGuiApplication* app, QObject* parent)
     : QObject(parent)
+    , m_version(QVersionNumber(0, 0, 1))
     , m_qSettings(QSettings(QSettings::NativeFormat, QSettings::Scope::UserScope, app->organizationName(), app->applicationName()))
 {
 
@@ -71,16 +72,18 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     }
 
     configObj = configJsonDocument.object();
+
     QString tmp(configObj.value("version").toVariant().toString());
     int major, minor, patch;
     major = QString(tmp.at(0)).toInt();
     minor = QString(tmp.at(2)).toInt();
     patch = QString(tmp.at(4)).toInt();
+    QVersionNumber fileVersion(major, minor, patch);
 
     //Checks if the settings file has the same version as ScreeenPlay
-    if (!(major == m_version.major && minor == m_version.minor && patch == m_version.patch)) {
+    if (fileVersion != m_version) {
         // TODO(Kelteseth): Display error message
-        qWarning("Version missmatch");
+        qWarning() << "Version missmatch fileVersion: " << fileVersion.toString() << "m_version: " << m_version.toString();
         return;
     }
 
@@ -265,7 +268,7 @@ void Settings::saveWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString
 {
 }
 
-void Settings::setqSetting(const QString &key, const QString &value)
+void Settings::setqSetting(const QString& key, const QString& value)
 {
     m_qSettings.setValue(key, value);
     m_qSettings.sync();

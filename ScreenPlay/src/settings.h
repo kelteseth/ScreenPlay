@@ -22,6 +22,7 @@
 #include <QVariant>
 #include <QVector>
 #include <QtGlobal>
+#include <QVersionNumber>
 
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -52,7 +53,7 @@ public:
     explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc,  QGuiApplication* app, QObject* parent = nullptr);
     ~Settings();
 
-    Q_PROPERTY(Version version READ version)
+    Q_PROPERTY(QVersionNumber version READ version)
     Q_PROPERTY(bool hasWorkshopBannerSeen READ hasWorkshopBannerSeen WRITE setHasWorkshopBannerSeen NOTIFY hasWorkshopBannerSeenChanged)
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
@@ -73,13 +74,7 @@ public:
     };
     Q_ENUM(LocalCopyResult)
 
-    struct Version {
-        int major = 0;
-        int minor = 0;
-        int patch = 1;
-    };
-
-    Version version() const
+    QVersionNumber version() const
     {
         return m_version;
     }
@@ -299,7 +294,7 @@ public slots:
 private:
     void createDefaultConfig();
 
-    Version m_version;
+    QVersionNumber m_version;
     QSettings m_qSettings;
     QTranslator m_translator;
     ProfileListModel* m_plm;
