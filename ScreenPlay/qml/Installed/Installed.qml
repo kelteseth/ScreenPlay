@@ -1,5 +1,4 @@
 import QtQuick 2.9
-import QtQml.Models 2.2
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
@@ -16,9 +15,6 @@ Item {
     property bool enabled: true
 
     Component.onCompleted: {
-        installedListFilter.sortByRoleType("All")
-        installedListModel.reset()
-        installedListModel.loadScreens()
         pageInstalled.state = "in"
     }
 
@@ -316,6 +312,7 @@ Item {
                     right: parent.right
                     rightMargin: 30
                     bottom: parent.bottom
+                    bottomMargin: 5
                 }
                 onTextChanged: {
                     if (txtSearch.text.length === 0) {

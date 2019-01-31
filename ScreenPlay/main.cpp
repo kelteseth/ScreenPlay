@@ -4,7 +4,6 @@
 #include <QGuiApplication>
 #include <QIcon>
 #include <QLibrary>
-#include <QModelIndex>
 #include <QObject>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -14,7 +13,6 @@
 #include <QQuickView>
 #include <QScreen>
 #include <QStringList>
-#include <QTransform>
 #include <QUrl>
 #include <QVariant>
 #include <QWindow>
@@ -49,8 +47,8 @@ int main(int argc, char* argv[])
     app.setQuitOnLastWindowClosed(false);
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
+    // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
-    qDebug() << QThread::currentThreadId();
 
     QtWebEngine::initialize();
 
@@ -134,13 +132,7 @@ int main(int argc, char* argv[])
     profileListModel.loadProfiles();
     settings.loadActiveProfiles();
 
-
     QQmlApplicationEngine mainWindowEngine;
-
-    // Instead of setting "renderType: Text.NativeRendering" every time
-    // we can set it here once :)
-    auto* window = static_cast<QQuickWindow*>(mainWindowEngine.rootObjects().first());
-    window->setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
@@ -152,6 +144,13 @@ int main(int argc, char* argv[])
     mainWindowEngine.rootContext()->setContextProperty("screenPlaySettings", &settings);
 
     mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+    installedListFilter.sortByRoleType("All");
+    installedListModel.loadScreens();
+
+    // Instead of setting "renderType: Text.NativeRendering" every time
+    // we can set it here once :)
+    auto* window = static_cast<QQuickWindow*>(mainWindowEngine.rootObjects().first());
+    window->setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
     // Set visible if the -silent parameter was not set
     QStringList argumentList = app.arguments();
