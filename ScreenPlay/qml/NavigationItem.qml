@@ -11,7 +11,7 @@ Item {
     property string name: "value"
     property bool enabled: true
     onEnabledChanged: {
-        if(!enabled){
+        if (!enabled) {
             navigationItem.width = 0
             navigationItem.opacity = 0
         }
@@ -46,7 +46,7 @@ Item {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-             navigationItem.pageClicked(navigationItem.name)
+            navigationItem.pageClicked(navigationItem.name)
         }
 
         Item {
@@ -66,7 +66,6 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 font.family: "Roboto"
                 font.weight: Font.Normal
-
             }
 
             Image {
@@ -146,15 +145,27 @@ Item {
 
     transitions: [
         Transition {
+            from: "*"
             to: "active"
 
             NumberAnimation {
                 properties: "anchors.bottomMargin"
-                duration: 100
+                duration: 200
                 easing.type: Easing.OutQuart
             }
         },
         Transition {
+            from: "*"
+            to: "disabled"
+
+            NumberAnimation {
+                properties: "anchors.bottomMargin"
+                duration: 200
+                easing.type: Easing.OutQuart
+            }
+        },
+        Transition {
+            from: "*"
             to: "inactive"
 
             NumberAnimation {
