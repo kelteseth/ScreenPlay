@@ -57,7 +57,7 @@ public:
     }
 
 public slots:
-    void loadScreens();
+    void loadInstalledContent();
     QVariantMap get(QString folderId);
     void append(const QJsonObject, const QString);
     void setabsoluteStoragePath(QUrl absoluteStoragePath)

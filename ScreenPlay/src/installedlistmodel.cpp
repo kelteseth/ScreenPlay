@@ -84,7 +84,7 @@ void InstalledListModel::append(const QJsonObject obj, const QString folderName)
     endInsertRows();
 }
 
-void InstalledListModel::loadScreens()
+void InstalledListModel::loadInstalledContent()
 {
     QtConcurrent::run([this]() {
         QJsonDocument jsonProject;
