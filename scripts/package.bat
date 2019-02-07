@@ -1,7 +1,7 @@
 setlocal EnableExtensions
 
 set PATH=%PATH%;C:\Qt\Tools\QtCreator\bin
-set PATH=%PATH%;C:\Qt\5.11.2\msvc2017_64\bin
+set PATH=%PATH%;C:\Qt\5.12.0\msvc2017_64\bin
 set root=%cd%
 
 call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsx86_amd64.bat"
@@ -19,12 +19,6 @@ echo "Copy ScreenPlayWidget"
 xcopy /s /y ScreenPlayWidget\release ..\PACKAGE
 echo "Copy ScreenPlayWindow"
 xcopy /s /y ScreenPlayWindow\release ..\PACKAGE
-echo "Copy ScreenPlayWorkshop"
-xcopy /s /y ScreenPlayWorkshop\release ..\PACKAGE
-
-xcopy  C:\Qt\Tools\QtCreator\bin\libeay32.dll ..\PACKAGE
-xcopy  C:\Qt\Tools\QtCreator\bin\ssleay32.dll ..\PACKAGE
-
 
 cd ..
 
