@@ -2,8 +2,10 @@
 
 InstalledListFilter::InstalledListFilter(InstalledListModel* ilm)
 {
+
     setSourceModel(ilm);
     setFilterRole(InstalledListModel::InstalledRole::TitleRole);
+    sortByRoleType("All");
 }
 
 void InstalledListFilter::sortByRoleType(QString type)

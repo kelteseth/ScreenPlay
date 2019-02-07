@@ -227,7 +227,7 @@ public slots:
         m_localStoragePath = cleanedPath.toString();
         emit localStoragePathChanged(cleanedPath.toString());
         m_ilm->reset();
-        m_ilm->loadScreens();
+        m_ilm->loadInstalledContent();
     }
 
     void setDecoder(QString decoder)

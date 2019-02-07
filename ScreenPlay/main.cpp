@@ -3,21 +3,13 @@
 #include <QFontDatabase>
 #include <QGuiApplication>
 #include <QIcon>
-#include <QLibrary>
 #include <QObject>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQmlEngine>
-#include <QThread>
-
-#include <QQuickView>
-#include <QScreen>
 #include <QStringList>
 #include <QUrl>
-#include <QVariant>
-#include <QWindow>
 #include <QtGlobal>
-#include <QtQuick/QQuickItem>
 #include <QtWebEngine>
 
 #ifdef Q_OS_WIN
@@ -90,8 +82,7 @@ int main(int argc, char* argv[])
     mainWindowEngine.rootContext()->setContextProperty("screenPlaySettings", &settings);
     mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
-    installedListFilter.sortByRoleType("All");
-    installedListModel.loadScreens();
+    installedListModel.loadInstalledContent();
 
     // Instead of setting "renderType: Text.NativeRendering" every time
     // we can set it here once :)
