@@ -364,7 +364,7 @@ void Settings::setupWidgetAndWindowPaths()
     if (QDir(SPWorkingDir.path() + "/release").exists()) {
         // If started by QtCreator
         SPWorkingDir.cd("release");
-        settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow.exe"));
+        setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow.exe"));
         SPWorkingDir.cdUp();
         SPWorkingDir.cdUp();
         SPWorkingDir.cd("ScreenPlayWidget");

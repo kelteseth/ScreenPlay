@@ -41,7 +41,7 @@ class SDKConnection : public QObject {
     Q_PROPERTY(QVector<int> monitor READ monitor WRITE setMonitor NOTIFY monitorChanged)
 
 public:
-    explicit SDKConnection(QLocalSocket* socket, QObject* parent = nullptr)
+    explicit SDKConnection(QLocalSocket* socket, QObject* parent = nullptr) : QObject(parent)
     {
 
         m_socket = socket;

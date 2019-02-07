@@ -150,7 +150,7 @@ Item {
             //Pull to refresh
             if (contentY <= -180 && !refresh && !isDragging) {
                 installedListModel.reset()
-                installedListModel.loadScreens()
+                installedListModel.loadInstalledContent()
             }
         }
 
