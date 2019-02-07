@@ -293,6 +293,7 @@ public slots:
 
 private:
     void createDefaultConfig();
+    void setupWidgetAndWindowPaths();
 
     QVersionNumber m_version;
     QSettings m_qSettings;

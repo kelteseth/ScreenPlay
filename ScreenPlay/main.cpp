@@ -50,6 +50,7 @@ int main(int argc, char* argv[])
     // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
 
+    // Qt < 6.0 needs this init QtWebEngine
     QtWebEngine::initialize();
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
@@ -73,67 +74,12 @@ int main(int argc, char* argv[])
     ScreenPlay screenPlay(&installedListModel, &settings, &monitorListModel, &app, &sdkConnector);
     Create create(&settings, &qmlUtil);
 
-    QDir SPWorkingDir(QDir::currentPath());
-    QDir SPBaseDir(QDir::currentPath());
-
-#ifdef QT_DEBUG
-    qDebug() << "Starting in Debug mode!";
-
-    if (SPWorkingDir.cdUp()) {
-#ifdef Q_OS_OSX
-        settings.setScreenPlayWindowPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWindow/ScreenPlayWindow.app/Contents/MacOS/ScreenPlayWindow").toLocalFile());
-        settings.setScreenPlayWidgetPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
-        qDebug() << "Setting ScreenPlayWindow Path to " << settings.getScreenPlayWindowPath();
-        qDebug() << "Setting ScreenPlayWdiget Path to " << settings.getScreenPlayWidgetPath();
-#endif
-
-#ifdef Q_OS_WIN
-        settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
-        settings.setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
-#endif
-    }
-
-    // We need to detect the right base path so we can copy later the example projects
-    SPBaseDir.cdUp();
-    SPBaseDir.cdUp();
-    SPBaseDir.cd("ScreenPlay");
-    SPBaseDir.cd("ScreenPlay");
-    settings.setScreenPlayBasePath(QUrl(SPBaseDir.path()));
-#endif
-#ifdef QT_NO_DEBUG
-    qDebug() << "Starting in Release mode!";
-    settings.setScreenPlayBasePath(QUrl(SPWorkingDir.path()));
-
-    // If we build in the release version we must be cautious!
-    // The working dir in steam is the ScreenPlay.exe location
-    // In QtCreator is the dir above ScreenPlay.exe (!)
-
-    SPWorkingDir.cdUp();
-    SPWorkingDir.cd("ScreenPlayWindow");
-
-    if (QDir(SPWorkingDir.path() + "/release").exists()) {
-        // If started by QtCreator
-        SPWorkingDir.cd("release");
-        settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow.exe"));
-        SPWorkingDir.cdUp();
-        SPWorkingDir.cdUp();
-        SPWorkingDir.cd("ScreenPlayWidget");
-        SPWorkingDir.cd("release");
-        settings.setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget.exe"));
-    } else {
-        // If started by Steam
-        settings.setScreenPlayWindowPath(QUrl("ScreenPlayWindow.exe"));
-        settings.setScreenPlayWidgetPath(QUrl("ScreenPlayWidget.exe"));
-    }
-#endif
-
     // All the list need the default path from the settings
     // to know where to look for the files
     profileListModel.loadProfiles();
     settings.loadActiveProfiles();
 
     QQmlApplicationEngine mainWindowEngine;
-
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
     mainWindowEngine.rootContext()->setContextProperty("utility", &qmlUtil);
@@ -142,8 +88,8 @@ int main(int argc, char* argv[])
     mainWindowEngine.rootContext()->setContextProperty("installedListModel", &installedListModel);
     mainWindowEngine.rootContext()->setContextProperty("profileListModel", &profileListModel);
     mainWindowEngine.rootContext()->setContextProperty("screenPlaySettings", &settings);
-
     mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
     installedListFilter.sortByRoleType("All");
     installedListModel.loadScreens();
 

@@ -113,6 +113,8 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_checkForOtherFullscreenApplicationTimer = new QTimer(this);
     connect(m_checkForOtherFullscreenApplicationTimer, &QTimer::timeout, this, &Settings::checkForOtherFullscreenApplication);
     m_checkForOtherFullscreenApplicationTimer->start(1500);
+
+    setupWidgetAndWindowPaths();
 }
 
 Settings::~Settings()
@@ -317,6 +319,63 @@ void Settings::createDefaultConfig()
 
     file.close();
     defaultSettings.close();
+}
+
+void Settings::setupWidgetAndWindowPaths()
+{
+    QDir SPWorkingDir(QDir::currentPath());
+    QDir SPBaseDir(QDir::currentPath());
+
+#ifdef QT_DEBUG
+    qDebug() << "Starting in Debug mode!";
+
+    if (SPWorkingDir.cdUp()) {
+#ifdef Q_OS_OSX
+        setScreenPlayWindowPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWindow/ScreenPlayWindow.app/Contents/MacOS/ScreenPlayWindow").toLocalFile());
+        setScreenPlayWidgetPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
+        qDebug() << "Setting ScreenPlayWindow Path to " << settings.getScreenPlayWindowPath();
+        qDebug() << "Setting ScreenPlayWdiget Path to " << settings.getScreenPlayWidgetPath();
+#endif
+
+#ifdef Q_OS_WIN
+        setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
+        setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
+#endif
+    }
+
+    // We need to detect the right base path so we can copy later the example projects
+    SPBaseDir.cdUp();
+    SPBaseDir.cdUp();
+    SPBaseDir.cd("ScreenPlay");
+    SPBaseDir.cd("ScreenPlay");
+    setScreenPlayBasePath(QUrl(SPBaseDir.path()));
+#endif
+#ifdef QT_NO_DEBUG
+    qDebug() << "Starting in Release mode!";
+    setScreenPlayBasePath(QUrl(SPWorkingDir.path()));
+
+    // If we build in the release version we must be cautious!
+    // The working dir in steam is the ScreenPlay.exe location
+    // In QtCreator is the dir above ScreenPlay.exe (!)
+
+    SPWorkingDir.cdUp();
+    SPWorkingDir.cd("ScreenPlayWindow");
+
+    if (QDir(SPWorkingDir.path() + "/release").exists()) {
+        // If started by QtCreator
+        SPWorkingDir.cd("release");
+        settings.setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow.exe"));
+        SPWorkingDir.cdUp();
+        SPWorkingDir.cdUp();
+        SPWorkingDir.cd("ScreenPlayWidget");
+        SPWorkingDir.cd("release");
+        setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget.exe"));
+    } else {
+        // If started by Steam
+        setScreenPlayWindowPath(QUrl("ScreenPlayWindow.exe"));
+        setScreenPlayWidgetPath(QUrl("ScreenPlayWidget.exe"));
+    }
+#endif
 }
 
 bool Settings::getOfflineMode() const
