@@ -18,14 +18,14 @@ Item {
     }
     signal checkboxChanged(bool checked)
 
-    height: 50
+    height: 50 +txtDescription.paintedHeight
     width: parent.width
 
     Text {
         id: txtHeadline
         color: "#5D5D5D"
         text: settingsBool.headline
-        
+
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         anchors{
@@ -45,7 +45,7 @@ Item {
         text: settingsBool.description
         wrapMode: Text.WordWrap
         color: "#B5B5B5"
-        
+
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         font.pixelSize: 12

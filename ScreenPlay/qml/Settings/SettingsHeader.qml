@@ -65,7 +65,7 @@ Item {
                 font.pixelSize: 18
                 color: "white"
                 verticalAlignment: Text.AlignTop
-                
+
                 font.family: "Roboto"
                 anchors {
                     top: parent.top
@@ -102,7 +102,7 @@ Item {
 
             PropertyChanges {
                 target: txtHeadline
-                anchors.topMargin: 0
+                anchors.topMargin: 2
                 opacity: 1
             }
         }

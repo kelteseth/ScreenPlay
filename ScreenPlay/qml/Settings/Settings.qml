@@ -38,7 +38,7 @@ Item {
 
             Item {
                 id: settingsGeneralWrapper
-                height: 520
+                height: 520 + txtDirChangesInfo.paintedHeight
                 width: parent.width
 
                 RectangularGlow {
@@ -139,11 +139,11 @@ Item {
                         }
 
                         Text {
+                            id: txtDirChangesInfo
                             text: qsTr("Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!")
                             color: "#B5B5B5"
                             height: 30
                             width: parent.width
-
                             verticalAlignment: Text.AlignVCenter
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignLeft
@@ -205,7 +205,7 @@ Item {
 
             Item {
                 id: settingsPerformanceWrapper
-                height: 220
+                height: 250
                 width: parent.width
 
                 RectangularGlow {
@@ -445,3 +445,8 @@ Item {
         }
     }
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/
