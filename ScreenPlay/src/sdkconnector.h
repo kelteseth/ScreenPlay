@@ -49,7 +49,12 @@ public:
         connect(m_socket, &QLocalSocket::disconnected, this, &SDKConnection::close);
     }
     ~SDKConnection (){
-        qDebug() << "Terminating connection object";
+
+        // We need to call this manually because
+        // sometimes it wont close the connection in
+        // the descructor
+        m_socket->disconnect();
+        m_socket->disconnectFromServer();
     }
 
     QString appID() const
