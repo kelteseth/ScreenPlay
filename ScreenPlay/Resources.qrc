@@ -109,7 +109,6 @@
         <file>qml/Settings/SettingsExpander.qml</file>
         <file>qml/Settings/SettingsHeader.qml</file>
         <file>qml/Settings/SettingsHorizontalSeperator.qml</file>
-        <file>qml/StartupErrorWindow.qml</file>
         <file>qml/Widgets/Window.qml</file>
         <file>qml/Workshop/Workshop.qml</file>
         <file>qtquickcontrols2.conf</file>
