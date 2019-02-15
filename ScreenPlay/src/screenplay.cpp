@@ -1,12 +1,12 @@
 #include "screenplay.h"
 
-ScreenPlay::ScreenPlay(InstalledListModel* ilm, Settings* set, MonitorListModel* mlm, QGuiApplication* qGuiApplication, SDKConnector* sdkc, QObject* parent)
+ScreenPlay::ScreenPlay(InstalledListModel* ilm, Settings* set, MonitorListModel* mlm, SDKConnector* sdkc, QObject* parent)
     : QObject(parent)
 {
     m_ilm = ilm;
     m_settings = set;
     m_mlm = mlm;
-    m_qGuiApplication = qGuiApplication;
+    m_qGuiApplication = static_cast<QGuiApplication*>(QGuiApplication::instance());
     m_sdkc = sdkc;
 }
 
@@ -19,7 +19,7 @@ void ScreenPlay::createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QSt
     }
 
     // Remove previous wallpaper
-    //removeWallpaperAt(monitorIndex);
+    removeWallpaperAt(monitorIndex);
 
     m_settings->increaseActiveWallpaperCounter();
     QVector<int> tmpMonitorIndex;
@@ -96,9 +96,10 @@ void ScreenPlay::setAllWallpaperValue(QString key, QString value)
 
 void ScreenPlay::removeWallpaperAt(int at)
 {
-    Q_ASSERT(at < m_screenPlayWallpaperList.size());
-    //    if(m_screenPlayWallpaperList.isEmpty())
-    //        return;
+    //Q_ASSERT(m_screenPlayWallpaperList.size() < at);
+
+    if (m_screenPlayWallpaperList.isEmpty())
+        return;
 
     for (int i = 0; i < m_screenPlayWallpaperList.length(); ++i) {
 

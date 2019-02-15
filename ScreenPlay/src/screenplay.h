@@ -27,7 +27,7 @@ class ScreenPlayWidget;
 class ScreenPlay : public QObject {
     Q_OBJECT
 public:
-    explicit ScreenPlay(InstalledListModel* ilm, Settings* set, MonitorListModel* mlm, QGuiApplication* qGuiApplication, SDKConnector* sdkc, QObject* parent = nullptr);
+    explicit ScreenPlay(InstalledListModel* ilm, Settings* set, MonitorListModel* mlm, SDKConnector* sdkc, QObject* parent = nullptr);
 
     Settings* settings() const;
 
@@ -94,7 +94,7 @@ public:
         m_appID = parent->generateID();
         proArgs.append("appID=" + m_appID);
         proArgs.append(parent->m_settings->decoder());
-        proArgs.append(QString::number(volume));
+        proArgs.append(QString::number(static_cast<double>(volume)));
         proArgs.append(fillMode);
 
         qDebug() << proArgs;
@@ -138,7 +138,6 @@ signals:
     void previewImageChanged(QString previewImage);
     void projectSettingsListModelAt(ProjectSettingsListModel* li);
     void appIDChanged(QString appID);
-
     void typeChanged(QString type);
 
 public slots:
@@ -229,9 +228,8 @@ public:
             m_process->setProgram(parent->m_settings->getScreenPlayWidgetPath().path());
         }
         qDebug() << m_process->program();
-        connect(m_process,&QProcess::errorOccurred, this, [](QProcess::ProcessError error){
+        connect(m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
             qDebug() << "error: " << error;
-
         });
         m_process->start();
     }

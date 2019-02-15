@@ -2,17 +2,16 @@
 #include <QGuiApplication>
 #include <QStandardPaths>
 
-Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, QGuiApplication* app, QObject* parent)
+Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, QObject* parent)
     : QObject(parent)
     , m_version(QVersionNumber(0, 0, 1))
-    , m_qSettings(QSettings(QSettings::NativeFormat, QSettings::Scope::UserScope, app->organizationName(), app->applicationName()))
 {
 
     m_plm = plm;
     m_mlm = mlm;
     m_ilm = ilm;
     m_sdkc = sdkc;
-    m_app = app;
+    m_app = static_cast<QGuiApplication*>(QGuiApplication::instance());
 
     if (m_qSettings.value("language").isNull()) {
         auto locale = QLocale::system().uiLanguages();
@@ -25,13 +24,13 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
             m_translator.load(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm");
             m_qSettings.setValue("language", QVariant(localeSplits.at(0)));
             m_qSettings.sync();
-            app->installTranslator(&m_translator);
+            m_app->installTranslator(&m_translator);
         }
     } else {
         QFile tsFile;
         if (tsFile.exists(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm")) {
             m_translator.load(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm");
-            app->installTranslator(&m_translator);
+            m_app->installTranslator(&m_translator);
         }
     }
 

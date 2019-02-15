@@ -1,4 +1,3 @@
-#include <QDebug>
 #include <QDir>
 #include <QFontDatabase>
 #include <QGuiApplication>
@@ -9,12 +8,7 @@
 #include <QQmlEngine>
 #include <QStringList>
 #include <QUrl>
-#include <QtGlobal>
 #include <QtWebEngine>
-
-#ifdef Q_OS_WIN
-#include <qt_windows.h>
-#endif
 
 #include "src/create.h"
 #include "src/installedlistfilter.h"
@@ -36,6 +30,7 @@ int main(int argc, char* argv[])
     QGuiApplication::setApplicationVersion("0.2.0");
 
     QGuiApplication app(argc, argv);
+
     app.setQuitOnLastWindowClosed(false);
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
@@ -55,15 +50,15 @@ int main(int argc, char* argv[])
     QMLUtilities qmlUtil;
     InstalledListModel installedListModel;
     InstalledListFilter installedListFilter(&installedListModel);
-    MonitorListModel monitorListModel(&app);
+    MonitorListModel monitorListModel;
     ProfileListModel profileListModel;
     SDKConnector sdkConnector;
 
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
-    Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector, &app);
-    ScreenPlay screenPlay(&installedListModel, &settings, &monitorListModel, &app, &sdkConnector);
+    Settings settings(&profileListModel, &monitorListModel, &installedListModel, &sdkConnector);
+    ScreenPlay screenPlay(&installedListModel, &settings, &monitorListModel, &sdkConnector);
     Create create(&settings, &qmlUtil);
 
     // All the list need the default path from the settings

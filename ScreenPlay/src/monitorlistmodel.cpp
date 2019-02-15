@@ -1,17 +1,17 @@
 #include "monitorlistmodel.h"
 
-MonitorListModel::MonitorListModel(QGuiApplication* guiapp, QObject* parent)
+MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
     loadMonitors();
-    m_qGuiApplication = guiapp;
+    m_qGuiApplication = static_cast<QGuiApplication*>(QGuiApplication::instance());
     connect(m_qGuiApplication, &QGuiApplication::screenAdded, this, &MonitorListModel::screenAdded);
     connect(m_qGuiApplication, &QGuiApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
 }
 
 QHash<int, QByteArray> MonitorListModel::roleNames() const
 {
-    static const QHash<int, QByteArray> roles{
+    static const QHash<int, QByteArray> roles {
         { IDRole, "monitorID" },
         { NameRole, "monitorName" },
         { SizeRole, "monitorSize" },
@@ -126,7 +126,6 @@ int MonitorListModel::size()
 
 void MonitorListModel::wallpaperRemoved()
 {
-
 }
 
 bool MonitorListModel::getMonitorListItemAt(int position, Monitor* monitor)
@@ -163,17 +162,17 @@ void MonitorListModel::reset()
 
 void MonitorListModel::setWallpaperActiveMonitor(QScreen* screen, QString fullPreviewImagePath)
 {
-//    qDebug() << fullPreviewImagePath;
-//    for (int i = 0; i < m_monitorList.size(); ++i) {
-//        if (m_monitorList.at(i).m_screen == screen) {
-//            m_monitorList[i].m_wallpaperPreviewPath = fullPreviewImagePath;
-//        }
-//    }
-//    beginResetModel();
-//    endResetModel();
+    //    qDebug() << fullPreviewImagePath;
+    //    for (int i = 0; i < m_monitorList.size(); ++i) {
+    //        if (m_monitorList.at(i).m_screen == screen) {
+    //            m_monitorList[i].m_wallpaperPreviewPath = fullPreviewImagePath;
+    //        }
+    //    }
+    //    beginResetModel();
+    //    endResetModel();
     for (int i = 0; i < m_qGuiApplication->screens().length(); ++i) {
-        if(m_qGuiApplication->screens().at(i) == screen){
-            emit setNewActiveMonitor(i,fullPreviewImagePath);
+        if (m_qGuiApplication->screens().at(i) == screen) {
+            emit setNewActiveMonitor(i, fullPreviewImagePath);
         }
     }
     //emit monitorReloadCompleted();

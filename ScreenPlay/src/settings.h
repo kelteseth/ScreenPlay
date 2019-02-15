@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QFile>
+#include <QGuiApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -11,7 +12,6 @@
 #include <QProcess>
 #include <QProcessEnvironment>
 #include <QQmlPropertyMap>
-#include <QtConcurrent/QtConcurrent>
 #include <QSettings>
 #include <QSharedPointer>
 #include <QStandardPaths>
@@ -21,8 +21,9 @@
 #include <QUrl>
 #include <QVariant>
 #include <QVector>
-#include <QtGlobal>
 #include <QVersionNumber>
+#include <QtConcurrent/QtConcurrent>
+#include <QtGlobal>
 
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -50,7 +51,7 @@ class Settings : public QObject {
     Q_OBJECT
 
 public:
-    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc,  QGuiApplication* app, QObject* parent = nullptr);
+    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, QObject* parent = nullptr);
     ~Settings();
 
     Q_PROPERTY(QVersionNumber version READ version)

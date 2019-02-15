@@ -25,7 +25,7 @@ class MonitorListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    explicit MonitorListModel(QGuiApplication* guiapp, QObject* parent = nullptr);
+    explicit MonitorListModel(QObject* parent = nullptr);
 
     QHash<int, QByteArray> roleNames() const override;
 
