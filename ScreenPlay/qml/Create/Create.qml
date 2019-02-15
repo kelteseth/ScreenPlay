@@ -13,9 +13,8 @@ Item {
     anchors.fill: parent
     state: "out"
 
-    Component.onCompleted: {
-        create.state = "in"
-    }
+    Component.onCompleted: create.state = "in"
+
     property url activeVideoFile: ""
     property url activeFolder: ""
 
@@ -27,29 +26,15 @@ Item {
             activeVideoFile = videoFile
             loader.setSource(
                         "Wizards/CreateWallpaper/CreateWallpaperWizard.qml", {
-                            "filePath": activeVideoFile,
-                            "importState": CreateWallpaperWizard.ImportState.Convert
-                        })
-        }
-        onVideoImportFileSelected: {
-            create.state = "import"
-
-
-            activeVideoFile = videoFile
-            loader.setSource(
-                        "Wizards/CreateWallpaper/CreateWallpaperWizard.qml", {
-                            "filePath": activeVideoFile,
-                            "importState": CreateWallpaperWizard.ImportState.Import
+                            "filePath": activeVideoFile
                         })
         }
 
         onProjectFileSelected: {
             create.state = "import"
-
-            activeFolder = projectFile
-            loader.setSource("CreateNew.qml", {
-
-                             })
+            // TODO
+            // activeFolder = projectFile
+            // loader.setSource("CreateNew.qml", {  })
         }
     }
 

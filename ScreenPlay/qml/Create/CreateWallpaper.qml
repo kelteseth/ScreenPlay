@@ -13,15 +13,14 @@ Item {
     Component.onCompleted: createWallpaper.state = "in"
 
     signal videoImportConvertFileSelected(var videoFile)
-    signal videoImportFileSelected(var videoFile)
-
     signal projectFileSelected(var projectFile)
+
     WorkshopLoader {
         id: wl
     }
     Text {
         id: txtHeadline
-        text: qsTr("Import Video Wallpaper")
+        text: qsTr("Import Wallpaper")
         opacity: 0
         anchors {
             top: parent.top
@@ -42,9 +41,8 @@ Item {
         anchors {
             top: parent.top
             topMargin: 50
-            left:parent.left
+            left: parent.left
         }
-
 
         Rectangle {
             id: importVideoBg
@@ -91,9 +89,10 @@ Item {
 
             FileDialog {
                 id: fileDialogImportVideo
-                // nameFilters: ["Video files (*.mp4)"]
+                nameFilters: ["Video files (*.webm)"]
                 onAccepted: {
-                    videoImportConvertFileSelected(fileDialogImportVideo.currentFile)
+                    videoImportConvertFileSelected(
+                                fileDialogImportVideo.currentFile)
                 }
             }
         }
@@ -122,7 +121,7 @@ Item {
         anchors {
             top: parent.top
             topMargin: 50
-            left:wrapperImportVideo.right
+            left: wrapperImportVideo.right
             leftMargin: 20
         }
 
@@ -137,7 +136,7 @@ Item {
 
             Image {
                 id: imgUploadImportVideo2
-                source: "qrc:/assets/icons/icon_movie.svg"
+                source: "qrc:/assets/icons/icon_scene.svg"
                 height: 120
                 width: 120
                 anchors {
@@ -154,7 +153,8 @@ Item {
             }
 
             Button {
-                text: qsTr("Convert Video")
+                text: qsTr("Import ThreeJs Scene")
+                enabled: false
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -166,14 +166,15 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                onClicked: fileDialogImportVideo.open()
+                onClicked: fileDialogImportProject.open()
             }
 
             FileDialog {
-                id: fileDialogImportVideo2
-                // nameFilters: ["Video files (*.mp4)"]
+                id: fileDialogImportProject
+                nameFilters: ["ThreeJS Scene files(scene.pkg)"]
                 onAccepted: {
-                    videoImportConvertFileSelected(fileDialogImportVideo.currentFile)
+                    projectFileSelected(
+                                fileDialogImportProject.currentFile)
                 }
             }
         }
@@ -204,7 +205,7 @@ Item {
 
         anchors {
             top: wrapperConvertVideo.bottom
-            left:parent.left
+            left: parent.left
         }
 
         RectangularGlow {
@@ -224,16 +225,15 @@ Item {
             opacity: 0
         }
 
-
         Rectangle {
             id: importVideoBg3
             radius: 3
-
+            z: 10
             anchors {
                 fill: parent
                 margins: 10
             }
-            z: 10
+
             Button {
                 text: qsTr("Upload Exsisting Project to Steam")
                 anchors.centerIn: parent
@@ -244,14 +244,7 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 onClicked: {
-                    fileDialogOpenProject.open()
-                }
-            }
-            FileDialog {
-                id: fileDialogOpenProject3
-                nameFilters: ["Project files (project.json)"]
-                onAccepted: {
-                    projectFileSelected(fileDialogOpenProject.currentFile)
+
                 }
             }
         }
@@ -292,7 +285,6 @@ Item {
                 opacity: 0
                 anchors.topMargin: -100
             }
-
         },
         State {
             name: "in"
@@ -355,8 +347,6 @@ Item {
                         easing.type: Easing.InOutQuart
                     }
                 }
-
-
             }
             PropertyAnimation {
                 targets: [txtHeadline]
@@ -367,32 +357,6 @@ Item {
         }
     ]
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

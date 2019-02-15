@@ -15,18 +15,12 @@ Item {
     property bool canNext: false
     property int importState: CreateWallpaperWizard.ImportState.Import
 
-    enum ImportState {
-        Create,
-        Import
-    }
-
-
     Component.onCompleted: {
         state = "in"
-        print(importState)
         utility.setNavigationActive(false)
         if (importState === CreateWallpaperWizard.ImportState.Import) {
-            loader_wrapperContent.source = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImport.qml"
+            loader_wrapperContent.source
+                    = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImport.qml"
         } else {
             loader_wrapperContent.source = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml"
         }
@@ -46,7 +40,6 @@ Item {
                     || state === Create.State.ConvertingPreviewImageError
                     || state === Create.State.AnalyseVideoError) {
                 createNew.state = "error"
-                return
             }
         }
     }
@@ -142,7 +135,7 @@ Item {
                 id: timerBack
                 interval: 800
                 onTriggered: {
-                    screenPlayCreate.abort()
+                    screenPlayCreate.abortAndCleanup()
                     utility.setNavigationActive(true)
                     utility.setNavigation("Create")
                 }
@@ -195,7 +188,7 @@ Item {
                 opacity: .4
             }
             PropertyChanges {
-                target: wrapperContent
+                target: loader_wrapperContent
                 opacity: 0
                 z: 0
             }
@@ -216,7 +209,7 @@ Item {
                 opacity: .4
             }
             PropertyChanges {
-                target: wrapperContent
+                target: loader_wrapperContent
                 opacity: 0
                 z: 0
             }
@@ -301,7 +294,7 @@ Item {
             to: "error"
             SequentialAnimation {
                 PropertyAnimation {
-                    target: wrapperContent
+                    target: loader_wrapperContent
                     duration: 600
                     property: "opacity"
                     easing.type: Easing.OutQuart
@@ -322,7 +315,7 @@ Item {
             to: "success"
             SequentialAnimation {
                 PropertyAnimation {
-                    target: wrapperContent
+                    target: loader_wrapperContent
                     duration: 600
                     property: "opacity"
                     easing.type: Easing.OutQuart

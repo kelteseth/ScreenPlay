@@ -65,21 +65,26 @@ void Create::createWallpaperStart(QString videoPath)
             return;
 
         m_createWallpaperData.exportPath = dir.path() + "/" + folderName;
-        m_workingDir = m_createWallpaperData.exportPath;
-
+        this->setWorkingDir(m_createWallpaperData.exportPath);
 
         // If we return early/false this means the creation
         // process did not work
-        // Todo: cleanup!
+        bool ok = true;
 
         if (!this->createWallpaperInfo())
-            return;
+            ok = false;
 
-        if (!this->createWallpaperVideoPreview())
-            return;
+        if (ok && !this->createWallpaperVideoPreview())
+            ok = false;
 
-        if (!this->createWallpaperVideo())
-            return;
+        if (ok && !this->createWallpaperGifPreview())
+            ok = false;
+
+        if (ok && !this->extractWallpaperAudio())
+            ok = false;
+
+        if (!ok)
+            abortAndCleanup();
     });
 }
 
@@ -167,11 +172,106 @@ bool Create::createWallpaperInfo()
 bool Create::createWallpaperVideoPreview()
 {
 
-    /*
-     *
-     * Create png
-     *
-     */
+    QStringList args;
+    args.append("-loglevel");
+    args.append("error");
+    args.append("-y");
+    args.append("-stats");
+    args.append("-i");
+    args.append(m_createWallpaperData.videoPath);
+    args.append("-speed");
+    args.append("ultrafast");
+    args.append("-vf");
+    // We allways want to have a 5 second clip via 24fps -> 120 frames
+    // Divided by the number of frames we can skip (timeInSeconds * Framrate)
+    // scale & crop parameter: https://unix.stackexchange.com/a/284731
+    args.append("select='not(mod(n," + QString::number((m_createWallpaperData.length / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400");
+    // Disable audio
+    args.append("-an");
+    args.append(m_createWallpaperData.exportPath + "/preview.webm");
+    QScopedPointer<QProcess> proConvertPreviewWebM(new QProcess());
+
+    proConvertPreviewWebM.data()->setArguments(args);
+#ifdef Q_OS_WIN
+    proConvertPreviewWebM.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+#ifdef Q_OS_MACOS
+    proConvertPreviewMP4.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+#endif
+    emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideo);
+
+    connect(this, &Create::abortCreateWallpaper, proConvertPreviewWebM.data(), &QProcess::kill);
+    proConvertPreviewWebM.data()->start();
+    while (!proConvertPreviewWebM.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
+    {
+        QCoreApplication::processEvents();
+    }
+    disconnect(this, &Create::abortCreateWallpaper, proConvertPreviewWebM.data(), &QProcess::kill);
+    QString tmpErr = proConvertPreviewWebM.data()->readAllStandardError();
+    if (!tmpErr.isEmpty()) {
+        QFile previewVideo(m_createWallpaperData.exportPath + "/preview.webm");
+        if (!previewVideo.exists() && !(previewVideo.size() > 0)) {
+            emit processOutput(tmpErr);
+            emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoError);
+            return false;
+        }
+    }
+
+    this->processOutput(proConvertPreviewWebM.data()->readAll());
+    proConvertPreviewWebM.data()->close();
+
+    emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoFinished);
+
+    return true;
+}
+
+bool Create::createWallpaperGifPreview()
+{
+
+    emit createWallpaperStateChanged(Create::State::ConvertingPreviewGif);
+
+    QStringList args;
+    args.append("-y");
+    args.append("-stats");
+    args.append("-i");
+    args.append(m_createWallpaperData.exportPath + "/preview.webm");
+    args.append("-filter_complex");
+    args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
+    args.append(m_createWallpaperData.exportPath + "/preview.gif");
+
+    QScopedPointer<QProcess> proConvertGif(new QProcess());
+    proConvertGif.data()->setArguments(args);
+#ifdef Q_OS_WIN
+    proConvertGif.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+#ifdef Q_OS_MACOS
+    proConvertGif.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+#endif
+    connect(this, &Create::abortCreateWallpaper, proConvertGif.data(), &QProcess::kill);
+    proConvertGif.data()->start();
+    while (!proConvertGif.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
+    {
+        QCoreApplication::processEvents();
+    }
+    disconnect(this, &Create::abortCreateWallpaper, proConvertGif.data(), &QProcess::kill);
+    QString tmpErrGif = proConvertGif.data()->readAllStandardError();
+    if (!tmpErrGif.isEmpty()) {
+        QFile previewGif(m_createWallpaperData.exportPath + "/preview.gif");
+        if (!previewGif.exists() && !(previewGif.size() > 0)) {
+            emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifError);
+            return false;
+        }
+    }
+
+    this->processOutput(proConvertGif.data()->readAll());
+    proConvertGif.data()->close();
+    emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifFinished);
+
+    return true;
+}
+
+bool Create::createWallpaperImagePreview()
+{
 
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewImage);
 
@@ -217,117 +317,11 @@ bool Create::createWallpaperVideoPreview()
     proConvertImage.data()->close();
     emit createWallpaperStateChanged(Create::State::ConvertingPreviewImageFinished);
 
-    /*
-     *
-     * Create preview mp4
-     *
-     */
-
-    args.append("-loglevel");
-    args.append("error");
-    args.append("-y");
-    args.append("-stats");
-    args.append("-i");
-    args.append(m_createWallpaperData.videoPath);
-    args.append("-speed");
-    args.append("ultrafast");
-    args.append("-vf");
-    // We allways want to have a 5 second clip via 24fps -> 120 frames
-    // Divided by the number of frames we can skip (timeInSeconds * Framrate)
-    // scale & crop parameter: https://unix.stackexchange.com/a/284731
-    args.append("select='not(mod(n," + QString::number((m_createWallpaperData.length / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400");
-    // Disable audio
-    args.append("-an");
-    args.append(m_createWallpaperData.exportPath + "/preview.mp4");
-    QScopedPointer<QProcess> proConvertPreviewMP4(new QProcess());
-
-    proConvertPreviewMP4.data()->setArguments(args);
-#ifdef Q_OS_WIN
-    proConvertPreviewMP4.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
-#endif
-#ifdef Q_OS_MACOS
-    proConvertPreviewMP4.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
-#endif
-    emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideo);
-
-    connect(this, &Create::abortCreateWallpaper, proConvertPreviewMP4.data(), &QProcess::kill);
-    proConvertPreviewMP4.data()->start();
-    while (!proConvertPreviewMP4.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
-    {
-        QCoreApplication::processEvents();
-    }
-    disconnect(this, &Create::abortCreateWallpaper, proConvertPreviewMP4.data(), &QProcess::kill);
-    QString tmpErr = proConvertPreviewMP4.data()->readAllStandardError();
-    if (!tmpErr.isEmpty()) {
-        QFile previewVideo(m_createWallpaperData.exportPath + "/preview.mp4");
-        if (!previewVideo.exists() && !(previewVideo.size() > 0)) {
-            emit processOutput(tmpErr);
-            emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoError);
-            return false;
-        }
-    }
-
-    this->processOutput(proConvertPreviewMP4.data()->readAll());
-    proConvertPreviewMP4.data()->close();
-
-    emit createWallpaperStateChanged(Create::State::ConvertingPreviewVideoFinished);
-
-    /*
-     *
-     * Create gif
-     *
-     */
-
-    emit createWallpaperStateChanged(Create::State::ConvertingPreviewGif);
-    args.clear();
-    args.append("-y");
-    args.append("-stats");
-    args.append("-i");
-    args.append(m_createWallpaperData.exportPath + "/preview.mp4");
-    args.append("-filter_complex");
-    args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
-    args.append(m_createWallpaperData.exportPath + "/preview.gif");
-
-    QScopedPointer<QProcess> proConvertGif(new QProcess());
-    proConvertGif.data()->setArguments(args);
-#ifdef Q_OS_WIN
-    proConvertGif.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
-#endif
-#ifdef Q_OS_MACOS
-    proConvertGif.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
-#endif
-    connect(this, &Create::abortCreateWallpaper, proConvertGif.data(), &QProcess::kill);
-    proConvertGif.data()->start();
-    while (!proConvertGif.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
-    {
-
-        QCoreApplication::processEvents();
-    }
-    disconnect(this, &Create::abortCreateWallpaper, proConvertGif.data(), &QProcess::kill);
-    QString tmpErrGif = proConvertGif.data()->readAllStandardError();
-    if (!tmpErrGif.isEmpty()) {
-        QFile previewGif(m_createWallpaperData.exportPath + "/preview.gif");
-        if (!previewGif.exists() && !(previewGif.size() > 0)) {
-            emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifError);
-            return false;
-        }
-    }
-
-    this->processOutput(proConvertGif.data()->readAll());
-    proConvertGif.data()->close();
-    emit createWallpaperStateChanged(Create::State::ConvertingPreviewGifFinished);
-
     return true;
 }
 
-bool Create::createWallpaperVideo()
+bool Create::extractWallpaperAudio()
 {
-
-    /*
-     *
-     * Extract audio
-     *
-     */
 
     emit createWallpaperStateChanged(Create::State::ConvertingAudio);
 
@@ -374,105 +368,6 @@ bool Create::createWallpaperVideo()
     proConvertAudio.data()->close();
     emit createWallpaperStateChanged(Create::State::ConvertingAudioFinished);
 
-    /*
-     *
-     * Create video
-     *
-     */
-
-    emit createWallpaperStateChanged(Create::State::ConvertingVideo);
-
-    args.clear();
-    args.append("-hide_banner");
-    args.append("-y");
-    args.append("-stats");
-    args.append("-i");
-    args.append(m_createWallpaperData.videoPath);
-    args.append("-c:v");
-    args.append("libvpx-vp9");
-    args.append("-crf");
-    args.append("30");
-    args.append("-threads");
-    args.append("16");
-    args.append("-slices");
-    args.append("16");
-    args.append("-cpu-used");
-    args.append("4");
-    args.append("-pix_fmt");
-    args.append("yuv420p");
-    args.append("-b:v");
-    args.append("0");
-    args.append(m_createWallpaperData.exportPath + "/video.webm");
-
-    QScopedPointer<QProcess> proConvertVideo(new QProcess());
-    proConvertVideo.data()->setArguments(args);
-    proConvertVideo.data()->setProcessChannelMode(QProcess::MergedChannels);
-#ifdef Q_OS_WIN
-    proConvertVideo.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
-#endif
-#ifdef Q_OS_MACOS
-    proConvertVideo.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
-#endif
-    connect(proConvertVideo.data(), &QProcess::readyRead, this, [&]() {
-        // Somehow readyRead gets seldom called in the end with an
-        // not valid QProcess pointer....
-        if (proConvertVideo.isNull()) {
-            qDebug() << "EROR NULL";
-            return;
-        }
-
-        if (!proConvertVideo.data()->isOpen()) {
-            qDebug() << "ERROR NOT OPEN";
-            return;
-        }
-
-        if (!proConvertVideo.data()->isReadable()) {
-            qDebug() << "ERROR CANNOT READ LINE";
-            return;
-        }
-
-        QString tmpOut = proConvertVideo.data()->readAll();
-
-        auto tmpList = tmpOut.split(QRegExp("\\s+"), QString::SkipEmptyParts);
-        if (tmpList.length() > 2) {
-            bool ok = false;
-            float currentFrame = QString(tmpList.at(1)).toFloat(&ok);
-
-            if (!ok)
-                return;
-
-            float progress = currentFrame / (m_createWallpaperData.length * m_createWallpaperData.framerate);
-
-            this->setProgress(progress);
-        }
-        this->processOutput(tmpOut);
-    },
-        Qt::QueuedConnection);
-
-    connect(this, &Create::abortCreateWallpaper, proConvertVideo.data(), &QProcess::kill);
-    proConvertVideo.data()->start(QIODevice::ReadOnly);
-    while (!proConvertVideo.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
-    {
-        QCoreApplication::processEvents();
-    }
-    disconnect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, nullptr, nullptr);
-    disconnect(this, &Create::abortCreateWallpaper, proConvertVideo.data(), &QProcess::kill);
-
-    QString out = proConvertVideo.data()->readAllStandardOutput();
-
-    this->processOutput(out);
-    QString tmpErrVideo = proConvertVideo.data()->readAllStandardError();
-    if (!tmpErrVideo.isEmpty()) {
-        QFile video(m_createWallpaperData.exportPath + "/video.webm");
-        if (!video.exists() && !(video.size() > 0)) {
-            emit createWallpaperStateChanged(Create::State::ConvertingVideoError);
-            return false;
-        }
-    }
-
-    proConvertVideo.data()->close();
-    emit createWallpaperStateChanged(Create::State::ConvertingVideoFinished);
-
     return true;
 }
 
@@ -494,18 +389,19 @@ bool Create::createWallpaperProjectFile(const QString title, const QString descr
     configObj.insert("file", "video.webm");
     configObj.insert("preview", "preview.png");
     configObj.insert("previewGIF", "preview.gif");
-    configObj.insert("previewMP4", "preview.mp4");
+    configObj.insert("previewWebM", "preview.webm");
     configObj.insert("type", "video");
 
     QJsonDocument configJsonDocument(configObj);
     out << configJsonDocument.toJson();
     configFile.close();
-    return true;
 
     emit createWallpaperStateChanged(Create::State::Finished);
+
+    return true;
 }
 
-void Create::abort()
+void Create::abortAndCleanup()
 {
     emit abortCreateWallpaper();
     m_futureWatcher.cancel();
@@ -516,6 +412,8 @@ void Create::abort()
         if (!exportPath.removeRecursively()) {
             emit createWallpaperStateChanged(Create::State::AbortCleanupError);
             qWarning() << "Could not delete temp exportPath: " << exportPath;
+        } else {
+            qDebug() << "cleanup " << m_createWallpaperData.exportPath;
         }
     }
 }

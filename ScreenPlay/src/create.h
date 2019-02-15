@@ -50,21 +50,23 @@ public:
         AnalyseVideo,
         AnalyseVideoFinished,
         AnalyseVideoError,
-        ConvertingPreviewImage,
-        ConvertingPreviewImageFinished,
-        ConvertingPreviewImageError,
         ConvertingPreviewVideo,
         ConvertingPreviewVideoFinished,
-        ConvertingPreviewVideoError, //10
+        ConvertingPreviewVideoError,
         ConvertingPreviewGif,
         ConvertingPreviewGifFinished,
         ConvertingPreviewGifError,
+        ConvertingPreviewImage,
+        ConvertingPreviewImageFinished,
+        ConvertingPreviewImageError,
         ConvertingAudio,
         ConvertingAudioFinished,
         ConvertingAudioError,
-        ConvertingVideo,
-        ConvertingVideoFinished,
-        ConvertingVideoError,
+//      Oh well... Due to so many patents around video codecs
+//      the user has to convert the video on his own :(
+//        ConvertingVideo,
+//        ConvertingVideoFinished,
+//        ConvertingVideoError,
         AbortCleanupError,
         Finished,
         ErrorUnknown,
@@ -97,11 +99,11 @@ public slots:
     void createWallpaperStart(QString videoPath);
     bool createWallpaperInfo();
     bool createWallpaperVideoPreview();
-    bool createWallpaperVideo();
+    bool createWallpaperGifPreview();
+    bool createWallpaperImagePreview();
+    bool extractWallpaperAudio();
     bool createWallpaperProjectFile(const QString title, const QString description);
-
-    void abort();
-
+    void abortAndCleanup();
 
     void setWorkingDir(QString workingDir)
     {
