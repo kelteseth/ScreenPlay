@@ -1,4 +1,4 @@
-import QtQuick 2.9
+import QtQuick 2.12
 import QtQuick.Extras 1.4
 import PackageFileHandler 1.0
 

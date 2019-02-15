@@ -1,4 +1,4 @@
-import QtQuick 2.9
+import QtQuick 2.12
 import QtWebEngine 1.8
 
 Rectangle {
@@ -21,7 +21,7 @@ Rectangle {
         }
 
         onQmlSceneValueReceived: {
-            var obj2 = 'import QtQuick 2.9; Item {Component.onCompleted: loader.item.'
+            var obj2 = 'import QtQuick 2.12; Item {Component.onCompleted: loader.item.'
                     + key + ' = ' + value + '; }'
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
             newObject.destroy(10000)

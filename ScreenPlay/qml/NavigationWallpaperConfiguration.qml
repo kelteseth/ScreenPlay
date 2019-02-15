@@ -1,19 +1,10 @@
-import QtQuick 2.9
+import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 
 Item {
-    id:navigationWallpaperConfiguration
+    id: navigationWallpaperConfiguration
     width: 400
-    state: "out"
-    property bool isActive: screenPlaySettings.activeWallpaperCounter == 0 ? false : true
-    onIsActiveChanged: {
-        if(isActive){
-            state = "in"
-        } else {
-            state = "out"
-        }
-    }
 
     anchors {
         top: parent.top
@@ -26,7 +17,6 @@ Item {
         id: image
         width: 24
         height: 24
-        //        opacity:
         anchors {
             right: parent.right
             verticalCenter: parent.verticalCenter
@@ -42,19 +32,25 @@ Item {
             font.pointSize: 10
             font.bold: true
             font.family: "Roboto"
-            
+
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 top: parent.top
                 topMargin: 1
             }
-
         }
     }
 
     Text {
         id: activeMonitorName
-        text: qsTr("Configurate active Wallpaper")
+        text: {
+            if (screenPlaySettings.activeWallpaperCounter > 0) {
+                return qsTr("Configurate active Wallpaper or Widgets")
+            } else {
+                return qsTr("No active Wallpaper or Widgets")
+            }
+        }
+
         anchors {
             right: image.right
             rightMargin: 30
@@ -64,7 +60,6 @@ Item {
         color: "#626262"
         font.pointSize: 12
         font.family: "Roboto"
-        
     }
     MouseArea {
         id: mouseArea
@@ -75,36 +70,7 @@ Item {
         }
     }
 
-    states: [
-        State {
-            name: "out"
-            PropertyChanges {
-                target: navigationWallpaperConfiguration
-                opacity: 0
-                anchors.topMargin: 100
-            }
-        },
-        State {
-            name: "in"
-            PropertyChanges {
-                target: navigationWallpaperConfiguration
-                opacity: 1
-                anchors.topMargin: 0
-            }
-        }
-    ]
+    states: []
 
-    transitions: [
-        Transition {
-            from: "out"
-            to: "in"
-            reversible: true
-            NumberAnimation {
-                target: navigationWallpaperConfiguration
-                properties: "anchors.topMargin, opacity"
-                duration: 250
-                easing.type: Easing.OutQuart
-            }
-        }
-    ]
+    transitions: []
 }
