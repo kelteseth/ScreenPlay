@@ -1,23 +1,127 @@
-import QtQuick 2.12
+import QtQuick 2.13
 import QtWebEngine 1.8
+import net.aimber.wallpaper 1.0
 
 Rectangle {
-    id: root
     anchors.fill: parent
+    color: desktopProperties.color
+
+    property bool canFadeIn: true
+
+    Component.onCompleted: {
+        WebEngine.settings.allowRunningInsecureContent = true
+        WebEngine.settings.accelerated2dCanvasEnabled = true
+        WebEngine.settings.javascriptCanOpenWindows = false
+        WebEngine.settings.printElementBackgrounds = false
+        WebEngine.settings.showScrollBars = false
+        WebEngine.settings.playbackRequiresUserGesture = false
+
+        switch (window.type) {
+        case Wallpaper.WallpaperType.Video:
+            webView.enabled = true
+            webView.url = Qt.resolvedUrl("file:///" + window.getApplicationPath(
+                                             ) + "/index.html")
+
+            break
+        case Wallpaper.WallpaperType.Html:
+            webView.enabled = true
+            webView.url = Qt.resolvedUrl("file:///" + window.fullContentPath)
+            break
+        case Wallpaper.WallpaperType.ThreeJSScene:
+            webView.enabled = true
+            break
+        case Wallpaper.WallpaperType.Qml:
+            loader.source = Qt.resolvedUrl("file:///" + window.fullContentPath)
+            break
+        }
+        fadeIn()
+    }
+
+    function fadeIn() {
+        window.setVisible(true)
+        if (canFadeIn) {
+            animFadeIn.start()
+        } else {
+            imgCover.opacity = 0
+        }
+    }
+
+    WebEngineView {
+        id: webView
+        enabled: false
+        anchors.fill: parent
+        onLoadProgressChanged: {
+            if (loadProgress === 100) {
+
+                var src = ""
+                src += "var videoPlayer = document.getElementById('videoPlayer');"
+                src += "var videoSource = document.getElementById('videoSource');"
+                src += "videoSource.src = 'file:///" + window.fullContentPath + "';"
+                src += "videoPlayer.load();"
+                src += "videoPlayer.volume = " + window.volume + ";"
+                src += "videoPlayer.play();"
+
+                webView.runJavaScript(src, function () {
+                    fadeIn()
+                })
+            }
+        }
+    }
+    Loader {
+        id: loader
+        anchors.fill: parent
+    }
+
+    OpacityAnimator {
+        id: animFadeIn
+        target: imgCover
+        from: 1
+        to: 0
+        duration: 300
+        easing.type: Easing.InCubic
+        running: true
+    }
+
+    Image {
+        id: imgCover
+        anchors.fill: parent
+        source: Qt.resolvedUrl("file:///" + desktopProperties.wallpaperPath)
+        Component.onCompleted: {
+            switch (desktopProperties.wallpaperStyle) {
+            case 10:
+                imgCover.fillMode = Image.PreserveAspectCrop
+                break
+            case 6:
+                imgCover.fillMode = Image.PreserveAspectFit
+                break
+            case 2:
+                break
+            case 0:
+                if (desktopProperties.isTiled) {
+                    // Tiled
+                    imgCover.fillMode = Image.Tile
+                } else {
+                    // Center
+                    imgCover.fillMode = Image.PreserveAspectFit
+                    imgCover.anchors.centerIn = parent
+                    imgCover.width = sourceSize.width
+                    imgCover.height = sourceSize.height
+                }
+                break
+            case 22:
+                canFadeIn = false
+                break
+            }
+        }
+    }
 
     Connections {
-        target: mainwindow
+        target: window
 
         onQmlExit: {
-
             webView.runJavaScript(
                         "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
-            mainwindow.destroyThis()
-        }
-
-        onFillModeChanged: {
-
-            //TODO
+            window.destroyThis()
         }
 
         onQmlSceneValueReceived: {
@@ -60,95 +164,4 @@ Rectangle {
             }
         }
     }
-
-    Component.onCompleted: {
-
-        if (mainwindow.type === "qmlScene") {
-            loader.setSource(Qt.resolvedUrl(
-                                 "file:///" + mainwindow.fullContentPath))
-            mainwindow.init()
-            timer.start()
-        } else if (mainwindow.type === "video") {
-            webView.visible = true
-            webView.url = Qt.resolvedUrl(
-                        "file:///" + mainwindow.getApplicationPath(
-                            ) + "/index.html")
-        } else if (mainwindow.type === "html") {
-            webView.visible = true
-            webView.url = Qt.resolvedUrl(
-                        "file:///" + mainwindow.fullContentPath)
-            mainwindow.init()
-            timer.start()
-        }
-        mainwindow.init()
-        timer.start()
-    }
-
-    WebEngineView {
-        id: webView
-        anchors.fill: parent
-        onLoadProgressChanged: {
-            if (loadProgress === 100) {
-                runJavaScript(("
-var videoPlayer = document.getElementById('videoPlayer');
-var videoSource = document.getElementById('videoSource');
-videoSource.src = \"file:///" + mainwindow.fullContentPath + "\";
-videoPlayer.load();
-videoPlayer.volume = " + mainwindow.volume + ";" +
-" videoPlayer.play();"), function (result) {
-
-})
-            }
-        }
-        onJavaScriptConsoleMessage: {
-            print(message)
-//            runJavaScript("
-//                var videoPlayer = document.getElementById('errorMsg');
-//                var text = document.createTextNode("+message+");
-
-//                videoPlayer.appendChild(text);
-
-//");
-
-        }
-
-        settings.allowRunningInsecureContent: true
-        settings.accelerated2dCanvasEnabled: true
-        settings.javascriptCanOpenWindows: false
-        settings.printElementBackgrounds: false
-        settings.showScrollBars: false
-        settings.playbackRequiresUserGesture: false
-    }
-
-        Loader {
-            id: loader
-            anchors.fill: parent
-            onStatusChanged: {
-                print(webViewWrapper.errorString())
-            }
-        }
-
-        Timer {
-            id: timer
-            interval: 200
-            onTriggered: {
-                anim.start()
-            }
-        }
-
-        Rectangle {
-            id: curtain
-            anchors.fill: parent
-            color: "black"
-
-            PropertyAnimation {
-                id: anim
-                property: "opacity"
-                target: curtain
-                from: "1"
-                to: "0"
-                duration: 300
-            }
-        }
-
 }

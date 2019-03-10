@@ -66,10 +66,11 @@ QString ScreenPlay::generateID()
 {
     const QString possibleCharacters("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789");
     const int randomStringLength = 32;
+    auto* radomGen = QRandomGenerator::system();
 
     QString randomString;
     for (int i = 0; i < randomStringLength; ++i) {
-        int index = qrand() % possibleCharacters.length();
+        int index = radomGen->bounded(possibleCharacters.length());
         QChar nextChar = possibleCharacters.at(index);
         randomString.append(nextChar);
     }

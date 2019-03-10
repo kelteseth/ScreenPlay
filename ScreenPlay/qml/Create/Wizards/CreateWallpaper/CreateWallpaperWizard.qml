@@ -13,17 +13,16 @@ Item {
 
     property string filePath
     property bool canNext: false
-    property int importState: CreateWallpaperWizard.ImportState.Import
 
     Component.onCompleted: {
         state = "in"
         utility.setNavigationActive(false)
-        if (importState === CreateWallpaperWizard.ImportState.Import) {
-            loader_wrapperContent.source
-                    = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImport.qml"
-        } else {
-            loader_wrapperContent.source = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml"
-        }
+        loader_wrapperContent.source = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml"
+//        if (importState === CreateWallpaperWizard.ImportState.Import) {
+//            loader_wrapperContent.source
+//                    = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImport.qml"
+//        } else {
+//        }
     }
 
     //Blocks some MouseArea from create page

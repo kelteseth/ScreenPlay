@@ -1,5 +1,9 @@
 #include "../ScreenPlaySDK/screenplaysdk.h"
-#include "src/SPWmainwindow.h"
+
+#if defined(Q_OS_WIN)
+#include "src/winwindow.h"
+#endif
+
 #include <QApplication>
 #include <QObject>
 #include <QStringList>
@@ -10,32 +14,46 @@ int main(int argc, char* argv[])
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
-    QApplication a(argc, argv);
-    ScreenPlaySDK sdk;
+    QApplication app(argc, argv);
+
     QtWebEngine::initialize();
 
     // 6 parameter + 1 OS working directory default paramter
-    QStringList argumentList = a.arguments();
+    QStringList argumentList = app.arguments();
     if (argumentList.length() != 7) {
         return -3;
     }
 
-    bool canParseMonitorNumber = false;
-    int monitor = argumentList.at(1).toInt(&canParseMonitorNumber);
+    ScreenPlaySDK sdk;
+    sdk.setAppID(argumentList.at(3));
 
-    if (!canParseMonitorNumber) {
-        return -4;
+    QString monitorNumbers = argumentList.at(1);
+    QVector<int> list;
+
+    if (monitorNumbers.length() == 1) {
+        bool canParseMonitorNumber = false;
+        int monitor = monitorNumbers.toInt(&canParseMonitorNumber);
+        list.append(monitor);
+    } else {
+        QStringList activeScreensList = monitorNumbers.split(",");
+        for (QString s : activeScreensList) {
+            bool ok = false;
+            int val = s.toInt(&ok);
+            if (!ok) {
+                qFatal("Could not parse monitor id to diplay wallpaper");
+            }
+            list.append(val);
+        }
     }
 
-    // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (4) decoder, (5) volume, (6) fillmode
+    // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (5) volume
     // See screenplay.h @ScreenPlayWallpaper constructor how the args get created
-     //MainWindow w(0,"D:/672870/_tmp_135011","","","","");
-    sdk.setAppID(argumentList.at(3));
-    qDebug() << "Starting MainWindow: " << argumentList.at(2) << argumentList.at(3) << argumentList.at(4) << argumentList.at(5) << argumentList.at(6);
-    MainWindow w(monitor, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5), argumentList.at(6));
 
-    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &w, &MainWindow::destroyThis);
-    QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &w, &MainWindow::messageReceived);
+#if defined(Q_OS_WIN)
+    WinWindow window = WinWindow(list, argumentList.at(2), argumentList.at(3), argumentList.at(5));
+    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &WinWindow::destroyThis);
+    QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &WinWindow::messageReceived);
+#endif
 
-    return a.exec();
+    return app.exec();
 }

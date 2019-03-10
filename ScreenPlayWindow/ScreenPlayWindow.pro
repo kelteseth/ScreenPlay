@@ -1,16 +1,22 @@
 TEMPLATE = app
 QT += qml quick quickcontrols2 widgets core webengine
 CONFIG += c++17
-#CONFIG += qtquickcompiler
+
 msvc: LIBS += -luser32
 TARGETPATH = ScreenPlayWindow
 
 SOURCES += \
     SPWmain.cpp \
-    src/SPWmainwindow.cpp
+    #src/SPWmainwindow.cpp \
+    src/basewindow.cpp \
+    src/windowsdesktopproperties.cpp \
+    src/winwindow.cpp
 
 HEADERS += \
-    src/SPWmainwindow.h
+    #src/SPWmainwindow.h \
+    src/basewindow.h \
+    src/windowsdesktopproperties.h \
+    src/winwindow.h
 
 RESOURCES += \
     SPWResources.qrc

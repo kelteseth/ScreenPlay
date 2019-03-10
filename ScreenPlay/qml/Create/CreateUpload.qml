@@ -5,7 +5,7 @@ import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
-import RemoteWorkshopCreationStatus 1.0
+//import RemoteWorkshopCreationStatus 1.0
 
 
 Item {

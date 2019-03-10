@@ -16,6 +16,8 @@
 #include <QUrl>
 #include <QVector>
 #include <QtConcurrent/QtConcurrent>
+#include <QFutureWatcher>
+#include <QFuture>
 
 
 /*!
@@ -81,4 +83,6 @@ signals:
 private:
     QVector<ProjectFile> m_screenPlayFiles;
     QUrl m_absoluteStoragePath;
+    QFuture<void> m_loadScreenFuture;
+    QFutureWatcher<void> m_loadScreenWatcher;
 };

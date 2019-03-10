@@ -19,8 +19,10 @@
 #include <QTimer>
 #include <QUrl>
 #include <QtMath>
-#include <QTimer>
 
+#include <memory>
+
+#include "createimportvideo.h"
 #include "qmlutilities.h"
 #include "settings.h"
 
@@ -33,6 +35,8 @@ struct CreateWallpaperData {
     int framerate = 0;
 };
 
+
+
 class Create : public QObject {
     Q_OBJECT
 public:
@@ -43,35 +47,6 @@ public:
 
     Create() {}
     ~Create() {}
-
-    enum class State {
-        Idle,
-        Started,
-        AnalyseVideo,
-        AnalyseVideoFinished,
-        AnalyseVideoError,
-        ConvertingPreviewVideo,
-        ConvertingPreviewVideoFinished,
-        ConvertingPreviewVideoError,
-        ConvertingPreviewGif,
-        ConvertingPreviewGifFinished,
-        ConvertingPreviewGifError,
-        ConvertingPreviewImage,
-        ConvertingPreviewImageFinished,
-        ConvertingPreviewImageError,
-        ConvertingAudio,
-        ConvertingAudioFinished,
-        ConvertingAudioError,
-//      Oh well... Due to so many patents around video codecs
-//      the user has to convert the video on his own :(
-//        ConvertingVideo,
-//        ConvertingVideoFinished,
-//        ConvertingVideoError,
-        AbortCleanupError,
-        Finished,
-        ErrorUnknown,
-    };
-    Q_ENUM(State)
 
     QString workingDir() const
     {
@@ -84,7 +59,7 @@ public:
     }
 
 signals:
-    void createWallpaperStateChanged(Create::State state);
+    void createWallpaperStateChanged(CreateImportVideo::State state);
     void processOutput(QString text);
     void workingDirChanged(QString workingDir);
     void progressChanged(float progress);
@@ -93,17 +68,8 @@ signals:
 public slots:
     void copyProject(QString relativeProjectPath, QString toPath);
     bool copyRecursively(const QString& srcFilePath, const QString& tgtFilePath);
-
-    // Steps to convert any video to a wallpaper broken down into
-    // several methods in this order:
-    void createWallpaperStart(QString videoPath);
-    bool createWallpaperInfo();
-    bool createWallpaperVideoPreview();
-    bool createWallpaperGifPreview();
-    bool createWallpaperImagePreview();
-    bool extractWallpaperAudio();
-    bool createWallpaperProjectFile(const QString title, const QString description);
     void abortAndCleanup();
+    void createWallpaperStart(QString videoPath);
 
     void setWorkingDir(QString workingDir)
     {
@@ -124,11 +90,11 @@ public slots:
     }
 
 private:
+
+    CreateImportVideo* m_createImportVideo;
     Settings* m_settings;
     QMLUtilities* m_utils;
     CreateWallpaperData m_createWallpaperData;
     QString m_workingDir;
     float m_progress = 0.0f;
-    QFuture<void> m_future;
-    QFutureWatcher<void> m_futureWatcher;
 };

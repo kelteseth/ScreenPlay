@@ -8,6 +8,10 @@ import net.aimber.create 1.0
 
 Item {
     id: wrapperContent
+
+
+    property string customVideoPreviewPath: ""
+
     Text {
         id: txtHeadline
         text: qsTr("Convert a video to a wallpaper")
@@ -24,7 +28,7 @@ Item {
             bottomMargin: 0
         }
     }
-    
+
     Item {
         id: wrapperLeft
         width: parent.width * .5
@@ -34,7 +38,7 @@ Item {
             margins: 30
             bottom: parent.bottom
         }
-        
+
         Rectangle {
             id: imgWrapper
             width: 425
@@ -43,9 +47,9 @@ Item {
                 top: parent.top
                 left: parent.left
             }
-            
+
             color: Material.color(Material.Grey)
-            
+
             AnimatedImage {
                 id: imgPreview
                 asynchronous: true
@@ -53,13 +57,13 @@ Item {
                 visible: false
                 anchors.fill: parent
             }
-            
+
             BusyIndicator {
                 id: busyIndicator
                 anchors.centerIn: parent
                 running: true
             }
-            
+
             Text {
                 id: txtConvertNumber
                 color: "white"
@@ -71,7 +75,7 @@ Item {
                     bottomMargin: 40
                 }
             }
-            
+
             Text {
                 id: txtConvert
                 color: "white"
@@ -83,10 +87,10 @@ Item {
                     bottomMargin: 20
                 }
             }
-            
+
             Connections {
                 target: screenPlayCreate
-                
+
                 onCreateWallpaperStateChanged: {
                     if (state === Create.State.ConvertingPreviewImageFinished) {
                         imgPreview.source = "file:///"
@@ -95,17 +99,17 @@ Item {
                         txtConvert.text = qsTr(
                                     "Converting Video preview mp4")
                     }
-                    
+
                     if (state === Create.State.ConvertingPreviewVideo) {
                         txtConvert.text = qsTr(
                                     "Generating preview video...")
                     }
-                    
+
                     if (state === Create.State.ConvertingPreviewGif) {
                         txtConvert.text = qsTr(
                                     "Generating preview gif...")
                     }
-                    
+
                     if (state === Create.State.ConvertingPreviewGifFinished) {
                         imgPreview.source = "file:///"
                                 + screenPlayCreate.workingDir + "/preview.gif"
@@ -118,7 +122,7 @@ Item {
                     if (state === Create.State.ConvertingVideo) {
                         txtConvert.text = qsTr("Converting Video...")
                     }
-                    
+
                     if (state === Create.State.Finished) {
                         imgSuccess.source = "file:///"
                                 + screenPlayCreate.workingDir + "/preview.gif"
@@ -138,17 +142,17 @@ Item {
             anchors {
                 top: imgWrapper.bottom
                 topMargin: 20
-                
+
                 right: parent.right
                 rightMargin: 30
                 left: parent.left
             }
-            
+
             Rectangle {
                 height: 50
                 color: "#eeeeee"
                 Layout.fillWidth: true
-                
+
                 Text {
                     id: txtCustomPreviewPath
                     color: "#333333"
@@ -159,7 +163,7 @@ Item {
                         leftMargin: 10
                     }
                 }
-                
+
                 Button {
                     id: button
                     Material.background: Material.Orange
@@ -171,14 +175,14 @@ Item {
                     }
                     onClicked: fileDialogOpenFile.open()
                 }
-                
-                
+
+
                 FileDialog {
                     id: fileDialogOpenFile
                     nameFilters: ["*.png *.jpg"]
                     onAccepted: {
                         var file = fileDialogOpenFile.file.toString()
-                        
+
                         txtCustomPreviewPath.text = fileDialogOpenFile.file
                     }
                 }
@@ -194,12 +198,12 @@ Item {
             bottom: parent.bottom
             right: parent.right
         }
-        
+
         ColumnLayout {
             id: column
             spacing: 0
             anchors {
-                
+
                 right: parent.right
                 left: parent.left
                 margins: 30
@@ -208,7 +212,7 @@ Item {
                 bottom: column1.top
                 bottomMargin: 50
             }
-            
+
             TextField {
                 id: textField
                 placeholderText: qsTr("Name")
@@ -222,21 +226,21 @@ Item {
                     }
                 }
             }
-            
+
             TextField {
                 id: textField1
                 placeholderText: qsTr("Description")
                 width:parent.width
                 Layout.fillWidth: true
             }
-            
+
             TextField {
                 id: textField2
                 placeholderText: qsTr("Youtube URL")
                 width:parent.width
                 Layout.fillWidth: true
             }
-            
+
             TextField {
                 id: textField3
                 width:parent.width
@@ -244,7 +248,7 @@ Item {
                 Layout.fillWidth: true
             }
         }
-        
+
         Row {
             id: column1
             height: 80
@@ -254,19 +258,19 @@ Item {
                 horizontalCenter: parent.horizontalCenter
                 bottom: parent.bottom
             }
-            
+
             Button {
                 id: btnExit
                 text: qsTr("Abort")
                 Material.background: Material.Gray
                 Material.foreground: "white"
                 onClicked: {
-                    screenPlayCreate.abort()
+                    screenPlayCreate.abortAndCleanup()
                     utility.setNavigationActive(true)
                     utility.setNavigation("Create")
                 }
             }
-            
+
             NextButton {
                 id: btnFinish
                 onClicked: {
@@ -279,7 +283,7 @@ Item {
                 }
             }
         }
-        
+
         Connections {
             target: screenPlayCreate
             onCreateWallpaperStateChanged: {
@@ -290,3 +294,10 @@ Item {
         }
     }
 }
+
+
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/

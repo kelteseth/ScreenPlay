@@ -18,14 +18,12 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 
 //for mac https://github.com/silvansky/QtMacApp/search?q=myprivate&unscoped_q=myprivate
 
-MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, QString volume, QString fillmode, QScreen* parent)
-    : QWindow(parent)
+MainWindow::MainWindow(int screenAt, QString projectPath, QString id, QString decoder, QString volume, QString fillmode, QWindow* parent)
+    : QQuickView(parent)
 {
 
-
-
     m_appID = id;
-    m_screenNumber.insert(0, i);
+    m_screenNumber.append(screenAt);
     setDecoder(decoder);
     setProjectPath(projectPath);
 
@@ -62,23 +60,23 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
         if (m_project.value("type") == "video") {
             QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
             setFullContentPath(tmpPath);
-            setType("video");
+            setWallpaperType("video");
         } else if (m_project.value("type") == "scene") {
             return;
         } else if (m_project.value("type") == "qmlScene") {
             QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
             setFullContentPath(tmpPath);
-            setType("qmlScene");
+            setWallpaperType("qmlScene");
         } else if (m_project.value("type") == "html") {
             QString tmpPath = m_projectPath.toString() + "/" + m_projectFile;
             setFullContentPath(tmpPath);
-            setType("html");
+            setWallpaperType("html");
         }
     }
 
     // Recalculate window coordiantes because of point (0,0)
     // Is at the origin monitor or the most left
-    QScreen* screen = QApplication::screens().at(i);
+
     int offsetX = 0;
     int offsetY = 0;
 
@@ -92,14 +90,13 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
         }
     }
 
-    #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
 
-    m_hwnd = (HWND)this->winId();
+    m_hwnd = reinterpret_cast<HWND>(winId());
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
 
     // Spawn new worker window below desktop (using some undocumented Win32 magic)
-    // See
-    // https://www.codeproject.com/articles/856020/draw-behind-desktop-icons-in-windows
+    // See https://www.codeproject.com/articles/856020/draw-behind-desktop-icons-in-windows
     // for more details
     const DWORD WM_SPAWN_WORKER = 0x052C;
     SendMessageTimeoutW(progman_hwnd, WM_SPAWN_WORKER, 0xD, 0x1, SMTO_NORMAL,
@@ -113,67 +110,79 @@ MainWindow::MainWindow(int i, QString projectPath, QString id, QString decoder, 
     }
 
     //Hide first to avoid flickering
-    //ShowWindow(m_worker_hwnd, SW_HIDE);
+    QScreen* screen = QApplication::screens().at(screenAt);
+    if (screen == nullptr) {
+        destroyThis();
+    }
+
     ShowWindow(m_hwnd, SW_HIDE);
-    MoveWindow(m_hwnd, screen->geometry().x() + offsetX, screen->geometry().y() + offsetY, screen->size().width(), screen->size().height(), true);
     SetParent(m_hwnd, m_worker_hwnd);
+    UpdateWindow(m_hwnd);
+    UpdateWindow(m_worker_hwnd);
+    SetWindowLongPtr(m_hwnd, GWL_STYLE, WS_CHILDWINDOW);
+    SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE );
+   // ShowWindow(m_hwnd, SW_SHOW);
+    //MoveWindow(m_hwnd, screen->geometry().x(), screen->geometry().y() , screen->size().width(), screen->size().height(), true);
 
-    SetWindowLongPtr(m_hwnd, GWL_STYLE, WS_CHILDWINDOW | WS_CAPTION | WS_THICKFRAME | WS_MINIMIZE | WS_MAXIMIZE | WS_SYSMENU | WS_POPUP);
-    SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOPMOST | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);
+    qDebug() << "Create window: " << screenAt << ", x: " << screen->geometry().x() << "y: " << screen->geometry().y() << screen->size().width() << screen->size().height();
 
-    #endif
+#endif
 
 #ifdef Q_OS_MACOS
+
     //debug
     this->setWidth(screen->size().width());
     this->setHeight(screen->size().height());
     int x = screen->geometry().x();
     int y = screen->geometry().y();
-    this->setX(screen->geometry().x());// + offsetX);
-    this->setY(screen->geometry().y());// + offsetY);#endif
+    this->setX(screen->geometry().x()); // );
+    this->setY(screen->geometry().y()); // );
 #endif
     Qt::WindowFlags flags = this->flags();
-    this->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
+    setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
+    rootContext()->setContextProperty("mainwindow", this);
+    setSource(QUrl("qrc:/qml/main.qml"));
+    setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    setGeometry(screen->geometry().x() + offsetX, screen->geometry().y() + offsetY, screen->size().width(), screen->size().height());
+    //show();
 
-    m_quickRenderer = QSharedPointer<QQuickView>(new QQuickView(this));
-    m_quickRenderer.data()->rootContext()->setContextProperty("mainwindow", this);
-    m_quickRenderer.data()->setSource(QUrl("qrc:/qml/main.qml"));
-    m_quickRenderer.data()->setGeometry(0, 0, width(), height());
-    m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_quickRenderer.data()->setFlags(flags | Qt::FramelessWindowHint | Qt::WindowStaysOnBottomHint);
-    m_quickRenderer.data()->show();
+    UpdateWindow(m_hwnd);
+    UpdateWindow(m_worker_hwnd);
 
     setVolume(volume.toFloat());
     setFillMode(fillmode);
 
-    connect(m_quickRenderer.data(), &QQuickView::statusChanged, [=](QQuickView::Status status) {
+    connect(this, &QQuickView::statusChanged, [=](QQuickView::Status status) {
         if (status == QQuickView::Error) {
             destroyThis();
         }
     });
 
-    setVisible(true);
+    QTimer::singleShot(3000,[=](){
+        ShowWindow(m_hwnd, SW_SHOWNOACTIVATE);
+    });
 
+    //setVisible(true);
+    //ShowWindow(m_hwnd, SW_SHOWDEFAULT);
 
 #ifdef Q_OS_MACOS
     MacIntegration* integration = new MacIntegration(this);
     integration->SetBackgroundLevel(this);
 #endif
-
 }
 void MainWindow::init()
 {
 #ifdef Q_OS_WIN
     // This needs to be set in this order or
     // the window will be opened as fullscreen!
-    //ShowWindow(m_worker_hwnd, SW_SHOWDEFAULT);
-    ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+
+   //ShowWindow(m_hwnd, SW_SHOWDEFAULT);
 #endif
 }
 void MainWindow::destroyThis()
 {
 #ifdef Q_OS_WIN
-    ShowWindow(m_worker_hwnd, SW_HIDE);
+
     ShowWindow(m_hwnd, SW_HIDE);
 #endif
     QCoreApplication::quit();

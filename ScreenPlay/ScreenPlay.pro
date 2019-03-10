@@ -10,6 +10,7 @@ TARGETPATH = ScreenPlay
 ICON = favicon.ico
 
 SOURCES += main.cpp \
+    src/createimportvideo.cpp \
     src/installedlistmodel.cpp \
     src/monitorlistmodel.cpp \
     src/settings.cpp \
@@ -30,6 +31,7 @@ TRANSLATIONS =  translations/ScreenPlay_en.ts   \
                 translations/ScreenPlay_de.ts
 
 HEADERS += \
+    src/createimportvideo.h \
     src/installedlistmodel.h \
     src/monitorlistmodel.h \
     src/settings.h \
