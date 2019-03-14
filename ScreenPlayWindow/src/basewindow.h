@@ -76,6 +76,8 @@ signals:
     void typeChanged(WallpaperType type);
     void fullContentPathChanged(QString fullContentPath);
     void appIDChanged(QString appID);
+    void qmlExit();
+    void qmlSceneValueReceived(QString key, QString value);
 
 public slots:
     virtual void destroyThis() {}

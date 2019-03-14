@@ -1,5 +1,5 @@
-import QtQuick 2.13
-import QtWebEngine 1.8
+import QtQuick 2.12
+import QtWebEngine 1.7
 import net.aimber.wallpaper 1.0
 
 Rectangle {

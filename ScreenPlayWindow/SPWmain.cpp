@@ -18,8 +18,17 @@ int main(int argc, char* argv[])
 
     QtWebEngine::initialize();
 
+    bool debug = false;
+    if (debug) {
+        QVector<int> list;
+        list.append(0);
+        WinWindow window(list, "D:/672870/_tmp_135011", "argumentList.at(3)", "1");
+        return app.exec();
+    }
+
     // 6 parameter + 1 OS working directory default paramter
     QStringList argumentList = app.arguments();
+    qDebug() << argumentList;
     if (argumentList.length() != 7) {
         return -3;
     }
@@ -33,6 +42,9 @@ int main(int argc, char* argv[])
     if (monitorNumbers.length() == 1) {
         bool canParseMonitorNumber = false;
         int monitor = monitorNumbers.toInt(&canParseMonitorNumber);
+        if (!canParseMonitorNumber) {
+            qFatal("Could not parse monitor id to diplay wallpaper");
+        }
         list.append(monitor);
     } else {
         QStringList activeScreensList = monitorNumbers.split(",");
@@ -50,7 +62,7 @@ int main(int argc, char* argv[])
     // See screenplay.h @ScreenPlayWallpaper constructor how the args get created
 
 #if defined(Q_OS_WIN)
-    WinWindow window = WinWindow(list, argumentList.at(2), argumentList.at(3), argumentList.at(5));
+    WinWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(5));
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &WinWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &WinWindow::messageReceived);
 #endif

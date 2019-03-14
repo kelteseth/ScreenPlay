@@ -30,14 +30,14 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
         qFatal("No worker window found");
     }
 
-    // WARNING: Window flags must be called *here*!
+    // WARNING: Setting Window flags must be called *here*!
     Qt::WindowFlags flags = m_window.flags();
     m_window.setFlags(flags | Qt::FramelessWindowHint);
     SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_CHILDWINDOW);
     SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE);
 
     // Windows coordante system begins at 0x0 at the
-    // main monitor upper left and not at the most left top monitor
+    // main monitors upper left and not at the most left top monitor
     calcOffsets();
 
     // Ether for one Screen or for all
@@ -50,7 +50,7 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_window.rootContext()->setContextProperty("window", this);
     m_window.rootContext()->setContextProperty("desktopProperties", &m_windowsDesktopProperties);
-    m_window.setSource(QUrl("qrc:/main.qml"));
+    m_window.setSource(QUrl("qrc:/qml/main.qml"));
 
     // Let QML decide when were are read to show the window
     ShowWindow(m_windowHandle, SW_HIDE);
@@ -69,6 +69,11 @@ void WinWindow::destroyThis()
 {
     ShowWindow(m_windowHandle, SW_HIDE);
 
+    // Force refresh so that we display the regular
+    // desktop wallpaper again
+    ShowWindow(m_windowHandleWorker, SW_HIDE);
+    ShowWindow(m_windowHandleWorker, SW_SHOW);
+
     QCoreApplication::quit();
 }
 
@@ -79,9 +84,6 @@ void WinWindow::messageReceived(QString key, QString value)
 
 void WinWindow::calcOffsets()
 {
-    // Recalculate window coordiantes because of point (0,0)
-    // Is at the origin monitor or the most left
-
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
         if (screen->availableGeometry().x() < 0) {
