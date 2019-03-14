@@ -12,7 +12,9 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 </div>
 <br>
 
+## Contributing
 
+Everyone can contribute with code, design, documentation or translation. Visit our [contributing guide](https://gitlab.com/aimber/ScreenPlay/blob/dev/CONTRIBUTING.md) for more informations.
 
 # Getting started
 
