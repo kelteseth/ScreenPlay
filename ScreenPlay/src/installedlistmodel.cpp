@@ -10,7 +10,6 @@ InstalledListModel::InstalledListModel(QObject* parent)
     QObject::connect(&m_loadScreenWatcher, &QFutureWatcher<void>::progressValueChanged, [](int progressValue) {
         qDebug() << progressValue;
     });
-
 }
 
 int InstalledListModel::rowCount(const QModelIndex& parent) const
@@ -95,9 +94,17 @@ void InstalledListModel::loadInstalledContent()
 {
     if (m_loadScreenWatcher.isRunning())
         qDebug() << "allready running";
+
     qDebug() << QThread::currentThreadId();
 
+    if (m_isLoadingContent) {
+        qDebug() << "Called loading installed files twice! Aborting";
+        return;
+    }
+
     m_loadScreenFuture = QtConcurrent::run([this]() {
+        auto cleanup = qScopeGuard([this] { setIsLoadingContent(false); });
+        setIsLoadingContent(true);
         qDebug() << QThread::currentThreadId();
         QJsonDocument jsonProject;
         QJsonParseError parseError;
@@ -138,7 +145,7 @@ void InstalledListModel::loadInstalledContent()
                     obj.insert("type", "video");
                 }
 
-                if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene"  || fileEnding.endsWith(".html")))
+                if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene" || fileEnding.endsWith(".html")))
                     emit addInstalledItem(obj, item.baseName());
 
                 if (obj.value("type") == "qmlWidget" || obj.value("type") == "standalonewidget")
