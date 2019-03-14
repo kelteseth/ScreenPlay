@@ -59,7 +59,6 @@ Item {
         flickDeceleration: 5000
         anchors.fill: parent
         cellWidth: 340
-        cacheBuffer: 10000
         cellHeight: 200
         interactive: pageInstalled.enabled
         anchors {
