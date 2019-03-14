@@ -4,6 +4,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.3
+
 import net.aimber.create 1.0
 
 Item {
@@ -34,10 +35,10 @@ Item {
         target: screenPlayCreate
         onCreateWallpaperStateChanged: {
 
-            if (state === Create.State.ConvertingPreviewGifError
-                    || state === Create.State.ConvertingPreviewVideoError
-                    || state === Create.State.ConvertingPreviewImageError
-                    || state === Create.State.AnalyseVideoError) {
+            if (state === CreateImportVideo.State.ConvertingPreviewGifError
+                    || state === CreateImportVideo.State.ConvertingPreviewVideoError
+                    || state === CreateImportVideo.State.ConvertingPreviewImageError
+                    || state === CreateImportVideo.State.AnalyseVideoError) {
                 createNew.state = "error"
             }
         }

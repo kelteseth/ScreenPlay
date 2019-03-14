@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QApplication>
+#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QFileInfo>
@@ -8,16 +10,15 @@
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QObject>
-#include <QString>
-#include <QDebug>
-#include <QThread>
 #include <QProcess>
-#include <QApplication>
+#include <QString>
+#include <QThread>
 #include <QtMath>
 
 class CreateImportVideo : public QObject {
     Q_OBJECT
 public:
+    CreateImportVideo(QObject* parent = nullptr);
     explicit CreateImportVideo(QString videoPath, QString exportPath, QObject* parent = nullptr);
 
     enum class State {
@@ -58,7 +59,6 @@ public slots:
     void process();
     void requestInterruption()
     {
-
     }
 
     bool createWallpaperInfo();

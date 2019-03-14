@@ -236,7 +236,7 @@ Item {
         Connections {
             target: screenPlayCreate
             onCreateWallpaperStateChanged: {
-                if (state === Create.State.ConvertingVideoFinished) {
+                if (state === CreateImportVideo.State.ConvertingVideoFinished) {
                     btnFinish.state = "enabled"
                 }
             }

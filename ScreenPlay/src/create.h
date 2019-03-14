@@ -35,8 +35,6 @@ struct CreateWallpaperData {
     int framerate = 0;
 };
 
-
-
 class Create : public QObject {
     Q_OBJECT
 public:
@@ -90,11 +88,12 @@ public slots:
     }
 
 private:
-
     CreateImportVideo* m_createImportVideo;
     Settings* m_settings;
+    QThread* m_createImportVideoThread;
     QMLUtilities* m_utils;
     CreateWallpaperData m_createWallpaperData;
     QString m_workingDir;
     float m_progress = 0.0f;
+
 };

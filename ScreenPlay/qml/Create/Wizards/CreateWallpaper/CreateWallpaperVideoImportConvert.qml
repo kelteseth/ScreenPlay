@@ -92,7 +92,7 @@ Item {
                 target: screenPlayCreate
 
                 onCreateWallpaperStateChanged: {
-                    if (state === Create.State.ConvertingPreviewImageFinished) {
+                    if (state === CreateImportVideo.State.ConvertingPreviewImageFinished) {
                         imgPreview.source = "file:///"
                                 + screenPlayCreate.workingDir + "/preview.png"
                         imgPreview.visible = true
@@ -100,30 +100,30 @@ Item {
                                     "Converting Video preview mp4")
                     }
 
-                    if (state === Create.State.ConvertingPreviewVideo) {
+                    if (state === CreateImportVideo.State.ConvertingPreviewVideo) {
                         txtConvert.text = qsTr(
                                     "Generating preview video...")
                     }
 
-                    if (state === Create.State.ConvertingPreviewGif) {
+                    if (state === CreateImportVideo.State.ConvertingPreviewGif) {
                         txtConvert.text = qsTr(
                                     "Generating preview gif...")
                     }
 
-                    if (state === Create.State.ConvertingPreviewGifFinished) {
+                    if (state === CreateImportVideo.State.ConvertingPreviewGifFinished) {
                         imgPreview.source = "file:///"
                                 + screenPlayCreate.workingDir + "/preview.gif"
                         imgPreview.visible = true
                         imgPreview.playing = true
                     }
-                    if (state === Create.State.ConvertingAudio) {
+                    if (state === CreateImportVideo.State.ConvertingAudio) {
                         txtConvert.text = qsTr("Converting Audio...")
                     }
-                    if (state === Create.State.ConvertingVideo) {
+                    if (state === CreateImportVideo.State.ConvertingVideo) {
                         txtConvert.text = qsTr("Converting Video...")
                     }
 
-                    if (state === Create.State.Finished) {
+                    if (state === CreateImportVideo.State.Finished) {
                         imgSuccess.source = "file:///"
                                 + screenPlayCreate.workingDir + "/preview.gif"
                     }
@@ -287,7 +287,7 @@ Item {
         Connections {
             target: screenPlayCreate
             onCreateWallpaperStateChanged: {
-                if (state === Create.State.ConvertingVideoFinished) {
+                if (state === CreateImportVideo.State.ConvertingVideoFinished) {
                     btnFinish.state = "enabled"
                 }
             }

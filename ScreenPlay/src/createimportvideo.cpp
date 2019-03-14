@@ -1,5 +1,10 @@
 #include "createimportvideo.h"
 
+CreateImportVideo::CreateImportVideo(QObject* parent)
+    : QObject(parent)
+{
+}
+
 CreateImportVideo::CreateImportVideo(QString videoPath, QString exportPath, QObject* parent)
     : QObject(parent)
 {
@@ -140,7 +145,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
 #endif
     emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingPreviewVideo);
 
-    //connect(this, &Create::abortCreateWallpaper, proConvertPreviewWebM.data(), &QProcess::kill);
+
     proConvertPreviewWebM.data()->start();
     while (!proConvertPreviewWebM.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
     {
@@ -154,7 +159,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
         }
         QCoreApplication::processEvents();
     }
-    //disconnect(this, &Create::abortCreateWallpaper, proConvertPreviewWebM.data(), &QProcess::kill);
+
     QString tmpErr = proConvertPreviewWebM.data()->readAllStandardError();
     if (!tmpErr.isEmpty()) {
         QFile previewVideo(m_exportPath + "/preview.webm");
@@ -195,7 +200,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
 #ifdef Q_OS_MACOS
     proConvertGif.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
 #endif
-    //connect(this, &Create::abortCreateWallpaper, proConvertGif.data(), &QProcess::kill);
+
     proConvertGif.data()->start();
     while (!proConvertGif.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
     {
@@ -209,7 +214,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
         }
         QCoreApplication::processEvents();
     }
-    //disconnect(this, &Create::abortCreateWallpaper, proConvertGif.data(), &QProcess::kill);
+
     QString tmpErrGif = proConvertGif.data()->readAllStandardError();
     if (!tmpErrGif.isEmpty()) {
         QFile previewGif(m_exportPath + "/preview.gif");
@@ -311,7 +316,6 @@ bool CreateImportVideo::extractWallpaperAudio()
     pro.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
 #endif
 
-    //connect(this, &Create::abortCreateWallpaper, proConvertAudio.data(), &QProcess::kill);
     proConvertAudio.data()->start(QIODevice::ReadOnly);
     while (!proConvertAudio.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
     {
@@ -325,7 +329,6 @@ bool CreateImportVideo::extractWallpaperAudio()
         }
         QCoreApplication::processEvents();
     }
-    //disconnect(this, &Create::abortCreateWallpaper, proConvertAudio.data(), &QProcess::kill);
 
     QString tmpErrImg = proConvertAudio.data()->readAllStandardError();
     if (!tmpErrImg.isEmpty()) {
