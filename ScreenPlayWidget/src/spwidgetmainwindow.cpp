@@ -2,17 +2,17 @@
 
 #include <QCoreApplication>
 
-SPWidgetmainwindow::SPWidgetmainwindow(QString projectPath, QString appid, QScreen* parent)
-    : QWindow(parent)
+SPWidgetmainwindow::SPWidgetmainwindow(QString projectPath, QString appid, QObject* parent)
+    : QObject(parent)
 {
 
     m_appID = appid;
 
-    m_hwnd = (HWND)this->winId();
-    Qt::WindowFlags flags = this->flags();
-    this->setWidth(500);
-    this->setHeight(300);
-    this->setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
+    m_hwnd = reinterpret_cast<HWND>(m_window.winId());
+    Qt::WindowFlags flags = m_window.flags();
+    m_window.setWidth(500);
+    m_window.setHeight(300);
+    m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
 
     QFile configTmp;
     QJsonDocument configJsonDocument;
@@ -29,29 +29,23 @@ SPWidgetmainwindow::SPWidgetmainwindow(QString projectPath, QString appid, QScre
     m_project = configJsonDocument.object();
     QString fullPath = projectPath + "/" + m_project.value("file").toString();
 
-    m_quickRenderer = QSharedPointer<QQuickView>(new QQuickView(this));
-    m_quickRenderer.data()->rootContext()->setContextProperty("backend", this);
-    m_quickRenderer.data()->setColor(Qt::transparent);
-    m_quickRenderer.data()->setWidth(this->width());
-    m_quickRenderer.data()->setHeight(this->height());
-    m_quickRenderer.data()->setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    m_window.rootContext()->setContextProperty("backend", this);
+    m_window.setColor(Qt::transparent);
+    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
 
-    m_quickRenderer.data()->setSource(QUrl("qrc:/main.qml"));
+    m_window.setSource(QUrl("qrc:/main.qml"));
 #ifdef Q_OS_WIN
     SetWindowBlur(m_hwnd);
 #endif
-    show();
-    m_quickRenderer.data()->show();
+    m_window.show();
 
     emit setWidgetSource(fullPath);
 }
 
 void SPWidgetmainwindow::setSize(QSize size)
 {
-    this->setWidth(size.width());
-    this->setHeight(size.height());
-    m_quickRenderer.data()->setWidth(size.width());
-    m_quickRenderer.data()->setHeight(size.height());
+    m_window.setWidth(size.width());
+    m_window.setHeight(size.height());
 }
 
 void SPWidgetmainwindow::destroyThis()
@@ -68,13 +62,13 @@ void SPWidgetmainwindow::setPos(int xPos, int yPos)
 {
 
     QPoint delta((xPos - m_clickPos.x()), (yPos - m_clickPos.y()));
-    int new_x = x() + delta.x();
-    int new_y = y() + delta.y();
+    int new_x = m_window.x() + delta.x();
+    int new_y = m_window.y() + delta.y();
 
-    setPosition(QPoint(new_x, new_y));
+    m_window.setPosition(QPoint(new_x, new_y));
 }
 
-void SPWidgetmainwindow::setClickPos(const QPoint &clickPos)
+void SPWidgetmainwindow::setClickPos(const QPoint& clickPos)
 {
     m_clickPos = clickPos;
 }

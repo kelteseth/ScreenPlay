@@ -20,11 +20,11 @@
 typedef long HWND;
 #endif
 
-class SPWidgetmainwindow : public QWindow {
+class SPWidgetmainwindow : public QObject {
     Q_OBJECT
 
 public:
-    explicit SPWidgetmainwindow(QString projectPath, QString appid, QScreen* parent = nullptr);
+    explicit SPWidgetmainwindow(QString projectPath, QString appid, QObject* parent = nullptr);
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
@@ -93,5 +93,6 @@ private:
     HWND m_hwnd;
     QPoint m_clickPos = { 0, 0 };
 
-    QSharedPointer<QQuickView> m_quickRenderer;
+    QQuickView m_window;
+
 };
