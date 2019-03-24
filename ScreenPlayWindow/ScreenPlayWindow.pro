@@ -6,8 +6,8 @@ msvc: LIBS += -luser32
 TARGETPATH = ScreenPlayWindow
 
 SOURCES += \
-    SPWmain.cpp \
     #src/SPWmainwindow.cpp \
+    main.cpp \
     src/basewindow.cpp \
     src/windowsdesktopproperties.cpp \
     src/winwindow.cpp

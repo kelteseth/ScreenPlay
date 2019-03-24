@@ -13,8 +13,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    SPWidgetmain.cpp \
-    src/spwidgetmainwindow.cpp
+    main.cpp \
+    src/widgetwindow.cpp
 
 RESOURCES += \
     SPWidgetResources.qrc
@@ -57,4 +57,4 @@ QML_DESIGNER_IMPORT_PATH =
 
 
 HEADERS += \
-    src/spwidgetmainwindow.h
+    src/widgetwindow.h

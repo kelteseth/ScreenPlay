@@ -1,8 +1,8 @@
-#include "spwidgetmainwindow.h"
+#include "widgetwindow.h"
 
 #include <QCoreApplication>
 
-SPWidgetmainwindow::SPWidgetmainwindow(QString projectPath, QString appid, QObject* parent)
+WidgetWindow::WidgetWindow(QString projectPath, QString appid, QObject* parent)
     : QObject(parent)
 {
 
@@ -10,7 +10,7 @@ SPWidgetmainwindow::SPWidgetmainwindow(QString projectPath, QString appid, QObje
 
     m_hwnd = reinterpret_cast<HWND>(m_window.winId());
     Qt::WindowFlags flags = m_window.flags();
-    m_window.setWidth(500);
+    m_window.setWidth(300);
     m_window.setHeight(300);
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
 
@@ -31,7 +31,6 @@ SPWidgetmainwindow::SPWidgetmainwindow(QString projectPath, QString appid, QObje
 
     m_window.rootContext()->setContextProperty("backend", this);
     m_window.setColor(Qt::transparent);
-    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
 
     m_window.setSource(QUrl("qrc:/main.qml"));
 #ifdef Q_OS_WIN
@@ -42,23 +41,23 @@ SPWidgetmainwindow::SPWidgetmainwindow(QString projectPath, QString appid, QObje
     emit setWidgetSource(fullPath);
 }
 
-void SPWidgetmainwindow::setSize(QSize size)
+void WidgetWindow::setSize(QSize size)
 {
     m_window.setWidth(size.width());
     m_window.setHeight(size.height());
 }
 
-void SPWidgetmainwindow::destroyThis()
+void WidgetWindow::destroyThis()
 {
     QCoreApplication::quit();
 }
 
-void SPWidgetmainwindow::messageReceived(QString key, QString value)
+void WidgetWindow::messageReceived(QString key, QString value)
 {
     emit qmlSceneValueReceived(key, value);
 }
 
-void SPWidgetmainwindow::setPos(int xPos, int yPos)
+void WidgetWindow::setPos(int xPos, int yPos)
 {
 
     QPoint delta((xPos - m_clickPos.x()), (yPos - m_clickPos.y()));
@@ -68,14 +67,14 @@ void SPWidgetmainwindow::setPos(int xPos, int yPos)
     m_window.setPosition(QPoint(new_x, new_y));
 }
 
-void SPWidgetmainwindow::setClickPos(const QPoint& clickPos)
+void WidgetWindow::setClickPos(const QPoint& clickPos)
 {
     m_clickPos = clickPos;
 }
 
-void SPWidgetmainwindow::SetWindowBlur(HWND hWnd)
-{
 #ifdef Q_OS_WIN
+void WidgetWindow::SetWindowBlur(HWND hWnd)
+{
 
     const HINSTANCE hModule = LoadLibrary(TEXT("user32.dll"));
     if (hModule) {
@@ -101,12 +100,11 @@ void SPWidgetmainwindow::SetWindowBlur(HWND hWnd)
         typedef BOOL(WINAPI * pSetWindowCompositionAttribute)(HWND, WINCOMPATTRDATA*);
         const pSetWindowCompositionAttribute SetWindowCompositionAttribute = (pSetWindowCompositionAttribute)GetProcAddress(hModule, "SetWindowCompositionAttribute");
         if (SetWindowCompositionAttribute) {
-            ACCENTPOLICY policy = { (int)Accent::BLURBEHIND, 0, 0, 0 }; // ACCENT_ENABLE_BLURBEHIND=3...
+            ACCENTPOLICY policy = { static_cast<int>(Accent::BLURBEHIND), 0, 0, 0 }; // ACCENT_ENABLE_BLURBEHIND=3...
             WINCOMPATTRDATA data = { 19, &policy, sizeof(ACCENTPOLICY) }; // WCA_ACCENT_POLICY=19
             SetWindowCompositionAttribute(hWnd, &data);
         }
         FreeLibrary(hModule);
     }
-
-#endif
 }
+#endif

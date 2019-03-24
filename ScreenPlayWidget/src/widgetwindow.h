@@ -8,23 +8,22 @@
 #include <QPoint>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QtQuick/QQuickView>
-#include <QtQuick/QQuickWindow>
 #include <QQuickWindow>
 #include <QSharedPointer>
 #include <QString>
 #include <QWindow>
+#include <QtQuick/QQuickView>
+#include <QtQuick/QQuickWindow>
+
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
-#else
-typedef long HWND;
 #endif
 
-class SPWidgetmainwindow : public QObject {
+class WidgetWindow : public QObject {
     Q_OBJECT
 
 public:
-    explicit SPWidgetmainwindow(QString projectPath, QString appid, QObject* parent = nullptr);
+    explicit WidgetWindow(QString projectPath, QString appid, QObject* parent = nullptr);
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
@@ -83,16 +82,18 @@ public slots:
 
     void setPos(int xPos, int yPos);
     void setClickPos(const QPoint& clickPos);
+#ifdef Q_OS_WIN
     void SetWindowBlur(HWND hWnd);
-
+#endif
 private:
     QString m_appID;
     QString m_type = "qmlWidget";
     QString m_projectConfig;
     QJsonObject m_project;
+    #ifdef Q_OS_WIN
     HWND m_hwnd;
+    #endif
     QPoint m_clickPos = { 0, 0 };
 
     QQuickView m_window;
-
 };

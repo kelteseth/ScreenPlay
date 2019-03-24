@@ -15,20 +15,19 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QApplication app(argc, argv);
-
+    QStringList argumentList = app.arguments();
     QtWebEngine::initialize();
 
-    bool debug = false;
-    if (debug) {
+    // If we start with only one argument (app path)
+    // It means we want to test a single wallpaper
+    if (argumentList.length() == 1) {
         QVector<int> list;
         list.append(0);
-        WinWindow window(list, "D:/672870/_tmp_135011", "argumentList.at(3)", "1");
+        WinWindow window(list, "D:/672870/_tmp_135011", "appid", "1");
         return app.exec();
     }
 
     // 6 parameter + 1 OS working directory default paramter
-    QStringList argumentList = app.arguments();
-    qDebug() << argumentList;
     if (argumentList.length() != 7) {
         return -3;
     }
