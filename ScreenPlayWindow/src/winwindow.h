@@ -7,16 +7,15 @@
 #include <QQmlEngine>
 #include <QQuickView>
 #include <QScreen>
-#include <QVector>
-#include <memory>
-
-#include "windowsdesktopproperties.h"
 #include <QSettings>
 #include <QString>
+#include <QVector>
+#include <memory>
 
 #include <qt_windows.h>
 
 #include "basewindow.h"
+#include "windowsdesktopproperties.h"
 
 class WinWindow : public BaseWindow {
     Q_OBJECT

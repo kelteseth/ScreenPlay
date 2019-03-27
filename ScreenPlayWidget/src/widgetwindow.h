@@ -8,6 +8,7 @@
 #include <QPoint>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QQmlEngine>
 #include <QQuickWindow>
 #include <QSharedPointer>
 #include <QString>
@@ -28,6 +29,7 @@ public:
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString projectConfig READ projectConfig WRITE setProjectConfig NOTIFY projectConfigChanged)
+    Q_PROPERTY(QString sourcePath READ sourcePath WRITE setSourcePath NOTIFY sourcePathChanged)
 
     QString appID() const
     {
@@ -44,17 +46,24 @@ public:
         return m_projectConfig;
     }
 
+    QString sourcePath() const
+    {
+        return m_sourcePath;
+    }
+
 signals:
     void appIDChanged(QString appID);
     void typeChanged(QString type);
     void projectConfigChanged(QString projectConfig);
-    void setWidgetSource(QString source);
+    void sourcePathChanged(QString sourcePath);
+
     void qmlSceneValueReceived(QString key, QString value);
 
 public slots:
     void setSize(QSize size);
     void destroyThis();
     void messageReceived(QString key, QString value);
+
     void setAppID(QString appID)
     {
         if (m_appID == appID)
@@ -85,15 +94,25 @@ public slots:
 #ifdef Q_OS_WIN
     void SetWindowBlur(HWND hWnd);
 #endif
+    void setSourcePath(QString sourcePath)
+    {
+        if (m_sourcePath == sourcePath)
+            return;
+
+        m_sourcePath = sourcePath;
+        emit sourcePathChanged(m_sourcePath);
+    }
+
 private:
     QString m_appID;
     QString m_type = "qmlWidget";
     QString m_projectConfig;
     QJsonObject m_project;
-    #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
     HWND m_hwnd;
-    #endif
+#endif
     QPoint m_clickPos = { 0, 0 };
 
     QQuickView m_window;
+    QString m_sourcePath;
 };

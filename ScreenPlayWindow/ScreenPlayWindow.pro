@@ -2,22 +2,28 @@ TEMPLATE = app
 QT += qml quick quickcontrols2 widgets core webengine
 CONFIG += c++17
 
-msvc: LIBS += -luser32
+DEFINES += QT_DEPRECATED_WARNINGS
+
 TARGETPATH = ScreenPlayWindow
 
 SOURCES += \
-    #src/SPWmainwindow.cpp \
     main.cpp \
     src/basewindow.cpp \
-    src/windowsdesktopproperties.cpp \
-    src/winwindow.cpp
 
 HEADERS += \
-    #src/SPWmainwindow.h \
     src/basewindow.h \
-    src/windowsdesktopproperties.h \
-    src/winwindow.h
 
+win32 {
+    LIBS += -luser32
+    SOURCES += \
+        src/windowsdesktopproperties.cpp \
+        src/winwindow.cpp
+
+    HEADERS += \
+        src/windowsdesktopproperties.h \
+        src/winwindow.h
+
+}
 RESOURCES += \
     SPWResources.qrc
 
@@ -61,20 +67,4 @@ macx: {
     DISTFILES += \
         index.html
 }
-
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Additional import path used to resolve QML modules just for Qt Quick Designer
-QML_DESIGNER_IMPORT_PATH =
-QT_QUICK_CONTROLS_STYLE = "Material"
-
-# The following define makes your compiler emit warnings if you use
-# any feature of Qt which as been marked deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
-DEFINES += QT_DEPRECATED_WARNINGS
-
-
 

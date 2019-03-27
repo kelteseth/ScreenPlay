@@ -11,6 +11,12 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
     qRegisterMetaType<BaseWindow::WallpaperType>();
     qmlRegisterType<BaseWindow>("net.aimber.wallpaper", 1, 0, "Wallpaper");
 
+    if (projectFilePath == "test") {
+        setType(BaseWindow::WallpaperType::Qml);
+        setFullContentPath("qrc:/test.qml");
+        return;
+    }
+
     QFile projectFile;
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
@@ -48,7 +54,7 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
         qFatal("No type was specified inside the json object!");
     }
 
-    setFullContentPath(projectFilePath + "/" + projectObject.value("file").toString());
+    setFullContentPath("file:///" + projectFilePath + "/" + projectObject.value("file").toString());
 
     if (projectObject.value("type") == "video") {
         setType(BaseWindow::WallpaperType::Video);

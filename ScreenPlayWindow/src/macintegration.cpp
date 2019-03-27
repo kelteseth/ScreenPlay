@@ -1,7 +1,7 @@
 #include "macintegration.h"
 #include "macbridge.h"
 
-MacIntegration::MacIntegration(QObject *parent)
+MacIntegration::MacIntegration(QObject* parent)
     : QObject(parent)
 {
     MacBridge::instance();

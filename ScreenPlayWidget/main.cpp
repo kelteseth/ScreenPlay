@@ -14,12 +14,10 @@ int main(int argc, char* argv[])
 
     QStringList argumentList = app.arguments();
 
-    // If we start with only one argument (app path)
-    // It means we want to test a single widget
+    // If we start with only one argument (app path),
+    // it means we want to test a single widget
     if (argumentList.length() == 1) {
-        // Todo generic widget
-        WidgetWindow spwmw("D:/672870/xkcd","appid" );
-
+        WidgetWindow spwmw("test","appid" );
         return app.exec();
     }
 

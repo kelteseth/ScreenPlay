@@ -1,13 +1,13 @@
 #pragma once
 
+#include <QApplication>
+#include <QDebug>
 #include <QFile>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
 #include <QObject>
-#include <QDebug>
 #include <QString>
-#include <QApplication>
 #include <qqml.h>
 
 class BaseWindow : public QObject {
@@ -81,8 +81,12 @@ signals:
 
 public slots:
     virtual void destroyThis() {}
-    virtual void setVisible(bool show) {Q_UNUSED(show)}
-    virtual void messageReceived(QString key, QString value){Q_UNUSED(key);Q_UNUSED(value)}
+    virtual void setVisible(bool show) { Q_UNUSED(show) }
+    virtual void messageReceived(QString key, QString value)
+    {
+        Q_UNUSED(key);
+        Q_UNUSED(value)
+    }
 
     QString getApplicationPath()
     {

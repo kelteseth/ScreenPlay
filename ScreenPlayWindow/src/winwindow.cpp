@@ -17,6 +17,10 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
     : BaseWindow(projectPath)
 {
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
+
+    if(!IsWindow(m_windowHandle)){
+        qFatal("Could not get a valid window handle!");
+    }
     setAppID(id);
 
     bool ok = false;
@@ -50,16 +54,25 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_window.rootContext()->setContextProperty("window", this);
     m_window.rootContext()->setContextProperty("desktopProperties", &m_windowsDesktopProperties);
-    m_window.setSource(QUrl("qrc:/qml/main.qml"));
+    // Instead of setting "renderType: Text.NativeRendering" every time
+    // we can set it here once :)
+    m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
+    m_window.setSource(QUrl("qrc:/mainWindow.qml"));
 
     // Let QML decide when were are read to show the window
-    ShowWindow(m_windowHandle, SW_HIDE);
+    //ShowWindow(m_windowHandle, SW_HIDE);
+
 }
 
 void WinWindow::setVisible(bool show)
 {
+
     if (show) {
         ShowWindow(m_windowHandle, SW_SHOW);
+        if(!IsWindowVisible(m_windowHandle)){
+            qFatal("Could net set window visible!");
+        }
+
     } else {
         ShowWindow(m_windowHandle, SW_HIDE);
     }
@@ -79,7 +92,6 @@ void WinWindow::destroyThis()
 
 void WinWindow::messageReceived(QString key, QString value)
 {
-
 }
 
 void WinWindow::calcOffsets()

@@ -1,13 +1,20 @@
-#include "../ScreenPlaySDK/screenplaysdk.h"
+#include <QApplication>
+#include <QObject>
+#include <QStringList>
+#include <QtGlobal>
+#include <QtWebEngine>
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
 #endif
 
-#include <QApplication>
-#include <QObject>
-#include <QStringList>
-#include <QtWebEngine>
+#if defined(Q_OS_OSX)
+
+// TODO MAC OSX PORT HERE
+
+#endif
+
+#include "../ScreenPlaySDK/screenplaysdk.h"
 
 int main(int argc, char* argv[])
 {
@@ -15,15 +22,22 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QApplication app(argc, argv);
-    QStringList argumentList = app.arguments();
+
+    // This gives us nice clickable output in QtCreator
+    qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
+
+    // Qt < 6.0 needs this init QtWebEngine
     QtWebEngine::initialize();
 
     // If we start with only one argument (app path)
     // It means we want to test a single wallpaper
+    QStringList argumentList = app.arguments();
     if (argumentList.length() == 1) {
         QVector<int> list;
         list.append(0);
-        WinWindow window(list, "D:/672870/_tmp_135011", "appid", "1");
+#if defined(Q_OS_WIN)
+        WinWindow window(list, "test", "appid", "1");
+#endif
         return app.exec();
     }
 
@@ -64,6 +78,14 @@ int main(int argc, char* argv[])
     WinWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(5));
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &WinWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &WinWindow::messageReceived);
+#endif
+
+#if defined(Q_OS_OSX)
+
+    // TODO MAC OSX PORT HERE
+    // QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &TODO, &TODO::destroyThis);
+    // QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &TODO, &TODO::messageReceived);
+
 #endif
 
     return app.exec();
