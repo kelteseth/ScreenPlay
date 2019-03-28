@@ -95,7 +95,6 @@ void InstalledListModel::loadInstalledContent()
     if (m_loadScreenWatcher.isRunning())
         qDebug() << "allready running";
 
-    qDebug() << QThread::currentThreadId();
 
     if (m_isLoadingContent) {
         qDebug() << "Called loading installed files twice! Aborting";
@@ -105,7 +104,7 @@ void InstalledListModel::loadInstalledContent()
     m_loadScreenFuture = QtConcurrent::run([this]() {
         auto cleanup = qScopeGuard([this] { setIsLoadingContent(false); });
         setIsLoadingContent(true);
-        qDebug() << QThread::currentThreadId();
+
         QJsonDocument jsonProject;
         QJsonParseError parseError;
 
