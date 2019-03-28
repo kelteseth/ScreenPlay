@@ -134,8 +134,6 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     args.append(m_exportPath + "/preview.webm");
     QScopedPointer<QProcess> proConvertPreviewWebM(new QProcess());
 
-    qDebug() << args;
-
     proConvertPreviewWebM.data()->setArguments(args);
 #ifdef Q_OS_WIN
     proConvertPreviewWebM.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");

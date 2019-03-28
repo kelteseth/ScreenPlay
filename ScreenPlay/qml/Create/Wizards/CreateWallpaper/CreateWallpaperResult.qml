@@ -84,4 +84,22 @@ Item {
             utility.setNavigation("Create")
         }
     }
+    states: [
+        State {
+            name: "error"
+
+            PropertyChanges {
+                target: txtFFMPEGDebug
+                text: "Error!"
+            }
+        },
+        State {
+            name: "success"
+
+            PropertyChanges {
+                target: txtFFMPEGDebug
+                text: "Success!"
+            }
+        }
+    ]
 }

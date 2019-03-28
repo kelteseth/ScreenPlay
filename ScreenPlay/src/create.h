@@ -26,30 +26,15 @@
 #include "qmlutilities.h"
 #include "settings.h"
 
-struct CreateWallpaperData {
-    CreateWallpaperData() {}
-
-    QString videoPath = "";
-    QString exportPath = "";
-    int length = 0;
-    int framerate = 0;
-};
-
 class Create : public QObject {
     Q_OBJECT
 public:
     explicit Create(Settings* st, QMLUtilities* util, QObject* parent = nullptr);
 
-    Q_PROPERTY(QString workingDir READ workingDir WRITE setWorkingDir NOTIFY workingDirChanged)
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
 
     Create() {}
     ~Create() {}
-
-    QString workingDir() const
-    {
-        return m_workingDir;
-    }
 
     float progress() const
     {
@@ -59,7 +44,6 @@ public:
 signals:
     void createWallpaperStateChanged(CreateImportVideo::State state);
     void processOutput(QString text);
-    void workingDirChanged(QString workingDir);
     void progressChanged(float progress);
     void abortCreateWallpaper();
 
@@ -68,15 +52,6 @@ public slots:
     bool copyRecursively(const QString& srcFilePath, const QString& tgtFilePath);
     void abortAndCleanup();
     void createWallpaperStart(QString videoPath);
-
-    void setWorkingDir(QString workingDir)
-    {
-        if (m_workingDir == workingDir)
-            return;
-
-        m_workingDir = workingDir;
-        emit workingDirChanged(m_workingDir);
-    }
 
     void setProgress(float progress)
     {
@@ -92,8 +67,6 @@ private:
     Settings* m_settings;
     QThread* m_createImportVideoThread;
     QMLUtilities* m_utils;
-    CreateWallpaperData m_createWallpaperData;
-    QString m_workingDir;
-    float m_progress = 0.0f;
 
+    float m_progress = 0.0f;
 };

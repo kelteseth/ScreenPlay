@@ -50,6 +50,12 @@ public:
     };
     Q_ENUM(State)
 
+    QProcess m_process;
+    QString m_videoPath;
+    QString m_exportPath;
+    int m_length = 0;
+    int m_framerate = 0;
+
 signals:
     void createWallpaperStateChanged(CreateImportVideo::State state);
     void processOutput(QString text);
@@ -67,11 +73,4 @@ public slots:
     bool createWallpaperImagePreview();
     bool extractWallpaperAudio();
     bool createWallpaperProjectFile(const QString title, const QString description);
-
-private:
-    QProcess m_process;
-    QString m_videoPath;
-    QString m_exportPath;
-    int m_length = 0;
-    int m_framerate = 0;
 };

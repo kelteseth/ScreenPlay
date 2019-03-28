@@ -18,12 +18,8 @@ Item {
     Component.onCompleted: {
         state = "in"
         utility.setNavigationActive(false)
-        loader_wrapperContent.source = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml"
-//        if (importState === CreateWallpaperWizard.ImportState.Import) {
-//            loader_wrapperContent.source
-//                    = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImport.qml"
-//        } else {
-//        }
+        loader_wrapperContent.source
+                = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml"
     }
 
     //Blocks some MouseArea from create page
@@ -88,18 +84,12 @@ Item {
 
         Loader {
             id: loader_wrapperContent
-
             anchors.fill: parent
             z: 10
         }
 
-        CreateWallpaperError {
-            id: wrapperError
-            anchors.fill: parent
-        }
-
-        CreateWallpaperSuccess {
-            id: wrapperSuccess
+        CreateWallpaperResult {
+            id: wrapperResult
             anchors.fill: parent
         }
 
@@ -156,7 +146,7 @@ Item {
                 opacity: 0
             }
             PropertyChanges {
-                target: wrapperError
+                target: wrapperResult
                 opacity: 0
             }
         },
@@ -172,7 +162,7 @@ Item {
                 opacity: .4
             }
             PropertyChanges {
-                target: wrapperError
+                target: wrapperResult
                 opacity: 0
             }
         },
@@ -193,7 +183,7 @@ Item {
                 z: 0
             }
             PropertyChanges {
-                target: wrapperError
+                target: wrapperResult
                 opacity: 1
             }
         },
@@ -212,10 +202,6 @@ Item {
                 target: loader_wrapperContent
                 opacity: 0
                 z: 0
-            }
-            PropertyChanges {
-                target: wrapperSuccess
-                opacity: 1
             }
         }
     ]
@@ -303,7 +289,7 @@ Item {
                     duration: 50
                 }
                 PropertyAnimation {
-                    target: wrapperError
+                    target: wrapperResult
                     duration: 200
                     property: "opacity"
                     easing.type: Easing.OutQuart
@@ -322,12 +308,6 @@ Item {
                 }
                 PauseAnimation {
                     duration: 50
-                }
-                PropertyAnimation {
-                    target: wrapperSuccess
-                    duration: 200
-                    property: "opacity"
-                    easing.type: Easing.OutQuart
                 }
             }
         }
