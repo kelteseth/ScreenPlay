@@ -305,7 +305,7 @@ Item {
         Text {
             id: txtUploadSize
             color: "gray"
-            font.pixelSize: 16
+            font.pointSize: 14
             height: 30
             anchors {
                 horizontalCenter: parent.horizontalCenter
@@ -319,7 +319,7 @@ Item {
             id: txtUploadStatus
             text: qsTr("Creating Workshop Item")
             color: "gray"
-            font.pixelSize: 16
+            font.pointSize: 12
             height: 30
             anchors {
                 horizontalCenter: parent.horizontalCenter

@@ -59,7 +59,7 @@ Item {
             Text {
                 id: txtHeadline
                 text: qsTr("Wallpaper Configuration")
-                font.pixelSize: 21
+                font.pointSize: 21
                 color: "#626262"
                 font.family: "Roboto"
                 font.weight: Font.Thin

@@ -165,7 +165,7 @@ Item {
                     font.family: "Roboto"
                     font.weight: Font.Thin
                     verticalAlignment: Text.AlignVCenter
-                    font.pixelSize: 21
+                    font.pointSize: 16
                     color: "#2F2F2F"
                     wrapMode: Text.WrapAnywhere
                     anchors {
@@ -185,7 +185,7 @@ Item {
                 
                 horizontalAlignment: Qt.AlignHCenter
                 font.family: "Roboto"
-                font.pixelSize: 18
+                font.pointSize: 14
                 color: "#2F2F2F"
                 wrapMode: Text.WrapAnywhere
                 anchors {
@@ -239,7 +239,7 @@ Item {
                     
                     font.family: "Roboto"
                     verticalAlignment: Text.AlignVCenter
-                    font.pixelSize: 14
+                    font.pointSize: 10
                     color: "#626262"
                     wrapMode: Text.WrapAnywhere
                     anchors {
@@ -294,7 +294,7 @@ Item {
                 
                 font.family: "Roboto"
                 verticalAlignment: Text.AlignVCenter
-                font.pixelSize: 14
+                font.pointSize: 10
                 color: "#626262"
                 wrapMode: Text.WrapAnywhere
                 anchors {

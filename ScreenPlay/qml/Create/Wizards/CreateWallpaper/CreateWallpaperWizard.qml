@@ -71,16 +71,14 @@ Item {
 
     Rectangle {
         id: wrapper
-
+        width: 910
+        radius: 4
+        height: 460
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
             topMargin: 0
         }
-
-        width: 910
-        radius: 4
-        height: 460
 
         Loader {
             id: loader_wrapperContent

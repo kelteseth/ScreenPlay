@@ -79,8 +79,6 @@
         <file>qml/Community/Feedback.qml</file>
         <file>qml/Controls/Slider.qml</file>
         <file>qml/Create/Create.qml</file>
-        <file>qml/Create/CreateImport.qml</file>
-        <file>qml/Create/CreateImportStatus.qml</file>
         <file>qml/Create/CreateNew.qml</file>
         <file>qml/Create/CreateUpload.qml</file>
         <file>qml/Create/CreateWallpaper.qml</file>

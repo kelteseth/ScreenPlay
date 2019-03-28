@@ -68,8 +68,8 @@ Item {
             id: name
             text: btnEmpty.text
             font.family: "Roboto"
-            
-            font.pixelSize: 18
+
+            font.pointSize: 14
             color: "gray"
             anchors {
                 left: imgIcon.right
@@ -81,8 +81,8 @@ Item {
 
             text: ">"
             font.family: "Roboto"
-            
-            font.pixelSize: 24
+
+            font.pointSize: 18
             color: "#b9b9b9"
             anchors {
                 right: parent.right

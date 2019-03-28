@@ -20,7 +20,7 @@ Item {
         font.weight: Font.Light
         color: "#757575"
 
-        font.pixelSize: 23
+        font.pointSize: 23
         anchors {
             top: parent.top
             left: parent.left
@@ -68,7 +68,7 @@ Item {
                 id: txtConvertNumber
                 color: "white"
                 text: qsTr("")
-                font.pixelSize: 21
+                font.pointSize: 21
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -80,7 +80,7 @@ Item {
                 id: txtConvert
                 color: "white"
                 text: qsTr("Generating preview video...")
-                font.pixelSize: 14
+                font.pointSize: 14
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom

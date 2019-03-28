@@ -42,7 +42,7 @@ Item {
 
         }
 
-       font.pixelSize: 16
+       font.pointSize: 12
     }
 
     Text {
@@ -53,7 +53,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignLeft
-        font.pixelSize: 12
+        font.pointSize: 10
         font.family: "Roboto"
         anchors{
             top:txtHeadline.bottom

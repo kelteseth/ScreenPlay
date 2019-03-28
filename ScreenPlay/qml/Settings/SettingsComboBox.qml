@@ -36,7 +36,7 @@ Item {
 
         }
 
-       font.pixelSize: 16
+       font.pointSize: 12
        font.family: "Roboto"
     }
 
@@ -48,7 +48,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         wrapMode: Text.WordWrap
-        font.pixelSize: 12
+        font.pointSize: 10
         font.family: "Roboto"
         anchors{
             top:txtHeadline.bottom

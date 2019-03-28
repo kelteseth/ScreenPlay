@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
+
 Item {
     id: settingsBool
     property string headline: "Headline"
@@ -36,7 +37,7 @@ Item {
 
         }
 
-        font.pixelSize: 16
+        font.pointSize: 12
         font.family: "Roboto"
     }
 
@@ -48,7 +49,7 @@ Item {
 
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
-        font.pixelSize: 12
+        font.pointSize: 10
         font.family: "Roboto"
         anchors{
             top:txtHeadline.bottom

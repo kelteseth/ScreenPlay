@@ -9,7 +9,7 @@ import net.aimber.create 1.0
 Item {
     id: wrapperError
     opacity: 0
-    
+
     Text {
         id: txtErrorHeadline
         text: qsTr("An error occurred!")
@@ -22,10 +22,9 @@ Item {
         font.family: "Segoe UI, Roboto"
         font.weight: Font.Light
         color: Material.color(Material.Red)
-        
-        font.pixelSize: 32
+        font.pointSize: 32
     }
-    
+
     Rectangle {
         id: rectangle1
         color: "#eeeeee"
@@ -38,7 +37,7 @@ Item {
             margins: 30
             bottomMargin: 10
         }
-        
+
         Flickable {
             anchors.fill: parent
             clip: true
@@ -57,7 +56,7 @@ Item {
                 }
                 wrapMode: Text.WordWrap
                 color: "#626262"
-                
+
                 height: txtFFMPEGDebug.paintedHeight
             }
             Connections {
@@ -68,7 +67,7 @@ Item {
             }
         }
     }
-    
+
     Button {
         id: btnBack
         text: qsTr("Back to create and send an error report!")

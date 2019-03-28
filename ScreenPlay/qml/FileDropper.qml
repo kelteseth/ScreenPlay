@@ -62,7 +62,7 @@ DropArea {
     Text {
         id: text1
         text: qsTr("Bad File!!")
-        font.pixelSize: 24
+        font.pointSize: 24
         opacity: 1
         anchors.horizontalCenter: parent.horizontalCenter
         anchors.verticalCenter: parent.verticalCenter

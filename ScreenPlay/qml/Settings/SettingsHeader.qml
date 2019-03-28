@@ -62,7 +62,7 @@ Item {
             Text {
                 id: txtHeadline
                 text: settingsHeader.text
-                font.pixelSize: 18
+                font.pointSize: 12
                 color: "white"
                 verticalAlignment: Text.AlignTop
 

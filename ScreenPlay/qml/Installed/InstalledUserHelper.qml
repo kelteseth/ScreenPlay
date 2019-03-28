@@ -70,7 +70,7 @@ Item {
             id: txtHeadline2
             text: qsTr("DISTINCT")
             font.family: "Roboto Mono Thin"
-            font.pixelSize: 75
+            font.pointSize: 75
             color: "white"
             font.weight: Font.Normal
             

@@ -102,7 +102,7 @@ Item {
                 text: qsTr("Pull to refresh!")
                 anchors.centerIn: parent
                 color: "gray"
-                font.pixelSize: 18
+                font.pointSize: 18
             }
         }
         footer: Item {
