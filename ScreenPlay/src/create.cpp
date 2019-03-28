@@ -55,18 +55,20 @@ void Create::createWallpaperStart(QString videoPath)
     videoPath.remove("file:///");
 
     QDir dir;
-    dir.cd(this->m_settings->localStoragePath().toLocalFile());
+    dir.cd(m_settings->localStoragePath().toLocalFile());
 
     // Create a temp dir so we can later alter it to the workshop id
     auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
 
     if (!dir.mkdir(folderName)) {
+        emit createWallpaperStateChanged(CreateImportVideo::State::CreateTmpFolderError);
         emit abortCreateWallpaper();
         return;
     }
+    setWorkingDir(dir.path() + "/" + folderName);
 
     m_createImportVideoThread = new QThread;
-    m_createImportVideo = new CreateImportVideo(videoPath, dir.path() + "/" + folderName);
+    m_createImportVideo = new CreateImportVideo(videoPath, workingDir());
 
     connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged);
     connect(m_createImportVideoThread, &QThread::started, m_createImportVideo, &CreateImportVideo::process);
@@ -78,8 +80,17 @@ void Create::createWallpaperStart(QString videoPath)
     m_createImportVideoThread->start();
 }
 
+void Create::createWallpaperProjectFile(QString name, QString description, QString youtube, QStringList tags)
+{
+
+}
+
 void Create::abortAndCleanup()
 {
+    if (m_createImportVideo != nullptr || m_createImportVideoThread != nullptr) {
+        return;
+    }
+
     // Save to export path before aborting to be able to cleanup the tmp folder
     QString tmpExportPath = m_createImportVideo->m_exportPath;
 
@@ -94,6 +105,8 @@ void Create::abortAndCleanup()
                 qDebug() << "cleanup " << tmpExportPath;
             }
         }
+        m_createImportVideo = nullptr;
+        m_createImportVideoThread = nullptr;
     });
     m_createImportVideoThread->requestInterruption();
 }

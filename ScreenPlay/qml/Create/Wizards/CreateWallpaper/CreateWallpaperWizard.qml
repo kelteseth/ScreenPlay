@@ -30,12 +30,14 @@ Item {
     Connections {
         target: screenPlayCreate
         onCreateWallpaperStateChanged: {
-
-            if (state === CreateImportVideo.State.ConvertingPreviewGifError
+            if (state === CreateImportVideo.State.AnalyseVideoError
                     || state === CreateImportVideo.State.ConvertingPreviewVideoError
+                    || state === CreateImportVideo.State.ConvertingPreviewGifError
                     || state === CreateImportVideo.State.ConvertingPreviewImageError
-                    || state === CreateImportVideo.State.AnalyseVideoError) {
-                createNew.state = "error"
+                    || state === CreateImportVideo.State.ConvertingAudioError
+                    || state === CreateImportVideo.State.AbortCleanupError
+                    || state === CreateImportVideo.State.ErrorUnknown) {
+                createNew.state = "result"
             }
         }
     }
@@ -84,6 +86,12 @@ Item {
             id: loader_wrapperContent
             anchors.fill: parent
             z: 10
+            Connections {
+                target: loader_wrapperContent.sourceComponent
+                onSave:{
+                    createNew.state = "result"
+                }
+            }
         }
 
         CreateWallpaperResult {
@@ -275,7 +283,7 @@ Item {
         },
         Transition {
             from: "in"
-            to: "error"
+            to: "result"
             SequentialAnimation {
                 PropertyAnimation {
                     target: loader_wrapperContent
@@ -291,21 +299,6 @@ Item {
                     duration: 200
                     property: "opacity"
                     easing.type: Easing.OutQuart
-                }
-            }
-        },
-        Transition {
-            from: "in"
-            to: "success"
-            SequentialAnimation {
-                PropertyAnimation {
-                    target: loader_wrapperContent
-                    duration: 600
-                    property: "opacity"
-                    easing.type: Easing.OutQuart
-                }
-                PauseAnimation {
-                    duration: 50
                 }
             }
         }

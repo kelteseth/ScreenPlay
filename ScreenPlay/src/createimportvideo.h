@@ -45,6 +45,7 @@ public:
         //        ConvertingVideoFinished,
         //        ConvertingVideoError,
         AbortCleanupError,
+        CreateTmpFolderError,
         Finished,
         ErrorUnknown,
     };

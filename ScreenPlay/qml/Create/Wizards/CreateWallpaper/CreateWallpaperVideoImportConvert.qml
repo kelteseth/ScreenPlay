@@ -3,14 +3,16 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
 import Qt.labs.platform 1.0
-import QtQuick.Layouts 1.3
+import QtQuick.Layouts 1.12
+
 import net.aimber.create 1.0
 
 Item {
     id: wrapperContent
 
-
-    property string customVideoPreviewPath: ""
+    property bool conversionFinishedSuccessful: false
+    property bool canSave: false
+    signal save
 
     Text {
         id: txtHeadline
@@ -96,18 +98,15 @@ Item {
                         imgPreview.source = "file:///"
                                 + screenPlayCreate.workingDir + "/preview.png"
                         imgPreview.visible = true
-                        txtConvert.text = qsTr(
-                                    "Converting Video preview mp4")
+                        txtConvert.text = qsTr("Converting Video preview mp4")
                     }
 
                     if (state === CreateImportVideo.State.ConvertingPreviewVideo) {
-                        txtConvert.text = qsTr(
-                                    "Generating preview video...")
+                        txtConvert.text = qsTr("Generating preview video...")
                     }
 
                     if (state === CreateImportVideo.State.ConvertingPreviewGif) {
-                        txtConvert.text = qsTr(
-                                    "Generating preview gif...")
+                        txtConvert.text = qsTr("Generating preview gif...")
                     }
 
                     if (state === CreateImportVideo.State.ConvertingPreviewGifFinished) {
@@ -124,8 +123,9 @@ Item {
                     }
 
                     if (state === CreateImportVideo.State.Finished) {
-                        imgSuccess.source = "file:///"
-                                + screenPlayCreate.workingDir + "/preview.gif"
+                        txtConvert.text = ""
+                        conversionFinishedSuccessful = true
+                        busyIndicator.running = false
                     }
                 }
                 onProgressChanged: {
@@ -151,16 +151,17 @@ Item {
             Rectangle {
                 height: 50
                 color: "#eeeeee"
-                Layout.fillWidth: true
+                Layout.preferredWidth: imgWrapper.width
 
                 Text {
                     id: txtCustomPreviewPath
                     color: "#333333"
+
                     text: qsTr("Add custom preview image")
                     anchors {
                         verticalCenter: parent.verticalCenter
                         left: parent.left
-                        leftMargin: 10
+                        leftMargin: 20
                     }
                 }
 
@@ -176,10 +177,9 @@ Item {
                     onClicked: fileDialogOpenFile.open()
                 }
 
-
                 FileDialog {
                     id: fileDialogOpenFile
-                    nameFilters: ["*.png *.jpg"]
+                    nameFilters: []
                     onAccepted: {
                         var file = fileDialogOpenFile.file.toString()
 
@@ -207,44 +207,44 @@ Item {
                 right: parent.right
                 left: parent.left
                 margins: 30
-                top:parent.top
+                top: parent.top
                 topMargin: 0
                 bottom: column1.top
                 bottomMargin: 50
             }
 
             TextField {
-                id: textField
+                id: textFieldName
                 placeholderText: qsTr("Name")
-                width:parent.width
+                width: parent.width
                 Layout.fillWidth: true
                 onTextChanged: {
-                    if (textField.text.length >= 3) {
-                        canNext = true
+                    if (textFieldName.text.length >= 3) {
+                        canSave = true
                     } else {
-                        canNext = false
+                        canSave = false
                     }
                 }
             }
 
             TextField {
-                id: textField1
+                id: textFieldDescription
                 placeholderText: qsTr("Description")
-                width:parent.width
+                width: parent.width
                 Layout.fillWidth: true
             }
 
             TextField {
-                id: textField2
+                id: textFieldYoutubeURL
                 placeholderText: qsTr("Youtube URL")
-                width:parent.width
+                width: parent.width
                 Layout.fillWidth: true
             }
 
             TextField {
-                id: textField3
-                width:parent.width
-                placeholderText: qsTr("Tags")
+                id: textFieldTags
+                width: parent.width
+                placeholderText: qsTr("Tags (seperate with comma)")
                 Layout.fillWidth: true
             }
         }
@@ -271,33 +271,32 @@ Item {
                 }
             }
 
-            NextButton {
+            Button {
                 id: btnFinish
-                onClicked: {
-                    if (btnFinish.state === "enabled" && canNext) {
-                        screenPlayCreate.createWallpaperProjectFile(
-                                    textField.text, textField1.text)
-                        utility.setNavigationActive(true)
-                        createNew.state = "success"
+                text: qsTr("Save")
+                Material.background: Material.Gray
+                Material.foreground: "white"
+                enabled: {
+                    if (canSave && conversionFinishedSuccessful) {
+                        return true
+                    } else {
+                        return false
                     }
                 }
-            }
-        }
 
-        Connections {
-            target: screenPlayCreate
-            onCreateWallpaperStateChanged: {
-                if (state === CreateImportVideo.State.ConvertingVideoFinished) {
-                    btnFinish.state = "enabled"
+                onClicked: {
+                    if (conversionFinishedSuccessful) {
+                        screenPlayCreate.saveWallpaper(
+                                    textFieldName.text, textFieldDescription.text, textFieldYoutubeURL.text, textFieldTags.text)
+                    }
                 }
             }
         }
     }
 }
 
-
-
 /*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
+    D{i:0;autoSize:true;height:480;width:950}
 }
  ##^##*/
+

@@ -31,6 +31,7 @@ class Create : public QObject {
 public:
     explicit Create(Settings* st, QMLUtilities* util, QObject* parent = nullptr);
 
+    Q_PROPERTY(QString workingDir READ workingDir WRITE setWorkingDir NOTIFY workingDirChanged)
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
 
     Create() {}
@@ -41,17 +42,24 @@ public:
         return m_progress;
     }
 
+    QString workingDir() const
+    {
+        return m_workingDir;
+    }
+
 signals:
     void createWallpaperStateChanged(CreateImportVideo::State state);
     void processOutput(QString text);
     void progressChanged(float progress);
     void abortCreateWallpaper();
+    void workingDirChanged(QString workingDir);
 
 public slots:
     void copyProject(QString relativeProjectPath, QString toPath);
     bool copyRecursively(const QString& srcFilePath, const QString& tgtFilePath);
-    void abortAndCleanup();
     void createWallpaperStart(QString videoPath);
+    void saveWallpaper(QString name, QString description, QString youtube, QString tags);
+    void abortAndCleanup();
 
     void setProgress(float progress)
     {
@@ -62,6 +70,15 @@ public slots:
         emit progressChanged(m_progress);
     }
 
+    void setWorkingDir(QString workingDir)
+    {
+        if (m_workingDir == workingDir)
+            return;
+
+        m_workingDir = workingDir;
+        emit workingDirChanged(m_workingDir);
+    }
+
 private:
     CreateImportVideo* m_createImportVideo;
     Settings* m_settings;
@@ -69,4 +86,5 @@ private:
     QMLUtilities* m_utils;
 
     float m_progress = 0.0f;
+    QString m_workingDir;
 };
