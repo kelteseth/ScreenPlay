@@ -60,7 +60,7 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
     m_window.setSource(QUrl("qrc:/mainWindow.qml"));
 
     // Let QML decide when were are read to show the window
-    //ShowWindow(m_windowHandle, SW_HIDE);
+    ShowWindow(m_windowHandle, SW_HIDE);
 
 }
 

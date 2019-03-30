@@ -1,11 +1,11 @@
 import QtQuick 2.12
-import QtWebEngine 1.7
+import QtWebEngine 1.8
 import net.aimber.wallpaper 1.0
 
 Rectangle {
     anchors.fill: parent
     color: {
-        if(desktopProperties.color === null){
+        if (desktopProperties.color === null) {
             return "black"
         } else {
             return desktopProperties.color
@@ -15,6 +15,7 @@ Rectangle {
     property bool canFadeIn: true
 
     Component.onCompleted: {
+
         WebEngine.settings.allowRunningInsecureContent = true
         WebEngine.settings.accelerated2dCanvasEnabled = true
         WebEngine.settings.javascriptCanOpenWindows = false
@@ -24,9 +25,9 @@ Rectangle {
 
         switch (window.type) {
         case Wallpaper.WallpaperType.Video:
-            webView.enabled = true
             webView.url = Qt.resolvedUrl(window.getApplicationPath(
                                              ) + "/index.html")
+            webView.enabled = true
 
             break
         case Wallpaper.WallpaperType.Html:
@@ -44,7 +45,6 @@ Rectangle {
     }
 
     function fadeIn() {
-
         window.setVisible(true)
         if (canFadeIn) {
             animFadeIn.start()
@@ -53,31 +53,34 @@ Rectangle {
         }
     }
 
+    Loader {
+        id: loader
+        anchors.fill: parent
+    }
+
     WebEngineView {
         id: webView
-        enabled: true
+        enabled: false
         anchors.fill: parent
         onLoadProgressChanged: {
+
             if (loadProgress === 100) {
 
                 var src = ""
                 src += "var videoPlayer = document.getElementById('videoPlayer');"
                 src += "var videoSource = document.getElementById('videoSource');"
-                src += "videoSource.src = 'file:///" + window.fullContentPath + "';"
+                src += "videoSource.src = '" + window.fullContentPath + "';"
                 src += "videoPlayer.load();"
                 src += "videoPlayer.volume = " + window.volume + ";"
                 src += "videoPlayer.play();"
 
-                webView.runJavaScript(src, function () {
+                webView.runJavaScript(src, function (result) {
                     fadeIn()
                 })
             }
         }
-    }
-    Loader {
-        id: loader
-        anchors.fill: parent
-        source: "qrc:/test.qml"
+
+        onJavaScriptConsoleMessage: print(lineNumber, message)
     }
 
     OpacityAnimator {
@@ -171,5 +174,4 @@ Rectangle {
             }
         }
     }
-
 }

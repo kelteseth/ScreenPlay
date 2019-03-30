@@ -103,7 +103,7 @@ public slots:
     }
     void setVolume(float volume)
     {
-        qWarning("Floating point comparison needs context sanity check");
+
         if (qFuzzyCompare(m_volume, volume))
             return;
 
