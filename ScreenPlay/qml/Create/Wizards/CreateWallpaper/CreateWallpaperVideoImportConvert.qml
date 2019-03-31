@@ -7,12 +7,68 @@ import QtQuick.Layouts 1.12
 
 import net.aimber.create 1.0
 
+import "../../../Common"
+
 Item {
     id: wrapperContent
 
     property bool conversionFinishedSuccessful: false
     property bool canSave: false
+    onCanSaveChanged: wrapperContent.checkCanSave()
     signal save
+
+    function checkCanSave() {
+        if (canSave && conversionFinishedSuccessful) {
+            btnSave.enabled = true
+        } else {
+            btnSave.enabled = false
+        }
+    }
+
+    Connections {
+        target: screenPlayCreate
+
+        onCreateWallpaperStateChanged: {
+            if (state === CreateImportVideo.State.ConvertingPreviewImageFinished) {
+                imgPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.png"
+                imgPreview.visible = true
+                txtConvert.text = qsTr("Converting Video preview mp4")
+            }
+
+            if (state === CreateImportVideo.State.ConvertingPreviewVideo) {
+                txtConvert.text = qsTr("Generating preview video...")
+            }
+
+            if (state === CreateImportVideo.State.ConvertingPreviewGif) {
+                txtConvert.text = qsTr("Generating preview gif...")
+            }
+
+            if (state === CreateImportVideo.State.ConvertingPreviewGifFinished) {
+                imgPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.gif"
+                imgPreview.visible = true
+                imgPreview.playing = true
+            }
+            if (state === CreateImportVideo.State.ConvertingAudio) {
+                txtConvert.text = qsTr("Converting Audio...")
+            }
+            if (state === CreateImportVideo.State.ConvertingVideo) {
+                txtConvert.text = qsTr("Converting Video...")
+            }
+
+            if (state === CreateImportVideo.State.Finished) {
+                txtConvert.text = ""
+                conversionFinishedSuccessful = true
+                busyIndicator.running = false
+                wrapperContent.checkCanSave()
+            }
+        }
+        onProgressChanged: {
+            var percentage = Math.floor(progress * 100)
+            if (percentage > 100)
+                percentage = 100
+            txtConvertNumber.text = percentage + "%"
+        }
+    }
 
     Text {
         id: txtHeadline
@@ -45,12 +101,11 @@ Item {
             id: imgWrapper
             width: 425
             height: 247
+            color: Material.color(Material.Grey)
             anchors {
                 top: parent.top
                 left: parent.left
             }
-
-            color: Material.color(Material.Grey)
 
             AnimatedImage {
                 id: imgPreview
@@ -89,52 +144,6 @@ Item {
                     bottomMargin: 20
                 }
             }
-
-            Connections {
-                target: screenPlayCreate
-
-                onCreateWallpaperStateChanged: {
-                    if (state === CreateImportVideo.State.ConvertingPreviewImageFinished) {
-                        imgPreview.source = "file:///"
-                                + screenPlayCreate.workingDir + "/preview.png"
-                        imgPreview.visible = true
-                        txtConvert.text = qsTr("Converting Video preview mp4")
-                    }
-
-                    if (state === CreateImportVideo.State.ConvertingPreviewVideo) {
-                        txtConvert.text = qsTr("Generating preview video...")
-                    }
-
-                    if (state === CreateImportVideo.State.ConvertingPreviewGif) {
-                        txtConvert.text = qsTr("Generating preview gif...")
-                    }
-
-                    if (state === CreateImportVideo.State.ConvertingPreviewGifFinished) {
-                        imgPreview.source = "file:///"
-                                + screenPlayCreate.workingDir + "/preview.gif"
-                        imgPreview.visible = true
-                        imgPreview.playing = true
-                    }
-                    if (state === CreateImportVideo.State.ConvertingAudio) {
-                        txtConvert.text = qsTr("Converting Audio...")
-                    }
-                    if (state === CreateImportVideo.State.ConvertingVideo) {
-                        txtConvert.text = qsTr("Converting Video...")
-                    }
-
-                    if (state === CreateImportVideo.State.Finished) {
-                        txtConvert.text = ""
-                        conversionFinishedSuccessful = true
-                        busyIndicator.running = false
-                    }
-                }
-                onProgressChanged: {
-                    var percentage = Math.floor(progress * 100)
-                    if (percentage > 100)
-                        percentage = 100
-                    txtConvertNumber.text = percentage + "%"
-                }
-            }
         }
         RowLayout {
             id: row
@@ -142,7 +151,6 @@ Item {
             anchors {
                 top: imgWrapper.bottom
                 topMargin: 20
-
                 right: parent.right
                 rightMargin: 30
                 left: parent.left
@@ -215,7 +223,7 @@ Item {
 
             TextField {
                 id: textFieldName
-                placeholderText: qsTr("Name")
+                placeholderText: qsTr("Name (required!)")
                 width: parent.width
                 Layout.fillWidth: true
                 onTextChanged: {
@@ -241,10 +249,9 @@ Item {
                 Layout.fillWidth: true
             }
 
-            TextField {
+            TagSelector {
                 id: textFieldTags
                 width: parent.width
-                placeholderText: qsTr("Tags (seperate with comma)")
                 Layout.fillWidth: true
             }
         }
@@ -262,7 +269,7 @@ Item {
             Button {
                 id: btnExit
                 text: qsTr("Abort")
-                Material.background: Material.Gray
+                Material.background: Material.Red
                 Material.foreground: "white"
                 onClicked: {
                     screenPlayCreate.abortAndCleanup()
@@ -272,24 +279,51 @@ Item {
             }
 
             Button {
-                id: btnFinish
+                id: btnSave
                 text: qsTr("Save")
-                Material.background: Material.Gray
+                enabled: false
+                Material.background: Material.Orange
                 Material.foreground: "white"
-                enabled: {
-                    if (canSave && conversionFinishedSuccessful) {
-                        return true
-                    } else {
-                        return false
-                    }
-                }
 
                 onClicked: {
                     if (conversionFinishedSuccessful) {
                         screenPlayCreate.saveWallpaper(
-                                    textFieldName.text, textFieldDescription.text, textFieldYoutubeURL.text, textFieldTags.text)
+                                    textFieldName.text,
+                                    textFieldDescription.text,
+                                    textFieldYoutubeURL.text,
+                                    textFieldTags.getTags())
+                        savePopup.open()
                     }
                 }
+            }
+        }
+    }
+    Popup {
+        id: savePopup
+        modal: true
+        focus: true
+        width: 250
+        anchors.centerIn: parent
+        height: 200
+        onOpened: timerSave.start()
+
+        BusyIndicator {
+            anchors.centerIn: parent
+            running: true
+        }
+        Text {
+            text: qsTr("Save Wallpaper...")
+            anchors.horizontalCenter: parent.horizontalCenter
+            anchors.bottom: parent.bottom
+            anchors.bottomMargin: 30
+        }
+
+        Timer {
+            id: timerSave
+            interval: 3000 - Math.random() * 1000
+            onTriggered: {
+                utility.setNavigationActive(true)
+                utility.setNavigation("Create")
             }
         }
     }

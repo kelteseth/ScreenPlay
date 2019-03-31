@@ -80,14 +80,43 @@ void Create::createWallpaperStart(QString videoPath)
     m_createImportVideoThread->start();
 }
 
-void Create::createWallpaperProjectFile(QString name, QString description, QString youtube, QStringList tags)
+void Create::saveWallpaper(QString title, QString description, QString youtube, QVector<QString> tags)
 {
+    qDebug() << tags;
 
+    QFile file(m_workingDir + "/project.json");
+
+    QJsonObject obj;
+    obj.insert("description", description);
+    obj.insert("title", title);
+    obj.insert("file", "video.webm");
+    obj.insert("previewGIF", "preview.gif");
+    obj.insert("previewWEBM", "preview.webm");
+    obj.insert("type", "video");
+
+    QJsonArray arr;
+    for (QString tmp : tags) {
+        arr.append(tmp);
+    }
+    obj.insert("tags", arr);
+
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open /project.json";
+        return;
+    }
+
+    QTextStream out(&file);
+    QJsonDocument doc(obj);
+
+    out << doc.toJson();
+
+    file.close();
 }
 
 void Create::abortAndCleanup()
 {
-    if (m_createImportVideo != nullptr || m_createImportVideoThread != nullptr) {
+    if (m_createImportVideo == nullptr || m_createImportVideoThread == nullptr) {
+        qDebug() << m_createImportVideo << m_createImportVideoThread;
         return;
     }
 
