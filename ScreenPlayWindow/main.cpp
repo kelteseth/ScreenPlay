@@ -8,6 +8,12 @@
 #include "src/winwindow.h"
 #endif
 
+#if defined(Q_OS_LINUX)
+#include "src/linuxwindow.h"
+#endif
+
+
+
 #if defined(Q_OS_OSX)
 
 // TODO MAC OSX PORT HERE
@@ -38,6 +44,10 @@ int main(int argc, char* argv[])
 #if defined(Q_OS_WIN)
         WinWindow window(list, "test", "appid", "1");
 #endif
+#if defined(Q_OS_LINUX)
+        LinuxWindow window(list, "test", "appid", "1");
+#endif
+
         return app.exec();
     }
 
@@ -78,6 +88,12 @@ int main(int argc, char* argv[])
     WinWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(5));
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &WinWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &WinWindow::messageReceived);
+#endif
+
+#if defined(Q_OS_LINUX)
+    LinuxWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(5));
+    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &LinuxWindow::destroyThis);
+    QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &LinuxWindow::messageReceived);
 #endif
 
 #if defined(Q_OS_OSX)

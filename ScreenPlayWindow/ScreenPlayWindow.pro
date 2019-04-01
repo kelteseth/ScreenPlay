@@ -13,6 +13,14 @@ SOURCES += \
 HEADERS += \
     src/basewindow.h \
 
+unix{
+SOURCES += \
+    src/linuxwindow.cpp
+
+HEADERS += \
+    src/linuxwindow.h
+
+}
 win32 {
     LIBS += -luser32
     SOURCES += \
