@@ -4,11 +4,9 @@
 #include <QDebug>
 #include <QTimer>
 #include <QString>
-
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #endif
-
 // https://github.com/rainmeter/rainmeter/blob/master/Library/MeasureCPU.cpp
 
 class CPU : public QObject {

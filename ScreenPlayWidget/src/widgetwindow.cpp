@@ -8,7 +8,7 @@ WidgetWindow::WidgetWindow(QString projectPath, QString appid, QObject* parent)
 
     m_appID = appid;
 
-    m_hwnd = reinterpret_cast<HWND>(m_window.winId());
+
     Qt::WindowFlags flags = m_window.flags();
     m_window.setWidth(300);
     m_window.setHeight(300);
@@ -17,6 +17,7 @@ WidgetWindow::WidgetWindow(QString projectPath, QString appid, QObject* parent)
     m_window.setColor(Qt::transparent);
 
 #ifdef Q_OS_WIN
+    m_hwnd = reinterpret_cast<HWND>(m_window.winId());
     SetWindowBlur(m_hwnd);
 #endif
 

@@ -6,8 +6,9 @@
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #endif
-#include <sysinfoapi.h>
+//#include <sysinfoapi.h>
 
+#define DWORDLONG unsigned long long
 
 class RAM : public QObject {
     Q_OBJECT

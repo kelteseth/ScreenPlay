@@ -17,7 +17,7 @@ INCLUDEPATH += \
     $$PWD/../../ThirdParty/ \
     $$PWD/../../src/ \
 
-include(../ScreenPlaySDK/Screenplaysdk.pri)
+include(../ScreenPlaySDK/ScreenPlaySDK.pri)
 
 macx: {
     QMAKE_LIBDIR += $$OUT_PWD/
@@ -26,7 +26,7 @@ macx: {
 
 !macx: {
     CONFIG(debug, debug|release) {
-    LIBS += -lScreenplaysdkd
+    LIBS += -lScreenPlaySDK
         install_it.path = $${OUT_PWD}/debug/
         QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
      } else {

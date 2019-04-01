@@ -1,5 +1,7 @@
 #pragma once
+#ifdef Q_OS_WIN
 #include <qt_windows.h>
+
 #include <QObject>
 
 uint64_t FileTimeToInt64( const FILETIME& ft ) {
@@ -8,3 +10,4 @@ uint64_t FileTimeToInt64( const FILETIME& ft ) {
     uli.HighPart = ft.dwHighDateTime;
     return uli.QuadPart;
 }
+#endif
