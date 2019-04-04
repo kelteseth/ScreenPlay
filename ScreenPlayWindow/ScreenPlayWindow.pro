@@ -6,6 +6,11 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 TARGETPATH = ScreenPlayWindow
 
+
+RESOURCES += \
+    SPWResources.qrc
+
+
 SOURCES += \
     main.cpp \
     src/basewindow.cpp \
@@ -14,13 +19,13 @@ HEADERS += \
     src/basewindow.h \
 
 unix{
-SOURCES += \
-    src/linuxwindow.cpp
+    SOURCES += \
+        src/linuxwindow.cpp
 
-HEADERS += \
-    src/linuxwindow.h
-
+    HEADERS += \
+        src/linuxwindow.h
 }
+
 win32 {
     LIBS += -luser32
     SOURCES += \
@@ -30,19 +35,11 @@ win32 {
     HEADERS += \
         src/windowsdesktopproperties.h \
         src/winwindow.h
-
 }
-RESOURCES += \
-    SPWResources.qrc
-
-
-INCLUDEPATH += \
-    $$PWD/../../ThirdParty/ \
-    $$PWD/../../src/ \
 
 include(../ScreenPlaySDK/ScreenPlaySDK.pri)
 
-macx: {
+macx {
     QMAKE_LIBDIR += $$OUT_PWD/
     install_it.path = $${OUT_PWD}/../ScreenPlaySDK
 
@@ -55,24 +52,29 @@ macx: {
     HEADERS +=  src/macintegration.h \
                 src/macbridge.h
     OBJECTIVE_SOURCES += src/MacBridge.mm
+
+    SOURCES += \
+        src/macwindow.cpp
+
+    HEADERS += \
+        src/macwindow.h
 }
 
-!macx: {
+!macx {
     CONFIG(debug, debug|release) {
-    LIBS += -lScreenPlaySDK
+    LIBS += -lScreenPlaySDKd
         install_it.path = $${OUT_PWD}/debug/
         QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
      } else {
-    LIBS += -lScreenplaysdk
+    LIBS += -lScreenPlaySDK
         install_it.path = $${OUT_PWD}/release/
         QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
      }
     QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
-
-    install_it.files += index.html \
-
-    INSTALLS += install_it
-    DISTFILES += \
-        index.html
 }
 
+install_it.files += index.html \
+
+INSTALLS += install_it
+DISTFILES += \
+    index.html

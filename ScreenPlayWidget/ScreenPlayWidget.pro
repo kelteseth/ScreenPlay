@@ -13,25 +13,18 @@ HEADERS += \
 RESOURCES += \
     SPWidgetResources.qrc
 
-INCLUDEPATH += \
-    $$PWD/../../ThirdParty/ \
-    $$PWD/../../src/ \
-
 include(../ScreenPlaySDK/ScreenPlaySDK.pri)
 
 macx: {
     QMAKE_LIBDIR += $$OUT_PWD/
-    install_it.path = $${OUT_PWD}/../ScreenPlaySDK
 }
 
 !macx: {
     CONFIG(debug, debug|release) {
-    LIBS += -lScreenPlaySDK
-        install_it.path = $${OUT_PWD}/debug/
+    LIBS += -lScreenPlaySDKd
         QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
      } else {
-    LIBS += -lScreenplaysdk
-        install_it.path = $${OUT_PWD}/release/
+    LIBS += -lScreenPlaySDK
         QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
      }
     QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK

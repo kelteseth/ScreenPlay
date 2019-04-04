@@ -49,7 +49,6 @@ ScreenPlaySDK::ScreenPlaySDK(QQuickItem* parent)
     connect(&m_socket, &QLocalSocket::readyRead, this, &ScreenPlaySDK::readyRead);
     connect(&m_socket, QOverload<QLocalSocket::LocalSocketError>::of(&QLocalSocket::error), this, &ScreenPlaySDK::error);
     m_socket.connectToServer();
-
 }
 
 ScreenPlaySDK::~ScreenPlaySDK()
@@ -102,6 +101,5 @@ void ScreenPlaySDK::redirectMessage(QByteArray& msg)
     if (isConnected()) {
         m_socket.write(msg);
         m_socket.waitForBytesWritten();
-
     }
 }
