@@ -18,7 +18,7 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
 {
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
 
-    if(!IsWindow(m_windowHandle)){
+    if (!IsWindow(m_windowHandle)) {
         qFatal("Could not get a valid window handle!");
     }
     setAppID(id);
@@ -59,20 +59,21 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setSource(QUrl("qrc:/mainWindow.qml"));
 
-    // Let QML decide when were are read to show the window
-    ShowWindow(m_windowHandle, SW_HIDE);
-
+    // FIXME WORKAROUND:
+    // There is a strange bug when we open the ScreenPlayWindow project on its one
+    // that if we set ShowWindow(m_windowHandle, SW_HIDE); we can no longer set
+    // the window visible via set Visible.
+    if(projectPath != "test"){
+        // Let QML decide when were are read to show the window
+        ShowWindow(m_windowHandle, SW_HIDE);
+    }
 }
 
 void WinWindow::setVisible(bool show)
 {
-
     if (show) {
         ShowWindow(m_windowHandle, SW_SHOW);
-        if(!IsWindowVisible(m_windowHandle)){
-            qFatal("Could net set window visible!");
-        }
-
+        m_window.show();
     } else {
         ShowWindow(m_windowHandle, SW_HIDE);
     }
