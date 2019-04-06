@@ -124,5 +124,6 @@
         <file>qml/Common/TagSelector.qml</file>
         <file>qml/Common/Tag.qml</file>
         <file>assets/icons/icon_close.svg</file>
+        <file>qml/Common/ImageSelector.qml</file>
     </qresource>
 </RCC>
