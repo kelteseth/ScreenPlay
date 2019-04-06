@@ -14,6 +14,7 @@ Item {
 
     property bool conversionFinishedSuccessful: false
     property bool canSave: false
+    property string filePath
     onCanSaveChanged: wrapperContent.checkCanSave()
     signal save
 
@@ -145,55 +146,15 @@ Item {
                 }
             }
         }
-        RowLayout {
-            id: row
-            height: 50
+        ImageSelector {
+            id: previewSelector
+
             anchors {
                 top: imgWrapper.bottom
                 topMargin: 20
                 right: parent.right
                 rightMargin: 30
                 left: parent.left
-            }
-
-            Rectangle {
-                height: 50
-                color: "#eeeeee"
-                Layout.preferredWidth: imgWrapper.width
-
-                Text {
-                    id: txtCustomPreviewPath
-                    color: "#333333"
-
-                    text: qsTr("Add custom preview image")
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: parent.left
-                        leftMargin: 20
-                    }
-                }
-
-                Button {
-                    id: button
-                    Material.background: Material.Orange
-                    Material.foreground: "white"
-                    text: qsTr("Choose Image")
-                    anchors {
-                        right: parent.right
-                        rightMargin: 10
-                    }
-                    onClicked: fileDialogOpenFile.open()
-                }
-
-                FileDialog {
-                    id: fileDialogOpenFile
-                    nameFilters: []
-                    onAccepted: {
-                        var file = fileDialogOpenFile.file.toString()
-
-                        txtCustomPreviewPath.text = fileDialogOpenFile.file
-                    }
-                }
             }
         }
     }
@@ -290,6 +251,8 @@ Item {
                         screenPlayCreate.saveWallpaper(
                                     textFieldName.text,
                                     textFieldDescription.text,
+                                    wrapperContent.filePath,
+                                    previewSelector.imageSource,
                                     textFieldYoutubeURL.text,
                                     textFieldTags.getTags())
                         savePopup.open()
@@ -329,8 +292,10 @@ Item {
     }
 }
 
+
+
+
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:950}
 }
  ##^##*/
-

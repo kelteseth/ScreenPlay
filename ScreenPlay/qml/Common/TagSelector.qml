@@ -127,7 +127,7 @@ Item {
             Material.foreground: "white"
             anchors {
                 right: parent.right
-                rightMargin: 20
+                rightMargin: 10
                 verticalCenter: parent.verticalCenter
             }
 

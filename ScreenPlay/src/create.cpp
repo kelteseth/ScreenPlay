@@ -12,44 +12,6 @@ Create::Create(Settings* st, QMLUtilities* util, QObject* parent)
     qmlRegisterType<CreateImportVideo>("net.aimber.create", 1, 0, "CreateImportVideo");
 }
 
-void Create::copyProject(QString relativeProjectPath, QString toPath)
-{
-    if (toPath.contains("file:///")) {
-        toPath.remove("file:///");
-    }
-    QString srcFilePath = m_settings->getScreenPlayBasePath().toString() + relativeProjectPath;
-
-    // Todo: UI Error handling
-    if (copyRecursively(srcFilePath, toPath)) {
-        emit m_utils->openFolderInExplorer(toPath);
-    }
-}
-
-bool Create::copyRecursively(const QString& srcFilePath, const QString& tgtFilePath)
-{
-    QFileInfo srcFileInfo(srcFilePath);
-    if (srcFileInfo.isDir()) {
-        QDir targetDir(tgtFilePath);
-        targetDir.cdUp();
-        QDir sourceDir(srcFilePath);
-        QStringList fileNames = sourceDir.entryList(QDir::Files | QDir::Dirs | QDir::NoDotAndDotDot | QDir::Hidden | QDir::System);
-        Q_FOREACH (const QString& fileName, fileNames) {
-            const QString newSrcFilePath
-                = srcFilePath + QLatin1Char('/') + fileName;
-            const QString newTgtFilePath
-                = tgtFilePath + QLatin1Char('/') + fileName;
-            if (!copyRecursively(newSrcFilePath, newTgtFilePath)) {
-                return false;
-            }
-        }
-    } else {
-        if (!QFile::copy(srcFilePath, tgtFilePath)) {
-            return false;
-        }
-    }
-    return true;
-}
-
 void Create::createWallpaperStart(QString videoPath)
 {
     videoPath.remove("file:///");
@@ -67,11 +29,12 @@ void Create::createWallpaperStart(QString videoPath)
     }
     setWorkingDir(dir.path() + "/" + folderName);
 
-    m_createImportVideoThread = new QThread;
+    m_createImportVideoThread = new QThread();
     m_createImportVideo = new CreateImportVideo(videoPath, workingDir());
 
     connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged);
     connect(m_createImportVideoThread, &QThread::started, m_createImportVideo, &CreateImportVideo::process);
+    connect(m_createImportVideo, &CreateImportVideo::canceled, this, &Create::abortAndCleanup);
     connect(m_createImportVideo, &CreateImportVideo::finished, m_createImportVideoThread, &QThread::quit);
     connect(m_createImportVideo, &CreateImportVideo::finished, m_createImportVideo, &QObject::deleteLater);
     connect(m_createImportVideoThread, &QThread::finished, m_createImportVideoThread, &QObject::deleteLater);
@@ -80,18 +43,38 @@ void Create::createWallpaperStart(QString videoPath)
     m_createImportVideoThread->start();
 }
 
-void Create::saveWallpaper(QString title, QString description, QString youtube, QVector<QString> tags)
+void Create::saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, QVector<QString> tags)
 {
-    qDebug() << tags;
+    filePath.remove("file:///");
+    previewImagePath.remove("file:///");
 
+    emit createWallpaperStateChanged(CreateImportVideo::State::CopyFiles);
+
+    QFileInfo previewImageFile(previewImagePath);
+    if (!QFile::copy(previewImagePath, m_workingDir + "/" + previewImageFile.fileName())) {
+        qDebug() << "Could not copy" << previewImagePath << " to " << m_workingDir + "/" + previewImageFile.fileName();
+        emit createWallpaperStateChanged(CreateImportVideo::State::CopyFilesError);
+        return;
+    }
+
+    QFileInfo filePathFile(filePath);
+    if (!QFile::copy(filePath, m_workingDir + "/" + filePathFile.fileName())) {
+        qDebug() << "Could not copy" << filePath << " to " << m_workingDir + "/" + filePathFile.fileName();
+        emit createWallpaperStateChanged(CreateImportVideo::State::CopyFilesError);
+        return;
+    }
+    emit createWallpaperStateChanged(CreateImportVideo::State::CopyFilesFinished);
+    emit createWallpaperStateChanged(CreateImportVideo::State::CreateProjectFile);
     QFile file(m_workingDir + "/project.json");
 
     QJsonObject obj;
     obj.insert("description", description);
     obj.insert("title", title);
+    obj.insert("youtube", youtube);
     obj.insert("file", "video.webm");
     obj.insert("previewGIF", "preview.gif");
-    obj.insert("previewWEBM", "preview.webm");
+    obj.insert("previewWEBM", filePathFile.fileName());
+    obj.insert("preview", previewImageFile.fileName());
     obj.insert("type", "video");
 
     QJsonArray arr;
@@ -102,6 +85,7 @@ void Create::saveWallpaper(QString title, QString description, QString youtube, 
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qDebug() << "Could not open /project.json";
+        emit createWallpaperStateChanged(CreateImportVideo::State::CreateProjectFileError);
         return;
     }
 
@@ -111,6 +95,7 @@ void Create::saveWallpaper(QString title, QString description, QString youtube, 
     out << doc.toJson();
 
     file.close();
+    emit createWallpaperStateChanged(CreateImportVideo::State::CreateProjectFileFinished);
 }
 
 void Create::abortAndCleanup()
@@ -119,6 +104,9 @@ void Create::abortAndCleanup()
         qDebug() << m_createImportVideo << m_createImportVideoThread;
         return;
     }
+
+    disconnect(m_createImportVideo);
+    disconnect(m_createImportVideoThread);
 
     // Save to export path before aborting to be able to cleanup the tmp folder
     QString tmpExportPath = m_createImportVideo->m_exportPath;

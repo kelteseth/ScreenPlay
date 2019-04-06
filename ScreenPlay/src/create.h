@@ -55,10 +55,8 @@ signals:
     void workingDirChanged(QString workingDir);
 
 public slots:
-    void copyProject(QString relativeProjectPath, QString toPath);
-    bool copyRecursively(const QString& srcFilePath, const QString& tgtFilePath);
     void createWallpaperStart(QString videoPath);
-    void saveWallpaper(QString title, QString description, QString youtube, QVector<QString> tags);
+    void saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, QVector<QString> tags);
     void abortAndCleanup();
 
     void setProgress(float progress)

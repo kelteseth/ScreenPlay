@@ -1,4 +1,5 @@
 #include "createimportvideo.h"
+#include <QScopeGuard>
 
 CreateImportVideo::CreateImportVideo(QObject* parent)
     : QObject(parent)
@@ -15,13 +16,26 @@ CreateImportVideo::CreateImportVideo(QString videoPath, QString exportPath, QObj
 void CreateImportVideo::process()
 {
     qDebug() << "start converting video in thread: " << QThread::currentThreadId();
-    createWallpaperInfo();
-    createWallpaperVideoPreview();
-    createWallpaperGifPreview();
-    extractWallpaperAudio();
-    emit createWallpaperStateChanged(CreateImportVideo::State::Finished);
 
-    emit finished();
+    auto cleanup = qScopeGuard([this] {
+        qDebug() << "ABORT";
+        this->requestInterruption();
+        emit canceled();
+    });
+
+    if (!createWallpaperInfo())
+        return;
+
+    if (!createWallpaperVideoPreview())
+        return;
+
+    if (!createWallpaperGifPreview())
+        return;
+
+    if (!extractWallpaperAudio())
+        return;
+
+    emit createWallpaperStateChanged(CreateImportVideo::State::Finished);
 }
 
 bool CreateImportVideo::createWallpaperInfo()
@@ -345,32 +359,4 @@ bool CreateImportVideo::extractWallpaperAudio()
     return true;
 }
 
-bool CreateImportVideo::createWallpaperProjectFile(const QString title, const QString description)
-{
-    //Copy Project File
-    QFile configFile(m_exportPath + "/project.json");
 
-    if (!configFile.open(QIODevice::ReadWrite | QIODevice::Text)) {
-        return false;
-    }
-
-    QTextStream out(&configFile);
-    QJsonObject configObj;
-
-    configObj.insert("description", description);
-    configObj.insert("title", title);
-
-    configObj.insert("file", "video.webm");
-    configObj.insert("preview", "preview.png");
-    configObj.insert("previewGIF", "preview.gif");
-    configObj.insert("previewWebM", "preview.webm");
-    configObj.insert("type", "video");
-
-    QJsonDocument configJsonDocument(configObj);
-    out << configJsonDocument.toJson();
-    configFile.close();
-
-    emit createWallpaperStateChanged(CreateImportVideo::State::Finished);
-
-    return true;
-}

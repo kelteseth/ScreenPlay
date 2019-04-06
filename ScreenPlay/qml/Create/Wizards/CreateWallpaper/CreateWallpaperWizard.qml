@@ -18,8 +18,12 @@ Item {
     Component.onCompleted: {
         state = "in"
         utility.setNavigationActive(false)
-        loader_wrapperContent.source
-                = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml"
+
+        loader_wrapperContent.setSource(
+                    "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml",
+                    {
+                        "filePath": createNew.filePath
+                    })
     }
 
     //Blocks some MouseArea from create page
@@ -30,13 +34,14 @@ Item {
     Connections {
         target: screenPlayCreate
         onCreateWallpaperStateChanged: {
-            if (state === CreateImportVideo.State.AnalyseVideoError
-                    || state === CreateImportVideo.State.ConvertingPreviewVideoError
-                    || state === CreateImportVideo.State.ConvertingPreviewGifError
-                    || state === CreateImportVideo.State.ConvertingPreviewImageError
-                    || state === CreateImportVideo.State.ConvertingAudioError
-                    || state === CreateImportVideo.State.AbortCleanupError
-                    || state === CreateImportVideo.State.ErrorUnknown) {
+            if (state === CreateImportVideo.State.AnalyseVideoError || state
+                    === CreateImportVideo.State.ConvertingPreviewGifError || state
+                    === CreateImportVideo.State.ConvertingPreviewImageError || state
+                    === CreateImportVideo.State.ConvertingAudioError || state
+                    === CreateImportVideo.State.AbortCleanupError || state
+                    === CreateImportVideo.State.CopyFilesError || state
+                    === CreateImportVideo.State.CreateProjectFileError || state
+                    === CreateImportVideo.State.CreateTmpFolderError) {
                 createNew.state = "result"
             }
         }
@@ -88,7 +93,7 @@ Item {
             z: 10
             Connections {
                 target: loader_wrapperContent.sourceComponent
-                onSave:{
+                onSave: {
                     createNew.state = "result"
                 }
             }

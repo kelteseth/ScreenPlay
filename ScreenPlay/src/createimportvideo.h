@@ -44,14 +44,18 @@ public:
         //        ConvertingVideo,
         //        ConvertingVideoFinished,
         //        ConvertingVideoError,
+        CopyFiles,
+        CopyFilesFinished,
+        CopyFilesError,
+        CreateProjectFile,
+        CreateProjectFileFinished,
+        CreateProjectFileError,
         AbortCleanupError,
         CreateTmpFolderError,
         Finished,
-        ErrorUnknown,
     };
     Q_ENUM(State)
 
-    QProcess m_process;
     QString m_videoPath;
     QString m_exportPath;
     int m_length = 0;
@@ -61,17 +65,15 @@ signals:
     void createWallpaperStateChanged(CreateImportVideo::State state);
     void processOutput(QString text);
     void finished();
+    void canceled();
 
 public slots:
     void process();
-    void requestInterruption()
-    {
-    }
+    void requestInterruption() {}
 
     bool createWallpaperInfo();
     bool createWallpaperVideoPreview();
     bool createWallpaperGifPreview();
     bool createWallpaperImagePreview();
     bool extractWallpaperAudio();
-    bool createWallpaperProjectFile(const QString title, const QString description);
 };
