@@ -1,6 +1,6 @@
 body {
 
-    color: #f3f3f4;
+    background-color: #f3f3f4  !important;;
  }
  
  h1, h2, h3 {
@@ -17,11 +17,19 @@ body {
      color: white;
  }
 
+ .navWrapper {
+     display: flex;
+    align-items: center;
+ }
+
 .wrapper  {
     margin: 1rem;
+    padding: 3rem !important;
+    border-radius: 3px;
+    background-color:white;
 }
 
 .logo {
     font-size: 1.5rem;
-    margin: auto;
+
 }
