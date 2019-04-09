@@ -1,0 +1,27 @@
+body {
+
+    color: #f3f3f4;
+ }
+ 
+ h1, h2, h3 {
+     color: #404244;
+    
+ }
+ a {
+    color:#41cd52 !important;
+ }
+
+ .nav {
+     height: 50px;
+     background:#41cd52;
+     color: white;
+ }
+
+.wrapper  {
+    margin: 1rem;
+}
+
+.logo {
+    font-size: 1.5rem;
+    margin: auto;
+}

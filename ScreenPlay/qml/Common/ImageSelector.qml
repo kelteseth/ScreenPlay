@@ -3,6 +3,26 @@ import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import Qt.labs.platform 1.1
 
+/*!
+   \qmltype Image Selector
+   \brief A image selector with popup preview.
+
+   Test
+
+   \image ImageSelectorPreview.png
+
+   \section1 Setting default text and capitalization
+
+   Test
+
+   \qml
+        ImageSelector {
+
+        }
+   \endqml
+
+*/
+
 Item {
     id: imageSelector
     height: 70
