@@ -20,7 +20,7 @@ outputformats = HTML
 HTML.headerstyles += "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/style.css\"/>"
 HTML.headerstyles += "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/bootstrap.min.css\"/>\n"
 # what to append to every page after header
-HTML.postheader += "<div class=\"container-fullwidth nav\"><div class=\"container navWrapper\"><span class=\"logo\">ScreenPlay Code Docs </span></div></div>"
+HTML.postheader += "<div class=\"container-fullwidth nav\"><div class=\"container navWrapper\"><span class=\"logo\">ScreenPlay Code Docs </span><span class=\"navHome\"><a href=\"../index.html\">Home</a></span></div></div>"
 HTML.postheader += "<div class=\"wrapper container\">\n"
 # what to append to every page after the content
 HTML.footer = "<hr/><p class=\"footer center\">Copyright Aimber GBR</p>\n</div>"
