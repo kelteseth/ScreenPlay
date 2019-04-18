@@ -28,7 +28,7 @@ Item {
         }
 
         color: "white"
-        font.pixelSize: 28
+        font.pointSize: 21
 
         font.family: "Roboto"
         font.weight: Font.Thin

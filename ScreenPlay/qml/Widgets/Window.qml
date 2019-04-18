@@ -25,7 +25,7 @@ Window {
             id: text1
             color: "#ffffff"
             text: "empty"
-            font.pixelSize: 29
+            font.pointSize: 29
         }
 
 

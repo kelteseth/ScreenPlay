@@ -1,6 +1,7 @@
 import QtQuick 2.12
-import net.aimber.screenplaysdk 1.0
 import QtQuick.Controls 2.3
+
+import net.aimber.screenplaysdk 1.0
 
 Item {
     id: mainWindow
@@ -22,27 +23,54 @@ Item {
         opacity: .05
         fillMode: Image.Tile
     }
+    Loader {
+        id: loader
+        anchors.fill: parent
+        asynchronous: true
+        source: {
+             Qt.resolvedUrl(window.sourcePath)
+        }
+
+        onStatusChanged: {
+            if (loader.status === Loader.Ready) {
+
+            }
+        }
+    }
 
     MouseArea {
         id: mouseArea
         anchors.fill: parent
 
         onPressed: {
-            backend.setClickPos(Qt.point(mouse.x, mouse.y))
+            window.setClickPos(Qt.point(mouse.x, mouse.y))
         }
 
         onPositionChanged: {
-            backend.setPos(mouse.x, mouse.y)
+            window.setPos(mouse.x, mouse.y)
         }
+        onClicked: {
+
+            if (mouse.button === Qt.RightButton) {
+                contextMenu.popup()
+            }
+        }
+    }
+    Menu {
+        id: contextMenu
+
+        MenuItem {
+            text: qsTr("Close Widget")
+            onClicked: {
+               Qt.quit()
+            }
+        }
+
     }
 
     Connections {
-        target: backend
+        target: window
 
-        onSetWidgetSource: {
-            loader.source = Qt.resolvedUrl("file:///" + source)
-            print(loader.source)
-        }
 
         onQmlSceneValueReceived: {
             var obj2 = 'import QtQuick 2.12; Item {Component.onCompleted: loader.item.'
@@ -52,14 +80,5 @@ Item {
         }
     }
 
-    Loader {
-        id: loader
-        anchors.fill: parent
-        asynchronous: true
-        onStatusChanged: {
-            if (loader.status === Loader.Ready) {
 
-            }
-        }
-    }
 }

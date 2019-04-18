@@ -19,7 +19,7 @@ Item {
         }
 
         color: "white"
-        font.pixelSize: 28
+        font.pointSize: 21
         
         font.family: "Roboto"
         font.weight: Font.Thin
@@ -53,12 +53,14 @@ Item {
         text: qsTr("Examples Widgets and Scenes")
         font.family: "Roboto"
         
-        font.pixelSize: 18
+        font.pointSize: 16
         color: "white"
 
         anchors {
             top: btnCreateEmptyWidget.bottom
             topMargin: 30
+            left:parent.left
+            leftMargin: 30
         }
     }
 

@@ -30,7 +30,6 @@ int main(int argc, char* argv[])
     QGuiApplication::setApplicationVersion("0.2.0");
 
     QGuiApplication app(argc, argv);
-
     app.setQuitOnLastWindowClosed(false);
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
@@ -53,6 +52,7 @@ int main(int argc, char* argv[])
     MonitorListModel monitorListModel;
     ProfileListModel profileListModel;
     SDKConnector sdkConnector;
+
 
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete

@@ -1,15 +1,10 @@
-#ifndef MACINTEGRATION_H
-#define MACINTEGRATION_H
+#pragma oncer
 
 #include <QApplication>
 
-
-class MacIntegration : public QObject
-{
+class MacIntegration : public QObject {
     Q_OBJECT
 public:
-    explicit MacIntegration(QObject *parent);
+    explicit MacIntegration(QObject* parent);
     void SetBackgroundLevel(QWindow* window);
 };
-
-#endif // MACINTEGRATION_H

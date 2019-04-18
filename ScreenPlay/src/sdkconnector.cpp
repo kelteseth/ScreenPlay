@@ -10,7 +10,7 @@ SDKConnector::SDKConnector(QObject* parent)
     m_server = QSharedPointer<QLocalServer>(new QLocalServer(this));
     connect(m_server.data(), &QLocalServer::newConnection, this, &SDKConnector::newConnection);
     if (!m_server.data()->listen("ScreenPlay")) {
-        //TODO
+        //TODO what to do if no ScreenPlay local socket can be open
     }
 }
 

@@ -5,7 +5,7 @@ import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
-import RemoteWorkshopCreationStatus 1.0
+//import RemoteWorkshopCreationStatus 1.0
 
 
 Item {
@@ -305,7 +305,7 @@ Item {
         Text {
             id: txtUploadSize
             color: "gray"
-            font.pixelSize: 16
+            font.pointSize: 14
             height: 30
             anchors {
                 horizontalCenter: parent.horizontalCenter
@@ -319,7 +319,7 @@ Item {
             id: txtUploadStatus
             text: qsTr("Creating Workshop Item")
             color: "gray"
-            font.pixelSize: 16
+            font.pointSize: 12
             height: 30
             anchors {
                 horizontalCenter: parent.horizontalCenter

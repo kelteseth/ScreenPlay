@@ -147,7 +147,7 @@ Item {
                             verticalAlignment: Text.AlignVCenter
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignLeft
-                            font.pixelSize: 14
+                            font.pointSize: 10
                             font.family: "Roboto"
                             anchors{
                                 right:parent.right
@@ -345,7 +345,7 @@ Item {
 
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
-                                font.pixelSize: 16
+                                font.pointSize: 16
                                 anchors {
                                     top: parent.top
                                     topMargin: 6
@@ -361,7 +361,7 @@ Item {
                                 wrapMode: Text.WordWrap
                                 verticalAlignment: Text.AlignTop
                                 horizontalAlignment: Text.AlignLeft
-                                font.pixelSize: 14
+                                font.pointSize: 10
                                 font.family: "Roboto"
                                 width: parent.width * .6
                                 anchors {

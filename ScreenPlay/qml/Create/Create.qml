@@ -196,7 +196,7 @@ Item {
         text: qsTr("Create wallpapers and widgets for local usage or the steam workshop!")
         font.family: "Roboto"
 
-        font.pixelSize: 14
+        font.pointSize: 10
         color: "white"
         anchors {
             horizontalCenter: parent.horizontalCenter

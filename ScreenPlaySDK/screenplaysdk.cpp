@@ -38,7 +38,10 @@ void redirectMessageOutputToMainWindow(QtMsgType type, const QMessageLogContext&
 ScreenPlaySDK::ScreenPlaySDK(QQuickItem* parent)
     : QQuickItem(parent)
 {
+    // Redirect all messages from this to ScreenPlay
     global_sdkPtr = this;
+    qInstallMessageHandler(redirectMessageOutputToMainWindow);
+
     m_socket.setServerName("ScreenPlay");
     connect(&m_socket, &QLocalSocket::connected, this, &ScreenPlaySDK::connected);
     connect(&m_socket, &QLocalSocket::disconnected, this, &ScreenPlaySDK::disconnected);
@@ -46,9 +49,6 @@ ScreenPlaySDK::ScreenPlaySDK(QQuickItem* parent)
     connect(&m_socket, &QLocalSocket::readyRead, this, &ScreenPlaySDK::readyRead);
     connect(&m_socket, QOverload<QLocalSocket::LocalSocketError>::of(&QLocalSocket::error), this, &ScreenPlaySDK::error);
     m_socket.connectToServer();
-
-    // Redirect all messages from this to ScreenPlay
-    qInstallMessageHandler(redirectMessageOutputToMainWindow);
 }
 
 ScreenPlaySDK::~ScreenPlaySDK()
@@ -101,6 +101,5 @@ void ScreenPlaySDK::redirectMessage(QByteArray& msg)
     if (isConnected()) {
         m_socket.write(msg);
         m_socket.waitForBytesWritten();
-
     }
 }

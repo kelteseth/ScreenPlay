@@ -1,9 +1,10 @@
 TEMPLATE = lib
 TARGET = ScreenPlaySDK
+TARGET = $$qtLibraryTarget($$TARGET)
+
 QT += qml quick
 CONFIG += plugin c++11
 
-TARGET = $$qtLibraryTarget($$TARGET)
 uri = net.aimber.screenplaysdk
 
 # Input

@@ -13,6 +13,7 @@
 #include <QSharedPointer>
 #include <QWindow>
 #include <QtGlobal>
+#include <QTimer>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
 
@@ -20,18 +21,18 @@
 #include <qt_windows.h>
 #endif
 
-class MainWindow : public QWindow {
+class MainWindow : public QQuickView {
     Q_OBJECT
 
 public:
-    explicit MainWindow(int i, QString projectPath, QString id, QString decoder, QString volume, QString fillmode, QScreen* parent = nullptr);
+    explicit MainWindow(int screenAt, QString projectPath, QString id, QString decoder, QString volume, QString fillmode, QWindow* parent = nullptr);
 
     Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
     Q_PROPERTY(QString projectConfig READ projectConfig WRITE setProjectConfig NOTIFY projectConfigChanged)
     Q_PROPERTY(QString appID READ name WRITE setname NOTIFY nameChanged)
-    Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
-    Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
 
+    Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
+    Q_PROPERTY(QString wallpaperType READ wallpaperType WRITE setWallpaperType NOTIFY wallpaperTypeChanged)
     Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
     Q_PROPERTY(bool loops READ loops WRITE setLoops NOTIFY loopsChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
@@ -57,11 +58,6 @@ public:
     QUrl projectPath() const
     {
         return m_projectPath;
-    }
-
-    QString type() const
-    {
-        return m_type;
     }
 
     QString fillMode() const
@@ -98,6 +94,11 @@ public:
         return m_decoder;
     }
 
+    QString wallpaperType() const
+    {
+        return m_wallpaperType;
+    }
+
 public slots:
     void destroyThis();
     void init();
@@ -126,15 +127,6 @@ public slots:
         emit nameChanged(m_appID);
     }
 
-    void setType(QString type)
-    {
-        if (m_type == type)
-            return;
-
-        m_type = type;
-        emit typeChanged(m_type);
-    }
-
     void setFillMode(QString fillMode)
     {
         if (m_fillMode == fillMode)
@@ -155,7 +147,6 @@ public slots:
 
     void setVolume(float volume)
     {
-        qWarning("Floating point comparison needs context sanity check");
         if (qFuzzyCompare(m_volume, volume))
             return;
 
@@ -210,13 +201,22 @@ public slots:
         emit decoderChanged(m_decoder);
     }
 
+    void setWallpaperType(QString wallpaperType)
+    {
+        if (m_wallpaperType == wallpaperType)
+            return;
+
+        m_wallpaperType = wallpaperType;
+        emit wallpaperTypeChanged(m_wallpaperType);
+    }
+
 signals:
     void playVideo(QString path);
     void playQmlScene(QString file);
     void projectConfigChanged(QString projectConfig);
     void nameChanged(QString appID);
     void screenNumberChanged(QVector<int> screenNumber);
-    void typeChanged(QString type);
+
     void fillModeChanged(QString fillMode);
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
@@ -227,12 +227,14 @@ signals:
     void decoderChanged(QString decoder);
     void qmlExit();
 
+    void wallpaperTypeChanged(QString wallpaperType);
+
 private:
 #ifdef Q_OS_WIN
     HWND m_hwnd;
     HWND m_worker_hwnd;
 #endif
-    QSharedPointer<QQuickView> m_quickRenderer = nullptr;
+
     QUrl m_projectPath;
     QString m_projectFile;
     QJsonObject m_project;
@@ -240,7 +242,7 @@ private:
 
     QString m_appID;
     QVector<int> m_screenNumber;
-    QString m_type;
+
     QString m_fillMode;
     bool m_loops;
     float m_volume;
@@ -248,4 +250,5 @@ private:
     bool m_isPlaying;
     float m_playbackRate;
     QString m_decoder;
+    QString m_wallpaperType;
 };

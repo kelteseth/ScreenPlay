@@ -4,6 +4,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.3
+
 import net.aimber.create 1.0
 
 Item {
@@ -13,17 +14,16 @@ Item {
 
     property string filePath
     property bool canNext: false
-    property int importState: CreateWallpaperWizard.ImportState.Import
 
     Component.onCompleted: {
         state = "in"
         utility.setNavigationActive(false)
-        if (importState === CreateWallpaperWizard.ImportState.Import) {
-            loader_wrapperContent.source
-                    = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImport.qml"
-        } else {
-            loader_wrapperContent.source = "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml"
-        }
+
+        loader_wrapperContent.setSource(
+                    "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml",
+                    {
+                        "filePath": createNew.filePath
+                    })
     }
 
     //Blocks some MouseArea from create page
@@ -34,12 +34,15 @@ Item {
     Connections {
         target: screenPlayCreate
         onCreateWallpaperStateChanged: {
-
-            if (state === Create.State.ConvertingPreviewGifError
-                    || state === Create.State.ConvertingPreviewVideoError
-                    || state === Create.State.ConvertingPreviewImageError
-                    || state === Create.State.AnalyseVideoError) {
-                createNew.state = "error"
+            if (state === CreateImportVideo.State.AnalyseVideoError || state
+                    === CreateImportVideo.State.ConvertingPreviewGifError || state
+                    === CreateImportVideo.State.ConvertingPreviewImageError || state
+                    === CreateImportVideo.State.ConvertingAudioError || state
+                    === CreateImportVideo.State.AbortCleanupError || state
+                    === CreateImportVideo.State.CopyFilesError || state
+                    === CreateImportVideo.State.CreateProjectFileError || state
+                    === CreateImportVideo.State.CreateTmpFolderError) {
+                createNew.state = "result"
             }
         }
     }
@@ -75,31 +78,29 @@ Item {
 
     Rectangle {
         id: wrapper
-
+        width: 910
+        radius: 4
+        height: 460
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
             topMargin: 0
         }
 
-        width: 910
-        radius: 4
-        height: 460
-
         Loader {
             id: loader_wrapperContent
-
             anchors.fill: parent
             z: 10
+            Connections {
+                target: loader_wrapperContent.sourceComponent
+                onSave: {
+                    createNew.state = "result"
+                }
+            }
         }
 
-        CreateWallpaperError {
-            id: wrapperError
-            anchors.fill: parent
-        }
-
-        CreateWallpaperSuccess {
-            id: wrapperSuccess
+        CreateWallpaperResult {
+            id: wrapperResult
             anchors.fill: parent
         }
 
@@ -156,7 +157,7 @@ Item {
                 opacity: 0
             }
             PropertyChanges {
-                target: wrapperError
+                target: wrapperResult
                 opacity: 0
             }
         },
@@ -172,7 +173,7 @@ Item {
                 opacity: .4
             }
             PropertyChanges {
-                target: wrapperError
+                target: wrapperResult
                 opacity: 0
             }
         },
@@ -193,7 +194,7 @@ Item {
                 z: 0
             }
             PropertyChanges {
-                target: wrapperError
+                target: wrapperResult
                 opacity: 1
             }
         },
@@ -212,10 +213,6 @@ Item {
                 target: loader_wrapperContent
                 opacity: 0
                 z: 0
-            }
-            PropertyChanges {
-                target: wrapperSuccess
-                opacity: 1
             }
         }
     ]
@@ -291,7 +288,7 @@ Item {
         },
         Transition {
             from: "in"
-            to: "error"
+            to: "result"
             SequentialAnimation {
                 PropertyAnimation {
                     target: loader_wrapperContent
@@ -303,28 +300,7 @@ Item {
                     duration: 50
                 }
                 PropertyAnimation {
-                    target: wrapperError
-                    duration: 200
-                    property: "opacity"
-                    easing.type: Easing.OutQuart
-                }
-            }
-        },
-        Transition {
-            from: "in"
-            to: "success"
-            SequentialAnimation {
-                PropertyAnimation {
-                    target: loader_wrapperContent
-                    duration: 600
-                    property: "opacity"
-                    easing.type: Easing.OutQuart
-                }
-                PauseAnimation {
-                    duration: 50
-                }
-                PropertyAnimation {
-                    target: wrapperSuccess
+                    target: wrapperResult
                     duration: 200
                     property: "opacity"
                     easing.type: Easing.OutQuart

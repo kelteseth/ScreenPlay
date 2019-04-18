@@ -21,7 +21,7 @@ Item {
         id: txtDescription
         text: name
         width: 100
-        font.pixelSize: isHeadline ? 21 : 14
+        font.pointSize: isHeadline ? 21 : 14
         anchors.verticalCenter: parent.verticalCenter
         font.family: "Roboto"
         font.weight: Font.Normal

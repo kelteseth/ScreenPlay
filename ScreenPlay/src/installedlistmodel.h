@@ -16,6 +16,8 @@
 #include <QUrl>
 #include <QVector>
 #include <QtConcurrent/QtConcurrent>
+#include <QFutureWatcher>
+#include <QFuture>
 
 
 /*!
@@ -38,6 +40,7 @@ public:
     bool getProjectByAbsoluteStoragePath(QUrl* path, ProjectFile* spf);
 
     Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setabsoluteStoragePath NOTIFY absoluteStoragePathChanged)
+    Q_PROPERTY(bool isLoadingContent READ isLoadingContent WRITE setIsLoadingContent NOTIFY isLoadingContentChanged)
 
     enum InstalledRole {
         TitleRole,
@@ -56,6 +59,11 @@ public:
         return m_absoluteStoragePath;
     }
 
+    bool isLoadingContent() const
+    {
+        return m_isLoadingContent;
+    }
+
 public slots:
     void loadInstalledContent();
     QVariantMap get(QString folderId);
@@ -71,6 +79,15 @@ public slots:
     int getAmountItemLoaded();
     void reset();
 
+    void setIsLoadingContent(bool isLoadingContent)
+    {
+        if (m_isLoadingContent == isLoadingContent)
+            return;
+
+        m_isLoadingContent = isLoadingContent;
+        emit isLoadingContentChanged(m_isLoadingContent);
+    }
+
 signals:
     void setScreenVisible(bool visible);
     void setScreenToVideo(QString absolutePath);
@@ -78,7 +95,14 @@ signals:
     void addInstalledItem(const QJsonObject, const QString);
     void installedLoadingFinished();
 
+    void isLoadingContentChanged(bool isLoadingContent);
+
 private:
     QVector<ProjectFile> m_screenPlayFiles;
     QUrl m_absoluteStoragePath;
+    QFuture<void> m_loadScreenFuture;
+    QFutureWatcher<void> m_loadScreenWatcher;
+
+
+    bool m_isLoadingContent = false;
 };

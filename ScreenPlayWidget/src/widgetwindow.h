@@ -8,27 +8,28 @@
 #include <QPoint>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
-#include <QtQuick/QQuickView>
-#include <QtQuick/QQuickWindow>
+#include <QQmlEngine>
 #include <QQuickWindow>
 #include <QSharedPointer>
 #include <QString>
 #include <QWindow>
+#include <QtQuick/QQuickView>
+#include <QtQuick/QQuickWindow>
+
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
-#else
-typedef long HWND;
 #endif
 
-class SPWidgetmainwindow : public QWindow {
+class WidgetWindow : public QObject {
     Q_OBJECT
 
 public:
-    explicit SPWidgetmainwindow(QString projectPath, QString appid, QScreen* parent = nullptr);
+    explicit WidgetWindow(QString projectPath, QString appid, QObject* parent = nullptr);
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString projectConfig READ projectConfig WRITE setProjectConfig NOTIFY projectConfigChanged)
+    Q_PROPERTY(QString sourcePath READ sourcePath WRITE setSourcePath NOTIFY sourcePathChanged)
 
     QString appID() const
     {
@@ -45,17 +46,24 @@ public:
         return m_projectConfig;
     }
 
+    QString sourcePath() const
+    {
+        return m_sourcePath;
+    }
+
 signals:
     void appIDChanged(QString appID);
     void typeChanged(QString type);
     void projectConfigChanged(QString projectConfig);
-    void setWidgetSource(QString source);
+    void sourcePathChanged(QString sourcePath);
+
     void qmlSceneValueReceived(QString key, QString value);
 
 public slots:
     void setSize(QSize size);
     void destroyThis();
     void messageReceived(QString key, QString value);
+
     void setAppID(QString appID)
     {
         if (m_appID == appID)
@@ -83,15 +91,28 @@ public slots:
 
     void setPos(int xPos, int yPos);
     void setClickPos(const QPoint& clickPos);
+#ifdef Q_OS_WIN
     void SetWindowBlur(HWND hWnd);
+#endif
+    void setSourcePath(QString sourcePath)
+    {
+        if (m_sourcePath == sourcePath)
+            return;
+
+        m_sourcePath = sourcePath;
+        emit sourcePathChanged(m_sourcePath);
+    }
 
 private:
     QString m_appID;
     QString m_type = "qmlWidget";
     QString m_projectConfig;
     QJsonObject m_project;
+#ifdef Q_OS_WIN
     HWND m_hwnd;
+#endif
     QPoint m_clickPos = { 0, 0 };
 
-    QSharedPointer<QQuickView> m_quickRenderer;
+    QQuickView m_window;
+    QString m_sourcePath;
 };

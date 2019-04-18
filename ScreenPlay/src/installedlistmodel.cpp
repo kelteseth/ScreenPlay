@@ -5,6 +5,11 @@ InstalledListModel::InstalledListModel(QObject* parent)
 {
     QObject::connect(this, &InstalledListModel::addInstalledItem,
         this, &InstalledListModel::append, Qt::QueuedConnection);
+    m_loadScreenWatcher.setFuture(m_loadScreenFuture);
+
+    QObject::connect(&m_loadScreenWatcher, &QFutureWatcher<void>::progressValueChanged, [](int progressValue) {
+        qDebug() << progressValue;
+    });
 }
 
 int InstalledListModel::rowCount(const QModelIndex& parent) const
@@ -76,6 +81,7 @@ bool InstalledListModel::getProjectByAbsoluteStoragePath(QUrl* path, ProjectFile
 
 void InstalledListModel::append(const QJsonObject obj, const QString folderName)
 {
+    //qDebug() << QThread::currentThreadId();
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
 
     ProjectFile tmpFile(obj, folderName, m_absoluteStoragePath);
@@ -86,7 +92,19 @@ void InstalledListModel::append(const QJsonObject obj, const QString folderName)
 
 void InstalledListModel::loadInstalledContent()
 {
-    QtConcurrent::run([this]() {
+    if (m_loadScreenWatcher.isRunning())
+        qDebug() << "allready running";
+
+
+    if (m_isLoadingContent) {
+        qDebug() << "Called loading installed files twice! Aborting";
+        return;
+    }
+
+    m_loadScreenFuture = QtConcurrent::run([this]() {
+        auto cleanup = qScopeGuard([this] { setIsLoadingContent(false); });
+        setIsLoadingContent(true);
+
         QJsonDocument jsonProject;
         QJsonParseError parseError;
 
@@ -126,14 +144,14 @@ void InstalledListModel::loadInstalledContent()
                     obj.insert("type", "video");
                 }
 
-                if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene" || fileEnding.endsWith(".mp4") ) || fileEnding.endsWith(".html"))
+                if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene" || fileEnding.endsWith(".html")))
                     emit addInstalledItem(obj, item.baseName());
 
-                if(obj.value("type") == "qmlWidget" || obj.value("type") == "standalonewidget")
+                if (obj.value("type") == "qmlWidget" || obj.value("type") == "standalonewidget")
                     emit addInstalledItem(obj, item.baseName());
-
             }
         }
+
         emit installedLoadingFinished();
     });
 }

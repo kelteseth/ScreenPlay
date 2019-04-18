@@ -61,7 +61,7 @@ GridView {
             
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
-            font.pixelSize: 32
+            font.pointSize: 32
             font.family: "Roboto"
 
             anchors {
@@ -140,7 +140,7 @@ GridView {
                 color: "white"
                 font.family: "Roboto"
                 font.weight: Font.Normal
-                font.pixelSize: 18
+                font.pointSize: 18
                 wrapMode: Text.WordWrap
             }
             Text {
@@ -160,7 +160,7 @@ GridView {
                 font.family: "Roboto"
                 
                 font.weight: Font.Normal
-                font.pixelSize: 14
+                font.pointSize: 14
                 wrapMode: Text.WordWrap
             }
             MouseArea {

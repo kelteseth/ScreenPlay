@@ -14,7 +14,7 @@ Item {
         imgPreview.opacity = 1
     }
 
-    property int fontSize: 14
+    property int fontSize: 10
     property int index
     property bool isSelected: false
     property bool isWallpaperActive: false
@@ -42,7 +42,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         //color: "white"
-        font.pixelSize: monitorSelectionItem.fontSize
+        font.pointSize: monitorSelectionItem.fontSize
         font.family: "Roboto"
         wrapMode: Text.WrapAnywhere
     }

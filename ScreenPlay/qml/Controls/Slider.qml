@@ -18,7 +18,7 @@ Item {
         id: txtHeadline
         text: headline
         height: 20
-        font.pixelSize: 14
+        font.pointSize: 14
         font.family: "Roboto"
         color: "#5D5D5D"
 

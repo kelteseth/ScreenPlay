@@ -1,60 +1,31 @@
 QT += quick qml quickcontrols2 core widgets gui
 CONFIG += c++17
 CONFIG += qtquickcompiler
-# The following define makes your compiler emit warnings if you use
-# any feature of Qt which as been marked deprecated (the exact warnings
-# depend on your compiler). Please consult the documentation of the
-# deprecated API in order to know how to port your code away from it.
 DEFINES += QT_DEPRECATED_WARNINGS
 
-# You can also make your code fail to compile if you use deprecated APIs.
-# In order to do so, uncomment the following line.
-# You can also select to disable deprecated APIs only up to a certain version of Qt.
-#DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
-
 SOURCES += \
-    SPWidgetmain.cpp \
-    src/spwidgetmainwindow.cpp
+    main.cpp \
+    src/widgetwindow.cpp
+
+HEADERS += \
+    src/widgetwindow.h
 
 RESOURCES += \
     SPWidgetResources.qrc
 
-INCLUDEPATH += \
-    $$PWD/../../ThirdParty/ \
-    $$PWD/../../src/ \
-
-include(../ScreenPlaySDK/Screenplaysdk.pri)
+include(../ScreenPlaySDK/ScreenPlaySDK.pri)
 
 macx: {
-QMAKE_LIBDIR += $$OUT_PWD/
-install_it.path = $${OUT_PWD}/../ScreenPlaySDK
+    QMAKE_LIBDIR += $$OUT_PWD/
 }
 
 !macx: {
     CONFIG(debug, debug|release) {
-    LIBS += -lScreenplaysdkd
-        install_it.path = $${OUT_PWD}/debug/
+    LIBS += -lScreenPlaySDKd
         QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
      } else {
-    LIBS += -lScreenplaysdk
-        install_it.path = $${OUT_PWD}/release/
+    LIBS += -lScreenPlaySDK
         QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
      }
     QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
 }
-
-
-
-# Additional import path used to resolve QML modules just for Qt Quick Designer
-# QML_DESIGNER_IMPORT_PATH =
-QT_QUICK_CONTROLS_STYLE = "Material"
-
-# Additional import path used to resolve QML modules in Qt Creator's code model
-QML_IMPORT_PATH =
-
-# Additional import path used to resolve QML modules just for Qt Quick Designer
-QML_DESIGNER_IMPORT_PATH =
-
-
-HEADERS += \
-    src/spwidgetmainwindow.h

@@ -177,23 +177,23 @@ Item {
                     bottom: parent.bottom
                 }
 
-                Text {
-                    id: text1
-                    height: 29
-                    text: screenTitle
-                    anchors {
-                        right: parent.right
-                        left: parent.left
-                        top: parent.top
-                        margins: 10
-                    }
-                    wrapMode: Text.WordWrap
+//                Text {
+//                    id: text1
+//                    height: 29
+//                    text: screenTitle
+//                    anchors {
+//                        right: parent.right
+//                        left: parent.left
+//                        top: parent.top
+//                        margins: 10
+//                    }
+//                    wrapMode: Text.WordWrap
 
-                    color: "#2F2F2F"
-                    font.pointSize: 9
+//                    color: "#2F2F2F"
+//                    font.pointSize: 9
 
-                    font.family: "Segoe UI, Roboto"
-                }
+//                    font.family: "Segoe UI, Roboto"
+//                }
             }
         }
 
