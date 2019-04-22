@@ -139,7 +139,12 @@ public slots:
     void setAppID(const QString& appID) noexcept;
 };
 
-class ScreenPlayWidget : public QObject {
+/*!
+    \class ScreenPlayWidget
+    \brief Used for ...
+*/
+
+class ScreenPlayWidget final: public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
@@ -148,121 +153,43 @@ class ScreenPlayWidget : public QObject {
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
 
-public:
-    ScreenPlayWidget(QString projectPath, QString previewImage, QString fullPath, ScreenPlay* parent)
-    {
-        m_projectPath = projectPath;
-        m_fullPath = fullPath;
-        m_previewImage = previewImage;
-        m_process = new QProcess(this); //PLS LESS BEHINDERT @Elias
-
-        QStringList proArgs;
-        proArgs.append(m_projectPath);
-        m_appID = parent->generateID();
-        proArgs.append(m_appID);
-        m_process->setArguments(proArgs);
-
-        if (fullPath.endsWith(".exe")) {
-            m_process->setProgram(fullPath);
-        } else if (fullPath.endsWith(".qml")) {
-            m_process->setProgram(parent->settings()->getScreenPlayWidgetPath().path());
-        }
-        qDebug() << m_process->program();
-        connect(m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
-            qDebug() << "error: " << error;
-        });
-        m_process->start();
-    }
-
-    QString projectPath() const
-    {
-        return m_projectPath;
-    }
-
-    QString previewImage() const
-    {
-        return m_previewImage;
-    }
-
-    QPoint position() const
-    {
-        return m_position;
-    }
-
-    QString fullPath() const
-    {
-        return m_fullPath;
-    }
-
-    QString appID() const
-    {
-        return m_appID;
-    }
-
-signals:
-
-    void projectPathChanged(QString projectPath);
-
-    void previewImageChanged(QString previewImage);
-
-    void positionChanged(QPoint position);
-
-    void fullPathChanged(QString fullPath);
-
-    void appIDChanged(QString appID);
-
-public slots:
-
-    void setProjectPath(QString projectPath)
-    {
-        if (m_projectPath == projectPath)
-            return;
-
-        m_projectPath = projectPath;
-        emit projectPathChanged(m_projectPath);
-    }
-
-    void setPreviewImage(QString previewImage)
-    {
-        if (m_previewImage == previewImage)
-            return;
-
-        m_previewImage = previewImage;
-        emit previewImageChanged(m_previewImage);
-    }
-
-    void setPosition(QPoint position)
-    {
-        if (m_position == position)
-            return;
-
-        m_position = position;
-        emit positionChanged(m_position);
-    }
-
-    void setFullPath(QString fullPath)
-    {
-        if (m_fullPath == fullPath)
-            return;
-
-        m_fullPath = fullPath;
-        emit fullPathChanged(m_fullPath);
-    }
-
-    void setAppID(QString appID)
-    {
-        if (m_appID == appID)
-            return;
-
-        m_appID = appID;
-        emit appIDChanged(m_appID);
-    }
-
 private:
     QString m_projectPath;
     QString m_previewImage;
-    QPoint m_position;
-    QProcess* m_process;
     QString m_fullPath;
     QString m_appID;
+    QPoint m_position;
+    QProcess *m_process;
+
+public:
+    // constructor(s)
+    explicit ScreenPlayWidget(const QString& projectPath, const QString& previewImage,
+                     const QString& fullPath, ScreenPlay *parent = nullptr);
+
+    // copy and move disable(for now) : remember rule of 1/3/5
+    Q_DISABLE_COPY_MOVE(ScreenPlayWidget)
+
+    // destructor
+    ~ScreenPlayWidget();
+
+    // getters
+    const QString& projectPath() const noexcept;
+    const QString& previewImage() const noexcept;
+    const QString& fullPath() const noexcept;
+    const QString& appID() const noexcept;
+    const QPoint& position() const noexcept;
+
+signals:
+    void projectPathChanged(QString projectPath) const;
+    void previewImageChanged(QString previewImage) const;
+    void fullPathChanged(QString fullPath) const;
+    void appIDChanged(QString appID) const;
+    void positionChanged(QPoint position) const;
+
+public slots:
+    void setProjectPath(const QString& projectPath) noexcept;
+    void setPreviewImage(const QString& previewImage) noexcept;
+    void setFullPath(const QString& fullPath) noexcept;
+    void setAppID(const QString& appID) noexcept;
+    void setPosition(const QPoint& position) noexcept;
 };
