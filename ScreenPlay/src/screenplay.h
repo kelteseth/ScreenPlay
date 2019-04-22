@@ -7,7 +7,6 @@
 #include <QProcess>
 #include <QRandomGenerator>
 #include <QSharedPointer>
-#include <QVector>
 
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -83,149 +82,61 @@ public slots:
 
 /*!
     \class ScreenPlayWallpaper
-    \brief Used for Creation of Wallpaper, Scenes and Widgets
+    \brief Used for ...
 */
 
-class ScreenPlayWallpaper : public QObject {
+class ScreenPlayWallpaper final: public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
+    Q_PROPERTY(std::vector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
 
-public:
-    explicit ScreenPlayWallpaper(QVector<int> screenNumber, QString projectPath, QString previewImage, float volume, QString fillMode, QString type, ScreenPlay* parent)
-    {
-        m_screenNumber = screenNumber;
-        m_projectPath = projectPath;
-
-        m_previewImage = previewImage;
-        m_type = type;
-
-        // We do not want to parent the QProcess because the
-        // Process manages its lifetime and destructing (animation) itself
-        // via a disconnection from the ScreenPlay SDK
-        QProcess* m_process = new QProcess();
-
-        connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), [=](int exitCode, QProcess::ExitStatus exitStatus) {
-            if (exitCode != 0)
-                qDebug() << "WARNING EXIT CODE: " << exitCode;
-        });
-        connect(m_process, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
-            qDebug() << "EX: " << error;
-        });
-
-        QStringList proArgs;
-        proArgs.append(QString::number(m_screenNumber.at(0)));
-        proArgs.append(m_projectPath);
-        m_appID = parent->generateID();
-        proArgs.append("appID=" + m_appID);
-        proArgs.append(parent->settings()->decoder());
-        proArgs.append(QString::number(static_cast<double>(volume)));
-        proArgs.append(fillMode);
-
-        qDebug() << proArgs;
-
-        m_process->setArguments(proArgs);
-        m_process->setProgram(parent->settings()->screenPlayWindowPath().toString());
-        m_process->start();
-        m_projectSettingsListModel = QSharedPointer<ProjectSettingsListModel>(new ProjectSettingsListModel(projectPath + "/project.json"));
-    }
-
-    QSharedPointer<ProjectSettingsListModel> projectSettingsListModel() const;
-
-    QVector<int> screenNumber() const
-    {
-        return m_screenNumber;
-    }
-
-    QString projectPath() const
-    {
-        return m_projectPath;
-    }
-
-    QString previewImage() const
-    {
-        return m_previewImage;
-    }
-
-    QString appID() const
-    {
-        return m_appID;
-    }
-
-    QString type() const
-    {
-        return m_type;
-    }
-
-signals:
-    void screenNumberChanged(QVector<int> screenNumber);
-    void projectPathChanged(QString projectPath);
-    void previewImageChanged(QString previewImage);
-    void projectSettingsListModelAt(ProjectSettingsListModel* li);
-    void appIDChanged(QString appID);
-    void typeChanged(QString type);
-
-public slots:
-
-    void setScreenNumber(QVector<int> screenNumber)
-    {
-        if (m_screenNumber == screenNumber)
-            return;
-
-        m_screenNumber = screenNumber;
-        emit screenNumberChanged(m_screenNumber);
-    }
-
-    void setProjectPath(QString projectPath)
-    {
-        if (m_projectPath == projectPath)
-            return;
-
-        m_projectPath = projectPath;
-        emit projectPathChanged(m_projectPath);
-    }
-
-    void setPreviewImage(QString previewImage)
-    {
-        if (m_previewImage == previewImage)
-            return;
-
-        m_previewImage = previewImage;
-        emit previewImageChanged(m_previewImage);
-    }
-
-    void setAppID(QString appID)
-    {
-        if (m_appID == appID)
-            return;
-
-        m_appID = appID;
-        emit appIDChanged(m_appID);
-    }
-
-    void setType(QString type)
-    {
-        if (m_type == type)
-            return;
-
-        m_type = type;
-        emit typeChanged(m_type);
-    }
-
 private:
-    QVector<int> m_screenNumber;
+    std::vector<int> m_screenNumber;
     QString m_projectPath;
     QString m_previewImage;
-    QProcess* m_process;
-
+    QString m_type;
+    QString m_appID;
+    QProcess *m_process;
     QSharedPointer<ProjectSettingsListModel> m_projectSettingsListModel;
 
-    QString m_appID;
-    QString m_type;
+public:
+    // constructor(s)
+    explicit ScreenPlayWallpaper(const std::vector<int>& screenNumber, const QString& projectPath,
+                                 const QString& previewImage, const float volume, const QString& fillMode,
+                                 const QString& type, ScreenPlay *parent = nullptr);
+
+    // copy and move disable(for now) : remember rule of 1/3/5
+    Q_DISABLE_COPY_MOVE(ScreenPlayWallpaper)
+
+    // destructor
+    ~ScreenPlayWallpaper();
+
+    // getters
+    const std::vector<int>& screenNumber() const noexcept;
+    const QString& projectPath() const noexcept;
+    const QString& previewImage() const noexcept;
+    const QString& type() const noexcept;
+    const QString& appID() const noexcept;
+    const QSharedPointer<ProjectSettingsListModel>& projectSettingsListModel() const noexcept;
+
+signals:
+    void screenNumberChanged(std::vector<int> screenNumber) const;
+    void projectPathChanged(QString projectPath) const;
+    void previewImageChanged(QString previewImage) const;
+    void typeChanged(QString type) const;
+    void appIDChanged(QString appID) const;
+    //void projectSettingsListModelAt(ProjectSettingsListModel* li); ??? not used
+
+public slots:
+    void setScreenNumber(const std::vector<int>& screenNumber) noexcept;
+    void setProjectPath(const QString& projectPath) noexcept;
+    void setPreviewImage(const QString& previewImage) noexcept;
+    void setType(const QString& type) noexcept;
+    void setAppID(const QString& appID) noexcept;
 };
 
 class ScreenPlayWidget : public QObject {
