@@ -24,39 +24,59 @@
 class ScreenPlayWallpaper;
 class ScreenPlayWidget;
 
+// conveniences types
+using RefSPWall = QSharedPointer<ScreenPlayWallpaper>;
+using RefSPWidget = QSharedPointer<ScreenPlayWidget>;
+
 class ScreenPlay : public QObject {
     Q_OBJECT
+private:
+    InstalledListModel *const m_ilm{nullptr};
+    Settings *const           m_settings{nullptr};
+    MonitorListModel *const   m_mlm{nullptr};
+    QGuiApplication *const    m_qGuiApplication{nullptr};
+    SDKConnector *const       m_sdkc{nullptr};
+    std::vector<RefSPWall>   m_screenPlayWallpaperList;
+    std::vector<RefSPWidget> m_screenPlayWidgetList;
+
 public:
-    explicit ScreenPlay(InstalledListModel* ilm, Settings* set, MonitorListModel* mlm, SDKConnector* sdkc, QObject* parent = nullptr);
+    // constructor(s)
+    explicit ScreenPlay(
+            InstalledListModel* ilm, Settings* set,
+            MonitorListModel* mlm, SDKConnector* sdkc,
+            QObject* parent = nullptr);
+
+    // copy and move disable(for now) : remember rule of 1/3/5
+    Q_DISABLE_COPY_MOVE(ScreenPlay)
 
     Settings* settings() const;
 
-    InstalledListModel* m_ilm;
-    Settings* m_settings;
-    MonitorListModel* m_mlm;
-    QGuiApplication* m_qGuiApplication;
-    SDKConnector* m_sdkc;
 
 signals:
-    void allWallpaperRemoved();
-    void projectSettingsListModelFound(ProjectSettingsListModel* li, QString type);
-    void projectSettingsListModelNotFound();
+    void allWallpaperRemoved() const;
+    void projectSettingsListModelFound(ProjectSettingsListModel* li, const QString &type) const;
+    void projectSettingsListModelNotFound() const;
 
 public slots:
-    void createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage, float volume, QString fillMode, QString type);
-    void createWidget(QUrl absoluteStoragePath, QString previewImage);
-    void removeAllWallpaper();
-    void requestProjectSettingsListModelAt(int index);
-    void setWallpaperValue(int at, QString key, QString value);
-    void setAllWallpaperValue(QString key, QString value);
     void removeWallpaperAt(int at);
-    QVector<int> getMonitorByAppID(QString appID);
-    QString generateID();
-
-private:
-    QVector<QSharedPointer<ScreenPlayWallpaper>> m_screenPlayWallpaperList;
-    QVector<QSharedPointer<ScreenPlayWidget>> m_screenPlayWidgetList;
+    void createWallpaper(
+            const int monitorIndex, QUrl absoluteStoragePath,
+            const QString &previewImage, const float volume,
+            const QString &fillMode, const QString &type);
+    void createWidget(QUrl absoluteStoragePath, const QString &previewImage);
+    void removeAllWallpaper() noexcept;
+    void requestProjectSettingsListModelAt(const int index) const noexcept;
+    void setWallpaperValue(const int at, const QString &key, const QString &value) noexcept;
+    void setAllWallpaperValue(const QString &key, const QString &value) noexcept;
+    void removeWallpaperAt(const int at);
+    QVector<int> getMonitorByAppID(const QString &appID) const;
+    QString generateID() const;
 };
+
+/*!
+    \class ScreenPlayWallpaper
+    \brief Used for Creation of Wallpaper, Scenes and Widgets
+*/
 
 class ScreenPlayWallpaper : public QObject {
     Q_OBJECT
@@ -72,6 +92,7 @@ public:
     {
         m_screenNumber = screenNumber;
         m_projectPath = projectPath;
+
         m_previewImage = previewImage;
         m_type = type;
 
@@ -93,7 +114,7 @@ public:
         proArgs.append(m_projectPath);
         m_appID = parent->generateID();
         proArgs.append("appID=" + m_appID);
-        proArgs.append(parent->m_settings->decoder());
+        proArgs.append(parent->settings()->decoder());
         proArgs.append(QString::number(static_cast<double>(volume)));
         proArgs.append(fillMode);
 
@@ -225,7 +246,7 @@ public:
         if (fullPath.endsWith(".exe")) {
             m_process->setProgram(fullPath);
         } else if (fullPath.endsWith(".qml")) {
-            m_process->setProgram(parent->m_settings->getScreenPlayWidgetPath().path());
+            m_process->setProgram(parent->settings()->getScreenPlayWidgetPath().path());
         }
         qDebug() << m_process->program();
         connect(m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
