@@ -23,11 +23,11 @@
 class ScreenPlayWallpaper;
 class ScreenPlayWidget;
 
-// conveniences types
+// convenience types
 using RefSPWall = QSharedPointer<ScreenPlayWallpaper>;
 using RefSPWidget = QSharedPointer<ScreenPlayWidget>;
 
-class ScreenPlay : public QObject {
+class ScreenPlay final: public QObject {
     Q_OBJECT
 private:
     InstalledListModel *const m_ilm{nullptr};
@@ -48,6 +48,9 @@ public:
     // copy and move disable(for now) : remember rule of 1/3/5
     Q_DISABLE_COPY_MOVE(ScreenPlay)
 
+    // destructor
+    ~ScreenPlay();
+
     // getters
     const InstalledListModel* listModelInstalled() const noexcept;
     const Settings* settings() const noexcept;
@@ -57,26 +60,23 @@ public:
     const std::vector<RefSPWall>& spWallList() const noexcept;
     const std::vector<RefSPWidget>& spWidgetList() const noexcept;
 
-
-
 signals:
     void allWallpaperRemoved() const;
-    void projectSettingsListModelFound(ProjectSettingsListModel* li, const QString &type) const;
+    void projectSettingsListModelFound(ProjectSettingsListModel* li, const QString& type) const;
     void projectSettingsListModelNotFound() const;
 
 public slots:
-    void removeWallpaperAt(int at);
     void createWallpaper(
             const int monitorIndex, QUrl absoluteStoragePath,
-            const QString &previewImage, const float volume,
-            const QString &fillMode, const QString &type);
-    void createWidget(QUrl absoluteStoragePath, const QString &previewImage);
+            const QString& previewImage, const float volume,
+            const QString& fillMode, const QString& type);
+    void createWidget(QUrl absoluteStoragePath, const QString& previewImage);
     void removeAllWallpaper() noexcept;
     void requestProjectSettingsListModelAt(const int index) const noexcept;
-    void setWallpaperValue(const int at, const QString &key, const QString &value) noexcept;
-    void setAllWallpaperValue(const QString &key, const QString &value) noexcept;
-    void removeWallpaperAt(const int at);
-    QVector<int> getMonitorByAppID(const QString &appID) const;
+    void setWallpaperValue(const int at, const QString& key, const QString& value) noexcept;
+    void setAllWallpaperValue(const QString& key, const QString& value) noexcept;
+    void removeWallpaperAt(const int at = 0);
+    std::vector<int> getMonitorByAppID(const QString& appID) const;
     QString generateID() const;
 };
 

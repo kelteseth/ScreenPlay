@@ -34,13 +34,18 @@ void SDKConnector::closeAllWallpapers()
 
 void SDKConnector::closeWallpapersAt(int at)
 {
-    for (int i = 0; i < m_clients.size(); ++i) {
-        if (m_clients.at(i).data()->monitor().size() > 0) {
-            if (m_clients.at(i).data()->monitor().at(0) == at) {
-                m_clients.at(i).data()->close();
+    for (const QSharedPointer<SDKConnection>& refSDKConnection : m_clients) {
+        refSDKConnection->close();
+        if (!refSDKConnection->monitor().empty()) {
+            // problem here !!
+            if (refSDKConnection->monitor().at(0) == at) {
+                refSDKConnection->close();
+                qDebug() << "Wall Closed...!";
+            } else {
+                qDebug() << "COULD NOT CLOSE!";
             }
         } else {
-            qDebug() << "no wp window";
+            qDebug() << "no wp window ";
         }
     }
 }

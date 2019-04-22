@@ -9,6 +9,15 @@ ScreenPlay::ScreenPlay(InstalledListModel* ilm, Settings* set, MonitorListModel*
       m_sdkc{sdkc}
 {}
 
+ScreenPlay::~ScreenPlay()
+{
+    if(m_ilm)             delete m_ilm;
+    if(m_settings)        delete m_settings;
+    if(m_mlm)             delete m_mlm;
+    if(m_qGuiApplication) delete m_qGuiApplication;
+    if(m_sdkc)            delete m_sdkc;
+}
+
 const InstalledListModel* ScreenPlay::listModelInstalled() const noexcept { return m_ilm; }
 const Settings* ScreenPlay::settings() const noexcept {   return m_settings; }
 const MonitorListModel* ScreenPlay::monitorListModel() const noexcept {   return m_mlm; }
@@ -19,8 +28,8 @@ const std::vector<RefSPWidget>& ScreenPlay::spWidgetList() const noexcept { retu
 
 void ScreenPlay::createWallpaper(
         const int monitorIndex, QUrl absoluteStoragePath,
-        const QString &previewImage, const float volume,
-        const QString &fillMode, const QString &type)
+        const QString& previewImage, const float volume,
+        const QString& fillMode, const QString& type)
 {
     ProjectFile project{};
     if (!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
@@ -30,16 +39,18 @@ void ScreenPlay::createWallpaper(
     //this->removeAllWallpaper();
     this->removeWallpaperAt(0);
     m_settings->increaseActiveWallpaperCounter();
+
     m_screenPlayWallpaperList.emplace_back(
                 RefSPWall::create(
-                    QVector<int>{monitorIndex}, absoluteStoragePath.toLocalFile(),
+                    std::vector<int>{monitorIndex}, absoluteStoragePath.toLocalFile(),
                     previewImage, volume, fillMode, type, this)
                 );
+
     m_mlm->setWallpaperActiveMonitor(m_qGuiApplication->screens().at(monitorIndex),
                                      QString{absoluteStoragePath.toLocalFile() + "/" + previewImage});
 }
 
-void ScreenPlay::createWidget(QUrl absoluteStoragePath, const QString &previewImage)
+void ScreenPlay::createWidget(QUrl absoluteStoragePath, const QString& previewImage)
 {
     ProjectFile project{};
     if (!m_ilm->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
@@ -66,7 +77,7 @@ void ScreenPlay::removeAllWallpaper() noexcept
 
 void ScreenPlay::requestProjectSettingsListModelAt(const int index) const noexcept
 {
-    for (const RefSPWall &refSPWallpaper: m_screenPlayWallpaperList) {
+    for (const RefSPWall& refSPWallpaper: m_screenPlayWallpaperList) {
         if (!refSPWallpaper.data()->screenNumber().empty() &&
                 refSPWallpaper.data()->screenNumber()[0] == index) { // ??? only at index == 0
             emit projectSettingsListModelFound(
@@ -78,10 +89,10 @@ void ScreenPlay::requestProjectSettingsListModelAt(const int index) const noexce
     emit projectSettingsListModelNotFound();
 }
 
-void ScreenPlay::setWallpaperValue(const int at, const QString &key, const QString &value) noexcept
+void ScreenPlay::setWallpaperValue(const int at, const QString& key, const QString& value) noexcept
 {
     Q_ASSERT(static_cast<std::size_t>(at) < m_screenPlayWallpaperList.size() && m_sdkc);
-    for (const RefSPWall &refSPWallpaper: m_screenPlayWallpaperList) {
+    for (const RefSPWall& refSPWallpaper: m_screenPlayWallpaperList) {
         if (!refSPWallpaper.data()->screenNumber().empty() && m_sdkc &&
                 refSPWallpaper.data()->screenNumber()[0] == at) { // ??? only at index == 0
             m_sdkc->setWallpaperValue(refSPWallpaper.data()->appID(), key, value);
@@ -90,39 +101,47 @@ void ScreenPlay::setWallpaperValue(const int at, const QString &key, const QStri
     }
 }
 
-void ScreenPlay::setAllWallpaperValue(const QString &key, const QString &value) noexcept
+void ScreenPlay::setAllWallpaperValue(const QString& key, const QString& value) noexcept
 {
     Q_ASSERT(m_sdkc);
-    for (const RefSPWall &refSPWallpaper: m_screenPlayWallpaperList) {
+    for (const RefSPWall& refSPWallpaper: m_screenPlayWallpaperList) {
         if(m_sdkc) m_sdkc->setWallpaperValue(refSPWallpaper.data()->appID(), key, value);
     }
 }
 
-void ScreenPlay::removeWallpaperAt(int at)
+void ScreenPlay::removeWallpaperAt(const int at)
 {
-    //Q_ASSERT(m_screenPlayWallpaperList.size() < at);
+    // Q_ASSERT(at < m_screenPlayWallpaperList.size() && m_sdkc);
+    qDebug() << "No of walls in list: " << m_screenPlayWallpaperList.size();
+    if(m_screenPlayWallpaperList.empty()) return; // done here;
 
-    if (m_screenPlayWallpaperList.isEmpty())
-        return;
-
-    for (int i = 0; i < m_screenPlayWallpaperList.length(); ++i) {
-
-        if (m_screenPlayWallpaperList.at(i).data()->screenNumber().at(0) == at) {
-            qDebug() << i << m_screenPlayWallpaperList.at(i).data()->screenNumber().at(0);
-            m_sdkc->closeWallpapersAt(at);
-            m_screenPlayWallpaperList.removeAt(i);
+    const auto toRemove = std::remove_if(
+                m_screenPlayWallpaperList.begin(), m_screenPlayWallpaperList.end(),
+                [&](const RefSPWall& refSPWallpaper) noexcept ->bool {
+        const std::vector<int>& screenNumber = refSPWallpaper->screenNumber();
+        qDebug() << "Screen No. :" << screenNumber.size();
+        const bool isFound = !screenNumber.empty();// && screenNumber[0] == at;
+        if(isFound) {
+            // m_mlm
+            m_sdkc->closeWallpapersAt(at); // for waht ???
+            m_settings->decreaseActiveWallpaperCounter();
+            qDebug() << "current wall count... " << m_settings->activeWallpaperCounter();
         }
-    }
+        return isFound;
+    });
+    m_screenPlayWallpaperList.erase(toRemove, m_screenPlayWallpaperList.end());
+    qDebug() << "After removing: No of walls in list: " << m_screenPlayWallpaperList.size();
+
 }
 
-QVector<int> ScreenPlay::getMonitorByAppID(const QString &appID) const
+std::vector<int> ScreenPlay::getMonitorByAppID(const QString& appID) const
 {
-    for (const RefSPWall &refSPWallpaper: m_screenPlayWallpaperList) {
+    for (const RefSPWall& refSPWallpaper: m_screenPlayWallpaperList) {
         if (refSPWallpaper.data()->appID() == appID) {
             return refSPWallpaper.data()->screenNumber();
         }
     }
-    return QVector<int>{};
+    return std::vector<int>{};
 }
 
 QString ScreenPlay::generateID() const
@@ -140,6 +159,7 @@ QString ScreenPlay::generateID() const
     }
     return randomString;
 }
+
 
 ScreenPlayWallpaper::ScreenPlayWallpaper(const std::vector<int>& screenNumber, const QString& projectPath,
                                          const QString& previewImage, const float volume,
