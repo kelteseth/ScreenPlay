@@ -9,7 +9,14 @@ ScreenPlay::ScreenPlay(InstalledListModel* ilm, Settings* set, MonitorListModel*
       m_sdkc{sdkc}
 {}
 
-void ScreenPlay::createWallpaper(int monitorIndex, QUrl absoluteStoragePath, QString previewImage, float volume, QString fillMode, QString type)
+const InstalledListModel* ScreenPlay::listModelInstalled() const noexcept { return m_ilm; }
+const Settings* ScreenPlay::settings() const noexcept {   return m_settings; }
+const MonitorListModel* ScreenPlay::monitorListModel() const noexcept {   return m_mlm; }
+const QGuiApplication* ScreenPlay::guiApp() const noexcept {  return m_qGuiApplication; }
+const SDKConnector* ScreenPlay::sdkConnector() const noexcept { return m_sdkc; }
+const std::vector<RefSPWall>& ScreenPlay::spWallList() const noexcept { return m_screenPlayWallpaperList; }
+const std::vector<RefSPWidget>& ScreenPlay::spWidgetList() const noexcept { return m_screenPlayWidgetList; }
+
 void ScreenPlay::createWallpaper(
         const int monitorIndex, QUrl absoluteStoragePath,
         const QString &previewImage, const float volume,

@@ -49,7 +49,15 @@ public:
     // copy and move disable(for now) : remember rule of 1/3/5
     Q_DISABLE_COPY_MOVE(ScreenPlay)
 
-    Settings* settings() const;
+    // getters
+    const InstalledListModel* listModelInstalled() const noexcept;
+    const Settings* settings() const noexcept;
+    const MonitorListModel* monitorListModel() const noexcept;
+    const QGuiApplication* guiApp() const noexcept;
+    const SDKConnector* sdkConnector() const noexcept;
+    const std::vector<RefSPWall>& spWallList() const noexcept;
+    const std::vector<RefSPWidget>& spWidgetList() const noexcept;
+
 
 
 signals:
