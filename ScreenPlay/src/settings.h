@@ -50,10 +50,6 @@ class ActiveProfile;
 class Settings : public QObject {
     Q_OBJECT
 
-public:
-    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, QObject* parent = nullptr);
-    ~Settings();
-
     Q_PROPERTY(QVersionNumber version READ version)
     Q_PROPERTY(bool hasWorkshopBannerSeen READ hasWorkshopBannerSeen WRITE setHasWorkshopBannerSeen NOTIFY hasWorkshopBannerSeenChanged)
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
@@ -65,7 +61,9 @@ public:
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
 
-    void loadActiveProfiles();
+public:
+    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, QObject* parent = nullptr);
+    ~Settings();
 
     enum LocalCopyResult {
         NoError,

@@ -8,6 +8,8 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QFile>
+#include <QFuture>
+#include <QFutureWatcher>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -16,9 +18,6 @@
 #include <QUrl>
 #include <QVector>
 #include <QtConcurrent/QtConcurrent>
-#include <QFutureWatcher>
-#include <QFuture>
-
 
 /*!
     \class Installed List Model
@@ -29,21 +28,19 @@
 class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
 
-public:
-    explicit InstalledListModel(QObject* parent = 0);
+    Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setabsoluteStoragePath NOTIFY absoluteStoragePathChanged)
 
-    // Basic functionality:
+public:
+    explicit InstalledListModel(QObject* parent = nullptr);
+
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
     bool getProjectByAbsoluteStoragePath(QUrl* path, ProjectFile* spf);
 
-    Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setabsoluteStoragePath NOTIFY absoluteStoragePathChanged)
-    Q_PROPERTY(bool isLoadingContent READ isLoadingContent WRITE setIsLoadingContent NOTIFY isLoadingContentChanged)
-
     enum InstalledRole {
-        TitleRole,
+        TitleRole = Qt::UserRole,
         TypeRole,
         PreviewRole,
         PreviewGIFRole,
@@ -59,15 +56,15 @@ public:
         return m_absoluteStoragePath;
     }
 
-    bool isLoadingContent() const
-    {
-        return m_isLoadingContent;
-    }
-
 public slots:
     void loadInstalledContent();
-    QVariantMap get(QString folderId);
     void append(const QJsonObject, const QString);
+    void reset();
+
+    int getAmountItemLoaded();
+
+    QVariantMap get(QString folderId);
+
     void setabsoluteStoragePath(QUrl absoluteStoragePath)
     {
         if (m_absoluteStoragePath == absoluteStoragePath)
@@ -76,33 +73,15 @@ public slots:
         m_absoluteStoragePath = absoluteStoragePath;
         emit absoluteStoragePathChanged(m_absoluteStoragePath);
     }
-    int getAmountItemLoaded();
-    void reset();
-
-    void setIsLoadingContent(bool isLoadingContent)
-    {
-        if (m_isLoadingContent == isLoadingContent)
-            return;
-
-        m_isLoadingContent = isLoadingContent;
-        emit isLoadingContentChanged(m_isLoadingContent);
-    }
-
 signals:
     void setScreenVisible(bool visible);
     void setScreenToVideo(QString absolutePath);
     void absoluteStoragePathChanged(QUrl absoluteStoragePath);
     void addInstalledItem(const QJsonObject, const QString);
     void installedLoadingFinished();
-
     void isLoadingContentChanged(bool isLoadingContent);
 
 private:
     QVector<ProjectFile> m_screenPlayFiles;
     QUrl m_absoluteStoragePath;
-    QFuture<void> m_loadScreenFuture;
-    QFutureWatcher<void> m_loadScreenWatcher;
-
-
-    bool m_isLoadingContent = false;
 };
