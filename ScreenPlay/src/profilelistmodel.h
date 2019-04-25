@@ -18,8 +18,7 @@
 
 */
 
-
-class Profile;
+struct Profile;
 
 class ProfileListModel : public QAbstractListModel {
     Q_OBJECT

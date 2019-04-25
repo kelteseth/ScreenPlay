@@ -6,16 +6,14 @@
 #include <QVariant>
 #include <QVariantList>
 
-
 /*!
     \class ProjectFile
     \brief In ScreenPlay every Wallpaper, Scene or Widget has an project.json to store its configuration
 
 */
 
-class ProjectFile {
+struct ProjectFile {
 
-public:
     explicit ProjectFile(QJsonObject obj, QString folderName, QUrl absolutePath);
     ProjectFile();
     ~ProjectFile();
@@ -32,5 +30,4 @@ public:
     int m_workshopID;
 
     QVariantList m_tags; //TODO: Implement me!
-
 };

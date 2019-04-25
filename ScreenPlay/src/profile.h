@@ -5,13 +5,13 @@
 
 /*!
     \class Profile
-    \brief A classed used in combination with Profile List Model.
-    See Profile List Model for more details
+    \brief  A classed used in combination with Profile List Model.
+            See Profile List Model for more details
 
 */
 
-class Profile {
-public:
+struct Profile {
+
     Profile();
     Profile(QUrl absolutePath, QString id, QString version, QString wallpaperId, QRect rect, bool isLooping);
 

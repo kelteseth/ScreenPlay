@@ -21,8 +21,7 @@
 
 */
 
-
-class Monitor;
+struct Monitor;
 
 class MonitorListModel : public QAbstractListModel {
     Q_OBJECT
@@ -74,9 +73,8 @@ signals:
     void setNewActiveMonitor(int index, QString path);
 };
 
-class Monitor {
+struct Monitor {
 
-public:
     Monitor();
     Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry, QRect geometry, QScreen* screen);
 
