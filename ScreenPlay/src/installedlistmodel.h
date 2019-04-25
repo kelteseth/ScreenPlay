@@ -22,7 +22,7 @@
 
 /*!
     \class Installed List Model
-    \brief Lists all installed items from a given Path
+    \brief Lists all installed wallpapers, widgets etc. from a given Path
 
 */
 

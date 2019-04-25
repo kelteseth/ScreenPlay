@@ -15,8 +15,22 @@
 #include <QThread>
 #include <QtMath>
 
+
+/*!
+    \class CreateImportVideo
+    \brief This class imports (copies) and creates wallaper previews. This
+           class only exsits as long as the user creates a wallpaper and gets
+           destroyed if the creation was successful or not.
+
+           The state get propagated via createWallpaperStateChanged(CreateImportVideo::State state);
+
+    \todo
+            - Maybe: Replace with QThread to avoid running QCoreApplication::processEvents();?
+*/
+
 class CreateImportVideo : public QObject {
     Q_OBJECT
+
 public:
     CreateImportVideo(QObject* parent = nullptr);
     explicit CreateImportVideo(QString videoPath, QString exportPath, QObject* parent = nullptr);

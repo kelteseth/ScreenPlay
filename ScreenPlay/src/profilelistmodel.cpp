@@ -9,7 +9,6 @@
 ProfileListModel::ProfileListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
-
 }
 
 int ProfileListModel::rowCount(const QModelIndex& parent) const
@@ -28,7 +27,7 @@ QVariant ProfileListModel::data(const QModelIndex& index, int role) const
         return QVariant();
 
     int row = index.row();
-    if(row < 0 || row >= m_profileList.count()) {
+    if (row < 0 || row >= m_profileList.count()) {
         return QVariant();
     }
 
@@ -51,8 +50,7 @@ QHash<int, QByteArray> ProfileListModel::roleNames() const
 void ProfileListModel::loadProfiles()
 {
 
-
-    QFileInfoList list = QDir(m_localStoragePath.toString()+ "/Profiles/").entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
+    QFileInfoList list = QDir(m_localStoragePath.toString() + "/Profiles/").entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
     QString tmpPath;
     QJsonDocument profileDoc;
     QJsonParseError parseError;
@@ -102,7 +100,6 @@ void ProfileListModel::loadProfiles()
 
         m_profileList.append(tmpProfile);
     }
-
 }
 
 bool ProfileListModel::getProfileByName(QString id, Profile* profile)

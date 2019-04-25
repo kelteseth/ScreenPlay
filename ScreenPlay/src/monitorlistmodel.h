@@ -14,7 +14,10 @@
 
 /*!
     \class Monitor List Model
-    \brief Lists all monitors dynamically
+    \brief Listsmodel for all active monitors
+
+    \todo
+            - Add event when monitor count changed.
 
 */
 

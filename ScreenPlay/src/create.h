@@ -26,13 +26,24 @@
 #include "qmlutilities.h"
 #include "settings.h"
 
+/*!
+    \class Create
+    \since 1.0
+    \brief  Baseclass for creating wallapers, widgets and the corresponding
+            wizards. As for this writing (April 2019) it is solely used to
+            import webm wallpaper and create the gif/web 5 second previews.
+    \todo
+            - This class would need to be refactored to be used in more creation types.
+*/
+
 class Create : public QObject {
     Q_OBJECT
-public:
-    explicit Create(Settings* st, QMLUtilities* util, QObject* parent = nullptr);
 
     Q_PROPERTY(QString workingDir READ workingDir WRITE setWorkingDir NOTIFY workingDirChanged)
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
+
+public:
+    explicit Create(Settings* st, QMLUtilities* util, QObject* parent = nullptr);
 
     Create() {}
     ~Create() {}

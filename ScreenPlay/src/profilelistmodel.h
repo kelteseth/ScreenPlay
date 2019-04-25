@@ -12,8 +12,9 @@
 
 /*!
     \class Profile List Model
-    \todo Implement this!
     \brief Use to save all active wallpapers and widgets position and configurations after a restart
+    \todo  Implement this!
+           - Add a profile for a combination of active wallpaper and widgets!
 
 */
 
