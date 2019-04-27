@@ -1,11 +1,11 @@
 #pragma once
 
-#include <QObject>
-#include <QString>
-#include <QDir>
-#include <QProcess>
-#include <QDebug>
 #include <QCoreApplication>
+#include <QDebug>
+#include <QDir>
+#include <QObject>
+#include <QProcess>
+#include <QString>
 
 /*!
     \class Global QML Utilities

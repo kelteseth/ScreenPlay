@@ -35,6 +35,7 @@
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #endif
+
 /*!
     \class Settings
     \brief Used for:
@@ -98,9 +99,6 @@ public:
         return m_activeWallpaperCounter;
     }
 
-    QUrl getScreenPlayWindowPath() const;
-    void setScreenPlayWindowPath(const QUrl& screenPlayWindowPath);
-
     bool pauseWallpaperWhenIngame() const
     {
         return m_pauseWallpaperWhenIngame;
@@ -111,6 +109,9 @@ public:
         return m_offlineMode;
     }
 
+    QUrl getScreenPlayWindowPath() const;
+    void setScreenPlayWindowPath(const QUrl& screenPlayWindowPath);
+
     QUrl getScreenPlayBasePath() const;
     void setScreenPlayBasePath(QUrl screenPlayBasePath);
 
@@ -118,6 +119,7 @@ public:
     void setScreenPlayWidgetPath(const QUrl& screenPlayWidgetPath);
 
     bool getOfflineMode() const;
+    void loadActiveProfiles();
 
 signals:
     void autostartChanged(bool autostart);

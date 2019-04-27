@@ -101,6 +101,13 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
         m_localStoragePath = QUrl::fromUserInput(configObj.value("absoluteStoragePath").toString());
     }
 
+
+    if (m_qSettings.value("ScreenPlayInstalledPath").isNull()) {
+        m_qSettings.setValue("ScreenPlayInstalledPath", QDir::toNativeSeparators(m_localStoragePath.toString().remove("file:///")));
+        m_qSettings.sync();
+    }
+
+
     m_ilm->setabsoluteStoragePath(m_localStoragePath);
     m_plm->m_localStoragePath = m_localStoragePath;
 

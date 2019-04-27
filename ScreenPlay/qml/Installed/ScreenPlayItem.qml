@@ -139,16 +139,13 @@ Item {
                 id: screenPlayItemImage
                 anchors.fill: parent
                 sourceImage: Qt.resolvedUrl(
-                                 screenPlayItem.absoluteStoragePath
-                                 + "/" + screenPreview)
+                                 screenPlayItem.absoluteStoragePath + "/" + screenPreview)
                 sourceImageGIF: {
                     if (screenPreviewGIF === undefined) {
                         return ""
                     } else {
                         return Qt.resolvedUrl(
-                                    screenPlayItem.absoluteStoragePath
-                                    + "/" + screenPreviewGIF)
-
+                                    screenPlayItem.absoluteStoragePath + "/" + screenPreviewGIF)
                     }
                 }
             }
@@ -176,7 +173,6 @@ Item {
                     left: parent.left
                     bottom: parent.bottom
                 }
-
             }
         }
 

@@ -27,36 +27,29 @@ class ScreenPlayWidget;
 using RefSPWall = QSharedPointer<ScreenPlayWallpaper>;
 using RefSPWidget = QSharedPointer<ScreenPlayWidget>;
 
-class ScreenPlay final: public QObject {
+class ScreenPlay final : public QObject {
     Q_OBJECT
 private:
-    InstalledListModel *const m_ilm{nullptr};
-    Settings *const           m_settings{nullptr};
-    MonitorListModel *const   m_mlm{nullptr};
-    QGuiApplication *const    m_qGuiApplication{nullptr};
-    SDKConnector *const       m_sdkc{nullptr};
-    std::vector<RefSPWall>   m_screenPlayWallpaperList;
+    InstalledListModel* const m_ilm { nullptr };
+    Settings* const m_settings { nullptr };
+    MonitorListModel* const m_mlm { nullptr };
+    QGuiApplication* const m_qGuiApplication { nullptr };
+    SDKConnector* const m_sdkc { nullptr };
+    std::vector<RefSPWall> m_screenPlayWallpaperList;
     std::vector<RefSPWidget> m_screenPlayWidgetList;
 
 public:
     // constructor(s)
     explicit ScreenPlay(
-            InstalledListModel* ilm, Settings* set,
-            MonitorListModel* mlm, SDKConnector* sdkc,
-            QObject* parent = nullptr);
-
-    // copy and move disable(for now) : remember rule of 1/3/5
-    Q_DISABLE_COPY_MOVE(ScreenPlay)
-
-    // destructor
+        InstalledListModel* ilm, Settings* set,
+        MonitorListModel* mlm, SDKConnector* sdkc,
+        QObject* parent = nullptr);
     ~ScreenPlay();
 
-    // getters
-    const InstalledListModel* listModelInstalled() const noexcept;
+    // copy and move disable(for now) : remember rule of 1/3/5
+    //Q_DISABLE_COPY_MOVE(ScreenPlay)
+
     const Settings* settings() const noexcept;
-    const MonitorListModel* monitorListModel() const noexcept;
-    const QGuiApplication* guiApp() const noexcept;
-    const SDKConnector* sdkConnector() const noexcept;
     const std::vector<RefSPWall>& spWallList() const noexcept;
     const std::vector<RefSPWidget>& spWidgetList() const noexcept;
 
@@ -67,9 +60,9 @@ signals:
 
 public slots:
     void createWallpaper(
-            const int monitorIndex, QUrl absoluteStoragePath,
-            const QString& previewImage, const float volume,
-            const QString& fillMode, const QString& type);
+        const int monitorIndex, QUrl absoluteStoragePath,
+        const QString& previewImage, const float volume,
+        const QString& fillMode, const QString& type);
     void createWidget(QUrl absoluteStoragePath, const QString& previewImage);
     void removeAllWallpaper() noexcept;
     void requestProjectSettingsListModelAt(const int index) const noexcept;
@@ -85,7 +78,7 @@ public slots:
     \brief Used for ...
 */
 
-class ScreenPlayWallpaper final: public QObject {
+class ScreenPlayWallpaper final : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(std::vector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
@@ -100,22 +93,20 @@ private:
     QString m_previewImage;
     QString m_type;
     QString m_appID;
-    QProcess *m_process;
+    QProcess* m_process;
     QSharedPointer<ProjectSettingsListModel> m_projectSettingsListModel;
 
 public:
     // constructor(s)
     explicit ScreenPlayWallpaper(const std::vector<int>& screenNumber, const QString& projectPath,
-                                 const QString& previewImage, const float volume, const QString& fillMode,
-                                 const QString& type, ScreenPlay *parent = nullptr);
+        const QString& previewImage, const float volume, const QString& fillMode,
+        const QString& type, ScreenPlay* parent = nullptr);
 
     // copy and move disable(for now) : remember rule of 1/3/5
-    Q_DISABLE_COPY_MOVE(ScreenPlayWallpaper)
+    //Q_DISABLE_COPY_MOVE(ScreenPlayWallpaper)
 
-    // destructor
     ~ScreenPlayWallpaper();
 
-    // getters
     const std::vector<int>& screenNumber() const noexcept;
     const QString& projectPath() const noexcept;
     const QString& previewImage() const noexcept;
@@ -144,7 +135,7 @@ public slots:
     \brief Used for ...
 */
 
-class ScreenPlayWidget final: public QObject {
+class ScreenPlayWidget final : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
@@ -159,20 +150,18 @@ private:
     QString m_fullPath;
     QString m_appID;
     QPoint m_position;
-    QProcess *m_process;
+    QProcess* m_process;
 
 public:
     // constructor(s)
     explicit ScreenPlayWidget(const QString& projectPath, const QString& previewImage,
-                     const QString& fullPath, ScreenPlay *parent = nullptr);
+        const QString& fullPath, ScreenPlay* parent = nullptr);
 
     // copy and move disable(for now) : remember rule of 1/3/5
-    Q_DISABLE_COPY_MOVE(ScreenPlayWidget)
+    //Q_DISABLE_COPY_MOVE(ScreenPlayWidget)
 
-    // destructor
     ~ScreenPlayWidget();
 
-    // getters
     const QString& projectPath() const noexcept;
     const QString& previewImage() const noexcept;
     const QString& fullPath() const noexcept;
