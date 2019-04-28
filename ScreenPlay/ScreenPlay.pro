@@ -13,6 +13,8 @@ SOURCES += main.cpp \
     src/createimportvideo.cpp \
     src/installedlistmodel.cpp \
     src/monitorlistmodel.cpp \
+    src/screenplaywallpaper.cpp \
+    src/screenplaywidget.cpp \
     src/settings.cpp \
     src/profilelistmodel.cpp \
     src/profile.cpp \
@@ -34,6 +36,8 @@ HEADERS += \
     src/createimportvideo.h \
     src/installedlistmodel.h \
     src/monitorlistmodel.h \
+    src/screenplaywallpaper.h \
+    src/screenplaywidget.h \
     src/settings.h \
     src/profilelistmodel.h \
     src/profile.h \

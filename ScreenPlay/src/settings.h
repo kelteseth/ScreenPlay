@@ -290,6 +290,7 @@ public slots:
         emit offlineModeChanged(m_offlineMode);
     }
 
+    void loadActiveProfiles();
 private:
     void createDefaultConfig();
     void setupWidgetAndWindowPaths();
