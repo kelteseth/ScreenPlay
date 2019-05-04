@@ -37,7 +37,9 @@ public:
         const QString& type, ScreenPlay* parent = nullptr);
 
     // copy and move disable(for now) : remember rule of 1/3/5
-    Q_DISABLE_COPY_MOVE(ScreenPlayWallpaper)
+    Q_DISABLE_COPY(ScreenPlayWallpaper)
+    ScreenPlayWallpaper(ScreenPlayWallpaper&& rhs);
+    ScreenPlayWallpaper& operator=(ScreenPlayWallpaper&& rhs);
 
     // destructor
     ~ScreenPlayWallpaper();

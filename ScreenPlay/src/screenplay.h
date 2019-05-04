@@ -45,8 +45,10 @@ public:
         MonitorListModel* mlm, SDKConnector* sdkc,
         QObject* parent = nullptr);
 
-    // copy and move disable(for now) : remember rule of 1/3/5
-    Q_DISABLE_COPY_MOVE(ScreenPlay)
+    // copy and move disabled(for now) : remember rule of 1/3/5
+    Q_DISABLE_COPY(ScreenPlay)
+    ScreenPlay(ScreenPlay&&) = delete;
+    ScreenPlay& operator=(ScreenPlay&&) = delete;
 
     // destructor
     ~ScreenPlay();

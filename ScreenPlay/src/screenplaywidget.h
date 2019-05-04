@@ -32,7 +32,10 @@ public:
         const QString& fullPath, ScreenPlay* parent = nullptr);
 
     // copy and move disable(for now) : remember rule of 1/3/5
-    Q_DISABLE_COPY_MOVE(ScreenPlayWidget)
+    //Q_DISABLE_COPY_MOVE(ScreenPlayWidget)
+    Q_DISABLE_COPY(ScreenPlayWidget)
+    ScreenPlayWidget(ScreenPlayWidget&&) = delete;
+    ScreenPlayWidget& operator=(ScreenPlayWidget&&) = delete;
 
     // destructor
     ~ScreenPlayWidget();
