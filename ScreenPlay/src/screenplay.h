@@ -24,8 +24,8 @@ class ScreenPlayWallpaper;
 class ScreenPlayWidget;
 
 // convenience types
-using RefSPWall = QSharedPointer<ScreenPlayWallpaper>;
-using RefSPWidget = QSharedPointer<ScreenPlayWidget>;
+using UPtrSPWall = std::unique_ptr<ScreenPlayWallpaper>;
+using UPtrSPWidget = std::unique_ptr<ScreenPlayWidget>;
 
 class ScreenPlay final : public QObject {
     Q_OBJECT
@@ -35,8 +35,8 @@ private:
     MonitorListModel* const m_mlm { nullptr };
     QGuiApplication* const m_qGuiApplication { nullptr };
     SDKConnector* const m_sdkc { nullptr };
-    std::vector<RefSPWall> m_screenPlayWallpaperList;
-    std::vector<RefSPWidget> m_screenPlayWidgetList;
+    std::vector<UPtrSPWall> m_screenPlayWallpapers;
+    std::vector<UPtrSPWidget> m_screenPlayWidgets;
 
 public:
     // constructor(s)
@@ -59,8 +59,8 @@ public:
     const MonitorListModel* monitorListModel() const noexcept;
     const QGuiApplication* guiApp() const noexcept;
     const SDKConnector* sdkConnector() const noexcept;
-    const std::vector<RefSPWall>& spWallList() const noexcept;
-    const std::vector<RefSPWidget>& spWidgetList() const noexcept;
+    const std::vector<UPtrSPWall>& spWallList() const noexcept;
+    const std::vector<UPtrSPWidget>& spWidgetList() const noexcept;
 
 signals:
     void allWallpaperRemoved() const;
