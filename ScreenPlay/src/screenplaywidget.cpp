@@ -1,42 +1,38 @@
 #include "screenplay.h"
 #include "screenplaywidget.h"
 
-#include <QProcess>
+
 
 ScreenPlayWidget::ScreenPlayWidget(const QString& projectPath, const QString& previewImage,
     const QString& fullPath, ScreenPlay* parent)
-    : m_projectPath { projectPath }
+    : QObject{ parent }
+    , m_projectPath { projectPath }
     , m_previewImage { previewImage }
     , m_fullPath { fullPath }
     , m_appID { parent ? parent->generateID() : QString {} }
     , m_position { 0, 0 }
-    , m_process { nullptr }
+    , m_process { this } //PLS LESS BEHINDERT @Elias
 {
-    QStringList proArgs;
-    proArgs.append(m_projectPath);
-    proArgs.append(m_appID);
-
-    m_process = new QProcess(this); //PLS LESS BEHINDERT @Elias
-    m_process->setArguments(proArgs);
+    const QStringList proArgs{ m_projectPath, m_appID};
+    m_process.setArguments(proArgs);
 
     if (fullPath.endsWith(".exe")) {
-        m_process->setProgram(fullPath);
+        m_process.setProgram(fullPath);
     } else if (fullPath.endsWith(".qml")) {
-        m_process->setProgram(parent->settings()->getScreenPlayWidgetPath().path());
+        m_process.setProgram(parent->settings()->getScreenPlayWidgetPath().path());
     }
 
-    qDebug() << m_process->program();
+    qDebug() << m_process.program();
 
-    QObject::connect(m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
+    QObject::connect(&m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
         qDebug() << "error: " << error;
     });
-    m_process->start();
+    m_process.start();
 }
 
 ScreenPlayWidget::~ScreenPlayWidget()
 {
-    if (m_process)
-        delete m_process;
+    //if (m_process)         delete m_process;
 }
 
 const QString& ScreenPlayWidget::projectPath() const noexcept

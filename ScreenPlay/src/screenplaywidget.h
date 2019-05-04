@@ -1,13 +1,14 @@
 #pragma once
 
 #include <QObject>
+#include <QPoint>
+#include <QProcess>
 
 /*!
     \class ScreenPlayWidget
     \brief Used for ...
 */
 class ScreenPlay;
-class QProcess;
 
 class ScreenPlayWidget final : public QObject {
     Q_OBJECT
@@ -24,7 +25,7 @@ private:
     QString m_fullPath;
     QString m_appID;
     QPoint m_position;
-    QProcess* m_process;
+    QProcess m_process;
 
 public:
     // constructor(s)

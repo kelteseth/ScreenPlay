@@ -1,7 +1,7 @@
 #include "screenplay.h"
 #include "screenplaywallpaper.h"
 
-#include <QProcess>
+
 
 ScreenPlayWallpaper::ScreenPlayWallpaper(const std::vector<int>& screenNumber, const QString& projectPath,
     const QString& previewImage, const float volume,
@@ -12,42 +12,42 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const std::vector<int>& screenNumber, c
     , m_previewImage { previewImage }
     , m_type { type }
     , m_appID { parent ? parent->generateID() : QString {} }
-    , m_process { nullptr }
+    , m_process { this }
     , m_projectSettingsListModel { QSharedPointer<ProjectSettingsListModel>::create(projectPath + "/project.json") }
 {
-    QStringList proArgs;
-    proArgs.append(QString::number(m_screenNumber.empty() ? 0 : m_screenNumber[0]));
-    proArgs.append(m_projectPath);
-    proArgs.append("appID=" + m_appID);
-    proArgs.append(parent ? parent->settings()->decoder() : QString {});
-    proArgs.append(QString::number(static_cast<double>(volume)));
-    proArgs.append(fillMode);
+    const QStringList proArgs {
+       QString::number(m_screenNumber.empty() ? 0 : m_screenNumber[0]),
+       m_projectPath,
+       QString{"appID=" + m_appID},
+       parent ? parent->settings()->decoder() : QString {},
+       QString::number(static_cast<double>(volume)),
+       fillMode
+    };
 
-    qDebug() << proArgs;
+    qDebug() << "creating ScreenPlayWallpaper...\n" << proArgs;
 
     // We do not want to parent the QProcess because the
     // Process manages its lifetime and destructing (animation) itself
     // via a disconnection from the ScreenPlay SDK
-    QProcess* m_process = new QProcess();
+    // QProcess m_process = new QProcess();
 
-    QObject::connect(m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
+    QObject::connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
         [=](int exitCode, QProcess::ExitStatus exitStatus) {
             if (exitCode != 0)
                 qDebug() << "WARNING EXIT CODE: " << exitCode;
         });
-    QObject::connect(m_process, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
+    QObject::connect(&m_process, &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
         qDebug() << "EX: " << error;
     });
 
-    m_process->setArguments(proArgs);
-    m_process->setProgram(parent->settings()->screenPlayWindowPath().toString());
-    m_process->start();
+    m_process.setArguments(proArgs);
+    m_process.setProgram(parent->settings()->screenPlayWindowPath().toString());
+    m_process.start();
 }
 
 ScreenPlayWallpaper::~ScreenPlayWallpaper()
 {
-    if (m_process)
-        delete m_process;
+    //if (m_process) delete m_process;
 }
 
 const std::vector<int>& ScreenPlayWallpaper::screenNumber() const noexcept

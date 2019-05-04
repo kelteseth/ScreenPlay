@@ -1,6 +1,7 @@
 #pragma once
 
 #include <QObject>
+#include <QProcess>
 
 #include "projectsettingslistmodel.h"
 
@@ -10,7 +11,6 @@
 */
 
 class ScreenPlay;
-class QProcess;
 
 class ScreenPlayWallpaper final : public QObject {
     Q_OBJECT
@@ -27,7 +27,7 @@ private:
     QString m_previewImage;
     QString m_type;
     QString m_appID;
-    QProcess* m_process;
+    QProcess m_process;
     QSharedPointer<ProjectSettingsListModel> m_projectSettingsListModel;
 
 public:
