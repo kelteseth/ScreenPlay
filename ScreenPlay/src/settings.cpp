@@ -1,17 +1,35 @@
 #include "settings.h"
-#include <QGuiApplication>
-#include <QStandardPaths>
 
-Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, QObject* parent)
+/*!
+    \class Settings
+    \brief Used for:
+    \list
+        \i User configuration
+        \i Communication via the SDK Connector
+    \endlist
+
+*/
+
+Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
+    const shared_ptr<ProfileListModel>& plm,
+    const shared_ptr<MonitorListModel>& mlm,
+    const shared_ptr<SDKConnector>& sdkc,
+    QObject* parent)
     : QObject(parent)
     , m_version(QVersionNumber(0, 0, 1))
+    , m_plm(plm)
+    , m_ilm(ilm)
+    , m_mlm(mlm)
+    , m_sdkc(sdkc)
 {
+    auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
 
-    m_plm = plm;
-    m_mlm = mlm;
-    m_ilm = ilm;
-    m_sdkc = sdkc;
-    m_app = static_cast<QGuiApplication*>(QGuiApplication::instance());
+    QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Light.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Thin.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Light.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Thin.ttf");
 
     if (m_qSettings.value("language").isNull()) {
         auto locale = QLocale::system().uiLanguages();
@@ -24,13 +42,13 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
             m_translator.load(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm");
             m_qSettings.setValue("language", QVariant(localeSplits.at(0)));
             m_qSettings.sync();
-            m_app->installTranslator(&m_translator);
+            app->installTranslator(&m_translator);
         }
     } else {
         QFile tsFile;
         if (tsFile.exists(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm")) {
             m_translator.load(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm");
-            m_app->installTranslator(&m_translator);
+            app->installTranslator(&m_translator);
         }
     }
 
@@ -101,12 +119,10 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
         m_localStoragePath = QUrl::fromUserInput(configObj.value("absoluteStoragePath").toString());
     }
 
-
     if (m_qSettings.value("ScreenPlayInstalledPath").isNull()) {
         m_qSettings.setValue("ScreenPlayInstalledPath", QDir::toNativeSeparators(m_localStoragePath.toString().remove("file:///")));
         m_qSettings.sync();
     }
-
 
     m_ilm->setabsoluteStoragePath(m_localStoragePath);
     m_plm->m_localStoragePath = m_localStoragePath;
@@ -114,17 +130,8 @@ Settings::Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListMo
     m_autostart = configObj.value("autostart").toBool();
     m_highPriorityStart = configObj.value("highPriorityStart").toBool();
     m_sendStatistics = configObj.value("sendStatistics").toBool();
-    int renderer = static_cast<int>(configObj.value("renderer-value").toInt());
-
-    m_checkForOtherFullscreenApplicationTimer = new QTimer(this);
-    connect(m_checkForOtherFullscreenApplicationTimer, &QTimer::timeout, this, &Settings::checkForOtherFullscreenApplication);
-    m_checkForOtherFullscreenApplicationTimer->start(1500);
 
     setupWidgetAndWindowPaths();
-}
-
-Settings::~Settings()
-{
 }
 
 QString Settings::loadProject(QString file)
@@ -169,20 +176,6 @@ void Settings::loadActiveProfiles()
             //            constructWallpaper(profile, monitorID, spf);
         }
     }
-}
-
-void Settings::setGlobalVolume(float volume)
-{
-    //    for (int i = 0; i < m_wallpapers.size(); ++i) {
-    //        m_wallpapers.at(i).data()->setVolume(volume);
-    //    }
-}
-
-void Settings::setGlobalFillMode(QString fillMode)
-{
-    //    for (int i = 0; i < m_wallpapers.size(); ++i) {
-    //        m_wallpapers.at(i).data()->setFillMode(fillMode);
-    //    }
 }
 
 void Settings::writeSingleSettingConfig(QString name, QVariant value)
@@ -280,33 +273,6 @@ void Settings::setqSetting(const QString& key, const QString& value)
 {
     m_qSettings.setValue(key, value);
     m_qSettings.sync();
-}
-
-void Settings::setMuteAll(bool isMuted)
-{
-
-    //    if (isMuted) {
-    //        for (int i = 0; i < m_wallpapers.size(); ++i) {
-    //            m_wallpapers.at(i).data()->setVolume(0.0f);
-    //        }
-    //    } else {
-    //        for (int i = 0; i < m_wallpapers.size(); ++i) {
-    //            m_wallpapers.at(i).data()->setVolume(1.0f);
-    //        }
-    //    }
-}
-
-void Settings::setPlayAll(bool isPlaying)
-{
-    //    if (isPlaying) {
-    //        for (int i = 0; i < m_wallpapers.size(); ++i) {
-    //            m_wallpapers.at(i).data()->setIsPlaying(true);
-    //        }
-    //    } else {
-    //        for (int i = 0; i < m_wallpapers.size(); ++i) {
-    //            m_wallpapers.at(i).data()->setIsPlaying(false);
-    //        }
-    //    }
 }
 
 void Settings::createDefaultConfig()
@@ -417,21 +383,4 @@ QUrl Settings::getScreenPlayWindowPath() const
 void Settings::setScreenPlayWindowPath(const QUrl& screenPlayWindowPath)
 {
     m_screenPlayWindowPath = screenPlayWindowPath;
-}
-
-void Settings::checkForOtherFullscreenApplication()
-{
-#ifdef Q_OS_WIN
-
-    HWND hWnd = GetForegroundWindow();
-    RECT appBounds;
-    RECT rc;
-    GetWindowRect(GetDesktopWindow(), &rc);
-#endif
-    //    if(hWnd =! (HWND)GetDesktopWindow() && hWnd != (HWND)GetShellWindow())
-    //    {
-    //        GetWindowRect(hWnd, &appBounds);
-    //    } else {
-
-    //    }
 }

@@ -1,12 +1,30 @@
 #include "create.h"
 
-Create::Create(Settings* st, QMLUtilities* util, QObject* parent)
+/*!
+    \class Create
+    \since 1.0
+    \brief  Baseclass for creating wallapers, widgets and the corresponding
+            wizards. As for this writing (April 2019) it is solely used to
+            import webm wallpaper and create the gif/web 5 second previews.
+    \todo
+            - This class would need to be refactored to be used in more creation types.
+*/
+
+Create::Create(const shared_ptr<Settings>& settings, QObject* parent)
     : QObject(parent)
+    , m_settings(settings)
+
 {
+    qRegisterMetaType<CreateImportVideo::State>();
+    qmlRegisterType<Create>("net.aimber.create", 1, 0, "Create");
+    qmlRegisterType<CreateImportVideo>("net.aimber.create", 1, 0, "CreateImportVideo");
+}
 
-    m_settings = st;
-    m_utils = util;
-
+// Constructor for the QMLEngine
+Create::Create()
+    : QObject(nullptr)
+    , m_settings(nullptr)
+{
     qRegisterMetaType<CreateImportVideo::State>();
     qmlRegisterType<Create>("net.aimber.create", 1, 0, "Create");
     qmlRegisterType<CreateImportVideo>("net.aimber.create", 1, 0, "CreateImportVideo");

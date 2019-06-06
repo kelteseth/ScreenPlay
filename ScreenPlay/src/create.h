@@ -26,15 +26,8 @@
 #include "qmlutilities.h"
 #include "settings.h"
 
-/*!
-    \class Create
-    \since 1.0
-    \brief  Baseclass for creating wallapers, widgets and the corresponding
-            wizards. As for this writing (April 2019) it is solely used to
-            import webm wallpaper and create the gif/web 5 second previews.
-    \todo
-            - This class would need to be refactored to be used in more creation types.
-*/
+using std::shared_ptr,
+    std::make_shared;
 
 class Create : public QObject {
     Q_OBJECT
@@ -43,9 +36,9 @@ class Create : public QObject {
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
 
 public:
-    explicit Create(Settings* st, QMLUtilities* util, QObject* parent = nullptr);
-
-    Create() {}
+    explicit Create(const shared_ptr<Settings>& settings,
+        QObject* parent = nullptr);
+    Create();
     ~Create() {}
 
     float progress() const
@@ -90,9 +83,9 @@ public slots:
 
 private:
     CreateImportVideo* m_createImportVideo;
-    Settings* m_settings;
     QThread* m_createImportVideoThread;
-    QMLUtilities* m_utils;
+
+    const shared_ptr<Settings> m_settings;
 
     float m_progress = 0.0f;
     QString m_workingDir;

@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QFile>
+#include <QFontDatabase>
 #include <QGuiApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -25,6 +26,8 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QtGlobal>
 
+#include <memory>
+
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "profile.h"
@@ -36,23 +39,15 @@
 #include <qt_windows.h>
 #endif
 
-/*!
-    \class Settings
-    \brief Used for:
-    \list
-        \i User configuration
-        \i Communication via the SDK Connector
-    \endlist
-
-*/
-
 class ActiveProfile;
+
+using std::shared_ptr,
+    std::make_shared;
 
 class Settings : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QVersionNumber version READ version)
-    Q_PROPERTY(bool hasWorkshopBannerSeen READ hasWorkshopBannerSeen WRITE setHasWorkshopBannerSeen NOTIFY hasWorkshopBannerSeenChanged)
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
@@ -63,8 +58,13 @@ class Settings : public QObject {
     Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
 
 public:
-    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, QObject* parent = nullptr);
-    ~Settings();
+    explicit Settings(
+        const shared_ptr<InstalledListModel>& ilm,
+        const shared_ptr<ProfileListModel>& plm,
+        const shared_ptr<MonitorListModel>& mlm,
+        const shared_ptr<SDKConnector>& sdkc,
+        QObject* parent = nullptr);
+    ~Settings() {}
 
     enum LocalCopyResult {
         NoError,
@@ -87,11 +87,6 @@ public:
     QUrl localStoragePath() const
     {
         return m_localStoragePath;
-    }
-
-    bool hasWorkshopBannerSeen() const
-    {
-        return m_hasWorkshopBannerSeen;
     }
 
     int activeWallpaperCounter() const
@@ -119,7 +114,6 @@ public:
     void setScreenPlayWidgetPath(const QUrl& screenPlayWidgetPath);
 
     bool getOfflineMode() const;
-    void loadActiveProfiles();
 
 signals:
     void autostartChanged(bool autostart);
@@ -136,11 +130,6 @@ signals:
     void allDataProtectionLoaded(QString dataProtectionText);
 
 public slots:
-    void setMuteAll(bool isMuted);
-    void setPlayAll(bool isPlaying);
-    void checkForOtherFullscreenApplication();
-    void setGlobalVolume(float volume);
-    void setGlobalFillMode(QString fillMode);
     void writeSingleSettingConfig(QString name, QVariant value);
     void requestAllLicenses();
     void requestAllLDataProtection();
@@ -241,15 +230,6 @@ public slots:
         emit decoderChanged(m_decoder);
     }
 
-    void setHasWorkshopBannerSeen(bool hasWorkshopBannerSeen)
-    {
-        if (m_hasWorkshopBannerSeen == hasWorkshopBannerSeen)
-            return;
-
-        m_hasWorkshopBannerSeen = hasWorkshopBannerSeen;
-        emit hasWorkshopBannerSeenChanged(m_hasWorkshopBannerSeen);
-    }
-
     void setActiveWallpaperCounter(int activeWallpaperCounter)
     {
         if (m_activeWallpaperCounter == activeWallpaperCounter)
@@ -292,6 +272,8 @@ public slots:
         emit offlineModeChanged(m_offlineMode);
     }
 
+    void loadActiveProfiles();
+
 private:
     void createDefaultConfig();
     void setupWidgetAndWindowPaths();
@@ -299,12 +281,11 @@ private:
     QVersionNumber m_version;
     QSettings m_qSettings;
     QTranslator m_translator;
-    ProfileListModel* m_plm;
-    InstalledListModel* m_ilm;
-    MonitorListModel* m_mlm;
-    SDKConnector* m_sdkc;
 
-    QTimer* m_checkForOtherFullscreenApplicationTimer;
+    const shared_ptr<ProfileListModel> m_plm;
+    const shared_ptr<InstalledListModel> m_ilm;
+    const shared_ptr<MonitorListModel> m_mlm;
+    const shared_ptr<SDKConnector> m_sdkc;
 
     QUrl m_localStoragePath;
     QUrl m_localSettingsPath;
@@ -312,15 +293,12 @@ private:
     QUrl m_screenPlayWidgetPath;
     QUrl m_screenPlayBasePath;
 
-    bool m_hasWorkshopBannerSeen = false;
     bool m_pauseWallpaperWhenIngame = true;
     bool m_autostart = true;
     bool m_highPriorityStart = true;
-    bool m_sendStatistics;
-
-    QString m_decoder;
-    int m_activeWallpaperCounter = 0;
-    QGuiApplication* m_app;
-
+    bool m_sendStatistics = false;
     bool m_offlineMode = true;
+
+    QString m_decoder = "";
+    int m_activeWallpaperCounter = 0;
 };
