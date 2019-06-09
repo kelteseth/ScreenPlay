@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
 {
 
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setOrganizationName("Aimber");
+    QGuiApplication::setOrganizationName("Kelteseth");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion("0.2.0");
@@ -78,6 +78,9 @@ int main(int argc, char* argv[])
     // Instead of setting "renderType: Text.NativeRendering" every time
     // we can set it here once :)
     auto* window = static_cast<QQuickWindow*>(mainWindowEngine.rootObjects().first());
+    if(!window)
+        qFatal("Could not receive window to set font rendering.");
+
     window->setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
     // Set visible if the -silent parameter was not set

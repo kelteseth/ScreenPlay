@@ -66,14 +66,6 @@ public:
         QObject* parent = nullptr);
     ~Settings() {}
 
-    enum LocalCopyResult {
-        NoError,
-        CopyError,
-        NotEnoughDiskSpace,
-        NameCollision,
-    };
-    Q_ENUM(LocalCopyResult)
-
     QVersionNumber version() const
     {
         return m_version;
@@ -213,11 +205,11 @@ public slots:
 
         writeSingleSettingConfig("absoluteStoragePath", cleanedPath);
 
-        m_ilm->setabsoluteStoragePath(cleanedPath.toString());
+        m_installedListModel->setabsoluteStoragePath(cleanedPath.toString());
         m_localStoragePath = cleanedPath.toString();
         emit localStoragePathChanged(cleanedPath.toString());
-        m_ilm->reset();
-        m_ilm->loadInstalledContent();
+        m_installedListModel->reset();
+        m_installedListModel->loadInstalledContent();
     }
 
     void setDecoder(QString decoder)
@@ -282,10 +274,10 @@ private:
     QSettings m_qSettings;
     QTranslator m_translator;
 
-    const shared_ptr<ProfileListModel> m_plm;
-    const shared_ptr<InstalledListModel> m_ilm;
-    const shared_ptr<MonitorListModel> m_mlm;
-    const shared_ptr<SDKConnector> m_sdkc;
+    const shared_ptr<ProfileListModel> m_profileListModel;
+    const shared_ptr<InstalledListModel> m_installedListModel;
+    const shared_ptr<MonitorListModel> m_monitorListModel;
+    const shared_ptr<SDKConnector> m_sdkconnector;
 
     QUrl m_localStoragePath;
     QUrl m_localSettingsPath;

@@ -17,10 +17,10 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     QObject* parent)
     : QObject(parent)
     , m_version(QVersionNumber(0, 0, 1))
-    , m_plm(plm)
-    , m_ilm(ilm)
-    , m_mlm(mlm)
-    , m_sdkc(sdkc)
+    , m_profileListModel(plm)
+    , m_installedListModel(ilm)
+    , m_monitorListModel(mlm)
+    , m_sdkconnector(sdkc)
 {
     auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
 
@@ -91,10 +91,10 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     configObj = configJsonDocument.object();
 
     QString tmp(configObj.value("version").toVariant().toString());
-    int major, minor, patch;
-    major = QString(tmp.at(0)).toInt();
-    minor = QString(tmp.at(2)).toInt();
-    patch = QString(tmp.at(4)).toInt();
+
+    int major = QString(tmp.at(0)).toInt();
+    int minor = QString(tmp.at(2)).toInt();
+    int patch = QString(tmp.at(4)).toInt();
     QVersionNumber fileVersion(major, minor, patch);
 
     //Checks if the settings file has the same version as ScreeenPlay
@@ -124,8 +124,8 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
         m_qSettings.sync();
     }
 
-    m_ilm->setabsoluteStoragePath(m_localStoragePath);
-    m_plm->m_localStoragePath = m_localStoragePath;
+    m_installedListModel->setabsoluteStoragePath(m_localStoragePath);
+    m_profileListModel->m_localStoragePath = m_localStoragePath;
 
     m_autostart = configObj.value("autostart").toBool();
     m_highPriorityStart = configObj.value("highPriorityStart").toBool();

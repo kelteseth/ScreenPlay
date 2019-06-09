@@ -8,10 +8,10 @@ Rectangle {
     anchors.fill: parent
     color: Material.color(Material.Grey, Material.Shade800)
 
-    property int attStrength: 8000000
+    property int attStrength: 800000
     //Emitter
     property bool isEnabled: true
-    property int emitRate: 25
+    property int emitRate: 250
     property int lifeSpan: 5000
     property int size: 4
     property int endSize: 8
@@ -30,8 +30,8 @@ Rectangle {
         }
 
         onPositionChanged: {
+            setPosition()
             if (ma.pressed) {
-                setPosition()
             }
         }
         onClicked: {
@@ -48,6 +48,7 @@ Rectangle {
         id: mouseDot
         property int center: mouseDot.width * .5
         width: 10
+        visible: false
         height: width
         radius: width
         color: "orange"

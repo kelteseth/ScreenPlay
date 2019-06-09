@@ -59,14 +59,13 @@ public slots:
     void setWallpaperValue(const int at, const QString& key, const QString& value) noexcept;
     void setAllWallpaperValue(const QString& key, const QString& value) noexcept;
     void removeWallpaperAt(const int at = 0);
-    vector<int> getMonitorByAppID(const QString& appID) const;
     QString generateID() const;
 
 private:
-    const shared_ptr<InstalledListModel> m_ilm;
+    const shared_ptr<InstalledListModel> m_installedListModel;
     const shared_ptr<Settings> m_settings;
-    const shared_ptr<MonitorListModel> m_mlm;
-    const shared_ptr<SDKConnector> m_sdkc;
+    const shared_ptr<MonitorListModel> m_monitorListModel;
+    const shared_ptr<SDKConnector> m_sdkconnector;
 
     QGuiApplication* const m_qGuiApplication;
     vector<unique_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
