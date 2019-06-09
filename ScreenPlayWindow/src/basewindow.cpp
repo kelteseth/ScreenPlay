@@ -3,11 +3,13 @@
 BaseWindow::BaseWindow(QObject* parent)
     : QObject(parent)
 {
+
 }
 
 BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
     : QObject(parent)
 {
+    QApplication::instance()->installEventFilter(this);
     qRegisterMetaType<BaseWindow::WallpaperType>();
     qmlRegisterType<BaseWindow>("net.aimber.wallpaper", 1, 0, "Wallpaper");
 
@@ -76,3 +78,4 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
         return;
     }
 }
+

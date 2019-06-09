@@ -34,6 +34,10 @@ private:
     void setupWallpaperForAllScreens();
     bool searchWorkerWindowToParentTo();
 
+
+signals:
+    void qmlSceneValueReceived(const QString key, const QString value);
+
 private:
     int m_windowOffsetX = 0;
     int m_windowOffsetY = 0;

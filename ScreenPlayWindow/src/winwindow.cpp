@@ -13,6 +13,53 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
     return TRUE;
 }
 
+HHOOK mouseHook;
+
+QQuickView* winGlobalHook = nullptr;
+
+LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
+{
+    Qt::MouseButton mouseButton {};
+    Qt::MouseButtons mouseButtons {};
+    Qt::KeyboardModifier keyboardModifier {};
+    QMouseEvent::Type type { QMouseEvent::Type::MouseMove };
+
+    if (nCode >= 0) {
+        switch (wParam) {
+        case WM_LBUTTONDOWN:
+            mouseButton = Qt::MouseButton::LeftButton;
+            mouseButtons.setFlag(Qt::LeftButton);
+            type = QMouseEvent::Type::MouseButtonPress;
+            break;
+        case WM_LBUTTONUP:
+            mouseButton = Qt::MouseButton::LeftButton;
+            mouseButtons.setFlag(Qt::LeftButton);
+            type = QMouseEvent::Type::MouseButtonRelease;
+            break;
+        case WM_RBUTTONDOWN:
+            mouseButton = Qt::MouseButton::RightButton;
+            mouseButtons.setFlag(Qt::RightButton);
+            type = QMouseEvent::Type::MouseButtonPress;
+            break;
+        }
+    }
+
+    POINT p {};
+    QPoint point { 0, 0 };
+    if (GetCursorPos(&p)) {
+        point.setX(p.x);
+        point.setY(p.y);
+    }
+
+    auto event = QMouseEvent(type, point, mouseButton, mouseButtons, keyboardModifier);
+
+    auto* app = QApplication::instance();
+
+    app->sendEvent(winGlobalHook, &event);
+
+    return CallNextHookEx(mouseHook, nCode, wParam, lParam);
+}
+
 WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QString id, QString volume)
     : BaseWindow(projectPath)
 {
@@ -59,11 +106,17 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setSource(QUrl("qrc:/mainWindow.qml"));
 
+    // MUST be called before setting hook for events!
+    winGlobalHook = &m_window;
+    if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
+        qDebug() << "Faild to install mouse hook!";
+    }
+
     // FIXME WORKAROUND:
     // There is a strange bug when we open the ScreenPlayWindow project on its one
     // that if we set ShowWindow(m_windowHandle, SW_HIDE); we can no longer set
     // the window visible via set Visible.
-    if(projectPath != "test"){
+    if (projectPath != "test") {
         // Let QML decide when were are read to show the window
         ShowWindow(m_windowHandle, SW_HIDE);
     }
@@ -72,10 +125,14 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
 void WinWindow::setVisible(bool show)
 {
     if (show) {
-        ShowWindow(m_windowHandle, SW_SHOW);
+        if (!ShowWindow(m_windowHandle, SW_SHOW)) {
+            qDebug() << "Cannot set window handle visible";
+        }
         m_window.show();
     } else {
-        ShowWindow(m_windowHandle, SW_HIDE);
+        if (!ShowWindow(m_windowHandle, SW_HIDE)) {
+            qDebug() << "Cannot set window handle hidden";
+        }
     }
 }
 
@@ -93,6 +150,7 @@ void WinWindow::destroyThis()
 
 void WinWindow::messageReceived(QString key, QString value)
 {
+    emit qmlSceneValueReceived(key, value);
 }
 
 void WinWindow::calcOffsets()

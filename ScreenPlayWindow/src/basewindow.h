@@ -8,7 +8,7 @@
 #include <QJsonParseError>
 #include <QObject>
 #include <QString>
-#include <qqml.h>
+#include <QtQml>
 
 class BaseWindow : public QObject {
     Q_OBJECT
