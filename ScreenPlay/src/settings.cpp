@@ -134,7 +134,6 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     setupWidgetAndWindowPaths();
 }
 
-
 void Settings::loadActiveProfiles()
 {
     QJsonDocument configJsonDocument;
@@ -237,7 +236,6 @@ void Settings::setupWidgetAndWindowPaths()
     QDir SPBaseDir(QDir::currentPath());
 
 #ifdef QT_DEBUG
-    qDebug() << "Starting in Debug mode!";
 
     if (SPWorkingDir.cdUp()) {
 #ifdef Q_OS_OSX

@@ -4,7 +4,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Extras 1.4
 import QtQuick.Controls.Material 2.2
 
-import "../"
+import "../Monitors"
 
 Item {
     id: sidebar

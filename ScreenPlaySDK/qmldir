@@ -1,2 +1,2 @@
-module app.screenplay.screenplaysdk
+module ScreenPlay.screenplaysdk
 plugin ScreenPlaySDK

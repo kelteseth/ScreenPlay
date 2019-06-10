@@ -224,7 +224,7 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 onClicked: Qt.openUrlExternally(
-                               "https://gitlab.com/aimber/ScreenPlay/")
+                               "https://gitlab.com/kelteseth/ScreenPlay/")
             }
             Button {
                 text: qsTr("Workshop")

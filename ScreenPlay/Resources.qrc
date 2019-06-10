@@ -77,7 +77,6 @@
         <file>main.qml</file>
         <file>qml/Community/Community.qml</file>
         <file>qml/Community/Feedback.qml</file>
-        <file>qml/Controls/Slider.qml</file>
         <file>qml/Create/Create.qml</file>
         <file>qml/Create/CreateNew.qml</file>
         <file>qml/Create/CreateUpload.qml</file>
@@ -85,21 +84,12 @@
         <file>qml/Create/CreateWidget.qml</file>
         <file>qml/Create/CreateWidgetButton.qml</file>
         <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperWizard.qml</file>
-        <file>qml/FileDropper.qml</file>
-        <file>qml/FileDropperSingleFile.qml</file>
         <file>qml/Installed/Installed.qml</file>
         <file>qml/Installed/InstalledNavigation.qml</file>
         <file>qml/Installed/InstalledUserHelper.qml</file>
         <file>qml/Installed/ScreenPlayItem.qml</file>
         <file>qml/Installed/ScreenPlayItemImage.qml</file>
         <file>qml/Installed/Sidebar.qml</file>
-        <file>qml/MonitorSelection.qml</file>
-        <file>qml/MonitorSelectionItem.qml</file>
-        <file>qml/Monitors.qml</file>
-        <file>qml/MonitorsProjectSettingItem.qml</file>
-        <file>qml/Navigation.qml</file>
-        <file>qml/NavigationItem.qml</file>
-        <file>qml/NavigationWallpaperConfiguration.qml</file>
         <file>qml/Settings/SettingBool.qml</file>
         <file>qml/Settings/Settings.qml</file>
         <file>qml/Settings/SettingsButton.qml</file>
@@ -107,7 +97,6 @@
         <file>qml/Settings/SettingsExpander.qml</file>
         <file>qml/Settings/SettingsHeader.qml</file>
         <file>qml/Settings/SettingsHorizontalSeperator.qml</file>
-        <file>qml/Widgets/Window.qml</file>
         <file>qml/Workshop/Workshop.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>settings.json</file>
@@ -115,7 +104,6 @@
         <file>translations/ScreenPlay_en.qm</file>
         <file>qml/Screen/Screen.qml</file>
         <file>assets/icons/icon_screen.svg</file>
-        <file>qml/Background.qml</file>
         <file>qml/Community/XMLNewsfeed.qml</file>
         <file>qml/Workshop/WorkshopAvailableTest.qml</file>
         <file>qml/Workshop/WorkshopLoader.qml</file>
@@ -125,5 +113,14 @@
         <file>qml/Common/Tag.qml</file>
         <file>assets/icons/icon_close.svg</file>
         <file>qml/Common/ImageSelector.qml</file>
+        <file>qml/Common/Slider.qml</file>
+        <file>qml/Monitors/Monitors.qml</file>
+        <file>qml/Monitors/MonitorSelection.qml</file>
+        <file>qml/Monitors/MonitorSelectionItem.qml</file>
+        <file>qml/Monitors/MonitorsProjectSettingItem.qml</file>
+        <file>qml/Common/Background.qml</file>
+        <file>qml/Navigation/Navigation.qml</file>
+        <file>qml/Navigation/NavigationItem.qml</file>
+        <file>qml/Navigation/NavigationWallpaperConfiguration.qml</file>
     </qresource>
 </RCC>

@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.3
 
-import app.screenplay.create 1.0
+import ScreenPlay.Create 1.0
 
 Item {
     id: createNew

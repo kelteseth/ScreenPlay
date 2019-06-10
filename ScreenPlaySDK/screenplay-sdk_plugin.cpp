@@ -5,7 +5,7 @@
 
 void ScreenPlay_SDKPlugin::registerTypes(const char *uri)
 {
-    // @uri app.screenplay.screenplaysdk
+    // @uri ScreenPlay.screenplaysdk
     qmlRegisterType<ScreenPlaySDK>(uri, 1, 0, "ScreenPlaySDK");
 }
 

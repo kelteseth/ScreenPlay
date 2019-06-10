@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 
 
-import "Workshop"
+import "../Workshop"
 
 Rectangle {
     id: navigation
@@ -14,7 +14,7 @@ Rectangle {
 
     signal changePage(string name)
 
-    property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity, navScreen]
+    property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity]
     property bool navActive: true
 
     Connections {
@@ -86,13 +86,6 @@ Rectangle {
             onPageClicked: navigation.onPageChanged(name)
         }
 
-        NavigationItem {
-            id: navScreen
-            state: "inactive"
-            name: "Screen"
-            iconSource: "qrc:/assets/icons/icon_screen.svg"
-            onPageClicked: navigation.onPageChanged(name)
-        }
 
         NavigationItem {
             id: navCommunity

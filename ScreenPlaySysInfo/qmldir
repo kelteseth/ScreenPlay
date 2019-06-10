@@ -1,2 +1,2 @@
-module app.screenplay.sysinfo
+module ScreenPlay.Sysinfo
 plugin ScreenPlaySysInfo
