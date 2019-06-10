@@ -11,7 +11,7 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
 {
     QApplication::instance()->installEventFilter(this);
     qRegisterMetaType<BaseWindow::WallpaperType>();
-    qmlRegisterType<BaseWindow>("net.aimber.wallpaper", 1, 0, "Wallpaper");
+    qmlRegisterType<BaseWindow>("app.screenplay.wallpaper", 1, 0, "Wallpaper");
 
     if (projectFilePath == "test") {
         setType(BaseWindow::WallpaperType::Qml);

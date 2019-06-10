@@ -78,7 +78,7 @@ int main(int argc, char* argv[])
     // Instead of setting "renderType: Text.NativeRendering" every time
     // we can set it here once :)
     auto* window = static_cast<QQuickWindow*>(mainWindowEngine.rootObjects().first());
-    if(!window)
+    if (!window)
         qFatal("Could not receive window to set font rendering.");
 
     window->setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);

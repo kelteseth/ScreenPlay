@@ -134,14 +134,6 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     setupWidgetAndWindowPaths();
 }
 
-QString Settings::loadProject(QString file)
-{
-    QFile configTmp;
-    //file = file.replace("file:///", "");
-    configTmp.setFileName(file);
-    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-    return configTmp.readAll();
-}
 
 void Settings::loadActiveProfiles()
 {
@@ -207,65 +199,11 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
     configTmp.close();
 }
 
-void Settings::requestAllLicenses()
+void Settings::saveWallpaperToConfig(const int monitorIndex, const QUrl& absoluteStoragePath, const QString& type)
 {
-
-    QtConcurrent::run([this]() {
-        QString tmp;
-        QFile file;
-        QTextStream out(&file);
-
-        file.setFileName(":/legal/Font Awesome Free License.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        tmp += out.readAll();
-        file.close();
-
-        file.setFileName(":/legal/gpl-3.0.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        tmp += out.readAll();
-        file.close();
-
-        file.setFileName(":/legal/gpl-3.0.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        tmp += out.readAll();
-        file.close();
-
-        file.setFileName(":/legal/OFL.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        tmp += out.readAll();
-        file.close();
-
-        file.setFileName(":/legal/OpenSSL.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        tmp += out.readAll();
-        file.close();
-
-        file.setFileName(":/legal/Qt LGPLv3.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        tmp += out.readAll();
-        file.close();
-
-        emit this->allLicenseLoaded(tmp);
-    });
 }
 
-void Settings::requestAllLDataProtection()
-{
-    QtConcurrent::run([this]() {
-        QString tmp;
-        QFile file;
-        QTextStream out(&file);
-
-        file.setFileName(":/legal/DataProtection.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        tmp += out.readAll();
-        file.close();
-
-        emit this->allDataProtectionLoaded(tmp);
-    });
-}
-
-void Settings::saveWallpaper(int monitorIndex, QUrl absoluteStoragePath, QStringList properties, QString type)
+void Settings::removeWallpaperFromConfig(const int monitorIndex)
 {
 }
 
@@ -348,39 +286,4 @@ void Settings::setupWidgetAndWindowPaths()
         setScreenPlayWidgetPath(QUrl("ScreenPlayWidget.exe"));
     }
 #endif
-}
-
-bool Settings::getOfflineMode() const
-{
-    return m_offlineMode;
-}
-
-QUrl Settings::getScreenPlayWidgetPath() const
-{
-    return m_screenPlayWidgetPath;
-}
-
-void Settings::setScreenPlayWidgetPath(const QUrl& screenPlayWidgetPath)
-{
-    m_screenPlayWidgetPath = screenPlayWidgetPath;
-}
-
-QUrl Settings::getScreenPlayBasePath() const
-{
-    return m_screenPlayBasePath;
-}
-
-void Settings::setScreenPlayBasePath(QUrl screenPlayBasePath)
-{
-    m_screenPlayBasePath = screenPlayBasePath;
-}
-
-QUrl Settings::getScreenPlayWindowPath() const
-{
-    return m_screenPlayWindowPath;
-}
-
-void Settings::setScreenPlayWindowPath(const QUrl& screenPlayWindowPath)
-{
-    m_screenPlayWindowPath = screenPlayWindowPath;
 }

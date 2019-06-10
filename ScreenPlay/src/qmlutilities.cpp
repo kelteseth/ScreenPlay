@@ -40,3 +40,61 @@ void QMLUtilities::openFolderInExplorer(QString url)
     explorer.startDetached();
 }
 
+void QMLUtilities::QMLUtilities::requestAllLicenses()
+{
+
+    QtConcurrent::run([this]() {
+        QString tmp;
+        QFile file;
+        QTextStream out(&file);
+
+        file.setFileName(":/legal/Font Awesome Free License.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        file.setFileName(":/legal/gpl-3.0.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        file.setFileName(":/legal/gpl-3.0.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        file.setFileName(":/legal/OFL.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        file.setFileName(":/legal/OpenSSL.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        file.setFileName(":/legal/Qt LGPLv3.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        emit this->allLicenseLoaded(tmp);
+    });
+}
+
+void QMLUtilities::QMLUtilities::requestAllLDataProtection()
+{
+    QtConcurrent::run([this]() {
+        QString tmp;
+        QFile file;
+        QTextStream out(&file);
+
+        file.setFileName(":/legal/DataProtection.txt");
+        file.open(QIODevice::ReadOnly | QIODevice::Text);
+        tmp += out.readAll();
+        file.close();
+
+        emit this->allDataProtectionLoaded(tmp);
+    });
+}
+

@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtWebEngine 1.8
-import net.aimber.wallpaper 1.0
+import app.screenplay.wallpaper 1.0
 
 Rectangle {
     id: root

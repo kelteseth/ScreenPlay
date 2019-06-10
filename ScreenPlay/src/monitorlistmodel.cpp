@@ -2,9 +2,10 @@
 
 MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
+    , m_qGuiApplication(static_cast<QGuiApplication*>(QGuiApplication::instance()))
 {
     loadMonitors();
-    m_qGuiApplication = static_cast<QGuiApplication*>(QGuiApplication::instance());
+
     connect(m_qGuiApplication, &QGuiApplication::screenAdded, this, &MonitorListModel::screenAdded);
     connect(m_qGuiApplication, &QGuiApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
 }
@@ -128,26 +129,16 @@ void MonitorListModel::wallpaperRemoved()
 {
 }
 
-bool MonitorListModel::getMonitorListItemAt(int position, Monitor* monitor)
-{
-    //TODO Reimplement wallpaper replacement
-    //    if (position < 0 && position > m_monitorList.size()) {
-    //        return false;
-    //    } else {
-    //        *monitor = m_monitorList.at(position);
-    //        return true;
-    //    }
-    return true;
-}
-
 void MonitorListModel::screenAdded(QScreen* screen)
 {
+    Q_UNUSED(screen)
     reset();
     loadMonitors();
 }
 
 void MonitorListModel::screenRemoved(QScreen* screen)
 {
+    Q_UNUSED(screen)
     reset();
     loadMonitors();
 }
@@ -184,10 +175,6 @@ void MonitorListModel::reloadMonitors()
     m_monitorList.squeeze();
     endResetModel();
     loadMonitors();
-}
-
-Monitor::Monitor()
-{
 }
 
 Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry, QRect geometry, QScreen* screen)

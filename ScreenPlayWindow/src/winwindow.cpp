@@ -118,7 +118,7 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
     // the window visible via set Visible.
     if (projectPath != "test") {
         // Let QML decide when were are read to show the window
-        ShowWindow(m_windowHandle, SW_HIDE);
+       // ShowWindow(m_windowHandle, SW_HIDE);
     }
 }
 

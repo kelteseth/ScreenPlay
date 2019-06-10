@@ -29,7 +29,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     enum ProjectSettingsRole {
-        NameRole,
+        NameRole = Qt::UserRole,
         IsHeadlineRole,
         ValueRole,
     };

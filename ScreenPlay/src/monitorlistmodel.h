@@ -32,7 +32,7 @@ public:
     QHash<int, QByteArray> roleNames() const override;
 
     enum MonitorRole {
-        IDRole,
+        IDRole = Qt::UserRole,
         NameRole,
         SizeRole,
         AvailableGeometryRole,
@@ -49,7 +49,6 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-    bool getMonitorListItemAt(int position, Monitor* monitor);
     void loadMonitors();
     void screenAdded(QScreen* screen);
     void screenRemoved(QScreen* screen);
@@ -65,7 +64,7 @@ public slots:
 
 private:
     QVector<Monitor> m_monitorList;
-    QGuiApplication* m_qGuiApplication;
+    const QGuiApplication* const m_qGuiApplication;
     QVector<QSharedPointer<ProjectSettingsListModel>> m_plm;
 
 signals:
@@ -75,7 +74,7 @@ signals:
 
 struct Monitor {
 
-    Monitor();
+    Monitor() {}
     Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry, QRect geometry, QScreen* screen);
 
     QString m_id;

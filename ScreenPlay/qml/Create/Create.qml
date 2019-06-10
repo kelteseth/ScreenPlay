@@ -4,7 +4,7 @@ import QtQuick.Controls.Material 2.2
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
 
-import net.aimber.create 1.0
+import app.screenplay.create 1.0
 
 import "Wizards/CreateWallpaper"
 

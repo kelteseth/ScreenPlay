@@ -16,8 +16,8 @@ Create::Create(const shared_ptr<Settings>& settings, QObject* parent)
 
 {
     qRegisterMetaType<CreateImportVideo::State>();
-    qmlRegisterType<Create>("net.aimber.create", 1, 0, "Create");
-    qmlRegisterType<CreateImportVideo>("net.aimber.create", 1, 0, "CreateImportVideo");
+    qmlRegisterType<Create>("app.screenplay.create", 1, 0, "Create");
+    qmlRegisterType<CreateImportVideo>("app.screenplay.create", 1, 0, "CreateImportVideo");
 }
 
 // Constructor for the QMLEngine
@@ -26,8 +26,8 @@ Create::Create()
     , m_settings(nullptr)
 {
     qRegisterMetaType<CreateImportVideo::State>();
-    qmlRegisterType<Create>("net.aimber.create", 1, 0, "Create");
-    qmlRegisterType<CreateImportVideo>("net.aimber.create", 1, 0, "CreateImportVideo");
+    qmlRegisterType<Create>("app.screenplay.create", 1, 0, "Create");
+    qmlRegisterType<CreateImportVideo>("app.screenplay.create", 1, 0, "CreateImportVideo");
 }
 
 void Create::createWallpaperStart(QString videoPath)

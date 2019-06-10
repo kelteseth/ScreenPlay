@@ -23,11 +23,8 @@ SOURCES += main.cpp \
     src/screenplaywidget.cpp \
     src/settings.cpp \
     src/profilelistmodel.cpp \
-    src/profile.cpp \
-    src/projectfile.cpp \
     src/installedlistfilter.cpp \
     src/sdkconnector.cpp \
-    src/projectsettingslistitem.cpp \
     src/projectsettingslistmodel.cpp \
     src/screenplay.cpp \
     src/qmlutilities.cpp \

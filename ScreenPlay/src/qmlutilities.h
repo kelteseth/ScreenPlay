@@ -6,6 +6,7 @@
 #include <QObject>
 #include <QProcess>
 #include <QString>
+#include <QtConcurrent/QtConcurrent>
 
 /*!
     \class Global QML Utilities
@@ -26,12 +27,17 @@ signals:
     void requestNavigationActive(bool isActive);
     void requestToggleWallpaperConfiguration();
 
+    void allLicenseLoaded(QString licensesText);
+    void allDataProtectionLoaded(QString dataProtectionText);
 public slots:
     void setNavigation(QString nav);
     void setNavigationActive(bool isActive);
 
     void setToggleWallpaperConfiguration();
     void openFolderInExplorer(QString url);
+
+    void requestAllLicenses();
+    void requestAllLDataProtection();
 
     QString fixWindowsPath(QString url);
 };

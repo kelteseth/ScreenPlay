@@ -96,16 +96,40 @@ public:
         return m_offlineMode;
     }
 
-    QUrl getScreenPlayWindowPath() const;
-    void setScreenPlayWindowPath(const QUrl& screenPlayWindowPath);
+    QUrl getScreenPlayWindowPath() const
+    {
+        return m_screenPlayWindowPath;
+    }
 
-    QUrl getScreenPlayBasePath() const;
-    void setScreenPlayBasePath(QUrl screenPlayBasePath);
+    void setScreenPlayWindowPath(const QUrl& screenPlayWindowPath)
+    {
+        m_screenPlayWindowPath = screenPlayWindowPath;
+    }
 
-    QUrl getScreenPlayWidgetPath() const;
-    void setScreenPlayWidgetPath(const QUrl& screenPlayWidgetPath);
+    QUrl getScreenPlayBasePath() const
+    {
+        return m_screenPlayBasePath;
+    }
 
-    bool getOfflineMode() const;
+    void setScreenPlayBasePath(QUrl screenPlayBasePath)
+    {
+        m_screenPlayBasePath = screenPlayBasePath;
+    }
+
+    QUrl getScreenPlayWidgetPath() const
+    {
+        return m_screenPlayWidgetPath;
+    }
+
+    void setScreenPlayWidgetPath(const QUrl& screenPlayWidgetPath)
+    {
+        m_screenPlayWidgetPath = screenPlayWidgetPath;
+    }
+
+    bool getOfflineMode() const
+    {
+        return m_offlineMode;
+    }
 
 signals:
     void autostartChanged(bool autostart);
@@ -118,14 +142,11 @@ signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
     void offlineModeChanged(bool offlineMode);
-    void allLicenseLoaded(QString licensesText);
-    void allDataProtectionLoaded(QString dataProtectionText);
 
 public slots:
     void writeSingleSettingConfig(QString name, QVariant value);
-    void requestAllLicenses();
-    void requestAllLDataProtection();
-    void saveWallpaper(int monitorIndex, QUrl absoluteStoragePath, QStringList properties, QString type);
+    void saveWallpaperToConfig(const int monitorIndex, const QUrl& absoluteStoragePath, const QString& type);
+    void removeWallpaperFromConfig(const int monitorIndex);
     void setqSetting(const QString& key, const QString& value);
 
     bool autostart() const
@@ -192,8 +213,6 @@ public slots:
         writeSingleSettingConfig("sendStatistics", sendStatistics);
         emit sendStatisticsChanged(m_sendStatistics);
     }
-
-    QString loadProject(QString file);
 
     void setLocalStoragePath(QUrl localStoragePath)
     {
