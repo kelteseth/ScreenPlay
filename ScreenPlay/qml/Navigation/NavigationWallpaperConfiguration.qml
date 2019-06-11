@@ -2,15 +2,29 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 
+import "../Common"
+
 Item {
     id: navigationWallpaperConfiguration
-    width: 400
+    width: 450
 
     anchors {
         top: parent.top
         right: parent.right
-        rightMargin: 30
         bottom: parent.bottom
+    }
+
+    RippleEffect {
+        id:rippleEffect
+        target: navigationWallpaperConfiguration
+
+    }
+
+    Connections {
+        target: screenPlaySettings
+        onActiveWallpaperCounterChanged:{
+            rippleEffect.trigger()
+        }
     }
 
     Image {
@@ -18,6 +32,7 @@ Item {
         width: 24
         height: 24
         anchors {
+            rightMargin: 30
             right: parent.right
             verticalCenter: parent.verticalCenter
         }
@@ -62,7 +77,7 @@ Item {
         font.family: "Roboto"
     }
     MouseArea {
-        id: mouseArea
+        id: ma
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onClicked: {

@@ -2,8 +2,8 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 
-
 import "../Workshop"
+import "../Common"
 
 Rectangle {
     id: navigation
@@ -40,7 +40,8 @@ Rectangle {
 
         navigation.changePage(name)
 
-        for (var i = 0; i < navArray.length; i++) {
+        var i = 0
+        for (; i < navArray.length; i++) {
             if (navArray[i].name === name)
                 navArray[i].state = "active"
             else {
@@ -50,7 +51,7 @@ Rectangle {
     }
 
     WorkshopLoader {
-        id:wl
+        id: wl
     }
 
     Row {
@@ -85,7 +86,6 @@ Rectangle {
             iconSource: "qrc:/assets/icons/icon_installed.svg"
             onPageClicked: navigation.onPageChanged(name)
         }
-
 
         NavigationItem {
             id: navCommunity

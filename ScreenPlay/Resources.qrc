@@ -122,5 +122,6 @@
         <file>qml/Navigation/Navigation.qml</file>
         <file>qml/Navigation/NavigationItem.qml</file>
         <file>qml/Navigation/NavigationWallpaperConfiguration.qml</file>
+        <file>qml/Common/RippleEffect.qml</file>
     </qresource>
 </RCC>
