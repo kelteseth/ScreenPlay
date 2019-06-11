@@ -6,11 +6,11 @@ Every changes to ScreenPlay are done via Gitlab issues and merge requests (pull 
 
 ### Development
 
-1.  Accept the [Contributing Agreement](https://gitlab.com/aimber/ScreenPlay).
-2.  Download and set up ScreenPlay as described in the main [Readme](https://gitlab.com/aimber/ScreenPlay).
+1.  Accept the [Contributing Agreement](https://gitlab.com/kelteseth/ScreenPlay).
+2.  Download and set up ScreenPlay as described in the main [Readme](https://gitlab.com/kelteseth/ScreenPlay).
 2.  Choose an issue to work on:
     *   Your own ideas or thinks you want to improve. Alternatively you can tackle existing open issues:
-    *   You can find simple problems by [searching for problems labeled "Accepting merge requests" sorted by weight.](https://gitlab.com/aimber/ScreenPlay/issues?state=opened&label_name[]=Accepting+merge+requests&assignee_id=0&sort=weight). Low-weight issues will be the easiest to accomplish.
+    *   You can find simple problems by [searching for problems labeled "Accepting merge requests" sorted by weight.](https://gitlab.com/kelteseth/ScreenPlay/issues?state=opened&label_name[]=Accepting+merge+requests&assignee_id=0&sort=weight). Low-weight issues will be the easiest to accomplish.
     *   Make sure that no one else is working on the problem and make sure that we are still interested in a particular post.
     *   You can also make comments and ask for help if you are new or stuck. We will be happy to help you!
 3.  Add the feature or fix the bug you’ve chosen to work on.
@@ -35,7 +35,7 @@ Every changes to ScreenPlay are done via Gitlab issues and merge requests (pull 
 
 ### Documentation
 
-To contribute to the [documentation](https://aimber.gitlab.io/ScreenPlayDocs/) you only have to press the pen icon on the top right of every page. We mostly use [draw.io]( http://draw.io/) for every diagram because it is free and you can embed the code inside a png when exporting the document. 
+To contribute to the [documentation](https://kelteseth.gitlab.io/ScreenPlayDocs/) you only have to press the pen icon on the top right of every page. We mostly use [draw.io]( http://draw.io/) for every diagram because it is free and you can embed the code inside a png when exporting the document. 
 
 ### Translation
 
