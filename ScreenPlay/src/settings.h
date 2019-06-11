@@ -3,6 +3,7 @@
 #include <QDebug>
 #include <QDir>
 #include <QFile>
+#include <QFontDatabase>
 #include <QGuiApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -25,6 +26,8 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QtGlobal>
 
+#include <memory>
+
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "profile.h"
@@ -35,23 +38,16 @@
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #endif
-/*!
-    \class Settings
-    \brief Used for:
-    \list
-        \i User configuration
-        \i Communication via the SDK Connector
-    \endlist
-
-*/
-
+namespace ScreenPlay {
 class ActiveProfile;
+
+using std::shared_ptr,
+    std::make_shared;
 
 class Settings : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(QVersionNumber version READ version)
-    Q_PROPERTY(bool hasWorkshopBannerSeen READ hasWorkshopBannerSeen WRITE setHasWorkshopBannerSeen NOTIFY hasWorkshopBannerSeenChanged)
+    Q_PROPERTY(QVersionNumber version READ version )
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
@@ -62,16 +58,13 @@ class Settings : public QObject {
     Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
 
 public:
-    explicit Settings(ProfileListModel* plm, MonitorListModel* mlm, InstalledListModel* ilm, SDKConnector* sdkc, QObject* parent = nullptr);
-    ~Settings();
-
-    enum LocalCopyResult {
-        NoError,
-        CopyError,
-        NotEnoughDiskSpace,
-        NameCollision,
-    };
-    Q_ENUM(LocalCopyResult)
+    explicit Settings(
+        const shared_ptr<InstalledListModel>& ilm,
+        const shared_ptr<ProfileListModel>& plm,
+        const shared_ptr<MonitorListModel>& mlm,
+        const shared_ptr<SDKConnector>& sdkc,
+        QObject* parent = nullptr);
+    ~Settings() {}
 
     QVersionNumber version() const
     {
@@ -88,18 +81,10 @@ public:
         return m_localStoragePath;
     }
 
-    bool hasWorkshopBannerSeen() const
-    {
-        return m_hasWorkshopBannerSeen;
-    }
-
     int activeWallpaperCounter() const
     {
         return m_activeWallpaperCounter;
     }
-
-    QUrl getScreenPlayWindowPath() const;
-    void setScreenPlayWindowPath(const QUrl& screenPlayWindowPath);
 
     bool pauseWallpaperWhenIngame() const
     {
@@ -111,39 +96,41 @@ public:
         return m_offlineMode;
     }
 
-    QUrl getScreenPlayBasePath() const;
-    void setScreenPlayBasePath(QUrl screenPlayBasePath);
+    QUrl getScreenPlayWindowPath() const
+    {
+        return m_screenPlayWindowPath;
+    }
 
-    QUrl getScreenPlayWidgetPath() const;
-    void setScreenPlayWidgetPath(const QUrl& screenPlayWidgetPath);
+    void setScreenPlayWindowPath(const QUrl& screenPlayWindowPath)
+    {
+        m_screenPlayWindowPath = screenPlayWindowPath;
+    }
 
-    bool getOfflineMode() const;
+    QUrl getScreenPlayBasePath() const
+    {
+        return m_screenPlayBasePath;
+    }
 
-signals:
-    void autostartChanged(bool autostart);
-    void highPriorityStartChanged(bool highPriorityStart);
-    void sendStatisticsChanged(bool status);
-    void localStoragePathChanged(QUrl localStoragePath);
-    void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
-    void decoderChanged(QString decoder);
-    void setMainWindowVisible(bool visible);
-    void activeWallpaperCounterChanged(int activeWallpaperCounter);
-    void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
-    void offlineModeChanged(bool offlineMode);
-    void allLicenseLoaded(QString licensesText);
-    void allDataProtectionLoaded(QString dataProtectionText);
+    void setScreenPlayBasePath(QUrl screenPlayBasePath)
+    {
+        m_screenPlayBasePath = screenPlayBasePath;
+    }
 
-public slots:
-    void setMuteAll(bool isMuted);
-    void setPlayAll(bool isPlaying);
-    void checkForOtherFullscreenApplication();
-    void setGlobalVolume(float volume);
-    void setGlobalFillMode(QString fillMode);
-    void writeSingleSettingConfig(QString name, QVariant value);
-    void requestAllLicenses();
-    void requestAllLDataProtection();
-    void saveWallpaper(int monitorIndex, QUrl absoluteStoragePath, QStringList properties, QString type);
-    void setqSetting(const QString& key, const QString& value);
+    QUrl getScreenPlayWidgetPath() const
+    {
+        return m_screenPlayWidgetPath;
+    }
+
+    void setScreenPlayWidgetPath(const QUrl& screenPlayWidgetPath)
+    {
+        m_screenPlayWidgetPath = screenPlayWidgetPath;
+    }
+
+    bool getOfflineMode() const
+    {
+        return m_offlineMode;
+    }
+
 
     bool autostart() const
     {
@@ -164,6 +151,25 @@ public slots:
     {
         return m_decoder;
     }
+
+
+signals:
+    void autostartChanged(bool autostart);
+    void highPriorityStartChanged(bool highPriorityStart);
+    void sendStatisticsChanged(bool status);
+    void localStoragePathChanged(QUrl localStoragePath);
+    void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
+    void decoderChanged(QString decoder);
+    void setMainWindowVisible(bool visible);
+    void activeWallpaperCounterChanged(int activeWallpaperCounter);
+    void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
+    void offlineModeChanged(bool offlineMode);
+
+public slots:
+    void writeSingleSettingConfig(QString name, QVariant value);
+    void saveWallpaperToConfig(const int monitorIndex, const QUrl& absoluteStoragePath, const QString& type);
+    void removeWallpaperFromConfig(const int monitorIndex);
+    void setqSetting(const QString& key, const QString& value);
 
     void setAutostart(bool autostart)
     {
@@ -210,8 +216,6 @@ public slots:
         emit sendStatisticsChanged(m_sendStatistics);
     }
 
-    QString loadProject(QString file);
-
     void setLocalStoragePath(QUrl localStoragePath)
     {
         if (m_localStoragePath == localStoragePath)
@@ -222,11 +226,11 @@ public slots:
 
         writeSingleSettingConfig("absoluteStoragePath", cleanedPath);
 
-        m_ilm->setabsoluteStoragePath(cleanedPath.toString());
+        m_installedListModel->setabsoluteStoragePath(cleanedPath.toString());
         m_localStoragePath = cleanedPath.toString();
         emit localStoragePathChanged(cleanedPath.toString());
-        m_ilm->reset();
-        m_ilm->loadInstalledContent();
+        m_installedListModel->reset();
+        m_installedListModel->loadInstalledContent();
     }
 
     void setDecoder(QString decoder)
@@ -237,15 +241,6 @@ public slots:
         m_decoder = decoder;
 
         emit decoderChanged(m_decoder);
-    }
-
-    void setHasWorkshopBannerSeen(bool hasWorkshopBannerSeen)
-    {
-        if (m_hasWorkshopBannerSeen == hasWorkshopBannerSeen)
-            return;
-
-        m_hasWorkshopBannerSeen = hasWorkshopBannerSeen;
-        emit hasWorkshopBannerSeenChanged(m_hasWorkshopBannerSeen);
     }
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)
@@ -290,6 +285,8 @@ public slots:
         emit offlineModeChanged(m_offlineMode);
     }
 
+    void loadActiveProfiles();
+
 private:
     void createDefaultConfig();
     void setupWidgetAndWindowPaths();
@@ -297,12 +294,11 @@ private:
     QVersionNumber m_version;
     QSettings m_qSettings;
     QTranslator m_translator;
-    ProfileListModel* m_plm;
-    InstalledListModel* m_ilm;
-    MonitorListModel* m_mlm;
-    SDKConnector* m_sdkc;
 
-    QTimer* m_checkForOtherFullscreenApplicationTimer;
+    const shared_ptr<ProfileListModel> m_profileListModel;
+    const shared_ptr<InstalledListModel> m_installedListModel;
+    const shared_ptr<MonitorListModel> m_monitorListModel;
+    const shared_ptr<SDKConnector> m_sdkconnector;
 
     QUrl m_localStoragePath;
     QUrl m_localSettingsPath;
@@ -310,15 +306,13 @@ private:
     QUrl m_screenPlayWidgetPath;
     QUrl m_screenPlayBasePath;
 
-    bool m_hasWorkshopBannerSeen = false;
     bool m_pauseWallpaperWhenIngame = true;
     bool m_autostart = true;
     bool m_highPriorityStart = true;
-    bool m_sendStatistics;
-
-    QString m_decoder;
-    int m_activeWallpaperCounter = 0;
-    QGuiApplication* m_app;
-
+    bool m_sendStatistics = false;
     bool m_offlineMode = true;
+
+    QString m_decoder = "";
+    int m_activeWallpaperCounter = 0;
 };
+}

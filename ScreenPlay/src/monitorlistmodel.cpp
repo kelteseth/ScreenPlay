@@ -1,10 +1,11 @@
 #include "monitorlistmodel.h"
-
+namespace ScreenPlay {
 MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
+    , m_qGuiApplication(static_cast<QGuiApplication*>(QGuiApplication::instance()))
 {
     loadMonitors();
-    m_qGuiApplication = static_cast<QGuiApplication*>(QGuiApplication::instance());
+
     connect(m_qGuiApplication, &QGuiApplication::screenAdded, this, &MonitorListModel::screenAdded);
     connect(m_qGuiApplication, &QGuiApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
 }
@@ -128,26 +129,16 @@ void MonitorListModel::wallpaperRemoved()
 {
 }
 
-bool MonitorListModel::getMonitorListItemAt(int position, Monitor* monitor)
-{
-    //TODO Reimplement wallpaper replacement
-    //    if (position < 0 && position > m_monitorList.size()) {
-    //        return false;
-    //    } else {
-    //        *monitor = m_monitorList.at(position);
-    //        return true;
-    //    }
-    return true;
-}
-
 void MonitorListModel::screenAdded(QScreen* screen)
 {
+    Q_UNUSED(screen)
     reset();
     loadMonitors();
 }
 
 void MonitorListModel::screenRemoved(QScreen* screen)
 {
+    Q_UNUSED(screen)
     reset();
     loadMonitors();
 }
@@ -186,10 +177,6 @@ void MonitorListModel::reloadMonitors()
     loadMonitors();
 }
 
-Monitor::Monitor()
-{
-}
-
 Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry, QRect geometry, QScreen* screen)
 {
     m_screen = screen;
@@ -204,4 +191,5 @@ Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, 
     // FIXME: Use a better way to create an id
     // because name and manufacturer are allways empty
     m_id = name + "_" + QString::number(size.width()) + "x" + QString::number(size.height()) + "_" + QString::number(availableGeometry.x()) + "x" + QString::number(availableGeometry.y());
+}
 }

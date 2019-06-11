@@ -5,7 +5,7 @@ TARGET = $$qtLibraryTarget($$TARGET)
 QT += qml quick
 CONFIG += plugin c++11
 
-uri = net.aimber.screenplaysdk
+uri = ScreenPlay.screenplaysdk
 
 # Input
 SOURCES += \

@@ -1,9 +1,20 @@
 #include "installedlistfilter.h"
 
-InstalledListFilter::InstalledListFilter(InstalledListModel* ilm)
-{
+/*!
+    \class Installed List Filder
+    \brief  Proxy between Installed List Model and QML view to filter items.
+            Maybe this class could be merged with the InstalledListModel...
 
-    setSourceModel(ilm);
+    \todo
+            - Expand filter functionality
+
+*/
+namespace ScreenPlay {
+InstalledListFilter::InstalledListFilter(const shared_ptr<InstalledListModel>& ilm)
+    : QSortFilterProxyModel()
+    , m_ilm(ilm)
+{
+    setSourceModel(m_ilm.get());
     setFilterRole(InstalledListModel::InstalledRole::TitleRole);
     sortByRoleType("All");
 }
@@ -19,7 +30,8 @@ void InstalledListFilter::sortByRoleType(QString type)
     } else if (type == "Widgets") {
         setFilterRole(InstalledListModel::InstalledRole::TypeRole);
         setFilterFixedString("widget");
-    } if (type == "Scenes") {
+    }
+    if (type == "Scenes") {
         setFilterRole(InstalledListModel::InstalledRole::TypeRole);
         setFilterFixedString("qmlScene");
     }
@@ -40,4 +52,5 @@ void InstalledListFilter::resetFilter()
     setFilterRole(InstalledListModel::InstalledRole::TitleRole);
     setFilterWildcard("*");
     sort(0);
+}
 }

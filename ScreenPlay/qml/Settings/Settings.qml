@@ -394,7 +394,7 @@ Item {
                             description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")
                             buttonText: qsTr("Licenses")
                             onButtonPressed: {
-                                screenPlaySettings.requestAllLicenses()
+                                utility.requestAllLicenses()
                                 expanderCopyright.toggle()
                             }
                         }
@@ -407,7 +407,7 @@ Item {
 
 
                             Connections {
-                                target: screenPlaySettings
+                                target: utility
                                 onAllLicenseLoaded: {
                                     expanderCopyright.text = licensesText
                                 }
@@ -420,7 +420,7 @@ Item {
                             description: qsTr("We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!")
                             buttonText: qsTr("Privacy")
                             onButtonPressed: {
-                                screenPlaySettings.requestAllLDataProtection()
+                                utility.requestAllLDataProtection()
                                 expanderDataProtection.toggle()
                             }
                         }
@@ -433,7 +433,7 @@ Item {
 
 
                             Connections {
-                                target: screenPlaySettings
+                                target: utility
                                 onAllDataProtectionLoaded: {
                                     expanderDataProtection.text = dataProtectionText
                                 }

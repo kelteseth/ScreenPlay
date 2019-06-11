@@ -4,7 +4,7 @@ import QtQuick.Controls.Material 2.2
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
 
-import net.aimber.create 1.0
+import ScreenPlay.Create 1.0
 
 import "Wizards/CreateWallpaper"
 
@@ -237,7 +237,7 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 onClicked: Qt.openUrlExternally(
-                               "https://aimber.gitlab.io/ScreenPlayDocs/")
+                               "https://kelteseth.gitlab.io/ScreenPlayDocs/")
             }
             Button {
                 text: qsTr("Forums")

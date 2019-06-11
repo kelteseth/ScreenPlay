@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
 
-import net.aimber.screenplaysdk 1.0
+import ScreenPlay.screenplaysdk 1.0
 
 Item {
     id: mainWindow

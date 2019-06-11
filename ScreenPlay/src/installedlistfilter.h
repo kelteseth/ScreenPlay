@@ -2,27 +2,22 @@
 
 #include <QRegExp>
 #include <QSortFilterProxyModel>
-
+#include <memory>
 #include "installedlistmodel.h"
-
-/*!
-    \class Installed List Filder
-    \brief  Proxy between Installed List Model and QML view to filter items.
-            Maybe this class could be merged with the InstalledListModel...
-
-    \todo
-            - Expand filter functionality
-
-*/
+namespace ScreenPlay {
+using std::shared_ptr;
 
 class InstalledListFilter : public QSortFilterProxyModel {
     Q_OBJECT
 
 public:
-    InstalledListFilter(InstalledListModel* ilm);
+    InstalledListFilter(const shared_ptr<InstalledListModel>& ilm);
 
 public slots:
     void sortByRoleType(QString type);
     void sortByName(QString name);
     void resetFilter();
+private:
+    const shared_ptr<InstalledListModel> m_ilm;
 };
+}

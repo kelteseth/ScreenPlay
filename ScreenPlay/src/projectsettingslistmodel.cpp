@@ -1,5 +1,5 @@
 #include "projectsettingslistmodel.h"
-
+namespace ScreenPlay {
 ProjectSettingsListModel::ProjectSettingsListModel(QString file, QObject* parent)
     : QAbstractListModel(parent)
 {
@@ -97,4 +97,5 @@ void ProjectSettingsListModel::append(QString name, bool isHeadline, QVariant va
     m_projectSettings.append(tmpFile);
 
     endInsertRows();
+}
 }

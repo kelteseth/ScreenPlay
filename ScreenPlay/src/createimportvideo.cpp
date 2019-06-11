@@ -1,12 +1,25 @@
 #include "createimportvideo.h"
-#include <QScopeGuard>
+
+namespace ScreenPlay {
+
+/*!
+    \class CreateImportVideo
+    \brief This class imports (copies) and creates wallaper previews. This
+           class only exsits as long as the user creates a wallpaper and gets
+           destroyed if the creation was successful or not.
+
+           The state get propagated via createWallpaperStateChanged(CreateImportVideo::State state);
+
+    \todo
+            - Maybe: Replace with QThread to avoid running QCoreApplication::processEvents();?
+*/
 
 CreateImportVideo::CreateImportVideo(QObject* parent)
     : QObject(parent)
 {
 }
 
-CreateImportVideo::CreateImportVideo(QString videoPath, QString exportPath, QObject* parent)
+CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& exportPath, QObject* parent)
     : QObject(parent)
 {
     m_videoPath = videoPath;
@@ -101,7 +114,7 @@ bool CreateImportVideo::createWallpaperInfo()
 
     // Get framerate
     QJsonArray arrSteams = obj.value("streams").toArray();
-    if (arrSteams.size() < 1) {
+    if (arrSteams.empty()) {
         qDebug() << "Error container does not have any video streams";
         return false;
     }
@@ -359,4 +372,4 @@ bool CreateImportVideo::extractWallpaperAudio()
     return true;
 }
 
-
+}

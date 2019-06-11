@@ -1,2 +1,2 @@
-module net.aimber.screenplaysdk
+module ScreenPlay.screenplaysdk
 plugin ScreenPlaySDK

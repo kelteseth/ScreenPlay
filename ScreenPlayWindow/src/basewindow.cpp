@@ -8,8 +8,9 @@ BaseWindow::BaseWindow(QObject* parent)
 BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
     : QObject(parent)
 {
+    QApplication::instance()->installEventFilter(this);
     qRegisterMetaType<BaseWindow::WallpaperType>();
-    qmlRegisterType<BaseWindow>("net.aimber.wallpaper", 1, 0, "Wallpaper");
+    qmlRegisterType<BaseWindow>("ScreenPlay.Wallpaper", 1, 0, "Wallpaper");
 
     if (projectFilePath == "test") {
         setType(BaseWindow::WallpaperType::Qml);
@@ -73,6 +74,39 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
 
     if (projectObject.value("type") == "html") {
         setType(BaseWindow::WallpaperType::Html);
+        return;
+    }
+}
+
+void BaseWindow::messageReceived(QString key, QString value)
+{
+    if (key == "volume") {
+        bool ok;
+        float tmp = value.toFloat(&ok);
+        if (ok) {
+            setVolume(tmp);
+        }
+        return;
+    }
+
+    if (key == "playbackRate") {
+        bool ok;
+        float tmp = value.toFloat(&ok);
+        if (ok) {
+            setPlaybackRate(tmp);
+        }
+        return;
+    }
+
+    if (key == "loops") {
+        bool tmp = QVariant(value).toBool();
+        setLoops(tmp);
+        return;
+    }
+
+    if (key == "isPlaying") {
+        bool tmp = QVariant(value).toBool();
+        setIsPlaying(tmp);
         return;
     }
 }

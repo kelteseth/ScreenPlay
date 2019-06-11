@@ -1,8 +1,9 @@
 import QtQuick 2.12
 import QtWebEngine 1.8
-import net.aimber.wallpaper 1.0
+import ScreenPlay.Wallpaper 1.0
 
 Rectangle {
+    id: root
     anchors.fill: parent
     color: {
         if (desktopProperties.color === null) {
@@ -11,6 +12,7 @@ Rectangle {
             return desktopProperties.color
         }
     }
+
 
     property bool canFadeIn: true
 
@@ -56,6 +58,7 @@ Rectangle {
     Loader {
         id: loader
         anchors.fill: parent
+        onLoaded: loader.z = 999
     }
 
     WebEngineView {
@@ -135,8 +138,9 @@ Rectangle {
         }
 
         onQmlSceneValueReceived: {
-            var obj2 = 'import QtQuick 2.12; Item {Component.onCompleted: loader.item.'
+            var obj2 = 'import QtQuick 2.0; Item {Component.onCompleted: loader.item.'
                     + key + ' = ' + value + '; }'
+            print(key, value)
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
             newObject.destroy(10000)
         }
@@ -174,4 +178,5 @@ Rectangle {
             }
         }
     }
+
 }

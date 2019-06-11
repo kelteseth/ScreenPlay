@@ -13,14 +13,14 @@
     \brief Used for every Wallpaper, Scene or Widget communication via Windows pipes/QLocalSocket
 
 */
+
+namespace ScreenPlay {
 class SDKConnection;
 
 class SDKConnector : public QObject {
     Q_OBJECT
 public:
     explicit SDKConnector(QObject* parent = nullptr);
-
-signals:
 
 public slots:
     void readyRead();
@@ -41,14 +41,16 @@ class SDKConnection : public QObject {
     Q_PROPERTY(QVector<int> monitor READ monitor WRITE setMonitor NOTIFY monitorChanged)
 
 public:
-    explicit SDKConnection(QLocalSocket* socket, QObject* parent = nullptr) : QObject(parent)
+    explicit SDKConnection(QLocalSocket* socket, QObject* parent = nullptr)
+        : QObject(parent)
     {
 
         m_socket = socket;
         connect(m_socket, &QLocalSocket::readyRead, this, &SDKConnection::readyRead);
         connect(m_socket, &QLocalSocket::disconnected, this, &SDKConnection::close);
     }
-    ~SDKConnection (){
+    ~SDKConnection()
+    {
 
         // We need to call this manually because
         // sometimes it wont close the connection in
@@ -85,7 +87,8 @@ public slots:
             //Only use the first 32 chars for the appID
             m_appID = msg.remove("appID=").mid(0, 32);
             msg.remove(m_appID);
-            qDebug() << "###### Wallpaper width APPID created:"  << "\n######" << m_appID;
+            qDebug() << "###### Wallpaper width APPID created:"
+                     << "\n######" << m_appID;
         } else {
             qDebug() << "### Message from: " << m_appID << "\n###" << msg;
         }
@@ -127,3 +130,4 @@ private:
     QString m_appID;
     QVector<int> m_monitor;
 };
+}

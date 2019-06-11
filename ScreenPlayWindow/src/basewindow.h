@@ -8,7 +8,7 @@
 #include <QJsonParseError>
 #include <QObject>
 #include <QString>
-#include <qqml.h>
+#include <QtQml>
 
 class BaseWindow : public QObject {
     Q_OBJECT
@@ -82,11 +82,7 @@ signals:
 public slots:
     virtual void destroyThis() {}
     virtual void setVisible(bool show) { Q_UNUSED(show) }
-    virtual void messageReceived(QString key, QString value)
-    {
-        Q_UNUSED(key);
-        Q_UNUSED(value)
-    }
+    virtual void messageReceived(QString key, QString value) final;
 
     QString getApplicationPath()
     {

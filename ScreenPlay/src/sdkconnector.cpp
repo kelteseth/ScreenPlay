@@ -2,7 +2,7 @@
 
 #include <QJsonDocument>
 #include <QJsonObject>
-
+namespace ScreenPlay {
 SDKConnector::SDKConnector(QObject* parent)
     : QObject(parent)
 {
@@ -83,4 +83,5 @@ void SDKConnector::setSceneValue(QString appID, QString key, QString value)
 QLocalSocket* SDKConnection::socket() const
 {
     return m_socket;
+}
 }

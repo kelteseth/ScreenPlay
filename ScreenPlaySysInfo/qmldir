@@ -1,2 +1,2 @@
-module net.aimber.sysinfo
+module ScreenPlay.Sysinfo
 plugin ScreenPlaySysInfo

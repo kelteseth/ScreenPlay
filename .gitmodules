@@ -4,3 +4,6 @@
 [submodule "ScreenPlay/ThirdParty/stomt-qt-sdk"]
 	path = ScreenPlay/ThirdParty/stomt-qt-sdk
 	url = https://github.com/Aimber/stomt-qt-sdk.git
+[submodule "Common/vcpkg"]
+	path = Common/vcpkg
+	url = https://github.com/Microsoft/vcpkg.git

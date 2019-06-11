@@ -4,7 +4,7 @@ QT += qml quick
 CONFIG += plugin c++11
 
 TARGET = $$qtLibraryTarget($$TARGET)
-uri = net.aimber.sysinfo
+uri = ScreenPlay.Sysinfo
 
 # Input
 SOURCES += \

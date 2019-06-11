@@ -5,14 +5,16 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 
-
 import "qml/"
+import "qml/Monitors"
+import "qml/Common"
 import "qml/Installed"
+import "qml/Navigation"
 
 ApplicationWindow {
     id: window
     color: "#eeeeee"
-    // Set visible if the -silent parameter was not set
+    // Set visible if the -silent parameter was not set (see main.cpp:87).
     visible: false
     width: 1400
     title: "ScreenPlay 0.2"
