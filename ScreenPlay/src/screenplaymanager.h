@@ -22,6 +22,9 @@
     \brief Used for Creation of Wallpaper, Scenes and Widgets
 */
 
+
+namespace ScreenPlay {
+
 using std::shared_ptr,
     std::unique_ptr,
     std::make_shared,
@@ -30,18 +33,18 @@ using std::shared_ptr,
     std::size_t,
     std::remove_if;
 
-class ScreenPlay final : public QObject {
+class ScreenPlayManager final : public QObject {
     Q_OBJECT
 
 public:
-    explicit ScreenPlay(
+    explicit ScreenPlayManager(
         const shared_ptr<InstalledListModel>& ilm,
         const shared_ptr<Settings>& settings,
         const shared_ptr<MonitorListModel>& mlm,
         const shared_ptr<SDKConnector>& sdkc,
         QObject* parent = nullptr);
 
-    ~ScreenPlay() {}
+    ~ScreenPlayManager() {}
 
 signals:
     void allWallpaperRemoved();
@@ -71,3 +74,5 @@ private:
     vector<unique_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
     vector<unique_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
 };
+
+}

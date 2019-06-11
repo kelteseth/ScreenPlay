@@ -26,6 +26,10 @@
 #include "qmlutilities.h"
 #include "settings.h"
 
+namespace ScreenPlay {
+
+
+
 using std::shared_ptr,
     std::make_shared;
 
@@ -90,3 +94,4 @@ private:
     float m_progress = 0.0f;
     QString m_workingDir;
 };
+}

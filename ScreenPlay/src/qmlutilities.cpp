@@ -2,6 +2,17 @@
 
 #include <QProcess>
 
+namespace ScreenPlay {
+
+/*!
+    \class Global QML Utilities
+    \brief Easy to use global object to use to:
+    \list
+        \i Navigate the main menu
+        \i Open Explorer at a given path
+    \endlist
+*/
+
 QMLUtilities::QMLUtilities(QObject* parent)
     : QObject(parent)
 {
@@ -29,11 +40,11 @@ QString QMLUtilities::fixWindowsPath(QString url)
 void QMLUtilities::openFolderInExplorer(QString url)
 {
     QProcess explorer;
-    #ifdef Q_OS_WIN
+#ifdef Q_OS_WIN
     explorer.setProgram("explorer.exe");
-    #elif defined(Q_OS_OSX)
+#elif defined(Q_OS_OSX)
     explorer.setProgram("open");
-    #endif
+#endif
     QStringList args;
     args.append(QDir::toNativeSeparators(url));
     explorer.setArguments(args);
@@ -98,3 +109,4 @@ void QMLUtilities::QMLUtilities::requestAllLDataProtection()
     });
 }
 
+}

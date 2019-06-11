@@ -4,6 +4,7 @@
     \class ScreenPlayWidget
     \brief Used for ...
 */
+namespace ScreenPlay {
 
 ScreenPlayWidget::ScreenPlayWidget(const QString& appID, const shared_ptr<Settings>& settings,
     const QString& projectPath,
@@ -32,4 +33,5 @@ ScreenPlayWidget::ScreenPlayWidget(const QString& appID, const shared_ptr<Settin
         qDebug() << "error: " << error;
     });
     m_process.startDetached();
+}
 }

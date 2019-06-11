@@ -7,7 +7,7 @@
 
 #include "projectsettingslistmodel.h"
 #include "settings.h"
-
+namespace ScreenPlay {
 using std::shared_ptr,
     std::make_shared,
     std::vector,
@@ -128,3 +128,4 @@ private:
     QString m_type;
     const shared_ptr<Settings> m_settings;
 };
+}

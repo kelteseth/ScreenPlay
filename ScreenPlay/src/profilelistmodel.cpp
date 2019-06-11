@@ -6,6 +6,8 @@
 #include <QJsonObject>
 #include <QPair>
 
+namespace ScreenPlay {
+
 ProfileListModel::ProfileListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
@@ -111,4 +113,5 @@ bool ProfileListModel::getProfileByName(QString id, Profile* profile)
         }
     }
     return false;
+}
 }

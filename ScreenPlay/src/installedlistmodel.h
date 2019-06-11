@@ -1,7 +1,5 @@
 #pragma once
 
-#include "profilelistmodel.h"
-#include "projectfile.h"
 #include <QAbstractListModel>
 #include <QByteArray>
 #include <QDebug>
@@ -19,11 +17,11 @@
 #include <QVector>
 #include <QtConcurrent/QtConcurrent>
 
-/*!
-    \class Installed List Model
-    \brief Lists all installed wallpapers, widgets etc. from a given Path
 
-*/
+#include "profilelistmodel.h"
+#include "projectfile.h"
+
+namespace ScreenPlay {
 
 class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
@@ -65,7 +63,7 @@ public slots:
 
     QVariantMap get(QString folderId);
 
-    void setabsoluteStoragePath(QUrl absoluteStoragePath)
+    void setabsoluteStoragePath(const QUrl& absoluteStoragePath)
     {
         if (m_absoluteStoragePath == absoluteStoragePath)
             return;
@@ -85,3 +83,4 @@ private:
     QVector<ProjectFile> m_screenPlayFiles;
     QUrl m_absoluteStoragePath;
 };
+}

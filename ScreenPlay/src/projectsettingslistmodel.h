@@ -17,7 +17,7 @@
     \brief Reads the project.json for every Wallpaper, Scene or Widget "general" object and displays it for the user to modify
 
 */
-
+namespace ScreenPlay {
 class ProjectSettingsListModel : public QAbstractListModel {
     Q_OBJECT
 
@@ -43,3 +43,4 @@ public slots:
 private:
     QVector<ProjectSettingsListItem> m_projectSettings;
 };
+}

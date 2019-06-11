@@ -9,10 +9,14 @@
 
 
 */
+namespace ScreenPlay {
 
 struct ProjectSettingsListItem {
 
-    ProjectSettingsListItem(QString name, bool isHeadline, QVariant value)
+    ProjectSettingsListItem(
+        const QString& name,
+        const bool isHeadline,
+        const QVariant& value)
     {
         m_name = name;
         m_isHeadline = isHeadline;
@@ -24,3 +28,4 @@ struct ProjectSettingsListItem {
     bool m_isHeadline;
     QVariant m_value;
 };
+}

@@ -1,5 +1,15 @@
 #include "installedlistmodel.h"
 
+
+/*!
+    \class Installed List Model
+    \brief Lists all installed wallpapers, widgets etc. from a given Path
+
+*/
+
+
+namespace ScreenPlay {
+
 InstalledListModel::InstalledListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
@@ -176,4 +186,5 @@ void InstalledListModel::reset()
     m_screenPlayFiles.clear();
     m_screenPlayFiles.squeeze();
     endResetModel();
+}
 }

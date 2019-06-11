@@ -4,7 +4,7 @@
 #include <QSortFilterProxyModel>
 #include <memory>
 #include "installedlistmodel.h"
-
+namespace ScreenPlay {
 using std::shared_ptr;
 
 class InstalledListFilter : public QSortFilterProxyModel {
@@ -20,3 +20,4 @@ public slots:
 private:
     const shared_ptr<InstalledListModel> m_ilm;
 };
+}

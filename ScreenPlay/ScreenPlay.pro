@@ -26,7 +26,7 @@ SOURCES += main.cpp \
     src/installedlistfilter.cpp \
     src/sdkconnector.cpp \
     src/projectsettingslistmodel.cpp \
-    src/screenplay.cpp \
+    src/screenplaymanager.cpp \
     src/qmlutilities.cpp \
     src/create.cpp
 
@@ -48,7 +48,7 @@ HEADERS += \
     src/sdkconnector.h \
     src/projectsettingslistitem.h \
     src/projectsettingslistmodel.h \
-    src/screenplay.h \
+    src/screenplaymanager.h \
     src/qmlutilities.h \
     src/create.h
 

@@ -8,7 +8,7 @@
 #include <memory>
 
 #include "settings.h"
-
+namespace ScreenPlay {
 using std::shared_ptr,
     std::make_shared;
 
@@ -97,3 +97,4 @@ private:
     QProcess m_process;
     const shared_ptr<Settings> m_settings;
 };
+}

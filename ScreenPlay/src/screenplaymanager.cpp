@@ -1,6 +1,8 @@
-#include "screenplay.h"
+#include "screenplaymanager.h"
 
-ScreenPlay::ScreenPlay(const shared_ptr<InstalledListModel>& ilm,
+namespace ScreenPlay {
+
+ScreenPlayManager::ScreenPlayManager(const shared_ptr<InstalledListModel>& ilm,
     const shared_ptr<Settings>& settings,
     const shared_ptr<MonitorListModel>& mlm,
     const shared_ptr<SDKConnector>& sdkc,
@@ -14,7 +16,7 @@ ScreenPlay::ScreenPlay(const shared_ptr<InstalledListModel>& ilm,
 {
 }
 
-void ScreenPlay::createWallpaper(
+void ScreenPlayManager::createWallpaper(
     const int monitorIndex, QUrl absoluteStoragePath,
     const QString& previewImage, const float volume,
     const QString& fillMode, const QString& type)
@@ -44,7 +46,7 @@ void ScreenPlay::createWallpaper(
     m_settings->saveWallpaperToConfig(monitorIndex, absoluteStoragePath, type);
 }
 
-void ScreenPlay::createWidget(QUrl absoluteStoragePath, const QString& previewImage)
+void ScreenPlayManager::createWidget(QUrl absoluteStoragePath, const QString& previewImage)
 {
     ProjectFile project {};
 
@@ -62,7 +64,7 @@ void ScreenPlay::createWidget(QUrl absoluteStoragePath, const QString& previewIm
             this));
 }
 
-void ScreenPlay::removeAllWallpaper()
+void ScreenPlayManager::removeAllWallpaper()
 {
     if (m_settings && !m_screenPlayWallpapers.empty()) {
         m_sdkconnector->closeAllWallpapers();
@@ -73,7 +75,7 @@ void ScreenPlay::removeAllWallpaper()
     return;
 }
 
-void ScreenPlay::requestProjectSettingsListModelAt(const int index)
+void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
 {
     for (const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
         if (!uPtrWallpaper->screenNumber().empty() && uPtrWallpaper->screenNumber()[0] == index) { // ??? only at index == 0
@@ -86,7 +88,7 @@ void ScreenPlay::requestProjectSettingsListModelAt(const int index)
     emit projectSettingsListModelNotFound();
 }
 
-void ScreenPlay::setWallpaperValue(const int at, const QString& key, const QString& value)
+void ScreenPlayManager::setWallpaperValue(const int at, const QString& key, const QString& value)
 {
     Q_ASSERT(static_cast<size_t>(at) < m_screenPlayWallpapers.size() && m_sdkconnector);
     for (const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
@@ -97,14 +99,14 @@ void ScreenPlay::setWallpaperValue(const int at, const QString& key, const QStri
     }
 }
 
-void ScreenPlay::setAllWallpaperValue(const QString& key, const QString& value)
+void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
 {
     for (const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
         m_sdkconnector->setWallpaperValue(uPtrWallpaper->appID(), key, value);
     }
 }
 
-void ScreenPlay::removeWallpaperAt(const int at)
+void ScreenPlayManager::removeWallpaperAt(const int at)
 {
     if (m_screenPlayWallpapers.empty())
         return;
@@ -124,7 +126,7 @@ void ScreenPlay::removeWallpaperAt(const int at)
     m_screenPlayWallpapers.erase(wallsToRemove, m_screenPlayWallpapers.end());
 }
 
-QString ScreenPlay::generateID() const
+QString ScreenPlayManager::generateID() const
 {
     const QString possibleCharacters {
         "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
@@ -139,4 +141,5 @@ QString ScreenPlay::generateID() const
         randomString.append(nextChar);
     }
     return randomString;
+}
 }

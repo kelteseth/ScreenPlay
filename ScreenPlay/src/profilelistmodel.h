@@ -17,7 +17,7 @@
            - Add a profile for a combination of active wallpaper and widgets!
 
 */
-
+namespace ScreenPlay {
 struct Profile;
 
 class ProfileListModel : public QAbstractListModel {
@@ -42,3 +42,4 @@ private:
     QHash<int, QByteArray> m_roleNames;
     QVector<Profile> m_profileList;
 };
+}

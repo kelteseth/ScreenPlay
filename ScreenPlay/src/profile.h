@@ -9,11 +9,16 @@
             See Profile List Model for more details
 
 */
-
+namespace ScreenPlay {
 struct Profile {
 
     Profile() {}
-    Profile(QUrl absolutePath, QString id, QString version, QString wallpaperId, QRect rect, bool isLooping)
+    Profile(const QUrl& absolutePath,
+        const QString& id,
+        const QString& version,
+        const QString& wallpaperId,
+        const QRect& rect,
+        const bool isLooping)
     {
         m_absolutePath = absolutePath;
         m_id = id;
@@ -30,3 +35,4 @@ struct Profile {
     QRect m_rect;
     bool m_isLooping = true;
 };
+}

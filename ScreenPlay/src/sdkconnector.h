@@ -13,14 +13,14 @@
     \brief Used for every Wallpaper, Scene or Widget communication via Windows pipes/QLocalSocket
 
 */
+
+namespace ScreenPlay {
 class SDKConnection;
 
 class SDKConnector : public QObject {
     Q_OBJECT
 public:
     explicit SDKConnector(QObject* parent = nullptr);
-
-signals:
 
 public slots:
     void readyRead();
@@ -130,3 +130,4 @@ private:
     QString m_appID;
     QVector<int> m_monitor;
 };
+}

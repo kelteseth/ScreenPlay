@@ -10,6 +10,8 @@
 
 */
 
+namespace ScreenPlay {
+
 Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     const shared_ptr<ProfileListModel>& plm,
     const shared_ptr<MonitorListModel>& mlm,
@@ -284,4 +286,5 @@ void Settings::setupWidgetAndWindowPaths()
         setScreenPlayWidgetPath(QUrl("ScreenPlayWidget.exe"));
     }
 #endif
+}
 }

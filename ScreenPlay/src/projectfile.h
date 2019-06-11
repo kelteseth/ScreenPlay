@@ -11,10 +11,14 @@
     \brief In ScreenPlay every Wallpaper, Scene or Widget has an project.json to store its configuration
 
 */
+namespace ScreenPlay {
+
 
 struct ProjectFile {
 
-    ProjectFile(QJsonObject obj, QString folderName, QUrl absolutePath)
+    ProjectFile(const QJsonObject& obj,
+                const QString& folderName,
+                const QUrl& absolutePath)
     {
 
         if (obj.contains("description"))
@@ -72,3 +76,4 @@ struct ProjectFile {
 
     QVariantList m_tags; //TODO: Implement me!
 };
+}

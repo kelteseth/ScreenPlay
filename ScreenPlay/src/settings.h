@@ -38,7 +38,7 @@
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #endif
-
+namespace ScreenPlay {
 class ActiveProfile;
 
 using std::shared_ptr,
@@ -47,7 +47,7 @@ using std::shared_ptr,
 class Settings : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(QVersionNumber version READ version)
+    Q_PROPERTY(QVersionNumber version READ version )
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
@@ -131,23 +131,6 @@ public:
         return m_offlineMode;
     }
 
-signals:
-    void autostartChanged(bool autostart);
-    void highPriorityStartChanged(bool highPriorityStart);
-    void sendStatisticsChanged(bool status);
-    void localStoragePathChanged(QUrl localStoragePath);
-    void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
-    void decoderChanged(QString decoder);
-    void setMainWindowVisible(bool visible);
-    void activeWallpaperCounterChanged(int activeWallpaperCounter);
-    void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
-    void offlineModeChanged(bool offlineMode);
-
-public slots:
-    void writeSingleSettingConfig(QString name, QVariant value);
-    void saveWallpaperToConfig(const int monitorIndex, const QUrl& absoluteStoragePath, const QString& type);
-    void removeWallpaperFromConfig(const int monitorIndex);
-    void setqSetting(const QString& key, const QString& value);
 
     bool autostart() const
     {
@@ -168,6 +151,25 @@ public slots:
     {
         return m_decoder;
     }
+
+
+signals:
+    void autostartChanged(bool autostart);
+    void highPriorityStartChanged(bool highPriorityStart);
+    void sendStatisticsChanged(bool status);
+    void localStoragePathChanged(QUrl localStoragePath);
+    void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
+    void decoderChanged(QString decoder);
+    void setMainWindowVisible(bool visible);
+    void activeWallpaperCounterChanged(int activeWallpaperCounter);
+    void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
+    void offlineModeChanged(bool offlineMode);
+
+public slots:
+    void writeSingleSettingConfig(QString name, QVariant value);
+    void saveWallpaperToConfig(const int monitorIndex, const QUrl& absoluteStoragePath, const QString& type);
+    void removeWallpaperFromConfig(const int monitorIndex);
+    void setqSetting(const QString& key, const QString& value);
 
     void setAutostart(bool autostart)
     {
@@ -313,3 +315,4 @@ private:
     QString m_decoder = "";
     int m_activeWallpaperCounter = 0;
 };
+}

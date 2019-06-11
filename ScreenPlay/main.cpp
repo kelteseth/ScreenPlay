@@ -17,12 +17,21 @@
 #include "src/monitorlistmodel.h"
 #include "src/profilelistmodel.h"
 #include "src/qmlutilities.h"
-#include "src/screenplay.h"
+#include "src/screenplaymanager.h"
 #include "src/sdkconnector.h"
 #include "src/settings.h"
 
 using std::shared_ptr,
-    std::make_shared;
+    std::make_shared,
+    ScreenPlay::QMLUtilities,
+    ScreenPlay::InstalledListModel,
+    ScreenPlay::ScreenPlayManager,
+    ScreenPlay::InstalledListFilter,
+    ScreenPlay::MonitorListModel,
+    ScreenPlay::ProfileListModel,
+    ScreenPlay::SDKConnector,
+    ScreenPlay::Settings,
+    ScreenPlay::Create;
 
 int main(int argc, char* argv[])
 {
@@ -54,7 +63,7 @@ int main(int argc, char* argv[])
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     auto settings = make_shared<Settings>(installedListModel, profileListModel, monitorListModel, sdkConnector);
-    ScreenPlay screenPlay(installedListModel, settings, monitorListModel, sdkConnector);
+    ScreenPlayManager screenPlay(installedListModel, settings, monitorListModel, sdkConnector);
     Create create(settings);
 
     // All the list need the default path from the settings

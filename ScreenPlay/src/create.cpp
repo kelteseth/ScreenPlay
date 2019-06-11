@@ -9,7 +9,7 @@
     \todo
             - This class would need to be refactored to be used in more creation types.
 */
-
+namespace ScreenPlay {
 Create::Create(const shared_ptr<Settings>& settings, QObject* parent)
     : QObject(parent)
     , m_settings(settings)
@@ -144,4 +144,5 @@ void Create::abortAndCleanup()
         m_createImportVideoThread = nullptr;
     });
     m_createImportVideoThread->requestInterruption();
+}
 }

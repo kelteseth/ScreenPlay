@@ -9,7 +9,7 @@
             - Expand filter functionality
 
 */
-
+namespace ScreenPlay {
 InstalledListFilter::InstalledListFilter(const shared_ptr<InstalledListModel>& ilm)
     : QSortFilterProxyModel()
     , m_ilm(ilm)
@@ -52,4 +52,5 @@ void InstalledListFilter::resetFilter()
     setFilterRole(InstalledListModel::InstalledRole::TitleRole);
     setFilterWildcard("*");
     sort(0);
+}
 }

@@ -4,6 +4,7 @@
     \class ScreenPlayWallpaper
     \brief Used for ...
 */
+namespace ScreenPlay {
 
 ScreenPlayWallpaper::ScreenPlayWallpaper(const vector<int>& screenNumber,
     const shared_ptr<Settings>& settings,
@@ -44,9 +45,10 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const vector<int>& screenNumber,
         fillMode
     };
 
-    qDebug() << "Creating ScreenPlayWallpaper " << proArgs;
+    //qDebug() << "Creating ScreenPlayWallpaper " << proArgs;
 
     m_process.setArguments(proArgs);
     m_process.setProgram(m_settings->screenPlayWindowPath().toString());
     m_process.startDetached();
+}
 }

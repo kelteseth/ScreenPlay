@@ -20,7 +20,7 @@
             - Add event when monitor count changed.
 
 */
-
+namespace ScreenPlay {
 struct Monitor;
 
 class MonitorListModel : public QAbstractListModel {
@@ -93,3 +93,4 @@ struct Monitor {
 
     QScreen* m_screen = nullptr;
 };
+}

@@ -1,5 +1,5 @@
 #include "monitorlistmodel.h"
-
+namespace ScreenPlay {
 MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
     , m_qGuiApplication(static_cast<QGuiApplication*>(QGuiApplication::instance()))
@@ -191,4 +191,5 @@ Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, 
     // FIXME: Use a better way to create an id
     // because name and manufacturer are allways empty
     m_id = name + "_" + QString::number(size.width()) + "x" + QString::number(size.height()) + "_" + QString::number(availableGeometry.x()) + "x" + QString::number(availableGeometry.y());
+}
 }

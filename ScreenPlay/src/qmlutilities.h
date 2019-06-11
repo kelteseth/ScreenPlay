@@ -8,14 +8,7 @@
 #include <QString>
 #include <QtConcurrent/QtConcurrent>
 
-/*!
-    \class Global QML Utilities
-    \brief Easy to use global object to use to:
-    \list
-        \i Navigate the main menu
-        \i Open Explorer at a given path
-    \endlist
-*/
+namespace ScreenPlay {
 
 class QMLUtilities : public QObject {
     Q_OBJECT
@@ -41,3 +34,4 @@ public slots:
 
     QString fixWindowsPath(QString url);
 };
+}
