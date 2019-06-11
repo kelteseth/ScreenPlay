@@ -4,8 +4,8 @@
 
 <div align="center">
 ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. It is written in modern C++17/Qt5/QML. Binaries with workshop support are available for Windows/Linux/MacOSX via <a href="https://store.steampowered.com/about/">Steam</a>. 
-Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="https://forum.screen-play.app/">Forum</a>, <a href="https://discord.gg/3RygPHZ">Discord</a>
-<br> Visit our <a href="https://aimber.gitlab.io/ScreenPlayDocs/"> Developer Documentation</a> and our <a href="https://aimber.gitlab.io/ScreenPlayDocs/"> Getting Started Guide</a>!
+Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="https://forum.screen-play.app/">Forum</a>
+<br> Visit our <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/"> Developer Documentation</a> and our <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/"> Getting Started Guide</a>!
 <br>
 <h3><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h3>
 
@@ -14,7 +14,7 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 
 ## Contributing
 
-Everyone can contribute with code, design, documentation or translation. Visit our [contributing guide](https://gitlab.com/aimber/ScreenPlay/blob/dev/CONTRIBUTING.md) for more informations.
+Everyone can contribute with code, design, documentation or translation. Visit our [contributing guide](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/CONTRIBUTING.md) for more informations.
 
 # Getting started
 
@@ -23,7 +23,7 @@ Everyone can contribute with code, design, documentation or translation. Visit o
 2. Download ScreenPlay with  __all submodules__
 ``` bash
 # HTTPS
-git clone --recursive https://gitlab.com/aimber/ScreenPlay.git
+git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
 ```
 ### Windows
 1. [Download and install MSVC 2017 Community](https://visualstudio.microsoft.com/vs/community/)
@@ -32,7 +32,7 @@ git clone --recursive https://gitlab.com/aimber/ScreenPlay.git
 3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.12.0 LTS
+        - Qt 5.13.0
             - MSVC 2017 64-bit
             - Qt WebEngine
         - Tools
@@ -53,7 +53,7 @@ sudo zypper install -t pattern devel_basis
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.12.0 LTS
+        - Qt 5.13.0 
             - GCC
             - Qt WebEngine
 ### OSX
@@ -63,6 +63,6 @@ sudo zypper install -t pattern devel_basis
 3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.12.0 LTS
+        - Qt 5.13.0 
             - Qt WebEngine
 4. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.11.2) -> Change c and c++ Compiler to Apple Clang (x86_64)
