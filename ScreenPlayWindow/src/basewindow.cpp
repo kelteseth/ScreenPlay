@@ -3,7 +3,6 @@
 BaseWindow::BaseWindow(QObject* parent)
     : QObject(parent)
 {
-
 }
 
 BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
@@ -79,3 +78,35 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
     }
 }
 
+void BaseWindow::messageReceived(QString key, QString value)
+{
+    if (key == "volume") {
+        bool ok;
+        float tmp = value.toFloat(&ok);
+        if (ok) {
+            setVolume(tmp);
+        }
+        return;
+    }
+
+    if (key == "playbackRate") {
+        bool ok;
+        float tmp = value.toFloat(&ok);
+        if (ok) {
+            setPlaybackRate(tmp);
+        }
+        return;
+    }
+
+    if (key == "loops") {
+        bool tmp = QVariant(value).toBool();
+        setLoops(tmp);
+        return;
+    }
+
+    if (key == "isPlaying") {
+        bool tmp = QVariant(value).toBool();
+        setIsPlaying(tmp);
+        return;
+    }
+}

@@ -148,11 +148,6 @@ void WinWindow::destroyThis()
     QCoreApplication::quit();
 }
 
-void WinWindow::messageReceived(QString key, QString value)
-{
-    emit qmlSceneValueReceived(key, value);
-}
-
 void WinWindow::calcOffsets()
 {
     for (int i = 0; i < QApplication::screens().count(); i++) {

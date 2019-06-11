@@ -67,7 +67,7 @@ private:
     const shared_ptr<MonitorListModel> m_monitorListModel;
     const shared_ptr<SDKConnector> m_sdkconnector;
 
-    QGuiApplication* const m_qGuiApplication;
+    const QGuiApplication* const m_qGuiApplication;
     vector<unique_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
     vector<unique_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
 };
