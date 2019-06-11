@@ -6,7 +6,9 @@ Every changes to ScreenPlay are done via Gitlab issues and merge requests (pull 
 
 ### Development
 
-1.  Accept the [Contributing Agreement](https://gitlab.com/kelteseth/ScreenPlay).
+1.  Accept the Contributing Agreement:
+    *  [For regular contributors](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/Legal/individual_contributor_license_agreement.md)
+    *  [For members of a company](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/Legal/corporate_contributor_license_agreement.md)
 2.  Download and set up ScreenPlay as described in the main [Readme](https://gitlab.com/kelteseth/ScreenPlay).
 2.  Choose an issue to work on:
     *   Your own ideas or thinks you want to improve. Alternatively you can tackle existing open issues:
