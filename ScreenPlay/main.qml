@@ -215,7 +215,6 @@ ApplicationWindow {
         target: pageLoader.item
         ignoreUnknownSignals: true
 
-        property bool ignoreWorkshopBanner: false
 
         onSetSidebarActive: {
             if (active) {
@@ -225,39 +224,6 @@ ApplicationWindow {
             }
         }
 
-        onSetSidebaractiveItem: {
-            if ((type === "video")) {
-                if (sidebar.activeScreen == screenId
-                        && sidebar.state == "active") {
-                    sidebar.state = "inactive"
-                } else {
-                    sidebar.state = "active"
-                }
-            } else if (type === "widget") {
-                if (sidebar.activeScreen == screenId
-                        && sidebar.state == "activeWidget") {
-                    sidebar.state = "inactive"
-                } else {
-                    sidebar.state = "activeWidget"
-                }
-            } else if (type === "qmlScene") {
-                if (sidebar.activeScreen == screenId
-                        && sidebar.state == "activeScene") {
-                    sidebar.state = "inactive"
-                } else {
-                    sidebar.state = "activeScene"
-                }
-            } else if (type === "html") {
-                if (sidebar.activeScreen == screenId
-                        && sidebar.state == "activeScene") {
-                    sidebar.state = "inactive"
-                } else {
-                    sidebar.state = "activeScene"
-                }
-            }
-            sidebar.activeScreen = screenId
-            sidebar.type = type
-        }
         onSetNavigationItem: {
             if (pos === 0) {
                 nav.onPageChanged("Create")

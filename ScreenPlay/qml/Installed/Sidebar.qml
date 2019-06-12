@@ -15,6 +15,45 @@ Item {
     property string type
     property string activeScreen
 
+
+    Connections {
+        target: utility
+
+        onSetSidebarItem: {
+            if ((type === "video")) {
+                if (activeScreen == screenId
+                        && state == "active") {
+                    state = "inactive"
+                } else {
+                    state = "active"
+                }
+            } else if (type === "widget") {
+                if (activeScreen == screenId
+                        && state == "activeWidget") {
+                    state = "inactive"
+                } else {
+                    state = "activeWidget"
+                }
+            } else if (type === "qmlScene") {
+                if (activeScreen == screenId
+                        && state == "activeScene") {
+                    state = "inactive"
+                } else {
+                    state = "activeScene"
+                }
+            } else if (type === "html") {
+                if (activeScreen == screenId
+                        && state == "activeScene") {
+                    state = "inactive"
+                } else {
+                    state = "activeScene"
+                }
+            }
+            activeScreen = screenId
+            type = type
+        }
+    }
+
     MouseArea {
         id: mouseAreaHelper
         anchors.fill: parent
@@ -206,18 +245,18 @@ Item {
                     left: parent.left
                 }
 
-                MonitorSelection {
-                    id: monitorSelection
-                    width: 360
-                    height: parent.height
-                    availableWidth: 360
-                    fontSize: 11
-                    availableHeight: 50
-                    anchors {
-                        top: parent.top
-                        horizontalCenter: parent.horizontalCenter
+                    MonitorSelection {
+                        id: monitorSelection
+                        width: 360
+                        height: parent.height
+                        availableWidth: 360
+                        fontSize: 11
+                        availableHeight: 50
+                        anchors {
+                            top: parent.top
+                            horizontalCenter: parent.horizontalCenter
+                        }
                     }
-                }
             }
 
             Item {

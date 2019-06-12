@@ -17,7 +17,6 @@ Item {
     property int workshopID: 0
     property int itemIndex
     property string screenId: ""
-    signal itemClicked(var screenId, var type)
 
     onTypeChanged: {
         if (type === "widget") {
@@ -202,7 +201,7 @@ Item {
 
                 onClicked: {
                     if (mouse.button === Qt.LeftButton) {
-                        itemClicked(screenId, type)
+                        utility.setSidebarItem(screenId, type)
                     } else if (mouse.button === Qt.RightButton) {
                         if (workshopID != 0) {
                             miWorkshop.enabled = true
