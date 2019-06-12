@@ -12,6 +12,7 @@ namespace ScreenPlay {
 
 class QMLUtilities : public QObject {
     Q_OBJECT
+
 public:
     explicit QMLUtilities(QObject* parent = nullptr);
 

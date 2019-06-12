@@ -20,6 +20,10 @@ Item {
         target: utility
 
         onSetSidebarItem: {
+            activeScreen = screenId
+            sidebar.type = type
+
+
             if ((type === "video")) {
                 if (activeScreen == screenId
                         && state == "active") {
@@ -27,21 +31,30 @@ Item {
                 } else {
                     state = "active"
                 }
-            } else if (type === "widget") {
+                return
+            }
+
+            if (type === "widget") {
                 if (activeScreen == screenId
                         && state == "activeWidget") {
                     state = "inactive"
                 } else {
                     state = "activeWidget"
                 }
-            } else if (type === "qmlScene") {
+                return
+            }
+
+            if (type === "qmlScene") {
                 if (activeScreen == screenId
                         && state == "activeScene") {
                     state = "inactive"
                 } else {
                     state = "activeScene"
                 }
-            } else if (type === "html") {
+                return
+            }
+
+            if (type === "html") {
                 if (activeScreen == screenId
                         && state == "activeScene") {
                     state = "inactive"
@@ -49,8 +62,7 @@ Item {
                     state = "activeScene"
                 }
             }
-            activeScreen = screenId
-            type = type
+
         }
     }
 
@@ -386,6 +398,7 @@ Item {
                 }
 
                 onClicked: {
+                    print(sidebar.type)
                     if (type === "video" || type === "qmlScene" || type === "html") {
                         screenPlay.createWallpaper(
                                     monitorSelection.activeMonitorIndex, installedListModel.absoluteStoragePath + "/" + activeScreen,

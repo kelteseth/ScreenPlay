@@ -201,7 +201,8 @@ Item {
 
                 onClicked: {
                     if (mouse.button === Qt.LeftButton) {
-                        utility.setSidebarItem(screenId, type)
+                        utility.setSidebarItem(screenPlayItem.screenId, screenPlayItem.type.toString())
+
                     } else if (mouse.button === Qt.RightButton) {
                         if (workshopID != 0) {
                             miWorkshop.enabled = true
@@ -298,28 +299,6 @@ Item {
         }
     ]
     transitions: [
-        Transition {
-            from: "invisible"
-            to: "visible"
-
-            //            PropertyAnimation {
-            //                target: screenPlayItemWrapper
-            //                properties: "y"
-            //                duration: 300
-            //                easing.type: Easing.OutQuart
-            //            }
-            //            OpacityAnimator {
-            //                target: screenPlayItemWrapper
-            //                duration: 500
-            //                easing.type: Easing.OutQuart
-            //            }
-            //            PropertyAnimation {
-            //                target: effect
-            //                property: "opacity"
-            //                duration: 500
-            //                easing.type: Easing.OutQuart
-            //            }
-        },
         Transition {
             from: "visible"
             to: "hover"
