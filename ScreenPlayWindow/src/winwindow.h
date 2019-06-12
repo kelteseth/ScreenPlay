@@ -33,6 +33,8 @@ private:
     void setupWallpaperForAllScreens();
     bool searchWorkerWindowToParentTo();
 
+private slots:
+    void terminate();
 
 signals:
     void qmlSceneValueReceived(const QString key, const QString value);

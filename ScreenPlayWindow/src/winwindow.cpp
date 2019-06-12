@@ -138,14 +138,7 @@ void WinWindow::setVisible(bool show)
 
 void WinWindow::destroyThis()
 {
-    ShowWindow(m_windowHandle, SW_HIDE);
-
-    // Force refresh so that we display the regular
-    // desktop wallpaper again
-    ShowWindow(m_windowHandleWorker, SW_HIDE);
-    ShowWindow(m_windowHandleWorker, SW_SHOW);
-
-    QCoreApplication::quit();
+    emit qmlExit();
 }
 
 void WinWindow::calcOffsets()
@@ -201,4 +194,16 @@ bool WinWindow::searchWorkerWindowToParentTo()
         10000, nullptr);
 
     return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
+}
+
+void WinWindow::terminate()
+{
+    ShowWindow(m_windowHandle, SW_HIDE);
+
+    // Force refresh so that we display the regular
+    // desktop wallpaper again
+    ShowWindow(m_windowHandleWorker, SW_HIDE);
+    ShowWindow(m_windowHandleWorker, SW_SHOW);
+
+    QCoreApplication::quit();
 }

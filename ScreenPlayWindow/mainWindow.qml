@@ -54,6 +54,9 @@ Rectangle {
         }
     }
 
+
+
+
     Timer {
         id:fadeInTimer
         interval: 50
@@ -65,8 +68,18 @@ Rectangle {
         target: imgCover
         from: 1
         to: 0
-        duration: 1000
+        duration: 800
         easing.type: Easing.InOutQuad
+    }
+
+    OpacityAnimator {
+        id: animFadeOut
+        target: imgCover
+        from: 0
+        to: 1
+        duration: 800
+        easing.type: Easing.InOutQuad
+        onFinished:  window.terminate()
     }
 
 
@@ -142,7 +155,8 @@ Rectangle {
         onQmlExit: {
             webView.runJavaScript(
                         "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
-            window.destroyThis()
+            animFadeOut.start()
+
         }
 
         onQmlSceneValueReceived: {
