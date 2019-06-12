@@ -107,9 +107,11 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
     m_window.setSource(QUrl("qrc:/mainWindow.qml"));
 
     // MUST be called before setting hook for events!
-    winGlobalHook = &m_window;
-    if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
-        qDebug() << "Faild to install mouse hook!";
+    if(type() == BaseWindow::WallpaperType::Qml){
+        winGlobalHook = &m_window;
+        if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
+            qDebug() << "Faild to install mouse hook!";
+        }
     }
 
     // FIXME WORKAROUND:
