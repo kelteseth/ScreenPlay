@@ -21,8 +21,12 @@ void ScreenPlayManager::createWallpaper(
     const QString& previewImage, const float volume,
     const QString& fillMode, const QString& type)
 {
+
+    removeWallpaperAt(monitorIndex);
+
     ProjectFile project {};
     if (!m_installedListModel->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
+        qWarning() << "Failed to receive getProjectByAbsoluteStoragePath";
         return;
     }
 
