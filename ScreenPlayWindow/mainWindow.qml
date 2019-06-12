@@ -43,7 +43,6 @@ Rectangle {
             loader.source = Qt.resolvedUrl(window.fullContentPath)
             break
         }
-        fadeIn()
     }
 
     function fadeIn() {
@@ -55,6 +54,22 @@ Rectangle {
         }
     }
 
+    Timer {
+        id:fadeInTimer
+        interval: 50
+        onTriggered: fadeIn()
+    }
+
+    OpacityAnimator {
+        id: animFadeIn
+        target: imgCover
+        from: 1
+        to: 0
+        duration: 1000
+        easing.type: Easing.InOutQuad
+    }
+
+
     Loader {
         id: loader
         anchors.fill: parent
@@ -63,11 +78,11 @@ Rectangle {
 
     WebEngineView {
         id: webView
-        enabled: false
+
         anchors.fill: parent
         onLoadProgressChanged: {
-
             if (loadProgress === 100) {
+                print("loaded")
 
                 var src = ""
                 src += "var videoPlayer = document.getElementById('videoPlayer');"
@@ -78,7 +93,8 @@ Rectangle {
                 src += "videoPlayer.play();"
 
                 webView.runJavaScript(src, function (result) {
-                    fadeIn()
+                    print("result")
+                    fadeInTimer.start()
                 })
             }
         }
@@ -86,14 +102,6 @@ Rectangle {
         onJavaScriptConsoleMessage: print(lineNumber, message)
     }
 
-    OpacityAnimator {
-        id: animFadeIn
-        target: imgCover
-        from: 1
-        to: 0
-        duration: 300
-        easing.type: Easing.InCubic
-    }
 
     Image {
         id: imgCover
