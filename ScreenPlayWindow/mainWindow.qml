@@ -40,7 +40,9 @@ Rectangle {
             webView.enabled = true
             break
         case Wallpaper.WallpaperType.Qml:
+            loader.enabled = true
             loader.source = Qt.resolvedUrl(window.fullContentPath)
+            fadeIn()
             break
         }
     }
@@ -83,19 +85,13 @@ Rectangle {
     }
 
 
-    Loader {
-        id: loader
-        anchors.fill: parent
-        onLoaded: loader.z = 999
-    }
 
     WebEngineView {
         id: webView
-
+        enabled: false
         anchors.fill: parent
         onLoadProgressChanged: {
             if (loadProgress === 100) {
-                print("loaded")
 
                 var src = ""
                 src += "var videoPlayer = document.getElementById('videoPlayer');"
@@ -106,7 +102,6 @@ Rectangle {
                 src += "videoPlayer.play();"
 
                 webView.runJavaScript(src, function (result) {
-                    print("result")
                     fadeInTimer.start()
                 })
             }
@@ -115,6 +110,11 @@ Rectangle {
         onJavaScriptConsoleMessage: print(lineNumber, message)
     }
 
+    Loader {
+        id: loader
+        anchors.fill: parent
+        enabled: false
+    }
 
     Image {
         id: imgCover

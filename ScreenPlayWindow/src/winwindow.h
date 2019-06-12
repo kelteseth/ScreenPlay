@@ -26,18 +26,13 @@ public:
 public slots:
     void setVisible(bool show) override;
     void destroyThis() override;
+    void terminate();
 
 private:
     void calcOffsets();
     void setupWallpaperForOneScreen(int activeScreen);
     void setupWallpaperForAllScreens();
     bool searchWorkerWindowToParentTo();
-
-private slots:
-    void terminate();
-
-signals:
-    void qmlSceneValueReceived(const QString key, const QString value);
 
 private:
     int m_windowOffsetX = 0;

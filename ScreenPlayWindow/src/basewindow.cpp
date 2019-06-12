@@ -109,4 +109,6 @@ void BaseWindow::messageReceived(QString key, QString value)
         setIsPlaying(tmp);
         return;
     }
+
+    emit qmlSceneValueReceived(key, value);
 }
