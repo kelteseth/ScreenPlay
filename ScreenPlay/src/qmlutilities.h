@@ -19,10 +19,13 @@ signals:
     void requestNavigation(QString nav);
     void requestNavigationActive(bool isActive);
     void requestToggleWallpaperConfiguration();
+    void setSidebarItem(QString screenId, QString type);
 
     void allLicenseLoaded(QString licensesText);
     void allDataProtectionLoaded(QString dataProtectionText);
+
 public slots:
+
     void setNavigation(QString nav);
     void setNavigationActive(bool isActive);
 
