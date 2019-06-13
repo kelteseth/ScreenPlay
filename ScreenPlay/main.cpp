@@ -37,10 +37,10 @@ int main(int argc, char* argv[])
 {
 
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setOrganizationName("Kelteseth");
+    QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.2.0");
+    QGuiApplication::setApplicationVersion("0.3.0");
 
     QGuiApplication app(argc, argv);
     app.setQuitOnLastWindowClosed(false);
