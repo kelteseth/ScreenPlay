@@ -1,18 +1,24 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
 
-import ScreenPlay.screenplaysdk 1.0
-
 Item {
     id: mainWindow
-    visible: true
     anchors.fill: parent
+
+    OpacityAnimator {
+        id: animFadeOut
+        from: 1
+        to: 0
+        target: parent
+        duration: 800
+        easing.type: Easing.InOutQuad
+        onFinished: window.destroyThis()
+    }
 
     Rectangle {
         id: bgColor
         anchors.fill: parent
         color: "white"
-        //color: "#1A1F22"
         opacity: .15
     }
 
@@ -28,12 +34,14 @@ Item {
         anchors.fill: parent
         asynchronous: true
         source: {
-             Qt.resolvedUrl(window.sourcePath)
+            Qt.resolvedUrl(window.sourcePath)
         }
 
-        onStatusChanged: {
-            if (loader.status === Loader.Ready) {
-
+        Connections {
+            target: loader.item
+            onSizeChanged: {
+                mainWindow.width = size.width
+                mainWindow.height = size.height
             }
         }
     }
@@ -41,36 +49,19 @@ Item {
     MouseArea {
         id: mouseArea
         anchors.fill: parent
-
+        hoverEnabled: true
         onPressed: {
             window.setClickPos(Qt.point(mouse.x, mouse.y))
         }
 
         onPositionChanged: {
-            window.setPos(mouse.x, mouse.y)
+            if (mouseArea.pressed)
+                window.setPos(mouse.x, mouse.y)
         }
-        onClicked: {
-
-            if (mouse.button === Qt.RightButton) {
-                contextMenu.popup()
-            }
-        }
-    }
-    Menu {
-        id: contextMenu
-
-        MenuItem {
-            text: qsTr("Close Widget")
-            onClicked: {
-               Qt.quit()
-            }
-        }
-
     }
 
     Connections {
         target: window
-
 
         onQmlSceneValueReceived: {
             var obj2 = 'import QtQuick 2.12; Item {Component.onCompleted: loader.item.'
@@ -80,5 +71,45 @@ Item {
         }
     }
 
+    MouseArea {
+        id: mouseAreaClose
+        width: 20
+        height: width
+        anchors {
+            top: parent.top
+            right: parent.right
+        }
+        cursorShape: Qt.PointingHandCursor
+        onClicked: {
+            window.setWindowBlur(0)
+            animFadeOut.start()
+        }
 
+        Image {
+            source: "qrc:/assets/icons/baseline-close-24px.svg"
+            anchors.centerIn: parent
+        }
+    }
+    MouseArea {
+        id: mouseAreaResize
+        width: 20
+        height: width
+        anchors {
+            bottom: parent.bottom
+            right: parent.right
+        }
+        cursorShape: Qt.SizeFDiagCursor
+        property point clickPosition
+
+        onPressed: {
+            clickPosition = Qt.point(mouseX, mouseY)
+        }
+
+        onPositionChanged: {
+            if (mouseAreaResize.pressed) {
+                window.setWidgetSize(clickPosition.x + mouseX,
+                                     clickPosition.y + mouseY)
+            }
+        }
+    }
 }
