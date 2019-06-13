@@ -40,7 +40,7 @@ Item {
 
         Text {
             id: txtAmountActiveWallpapers
-            text: screenPlaySettings.activeWallpaperCounter
+            text: screenPlaySettings.activeWallpaperCounter + screenPlaySettings.activeWidgetsCounter
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             color: "orange"

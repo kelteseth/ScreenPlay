@@ -14,7 +14,6 @@
 #include <QProcessEnvironment>
 #include <QQmlPropertyMap>
 #include <QSettings>
-#include <QSharedPointer>
 #include <QStandardPaths>
 #include <QString>
 #include <QTextStream>
@@ -47,7 +46,7 @@ using std::shared_ptr,
 class Settings : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(QVersionNumber version READ version )
+    Q_PROPERTY(QVersionNumber version READ version)
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
@@ -55,7 +54,9 @@ class Settings : public QObject {
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
+
     Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
+    Q_PROPERTY(int activeWidgetsCounter READ activeWidgetsCounter WRITE setActiveWidgetsCounter NOTIFY activeWidgetsCounterChanged)
 
 public:
     explicit Settings(
@@ -131,7 +132,6 @@ public:
         return m_offlineMode;
     }
 
-
     bool autostart() const
     {
         return m_autostart;
@@ -152,6 +152,10 @@ public:
         return m_decoder;
     }
 
+    int activeWidgetsCounter() const
+    {
+        return m_activeWidgetsCounter;
+    }
 
 signals:
     void autostartChanged(bool autostart);
@@ -164,6 +168,8 @@ signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
     void offlineModeChanged(bool offlineMode);
+
+    void activeWidgetsCounterChanged(int activeWidgetsCounter);
 
 public slots:
     void writeSingleSettingConfig(QString name, QVariant value);
@@ -252,6 +258,18 @@ public slots:
         emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
     }
 
+    void increaseActiveWidgetsCounter()
+    {
+        m_activeWidgetsCounter++;
+        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
+    }
+
+    void decreaseActivewidgetsCounter()
+    {
+        m_activeWidgetsCounter--;
+        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
+    }
+
     void increaseActiveWallpaperCounter()
     {
         m_activeWallpaperCounter++;
@@ -287,6 +305,15 @@ public slots:
 
     void loadActiveProfiles();
 
+    void setActiveWidgetsCounter(int activeWidgetsCounter)
+    {
+        if (m_activeWidgetsCounter == activeWidgetsCounter)
+            return;
+
+        m_activeWidgetsCounter = activeWidgetsCounter;
+        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
+    }
+
 private:
     void createDefaultConfig();
     void setupWidgetAndWindowPaths();
@@ -306,13 +333,14 @@ private:
     QUrl m_screenPlayWidgetPath;
     QUrl m_screenPlayBasePath;
 
-    bool m_pauseWallpaperWhenIngame = true;
-    bool m_autostart = true;
-    bool m_highPriorityStart = true;
-    bool m_sendStatistics = false;
-    bool m_offlineMode = true;
+    bool m_pauseWallpaperWhenIngame { true };
+    bool m_autostart { true };
+    bool m_highPriorityStart { true };
+    bool m_sendStatistics { false };
+    bool m_offlineMode { true };
 
-    QString m_decoder = "";
-    int m_activeWallpaperCounter = 0;
+    QString m_decoder { "" };
+    int m_activeWallpaperCounter { 0 };
+    int m_activeWidgetsCounter { 0 };
 };
 }

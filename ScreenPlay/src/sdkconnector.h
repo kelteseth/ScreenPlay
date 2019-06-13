@@ -4,9 +4,10 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QObject>
-#include <QSharedPointer>
 #include <QTimer>
 #include <QVector>
+
+#include <memory>
 
 /*!
     \class SDKConnector
@@ -17,6 +18,11 @@
 namespace ScreenPlay {
 class SDKConnection;
 
+using std::make_unique,
+    std::unique_ptr,
+    std::shared_ptr,
+    std::make_shared;
+
 class SDKConnector : public QObject {
     Q_OBJECT
 public:
@@ -25,14 +31,15 @@ public:
 public slots:
     void readyRead();
     void newConnection();
-    void closeAllWallpapers();
+    void closeAllConnections();
+
     void closeWallpapersAt(int at);
     void setWallpaperValue(QString appID, QString key, QString value);
     void setSceneValue(QString appID, QString key, QString value);
 
 private:
-    QSharedPointer<QLocalServer> m_server;
-    QVector<QSharedPointer<SDKConnection>> m_clients;
+    unique_ptr<QLocalServer> m_server;
+    QVector<shared_ptr<SDKConnection>> m_clients;
 };
 
 class SDKConnection : public QObject {

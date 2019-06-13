@@ -18,11 +18,11 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     const shared_ptr<SDKConnector>& sdkc,
     QObject* parent)
     : QObject(parent)
-    , m_version(QVersionNumber(0, 0, 1))
-    , m_profileListModel(plm)
-    , m_installedListModel(ilm)
-    , m_monitorListModel(mlm)
-    , m_sdkconnector(sdkc)
+    , m_version { QVersionNumber(0, 0, 1) }
+    , m_profileListModel { plm }
+    , m_installedListModel { ilm }
+    , m_monitorListModel { mlm }
+    , m_sdkconnector { sdkc }
 {
     auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
 
