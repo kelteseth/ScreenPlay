@@ -15,6 +15,7 @@ Item {
 
     Component.onCompleted: {
         pageInstalled.state = "in"
+        installedListFilter.sortByRoleType("All")
     }
 
     Connections {
