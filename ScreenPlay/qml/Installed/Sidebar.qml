@@ -398,7 +398,6 @@ Item {
                 }
 
                 onClicked: {
-                    print(sidebar.type)
                     if (type === "video" || type === "qmlScene" || type === "html") {
                         screenPlay.createWallpaper(
                                     monitorSelection.activeMonitorIndex, installedListModel.absoluteStoragePath + "/" + activeScreen,
@@ -406,13 +405,14 @@ Item {
                                     (Math.round(sliderVolume.value * 100) / 100),
                                     settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
                                         ), type)
-                        sidebar.state = "inactive"
+
                     } else if (type === "widget" ) {
                         screenPlay.createWidget(
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,
                                     installedListModel.get(
                                         activeScreen).screenPreview)
                     }
+                    sidebar.state = "inactive"
                 }
             }
         }
