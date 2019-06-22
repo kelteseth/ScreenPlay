@@ -30,33 +30,33 @@ Item {
         target: screenPlayCreate
 
         onCreateWallpaperStateChanged: {
-            if (state === CreateImportVideo.State.ConvertingPreviewImageFinished) {
+            if (state === CreateImportVideo.ConvertingPreviewImageFinished) {
                 imgPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.png"
                 imgPreview.visible = true
                 txtConvert.text = qsTr("Converting Video preview mp4")
             }
 
-            if (state === CreateImportVideo.State.ConvertingPreviewVideo) {
+            if (state === CreateImportVideo.ConvertingPreviewVideo) {
                 txtConvert.text = qsTr("Generating preview video...")
             }
 
-            if (state === CreateImportVideo.State.ConvertingPreviewGif) {
+            if (state === CreateImportVideo.ConvertingPreviewGif) {
                 txtConvert.text = qsTr("Generating preview gif...")
             }
 
-            if (state === CreateImportVideo.State.ConvertingPreviewGifFinished) {
+            if (state === CreateImportVideo.ConvertingPreviewGifFinished) {
                 imgPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.gif"
                 imgPreview.visible = true
                 imgPreview.playing = true
             }
-            if (state === CreateImportVideo.State.ConvertingAudio) {
+            if (state === CreateImportVideo.ConvertingAudio) {
                 txtConvert.text = qsTr("Converting Audio...")
             }
-            if (state === CreateImportVideo.State.ConvertingVideo) {
+            if (state === CreateImportVideo.ConvertingVideo) {
                 txtConvert.text = qsTr("Converting Video...")
             }
 
-            if (state === CreateImportVideo.State.Finished) {
+            if (state === CreateImportVideo.Finished) {
                 txtConvert.text = ""
                 conversionFinishedSuccessful = true
                 busyIndicator.running = false

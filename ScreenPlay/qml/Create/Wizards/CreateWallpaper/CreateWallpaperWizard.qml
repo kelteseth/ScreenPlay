@@ -34,14 +34,14 @@ Item {
     Connections {
         target: screenPlayCreate
         onCreateWallpaperStateChanged: {
-            if (state === CreateImportVideo.State.AnalyseVideoError || state
-                    === CreateImportVideo.State.ConvertingPreviewGifError || state
-                    === CreateImportVideo.State.ConvertingPreviewImageError || state
-                    === CreateImportVideo.State.ConvertingAudioError || state
-                    === CreateImportVideo.State.AbortCleanupError || state
-                    === CreateImportVideo.State.CopyFilesError || state
-                    === CreateImportVideo.State.CreateProjectFileError || state
-                    === CreateImportVideo.State.CreateTmpFolderError) {
+            if (state === CreateImportVideo.AnalyseVideoError || state
+                    === CreateImportVideo.ConvertingPreviewGifError || state
+                    === CreateImportVideo.ConvertingPreviewImageError || state
+                    === CreateImportVideo.ConvertingAudioError || state
+                    === CreateImportVideo.AbortCleanupError || state
+                    === CreateImportVideo.CopyFilesError || state
+                    === CreateImportVideo.CreateProjectFileError || state
+                    === CreateImportVideo.CreateTmpFolderError) {
                 createNew.state = "result"
             }
         }

@@ -11,21 +11,28 @@
 #include <QJsonParseError>
 #include <QObject>
 #include <QProcess>
+#include <QScopeGuard>
 #include <QString>
 #include <QThread>
 #include <QtMath>
-#include <QScopeGuard>
 
 namespace ScreenPlay {
+
 
 class CreateImportVideo : public QObject {
     Q_OBJECT
 
 public:
+    CreateImportVideo(){}
     CreateImportVideo(QObject* parent = nullptr);
     explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, QObject* parent = nullptr);
+    ~CreateImportVideo(){}
 
-    enum class State {
+    QString m_videoPath;
+    QString m_exportPath;
+    int m_length = 0;
+    int m_framerate = 0;
+    enum class ImportVideoState {
         Idle,
         Started,
         AnalyseVideo,
@@ -58,15 +65,10 @@ public:
         CreateTmpFolderError,
         Finished,
     };
-    Q_ENUM(State)
-
-    QString m_videoPath;
-    QString m_exportPath;
-    int m_length = 0;
-    int m_framerate = 0;
+    Q_ENUM(ImportVideoState)
 
 signals:
-    void createWallpaperStateChanged(CreateImportVideo::State state);
+    void createWallpaperStateChanged(CreateImportVideo::ImportVideoState state);
     void processOutput(QString text);
     void finished();
     void canceled();
@@ -82,3 +84,4 @@ public slots:
     bool extractWallpaperAudio();
 };
 }
+Q_DECLARE_METATYPE(ScreenPlay::CreateImportVideo::ImportVideoState)
