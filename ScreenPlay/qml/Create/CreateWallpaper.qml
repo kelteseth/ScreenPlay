@@ -244,7 +244,7 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 onClicked: {
-
+                    utility.requestNavigation("Workshop")
                 }
             }
         }
