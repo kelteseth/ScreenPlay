@@ -364,7 +364,7 @@ Item {
                 }
             }
 
-            NumberAnimation {
+            PropertyAnimation {
                 target: footer
                 property: "anchors.bottomMargin"
                 duration: 400
@@ -376,7 +376,7 @@ Item {
             to: "new"
             reversible: true
 
-            NumberAnimation {
+            PropertyAnimation {
                 target: footer
                 property: "anchors.bottomMargin"
                 duration: 400
