@@ -29,11 +29,7 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 void CreateImportVideo::process()
 {
 
-    auto cleanup = qScopeGuard([this] {
-        qDebug() << "ABORT";
-        this->requestInterruption();
-        emit canceled();
-    });
+
 
     if (!createWallpaperInfo())
         return;
