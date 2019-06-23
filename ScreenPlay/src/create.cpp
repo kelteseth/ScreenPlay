@@ -108,6 +108,7 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     }
 
     QTextStream out(&file);
+    out.setCodec("UTF-8");
     QJsonDocument doc(obj);
 
     out << doc.toJson();
