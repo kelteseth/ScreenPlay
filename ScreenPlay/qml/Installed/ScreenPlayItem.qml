@@ -189,12 +189,14 @@ Item {
                 onEntered: {
                     if (!hasMenuOpen) {
                         screenPlayItem.state = "hover"
+                        screenPlayItemImage.state = "hover"
                         screenPlayItemImage.enter()
                     }
                 }
                 onExited: {
                     if (!hasMenuOpen) {
                         screenPlayItem.state = "visible"
+                         screenPlayItemImage.state = "loaded"
                         screenPlayItemImage.exit()
                     }
                 }
@@ -289,7 +291,6 @@ Item {
             }
             PropertyChanges {
                 target: screenPlayItemWrapper
-                y: 0
                 opacity: 1
             }
             PropertyChanges {
