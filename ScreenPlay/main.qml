@@ -114,6 +114,22 @@ ApplicationWindow {
         id: sti
         visible: true
         iconSource: "qrc:/assets/icons/favicon.ico"
+        tooltip: qsTr("ScreenPlay - Double click to change you settings.")
+        onActivated:{
+            switch(reason){
+            case SystemTrayIcon.Unknown:
+                break;
+            case SystemTrayIcon.Context:
+                break;
+            case SystemTrayIcon.DoubleClick:
+                window.show()
+                break;
+            case SystemTrayIcon.Trigger:
+                break;
+            case SystemTrayIcon.MiddleClick:
+                break;
+            }
+        }
 
         menu: Menu {
             MenuItem {
