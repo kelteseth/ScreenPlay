@@ -3,9 +3,8 @@ import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 
 Item {
-    id:createWidget
+    id: createWidget
     state: "out"
-
     Component.onCompleted: state = "in"
 
     signal buttonPressed(var type, var title, var iconSource)
@@ -20,7 +19,7 @@ Item {
 
         color: "white"
         font.pointSize: 21
-        
+
         font.family: "Roboto"
         font.weight: Font.Thin
     }
@@ -52,14 +51,14 @@ Item {
         id: txtExamples
         text: qsTr("Examples Widgets and Scenes")
         font.family: "Roboto"
-        
+
         font.pointSize: 16
         color: "white"
 
         anchors {
             top: btnCreateEmptyWidget.bottom
             topMargin: 30
-            left:parent.left
+            left: parent.left
             leftMargin: 30
         }
     }
@@ -75,7 +74,7 @@ Item {
         CreateWidgetButton {
             id: btnEmpty1
             text: qsTr("Simple clock widget")
-            buttonActive: true
+
             animOffset: 150
             state: createWidget.state
             imgSource: "qrc:/assets/icons/icon_time.svg"
@@ -86,7 +85,7 @@ Item {
         CreateWidgetButton {
             id: btnEmpty2
             text: qsTr("Musik scene wallpaper visualizer")
-            buttonActive: true
+
             animOffset: 200
             state: createWidget.state
             imgSource: "qrc:/assets/icons/icon_library_music.svg"
@@ -98,7 +97,7 @@ Item {
             id: btnEmpty3
             text: qsTr("Changing scene wallpaper via unsplash.com")
             imgSource: "qrc:/assets/icons/icon_scene.svg"
-            buttonActive: true
+
             animOffset: 250
             state: createWidget.state
             onClicked: {
@@ -164,6 +163,16 @@ Item {
             to: "in"
             reversible: true
 
+            ScriptAction {
+                script: {
+                    if (state === "out") {
+                        btnEmpty1.state = "out"
+                        btnEmpty2.state = "out"
+                        btnEmpty3.state = "out"
+                    }
+                }
+            }
+
             PropertyAnimation {
                 target: txtCreate
                 properties: "opacity,anchors.topMargin"
@@ -187,14 +196,8 @@ Item {
     ]
 }
 
-
-
-
-
-
-
-
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
  ##^##*/
+

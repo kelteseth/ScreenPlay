@@ -15,7 +15,6 @@ Item {
     property string type
     property string activeScreen
 
-
     Connections {
         target: utility
 
@@ -23,46 +22,36 @@ Item {
             activeScreen = screenId
             sidebar.type = type
 
+            // Toggle sidebar if clicked on the same content twice
+            if (activeScreen == screenId && state == "active") {
+                state = "inactive"
+            } else {
+                state = "active"
+            }
 
-            if ((type === "video")) {
-                if (activeScreen == screenId
-                        && state == "active") {
-                    state = "inactive"
-                } else {
-                    state = "active"
-                }
+            switch (type) {
+            case "videoWallpaper":
+                state = "activeScene"
+                return
+            case "htmlWallpaper":
+                state = "activeScene"
+                return
+            case "qmlWallpaper":
+                state = "activeScene"
+                return
+            case "godotWallpaper":
+                state = "activeScene"
+                return
+            case "qmlWidget":
+                state = "activeWidget"
+                return
+            case "htmlWidget":
+                state = "activeWidget"
+                return
+            case "standaloneWidget":
+                state = "activeWidget"
                 return
             }
-
-            if (type === "widget") {
-                if (activeScreen == screenId
-                        && state == "activeWidget") {
-                    state = "inactive"
-                } else {
-                    state = "activeWidget"
-                }
-                return
-            }
-
-            if (type === "qmlScene") {
-                if (activeScreen == screenId
-                        && state == "activeScene") {
-                    state = "inactive"
-                } else {
-                    state = "activeScene"
-                }
-                return
-            }
-
-            if (type === "html") {
-                if (activeScreen == screenId
-                        && state == "activeScene") {
-                    state = "inactive"
-                } else {
-                    state = "activeScene"
-                }
-            }
-
         }
     }
 
@@ -75,9 +64,8 @@ Item {
     onActiveScreenChanged: {
         txtHeadline.text = installedListModel.get(activeScreen).screenTitle
         image.source = Qt.resolvedUrl(
-                    installedListModel.absoluteStoragePath + "/"
-                    + activeScreen + "/" + installedListModel.get(
-                        activeScreen).screenPreview)
+                    installedListModel.absoluteStoragePath + "/" + activeScreen
+                    + "/" + installedListModel.get(activeScreen).screenPreview)
     }
 
     Item {
@@ -212,7 +200,7 @@ Item {
                     id: txtHeadline
                     text: qsTr("Headline")
                     height: 60
-                    
+
                     font.family: "Roboto"
                     font.weight: Font.Thin
                     verticalAlignment: Text.AlignVCenter
@@ -233,7 +221,7 @@ Item {
                 id: txtHeadlineMonitor
                 text: qsTr("Select a Monitor to display the content")
                 height: 50
-                
+
                 horizontalAlignment: Qt.AlignHCenter
                 font.family: "Roboto"
                 font.pointSize: 14
@@ -257,18 +245,18 @@ Item {
                     left: parent.left
                 }
 
-                    MonitorSelection {
-                        id: monitorSelection
-                        width: 360
-                        height: parent.height
-                        availableWidth: 360
-                        fontSize: 11
-                        availableHeight: 50
-                        anchors {
-                            top: parent.top
-                            horizontalCenter: parent.horizontalCenter
-                        }
+                MonitorSelection {
+                    id: monitorSelection
+                    width: 360
+                    height: parent.height
+                    availableWidth: 360
+                    fontSize: 11
+                    availableHeight: 50
+                    anchors {
+                        top: parent.top
+                        horizontalCenter: parent.horizontalCenter
                     }
+                }
             }
 
             Item {
@@ -287,7 +275,7 @@ Item {
                     id: txtSliderVolume
                     text: qsTr("Volume")
                     height: 30
-                    
+
                     font.family: "Roboto"
                     verticalAlignment: Text.AlignVCenter
                     font.pointSize: 10
@@ -342,7 +330,7 @@ Item {
                 id: txtComboBoxFillMode
                 text: qsTr("Fill Mode")
                 height: 30
-                
+
                 font.family: "Roboto"
                 verticalAlignment: Text.AlignVCenter
                 font.pointSize: 10
@@ -398,15 +386,15 @@ Item {
                 }
 
                 onClicked: {
-                    if (type === "video" || type === "qmlScene" || type === "html") {
+
+                    if (type.endsWith("Wallpaper")) {
                         screenPlay.createWallpaper(
                                     monitorSelection.activeMonitorIndex, installedListModel.absoluteStoragePath + "/" + activeScreen,
                                     installedListModel.get(activeScreen).screenPreview,
                                     (Math.round(sliderVolume.value * 100) / 100),
                                     settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
                                         ), type)
-
-                    } else if (type === "widget" ) {
+                    } else {
                         screenPlay.createWidget(
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,
                                     installedListModel.get(

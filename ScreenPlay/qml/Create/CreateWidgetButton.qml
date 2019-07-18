@@ -12,11 +12,11 @@ Item {
 
     Component.onCompleted: btnEmpty.state = "in"
     property int animOffset: 0
-
     property string text
-    signal clicked
-    property bool buttonActive: true
+    property bool buttonActive: false
     property string imgSource: "qrc:/assets/icons/icon_library_music.svg"
+
+    signal clicked
 
     RectangularGlow {
         id: effect
@@ -52,6 +52,7 @@ Item {
             height: 30
             sourceSize: Qt.size(30, 30)
             source: imgSource
+            opacity: buttonActive ? 1 : .25
             anchors {
                 left: parent.left
                 leftMargin: 20
@@ -61,6 +62,7 @@ Item {
         ColorOverlay {
             color: "gray"
             source: imgIcon
+            opacity: buttonActive ? 1 : .25
             anchors.fill: imgIcon
         }
 
@@ -68,7 +70,7 @@ Item {
             id: name
             text: btnEmpty.text
             font.family: "Roboto"
-
+            opacity: buttonActive ? 1 : .25
             font.pointSize: 14
             color: "gray"
             anchors {
@@ -78,11 +80,10 @@ Item {
             }
         }
         Text {
-
             text: ">"
             font.family: "Roboto"
-
             font.pointSize: 18
+            opacity: buttonActive ? 1 : .25
             color: "#b9b9b9"
             anchors {
                 right: parent.right
@@ -182,14 +183,14 @@ Item {
                 ParallelAnimation {
                     ParallelAnimation {
 
-                        NumberAnimation {
+                        PropertyAnimation {
                             target: bg
                             property: "opacity"
                             duration: 400
                             easing.type: Easing.InOutQuart
                         }
 
-                        NumberAnimation {
+                        PropertyAnimation {
                             target: bg
                             property: "anchors.topMargin"
                             easing.type: Easing.InOutQuart
@@ -200,7 +201,7 @@ Item {
                         PauseAnimation {
                             duration: 200
                         }
-                        NumberAnimation {
+                        PropertyAnimation {
                             target: effect
                             property: "opacity"
                             duration: 400

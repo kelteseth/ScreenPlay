@@ -53,6 +53,7 @@ ScreenPlaySDK::ScreenPlaySDK(QQuickItem* parent)
 
 ScreenPlaySDK::~ScreenPlaySDK()
 {
+    m_socket.disconnectFromServer();
 }
 
 void ScreenPlaySDK::connected()

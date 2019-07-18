@@ -56,7 +56,7 @@ public:
 
 public slots:
     void loadInstalledContent();
-    void append(const QJsonObject, const QString);
+    void append(const QJsonObject &, const QString &);
     void reset();
 
     int getAmountItemLoaded();

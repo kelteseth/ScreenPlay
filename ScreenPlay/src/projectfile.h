@@ -13,12 +13,11 @@
 */
 namespace ScreenPlay {
 
-
 struct ProjectFile {
 
     ProjectFile(const QJsonObject& obj,
-                const QString& folderName,
-                const QUrl& absolutePath)
+        const QString& folderName,
+        const QUrl& absolutePath)
     {
 
         if (obj.contains("description"))
@@ -36,18 +35,8 @@ struct ProjectFile {
         if (obj.contains("title"))
             m_title = obj.value("title");
 
-        if (obj.contains("type")) {
-            QString tmp = obj.value("type").toString().toLower();
-            if (tmp == "video") {
-                m_type = "video";
-            } else if (tmp == "qmlwidget" || tmp == "standalonewidget") {
-                m_type = "widget";
-            } else if (tmp == "qmlscene") {
-                m_type = "qmlScene";
-            } else if (tmp == "html") {
-                m_type = "html";
-            }
-        }
+        if (obj.contains("type"))
+            m_type = obj.value("type").toString();
 
         if (obj.contains("workshopid")) {
             m_workshopID = obj.value("workshopid").toInt();

@@ -26,10 +26,10 @@ void InstalledListFilter::sortByRoleType(QString type)
         setFilterWildcard("*");
     } else if (type == "Wallpaper") {
         setFilterRole(InstalledListModel::InstalledRole::TypeRole);
-        setFilterFixedString("video");
+        setFilterWildcard("*Wallpaper");
     } else if (type == "Widgets") {
         setFilterRole(InstalledListModel::InstalledRole::TypeRole);
-        setFilterFixedString("widget");
+        setFilterWildcard("*Widget");
     }
     if (type == "Scenes") {
         setFilterRole(InstalledListModel::InstalledRole::TypeRole);

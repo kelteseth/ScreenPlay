@@ -19,11 +19,11 @@ Item {
     property string screenId: ""
 
     onTypeChanged: {
-        if (type === "widget") {
+        if(type.endsWith("Widget"))
             icnType.source = "qrc:/assets/icons/icon_widgets.svg"
-        } else if (type === "qmlScene") {
-            icnType.source = "qrc:/assets/icons/icon_code.svg"
-        }
+
+        if(type.endsWith("Wallpaper"))
+            icnType.source = "qrc:/assets/icons/icon_movie.svg"
     }
 
     Component.onCompleted: {
