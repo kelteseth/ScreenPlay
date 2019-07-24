@@ -89,7 +89,7 @@ Item {
 
             FileDialog {
                 id: fileDialogImportVideo
-                nameFilters: ["Video files (*.webm)"]
+
                 onAccepted: {
                     videoImportConvertFileSelected(
                                 fileDialogImportVideo.currentFile)

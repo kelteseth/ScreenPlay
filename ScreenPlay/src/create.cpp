@@ -16,7 +16,7 @@ Create::Create(const shared_ptr<Settings>& settings, QObject* parent)
 
 {
     qRegisterMetaType<CreateImportVideo::ImportVideoState>("CreateImportVideo::ImportVideoState");
-    qmlRegisterUncreatableType<ScreenPlay::CreateImportVideo>("ScreenPlay.Create", 1, 0, "CreateImportVideo", "Error only for enums");
+    qmlRegisterUncreatableType<CreateImportVideo>("ScreenPlay.Create", 1, 0, "CreateImportVideo", "Error only for enums");
     qmlRegisterType<Create>("ScreenPlay.Create", 1, 0, "Create");
 }
 

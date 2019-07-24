@@ -1,6 +1,6 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
+import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
 
@@ -13,7 +13,51 @@ Item {
     anchors.fill: parent
     state: "out"
 
-    Component.onCompleted: create.state = "in"
+    Component.onCompleted: {
+        create.state = "in"
+        if(!utility.ffmpegAvailable){
+            ffmpegPopup.open()
+        }
+    }
+
+    Popup {
+        id: ffmpegPopup
+        width: 800
+        height:600
+        modal: true
+        closePolicy: Popup.NoAutoClose
+        focus: true
+        anchors.centerIn: parent
+
+        Connections {
+            target: utility
+            onDownloadFFMPEGCompleted:{
+                ffmpegPopup.close()
+            }
+        }
+
+        Column {
+            anchors.fill: parent
+
+        Text {
+            id: txtDownloadFFMPEG
+            text: qsTr("Before we can start creating content we need to download FFMPEG")
+            font.pointSize: 16
+            height: 50
+        }
+
+        Button {
+            text: qsTr("Download FFMPEG")
+            onClicked: utility.downloadFFMPEG()
+            highlighted: true
+            anchors {
+                right: parent.right
+                left: parent.left
+            }
+
+        }
+        }
+    }
 
     property url activeVideoFile: ""
     property url activeFolder: ""

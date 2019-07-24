@@ -52,7 +52,6 @@ int main(int argc, char* argv[])
     // Qt < 6.0 needs this init QtWebEngine
     QtWebEngine::initialize();
 
-    QMLUtilities qmlUtil;
     auto installedListModel = make_shared<InstalledListModel>();
     auto installedListFilter = make_shared<InstalledListFilter>(installedListModel);
     auto monitorListModel = make_shared<MonitorListModel>();
@@ -72,6 +71,8 @@ int main(int argc, char* argv[])
     settings->loadActiveProfiles();
 
     QQmlApplicationEngine mainWindowEngine;
+    QMLUtilities qmlUtil { mainWindowEngine.networkAccessManager() };
+
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
     mainWindowEngine.rootContext()->setContextProperty("utility", &qmlUtil);

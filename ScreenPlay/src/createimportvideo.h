@@ -18,18 +18,18 @@
 
 namespace ScreenPlay {
 
-
 class CreateImportVideo : public QObject {
     Q_OBJECT
 
 public:
-    CreateImportVideo(){}
+    CreateImportVideo() {}
     CreateImportVideo(QObject* parent = nullptr);
     explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, QObject* parent = nullptr);
-    ~CreateImportVideo(){}
+    ~CreateImportVideo() {}
 
     QString m_videoPath;
     QString m_exportPath;
+    QString m_format;
     int m_length = 0;
     int m_framerate = 0;
     enum class ImportVideoState {
@@ -50,11 +50,9 @@ public:
         ConvertingAudio,
         ConvertingAudioFinished,
         ConvertingAudioError,
-        //      Oh well... Due to so many patents around video codecs
-        //      the user has to convert the video on his own :(
-        //        ConvertingVideo,
-        //        ConvertingVideoFinished,
-        //        ConvertingVideoError,
+        ConvertingVideo,
+        ConvertingVideoFinished,
+        ConvertingVideoError,
         CopyFiles,
         CopyFilesFinished,
         CopyFilesError,
@@ -81,6 +79,7 @@ public slots:
     bool createWallpaperVideoPreview();
     bool createWallpaperGifPreview();
     bool createWallpaperImagePreview();
+    bool createWallpaperVideo();
     bool extractWallpaperAudio();
 };
 }

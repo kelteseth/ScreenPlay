@@ -121,8 +121,8 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
         m_localStoragePath = QUrl::fromUserInput(configObj.value("absoluteStoragePath").toString());
     }
 
-    if (m_qSettings.value("ScreenPlayInstalledPath").toUrl() != m_localStoragePath) {
-        m_qSettings.setValue("ScreenPlayInstalledPath", QDir::toNativeSeparators(m_localStoragePath.toString().remove("file:///")));
+    if (m_qSettings.value("ScreenPlayContentPath").toUrl() != m_localStoragePath) {
+        m_qSettings.setValue("ScreenPlayContentPath", QDir::toNativeSeparators(m_localStoragePath.toString().remove("file:///")));
         m_qSettings.sync();
     }
 

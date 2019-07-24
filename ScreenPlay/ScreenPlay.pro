@@ -65,7 +65,13 @@ CONFIG(debug, debug|release) {
 install_it.files += assets/templates/config.json \
                     assets/icons/favicon.ico
 
+INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
+DEPENDPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
+
 win32 {
+    LIBS += -L$$PWD/../Common/vcpkg/installed/x64-windows/lib/ -llibzippp
+
+
     LIBS += -luser32
     install_it.files += \
                         Common/vcpkg/packages/openssl-windows_x64-windows/bin/libeay32.dll \

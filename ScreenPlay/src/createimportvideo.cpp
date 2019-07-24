@@ -29,8 +29,6 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 void CreateImportVideo::process()
 {
 
-
-
     if (!createWallpaperInfo())
         return;
 
@@ -38,6 +36,9 @@ void CreateImportVideo::process()
         return;
 
     if (!createWallpaperGifPreview())
+        return;
+
+    if (!createWallpaperVideo())
         return;
 
     if (!extractWallpaperAudio())
@@ -93,6 +94,7 @@ bool CreateImportVideo::createWallpaperInfo()
 
     // Get video length
     QJsonObject objFormat = obj.value("format").toObject();
+    qDebug() << objFormat;
     bool okParseDuration = false;
     auto tmpLength = objFormat.value("duration").toVariant().toFloat(&okParseDuration);
 
@@ -306,6 +308,58 @@ bool CreateImportVideo::createWallpaperImagePreview()
     //this->processOutput(proConvertImage.data()->readAll());
     proConvertImage.data()->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageFinished);
+
+    return true;
+}
+
+bool CreateImportVideo::createWallpaperVideo()
+{
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingVideo);
+
+    QStringList args;
+    args.clear();
+    args.append("-y");
+    args.append("-stats");
+    args.append("-i");
+    args.append(m_videoPath);
+    args.append("-o");
+    args.append(m_exportPath + "/video.webm");
+
+    QScopedPointer<QProcess> proConvertImage(new QProcess());
+    proConvertImage.data()->setArguments(args);
+#ifdef Q_OS_WIN
+    proConvertImage.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+
+#ifdef Q_OS_MACOS
+    proConvertImage.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+#endif
+    proConvertImage.data()->start();
+
+    while (!proConvertImage.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
+    {
+        if (QThread::currentThread()->isInterruptionRequested()) {
+            qDebug() << "Interrupt thread";
+            proConvertImage.data()->terminate();
+            if (!proConvertImage.data()->waitForFinished(1000)) {
+                proConvertImage.data()->kill();
+            }
+            break;
+        }
+        QCoreApplication::processEvents();
+    }
+    QString tmpErrImg = proConvertImage.data()->readAllStandardError();
+    if (!tmpErrImg.isEmpty()) {
+        QFile previewImg(m_exportPath + "/video.webm");
+        if (!previewImg.exists() && !(previewImg.size() > 0)) {
+            emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
+            return false;
+        }
+    }
+
+    //this->processOutput(proConvertImage.data()->readAll());
+    proConvertImage.data()->close();
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoFinished);
 
     return true;
 }
