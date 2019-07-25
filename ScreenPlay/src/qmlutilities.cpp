@@ -17,6 +17,22 @@ QMLUtilities::QMLUtilities(QNetworkAccessManager* networkAccessManager, QObject*
 {
     qRegisterMetaType<QMLUtilities::AquireFFMPEGStatus>();
     qmlRegisterUncreatableType<QMLUtilities>("ScreenPlay.QMLUtilities", 1, 0, "QMLUtilities", "Error only for enums");
+
+
+    QString path = QGuiApplication::instance()->applicationDirPath()+"/";
+    QFile fileFFMPEG;
+    QFile fileFFPROBE;
+
+#ifdef Q_OS_WIN
+    fileFFMPEG.setFileName(path + "ffmpeg.exe");
+    fileFFPROBE.setFileName(path + "ffprobe.exe");
+#elif defined(Q_OS_OSX)
+    fileFFMPEG.setFileName(path + "ffmpeg");
+    fileFFPROBE.setFileName(path + "ffprobe");
+#endif
+
+    if(fileFFMPEG.exists() && fileFFPROBE.exists())
+        setFfmpegAvailable(true);
 }
 void QMLUtilities::setNavigation(QString nav)
 {
