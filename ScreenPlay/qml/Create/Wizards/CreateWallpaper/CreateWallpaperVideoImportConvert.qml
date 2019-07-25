@@ -30,37 +30,39 @@ Item {
         target: screenPlayCreate
 
         onCreateWallpaperStateChanged: {
-            if (state === CreateImportVideo.ConvertingPreviewImageFinished) {
+
+            switch (state) {
+            case CreateImportVideo.ConvertingPreviewImageFinished:
                 imgPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.png"
                 imgPreview.visible = true
                 txtConvert.text = qsTr("Converting Video preview mp4")
-            }
-
-            if (state === CreateImportVideo.ConvertingPreviewVideo) {
+                break
+            case CreateImportVideo.ConvertingPreviewVideo:
                 txtConvert.text = qsTr("Generating preview video...")
-            }
-
-            if (state === CreateImportVideo.ConvertingPreviewGif) {
+                break
+            case CreateImportVideo.ConvertingPreviewGif:
                 txtConvert.text = qsTr("Generating preview gif...")
-            }
-
-            if (state === CreateImportVideo.ConvertingPreviewGifFinished) {
+                break
+            case CreateImportVideo.ConvertingPreviewGifFinished:
                 imgPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.gif"
                 imgPreview.visible = true
                 imgPreview.playing = true
-            }
-            if (state === CreateImportVideo.ConvertingAudio) {
+                break
+            case CreateImportVideo.ConvertingAudio:
                 txtConvert.text = qsTr("Converting Audio...")
-            }
-            if (state === CreateImportVideo.ConvertingVideo) {
+                break
+            case CreateImportVideo.ConvertingVideo:
                 txtConvert.text = qsTr("Converting Video...")
-            }
-
-            if (state === CreateImportVideo.Finished) {
+                break
+            case CreateImportVideo.ConvertingVideoError:
+                txtConvert.text = qsTr("Converting Video ERROR!")
+                break
+            case CreateImportVideo.Finished:
                 txtConvert.text = ""
                 conversionFinishedSuccessful = true
                 busyIndicator.running = false
                 wrapperContent.checkCanSave()
+                break
             }
         }
         onProgressChanged: {
@@ -292,10 +294,8 @@ Item {
     }
 }
 
-
-
-
 /*##^## Designer {
     D{i:0;autoSize:true;height:480;width:950}
 }
  ##^##*/
+

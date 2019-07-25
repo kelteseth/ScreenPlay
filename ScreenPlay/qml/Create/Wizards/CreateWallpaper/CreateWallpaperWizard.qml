@@ -35,6 +35,7 @@ Item {
         target: screenPlayCreate
         onCreateWallpaperStateChanged: {
             if (state === CreateImportVideo.AnalyseVideoError || state
+                    === CreateImportVideo.ConvertingVideoError || state
                     === CreateImportVideo.ConvertingPreviewGifError || state
                     === CreateImportVideo.ConvertingPreviewImageError || state
                     === CreateImportVideo.ConvertingAudioError || state
