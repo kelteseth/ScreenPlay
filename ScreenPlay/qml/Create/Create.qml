@@ -5,6 +5,7 @@ import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
 
 import ScreenPlay.Create 1.0
+import ScreenPlay.QMLUtilities 1.0
 
 import "Wizards/CreateWallpaper"
 
@@ -13,50 +14,26 @@ Item {
     anchors.fill: parent
     state: "out"
 
+
     Component.onCompleted: {
         create.state = "in"
+
+
+    }
+
+    function checkFFMPEG(){
         if(!utility.ffmpegAvailable){
             ffmpegPopup.open()
         }
     }
 
-    Popup {
+    FFMPEGPopup {
         id: ffmpegPopup
-        width: 800
-        height:600
-        modal: true
+        anchors.centerIn: create
         closePolicy: Popup.NoAutoClose
         focus: true
-        anchors.centerIn: parent
-
-        Connections {
-            target: utility
-            onDownloadFFMPEGCompleted:{
-                ffmpegPopup.close()
-            }
-        }
-
-        Column {
-            anchors.fill: parent
-
-        Text {
-            id: txtDownloadFFMPEG
-            text: qsTr("Before we can start creating content we need to download FFMPEG")
-            font.pointSize: 16
-            height: 50
-        }
-
-        Button {
-            text: qsTr("Download FFMPEG")
-            onClicked: utility.downloadFFMPEG()
-            highlighted: true
-            anchors {
-                right: parent.right
-                left: parent.left
-            }
-
-        }
-        }
+        modal: true
+        parent: create
     }
 
     property url activeVideoFile: ""

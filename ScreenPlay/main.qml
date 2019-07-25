@@ -35,6 +35,7 @@ ApplicationWindow {
             pageLoaderWorkshop.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
             sidebar.state = "inactive"
+            pageLoaderCreate.item.checkFFMPEG()
         } else if (name === "Workshop") {
             bg.state = "init"
             pageLoader.visible = false
@@ -206,7 +207,6 @@ ApplicationWindow {
     Loader {
         id: pageLoaderCreate
         visible: false
-        asynchronous: true
         anchors {
             top: nav.bottom
             right: parent.right

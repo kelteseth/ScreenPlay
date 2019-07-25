@@ -13,6 +13,8 @@
 
 #include <QNetworkReply>
 #include <QProcess>
+#include <qqml.h>
+
 #include <fstream>
 #include <iostream>
 
@@ -24,13 +26,34 @@ class QMLUtilities : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(bool ffmpegAvailable READ ffmpegAvailable WRITE setFfmpegAvailable NOTIFY ffmpegAvailableChanged)
-
+    Q_PROPERTY(AquireFFMPEGStatus aquireFFMPEGStatus READ aquireFFMPEGStatus WRITE setAquireFFMPEGStatus NOTIFY aquireFFMPEGStatusChanged)
 public:
     explicit QMLUtilities(QNetworkAccessManager* networkAccessManager, QObject* parent = nullptr);
+
+    enum class AquireFFMPEGStatus {
+        Init,
+        Download,
+        DownloadFailed,
+        DownloadSuccessful,
+        Extracting,
+        ExtractingFailedReadFromBuffer,
+        ExtractingFailedFFMPEG,
+        ExtractingFailedFFMPEGSave,
+        ExtractingFailedFFPROBE,
+        ExtractingFailedFFPROBESave,
+        ExtractingSuccessful,
+        FinishedSuccessful,
+    };
+    Q_ENUM(AquireFFMPEGStatus)
 
     bool ffmpegAvailable() const
     {
         return m_ffmpegAvailable;
+    }
+
+    AquireFFMPEGStatus aquireFFMPEGStatus() const
+    {
+        return m_aquireFFMPEGStatus;
     }
 
 signals:
@@ -38,13 +61,10 @@ signals:
     void requestNavigationActive(bool isActive);
     void requestToggleWallpaperConfiguration();
     void setSidebarItem(QString screenId, QString type);
-
     void allLicenseLoaded(QString licensesText);
     void allDataProtectionLoaded(QString dataProtectionText);
-
-    void downloadFFMPEGCompleted(bool successful);
-
     void ffmpegAvailableChanged(bool ffmpegAvailable);
+    void aquireFFMPEGStatusChanged(AquireFFMPEGStatus aquireFFMPEGStatus);
 
 public slots:
 
@@ -70,10 +90,20 @@ public slots:
         emit ffmpegAvailableChanged(m_ffmpegAvailable);
     }
 
+    void setAquireFFMPEGStatus(AquireFFMPEGStatus aquireFFMPEGStatus)
+    {
+        if (m_aquireFFMPEGStatus == aquireFFMPEGStatus)
+            return;
+
+        m_aquireFFMPEGStatus = aquireFFMPEGStatus;
+        emit aquireFFMPEGStatusChanged(m_aquireFFMPEGStatus);
+    }
+
 private:
     QNetworkAccessManager* m_networkAccessManager;
     bool m_ffmpegAvailable { false };
 
     bool saveExtractedByteArray(libzippp::ZipEntry& entry, std::string& absolutePathAndName);
+    AquireFFMPEGStatus m_aquireFFMPEGStatus { AquireFFMPEGStatus::Init };
 };
 }

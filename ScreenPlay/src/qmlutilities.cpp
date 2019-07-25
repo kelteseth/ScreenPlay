@@ -15,6 +15,8 @@ QMLUtilities::QMLUtilities(QNetworkAccessManager* networkAccessManager, QObject*
     : QObject(parent)
     , m_networkAccessManager { networkAccessManager }
 {
+    qRegisterMetaType<QMLUtilities::AquireFFMPEGStatus>();
+    qmlRegisterUncreatableType<QMLUtilities>("ScreenPlay.QMLUtilities", 1, 0, "QMLUtilities", "Error only for enums");
 }
 void QMLUtilities::setNavigation(QString nav)
 {
@@ -117,17 +119,21 @@ void QMLUtilities::downloadFFMPEG()
 #elif defined(Q_OS_OSX)
     req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/ffmpeg-4.1.4-macos64-static.zip"));
 #endif
+    setAquireFFMPEGStatus(AquireFFMPEGStatus::Download);
 
     QNetworkReply* reply = m_networkAccessManager->get(req);
     QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         using namespace libzippp;
         using namespace std;
+
+        setAquireFFMPEGStatus(AquireFFMPEGStatus::DownloadSuccessful);
+
         QByteArray download = reply->readAll();
 
         auto* archive = ZipArchive::fromBuffer(download.data(), download.size(), ZipArchive::OpenMode::READ_ONLY, true);
 
         if (archive == nullptr) {
-            qDebug() << "null";
+            setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedReadFromBuffer);
             return;
         }
 
@@ -143,13 +149,14 @@ void QMLUtilities::downloadFFMPEG()
 
         if (entryFFMPEG.isNull()) {
             qDebug() << "null";
-            emit this->downloadFFMPEGCompleted(false);
+
+            setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFMPEG);
             return;
         }
 
         if (!saveExtractedByteArray(entryFFMPEG, entryFFMPEGPath)) {
             qDebug() << "could not save ffmpeg";
-            emit this->downloadFFMPEGCompleted(false);
+            setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFMPEGSave);
             return;
         }
 
@@ -162,18 +169,23 @@ void QMLUtilities::downloadFFMPEG()
 #endif
         if (entryFFPROBE.isNull()) {
             qDebug() << "null";
-            emit this->downloadFFMPEGCompleted(false);
+             setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFPROBE);
             return;
         }
 
         if (!saveExtractedByteArray(entryFFPROBE, entryFFPROBEPath)) {
             qDebug() << "could not save ffprobe";
-            emit this->downloadFFMPEGCompleted(false);
+             setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFPROBESave);
             return;
         }
 
-        emit this->downloadFFMPEGCompleted(true);
+        setAquireFFMPEGStatus(AquireFFMPEGStatus::FinishedSuccessful);
     });
+
+    QObject::connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
+        [this](QNetworkReply::NetworkError code) {
+            this->setAquireFFMPEGStatus(AquireFFMPEGStatus::DownloadFailed);
+        });
 }
 
 bool QMLUtilities::saveExtractedByteArray(libzippp::ZipEntry& entry, std::string& absolutePathAndName)
