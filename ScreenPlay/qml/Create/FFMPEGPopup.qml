@@ -24,10 +24,13 @@ Popup {
             case QMLUtilities.Init:
                 break
             case QMLUtilities.Download:
+                btnNotNow.enabled = false
+                btnDownload.enabled = false
                 busyIndicator.running = true
                 txtStatus.text = qsTr("Begin downloading FFMPEG")
                 break
             case QMLUtilities.DownloadFailed:
+                btnNotNow.enabled = true
                 txtStatus.text = qsTr("FFMPEG download failed")
                 busyIndicator.running = false
                 break
@@ -38,22 +41,27 @@ Popup {
                 txtStatus.text = qsTr("Extracting FFMPEG")
                 break
             case QMLUtilities.ExtractingFailedReadFromBuffer:
+                btnNotNow.enabled = true
                 txtStatus.text = qsTr("ERROR extracting ffmpeg from RAM")
                 busyIndicator.running = false
                 break
             case QMLUtilities.ExtractingFailedFFMPEG:
+                btnNotNow.enabled = true
                 txtStatus.text = qsTr("ERROR extracing ffmpeg")
                 busyIndicator.running = false
                 break
             case QMLUtilities.ExtractingFailedFFMPEGSave:
+                btnNotNow.enabled = true
                 txtStatus.text = qsTr("ERROR saving FFMPEG to disk")
                 busyIndicator.running = false
                 break
             case QMLUtilities.ExtractingFailedFFPROBE:
+                btnNotNow.enabled = true
                 txtStatus.text = qsTr("ERROR extracing FFPROBE")
                 busyIndicator.running = false
                 break
             case QMLUtilities.ExtractingFailedFFPROBESave:
+                btnNotNow.enabled = true
                 txtStatus.text = qsTr("ERROR saving FFPROBE to disk")
                 busyIndicator.running = false
                 break
@@ -234,12 +242,14 @@ if you installed ScreenPlay via Steam!
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignBottom
             Button {
+                id:btnDownload
                 text: qsTr("Download FFMPEG")
                 onClicked: utility.downloadFFMPEG()
                 highlighted: true
                 Layout.fillWidth: true
             }
             Button {
+                id:btnNotNow
                 text: qsTr("Not now!")
                 onClicked: closeDialog.open()
                 Layout.fillWidth: true
@@ -283,12 +293,31 @@ if you installed ScreenPlay via Steam!
         opacity: 0
         enabled: false
 
+        Text {
+            id: txtDownloadFFMPEGComplete
+            text: qsTr("You can now start creating content!")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pointSize: 16
+            height: 50
+            Layout.fillWidth: true
+            color: "gray"
+            font.family: "Roboto"
+            anchors {
+                horizontalCenter: parent.horizontalCenter
+                top:parent.top
+                topMargin: 30
+            }
+        }
+
+
         Image {
             id: imgOk
             fillMode: Image.PreserveAspectFit
             source: "qrc:/assets/icons/baseline-done-24px.svg"
-            width: 70
+            width: 180
             height: width
+            sourceSize: Qt.size(width,width)
             anchors.centerIn: parent
             smooth: true
         }
@@ -297,8 +326,9 @@ if you installed ScreenPlay via Steam!
             source: imgOk
             color: Material.color(Material.LightGreen)
         }
+
         Button {
-            text: qsTr("Begin creating wallpaper!")
+            text: qsTr("Start!")
             highlighted: true
             onClicked: ffmpegPopup.close()
             anchors {
