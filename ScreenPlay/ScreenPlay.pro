@@ -70,6 +70,19 @@ DEPENDPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
 
 win32 {
     LIBS += -L$$PWD/../Common/vcpkg/installed/x64-windows/lib/ -llibzippp
+CONFIG(debug, debug|release) {
+    install_it.files += $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/zip.dll \
+                        $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/zlibd1.dll \
+                        $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libzippp.dll \
+                        $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/bz2d.dll \
+
+} else {
+    install_it.files += $$PWD/../Common/vcpkg/installed/x64-windows/bin/zip.dll \
+                        $$PWD/../Common/vcpkg/installed/x64-windows/bin/zlib1.dll \
+                        $$PWD/../Common/vcpkg/installed/x64-windows/bin/libzippp.dll \
+                        $$PWD/../Common/vcpkg/installed/x64-windows/bin/bz2.dll \
+}
+
 
 
     LIBS += -luser32
