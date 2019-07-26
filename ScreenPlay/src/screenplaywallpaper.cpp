@@ -48,7 +48,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const vector<int>& screenNumber,
     //qDebug() << "Creating ScreenPlayWallpaper " << proArgs;
 
     m_process.setArguments(proArgs);
-    m_process.setProgram(m_settings->screenPlayWindowPath().toString());
+    m_process.setProgram(m_settings->screenPlayWallpaperPath().toString());
     m_process.startDetached();
 }
 }
