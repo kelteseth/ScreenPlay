@@ -38,8 +38,8 @@ int main(int argc, char* argv[])
         QVector<int> list;
         list.append(0);
 #if defined(Q_OS_WIN)
-        WinWindow window(list, "test", "appid", "1");
-       // WinWindow window(list, "D:/672870/827874818", "appid", "1");
+        //WinWindow window(list, "test", "appid", "1");
+        WinWindow window(list, "D:/672870/827874818", "appid", "1");
 #endif
 #if defined(Q_OS_LINUX)
         LinuxWindow window(list, "test", "appid", "1");

@@ -4,7 +4,7 @@ CONFIG += c++17
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
-TARGETPATH = ScreenPlayWindow
+TARGETPATH = ScreenPlayWallpaper
 
 
 RESOURCES += \

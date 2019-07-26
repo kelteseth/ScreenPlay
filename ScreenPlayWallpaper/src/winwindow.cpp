@@ -115,7 +115,7 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
     }
 
     // FIXME WORKAROUND:
-    // There is a strange bug when we open the ScreenPlayWindow project on its one
+    // There is a strange bug when we open the ScreenPlayWallpaper project on its one
     // that if we set ShowWindow(m_windowHandle, SW_HIDE); we can no longer set
     // the window visible via set Visible.
     if (projectPath != "test") {

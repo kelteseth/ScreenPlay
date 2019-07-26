@@ -72,9 +72,9 @@ public:
         return m_version;
     }
 
-    QUrl screenPlayWindowPath() const
+    QUrl screenPlayWallpaperPath() const
     {
-        return m_screenPlayWindowPath;
+        return m_screenPlayWallpaperPath;
     }
 
     QUrl localStoragePath() const
@@ -97,14 +97,14 @@ public:
         return m_offlineMode;
     }
 
-    QUrl getScreenPlayWindowPath() const
+    QUrl setScreenPlayWallpaperPath() const
     {
-        return m_screenPlayWindowPath;
+        return m_screenPlayWallpaperPath;
     }
 
-    void setScreenPlayWindowPath(const QUrl& screenPlayWindowPath)
+    void setScreenPlayWallpaperPath(const QUrl& screenPlayWallpaperPath)
     {
-        m_screenPlayWindowPath = screenPlayWindowPath;
+        m_screenPlayWallpaperPath = screenPlayWallpaperPath;
     }
 
     QUrl getScreenPlayBasePath() const
@@ -168,7 +168,6 @@ signals:
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
     void offlineModeChanged(bool offlineMode);
-
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
 
 public slots:
@@ -329,7 +328,7 @@ private:
 
     QUrl m_localStoragePath;
     QUrl m_localSettingsPath;
-    QUrl m_screenPlayWindowPath;
+    QUrl m_screenPlayWallpaperPath;
     QUrl m_screenPlayWidgetPath;
     QUrl m_screenPlayBasePath;
 

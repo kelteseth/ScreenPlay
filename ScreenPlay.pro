@@ -2,11 +2,11 @@ TEMPLATE = subdirs
 SUBDIRS +=   \
     ScreenPlay/ScreenPlay.pro \
     ScreenPlaySDK/ScreenPlaySDK.pro \
-    ScreenPlayWindow/ScreenPlayWindow.pro \
+    ScreenPlayWallpaper/ScreenPlayWallpaper.pro \
     ScreenPlayWidget/ScreenPlayWidget.pro \
     ScreenPlay/ThirdParty/stomt-qt-sdk/sdk/stomt-qt-sdk.pro \
 
-ScreenPlayWindow.depends = ScreenPlaySDK
+ScreenPlayWallpaper.depends = ScreenPlaySDK
 ScreenPlayWidget.depends = ScreenPlaySDK
 
 

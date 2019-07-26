@@ -241,14 +241,14 @@ void Settings::setupWidgetAndWindowPaths()
 
     if (SPWorkingDir.cdUp()) {
 #ifdef Q_OS_OSX
-        setScreenPlayWindowPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWindow/ScreenPlayWindow.app/Contents/MacOS/ScreenPlayWindow").toLocalFile());
+        setScreenPlayWallpaperPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWallpaper/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
         setScreenPlayWidgetPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
-        qDebug() << "Setting ScreenPlayWindow Path to " << settings.getScreenPlayWindowPath();
+        qDebug() << "Setting ScreenPlayWallpaper Path to " << settings.getScreenPlayWallpaperPath();
         qDebug() << "Setting ScreenPlayWdiget Path to " << settings.getScreenPlayWidgetPath();
 #endif
 
 #ifdef Q_OS_WIN
-        setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow/debug/ScreenPlayWindow.exe"));
+        setScreenPlayWallpaperPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWallpaper/debug/ScreenPlayWallpaper.exe"));
         setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
 #endif
     }
@@ -269,12 +269,12 @@ void Settings::setupWidgetAndWindowPaths()
     // In QtCreator is the dir above ScreenPlay.exe (!)
 
     SPWorkingDir.cdUp();
-    SPWorkingDir.cd("ScreenPlayWindow");
+    SPWorkingDir.cd("ScreenPlayWallpaper");
 
     if (QDir(SPWorkingDir.path() + "/release").exists()) {
         // If started by QtCreator
         SPWorkingDir.cd("release");
-        setScreenPlayWindowPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWindow.exe"));
+        setScreenPlayWallpaperPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWallpaper.exe"));
         SPWorkingDir.cdUp();
         SPWorkingDir.cdUp();
         SPWorkingDir.cd("ScreenPlayWidget");
@@ -282,7 +282,7 @@ void Settings::setupWidgetAndWindowPaths()
         setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget.exe"));
     } else {
         // If started by Steam
-        setScreenPlayWindowPath(QUrl("ScreenPlayWindow.exe"));
+        setScreenPlayWallpaperPath(QUrl("ScreenPlayWallpaper.exe"));
         setScreenPlayWidgetPath(QUrl("ScreenPlayWidget.exe"));
     }
 #endif
