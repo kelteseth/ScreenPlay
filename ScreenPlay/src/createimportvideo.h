@@ -81,6 +81,7 @@ public slots:
     bool createWallpaperImagePreview();
     bool createWallpaperVideo();
     bool extractWallpaperAudio();
+
 };
 }
 Q_DECLARE_METATYPE(ScreenPlay::CreateImportVideo::ImportVideoState)

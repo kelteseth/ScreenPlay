@@ -69,17 +69,21 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFiles);
 
     QFileInfo previewImageFile(previewImagePath);
-    if (!QFile::copy(previewImagePath, m_workingDir + "/" + previewImageFile.fileName())) {
-        qDebug() << "Could not copy" << previewImagePath << " to " << m_workingDir + "/" + previewImageFile.fileName();
-        emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFilesError);
-        return;
+    if (previewImageFile.exists()) {
+        if (!QFile::copy(previewImagePath, m_workingDir + "/" + previewImageFile.fileName())) {
+            qDebug() << "Could not copy" << previewImagePath << " to " << m_workingDir + "/" + previewImageFile.fileName();
+            emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFilesError);
+            return;
+        }
     }
 
     QFileInfo filePathFile(filePath);
-    if (!QFile::copy(filePath, m_workingDir + "/" + filePathFile.fileName())) {
-        qDebug() << "Could not copy" << filePath << " to " << m_workingDir + "/" + filePathFile.fileName();
-        emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFilesError);
-        return;
+    if (filePath.endsWith(".webm")) {
+        if (!QFile::copy(filePath, m_workingDir + "/" + filePathFile.fileName())) {
+            qDebug() << "Could not copy" << filePath << " to " << m_workingDir + "/" + filePathFile.fileName();
+            emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFilesError);
+            return;
+        }
     }
     emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFilesFinished);
     emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CreateProjectFile);
@@ -89,17 +93,21 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     obj.insert("description", description);
     obj.insert("title", title);
     obj.insert("youtube", youtube);
-    obj.insert("file", "video.webm");
+    obj.insert("file", filePathFile.fileName());
     obj.insert("previewGIF", "preview.gif");
-    obj.insert("previewWEBM", filePathFile.fileName());
-    obj.insert("preview", previewImageFile.fileName());
-    obj.insert("type", "video");
-
-    QJsonArray arr;
-    for (QString tmp : tags) {
-        arr.append(tmp);
+    obj.insert("previewWEBM", "preview.webm");
+    if (previewImageFile.exists()) {
+        obj.insert("preview", previewImageFile.fileName());
+    } else {
+        obj.insert("preview", "preview.png");
     }
-    obj.insert("tags", arr);
+    obj.insert("type", "videoWallpaper");
+
+    QJsonArray tagsJsonArray;
+    for (QString tmp : tags) {
+        tagsJsonArray.append(tmp);
+    }
+    obj.insert("tags", tagsJsonArray);
 
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
         qDebug() << "Could not open /project.json";
