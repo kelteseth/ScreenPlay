@@ -27,4 +27,8 @@ WindowsDesktopProperties::WindowsDesktopProperties(QObject* parent)
         int colorB = colorStringRGBList.at(2).toInt();
         setColor(QColor::fromRgb(colorR, colorG, colorB));
     }
+
+    QSettings settingsWindowsVersion("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", QSettings::NativeFormat);
+    setWindowsVersion(settingsWindowsVersion.value("ReleaseId").toInt());
+    qDebug() << settingsWindowsVersion.value("ReleaseId").toInt();
 }

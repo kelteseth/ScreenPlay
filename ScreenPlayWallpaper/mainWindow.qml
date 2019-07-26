@@ -13,7 +13,6 @@ Rectangle {
         }
     }
 
-
     property bool canFadeIn: true
 
     Component.onCompleted: {
@@ -56,11 +55,8 @@ Rectangle {
         }
     }
 
-
-
-
     Timer {
-        id:fadeInTimer
+        id: fadeInTimer
         interval: 50
         onTriggered: fadeIn()
     }
@@ -81,10 +77,8 @@ Rectangle {
         to: 1
         duration: 800
         easing.type: Easing.InOutQuad
-        onFinished:  window.terminate()
+        onFinished: window.terminate()
     }
-
-
 
     WebEngineView {
         id: webView
@@ -118,9 +112,25 @@ Rectangle {
 
     Image {
         id: imgCover
-        anchors.fill: parent
+        anchors {
+            top: parent.top
+            topMargin: {
+                if(desktopProperties.windowsVersion >= 1903){
+                    return -(1080 / 9)
+                } else {
+                    return 0;
+                }
+            }
+
+            left: parent.left
+            right: parent.right
+        }
+
+        sourceSize.width: root.width
         source: Qt.resolvedUrl("file:///" + desktopProperties.wallpaperPath)
+
         Component.onCompleted: {
+
             switch (desktopProperties.wallpaperStyle) {
             case 10:
                 imgCover.fillMode = Image.PreserveAspectCrop
@@ -156,7 +166,6 @@ Rectangle {
             webView.runJavaScript(
                         "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
             animFadeOut.start()
-
         }
 
         onQmlSceneValueReceived: {
@@ -200,5 +209,4 @@ Rectangle {
             }
         }
     }
-
 }

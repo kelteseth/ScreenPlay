@@ -12,6 +12,8 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
     qRegisterMetaType<BaseWindow::WallpaperType>();
     qmlRegisterType<BaseWindow>("ScreenPlay.Wallpaper", 1, 0, "Wallpaper");
 
+    setOSVersion(QSysInfo::productVersion());
+
     if (projectFilePath == "test") {
         setType(BaseWindow::WallpaperType::Qml);
         setFullContentPath("qrc:/test.qml");
