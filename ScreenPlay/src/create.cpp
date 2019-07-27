@@ -96,7 +96,13 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     obj.insert("description", description);
     obj.insert("title", title);
     obj.insert("youtube", youtube);
-    obj.insert("file", filePathFile.fileName());
+
+    // If the input file is a webm we don't need to convert it
+    if (filePath.endsWith(".webm")) {
+        obj.insert("file", filePathFile.fileName());
+    } else {
+        obj.insert("file", filePathFile.baseName() + ".webm");
+        }
     obj.insert("previewGIF", "preview.gif");
     obj.insert("previewWEBM", "preview.webm");
     if (previewImageFile.exists()) {

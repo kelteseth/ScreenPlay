@@ -33,7 +33,7 @@ Item {
 
             switch (state) {
             case CreateImportVideo.ConvertingPreviewImageFinished:
-                imgPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.png"
+                imgPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.jpg"
                 imgPreview.visible = true
                 txtConvert.text = qsTr("Converting Video preview mp4")
                 break
@@ -44,15 +44,16 @@ Item {
                 txtConvert.text = qsTr("Generating preview gif...")
                 break
             case CreateImportVideo.ConvertingPreviewGifFinished:
-                imgPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.gif"
-                imgPreview.visible = true
-                imgPreview.playing = true
+                gifPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.gif"
+                imgPreview.visible = false
+                gifPreview.visible = true
+                gifPreview.playing = true
                 break
             case CreateImportVideo.ConvertingAudio:
                 txtConvert.text = qsTr("Converting Audio...")
                 break
             case CreateImportVideo.ConvertingVideo:
-                txtConvert.text = qsTr("Converting Video...")
+                txtConvert.text = qsTr("Converting Video... This can take some time!")
                 break
             case CreateImportVideo.ConvertingVideoError:
                 txtConvert.text = qsTr("Converting Video ERROR!")
@@ -110,8 +111,15 @@ Item {
                 left: parent.left
             }
 
-            AnimatedImage {
+            Image {
                 id: imgPreview
+                asynchronous: true
+                visible: false
+                anchors.fill: parent
+            }
+
+            AnimatedImage {
+                id: gifPreview
                 asynchronous: true
                 playing: true
                 visible: false
@@ -150,7 +158,7 @@ Item {
         }
         ImageSelector {
             id: previewSelector
-
+            placeHolderText: qsTr("You can set your own preview image here!")
             anchors {
                 top: imgWrapper.bottom
                 topMargin: 20

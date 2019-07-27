@@ -35,10 +35,10 @@ void CreateImportVideo::process()
     if (!createWallpaperVideoPreview())
         return;
 
-    if (!createWallpaperGifPreview())
+    if (!createWallpaperImagePreview())
         return;
 
-    if (!createWallpaperImagePreview())
+    if (!createWallpaperGifPreview())
         return;
 
     if (!createWallpaperVideo())
@@ -352,7 +352,10 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("yuv420p");
     args.append("-b:v");
     args.append("0");
-    args.append(m_exportPath + "/video.webm");
+
+    QFileInfo file(m_videoPath);
+    QString convertedFileAbsolutePath {m_exportPath +"/"+ file.baseName() +".webm"};
+    args.append(convertedFileAbsolutePath);
 
     QScopedPointer<QProcess> proConvertVideo(new QProcess());
     proConvertVideo.data()->setArguments(args);
@@ -379,15 +382,14 @@ bool CreateImportVideo::createWallpaperVideo()
     }
     QString tmpErrImg = proConvertVideo.data()->readAllStandardError();
     if (!tmpErrImg.isEmpty()) {
-        QFile video(m_exportPath + "/video.webm");
+        QFile video(convertedFileAbsolutePath);
         if (!video.exists() && !(video.size() > 0)) {
-            qDebug() << video.fileName() << proConvertVideo.data()->readAll();
+            qDebug() << convertedFileAbsolutePath << proConvertVideo.data()->readAll();
             emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
             return false;
         }
     }
 
-    //this->processOutput(proConvertImage.data()->readAll());
     proConvertVideo.data()->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoFinished);
 
