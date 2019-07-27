@@ -91,8 +91,8 @@ CONFIG(debug, debug|release) {
 
     LIBS += -luser32
     install_it.files += \
-                        Common/vcpkg/packages/openssl-windows_x64-windows/bin/libcrypto-1_1-x64.dll \
-                        Common/vcpkg/packages/openssl-windows_x64-windows/bin/libssl-1_1-x64.dll \
+                        $$PWD/ThirdParty/OpenSSL/libcrypto-1_1-x64.dll \
+                        $$PWD/ThirdParty/OpenSSL/libssl-1_1-x64.dll \
 }
 
 
