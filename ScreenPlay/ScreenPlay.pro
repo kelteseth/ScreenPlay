@@ -31,6 +31,7 @@ SOURCES += main.cpp \
     src/create.cpp
 
 
+
 TRANSLATIONS =  translations/ScreenPlay_en.ts   \
                 translations/ScreenPlay_de.ts
 
@@ -69,6 +70,9 @@ INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
 DEPENDPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
 
 win32 {
+    RC_ICONS += favicon.ico
+
+
     LIBS += -L$$PWD/../Common/vcpkg/installed/x64-windows/lib/ -llibzippp
 CONFIG(debug, debug|release) {
     install_it.files += $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/zip.dll \
