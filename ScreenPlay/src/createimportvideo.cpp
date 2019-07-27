@@ -38,6 +38,9 @@ void CreateImportVideo::process()
     if (!createWallpaperGifPreview())
         return;
 
+    if (!createWallpaperImagePreview())
+        return;
+
     if (!createWallpaperVideo())
         return;
 
@@ -271,7 +274,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
     args.append("1");
     args.append("-q:v");
     args.append("2");
-    args.append(m_exportPath + "/preview.png");
+    args.append(m_exportPath + "/preview.jpg");
 
     QScopedPointer<QProcess> proConvertImage(new QProcess());
     proConvertImage.data()->setArguments(args);
@@ -298,7 +301,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
     }
     QString tmpErrImg = proConvertImage.data()->readAllStandardError();
     if (!tmpErrImg.isEmpty()) {
-        QFile previewImg(m_exportPath + "/preview.png");
+        QFile previewImg(m_exportPath + "/preview.jpg");
         if (!previewImg.exists() && !(previewImg.size() > 0)) {
             emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageError);
             return false;

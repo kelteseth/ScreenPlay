@@ -53,6 +53,9 @@ void Create::createWallpaperStart(QString videoPath)
     connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged);
     connect(m_createImportVideoThread, &QThread::started, m_createImportVideo, &CreateImportVideo::process);
     connect(m_createImportVideo, &CreateImportVideo::canceled, this, &Create::abortAndCleanup);
+    connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, [](CreateImportVideo::ImportVideoState state) {
+        qDebug() << state;
+    });
     connect(m_createImportVideo, &CreateImportVideo::finished, m_createImportVideoThread, &QThread::quit);
     connect(m_createImportVideo, &CreateImportVideo::finished, m_createImportVideo, &QObject::deleteLater);
     connect(m_createImportVideoThread, &QThread::finished, m_createImportVideoThread, &QObject::deleteLater);
@@ -99,7 +102,7 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     if (previewImageFile.exists()) {
         obj.insert("preview", previewImageFile.fileName());
     } else {
-        obj.insert("preview", "preview.png");
+        obj.insert("preview", "preview.jpg");
     }
     obj.insert("type", "videoWallpaper");
 

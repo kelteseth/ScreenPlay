@@ -96,7 +96,7 @@ Item {
                     onProjectSettingsListModelFound: {
                         gridView.model = li
                         // TODO via states
-                        if (type == "video") {
+                        if (type == "videoWallpaper") {
                             videoControlWrapper.z = 10
                             gridView.z = 0
                             videoControlWrapper.visible = true
