@@ -11,6 +11,7 @@ Item {
     width: 400
     state: "inactive"
     focus: true
+
     property real navHeight
     property string type
     property string activeScreen
@@ -19,15 +20,16 @@ Item {
         target: utility
 
         onSetSidebarItem: {
+
+            // Toggle sidebar if clicked on the same content twice
+            if (activeScreen === screenId && sidebar.state !== "inactive") {
+                sidebar.state = "inactive"
+                return
+            }
+
             activeScreen = screenId
             sidebar.type = type
 
-            // Toggle sidebar if clicked on the same content twice
-            if (activeScreen == screenId && state == "active") {
-                state = "inactive"
-            } else {
-                state = "active"
-            }
 
             switch (type) {
             case "videoWallpaper":
