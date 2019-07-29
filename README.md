@@ -3,8 +3,8 @@
 </div>
 
 <div align="center">
-ScreenPlay is an open source cross platform app for displaying Wallpaper, Widgets and AppDrawer. It is written in modern C++17/Qt5/QML. Binaries with workshop support are available for Windows/Linux/MacOSX via <a href="https://store.steampowered.com/about/">Steam</a>. 
-Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="https://forum.screen-play.app/">Forum</a>, <a href="https://discord.gg/3RygPHZ">Discord</a>
+ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. It is written in modern C++17/Qt5/QML. Binaries with workshop support are available for Windows/Linux/MacOSX via <a href="https://store.steampowered.com/about/">Steam</a>. 
+Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="https://forum.screen-play.app/">Forum</a>
 <br> Visit our <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/"> Developer Documentation</a> and our <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/"> Getting Started Guide</a>!
 <br>
 <h3><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h3>
@@ -32,8 +32,8 @@ git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
 3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.13.0 
-            - MSVC 2019 (updated MSVC 2017 should work too) 64-bit
+        - Qt 5.13.0
+            - MSVC 2017 64-bit
             - Qt WebEngine
         - Tools
             - Qt Creator 4.x CDB Debugger Support
@@ -56,7 +56,7 @@ sudo zypper install -t pattern devel_basis
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.13.0
+        - Qt 5.13.0 
             - GCC
             - Qt WebEngine
 ### OSX
@@ -66,6 +66,6 @@ sudo zypper install -t pattern devel_basis
 3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.13.0
+        - Qt 5.13.0 
             - Qt WebEngine
 4. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.13.0) -> Change c and c++ Compiler to Apple Clang (x86_64)
