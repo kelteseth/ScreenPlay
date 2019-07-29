@@ -11,10 +11,10 @@
 #include <QJsonParseError>
 #include <QObject>
 #include <QProcess>
+#include <QScopeGuard>
 #include <QString>
 #include <QThread>
 #include <QtMath>
-#include <QScopeGuard>
 
 namespace ScreenPlay {
 
@@ -22,10 +22,17 @@ class CreateImportVideo : public QObject {
     Q_OBJECT
 
 public:
+    CreateImportVideo() {}
     CreateImportVideo(QObject* parent = nullptr);
     explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, QObject* parent = nullptr);
+    ~CreateImportVideo() {}
 
-    enum class State {
+    QString m_videoPath;
+    QString m_exportPath;
+    QString m_format;
+    int m_length = 0;
+    int m_framerate = 0;
+    enum class ImportVideoState {
         Idle,
         Started,
         AnalyseVideo,
@@ -43,11 +50,9 @@ public:
         ConvertingAudio,
         ConvertingAudioFinished,
         ConvertingAudioError,
-        //      Oh well... Due to so many patents around video codecs
-        //      the user has to convert the video on his own :(
-        //        ConvertingVideo,
-        //        ConvertingVideoFinished,
-        //        ConvertingVideoError,
+        ConvertingVideo,
+        ConvertingVideoFinished,
+        ConvertingVideoError,
         CopyFiles,
         CopyFilesFinished,
         CopyFilesError,
@@ -58,15 +63,10 @@ public:
         CreateTmpFolderError,
         Finished,
     };
-    Q_ENUM(State)
-
-    QString m_videoPath;
-    QString m_exportPath;
-    int m_length = 0;
-    int m_framerate = 0;
+    Q_ENUM(ImportVideoState)
 
 signals:
-    void createWallpaperStateChanged(CreateImportVideo::State state);
+    void createWallpaperStateChanged(CreateImportVideo::ImportVideoState state);
     void processOutput(QString text);
     void finished();
     void canceled();
@@ -79,6 +79,9 @@ public slots:
     bool createWallpaperVideoPreview();
     bool createWallpaperGifPreview();
     bool createWallpaperImagePreview();
+    bool createWallpaperVideo();
     bool extractWallpaperAudio();
+
 };
 }
+Q_DECLARE_METATYPE(ScreenPlay::CreateImportVideo::ImportVideoState)

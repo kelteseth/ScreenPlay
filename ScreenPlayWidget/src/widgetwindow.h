@@ -56,13 +56,18 @@ signals:
     void typeChanged(QString type);
     void projectConfigChanged(QString projectConfig);
     void sourcePathChanged(QString sourcePath);
-
     void qmlSceneValueReceived(QString key, QString value);
 
 public slots:
     void setSize(QSize size);
     void destroyThis();
     void messageReceived(QString key, QString value);
+    void setPos(int xPos, int yPos);
+    void setClickPos(const QPoint& clickPos);
+    void setWidgetSize(const int with, const int height);
+#ifdef Q_OS_WIN
+    void setWindowBlur(unsigned int style = 3);
+#endif
 
     void setAppID(QString appID)
     {
@@ -89,11 +94,6 @@ public slots:
         emit projectConfigChanged(m_projectConfig);
     }
 
-    void setPos(int xPos, int yPos);
-    void setClickPos(const QPoint& clickPos);
-#ifdef Q_OS_WIN
-    void SetWindowBlur(HWND hWnd);
-#endif
     void setSourcePath(QString sourcePath)
     {
         if (m_sourcePath == sourcePath)
@@ -104,9 +104,9 @@ public slots:
     }
 
 private:
-    QString m_appID;
-    QString m_type = "qmlWidget";
-    QString m_projectConfig;
+    QString m_appID { "" };
+    QString m_type { "qmlWidget" };
+    QString m_projectConfig { "" };
     QJsonObject m_project;
 #ifdef Q_OS_WIN
     HWND m_hwnd;
@@ -114,5 +114,5 @@ private:
     QPoint m_clickPos = { 0, 0 };
 
     QQuickView m_window;
-    QString m_sourcePath;
+    QString m_sourcePath { "" };
 };

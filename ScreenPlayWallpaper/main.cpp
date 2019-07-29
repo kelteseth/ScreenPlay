@@ -24,7 +24,6 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
 
     QApplication app(argc, argv);
-
     // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
 
@@ -37,9 +36,10 @@ int main(int argc, char* argv[])
     if (argumentList.length() == 1) {
         QVector<int> list;
         list.append(0);
+
 #if defined(Q_OS_WIN)
         WinWindow window(list, "test", "appid", "1");
-       // WinWindow window(list, "D:/672870/827874818", "appid", "1");
+        //WinWindow window(list, "D:/672870/827874818", "appid", "1");
 #endif
 #if defined(Q_OS_LINUX)
         LinuxWindow window(list, "test", "appid", "1");

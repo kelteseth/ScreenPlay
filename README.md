@@ -26,7 +26,7 @@ Everyone can contribute with code, design, documentation or translation. Visit o
 git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
 ```
 ### Windows
-1. [Download and install MSVC 2017 Community](https://visualstudio.microsoft.com/vs/community/)
+1. [Download and install MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)
 2. [Download and install Win 10 SDK (debugging support. Not included via the MSVC installer)](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
     - Select debugging support during the installation (CDB)
 3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
@@ -37,6 +37,9 @@ git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
             - Qt WebEngine
         - Tools
             - Qt Creator 4.x CDB Debugger Support
+4. Start the vcpkg-install-dependencies.bat for the automatic dependencies management.
+
+
 ### Linux
 1. Install dependencies for your distro:
 ``` bash
@@ -65,4 +68,4 @@ sudo zypper install -t pattern devel_basis
     - Select the following features to install:
         - Qt 5.13.0 
             - Qt WebEngine
-4. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.11.2) -> Change c and c++ Compiler to Apple Clang (x86_64)
+4. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.13.0) -> Change c and c++ Compiler to Apple Clang (x86_64)

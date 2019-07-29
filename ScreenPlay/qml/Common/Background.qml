@@ -1,5 +1,4 @@
 import QtQuick 2.12
-
 import QtGraphicalEffects 1.0
 import QtQuick.Particles 2.0
 
@@ -17,6 +16,11 @@ Item {
 
     Rectangle {
         id: bgCommunity
+        anchors.fill: parent
+    }
+    Rectangle {
+        id: bgWorkshop
+        color: "#161C1D"
         anchors.fill: parent
     }
 
@@ -51,6 +55,10 @@ Item {
                 target: bgCommunity
                 opacity: 0
             }
+            PropertyChanges {
+                target: bgWorkshop
+                opacity: 0
+            }
         },
         State {
             name: "create"
@@ -60,6 +68,10 @@ Item {
             }
             PropertyChanges {
                 target: bgCommunity
+                opacity: 0
+            }
+            PropertyChanges {
+                target: bgWorkshop
                 opacity: 0
             }
         },
@@ -73,41 +85,45 @@ Item {
                 target: bgCommunity
                 opacity: 1
             }
+            PropertyChanges {
+                target: bgWorkshop
+                opacity: 0
+            }
+        },
+        State {
+            name: "workshop"
+            PropertyChanges {
+                target: colorShaderCreate
+                shaderOpacity: 0
+            }
+            PropertyChanges {
+                target: bgCommunity
+                opacity: 0
+            }
+            PropertyChanges {
+                target: bgWorkshop
+                opacity: 1
+            }
         }
     ]
 
     transitions: [
-        Transition {
-            from: "init"
-            to: "create"
 
-            PropertyAnimation {
-                target: colorShaderCreate
-                property: "shaderOpacity"
-                duration: 400
-                easing.type: Easing.OutQuart
-            }
-        },
+
         Transition {
-            from: "create"
+            from: "*"
             to: "*"
 
+            PropertyAnimation {
+                targets: [bgCommunity, bgWorkshop]
+                property: "opacity"
+                duration: 400
+                easing.type: Easing.InOutQuart
+            }
             PropertyAnimation {
                 target: colorShaderCreate
                 property: "shaderOpacity"
                 duration: 0
-            }
-        },
-
-        Transition {
-            from: "*"
-            to: "community"
-
-            PropertyAnimation {
-                target: bgCommunity
-                property: "opacity"
-                duration: 400
-                easing.type: Easing.InOutQuart
             }
         }
     ]

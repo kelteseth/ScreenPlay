@@ -123,5 +123,8 @@
         <file>qml/Navigation/NavigationItem.qml</file>
         <file>qml/Navigation/NavigationWallpaperConfiguration.qml</file>
         <file>qml/Common/RippleEffect.qml</file>
+        <file>qml/Create/FFMPEGPopup.qml</file>
+        <file>assets/images/FFmpeg_Logo_new.svg</file>
+        <file>assets/icons/baseline-done-24px.svg</file>
     </qresource>
 </RCC>

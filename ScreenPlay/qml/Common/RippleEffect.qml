@@ -12,7 +12,7 @@ Item {
     anchors.fill: parent
 
     property alias radius: mask.radius
-    property color color: "#de000000"
+    property color color: "orange"
     property var target
     property int duration: 600
 
@@ -77,7 +77,7 @@ Item {
                 NumberAnimation {
                     target: ink
                     property: "opacity"
-                    from: 0.25
+                    from: 0.8
                     to: 0
                     duration: control.duration
                 }

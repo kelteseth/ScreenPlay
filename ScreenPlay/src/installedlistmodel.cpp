@@ -1,12 +1,10 @@
 #include "installedlistmodel.h"
 
-
 /*!
     \class Installed List Model
     \brief Lists all installed wallpapers, widgets etc. from a given Path
 
 */
-
 
 namespace ScreenPlay {
 
@@ -85,13 +83,12 @@ bool InstalledListModel::getProjectByAbsoluteStoragePath(QUrl* path, ProjectFile
     return false;
 }
 
-void InstalledListModel::append(const QJsonObject obj, const QString folderName)
+void InstalledListModel::append(const QJsonObject& obj, const QString& folderName)
 {
 
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
 
-    ProjectFile tmpFile(obj, folderName, m_absoluteStoragePath);
-    m_screenPlayFiles.append(tmpFile);
+    m_screenPlayFiles.append(ProjectFile(obj, folderName, m_absoluteStoragePath));
 
     endInsertRows();
 }
@@ -122,34 +119,29 @@ void InstalledListModel::loadInstalledContent()
             if (!(parseError.error == QJsonParseError::NoError))
                 continue;
 
-            if (jsonProject.object().value("type").toString() == "scene")
+            if (jsonProject.isEmpty() || jsonProject.object().empty())
                 continue;
 
-            if (jsonProject.isEmpty())
+            if (!obj.contains("file") || !obj.contains("type"))
                 continue;
 
-            if (jsonProject.object().empty())
-                continue;
+            QStringList availableTypes {
+                "qmlWallpaper",
+                "htmlWallpaper",
+                "videoWallpaper",
+                "godotWallpaper",
 
-            //Some settings dont have a file type
-            QString fileEnding;
-            if (obj.contains("file")) {
-                fileEnding = obj.value("file").toString();
-                if (!obj.contains("type")) {
-                    obj.insert("type", "video");
-                }
+                "qmlWidget",
+                "htmlWidget",
+                "standaloneWidget"
+            };
 
-                if (fileEnding.endsWith(".webm") || (obj.value("type").toString() == "qmlScene" || fileEnding.endsWith(".html")))
-                    emit addInstalledItem(obj, item.baseName());
-
-                if (obj.value("type") == "qmlWidget" || obj.value("type") == "standalonewidget")
-                    emit addInstalledItem(obj, item.baseName());
-            }
+            if (availableTypes.contains(obj.value("type").toString()))
+                emit addInstalledItem(obj, item.baseName());
         }
 
         emit installedLoadingFinished();
     });
-
 }
 
 QVariantMap InstalledListModel::get(QString folderId)

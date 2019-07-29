@@ -12,6 +12,8 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
     qRegisterMetaType<BaseWindow::WallpaperType>();
     qmlRegisterType<BaseWindow>("ScreenPlay.Wallpaper", 1, 0, "Wallpaper");
 
+    setOSVersion(QSysInfo::productVersion());
+
     if (projectFilePath == "test") {
         setType(BaseWindow::WallpaperType::Qml);
         setFullContentPath("qrc:/test.qml");
@@ -29,13 +31,13 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
 
     /* project.json example:
     *{
+    *    "title": "example title",
     *    "description": "",
     *    "file": "example.webm",
     *    "preview": "preview.png",
     *    "previewGIF": "preview.gif",
-    *    "previewMP4": "preview.mp4",
-    *    "title": "example title",
-    *    "type": "video"
+    *    "previewWEBM": "preview.webm",
+    *    "type": "videoWallpaper"
     *}
     */
 
@@ -57,22 +59,22 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
 
     setFullContentPath("file:///" + projectFilePath + "/" + projectObject.value("file").toString());
 
-    if (projectObject.value("type") == "video") {
+    if (projectObject.value("type") == "videoWallpaper") {
         setType(BaseWindow::WallpaperType::Video);
         return;
     }
 
-    if (projectObject.value("type") == "scene") {
+    if (projectObject.value("type") == "threeJSWallpaper") {
         setType(BaseWindow::WallpaperType::ThreeJSScene);
         return;
     }
 
-    if (projectObject.value("type") == "qml") {
+    if (projectObject.value("type") == "qmlWallpaper") {
         setType(BaseWindow::WallpaperType::Qml);
         return;
     }
 
-    if (projectObject.value("type") == "html") {
+    if (projectObject.value("type") == "htmlWallpaper") {
         setType(BaseWindow::WallpaperType::Html);
         return;
     }
@@ -109,4 +111,6 @@ void BaseWindow::messageReceived(QString key, QString value)
         setIsPlaying(tmp);
         return;
     }
+
+    emit qmlSceneValueReceived(key, value);
 }

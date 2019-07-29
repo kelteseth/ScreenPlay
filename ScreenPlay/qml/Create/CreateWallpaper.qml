@@ -72,7 +72,7 @@ Item {
             }
 
             Button {
-                text: qsTr("Import video")
+                text: utility.ffmpegAvailable ? qsTr("Import video") : qsTr("FFMPEG Needed for import")
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -83,13 +83,14 @@ Item {
                 icon.source: "qrc:/assets/icons/icon_upload.svg"
                 icon.color: "white"
                 icon.width: 16
+                enabled: utility.ffmpegAvailable
                 icon.height: 16
                 onClicked: fileDialogImportVideo.open()
             }
 
             FileDialog {
                 id: fileDialogImportVideo
-                nameFilters: ["Video files (*.webm)"]
+
                 onAccepted: {
                     videoImportConvertFileSelected(
                                 fileDialogImportVideo.currentFile)
@@ -244,7 +245,7 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 onClicked: {
-
+                    utility.requestNavigation("Workshop")
                 }
             }
         }

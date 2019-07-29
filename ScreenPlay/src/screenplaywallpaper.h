@@ -7,6 +7,7 @@
 
 #include "projectsettingslistmodel.h"
 #include "settings.h"
+
 namespace ScreenPlay {
 using std::shared_ptr,
     std::make_shared,
@@ -35,7 +36,7 @@ public:
 
     ~ScreenPlayWallpaper() {}
 
-    const QSharedPointer<ProjectSettingsListModel>& projectSettingsListModel() const noexcept
+    const shared_ptr<ProjectSettingsListModel>& projectSettingsListModel() const
     {
         return m_projectSettingsListModel;
     }
@@ -120,7 +121,7 @@ public slots:
 
 private:
     QProcess m_process;
-    QSharedPointer<ProjectSettingsListModel> m_projectSettingsListModel;
+    shared_ptr<ProjectSettingsListModel> m_projectSettingsListModel;
     vector<int> m_screenNumber;
     QString m_projectPath;
     QString m_previewImage;

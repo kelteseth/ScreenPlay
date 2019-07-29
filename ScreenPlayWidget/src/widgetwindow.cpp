@@ -4,10 +4,8 @@
 
 WidgetWindow::WidgetWindow(QString projectPath, QString appid, QObject* parent)
     : QObject(parent)
+    , m_appID { appid }
 {
-
-    m_appID = appid;
-
 
     Qt::WindowFlags flags = m_window.flags();
     m_window.setWidth(300);
@@ -18,7 +16,7 @@ WidgetWindow::WidgetWindow(QString projectPath, QString appid, QObject* parent)
 
 #ifdef Q_OS_WIN
     m_hwnd = reinterpret_cast<HWND>(m_window.winId());
-    SetWindowBlur(m_hwnd);
+    setWindowBlur();
 #endif
 
     if (projectPath != "test") {
@@ -44,9 +42,9 @@ WidgetWindow::WidgetWindow(QString projectPath, QString appid, QObject* parent)
     // Instead of setting "renderType: Text.NativeRendering" every time
     // we can set it here once :)
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
+    //    m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
     m_window.setSource(QUrl("qrc:/mainWidget.qml"));
     m_window.show();
-
 }
 
 void WidgetWindow::setSize(QSize size)
@@ -80,8 +78,14 @@ void WidgetWindow::setClickPos(const QPoint& clickPos)
     m_clickPos = clickPos;
 }
 
+void WidgetWindow::setWidgetSize(const int with, const int height)
+{
+    m_window.setWidth(with);
+    m_window.setHeight(height);
+}
+
 #ifdef Q_OS_WIN
-void WidgetWindow::SetWindowBlur(HWND hWnd)
+void WidgetWindow::setWindowBlur(unsigned int style)
 {
 
     const HINSTANCE hModule = LoadLibrary(TEXT("user32.dll"));
@@ -108,9 +112,9 @@ void WidgetWindow::SetWindowBlur(HWND hWnd)
         typedef BOOL(WINAPI * pSetWindowCompositionAttribute)(HWND, WINCOMPATTRDATA*);
         const pSetWindowCompositionAttribute SetWindowCompositionAttribute = (pSetWindowCompositionAttribute)GetProcAddress(hModule, "SetWindowCompositionAttribute");
         if (SetWindowCompositionAttribute) {
-            ACCENTPOLICY policy = { static_cast<int>(Accent::BLURBEHIND), 0, 0, 0 }; // ACCENT_ENABLE_BLURBEHIND=3...
+            ACCENTPOLICY policy = { static_cast<int>(style), 0, 0, 0 }; // ACCENT_ENABLE_BLURBEHIND=3...
             WINCOMPATTRDATA data = { 19, &policy, sizeof(ACCENTPOLICY) }; // WCA_ACCENT_POLICY=19
-            SetWindowCompositionAttribute(hWnd, &data);
+            SetWindowCompositionAttribute(m_hwnd, &data);
         }
         FreeLibrary(hModule);
     }

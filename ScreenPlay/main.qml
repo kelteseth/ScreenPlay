@@ -35,6 +35,7 @@ ApplicationWindow {
             pageLoaderWorkshop.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
             sidebar.state = "inactive"
+            pageLoaderCreate.item.checkFFMPEG()
         } else if (name === "Workshop") {
             bg.state = "init"
             pageLoader.visible = false
@@ -114,6 +115,22 @@ ApplicationWindow {
         id: sti
         visible: true
         iconSource: "qrc:/assets/icons/favicon.ico"
+        tooltip: qsTr("ScreenPlay - Double click to change you settings.")
+        onActivated:{
+            switch(reason){
+            case SystemTrayIcon.Unknown:
+                break;
+            case SystemTrayIcon.Context:
+                break;
+            case SystemTrayIcon.DoubleClick:
+                window.show()
+                break;
+            case SystemTrayIcon.Trigger:
+                break;
+            case SystemTrayIcon.MiddleClick:
+                break;
+            }
+        }
 
         menu: Menu {
             MenuItem {
@@ -190,7 +207,6 @@ ApplicationWindow {
     Loader {
         id: pageLoaderCreate
         visible: false
-        asynchronous: true
         anchors {
             top: nav.bottom
             right: parent.right
@@ -215,7 +231,6 @@ ApplicationWindow {
         target: pageLoader.item
         ignoreUnknownSignals: true
 
-        property bool ignoreWorkshopBanner: false
 
         onSetSidebarActive: {
             if (active) {
@@ -225,39 +240,6 @@ ApplicationWindow {
             }
         }
 
-        onSetSidebaractiveItem: {
-            if ((type === "video")) {
-                if (sidebar.activeScreen == screenId
-                        && sidebar.state == "active") {
-                    sidebar.state = "inactive"
-                } else {
-                    sidebar.state = "active"
-                }
-            } else if (type === "widget") {
-                if (sidebar.activeScreen == screenId
-                        && sidebar.state == "activeWidget") {
-                    sidebar.state = "inactive"
-                } else {
-                    sidebar.state = "activeWidget"
-                }
-            } else if (type === "qmlScene") {
-                if (sidebar.activeScreen == screenId
-                        && sidebar.state == "activeScene") {
-                    sidebar.state = "inactive"
-                } else {
-                    sidebar.state = "activeScene"
-                }
-            } else if (type === "html") {
-                if (sidebar.activeScreen == screenId
-                        && sidebar.state == "activeScene") {
-                    sidebar.state = "inactive"
-                } else {
-                    sidebar.state = "activeScene"
-                }
-            }
-            sidebar.activeScreen = screenId
-            sidebar.type = type
-        }
         onSetNavigationItem: {
             if (pos === 0) {
                 nav.onPageChanged("Create")

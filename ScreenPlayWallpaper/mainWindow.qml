@@ -13,7 +13,6 @@ Rectangle {
         }
     }
 
-
     property bool canFadeIn: true
 
     Component.onCompleted: {
@@ -40,10 +39,11 @@ Rectangle {
             webView.enabled = true
             break
         case Wallpaper.WallpaperType.Qml:
+            loader.enabled = true
             loader.source = Qt.resolvedUrl(window.fullContentPath)
+            fadeIn()
             break
         }
-        fadeIn()
     }
 
     function fadeIn() {
@@ -55,10 +55,29 @@ Rectangle {
         }
     }
 
-    Loader {
-        id: loader
-        anchors.fill: parent
-        onLoaded: loader.z = 999
+    Timer {
+        id: fadeInTimer
+        interval: 50
+        onTriggered: fadeIn()
+    }
+
+    OpacityAnimator {
+        id: animFadeIn
+        target: imgCover
+        from: 1
+        to: 0
+        duration: 800
+        easing.type: Easing.InOutQuad
+    }
+
+    OpacityAnimator {
+        id: animFadeOut
+        target: imgCover
+        from: 0
+        to: 1
+        duration: 800
+        easing.type: Easing.InOutQuad
+        onFinished: window.terminate()
     }
 
     WebEngineView {
@@ -66,7 +85,6 @@ Rectangle {
         enabled: false
         anchors.fill: parent
         onLoadProgressChanged: {
-
             if (loadProgress === 100) {
 
                 var src = ""
@@ -78,7 +96,7 @@ Rectangle {
                 src += "videoPlayer.play();"
 
                 webView.runJavaScript(src, function (result) {
-                    fadeIn()
+                    fadeInTimer.start()
                 })
             }
         }
@@ -86,20 +104,33 @@ Rectangle {
         onJavaScriptConsoleMessage: print(lineNumber, message)
     }
 
-    OpacityAnimator {
-        id: animFadeIn
-        target: imgCover
-        from: 1
-        to: 0
-        duration: 300
-        easing.type: Easing.InCubic
+    Loader {
+        id: loader
+        anchors.fill: parent
+        enabled: false
     }
 
     Image {
         id: imgCover
-        anchors.fill: parent
+        anchors {
+            top: parent.top
+            topMargin: {
+                if(desktopProperties.windowsVersion >= 1903){
+                    return -(1080 / 9)
+                } else {
+                    return 0;
+                }
+            }
+
+            left: parent.left
+            right: parent.right
+        }
+
+        sourceSize.width: root.width
         source: Qt.resolvedUrl("file:///" + desktopProperties.wallpaperPath)
+
         Component.onCompleted: {
+
             switch (desktopProperties.wallpaperStyle) {
             case 10:
                 imgCover.fillMode = Image.PreserveAspectCrop
@@ -134,7 +165,7 @@ Rectangle {
         onQmlExit: {
             webView.runJavaScript(
                         "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
-            window.destroyThis()
+            animFadeOut.start()
         }
 
         onQmlSceneValueReceived: {
@@ -178,5 +209,4 @@ Rectangle {
             }
         }
     }
-
 }

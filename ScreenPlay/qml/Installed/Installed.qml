@@ -7,7 +7,6 @@ Item {
     id: pageInstalled
     state: "out"
 
-    signal setSidebaractiveItem(var screenId, var type)
     signal setNavigationItem(var pos)
     signal setSidebarActive(var active)
 
@@ -16,6 +15,7 @@ Item {
 
     Component.onCompleted: {
         pageInstalled.state = "in"
+        installedListFilter.sortByRoleType("All")
     }
 
     Connections {
@@ -166,12 +166,7 @@ Item {
             workshopID: screenWorkshopID
             itemIndex: index
 
-            Connections {
-                target: delegate
-                onItemClicked: {
-                    setSidebaractiveItem(screenId, type)
-                }
-            }
+
         }
 
         ScrollBar.vertical: ScrollBar {

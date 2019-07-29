@@ -17,14 +17,13 @@ Item {
     property int workshopID: 0
     property int itemIndex
     property string screenId: ""
-    signal itemClicked(var screenId, var type)
 
     onTypeChanged: {
-        if (type === "widget") {
+        if(type.endsWith("Widget"))
             icnType.source = "qrc:/assets/icons/icon_widgets.svg"
-        } else if (type === "qmlScene") {
-            icnType.source = "qrc:/assets/icons/icon_code.svg"
-        }
+
+        if(type.endsWith("Wallpaper"))
+            icnType.source = "qrc:/assets/icons/icon_movie.svg"
     }
 
     Component.onCompleted: {
@@ -190,19 +189,22 @@ Item {
                 onEntered: {
                     if (!hasMenuOpen) {
                         screenPlayItem.state = "hover"
+                        screenPlayItemImage.state = "hover"
                         screenPlayItemImage.enter()
                     }
                 }
                 onExited: {
                     if (!hasMenuOpen) {
                         screenPlayItem.state = "visible"
+                         screenPlayItemImage.state = "loaded"
                         screenPlayItemImage.exit()
                     }
                 }
 
                 onClicked: {
                     if (mouse.button === Qt.LeftButton) {
-                        itemClicked(screenId, type)
+                        utility.setSidebarItem(screenPlayItem.screenId, screenPlayItem.type.toString())
+
                     } else if (mouse.button === Qt.RightButton) {
                         if (workshopID != 0) {
                             miWorkshop.enabled = true
@@ -289,7 +291,6 @@ Item {
             }
             PropertyChanges {
                 target: screenPlayItemWrapper
-                y: 0
                 opacity: 1
             }
             PropertyChanges {
@@ -299,28 +300,6 @@ Item {
         }
     ]
     transitions: [
-        Transition {
-            from: "invisible"
-            to: "visible"
-
-            //            PropertyAnimation {
-            //                target: screenPlayItemWrapper
-            //                properties: "y"
-            //                duration: 300
-            //                easing.type: Easing.OutQuart
-            //            }
-            //            OpacityAnimator {
-            //                target: screenPlayItemWrapper
-            //                duration: 500
-            //                easing.type: Easing.OutQuart
-            //            }
-            //            PropertyAnimation {
-            //                target: effect
-            //                property: "opacity"
-            //                duration: 500
-            //                easing.type: Easing.OutQuart
-            //            }
-        },
         Transition {
             from: "visible"
             to: "hover"

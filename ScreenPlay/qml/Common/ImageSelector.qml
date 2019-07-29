@@ -30,7 +30,7 @@ Item {
     state: "nothingSelected"
 
     property string imageSource
-
+    property alias placeHolderText: txtPlaceholder.text
 
     onImageSourceChanged: {
         if (imageSource === "") {
@@ -99,6 +99,24 @@ Item {
         }
 
         Text {
+            id: txtPlaceholder
+            clip: true
+            font.pointSize: 12
+            font.family: "Roboto"
+            wrapMode: Text.WordWrap
+            color: Material.color(Material.Grey)
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignLeft
+            anchors {
+                top: parent.top
+                left: imgWrapper.right
+                right: btnClear.left
+                bottom: parent.bottom
+                margins: 10
+            }
+        }
+
+        Text {
             id: txtName
             clip: true
             font.pointSize: 12
@@ -147,7 +165,7 @@ Item {
             id: fileDialog
             title: "Please choose a file"
             fileMode: FileDialog.OpenFile
-            nameFilters: []
+            nameFilters: ["Images (*.png *.jpg)"]
             onAccepted: {
                 imageSource = fileDialog.file
                 txtName.text = fileDialog.file.toString().replace(/^.*[\\\/]/,
@@ -163,6 +181,10 @@ Item {
                 target: btnClear
                 opacity: 1
                 anchors.topMargin: 5
+            }
+            PropertyChanges {
+                target: txtPlaceholder
+                opacity: 0
             }
         },
         State {
@@ -183,6 +205,12 @@ Item {
             PropertyAnimation {
                 target: btnClear
                 properties: "opacity, anchors.topMargin"
+                duration: 300
+                easing.type: Easing.OutQuart
+            }
+            PropertyAnimation {
+                target: txtPlaceholder
+                property: "opacity"
                 duration: 300
                 easing.type: Easing.OutQuart
             }

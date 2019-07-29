@@ -1,10 +1,11 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
+import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
 
 import ScreenPlay.Create 1.0
+import ScreenPlay.QMLUtilities 1.0
 
 import "Wizards/CreateWallpaper"
 
@@ -13,7 +14,27 @@ Item {
     anchors.fill: parent
     state: "out"
 
-    Component.onCompleted: create.state = "in"
+
+    Component.onCompleted: {
+        create.state = "in"
+
+
+    }
+
+    function checkFFMPEG(){
+        if(!utility.ffmpegAvailable){
+            ffmpegPopup.open()
+        }
+    }
+
+    FFMPEGPopup {
+        id: ffmpegPopup
+        anchors.centerIn: create
+        closePolicy: Popup.NoAutoClose
+        focus: true
+        modal: true
+        parent: create
+    }
 
     property url activeVideoFile: ""
     property url activeFolder: ""
@@ -364,7 +385,7 @@ Item {
                 }
             }
 
-            NumberAnimation {
+            PropertyAnimation {
                 target: footer
                 property: "anchors.bottomMargin"
                 duration: 400
@@ -376,7 +397,7 @@ Item {
             to: "new"
             reversible: true
 
-            NumberAnimation {
+            PropertyAnimation {
                 target: footer
                 property: "anchors.bottomMargin"
                 duration: 400

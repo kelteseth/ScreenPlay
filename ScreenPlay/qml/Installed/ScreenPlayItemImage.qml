@@ -41,6 +41,7 @@ Item {
         id: imgGIFPreview
         asynchronous: true
         playing: false
+        opacity: 0
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
         source: screenPlayItemImage.sourceImageGIF.trim()
@@ -62,6 +63,14 @@ Item {
                 target: image
                 opacity: 1
             }
+        },
+        State {
+            name: "hover"
+
+            PropertyChanges {
+                target: imgGIFPreview
+                opacity: 1
+            }
         }
     ]
 
@@ -74,6 +83,18 @@ Item {
                 target: image
                 property: "opacity"
                 duration: 300
+                easing.type: Easing.OutQuart
+            }
+        },
+        Transition {
+            from: "loaded"
+            to: "hover"
+            reversible: true
+
+            PropertyAnimation {
+                target: imgGIFPreview
+                property: "opacity"
+                duration: 400
                 easing.type: Easing.OutQuart
             }
         }

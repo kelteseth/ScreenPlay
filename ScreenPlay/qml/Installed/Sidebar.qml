@@ -11,9 +11,51 @@ Item {
     width: 400
     state: "inactive"
     focus: true
+
     property real navHeight
     property string type
     property string activeScreen
+
+    Connections {
+        target: utility
+
+        onSetSidebarItem: {
+
+            // Toggle sidebar if clicked on the same content twice
+            if (activeScreen === screenId && sidebar.state !== "inactive") {
+                sidebar.state = "inactive"
+                return
+            }
+
+            activeScreen = screenId
+            sidebar.type = type
+
+
+            switch (type) {
+            case "videoWallpaper":
+                state = "activeScene"
+                return
+            case "htmlWallpaper":
+                state = "activeScene"
+                return
+            case "qmlWallpaper":
+                state = "activeScene"
+                return
+            case "godotWallpaper":
+                state = "activeScene"
+                return
+            case "qmlWidget":
+                state = "activeWidget"
+                return
+            case "htmlWidget":
+                state = "activeWidget"
+                return
+            case "standaloneWidget":
+                state = "activeWidget"
+                return
+            }
+        }
+    }
 
     MouseArea {
         id: mouseAreaHelper
@@ -24,9 +66,8 @@ Item {
     onActiveScreenChanged: {
         txtHeadline.text = installedListModel.get(activeScreen).screenTitle
         image.source = Qt.resolvedUrl(
-                    installedListModel.absoluteStoragePath + "/"
-                    + activeScreen + "/" + installedListModel.get(
-                        activeScreen).screenPreview)
+                    installedListModel.absoluteStoragePath + "/" + activeScreen
+                    + "/" + installedListModel.get(activeScreen).screenPreview)
     }
 
     Item {
@@ -161,7 +202,7 @@ Item {
                     id: txtHeadline
                     text: qsTr("Headline")
                     height: 60
-                    
+
                     font.family: "Roboto"
                     font.weight: Font.Thin
                     verticalAlignment: Text.AlignVCenter
@@ -182,7 +223,7 @@ Item {
                 id: txtHeadlineMonitor
                 text: qsTr("Select a Monitor to display the content")
                 height: 50
-                
+
                 horizontalAlignment: Qt.AlignHCenter
                 font.family: "Roboto"
                 font.pointSize: 14
@@ -236,7 +277,7 @@ Item {
                     id: txtSliderVolume
                     text: qsTr("Volume")
                     height: 30
-                    
+
                     font.family: "Roboto"
                     verticalAlignment: Text.AlignVCenter
                     font.pointSize: 10
@@ -291,7 +332,7 @@ Item {
                 id: txtComboBoxFillMode
                 text: qsTr("Fill Mode")
                 height: 30
-                
+
                 font.family: "Roboto"
                 verticalAlignment: Text.AlignVCenter
                 font.pointSize: 10
@@ -347,20 +388,21 @@ Item {
                 }
 
                 onClicked: {
-                    if (type === "video" || type === "qmlScene" || type === "html") {
+
+                    if (type.endsWith("Wallpaper")) {
                         screenPlay.createWallpaper(
                                     monitorSelection.activeMonitorIndex, installedListModel.absoluteStoragePath + "/" + activeScreen,
                                     installedListModel.get(activeScreen).screenPreview,
                                     (Math.round(sliderVolume.value * 100) / 100),
                                     settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
                                         ), type)
-                        sidebar.state = "inactive"
-                    } else if (type === "widget" ) {
+                    } else {
                         screenPlay.createWidget(
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,
                                     installedListModel.get(
                                         activeScreen).screenPreview)
                     }
+                    sidebar.state = "inactive"
                 }
             }
         }

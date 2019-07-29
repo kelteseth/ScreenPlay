@@ -1,7 +1,7 @@
 setlocal EnableExtensions
 
 set PATH=%PATH%;C:\Qt\Tools\QtCreator\bin
-set PATH=%PATH%;C:\Qt\5.12.0\msvc2017_64\bin
+set PATH=%PATH%;C:\Qt\5.13.0\msvc2017_64\bin
 set root=%cd%
 
 call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvarsx86_amd64.bat"

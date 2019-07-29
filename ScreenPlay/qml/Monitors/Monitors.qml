@@ -96,7 +96,7 @@ Item {
                     onProjectSettingsListModelFound: {
                         gridView.model = li
                         // TODO via states
-                        if (type == "video") {
+                        if (type == "videoWallpaper") {
                             videoControlWrapper.z = 10
                             gridView.z = 0
                             videoControlWrapper.visible = true
@@ -116,11 +116,11 @@ Item {
 
             Button {
                 id: btnRemoveAllWallpaper
-                text: qsTr("Remove all wallpaper")
+                text: qsTr("Remove all wallpaper and Widgets")
                 Material.background: Material.Orange
                 Material.foreground: "white"
                 onClicked: {
-                    screenPlay.removeAllWallpaper()
+                    screenPlay.closeAllConnections()
                     monitors.state = "inactive"
                 }
 
@@ -254,25 +254,25 @@ Item {
             to: "inactive"
             reversible: true
 
-            NumberAnimation {
+            PropertyAnimation {
                 target: background
                 property: "opacity"
                 duration: 200
                 easing.type: Easing.OutQuart
             }
 
-            NumberAnimation {
+            PropertyAnimation {
                 target: monitorsSettingsWrapper
                 property: "anchors.topMargin"
                 duration: 200
-                easing.type: Easing.OutQuart
+                easing.type: Easing.OutQuad
             }
 
             NumberAnimation {
                 target: monitors
                 property: "opacity"
                 duration: 200
-                easing.type: Easing.OutQuart
+                easing.type: Easing.OutQuad
             }
         }
     ]

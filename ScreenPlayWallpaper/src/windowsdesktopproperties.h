@@ -2,11 +2,11 @@
 
 #include <QColor>
 #include <QDebug>
+#include <QList>
 #include <QObject>
 #include <QPoint>
 #include <QSettings>
 #include <QString>
-#include <QList>
 #include <qqml.h>
 #include <qt_windows.h>
 
@@ -16,6 +16,7 @@ class WindowsDesktopProperties : public QObject {
 public:
     explicit WindowsDesktopProperties(QObject* parent = nullptr);
 
+    Q_PROPERTY(int windowsVersion READ windowsVersion WRITE setWindowsVersion NOTIFY windowsVersionChanged)
     Q_PROPERTY(QString wallpaperPath READ wallpaperPath WRITE setWallpaperPath NOTIFY wallpaperPathChanged)
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(bool isTiled READ isTiled WRITE setIsTiled NOTIFY isTiledChanged)
@@ -56,6 +57,11 @@ public:
         return m_color;
     }
 
+    int windowsVersion() const
+    {
+        return m_windowsVersion;
+    }
+
 signals:
 
     void wallpaperPathChanged(QString wallpaperPath);
@@ -67,6 +73,8 @@ signals:
     void wallpaperStyleChanged(int wallpaperStyle);
 
     void colorChanged(QColor color);
+
+    void windowsVersionChanged(int windowsVersion);
 
 public slots:
     void setWallpaperPath(QString wallpaperPath)
@@ -111,10 +119,20 @@ public slots:
         emit colorChanged(m_color);
     }
 
+    void setWindowsVersion(int windowsVersion)
+    {
+        if (m_windowsVersion == windowsVersion)
+            return;
+
+        m_windowsVersion = windowsVersion;
+        emit windowsVersionChanged(m_windowsVersion);
+    }
+
 private:
     QString m_wallpaperPath;
     QPoint m_position;
     bool m_isTiled;
     int m_wallpaperStyle;
     QColor m_color;
+    int m_windowsVersion;
 };

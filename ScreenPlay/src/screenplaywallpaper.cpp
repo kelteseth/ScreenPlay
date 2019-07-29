@@ -16,7 +16,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const vector<int>& screenNumber,
     const QString& type,
     QObject* parent)
     : QObject(parent)
-    , m_projectSettingsListModel { QSharedPointer<ProjectSettingsListModel>::create(projectPath + "/project.json") }
+    , m_projectSettingsListModel { make_shared<ProjectSettingsListModel>(projectPath + "/project.json") }
     , m_screenNumber { move(screenNumber) }
     , m_projectPath { projectPath }
     , m_previewImage { previewImage }
@@ -48,7 +48,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const vector<int>& screenNumber,
     //qDebug() << "Creating ScreenPlayWallpaper " << proArgs;
 
     m_process.setArguments(proArgs);
-    m_process.setProgram(m_settings->screenPlayWindowPath().toString());
+    m_process.setProgram(m_settings->screenPlayWallpaperPath().toString());
     m_process.startDetached();
 }
 }

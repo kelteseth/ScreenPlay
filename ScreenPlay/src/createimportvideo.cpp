@@ -8,7 +8,7 @@ namespace ScreenPlay {
            class only exsits as long as the user creates a wallpaper and gets
            destroyed if the creation was successful or not.
 
-           The state get propagated via createWallpaperStateChanged(CreateImportVideo::State state);
+           The state get propagated via createWallpaperStateChanged(ImportVideoState state);
 
     \todo
             - Maybe: Replace with QThread to avoid running QCoreApplication::processEvents();?
@@ -28,13 +28,6 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 
 void CreateImportVideo::process()
 {
-    qDebug() << "start converting video in thread: " << QThread::currentThreadId();
-
-    auto cleanup = qScopeGuard([this] {
-        qDebug() << "ABORT";
-        this->requestInterruption();
-        emit canceled();
-    });
 
     if (!createWallpaperInfo())
         return;
@@ -42,13 +35,19 @@ void CreateImportVideo::process()
     if (!createWallpaperVideoPreview())
         return;
 
+    if (!createWallpaperImagePreview())
+        return;
+
     if (!createWallpaperGifPreview())
+        return;
+
+    if (!createWallpaperVideo())
         return;
 
     if (!extractWallpaperAudio())
         return;
 
-    emit createWallpaperStateChanged(CreateImportVideo::State::Finished);
+    emit createWallpaperStateChanged(ImportVideoState::Finished);
 }
 
 bool CreateImportVideo::createWallpaperInfo()
@@ -71,7 +70,7 @@ bool CreateImportVideo::createWallpaperInfo()
 #endif
 
     pro.data()->start();
-    emit createWallpaperStateChanged(CreateImportVideo::State::AnalyseVideo);
+    emit createWallpaperStateChanged(ImportVideoState::AnalyseVideo);
     while (!pro.data()->waitForFinished(100)) {
         if (QThread::currentThread()->isInterruptionRequested()) {
             qDebug() << "Interrupt thread";
@@ -83,13 +82,13 @@ bool CreateImportVideo::createWallpaperInfo()
         }
         QCoreApplication::processEvents();
     }
-    emit createWallpaperStateChanged(CreateImportVideo::State::AnalyseVideoFinished);
+    emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoFinished);
     QJsonObject obj;
     QJsonParseError err;
     QJsonDocument doc = QJsonDocument::fromJson(pro.data()->readAll(), &err);
     if (err.error != QJsonParseError::NoError) {
         emit processOutput("Error parsing ffmpeg json output");
-        emit createWallpaperStateChanged(CreateImportVideo::State::AnalyseVideoError);
+        emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
         return false;
     }
 
@@ -98,13 +97,14 @@ bool CreateImportVideo::createWallpaperInfo()
 
     // Get video length
     QJsonObject objFormat = obj.value("format").toObject();
+    qDebug() << objFormat;
     bool okParseDuration = false;
     auto tmpLength = objFormat.value("duration").toVariant().toFloat(&okParseDuration);
 
     if (!okParseDuration) {
         qDebug() << "Error parsing video length";
         emit processOutput("Error parsing video length");
-        emit createWallpaperStateChanged(CreateImportVideo::State::AnalyseVideoError);
+        emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
         return false;
     }
 
@@ -133,8 +133,8 @@ bool CreateImportVideo::createWallpaperInfo()
     }
 
     int framerate = 0;
-    double value1 = static_cast<double>(avgFrameRateList.at(0).toInt());
-    double value2 = static_cast<double>(avgFrameRateList.at(1).toInt());
+    double value1 = avgFrameRateList.at(0).toDouble();
+    double value2 = avgFrameRateList.at(1).toDouble();
 
     framerate = qCeil(value1 / value2);
     m_framerate = framerate;
@@ -170,7 +170,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
 #ifdef Q_OS_MACOS
     proConvertPreviewMP4.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
 #endif
-    emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingPreviewVideo);
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewVideo);
 
     proConvertPreviewWebM.data()->start();
     while (!proConvertPreviewWebM.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
@@ -191,7 +191,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
         QFile previewVideo(m_exportPath + "/preview.webm");
         if (!previewVideo.exists() && !(previewVideo.size() > 0)) {
             emit processOutput(tmpErr);
-            emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingPreviewVideoError);
+            emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewVideoError);
             return false;
         }
     }
@@ -199,7 +199,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     //this->processOutput(proConvertPreviewWebM.data()->readAll());
     proConvertPreviewWebM.data()->close();
 
-    emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingPreviewVideoFinished);
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewVideoFinished);
 
     return true;
 }
@@ -207,7 +207,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
 bool CreateImportVideo::createWallpaperGifPreview()
 {
 
-    emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingPreviewGif);
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewGif);
 
     QStringList args;
     args.append("-y");
@@ -245,14 +245,14 @@ bool CreateImportVideo::createWallpaperGifPreview()
     if (!tmpErrGif.isEmpty()) {
         QFile previewGif(m_exportPath + "/preview.gif");
         if (!previewGif.exists() && !(previewGif.size() > 0)) {
-            emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingPreviewGifError);
+            emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewGifError);
             return false;
         }
     }
 
     //this->processOutput(proConvertGif.data()->readAll());
     proConvertGif.data()->close();
-    emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingPreviewGifFinished);
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewGifFinished);
 
     return true;
 }
@@ -260,7 +260,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
 bool CreateImportVideo::createWallpaperImagePreview()
 {
 
-    emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingPreviewImage);
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImage);
 
     QStringList args;
     args.clear();
@@ -274,7 +274,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
     args.append("1");
     args.append("-q:v");
     args.append("2");
-    args.append(m_exportPath + "/preview.png");
+    args.append(m_exportPath + "/preview.jpg");
 
     QScopedPointer<QProcess> proConvertImage(new QProcess());
     proConvertImage.data()->setArguments(args);
@@ -301,16 +301,97 @@ bool CreateImportVideo::createWallpaperImagePreview()
     }
     QString tmpErrImg = proConvertImage.data()->readAllStandardError();
     if (!tmpErrImg.isEmpty()) {
-        QFile previewImg(m_exportPath + "/preview.png");
+        QFile previewImg(m_exportPath + "/preview.jpg");
         if (!previewImg.exists() && !(previewImg.size() > 0)) {
-            emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingPreviewImageError);
+            emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageError);
             return false;
         }
     }
 
     //this->processOutput(proConvertImage.data()->readAll());
     proConvertImage.data()->close();
-    emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingPreviewImageFinished);
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageFinished);
+
+    return true;
+}
+
+bool CreateImportVideo::createWallpaperVideo()
+{
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingVideo);
+
+    if(m_videoPath.endsWith(".webm")){
+        emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoFinished);
+
+        if (!QFile::copy(m_videoPath, m_exportPath + "/video.webm")) {
+            qDebug() << "Could not copy" << m_videoPath << " to " <<  m_exportPath + "/video.webm";
+            emit createWallpaperStateChanged(ImportVideoState::CopyFilesError);
+            return false;
+        }
+
+        return true;
+    }
+
+    QStringList args;
+    args.clear();
+    args.append("-hide_banner");
+    args.append("-y");
+    args.append("-stats");
+    args.append("-i");
+    args.append(m_videoPath);
+    args.append("-c:v");
+    args.append("libvpx-vp9");
+    args.append("-crf");
+    args.append("30");
+    args.append("-threads");
+    args.append("8");
+    args.append("-slices");
+    args.append("8");
+    args.append("-cpu-used");
+    args.append("4");
+    args.append("-pix_fmt");
+    args.append("yuv420p");
+    args.append("-b:v");
+    args.append("0");
+
+    QFileInfo file(m_videoPath);
+    QString convertedFileAbsolutePath {m_exportPath +"/"+ file.baseName() +".webm"};
+    args.append(convertedFileAbsolutePath);
+
+    QScopedPointer<QProcess> proConvertVideo(new QProcess());
+    proConvertVideo.data()->setArguments(args);
+#ifdef Q_OS_WIN
+    proConvertVideo.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+
+#ifdef Q_OS_MACOS
+    proConvertImage.data()->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+#endif
+    proConvertVideo.data()->start();
+
+    while (!proConvertVideo.data()->waitForFinished(100)) //Wake up every 100ms and check if we must exit
+    {
+        if (QThread::currentThread()->isInterruptionRequested()) {
+            qDebug() << "Interrupt thread";
+            proConvertVideo.data()->terminate();
+            if (!proConvertVideo.data()->waitForFinished(1000)) {
+                proConvertVideo.data()->kill();
+            }
+            break;
+        }
+        QCoreApplication::processEvents();
+    }
+    QString tmpErrImg = proConvertVideo.data()->readAllStandardError();
+    if (!tmpErrImg.isEmpty()) {
+        QFile video(convertedFileAbsolutePath);
+        if (!video.exists() && !(video.size() > 0)) {
+            qDebug() << convertedFileAbsolutePath << proConvertVideo.data()->readAll();
+            emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
+            return false;
+        }
+    }
+
+    proConvertVideo.data()->close();
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoFinished);
 
     return true;
 }
@@ -318,7 +399,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
 bool CreateImportVideo::extractWallpaperAudio()
 {
 
-    emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingAudio);
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingAudio);
 
     QStringList args;
     args.clear();
@@ -360,14 +441,14 @@ bool CreateImportVideo::extractWallpaperAudio()
     if (!tmpErrImg.isEmpty()) {
         QFile previewImg(m_exportPath + "/audio.mp3");
         if (!previewImg.exists() && !(previewImg.size() > 0)) {
-            emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingAudioError);
+            emit createWallpaperStateChanged(ImportVideoState::ConvertingAudioError);
             return false;
         }
     }
 
     //this->processOutput(proConvertAudio.data()->readAll());
     proConvertAudio.data()->close();
-    emit createWallpaperStateChanged(CreateImportVideo::State::ConvertingAudioFinished);
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingAudioFinished);
 
     return true;
 }

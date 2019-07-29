@@ -107,13 +107,15 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
     m_window.setSource(QUrl("qrc:/mainWindow.qml"));
 
     // MUST be called before setting hook for events!
-    winGlobalHook = &m_window;
-    if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
-        qDebug() << "Faild to install mouse hook!";
+    if(type() == BaseWindow::WallpaperType::Qml){
+        winGlobalHook = &m_window;
+        if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
+            qDebug() << "Faild to install mouse hook!";
+        }
     }
 
     // FIXME WORKAROUND:
-    // There is a strange bug when we open the ScreenPlayWindow project on its one
+    // There is a strange bug when we open the ScreenPlayWallpaper project on its one
     // that if we set ShowWindow(m_windowHandle, SW_HIDE); we can no longer set
     // the window visible via set Visible.
     if (projectPath != "test") {
@@ -138,14 +140,7 @@ void WinWindow::setVisible(bool show)
 
 void WinWindow::destroyThis()
 {
-    ShowWindow(m_windowHandle, SW_HIDE);
-
-    // Force refresh so that we display the regular
-    // desktop wallpaper again
-    ShowWindow(m_windowHandleWorker, SW_HIDE);
-    ShowWindow(m_windowHandleWorker, SW_SHOW);
-
-    QCoreApplication::quit();
+    emit qmlExit();
 }
 
 void WinWindow::calcOffsets()
@@ -201,4 +196,16 @@ bool WinWindow::searchWorkerWindowToParentTo()
         10000, nullptr);
 
     return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
+}
+
+void WinWindow::terminate()
+{
+    ShowWindow(m_windowHandle, SW_HIDE);
+
+    // Force refresh so that we display the regular
+    // desktop wallpaper again
+    ShowWindow(m_windowHandleWorker, SW_HIDE);
+    ShowWindow(m_windowHandleWorker, SW_SHOW);
+
+    QCoreApplication::quit();
 }

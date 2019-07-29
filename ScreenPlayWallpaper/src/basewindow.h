@@ -9,6 +9,7 @@
 #include <QObject>
 #include <QString>
 #include <QtQml>
+#include <QSysInfo>
 
 class BaseWindow : public QObject {
     Q_OBJECT
@@ -24,7 +25,9 @@ public:
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
     Q_PROPERTY(WallpaperType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
 
+    QSysInfo m_sysinfo;
     enum class WallpaperType {
         Video,
         Html,
@@ -68,6 +71,11 @@ public:
         return m_appID;
     }
 
+    QString OSVersion() const
+    {
+        return m_OSVersion;
+    }
+
 signals:
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
@@ -78,6 +86,8 @@ signals:
     void appIDChanged(QString appID);
     void qmlExit();
     void qmlSceneValueReceived(QString key, QString value);
+
+    void OSVersionChanged(QString OSVersion);
 
 public slots:
     virtual void destroyThis() {}
@@ -151,6 +161,15 @@ public slots:
         emit appIDChanged(m_appID);
     }
 
+    void setOSVersion(QString OSVersion)
+    {
+        if (m_OSVersion == OSVersion)
+            return;
+
+        m_OSVersion = OSVersion;
+        emit OSVersionChanged(m_OSVersion);
+    }
+
 private:
     bool m_loops = true;
     bool m_isPlaying = true;
@@ -162,4 +181,5 @@ private:
     QString m_appID;
 
     WallpaperType m_type = BaseWindow::WallpaperType::Qml;
+    QString m_OSVersion;
 };

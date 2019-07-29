@@ -11,9 +11,10 @@ build:windows:
         - git submodule sync --recursive
         - git submodule update --init --recursive
     script:
+        - call vcpkg-install-dependencies.bat
         - call scripts/build.bat
         - call scripts/package.bat
     artifacts:
-        expire_in: '2 hrs'
+        expire_in: '3 weeks'
         paths:
             - PACKAGE/

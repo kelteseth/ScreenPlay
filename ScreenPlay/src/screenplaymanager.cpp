@@ -21,8 +21,12 @@ void ScreenPlayManager::createWallpaper(
     const QString& previewImage, const float volume,
     const QString& fillMode, const QString& type)
 {
+
+    removeWallpaperAt(monitorIndex);
+
     ProjectFile project {};
     if (!m_installedListModel->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
+        qWarning() << "Failed to receive getProjectByAbsoluteStoragePath";
         return;
     }
 
@@ -54,6 +58,8 @@ void ScreenPlayManager::createWidget(QUrl absoluteStoragePath, const QString& pr
         return;
     }
 
+    m_settings->increaseActiveWidgetsCounter();
+
     m_screenPlayWidgets.emplace_back(
         make_unique<ScreenPlayWidget>(
             generateID(),
@@ -64,12 +70,14 @@ void ScreenPlayManager::createWidget(QUrl absoluteStoragePath, const QString& pr
             this));
 }
 
-void ScreenPlayManager::removeAllWallpaper()
+void ScreenPlayManager::closeAllConnections()
 {
-    if (m_settings && !m_screenPlayWallpapers.empty()) {
-        m_sdkconnector->closeAllWallpapers();
+    if (!m_screenPlayWidgets.empty() || !m_screenPlayWallpapers.empty()) {
+        m_sdkconnector->closeAllConnections();
         m_settings->setActiveWallpaperCounter(0);
+        m_settings->setActiveWidgetsCounter(0);
         m_screenPlayWallpapers.clear();
+        m_screenPlayWidgets.clear();
         emit allWallpaperRemoved();
     }
     return;
@@ -80,7 +88,7 @@ void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
     for (const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
         if (!uPtrWallpaper->screenNumber().empty() && uPtrWallpaper->screenNumber()[0] == index) { // ??? only at index == 0
             emit projectSettingsListModelFound(
-                uPtrWallpaper->projectSettingsListModel().data(),
+                uPtrWallpaper->projectSettingsListModel().get(),
                 uPtrWallpaper->type());
             return;
         }

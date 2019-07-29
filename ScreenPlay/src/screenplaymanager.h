@@ -57,7 +57,7 @@ public slots:
         const QString& previewImage, const float volume,
         const QString& fillMode, const QString& type);
     void createWidget(QUrl absoluteStoragePath, const QString& previewImage);
-    void removeAllWallpaper();
+    void closeAllConnections();
     void requestProjectSettingsListModelAt(const int index);
     void setWallpaperValue(const int at, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);

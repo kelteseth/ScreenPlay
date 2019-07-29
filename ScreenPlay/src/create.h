@@ -28,8 +28,6 @@
 
 namespace ScreenPlay {
 
-
-
 using std::shared_ptr,
     std::make_shared;
 
@@ -56,7 +54,7 @@ public:
     }
 
 signals:
-    void createWallpaperStateChanged(CreateImportVideo::State state);
+    void createWallpaperStateChanged(CreateImportVideo::ImportVideoState state);
     void processOutput(QString text);
     void progressChanged(float progress);
     void abortCreateWallpaper();
