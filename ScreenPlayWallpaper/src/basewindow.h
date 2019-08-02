@@ -8,8 +8,8 @@
 #include <QJsonParseError>
 #include <QObject>
 #include <QString>
-#include <QtQml>
 #include <QSysInfo>
+#include <QtQml>
 
 class BaseWindow : public QObject {
     Q_OBJECT
@@ -23,6 +23,7 @@ public:
     Q_PROPERTY(bool loops READ loops WRITE setLoops NOTIFY loopsChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
+    Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
     Q_PROPERTY(WallpaperType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
@@ -76,6 +77,11 @@ public:
         return m_OSVersion;
     }
 
+    bool muted() const
+    {
+        return m_muted;
+    }
+
 signals:
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
@@ -88,6 +94,8 @@ signals:
     void qmlSceneValueReceived(QString key, QString value);
 
     void OSVersionChanged(QString OSVersion);
+
+    void mutedChanged(bool muted);
 
 public slots:
     virtual void destroyThis() {}
@@ -170,12 +178,22 @@ public slots:
         emit OSVersionChanged(m_OSVersion);
     }
 
-private:
-    bool m_loops = true;
-    bool m_isPlaying = true;
+    void setMuted(bool muted)
+    {
+        if (m_muted == muted)
+            return;
 
-    float m_volume = 1.0f;
-    float m_playbackRate = 1.0f;
+        m_muted = muted;
+        emit mutedChanged(m_muted);
+    }
+
+private:
+    bool m_loops { true };
+    bool m_isPlaying { true };
+    bool m_muted { false };
+
+    float m_volume { 1.0f };
+    float m_playbackRate { 1.0f };
 
     QString m_fullContentPath;
     QString m_appID;

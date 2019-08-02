@@ -13,6 +13,7 @@ InstalledListModel::InstalledListModel(QObject* parent)
 {
     QObject::connect(this, &InstalledListModel::addInstalledItem,
         this, &InstalledListModel::append, Qt::QueuedConnection);
+
 }
 
 int InstalledListModel::rowCount(const QModelIndex& parent) const
@@ -68,19 +69,6 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { WorkshopIDRole, "screenWorkshopID" },
     };
     return roles;
-}
-
-bool InstalledListModel::getProjectByAbsoluteStoragePath(QUrl* path, ProjectFile* spf)
-{
-
-    for (int i = 0; i < m_screenPlayFiles.count(); ++i) {
-        if (m_screenPlayFiles.at(i).m_absoluteStoragePath == *path) {
-            *spf = m_screenPlayFiles.at(i);
-            return true;
-        }
-    }
-
-    return false;
 }
 
 void InstalledListModel::append(const QJsonObject& obj, const QString& folderName)

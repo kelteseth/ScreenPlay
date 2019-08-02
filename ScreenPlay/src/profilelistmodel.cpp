@@ -46,62 +46,8 @@ QVariant ProfileListModel::data(const QModelIndex& index, int role) const
 
 QHash<int, QByteArray> ProfileListModel::roleNames() const
 {
+    QHash<int, QByteArray> m_roleNames;
     return m_roleNames;
-}
-
-void ProfileListModel::loadProfiles()
-{
-
-    QFileInfoList list = QDir(m_localStoragePath.toString() + "/Profiles/").entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
-    QString tmpPath;
-    QJsonDocument profileDoc;
-    QJsonParseError parseError;
-    QJsonObject profileObj;
-
-    for (auto&& item : list) {
-        tmpPath = m_localStoragePath.toString() + "/Profiles/" + item.baseName() + "/profile.json";
-
-        QFile settings;
-        settings.setFileName(tmpPath);
-        settings.open(QIODevice::ReadOnly | QIODevice::Text);
-        QString projectConfigData = settings.readAll();
-        profileDoc = QJsonDocument::fromJson(projectConfigData.toUtf8(), &parseError);
-
-        if (!(parseError.error == QJsonParseError::NoError))
-            continue;
-
-        profileObj = profileDoc.object();
-
-        Profile tmpProfile;
-        tmpProfile.m_id = item.baseName();
-
-        if (profileObj.contains("version"))
-            tmpProfile.m_version = profileObj.value("version").toString();
-
-        if (profileObj.contains("wallpaperId"))
-            tmpProfile.m_wallpaperId = profileObj.value("wallpaperId").toString();
-
-        if (profileObj.contains("width") && profileObj.contains("height") && profileObj.contains("xPos") && profileObj.contains("yPos")) {
-            //Check for inpossible values
-            if (profileObj.value("width").toInt() == 0 || profileObj.value("height").toInt() == 0) {
-                continue;
-            }
-            tmpProfile.m_rect.setX(profileObj.value("xPos").toInt());
-            tmpProfile.m_rect.setY(profileObj.value("yPos").toInt());
-            tmpProfile.m_rect.setWidth(profileObj.value("width").toInt());
-            tmpProfile.m_rect.setHeight(profileObj.value("height").toInt());
-
-        } else {
-            qWarning("Parsing error");
-        }
-
-        if (profileObj.contains("isLooping"))
-            tmpProfile.m_isLooping = profileObj.value("isLooping").toBool();
-
-        tmpProfile.m_absolutePath = m_localStoragePath;
-
-        m_profileList.append(tmpProfile);
-    }
 }
 
 bool ProfileListModel::getProfileByName(QString id, Profile* profile)
@@ -113,5 +59,9 @@ bool ProfileListModel::getProfileByName(QString id, Profile* profile)
         }
     }
     return false;
+}
+
+void ProfileListModel::append(const Profile& profile)
+{
 }
 }

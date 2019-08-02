@@ -30,11 +30,14 @@ WindowsDesktopProperties::WindowsDesktopProperties(QObject* parent)
 
     QSettings settingsWindowsVersion("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", QSettings::NativeFormat);
 
+    // Only Windows > 10 has this variable
+    if(!settingsWindowsVersion.contains("ReleaseID"))
+        return;
+
     bool canParse {false};
     int value = settingsWindowsVersion.value("ReleaseId").toInt(&canParse);
 
     if(canParse)
         setWindowsVersion(value);
 
-    qDebug() << settingsWindowsVersion.value("ReleaseId").toInt();
 }

@@ -24,6 +24,9 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
 
+    if(projectFilePath.contains("file:\\\\\\"))
+        projectFilePath = projectFilePath.remove("file:\\\\\\");
+
     projectFile.setFileName(projectFilePath + "/project.json");
     projectFile.open(QIODevice::ReadOnly | QIODevice::Text);
     QString projectConfig = projectFile.readAll();
@@ -109,6 +112,12 @@ void BaseWindow::messageReceived(QString key, QString value)
     if (key == "isPlaying") {
         bool tmp = QVariant(value).toBool();
         setIsPlaying(tmp);
+        return;
+    }
+
+    if (key == "muted") {
+        bool tmp = QVariant(value).toBool();
+        setMuted(tmp);
         return;
     }
 

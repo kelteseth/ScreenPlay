@@ -67,6 +67,7 @@ public:
         QObject* parent = nullptr);
     ~Settings() {}
 
+
     QVersionNumber version() const
     {
         return m_version;
@@ -155,6 +156,11 @@ public:
     int activeWidgetsCounter() const
     {
         return m_activeWidgetsCounter;
+    }
+
+    QUrl localSettingsPath() const
+    {
+        return m_localSettingsPath;
     }
 
 signals:
@@ -302,8 +308,6 @@ public slots:
         emit offlineModeChanged(m_offlineMode);
     }
 
-    void loadActiveProfiles();
-
     void setActiveWidgetsCounter(int activeWidgetsCounter)
     {
         if (m_activeWidgetsCounter == activeWidgetsCounter)
@@ -341,5 +345,6 @@ private:
     QString m_decoder { "" };
     int m_activeWallpaperCounter { 0 };
     int m_activeWidgetsCounter { 0 };
+    void createDefaultProfiles();
 };
 }

@@ -5,30 +5,26 @@ namespace ScreenPlay {
 ScreenPlayManager::ScreenPlayManager(const shared_ptr<InstalledListModel>& ilm,
     const shared_ptr<Settings>& settings,
     const shared_ptr<MonitorListModel>& mlm,
-    const shared_ptr<SDKConnector>& sdkc,
+    const shared_ptr<SDKConnector>& sdkc, const shared_ptr<ProfileListModel>& plm,
     QObject* parent)
     : QObject { parent }
     , m_installedListModel { ilm }
     , m_settings { settings }
     , m_monitorListModel { mlm }
     , m_sdkconnector { sdkc }
+    , m_profileListModel { plm }
     , m_qGuiApplication { static_cast<QGuiApplication*>(QGuiApplication::instance()) }
 {
+   // loadActiveProfiles();
 }
 
 void ScreenPlayManager::createWallpaper(
-    const int monitorIndex, QUrl absoluteStoragePath,
+    const int monitorIndex, const QUrl& absoluteStoragePath,
     const QString& previewImage, const float volume,
     const QString& fillMode, const QString& type)
 {
 
     removeWallpaperAt(monitorIndex);
-
-    ProjectFile project {};
-    if (!m_installedListModel->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
-        qWarning() << "Failed to receive getProjectByAbsoluteStoragePath";
-        return;
-    }
 
     m_settings->increaseActiveWallpaperCounter();
 
@@ -54,10 +50,6 @@ void ScreenPlayManager::createWidget(QUrl absoluteStoragePath, const QString& pr
 {
     ProjectFile project {};
 
-    if (!m_installedListModel->getProjectByAbsoluteStoragePath(&absoluteStoragePath, &project)) {
-        return;
-    }
-
     m_settings->increaseActiveWidgetsCounter();
 
     m_screenPlayWidgets.emplace_back(
@@ -66,7 +58,7 @@ void ScreenPlayManager::createWidget(QUrl absoluteStoragePath, const QString& pr
             m_settings,
             absoluteStoragePath.toLocalFile(),
             previewImage,
-            QString { absoluteStoragePath.toLocalFile() + "/" + project.m_file.toString() },
+            absoluteStoragePath.toString(),
             this));
 }
 
@@ -149,5 +141,66 @@ QString ScreenPlayManager::generateID() const
         randomString.append(nextChar);
     }
     return randomString;
+}
+
+void ScreenPlayManager::loadActiveProfiles()
+{
+    QJsonDocument configJsonDocument;
+    QJsonObject configObj;
+    QJsonArray activeProfilesTmp;
+    QFile configTmp;
+    configTmp.setFileName(m_settings->localSettingsPath().toLocalFile() + "/profiles.json");
+
+    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
+    QString config = configTmp.readAll();
+    configJsonDocument = QJsonDocument::fromJson(config.toUtf8());
+    configObj = configJsonDocument.object();
+
+    activeProfilesTmp = configObj.value("profilesWallpaper").toArray();
+
+    for (const QJsonValueRef wallpaper : activeProfilesTmp) {
+        QJsonObject wallpaperObj = wallpaper.toObject();
+
+        if (wallpaperObj.empty())
+            continue;
+
+        bool parsing = true;
+        bool isLooping = wallpaperObj.value("isLooping").toBool(parsing);
+
+        if (!parsing)
+            continue;
+
+        float volume = static_cast<float>(wallpaperObj.value("volume").toDouble(parsing));
+
+        if (!parsing)
+            continue;
+
+        QString absolutePath = wallpaperObj.value("absolutePath").toString();
+        QString fillMode = wallpaperObj.value("fillMode").toString();
+        QString previewImage = wallpaperObj.value("previewImage").toString();
+        QString file = wallpaperObj.value("file").toString();
+        QString type = wallpaperObj.value("type").toString();
+
+        QJsonArray monitorsArray = wallpaper.toObject().value("monitors").toArray();
+
+        if (monitorsArray.empty())
+            continue;
+
+        QMap<QString, int> monitorMap;
+
+        // A wallpaper can span across multiple monitors
+        for (const QJsonValueRef monitor : monitorsArray) {
+            QJsonObject obj = monitor.toObject();
+            int parseMonitorIndexDefaultValue { -1 };
+            int monitorIndex = obj.value("index").toInt(parseMonitorIndexDefaultValue);
+
+            if (monitorIndex == -1)
+                continue;
+
+            monitorMap.insert(obj.value("name").toString(), monitorIndex);
+        }
+
+        createWallpaper(0, absolutePath, previewImage, volume, fillMode, type);
+    }
 }
 }

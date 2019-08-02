@@ -38,6 +38,7 @@ public:
         AnalyseVideo,
         AnalyseVideoFinished,
         AnalyseVideoError,
+        AnalyseVideoHasNoVideoStreamError,
         ConvertingPreviewVideo,
         ConvertingPreviewVideoFinished,
         ConvertingPreviewVideoError,
@@ -81,6 +82,9 @@ public slots:
     bool createWallpaperImagePreview();
     bool createWallpaperVideo();
     bool extractWallpaperAudio();
+
+private:
+    bool m_skipAudio {false};
 
 };
 }

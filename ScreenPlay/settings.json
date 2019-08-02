@@ -1,10 +1,7 @@
 {
-  "version" : "0.0.1",
-  "autostart" : true,
-  "highPriorityStart" : false,
-  "sendStatistics" : false,
-  "absoluteStoragePath": "",
-  "profiles":[
-    {  "monitorID": "","wallpaper": "" }
-  ]
+  "version":"1.0.0",
+  "autostart":true,
+  "highPriorityStart":false,
+  "sendStatistics":false,
+  "absoluteStoragePath":""
 }

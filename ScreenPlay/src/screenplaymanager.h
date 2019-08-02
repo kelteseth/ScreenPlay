@@ -10,6 +10,7 @@
 
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
+#include "profilelistmodel.h"
 #include "projectfile.h"
 #include "projectsettingslistmodel.h"
 #include "screenplaywallpaper.h"
@@ -21,7 +22,6 @@
     \class ScreenPlay
     \brief Used for Creation of Wallpaper, Scenes and Widgets
 */
-
 
 namespace ScreenPlay {
 
@@ -42,6 +42,7 @@ public:
         const shared_ptr<Settings>& settings,
         const shared_ptr<MonitorListModel>& mlm,
         const shared_ptr<SDKConnector>& sdkc,
+        const shared_ptr<ProfileListModel>& plm,
         QObject* parent = nullptr);
 
     ~ScreenPlayManager() {}
@@ -52,8 +53,7 @@ signals:
     void projectSettingsListModelNotFound();
 
 public slots:
-    void createWallpaper(
-        const int monitorIndex, QUrl absoluteStoragePath,
+    void createWallpaper(const int monitorIndex, const QUrl &absoluteStoragePath,
         const QString& previewImage, const float volume,
         const QString& fillMode, const QString& type);
     void createWidget(QUrl absoluteStoragePath, const QString& previewImage);
@@ -65,10 +65,14 @@ public slots:
     QString generateID() const;
 
 private:
+    void loadActiveProfiles();
+
+private:
     const shared_ptr<InstalledListModel> m_installedListModel;
     const shared_ptr<Settings> m_settings;
     const shared_ptr<MonitorListModel> m_monitorListModel;
     const shared_ptr<SDKConnector> m_sdkconnector;
+    const shared_ptr<ProfileListModel> m_profileListModel;
 
     const QGuiApplication* const m_qGuiApplication;
     vector<unique_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;

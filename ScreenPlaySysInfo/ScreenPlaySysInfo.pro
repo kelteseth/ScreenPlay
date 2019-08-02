@@ -1,7 +1,7 @@
 TEMPLATE = lib
 TARGET = ScreenPlaySysInfo
 QT += qml quick
-CONFIG += plugin c++11
+CONFIG += plugin c++17
 
 TARGET = $$qtLibraryTarget($$TARGET)
 uri = ScreenPlay.Sysinfo

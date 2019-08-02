@@ -63,9 +63,6 @@ CONFIG(debug, debug|release) {
     install_it.path = $${OUT_PWD}/release/
 }
 
-install_it.files += assets/templates/config.json \
-                    assets/icons/favicon.ico
-
 INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
 DEPENDPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
 

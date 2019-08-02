@@ -36,6 +36,7 @@ Item {
         onCreateWallpaperStateChanged: {
             if (state === CreateImportVideo.AnalyseVideoError || state
                     === CreateImportVideo.ConvertingVideoError || state
+                    === CreateImportVideo.AnalyseVideoHasNoVideoStreamError || state
                     === CreateImportVideo.ConvertingPreviewGifError || state
                     === CreateImportVideo.ConvertingPreviewImageError || state
                     === CreateImportVideo.ConvertingAudioError || state
@@ -100,11 +101,6 @@ Item {
             }
         }
 
-        CreateWallpaperResult {
-            id: wrapperResult
-            anchors.fill: parent
-        }
-
         MouseArea {
             anchors {
                 top: parent.top
@@ -157,10 +153,6 @@ Item {
                 target: effect
                 opacity: 0
             }
-            PropertyChanges {
-                target: wrapperResult
-                opacity: 0
-            }
         },
         State {
             name: "in"
@@ -172,10 +164,6 @@ Item {
             PropertyChanges {
                 target: effect
                 opacity: .4
-            }
-            PropertyChanges {
-                target: wrapperResult
-                opacity: 0
             }
         },
         State {
@@ -193,10 +181,6 @@ Item {
                 target: loader_wrapperContent
                 opacity: 0
                 z: 0
-            }
-            PropertyChanges {
-                target: wrapperResult
-                opacity: 1
             }
         },
         State {
@@ -299,12 +283,6 @@ Item {
                 }
                 PauseAnimation {
                     duration: 50
-                }
-                PropertyAnimation {
-                    target: wrapperResult
-                    duration: 200
-                    property: "opacity"
-                    easing.type: Easing.OutQuart
                 }
             }
         }

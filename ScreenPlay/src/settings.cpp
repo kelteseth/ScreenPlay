@@ -64,7 +64,7 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     m_localSettingsPath = QUrl::fromUserInput(appConfigLocation);
     if (!QDir(appConfigLocation).exists()) {
         if (!QDir().mkpath(appConfigLocation)) {
-            qWarning("ERROR: Cloud not create install dir");
+            qWarning("ERROR: Cloud not create appConfigLocation dir");
             return;
         }
     }
@@ -75,6 +75,13 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     if (!configTmp.exists()) {
         qWarning("No Settings found, creating default settings");
         createDefaultConfig();
+    }
+
+    QFile profiles;
+    profiles.setFileName(appConfigLocation + "/profiles.json");
+    if (!profiles.exists()) {
+        qWarning("No profiles.json found, creating default settings");
+        createDefaultProfiles();
     }
 
     QJsonDocument configJsonDocument;
@@ -136,40 +143,6 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     setupWidgetAndWindowPaths();
 }
 
-void Settings::loadActiveProfiles()
-{
-    QJsonDocument configJsonDocument;
-    QJsonObject configObj;
-    QJsonArray activeProfilesTmp;
-    QFile configTmp;
-    configTmp.setFileName(m_localSettingsPath.toLocalFile() + "/settings.json");
-
-    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString config = configTmp.readAll();
-    configJsonDocument = QJsonDocument::fromJson(config.toUtf8());
-    configObj = configJsonDocument.object();
-
-    activeProfilesTmp = configObj.value("profiles").toArray();
-    int size = activeProfilesTmp.size();
-
-    // Only load profiles if we have any
-    if (size > 0) {
-        for (int i = 0; i < size; i++) {
-            QString profileName = activeProfilesTmp.at(i).toObject().value("profile").toString();
-            QString monitorID = activeProfilesTmp.at(i).toObject().value("monitorID").toString();
-            Profile profile;
-            //            auto spf = new QSharedPointer<ProjectFile>(new ProjectFile());
-
-            //            if (!m_plm->getProfileByName(profileName, &profile))
-            //                continue;
-
-            //            if (!m_ilm->getProjectByAbsoluteStoragePath(&profile.m_absolutePath, spf))
-            //                continue;
-
-            //            constructWallpaper(profile, monitorID, spf);
-        }
-    }
-}
 
 void Settings::writeSingleSettingConfig(QString name, QVariant value)
 {
@@ -219,6 +192,24 @@ void Settings::createDefaultConfig()
 
     QFile file(m_localSettingsPath.toLocalFile() + "/settings.json");
     QFile defaultSettings(":/settings.json");
+
+    file.open(QIODevice::WriteOnly | QIODevice::Text);
+    defaultSettings.open(QIODevice::ReadOnly | QIODevice::Text);
+
+    QTextStream out(&file);
+    QTextStream defaultOut(&defaultSettings);
+
+    out << defaultOut.readAll();
+
+    file.close();
+    defaultSettings.close();
+}
+
+void Settings::createDefaultProfiles()
+{
+
+    QFile file(m_localSettingsPath.toLocalFile() + "/profiles.json");
+    QFile defaultSettings(":/profiles.json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     defaultSettings.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -287,4 +278,6 @@ void Settings::setupWidgetAndWindowPaths()
     }
 #endif
 }
+
+
 }

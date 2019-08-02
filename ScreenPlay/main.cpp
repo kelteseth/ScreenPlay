@@ -62,13 +62,9 @@ int main(int argc, char* argv[])
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     auto settings = make_shared<Settings>(installedListModel, profileListModel, monitorListModel, sdkConnector);
-    ScreenPlayManager screenPlay(installedListModel, settings, monitorListModel, sdkConnector);
+    installedListModel->loadInstalledContent();
+    ScreenPlayManager screenPlay(installedListModel, settings, monitorListModel, sdkConnector, profileListModel);
     Create create(settings);
-
-    // All the list need the default path from the settings
-    // to know where to look for the files
-    profileListModel->loadProfiles();
-    settings->loadActiveProfiles();
 
     QQmlApplicationEngine mainWindowEngine;
     QMLUtilities qmlUtil { mainWindowEngine.networkAccessManager() };
@@ -83,7 +79,6 @@ int main(int argc, char* argv[])
     mainWindowEngine.rootContext()->setContextProperty("screenPlaySettings", settings.get());
     mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
 
-    installedListModel->loadInstalledContent();
 
     // Instead of setting "renderType: Text.NativeRendering" every time
     // we can set it here once :)

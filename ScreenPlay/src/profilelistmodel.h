@@ -34,12 +34,11 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
-    void loadProfiles();
     bool getProfileByName(QString id, Profile* profile);
     QUrl m_localStoragePath;
+    void append(const Profile& profile);
 
 private:
-    QHash<int, QByteArray> m_roleNames;
     QVector<Profile> m_profileList;
 };
 }

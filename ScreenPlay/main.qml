@@ -17,8 +17,9 @@ ApplicationWindow {
     // Set visible if the -silent parameter was not set (see main.cpp:87).
     visible: false
     width: 1400
+    height: 788
     title: "ScreenPlay 0.2"
-    minimumHeight: 788
+    minimumHeight: 450
     minimumWidth: 1050
 
     Component.onCompleted: {
@@ -147,11 +148,11 @@ ApplicationWindow {
                     if (miMuteAll.isMuted) {
                         isMuted = false
                         miMuteAll.text = qsTr("Mute all")
-                        screenPlay.setAllWallpaperValue("volume", "1")
+                        screenPlay.setAllWallpaperValue("muted", "true")
                     } else {
                         isMuted = true
                         miMuteAll.text = qsTr("Unmute all")
-                        screenPlay.setAllWallpaperValue("volume", "0")
+                        screenPlay.setAllWallpaperValue("muted", "false")
                     }
                 }
             }
@@ -163,11 +164,11 @@ ApplicationWindow {
                     if (miStopAll.isPlaying) {
                         isPlaying = false
                         miStopAll.text = qsTr("Pause all")
-                        screenPlay.setAllWallpaperValue("isPlaying", "false")
+                        screenPlay.setAllWallpaperValue("isPlaying", "true")
                     } else {
                         isPlaying = true
                         miStopAll.text = qsTr("Play all")
-                        screenPlay.setAllWallpaperValue("isPlaying", "true")
+                        screenPlay.setAllWallpaperValue("isPlaying", "false")
                     }
                 }
             }

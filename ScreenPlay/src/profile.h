@@ -34,5 +34,6 @@ struct Profile {
     QString m_wallpaperId = "";
     QRect m_rect;
     bool m_isLooping = true;
+    QVector<QString> m_monitorList;
 };
 }

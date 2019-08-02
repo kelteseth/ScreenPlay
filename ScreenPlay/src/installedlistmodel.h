@@ -35,7 +35,6 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    bool getProjectByAbsoluteStoragePath(QUrl* path, ProjectFile* spf);
 
     enum InstalledRole {
         TitleRole = Qt::UserRole,

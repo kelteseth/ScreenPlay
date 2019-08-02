@@ -29,23 +29,26 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 void CreateImportVideo::process()
 {
 
-    if (!createWallpaperInfo())
+    if (!createWallpaperInfo() || QThread::currentThread()->isInterruptionRequested())
         return;
 
-    if (!createWallpaperVideoPreview())
+    if (!createWallpaperImagePreview() || QThread::currentThread()->isInterruptionRequested())
         return;
 
-    if (!createWallpaperImagePreview())
+    if (!createWallpaperVideoPreview() || QThread::currentThread()->isInterruptionRequested())
         return;
 
-    if (!createWallpaperGifPreview())
+    if (!createWallpaperGifPreview() || QThread::currentThread()->isInterruptionRequested())
         return;
 
-    if (!createWallpaperVideo())
+    if (!createWallpaperVideo() || QThread::currentThread()->isInterruptionRequested())
         return;
 
-    if (!extractWallpaperAudio())
-        return;
+    // If the video has no audio we can skip the extraction
+    if (!m_skipAudio) {
+        if (!extractWallpaperAudio() || QThread::currentThread()->isInterruptionRequested())
+            return;
+    }
 
     emit createWallpaperStateChanged(ImportVideoState::Finished);
 }
@@ -93,10 +96,41 @@ bool CreateImportVideo::createWallpaperInfo()
     }
 
     obj = doc.object();
+
+    if (obj.empty()) {
+        emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
+        pro.data()->close();
+        return false;
+    }
+
     pro.data()->close();
 
-    // Get video length
+    // Check for audio and video streams
+    QJsonArray arrayStream = obj.value("streams").toArray();
+
+    bool hasAudioStream { false };
+    bool hasVideoStream { false };
+
+    for (const auto stream : arrayStream) {
+        QString codec_type = stream.toObject().value("codec_type").toString();
+        if (codec_type == "video") {
+            hasVideoStream = true;
+        } else if (codec_type == "audio") {
+            hasAudioStream = true;
+        }
+    }
+
+    // Display error if wallpaper has no video
+    if (!hasVideoStream) {
+        emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoHasNoVideoStreamError);
+        return false;
+    }
+
+    if (!hasAudioStream)
+        m_skipAudio = true;
+
     QJsonObject objFormat = obj.value("format").toObject();
+    // Get video length
     qDebug() << objFormat;
     bool okParseDuration = false;
     auto tmpLength = objFormat.value("duration").toVariant().toFloat(&okParseDuration);
@@ -317,19 +351,12 @@ bool CreateImportVideo::createWallpaperImagePreview()
 
 bool CreateImportVideo::createWallpaperVideo()
 {
-    emit createWallpaperStateChanged(ImportVideoState::ConvertingVideo);
 
-    if(m_videoPath.endsWith(".webm")){
-        emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoFinished);
-
-        if (!QFile::copy(m_videoPath, m_exportPath + "/video.webm")) {
-            qDebug() << "Could not copy" << m_videoPath << " to " <<  m_exportPath + "/video.webm";
-            emit createWallpaperStateChanged(ImportVideoState::CopyFilesError);
-            return false;
-        }
-
+    if (m_videoPath.endsWith(".webm")) {
         return true;
     }
+
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingVideo);
 
     QStringList args;
     args.clear();
@@ -354,7 +381,7 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("0");
 
     QFileInfo file(m_videoPath);
-    QString convertedFileAbsolutePath {m_exportPath +"/"+ file.baseName() +".webm"};
+    QString convertedFileAbsolutePath { m_exportPath + "/" + file.baseName() + ".webm" };
     args.append(convertedFileAbsolutePath);
 
     QScopedPointer<QProcess> proConvertVideo(new QProcess());
@@ -441,6 +468,8 @@ bool CreateImportVideo::extractWallpaperAudio()
     if (!tmpErrImg.isEmpty()) {
         QFile previewImg(m_exportPath + "/audio.mp3");
         if (!previewImg.exists() && !(previewImg.size() > 0)) {
+            qDebug() << args;
+            qDebug() << proConvertAudio.data()->readAll();
             emit createWallpaperStateChanged(ImportVideoState::ConvertingAudioError);
             return false;
         }

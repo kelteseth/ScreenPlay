@@ -116,7 +116,7 @@ Rectangle {
             top: parent.top
             topMargin: {
                 if(desktopProperties.windowsVersion >= 1903){
-                    return -(1080 / 9)
+                    return -((1080 / 9) / 3)
                 } else {
                     return 0;
                 }
@@ -162,6 +162,16 @@ Rectangle {
     Connections {
         target: window
 
+        onMutedChanged:{
+            if(muted){
+                webView.runJavaScript(
+                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
+            } else {
+                webView.runJavaScript(
+                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + window.volume + ";")
+            }
+        }
+
         onQmlExit: {
             webView.runJavaScript(
                         "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
@@ -199,7 +209,7 @@ Rectangle {
 
         onIsPlayingChanged: {
             if (webView.loadProgress === 100) {
-                if (isPlaying === "false") {
+                if (isPlaying) {
                     webView.runJavaScript(
                                 "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.play();")
                 } else {
