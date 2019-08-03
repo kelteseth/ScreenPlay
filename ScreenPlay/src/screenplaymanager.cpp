@@ -15,11 +15,11 @@ ScreenPlayManager::ScreenPlayManager(const shared_ptr<InstalledListModel>& ilm,
     , m_profileListModel { plm }
     , m_qGuiApplication { static_cast<QGuiApplication*>(QGuiApplication::instance()) }
 {
-   // loadActiveProfiles();
+   loadActiveProfiles();
 }
 
 void ScreenPlayManager::createWallpaper(
-    const int monitorIndex, const QUrl& absoluteStoragePath,
+    const int monitorIndex, const QString& absoluteStoragePath,
     const QString& previewImage, const float volume,
     const QString& fillMode, const QString& type)
 {
@@ -28,12 +28,16 @@ void ScreenPlayManager::createWallpaper(
 
     m_settings->increaseActiveWallpaperCounter();
 
+    QString path = absoluteStoragePath;
+    if(absoluteStoragePath.contains("file:///"))
+        path = path.remove("file:///");
+
     m_screenPlayWallpapers.emplace_back(
         make_unique<ScreenPlayWallpaper>(
             vector<int> { monitorIndex },
             m_settings,
             generateID(),
-            absoluteStoragePath.toLocalFile(),
+            path,
             previewImage,
             volume,
             fillMode,
@@ -41,9 +45,9 @@ void ScreenPlayManager::createWallpaper(
             this));
 
     m_monitorListModel->setWallpaperActiveMonitor(m_qGuiApplication->screens().at(monitorIndex),
-        QString { absoluteStoragePath.toLocalFile() + "/" + previewImage });
+        QString { path + "/" + previewImage });
 
-    m_settings->saveWallpaperToConfig(monitorIndex, absoluteStoragePath, type);
+    m_settings->saveWallpaperToConfig(monitorIndex, path, type);
 }
 
 void ScreenPlayManager::createWidget(QUrl absoluteStoragePath, const QString& previewImage)

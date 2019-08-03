@@ -53,7 +53,7 @@ signals:
     void projectSettingsListModelNotFound();
 
 public slots:
-    void createWallpaper(const int monitorIndex, const QUrl &absoluteStoragePath,
+    void createWallpaper(const int monitorIndex, const QString& absoluteStoragePath,
         const QString& previewImage, const float volume,
         const QString& fillMode, const QString& type);
     void createWidget(QUrl absoluteStoragePath, const QString& previewImage);
