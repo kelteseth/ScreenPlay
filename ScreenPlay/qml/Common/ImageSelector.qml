@@ -85,6 +85,7 @@ Item {
         Popup {
             id: popup
             width: 902
+            modal: true
             anchors.centerIn: Overlay.overlay
             height: 507
             Image {

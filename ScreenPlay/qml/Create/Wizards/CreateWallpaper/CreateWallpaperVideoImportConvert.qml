@@ -126,6 +126,26 @@ Item {
                 anchors.fill: parent
             }
 
+            LinearGradient {
+                id: shadow
+                cached: true
+                anchors.fill: parent
+                start: Qt.point(0, height)
+                end: Qt.point(0, 0)
+                gradient: Gradient {
+                    GradientStop {
+                        id: gradientStop0
+                        position: 0.0
+                        color: "#DD000000"
+                    }
+                    GradientStop {
+                        id: gradientStop1
+                        position: 1.0
+                        color: "#00000000"
+                    }
+                }
+            }
+
             BusyIndicator {
                 id: busyIndicator
                 anchors.centerIn: parent
@@ -266,6 +286,8 @@ Item {
                                     textFieldYoutubeURL.text,
                                     textFieldTags.getTags())
                         savePopup.open()
+                        installedListModel.reset()
+                        installedListModel.loadInstalledContent()
                     }
                 }
             }
