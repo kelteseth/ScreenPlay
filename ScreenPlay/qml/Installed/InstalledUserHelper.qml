@@ -3,6 +3,8 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls.Material 2.2
 
+import "../Common"
+
 Item {
     id: installedUserHelper
     signal helperButtonPressed(var pos)
@@ -18,6 +20,7 @@ Item {
         source: "qrc:/assets/images/Intro.png"
         anchors.fill: parent
     }
+
     Item {
         height: parent.height
         anchors {
@@ -43,41 +46,22 @@ Item {
         }
     }
 
-    Item {
-        id: txtWrapper
-        width: 600
-        height: 150
+    Text {
+        id: txtHeadline2
+        x: 20
+        y: 80
+        text: qsTr("Get free Widgets and Wallpaper via the Steam Workshop")
+        font.family: "Roboto"
+
+        wrapMode: Text.WordWrap
+        color: "white"
+        font.weight: Font.Thin
+        font.pointSize: 32
+        horizontalAlignment: Text.AlignHCenter
         anchors {
-            horizontalCenter: parent.horizontalCenter
+            right: parent.right
+            left: parent.left
             top: parent.top
-            topMargin: 100
-        }
-
-        Text {
-            id: txtHeadline
-            text: qsTr("Make your desktop more:")
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                top: parent.top
-            }
-            font.family: "Roboto"
-            color: "white"
-            font.weight: Font.Normal
-            
-        }
-
-        Text {
-            id: txtHeadline2
-            text: qsTr("DISTINCT")
-            font.family: "Roboto Mono Thin"
-            font.pointSize: 75
-            color: "white"
-            font.weight: Font.Normal
-            
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                top: parent.top
-            }
         }
     }
 
@@ -85,8 +69,8 @@ Item {
         id: imgPC
         source: "qrc:/assets/images/Intro_PC.png"
         anchors {
-            top: txtWrapper.bottom
-            topMargin: -50
+            top: parent.top
+            topMargin: 50
             horizontalCenter: parent.horizontalCenter
         }
         width: 500
@@ -96,9 +80,24 @@ Item {
 
     Button {
         id: btnWorkshop
-        text: qsTr("Get free Widgets and Wallpaper")
-        Material.background: Material.Orange
+        text: qsTr("Browse Steam Workshop")
+        Material.background: Material.Blue
         Material.foreground: "white"
+        smooth: true
+        font.pointSize: 18
+        font.weight: Font.Thin
+        transform: [
+            Shake {
+                id: animShake
+            },
+            Grow {
+                id: animGrow
+                centerX: btnWorkshop.width *.5
+                centerY: btnWorkshop.height *.5
+                loops: -1
+
+            }
+        ]
         anchors {
             bottom: parent.bottom
             bottomMargin: -100
@@ -106,6 +105,7 @@ Item {
         }
         onClicked: helperButtonPressed(1)
     }
+
     states: [
         State {
             name: "out"
@@ -122,12 +122,7 @@ Item {
             PropertyChanges {
                 target: imgPC
                 opacity: 0
-                anchors.topMargin: -300
-            }
-            PropertyChanges {
-                target: txtHeadline
-                opacity: 0
-                anchors.topMargin: -100
+                anchors.topMargin: -500
             }
             PropertyChanges {
                 target: txtHeadline2
@@ -154,29 +149,18 @@ Item {
             PropertyChanges {
                 target: imgPC
                 opacity: 1
-                anchors.topMargin: -100
+                anchors.topMargin: 150
             }
 
             PropertyChanges {
                 target: txtHeadline2
                 color: "#ffffff"
-            }
-            PropertyChanges {
-                target: txtHeadline
-                font.pointSize: 16
-                font.wordSpacing: -2
                 opacity: 1
-                anchors.topMargin: 0
+                anchors.topMargin: 100
             }
-            PropertyChanges {
-                target: txtHeadline2
-                opacity: 1
-                anchors.topMargin: 30
-            }
-
             PropertyChanges {
                 target: btnWorkshop
-                anchors.bottomMargin: 100
+                anchors.bottomMargin: 50
             }
         }
     ]
@@ -187,59 +171,81 @@ Item {
             to: "in"
             reversible: true
 
+            ParallelAnimation {
+                PropertyAnimation {
+                    targets: imgBg
+                    property: "opacity"
+                    duration: 400
+                }
+                PropertyAnimation {
+                    targets: imgShine
+                    property: "opacity"
+                    duration: 600
+                }
+            }
             SequentialAnimation {
-                ParallelAnimation {
-                    PropertyAnimation {
-                        targets: imgBg
-                        property: "opacity"
-                        duration: 200
-                    }
-                    PropertyAnimation {
-                        targets: imgShine
-                        property: "opacity"
-                        duration: 400
-                    }
+
+                PauseAnimation {
+                    duration: 500
                 }
-                ParallelAnimation {
-                    PropertyAnimation {
-                        targets: imgPC
-                        property: "topMargin"
-                        duration: 800
-                        easing.type: Easing.OutBack
-                    }
-                    PropertyAnimation {
-                        targets: imgPC
-                        property: "opacity"
-                        duration: 800
-                        easing.type: Easing.InOutExpo
-                    }
+
+                PropertyAnimation {
+                    targets: imgPC
+                    property: "topMargin"
+                    duration: 700
+                    easing.type: Easing.OutBack
                 }
+            }
+
+            SequentialAnimation {
+
+                PauseAnimation {
+                    duration: 100
+                }
+                PropertyAnimation {
+                    targets: imgPC
+                    property: "opacity"
+                    duration: 700
+                    easing.type: Easing.InOutExpo
+                }
+            }
+
+            SequentialAnimation {
 
                 PauseAnimation {
                     duration: 200
                 }
+                PropertyAnimation {
+                    targets: txtHeadline2
+                    properties: "topMargin, opacity"
+                    duration: 1100
+                    easing.type: Easing.InOutExpo
+                }
+            }
 
-                ParallelAnimation {
-                    PropertyAnimation {
-                        targets: txtHeadline
-                        properties: "topMargin, opacity"
-                        duration: 800
-                        easing.type: Easing.InOutExpo
-                    }
-                    PropertyAnimation {
-                        targets: txtHeadline2
-                        properties: "topMargin, opacity"
-                        duration: 1000
-                        easing.type: Easing.InOutExpo
-                    }
-                    PropertyAnimation {
-                        targets: btnWorkshop
-                        properties: "bottomMargin"
-                        duration: 300
-                        easing.type: Easing.OutBack
+            SequentialAnimation {
+
+                PauseAnimation {
+                    duration: 600
+                }
+                PropertyAnimation {
+                    targets: btnWorkshop
+                    properties: "bottomMargin"
+                    duration: 400
+                    easing.type: Easing.OutBack
+                }
+                ScriptAction {
+                    script: {
+                        animShake.start(2000,1000,-1)
                     }
                 }
             }
         }
     ]
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/
+

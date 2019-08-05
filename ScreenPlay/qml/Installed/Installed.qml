@@ -16,6 +16,7 @@ Item {
     Component.onCompleted: {
         pageInstalled.state = "in"
         installedListFilter.sortByRoleType("All")
+        checkIsContentInstalled()
     }
 
     Connections {
@@ -27,25 +28,28 @@ Item {
     Connections {
         target: installedListModel
         onInstalledLoadingFinished: {
-            if (installedListModel.getAmountItemLoaded() === 0) {
-                loaderHelp.active = true
-                gridView.footerItem.isVisible = true
-                gridView.visible = false
-                navWrapper.visible = false
-            } else {
-                loaderHelp.active = false
-                gridView.footerItem.isVisible = false
-                refresh = false
-                gridView.contentY = -82
-                gridView.visible = true
-                navWrapper.visible = true
-            }
+            checkIsContentInstalled()
+        }
+    }
+
+    function checkIsContentInstalled() {
+        if (installedListModel.getAmountItemLoaded() === 0) {
+            loaderHelp.active = true
+            gridView.footerItem.isVisible = true
+            gridView.visible = false
+            navWrapper.visible = false
+        } else {
+            loaderHelp.active = false
+            gridView.footerItem.isVisible = false
+            refresh = false
+            gridView.contentY = -82
+            gridView.visible = true
+            navWrapper.visible = true
         }
     }
 
     Loader {
         id: loaderHelp
-        asynchronous: true
         active: false
         z: 99
         anchors.fill: parent
@@ -90,9 +94,9 @@ Item {
             }
 
             PropertyAnimation on opacity {
-                id:animFadeIn
-                from:0
-                to:1
+                id: animFadeIn
+                from: 0
+                to: 1
                 running: false
                 duration: 1000
             }
@@ -118,7 +122,6 @@ Item {
                 anchors.centerIn: parent
                 color: "gray"
 
-
                 Timer {
                     interval: 400
                     running: true
@@ -128,9 +131,9 @@ Item {
                 }
 
                 PropertyAnimation on opacity {
-                    id:animFadeInTxtFooter
-                    from:0
-                    to:1
+                    id: animFadeInTxtFooter
+                    from: 0
+                    to: 1
                     running: false
                     duration: 1000
                 }
@@ -165,8 +168,6 @@ Item {
             absoluteStoragePath: screenAbsoluteStoragePath
             workshopID: screenWorkshopID
             itemIndex: index
-
-
         }
 
         ScrollBar.vertical: ScrollBar {

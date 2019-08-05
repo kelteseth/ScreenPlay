@@ -127,5 +127,7 @@
         <file>assets/images/FFmpeg_Logo_new.svg</file>
         <file>assets/icons/baseline-done-24px.svg</file>
         <file>profiles.json</file>
+        <file>qml/Common/Shake.qml</file>
+        <file>qml/Common/Grow.qml</file>
     </qresource>
 </RCC>

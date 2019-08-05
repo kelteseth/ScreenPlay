@@ -62,7 +62,6 @@ int main(int argc, char* argv[])
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
     auto settings = make_shared<Settings>(installedListModel, profileListModel, monitorListModel, sdkConnector);
-    installedListModel->loadInstalledContent();
     ScreenPlayManager screenPlay(installedListModel, settings, monitorListModel, sdkConnector, profileListModel);
     Create create(settings);
 
