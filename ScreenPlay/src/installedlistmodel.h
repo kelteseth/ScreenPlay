@@ -26,6 +26,8 @@ namespace ScreenPlay {
 class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
 
+
+    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
     Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setabsoluteStoragePath NOTIFY absoluteStoragePathChanged)
 
 public:
@@ -53,12 +55,15 @@ public:
         return m_absoluteStoragePath;
     }
 
+    int count() const
+    {
+        return m_count;
+    }
+
 public slots:
     void loadInstalledContent();
     void append(const QJsonObject &, const QString &);
     void reset();
-
-    int getAmountItemLoaded();
 
     QVariantMap get(QString folderId);
 
@@ -70,6 +75,15 @@ public slots:
         m_absoluteStoragePath = absoluteStoragePath;
         emit absoluteStoragePathChanged(m_absoluteStoragePath);
     }
+    void setCount(int count)
+    {
+        if (m_count == count)
+            return;
+
+        m_count = count;
+        emit countChanged(m_count);
+    }
+
 signals:
     void setScreenVisible(bool visible);
     void setScreenToVideo(QString absolutePath);
@@ -78,8 +92,11 @@ signals:
     void installedLoadingFinished();
     void isLoadingContentChanged(bool isLoadingContent);
 
+    void countChanged(int count);
+
 private:
     QVector<ProjectFile> m_screenPlayFiles;
     QUrl m_absoluteStoragePath;
+    int m_count{0};
 };
 }

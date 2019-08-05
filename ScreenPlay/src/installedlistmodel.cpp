@@ -77,7 +77,7 @@ void InstalledListModel::append(const QJsonObject& obj, const QString& folderNam
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
 
     m_screenPlayFiles.append(ProjectFile(obj, folderName, m_absoluteStoragePath));
-
+    setCount((m_count + 1));
     endInsertRows();
 }
 
@@ -126,6 +126,8 @@ void InstalledListModel::loadInstalledContent()
 
             if (availableTypes.contains(obj.value("type").toString()))
                 emit addInstalledItem(obj, item.baseName());
+
+
         }
 
         emit installedLoadingFinished();
@@ -155,16 +157,12 @@ QVariantMap InstalledListModel::get(QString folderId)
     return map;
 }
 
-int InstalledListModel::getAmountItemLoaded()
-{
-    return m_screenPlayFiles.count();
-}
-
 void InstalledListModel::reset()
 {
     beginResetModel();
     m_screenPlayFiles.clear();
     m_screenPlayFiles.squeeze();
+    setCount(0);
     endResetModel();
 }
 }

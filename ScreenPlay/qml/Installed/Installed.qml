@@ -30,10 +30,15 @@ Item {
         onInstalledLoadingFinished: {
             checkIsContentInstalled()
         }
+        onCountChanged:{
+            if(count === 0){
+                checkIsContentInstalled()
+            }
+        }
     }
 
     function checkIsContentInstalled() {
-        if (installedListModel.getAmountItemLoaded() === 0) {
+        if (installedListModel.count === 0) {
             loaderHelp.active = true
             gridView.footerItem.isVisible = true
             gridView.visible = false
