@@ -65,9 +65,20 @@ Item {
 
     onActiveScreenChanged: {
         txtHeadline.text = installedListModel.get(activeScreen).screenTitle
-        image.source = Qt.resolvedUrl(
-                    installedListModel.absoluteStoragePath + "/" + activeScreen
-                    + "/" + installedListModel.get(activeScreen).screenPreview)
+
+        if(installedListModel.get(activeScreen).screenPreviewGIF === undefined) {
+            image.source = Qt.resolvedUrl(
+                        installedListModel.absoluteStoragePath + "/" + activeScreen
+                        + "/" + installedListModel.get(activeScreen).screenPreview)
+            image.playing = false
+        } else {
+
+            image.source = Qt.resolvedUrl(
+                        installedListModel.absoluteStoragePath + "/" + activeScreen
+                        + "/" + installedListModel.get(activeScreen).screenPreviewGIF)
+            image.playing = true
+
+        }
     }
 
     Item {
@@ -130,8 +141,9 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: 0
 
-                Image {
+                AnimatedImage {
                     id: image
+                    playing: true
                     fillMode: Image.PreserveAspectCrop
                     asynchronous: true
                     anchors.fill: parent
