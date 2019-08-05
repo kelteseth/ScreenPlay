@@ -77,6 +77,7 @@ private:
     const QGuiApplication* const m_qGuiApplication;
     vector<unique_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
     vector<unique_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
+    void saveConfigWallpaper(const QString& contentType);
 };
 
 }

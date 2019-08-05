@@ -1,5 +1,7 @@
 #include "monitorlistmodel.h"
+
 namespace ScreenPlay {
+
 MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
     , m_qGuiApplication(static_cast<QGuiApplication*>(QGuiApplication::instance()))
@@ -132,42 +134,26 @@ void MonitorListModel::wallpaperRemoved()
 void MonitorListModel::screenAdded(QScreen* screen)
 {
     Q_UNUSED(screen)
-    reset();
-    loadMonitors();
+    qDebug() << "screenAdded";
+    reloadMonitors();
 }
 
 void MonitorListModel::screenRemoved(QScreen* screen)
 {
     Q_UNUSED(screen)
-    reset();
-    loadMonitors();
-}
-
-void MonitorListModel::reset()
-{
-    beginResetModel();
-    m_monitorList.clear();
-    m_monitorList.squeeze();
-    endResetModel();
+    qDebug() << "screenRemoved";
+    reloadMonitors();
 }
 
 void MonitorListModel::setWallpaperActiveMonitor(QScreen* screen, QString fullPreviewImagePath)
 {
-    //    qDebug() << fullPreviewImagePath;
-    //    for (int i = 0; i < m_monitorList.size(); ++i) {
-    //        if (m_monitorList.at(i).m_screen == screen) {
-    //            m_monitorList[i].m_wallpaperPreviewPath = fullPreviewImagePath;
-    //        }
-    //    }
-    //    beginResetModel();
-    //    endResetModel();
     for (int i = 0; i < m_qGuiApplication->screens().length(); ++i) {
         if (m_qGuiApplication->screens().at(i) == screen) {
             emit setNewActiveMonitor(i, fullPreviewImagePath);
         }
     }
-    //emit monitorReloadCompleted();
 }
+
 void MonitorListModel::reloadMonitors()
 {
     beginResetModel();
@@ -192,4 +178,5 @@ Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, 
     // because name and manufacturer are allways empty
     m_id = name + "_" + QString::number(size.width()) + "x" + QString::number(size.height()) + "_" + QString::number(availableGeometry.x()) + "x" + QString::number(availableGeometry.y());
 }
+
 }

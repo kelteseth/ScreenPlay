@@ -147,6 +147,11 @@ QString ScreenPlayManager::generateID() const
     return randomString;
 }
 
+void ScreenPlayManager::saveConfigWallpaper(const QString& monitorID)
+{
+
+}
+
 void ScreenPlayManager::loadActiveProfiles()
 {
     QJsonDocument configJsonDocument;
@@ -201,7 +206,7 @@ void ScreenPlayManager::loadActiveProfiles()
             if (monitorIndex == -1)
                 continue;
 
-            monitorMap.insert(obj.value("name").toString(), monitorIndex);
+            monitorMap.insert(obj.value("monitorID").toString(), monitorIndex);
         }
 
         createWallpaper(0, absolutePath, previewImage, volume, fillMode, type);

@@ -12,6 +12,11 @@
 #include <QString>
 #include <QVector>
 
+
+
+#include <iostream>
+#include <string>
+#include <qt_windows.h>
 /*!
     \class Monitor List Model
     \brief Listsmodel for all active monitors
@@ -52,7 +57,6 @@ public:
     void loadMonitors();
     void screenAdded(QScreen* screen);
     void screenRemoved(QScreen* screen);
-    void reset();
 
     void setWallpaperActiveMonitor(QScreen* screen, QString fullPreviewImagePath);
 
