@@ -83,6 +83,7 @@ Rectangle {
             id: navInstalled
             state: "active"
             name: "Installed"
+            amount: installedListModel.count
             iconSource: "qrc:/assets/icons/icon_installed.svg"
             onPageClicked: navigation.onPageChanged(name)
         }

@@ -3,12 +3,20 @@ import QtGraphicalEffects 1.0
 
 Item {
     id: navigationItem
-    width: 150
+    width: txtAmount.paintedWidth + txt.paintedWidth + icon.paintedWidth + 40
+    Behavior on width {
+        PropertyAnimation {
+            duration: 50
+        }
+    }
     height: 60
     state: "inactive"
     clip: true
 
-    property string name: "value"
+    property string iconSource: "qrc:/assets/icons/icon_installed.svg"
+    property alias name: txt.text
+    property alias amount: txtAmount.text
+
     property bool enabled: true
     onEnabledChanged: {
         if (!enabled) {
@@ -16,14 +24,6 @@ Item {
             navigationItem.opacity = 0
         }
     }
-
-    onNameChanged: {
-        txt.text = name
-        textMetrics.text = name
-        item2.width = textMetrics.width + 30
-    }
-
-    property string iconSource: "qrc:/assets/icons/icon_installed.svg"
 
     signal pageClicked(string name)
 
@@ -35,58 +35,58 @@ Item {
         }
     }
 
-    TextMetrics {
-        id: textMetrics
-        font.pointSize: 14
-        font.family: "Roboto"
-    }
-
     MouseArea {
         id: mouseArea
         anchors.fill: parent
+
         cursorShape: Qt.PointingHandCursor
         onClicked: {
             navigationItem.pageClicked(navigationItem.name)
         }
 
-        Item {
-            id: item2
-            width: 100
-            height: 31
+        Image {
+            id: icon
+            source: iconSource
+            width: 16
+            height: 16
+            sourceSize.height: 16
+            sourceSize.width: 16
+            fillMode: Image.PreserveAspectFit
+            anchors.left: parent.left
+            anchors.leftMargin: 10
             anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
+        }
 
-            Text {
-                id: txt
-                anchors.left: icon.right
-                anchors.leftMargin: 10
-                text: "name"
-                font.pointSize: 14
-                color: "#626262"
-                anchors.verticalCenter: parent.verticalCenter
-                font.family: "Roboto"
-                font.weight: Font.Normal
-            }
+        Text {
+            id: txtAmount
+            anchors.left: icon.right
+            anchors.leftMargin: 10
+            font.pointSize: 14
+            color: "#626262"
+            anchors.verticalCenter: parent.verticalCenter
+            font.family: "Roboto"
+            font.weight: Font.Normal
+            text: ""
 
-            Image {
-                id: icon
-                source: iconSource
-                width: 16
-                height: 16
-                sourceSize.height: 16
-                sourceSize.width: 16
-                fillMode: Image.PreserveAspectFit
-                anchors.left: parent.left
-                anchors.leftMargin: 0
-                anchors.verticalCenter: parent.verticalCenter
-            }
+        }
 
-            ColorOverlay {
-                id: iconColorOverlay
-                anchors.fill: icon
-                source: icon
-                color: "#FFAB00"
-            }
+        Text {
+            id: txt
+            anchors.left: txtAmount.right
+            anchors.leftMargin: navigationItem.amount == "" ? 0 : 5
+            text: "name"
+            font.pointSize: 14
+            color: "#626262"
+            anchors.verticalCenter: parent.verticalCenter
+            font.family: "Roboto"
+            font.weight: Font.Normal
+        }
+
+        ColorOverlay {
+            id: iconColorOverlay
+            anchors.fill: icon
+            source: icon
+            color: "#FFAB00"
         }
 
         Rectangle {
