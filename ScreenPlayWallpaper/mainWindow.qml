@@ -116,7 +116,34 @@ Rectangle {
             top: parent.top
             topMargin: {
                 if(desktopProperties.windowsVersion >= 1903){
-                    return -((1080 / 9) / 3)
+
+                    var ratio = root.width / root.height
+
+                    print(ratio)
+                    ratio = Math.round(ratio * 100) / 100
+                    print(ratio, root.width, root.height)
+
+                    // 4:3
+                    if (ratio === 1,3) {
+
+                    }
+                    // 16:10
+                    if (ratio === 1,6) {
+
+                    }
+                    // 16:9
+                    if (ratio === 1,77) {
+                        return -(root.height / 9)
+                    }
+                    // 21:9
+                    if (ratio === 2,37) {
+                        return -((root.height / 9) / 3)
+                    }
+                    // 32:9
+                    if (ratio === 3,55) {
+
+                    }
+
                 } else {
                     return 0;
                 }
