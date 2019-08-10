@@ -14,24 +14,21 @@ Rectangle {
     // Width of the Sidebar or Space that should be used
     property real availableWidth: 0
     property real availableHeight: 0
-    property int activeMonitorIndex: 0
     property int fontSize: 12
     property string activeMonitorID: "empty"
 
     signal requestProjectSettings(var at)
 
-
-    function setActiveMonitorIndex(newIndex) {
-        activeMonitorIndex = newIndex
-        activeMonitorID = rp.itemAt(newIndex).monitorID
+    function getActiveMonitors(){
+        let activeMonitors = [];
         for (var i = 0; i < rp.count; i++) {
-            if (i === newIndex) {
-                rp.itemAt(i).isSelected = true
-            } else {
-                rp.itemAt(i).isSelected = false
-            }
+             if(rp.itemAt(i).isSelected){
+                 activeMonitors.push(rp.itemAt(i).index)
+             }
         }
+        return activeMonitors;
     }
+
 
     Component.onCompleted: {
         resize()
@@ -42,17 +39,17 @@ Rectangle {
         onMonitorReloadCompleted: {
             resize()
         }
-        onSetNewActiveMonitor:{
+        onSetNewActiveMonitor: {
             rp.itemAt(index).previewImage = "file:///" + path.trim()
             rp.itemAt(index).isSelected = true
         }
     }
     Connections {
         target: screenPlay
-        onAllWallpaperRemoved:{
-            for(var i = 0; i < rp.count; i++){
+        onAllWallpaperRemoved: {
+            for (var i = 0; i < rp.count; i++) {
                 rp.itemAt(i).isSelected = false
-                rp.itemAt(i).previewImage =""
+                rp.itemAt(i).previewImage = ""
             }
         }
     }
@@ -93,7 +90,6 @@ Rectangle {
             rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta
             rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta
         }
-
     }
 
     Repeater {
@@ -102,7 +98,7 @@ Rectangle {
         anchors.centerIn: parent
         model: monitorListModel
 
-        Component.onCompleted:  rp.itemAt(0).isSelected = true
+        Component.onCompleted: rp.itemAt(0).isSelected = true
 
         delegate: MonitorSelectionItem {
             id: delegate
@@ -118,16 +114,12 @@ Rectangle {
             fontSize: rect.fontSize
             index: monitorNumber
             //isWallpaperActive: monitorIsWallpaperActive
-            //previewImage: monitorPreviewImage
+            previewImage: monitorPreviewImage
 
-            Connections {
-                target: delegate
-                onMonitorSelected: {
-                    setActiveMonitorIndex(index)
-                    requestProjectSettings(index)
-                }
+            onMonitorSelected: {
+                requestProjectSettings(index)
+
             }
         }
-
     }
 }

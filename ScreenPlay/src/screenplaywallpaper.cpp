@@ -6,7 +6,7 @@
 */
 namespace ScreenPlay {
 
-ScreenPlayWallpaper::ScreenPlayWallpaper(const vector<int>& screenNumber,
+ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const shared_ptr<Settings>& settings,
     const QString& appID,
     const QString& projectPath,
@@ -17,7 +17,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const vector<int>& screenNumber,
     QObject* parent)
     : QObject(parent)
     , m_projectSettingsListModel { make_shared<ProjectSettingsListModel>(projectPath + "/project.json") }
-    , m_screenNumber { move(screenNumber) }
+    , m_screenNumber { screenNumber }
     , m_projectPath { projectPath }
     , m_previewImage { previewImage }
     , m_appID { appID }
@@ -36,8 +36,22 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const vector<int>& screenNumber,
         qDebug() << "EX: " << error;
     });
 
+    QString tmpScreenNumber;
+    if (m_screenNumber.length() > 1) {
+        for (const int number : m_screenNumber) {
+            // IMPORTANT: NO TRAILING COMMA!
+            if (number == m_screenNumber.back()) {
+                tmpScreenNumber += QString::number(number);
+            } else {
+                tmpScreenNumber += QString::number(number) + ",";
+            }
+        }
+    } else {
+        tmpScreenNumber = QString::number(m_screenNumber.first());
+    }
+
     const QStringList proArgs {
-        QString::number(m_screenNumber.empty() ? 0 : m_screenNumber[0]),
+        tmpScreenNumber,
         m_projectPath,
         QString { "appID=" + m_appID },
         "",
@@ -45,7 +59,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const vector<int>& screenNumber,
         fillMode
     };
 
-    //qDebug() << "Creating ScreenPlayWallpaper " << proArgs;
+    qDebug() << "Creating ScreenPlayWallpaper " << proArgs;
 
     m_process.setArguments(proArgs);
     m_process.setProgram(m_settings->screenPlayWallpaperPath().toString());

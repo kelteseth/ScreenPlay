@@ -400,14 +400,29 @@ Item {
                 }
 
                 onClicked: {
-
                     if (type.endsWith("Wallpaper")) {
-                        screenPlay.createWallpaper(
-                                    monitorSelection.activeMonitorIndex, installedListModel.absoluteStoragePath + "/" + activeScreen,
-                                    installedListModel.get(activeScreen).screenPreview,
-                                    (Math.round(sliderVolume.value * 100) / 100),
-                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
-                                        ), type)
+                        let activeMonitors = monitorSelection.getActiveMonitors();
+
+                        if(activeMonitors.length === 0)
+                            return
+
+                        if(activeMonitors.length > 1) {
+                            screenPlay.createWallpaper(
+                                        activeMonitors, installedListModel.absoluteStoragePath + "/" + activeScreen,
+                                        installedListModel.get(activeScreen).screenPreview,
+                                        (Math.round(sliderVolume.value * 100) / 100),
+                                        settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
+                                            ), type)
+                        } else {
+                            screenPlay.createWallpaper(
+                                       activeMonitors[0], installedListModel.absoluteStoragePath + "/" + activeScreen,
+                                        installedListModel.get(activeScreen).screenPreview,
+                                        (Math.round(sliderVolume.value * 100) / 100),
+                                        settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
+                                            ), type)
+                        }
+
+
                     } else {
                         screenPlay.createWidget(
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,

@@ -150,6 +150,10 @@ Item {
                 headline: qsTr("Playback rate")
                 onValueChanged: screenPlay.setWallpaperValue(activeMonitorIndex,"playbackRate", value)
             }
+            SP.Slider {
+                headline: qsTr("Current Video Time")
+                onValueChanged: screenPlay.setWallpaperValue(activeMonitorIndex,"currentTime", value)
+            }
         }
 
         GridView {

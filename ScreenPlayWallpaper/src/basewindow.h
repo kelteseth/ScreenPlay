@@ -25,10 +25,12 @@ public:
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
+    Q_PROPERTY(float currentTime READ currentTime WRITE setCurrentTime NOTIFY currentTimeChanged)
     Q_PROPERTY(WallpaperType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
 
     QSysInfo m_sysinfo;
+
     enum class WallpaperType {
         Video,
         Html,
@@ -36,6 +38,8 @@ public:
         Qml,
     };
     Q_ENUM(WallpaperType)
+
+
 
     bool loops() const
     {
@@ -82,6 +86,11 @@ public:
         return m_muted;
     }
 
+    float currentTime() const
+    {
+        return m_currentTime;
+    }
+
 signals:
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
@@ -92,10 +101,9 @@ signals:
     void appIDChanged(QString appID);
     void qmlExit();
     void qmlSceneValueReceived(QString key, QString value);
-
     void OSVersionChanged(QString OSVersion);
-
     void mutedChanged(bool muted);
+    void currentTimeChanged(float currentTime);
 
 public slots:
     virtual void destroyThis() {}
@@ -187,6 +195,16 @@ public slots:
         emit mutedChanged(m_muted);
     }
 
+    void setCurrentTime(float currentTime)
+    {
+        qWarning("Floating point comparison needs context sanity check");
+        if (qFuzzyCompare(m_currentTime, currentTime))
+            return;
+
+        m_currentTime = currentTime;
+        emit currentTimeChanged(m_currentTime);
+    }
+
 private:
     bool m_loops { true };
     bool m_isPlaying { true };
@@ -200,4 +218,5 @@ private:
 
     WallpaperType m_type = BaseWindow::WallpaperType::Qml;
     QString m_OSVersion;
+    float m_currentTime;
 };

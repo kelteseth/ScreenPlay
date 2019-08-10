@@ -121,5 +121,14 @@ void BaseWindow::messageReceived(QString key, QString value)
         return;
     }
 
+    if (key == "currentTime") {
+        bool ok;
+        float tmp = value.toFloat(&ok);
+        if (ok) {
+            setCurrentTime(tmp);
+        }
+        return;
+    }
+
     emit qmlSceneValueReceived(key, value);
 }

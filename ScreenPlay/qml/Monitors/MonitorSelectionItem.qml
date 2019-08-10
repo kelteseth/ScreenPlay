@@ -19,6 +19,13 @@ Item {
     property bool isSelected: false
     property bool isWallpaperActive: false
     signal monitorSelected(var index)
+    onMonitorSelected: {
+        if(isSelected){
+            isSelected = false
+        } else {
+            isSelected = true
+        }
+    }
 
     onIsSelectedChanged: {
         if (isSelected) {
@@ -26,7 +33,6 @@ Item {
 
         } else {
             wrapper.border.color = "#373737"
-
         }
     }
 

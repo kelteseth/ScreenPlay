@@ -176,7 +176,8 @@ Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, 
     m_number = number;
     // FIXME: Use a better way to create an id
     // because name and manufacturer are allways empty
-    m_id = name + "_" + QString::number(size.width()) + "x" + QString::number(size.height()) + "_" + QString::number(availableGeometry.x()) + "x" + QString::number(availableGeometry.y());
+    m_id = QString::number(size.width()) + "x" + QString::number(size.height()) + "_" + QString::number(availableGeometry.x()) + "x" + QString::number(availableGeometry.y());
+
 }
 
 }

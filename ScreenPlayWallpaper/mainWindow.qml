@@ -118,10 +118,7 @@ Rectangle {
                 if(desktopProperties.windowsVersion >= 1903){
 
                     var ratio = root.width / root.height
-
-                    print(ratio)
                     ratio = Math.round(ratio * 100) / 100
-                    print(ratio, root.width, root.height)
 
                     // 4:3
                     if (ratio === 1,3) {
@@ -227,10 +224,10 @@ Rectangle {
             }
         }
 
-        onPlaybackRateChanged: {
+        onCurrentTimeChanged: {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
-                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.playbackRate  = " + playbackRate + ";")
+                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.currentTime  = " + currentTime + " * videoPlayer.duration;")
             }
         }
 

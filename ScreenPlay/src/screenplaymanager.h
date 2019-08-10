@@ -33,6 +33,7 @@ using std::shared_ptr,
     std::size_t,
     std::remove_if;
 
+
 class ScreenPlayManager final : public QObject {
     Q_OBJECT
 
@@ -56,7 +57,13 @@ public slots:
     void createWallpaper(const int monitorIndex, const QString& absoluteStoragePath,
         const QString& previewImage, const float volume,
         const QString& fillMode, const QString& type);
+
+    void createWallpaper( QVector<int> monitorIndex, const QString& absoluteStoragePath,
+        const QString& previewImage, const float volume,
+        const QString& fillMode, const QString& type);
+
     void createWidget(QUrl absoluteStoragePath, const QString& previewImage);
+
     void closeAllConnections();
     void requestProjectSettingsListModelAt(const int index);
     void setWallpaperValue(const int at, const QString& key, const QString& value);

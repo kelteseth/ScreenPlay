@@ -34,7 +34,7 @@ void ScreenPlayManager::createWallpaper(
 
     m_screenPlayWallpapers.emplace_back(
         make_unique<ScreenPlayWallpaper>(
-            vector<int> { monitorIndex },
+            QVector<int> { monitorIndex },
             m_settings,
             generateID(),
             path,
@@ -48,6 +48,31 @@ void ScreenPlayManager::createWallpaper(
         QString { path + "/" + previewImage });
 
     m_settings->saveWallpaperToConfig(monitorIndex, path, type);
+}
+
+void ScreenPlayManager::createWallpaper( QVector<int> monitorIndex, const QString &absoluteStoragePath, const QString &previewImage, const float volume, const QString &fillMode, const QString &type)
+{
+    m_settings->increaseActiveWallpaperCounter();
+
+    QString path = absoluteStoragePath;
+    if(absoluteStoragePath.contains("file:///"))
+        path = path.remove("file:///");
+
+    std::sort(monitorIndex.begin(), monitorIndex.end());
+
+    m_screenPlayWallpapers.emplace_back(
+        make_unique<ScreenPlayWallpaper>(
+            monitorIndex,
+            m_settings,
+            generateID(),
+            path,
+            previewImage,
+            volume,
+            fillMode,
+            type,
+            this));
+
+
 }
 
 void ScreenPlayManager::createWidget(QUrl absoluteStoragePath, const QString& previewImage)
@@ -118,7 +143,7 @@ void ScreenPlayManager::removeWallpaperAt(const int at)
     const auto wallsToRemove = remove_if(
         m_screenPlayWallpapers.begin(), m_screenPlayWallpapers.end(),
         [&](const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper) -> bool {
-            const vector<int>& screenNumber = uPtrWallpaper->screenNumber();
+            const QVector<int>& screenNumber = uPtrWallpaper->screenNumber();
             const bool isFound = !screenNumber.empty() && screenNumber[0] == at;
             if (isFound) {
                 m_sdkconnector->closeWallpapersAt(at);
@@ -200,9 +225,8 @@ void ScreenPlayManager::loadActiveProfiles()
         // A wallpaper can span across multiple monitors
         for (const QJsonValueRef monitor : monitorsArray) {
             QJsonObject obj = monitor.toObject();
-            int parseMonitorIndexDefaultValue { -1 };
-            int monitorIndex = obj.value("index").toInt(parseMonitorIndexDefaultValue);
 
+            int monitorIndex = obj.value("index").toInt(-1);
             if (monitorIndex == -1)
                 continue;
 

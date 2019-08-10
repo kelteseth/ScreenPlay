@@ -60,7 +60,11 @@ int main(int argc, char* argv[])
     sdk.setAppID(argumentList.at(3));
 
     QString monitorNumbers = argumentList.at(1);
+    QStringList activeScreensList = monitorNumbers.split(",");
+    qDebug() << activeScreensList;
+    activeScreensList.removeAll(",");
     QVector<int> list;
+    qDebug() << activeScreensList;
 
     if (monitorNumbers.length() == 1) {
         bool canParseMonitorNumber = false;
@@ -70,8 +74,8 @@ int main(int argc, char* argv[])
         }
         list.append(monitor);
     } else {
-        QStringList activeScreensList = monitorNumbers.split(",");
-        for (QString s : activeScreensList) {
+
+        for (const QString& s : activeScreensList) {
             bool ok = false;
             int val = s.toInt(&ok);
             if (!ok) {

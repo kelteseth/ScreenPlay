@@ -17,14 +17,14 @@ using std::shared_ptr,
 class ScreenPlayWallpaper final : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(vector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
+    Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
 
 public:
-    explicit ScreenPlayWallpaper(const vector<int>& screenNumber,
+    explicit ScreenPlayWallpaper(const QVector<int>& screenNumber,
         const shared_ptr<Settings>& settings,
         const QString& appID,
         const QString& projectPath,
@@ -41,7 +41,7 @@ public:
         return m_projectSettingsListModel;
     }
 
-    vector<int> screenNumber() const
+    QVector<int> screenNumber() const
     {
         return m_screenNumber;
     }
@@ -67,14 +67,14 @@ public:
     }
 
 signals:
-    void screenNumberChanged(vector<int> screenNumber);
+    void screenNumberChanged(QVector<int> screenNumber);
     void projectPathChanged(QString projectPath);
     void previewImageChanged(QString previewImage);
     void appIDChanged(QString appID);
     void typeChanged(QString type);
 
 public slots:
-    void setScreenNumber(vector<int> screenNumber)
+    void setScreenNumber(QVector<int> screenNumber)
     {
         if (m_screenNumber == screenNumber)
             return;
@@ -122,7 +122,7 @@ public slots:
 private:
     QProcess m_process;
     shared_ptr<ProjectSettingsListModel> m_projectSettingsListModel;
-    vector<int> m_screenNumber;
+    QVector<int> m_screenNumber;
     QString m_projectPath;
     QString m_previewImage;
     QString m_appID;

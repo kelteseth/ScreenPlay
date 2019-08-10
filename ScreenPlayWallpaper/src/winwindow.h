@@ -20,8 +20,9 @@
 class WinWindow : public BaseWindow {
     Q_OBJECT
 
+
 public:
-    explicit WinWindow(QVector<int>& activeScreensList, QString projectPath, QString id, QString volume);
+    explicit WinWindow(const QVector<int>& activeScreensList, QString projectPath, QString id, QString volume);
 
 public slots:
     void setVisible(bool show) override;
@@ -32,7 +33,9 @@ private:
     void calcOffsets();
     void setupWallpaperForOneScreen(int activeScreen);
     void setupWallpaperForAllScreens();
+    void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
     bool searchWorkerWindowToParentTo();
+
 
 private:
     int m_windowOffsetX = 0;

@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.2
 
 Item {
@@ -29,7 +30,7 @@ Item {
         }
     }
 
-    Row {
+    RowLayout {
         spacing: 30
         anchors {
             top: txtHeadline.bottom
@@ -42,9 +43,9 @@ Item {
             id: imgIcon
             width: 20
             height: 20
-            anchors.verticalCenter: parent.verticalCenter
             source: iconSource
             sourceSize: Qt.size(20, 20)
+            Layout.alignment: Qt.AlignVCenter
         }
 
         Slider {
@@ -52,16 +53,16 @@ Item {
             stepSize: 0.01
             from: 0
             value: 1
+            Layout.fillWidth: true
+            Layout.alignment: Qt.AlignVCenter
             to: 1
-            anchors.verticalCenter: parent.verticalCenter
         }
 
         Text {
             id: txtValue
             color: "#818181"
             text: Math.round(slider.value * 100) / 100
-            anchors.verticalCenter: parent.verticalCenter
-            //font.family: "Libre Baskerville"
+            Layout.alignment: Qt.AlignVCenter
             font.pointSize: 12
             font.italic: true
             verticalAlignment: Text.AlignVCenter

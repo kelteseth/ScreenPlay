@@ -60,7 +60,7 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 }
 
-WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QString id, QString volume)
+WinWindow::WinWindow(const QVector<int> &activeScreensList, QString projectPath, QString id, QString volume)
     : BaseWindow(projectPath)
 {
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
@@ -94,8 +94,13 @@ WinWindow::WinWindow(QVector<int>& activeScreensList, QString projectPath, QStri
     // Ether for one Screen or for all
     if ((QApplication::screens().length() == activeScreensList.length()) && (activeScreensList.length() != 1)) {
         setupWallpaperForAllScreens();
+        qDebug()  << "setupWallpaperForAllScreens()";
     } else if (activeScreensList.length() == 1) {
         setupWallpaperForOneScreen(activeScreensList.at(0));
+        qDebug()  << "setupWallpaperForOneScreen()";
+    }  else if (activeScreensList.length() == 1) {
+        setupWallpaperForMultipleScreens(activeScreensList);
+        qDebug()  << "setupWallpaperForMultipleScreens()";
     }
 
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
@@ -186,6 +191,12 @@ void WinWindow::setupWallpaperForAllScreens()
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
         qFatal("Could not attach to parent window");
     }
+}
+
+void WinWindow::setupWallpaperForMultipleScreens(const QVector<int> &activeScreensList)
+{
+    qDebug() << "######## setupWallpaperForMultipleScreens ########";
+
 }
 
 bool WinWindow::searchWorkerWindowToParentTo()
