@@ -13,7 +13,7 @@ Rectangle {
         }
     }
 
-    property bool canFadeIn: true
+    property bool canFadeByWallpaperFillMode: true
 
     Component.onCompleted: {
 
@@ -48,7 +48,7 @@ Rectangle {
 
     function fadeIn() {
         window.setVisible(true)
-        if (canFadeIn) {
+        if (canFadeByWallpaperFillMode && window.canFade) {
             animFadeIn.start()
         } else {
             imgCover.opacity = 0
@@ -177,7 +177,7 @@ Rectangle {
                 }
                 break
             case 22:
-                canFadeIn = false
+                canFadeByWallpaperFillMode = false
                 break
             }
         }
@@ -199,7 +199,12 @@ Rectangle {
         onQmlExit: {
             webView.runJavaScript(
                         "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
-            animFadeOut.start()
+
+            if (canFadeByWallpaperFillMode && window.canFade) {
+                animFadeOut.start()
+            } else {
+                window.terminate()
+            }
         }
 
         onQmlSceneValueReceived: {

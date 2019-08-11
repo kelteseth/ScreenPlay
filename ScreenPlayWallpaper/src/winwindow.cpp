@@ -97,6 +97,7 @@ WinWindow::WinWindow(const QVector<int> &activeScreensList, QString projectPath,
         qDebug()  << "setupWallpaperForAllScreens()";
     } else if (activeScreensList.length() == 1) {
         setupWallpaperForOneScreen(activeScreensList.at(0));
+        setCanFade(true);
         qDebug()  << "setupWallpaperForOneScreen()";
     }  else if (activeScreensList.length() == 1) {
         setupWallpaperForMultipleScreens(activeScreensList);

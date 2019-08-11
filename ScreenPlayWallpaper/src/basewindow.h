@@ -20,12 +20,16 @@ public:
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
+
     Q_PROPERTY(bool loops READ loops WRITE setLoops NOTIFY loopsChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
-    Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
+    Q_PROPERTY(bool canFade READ canFade WRITE setCanFade NOTIFY canFadeChanged)
+
+    Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
     Q_PROPERTY(float currentTime READ currentTime WRITE setCurrentTime NOTIFY currentTimeChanged)
+
     Q_PROPERTY(WallpaperType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
 
@@ -91,6 +95,11 @@ public:
         return m_currentTime;
     }
 
+    bool canFade() const
+    {
+        return m_canFade;
+    }
+
 signals:
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
@@ -104,6 +113,8 @@ signals:
     void OSVersionChanged(QString OSVersion);
     void mutedChanged(bool muted);
     void currentTimeChanged(float currentTime);
+
+    void canFadeChanged(bool canFade);
 
 public slots:
     virtual void destroyThis() {}
@@ -205,18 +216,28 @@ public slots:
         emit currentTimeChanged(m_currentTime);
     }
 
+    void setCanFade(bool canFade)
+    {
+        if (m_canFade == canFade)
+            return;
+
+        m_canFade = canFade;
+        emit canFadeChanged(m_canFade);
+    }
+
 private:
     bool m_loops { true };
     bool m_isPlaying { true };
     bool m_muted { false };
+    bool m_canFade { false };
 
     float m_volume { 1.0f };
     float m_playbackRate { 1.0f };
+    float m_currentTime { 0.0f };
 
     QString m_fullContentPath;
     QString m_appID;
 
     WallpaperType m_type = BaseWindow::WallpaperType::Qml;
     QString m_OSVersion;
-    float m_currentTime;
 };
