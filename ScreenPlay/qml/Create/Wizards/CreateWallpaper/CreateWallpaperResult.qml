@@ -8,7 +8,8 @@ import ScreenPlay.Create 1.0
 
 Item {
     id: wrapperError
-    opacity: 0
+
+    property alias error:txtFFMPEGDebug.text
 
     Text {
         id: txtErrorHeadline
@@ -21,7 +22,7 @@ Item {
         height: 40
         font.family: "Segoe UI, Roboto"
         font.weight: Font.Light
-        color: Material.color(Material.Red)
+        color: Material.color(Material.DeepOrange)
         font.pointSize: 32
     }
 
@@ -102,3 +103,8 @@ Item {
         }
     ]
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:480;width:640}
+}
+ ##^##*/

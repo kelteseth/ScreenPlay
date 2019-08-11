@@ -32,13 +32,15 @@ Item {
         onCreateWallpaperStateChanged: {
 
             switch (state) {
+            case CreateImportVideo.ConvertingPreviewImage:
+                txtConvert.text = qsTr("Generating preview image...")
+                break
             case CreateImportVideo.ConvertingPreviewImageFinished:
                 imgPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.jpg"
                 imgPreview.visible = true
-                txtConvert.text = qsTr("Converting Video preview mp4")
                 break
             case CreateImportVideo.ConvertingPreviewVideo:
-                txtConvert.text = qsTr("Generating preview video...")
+                txtConvert.text = qsTr("Generating 5 second preview video...")
                 break
             case CreateImportVideo.ConvertingPreviewGif:
                 txtConvert.text = qsTr("Generating preview gif...")
@@ -68,8 +70,10 @@ Item {
         }
         onProgressChanged: {
             var percentage = Math.floor(progress * 100)
-            if (percentage > 100)
+
+            if (percentage > 100 || progress > 0.95)
                 percentage = 100
+
             txtConvertNumber.text = percentage + "%"
         }
     }

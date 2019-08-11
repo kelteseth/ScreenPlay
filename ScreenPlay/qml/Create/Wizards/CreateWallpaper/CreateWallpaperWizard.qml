@@ -44,7 +44,7 @@ Item {
                     === CreateImportVideo.CopyFilesError || state
                     === CreateImportVideo.CreateProjectFileError || state
                     === CreateImportVideo.CreateTmpFolderError) {
-                createNew.state = "result"
+                createNew.state = "error"
             }
         }
     }
@@ -93,12 +93,6 @@ Item {
             id: loader_wrapperContent
             anchors.fill: parent
             z: 10
-            Connections {
-                target: loader_wrapperContent.sourceComponent
-                onSave: {
-                    createNew.state = "result"
-                }
-            }
         }
 
         MouseArea {
@@ -181,6 +175,7 @@ Item {
                 target: loader_wrapperContent
                 opacity: 0
                 z: 0
+                source: "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml"
             }
         },
         State {
@@ -198,6 +193,7 @@ Item {
                 target: loader_wrapperContent
                 opacity: 0
                 z: 0
+
             }
         }
     ]
@@ -273,7 +269,7 @@ Item {
         },
         Transition {
             from: "in"
-            to: "result"
+            to: "error"
             SequentialAnimation {
                 PropertyAnimation {
                     target: loader_wrapperContent
@@ -289,8 +285,12 @@ Item {
     ]
 }
 
+
+
+
+
+
 /*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
+    D{i:0;autoSize:true;height:768;width:1366}
 }
  ##^##*/
-
