@@ -50,12 +50,12 @@ void Create::createWallpaperStart(QString videoPath)
     m_createImportVideoThread = new QThread();
     m_createImportVideo = new CreateImportVideo(videoPath, workingDir());
 
+
     connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged);
+    connect(m_createImportVideo, &CreateImportVideo::progressChanged, this, &Create::setProgress);
     connect(m_createImportVideoThread, &QThread::started, m_createImportVideo, &CreateImportVideo::process);
     connect(m_createImportVideo, &CreateImportVideo::canceled, this, &Create::abortAndCleanup);
-    connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, [](CreateImportVideo::ImportVideoState state) {
-        qDebug() << state;
-    });
+
     connect(m_createImportVideo, &CreateImportVideo::finished, m_createImportVideoThread, &QThread::quit);
     connect(m_createImportVideo, &CreateImportVideo::finished, m_createImportVideo, &QObject::deleteLater);
     connect(m_createImportVideoThread, &QThread::finished, m_createImportVideoThread, &QObject::deleteLater);
@@ -70,6 +70,17 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     previewImagePath.remove("file:///");
 
     emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFiles);
+
+    // Case when the selected users preview image has the same name as
+    // our default "preview.jpg" name. QFile::copy does no override exsisting files
+    // so we need to delete them first
+    QFile userSelectedPreviewImage(previewImagePath);
+    if(userSelectedPreviewImage.fileName() == "preview.jpg"){
+        if(!userSelectedPreviewImage.remove()){
+            qDebug() << "Could remove" << previewImagePath;
+            emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFilesError);
+        }
+    }
 
     QFileInfo previewImageFile(previewImagePath);
     if (previewImageFile.exists()) {
@@ -102,7 +113,7 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
         obj.insert("file", filePathFile.fileName());
     } else {
         obj.insert("file", filePathFile.baseName() + ".webm");
-        }
+    }
     obj.insert("previewGIF", "preview.gif");
     obj.insert("previewWEBM", "preview.webm");
     if (previewImageFile.exists()) {
@@ -136,21 +147,21 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
 
 void Create::abortAndCleanup()
 {
-    qWarning() << "Abort and Cleanup!";
+
     if (m_createImportVideo == nullptr || m_createImportVideoThread == nullptr) {
         qDebug() << m_createImportVideo << m_createImportVideoThread;
         return;
     }
 
-    disconnect(m_createImportVideo);
-    disconnect(m_createImportVideoThread);
+//    disconnect(m_createImportVideo);
+//    disconnect(m_createImportVideoThread);
 
     // Save to export path before aborting to be able to cleanup the tmp folder
     QString tmpExportPath = m_createImportVideo->m_exportPath;
 
-    connect(m_createImportVideoThread, &QThread::destroyed, this, [=]() {
+    connect(m_createImportVideoThread, &QThread::finished, this, [=]() {
         QDir exportPath(tmpExportPath);
-
+        qWarning() << "Abort and Cleanup!" << exportPath;
         if (exportPath.exists()) {
             if (!exportPath.removeRecursively()) {
                 emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::AbortCleanupError);
@@ -158,6 +169,8 @@ void Create::abortAndCleanup()
             } else {
                 qDebug() << "cleanup " << tmpExportPath;
             }
+        } else {
+            qDebug() << "Could not cleanup and delete: " << exportPath;
         }
         m_createImportVideo = nullptr;
         m_createImportVideoThread = nullptr;
