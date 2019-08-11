@@ -72,6 +72,10 @@ void ScreenPlayManager::createWallpaper( QVector<int> monitorIndex, const QStrin
             type,
             this));
 
+    for (const int index : monitorIndex) {
+        m_monitorListModel->setWallpaperActiveMonitor(m_qGuiApplication->screens().at(index),
+            QString { path + "/" + previewImage });
+    }
 
 }
 

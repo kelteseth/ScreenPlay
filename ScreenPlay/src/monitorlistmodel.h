@@ -12,11 +12,8 @@
 #include <QString>
 #include <QVector>
 
-
-
-#include <iostream>
-#include <string>
 #include <qt_windows.h>
+
 /*!
     \class Monitor List Model
     \brief Listsmodel for all active monitors
