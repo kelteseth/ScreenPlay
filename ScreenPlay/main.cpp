@@ -49,6 +49,7 @@ int main(int argc, char* argv[])
     // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
 
+
     // Qt < 6.0 needs this init QtWebEngine
     QtWebEngine::initialize();
 
@@ -93,7 +94,7 @@ int main(int argc, char* argv[])
     if (!argumentList.contains("-silent")) {
         settings->setMainWindowVisible(true);
     }
-    installedListModel->loadInstalledContent();
+    installedListModel->init();
 
     return app.exec();
 }

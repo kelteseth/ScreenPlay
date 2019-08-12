@@ -15,6 +15,7 @@
 #include <QString>
 #include <QUrl>
 #include <QVector>
+#include <QFileSystemWatcher>
 #include <QtConcurrent/QtConcurrent>
 
 
@@ -64,7 +65,7 @@ public slots:
     void loadInstalledContent();
     void append(const QJsonObject &, const QString &);
     void reset();
-
+    void init();
     QVariantMap get(QString folderId);
 
     void setabsoluteStoragePath(const QUrl& absoluteStoragePath)
@@ -95,6 +96,7 @@ signals:
     void countChanged(int count);
 
 private:
+    QFileSystemWatcher m_fileSystemWatcher;
     QVector<ProjectFile> m_screenPlayFiles;
     QUrl m_absoluteStoragePath;
     int m_count{0};
