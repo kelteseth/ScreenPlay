@@ -413,7 +413,23 @@ Item {
                                 }
                             }
                         }
-
+                        SettingsHorizontalSeperator {}
+                        SettingsButton {
+                            headline: qsTr("Debug Messages")
+                            description: qsTr("If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.")
+                            buttonText: qsTr("Privacy")
+                            onButtonPressed: {
+                                utility.requestAllLDataProtection()
+                                expanderDebug.toggle()
+                            }
+                        }
+                        SettingsExpander {
+                            id:expanderDebug
+                            anchors {
+                                left: parent.left
+                                right: parent.right
+                            }
+                        }
                         SettingsHorizontalSeperator {}
                         SettingsButton {
                             headline: qsTr("Data Protection")
