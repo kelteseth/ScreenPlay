@@ -178,7 +178,7 @@ signals:
 
 public slots:
     void writeSingleSettingConfig(QString name, QVariant value);
-    void saveWallpaperToConfig(const int monitorIndex, const QUrl& absoluteStoragePath, const QString& type);
+    void saveWallpaperToConfig(const QVector<int> monitorIndex, const QUrl& absoluteStoragePath, const QString& type);
     void removeWallpaperFromConfig(const int monitorIndex);
     void setqSetting(const QString& key, const QString& value);
 

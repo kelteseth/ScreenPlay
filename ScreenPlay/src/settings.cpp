@@ -173,8 +173,9 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
     configTmp.close();
 }
 
-void Settings::saveWallpaperToConfig(const int monitorIndex, const QUrl& absoluteStoragePath, const QString& type)
+void Settings::saveWallpaperToConfig(const QVector<int> monitorIndex, const QUrl& absoluteStoragePath, const QString& type)
 {
+
 }
 
 void Settings::removeWallpaperFromConfig(const int monitorIndex)
