@@ -18,7 +18,7 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     const shared_ptr<SDKConnector>& sdkc,
     QObject* parent)
     : QObject(parent)
-    , m_version { QVersionNumber(0, 0, 1) }
+    , m_version { QVersionNumber(1, 0, 0) }
     , m_profileListModel { plm }
     , m_installedListModel { ilm }
     , m_monitorListModel { mlm }
@@ -59,7 +59,6 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
         m_qSettings.sync();
     }
 
-    QFile configTmp;
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
     m_localSettingsPath = QUrl::fromUserInput(appConfigLocation);
     if (!QDir(appConfigLocation).exists()) {
@@ -69,17 +68,18 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
         }
     }
 
-    configTmp.setFileName(appConfigLocation + "/settings.json");
-
-    // App Settings
-    if (!configTmp.exists()) {
+    // App settings
+    QFile settingsFile;
+    settingsFile.setFileName(appConfigLocation + "/settings.json");
+    if (!settingsFile.exists()) {
         qWarning("No Settings found, creating default settings");
         createDefaultConfig();
     }
 
-    QFile profiles;
-    profiles.setFileName(appConfigLocation + "/profiles.json");
-    if (!profiles.exists()) {
+    // Wallpaper and Widgets config
+    QFile profilesFile;
+    profilesFile.setFileName(appConfigLocation + "/profiles.json");
+    if (!profilesFile.exists()) {
         qWarning("No profiles.json found, creating default settings");
         createDefaultProfiles();
     }
@@ -88,8 +88,8 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     QJsonParseError parseError {};
     QJsonObject configObj;
 
-    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString config = configTmp.readAll();
+    settingsFile.open(QIODevice::ReadOnly | QIODevice::Text);
+    QString config = settingsFile.readAll();
     configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
 
     if (!(parseError.error == QJsonParseError::NoError)) {
