@@ -20,8 +20,9 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     qmlRegisterUncreatableType<Util>("ScreenPlay.QMLUtilities", 1, 0, "QMLUtilities", "Error only for enums");
 
     // In release mode redirect messages to logging otherwhise we break the nice clickable output :(
-#ifdef QT_RELEASE
+#ifdef QT_NO_DEBUG
     qInstallMessageHandler(Util::logToGui);
+    qInfo() << "Starting ScreenPlay LOG!";
 #endif
 
     // This gives us nice clickable output in QtCreator
@@ -278,7 +279,7 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
         log.prepend("<b><font color=\"##78909C\"> Debug</font>:</b>");
         break;
     case QtInfoMsg:
-       log.prepend("<b><font color=\"#8BC34A\"> Warning</font>:</b>");
+       log.prepend("<b><font color=\"#8BC34A\"> Info</font>:</b>");
         break;
     case QtWarningMsg:
         log.prepend("<b><font color=\"#FFC107\"> Warning</font>:</b>");
