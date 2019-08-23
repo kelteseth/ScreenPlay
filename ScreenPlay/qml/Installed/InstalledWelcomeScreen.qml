@@ -42,6 +42,7 @@ Item {
                 to: 360
                 duration: 100000
                 running: true
+                loops: Animation.Infinite
             }
         }
     }

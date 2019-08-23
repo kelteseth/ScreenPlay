@@ -58,7 +58,7 @@ Item {
         active: false
         z: 99
         anchors.fill: parent
-        source: "qrc:/qml/Installed/InstalledUserHelper.qml"
+        source: "qrc:/qml/Installed/InstalledWelcomeScreen.qml"
     }
 
     GridView {
