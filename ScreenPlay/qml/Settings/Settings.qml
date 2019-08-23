@@ -38,7 +38,7 @@ Item {
 
             Item {
                 id: settingsGeneralWrapper
-                height: 520 + txtDirChangesInfo.paintedHeight
+                height: 540 + txtDirChangesInfo.paintedHeight
                 width: parent.width
 
                 RectangularGlow {
@@ -109,6 +109,7 @@ Item {
                         }
                         SettingBool {
                             height: 70
+                            available: false
                             headline: qsTr("Send anonymous crash reports and statistics")
                             description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!")
                             isChecked: screenPlaySettings.sendStatistics
@@ -205,7 +206,7 @@ Item {
 
             Item {
                 id: settingsPerformanceWrapper
-                height: 250
+                height: 260
                 width: parent.width
 
                 RectangularGlow {
@@ -252,7 +253,8 @@ Item {
 
 
                         SettingBool {
-                            headline: qsTr("Pause wallpaper when ingame")
+                            headline: qsTr("Pause wallpaper while ingame")
+                            available: false
                             description: qsTr("To maximise your framerates ingame, you can enable this setting to pause all active wallpapers!")
                             isChecked: screenPlaySettings.pauseWallpaperWhenIngame
                             onCheckboxChanged: {
@@ -341,7 +343,7 @@ Item {
                             Text {
                                 id: txtHeadline
                                 color: "#5D5D5D"
-                                text: "Lore Ipsum"
+                                text: "Thank you for using ScreenPlay"
 
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
@@ -417,14 +419,14 @@ Item {
                         SettingsButton {
                             headline: qsTr("Debug Messages")
                             description: qsTr("If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.")
-                            buttonText: qsTr("Privacy")
+                            buttonText: qsTr("Debug Messages")
                             onButtonPressed: {
-                                utility.requestAllLDataProtection()
                                 expanderDebug.toggle()
                             }
                         }
                         SettingsExpander {
                             id:expanderDebug
+                            text: utility.debugMessages
                             anchors {
                                 left: parent.left
                                 right: parent.right

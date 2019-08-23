@@ -16,6 +16,7 @@
 #include "screenplaywallpaper.h"
 #include "screenplaywidget.h"
 #include "sdkconnector.h"
+#include "util.h"
 #include "settings.h"
 
 /*!
@@ -69,7 +70,6 @@ public slots:
     void setWallpaperValue(const int at, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
     void removeWallpaperAt(const int at = 0);
-    QString generateID() const;
 
 private:
     void loadActiveProfiles();

@@ -3,7 +3,7 @@ import QtQuick 2.12
 Item {
     property real customWidth: parent.width
     property real customHeight: 1
-    property color customColor: "#C3C3C3"
+    property color customColor: "#dddddd"
     property real customMargin: 10
 
     height: customMargin

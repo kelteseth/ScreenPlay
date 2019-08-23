@@ -36,7 +36,7 @@ void ScreenPlayManager::createWallpaper(
         make_unique<ScreenPlayWallpaper>(
             QVector<int> { monitorIndex },
             m_settings,
-            generateID(),
+            Util::generateRandomString(),
             path,
             previewImage,
             volume,
@@ -65,7 +65,7 @@ void ScreenPlayManager::createWallpaper( QVector<int> monitorIndex, const QStrin
         make_unique<ScreenPlayWallpaper>(
             monitorIndex,
             m_settings,
-            generateID(),
+            Util::generateRandomString(),
             path,
             previewImage,
             volume,
@@ -88,7 +88,7 @@ void ScreenPlayManager::createWidget(QUrl absoluteStoragePath, const QString& pr
 
     m_screenPlayWidgets.emplace_back(
         make_unique<ScreenPlayWidget>(
-            generateID(),
+            Util::generateRandomString(),
             m_settings,
             absoluteStoragePath.toLocalFile(),
             previewImage,
@@ -160,22 +160,6 @@ void ScreenPlayManager::removeWallpaperAt(const int at)
     m_screenPlayWallpapers.erase(wallsToRemove, m_screenPlayWallpapers.end());
 }
 
-QString ScreenPlayManager::generateID() const
-{
-    const QString possibleCharacters {
-        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-    };
-    const int randomStringLength = 32;
-    const auto radomGen = QRandomGenerator::system();
-
-    QString randomString;
-    for (int i = 0; i < randomStringLength; ++i) {
-        const int index = radomGen->bounded(possibleCharacters.length());
-        const QChar nextChar = possibleCharacters.at(index);
-        randomString.append(nextChar);
-    }
-    return randomString;
-}
 
 void ScreenPlayManager::saveConfigWallpaper(const QString& monitorID)
 {
@@ -184,18 +168,15 @@ void ScreenPlayManager::saveConfigWallpaper(const QString& monitorID)
 
 void ScreenPlayManager::loadActiveProfiles()
 {
-    QJsonDocument configJsonDocument;
-    QJsonObject configObj;
-    QJsonArray activeProfilesTmp;
-    QFile configTmp;
-    configTmp.setFileName(m_settings->localSettingsPath().toLocalFile() + "/profiles.json");
 
-    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString config = configTmp.readAll();
-    configJsonDocument = QJsonDocument::fromJson(config.toUtf8());
-    configObj = configJsonDocument.object();
+    auto configObj = Util::openJsonFileToObject(m_settings->localSettingsPath().toLocalFile() + "/profiles.json");
+    if(!configObj.has_value()){
+        qWarning() << "Could not load active profiles.";
+        return;
+    }
 
-    activeProfilesTmp = configObj.value("profilesWallpaper").toArray();
+
+    QJsonArray activeProfilesTmp = configObj.value().value("profilesWallpaper").toArray();
 
     for (const QJsonValueRef wallpaper : activeProfilesTmp) {
         QJsonObject wallpaperObj = wallpaper.toObject();

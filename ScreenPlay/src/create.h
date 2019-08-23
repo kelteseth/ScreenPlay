@@ -23,7 +23,7 @@
 #include <memory>
 
 #include "createimportvideo.h"
-#include "qmlutilities.h"
+#include "util.h"
 #include "settings.h"
 
 namespace ScreenPlay {

@@ -29,9 +29,8 @@ Rectangle {
                 margins: 20
             }
             color: "#626262"
-
             height: txtExpander.paintedHeight
-            wrapMode: Text.Wrap
+            wrapMode: Text.WordWrap
         }
     }
 

@@ -146,29 +146,21 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
 
 void Settings::writeSingleSettingConfig(QString name, QVariant value)
 {
+    QString filename = m_localSettingsPath.toLocalFile() + "/settings.json";
+    auto obj = Util::openJsonFileToObject(filename);
 
-    QJsonDocument configJsonDocument;
-    QJsonParseError parseError {};
-    QJsonObject configObj;
-    QFile configTmp;
-
-    configTmp.setFileName(m_localSettingsPath.toLocalFile() + "/settings.json");
-    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString config = configTmp.readAll();
-    configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
-
-    if (!(parseError.error == QJsonParseError::NoError)) {
+    if (!obj.has_value()) {
         qWarning("Settings Json Parse Error ");
         return;
     }
-    configObj = configJsonDocument.object();
-    configObj.insert(name, value.toJsonValue());
 
-    configTmp.close();
-    // Reopen to empty the file via Truncate
+    obj.value().insert(name, value.toJsonValue());
+
+    QFile configTmp;
+    configTmp.setFileName(filename);
     configTmp.open(QIODevice::ReadWrite | QIODevice::Truncate);
     QTextStream out(&configTmp);
-    out << QJsonDocument(configObj).toJson();
+    out << QJsonDocument(obj.value()).toJson();
 
     configTmp.close();
 }

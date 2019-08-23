@@ -33,6 +33,7 @@
 #include "profilelistmodel.h"
 #include "projectsettingslistmodel.h"
 #include "sdkconnector.h"
+#include "util.h"
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>

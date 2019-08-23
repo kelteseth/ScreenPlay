@@ -16,14 +16,14 @@
 #include "src/installedlistmodel.h"
 #include "src/monitorlistmodel.h"
 #include "src/profilelistmodel.h"
-#include "src/qmlutilities.h"
+#include "src/util.h"
 #include "src/screenplaymanager.h"
 #include "src/sdkconnector.h"
 #include "src/settings.h"
 
 using std::shared_ptr,
     std::make_shared,
-    ScreenPlay::QMLUtilities,
+    ScreenPlay::Util,
     ScreenPlay::InstalledListModel,
     ScreenPlay::ScreenPlayManager,
     ScreenPlay::InstalledListFilter,
@@ -46,10 +46,6 @@ int main(int argc, char* argv[])
     app.setQuitOnLastWindowClosed(false);
     app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
-    // This gives us nice clickable output in QtCreator
-    qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
-
-
     // Qt < 6.0 needs this init QtWebEngine
     QtWebEngine::initialize();
 
@@ -68,11 +64,11 @@ int main(int argc, char* argv[])
     Create create(settings);
 
     QQmlApplicationEngine mainWindowEngine;
-    QMLUtilities qmlUtil { mainWindowEngine.networkAccessManager() };
+    Util util { mainWindowEngine.networkAccessManager() };
 
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
-    mainWindowEngine.rootContext()->setContextProperty("utility", &qmlUtil);
+    mainWindowEngine.rootContext()->setContextProperty("utility", &util);
     mainWindowEngine.rootContext()->setContextProperty("installedListFilter", installedListFilter.get());
     mainWindowEngine.rootContext()->setContextProperty("monitorListModel", monitorListModel.get());
     mainWindowEngine.rootContext()->setContextProperty("installedListModel", installedListModel.get());

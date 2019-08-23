@@ -1,8 +1,6 @@
 TEMPLATE = app
 QT += qml quick widgets quickcontrols2 core webengine
 CONFIG += c++17
-#CONFIG += qtquickcompiler
-#DEFINES  += QT_NO_DEBUG_OUTPUT QT_NO_WARNING_OUTPUT
 
 TARGETPATH = ScreenPlay
 
@@ -27,7 +25,7 @@ SOURCES += main.cpp \
     src/sdkconnector.cpp \
     src/projectsettingslistmodel.cpp \
     src/screenplaymanager.cpp \
-    src/qmlutilities.cpp \
+    src/util.cpp \
     src/create.cpp
 
 
@@ -50,7 +48,7 @@ HEADERS += \
     src/projectsettingslistitem.h \
     src/projectsettingslistmodel.h \
     src/screenplaymanager.h \
-    src/qmlutilities.h \
+    src/util.h \
     src/create.h
 
 INCLUDEPATH += \

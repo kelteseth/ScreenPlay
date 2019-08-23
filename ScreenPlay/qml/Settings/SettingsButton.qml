@@ -24,7 +24,7 @@ Item {
 
     signal buttonPressed()
 
-    height: 50
+    height: 20 + txtHeadline.paintedHeight + txtDescription.paintedHeight
     width: parent.width
 
     Text {

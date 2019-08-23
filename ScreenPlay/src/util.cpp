@@ -1,4 +1,4 @@
-#include "qmlutilities.h"
+#include "util.h"
 
 namespace ScreenPlay {
 
@@ -11,50 +11,109 @@ namespace ScreenPlay {
     \endlist
 */
 
-QMLUtilities::QMLUtilities(QNetworkAccessManager* networkAccessManager, QObject* parent)
+Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     : QObject(parent)
     , m_networkAccessManager { networkAccessManager }
 {
-    qRegisterMetaType<QMLUtilities::AquireFFMPEGStatus>();
-    qmlRegisterUncreatableType<QMLUtilities>("ScreenPlay.QMLUtilities", 1, 0, "QMLUtilities", "Error only for enums");
+    utilPointer = this;
+    qRegisterMetaType<Util::AquireFFMPEGStatus>();
+    qmlRegisterUncreatableType<Util>("ScreenPlay.QMLUtilities", 1, 0, "QMLUtilities", "Error only for enums");
 
+    // In release mode redirect messages to logging otherwhise we break the nice clickable output :(
+#ifdef QT_RELEASE
+    qInstallMessageHandler(Util::logToGui);
+#endif
 
-    QString path = QGuiApplication::instance()->applicationDirPath()+"/";
+    // This gives us nice clickable output in QtCreator
+    qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
+
+    QString path = QGuiApplication::instance()->applicationDirPath() + "/";
     QFile fileFFMPEG;
     QFile fileFFPROBE;
 
 #ifdef Q_OS_WIN
     fileFFMPEG.setFileName(path + "ffmpeg.exe");
     fileFFPROBE.setFileName(path + "ffprobe.exe");
-#elif defined(Q_OS_OSX)
+#else
     fileFFMPEG.setFileName(path + "ffmpeg");
     fileFFPROBE.setFileName(path + "ffprobe");
 #endif
 
-    if(fileFFMPEG.exists() && fileFFPROBE.exists())
+    if (fileFFMPEG.exists() && fileFFPROBE.exists())
         setFfmpegAvailable(true);
 }
-void QMLUtilities::setNavigation(QString nav)
+
+std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
+{
+    auto jsonString = openJsonFileToString(path);
+
+    if (!jsonString.has_value()) {
+        return {};
+    }
+
+    QJsonDocument jsonDocument;
+    QJsonParseError parseError {};
+    jsonDocument = QJsonDocument::fromJson(jsonString.value().toUtf8(), &parseError);
+
+    if (!(parseError.error == QJsonParseError::NoError)) {
+        qWarning() << "Settings Json Parse Error: " << parseError.errorString();
+        return {};
+    }
+
+    return jsonDocument.object();
+}
+
+std::optional<QString> Util::openJsonFileToString(const QString& path)
+{
+    QFile file;
+    file.setFileName(path);
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return {};
+    }
+    QString fileContent = file.readAll();
+    file.flush();
+    file.close();
+
+    return { fileContent };
+}
+
+QString Util::generateRandomString(quint32 length)
+{
+    const QString possibleCharacters {
+        "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+    };
+    const auto radomGen = QRandomGenerator::system();
+
+    QString randomString;
+    for (quint32 i = 0; i < length; ++i) {
+        const int index = radomGen->bounded(possibleCharacters.length());
+        const QChar nextChar = possibleCharacters.at(index);
+        randomString.append(nextChar);
+    }
+    return randomString;
+}
+
+void Util::setNavigation(QString nav)
 {
     emit requestNavigation(nav);
 }
 
-void QMLUtilities::setNavigationActive(bool isActive)
+void Util::setNavigationActive(bool isActive)
 {
     emit requestNavigationActive(isActive);
 }
 
-void QMLUtilities::setToggleWallpaperConfiguration()
+void Util::setToggleWallpaperConfiguration()
 {
     emit requestToggleWallpaperConfiguration();
 }
 
-QString QMLUtilities::fixWindowsPath(QString url)
+QString Util::fixWindowsPath(QString url)
 {
     return url.replace("/", "\\\\");
 }
 
-void QMLUtilities::openFolderInExplorer(QString url)
+void Util::openFolderInExplorer(QString url)
 {
     QProcess explorer;
 #ifdef Q_OS_WIN
@@ -68,7 +127,7 @@ void QMLUtilities::openFolderInExplorer(QString url)
     explorer.startDetached();
 }
 
-void QMLUtilities::QMLUtilities::requestAllLicenses()
+void Util::Util::requestAllLicenses()
 {
 
     QtConcurrent::run([this]() {
@@ -110,7 +169,7 @@ void QMLUtilities::QMLUtilities::requestAllLicenses()
     });
 }
 
-void QMLUtilities::QMLUtilities::requestAllLDataProtection()
+void Util::Util::requestAllLDataProtection()
 {
     QtConcurrent::run([this]() {
         QString tmp;
@@ -126,7 +185,7 @@ void QMLUtilities::QMLUtilities::requestAllLDataProtection()
     });
 }
 
-void QMLUtilities::downloadFFMPEG()
+void Util::downloadFFMPEG()
 {
     QNetworkRequest req;
 
@@ -185,13 +244,13 @@ void QMLUtilities::downloadFFMPEG()
 #endif
         if (entryFFPROBE.isNull()) {
             qDebug() << "null";
-             setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFPROBE);
+            setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFPROBE);
             return;
         }
 
         if (!saveExtractedByteArray(entryFFPROBE, entryFFPROBEPath)) {
             qDebug() << "could not save ffprobe";
-             setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFPROBESave);
+            setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFPROBESave);
             return;
         }
 
@@ -204,7 +263,39 @@ void QMLUtilities::downloadFFMPEG()
         });
 }
 
-bool QMLUtilities::saveExtractedByteArray(libzippp::ZipEntry& entry, std::string& absolutePathAndName)
+void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+{
+    qDebug() << msg;
+    QByteArray localMsg = msg.toLocal8Bit();
+    QByteArray file = "File: " + QByteArray(context.file) + ", ";
+    QByteArray line = "in line " + QByteArray::number(context.line) + ", ";
+    QByteArray function = "function " + QByteArray(context.function) + ", Message: ";
+
+    QString log = "&emsp; <font color=\"#03A9F4\"> "+ QDateTime::currentDateTime().toString() +  "</font> &emsp; " + localMsg + "<br><br>";
+
+    switch (type) {
+    case QtDebugMsg:
+        log.prepend("<b><font color=\"##78909C\"> Debug</font>:</b>");
+        break;
+    case QtInfoMsg:
+       log.prepend("<b><font color=\"#8BC34A\"> Warning</font>:</b>");
+        break;
+    case QtWarningMsg:
+        log.prepend("<b><font color=\"#FFC107\"> Warning</font>:</b>");
+        break;
+    case QtCriticalMsg:
+        log.prepend("<b><font color=\"#FF5722\"> Critical</font>:</b>");
+        break;
+    case QtFatalMsg:
+       log.prepend("<b><font color=\"#F44336\"> Fatal</font>:</b>");
+        break;
+    }
+
+    if (utilPointer != nullptr)
+        utilPointer->appendDebugMessages(log);
+}
+
+bool Util::saveExtractedByteArray(libzippp::ZipEntry& entry, std::string& absolutePathAndName)
 {
     std::ofstream ofUnzippedFile(absolutePathAndName, std::ofstream::binary);
 
