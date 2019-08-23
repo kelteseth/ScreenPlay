@@ -86,7 +86,6 @@
         <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperWizard.qml</file>
         <file>qml/Installed/Installed.qml</file>
         <file>qml/Installed/InstalledNavigation.qml</file>
-        <file>qml/Installed/InstalledUserHelper.qml</file>
         <file>qml/Installed/ScreenPlayItem.qml</file>
         <file>qml/Installed/ScreenPlayItemImage.qml</file>
         <file>qml/Installed/Sidebar.qml</file>
@@ -129,5 +128,6 @@
         <file>profiles.json</file>
         <file>qml/Common/Shake.qml</file>
         <file>qml/Common/Grow.qml</file>
+        <file>qml/Installed/InstalledWelcomeScreen.qml</file>
     </qresource>
 </RCC>
