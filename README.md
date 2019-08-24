@@ -11,8 +11,7 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 
 </div>
 <br>
-
-![](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/preview.gif)
+<img width="100%"  src="preview.gif" alt="preview.gif">
 
 ## Contributing
 
