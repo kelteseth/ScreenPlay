@@ -11,10 +11,15 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 
 </div>
 <br>
+<img width="100%"  src="preview.gif" alt="preview.gif">
 
 ## Contributing
 
 Everyone can contribute with code, design, documentation or translation. Visit our [contributing guide](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/CONTRIBUTING.md) for more informations.
+
+* If you want to help [translate](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/CONTRIBUTING.md#translation)
+* If you are a [programmer](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/CONTRIBUTING.md#development)
+* If you are a [designer](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/CONTRIBUTING.md#design)
 
 # Getting started
 
