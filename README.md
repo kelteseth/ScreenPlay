@@ -11,7 +11,7 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 
 </div>
 <br>
-<img width="100%"  src="preview.gif" alt="preview.gif">
+<img width="100%" height="498" src="preview.gif" alt="preview.gif">
 
 ## Contributing
 
