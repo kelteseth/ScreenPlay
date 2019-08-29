@@ -26,6 +26,12 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
 {
     auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
 
+    setGitBuildHash(GIT_VERSION);
+
+#ifdef QT_NO_DEBUG
+    qInfo() << "ScreenPlay git hash: " << gitBuildHash();
+#endif
+
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Light.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Regular.ttf");

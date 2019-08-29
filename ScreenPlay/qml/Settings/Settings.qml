@@ -391,6 +391,45 @@ Item {
                             }
                         }
                         SettingsHorizontalSeperator {}
+                        Item {
+                            width: parent.width
+                            height: 55
+
+                            Text {
+                                id:txtVersion
+                                color: "#5D5D5D"
+                                text: "Version"
+
+                                verticalAlignment: Text.AlignVCenter
+                                horizontalAlignment: Text.AlignLeft
+                                anchors{
+                                    top:parent.top
+                                    topMargin: 6
+                                    left:parent.left
+                                    leftMargin: 20
+
+                                }
+
+                               font.pointSize: 12
+                            }
+                            Text {
+                                text: qsTr("ScreenPlay Build Version ") + screenPlaySettings.gitBuildHash
+                                color: "#B5B5B5"
+
+                                wrapMode: Text.WordWrap
+                                verticalAlignment: Text.AlignVCenter
+
+                                font.pointSize: 10
+                                font.family: "Roboto"
+                                anchors {
+                                    top:txtVersion.bottom
+                                    topMargin: 6
+                                    left:parent.left
+                                    leftMargin: 20
+                                }
+                            }
+                        }
+                        SettingsHorizontalSeperator {}
                         SettingsButton {
                             headline: qsTr("Third Party Software")
                             description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")

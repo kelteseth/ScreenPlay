@@ -55,6 +55,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
+    Q_PROPERTY(QString gitBuildHash READ gitBuildHash WRITE setGitBuildHash NOTIFY gitBuildHashChanged)
 
     Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
     Q_PROPERTY(int activeWidgetsCounter READ activeWidgetsCounter WRITE setActiveWidgetsCounter NOTIFY activeWidgetsCounterChanged)
@@ -164,6 +165,11 @@ public:
         return m_localSettingsPath;
     }
 
+    QString gitBuildHash() const
+    {
+        return m_gitBuildHash;
+    }
+
 signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
@@ -176,6 +182,8 @@ signals:
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
     void offlineModeChanged(bool offlineMode);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
+
+    void gitBuildHashChanged(QString gitBuildHash);
 
 public slots:
     void writeSingleSettingConfig(QString name, QVariant value);
@@ -318,6 +326,15 @@ public slots:
         emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
     }
 
+    void setGitBuildHash(QString gitBuildHash)
+    {
+        if (m_gitBuildHash == gitBuildHash)
+            return;
+
+        m_gitBuildHash = gitBuildHash;
+        emit gitBuildHashChanged(m_gitBuildHash);
+    }
+
 private:
     void createDefaultConfig();
     void setupWidgetAndWindowPaths();
@@ -347,5 +364,6 @@ private:
     int m_activeWallpaperCounter { 0 };
     int m_activeWidgetsCounter { 0 };
     void createDefaultProfiles();
+    QString m_gitBuildHash;
 };
 }

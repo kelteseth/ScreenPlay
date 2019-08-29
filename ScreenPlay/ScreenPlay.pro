@@ -8,6 +8,11 @@ ICON = favicon.ico
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
+GIT_VERSION = $$system(git describe --always)
+DEFINES += GIT_VERSION=\\\"$$GIT_VERSION\\\"
+
+
+
 DISTFILES += \
     favicon.ico \
 
