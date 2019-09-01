@@ -3,44 +3,12 @@
 // USE THIS ONLY FOR redirectMessageOutputToMainWindow
 static ScreenPlaySDK* global_sdkPtr = nullptr;
 
-void redirectMessageOutputToMainWindow(QtMsgType type, const QMessageLogContext& context, const QString& msg)
-{
-    if (global_sdkPtr == nullptr)
-        return;
-
-    QByteArray localMsg = msg.toLocal8Bit();
-    QByteArray file = "File: " + QByteArray(context.file) + ", ";
-    QByteArray line = "in line " + QByteArray::number(context.line) + ", ";
-    //QByteArray function = "function " + QByteArray(context.function) + ", Message: ";
-
-    //localMsg = file + line +  localMsg;
-    global_sdkPtr->redirectMessage(localMsg);
-
-    switch (type) {
-    case QtDebugMsg:
-        //localMsg = " SDK START: " /*+  QByteArray::fromStdString(global_sdkPtr->contentType().toStdString()) + " "*/ + localMsg;
-        break;
-    case QtInfoMsg:
-        //fprintf(stderr, "Info: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
-        break;
-    case QtWarningMsg:
-        //fprintf(stderr, "Warning: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
-        break;
-    case QtCriticalMsg:
-        //fprintf(stderr, "Critical: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
-        break;
-    case QtFatalMsg:
-        //(stderr, "Fatal: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
-        break;
-    }
-}
-
 ScreenPlaySDK::ScreenPlaySDK(QQuickItem* parent)
     : QQuickItem(parent)
 {
     // Redirect all messages from this to ScreenPlay
     global_sdkPtr = this;
-    qInstallMessageHandler(redirectMessageOutputToMainWindow);
+    qInstallMessageHandler(ScreenPlaySDK::redirectMessageOutputToMainWindow);
 
     m_socket.setServerName("ScreenPlay");
     connect(&m_socket, &QLocalSocket::connected, this, &ScreenPlaySDK::connected);
@@ -102,5 +70,37 @@ void ScreenPlaySDK::redirectMessage(QByteArray& msg)
     if (isConnected()) {
         m_socket.write(msg);
         m_socket.waitForBytesWritten();
+    }
+}
+
+void ScreenPlaySDK::ScreenPlaySDK::redirectMessageOutputToMainWindow(QtMsgType type, const QMessageLogContext& context, const QString& msg)
+{
+    if (global_sdkPtr == nullptr)
+        return;
+
+    QByteArray localMsg = msg.toLocal8Bit();
+    QByteArray file = "File: " + QByteArray(context.file) + ", ";
+    QByteArray line = "in line " + QByteArray::number(context.line) + ", ";
+    //QByteArray function = "function " + QByteArray(context.function) + ", Message: ";
+
+    //localMsg = file + line +  localMsg;
+    global_sdkPtr->redirectMessage(localMsg);
+
+    switch (type) {
+    case QtDebugMsg:
+        //localMsg = " SDK START: " /*+  QByteArray::fromStdString(global_sdkPtr->contentType().toStdString()) + " "*/ + localMsg;
+        break;
+    case QtInfoMsg:
+        //fprintf(stderr, "Info: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        break;
+    case QtWarningMsg:
+        //fprintf(stderr, "Warning: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        break;
+    case QtCriticalMsg:
+        //fprintf(stderr, "Critical: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        break;
+    case QtFatalMsg:
+        //(stderr, "Fatal: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
+        break;
     }
 }

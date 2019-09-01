@@ -85,6 +85,8 @@ public slots:
         m_socket.waitForBytesWritten();
     }
 
+    static void redirectMessageOutputToMainWindow(QtMsgType type, const QMessageLogContext& context, const QString& msg);
+
 signals:
     void incommingMessage(QString key, QString value);
     void incommingMessageError(QString msg);
