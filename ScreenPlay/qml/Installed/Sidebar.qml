@@ -1,10 +1,12 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.3
+import QtQuick.Controls 2.12
 import QtQuick.Extras 1.4
-import QtQuick.Controls.Material 2.2
+import QtQuick.Layouts 1.12
+import QtQuick.Controls.Material 2.12
 
 import "../Monitors"
+import "../Common" as SP
 
 Item {
     id: sidebar
@@ -30,10 +32,9 @@ Item {
             activeScreen = screenId
             sidebar.type = type
 
-
             switch (type) {
             case "videoWallpaper":
-                state = "activeScene"
+                state = "videoWallpaper"
                 return
             case "htmlWallpaper":
                 state = "activeScene"
@@ -66,18 +67,20 @@ Item {
     onActiveScreenChanged: {
         txtHeadline.text = installedListModel.get(activeScreen).screenTitle
 
-        if(installedListModel.get(activeScreen).screenPreviewGIF === undefined) {
+        if (installedListModel.get(
+                    activeScreen).screenPreviewGIF === undefined) {
             image.source = Qt.resolvedUrl(
-                        installedListModel.absoluteStoragePath + "/" + activeScreen
-                        + "/" + installedListModel.get(activeScreen).screenPreview)
+                        installedListModel.absoluteStoragePath + "/"
+                        + activeScreen + "/" + installedListModel.get(
+                            activeScreen).screenPreview)
             image.playing = false
         } else {
 
             image.source = Qt.resolvedUrl(
-                        installedListModel.absoluteStoragePath + "/" + activeScreen
-                        + "/" + installedListModel.get(activeScreen).screenPreviewGIF)
+                        installedListModel.absoluteStoragePath + "/"
+                        + activeScreen + "/" + installedListModel.get(
+                            activeScreen).screenPreviewGIF)
             image.playing = true
-
         }
     }
 
@@ -155,7 +158,7 @@ Item {
                 }
                 LinearGradient {
                     id: tabShadow
-                    height: 20
+                    height: 50
                     cached: true
 
                     anchors {
@@ -163,12 +166,12 @@ Item {
                         right: parent.right
                         left: parent.left
                     }
-                    start: Qt.point(0, 30)
+                    start: Qt.point(0, 50)
                     end: Qt.point(0, 0)
                     gradient: Gradient {
                         GradientStop {
                             position: 0.0
-                            color: "#88000000"
+                            color: "#EE000000"
                         }
                         GradientStop {
                             position: 1.0
@@ -176,208 +179,140 @@ Item {
                         }
                     }
                 }
-            }
-
-            MouseArea {
-                id: button
-                height: 50
-                width: 50
-                anchors.top: parent.top
-                anchors.left: parent.left
-                cursorShape: Qt.PointingHandCursor
-                onClicked: {
-                    sidebar.state = sidebar.state === "active" ? "inactive" : "active"
-                }
-
-                Image {
-                    id: imgBack
-                    source: "qrc:/assets/icons/icon_arrow_right.svg"
-                    sourceSize: Qt.size(15, 15)
-                    fillMode: Image.PreserveAspectFit
-                    anchors.centerIn: parent
-                }
-            }
-
-            Item {
-                id: headlineWrapper
-                height: 60
-                anchors {
-                    top: imageWrapper.bottom
-                    topMargin: 10
-                    right: parent.right
-                    rightMargin: 10
-                    left: parent.left
-                    leftMargin: 10
-                }
 
                 Text {
                     id: txtHeadline
                     text: qsTr("Headline")
-                    height: 60
-
                     font.family: "Roboto"
                     font.weight: Font.Thin
-                    verticalAlignment: Text.AlignVCenter
+                    verticalAlignment: Text.AlignBottom
                     font.pointSize: 16
-                    color: "#2F2F2F"
-                    wrapMode: Text.WrapAnywhere
+                    color: "white"
+                    wrapMode: Text.WordWrap
+                    height: 50
                     anchors {
-                        top: parent.top
+                        bottom: parent.bottom
                         right: parent.right
-                        bottom: parent.bottom
-                        left: parent.left
-                        leftMargin: 20
-                    }
-                }
-            }
-
-            Text {
-                id: txtHeadlineMonitor
-                text: qsTr("Select a Monitor to display the content")
-                height: 50
-
-                horizontalAlignment: Qt.AlignHCenter
-                font.family: "Roboto"
-                font.pointSize: 14
-                color: "#2F2F2F"
-                wrapMode: Text.WrapAnywhere
-                anchors {
-                    top: headlineWrapper.bottom
-                    margins: 20
-                    right: parent.right
-                    left: parent.left
-                }
-            }
-
-            Rectangle {
-                id: monitorSelectionWrapper
-                height: 80
-                width: 400
-                anchors {
-                    top: txtHeadlineMonitor.bottom
-                    right: parent.right
-                    left: parent.left
-                }
-
-                MonitorSelection {
-                    id: monitorSelection
-                    width: 360
-                    height: parent.height
-                    availableWidth: 360
-                    fontSize: 11
-                    availableHeight: 50
-                    anchors {
-                        top: parent.top
-                        horizontalCenter: parent.horizontalCenter
-                    }
-                }
-            }
-
-            Item {
-                id: sliderVolumeWrapper
-                height: 100
-                width: 400
-                anchors {
-                    bottom: btnSetWallpaper.top
-                    bottomMargin: 20
-                    right: parent.right
-                    rightMargin: 30
-                    leftMargin: 30
-                    left: parent.left
-                }
-                Text {
-                    id: txtSliderVolume
-                    text: qsTr("Volume")
-                    height: 30
-
-                    font.family: "Roboto"
-                    verticalAlignment: Text.AlignVCenter
-                    font.pointSize: 10
-                    color: "#626262"
-                    wrapMode: Text.WrapAnywhere
-                    anchors {
-                        top: parent.top
+                        margins: 20
                         left: parent.left
                     }
                 }
-                Row {
-                    id: sliderVolumeWrapperBottom
-                    height: 70
-                    spacing: 30
-                    width: 300
-                    anchors {
-                        bottom: parent.bottom
-                        horizontalCenter: parent.horizontalCenter
+
+                MouseArea {
+                    id: button
+                    height: 50
+                    width: 50
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: {
+                        sidebar.state = sidebar.state === "active" ? "inactive" : "active"
                     }
+
                     Image {
-                        width: 20
-                        height: 20
-                        anchors.verticalCenter: parent.verticalCenter
-                        source: "qrc:/assets/icons/icon_volume.svg"
-                        sourceSize: Qt.size(20, 20)
+                        id: imgBack
+                        source: "qrc:/assets/icons/icon_arrow_right.svg"
+                        sourceSize: Qt.size(15, 15)
+                        fillMode: Image.PreserveAspectFit
+                        anchors.centerIn: parent
                     }
+                }
+            }
 
-                    Slider {
-                        id: sliderVolume
-                        stepSize: 0.01
-                        from: 0
-                        value: 1
-                        to: 1
-                        anchors.verticalCenter: parent.verticalCenter
+            ColumnLayout {
+                spacing: 0
+
+                anchors {
+                    top: imageWrapper.bottom
+                    right: parent.right
+                    bottom: btnSetWallpaper.top
+                    left: parent.left
+                    margins: 30
+                    topMargin: 30
+                }
+
+                Item {
+                    height: 70
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignTop
+
+                    MonitorSelection {
+                        id: monitorSelection
+                        height: 50
+                        width: parent.width
+                        availableWidth: monitorSelection.width
+                        availableHeight: monitorSelection.height
+                        fontSize: 11
+                        anchors {
+                            top:parent.top
+                            topMargin: 20
+                        }
                     }
 
                     Text {
-                        id: name
-                        color: "#818181"
-                        text: Math.round(sliderVolume.value * 100) / 100
-                        anchors.verticalCenter: parent.verticalCenter
-                        font.family: "Libre Baskerville"
-                        font.pointSize: 12
-                        font.italic: true
+                        id: txtHeadlineMonitor
+                        text: qsTr("Select a Monitor to display the content")
+                        font.family: "Roboto"
                         verticalAlignment: Text.AlignVCenter
+                        font.pointSize: 10
+                        color: "#626262"
+                        anchors {
+                            top:parent.top
+                            topMargin: 0
+                        }
                     }
                 }
-            }
-
-            Text {
-                visible: false
-                id: txtComboBoxFillMode
-                text: qsTr("Fill Mode")
-                height: 30
-
-                font.family: "Roboto"
-                verticalAlignment: Text.AlignVCenter
-                font.pointSize: 10
-                color: "#626262"
-                wrapMode: Text.WrapAnywhere
-                anchors {
-                    top: sliderVolumeWrapper.bottom
-                    left: parent.left
-                    leftMargin: 30
-                }
-            }
-
-            ComboBox {
-                visible: false
-                id: settingsComboBox
-                width: 200
-
-                anchors {
-                    top: txtComboBoxFillMode.bottom
-                    topMargin: 10
-
-                    horizontalCenter: parent.horizontalCenter
+                SP.Slider {
+                    id: sliderVolume
+                    stepSize: 0.01
+                    from: 0
+                    value: 1
+                    to: 1
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignTop
+                    headline: qsTr("Set Volume")
                 }
 
-                model: ListModel {
-                    ListElement {
-                        text: "Stretch"
+                ColumnLayout {
+                    height: 70
+                    Layout.fillWidth: true
+                    Layout.alignment: Qt.AlignTop
+                    spacing: 5
+
+                    Text {
+                        visible: false
+                        id: txtComboBoxFillMode
+                        text: qsTr("Fill Mode")
+
+                        font.family: "Roboto"
+                        verticalAlignment: Text.AlignVCenter
+                        font.pointSize: 10
+                        color: "#626262"
+                        wrapMode: Text.WrapAnywhere
+                        Layout.fillWidth: true
                     }
-                    ListElement {
-                        text: "PreserveAspectFit"
-                    }
-                    ListElement {
-                        text: "PreserveAspectCrop"
+                    ComboBox {
+                        visible: false
+                        id: settingsComboBox
+                        Layout.fillWidth: true
+
+                        model: ListModel {
+                            ListElement {
+                                text: "Stretch"
+                            }
+                            ListElement {
+                                text: "Fill"
+                            }
+                            ListElement {
+                                text: "Contain"
+                            }
+                            ListElement {
+                                text: "Cover"
+                            }
+                            ListElement {
+                                text: "Scale-Down"
+                            }
+                        }
                     }
                 }
             }
@@ -393,6 +328,7 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
+                enabled: monitorSelection.activeMonitors.length > 0
                 anchors {
                     bottom: parent.bottom
                     bottomMargin: 20
@@ -401,28 +337,30 @@ Item {
 
                 onClicked: {
                     if (type.endsWith("Wallpaper")) {
-                        let activeMonitors = monitorSelection.getActiveMonitors();
+                        var activeMonitors = monitorSelection.getActiveMonitors(
+                                    )
 
-                        if(activeMonitors.length === 0)
+                        // TODO Alert user to choose a monitor
+                        if (activeMonitors.length === 0)
                             return
 
-                        if(activeMonitors.length > 1) {
+                        if (activeMonitors.length > 1) {
                             screenPlay.createWallpaper(
-                                        activeMonitors, installedListModel.absoluteStoragePath + "/" + activeScreen,
+                                        activeMonitors, installedListModel.absoluteStoragePath
+                                        + "/" + activeScreen,
                                         installedListModel.get(activeScreen).screenPreview,
                                         (Math.round(sliderVolume.value * 100) / 100),
                                         settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
                                             ), type)
                         } else {
                             screenPlay.createWallpaper(
-                                       activeMonitors[0], installedListModel.absoluteStoragePath + "/" + activeScreen,
+                                        activeMonitors[0], installedListModel.absoluteStoragePath
+                                        + "/" + activeScreen,
                                         installedListModel.get(activeScreen).screenPreview,
                                         (Math.round(sliderVolume.value * 100) / 100),
                                         settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
                                             ), type)
                         }
-
-
                     } else {
                         screenPlay.createWidget(
                                     installedListModel.absoluteStoragePath + "/" + activeScreen,
@@ -497,14 +435,6 @@ Item {
                 target: sliderVolumeWrapper
                 opacity: 1
             }
-            PropertyChanges {
-                target: txtComboBoxFillMode
-                opacity: 1
-            }
-            PropertyChanges {
-                target: settingsComboBox
-                opacity: 1
-            }
         },
         State {
             name: "inactive"
@@ -538,32 +468,11 @@ Item {
             }
 
             PropertyChanges {
-                target: headlineWrapper
-                opacity: 1
-                enabled: true
-            }
-            PropertyChanges {
                 target: btnSetWallpaper
                 text: qsTr("Set Widget")
             }
             PropertyChanges {
                 target: txtHeadlineMonitor
-                opacity: 0
-            }
-            PropertyChanges {
-                target: monitorSelectionWrapper
-                opacity: 0
-            }
-            PropertyChanges {
-                target: sliderVolumeWrapper
-                opacity: 0
-            }
-            PropertyChanges {
-                target: txtComboBoxFillMode
-                opacity: 0
-            }
-            PropertyChanges {
-                target: settingsComboBox
                 opacity: 0
             }
         },
@@ -579,12 +488,6 @@ Item {
                 opacity: 1
                 anchors.topMargin: 0
             }
-
-            PropertyChanges {
-                target: headlineWrapper
-                opacity: 1
-                enabled: true
-            }
             PropertyChanges {
                 target: btnSetWallpaper
                 text: qsTr("Set Scene")
@@ -594,20 +497,43 @@ Item {
                 opacity: 1
             }
             PropertyChanges {
-                target: monitorSelectionWrapper
+                target: sliderVolume
+                opacity: 0
+                visible: false
+            }
+        },
+        State {
+            name: "videoWallpaper"
+            PropertyChanges {
+                target: mouseAreaHelper
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: image
+                opacity: 1
+                anchors.topMargin: 0
+            }
+
+            PropertyChanges {
+                target: btnSetWallpaper
+                text: qsTr("Set Wallpaper")
+            }
+            PropertyChanges {
+                target: txtHeadlineMonitor
                 opacity: 1
             }
-            PropertyChanges {
-                target: sliderVolumeWrapper
-                opacity: 0
-            }
+
             PropertyChanges {
                 target: txtComboBoxFillMode
-                opacity: 0
+                opacity: 1
+                visible: true
             }
+
             PropertyChanges {
                 target: settingsComboBox
-                opacity: 0
+                opacity: 1
+                visible: true
             }
         }
     ]
@@ -708,6 +634,36 @@ Item {
                     }
                 }
             }
+        },
+        Transition {
+            to: "videoWallpaper"
+
+            SequentialAnimation {
+                NumberAnimation {
+                    target: sidebar
+                    properties: "anchors.rightMargin"
+                    duration: 250
+                    easing.type: Easing.OutQuart
+                }
+
+                ParallelAnimation {
+                    NumberAnimation {
+                        target: image
+                        property: "opacity"
+                        duration: 200
+                    }
+                    NumberAnimation {
+                        target: image
+                        property: "anchors.topMargin"
+                        duration: 100
+                    }
+                }
+            }
         }
     ]
 }
+
+/*##^## Designer {
+    D{i:0;autoSize:true;height:800;width:640}
+}
+ ##^##*/

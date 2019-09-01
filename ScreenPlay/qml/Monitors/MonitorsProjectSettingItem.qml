@@ -73,12 +73,7 @@ Item {
                     value: root.value
                     stepSize: root.stepSize
                     live: false
-                    anchors{
-                        left:parent.left
-                        verticalCenter: parent.verticalCenter
-                        right:txtSliderValue.left
-                        rightMargin: 10
-                    }
+                    width: parent.width
 
                     onValueChanged: {
                         var value = Math.round(slider.value * 100) / 100;

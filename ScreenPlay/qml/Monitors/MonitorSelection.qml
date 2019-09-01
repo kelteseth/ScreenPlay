@@ -3,30 +3,35 @@ import QtGraphicalEffects 1.0
 
 Rectangle {
     id: rect
-    color: background
-    radius: cornerRadius
 
     height: availableHeight
     width: availableWidth
 
-    property color background: "transparent"
-    property real cornerRadius: 0
     // Width of the Sidebar or Space that should be used
     property real availableWidth: 0
     property real availableHeight: 0
     property int fontSize: 12
-    property string activeMonitorID: "empty"
+
+    // We preselect the main monitor
+    property var activeMonitors:[0]
+
+    property alias background: rect.color
+    property alias radius: rect.radius
 
     signal requestProjectSettings(var at)
 
     function getActiveMonitors(){
-        let activeMonitors = [];
+        rect.activeMonitors = []
         for (var i = 0; i < rp.count; i++) {
+
              if(rp.itemAt(i).isSelected){
-                 activeMonitors.push(rp.itemAt(i).index)
+                 rect.activeMonitors.push(rp.itemAt(i).index)
              }
         }
-        return activeMonitors;
+        // Must be called manually. When QML properties are getting altered in js the
+        // property binding breaks
+        rect.activeMonitorsChanged()
+        return rect.activeMonitors
     }
 
 
@@ -84,6 +89,7 @@ Rectangle {
         }
 
         for (var i = 0; i < rp.count; i++) {
+            //print(rp.itemAt(i).index,rp.itemAt(i).height)
             rp.itemAt(i).index = i
             rp.itemAt(i).height = rp.itemAt(i).height * monitorHeightRationDelta
             rp.itemAt(i).width = rp.itemAt(i).width * monitorWidthRationDelta
@@ -117,8 +123,9 @@ Rectangle {
             previewImage: monitorPreviewImage
 
             onMonitorSelected: {
-                requestProjectSettings(index)
+                getActiveMonitors()
 
+                requestProjectSettings(index)
             }
         }
     }

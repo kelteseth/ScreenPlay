@@ -22,7 +22,7 @@ class WinWindow : public BaseWindow {
 
 
 public:
-    explicit WinWindow(const QVector<int>& activeScreensList, QString projectPath, QString id, QString volume);
+    explicit WinWindow(const QVector<int>& activeScreensList, QString projectPath, QString id, QString volume, const QString fillmode);
 
 public slots:
     void setVisible(bool show) override;

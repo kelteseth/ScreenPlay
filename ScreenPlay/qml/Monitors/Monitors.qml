@@ -131,7 +131,7 @@ Item {
                 }
             }
         }
-        Column {
+        ColumnLayout {
             id: videoControlWrapper
             anchors {
                 top: parent.top
@@ -142,17 +142,67 @@ Item {
                 left: itmLeftWrapper.right
             }
 
+
             SP.Slider {
                 headline: qsTr("Volume")
-                onValueChanged: screenPlay.setWallpaperValue(activeMonitorIndex,"volume", value)
+                onValueChanged: screenPlay.setWallpaperValue(
+                                    activeMonitorIndex, "volume", value)
+                Layout.fillWidth: true
             }
             SP.Slider {
                 headline: qsTr("Playback rate")
-                onValueChanged: screenPlay.setWallpaperValue(activeMonitorIndex,"playbackRate", value)
+                onValueChanged: screenPlay.setWallpaperValue(
+                                    activeMonitorIndex, "playbackRate", value)
+                Layout.fillWidth: true
             }
             SP.Slider {
                 headline: qsTr("Current Video Time")
-                onValueChanged: screenPlay.setWallpaperValue(activeMonitorIndex,"currentTime", value)
+                onValueChanged: screenPlay.setWallpaperValue(
+                                    activeMonitorIndex, "currentTime", value)
+                Layout.fillWidth: true
+            }
+            ColumnLayout {
+                height: 50
+                Layout.fillWidth: true
+                spacing: 5
+
+                Text {
+                    id: txtComboBoxFillMode
+                    text: qsTr("Fill Mode")
+                    font.family: "Roboto"
+                    verticalAlignment: Text.AlignVCenter
+                    font.pointSize: 10
+                    color: "#626262"
+                    wrapMode: Text.WrapAnywhere
+                    Layout.fillWidth: true
+                }
+                ComboBox {
+                    id: settingsComboBox
+                    Layout.fillWidth: true
+                    onActivated: {
+                        screenPlay.setWallpaperValue(
+                                    activeMonitorIndex, "fillmode",
+                                    settingsComboBox.currentText)
+                    }
+
+                    model: ListModel {
+                        ListElement {
+                            text: "Stretch"
+                        }
+                        ListElement {
+                            text: "Fill"
+                        }
+                        ListElement {
+                            text: "Contain"
+                        }
+                        ListElement {
+                            text: "Cover"
+                        }
+                        ListElement {
+                            text: "Scale-Down"
+                        }
+                    }
+                }
             }
         }
 

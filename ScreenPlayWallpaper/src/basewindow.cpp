@@ -121,6 +121,11 @@ void BaseWindow::messageReceived(QString key, QString value)
         return;
     }
 
+    if (key == "fillmode") {
+        setFillMode(QVariant(value).toString());
+        return;
+    }
+
     if (key == "currentTime") {
         bool ok;
         float tmp = value.toFloat(&ok);

@@ -2,14 +2,14 @@ import QtQuick 2.12
 import QtGraphicalEffects 1.0
 
 Item {
-    id:monitorSelectionItem
+    id: monitorSelectionItem
     property rect monitorSize: Qt.rect(0, 0, 0, 0)
     property string monitorModel
     property string monitorManufacturer
     property string monitorName
     property string monitorID
     property string previewImage
-    onPreviewImageChanged:  {
+    onPreviewImageChanged: {
         imgPreview.source = previewImage
         imgPreview.opacity = 1
     }
@@ -20,7 +20,7 @@ Item {
     property bool isWallpaperActive: false
     signal monitorSelected(var index)
     onMonitorSelected: {
-        if(isSelected){
+        if (isSelected) {
             isSelected = false
         } else {
             isSelected = true
@@ -30,24 +30,21 @@ Item {
     onIsSelectedChanged: {
         if (isSelected) {
             wrapper.border.color = "#F28E0D"
-
         } else {
             wrapper.border.color = "#373737"
         }
     }
 
     Text {
-        
         text: monitorSize.width + "x" + monitorSize.height
-        anchors{
+        anchors {
             horizontalCenter: parent.horizontalCenter
-            top:wrapper.bottom
+            top: wrapper.bottom
             topMargin: 5
         }
 
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        //color: "white"
         font.pointSize: monitorSelectionItem.fontSize
         font.family: "Roboto"
         wrapMode: Text.WrapAnywhere
@@ -61,26 +58,25 @@ Item {
         border.color: "#1e1e1e"
         border.width: 3
         radius: 3
-        clip:true
+        clip: true
 
         Image {
             id: imgPreview
-            sourceSize: Qt.size(parent.width,parent.height)
+            sourceSize: Qt.size(parent.width, parent.height)
             anchors.margins: 3
             opacity: 0
             anchors.fill: parent
             asynchronous: true
             fillMode: Image.PreserveAspectCrop
-
         }
 
         MouseArea {
             anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
             onClicked: {
                 monitorSelected(index)
             }
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
         }
     }
 }

@@ -93,6 +93,7 @@ Rectangle {
                 src += "videoSource.src = '" + window.fullContentPath + "';"
                 src += "videoPlayer.load();"
                 src += "videoPlayer.volume = " + window.volume + ";"
+                src += "videoPlayer.setAttribute('style', 'object-fit :" + window.fillMode + ";');"
                 src += "videoPlayer.play();"
 
                 webView.runJavaScript(src, function (result) {
@@ -215,6 +216,14 @@ Rectangle {
             newObject.destroy(10000)
         }
 
+
+        onFillModeChanged:{
+            if (webView.loadProgress === 100) {
+                webView.runJavaScript(
+                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.setAttribute('style', 'object-fit :" + window.fillMode + ";');")
+            }
+        }
+
         onLoopsChanged: {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
@@ -233,6 +242,13 @@ Rectangle {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.currentTime  = " + currentTime + " * videoPlayer.duration;")
+            }
+        }
+
+        onPlaybackRateChanged: {
+            if (webView.loadProgress === 100) {
+                webView.runJavaScript(
+                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.playbackRate  = " + playbackRate + ";")
             }
         }
 

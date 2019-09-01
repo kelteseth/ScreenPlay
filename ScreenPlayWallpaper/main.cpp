@@ -38,8 +38,8 @@ int main(int argc, char* argv[])
         list.append(0);
 
 #if defined(Q_OS_WIN)
-        WinWindow window(list, "test", "appid", "1");
-        //WinWindow window(list, "D:/672870/827874818", "appid", "1");
+        WinWindow window(list, "test", "appid", "1", "fill");
+        //WinWindow window(list, "D:/672870/827874818", "appid", "1", "fill");
 #endif
 #if defined(Q_OS_LINUX)
         LinuxWindow window(list, "test", "appid", "1");
@@ -85,11 +85,11 @@ int main(int argc, char* argv[])
         }
     }
 
-    // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (5) volume
+    // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (5) volume, (6) fillmode
     // See screenplay.h @ScreenPlayWallpaper constructor how the args get created
 
 #if defined(Q_OS_WIN)
-    WinWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(5));
+    WinWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(5), argumentList.at(6));
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &WinWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &WinWindow::messageReceived);
 #endif

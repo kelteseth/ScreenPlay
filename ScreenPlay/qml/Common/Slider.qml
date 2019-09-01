@@ -6,22 +6,21 @@ Item {
     id: sliderVolumeWrapperBottom
     height: 70
 
-    anchors {
-        left: parent.left
-        right: parent.right
-    }
-
     property string headline: "dummyHeandline"
     property string iconSource: "qrc:/assets/icons/icon_volume.svg"
     property alias value: slider.value
+
+    property alias from: slider.from
+    property alias to: slider.to
+    property alias stepSize: slider.stepSize
 
     Text {
         id: txtHeadline
         text: headline
         height: 20
-        font.pointSize: 14
+        font.pointSize: 10
         font.family: "Roboto"
-        color: "#5D5D5D"
+        color: "#626262"
 
         anchors {
             top: parent.top

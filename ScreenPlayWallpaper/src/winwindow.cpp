@@ -60,7 +60,7 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 }
 
-WinWindow::WinWindow(const QVector<int> &activeScreensList, QString projectPath, QString id, QString volume)
+WinWindow::WinWindow(const QVector<int> &activeScreensList, QString projectPath, QString id, QString volume, const QString fillmode)
     : BaseWindow(projectPath)
 {
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
@@ -76,6 +76,7 @@ WinWindow::WinWindow(const QVector<int> &activeScreensList, QString projectPath,
         qFatal("Could not parse volume");
     }
     setVolume(volumeParsed);
+    setFillMode(fillmode);
 
     if (!searchWorkerWindowToParentTo()) {
         qFatal("No worker window found");

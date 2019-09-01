@@ -25,6 +25,7 @@ public:
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
     Q_PROPERTY(bool canFade READ canFade WRITE setCanFade NOTIFY canFadeChanged)
+    Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
 
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
@@ -100,6 +101,11 @@ public:
         return m_canFade;
     }
 
+    QString fillMode() const
+    {
+        return m_fillMode;
+    }
+
 signals:
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
@@ -115,6 +121,8 @@ signals:
     void currentTimeChanged(float currentTime);
 
     void canFadeChanged(bool canFade);
+
+    void fillModeChanged(QString fillMode);
 
 public slots:
     virtual void destroyThis() {}
@@ -136,6 +144,8 @@ public slots:
     }
     void setVolume(float volume)
     {
+        if(volume < 0.0f || volume > 1.0f)
+            return;
 
         if (qFuzzyCompare(m_volume, volume))
             return;
@@ -153,7 +163,9 @@ public slots:
     }
     void setPlaybackRate(float playbackRate)
     {
-        qWarning("Floating point comparison needs context sanity check");
+        if(playbackRate < 0.0f || playbackRate > 1.0f)
+            return;
+
         if (qFuzzyCompare(m_playbackRate, playbackRate))
             return;
 
@@ -225,6 +237,27 @@ public slots:
         emit canFadeChanged(m_canFade);
     }
 
+    void setFillMode(QString fillMode)
+    {
+        if (m_fillMode == fillMode)
+            return;
+
+        QStringList availableFillModes {"Stretch", "Fill", "Contain", "Cover", "Scale-Down"};
+
+        if(!availableFillModes.contains(fillMode)) {
+            qWarning() << "Unable to set fillmode, the provided value did not match the available values"
+                       << "Provided: " << fillMode
+                       << "Available: " << availableFillModes;
+            return;
+        }
+
+
+        // Actual web fillmodes are lowercase
+        // https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
+        m_fillMode = fillMode.toLower();
+        emit fillModeChanged(m_fillMode);
+    }
+
 private:
     bool m_loops { true };
     bool m_isPlaying { true };
@@ -240,4 +273,5 @@ private:
 
     WallpaperType m_type = BaseWindow::WallpaperType::Qml;
     QString m_OSVersion;
+    QString m_fillMode;
 };
