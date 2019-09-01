@@ -1,15 +1,8 @@
 #include "sysinfo.h"
 
-SysInfo::SysInfo(QQuickItem *parent):
-    QQuickItem(parent)
+SysInfo::SysInfo(QQuickItem* parent)
+    : QQuickItem(parent)
+    , m_ram(std::make_unique<RAM>())
+    , m_cpu(std::make_unique<CPU>())
 {
-    // FIXME Elias 2018 QQmlEngine cannot handle smartpointers yet....
-    m_ram = new RAM();
-    m_cpu = new CPU();
-}
-
-SysInfo::~SysInfo()
-{
-    delete m_cpu;
-    delete m_ram;
 }

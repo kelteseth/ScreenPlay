@@ -1,30 +1,29 @@
 #pragma once
 
+#include <QQuickItem>
+#include <memory>
+
 #include "cpu.h"
 #include "ram.h"
-#include <QQuickItem>
-#include <QSharedPointer>
-#include <memory>
 
 class SysInfo : public QQuickItem {
     Q_OBJECT
-    Q_DISABLE_COPY(SysInfo)
 
     Q_PROPERTY(RAM* ram READ ram NOTIFY ramChanged)
     Q_PROPERTY(CPU* cpu READ cpu NOTIFY cpuChanged)
 
 public:
     SysInfo(QQuickItem* parent = nullptr);
-    ~SysInfo();
+    ~SysInfo(){}
 
     RAM* ram() const
     {
-        return m_ram;
+        return m_ram.get();
     }
 
     CPU* cpu() const
     {
-        return m_cpu;
+        return m_cpu.get();
     }
 
 public slots:
@@ -34,6 +33,6 @@ signals:
     void cpuChanged(CPU* cpu);
 
 private:
-    RAM* m_ram;
-    CPU* m_cpu;
+    std::unique_ptr<RAM> m_ram;
+    std::unique_ptr<CPU> m_cpu;
 };
