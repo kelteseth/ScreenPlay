@@ -99,8 +99,6 @@ public slots:
         } else {
             qDebug() << "### Message from: " << m_appID << "\n###" << msg;
         }
-        // TODO We now get all debug messages from apps here
-        // show them inside ScreenPlay somewhere
     }
 
     void close()
