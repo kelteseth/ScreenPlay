@@ -42,8 +42,11 @@ git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
         - Qt 5.13.0
             - MSVC 2017 64-bit
             - Qt WebEngine
-        - Tools
+        - Developer and Designer Tools
             - Qt Creator 4.x CDB Debugger Support
+            - OpenSSL 1.1.1.c Toolkit
+                - OpenSSL 64-bit binaries
+
 4. Start the vcpkg-install-dependencies.bat for the automatic dependencies management.
 
 
@@ -66,6 +69,9 @@ sudo zypper install -t pattern devel_basis
         - Qt 5.13.0 
             - GCC
             - Qt WebEngine
+        - Developer and Designer Tools
+            - OpenSSL 1.1.1.c Toolkit
+                - OpenSSL 64-bit binaries
 ### OSX
 1. Install XCode via the app store
 2. Launch XCode and install the XCode command line tools. (This may take a few minutes)
@@ -75,4 +81,7 @@ sudo zypper install -t pattern devel_basis
     - Select the following features to install:
         - Qt 5.13.0 
             - Qt WebEngine
+        - Developer and Designer Tools
+            - OpenSSL 1.1.1.c Toolkit
+                - OpenSSL 64-bit binaries
 4. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.13.0) -> Change c and c++ Compiler to Apple Clang (x86_64)
