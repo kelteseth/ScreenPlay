@@ -94,6 +94,24 @@ QString Util::generateRandomString(quint32 length)
     return randomString;
 }
 
+std::optional<QVersionNumber> Util::getVersionNumberFromString(const QString& str)
+{
+    // Must be: Major.Minor.Patch
+    bool okMajor { false };
+    bool okMinor { false };
+    bool okPatch { false };
+
+    int major = QString(str.at(0)).toInt(&okMajor);
+    int minor = QString(str.at(2)).toInt(&okMinor);
+    int patch = QString(str.at(4)).toInt(&okPatch);
+
+    if (okMajor && okMinor && okPatch) {
+        return std::nullopt;
+    }
+
+    return QVersionNumber(major, minor, patch);
+}
+
 void Util::setNavigation(QString nav)
 {
     emit requestNavigation(nav);
@@ -272,14 +290,14 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
     QByteArray line = "in line " + QByteArray::number(context.line) + ", ";
     QByteArray function = "function " + QByteArray(context.function) + ", Message: ";
 
-    QString log = "&emsp; <font color=\"#03A9F4\"> "+ QDateTime::currentDateTime().toString() +  "</font> &emsp; " + localMsg + "<br><br>";
+    QString log = "&emsp; <font color=\"#03A9F4\"> " + QDateTime::currentDateTime().toString() + "</font> &emsp; " + localMsg + "<br><br>";
 
     switch (type) {
     case QtDebugMsg:
         log.prepend("<b><font color=\"##78909C\"> Debug</font>:</b>");
         break;
     case QtInfoMsg:
-       log.prepend("<b><font color=\"#8BC34A\"> Info</font>:</b>");
+        log.prepend("<b><font color=\"#8BC34A\"> Info</font>:</b>");
         break;
     case QtWarningMsg:
         log.prepend("<b><font color=\"#FFC107\"> Warning</font>:</b>");
@@ -288,7 +306,7 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
         log.prepend("<b><font color=\"#FF5722\"> Critical</font>:</b>");
         break;
     case QtFatalMsg:
-       log.prepend("<b><font color=\"#F44336\"> Fatal</font>:</b>");
+        log.prepend("<b><font color=\"#F44336\"> Fatal</font>:</b>");
         break;
     }
 
@@ -313,5 +331,6 @@ bool Util::saveExtractedByteArray(libzippp::ZipEntry& entry, std::string& absolu
     ofUnzippedFile.close();
     return true;
 }
+
 
 }

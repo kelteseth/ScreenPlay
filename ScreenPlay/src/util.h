@@ -13,6 +13,7 @@
 #include <QDateTime>
 #include <QNetworkReply>
 #include <QProcess>
+#include <QVersionNumber>
 #include <qqml.h>
 
 #include <fstream>
@@ -82,6 +83,9 @@ signals:
 public slots:
     static std::optional<QJsonObject> openJsonFileToObject(const QString& path);
     static std::optional<QString> openJsonFileToString(const QString& path);
+
+    static std::optional<QVersionNumber> getVersionNumberFromString(const QString& str);
+
     static QString generateRandomString(quint32 length = 32);
 
     void setNavigation(QString nav);
