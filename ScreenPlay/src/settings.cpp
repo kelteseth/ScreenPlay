@@ -105,17 +105,12 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
 
     configObj = configJsonDocument.object();
 
-    QString tmp(configObj.value("version").toVariant().toString());
-
-    int major = QString(tmp.at(0)).toInt();
-    int minor = QString(tmp.at(2)).toInt();
-    int patch = QString(tmp.at(4)).toInt();
-    QVersionNumber fileVersion(major, minor, patch);
+    std::optional<QVersionNumber> version = Util::getVersionNumberFromString(configObj.value("version").toString());
 
     //Checks if the settings file has the same version as ScreeenPlay
-    if (fileVersion != m_version) {
+    if (version.has_value() && version.value() != m_version) {
         // TODO(Kelteseth): Display error message
-        qWarning() << "Version missmatch fileVersion: " << fileVersion.toString() << "m_version: " << m_version.toString();
+        qWarning() << "Version missmatch fileVersion: " << version.value().toString() << "m_version: " << m_version.toString();
         return;
     }
 
@@ -171,14 +166,7 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
     configTmp.close();
 }
 
-void Settings::saveWallpaperToConfig(const QVector<int> monitorIndex, const QUrl& absoluteStoragePath, const QString& type)
-{
 
-}
-
-void Settings::removeWallpaperFromConfig(const int monitorIndex)
-{
-}
 
 void Settings::setqSetting(const QString& key, const QString& value)
 {
