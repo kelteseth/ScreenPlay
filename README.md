@@ -7,8 +7,8 @@ ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widge
 Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="https://forum.screen-play.app/">Forum</a>
 <br> Visit our <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/"> Developer Documentation</a> and our <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/"> Getting Started Guide</a>!
 <br>
-<h3><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h3>
-
+<h4><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h4>
+<h5> <a href="https://www.twitch.tv/kelteseth/"> Tune in for a Twitch programming live stream every other day to learn about contributing!</a> </h5>
 </div>
 <br>
 
@@ -22,6 +22,7 @@ Everyone can contribute with code, design, documentation or translation. Visit o
 * If you want to help [translate](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/CONTRIBUTING.md#translation)
 * If you are a [programmer](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/CONTRIBUTING.md#development)
 * If you are a [designer](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/CONTRIBUTING.md#design)
+
 
 # Getting started
 
