@@ -23,9 +23,9 @@ struct ProjectSettingsListItem {
         m_value = value;
     }
     ProjectSettingsListItem() {}
-    ~ProjectSettingsListItem() {}
+
     QString m_name;
-    bool m_isHeadline;
+    bool m_isHeadline { false };
     QVariant m_value;
 };
 }

@@ -6,9 +6,7 @@ ProjectSettingsListModel::ProjectSettingsListModel(QString file, QObject* parent
     init(file);
 }
 
-ProjectSettingsListModel::ProjectSettingsListModel()
-{
-}
+
 
 int ProjectSettingsListModel::rowCount(const QModelIndex& parent) const
 {
@@ -18,8 +16,6 @@ int ProjectSettingsListModel::rowCount(const QModelIndex& parent) const
         return 0;
 
     return m_projectSettings.count();
-
-    // FIXME: Implement me!
 }
 
 QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) const
