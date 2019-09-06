@@ -10,8 +10,13 @@ Item {
     property string monitorID
     property string previewImage
     onPreviewImageChanged: {
-        imgPreview.source = previewImage
-        imgPreview.opacity = 1
+        if(previewImage === ""){
+            imgPreview.opacity = 0
+        } else {
+            imgPreview.source = Qt.resolvedUrl("file:///"+previewImage)
+            imgPreview.opacity = 1
+        }
+
     }
 
     property int fontSize: 10
