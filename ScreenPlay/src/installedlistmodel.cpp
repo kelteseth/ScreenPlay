@@ -17,7 +17,9 @@ InstalledListModel::InstalledListModel(QObject* parent)
 
 int InstalledListModel::rowCount(const QModelIndex& parent) const
 {
-    Q_UNUSED(parent)
+    if (parent.isValid())
+        return 0;
+
     return m_screenPlayFiles.count();
 }
 
