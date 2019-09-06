@@ -242,7 +242,9 @@ public slots:
         if (m_fillMode == fillMode)
             return;
 
-        QStringList availableFillModes {"Stretch", "Fill", "Contain", "Cover", "Scale-Down"};
+        fillMode = fillMode.toLower();
+
+        QStringList availableFillModes {"stretch", "fill", "contain", "cover", "scale-down"};
 
         if(!availableFillModes.contains(fillMode)) {
             qWarning() << "Unable to set fillmode, the provided value did not match the available values"
