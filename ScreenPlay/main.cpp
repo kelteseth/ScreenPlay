@@ -21,8 +21,7 @@
 #include "src/sdkconnector.h"
 #include "src/settings.h"
 
-using std::shared_ptr,
-    std::make_shared,
+using std::make_shared,
     ScreenPlay::Util,
     ScreenPlay::InstalledListModel,
     ScreenPlay::ScreenPlayManager,
@@ -43,8 +42,8 @@ int main(int argc, char* argv[])
     QGuiApplication::setApplicationVersion("0.3.0");
 
     QGuiApplication app(argc, argv);
-    app.setQuitOnLastWindowClosed(false);
-    app.setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
+    QGuiApplication::setQuitOnLastWindowClosed(false);
+    QGuiApplication::setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
     // Qt < 6.0 needs this init QtWebEngine
     QtWebEngine::initialize();
@@ -66,6 +65,7 @@ int main(int argc, char* argv[])
     QQmlApplicationEngine mainWindowEngine;
     Util util { mainWindowEngine.networkAccessManager() };
 
+    // This needs to change in the future because setContextProperty gets depricated in Qt 6
     mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
     mainWindowEngine.rootContext()->setContextProperty("utility", &util);
@@ -79,11 +79,7 @@ int main(int argc, char* argv[])
 
     // Instead of setting "renderType: Text.NativeRendering" every time
     // we can set it here once :)
-    auto* window = static_cast<QQuickWindow*>(mainWindowEngine.rootObjects().first());
-    if (!window)
-        qFatal("Could not receive window to set font rendering.");
-
-    window->setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
+    QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
     // Set visible if the -silent parameter was not set
     QStringList argumentList = app.arguments();
