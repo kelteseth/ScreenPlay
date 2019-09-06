@@ -61,10 +61,9 @@ int main(int argc, char* argv[])
 
     QString monitorNumbers = argumentList.at(1);
     QStringList activeScreensList = monitorNumbers.split(",");
-    qDebug() << activeScreensList;
+
     activeScreensList.removeAll(",");
     QVector<int> list;
-    qDebug() << activeScreensList;
 
     if (monitorNumbers.length() == 1) {
         bool canParseMonitorNumber = false;

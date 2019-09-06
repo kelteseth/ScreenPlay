@@ -50,7 +50,6 @@ struct ProjectFile {
     }
 
     ProjectFile() {}
-    ~ProjectFile() {}
 
     QVariant m_description;
     QVariant m_file;
@@ -61,7 +60,7 @@ struct ProjectFile {
     QUrl m_absoluteStoragePath;
     QString m_type;
     QJsonObject m_settings;
-    int m_workshopID;
+    int m_workshopID {0};
 
     QVariantList m_tags; //TODO: Implement me!
 };
