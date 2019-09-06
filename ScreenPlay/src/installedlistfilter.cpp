@@ -24,16 +24,15 @@ void InstalledListFilter::sortByRoleType(QString type)
     if (type == "All") {
         setFilterRole(InstalledListModel::InstalledRole::TitleRole);
         setFilterWildcard("*");
-    } else if (type == "Wallpaper") {
+    } else if (type == "Videos") {
         setFilterRole(InstalledListModel::InstalledRole::TypeRole);
-        setFilterWildcard("*Wallpaper");
+        setFilterFixedString("videoWallpaper");
     } else if (type == "Widgets") {
         setFilterRole(InstalledListModel::InstalledRole::TypeRole);
         setFilterWildcard("*Widget");
-    }
-    if (type == "Scenes") {
+    } else if (type == "Scenes") {
         setFilterRole(InstalledListModel::InstalledRole::TypeRole);
-        setFilterFixedString("qmlScene");
+        setFilterFixedString("qmlWallpaper");
     }
 
     sort(0);

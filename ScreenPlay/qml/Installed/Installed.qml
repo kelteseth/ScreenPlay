@@ -189,7 +189,7 @@ Item {
             navWidgets.state = "inactive"
             navScenes.state = "inactive"
         } else if (name === "Videos") {
-            installedListFilter.sortByRoleType("Wallpaper")
+            installedListFilter.sortByRoleType("Videos")
             navAll.state = "inactive"
             navWallpaper.state = "active"
             navWidgets.state = "inactive"
