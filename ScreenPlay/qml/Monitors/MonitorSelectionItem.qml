@@ -10,6 +10,7 @@ Item {
     property string monitorID
     property string previewImage
     onPreviewImageChanged: {
+        print(previewImage)
         if(previewImage === ""){
             imgPreview.opacity = 0
         } else {
@@ -22,7 +23,6 @@ Item {
     property int fontSize: 10
     property int index
     property bool isSelected: false
-    property bool isWallpaperActive: false
     signal monitorSelected(var index)
     onMonitorSelected: {
         if (isSelected) {
@@ -73,6 +73,13 @@ Item {
             anchors.fill: parent
             asynchronous: true
             fillMode: Image.PreserveAspectCrop
+        }
+
+        Text {
+            font.pointSize: 14
+            text: monitorSelectionItem.index
+            anchors.centerIn: parent
+            color: "white"
         }
 
         MouseArea {

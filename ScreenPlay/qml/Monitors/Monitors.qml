@@ -133,11 +133,11 @@ Item {
         }
         ColumnLayout {
             id: videoControlWrapper
+            spacing: 20
             anchors {
                 top: parent.top
                 topMargin: 60
                 right: parent.right
-                bottom: parent.bottom
                 margins: 30
                 left: itmLeftWrapper.right
             }

@@ -21,7 +21,7 @@ Item {
     }
 
     Connections {
-        target: screenPlaySettings
+        target: screenPlay
         onActiveWallpaperCounterChanged:{
             rippleEffect.trigger()
         }
@@ -40,7 +40,7 @@ Item {
 
         Text {
             id: txtAmountActiveWallpapers
-            text: screenPlaySettings.activeWallpaperCounter + screenPlaySettings.activeWidgetsCounter
+            text: screenPlay.activeWallpaperCounter + screenPlay.activeWidgetsCounter
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             color: "orange"
@@ -59,7 +59,7 @@ Item {
     Text {
         id: activeMonitorName
         text: {
-            if (screenPlaySettings.activeWallpaperCounter > 0) {
+            if (screenPlay.activeWallpaperCounter > 0) {
                 return qsTr("Configurate active Wallpaper or Widgets")
             } else {
                 return qsTr("No active Wallpaper or Widgets")

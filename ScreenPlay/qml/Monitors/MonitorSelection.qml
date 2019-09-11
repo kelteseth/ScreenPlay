@@ -20,6 +20,27 @@ Rectangle {
 
     signal requestProjectSettings(var at)
 
+    Component.onCompleted: {
+        resize()
+    }
+
+    Connections {
+        target: monitorListModel
+        onMonitorReloadCompleted: {
+            resize()
+        }
+    }
+
+    Connections {
+        target: screenPlay
+        onAllWallpaperRemoved: {
+            for (var i = 0; i < rp.count; i++) {
+                rp.itemAt(i).isSelected = false
+                rp.itemAt(i).previewImage = ""
+            }
+        }
+    }
+
     function getActiveMonitors(){
         rect.activeMonitors = []
         for (var i = 0; i < rp.count; i++) {
@@ -34,33 +55,8 @@ Rectangle {
         return rect.activeMonitors
     }
 
-
-    Component.onCompleted: {
-        resize()
-    }
-
-    Connections {
-        target: monitorListModel
-        onMonitorReloadCompleted: {
-            resize()
-        }
-        onSetNewActiveMonitor: {
-            rp.itemAt(index).previewImage = "file:///" + path.trim()
-            rp.itemAt(index).isSelected = true
-        }
-    }
-    Connections {
-        target: screenPlay
-        onAllWallpaperRemoved: {
-            for (var i = 0; i < rp.count; i++) {
-                rp.itemAt(i).isSelected = false
-                rp.itemAt(i).previewImage = ""
-            }
-        }
-    }
-
     function resize() {
-        //  Absolute availableVirtualGeometry
+
         var absoluteDesktopSize = monitorListModel.getAbsoluteDesktopSize()
         var isWidthGreaterThanHeight = false
         var windowsDelta = 0
@@ -89,12 +85,12 @@ Rectangle {
         }
 
         for (var i = 0; i < rp.count; i++) {
-            //print(rp.itemAt(i).index,rp.itemAt(i).height)
             rp.itemAt(i).index = i
             rp.itemAt(i).height = rp.itemAt(i).height * monitorHeightRationDelta
             rp.itemAt(i).width = rp.itemAt(i).width * monitorWidthRationDelta
             rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta
             rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta
+            print(rp.itemAt(i).index,rp.itemAt(i).x)
         }
     }
 
@@ -108,19 +104,18 @@ Rectangle {
 
         delegate: MonitorSelectionItem {
             id: delegate
-            height: monitorAvailableGeometry.height
-            width: monitorAvailableGeometry.width
-            x: monitorAvailableGeometry.x
-            y: monitorAvailableGeometry.y
-            monitorManufacturer: monitorManufacturer
-            monitorName: monitorName
-            monitorModel: monitorModel
-            monitorSize: monitorAvailableGeometry
-            monitorID: monitorID
+            monitorID: m_monitorID
+            monitorName: m_name
+            height: m_availableGeometry.height
+            width: m_availableGeometry.width
+            x: m_availableGeometry.x
+            y: m_availableGeometry.y
+            monitorManufacturer: m_manufacturer
+            monitorModel: m_model
+            monitorSize: m_availableGeometry
             fontSize: rect.fontSize
-            index: monitorNumber
-            //isWallpaperActive: monitorIsWallpaperActive
-            previewImage: monitorPreviewImage
+            index: m_number
+            previewImage: m_previewImage
 
             onMonitorSelected: {
                 getActiveMonitors()

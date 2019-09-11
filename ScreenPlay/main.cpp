@@ -43,11 +43,13 @@ int main(int argc, char* argv[])
     QGuiApplication::setApplicationVersion("0.3.0");
 
     QGuiApplication app(argc, argv);
+
     QGuiApplication::setQuitOnLastWindowClosed(false);
     QGuiApplication::setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
     // Qt < 6.0 needs this init QtWebEngine
     QtWebEngine::initialize();
+    QQmlApplicationEngine mainWindowEngine;
 
     auto globalVariables = make_shared<GlobalVariables>();
     auto installedListModel = make_shared<InstalledListModel>(globalVariables);
@@ -55,25 +57,21 @@ int main(int argc, char* argv[])
     auto monitorListModel = make_shared<MonitorListModel>();
     auto profileListModel = make_shared<ProfileListModel>(globalVariables);
     auto sdkConnector = make_shared<SDKConnector>();
-
-    // Create settings in the end because for now it depends on
-    // such things as the profile list model to complete
-    // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
-    auto settings = make_shared<Settings>(
-        installedListModel,
-        globalVariables);
-
-    ScreenPlayManager screenPlay(
-        globalVariables,
-        monitorListModel,
-        sdkConnector);
+    auto settings = make_shared<Settings>(globalVariables);
+    QObject::connect(settings.get(), &Settings::resetInstalledListmodel, installedListModel.get(), &InstalledListModel::reset);
 
     Create create(globalVariables);
-
-    QQmlApplicationEngine mainWindowEngine;
-    Util util { mainWindowEngine.networkAccessManager() };
+    Util util {
+        mainWindowEngine.networkAccessManager()
+    };
+    ScreenPlayManager screenPlay {
+        globalVariables,
+        monitorListModel,
+        sdkConnector
+    };
 
     // This needs to change in the future because setContextProperty gets depricated in Qt 6
+    mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("globalVariables"), globalVariables.get());
     mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("screenPlay"), &screenPlay);
     mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("screenPlayCreate"), &create);
     mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("utility"), &util);

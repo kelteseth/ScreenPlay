@@ -12,13 +12,10 @@
 
 namespace ScreenPlay {
 
-Settings::Settings(
-    const shared_ptr<InstalledListModel>& ilm,
-    const shared_ptr<GlobalVariables>& globalVariables,
+Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     QObject* parent)
     : QObject(parent)
     , m_version { QVersionNumber(1, 0, 0) }
-    , m_installedListModel { ilm }
     , m_globalVariables { globalVariables }
 {
     auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());

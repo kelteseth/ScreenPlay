@@ -12,10 +12,13 @@
 #include <QVector>
 
 #include "projectsettingslistmodel.h"
-//#include "screenplaywallpaper.h"
-//#include "screenplaywidget.h"
+#include "screenplaywallpaper.h"
+#include "screenplaywidget.h"
 
 #include <qt_windows.h>
+
+#include <memory>
+#include <optional>
 
 /*!
     \class Monitor List Model
@@ -27,55 +30,19 @@ namespace ScreenPlay {
 struct Monitor {
 
     Monitor(
-        const QString& manufacturer,
-        const QString& model,
-        const QString& name,
-        const QString& previewImage,
-        const QSize& size,
-        const QRect& availableGeometry,
         const int number,
-        const QRect& availableVirtualGeometry,
-        const QRect& geometry,
+        const QRect& availableGeometry,
         QScreen* screen)
     {
-        m_screen = screen;
-        m_name = name;
-        m_size = size;
-        m_geometry = geometry;
-        m_availableGeometry = availableGeometry;
-        m_manufacturer = manufacturer;
-        m_model = model;
-        m_availableVirtualGeometry = availableVirtualGeometry;
         m_number = number;
-        m_previewImage = previewImage;
-
-        // TODO 32: Use a better way to create an id
-        // because name and manufacturer are allways empty
-        m_monitorID = QString::number(size.width())
-            + "x" + QString::number(size.height())
-            + "_" + QString::number(availableGeometry.x())
-            + "x" + QString::number(availableGeometry.y());
+        m_availableGeometry = availableGeometry;
+        m_screen = screen;
     }
 
-    QString m_appID;
-    QString m_monitorID;
-    QString m_name;
-    QString m_manufacturer;
-    QString m_model;
-    QSize m_size;
-    QString m_previewImage;
-
     QRect m_availableGeometry;
-    QRect m_availableVirtualGeometry;
-    QRect m_geometry;
-
     int m_number { 0 };
-
-    bool m_isVirtualDesktop { false };
-    bool m_isLooping { true };
-    bool m_isWallpaperActive { false };
-
     QScreen* m_screen { nullptr };
+    std::shared_ptr<ScreenPlayWallpaper> m_activeWallpaper { nullptr };
 };
 
 class MonitorListModel : public QAbstractListModel {
@@ -83,6 +50,10 @@ class MonitorListModel : public QAbstractListModel {
 
 public:
     explicit MonitorListModel(QObject* parent = nullptr);
+
+    ~MonitorListModel(){
+        //m_monitorList.clear();
+    }
 
     enum class MonitorRole {
         AppID = Qt::UserRole,
@@ -96,7 +67,6 @@ public:
         Model,
         Manufacturer,
         PreviewImage,
-        IsWallpaperActive,
     };
     Q_ENUM(MonitorRole)
 
@@ -104,9 +74,10 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-    void setWallpaperActiveMonitor(const QVector<int> monitors,
-        const QString& appID,
-        const QString& fullPreviewImagePath);
+    void setWallpaperActiveMonitor(const std::shared_ptr<ScreenPlayWallpaper>& wallpaper,
+        const QVector<int> monitors);
+
+    std::optional<QString> getAppIDByMonitorIndex(const int index) const;
 
 signals:
     void monitorReloadCompleted();
@@ -114,30 +85,26 @@ signals:
     void monitorListChanged();
 
 public slots:
-    void reloadMonitors();
+    void reset();
     void clearActiveWallpaper();
 
     void screenAdded(QScreen* screen)
     {
         Q_UNUSED(screen)
         qDebug() << "screenAdded";
-        reloadMonitors();
+        reset();
     }
     void screenRemoved(QScreen* screen)
     {
         Q_UNUSED(screen)
         qDebug() << "screenRemoved";
-        reloadMonitors();
+        reset();
     }
 
-    QRect getAbsoluteDesktopSize()
+    QRect getAbsoluteDesktopSize() const
     {
-        return m_monitorList.at(0).m_availableVirtualGeometry;
-    }
-
-    QString getAppIDByMonitor(const int monitor)
-    {
-        return m_monitorList.at(monitor).m_appID;
+        auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
+        return app->screens().at(0)->availableVirtualGeometry();
     }
 
 private:

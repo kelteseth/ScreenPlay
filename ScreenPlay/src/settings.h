@@ -25,16 +25,11 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QtGlobal>
 
-#include <memory>
-
 #include "globalvariables.h"
-#include "installedlistmodel.h"
-#include "monitorlistmodel.h"
-#include "profile.h"
-#include "profilelistmodel.h"
-#include "projectsettingslistmodel.h"
-#include "sdkconnector.h"
 #include "util.h"
+
+#include <memory>
+#include <optional>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
@@ -60,7 +55,6 @@ class Settings : public QObject {
 
 public:
     explicit Settings(
-        const shared_ptr<InstalledListModel>& ilm,
         const shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
     ~Settings() {}
@@ -120,6 +114,7 @@ signals:
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
     void offlineModeChanged(bool offlineMode);
     void gitBuildHashChanged(QString gitBuildHash);
+    void resetInstalledListmodel();
 
 public slots:
     void writeSingleSettingConfig(QString name, QVariant value);
@@ -179,8 +174,7 @@ public slots:
         writeSingleSettingConfig("absoluteStoragePath", cleanedPath);
 
         m_globalVariables->setLocalStoragePath(cleanedPath.toString());
-        m_installedListModel->reset();
-        m_installedListModel->loadInstalledContent();
+        emit resetInstalledListmodel();
     }
 
     void setDecoder(QString decoder)
@@ -230,7 +224,6 @@ private:
     QSettings m_qSettings;
     QTranslator m_translator;
 
-    const shared_ptr<InstalledListModel>& m_installedListModel;
     const shared_ptr<GlobalVariables>& m_globalVariables;
 
     bool m_pauseWallpaperWhenIngame { true };

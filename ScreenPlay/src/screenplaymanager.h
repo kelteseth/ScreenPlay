@@ -16,6 +16,8 @@
 #include "sdkconnector.h"
 #include "util.h"
 
+#include <memory>
+
 /*!
     \class ScreenPlay
     \brief Used for Creation of Wallpaper, Scenes and Widgets
@@ -101,7 +103,7 @@ public slots:
 
     void closeAllConnections();
     void requestProjectSettingsListModelAt(const int index);
-    void setWallpaperValue(const QString& appID, const QString& key, const QString& value);
+    void setWallpaperValue(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
     void removeWallpaperAt(const int at = 0);
     void monitorListChanged();
@@ -134,8 +136,8 @@ private:
     const shared_ptr<MonitorListModel>& m_monitorListModel;
     const shared_ptr<SDKConnector>& m_sdkconnector;
 
-    vector<unique_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
-    vector<unique_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
+    QVector<shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
+    QVector<shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
     int m_activeWallpaperCounter { 0 };
     int m_activeWidgetsCounter { 0 };
 };

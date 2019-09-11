@@ -21,7 +21,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     , m_globalVariables { globalVariables }
     , m_screenNumber { screenNumber }
     , m_projectPath { projectPath }
-    , m_previewImage { previewImage }
+    , m_previewImage { QString { projectPath + "/" + previewImage } }
     , m_type { type }
     , m_appID { appID }
 {
@@ -55,7 +55,6 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         tmpScreenNumber,
         m_projectPath,
         QString { "appID=" + m_appID },
-        "",
         QString::number(static_cast<double>(volume)),
         fillMode
     };

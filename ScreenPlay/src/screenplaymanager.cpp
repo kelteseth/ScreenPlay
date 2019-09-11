@@ -11,7 +11,7 @@ ScreenPlayManager::ScreenPlayManager(const shared_ptr<GlobalVariables>& globalVa
     , m_monitorListModel { mlm }
     , m_sdkconnector { sdkc }
 {
-    loadActiveProfiles();
+    //loadActiveProfiles();
     QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorListChanged, this, &ScreenPlayManager::monitorListChanged);
 }
 
@@ -31,22 +31,19 @@ void ScreenPlayManager::createWallpaper(
 
     std::sort(monitorIndex.begin(), monitorIndex.end());
 
-    m_screenPlayWallpapers.emplace_back(
-        make_unique<ScreenPlayWallpaper>(
-            monitorIndex,
-            m_globalVariables,
-            Util::generateRandomString(),
-            path,
-            previewImage,
-            volume,
-            fillMode,
-            type,
-            this));
-
-    m_monitorListModel->setWallpaperActiveMonitor(
+    auto wallpaper = make_shared<ScreenPlayWallpaper>(
         monitorIndex,
-        m_screenPlayWallpapers.back()->appID(),
-        QString { path + "/" + previewImage });
+        m_globalVariables,
+        Util::generateRandomString(),
+        path,
+        previewImage,
+        volume,
+        fillMode,
+        type,
+        this);
+    m_screenPlayWallpapers.append(wallpaper);
+
+    m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
 
     QJsonObject settings;
     settings.insert("monitors", QJsonArray {});
@@ -63,7 +60,7 @@ void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QStr
 
     increaseActiveWidgetsCounter();
 
-    m_screenPlayWidgets.emplace_back(
+    m_screenPlayWidgets.append(
         make_unique<ScreenPlayWidget>(
             Util::generateRandomString(),
             m_globalVariables,
@@ -75,7 +72,7 @@ void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QStr
 
 void ScreenPlayManager::closeWallpaper(const QVector<int> screenNumber)
 {
-    for (unique_ptr<ScreenPlayWallpaper>& wallpaper : m_screenPlayWallpapers) {
+    for (shared_ptr<ScreenPlayWallpaper>& wallpaper : m_screenPlayWallpapers) {
         if (wallpaper->screenNumber() == screenNumber) {
         }
     }
@@ -97,7 +94,7 @@ void ScreenPlayManager::closeAllConnections()
 
 void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
 {
-    for (const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
+    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
         if (!uPtrWallpaper->screenNumber().empty() && uPtrWallpaper->screenNumber()[0] == index) {
             emit projectSettingsListModelFound(
                 uPtrWallpaper->projectSettingsListModel().get(),
@@ -108,26 +105,16 @@ void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
     emit projectSettingsListModelNotFound();
 }
 
-void ScreenPlayManager::setWallpaperValue(const QString& appID, const QString& key, const QString& value)
+void ScreenPlayManager::setWallpaperValue(const int index, const QString& key, const QString& value)
 {
-    //    for (const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
-    //        if (uPtrWallpaper->screenNumber().empty())
-    //            continue;
-
-    //        //         for (const int number : uPtrWallpaper->screenNumber()) {
-    //        //             if()
-    //        //         }
-
-    //        if (uPtrWallpaper->screenNumber()[0] == at) {
-    //            m_sdkconnector->setWallpaperValue(uPtrWallpaper->appID(), key, value);
-    //            return;
-    //        }
-    //    }
+    if(auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)){
+        m_sdkconnector->setWallpaperValue(appID.value(), key, value);
+    }
 }
 
 void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
 {
-    for (const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
+    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
         m_sdkconnector->setWallpaperValue(uPtrWallpaper->appID(), key, value);
     }
 }
@@ -139,7 +126,7 @@ void ScreenPlayManager::removeWallpaperAt(int at)
 
     const auto wallsToRemove = remove_if(
         m_screenPlayWallpapers.begin(), m_screenPlayWallpapers.end(),
-        [&](const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper) -> bool {
+        [&](const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper) -> bool {
             const QVector<int>& screenNumber = uPtrWallpaper->screenNumber();
             const bool isFound = !screenNumber.empty() && screenNumber[0] == at;
             if (isFound) {
