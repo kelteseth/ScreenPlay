@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.3
+import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 
@@ -17,6 +17,11 @@ Item {
         pageInstalled.state = "in"
         installedListFilter.sortByRoleType("All")
         checkIsContentInstalled()
+    }
+
+    Action {
+        shortcut: "F5"
+        onTriggered:  installedListModel.reset()
     }
 
     Connections {
@@ -157,7 +162,6 @@ Item {
             //Pull to refresh
             if (contentY <= -180 && !refresh && !isDragging) {
                 installedListModel.reset()
-                installedListModel.loadInstalledContent()
             }
         }
 

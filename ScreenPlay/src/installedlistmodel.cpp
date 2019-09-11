@@ -166,6 +166,7 @@ void InstalledListModel::reset()
     m_screenPlayFiles.squeeze();
     setCount(0);
     endResetModel();
+    loadInstalledContent();
 }
 
 void InstalledListModel::init()
