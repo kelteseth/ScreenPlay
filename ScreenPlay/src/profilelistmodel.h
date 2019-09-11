@@ -10,6 +10,10 @@
 #include <QUrl>
 #include <QVector>
 
+#include "globalvariables.h"
+
+#include <memory>
+
 /*!
     \class Profile List Model
     \brief Use to save all active wallpapers and widgets position and configurations after a restart
@@ -18,13 +22,18 @@
 
 */
 namespace ScreenPlay {
+
+using std::shared_ptr;
+
 struct Profile;
 
 class ProfileListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    explicit ProfileListModel(QObject* parent = nullptr);
+    explicit ProfileListModel(
+        const shared_ptr<GlobalVariables>& globalVariables,
+        QObject* parent = nullptr);
 
     enum RoleNames {
         NameRole = Qt::UserRole,
@@ -35,10 +44,10 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     virtual QHash<int, QByteArray> roleNames() const override;
     bool getProfileByName(QString id, Profile* profile);
-    QUrl m_localStoragePath;
     void append(const Profile& profile);
 
 private:
     QVector<Profile> m_profileList;
+    const shared_ptr<GlobalVariables>& m_globalVariables;
 };
 }

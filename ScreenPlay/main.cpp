@@ -12,14 +12,15 @@
 #include <memory>
 
 #include "src/create.h"
+#include "src/globalvariables.h"
 #include "src/installedlistfilter.h"
 #include "src/installedlistmodel.h"
 #include "src/monitorlistmodel.h"
 #include "src/profilelistmodel.h"
-#include "src/util.h"
 #include "src/screenplaymanager.h"
 #include "src/sdkconnector.h"
 #include "src/settings.h"
+#include "src/util.h"
 
 using std::make_shared,
     ScreenPlay::Util,
@@ -48,34 +49,40 @@ int main(int argc, char* argv[])
     // Qt < 6.0 needs this init QtWebEngine
     QtWebEngine::initialize();
 
-    auto installedListModel = make_shared<InstalledListModel>();
+    auto globalVariables = make_shared<GlobalVariables>();
+    auto installedListModel = make_shared<InstalledListModel>(globalVariables);
     auto installedListFilter = make_shared<InstalledListFilter>(installedListModel);
     auto monitorListModel = make_shared<MonitorListModel>();
-    auto profileListModel = make_shared<ProfileListModel>();
+    auto profileListModel = make_shared<ProfileListModel>(globalVariables);
     auto sdkConnector = make_shared<SDKConnector>();
 
     // Create settings in the end because for now it depends on
     // such things as the profile list model to complete
     // It will also set the m_absoluteStoragePath in  profileListModel and installedListModel
-    auto settings = make_shared<Settings>(installedListModel, profileListModel, monitorListModel, sdkConnector);
+    auto settings = make_shared<Settings>(
+        installedListModel,
+        globalVariables);
 
-    ScreenPlayManager screenPlay(installedListModel, settings, monitorListModel, sdkConnector, profileListModel);
-    Create create(settings);
+    ScreenPlayManager screenPlay(
+        globalVariables,
+        monitorListModel,
+        sdkConnector);
+
+    Create create(globalVariables);
 
     QQmlApplicationEngine mainWindowEngine;
     Util util { mainWindowEngine.networkAccessManager() };
 
     // This needs to change in the future because setContextProperty gets depricated in Qt 6
-    mainWindowEngine.rootContext()->setContextProperty("screenPlay", &screenPlay);
-    mainWindowEngine.rootContext()->setContextProperty("screenPlayCreate", &create);
-    mainWindowEngine.rootContext()->setContextProperty("utility", &util);
-    mainWindowEngine.rootContext()->setContextProperty("installedListFilter", installedListFilter.get());
-    mainWindowEngine.rootContext()->setContextProperty("monitorListModel", monitorListModel.get());
-    mainWindowEngine.rootContext()->setContextProperty("installedListModel", installedListModel.get());
-    mainWindowEngine.rootContext()->setContextProperty("profileListModel", profileListModel.get());
-    mainWindowEngine.rootContext()->setContextProperty("screenPlaySettings", settings.get());
+    mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("screenPlay"), &screenPlay);
+    mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("screenPlayCreate"), &create);
+    mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("utility"), &util);
+    mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("installedListFilter"), installedListFilter.get());
+    mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("monitorListModel"), monitorListModel.get());
+    mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("installedListModel"), installedListModel.get());
+    mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("profileListModel"), profileListModel.get());
+    mainWindowEngine.rootContext()->setContextProperty(QStringLiteral("screenPlaySettings"), settings.get());
     mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
-
 
     // Instead of setting "renderType: Text.NativeRendering" every time
     // we can set it here once :)

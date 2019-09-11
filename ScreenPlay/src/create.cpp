@@ -10,9 +10,9 @@
             - This class would need to be refactored to be used in more creation types.
 */
 namespace ScreenPlay {
-Create::Create(const shared_ptr<Settings>& settings, QObject* parent)
+Create::Create(const shared_ptr<GlobalVariables>& globalVariables, QObject* parent)
     : QObject(parent)
-    , m_settings(settings)
+    , m_globalVariables(globalVariables)
 
 {
     qRegisterMetaType<CreateImportVideo::ImportVideoState>("CreateImportVideo::ImportVideoState");
@@ -23,7 +23,7 @@ Create::Create(const shared_ptr<Settings>& settings, QObject* parent)
 // Constructor for the QMLEngine
 Create::Create()
     : QObject(nullptr)
-    , m_settings(nullptr)
+    , m_globalVariables(nullptr)
 {
     qRegisterMetaType<CreateImportVideo::ImportVideoState>("CreateImportVideo::ImportVideoState");
     qmlRegisterUncreatableType<ScreenPlay::CreateImportVideo>("ScreenPlay.Create", 1, 0, "CreateImportVideo", "Error only for enums");
@@ -35,7 +35,7 @@ void Create::createWallpaperStart(QString videoPath)
     videoPath.remove("file:///");
 
     QDir dir;
-    dir.cd(m_settings->localStoragePath().toLocalFile());
+    dir.cd(m_globalVariables->localStoragePath().toLocalFile());
 
     // Create a temp dir so we can later alter it to the workshop id
     auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
@@ -49,7 +49,6 @@ void Create::createWallpaperStart(QString videoPath)
 
     m_createImportVideoThread = new QThread();
     m_createImportVideo = new CreateImportVideo(videoPath, workingDir());
-
 
     connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged);
     connect(m_createImportVideo, &CreateImportVideo::progressChanged, this, &Create::setProgress);
@@ -75,8 +74,8 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     // our default "preview.jpg" name. QFile::copy does no override exsisting files
     // so we need to delete them first
     QFile userSelectedPreviewImage(previewImagePath);
-    if(userSelectedPreviewImage.fileName() == "preview.jpg"){
-        if(!userSelectedPreviewImage.remove()){
+    if (userSelectedPreviewImage.fileName() == "preview.jpg") {
+        if (!userSelectedPreviewImage.remove()) {
             qDebug() << "Could remove" << previewImagePath;
             emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFilesError);
         }
@@ -153,8 +152,8 @@ void Create::abortAndCleanup()
         return;
     }
 
-//    disconnect(m_createImportVideo);
-//    disconnect(m_createImportVideoThread);
+    //    disconnect(m_createImportVideo);
+    //    disconnect(m_createImportVideoThread);
 
     // Save to export path before aborting to be able to cleanup the tmp folder
     QString tmpExportPath = m_createImportVideo->m_exportPath;

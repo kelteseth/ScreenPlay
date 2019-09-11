@@ -12,17 +12,14 @@
 
 namespace ScreenPlay {
 
-Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
-    const shared_ptr<ProfileListModel>& plm,
-    const shared_ptr<MonitorListModel>& mlm,
-    const shared_ptr<SDKConnector>& sdkc,
+Settings::Settings(
+    const shared_ptr<InstalledListModel>& ilm,
+    const shared_ptr<GlobalVariables>& globalVariables,
     QObject* parent)
     : QObject(parent)
     , m_version { QVersionNumber(1, 0, 0) }
-    , m_profileListModel { plm }
     , m_installedListModel { ilm }
-    , m_monitorListModel { mlm }
-    , m_sdkconnector { sdkc }
+    , m_globalVariables { globalVariables }
 {
     auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
 
@@ -66,7 +63,8 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     }
 
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    m_localSettingsPath = QUrl::fromUserInput(appConfigLocation);
+     m_globalVariables->setLocalSettingsPath(QUrl::fromUserInput(appConfigLocation));
+
     if (!QDir(appConfigLocation).exists()) {
         if (!QDir().mkpath(appConfigLocation)) {
             qWarning("ERROR: Cloud not create appConfigLocation dir");
@@ -124,18 +122,15 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
         steamTmpUrl.cd("content");
         steamTmpUrl.cd("672870");
 
-        m_localStoragePath = steamTmpUrl.path();
+        m_globalVariables->setLocalStoragePath(steamTmpUrl.path());
     } else {
-        m_localStoragePath = QUrl::fromUserInput(configObj.value("absoluteStoragePath").toString());
-    }
+        m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(configObj.value("absoluteStoragePath").toString()));
+     }
 
-    if (m_qSettings.value("ScreenPlayContentPath").toUrl() != m_localStoragePath) {
-        m_qSettings.setValue("ScreenPlayContentPath", QDir::toNativeSeparators(m_localStoragePath.toString().remove("file:///")));
+    if (m_qSettings.value("ScreenPlayContentPath").toUrl() != m_globalVariables->localStoragePath()) {
+        m_qSettings.setValue("ScreenPlayContentPath", QDir::toNativeSeparators( m_globalVariables->localStoragePath().toString().remove("file:///")));
         m_qSettings.sync();
     }
-
-    m_installedListModel->setabsoluteStoragePath(m_localStoragePath);
-    m_profileListModel->m_localStoragePath = m_localStoragePath;
 
     m_autostart = configObj.value("autostart").toBool();
     m_highPriorityStart = configObj.value("highPriorityStart").toBool();
@@ -144,10 +139,9 @@ Settings::Settings(const shared_ptr<InstalledListModel>& ilm,
     setupWidgetAndWindowPaths();
 }
 
-
 void Settings::writeSingleSettingConfig(QString name, QVariant value)
 {
-    QString filename = m_localSettingsPath.toLocalFile() + "/settings.json";
+    QString filename = m_globalVariables->localSettingsPath().toLocalFile() + "/settings.json";
     auto obj = Util::openJsonFileToObject(filename);
 
     if (!obj.has_value()) {
@@ -166,8 +160,6 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
     configTmp.close();
 }
 
-
-
 void Settings::setqSetting(const QString& key, const QString& value)
 {
     m_qSettings.setValue(key, value);
@@ -177,7 +169,7 @@ void Settings::setqSetting(const QString& key, const QString& value)
 void Settings::createDefaultConfig()
 {
 
-    QFile file(m_localSettingsPath.toLocalFile() + "/settings.json");
+    QFile file(m_globalVariables->localSettingsPath().toLocalFile() + "/settings.json");
     QFile defaultSettings(":/settings.json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -195,7 +187,7 @@ void Settings::createDefaultConfig()
 void Settings::createDefaultProfiles()
 {
 
-    QFile file(m_localSettingsPath.toLocalFile() + "/profiles.json");
+    QFile file(m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json");
     QFile defaultSettings(":/profiles.json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -212,59 +204,56 @@ void Settings::createDefaultProfiles()
 
 void Settings::setupWidgetAndWindowPaths()
 {
-    QDir SPWorkingDir(QDir::currentPath());
-    QDir SPBaseDir(QDir::currentPath());
+    QDir workingDir(QDir::currentPath());
+    QDir baseDir(QDir::currentPath());
 
 #ifdef QT_DEBUG
 
-    if (SPWorkingDir.cdUp()) {
+    if (workingDir.cdUp()) {
+
 #ifdef Q_OS_OSX
-        setScreenPlayWallpaperPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWallpaper/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
-        setScreenPlayWidgetPath(QUrl::fromUserInput(SPWorkingDir.path() + "/../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
-        qDebug() << "Setting ScreenPlayWallpaper Path to " << settings.getScreenPlayWallpaperPath();
-        qDebug() << "Setting ScreenPlayWdiget Path to " << settings.getScreenPlayWidgetPath();
+        m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
+        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../ScreenPlayWallpaper/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
 #endif
 
 #ifdef Q_OS_WIN
-        setScreenPlayWallpaperPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWallpaper/debug/ScreenPlayWallpaper.exe"));
-        setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
+        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
+        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper/debug/ScreenPlayWallpaper.exe"));
 #endif
+
     }
 
     // We need to detect the right base path so we can copy later the example projects
-    SPBaseDir.cdUp();
-    SPBaseDir.cdUp();
-    SPBaseDir.cd("ScreenPlay");
-    SPBaseDir.cd("ScreenPlay");
-    setScreenPlayBasePath(QUrl(SPBaseDir.path()));
+    baseDir.cdUp();
+    baseDir.cdUp();
+    baseDir.cd("ScreenPlay");
+    baseDir.cd("ScreenPlay");
 #endif
 #ifdef QT_NO_DEBUG
     qDebug() << "Starting in Release mode!";
-    setScreenPlayBasePath(QUrl(SPWorkingDir.path()));
 
     // If we build in the release version we must be cautious!
     // The working dir in steam is the ScreenPlay.exe location
     // In QtCreator is the dir above ScreenPlay.exe (!)
 
-    SPWorkingDir.cdUp();
-    SPWorkingDir.cd("ScreenPlayWallpaper");
+    workingDir.cdUp();
+    workingDir.cd("ScreenPlayWallpaper");
 
-    if (QDir(SPWorkingDir.path() + "/release").exists()) {
+    if (QDir(workingDir.path() + "/release").exists()) {
         // If started by QtCreator
-        SPWorkingDir.cd("release");
-        setScreenPlayWallpaperPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWallpaper.exe"));
-        SPWorkingDir.cdUp();
-        SPWorkingDir.cdUp();
-        SPWorkingDir.cd("ScreenPlayWidget");
-        SPWorkingDir.cd("release");
-        setScreenPlayWidgetPath(QUrl(SPWorkingDir.path() + "/ScreenPlayWidget.exe"));
+        workingDir.cd("release");
+        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper.exe"));
+        workingDir.cdUp();
+        workingDir.cdUp();
+        workingDir.cd("ScreenPlayWidget");
+        workingDir.cd("release");
+        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget.exe"));
     } else {
         // If started by Steam
-        setScreenPlayWallpaperPath(QUrl("ScreenPlayWallpaper.exe"));
-        setScreenPlayWidgetPath(QUrl("ScreenPlayWidget.exe"));
+        m_globalVariables->setWallpaperExecutablePath(QUrl("ScreenPlayWallpaper.exe"));
+        m_globalVariables->setWidgetExecutablePath(QUrl("ScreenPlayWidget.exe"));
     }
 #endif
 }
-
 
 }

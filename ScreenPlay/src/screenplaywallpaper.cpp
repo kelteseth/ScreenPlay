@@ -6,8 +6,9 @@
 */
 namespace ScreenPlay {
 
-ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
-    const shared_ptr<Settings>& settings,
+ScreenPlayWallpaper::ScreenPlayWallpaper(
+    const QVector<int>& screenNumber,
+    const shared_ptr<GlobalVariables>& globalVariables,
     const QString& appID,
     const QString& projectPath,
     const QString& previewImage,
@@ -17,12 +18,12 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     QObject* parent)
     : QObject(parent)
     , m_projectSettingsListModel { make_shared<ProjectSettingsListModel>(projectPath + "/project.json") }
+    , m_globalVariables { globalVariables }
     , m_screenNumber { screenNumber }
     , m_projectPath { projectPath }
     , m_previewImage { previewImage }
-    , m_appID { appID }
     , m_type { type }
-    , m_settings { settings }
+    , m_appID { appID }
 {
 
     QObject::connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
@@ -62,7 +63,8 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     qDebug() << "Creating ScreenPlayWallpaper " << proArgs;
 
     m_process.setArguments(proArgs);
-    m_process.setProgram(m_settings->screenPlayWallpaperPath().toString());
+    m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
     m_process.startDetached();
 }
+
 }

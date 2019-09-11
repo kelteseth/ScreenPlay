@@ -8,8 +8,11 @@
 
 namespace ScreenPlay {
 
-InstalledListModel::InstalledListModel(QObject* parent)
+InstalledListModel::InstalledListModel(
+    const shared_ptr<GlobalVariables>& globalVariables,
+    QObject* parent)
     : QAbstractListModel(parent)
+    , m_globalVariables { globalVariables }
 {
     QObject::connect(this, &InstalledListModel::addInstalledItem,
         this, &InstalledListModel::append, Qt::QueuedConnection);
@@ -77,7 +80,7 @@ void InstalledListModel::append(const QJsonObject& obj, const QString& folderNam
 
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
 
-    m_screenPlayFiles.append(ProjectFile(obj, folderName, m_absoluteStoragePath));
+    m_screenPlayFiles.append(ProjectFile(obj, folderName, m_globalVariables->localStoragePath()));
     setCount((m_count + 1));
     endInsertRows();
 }
@@ -89,11 +92,11 @@ void InstalledListModel::loadInstalledContent()
         QJsonDocument jsonProject;
         QJsonParseError parseError;
 
-        QFileInfoList list = QDir(m_absoluteStoragePath.toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
+        QFileInfoList list = QDir(m_globalVariables->localStoragePath().toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
         QString tmpPath;
 
         for (auto&& item : list) {
-            tmpPath = m_absoluteStoragePath.toLocalFile() + "/" + item.baseName() + "/project.json";
+            tmpPath = m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json";
 
             if (!QFile(tmpPath).exists())
                 continue;
@@ -167,8 +170,8 @@ void InstalledListModel::reset()
 
 void InstalledListModel::init()
 {
-    if (!m_fileSystemWatcher.addPath(m_absoluteStoragePath.toLocalFile())) {
-        qWarning() << "Could not setup file system watcher for changed files with path: " << m_absoluteStoragePath.toLocalFile();
+    if (!m_fileSystemWatcher.addPath(m_globalVariables->localStoragePath().toLocalFile())) {
+        qWarning() << "Could not setup file system watcher for changed files with path: " << m_globalVariables->localStoragePath().toLocalFile();
     }
 
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, [this](const QString& path) {

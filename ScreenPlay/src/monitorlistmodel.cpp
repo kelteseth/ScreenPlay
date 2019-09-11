@@ -4,41 +4,35 @@ namespace ScreenPlay {
 
 MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
-    , m_qGuiApplication(static_cast<QGuiApplication*>(QGuiApplication::instance()))
 {
     loadMonitors();
 
-    connect(m_qGuiApplication, &QGuiApplication::screenAdded, this, &MonitorListModel::screenAdded);
-    connect(m_qGuiApplication, &QGuiApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
+    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
+    connect(guiAppInst, &QGuiApplication::screenAdded, this, &MonitorListModel::screenAdded);
+    connect(guiAppInst, &QGuiApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
 }
 
 QHash<int, QByteArray> MonitorListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles {
-        { IDRole, "monitorID" },
-        { NameRole, "monitorName" },
-        { SizeRole, "monitorSize" },
-        { AvailableGeometryRole, "monitorAvailableGeometry" },
-        { AvailableVirtualGeometryRole, "monitorAvailableVirtualGeometry" },
-        { NumberRole, "monitorNumber" },
-        { GeometryRole, "monitorGeometry" },
-        { ModelRole, "monitorModel" },
-        { ManufacturerRole, "monitorManufacturer" },
-        { IsWallpaperActiveRole, "monitorIsWallpaperActive" },
-        { PreviewImageRole, "monitorPreviewImage" },
+        { static_cast<int>(MonitorRole::AppID), "m_appID" },
+        { static_cast<int>(MonitorRole::MonitorID), "m_monitorID" },
+        { static_cast<int>(MonitorRole::Name), "m_name" },
+        { static_cast<int>(MonitorRole::Size), "m_size" },
+        { static_cast<int>(MonitorRole::AvailableGeometry), "m_availableGeometry" },
+        { static_cast<int>(MonitorRole::AvailableVirtualGeometry), "m_availableVirtualGeometry" },
+        { static_cast<int>(MonitorRole::Number), "m_number" },
+        { static_cast<int>(MonitorRole::Geometry), "m_geometry" },
+        { static_cast<int>(MonitorRole::Model), "m_model" },
+        { static_cast<int>(MonitorRole::Manufacturer), "m_manufacturer" },
+        { static_cast<int>(MonitorRole::IsWallpaperActive), "m_isWallpaperActive" },
+        { static_cast<int>(MonitorRole::PreviewImage), "m_previewImage" },
     };
     return roles;
 }
 
-QRect MonitorListModel::getAbsoluteDesktopSize()
-{
-    return m_monitorList.at(0).m_availableVirtualGeometry;
-}
-
 int MonitorListModel::rowCount(const QModelIndex& parent) const
 {
-    // For list models only the root node (an invalid parent) should return the list's size. For all
-    // other (valid) parents, rowCount() should return 0 so that it does not become a tree model.
     if (parent.isValid())
         return 0;
 
@@ -55,32 +49,34 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
+    auto roleEnum = static_cast<MonitorRole>(role);
+
     if (index.row() < rowCount())
-        switch (role) {
-        case IDRole:
-            return m_monitorList.at(index.row()).m_id;
-        case NameRole:
+        switch (roleEnum) {
+        case MonitorRole::AppID:
+            return m_monitorList.at(index.row()).m_appID;
+        case MonitorRole::MonitorID:
+            return m_monitorList.at(index.row()).m_monitorID;
+        case MonitorRole::Name:
             return m_monitorList.at(index.row()).m_name;
-        case SizeRole:
+        case MonitorRole::Size:
             return m_monitorList.at(index.row()).m_size;
-        case AvailableGeometryRole:
+        case MonitorRole::AvailableGeometry:
             return m_monitorList.at(index.row()).m_availableGeometry;
-        case AvailableVirtualGeometryRole:
+        case MonitorRole::AvailableVirtualGeometry:
             return m_monitorList.at(index.row()).m_availableVirtualGeometry;
-        case NumberRole:
+        case MonitorRole::Number:
             return m_monitorList.at(index.row()).m_number;
-        case GeometryRole:
+        case MonitorRole::Geometry:
             return m_monitorList.at(index.row()).m_geometry;
-        case ModelRole:
+        case MonitorRole::Model:
             return m_monitorList.at(index.row()).m_model;
-        case ManufacturerRole:
+        case MonitorRole::Manufacturer:
             return m_monitorList.at(index.row()).m_manufacturer;
-        case PreviewImageRole:
-            return m_monitorList.at(index.row()).m_wallpaperPreviewPath;
-        case IsWallpaperActiveRole:
+        case MonitorRole::IsWallpaperActive:
             return m_monitorList.at(index.row()).m_isWallpaperActive;
-        default:
-            return QVariant();
+        case MonitorRole::PreviewImage:
+            return m_monitorList.at(index.row()).m_previewImage;
         }
 
     return QVariant();
@@ -101,20 +97,34 @@ void MonitorListModel::loadMonitors()
         }
     }
 
-    beginInsertRows(QModelIndex(), 0, QApplication::screens().count());
+    beginInsertRows(QModelIndex(), 0, rowCount());
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
+
+        // Sometimes we get invalid monitors on Windows. I don't know why...
+        if (screen->geometry().width() == 0 || screen->geometry().height() == 0)
+            continue;
 
         m_monitorList.append(
             Monitor(
                 screen->manufacturer(),
                 screen->model(),
                 screen->name(),
+                "", // No preview image for now
                 screen->size(),
-                QRect(screen->availableGeometry().x() + offsetX, screen->availableGeometry().y() + offsetY, screen->geometry().width(), screen->geometry().height()),
+                QRect(screen->availableGeometry().x() + offsetX,
+                    screen->availableGeometry().y() + offsetY,
+                    screen->geometry().width(),
+                    screen->geometry().height()),
                 i,
-                QRect(screen->availableVirtualGeometry().x(), screen->availableVirtualGeometry().y(), screen->availableVirtualGeometry().width(), screen->availableVirtualGeometry().height()),
-                QRect(screen->geometry().x() + offsetX, screen->geometry().y() + offsetY, screen->geometry().width(), screen->geometry().height()),
+                QRect(screen->availableVirtualGeometry().x(),
+                    screen->availableVirtualGeometry().y(),
+                    screen->availableVirtualGeometry().width(),
+                    screen->availableVirtualGeometry().height()),
+                QRect(screen->geometry().x() + offsetX,
+                    screen->geometry().y() + offsetY,
+                    screen->geometry().width(),
+                    screen->geometry().height()),
                 screen));
     }
     endInsertRows();
@@ -122,35 +132,38 @@ void MonitorListModel::loadMonitors()
     emit monitorReloadCompleted();
 }
 
-int MonitorListModel::size()
+void MonitorListModel::clearActiveWallpaper()
 {
-    return m_monitorList.size();
+    for (Monitor& monitor : m_monitorList) {
+        monitor.m_previewImage = "";
+        monitor.m_appID = "";
+        emit dataChanged(QModelIndex(),
+            QModelIndex(),
+            QVector<int> { static_cast<int>(MonitorRole::PreviewImage),
+                static_cast<int>(MonitorRole::AppID) });
+    }
 }
 
-void MonitorListModel::wallpaperRemoved()
+void MonitorListModel::setWallpaperActiveMonitor(const QVector<int> monitors, const QString& appID, const QString& fullPreviewImagePath)
 {
-}
+    int indexToChange {};
+    for (const int monitor : monitors) {
+        indexToChange++;
+        m_monitorList[monitor].m_previewImage = fullPreviewImagePath;
+        m_monitorList[monitor].m_appID = appID;
+        emit dataChanged(
+            index(indexToChange),
+            index(indexToChange),
+            QVector<int> {
+                static_cast<int>(MonitorRole::PreviewImage),
+                static_cast<int>(MonitorRole::AppID) } );
 
-void MonitorListModel::screenAdded(QScreen* screen)
-{
-    Q_UNUSED(screen)
-    qDebug() << "screenAdded";
-    reloadMonitors();
-}
+    }
 
-void MonitorListModel::screenRemoved(QScreen* screen)
-{
-    Q_UNUSED(screen)
-    qDebug() << "screenRemoved";
-    reloadMonitors();
-}
 
-void MonitorListModel::setWallpaperActiveMonitor(QScreen* screen, QString fullPreviewImagePath)
-{
-    for (int i = 0; i < m_qGuiApplication->screens().length(); ++i) {
-        if (m_qGuiApplication->screens().at(i) == screen) {
-            emit setNewActiveMonitor(i, fullPreviewImagePath);
-        }
+
+    for (Monitor& monitor : m_monitorList) {
+        qDebug() << "OOOOOOOOOOOOOO!"<< monitor.m_previewImage << monitor.m_appID;
     }
 }
 
@@ -161,23 +174,6 @@ void MonitorListModel::reloadMonitors()
     m_monitorList.squeeze();
     endResetModel();
     loadMonitors();
-}
-
-Monitor::Monitor(QString manufacturer, QString model, QString name, QSize size, QRect availableGeometry, int number, QRect availableVirtualGeometry, QRect geometry, QScreen* screen)
-{
-    m_screen = screen;
-    m_name = name;
-    m_size = size;
-    m_geometry = geometry;
-    m_availableGeometry = availableGeometry;
-    m_manufacturer = manufacturer;
-    m_model = model;
-    m_availableVirtualGeometry = availableVirtualGeometry;
-    m_number = number;
-    // FIXME: Use a better way to create an id
-    // because name and manufacturer are allways empty
-    m_id = QString::number(size.width()) + "x" + QString::number(size.height()) + "_" + QString::number(availableGeometry.x()) + "x" + QString::number(availableGeometry.y());
-
 }
 
 }

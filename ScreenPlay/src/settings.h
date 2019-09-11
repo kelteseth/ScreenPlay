@@ -27,6 +27,7 @@
 
 #include <memory>
 
+#include "globalvariables.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "profile.h"
@@ -38,6 +39,7 @@
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #endif
+
 namespace ScreenPlay {
 class ActiveProfile;
 
@@ -53,41 +55,19 @@ class Settings : public QObject {
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
     Q_PROPERTY(bool pauseWallpaperWhenIngame READ pauseWallpaperWhenIngame WRITE setPauseWallpaperWhenIngame NOTIFY pauseWallpaperWhenIngameChanged)
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
-    Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(QString gitBuildHash READ gitBuildHash WRITE setGitBuildHash NOTIFY gitBuildHashChanged)
-
-    Q_PROPERTY(int activeWallpaperCounter READ activeWallpaperCounter WRITE setActiveWallpaperCounter NOTIFY activeWallpaperCounterChanged)
-    Q_PROPERTY(int activeWidgetsCounter READ activeWidgetsCounter WRITE setActiveWidgetsCounter NOTIFY activeWidgetsCounterChanged)
 
 public:
     explicit Settings(
         const shared_ptr<InstalledListModel>& ilm,
-        const shared_ptr<ProfileListModel>& plm,
-        const shared_ptr<MonitorListModel>& mlm,
-        const shared_ptr<SDKConnector>& sdkc,
+        const shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
     ~Settings() {}
-
 
     QVersionNumber version() const
     {
         return m_version;
-    }
-
-    QUrl screenPlayWallpaperPath() const
-    {
-        return m_screenPlayWallpaperPath;
-    }
-
-    QUrl localStoragePath() const
-    {
-        return m_localStoragePath;
-    }
-
-    int activeWallpaperCounter() const
-    {
-        return m_activeWallpaperCounter;
     }
 
     bool pauseWallpaperWhenIngame() const
@@ -98,36 +78,6 @@ public:
     bool offlineMode() const
     {
         return m_offlineMode;
-    }
-
-    QUrl setScreenPlayWallpaperPath() const
-    {
-        return m_screenPlayWallpaperPath;
-    }
-
-    void setScreenPlayWallpaperPath(const QUrl& screenPlayWallpaperPath)
-    {
-        m_screenPlayWallpaperPath = screenPlayWallpaperPath;
-    }
-
-    QUrl getScreenPlayBasePath() const
-    {
-        return m_screenPlayBasePath;
-    }
-
-    void setScreenPlayBasePath(QUrl screenPlayBasePath)
-    {
-        m_screenPlayBasePath = screenPlayBasePath;
-    }
-
-    QUrl getScreenPlayWidgetPath() const
-    {
-        return m_screenPlayWidgetPath;
-    }
-
-    void setScreenPlayWidgetPath(const QUrl& screenPlayWidgetPath)
-    {
-        m_screenPlayWidgetPath = screenPlayWidgetPath;
     }
 
     bool getOfflineMode() const
@@ -155,16 +105,6 @@ public:
         return m_decoder;
     }
 
-    int activeWidgetsCounter() const
-    {
-        return m_activeWidgetsCounter;
-    }
-
-    QUrl localSettingsPath() const
-    {
-        return m_localSettingsPath;
-    }
-
     QString gitBuildHash() const
     {
         return m_gitBuildHash;
@@ -174,14 +114,11 @@ signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
     void sendStatisticsChanged(bool status);
-    void localStoragePathChanged(QUrl localStoragePath);
     void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
     void decoderChanged(QString decoder);
     void setMainWindowVisible(bool visible);
-    void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
     void offlineModeChanged(bool offlineMode);
-    void activeWidgetsCounterChanged(int activeWidgetsCounter);
     void gitBuildHashChanged(QString gitBuildHash);
 
 public slots:
@@ -235,17 +172,13 @@ public slots:
 
     void setLocalStoragePath(QUrl localStoragePath)
     {
-        if (m_localStoragePath == localStoragePath)
-            return;
 
         //Remove: "file:///"
-        QJsonValue cleanedPath = QJsonValue(localStoragePath.toString()); // QJsonValue(QString(localStoragePath.toString()).remove(0, 8));
+        QJsonValue cleanedPath = QJsonValue(localStoragePath.toString());
 
         writeSingleSettingConfig("absoluteStoragePath", cleanedPath);
 
-        m_installedListModel->setabsoluteStoragePath(cleanedPath.toString());
-        m_localStoragePath = cleanedPath.toString();
-        emit localStoragePathChanged(cleanedPath.toString());
+        m_globalVariables->setLocalStoragePath(cleanedPath.toString());
         m_installedListModel->reset();
         m_installedListModel->loadInstalledContent();
     }
@@ -258,42 +191,6 @@ public slots:
         m_decoder = decoder;
 
         emit decoderChanged(m_decoder);
-    }
-
-    void setActiveWallpaperCounter(int activeWallpaperCounter)
-    {
-        if (m_activeWallpaperCounter == activeWallpaperCounter)
-            return;
-
-        m_activeWallpaperCounter = activeWallpaperCounter;
-        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
-    }
-
-    void increaseActiveWidgetsCounter()
-    {
-        m_activeWidgetsCounter++;
-        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
-    }
-
-    void decreaseActivewidgetsCounter()
-    {
-        m_activeWidgetsCounter--;
-        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
-    }
-
-    void increaseActiveWallpaperCounter()
-    {
-        m_activeWallpaperCounter++;
-        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
-    }
-
-    void decreaseActiveWallpaperCounter()
-    {
-        if (m_activeWallpaperCounter <= 0) {
-            return;
-        }
-        m_activeWallpaperCounter--;
-        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
     }
 
     void setPauseWallpaperWhenIngame(bool pauseWallpaperWhenIngame)
@@ -314,15 +211,6 @@ public slots:
         emit offlineModeChanged(m_offlineMode);
     }
 
-    void setActiveWidgetsCounter(int activeWidgetsCounter)
-    {
-        if (m_activeWidgetsCounter == activeWidgetsCounter)
-            return;
-
-        m_activeWidgetsCounter = activeWidgetsCounter;
-        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
-    }
-
     void setGitBuildHash(QString gitBuildHash)
     {
         if (m_gitBuildHash == gitBuildHash)
@@ -335,21 +223,15 @@ public slots:
 private:
     void createDefaultConfig();
     void setupWidgetAndWindowPaths();
+    void createDefaultProfiles();
 
+private:
     QVersionNumber m_version;
     QSettings m_qSettings;
     QTranslator m_translator;
 
-    const shared_ptr<ProfileListModel> m_profileListModel;
-    const shared_ptr<InstalledListModel> m_installedListModel;
-    const shared_ptr<MonitorListModel> m_monitorListModel;
-    const shared_ptr<SDKConnector> m_sdkconnector;
-
-    QUrl m_localStoragePath;
-    QUrl m_localSettingsPath;
-    QUrl m_screenPlayWallpaperPath;
-    QUrl m_screenPlayWidgetPath;
-    QUrl m_screenPlayBasePath;
+    const shared_ptr<InstalledListModel>& m_installedListModel;
+    const shared_ptr<GlobalVariables>& m_globalVariables;
 
     bool m_pauseWallpaperWhenIngame { true };
     bool m_autostart { true };
@@ -358,9 +240,6 @@ private:
     bool m_offlineMode { true };
 
     QString m_decoder { "" };
-    int m_activeWallpaperCounter { 0 };
-    int m_activeWidgetsCounter { 0 };
-    void createDefaultProfiles();
     QString m_gitBuildHash;
 };
 }

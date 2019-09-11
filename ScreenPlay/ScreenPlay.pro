@@ -39,6 +39,7 @@ TRANSLATIONS =  translations/ScreenPlay_en.ts   \
                 translations/ScreenPlay_de.ts
 
 HEADERS += \
+    src/globalvariables.h \
     src/createimportvideo.h \
     src/installedlistmodel.h \
     src/monitorlistmodel.h \

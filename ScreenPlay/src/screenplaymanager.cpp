@@ -2,61 +2,31 @@
 
 namespace ScreenPlay {
 
-ScreenPlayManager::ScreenPlayManager(const shared_ptr<InstalledListModel>& ilm,
-    const shared_ptr<Settings>& settings,
+ScreenPlayManager::ScreenPlayManager(const shared_ptr<GlobalVariables>& globalVariables,
     const shared_ptr<MonitorListModel>& mlm,
-    const shared_ptr<SDKConnector>& sdkc, const shared_ptr<ProfileListModel>& plm,
+    const shared_ptr<SDKConnector>& sdkc,
     QObject* parent)
     : QObject { parent }
-    , m_installedListModel { ilm }
-    , m_settings { settings }
+    , m_globalVariables { globalVariables }
     , m_monitorListModel { mlm }
     , m_sdkconnector { sdkc }
-    , m_profileListModel { plm }
-    , m_qGuiApplication { static_cast<QGuiApplication*>(QGuiApplication::instance()) }
 {
-   loadActiveProfiles();
+    loadActiveProfiles();
+    QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorListChanged, this, &ScreenPlayManager::monitorListChanged);
 }
 
 void ScreenPlayManager::createWallpaper(
-    const int monitorIndex, const QString& absoluteStoragePath,
-    const QString& previewImage, const float volume,
-    const QString& fillMode, const QString& type)
+    QVector<int> monitorIndex,
+    const QString& absoluteStoragePath,
+    const QString& previewImage,
+    const float volume,
+    const QString& fillMode,
+    const QString& type)
 {
-
-    removeWallpaperAt(monitorIndex);
-
-    m_settings->increaseActiveWallpaperCounter();
+    increaseActiveWallpaperCounter();
 
     QString path = absoluteStoragePath;
-    if(absoluteStoragePath.contains("file:///"))
-        path = path.remove("file:///");
-
-    m_screenPlayWallpapers.emplace_back(
-        make_unique<ScreenPlayWallpaper>(
-            QVector<int> { monitorIndex },
-            m_settings,
-            Util::generateRandomString(),
-            path,
-            previewImage,
-            volume,
-            fillMode,
-            type,
-            this));
-    qDebug() <<  path + "/" + previewImage ;
-
-    m_monitorListModel->setWallpaperActiveMonitor(m_qGuiApplication->screens().at(monitorIndex),
-        QString { path + "/" + previewImage });
-
-    m_settings->saveWallpaperToConfig({monitorIndex}, path, type);
-}
-
-void ScreenPlayManager::createWallpaper( QVector<int> monitorIndex, const QString &absoluteStoragePath, const QString &previewImage, const float volume, const QString &fillMode, const QString &type)
-{
-    m_settings->increaseActiveWallpaperCounter();
-
-    QString path = absoluteStoragePath;
-    if(absoluteStoragePath.contains("file:///"))
+    if (absoluteStoragePath.contains("file:///"))
         path = path.remove("file:///");
 
     std::sort(monitorIndex.begin(), monitorIndex.end());
@@ -64,7 +34,7 @@ void ScreenPlayManager::createWallpaper( QVector<int> monitorIndex, const QStrin
     m_screenPlayWallpapers.emplace_back(
         make_unique<ScreenPlayWallpaper>(
             monitorIndex,
-            m_settings,
+            m_globalVariables,
             Util::generateRandomString(),
             path,
             previewImage,
@@ -73,37 +43,53 @@ void ScreenPlayManager::createWallpaper( QVector<int> monitorIndex, const QStrin
             type,
             this));
 
-    for (const int index : monitorIndex) {
-        m_monitorListModel->setWallpaperActiveMonitor(m_qGuiApplication->screens().at(index),
-            QString { path + "/" + previewImage });
-    }
+    m_monitorListModel->setWallpaperActiveMonitor(
+        monitorIndex,
+        m_screenPlayWallpapers.back()->appID(),
+        QString { path + "/" + previewImage });
 
+    QJsonObject settings;
+    settings.insert("monitors", QJsonArray {});
+    settings.insert("type", type);
+    settings.insert("volume", volume);
+    settings.insert("isLooping", true);
+
+    saveConfigWallpaper("default", monitorIndex, settings);
 }
 
-void ScreenPlayManager::createWidget(QUrl absoluteStoragePath, const QString& previewImage)
+void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QString& previewImage)
 {
     ProjectFile project {};
 
-    m_settings->increaseActiveWidgetsCounter();
+    increaseActiveWidgetsCounter();
 
     m_screenPlayWidgets.emplace_back(
         make_unique<ScreenPlayWidget>(
             Util::generateRandomString(),
-            m_settings,
+            m_globalVariables,
             absoluteStoragePath.toLocalFile(),
             previewImage,
             absoluteStoragePath.toString(),
             this));
 }
 
+void ScreenPlayManager::closeWallpaper(const QVector<int> screenNumber)
+{
+    for (unique_ptr<ScreenPlayWallpaper>& wallpaper : m_screenPlayWallpapers) {
+        if (wallpaper->screenNumber() == screenNumber) {
+        }
+    }
+}
+
 void ScreenPlayManager::closeAllConnections()
 {
     if (!m_screenPlayWidgets.empty() || !m_screenPlayWallpapers.empty()) {
         m_sdkconnector->closeAllConnections();
-        m_settings->setActiveWallpaperCounter(0);
-        m_settings->setActiveWidgetsCounter(0);
+        setActiveWallpaperCounter(0);
+        setActiveWidgetsCounter(0);
         m_screenPlayWallpapers.clear();
         m_screenPlayWidgets.clear();
+        m_monitorListModel->clearActiveWallpaper();
         emit allWallpaperRemoved();
     }
     return;
@@ -112,7 +98,7 @@ void ScreenPlayManager::closeAllConnections()
 void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
 {
     for (const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
-        if (!uPtrWallpaper->screenNumber().empty() && uPtrWallpaper->screenNumber()[0] == index) { // ??? only at index == 0
+        if (!uPtrWallpaper->screenNumber().empty() && uPtrWallpaper->screenNumber()[0] == index) {
             emit projectSettingsListModelFound(
                 uPtrWallpaper->projectSettingsListModel().get(),
                 uPtrWallpaper->type());
@@ -122,15 +108,21 @@ void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
     emit projectSettingsListModelNotFound();
 }
 
-void ScreenPlayManager::setWallpaperValue(const int at, const QString& key, const QString& value)
+void ScreenPlayManager::setWallpaperValue(const QString& appID, const QString& key, const QString& value)
 {
-    Q_ASSERT(static_cast<size_t>(at) < m_screenPlayWallpapers.size() && m_sdkconnector);
-    for (const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
-        if (!uPtrWallpaper->screenNumber().empty() && m_sdkconnector && uPtrWallpaper->screenNumber()[0] == at) { // ??? only at index == 0
-            m_sdkconnector->setWallpaperValue(uPtrWallpaper->appID(), key, value);
-            return;
-        }
-    }
+    //    for (const unique_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
+    //        if (uPtrWallpaper->screenNumber().empty())
+    //            continue;
+
+    //        //         for (const int number : uPtrWallpaper->screenNumber()) {
+    //        //             if()
+    //        //         }
+
+    //        if (uPtrWallpaper->screenNumber()[0] == at) {
+    //            m_sdkconnector->setWallpaperValue(uPtrWallpaper->appID(), key, value);
+    //            return;
+    //        }
+    //    }
 }
 
 void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
@@ -140,7 +132,7 @@ void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& 
     }
 }
 
-void ScreenPlayManager::removeWallpaperAt(const int at)
+void ScreenPlayManager::removeWallpaperAt(int at)
 {
     if (m_screenPlayWallpapers.empty())
         return;
@@ -152,7 +144,7 @@ void ScreenPlayManager::removeWallpaperAt(const int at)
             const bool isFound = !screenNumber.empty() && screenNumber[0] == at;
             if (isFound) {
                 m_sdkconnector->closeWallpapersAt(at);
-                m_settings->decreaseActiveWallpaperCounter();
+                decreaseActiveWallpaperCounter();
             }
             return isFound;
         });
@@ -160,66 +152,143 @@ void ScreenPlayManager::removeWallpaperAt(const int at)
     m_screenPlayWallpapers.erase(wallsToRemove, m_screenPlayWallpapers.end());
 }
 
-
-void ScreenPlayManager::saveConfigWallpaper(const QString& monitorID)
+void ScreenPlayManager::monitorListChanged()
 {
+    for (const auto& wallpaperUnique_ptr : m_screenPlayWallpapers) {
+        if (wallpaperUnique_ptr->screenNumber().length() > 1) {
+            for (const int moitor : wallpaperUnique_ptr->screenNumber()) {
+                emit m_monitorListModel->setNewActiveMonitor(
+                    moitor,
+                    wallpaperUnique_ptr->previewImage());
+            }
+        }
+    }
+}
 
+bool ScreenPlayManager::saveConfigWallpaper(const QString& profileName, const QVector<int>& monitors, const QJsonObject& content)
+{
+    auto configObj = Util::openJsonFileToObject(m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json");
+
+    if (!configObj.has_value()) {
+        qWarning() << "Could not load active profiles.";
+        return false;
+    }
+
+    // TODO right now we limit ourself to one default profile
+    QJsonArray activeProfilesTmp = configObj.value().value("profiles").toArray();
+
+    if (activeProfilesTmp.size() != 1) {
+        qWarning() << "We currently only support one profile!";
+        return false;
+    }
+
+    for (const QJsonValueRef wallpaper : activeProfilesTmp) {
+        auto wallpaperList = wallpaper.toObject().value("wallpaper").toArray();
+
+        for (const QJsonValueRef wallpaper : wallpaperList) {
+            QJsonObject wallpaperObj = wallpaper.toObject();
+
+            if (wallpaperObj.empty())
+                return false;
+
+            QJsonArray monitorsArray = wallpaperObj.value("monitors").toArray();
+
+            // A wallpaper can span across multiple monitors
+            // But first we need to convert the QJsonArray to an QVector<int>
+            QVector<int> monitorsParsed;
+            for (const QJsonValueRef item : monitorsArray) {
+                int tmp = item.toInt(-1);
+                if (tmp == -1) {
+                    continue;
+                }
+                monitorsParsed.append(tmp);
+            }
+
+            // We need to find the right wallpaper with the same monitors.
+            if (monitorsParsed != monitors) {
+                continue;
+            }
+
+            return true;
+        }
+    }
+    return true;
 }
 
 void ScreenPlayManager::loadActiveProfiles()
 {
 
-    auto configObj = Util::openJsonFileToObject(m_settings->localSettingsPath().toLocalFile() + "/profiles.json");
-    if(!configObj.has_value()){
+    auto configObj = Util::openJsonFileToObject(m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json");
+
+    if (!configObj.has_value()) {
         qWarning() << "Could not load active profiles.";
         return;
     }
 
+    std::optional<QVersionNumber> version = Util::getVersionNumberFromString(configObj.value().value("version").toString());
 
-    QJsonArray activeProfilesTmp = configObj.value().value("profilesWallpaper").toArray();
+    if (version.has_value() && version.value() != m_globalVariables->version()) {
+        qWarning() << "Version missmatch fileVersion: " << version.value().toString() << "m_version: " << m_globalVariables->version().toString();
+        return;
+    }
+
+    QJsonArray activeProfilesTmp = configObj.value().value("profiles").toArray();
+
+    if (activeProfilesTmp.size() != 1) {
+        qWarning() << "We currently only support one profile!";
+        return;
+    }
 
     for (const QJsonValueRef wallpaper : activeProfilesTmp) {
-        QJsonObject wallpaperObj = wallpaper.toObject();
 
-        if (wallpaperObj.empty())
+        // TODO right now we limit ourself to one default profile
+        if (wallpaper.toObject().value("name").toString() != "default")
             continue;
 
-        bool parsing = true;
-        bool isLooping = wallpaperObj.value("isLooping").toBool(parsing);
+        for (const QJsonValueRef wallpaper : wallpaper.toObject().value("wallpaper").toArray()) {
+            QJsonObject wallpaperObj = wallpaper.toObject();
 
-        if (!parsing)
-            continue;
-
-        float volume = static_cast<float>(wallpaperObj.value("volume").toDouble(parsing));
-
-        if (!parsing)
-            continue;
-
-        QString absolutePath = wallpaperObj.value("absolutePath").toString();
-        QString fillMode = wallpaperObj.value("fillMode").toString();
-        QString previewImage = wallpaperObj.value("previewImage").toString();
-        QString file = wallpaperObj.value("file").toString();
-        QString type = wallpaperObj.value("type").toString();
-
-        QJsonArray monitorsArray = wallpaper.toObject().value("monitors").toArray();
-
-        if (monitorsArray.empty())
-            continue;
-
-        QMap<QString, int> monitorMap;
-
-        // A wallpaper can span across multiple monitors
-        for (const QJsonValueRef monitor : monitorsArray) {
-            QJsonObject obj = monitor.toObject();
-
-            int monitorIndex = obj.value("index").toInt(-1);
-            if (monitorIndex == -1)
+            if (wallpaperObj.empty())
                 continue;
 
-            monitorMap.insert(obj.value("monitorID").toString(), monitorIndex);
-        }
+            QJsonArray monitorsArray = wallpaper.toObject().value("monitors").toArray();
 
-        createWallpaper(0, absolutePath, previewImage, volume, fillMode, type);
+            QVector<int> monitors;
+            for (const QJsonValueRef monitorNumber : monitorsArray) {
+                int value = monitorNumber.toInt(-1);
+                if (value == -1) {
+                    qWarning() << "Could not parse monitor number to display content at";
+                    return;
+                }
+
+                if (monitors.contains(value)) {
+                    qWarning() << "The monitor: " << value << " is sharing the config multiple times. ";
+                    return;
+                }
+                monitors.append(value);
+            }
+
+            bool parsing = true;
+            bool isLooping = wallpaperObj.value("isLooping").toBool(parsing);
+
+            if (!parsing)
+                continue;
+
+            float volume = static_cast<float>(wallpaperObj.value("volume").toDouble(-1.0));
+
+            if (volume == -1.0F)
+                volume = 1.0f;
+
+            QString absolutePath = wallpaperObj.value("absolutePath").toString();
+            QString fillMode = wallpaperObj.value("fillMode").toString();
+            QString previewImage = wallpaperObj.value("previewImage").toString();
+            QString file = wallpaperObj.value("file").toString();
+            QString type = wallpaperObj.value("type").toString();
+            QString name = wallpaperObj.value("name").toString();
+
+            createWallpaper(monitors, absolutePath, previewImage, volume, fillMode, type);
+            monitors.clear();
+        }
     }
 }
 }

@@ -21,18 +21,23 @@
 
 #include "profilelistmodel.h"
 #include "projectfile.h"
+#include "globalvariables.h"
+
+#include <memory>
 
 namespace ScreenPlay {
+
+using std::shared_ptr;
 
 class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
 
-
     Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
-    Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setabsoluteStoragePath NOTIFY absoluteStoragePathChanged)
 
 public:
-    explicit InstalledListModel(QObject* parent = nullptr);
+    explicit InstalledListModel(
+        const shared_ptr<GlobalVariables>& globalVariables,
+        QObject* parent = nullptr);
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
@@ -51,10 +56,6 @@ public:
     };
     Q_ENUM(InstalledRole)
 
-    QUrl absoluteStoragePath() const
-    {
-        return m_absoluteStoragePath;
-    }
 
     int count() const
     {
@@ -68,14 +69,6 @@ public slots:
     void init();
     QVariantMap get(QString folderId);
 
-    void setabsoluteStoragePath(const QUrl& absoluteStoragePath)
-    {
-        if (m_absoluteStoragePath == absoluteStoragePath)
-            return;
-
-        m_absoluteStoragePath = absoluteStoragePath;
-        emit absoluteStoragePathChanged(m_absoluteStoragePath);
-    }
     void setCount(int count)
     {
         if (m_count == count)
@@ -88,17 +81,16 @@ public slots:
 signals:
     void setScreenVisible(bool visible);
     void setScreenToVideo(QString absolutePath);
-    void absoluteStoragePathChanged(QUrl absoluteStoragePath);
     void addInstalledItem(const QJsonObject, const QString);
     void installedLoadingFinished();
     void isLoadingContentChanged(bool isLoadingContent);
-
     void countChanged(int count);
 
 private:
     QFileSystemWatcher m_fileSystemWatcher;
     QVector<ProjectFile> m_screenPlayFiles;
-    QUrl m_absoluteStoragePath;
     int m_count{0};
+
+    const shared_ptr<GlobalVariables>& m_globalVariables;
 };
 }

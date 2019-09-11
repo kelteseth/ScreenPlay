@@ -23,8 +23,8 @@
 #include <memory>
 
 #include "createimportvideo.h"
+#include "globalvariables.h"
 #include "util.h"
-#include "settings.h"
 
 namespace ScreenPlay {
 
@@ -38,10 +38,10 @@ class Create : public QObject {
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
 
 public:
-    explicit Create(const shared_ptr<Settings>& settings,
+    explicit Create(
+        const shared_ptr<GlobalVariables> &globalVariables,
         QObject* parent = nullptr);
     Create();
-    ~Create() {}
 
     float progress() const
     {
@@ -74,7 +74,7 @@ public slots:
         emit progressChanged(m_progress);
     }
 
-    void setWorkingDir(QString workingDir)
+    void setWorkingDir(const QString& workingDir)
     {
         if (m_workingDir == workingDir)
             return;
@@ -87,9 +87,9 @@ private:
     CreateImportVideo* m_createImportVideo;
     QThread* m_createImportVideoThread;
 
-    const shared_ptr<Settings> m_settings;
+    const shared_ptr<GlobalVariables>& m_globalVariables;
 
-    float m_progress = 0.0f;
+    float m_progress { 0.0F };
     QString m_workingDir;
 };
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QCoreApplication>
 #include <QDebug>
 #include <QObject>
 #include <QPoint>
@@ -7,12 +8,14 @@
 
 #include <memory>
 
-#include "settings.h"
+#include "globalvariables.h"
+
 namespace ScreenPlay {
+
 using std::shared_ptr,
     std::make_shared;
 
-class ScreenPlayWidget final : public QObject {
+class ScreenPlayWidget : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
@@ -21,8 +24,13 @@ class ScreenPlayWidget final : public QObject {
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
 
 public:
-    explicit ScreenPlayWidget(const QString& appID, const shared_ptr<Settings>& settings, const QString& projectPath, const QString& previewImage,
-        const QString& fullPath, QObject* parent = nullptr);
+    explicit ScreenPlayWidget(
+        const QString& appID,
+        const shared_ptr<GlobalVariables>& globalVariables,
+        const QString& projectPath,
+        const QString& previewImage,
+        const QString& fullPath,
+        QObject* parent = nullptr);
 
     ~ScreenPlayWidget() {}
 
@@ -90,11 +98,12 @@ signals:
     void appIDChanged(QString appID);
 
 private:
+    QProcess m_process;
+    const shared_ptr<GlobalVariables>& m_globalVariables;
+
     QString m_projectPath;
     QString m_previewImage;
     QString m_appID;
     QPoint m_position;
-    QProcess m_process;
-    const shared_ptr<Settings> m_settings;
 };
 }
