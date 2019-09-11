@@ -70,14 +70,14 @@ Item {
         if (installedListModel.get(
                     activeScreen).screenPreviewGIF === undefined) {
             image.source = Qt.resolvedUrl(
-                        installedListModel.absoluteStoragePath + "/"
+                        globalVariables.localStoragePath + "/"
                         + activeScreen + "/" + installedListModel.get(
                             activeScreen).screenPreview)
             image.playing = false
         } else {
 
             image.source = Qt.resolvedUrl(
-                        installedListModel.absoluteStoragePath + "/"
+                        globalVariables.localStoragePath + "/"
                         + activeScreen + "/" + installedListModel.get(
                             activeScreen).screenPreviewGIF)
             image.playing = true
@@ -205,9 +205,7 @@ Item {
                     anchors.top: parent.top
                     anchors.left: parent.left
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: {
-                        sidebar.state = sidebar.state === "active" ? "inactive" : "active"
-                    }
+                    onClicked: sidebar.state = "inactive"
 
                     Image {
                         id: imgBack
@@ -220,48 +218,38 @@ Item {
             }
 
             ColumnLayout {
-                spacing: 0
+                spacing: 20
 
                 anchors {
                     top: imageWrapper.bottom
                     right: parent.right
-                    bottom: btnSetWallpaper.top
                     left: parent.left
                     margins: 30
-                    topMargin: 30
                 }
 
-                Item {
-                    height: 70
+                ColumnLayout {
                     Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignTop
-
-                    MonitorSelection {
-                        id: monitorSelection
-                        height: 50
-                        width: parent.width
-                        availableWidth: monitorSelection.width
-                        availableHeight: monitorSelection.height
-                        fontSize: 11
-                        anchors {
-                            top:parent.top
-                            topMargin: 20
-                        }
-                    }
 
                     Text {
                         id: txtHeadlineMonitor
+                        height: 20
                         text: qsTr("Select a Monitor to display the content")
                         font.family: "Roboto"
                         verticalAlignment: Text.AlignVCenter
                         font.pointSize: 10
                         color: "#626262"
-                        anchors {
-                            top:parent.top
-                            topMargin: 0
-                        }
+                    }
+
+                    MonitorSelection {
+                        id: monitorSelection
+                        height: 70
+                        Layout.fillWidth: true
+                        availableWidth: width
+                        availableHeight: height
+                        fontSize: 11
                     }
                 }
+
                 SP.Slider {
                     id: sliderVolume
                     stepSize: 0.01
@@ -269,14 +257,11 @@ Item {
                     value: 1
                     to: 1
                     Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignTop
                     headline: qsTr("Set Volume")
                 }
 
                 ColumnLayout {
-                    height: 70
                     Layout.fillWidth: true
-                    Layout.alignment: Qt.AlignTop
                     spacing: 5
 
                     Text {
@@ -337,33 +322,26 @@ Item {
 
                 onClicked: {
                     if (type.endsWith("Wallpaper")) {
-                        var activeMonitors = monitorSelection.getActiveMonitors(
-                                    )
+                        var activeMonitors =[];
+                        activeMonitors.push(monitorSelection.getActiveMonitors())
 
                         // TODO Alert user to choose a monitor
                         if (activeMonitors.length === 0)
                             return
 
-                        if (activeMonitors.length > 1) {
-                            screenPlay.createWallpaper(
-                                        activeMonitors, installedListModel.absoluteStoragePath
-                                        + "/" + activeScreen,
-                                        installedListModel.get(activeScreen).screenPreview,
-                                        (Math.round(sliderVolume.value * 100) / 100),
-                                        settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
-                                            ), type)
-                        } else {
-                            screenPlay.createWallpaper(
-                                        activeMonitors[0], installedListModel.absoluteStoragePath
-                                        + "/" + activeScreen,
-                                        installedListModel.get(activeScreen).screenPreview,
-                                        (Math.round(sliderVolume.value * 100) / 100),
-                                        settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
-                                            ), type)
-                        }
+                        print(activeMonitors)
+
+                        screenPlay.createWallpaper(
+                                    activeMonitors, globalVariables.localStoragePath
+                                    + "/" + activeScreen,
+                                    installedListModel.get(activeScreen).screenPreview,
+                                    (Math.round(sliderVolume.value * 100) / 100),
+                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
+                                        ), type)
+
                     } else {
                         screenPlay.createWidget(
-                                    installedListModel.absoluteStoragePath + "/" + activeScreen,
+                                    globalVariables.localStoragePath + "/" + activeScreen,
                                     installedListModel.get(
                                         activeScreen).screenPreview)
                     }
@@ -425,14 +403,6 @@ Item {
             }
             PropertyChanges {
                 target: txtHeadlineMonitor
-                opacity: 1
-            }
-            PropertyChanges {
-                target: monitorSelectionWrapper
-                opacity: 1
-            }
-            PropertyChanges {
-                target: sliderVolumeWrapper
                 opacity: 1
             }
         },
@@ -662,8 +632,3 @@ Item {
         }
     ]
 }
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:800;width:640}
-}
- ##^##*/
