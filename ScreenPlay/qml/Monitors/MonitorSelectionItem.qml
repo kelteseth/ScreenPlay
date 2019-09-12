@@ -8,9 +8,8 @@ Item {
     property string monitorManufacturer
     property string monitorName
     property string monitorID
-    property string previewImage
+    property string previewImage: ""
     onPreviewImageChanged: {
-        print(previewImage)
         if(previewImage === ""){
             imgPreview.opacity = 0
         } else {
@@ -87,7 +86,8 @@ Item {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                monitorSelected(index)
+
+                    monitorSelected(index)
             }
         }
     }

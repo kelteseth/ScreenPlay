@@ -11,6 +11,7 @@ Rectangle {
     property real availableWidth: 0
     property real availableHeight: 0
     property int fontSize: 12
+    property bool canSelectMultipleMonitors: true
 
     // We preselect the main monitor
     property var activeMonitors:[0]
@@ -31,14 +32,11 @@ Rectangle {
         }
     }
 
-    Connections {
-        target: screenPlay
-        onAllWallpaperRemoved: {
-            for (var i = 0; i < rp.count; i++) {
-                rp.itemAt(i).isSelected = false
-                rp.itemAt(i).previewImage = ""
-            }
+    function deselectAll(){
+        for (var i = 0; i < rp.count; i++) {
+            rp.itemAt(i).isSelected = false
         }
+        getActiveMonitors()
     }
 
     function getActiveMonitors(){
@@ -90,7 +88,7 @@ Rectangle {
             rp.itemAt(i).width = rp.itemAt(i).width * monitorWidthRationDelta
             rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta
             rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta
-            print(rp.itemAt(i).index,rp.itemAt(i).x)
+
         }
     }
 

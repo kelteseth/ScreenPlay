@@ -41,8 +41,8 @@ void ScreenPlayManager::createWallpaper(
         fillMode,
         type,
         this);
-    m_screenPlayWallpapers.append(wallpaper);
 
+    m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
 
     QJsonObject settings;
@@ -87,7 +87,6 @@ void ScreenPlayManager::closeAllConnections()
         m_screenPlayWallpapers.clear();
         m_screenPlayWidgets.clear();
         m_monitorListModel->clearActiveWallpaper();
-        emit allWallpaperRemoved();
     }
     return;
 }

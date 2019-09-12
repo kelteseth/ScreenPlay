@@ -86,7 +86,6 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
             return m_monitorList.at(index.row()).m_screen->manufacturer();
         case MonitorRole::PreviewImage:
             if (m_monitorList.at(index.row()).m_activeWallpaper) {
-                qDebug() << m_monitorList.at(index.row()).m_activeWallpaper->previewImage();
                 return m_monitorList.at(index.row()).m_activeWallpaper->previewImage();
             } else {
                 return QVariant("");
@@ -133,29 +132,31 @@ void MonitorListModel::loadMonitors()
 
 void MonitorListModel::clearActiveWallpaper()
 {
+    int i {0};
     for (Monitor& monitor : m_monitorList) {
         monitor.m_activeWallpaper = nullptr;
         emit dataChanged(
-            index(0, 0),
-            index(rowCount(), 0),
+            index(i, 0),
+            index(i, 0),
             QVector<int> {
                 static_cast<int>(MonitorRole::PreviewImage),
                 static_cast<int>(MonitorRole::AppID) });
+        ++i;
     }
 }
 
 void MonitorListModel::setWallpaperActiveMonitor(const std::shared_ptr<ScreenPlayWallpaper>& wallpaper, const QVector<int> monitors)
 {
+
     for (const int monitor : monitors) {
         m_monitorList[monitor].m_activeWallpaper = wallpaper;
 
         emit dataChanged(
-            index(0, 0),
-            index(rowCount(), 0),
+            index(monitor, 0),
+            index(monitor, 0),
             QVector<int> {
                 static_cast<int>(MonitorRole::PreviewImage),
                 static_cast<int>(MonitorRole::AppID) });
-        qDebug() << m_monitorList.at(monitor).m_activeWallpaper->previewImage();
     }
 }
 

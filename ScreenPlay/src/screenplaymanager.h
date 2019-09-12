@@ -84,7 +84,6 @@ public:
     }
 
 signals:
-    void allWallpaperRemoved();
     void projectSettingsListModelFound(ProjectSettingsListModel* li, const QString& type);
     void projectSettingsListModelNotFound();
     void activeWallpaperCounterChanged(int activeWallpaperCounter);

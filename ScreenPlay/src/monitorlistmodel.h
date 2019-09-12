@@ -51,8 +51,9 @@ class MonitorListModel : public QAbstractListModel {
 public:
     explicit MonitorListModel(QObject* parent = nullptr);
 
-    ~MonitorListModel(){
-        //m_monitorList.clear();
+    ~MonitorListModel() override
+    {
+        m_monitorList.clear();
     }
 
     enum class MonitorRole {
