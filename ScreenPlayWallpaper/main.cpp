@@ -51,8 +51,8 @@ int main(int argc, char* argv[])
         return app.exec();
     }
 
-    // 6 parameter + 1 OS working directory default paramter
-    if (argumentList.length() != 7) {
+    // 5 parameter + 1 OS working directory default paramter
+    if (argumentList.length() != 6) {
         return -3;
     }
 
@@ -84,11 +84,12 @@ int main(int argc, char* argv[])
         }
     }
 
-    // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (5) volume, (6) fillmode
+    // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (4) volume, (5) fillmode
     // See screenplay.h @ScreenPlayWallpaper constructor how the args get created
+    qDebug() << argumentList;
 
 #if defined(Q_OS_WIN)
-    WinWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(5), argumentList.at(6));
+    WinWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5));
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &WinWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &WinWindow::messageReceived);
 #endif
