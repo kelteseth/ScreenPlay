@@ -114,12 +114,12 @@ WinWindow::WinWindow(const QVector<int> &activeScreensList, QString projectPath,
     m_window.setSource(QUrl("qrc:/mainWindow.qml"));
 
     // MUST be called before setting hook for events!
-    if(type() == BaseWindow::WallpaperType::Qml){
-        winGlobalHook = &m_window;
-        if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
-            qDebug() << "Faild to install mouse hook!";
-        }
-    }
+//    if(type() == BaseWindow::WallpaperType::Qml){
+//        winGlobalHook = &m_window;
+//        if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
+//            qDebug() << "Faild to install mouse hook!";
+//        }
+//    }
 
     // FIXME WORKAROUND:
     // There is a strange bug when we open the ScreenPlayWallpaper project on its one
