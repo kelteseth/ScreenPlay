@@ -101,12 +101,12 @@ public slots:
     void createWidget(const QUrl& absoluteStoragePath, const QString& previewImage);
 
     void closeAllConnections();
+    void removeWallpaperAt(const int at = 0);
+
     void requestProjectSettingsListModelAt(const int index);
     void setWallpaperValue(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
-    void removeWallpaperAt(const int at = 0);
     void monitorListChanged();
-    void closeWallpaper(const QVector<int> screenNumber);
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)
     {

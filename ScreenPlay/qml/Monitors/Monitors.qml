@@ -13,6 +13,7 @@ Item {
 
     property string activeMonitorName: ""
     property int activeMonitorIndex
+    onActiveMonitorIndexChanged: print(activeMonitorIndex)
 
     onStateChanged: {
         bgMouseArea.focus = monitors.state == "active" ? true : false
@@ -114,20 +115,35 @@ Item {
                 }
             }
 
-            Button {
-                id: btnRemoveAllWallpaper
-                text: qsTr("Remove all wallpaper and Widgets")
-                Material.background: Material.Orange
-                Material.foreground: "white"
-                onClicked: {
-                    screenPlay.closeAllConnections()
-                    monitors.state = "inactive"
-                }
-
+            Row {
                 anchors {
-                    horizontalCenter: parent.horizontalCenter
+                    top: monitorSelection.bottom
+                    right: parent.right
                     bottom: parent.bottom
-                    bottomMargin: 30
+                    left: parent.left
+                    margins: 20
+                }
+                spacing: 20
+                Button {
+                    id: btnRemoveSelectedWallpaper
+                    text: qsTr("Remove selected")
+                    Material.background: Material.Orange
+                    Material.foreground: "white"
+                    enabled: monitorSelection.activeMonitors.length == 1
+                    onClicked: {
+                        screenPlay.removeWallpaperAt(monitorSelection.activeMonitors[0])
+                        monitorSelection.deselectAll()
+                    }
+                }
+                Button {
+                    id: btnRemoveAllWallpaper
+                    text: qsTr("Remove all wallpaper and Widgets")
+                    Material.background: Material.Orange
+                    Material.foreground: "white"
+                    onClicked: {
+                        screenPlay.closeAllConnections()
+                        monitors.state = "inactive"
+                    }
                 }
             }
         }
@@ -141,7 +157,6 @@ Item {
                 margins: 30
                 left: itmLeftWrapper.right
             }
-
 
             SP.Slider {
                 headline: qsTr("Volume")

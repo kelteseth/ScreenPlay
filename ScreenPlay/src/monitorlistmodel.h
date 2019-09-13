@@ -88,6 +88,7 @@ signals:
 public slots:
     void reset();
     void clearActiveWallpaper();
+    void closeWallpaper(const QString& appID);
 
     void screenAdded(QScreen* screen)
     {

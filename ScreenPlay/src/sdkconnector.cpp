@@ -50,6 +50,16 @@ void SDKConnector::closeWallpapersAt(int at)
     }
 }
 
+void SDKConnector::closeWallpaper(const QString& appID)
+{
+    for (auto& item : m_clients) {
+        if (item->appID() == appID) {
+            item->close();
+            return;
+        }
+    }
+}
+
 void SDKConnector::setWallpaperValue(QString appID, QString key, QString value)
 {
 

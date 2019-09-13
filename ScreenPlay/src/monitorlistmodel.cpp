@@ -132,7 +132,7 @@ void MonitorListModel::loadMonitors()
 
 void MonitorListModel::clearActiveWallpaper()
 {
-    int i {0};
+    int i { 0 };
     for (Monitor& monitor : m_monitorList) {
         monitor.m_activeWallpaper = nullptr;
         emit dataChanged(
@@ -141,6 +141,25 @@ void MonitorListModel::clearActiveWallpaper()
             QVector<int> {
                 static_cast<int>(MonitorRole::PreviewImage),
                 static_cast<int>(MonitorRole::AppID) });
+        ++i;
+    }
+}
+
+void MonitorListModel::closeWallpaper(const QString& appID)
+{
+    int i {};
+    for (auto& item : m_monitorList) {
+        if (item.m_activeWallpaper) {
+            if (item.m_activeWallpaper->appID() == appID) {
+                item.m_activeWallpaper = nullptr;
+                emit dataChanged(
+                    index(i, 0),
+                    index(i, 0),
+                    QVector<int> {
+                        static_cast<int>(MonitorRole::PreviewImage),
+                        static_cast<int>(MonitorRole::AppID) });
+            }
+        }
         ++i;
     }
 }

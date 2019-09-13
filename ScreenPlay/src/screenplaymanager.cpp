@@ -11,7 +11,7 @@ ScreenPlayManager::ScreenPlayManager(const shared_ptr<GlobalVariables>& globalVa
     , m_monitorListModel { mlm }
     , m_sdkconnector { sdkc }
 {
-    //loadActiveProfiles();
+    loadActiveProfiles();
     QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorListChanged, this, &ScreenPlayManager::monitorListChanged);
 }
 
@@ -70,14 +70,6 @@ void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QStr
             this));
 }
 
-void ScreenPlayManager::closeWallpaper(const QVector<int> screenNumber)
-{
-    for (shared_ptr<ScreenPlayWallpaper>& wallpaper : m_screenPlayWallpapers) {
-        if (wallpaper->screenNumber() == screenNumber) {
-        }
-    }
-}
-
 void ScreenPlayManager::closeAllConnections()
 {
     if (!m_screenPlayWidgets.empty() || !m_screenPlayWallpapers.empty()) {
@@ -106,7 +98,7 @@ void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
 
 void ScreenPlayManager::setWallpaperValue(const int index, const QString& key, const QString& value)
 {
-    if(auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)){
+    if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
         m_sdkconnector->setWallpaperValue(appID.value(), key, value);
     }
 }
@@ -120,22 +112,11 @@ void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& 
 
 void ScreenPlayManager::removeWallpaperAt(int at)
 {
-    if (m_screenPlayWallpapers.empty())
-        return;
-
-    const auto wallsToRemove = remove_if(
-        m_screenPlayWallpapers.begin(), m_screenPlayWallpapers.end(),
-        [&](const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper) -> bool {
-            const QVector<int>& screenNumber = uPtrWallpaper->screenNumber();
-            const bool isFound = !screenNumber.empty() && screenNumber[0] == at;
-            if (isFound) {
-                m_sdkconnector->closeWallpapersAt(at);
-                decreaseActiveWallpaperCounter();
-            }
-            return isFound;
-        });
-
-    m_screenPlayWallpapers.erase(wallsToRemove, m_screenPlayWallpapers.end());
+    if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(at)) {
+        m_sdkconnector->closeWallpaper(appID.value());
+        m_monitorListModel->closeWallpaper(appID.value());
+        decreaseActiveWallpaperCounter();
+    }
 }
 
 void ScreenPlayManager::monitorListChanged()
