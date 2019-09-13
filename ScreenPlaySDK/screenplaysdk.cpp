@@ -43,7 +43,7 @@ void ScreenPlaySDK::bytesWritten(qint64 bytes)
 void ScreenPlaySDK::readyRead()
 {
     QString tmp = m_socket.readAll();
-    qDebug() << "SDK MESSAGE RECEIVED: " << tmp;
+    //qDebug() << "SDK MESSAGE RECEIVED: " << tmp;
     QJsonParseError err;
     auto doc = QJsonDocument::fromJson(QByteArray::fromStdString(tmp.toStdString()), &err);
 

@@ -60,7 +60,12 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 }
 
-WinWindow::WinWindow(const QVector<int> &activeScreensList, QString projectPath, QString id, QString volume, const QString fillmode)
+WinWindow::WinWindow(
+    const QVector<int>& activeScreensList,
+    QString projectPath,
+    QString id,
+    QString volume,
+    const QString fillmode)
     : BaseWindow(projectPath)
 {
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
@@ -75,6 +80,7 @@ WinWindow::WinWindow(const QVector<int> &activeScreensList, QString projectPath,
     if (!ok) {
         qFatal("Could not parse volume");
     }
+
     setVolume(volumeParsed);
     setFillMode(fillmode);
 
@@ -95,14 +101,11 @@ WinWindow::WinWindow(const QVector<int> &activeScreensList, QString projectPath,
     // Ether for one Screen or for all
     if ((QApplication::screens().length() == activeScreensList.length()) && (activeScreensList.length() != 1)) {
         setupWallpaperForAllScreens();
-        qDebug()  << "setupWallpaperForAllScreens()";
     } else if (activeScreensList.length() == 1) {
         setupWallpaperForOneScreen(activeScreensList.at(0));
         setCanFade(true);
-        qDebug()  << "setupWallpaperForOneScreen()";
-    }  else if (activeScreensList.length() == 1) {
+    } else if (activeScreensList.length() > 1) {
         setupWallpaperForMultipleScreens(activeScreensList);
-        qDebug()  << "setupWallpaperForMultipleScreens()";
     }
 
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
@@ -114,12 +117,12 @@ WinWindow::WinWindow(const QVector<int> &activeScreensList, QString projectPath,
     m_window.setSource(QUrl("qrc:/mainWindow.qml"));
 
     // MUST be called before setting hook for events!
-//    if(type() == BaseWindow::WallpaperType::Qml){
-//        winGlobalHook = &m_window;
-//        if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
-//            qDebug() << "Faild to install mouse hook!";
-//        }
-//    }
+    //    if(type() == BaseWindow::WallpaperType::Qml){
+    //        winGlobalHook = &m_window;
+    //        if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
+    //            qDebug() << "Faild to install mouse hook!";
+    //        }
+    //    }
 
     // FIXME WORKAROUND:
     // There is a strange bug when we open the ScreenPlayWallpaper project on its one
@@ -127,7 +130,7 @@ WinWindow::WinWindow(const QVector<int> &activeScreensList, QString projectPath,
     // the window visible via set Visible.
     if (projectPath != "test") {
         // Let QML decide when were are read to show the window
-       // ShowWindow(m_windowHandle, SW_HIDE);
+        // ShowWindow(m_windowHandle, SW_HIDE);
     }
 }
 
@@ -167,8 +170,6 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
     QScreen* screen = QApplication::screens().at(activeScreen);
     QRect screenRect = screen->geometry();
-    m_window.setHeight(screenRect.height());
-    m_window.setWidth(screenRect.width());
     if (!SetWindowPos(m_windowHandle, nullptr, screenRect.x() + m_windowOffsetX, screenRect.y() + m_windowOffsetY, screenRect.width(), screenRect.height(), SWP_SHOWWINDOW)) {
         qFatal("Could not set window pos: ");
     }
@@ -195,10 +196,33 @@ void WinWindow::setupWallpaperForAllScreens()
     }
 }
 
-void WinWindow::setupWallpaperForMultipleScreens(const QVector<int> &activeScreensList)
+void WinWindow::setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList)
 {
-    qDebug() << "######## setupWallpaperForMultipleScreens ########";
+    QRect rect;
+    QScreen* upperLeftScreen { nullptr };
+    // Check for the upper left screen first so we get x and y positions
+    for (const int screen : activeScreensList) {
+        QScreen* screenTmp = QApplication::screens().at(screen);
+        if (upperLeftScreen != nullptr) {
+            if (screenTmp->geometry().x() < upperLeftScreen->geometry().x() || screenTmp->geometry().y() < upperLeftScreen->geometry().y()) {
+                upperLeftScreen = screenTmp;
+            }
+        } else {
+            upperLeftScreen = screenTmp;
+        }
+        rect.setWidth(screenTmp->geometry().width() + rect.width());
+        rect.setHeight(screenTmp->geometry().height() + rect.height());
+    }
 
+    rect.setX(upperLeftScreen->geometry().x());
+    rect.setY(upperLeftScreen->geometry().y());
+
+    if (!SetWindowPos(m_windowHandle, nullptr, rect.x()+ m_windowOffsetX, rect.y()+ m_windowOffsetY, rect.width(), rect.height(), SWP_SHOWWINDOW)) {
+        qFatal("Could not set window pos: ");
+    }
+    if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
+        qFatal("Could not attach to parent window");
+    }
 }
 
 bool WinWindow::searchWorkerWindowToParentTo()
