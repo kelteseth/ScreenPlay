@@ -322,8 +322,8 @@ Item {
 
                 onClicked: {
                     if (type.endsWith("Wallpaper")) {
-                        let activeMonitors =[];
-                        activeMonitors.push(monitorSelection.getActiveMonitors())
+                        let activeMonitors = monitorSelection.getActiveMonitors();
+
 
                         // TODO Alert user to choose a monitor
                         if (activeMonitors.length === 0)
@@ -332,9 +332,7 @@ Item {
                         print(activeMonitors)
 
                         screenPlay.createWallpaper(
-                                    // Qt creates an array of arrays. So we have to
-                                    // set it to the frist one. Why? I have no idea!
-                                    activeMonitors[0], globalVariables.localStoragePath
+                                    activeMonitors, globalVariables.localStoragePath
                                     + "/" + activeScreen,
                                     installedListModel.get(activeScreen).screenPreview,
                                     (Math.round(sliderVolume.value * 100) / 100),
