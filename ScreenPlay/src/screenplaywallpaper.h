@@ -1,42 +1,43 @@
 #pragma once
 
+#include <QJsonObject>
 #include <QObject>
 #include <QProcess>
 
 #include <memory>
 
-#include "projectsettingslistmodel.h"
 #include "globalvariables.h"
+#include "projectsettingslistmodel.h"
 
 namespace ScreenPlay {
 
 using std::shared_ptr,
     std::make_shared;
 
-class ScreenPlayWallpaper  : public QObject {
+class ScreenPlayWallpaper : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
 
     Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged)
     Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
-    Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
+    Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
-
+    Q_PROPERTY(QJsonObject profileJsonObject READ profileJsonObject WRITE setProfileJsonObject NOTIFY profileJsonObjectChanged)
 
 public:
-    explicit ScreenPlayWallpaper(const QVector<int>& screenNumber,
+    explicit ScreenPlayWallpaper(
+        const QVector<int>& screenNumber,
         const shared_ptr<GlobalVariables>& globalVariables,
         const QString& appID,
-        const QString& projectPath,
+        const QString& absolutePath,
         const QString& previewImage,
         const float volume,
         const QString& fillMode,
         const QString& type,
         QObject* parent = nullptr);
-
 
     ~ScreenPlayWallpaper() {}
 
@@ -48,11 +49,6 @@ public:
     QVector<int> screenNumber() const
     {
         return m_screenNumber;
-    }
-
-    QString projectPath() const
-    {
-        return m_projectPath;
     }
 
     QString previewImage() const
@@ -80,16 +76,26 @@ public:
         return m_fillMode;
     }
 
+    QString absolutePath() const
+    {
+        return m_absolutePath;
+    }
+
+    QJsonObject profileJsonObject() const
+    {
+        return m_profileJsonObject;
+    }
+
 signals:
     void screenNumberChanged(QVector<int> screenNumber);
-    void projectPathChanged(QString projectPath);
     void previewImageChanged(QString previewImage);
     void appIDChanged(QString appID);
     void typeChanged(QString type);
-
     void fileChanged(QString file);
-
     void fillModeChanged(QString fillMode);
+    void absolutePathChanged(QString absolutePath);
+
+    void profileJsonObjectChanged(QJsonObject profileJsonObject);
 
 public slots:
     void setScreenNumber(QVector<int> screenNumber)
@@ -99,15 +105,6 @@ public slots:
 
         m_screenNumber = screenNumber;
         emit screenNumberChanged(m_screenNumber);
-    }
-
-    void setProjectPath(QString projectPath)
-    {
-        if (m_projectPath == projectPath)
-            return;
-
-        m_projectPath = projectPath;
-        emit projectPathChanged(m_projectPath);
     }
 
     void setPreviewImage(QString previewImage)
@@ -155,6 +152,24 @@ public slots:
         emit fillModeChanged(m_fillMode);
     }
 
+    void setAbsolutePath(QString absolutePath)
+    {
+        if (m_absolutePath == absolutePath)
+            return;
+
+        m_absolutePath = absolutePath;
+        emit absolutePathChanged(m_absolutePath);
+    }
+
+    void setProfileJsonObject(QJsonObject profileJsonObject)
+    {
+        if (m_profileJsonObject == profileJsonObject)
+            return;
+
+        m_profileJsonObject = profileJsonObject;
+        emit profileJsonObjectChanged(m_profileJsonObject);
+    }
+
 private:
     QProcess m_process;
 
@@ -163,11 +178,12 @@ private:
 
     QVector<int> m_screenNumber;
 
-    QString m_projectPath;
     QString m_previewImage;
     QString m_type;
     QString m_appID;
     QString m_file;
     QString m_fillMode;
+    QString m_absolutePath;
+    QJsonObject m_profileJsonObject;
 };
 }

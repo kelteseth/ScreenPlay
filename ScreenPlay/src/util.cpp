@@ -112,6 +112,28 @@ std::optional<QVersionNumber> Util::getVersionNumberFromString(const QString& st
     return QVersionNumber(major, minor, patch);
 }
 
+bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate)
+{
+    QFile configTmp;
+    configTmp.setFileName(absoluteFilePath);
+    QIODevice::OpenMode openMode;
+    if (truncate) {
+        openMode = QIODevice::ReadWrite | QIODevice::Truncate;
+    } else {
+        openMode = QIODevice::ReadWrite | QIODevice::Append;
+    }
+
+    if (!configTmp.open(openMode)) {
+        return false;
+    }
+
+    QTextStream out(&configTmp);
+    out << QJsonDocument(object).toJson();
+
+    configTmp.close();
+    return  true;
+}
+
 void Util::setNavigation(QString nav)
 {
     emit requestNavigation(nav);
@@ -331,6 +353,5 @@ bool Util::saveExtractedByteArray(libzippp::ZipEntry& entry, std::string& absolu
     ofUnzippedFile.close();
     return true;
 }
-
 
 }

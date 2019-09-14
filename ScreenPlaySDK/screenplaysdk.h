@@ -20,15 +20,16 @@ class ScreenPlaySDK : public QQuickItem {
 
 public:
     ScreenPlaySDK(QQuickItem* parent = nullptr);
+    ScreenPlaySDK( const QString& appID, const QString& type,QQuickItem* parent = nullptr);
     ~ScreenPlaySDK();
 
-    Q_PROPERTY(QString contentType READ contentType WRITE setContentType NOTIFY contentTypeChanged)
+    Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
 
-    QString contentType() const
+    QString type() const
     {
-        return m_contentType;
+        return m_type;
     }
 
     bool isConnected() const
@@ -49,19 +50,13 @@ public slots:
     void error(QLocalSocket::LocalSocketError socketError);
     void redirectMessage(QByteArray& msg);
 
-    void setContentType(QString contentType)
+    void setType(QString type)
     {
-        if (m_contentType == contentType)
+        if (m_type == type)
             return;
 
-        m_contentType = contentType;
-
-        if (isConnected()) {
-            m_socket.write(QByteArray(m_contentType.toLatin1()));
-            m_socket.flush();
-            m_socket.waitForBytesWritten();
-        }
-        emit contentTypeChanged(m_contentType);
+        m_type = type;
+        emit typeChanged(m_type);
     }
 
     void setIsConnected(bool isConnected)
@@ -80,9 +75,6 @@ public slots:
 
         m_appID = appID;
         emit appIDChanged(m_appID);
-
-        m_socket.write(QByteArray(appID.toUtf8()));
-        m_socket.waitForBytesWritten();
     }
 
     static void redirectMessageOutputToMainWindow(QtMsgType type, const QMessageLogContext& context, const QString& msg);
@@ -94,16 +86,19 @@ signals:
     void sdkConnected();
     void sdkDisconnected();
 
-    void contentTypeChanged(QString contentType);
+    void typeChanged(QString type);
     void isConnectedChanged(bool isConnected);
 
     void appIDChanged(QString appID);
     void newRedirectMessage(QByteArray& msg);
 
 private:
+    void init();
+
+private:
     QLocalSocket m_socket;
 
-    QString m_contentType = "undefined";
+    QString m_type = "undefined";
     bool m_isConnected = false;
 
     QString m_appID;

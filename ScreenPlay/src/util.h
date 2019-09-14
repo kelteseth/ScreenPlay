@@ -1,19 +1,21 @@
 #pragma once
 
 #include <QCoreApplication>
+#include <QDateTime>
 #include <QDebug>
 #include <QDir>
 #include <QGuiApplication>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QNetworkAccessManager>
+#include <QNetworkReply>
 #include <QObject>
 #include <QProcess>
 #include <QScopeGuard>
 #include <QString>
-#include <QtConcurrent/QtConcurrent>
-#include <QDateTime>
-#include <QNetworkReply>
-#include <QProcess>
+#include <QTextStream>
 #include <QVersionNumber>
+#include <QtConcurrent/QtConcurrent>
 #include <qqml.h>
 
 #include <fstream>
@@ -24,19 +26,15 @@
 
 namespace ScreenPlay {
 
-
-
-
 class Util : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(bool ffmpegAvailable READ ffmpegAvailable  NOTIFY ffmpegAvailableChanged)
+    Q_PROPERTY(bool ffmpegAvailable READ ffmpegAvailable NOTIFY ffmpegAvailableChanged)
     Q_PROPERTY(AquireFFMPEGStatus aquireFFMPEGStatus READ aquireFFMPEGStatus NOTIFY aquireFFMPEGStatusChanged)
-    Q_PROPERTY(QString debugMessages READ debugMessages  NOTIFY debugMessagesChanged)
+    Q_PROPERTY(QString debugMessages READ debugMessages NOTIFY debugMessagesChanged)
 
 public:
     explicit Util(QNetworkAccessManager* networkAccessManager, QObject* parent = nullptr);
-
 
     enum class AquireFFMPEGStatus {
         Init,
@@ -83,8 +81,8 @@ signals:
 public slots:
     static std::optional<QJsonObject> openJsonFileToObject(const QString& path);
     static std::optional<QString> openJsonFileToString(const QString& path);
-
     static std::optional<QVersionNumber> getVersionNumberFromString(const QString& str);
+    static bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
 
     static QString generateRandomString(quint32 length = 32);
 
@@ -123,7 +121,7 @@ public slots:
 
     void appendDebugMessages(QString debugMessages)
     {
-        if(m_debugMessages.size() > 1000000) {
+        if (m_debugMessages.size() > 1000000) {
             m_debugMessages = "###### DEBUG CLEARED ######";
         }
 
@@ -143,5 +141,5 @@ private:
 };
 
 // Used for redirect content from static logToGui to setDebugMessages
-static Util* utilPointer {nullptr};
+static Util* utilPointer { nullptr };
 }

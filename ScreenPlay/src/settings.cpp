@@ -148,13 +148,7 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
 
     obj.value().insert(name, value.toJsonValue());
 
-    QFile configTmp;
-    configTmp.setFileName(filename);
-    configTmp.open(QIODevice::ReadWrite | QIODevice::Truncate);
-    QTextStream out(&configTmp);
-    out << QJsonDocument(obj.value()).toJson();
-
-    configTmp.close();
+    Util::writeJsonObjectToFile(filename,obj.value());
 }
 
 void Settings::setqSetting(const QString& key, const QString& value)

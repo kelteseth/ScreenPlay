@@ -137,11 +137,11 @@ Item {
                 }
                 Button {
                     id: btnRemoveAllWallpaper
-                    text: qsTr("Remove all wallpaper and Widgets")
+                    text: qsTr("Remove all Wallpapers")
                     Material.background: Material.Orange
                     Material.foreground: "white"
                     onClicked: {
-                        screenPlay.closeAllConnections()
+                        screenPlay.removeAllWallpapers()
                         monitors.state = "inactive"
                     }
                 }

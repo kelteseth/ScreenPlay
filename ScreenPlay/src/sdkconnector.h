@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QJsonValue>
 #include <QLocalServer>
 #include <QLocalSocket>
@@ -32,6 +34,7 @@ public slots:
     void readyRead();
     void newConnection();
     void closeAllConnections();
+    void closeAllWallpapers();
 
     void closeWallpapersAt(int at);
     void closeWallpaper(const QString& appID);
@@ -46,6 +49,7 @@ private:
 class SDKConnection : public QObject {
     Q_OBJECT
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
+    Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QVector<int> monitor READ monitor WRITE setMonitor NOTIFY monitorChanged)
 
 public:
@@ -79,10 +83,17 @@ public:
         return m_monitor;
     }
 
+    QString type() const
+    {
+        return m_type;
+    }
+
 signals:
     void requestCloseAt(int at);
     void appIDChanged(QString appID);
     void monitorChanged(QVector<int> monitor);
+
+    void typeChanged(QString type);
 
 public slots:
     void readyRead()
@@ -92,11 +103,13 @@ public slots:
 
         // The first message allways contains the appID
         if (msg.startsWith("appID=")) {
+            QStringList args = msg.split(",");
             //Only use the first 32 chars for the appID
-            m_appID = msg.remove("appID=").mid(0, 32);
-            msg.remove(m_appID);
-            qDebug() << "###### Wallpaper width APPID created:"
-                     << "\n######" << m_appID;
+            QString appID = args.at(0);
+            m_appID = appID.remove("appID=");
+            m_type = args.at(1);
+            qDebug() << "###### Wallpaper created:"
+                     << "\t AppID:" << m_appID << "\t type: " << m_type;
         } else {
             qDebug() << "### Message from: " << m_appID << "\n###" << msg;
         }
@@ -131,9 +144,19 @@ public slots:
         emit monitorChanged(m_monitor);
     }
 
+    void setType(QString type)
+    {
+        if (m_type == type)
+            return;
+
+        m_type = type;
+        emit typeChanged(m_type);
+    }
+
 private:
     QLocalSocket* m_socket;
     QString m_appID;
     QVector<int> m_monitor;
+    QString m_type;
 };
 }

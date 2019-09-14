@@ -6,6 +6,22 @@ static ScreenPlaySDK* global_sdkPtr = nullptr;
 ScreenPlaySDK::ScreenPlaySDK(QQuickItem* parent)
     : QQuickItem(parent)
 {
+    init();
+}
+
+ScreenPlaySDK::ScreenPlaySDK(
+    const QString& appID,
+    const QString& type,
+    QQuickItem* parent)
+    : QQuickItem(parent)
+    , m_type { type }
+    , m_appID { appID }
+{
+    init();
+}
+
+void ScreenPlaySDK::init()
+{
     // Redirect all messages from this to ScreenPlay
     global_sdkPtr = this;
     qInstallMessageHandler(ScreenPlaySDK::redirectMessageOutputToMainWindow);
@@ -26,6 +42,10 @@ ScreenPlaySDK::~ScreenPlaySDK()
 
 void ScreenPlaySDK::connected()
 {
+    QByteArray welcomeMessage = QString(m_appID + "," + m_type).toUtf8();
+    m_socket.write(welcomeMessage);
+    m_socket.waitForBytesWritten();
+
     setIsConnected(true);
     emit sdkConnected();
 }

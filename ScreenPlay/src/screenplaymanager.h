@@ -100,13 +100,13 @@ public slots:
 
     void createWidget(const QUrl& absoluteStoragePath, const QString& previewImage);
 
-    void closeAllConnections();
+    void removeAllWallpapers();
     void removeWallpaperAt(const int at = 0);
 
     void requestProjectSettingsListModelAt(const int index);
     void setWallpaperValue(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
-    void monitorListChanged();
+
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)
     {
@@ -127,8 +127,9 @@ public slots:
     }
 
 private:
-    void loadActiveProfiles();
-    bool saveConfigWallpaper(const QString& profileName, const QVector<int>& monitors, const QJsonObject& content);
+    void loadWallpaperProfiles();
+    bool saveWallpaperProfile(const QString& profileName, const QJsonObject& content);
+
 
 private:
     const shared_ptr<GlobalVariables>& m_globalVariables;

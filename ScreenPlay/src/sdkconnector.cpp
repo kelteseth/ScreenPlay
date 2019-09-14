@@ -1,7 +1,5 @@
 #include "sdkconnector.h"
 
-#include <QJsonDocument>
-#include <QJsonObject>
 namespace ScreenPlay {
 SDKConnector::SDKConnector(QObject* parent)
     : QObject(parent)
@@ -10,7 +8,7 @@ SDKConnector::SDKConnector(QObject* parent)
 
     connect(m_server.get(), &QLocalServer::newConnection, this, &SDKConnector::newConnection);
     if (!m_server->listen("ScreenPlay")) {
-        qErrnoWarning("Could not open Local Socket with the name ScreenPlay. Usually this means another ScreenPlay instance is running!");
+        qCritical("Could not open Local Socket with the name ScreenPlay. Usually this means another ScreenPlay instance is running!");
     }
 }
 
@@ -25,10 +23,18 @@ void SDKConnector::newConnection()
 
 void SDKConnector::closeAllConnections()
 {
-    for (int i = 0; i < m_clients.size(); ++i) {
-        m_clients.at(i)->close();
-        m_clients.clear();
-        m_clients.squeeze();
+    for (auto& client : m_clients) {
+        client->close();
+    }
+    m_clients.clear();
+}
+
+void SDKConnector::closeAllWallpapers()
+{
+    for (auto& client : m_clients) {
+        if(client->type() == "videoWallpaper"){
+            client->close();
+        }
     }
 }
 
@@ -37,7 +43,6 @@ void SDKConnector::closeWallpapersAt(int at)
     for (const shared_ptr<SDKConnection>& refSDKConnection : m_clients) {
         refSDKConnection->close();
         if (!refSDKConnection->monitor().empty()) {
-            // problem here !!
             if (refSDKConnection->monitor().at(0) == at) {
                 refSDKConnection->close();
                 qDebug() << "Wall Closed...!";

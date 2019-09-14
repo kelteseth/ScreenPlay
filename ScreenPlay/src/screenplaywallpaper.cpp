@@ -10,20 +10,20 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     const QVector<int>& screenNumber,
     const shared_ptr<GlobalVariables>& globalVariables,
     const QString& appID,
-    const QString& projectPath,
+    const QString& absolutePath,
     const QString& previewImage,
     const float volume,
     const QString& fillMode,
     const QString& type,
     QObject* parent)
     : QObject(parent)
-    , m_projectSettingsListModel { make_shared<ProjectSettingsListModel>(projectPath + "/project.json") }
+    , m_projectSettingsListModel { make_shared<ProjectSettingsListModel>(absolutePath + "/project.json") }
     , m_globalVariables { globalVariables }
     , m_screenNumber { screenNumber }
-    , m_projectPath { projectPath }
-    , m_previewImage { QString { projectPath + "/" + previewImage } }
+    , m_previewImage { QString { absolutePath + "/" + previewImage } }
     , m_type { type }
     , m_appID { appID }
+    , m_absolutePath { absolutePath }
 {
 
     QObject::connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished),
@@ -53,10 +53,11 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
     const QStringList proArgs {
         tmpScreenNumber,
-        m_projectPath,
+        m_absolutePath,
         QString { "appID=" + m_appID },
         QString::number(static_cast<double>(volume)),
-        fillMode
+        fillMode,
+        type
     };
 
     qDebug() << "Creating ScreenPlayWallpaper " << proArgs;

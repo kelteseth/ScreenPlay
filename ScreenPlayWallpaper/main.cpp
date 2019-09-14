@@ -35,11 +35,14 @@ int main(int argc, char* argv[])
     // It means we want to test a single wallpaper
     QStringList argumentList = app.arguments();
     if (argumentList.length() == 1) {
-        QVector<int> list;
-        list.append(0);
+
+        //Set the monitor number to test
 
 #if defined(Q_OS_WIN)
-        WinWindow window(list, "test", "appid", "1", "fill");
+        WinWindow window1({ 0 }, "test", "appid", "1", "fill");
+        WinWindow window2({ 1 }, "test", "appid", "1", "fill");
+        WinWindow window3({ 2 }, "test", "appid", "1", "fill");
+
         //WinWindow window(list, "D:/672870/827874818", "appid", "1", "fill");
 #endif
 #if defined(Q_OS_LINUX)
@@ -52,13 +55,13 @@ int main(int argc, char* argv[])
         return app.exec();
     }
 
-    // 5 parameter + 1 OS working directory default paramter
-    if (argumentList.length() != 6) {
+    // 6 parameter + 1 OS working directory default paramter
+    if (argumentList.length() != 7) {
         return -3;
     }
 
-    ScreenPlaySDK sdk;
-    sdk.setAppID(argumentList.at(3));
+    // AppID, Type
+    ScreenPlaySDK sdk(argumentList.at(3),argumentList.at(6));
 
     QString monitorNumbers = argumentList.at(1);
     QStringList activeScreensList = monitorNumbers.split(",");
@@ -85,7 +88,7 @@ int main(int argc, char* argv[])
         }
     }
 
-    // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (4) volume, (5) fillmode
+    // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (4) volume, (5) fillmode, (6) type
     // See screenplay.h @ScreenPlayWallpaper constructor how the args get created
     qDebug() << argumentList;
 
