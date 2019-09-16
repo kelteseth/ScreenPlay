@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
         LinuxWindow window(list, "test", "appid", "1");
 #endif
 #if defined(Q_OS_OSX)
-        LinuxWindow window(list, "test", "appid", "1");
+        MacWindow window(list, "test", "appid", "1");
 #endif
 
         return app.exec();
