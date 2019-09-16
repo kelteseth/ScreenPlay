@@ -31,8 +31,14 @@ void SDKConnector::closeAllConnections()
 
 void SDKConnector::closeAllWallpapers()
 {
+    QStringList types{
+         "videoWallpaper",
+        "qmlWallpaper",
+        "htmlWallpaper",
+        "godotWallpaper"
+    };
     for (auto& client : m_clients) {
-        if(client->type() == "videoWallpaper"){
+        if (types.contains(client->type())) {
             client->close();
         }
     }
