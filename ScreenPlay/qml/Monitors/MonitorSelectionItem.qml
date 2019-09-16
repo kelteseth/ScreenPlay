@@ -2,7 +2,8 @@ import QtQuick 2.12
 import QtGraphicalEffects 1.0
 
 Item {
-    id: monitorSelectionItem
+    id: root
+
     property rect monitorSize: Qt.rect(0, 0, 0, 0)
     property string monitorModel
     property string monitorManufacturer
@@ -10,34 +11,20 @@ Item {
     property string monitorID
     property string previewImage: ""
     onPreviewImageChanged: {
-        if(previewImage === ""){
+        if (previewImage === "") {
             imgPreview.opacity = 0
         } else {
-            imgPreview.source = Qt.resolvedUrl("file:///"+previewImage)
+            imgPreview.source = Qt.resolvedUrl("file:///" + previewImage)
             imgPreview.opacity = 1
         }
-
     }
 
     property int fontSize: 10
     property int index
     property bool isSelected: false
-    signal monitorSelected(var index)
-    onMonitorSelected: {
-        if (isSelected) {
-            isSelected = false
-        } else {
-            isSelected = true
-        }
-    }
+    onIsSelectedChanged: root.state = isSelected ? "selected" : "default"
 
-    onIsSelectedChanged: {
-        if (isSelected) {
-            wrapper.border.color = "#F28E0D"
-        } else {
-            wrapper.border.color = "#373737"
-        }
-    }
+    signal monitorSelected(var index)
 
     Text {
         text: monitorSize.width + "x" + monitorSize.height
@@ -49,14 +36,14 @@ Item {
 
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
-        font.pointSize: monitorSelectionItem.fontSize
+        font.pointSize: root.fontSize
         font.family: "Roboto"
         wrapMode: Text.WrapAnywhere
     }
 
     Rectangle {
         id: wrapper
-        color: isSelected ? "#373737" : "#828282"
+        color: "#828282"
         anchors.fill: parent
         anchors.margins: 10
         border.color: "#1e1e1e"
@@ -76,7 +63,7 @@ Item {
 
         Text {
             font.pointSize: 14
-            text: monitorSelectionItem.index
+            text: root.index
             anchors.centerIn: parent
             color: "white"
         }
@@ -86,9 +73,38 @@ Item {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-
-                    monitorSelected(index)
+                monitorSelected(index)
             }
         }
     }
+
+    states: [
+        State {
+            name: "default"
+            PropertyChanges {
+                target: wrapper
+                border.color: "#373737"
+            }
+        },
+        State {
+            name: "selected"
+            PropertyChanges {
+                target: wrapper
+                border.color: "#F28E0D"
+            }
+        }
+    ]
+    transitions: [
+        Transition {
+            from: "default"
+            to: "selected"
+            reversible: true
+            PropertyAnimation {
+                target: wrapper
+                duration: 200
+                easing.type: Easing.InOutQuart
+                property: "border.color"
+            }
+        }
+    ]
 }

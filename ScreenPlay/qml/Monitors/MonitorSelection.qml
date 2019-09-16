@@ -11,7 +11,7 @@ Rectangle {
     property real availableWidth: 0
     property real availableHeight: 0
     property int fontSize: 12
-    property bool canSelectMultipleMonitors: true
+    property bool multipleMonitorsSelectable: true
 
     // We preselect the main monitor
     property var activeMonitors:[0]
@@ -32,6 +32,19 @@ Rectangle {
         }
     }
 
+    function deselectOthers(index){
+        for (var i = 0; i < rp.count; i++) {
+
+            if(i === index){
+                rp.itemAt(i).isSelected = true
+                continue;
+            }
+            rp.itemAt(i).isSelected = false
+
+        }
+
+    }
+
     function deselectAll(){
         for (var i = 0; i < rp.count; i++) {
             rp.itemAt(i).isSelected = false
@@ -42,7 +55,6 @@ Rectangle {
     function getActiveMonitors(){
         rect.activeMonitors = []
         for (var i = 0; i < rp.count; i++) {
-
              if(rp.itemAt(i).isSelected){
                  rect.activeMonitors.push(rp.itemAt(i).index)
              }
@@ -95,7 +107,6 @@ Rectangle {
     Repeater {
         id: rp
         anchors.fill: parent
-        anchors.centerIn: parent
         model: monitorListModel
 
         Component.onCompleted: rp.itemAt(0).isSelected = true
@@ -116,6 +127,14 @@ Rectangle {
             previewImage: m_previewImage
 
             onMonitorSelected: {
+
+                if(!multipleMonitorsSelectable){
+                    deselectOthers(index)
+                } else {
+                      rp.itemAt(index).isSelected = !rp.itemAt(index).isSelected
+                }
+
+
                 getActiveMonitors()
 
                 requestProjectSettings(index)

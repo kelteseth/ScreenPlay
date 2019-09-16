@@ -129,5 +129,6 @@
         <file>qml/Common/Shake.qml</file>
         <file>qml/Common/Grow.qml</file>
         <file>qml/Installed/InstalledWelcomeScreen.qml</file>
+        <file>qml/Monitors/DefaultVideoControls.qml</file>
     </qresource>
 </RCC>

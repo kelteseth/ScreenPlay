@@ -39,6 +39,16 @@ public:
         const QString& type,
         QObject* parent = nullptr);
 
+    explicit ScreenPlayWallpaper(
+        const QVector<int>& screenNumber,
+        const shared_ptr<GlobalVariables>& globalVariables,
+        const QString& appID,
+        const QString& absolutePath,
+        const QString& previewImage,
+        const QString& type,
+        const QJsonObject& settings,
+        QObject* parent = nullptr);
+
     ~ScreenPlayWallpaper() {}
 
     const shared_ptr<ProjectSettingsListModel>& projectSettingsListModel() const

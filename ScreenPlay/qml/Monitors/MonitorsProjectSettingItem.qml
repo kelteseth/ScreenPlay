@@ -10,8 +10,7 @@ Item {
     height: isHeadline ? 50 : 30
     width: 300
 
-
-    property var selectedMonitor:[0]
+    property int selectedMonitor
 
     anchors {
         left: parent.left
@@ -79,7 +78,7 @@ Item {
                     onValueChanged: {
                         var value = Math.round(slider.value * 100) / 100;
                         txtSliderValue.text = value;
-                        screenPlay.setWallpaperValue(selectedMonitor[0],txtDescription.text,value)
+                        screenPlay.setWallpaperValue(selectedMonitor,txtDescription.text,value)
                     }
                 }
                 Text {

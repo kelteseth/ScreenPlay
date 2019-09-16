@@ -13,7 +13,7 @@ Item {
 
     property string activeMonitorName: ""
     property int activeMonitorIndex
-    onActiveMonitorIndexChanged: print(activeMonitorIndex)
+
 
     onStateChanged: {
         bgMouseArea.focus = monitors.state == "active" ? true : false
@@ -41,6 +41,7 @@ Item {
         z: 98
         width: 1000
         height: 500
+        clip: true
         anchors {
             top: parent.top
             topMargin: 50
@@ -79,6 +80,7 @@ Item {
                 height: 200
                 z: 99
                 width: parent.width * .9
+                multipleMonitorsSelectable: false
                 anchors {
                     top: txtHeadline.bottom
                     topMargin: 20
@@ -95,22 +97,20 @@ Item {
                 Connections {
                     target: screenPlay
                     onProjectSettingsListModelFound: {
-                        gridView.model = li
-                        // TODO via states
+                        videoControlWrapper.state = "visible"
+                        customPropertiesGridView.model = li
                         if (type == "videoWallpaper") {
-                            videoControlWrapper.z = 10
-                            gridView.z = 0
-                            videoControlWrapper.visible = true
-                            gridView.visible = false
+                            customPropertiesGridView.state = "hidden"
+                            videoControlWrapper.state = "visible"
                         } else {
-                            videoControlWrapper.visible = false
-                            gridView.visible = true
-                            videoControlWrapper.z = 0
-                            gridView.z = 10
+                            customPropertiesGridView.state = "visible"
+                            videoControlWrapper.state = "hidden"
                         }
                     }
                     onProjectSettingsListModelNotFound: {
-                        gridView.model = null
+                        customPropertiesGridView.model = null
+                        videoControlWrapper.state = "hidden"
+                        customPropertiesGridView.state = "hidden"
                     }
                 }
             }
@@ -147,82 +147,20 @@ Item {
                 }
             }
         }
-        ColumnLayout {
+        DefaultVideoControls {
             id: videoControlWrapper
-            spacing: 20
             anchors {
                 top: parent.top
                 topMargin: 60
                 right: parent.right
+                bottom: parent.bottom
                 margins: 30
                 left: itmLeftWrapper.right
-            }
-
-            SP.Slider {
-                headline: qsTr("Volume")
-                onValueChanged: screenPlay.setWallpaperValue(
-                                    activeMonitorIndex, "volume", value)
-                Layout.fillWidth: true
-            }
-            SP.Slider {
-                headline: qsTr("Playback rate")
-                onValueChanged: screenPlay.setWallpaperValue(
-                                    activeMonitorIndex, "playbackRate", value)
-                Layout.fillWidth: true
-            }
-            SP.Slider {
-                headline: qsTr("Current Video Time")
-                onValueChanged: screenPlay.setWallpaperValue(
-                                    activeMonitorIndex, "currentTime", value)
-                Layout.fillWidth: true
-            }
-            ColumnLayout {
-                height: 50
-                Layout.fillWidth: true
-                spacing: 5
-
-                Text {
-                    id: txtComboBoxFillMode
-                    text: qsTr("Fill Mode")
-                    font.family: "Roboto"
-                    verticalAlignment: Text.AlignVCenter
-                    font.pointSize: 10
-                    color: "#626262"
-                    wrapMode: Text.WrapAnywhere
-                    Layout.fillWidth: true
-                }
-                ComboBox {
-                    id: settingsComboBox
-                    Layout.fillWidth: true
-                    onActivated: {
-                        screenPlay.setWallpaperValue(
-                                    activeMonitorIndex, "fillmode",
-                                    settingsComboBox.currentText)
-                    }
-
-                    model: ListModel {
-                        ListElement {
-                            text: "Stretch"
-                        }
-                        ListElement {
-                            text: "Fill"
-                        }
-                        ListElement {
-                            text: "Contain"
-                        }
-                        ListElement {
-                            text: "Cover"
-                        }
-                        ListElement {
-                            text: "Scale-Down"
-                        }
-                    }
-                }
             }
         }
 
         GridView {
-            id: gridView
+            id: customPropertiesGridView
             boundsBehavior: Flickable.DragOverBounds
             maximumFlickVelocity: 7000
             flickDeceleration: 5000
@@ -242,12 +180,47 @@ Item {
 
             delegate: MonitorsProjectSettingItem {
                 id: delegate
-                selectedMonitor: monitorSelection.activeMonitorIndex
+                selectedMonitor: monitors.activeMonitorIndex
             }
 
             ScrollBar.vertical: ScrollBar {
                 snapMode: ScrollBar.SnapOnRelease
             }
+
+            states: [
+                State {
+                    name: "visible"
+                    PropertyChanges {
+                        target: customPropertiesGridView
+                        opacity: 1
+                        z:1
+                        anchors.topMargin: 60
+                    }
+                },
+                State {
+                    name: "hidden"
+                    PropertyChanges {
+                        target: customPropertiesGridView
+                        opacity: 0
+                        z:0
+                        anchors.topMargin: -100
+                    }
+                }
+            ]
+
+            transitions: [
+                Transition {
+                    from: "visible"
+                    to: "hidden"
+                    reversible: true
+                    PropertyAnimation {
+                        target: customPropertiesGridView
+                        duration: 300
+                        easing.type: Easing.InOutQuart
+                        properties: "anchors.topMargin, opacity"
+                    }
+                }
+            ]
         }
 
         MouseArea {

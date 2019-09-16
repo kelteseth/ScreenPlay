@@ -67,4 +67,24 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     m_process.startDetached();
 }
 
+ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
+    const shared_ptr<GlobalVariables>& globalVariables,
+    const QString& appID,
+    const QString& absolutePath,
+    const QString& previewImage,
+    const QString& type,
+    const QJsonObject& profileJsonObject,
+    QObject* parent)
+    : QObject(parent)
+    , m_projectSettingsListModel { make_shared<ProjectSettingsListModel>(absolutePath + "/project.json") }
+    , m_globalVariables { globalVariables }
+    , m_screenNumber { screenNumber }
+    , m_previewImage { QString { absolutePath + "/" + previewImage } }
+    , m_type { type }
+    , m_appID { appID }
+    , m_absolutePath { absolutePath }
+    , m_profileJsonObject { profileJsonObject }
+{
+}
+
 }
