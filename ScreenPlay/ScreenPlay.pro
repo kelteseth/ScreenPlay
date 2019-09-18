@@ -19,6 +19,7 @@ DISTFILES += \
 RESOURCES += Resources.qrc
 
 SOURCES += main.cpp \
+    app.cpp \
     src/createimportvideo.cpp \
     src/installedlistmodel.cpp \
     src/monitorlistmodel.cpp \
@@ -39,6 +40,7 @@ TRANSLATIONS =  translations/ScreenPlay_en.ts   \
                 translations/ScreenPlay_de.ts
 
 HEADERS += \
+    app.h \
     src/globalvariables.h \
     src/createimportvideo.h \
     src/installedlistmodel.h \
