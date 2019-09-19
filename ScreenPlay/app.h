@@ -39,32 +39,192 @@ using std::make_shared,
 class App : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(shared_ptr<GlobalVariables> globalVariables READ globalVariables WRITE setGlobalVariables NOTIFY globalVariablesChanged)
-public:
-    explicit App(int &argc, char **argv);
+    Q_PROPERTY(GlobalVariables* globalVariables READ globalVariables WRITE setGlobalVariables NOTIFY globalVariablesChanged)
+    Q_PROPERTY(ScreenPlayManager* screenPlayManager READ screenPlayManager WRITE setScreenPlayManager NOTIFY screenPlayManagerChanged)
+    Q_PROPERTY(Create* create READ create WRITE setCreate NOTIFY createChanged)
+    Q_PROPERTY(Util* util READ util WRITE setUtil NOTIFY utilChanged)
+    Q_PROPERTY(Settings* settings READ settings WRITE setSettings NOTIFY settingsChanged)
+    Q_PROPERTY(SDKConnector* sdkConnector READ sdkConnector WRITE setSdkConnector NOTIFY sdkConnectorChanged)
 
-    shared_ptr<GlobalVariables> globalVariables() const
+    Q_PROPERTY(InstalledListModel* installedListModel READ installedListModel WRITE setInstalledListModel NOTIFY installedListModelChanged)
+    Q_PROPERTY(InstalledListFilter* installedListFilter READ installedListFilter WRITE setInstalledListFilter NOTIFY installedListFilterChanged)
+    Q_PROPERTY(MonitorListModel* monitorListModel READ monitorListModel WRITE setMonitorListModel NOTIFY monitorListModelChanged)
+    Q_PROPERTY(ProfileListModel* profileListModel READ profileListModel WRITE setProfileListModel NOTIFY profileListModelChanged)
+
+public:
+    explicit App();
+    void init();
+
+    static App* instance()
     {
-        return m_globalVariables;
+        static App app;
+        return &app;
+    }
+
+    GlobalVariables* globalVariables() const
+    {
+        return m_globalVariables.get();
+    }
+
+    ScreenPlayManager* screenPlayManager() const
+    {
+        return m_screenPlayManager.get();
+    }
+
+    Create* create() const
+    {
+        return m_create.get();
+    }
+
+    Util* util() const
+    {
+        return m_util.get();
+    }
+
+    Settings* settings() const
+    {
+        return m_settings.get();
+    }
+
+    InstalledListModel* installedListModel() const
+    {
+        return m_installedListModel.get();
+    }
+
+    MonitorListModel* monitorListModel() const
+    {
+        return m_monitorListModel.get();
+    }
+
+    ProfileListModel* profileListModel() const
+    {
+        return m_profileListModel.get();
+    }
+
+    InstalledListFilter* installedListFilter() const
+    {
+        return m_installedListFilter.get();
+    }
+
+    SDKConnector* sdkConnector() const
+    {
+        return m_sdkConnector.get();
     }
 
 signals:
-
-    void globalVariablesChanged(shared_ptr<GlobalVariables> globalVariables);
+    void globalVariablesChanged(GlobalVariables* globalVariables);
+    void screenPlayManagerChanged(ScreenPlayManager* screenPlayManager);
+    void createChanged(Create* create);
+    void utilChanged(Util* util);
+    void settingsChanged(Settings* settings);
+    void installedListModelChanged(InstalledListModel* installedListModel);
+    void monitorListModelChanged(MonitorListModel* monitorListModel);
+    void profileListModelChanged(ProfileListModel* profileListModel);
+    void installedListFilterChanged(InstalledListFilter* installedListFilter);
+    void sdkConnectorChanged(SDKConnector* sdkConnector);
 
 public slots:
-int run();
-void setGlobalVariables(shared_ptr<GlobalVariables> globalVariables)
-{
-    if (m_globalVariables == globalVariables)
-        return;
+    void setGlobalVariables(GlobalVariables* globalVariables)
+    {
+        if (m_globalVariables.get() == globalVariables)
+            return;
 
-    m_globalVariables = globalVariables;
-    emit globalVariablesChanged(m_globalVariables);
-}
+        m_globalVariables.reset(globalVariables);
+        emit globalVariablesChanged(m_globalVariables.get());
+    }
+    void setScreenPlayManager(ScreenPlayManager* screenPlayManager)
+    {
+        if (m_screenPlayManager.get() == screenPlayManager)
+            return;
+
+        m_screenPlayManager.reset(screenPlayManager);
+        emit screenPlayManagerChanged(m_screenPlayManager.get());
+    }
+
+    void setCreate(Create* create)
+    {
+        if (m_create.get() == create)
+            return;
+
+        m_create.reset(create);
+        emit createChanged(m_create.get());
+    }
+
+    void setUtil(Util* util)
+    {
+        if (m_util.get() == util)
+            return;
+
+        m_util.reset(util);
+        emit utilChanged(m_util.get());
+    }
+
+    void setSettings(Settings* settings)
+    {
+        if (m_settings.get() == settings)
+            return;
+
+        m_settings.reset(settings);
+        emit settingsChanged(m_settings.get());
+    }
+
+    void setInstalledListModel(InstalledListModel* installedListModel)
+    {
+        if (m_installedListModel.get() == installedListModel)
+            return;
+
+        m_installedListModel.reset(installedListModel);
+        emit installedListModelChanged(m_installedListModel.get());
+    }
+    void setMonitorListModel(MonitorListModel* monitorListModel)
+    {
+        if (m_monitorListModel.get() == monitorListModel)
+            return;
+
+        m_monitorListModel.reset(monitorListModel);
+        emit monitorListModelChanged(m_monitorListModel.get());
+    }
+
+    void setProfileListModel(ProfileListModel* profileListModel)
+    {
+        if (m_profileListModel.get() == profileListModel)
+            return;
+
+        m_profileListModel.reset(profileListModel);
+        emit profileListModelChanged(m_profileListModel.get());
+    }
+
+    void setInstalledListFilter(InstalledListFilter* installedListFilter)
+    {
+        if (m_installedListFilter.get() == installedListFilter)
+            return;
+
+        m_installedListFilter.reset(installedListFilter);
+        emit installedListFilterChanged(m_installedListFilter.get());
+    }
+
+    void setSdkConnector(SDKConnector* sdkConnector)
+    {
+        if (m_sdkConnector.get() == sdkConnector)
+            return;
+
+        m_sdkConnector.reset(sdkConnector);
+        emit sdkConnectorChanged(m_sdkConnector.get());
+    }
+
 
 private:
-    std::unique_ptr<QGuiApplication> app;
     std::unique_ptr<QQmlApplicationEngine> mainWindowEngine;
+
     shared_ptr<GlobalVariables> m_globalVariables;
+    shared_ptr<ScreenPlayManager> m_screenPlayManager;
+    shared_ptr<Create> m_create;
+    shared_ptr<Util> m_util;
+    shared_ptr<Settings> m_settings;
+    shared_ptr<SDKConnector> m_sdkConnector;
+
+    shared_ptr<InstalledListModel> m_installedListModel;
+    shared_ptr<MonitorListModel> m_monitorListModel;
+    shared_ptr<ProfileListModel> m_profileListModel;
+    shared_ptr<InstalledListFilter> m_installedListFilter;
 };

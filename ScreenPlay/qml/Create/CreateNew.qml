@@ -73,7 +73,7 @@ Item {
             Timer {
                 id: timerBack
                 interval: 800
-                onTriggered: utility.setNavigation("Create")
+                onTriggered: ScreenPlay.util.setNavigation("Create")
             }
         }
     }

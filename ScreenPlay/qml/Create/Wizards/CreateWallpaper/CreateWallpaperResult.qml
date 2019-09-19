@@ -4,6 +4,8 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.3
+
+import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 
 Item {
@@ -61,7 +63,7 @@ Item {
                 height: txtFFMPEGDebug.paintedHeight
             }
             Connections {
-                target: screenPlayCreate
+                target: ScreenPlay.create
                 onProcessOutput: {
                     txtFFMPEGDebug.text = text
                 }
@@ -80,8 +82,8 @@ Item {
             margins: 10
         }
         onClicked: {
-            utility.setNavigationActive(true)
-            utility.setNavigation("Create")
+            ScreenPlay.util.setNavigationActive(true)
+            ScreenPlay.util.setNavigation("Create")
         }
     }
     states: [

@@ -3,6 +3,8 @@ import QtQuick.Controls 2.5
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 
+import ScreenPlay 1.0
+
 Item {
     id: pageInstalled
     state: "out"
@@ -15,13 +17,13 @@ Item {
 
     Component.onCompleted: {
         pageInstalled.state = "in"
-        installedListFilter.sortByRoleType("All")
+         ScreenPlay.installedListFilter.sortByRoleType("All")
         checkIsContentInstalled()
     }
 
     Action {
         shortcut: "F5"
-        onTriggered:  installedListModel.reset()
+        onTriggered:   ScreenPlay.installedListModel.reset()
     }
 
     Connections {
@@ -31,7 +33,7 @@ Item {
         }
     }
     Connections {
-        target: installedListModel
+        target: ScreenPlay.installedListModel
         onInstalledLoadingFinished: {
             checkIsContentInstalled()
         }
@@ -43,7 +45,7 @@ Item {
     }
 
     function checkIsContentInstalled() {
-        if (installedListModel.count === 0) {
+        if (ScreenPlay.installedListModel.count === 0) {
             loaderHelp.active = true
             gridView.footerItem.isVisible = true
             gridView.visible = false
@@ -161,11 +163,11 @@ Item {
 
             //Pull to refresh
             if (contentY <= -180 && !refresh && !isDragging) {
-                installedListModel.reset()
+                ScreenPlay.installedListModel.reset()
             }
         }
 
-        model: installedListFilter
+        model: ScreenPlay.installedListFilter
 
         delegate: ScreenPlayItem {
             id: delegate
@@ -187,25 +189,25 @@ Item {
     function onPageChanged(name) {
         setSidebarActive(false)
         if (name === "All") {
-            installedListFilter.sortByRoleType("All")
+            ScreenPlay.installedListFilter.sortByRoleType("All")
             navAll.state = "active"
             navWallpaper.state = "inactive"
             navWidgets.state = "inactive"
             navScenes.state = "inactive"
         } else if (name === "Videos") {
-            installedListFilter.sortByRoleType("Videos")
+            ScreenPlay.installedListFilter.sortByRoleType("Videos")
             navAll.state = "inactive"
             navWallpaper.state = "active"
             navWidgets.state = "inactive"
             navScenes.state = "inactive"
         } else if (name === "Widgets") {
-            installedListFilter.sortByRoleType("Widgets")
+            ScreenPlay.installedListFilter.sortByRoleType("Widgets")
             navAll.state = "inactive"
             navWallpaper.state = "inactive"
             navWidgets.state = "active"
             navScenes.state = "inactive"
         } else if (name === "Scenes") {
-            installedListFilter.sortByRoleType("Scenes")
+            ScreenPlay.installedListFilter.sortByRoleType("Scenes")
             navAll.state = "inactive"
             navWallpaper.state = "inactive"
             navWidgets.state = "inactive"
@@ -320,9 +322,9 @@ Item {
                 }
                 onTextChanged: {
                     if (txtSearch.text.length === 0) {
-                        installedListFilter.resetFilter()
+                        ScreenPlay.installedListFilter.resetFilter()
                     } else {
-                        installedListFilter.sortByName(txtSearch.text)
+                        ScreenPlay.installedListFilter.sortByName(txtSearch.text)
                     }
                 }
 

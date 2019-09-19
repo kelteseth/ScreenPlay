@@ -5,6 +5,8 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 
+import ScreenPlay 1.0
+
 Item {
     id: settingsWrapper
     anchors.fill: parent
@@ -84,10 +86,10 @@ Item {
                         SettingBool {
                             headline: qsTr("Autostart")
                             description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
-                            isChecked: screenPlaySettings.autostart
+                            isChecked: ScreenPlay.settings.autostart
                             onCheckboxChanged: {
-                                screenPlaySettings.setAutostart(checked)
-                                screenPlaySettings.writeSingleSettingConfig(
+                                 ScreenPlay.settings.setAutostart(checked)
+                                 ScreenPlay.settings.writeSingleSettingConfig(
                                             "autostart", checked)
                             }
                         }
@@ -98,10 +100,10 @@ Item {
                             available: false
 
                             description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
-                            isChecked: screenPlaySettings.highPriorityStart
+                            isChecked:  ScreenPlay.settings.highPriorityStart
                             onCheckboxChanged: {
-                                screenPlaySettings.setHighPriorityStart(checked)
-                                screenPlaySettings.writeSingleSettingConfig(
+                                 ScreenPlay.settings.setHighPriorityStart(checked)
+                                 ScreenPlay.settings.writeSingleSettingConfig(
                                             "highPriorityStart", checked)
                             }
                         }
@@ -112,10 +114,10 @@ Item {
                             available: false
                             headline: qsTr("Send anonymous crash reports and statistics")
                             description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!")
-                            isChecked: screenPlaySettings.sendStatistics
+                            isChecked:  ScreenPlay.settings.sendStatistics
                             onCheckboxChanged: {
-                                screenPlaySettings.setSendStatistics(checked)
-                                screenPlaySettings.writeSingleSettingConfig(
+                                 ScreenPlay.settings.setSendStatistics(checked)
+                                 ScreenPlay.settings.writeSingleSettingConfig(
                                             "sendStatistics", checked)
                             }
 
@@ -125,7 +127,7 @@ Item {
 
                         SettingsButton {
                             headline: qsTr("Set save location")
-                            description: globalVariables.localStoragePath //qsTr("Choose where to find you content. The default save location is you steam installation")
+                            description: ScreenPlay.globalVariables.localStoragePath //qsTr("Choose where to find you content. The default save location is you steam installation")
                             buttonText: qsTr("Set location")
                             onButtonPressed: {
                                 folderDialogSaveLocation.open()
@@ -133,7 +135,7 @@ Item {
                             FolderDialog {
                                 id: folderDialogSaveLocation
                                 onAccepted: {
-                                    globalVariables.setLocalStoragePath(
+                                    ScreenPlay.globalVariables.setLocalStoragePath(
                                                 folderDialogSaveLocation.currentFolder)
                                 }
                             }
@@ -185,7 +187,7 @@ Item {
                                 }
                                 print(key, languageKey)
 
-                                screenPlaySettings.setqSetting("language", languageKey)
+                                 ScreenPlay.settings.setqSetting("language", languageKey)
 
                             }
                             comboBoxListModel: ListModel {
@@ -256,10 +258,10 @@ Item {
                             headline: qsTr("Pause wallpaper while ingame")
                             available: false
                             description: qsTr("To maximise your framerates ingame, you can enable this setting to pause all active wallpapers!")
-                            isChecked: screenPlaySettings.pauseWallpaperWhenIngame
+                            isChecked:  ScreenPlay.settings.pauseWallpaperWhenIngame
                             onCheckboxChanged: {
-                                screenPlaySettings.setPauseWallpaperWhenIngame(checked)
-                                screenPlaySettings.writeSingleSettingConfig("setPauseWallpaperWhenIngame",checked)
+                                 ScreenPlay.settings.setPauseWallpaperWhenIngame(checked)
+                                 ScreenPlay.settings.writeSingleSettingConfig("setPauseWallpaperWhenIngame",checked)
                             }
                         }
                         SettingsHorizontalSeperator {
@@ -413,7 +415,7 @@ Item {
                                font.pointSize: 12
                             }
                             Text {
-                                text: qsTr("ScreenPlay Build Version ") + screenPlaySettings.gitBuildHash
+                                text: qsTr("ScreenPlay Build Version ") +  ScreenPlay.settings.gitBuildHash
                                 color: "#B5B5B5"
 
                                 wrapMode: Text.WordWrap
@@ -435,7 +437,7 @@ Item {
                             description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")
                             buttonText: qsTr("Licenses")
                             onButtonPressed: {
-                                utility.requestAllLicenses()
+                                ScreenPlay.util.requestAllLicenses()
                                 expanderCopyright.toggle()
                             }
                         }
@@ -448,7 +450,7 @@ Item {
 
 
                             Connections {
-                                target: utility
+                                target: ScreenPlay.util
                                 onAllLicenseLoaded: {
                                     expanderCopyright.text = licensesText
                                 }
@@ -465,7 +467,7 @@ Item {
                         }
                         SettingsExpander {
                             id:expanderDebug
-                            text: utility.debugMessages
+                            text: ScreenPlay.util.debugMessages
                             anchors {
                                 left: parent.left
                                 right: parent.right
@@ -477,7 +479,7 @@ Item {
                             description: qsTr("We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!")
                             buttonText: qsTr("Privacy")
                             onButtonPressed: {
-                                utility.requestAllLDataProtection()
+                                ScreenPlay.util.requestAllLDataProtection()
                                 expanderDataProtection.toggle()
                             }
                         }
@@ -490,7 +492,7 @@ Item {
 
 
                             Connections {
-                                target: utility
+                                target: ScreenPlay.util
                                 onAllDataProtectionLoaded: {
                                     expanderDataProtection.text = dataProtectionText
                                 }

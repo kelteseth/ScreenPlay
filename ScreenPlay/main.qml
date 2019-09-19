@@ -5,6 +5,8 @@ import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 
+import ScreenPlay 1.0
+
 import "qml/"
 import "qml/Monitors"
 import "qml/Common"
@@ -23,7 +25,7 @@ ApplicationWindow {
     minimumWidth: 1050
 
     Component.onCompleted: {
-        if (!screenPlaySettings.autostart) {
+        if (! ScreenPlay.settings.autostart) {
             show()
         }
     }
@@ -67,7 +69,7 @@ ApplicationWindow {
     }
 
     Connections {
-        target: screenPlaySettings
+        target: ScreenPlay.settings
         onSetMainWindowVisible: {
             window.visible = visible
             setX(Screen.width / 2 - width / 2)
@@ -76,13 +78,13 @@ ApplicationWindow {
     }
 
     Connections {
-        target: utility
+        target: ScreenPlay.util
         onRequestNavigation: {
             switchPage(nav)
         }
         onRequestToggleWallpaperConfiguration: {
             monitors.state = monitors.state == "active" ? "inactive" : "active"
-            screenPlay.requestProjectSettingsListModelAt(0)
+            ScreenPlay.screenPlayManager.requestProjectSettingsListModelAt(0)
         }
     }
 
@@ -148,11 +150,11 @@ ApplicationWindow {
                     if (miMuteAll.isMuted) {
                         isMuted = false
                         miMuteAll.text = qsTr("Mute all")
-                        screenPlay.setAllWallpaperValue("muted", "true")
+                        ScreenPlay.screenPlayManager.setAllWallpaperValue("muted", "true")
                     } else {
                         isMuted = true
                         miMuteAll.text = qsTr("Unmute all")
-                        screenPlay.setAllWallpaperValue("muted", "false")
+                        ScreenPlay.screenPlayManager.setAllWallpaperValue("muted", "false")
                     }
                 }
             }
@@ -164,11 +166,11 @@ ApplicationWindow {
                     if (miStopAll.isPlaying) {
                         isPlaying = false
                         miStopAll.text = qsTr("Pause all")
-                        screenPlay.setAllWallpaperValue("isPlaying", "true")
+                        ScreenPlay.screenPlayManager.setAllWallpaperValue("isPlaying", "true")
                     } else {
                         isPlaying = true
                         miStopAll.text = qsTr("Play all")
-                        screenPlay.setAllWallpaperValue("isPlaying", "false")
+                        ScreenPlay.screenPlayManager.setAllWallpaperValue("isPlaying", "false")
                     }
                 }
             }

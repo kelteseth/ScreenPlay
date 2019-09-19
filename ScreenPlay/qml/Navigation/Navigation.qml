@@ -2,6 +2,8 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 
+import ScreenPlay 1.0
+
 import "../Workshop"
 import "../Common"
 
@@ -18,7 +20,7 @@ Rectangle {
     property bool navActive: true
 
     Connections {
-        target: utility
+        target: ScreenPlay.util
         onRequestNavigationActive: {
             setActive(isActive)
         }
@@ -83,7 +85,7 @@ Rectangle {
             id: navInstalled
             state: "active"
             name: "Installed"
-            amount: installedListModel.count
+            amount: ScreenPlay.installedListModel.count
             iconSource: "qrc:/assets/icons/icon_installed.svg"
             onPageClicked: navigation.onPageChanged(name)
         }

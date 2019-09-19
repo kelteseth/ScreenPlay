@@ -4,6 +4,8 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
+
+import ScreenPlay 1.0
 import "../Common/" as SP
 
 Item {
@@ -18,7 +20,7 @@ Item {
     onStateChanged: {
         bgMouseArea.focus = monitors.state == "active" ? true : false
         if (monitors.state === "active") {
-            screenPlay.requestProjectSettingsListModelAt(0)
+            ScreenPlay.screenPlayManager.requestProjectSettingsListModelAt(0)
         }
     }
 
@@ -91,11 +93,11 @@ Item {
                 availableHeight: 150
                 onRequestProjectSettings: {
                     // This will return in the connection with target: screenPlay
-                    screenPlay.requestProjectSettingsListModelAt(at)
+                    ScreenPlay.screenPlayManager.requestProjectSettingsListModelAt(at)
                     activeMonitorIndex = at
                 }
                 Connections {
-                    target: screenPlay
+                    target: ScreenPlay.screenPlayManager
                     onProjectSettingsListModelFound: {
                         videoControlWrapper.state = "visible"
                         customPropertiesGridView.model = li
@@ -131,7 +133,7 @@ Item {
                     Material.foreground: "white"
                     enabled: monitorSelection.activeMonitors.length == 1
                     onClicked: {
-                        screenPlay.removeWallpaperAt(monitorSelection.activeMonitors[0])
+                        ScreenPlay.screenPlayManager.removeWallpaperAt(monitorSelection.activeMonitors[0])
                         monitorSelection.deselectAll()
                     }
                 }
@@ -141,7 +143,7 @@ Item {
                     Material.background: Material.Orange
                     Material.foreground: "white"
                     onClicked: {
-                        screenPlay.removeAllWallpapers()
+                        ScreenPlay.screenPlayManager.removeAllWallpapers()
                         monitors.state = "inactive"
                     }
                 }

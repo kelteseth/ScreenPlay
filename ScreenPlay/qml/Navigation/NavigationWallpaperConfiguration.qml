@@ -2,6 +2,8 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 
+import ScreenPlay 1.0
+
 import "../Common"
 
 Item {
@@ -21,7 +23,7 @@ Item {
     }
 
     Connections {
-        target: screenPlay
+        target: ScreenPlay.screenPlayManager
         onActiveWallpaperCounterChanged:{
             rippleEffect.trigger()
         }
@@ -40,7 +42,7 @@ Item {
 
         Text {
             id: txtAmountActiveWallpapers
-            text: screenPlay.activeWallpaperCounter + screenPlay.activeWidgetsCounter
+            text: ScreenPlay.screenPlayManager.activeWallpaperCounter + ScreenPlay.screenPlayManager.activeWidgetsCounter
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             color: "orange"
@@ -59,7 +61,7 @@ Item {
     Text {
         id: activeMonitorName
         text: {
-            if (screenPlay.activeWallpaperCounter > 0) {
+            if (ScreenPlay.screenPlayManager.activeWallpaperCounter > 0) {
                 return qsTr("Configurate active Wallpaper or Widgets")
             } else {
                 return qsTr("No active Wallpaper or Widgets")
@@ -81,7 +83,7 @@ Item {
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            utility.setToggleWallpaperConfiguration()
+            ScreenPlay.util.setToggleWallpaperConfiguration()
         }
     }
 

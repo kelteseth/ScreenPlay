@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.12
 
+import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 
 import "../../../Common"
@@ -27,7 +28,7 @@ Item {
     }
 
     Connections {
-        target: screenPlayCreate
+        target: ScreenPlay.create
 
         onCreateWallpaperStateChanged: {
 
@@ -36,7 +37,7 @@ Item {
                 txtConvert.text = qsTr("Generating preview image...")
                 break
             case CreateImportVideo.ConvertingPreviewImageFinished:
-                imgPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.jpg"
+                imgPreview.source = "file:///" + ScreenPlay.create.workingDir + "/preview.jpg"
                 imgPreview.visible = true
                 break
             case CreateImportVideo.ConvertingPreviewVideo:
@@ -46,7 +47,7 @@ Item {
                 txtConvert.text = qsTr("Generating preview gif...")
                 break
             case CreateImportVideo.ConvertingPreviewGifFinished:
-                gifPreview.source = "file:///" + screenPlayCreate.workingDir + "/preview.gif"
+                gifPreview.source = "file:///" + ScreenPlay.create.workingDir + "/preview.gif"
                 imgPreview.visible = false
                 gifPreview.visible = true
                 gifPreview.playing = true
@@ -55,7 +56,8 @@ Item {
                 txtConvert.text = qsTr("Converting Audio...")
                 break
             case CreateImportVideo.ConvertingVideo:
-                txtConvert.text = qsTr("Converting Video... This can take some time!")
+                txtConvert.text = qsTr(
+                            "Converting Video... This can take some time!")
                 break
             case CreateImportVideo.ConvertingVideoError:
                 txtConvert.text = qsTr("Converting Video ERROR!")
@@ -267,9 +269,9 @@ Item {
                 Material.background: Material.Red
                 Material.foreground: "white"
                 onClicked: {
-                    screenPlayCreate.abortAndCleanup()
-                    utility.setNavigationActive(true)
-                    utility.setNavigation("Create")
+                    ScreenPlay.create.abortAndCleanup()
+                    ScreenPlay.util.setNavigationActive(true)
+                    ScreenPlay.util.setNavigation("Create")
                 }
             }
 
@@ -282,7 +284,7 @@ Item {
 
                 onClicked: {
                     if (conversionFinishedSuccessful) {
-                        screenPlayCreate.saveWallpaper(
+                        ScreenPlay.create.saveWallpaper(
                                     textFieldName.text,
                                     textFieldDescription.text,
                                     wrapperContent.filePath,
@@ -290,8 +292,8 @@ Item {
                                     textFieldYoutubeURL.text,
                                     textFieldTags.getTags())
                         savePopup.open()
-                        installedListModel.reset()
-                        installedListModel.loadInstalledContent()
+                        ScreenPlay.installedListModel.reset()
+                        ScreenPlay.installedListModel.loadInstalledContent()
                     }
                 }
             }
@@ -321,8 +323,8 @@ Item {
             id: timerSave
             interval: 3000 - Math.random() * 1000
             onTriggered: {
-                utility.setNavigationActive(true)
-                utility.setNavigation("Create")
+                ScreenPlay.util.setNavigationActive(true)
+                ScreenPlay.util.setNavigation("Create")
             }
         }
     }

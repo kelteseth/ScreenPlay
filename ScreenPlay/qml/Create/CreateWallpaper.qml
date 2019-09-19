@@ -4,6 +4,8 @@ import QtQuick.Controls 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
 
+import ScreenPlay 1.0
+
 import "../Workshop"
 
 Item {
@@ -72,7 +74,7 @@ Item {
             }
 
             Button {
-                text: utility.ffmpegAvailable ? qsTr("Import video") : qsTr("FFMPEG Needed for import")
+                text: ScreenPlay.util.ffmpegAvailable ? qsTr("Import video") : qsTr("FFMPEG Needed for import")
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -83,7 +85,7 @@ Item {
                 icon.source: "qrc:/assets/icons/icon_upload.svg"
                 icon.color: "white"
                 icon.width: 16
-                enabled: utility.ffmpegAvailable
+                enabled: ScreenPlay.util.ffmpegAvailable
                 icon.height: 16
                 onClicked: fileDialogImportVideo.open()
             }
@@ -245,7 +247,7 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 onClicked: {
-                    utility.requestNavigation("Workshop")
+                    ScreenPlay.util.requestNavigation("Workshop")
                 }
             }
         }

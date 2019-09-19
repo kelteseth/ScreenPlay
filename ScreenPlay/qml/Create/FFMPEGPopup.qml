@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
 
+import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
 
@@ -17,7 +18,7 @@ Popup {
     width: 900
 
     Connections {
-        target: utility
+        target: ScreenPlay.util
         onAquireFFMPEGStatusChanged: {
 
             switch (aquireFFMPEGStatus) {
@@ -72,7 +73,7 @@ Popup {
                 txtStatus.text = qsTr("All done and ready to go!")
                 busyIndicator.running = false
                 column.state = "finishedSuccessful"
-                utility.setFfmpegAvailable(true)
+                ScreenPlay.util.setFfmpegAvailable(true)
                 break
             }
         }
@@ -244,7 +245,7 @@ if you installed ScreenPlay via Steam!
             Button {
                 id:btnDownload
                 text: qsTr("Download FFMPEG")
-                onClicked: utility.downloadFFMPEG()
+                onClicked: ScreenPlay.util.downloadFFMPEG()
                 highlighted: true
                 Layout.fillWidth: true
             }

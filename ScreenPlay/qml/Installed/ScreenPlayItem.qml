@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
-
+import ScreenPlay 1.0
 Item {
     id: screenPlayItem
     width: 320
@@ -203,7 +203,7 @@ Item {
 
                 onClicked: {
                     if (mouse.button === Qt.LeftButton) {
-                        utility.setSidebarItem(screenPlayItem.screenId, screenPlayItem.type.toString())
+                        ScreenPlay.util.setSidebarItem(screenPlayItem.screenId, screenPlayItem.type.toString())
 
                     } else if (mouse.button === Qt.RightButton) {
                         if (workshopID != 0) {
@@ -222,7 +222,7 @@ Item {
             MenuItem {
                 text: qsTr("Open containing folder")
                 onClicked: {
-                    utility.openFolderInExplorer(absoluteStoragePath)
+                    ScreenPlay.util.openFolderInExplorer(absoluteStoragePath)
                 }
             }
             MenuItem {

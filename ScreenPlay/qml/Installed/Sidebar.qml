@@ -5,6 +5,8 @@ import QtQuick.Extras 1.4
 import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
 
+import ScreenPlay 1.0
+
 import "../Monitors"
 import "../Common" as SP
 
@@ -19,7 +21,7 @@ Item {
     property string activeScreen
 
     Connections {
-        target: utility
+        target: ScreenPlay.util
 
         onSetSidebarItem: {
 
@@ -65,20 +67,20 @@ Item {
     }
 
     onActiveScreenChanged: {
-        txtHeadline.text = installedListModel.get(activeScreen).screenTitle
+        txtHeadline.text = ScreenPlay.installedListModel.get(activeScreen).screenTitle
 
-        if (installedListModel.get(
+        if (ScreenPlay.installedListModel.get(
                     activeScreen).screenPreviewGIF === undefined) {
             image.source = Qt.resolvedUrl(
-                        globalVariables.localStoragePath + "/"
-                        + activeScreen + "/" + installedListModel.get(
+                        ScreenPlay.globalVariables.localStoragePath + "/"
+                        + activeScreen + "/" + ScreenPlay.installedListModel.get(
                             activeScreen).screenPreview)
             image.playing = false
         } else {
 
             image.source = Qt.resolvedUrl(
-                        globalVariables.localStoragePath + "/"
-                        + activeScreen + "/" + installedListModel.get(
+                        ScreenPlay.globalVariables.localStoragePath + "/"
+                        + activeScreen + "/" + ScreenPlay.installedListModel.get(
                             activeScreen).screenPreviewGIF)
             image.playing = true
         }
@@ -332,17 +334,17 @@ Item {
                         print(activeMonitors)
 
                         screenPlay.createWallpaper(
-                                    activeMonitors, globalVariables.localStoragePath
+                                    activeMonitors, ScreenPlay.globalVariables.localStoragePath
                                     + "/" + activeScreen,
-                                    installedListModel.get(activeScreen).screenPreview,
+                                    ScreenPlay.installedListModel.get(activeScreen).screenPreview,
                                     (Math.round(sliderVolume.value * 100) / 100),
                                     settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
                                         ), type)
 
                     } else {
                         screenPlay.createWidget(
-                                    globalVariables.localStoragePath + "/" + activeScreen,
-                                    installedListModel.get(
+                                    ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
+                                    ScreenPlay.installedListModel.get(
                                         activeScreen).screenPreview)
                     }
                     sidebar.state = "inactive"

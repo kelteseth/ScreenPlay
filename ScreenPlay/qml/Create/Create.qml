@@ -4,6 +4,7 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
 
+import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
 
@@ -22,7 +23,7 @@ Item {
     }
 
     function checkFFMPEG(){
-        if(!utility.ffmpegAvailable){
+        if(!ScreenPlay.util.ffmpegAvailable){
             ffmpegPopup.open()
         }
     }

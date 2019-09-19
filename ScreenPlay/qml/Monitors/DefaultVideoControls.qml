@@ -4,6 +4,8 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
+import ScreenPlay 1.0
+
 import "../Common/" as SP
 
 ColumnLayout {
@@ -16,19 +18,19 @@ ColumnLayout {
 
     SP.Slider {
         headline: qsTr("Volume")
-        onValueChanged: screenPlay.setWallpaperValue(
+        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValue(
                             activeMonitorIndex, "volume", value)
         Layout.fillWidth: true
     }
     SP.Slider {
         headline: qsTr("Playback rate")
-        onValueChanged: screenPlay.setWallpaperValue(
+        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValue(
                             activeMonitorIndex, "playbackRate", value)
         Layout.fillWidth: true
     }
     SP.Slider {
         headline: qsTr("Current Video Time")
-        onValueChanged: screenPlay.setWallpaperValue(
+        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValue(
                             activeMonitorIndex, "currentTime", value)
         Layout.fillWidth: true
     }
@@ -51,7 +53,7 @@ ColumnLayout {
             id: settingsComboBox
             Layout.fillWidth: true
             onActivated: {
-                screenPlay.setWallpaperValue(
+                ScreenPlay.screenPlayManager.setWallpaperValue(
                             activeMonitorIndex, "fillmode",
                             settingsComboBox.currentText)
             }

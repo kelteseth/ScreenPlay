@@ -5,7 +5,9 @@ import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Layouts 1.3
-//import RemoteWorkshopCreationStatus 1.0
+
+import ScreenPlay 1.0
+
 
 
 Item {
@@ -24,7 +26,7 @@ Item {
     // First we parse the content of the project file
     // TODO: Implement parse error
     onProjectFileChanged: {
-        jsonProjectFile = JSON.parse(screenPlaySettings.loadProject(
+        jsonProjectFile = JSON.parse(ScreenPlay.settings.loadProject(
                                          projectFile))
     }
 

@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.3
 
+import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 
 Item {
@@ -17,7 +18,7 @@ Item {
 
     Component.onCompleted: {
         state = "in"
-        utility.setNavigationActive(false)
+        ScreenPlay.util.setNavigationActive(false)
 
         loader_wrapperContent.setSource(
                     "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml",
@@ -32,7 +33,7 @@ Item {
     }
 
     Connections {
-        target: screenPlayCreate
+        target: ScreenPlay.create
         onCreateWallpaperStateChanged: {
             if (state === CreateImportVideo.AnalyseVideoError || state
                     === CreateImportVideo.ConvertingVideoError || state
@@ -55,7 +56,7 @@ Item {
         running: true
         repeat: false
         onTriggered: {
-            screenPlayCreate.createWallpaperStart(filePath)
+            ScreenPlay.create.createWallpaperStart(filePath)
         }
     }
 
@@ -127,9 +128,9 @@ Item {
                 id: timerBack
                 interval: 800
                 onTriggered: {
-                    screenPlayCreate.abortAndCleanup()
-                    utility.setNavigationActive(true)
-                    utility.setNavigation("Create")
+                    ScreenPlay.create.abortAndCleanup()
+                    ScreenPlay.util.setNavigationActive(true)
+                    ScreenPlay.util.setNavigation("Create")
                 }
             }
         }

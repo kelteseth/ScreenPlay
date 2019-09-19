@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
+import ScreenPlay 1.0
 
 Item {
     id: createWidget
@@ -41,7 +42,7 @@ Item {
         FolderDialog {
             id: folderDialog
             onAccepted: {
-                screenPlayCreate.copyProject("/examples/scenes/empty",
+                ScreenPlay.create.copyProject("/examples/scenes/empty",
                                              folderDialog.currentFolder)
             }
         }

@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
+import ScreenPlay 1.0
 
 Rectangle {
     id: rect
@@ -26,7 +27,7 @@ Rectangle {
     }
 
     Connections {
-        target: monitorListModel
+        target:  ScreenPlay.monitorListModel
         onMonitorReloadCompleted: {
             resize()
         }
@@ -67,7 +68,7 @@ Rectangle {
 
     function resize() {
 
-        var absoluteDesktopSize = monitorListModel.getAbsoluteDesktopSize()
+        var absoluteDesktopSize =  ScreenPlay.monitorListModel.getAbsoluteDesktopSize()
         var isWidthGreaterThanHeight = false
         var windowsDelta = 0
 
@@ -107,7 +108,7 @@ Rectangle {
     Repeater {
         id: rp
         anchors.fill: parent
-        model: monitorListModel
+        model:  ScreenPlay.monitorListModel
 
         Component.onCompleted: rp.itemAt(0).isSelected = true
 

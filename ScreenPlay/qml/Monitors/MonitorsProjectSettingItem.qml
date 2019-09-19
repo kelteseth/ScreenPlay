@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
-
+import ScreenPlay 1.0
 Item {
     id: delegate
     focus: true
@@ -78,7 +78,7 @@ Item {
                     onValueChanged: {
                         var value = Math.round(slider.value * 100) / 100;
                         txtSliderValue.text = value;
-                        screenPlay.setWallpaperValue(selectedMonitor,txtDescription.text,value)
+                        ScreenPlay.screenPlayManager.setWallpaperValue(selectedMonitor,txtDescription.text,value)
                     }
                 }
                 Text {
