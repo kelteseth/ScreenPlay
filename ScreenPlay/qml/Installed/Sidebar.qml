@@ -331,9 +331,7 @@ Item {
                         if (activeMonitors.length === 0)
                             return
 
-                        print(activeMonitors)
-
-                        screenPlay.createWallpaper(
+                        ScreenPlay.screenPlayManager.createWallpaper(
                                     activeMonitors, ScreenPlay.globalVariables.localStoragePath
                                     + "/" + activeScreen,
                                     ScreenPlay.installedListModel.get(activeScreen).screenPreview,
@@ -342,7 +340,7 @@ Item {
                                         ), type)
 
                     } else {
-                        screenPlay.createWidget(
+                        ScreenPlay.screenPlayManager.createWidget(
                                     ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
                                     ScreenPlay.installedListModel.get(
                                         activeScreen).screenPreview)
