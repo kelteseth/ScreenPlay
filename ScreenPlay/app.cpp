@@ -9,6 +9,12 @@ App::App()
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion("0.3.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
+    QGuiApplication::setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
+
+    QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
+
+    // Qt < 6.0 needs this init QtWebEngine
+    QtWebEngine::initialize();
 
     qRegisterMetaType<GlobalVariables*>();
     qRegisterMetaType<ScreenPlayManager*>();
@@ -22,11 +28,6 @@ App::App()
     qRegisterMetaType<MonitorListModel*>();
     qRegisterMetaType<ProfileListModel*>();
 
-    QGuiApplication::setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
-
-    // Qt < 6.0 needs this init QtWebEngine
-    QtWebEngine::initialize();
-
     m_globalVariables = make_shared<GlobalVariables>();
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables);
     m_installedListFilter = make_shared<InstalledListFilter>(m_installedListModel);
@@ -34,19 +35,14 @@ App::App()
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
     m_sdkConnector = make_shared<SDKConnector>();
     m_settings = make_shared<Settings>(m_globalVariables);
-    m_create = make_shared<Create>(m_globalVariables);
-    m_util = make_shared<Util>(new QNetworkAccessManager(this));
-    m_screenPlayManager = make_shared<ScreenPlayManager>(m_globalVariables, m_monitorListModel, m_sdkConnector);
 
+    m_create = make_unique<Create>(m_globalVariables);
+    m_util = make_unique<Util>(new QNetworkAccessManager(this));
+    m_screenPlayManager = make_unique<ScreenPlayManager>(m_globalVariables, m_monitorListModel, m_sdkConnector);
+
+    // When the installed storage path changed
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);
-    // Instead of setting "renderType: Text.NativeRendering" every time
-    // we can set it here once :)
-    QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
-
-
-
+    // Init after we have the paths from settings
     m_installedListModel->init();
-
 }
-

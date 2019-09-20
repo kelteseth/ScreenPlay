@@ -214,9 +214,9 @@ public slots:
     }
 
 private:
-    shared_ptr<Create> m_create;
-    shared_ptr<ScreenPlayManager> m_screenPlayManager;
-    shared_ptr<Util> m_util;
+    unique_ptr<Create> m_create;
+    unique_ptr<ScreenPlayManager> m_screenPlayManager;
+    unique_ptr<Util> m_util;
 
     shared_ptr<GlobalVariables> m_globalVariables;
     shared_ptr<Settings> m_settings;
