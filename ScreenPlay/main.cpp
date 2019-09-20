@@ -4,9 +4,6 @@
 
 int main(int argc, char* argv[])
 {
-    // Needs to be created before
-    App* app = App::instance();
-
     QGuiApplication qtGuiApp(argc, argv);
 
     qmlRegisterSingletonType<App>("ScreenPlay", 1, 0, "ScreenPlay", [](QQmlEngine* engine, QJSEngine*) -> QObject* {
@@ -14,7 +11,13 @@ int main(int argc, char* argv[])
         return App::instance();
     });
 
-    app->init();
+    QQmlApplicationEngine m_mainWindowEngine;
+    m_mainWindowEngine.load(QUrl(QStringLiteral("qrc:/main.qml")));
+
+    // Set visible if the -silent parameter was not set
+    if (!QGuiApplication::instance()->arguments().contains("-silent")) {
+        App::instance()->settings()->setMainWindowVisible(true);
+    }
 
     return qtGuiApp.exec();
 }

@@ -13,7 +13,7 @@ App::App()
     qRegisterMetaType<GlobalVariables*>();
     qRegisterMetaType<ScreenPlayManager*>();
     qRegisterMetaType<Create*>();
-     qRegisterMetaType<Util*>();
+    qRegisterMetaType<Util*>();
     qRegisterMetaType<SDKConnector*>();
     qRegisterMetaType<Settings*>();
 
@@ -21,11 +21,9 @@ App::App()
     qRegisterMetaType<InstalledListFilter*>();
     qRegisterMetaType<MonitorListModel*>();
     qRegisterMetaType<ProfileListModel*>();
-}
 
-void App::init()
-{
     QGuiApplication::setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
+
     // Qt < 6.0 needs this init QtWebEngine
     QtWebEngine::initialize();
 
@@ -36,24 +34,19 @@ void App::init()
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
     m_sdkConnector = make_shared<SDKConnector>();
     m_settings = make_shared<Settings>(m_globalVariables);
+    m_create = make_shared<Create>(m_globalVariables);
+    m_util = make_shared<Util>(new QNetworkAccessManager(this));
+    m_screenPlayManager = make_shared<ScreenPlayManager>(m_globalVariables, m_monitorListModel, m_sdkConnector);
+
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);
-
-    m_create = std::make_shared<Create>(m_globalVariables);
-
-    mainWindowEngine = std::make_unique<QQmlApplicationEngine>();
-    m_util = std::make_shared<Util>(mainWindowEngine->networkAccessManager());
-
-    m_screenPlayManager = std::make_shared<ScreenPlayManager>(m_globalVariables, m_monitorListModel, m_sdkConnector);
-
-    mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
-
     // Instead of setting "renderType: Text.NativeRendering" every time
     // we can set it here once :)
     QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
-    // Set visible if the -silent parameter was not set
-    if (!QGuiApplication::instance()->arguments().contains("-silent")) {
-        m_settings->setMainWindowVisible(true);
-    }
+
+
+
     m_installedListModel->init();
+
 }
+

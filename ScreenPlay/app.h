@@ -24,7 +24,9 @@
 #include "src/settings.h"
 #include "src/util.h"
 
-using std::make_shared,
+using std::make_unique,
+    std::unique_ptr,
+    std::make_shared,
     std::shared_ptr,
     ScreenPlay::Util,
     ScreenPlay::InstalledListModel,
@@ -53,7 +55,6 @@ class App : public QObject {
 
 public:
     explicit App();
-    void init();
 
     static App* instance()
     {
@@ -212,14 +213,12 @@ public slots:
         emit sdkConnectorChanged(m_sdkConnector.get());
     }
 
-
 private:
-    std::unique_ptr<QQmlApplicationEngine> mainWindowEngine;
+    shared_ptr<Create> m_create;
+    shared_ptr<ScreenPlayManager> m_screenPlayManager;
+    shared_ptr<Util> m_util;
 
     shared_ptr<GlobalVariables> m_globalVariables;
-    shared_ptr<ScreenPlayManager> m_screenPlayManager;
-    shared_ptr<Create> m_create;
-    shared_ptr<Util> m_util;
     shared_ptr<Settings> m_settings;
     shared_ptr<SDKConnector> m_sdkConnector;
 
