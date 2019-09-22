@@ -12,7 +12,7 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 </div>
 <br>
 
-<img width="100%" height="380px" src="preview.gif" alt="preview.gif"></img>
+![Preview](preview.mp4)
 
 
 ## Contributing
