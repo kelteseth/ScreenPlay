@@ -13,8 +13,14 @@ ColumnLayout {
     spacing: 20
     state: "hidden"
     clip: true
-    anchors.rightMargin: 10
-    anchors.leftMargin: 10
+    anchors {
+        right: parent.right
+        rightMargin: 20
+        left: parent.left
+        leftMargin: 20
+    }
+
+    property int activeMonitorIndex
 
     SP.Slider {
         headline: qsTr("Volume")
@@ -38,7 +44,7 @@ ColumnLayout {
         height: 50
         Layout.fillWidth: true
         spacing: 5
-        
+
         Text {
             id: txtComboBoxFillMode
             text: qsTr("Fill Mode")
@@ -57,7 +63,7 @@ ColumnLayout {
                             activeMonitorIndex, "fillmode",
                             settingsComboBox.currentText)
             }
-            
+
             model: ListModel {
                 ListElement {
                     text: "Stretch"
@@ -110,5 +116,4 @@ ColumnLayout {
             }
         }
     ]
-
 }

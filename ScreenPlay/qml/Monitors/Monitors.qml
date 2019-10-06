@@ -149,8 +149,10 @@ Item {
                 }
             }
         }
+
         DefaultVideoControls {
             id: videoControlWrapper
+            activeMonitorIndex: monitors.activeMonitorIndex
             anchors {
                 top: parent.top
                 topMargin: 60
@@ -204,7 +206,7 @@ Item {
                     PropertyChanges {
                         target: customPropertiesGridView
                         opacity: 0
-                        z:0
+                        z:-1
                         anchors.topMargin: -100
                     }
                 }
