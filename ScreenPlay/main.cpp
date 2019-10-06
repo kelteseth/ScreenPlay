@@ -1,10 +1,17 @@
-#include "app.h"
 #include <QGuiApplication>
+#include <QQuickWindow>
 #include <qqml.h>
+
+#include "app.h"
 
 int main(int argc, char* argv[])
 {
+
+    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
     QGuiApplication qtGuiApp(argc, argv);
+
+    QGuiApplication::setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
     qmlRegisterSingletonType<App>("ScreenPlay", 1, 0, "ScreenPlay", [](QQmlEngine* engine, QJSEngine*) -> QObject* {
         engine->setObjectOwnership(App::instance(), QQmlEngine::ObjectOwnership::CppOwnership);

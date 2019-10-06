@@ -16,7 +16,7 @@ import "qml/Navigation"
 ApplicationWindow {
     id: window
     color: "#eeeeee"
-    // Set visible if the -silent parameter was not set (see main.cpp:87).
+    // Set visible if the -silent parameter was not set (see main.cpp:19).
     visible: false
     width: 1400
     height: 788
