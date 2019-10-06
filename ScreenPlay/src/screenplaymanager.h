@@ -17,6 +17,7 @@
 #include "util.h"
 
 #include <memory>
+#include <optional>
 
 /*!
     \class ScreenPlay
@@ -45,6 +46,7 @@ public:
         const shared_ptr<MonitorListModel>& mlm,
         const shared_ptr<SDKConnector>& sdkc,
         QObject* parent = nullptr);
+
 
     int activeWallpaperCounter() const
     {
@@ -90,13 +92,12 @@ signals:
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
 
 public slots:
-    void createWallpaper(
-        QVector<int> monitorIndex,
+    void createWallpaper(QVector<int> monitorIndex,
         const QString& absoluteStoragePath,
         const QString& previewImage,
         const float volume,
         const QString& fillMode,
-        const QString& type);
+        const QString& type, const bool saveToProfilesConfigFile = true);
 
     void createWidget(const QUrl& absoluteStoragePath, const QString& previewImage);
 
@@ -106,6 +107,7 @@ public slots:
     void requestProjectSettingsListModelAt(const int index);
     void setWallpaperValue(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
+    std::optional<shared_ptr<ScreenPlayWallpaper>> getWallpaperByAppID(const QString& appID);
 
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)

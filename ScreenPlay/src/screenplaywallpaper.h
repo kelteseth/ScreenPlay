@@ -46,10 +46,9 @@ public:
         const QString& absolutePath,
         const QString& previewImage,
         const QString& type,
-        const QJsonObject& settings,
+        const QJsonObject& profileJsonObject,
         QObject* parent = nullptr);
 
-    ~ScreenPlayWallpaper() {}
 
     const shared_ptr<ProjectSettingsListModel>& projectSettingsListModel() const
     {
@@ -104,10 +103,12 @@ signals:
     void fileChanged(QString file);
     void fillModeChanged(QString fillMode);
     void absolutePathChanged(QString absolutePath);
-
     void profileJsonObjectChanged(QJsonObject profileJsonObject);
 
 public slots:
+    void processExit(int exitCode, QProcess::ExitStatus exitStatus);
+    void processError(QProcess::ProcessError error);
+
     void setScreenNumber(QVector<int> screenNumber)
     {
         if (m_screenNumber == screenNumber)
