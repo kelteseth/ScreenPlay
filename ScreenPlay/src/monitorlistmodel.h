@@ -6,7 +6,6 @@
 #include <QGuiApplication>
 #include <QRect>
 #include <QScreen>
-#include <QSharedPointer>
 #include <QSize>
 #include <QString>
 #include <QVector>
@@ -80,10 +79,11 @@ public:
 
     std::optional<QString> getAppIDByMonitorIndex(const int index) const;
 
+
 signals:
     void monitorReloadCompleted();
     void setNewActiveMonitor(int index, QString path);
-    void monitorListChanged();
+    void monitorConfigurationChanged();
 
 public slots:
     void reset();
@@ -92,14 +92,14 @@ public slots:
 
     void screenAdded(QScreen* screen)
     {
-        Q_UNUSED(screen)
-        qDebug() << "screenAdded";
+        qDebug() << "screenAdded" << screen->geometry()<< m_monitorList.size();
+        emit monitorConfigurationChanged();
         reset();
     }
     void screenRemoved(QScreen* screen)
     {
-        Q_UNUSED(screen)
-        qDebug() << "screenRemoved";
+        qDebug() << "screenRemoved"<< screen->geometry() << m_monitorList.size();
+        emit monitorConfigurationChanged();
         reset();
     }
 
@@ -108,6 +108,7 @@ public slots:
         auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
         return app->screens().at(0)->availableVirtualGeometry();
     }
+
 
 private:
     void loadMonitors();
