@@ -154,7 +154,7 @@ public slots:
     }
 
 private:
-    QLocalSocket* m_socket;
+    QLocalSocket* m_socket { nullptr };
     QString m_appID;
     QVector<int> m_monitor;
     QString m_type;

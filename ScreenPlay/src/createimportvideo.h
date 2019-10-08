@@ -24,17 +24,24 @@ class CreateImportVideo : public QObject {
 
 public:
     CreateImportVideo() {}
+    ~CreateImportVideo()
+    {
+        qDebug() << "CreateImportVideo";
+    }
     CreateImportVideo(QObject* parent = nullptr);
     explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, QObject* parent = nullptr);
-    ~CreateImportVideo() {}
+
+    bool m_skipAudio { false };
+
+    float m_progress { 0.0F };
 
     QString m_videoPath;
     QString m_exportPath;
     QString m_format;
 
-    int m_numberOfFrames {0};
-    int m_length {0};
-    int m_framerate  {0};
+    int m_numberOfFrames { 0 };
+    int m_length { 0 };
+    int m_framerate { 0 };
 
     enum class ImportVideoState {
         Idle,
@@ -96,7 +103,7 @@ public slots:
 
     void setProgress(float progress)
     {
-        if(progress < 0 || progress > 1)
+        if (progress < 0 || progress > 1)
             return;
 
         if (qFuzzyCompare(m_progress, progress))
@@ -105,11 +112,6 @@ public slots:
         m_progress = progress;
         emit progressChanged(m_progress);
     }
-
-private:
-    bool m_skipAudio {false};
-
-    float m_progress;
 };
 }
 Q_DECLARE_METATYPE(ScreenPlay::CreateImportVideo::ImportVideoState)

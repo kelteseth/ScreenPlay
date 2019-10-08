@@ -31,8 +31,8 @@ void SDKConnector::closeAllConnections()
 
 void SDKConnector::closeAllWallpapers()
 {
-    QStringList types{
-         "videoWallpaper",
+    QStringList types {
+        "videoWallpaper",
         "qmlWallpaper",
         "htmlWallpaper",
         "godotWallpaper"

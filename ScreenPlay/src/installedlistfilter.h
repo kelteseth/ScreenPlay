@@ -5,7 +5,6 @@
 #include <memory>
 #include "installedlistmodel.h"
 namespace ScreenPlay {
-using std::shared_ptr;
 
 class InstalledListFilter : public QSortFilterProxyModel {
     Q_OBJECT

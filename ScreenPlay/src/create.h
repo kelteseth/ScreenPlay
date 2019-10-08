@@ -43,6 +43,7 @@ public:
         QObject* parent = nullptr);
     Create();
 
+
     float progress() const
     {
         return m_progress;
@@ -84,8 +85,8 @@ public slots:
     }
 
 private:
-    CreateImportVideo* m_createImportVideo;
-    QThread* m_createImportVideoThread;
+    CreateImportVideo* m_createImportVideo {nullptr};
+    QThread* m_createImportVideoThread {nullptr};
 
     const shared_ptr<GlobalVariables>& m_globalVariables;
 
