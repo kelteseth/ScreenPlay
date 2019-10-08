@@ -3,13 +3,12 @@
 App::App()
     : QObject(nullptr)
 {
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion("0.3.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
-    QGuiApplication::setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
 
     QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
