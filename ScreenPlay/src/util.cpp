@@ -231,9 +231,9 @@ void Util::downloadFFMPEG()
     QNetworkRequest req;
 
 #ifdef Q_OS_WIN
-    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-4.1.4-win64-static.zip"));
+    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-4.2.1-win64-static.zip"));
 #elif defined(Q_OS_OSX)
-    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/ffmpeg-4.1.4-macos64-static.zip"));
+    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/ffmpeg-4.2.1-macos64-static.zip"));
 #endif
     setAquireFFMPEGStatus(AquireFFMPEGStatus::Download);
 
