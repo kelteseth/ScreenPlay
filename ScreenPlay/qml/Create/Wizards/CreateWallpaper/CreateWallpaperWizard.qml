@@ -174,8 +174,8 @@ Item {
             }
             PropertyChanges {
                 target: loader_wrapperContent
-                opacity: 0
-                z: 0
+                opacity: 1
+                z: 1
                 source: "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml"
             }
         },

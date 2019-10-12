@@ -36,6 +36,7 @@ class Create : public QObject {
 
     Q_PROPERTY(QString workingDir READ workingDir WRITE setWorkingDir NOTIFY workingDirChanged)
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
+    Q_PROPERTY(QString ffmpegOutput READ ffmpegOutput WRITE appendFfmpegOutput NOTIFY ffmpegOutputChanged)
 
 public:
     explicit Create(
@@ -54,12 +55,17 @@ public:
         return m_workingDir;
     }
 
+    QString ffmpegOutput() const
+    {
+        return m_ffmpegOutput;
+    }
+
 signals:
     void createWallpaperStateChanged(CreateImportVideo::ImportVideoState state);
-    void processOutput(QString text);
     void progressChanged(float progress);
     void abortCreateWallpaper();
     void workingDirChanged(QString workingDir);
+    void ffmpegOutputChanged(QString ffmpegOutput);
 
 public slots:
     void createWallpaperStart(QString videoPath);
@@ -84,6 +90,17 @@ public slots:
         emit workingDirChanged(m_workingDir);
     }
 
+    void appendFfmpegOutput(QString ffmpegOutput)
+    {
+        m_ffmpegOutput += ffmpegOutput;
+        emit ffmpegOutputChanged(m_ffmpegOutput);
+    }
+
+    void clearFfmpegOutput(){
+        m_ffmpegOutput = "";
+        emit ffmpegOutputChanged(m_ffmpegOutput);
+    }
+
 private:
     CreateImportVideo* m_createImportVideo {nullptr};
     QThread* m_createImportVideoThread {nullptr};
@@ -92,5 +109,6 @@ private:
 
     float m_progress { 0.0F };
     QString m_workingDir;
+    QString m_ffmpegOutput;
 };
 }

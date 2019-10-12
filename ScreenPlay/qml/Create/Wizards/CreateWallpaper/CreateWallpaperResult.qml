@@ -59,14 +59,8 @@ Item {
                 }
                 wrapMode: Text.WordWrap
                 color: "#626262"
-
+                text: ScreenPlay.create.ffmpegOutput
                 height: txtFFMPEGDebug.paintedHeight
-            }
-            Connections {
-                target: ScreenPlay.create
-                onProcessOutput: {
-                    txtFFMPEGDebug.text = text
-                }
             }
         }
     }

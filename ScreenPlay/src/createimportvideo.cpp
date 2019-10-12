@@ -29,25 +29,37 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 void CreateImportVideo::process()
 {
 
-    if (!createWallpaperInfo() || QThread::currentThread()->isInterruptionRequested())
+    if (!createWallpaperInfo() || QThread::currentThread()->isInterruptionRequested()) {
+        emit abortAndCleanup();
         return;
+    }
 
-    if (!createWallpaperImagePreview() || QThread::currentThread()->isInterruptionRequested())
+    if (!createWallpaperImagePreview() || QThread::currentThread()->isInterruptionRequested()) {
+        emit abortAndCleanup();
         return;
+    }
 
-    if (!createWallpaperVideoPreview() || QThread::currentThread()->isInterruptionRequested())
+    if (!createWallpaperVideoPreview() || QThread::currentThread()->isInterruptionRequested()) {
+        emit abortAndCleanup();
         return;
+    }
 
-    if (!createWallpaperGifPreview() || QThread::currentThread()->isInterruptionRequested())
+    if (!createWallpaperGifPreview() || QThread::currentThread()->isInterruptionRequested()) {
+        emit abortAndCleanup();
         return;
+    }
 
-    if (!createWallpaperVideo() || QThread::currentThread()->isInterruptionRequested())
+    if (!createWallpaperVideo() || QThread::currentThread()->isInterruptionRequested()) {
+        emit abortAndCleanup();
         return;
+    }
 
     // If the video has no audio we can skip the extraction
     if (!m_skipAudio) {
-        if (!extractWallpaperAudio() || QThread::currentThread()->isInterruptionRequested())
+        if (!extractWallpaperAudio() || QThread::currentThread()->isInterruptionRequested()) {
+            emit abortAndCleanup();
             return;
+        }
     }
 
     emit createWallpaperStateChanged(ImportVideoState::Finished);
@@ -90,6 +102,7 @@ bool CreateImportVideo::createWallpaperInfo()
     QJsonParseError err;
     QJsonDocument doc = QJsonDocument::fromJson(pro->readAll(), &err);
     if (err.error != QJsonParseError::NoError) {
+        qDebug() << "Error parsing ffmpeg json output";
         emit processOutput("Error parsing ffmpeg json output");
         emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
         return false;
@@ -98,6 +111,8 @@ bool CreateImportVideo::createWallpaperInfo()
     obj = doc.object();
 
     if (obj.empty()) {
+        qDebug() << "Error! File could not be parsed.";
+        emit processOutput("Error! File could not be parsed.");
         emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
         pro->close();
         return false;
@@ -125,6 +140,8 @@ bool CreateImportVideo::createWallpaperInfo()
 
     // Display error if wallpaper has no video
     if (!hasVideoStream) {
+        qDebug() << "Error! File has no video Stream!";
+        emit processOutput("Error! File has no video Stream!");
         emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoHasNoVideoStreamError);
         return false;
     }
@@ -137,8 +154,10 @@ bool CreateImportVideo::createWallpaperInfo()
     m_numberOfFrames = videoStream.value("nb_frames").toString().toInt(&okParseNumberOfFrames);
 
     if (!okParseNumberOfFrames) {
-        qDebug() << "Error parsing number of frames";
-        emit processOutput("Error parsing number of frames");
+        qDebug() << "Error parsing number of frames. Is this really a valid video File?";
+        emit processOutput("Error parsing number of frames. Is this really a valid video File?");
+        QJsonDocument tmpVideoStreamDoc(videoStream);
+        emit processOutput(tmpVideoStreamDoc.toJson());
         emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
         return false;
     }
@@ -150,8 +169,8 @@ bool CreateImportVideo::createWallpaperInfo()
     float tmpLength = objFormat.value("duration").toVariant().toFloat(&okParseDuration);
 
     if (!okParseDuration) {
-        qDebug() << "Error parsing video length";
-        emit processOutput("Error parsing video length");
+        qDebug() << "Error parsing video length. Is this really a valid video File?";
+        emit processOutput("Error parsing video length. Is this really a valid video File?");
         emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
         return false;
     }
@@ -163,6 +182,7 @@ bool CreateImportVideo::createWallpaperInfo()
     QJsonArray arrSteams = obj.value("streams").toArray();
     if (arrSteams.empty()) {
         qDebug() << "Error container does not have any video streams";
+        emit processOutput("Error container does not have any video streams");
         return false;
     }
 
@@ -176,6 +196,7 @@ bool CreateImportVideo::createWallpaperInfo()
     QStringList avgFrameRateList = avgFrameRate.split('/', QString::SkipEmptyParts);
     if (avgFrameRateList.length() != 2) {
         qDebug() << "Error could not parse streams with length: " << avgFrameRateList.length();
+        emit processOutput("Error could not parse streams with length: " + QString::number(avgFrameRateList.length()));
         return false;
     }
 
@@ -230,8 +251,8 @@ bool CreateImportVideo::createWallpaperVideoPreview()
             if (!ok)
                 return;
 
-            qDebug() << currentFrame << static_cast<float>((m_framerate * 5 ));
-            float progress = currentFrame / static_cast<float>((m_framerate * 5 ));
+            qDebug() << currentFrame << static_cast<float>((m_framerate * 5));
+            float progress = currentFrame / static_cast<float>((m_framerate * 5));
 
             this->setProgress(progress);
         }
@@ -258,7 +279,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
         return false;
     }
 
-    //this->processOutput(proConvertPreviewWebM->readAll());
+    this->processOutput(proConvertPreviewWebM->readAll());
     proConvertPreviewWebM->close();
 
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewVideoFinished);
@@ -312,7 +333,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
         }
     }
 
-    //this->processOutput(proConvertGif->readAll());
+    this->processOutput(proConvertGif->readAll());
     proConvertGif->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewGifFinished);
 
@@ -370,7 +391,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
         }
     }
 
-    //this->processOutput(proConvertImage->readAll());
+    this->processOutput(proConvertImage->readAll());
     proConvertImage->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageFinished);
 
@@ -416,13 +437,13 @@ bool CreateImportVideo::createWallpaperVideo()
     proConvertVideo->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
 #endif
     proConvertVideo->setProcessChannelMode(QProcess::MergedChannels);
-    connect(proConvertVideo.data(), &QProcess::errorOccurred, this, [&](QProcess::ProcessError error){
+    connect(proConvertVideo.data(), &QProcess::errorOccurred, this, [&](QProcess::ProcessError error) {
         qDebug() << error;
     });
 
     connect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, this, [&]() {
         QString tmpOut = proConvertVideo->readAllStandardOutput();
-        if(tmpOut.contains("Conversion failed!")){
+        if (tmpOut.contains("Conversion failed!")) {
             emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
         }
         auto tmpList = tmpOut.split(QRegExp("\\s+"), QString::SkipEmptyParts);
@@ -435,7 +456,6 @@ bool CreateImportVideo::createWallpaperVideo()
                 return;
 
             float progress = currentFrame / m_numberOfFrames;
-
 
             this->setProgress(progress);
         }
@@ -522,7 +542,7 @@ bool CreateImportVideo::extractWallpaperAudio()
         }
     }
 
-    //this->processOutput(proConvertAudio->readAll());
+    this->processOutput(proConvertAudio->readAll());
     proConvertAudio->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingAudioFinished);
 

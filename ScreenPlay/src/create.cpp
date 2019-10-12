@@ -32,6 +32,7 @@ Create::Create()
 
 void Create::createWallpaperStart(QString videoPath)
 {
+    clearFfmpegOutput();
     videoPath.remove("file:///");
 
     QDir dir;
@@ -49,11 +50,14 @@ void Create::createWallpaperStart(QString videoPath)
 
     m_createImportVideoThread = new QThread();
     m_createImportVideo = new CreateImportVideo(videoPath, workingDir());
+    connect(m_createImportVideo, &CreateImportVideo::processOutput, this, [this](QString text) {
+        appendFfmpegOutput(text);
+    });
 
     connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged);
     connect(m_createImportVideo, &CreateImportVideo::progressChanged, this, &Create::setProgress);
     connect(m_createImportVideoThread, &QThread::started, m_createImportVideo, &CreateImportVideo::process);
-    connect(m_createImportVideo, &CreateImportVideo::canceled, this, &Create::abortAndCleanup);
+    connect(m_createImportVideo, &CreateImportVideo::abortAndCleanup, this, &Create::abortAndCleanup);
 
     connect(m_createImportVideo, &CreateImportVideo::finished, m_createImportVideoThread, &QThread::quit);
     connect(m_createImportVideo, &CreateImportVideo::finished, m_createImportVideo, &QObject::deleteLater);
@@ -61,6 +65,7 @@ void Create::createWallpaperStart(QString videoPath)
 
     m_createImportVideo->moveToThread(m_createImportVideoThread);
     m_createImportVideoThread->start();
+
 }
 
 void Create::saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, QVector<QString> tags)
@@ -146,6 +151,7 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
 
 void Create::abortAndCleanup()
 {
+    qWarning() << "Abort and Cleanup!";
 
     if (m_createImportVideo == nullptr || m_createImportVideoThread == nullptr) {
         qDebug() << m_createImportVideo << m_createImportVideoThread;

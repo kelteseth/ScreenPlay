@@ -86,8 +86,7 @@ signals:
     void createWallpaperStateChanged(CreateImportVideo::ImportVideoState state);
     void processOutput(QString text);
     void finished();
-    void canceled();
-
+    void abortAndCleanup();
     void progressChanged(float progress);
 
 public slots:
