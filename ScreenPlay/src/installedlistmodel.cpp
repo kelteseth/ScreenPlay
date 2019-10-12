@@ -17,7 +17,16 @@ InstalledListModel::InstalledListModel(
     QObject::connect(this, &InstalledListModel::addInstalledItem,
         this, &InstalledListModel::append, Qt::QueuedConnection);
 }
+void InstalledListModel::init()
+{
+    if (!m_fileSystemWatcher.addPath(m_globalVariables->localStoragePath().toLocalFile())) {
+        qWarning() << "Could not setup file system watcher for changed files with path: " << m_globalVariables->localStoragePath().toLocalFile();
+    }
 
+    loadInstalledContent();
+
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &InstalledListModel::reset);
+}
 int InstalledListModel::rowCount(const QModelIndex& parent) const
 {
     if (parent.isValid())
@@ -169,17 +178,4 @@ void InstalledListModel::reset()
     loadInstalledContent();
 }
 
-void InstalledListModel::init()
-{
-    if (!m_fileSystemWatcher.addPath(m_globalVariables->localStoragePath().toLocalFile())) {
-        qWarning() << "Could not setup file system watcher for changed files with path: " << m_globalVariables->localStoragePath().toLocalFile();
-    }
-
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, [this](const QString& path) {
-        qDebug() << path;
-        reset();
-        loadInstalledContent();
-    });
-    loadInstalledContent();
-}
 }

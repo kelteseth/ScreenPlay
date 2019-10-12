@@ -293,7 +293,6 @@ Item {
                                     textFieldTags.getTags())
                         savePopup.open()
                         ScreenPlay.installedListModel.reset()
-                        ScreenPlay.installedListModel.loadInstalledContent()
                     }
                 }
             }
