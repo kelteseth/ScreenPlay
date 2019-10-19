@@ -133,6 +133,7 @@ Item {
                             }
                             FolderDialog {
                                 id: folderDialogSaveLocation
+                                currentFolder: ScreenPlay.globalVariables.localStoragePath
                                 onAccepted: {
                                     ScreenPlay.globalVariables.setLocalStoragePath(
                                                 folderDialogSaveLocation.currentFolder)

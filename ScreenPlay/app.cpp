@@ -41,6 +41,7 @@ App::App()
 
     // When the installed storage path changed
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);
+    QObject::connect(m_globalVariables.get(), &GlobalVariables::localStoragePathChanged, m_settings.get(), &Settings::resetInstalledListmodel);
     QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_sdkConnector.get(), &SDKConnector::closeAllWallpapers);
 
     // Init after we have the paths from settings
