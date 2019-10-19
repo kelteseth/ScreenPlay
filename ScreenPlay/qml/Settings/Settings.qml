@@ -7,6 +7,8 @@ import Qt.labs.platform 1.0
 
 import ScreenPlay 1.0
 
+import "../Common"
+
 Item {
     id: settingsWrapper
     anchors.fill: parent
@@ -88,42 +90,39 @@ Item {
                             description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
                             isChecked: ScreenPlay.settings.autostart
                             onCheckboxChanged: {
-                                 ScreenPlay.settings.setAutostart(checked)
-                                 ScreenPlay.settings.writeSingleSettingConfig(
+                                ScreenPlay.settings.setAutostart(checked)
+                                ScreenPlay.settings.writeSingleSettingConfig(
                                             "autostart", checked)
                             }
                         }
-                        SettingsHorizontalSeperator {
-                        }
+                        SettingsHorizontalSeperator {}
                         SettingBool {
                             headline: qsTr("High priority Autostart")
                             available: false
 
                             description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
-                            isChecked:  ScreenPlay.settings.highPriorityStart
+                            isChecked: ScreenPlay.settings.highPriorityStart
                             onCheckboxChanged: {
-                                 ScreenPlay.settings.setHighPriorityStart(checked)
-                                 ScreenPlay.settings.writeSingleSettingConfig(
+                                ScreenPlay.settings.setHighPriorityStart(
+                                            checked)
+                                ScreenPlay.settings.writeSingleSettingConfig(
                                             "highPriorityStart", checked)
                             }
                         }
-                        SettingsHorizontalSeperator {
-                        }
+                        SettingsHorizontalSeperator {}
                         SettingBool {
                             height: 70
                             available: false
                             headline: qsTr("Send anonymous crash reports and statistics")
                             description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!")
-                            isChecked:  ScreenPlay.settings.sendStatistics
+                            isChecked: ScreenPlay.settings.sendStatistics
                             onCheckboxChanged: {
-                                 ScreenPlay.settings.setSendStatistics(checked)
-                                 ScreenPlay.settings.writeSingleSettingConfig(
+                                ScreenPlay.settings.setSendStatistics(checked)
+                                ScreenPlay.settings.writeSingleSettingConfig(
                                             "sendStatistics", checked)
                             }
-
                         }
-                        SettingsHorizontalSeperator {
-                        }
+                        SettingsHorizontalSeperator {}
 
                         SettingsButton {
                             headline: qsTr("Set save location")
@@ -152,43 +151,42 @@ Item {
                             horizontalAlignment: Text.AlignLeft
                             font.pointSize: 10
                             font.family: "Roboto"
-                            anchors{
-                                right:parent.right
-                                left:parent.left
+                            anchors {
+                                right: parent.right
+                                left: parent.left
                                 leftMargin: 20
                             }
                         }
 
-                        SettingsHorizontalSeperator {
-                        }
+                        SettingsHorizontalSeperator {}
                         SettingsComboBox {
                             id: settingsLanguage
                             headline: qsTr("Language")
                             description: qsTr("Set the ScreenPlay UI Language")
                             onCurrentIndexChanged: {
                                 var key = settingsLanguage.comboBoxListModel.get(
-                                            settingsLanguage.currentIndex).text.toString();
+                                            settingsLanguage.currentIndex).text.toString()
 
-                                var languageKey;
+                                var languageKey
 
                                 switch (key) {
                                 case "German":
                                     languageKey = "de"
-                                    break;
+                                    break
                                 case "English":
                                     languageKey = "en"
-                                    break;
+                                    break
                                 case "Russian":
                                     languageKey = "ru"
-                                    break;
+                                    break
                                 default:
                                     languageKey = "en"
-                                    break;
+                                    break
                                 }
                                 print(key, languageKey)
 
-                                 ScreenPlay.settings.setqSetting("language", languageKey)
-
+                                ScreenPlay.settings.setqSetting("language",
+                                                                languageKey)
                             }
                             comboBoxListModel: ListModel {
                                 ListElement {
@@ -253,19 +251,20 @@ Item {
                         }
                         spacing: 10
 
-
                         SettingBool {
                             headline: qsTr("Pause wallpaper while ingame")
                             available: false
                             description: qsTr("To maximise your framerates ingame, you can enable this setting to pause all active wallpapers!")
-                            isChecked:  ScreenPlay.settings.pauseWallpaperWhenIngame
+                            isChecked: ScreenPlay.settings.pauseWallpaperWhenIngame
                             onCheckboxChanged: {
-                                 ScreenPlay.settings.setPauseWallpaperWhenIngame(checked)
-                                 ScreenPlay.settings.writeSingleSettingConfig("setPauseWallpaperWhenIngame",checked)
+                                ScreenPlay.settings.setPauseWallpaperWhenIngame(
+                                            checked)
+                                ScreenPlay.settings.writeSingleSettingConfig(
+                                            "setPauseWallpaperWhenIngame",
+                                            checked)
                             }
                         }
-                        SettingsHorizontalSeperator {
-                        }
+                        SettingsHorizontalSeperator {}
                         SettingsComboBox {
                             id: settingsFillModeComboBox
                             headline: qsTr("Default Fill Mode")
@@ -276,7 +275,6 @@ Item {
                             comboBoxListModel: ListModel {
                                 ListElement {
                                     text: "Stretch"
-
                                 }
                                 ListElement {
                                     text: "PreserveAspectFit"
@@ -329,7 +327,7 @@ Item {
                     }
 
                     Column {
-                        id:settingsAboutrapperWrapper
+                        id: settingsAboutrapperWrapper
                         width: parent.width
                         spacing: 10
                         anchors {
@@ -359,46 +357,96 @@ Item {
                             }
                             Text {
                                 id: txtDescriptionAbout
-                                text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. \n \n Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. "
+                                text: qsTr("Hi, I'm Elias Steurer also known as Kelteseth and I'm the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:")
                                 color: "#B5B5B5"
 
                                 wrapMode: Text.WordWrap
                                 verticalAlignment: Text.AlignTop
                                 horizontalAlignment: Text.AlignLeft
-                                font.pointSize: 10
+                                font.pointSize: 11
                                 font.family: "Roboto"
                                 width: parent.width * .6
                                 anchors {
                                     top: txtHeadline.bottom
-                                    topMargin: 6
+                                    topMargin: 15
                                     left: parent.left
                                     leftMargin: 20
                                     right: imgLogoHead.left
-                                    rightMargin: 20
+                                    rightMargin: 60
                                     bottom: parent.bottom
                                 }
                             }
+
+                            RowLayout {
+                                anchors {
+                                    left: parent.left
+                                    margins: 20
+                                    bottom: parent.bottom
+                                }
+                                spacing: 20
+
+                                GrowIconLink {
+                                    iconSource: "qrc:/assets/icons/brand_github.svg"
+                                    url: "https://github.com/kelteseth"
+                                    color: "#333333"
+                                }
+                                GrowIconLink {
+                                    iconSource: "qrc:/assets/icons/brand_gitlab.svg"
+                                    url: "https://gitlab.com/kelteseth"
+                                    color: "#FC6D26"
+                                }
+                                GrowIconLink {
+                                    iconSource: "qrc:/assets/icons/brand_twitter.svg"
+                                    url: "https://twitter.com/Kelteseth"
+                                    color: "#1DA1F2"
+                                }
+                                GrowIconLink {
+                                    iconSource: "qrc:/assets/icons/brand_twitch.svg"
+                                    url: "https://www.twitch.tv/kelteseth/"
+                                    color: "#6441A5"
+                                }
+                            }
+
                             Image {
                                 id: imgLogoHead
-                                source: "qrc:/assets/icons/icon_logo_head.svg"
-                                width: 150
-                                height: 150
-                                sourceSize: Qt.size(150, 150)
+                                source: "https://assets.gitlab-static.net/uploads/-/system/user/avatar/64172/avatar.png"
+
+                                width: 120
+                                height: 120
+                                visible: false
                                 anchors {
                                     top: txtHeadline.bottom
-                                    topMargin: -10
+                                    topMargin: 20
                                     right: parent.right
                                     rightMargin: 20
                                 }
+                                sourceSize: Qt.size(120, 120)
+                            }
+                            Image {
+                                id: mask
+                                source: "qrc:/assets/images/mask_round.svg"
+                                sourceSize: Qt.size(parent.width, parent.height)
+                                smooth: true
+                                visible: false
+                            }
+
+                            OpacityMask {
+                                anchors.fill: imgLogoHead
+                                source: imgLogoHead
+                                maskSource: mask
+                                smooth: true
                             }
                         }
                         SettingsHorizontalSeperator {}
 
                         SettingsButton {
+                            icon.source: "qrc:/assets/icons/icon_launch.svg"
                             headline: qsTr("Version")
-                            description: qsTr("ScreenPlay Build Version ") +  ScreenPlay.settings.gitBuildHash
+                            description: qsTr("ScreenPlay Build Version ")
+                                         + ScreenPlay.settings.gitBuildHash
                             buttonText: qsTr("Open Changelog")
-                            onButtonPressed: Qt.openUrlExternally("https://gitlab.com/kelteseth/ScreenPlay/-/releases")
+                            onButtonPressed: Qt.openUrlExternally(
+                                                 "https://gitlab.com/kelteseth/ScreenPlay/-/releases")
                         }
 
                         SettingsHorizontalSeperator {}
@@ -412,12 +460,11 @@ Item {
                             }
                         }
                         SettingsExpander {
-                            id:expanderCopyright
+                            id: expanderCopyright
                             anchors {
                                 left: parent.left
                                 right: parent.right
                             }
-
 
                             Connections {
                                 target: ScreenPlay.util
@@ -436,7 +483,7 @@ Item {
                             }
                         }
                         SettingsExpander {
-                            id:expanderDebug
+                            id: expanderDebug
                             text: ScreenPlay.util.debugMessages
                             anchors {
                                 left: parent.left
@@ -454,12 +501,11 @@ Item {
                             }
                         }
                         SettingsExpander {
-                            id:expanderDataProtection
+                            id: expanderDataProtection
                             anchors {
                                 left: parent.left
                                 right: parent.right
                             }
-
 
                             Connections {
                                 target: ScreenPlay.util
@@ -475,7 +521,9 @@ Item {
     }
 }
 
-/*##^## Designer {
+/*##^##
+Designer {
     D{i:0;autoSize:true;height:480;width:640}
 }
- ##^##*/
+##^##*/
+

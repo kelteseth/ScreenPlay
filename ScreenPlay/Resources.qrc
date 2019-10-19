@@ -124,11 +124,18 @@
         <file>qml/Common/RippleEffect.qml</file>
         <file>qml/Create/FFMPEGPopup.qml</file>
         <file>assets/images/FFmpeg_Logo_new.svg</file>
-        <file>assets/icons/baseline-done-24px.svg</file>
         <file>profiles.json</file>
         <file>qml/Common/Shake.qml</file>
         <file>qml/Common/Grow.qml</file>
         <file>qml/Installed/InstalledWelcomeScreen.qml</file>
         <file>qml/Monitors/DefaultVideoControls.qml</file>
+        <file>assets/images/mask_round.svg</file>
+        <file>assets/icons/icon_launch.svg</file>
+        <file>qml/Common/GrowIconLink.qml</file>
+        <file>assets/icons/brand_twitch.svg</file>
+        <file>assets/icons/brand_github.svg</file>
+        <file>assets/icons/brand_gitlab.svg</file>
+        <file>assets/icons/brand_twitter.svg</file>
+        <file>assets/icons/icon_done.svg</file>
     </qresource>
 </RCC>
