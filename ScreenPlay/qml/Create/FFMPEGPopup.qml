@@ -315,7 +315,7 @@ if you installed ScreenPlay via Steam!
         Image {
             id: imgOk
             fillMode: Image.PreserveAspectFit
-            source: "qrc:/assets/icons/baseline-done-24px.svg"
+            source: "qrc:/assets/icons/icon_done.svg"
             width: 180
             height: width
             sourceSize: Qt.size(width,width)
