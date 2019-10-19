@@ -60,7 +60,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     }
 
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-     m_globalVariables->setLocalSettingsPath(QUrl::fromUserInput(appConfigLocation));
+    m_globalVariables->setLocalSettingsPath(QUrl::fromUserInput(appConfigLocation));
 
     if (!QDir(appConfigLocation).exists()) {
         if (!QDir().mkpath(appConfigLocation)) {
@@ -102,7 +102,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 
     std::optional<QVersionNumber> version = Util::getVersionNumberFromString(configObj.value("version").toString());
 
-    //Checks if the settings file has the same version as ScreeenPlay
+    //Checks if the settings file has the same version as ScreenPlay
     if (version.has_value() && version.value() != m_version) {
         // TODO(Kelteseth): Display error message
         qWarning() << "Version missmatch fileVersion: " << version.value().toString() << "m_version: " << m_version.toString();
@@ -119,13 +119,13 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
         steamTmpUrl.cd("content");
         steamTmpUrl.cd("672870");
 
-        m_globalVariables->setLocalStoragePath(steamTmpUrl.path());
+        m_globalVariables->setLocalStoragePath("file:///" + steamTmpUrl.path());
     } else {
         m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(configObj.value("absoluteStoragePath").toString()));
-     }
+    }
 
     if (m_qSettings.value("ScreenPlayContentPath").toUrl() != m_globalVariables->localStoragePath()) {
-        m_qSettings.setValue("ScreenPlayContentPath", QDir::toNativeSeparators( m_globalVariables->localStoragePath().toString().remove("file:///")));
+        m_qSettings.setValue("ScreenPlayContentPath", QDir::toNativeSeparators(m_globalVariables->localStoragePath().toString().remove("file:///")));
         m_qSettings.sync();
     }
 
@@ -148,7 +148,7 @@ void Settings::writeSingleSettingConfig(QString name, QVariant value)
 
     obj.value().insert(name, value.toJsonValue());
 
-    Util::writeJsonObjectToFile(filename,obj.value());
+    Util::writeJsonObjectToFile(filename, obj.value());
 }
 
 void Settings::setqSetting(const QString& key, const QString& value)
@@ -211,7 +211,6 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
         m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper/debug/ScreenPlayWallpaper.exe"));
 #endif
-
     }
 
     // We need to detect the right base path so we can copy later the example projects
