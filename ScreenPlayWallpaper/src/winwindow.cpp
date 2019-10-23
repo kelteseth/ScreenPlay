@@ -108,6 +108,9 @@ WinWindow::WinWindow(
         setupWallpaperForMultipleScreens(activeScreensList);
     }
 
+    setWidth(m_window.width());
+    setHeight(m_window.height());
+
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_window.rootContext()->setContextProperty("window", this);
     m_window.rootContext()->setContextProperty("desktopProperties", &m_windowsDesktopProperties);

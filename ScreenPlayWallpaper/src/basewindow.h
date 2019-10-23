@@ -18,6 +18,9 @@ public:
     BaseWindow(QObject* parent = nullptr);
     BaseWindow(QString projectFilePath, QObject* parent = nullptr);
 
+    Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
+    Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
+
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
 
@@ -43,8 +46,6 @@ public:
         Qml,
     };
     Q_ENUM(WallpaperType)
-
-
 
     bool loops() const
     {
@@ -106,6 +107,16 @@ public:
         return m_fillMode;
     }
 
+    int width() const
+    {
+        return m_width;
+    }
+
+    int height() const
+    {
+        return m_height;
+    }
+
 signals:
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
@@ -121,8 +132,9 @@ signals:
     void currentTimeChanged(float currentTime);
 
     void canFadeChanged(bool canFade);
-
     void fillModeChanged(QString fillMode);
+    void widthChanged(int width);
+    void heightChanged(int height);
 
 public slots:
     virtual void destroyThis() {}
@@ -144,7 +156,7 @@ public slots:
     }
     void setVolume(float volume)
     {
-        if(volume < 0.0f || volume > 1.0f)
+        if (volume < 0.0f || volume > 1.0f)
             return;
 
         if (qFuzzyCompare(m_volume, volume))
@@ -163,7 +175,7 @@ public slots:
     }
     void setPlaybackRate(float playbackRate)
     {
-        if(playbackRate < 0.0f || playbackRate > 1.0f)
+        if (playbackRate < 0.0f || playbackRate > 1.0f)
             return;
 
         if (qFuzzyCompare(m_playbackRate, playbackRate))
@@ -244,20 +256,37 @@ public slots:
 
         fillMode = fillMode.toLower();
 
-        QStringList availableFillModes {"stretch", "fill", "contain", "cover", "scale-down"};
+        QStringList availableFillModes { "stretch", "fill", "contain", "cover", "scale-down" };
 
-        if(!availableFillModes.contains(fillMode)) {
+        if (!availableFillModes.contains(fillMode)) {
             qWarning() << "Unable to set fillmode, the provided value did not match the available values"
                        << "Provided: " << fillMode
                        << "Available: " << availableFillModes;
             return;
         }
 
-
         // Actual web fillmodes are lowercase
         // https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
         m_fillMode = fillMode.toLower();
         emit fillModeChanged(m_fillMode);
+    }
+
+    void setWidth(int width)
+    {
+        if (m_width == width)
+            return;
+
+        m_width = width;
+        emit widthChanged(m_width);
+    }
+
+    void setHeight(int height)
+    {
+        if (m_height == height)
+            return;
+
+        m_height = height;
+        emit heightChanged(m_height);
     }
 
 private:
@@ -276,4 +305,6 @@ private:
     WallpaperType m_type = BaseWindow::WallpaperType::Qml;
     QString m_OSVersion;
     QString m_fillMode;
+    int m_width { 0 };
+    int m_height { 0 };
 };

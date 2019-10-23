@@ -118,30 +118,36 @@ Rectangle {
         anchors {
             top: parent.top
             topMargin: {
+                return 0;
                 if(desktopProperties.windowsVersion >= 1903){
 
-                    var ratio = root.width / root.height
-                    ratio = Math.round(ratio * 100) / 100
-
+                    var ratio = window.width / window.height
+                    ratio = Math.round(ratio * 10) / 10
+                    print("size: ",window.width,window.height,ratio)
                     // 4:3
                     if (ratio === 1,3) {
-
+                        print("4:3")
                     }
                     // 16:10
                     if (ratio === 1,6) {
-
+                        print("16:10")
                     }
                     // 16:9
-                    if (ratio === 1,77) {
-                        return -(root.height / 9)
+                    if (ratio === 1,7) {
+                        print("16:9")
+                        var margin = window.height / 9
+                         //margin = 140
+                        print(margin)
+                        return margin
                     }
                     // 21:9
-                    if (ratio === 2,37) {
-                        return -((root.height / 9) / 3)
+                    if (ratio === 2,3) {
+                        print("21:9")
+                        return -((window.height / 9) / 3)
                     }
                     // 32:9
-                    if (ratio === 3,55) {
-
+                    if (ratio === 3,5) {
+                        print("32:9")
                     }
 
                 } else {
@@ -153,7 +159,8 @@ Rectangle {
             right: parent.right
         }
 
-        sourceSize.width: root.width
+        sourceSize.width: window.width
+        sourceSize.height: window.height
         source: Qt.resolvedUrl("file:///" + desktopProperties.wallpaperPath)
 
         Component.onCompleted: {
