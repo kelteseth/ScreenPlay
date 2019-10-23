@@ -26,10 +26,8 @@ Rectangle {
 
         switch (window.type) {
         case Wallpaper.WallpaperType.Video:
-            webView.url = Qt.resolvedUrl(window.getApplicationPath(
-                                             ) + "/index.html")
+            webView.url = Qt.resolvedUrl(window.getApplicationPath() + "/index.html")
             webView.enabled = true
-
             break
         case Wallpaper.WallpaperType.Html:
             webView.enabled = true
@@ -37,6 +35,7 @@ Rectangle {
             break
         case Wallpaper.WallpaperType.ThreeJSScene:
             webView.enabled = true
+            webView.url = Qt.resolvedUrl(window.fullContentPath)
             break
         case Wallpaper.WallpaperType.Qml:
             loader.enabled = true
@@ -86,6 +85,9 @@ Rectangle {
         anchors.fill: parent
         onLoadProgressChanged: {
             if (loadProgress === 100) {
+
+                // TODO 30:
+                // Currently wont work. Commit anyways til QtCreator and Qt work with js template literals
 
                 var src = ""
                 src += "var videoPlayer = document.getElementById('videoPlayer');"
