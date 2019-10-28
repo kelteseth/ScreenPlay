@@ -256,7 +256,7 @@ void ScreenPlayManager::loadWallpaperProfiles()
 
     QJsonArray activeProfilesTmp = configObj.value().value("profiles").toArray();
 
-    if (activeProfilesTmp.size() != 1) {
+    if (activeProfilesTmp.size() >= 1) {
         qWarning() << "We currently only support one profile!";
         return;
     }

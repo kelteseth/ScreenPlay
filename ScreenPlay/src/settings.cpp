@@ -18,7 +18,6 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     , m_version { QVersionNumber(1, 0, 0) }
     , m_globalVariables { globalVariables }
 {
-    auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
 
     setGitBuildHash(GIT_VERSION);
 
@@ -26,33 +25,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     qInfo() << "ScreenPlay git hash: " << gitBuildHash();
 #endif
 
-    QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Light.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Regular.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Thin.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Light.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Thin.ttf");
-
-    if (m_qSettings.value("language").isNull()) {
-        auto locale = QLocale::system().uiLanguages();
-        auto localeSplits = locale.at(0).split("-");
-
-        // Only install a translator if one exsists
-        QFile tsFile;
-        qDebug() << ":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm";
-        if (tsFile.exists(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm")) {
-            m_translator.load(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm");
-            m_qSettings.setValue("language", QVariant(localeSplits.at(0)));
-            m_qSettings.sync();
-            app->installTranslator(&m_translator);
-        }
-    } else {
-        QFile tsFile;
-        if (tsFile.exists(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm")) {
-            m_translator.load(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm");
-            app->installTranslator(&m_translator);
-        }
-    }
+    setupLanguage();
 
     if (m_qSettings.value("ScreenPlayExecutable").isNull()) {
         m_qSettings.setValue("ScreenPlayExecutable", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
@@ -70,37 +43,21 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     }
 
     // App settings
-    QFile settingsFile;
-    settingsFile.setFileName(appConfigLocation + "/settings.json");
+    QFile settingsFile(appConfigLocation + "/settings.json");
     if (!settingsFile.exists()) {
-        qWarning("No Settings found, creating default settings");
-        createDefaultConfig();
+        qInfo("No Settings found, creating default settings");
+        writeJsonFileFromResource("settings");
     }
 
     // Wallpaper and Widgets config
-    QFile profilesFile;
-    profilesFile.setFileName(appConfigLocation + "/profiles.json");
+    QFile profilesFile(appConfigLocation + "/profiles.json");
     if (!profilesFile.exists()) {
-        qWarning("No profiles.json found, creating default settings");
-        createDefaultProfiles();
+        qInfo("No profiles.json found, creating default settings");
+        writeJsonFileFromResource("profiles");
     }
 
-    QJsonDocument configJsonDocument;
-    QJsonParseError parseError {};
-    QJsonObject configObj;
-
-    settingsFile.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString config = settingsFile.readAll();
-    configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
-
-    if (!(parseError.error == QJsonParseError::NoError)) {
-        qWarning("Settings Json Parse Error ");
-        return;
-    }
-
-    configObj = configJsonDocument.object();
-
-    std::optional<QVersionNumber> version = Util::getVersionNumberFromString(configObj.value("version").toString());
+    std::optional<QJsonObject> configObj = Util::openJsonFileToObject(appConfigLocation + "/settings.json");
+    std::optional<QVersionNumber> version = Util::getVersionNumberFromString(configObj.value().value("version").toString());
 
     //Checks if the settings file has the same version as ScreenPlay
     if (version.has_value() && version.value() != m_version) {
@@ -110,76 +67,61 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     }
 
     //If empty use steam workshop location
-    if (QString(configObj.value("absoluteStoragePath").toString()).isEmpty()) {
-        QDir steamTmpUrl = QDir::toNativeSeparators(QCoreApplication::applicationFilePath());
-        steamTmpUrl.cdUp();
-        steamTmpUrl.cdUp();
-        steamTmpUrl.cdUp();
-        steamTmpUrl.cd("workshop");
-        steamTmpUrl.cd("content");
-        steamTmpUrl.cd("672870");
+    if (QString(configObj.value().value("absoluteStoragePath").toString()).isEmpty()) {
+        qDebug() << QCoreApplication::applicationDirPath();
+        QDir steamWorkshopContentPath(QCoreApplication::applicationDirPath());
+        steamWorkshopContentPath.cdUp();
+        steamWorkshopContentPath.cdUp();
+        if (!steamWorkshopContentPath.cd("workshop")) {
+            qWarning() << "Steam workshop folder not found!";
+        } else {
 
-        m_globalVariables->setLocalStoragePath("file:///" + steamTmpUrl.path());
+            steamWorkshopContentPath.cd("content");
+            steamWorkshopContentPath.cd("672870");
+
+            m_globalVariables->setLocalStoragePath("file:///" + steamWorkshopContentPath.absolutePath());
+            if(!writeSingleSettingConfig("absoluteStoragePath", m_globalVariables->localStoragePath())){
+                qWarning() << "Could not write settings file. Setup steam workshop folder at: " << m_globalVariables->localStoragePath();
+            }
+        }
+
     } else {
-        m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(configObj.value("absoluteStoragePath").toString()));
+        qInfo() << "setLocalStoragePath" << m_globalVariables->localStoragePath();
+        m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(configObj.value().value("absoluteStoragePath").toString()));
     }
 
-    if (m_qSettings.value("ScreenPlayContentPath").toUrl() != m_globalVariables->localStoragePath()) {
+    if (m_qSettings.value("ScreenPlayContentPath").toUrl() != QUrl::fromLocalFile(m_globalVariables->localStoragePath().toString())) {
         m_qSettings.setValue("ScreenPlayContentPath", QDir::toNativeSeparators(m_globalVariables->localStoragePath().toString().remove("file:///")));
         m_qSettings.sync();
     }
 
-    m_autostart = configObj.value("autostart").toBool();
-    m_highPriorityStart = configObj.value("highPriorityStart").toBool();
-    m_sendStatistics = configObj.value("sendStatistics").toBool();
+    m_autostart = configObj.value().value("autostart").toBool();
+    m_highPriorityStart = configObj.value().value("highPriorityStart").toBool();
+    m_sendStatistics = configObj.value().value("sendStatistics").toBool();
 
     setupWidgetAndWindowPaths();
 }
 
-void Settings::writeSingleSettingConfig(QString name, QVariant value)
+bool Settings::writeSingleSettingConfig(QString name, QVariant value)
 {
     QString filename = m_globalVariables->localSettingsPath().toLocalFile() + "/settings.json";
     auto obj = Util::openJsonFileToObject(filename);
 
     if (!obj.has_value()) {
         qWarning("Settings Json Parse Error ");
-        return;
+        return false;
     }
 
-    obj.value().insert(name, value.toJsonValue());
+    QJsonObject newConfig = obj.value();
+    newConfig.insert(name, value.toString());
 
-    Util::writeJsonObjectToFile(filename, obj.value());
+    return Util::writeJsonObjectToFile(filename, newConfig);
 }
 
-void Settings::setqSetting(const QString& key, const QString& value)
+void Settings::writeJsonFileFromResource(const QString& filename)
 {
-    m_qSettings.setValue(key, value);
-    m_qSettings.sync();
-}
-
-void Settings::createDefaultConfig()
-{
-
-    QFile file(m_globalVariables->localSettingsPath().toLocalFile() + "/settings.json");
-    QFile defaultSettings(":/settings.json");
-
-    file.open(QIODevice::WriteOnly | QIODevice::Text);
-    defaultSettings.open(QIODevice::ReadOnly | QIODevice::Text);
-
-    QTextStream out(&file);
-    QTextStream defaultOut(&defaultSettings);
-
-    out << defaultOut.readAll();
-
-    file.close();
-    defaultSettings.close();
-}
-
-void Settings::createDefaultProfiles()
-{
-
-    QFile file(m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json");
-    QFile defaultSettings(":/profiles.json");
+    QFile file(m_globalVariables->localSettingsPath().toLocalFile() + "/" + filename + ".json");
+    QFile defaultSettings(":/" + filename + ".json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     defaultSettings.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -244,6 +186,31 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setWidgetExecutablePath(QUrl("ScreenPlayWidget.exe"));
     }
 #endif
+}
+
+void Settings::setupLanguage()
+{
+    auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
+    if (m_qSettings.value("language").isNull()) {
+        auto locale = QLocale::system().uiLanguages();
+        auto localeSplits = locale.at(0).split("-");
+
+        // Only install a translator if one exsists
+        QFile tsFile;
+        qDebug() << ":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm";
+        if (tsFile.exists(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm")) {
+            m_translator.load(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm");
+            m_qSettings.setValue("language", QVariant(localeSplits.at(0)));
+            m_qSettings.sync();
+            app->installTranslator(&m_translator);
+        }
+    } else {
+        QFile tsFile;
+        if (tsFile.exists(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm")) {
+            m_translator.load(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm");
+            app->installTranslator(&m_translator);
+        }
+    }
 }
 
 }

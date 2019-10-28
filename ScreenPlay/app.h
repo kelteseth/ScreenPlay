@@ -1,14 +1,17 @@
 #pragma once
 
 #include <QDir>
-#include <QGuiApplication>
+
 #include <QIcon>
 #include <QObject>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QQuickWindow>
 #include <QStringList>
 #include <QUrl>
+#include <qqml.h>
+
 #include <QtWebEngine>
 
 #include <memory>
@@ -55,12 +58,6 @@ class App : public QObject {
 
 public:
     explicit App();
-
-    static App* instance()
-    {
-        static App app;
-        return &app;
-    }
 
     GlobalVariables* globalVariables() const
     {
@@ -214,6 +211,8 @@ public slots:
     }
 
 private:
+    unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
+
     unique_ptr<Create> m_create;
     unique_ptr<ScreenPlayManager> m_screenPlayManager;
     unique_ptr<Util> m_util;

@@ -45,6 +45,7 @@ class Settings : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QVersionNumber version READ version)
+    Q_PROPERTY(bool silentStart READ silentStart WRITE setSilentStart NOTIFY silentStartChanged)
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
@@ -57,7 +58,6 @@ public:
     explicit Settings(
         const shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
-    ~Settings() {}
 
     QVersionNumber version() const
     {
@@ -104,6 +104,11 @@ public:
         return m_gitBuildHash;
     }
 
+    bool silentStart() const
+    {
+        return m_silentStart;
+    }
+
 signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
@@ -115,10 +120,15 @@ signals:
     void offlineModeChanged(bool offlineMode);
     void gitBuildHashChanged(QString gitBuildHash);
     void resetInstalledListmodel();
+    void silentStartChanged(bool silentStart);
 
 public slots:
-    void writeSingleSettingConfig(QString name, QVariant value);
-    void setqSetting(const QString& key, const QString& value);
+    bool writeSingleSettingConfig(QString name, QVariant value);
+    void setqSetting(const QString& key, const QString& value)
+    {
+        m_qSettings.setValue(key, value);
+        m_qSettings.sync();
+    }
 
     void setAutostart(bool autostart)
     {
@@ -214,10 +224,19 @@ public slots:
         emit gitBuildHashChanged(m_gitBuildHash);
     }
 
+    void setSilentStart(bool silentStart)
+    {
+        if (m_silentStart == silentStart)
+            return;
+
+        m_silentStart = silentStart;
+        emit silentStartChanged(m_silentStart);
+    }
+
 private:
-    void createDefaultConfig();
+    void writeJsonFileFromResource(const QString& filename);
     void setupWidgetAndWindowPaths();
-    void createDefaultProfiles();
+    void setupLanguage();
 
 private:
     QVersionNumber m_version;
@@ -234,5 +253,6 @@ private:
 
     QString m_decoder { "" };
     QString m_gitBuildHash;
+    bool m_silentStart { false };
 };
 }
