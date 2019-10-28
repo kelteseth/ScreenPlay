@@ -49,7 +49,7 @@ std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
     auto jsonString = openJsonFileToString(path);
 
     if (!jsonString.has_value()) {
-        return {};
+        return std::nullopt;
     }
 
     QJsonDocument jsonDocument;
@@ -58,7 +58,7 @@ std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
 
     if (!(parseError.error == QJsonParseError::NoError)) {
         qWarning() << "Settings Json Parse Error: " << parseError.errorString();
-        return {};
+        return std::nullopt;
     }
 
     return jsonDocument.object();
@@ -69,7 +69,7 @@ std::optional<QString> Util::openJsonFileToString(const QString& path)
     QFile file;
     file.setFileName(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return {};
+        return std::nullopt;
     }
     QString fileContent = file.readAll();
     file.flush();
