@@ -417,21 +417,24 @@ Item {
                                 visible: false
                                 anchors {
                                     top: txtHeadline.bottom
-                                    topMargin: 20
+                                    topMargin: 0
                                     right: parent.right
                                     rightMargin: 20
                                 }
-                                sourceSize: Qt.size(120, 120)
+                                sourceSize: Qt.size(width, height)
                             }
                             Image {
                                 id: mask
                                 source: "qrc:/assets/images/mask_round.svg"
-                                sourceSize: Qt.size(parent.width, parent.height)
+                                sourceSize: Qt.size(width, height)
                                 smooth: true
+                                width: 120
+                                height: 120
                                 visible: false
                             }
 
                             OpacityMask {
+                                id: opacityMask
                                 anchors.fill: imgLogoHead
                                 source: imgLogoHead
                                 maskSource: mask
