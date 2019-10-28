@@ -131,22 +131,7 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
     out << QJsonDocument(object).toJson();
 
     configTmp.close();
-    return  true;
-}
-
-void Util::setNavigation(QString nav)
-{
-    emit requestNavigation(nav);
-}
-
-void Util::setNavigationActive(bool isActive)
-{
-    emit requestNavigationActive(isActive);
-}
-
-void Util::setToggleWallpaperConfiguration()
-{
-    emit requestToggleWallpaperConfiguration();
+    return true;
 }
 
 QString Util::fixWindowsPath(QString url)

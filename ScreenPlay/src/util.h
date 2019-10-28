@@ -86,10 +86,21 @@ public slots:
 
     static QString generateRandomString(quint32 length = 32);
 
-    void setNavigation(QString nav);
-    void setNavigationActive(bool isActive);
+    void setNavigation(QString nav)
+    {
+        emit requestNavigation(nav);
+    }
 
-    void setToggleWallpaperConfiguration();
+    // When we create a wallpaper the main navigation gets disabled
+    void setNavigationActive(bool isActive)
+    {
+        emit requestNavigationActive(isActive);
+    }
+
+    void setToggleWallpaperConfiguration()
+    {
+        emit requestToggleWallpaperConfiguration();
+    }
     void openFolderInExplorer(QString url);
 
     void requestAllLicenses();
