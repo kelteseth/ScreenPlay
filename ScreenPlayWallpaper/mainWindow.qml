@@ -117,44 +117,6 @@ Rectangle {
         id: imgCover
         anchors {
             top: parent.top
-            topMargin: {
-                return 0;
-                if(desktopProperties.windowsVersion >= 1903){
-
-                    var ratio = window.width / window.height
-                    ratio = Math.round(ratio * 10) / 10
-                    print("size: ",window.width,window.height,ratio)
-                    // 4:3
-                    if (ratio === 1,3) {
-                        print("4:3")
-                    }
-                    // 16:10
-                    if (ratio === 1,6) {
-                        print("16:10")
-                    }
-                    // 16:9
-                    if (ratio === 1,7) {
-                        print("16:9")
-                        var margin = window.height / 9
-                         //margin = 140
-                        print(margin)
-                        return margin
-                    }
-                    // 21:9
-                    if (ratio === 2,3) {
-                        print("21:9")
-                        return -((window.height / 9) / 3)
-                    }
-                    // 32:9
-                    if (ratio === 3,5) {
-                        print("32:9")
-                    }
-
-                } else {
-                    return 0;
-                }
-            }
-
             left: parent.left
             right: parent.right
         }
