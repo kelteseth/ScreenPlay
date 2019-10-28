@@ -86,7 +86,6 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
         }
 
     } else {
-        qInfo() << "setLocalStoragePath" << m_globalVariables->localStoragePath();
         m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(configObj.value().value("absoluteStoragePath").toString()));
     }
 
