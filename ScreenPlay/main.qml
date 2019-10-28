@@ -16,7 +16,7 @@ import "qml/Navigation"
 ApplicationWindow {
     id: window
     color: "#eeeeee"
-    // Set visible if the -silent parameter was not set (see main.cpp:19).
+    // Set visible if the -silent parameter was not set (see app.cpp end of constructor).
     visible: false
     width: 1400
     height: 788
@@ -25,10 +25,12 @@ ApplicationWindow {
     minimumWidth: 1050
 
     Component.onCompleted: {
-        if (! ScreenPlay.settings.autostart) {
-            show()
+        if(!ScreenPlay.settings.silentStart){
+            window.show()
         }
     }
+
+
 
     function switchPage(name) {
         if (name === "Create") {
@@ -37,7 +39,6 @@ ApplicationWindow {
             pageLoaderCreate.visible = true
             pageLoaderWorkshop.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
-            sidebar.state = "inactive"
             pageLoaderCreate.item.checkFFMPEG()
         } else if (name === "Workshop") {
             bg.state = "init"
@@ -45,36 +46,26 @@ ApplicationWindow {
             pageLoaderCreate.visible = false
             pageLoaderWorkshop.visible = true
             pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
-            sidebar.state = "inactive"
         } else if (name === "Community") {
             bg.state = "community"
             pageLoader.visible = true
             pageLoaderCreate.visible = false
             pageLoaderWorkshop.visible = false
             pageLoader.setSource("qrc:/qml/Community/Community.qml")
-            sidebar.state = "inactive"
         } else {
             bg.state = "init"
             pageLoader.visible = true
             pageLoaderCreate.visible = false
             pageLoaderWorkshop.visible = false
             pageLoader.setSource("qrc:/qml/" + name + "/" + name + ".qml")
-            sidebar.state = "inactive"
         }
+
+        sidebar.state = "inactive"
     }
 
     Background {
         id: bg
         anchors.fill: parent
-    }
-
-    Connections {
-        target: ScreenPlay.settings
-        onSetMainWindowVisible: {
-            window.visible = visible
-            setX(Screen.width / 2 - width / 2)
-            setY(Screen.height / 2 - height / 2)
-        }
     }
 
     Connections {

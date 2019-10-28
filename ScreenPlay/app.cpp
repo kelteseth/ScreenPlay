@@ -60,7 +60,7 @@ App::App()
     m_installedListModel->init();
 
     // Set visible if the -silent parameter was not set
-    if (!QGuiApplication::instance()->arguments().contains("-silent")) {
+    if (QGuiApplication::instance()->arguments().contains("-silent")) {
         settings()->setSilentStart(true);
     }
 
