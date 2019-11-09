@@ -214,16 +214,17 @@ void Util::Util::requestAllLDataProtection()
 void Util::downloadFFMPEG()
 {
     QNetworkRequest req;
+    QString ffmpegVersion {"ffmpeg-4.2.1"};
 
 #ifdef Q_OS_WIN
-    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/win64/static/ffmpeg-4.2.1-win64-static.zip"));
+    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/win64/static/"+ffmpegVersion+"-win64-static.zip"));
 #elif defined(Q_OS_OSX)
-    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/ffmpeg-4.2.1-macos64-static.zip"));
+    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/"+ffmpegVersion+"-win64-static.zip"));
 #endif
     setAquireFFMPEGStatus(AquireFFMPEGStatus::Download);
 
     QNetworkReply* reply = m_networkAccessManager->get(req);
-    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() {
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, ffmpegVersion]() {
         using namespace libzippp;
         using namespace std;
 
@@ -240,16 +241,20 @@ void Util::downloadFFMPEG()
 
         string path = QGuiApplication::instance()->applicationDirPath().toStdString() + "/";
 
+
+
 #ifdef Q_OS_WIN
-        ZipEntry entryFFMPEG = archive->getEntry("ffmpeg-4.1.4-win64-static/bin/ffmpeg.exe");
+        ZipEntry entryFFMPEG = archive->getEntry(ffmpegVersion.toStdString() +"-win64-static/bin/ffmpeg.exe");
         std::string entryFFMPEGPath = path + "ffmpeg.exe";
 #elif defined(Q_OS_OSX)
-        ZipEntry entryFFMPEG = archive->getEntry("ffmpeg-4.1.4-macos64-static/bin/ffmpeg");
+        ZipEntry entryFFMPEG = archive->getEntry(ffmpegVersion.toStdString() +"-macos64-static/bin/ffmpeg");
         std::string entryFFMPEGPath = path + "ffmpeg";
 #endif
 
         if (entryFFMPEG.isNull()) {
-            qDebug() << "null";
+            qDebug() << "entryFFMPEG is null. No more entry is available.";
+            qDebug() << "Download size was: " <<  download.size() << "bytes";
+
 
             setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFMPEG);
             return;
@@ -262,10 +267,10 @@ void Util::downloadFFMPEG()
         }
 
 #ifdef Q_OS_WIN
-        ZipEntry entryFFPROBE = archive->getEntry("ffmpeg-4.1.4-win64-static/bin/ffprobe.exe");
+        ZipEntry entryFFPROBE = archive->getEntry(ffmpegVersion.toStdString() +"-win64-static/bin/ffprobe.exe");
         std::string entryFFPROBEPath = path + "ffprobe.exe";
 #elif defined(Q_OS_OSX)
-        ZipEntry entryFFPROBE = archive->getEntry("ffmpeg-4.1.4-macos64-static/bin/ffprobe");
+        ZipEntry entryFFPROBE = archive->getEntry(ffmpegVersion.toStdString() +"-macos64-static/bin/ffprobe");
         std::string entryFFPROBEPath = path + "ffprobe";
 #endif
         if (entryFFPROBE.isNull()) {
