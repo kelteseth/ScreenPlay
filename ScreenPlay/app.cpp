@@ -59,6 +59,7 @@ App::App()
     // Init after we have the paths from settings
     m_installedListModel->init();
 
+#if QT_VERSION > QT_VERSION_CHECK(5, 14, 0)
     // Set visible if the -silent parameter was not set
     if (QGuiApplication::instance()->arguments().contains("-silent")) {
         settings()->setSilentStart(true);
@@ -67,5 +68,5 @@ App::App()
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
     m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
-
+#endif
 }

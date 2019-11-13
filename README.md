@@ -33,7 +33,7 @@ Everyone can contribute with code, design, documentation or translation. Visit o
 # HTTPS
 git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
 ```
-3. Download the latest __Qt 5.14__. Earlier versions are not supported!
+3. Download the latest __Qt 5.13__. Earlier versions are not supported!
 ### Windows
 1. [Download and install MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)
 2. [Download and install Win 10 SDK (debugging support. Not included via the MSVC installer)](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
@@ -41,7 +41,7 @@ git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
 3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.14.0
+        - Qt 5.13.0
             - MSVC 2017 64-bit
             - Qt WebEngine
         - Developer and Designer Tools
@@ -68,7 +68,7 @@ sudo zypper install -t pattern devel_basis
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.14.0 
+        - Qt 5.13.0 
             - GCC
             - Qt WebEngine
         - Developer and Designer Tools
@@ -81,7 +81,7 @@ sudo zypper install -t pattern devel_basis
 3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.14.0 
+        - Qt 5.13.0 
             - Qt WebEngine
         - Developer and Designer Tools
             - OpenSSL 1.1.1.c Toolkit
