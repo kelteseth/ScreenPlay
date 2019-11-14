@@ -415,7 +415,7 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("-i");
     args.append(m_videoPath);
     args.append("-c:v");
-    args.append("libvpx-vp9");
+    args.append("libvpx-vp8");
     args.append("-crf");
     args.append("30");
     args.append("-pix_fmt");
