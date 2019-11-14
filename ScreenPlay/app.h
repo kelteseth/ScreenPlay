@@ -1,7 +1,6 @@
 #pragma once
 
 #include <QDir>
-
 #include <QIcon>
 #include <QObject>
 #include <QQmlApplicationEngine>
@@ -10,6 +9,7 @@
 #include <QQuickWindow>
 #include <QStringList>
 #include <QUrl>
+#include <QtGlobal>
 #include <qqml.h>
 
 #include <QtWebEngine>
@@ -59,6 +59,13 @@ class App : public QObject {
 public:
     explicit App();
 
+#if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
+    static App* instance()
+    {
+        static App app;
+        return &app;
+    }
+#endif
     GlobalVariables* globalVariables() const
     {
         return m_globalVariables.get();
@@ -211,7 +218,9 @@ public slots:
     }
 
 private:
+#if QT_VERSION > QT_VERSION_CHECK(5, 14, 0)
     unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
+#endif
 
     unique_ptr<Create> m_create;
     unique_ptr<ScreenPlayManager> m_screenPlayManager;
