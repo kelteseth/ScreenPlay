@@ -10,6 +10,7 @@
 #include <QSettings>
 #include <QString>
 #include <QVector>
+#include <QApplication>
 #include <memory>
 
 #include <qt_windows.h>
@@ -34,6 +35,7 @@ private:
     void setupWallpaperForOneScreen(int activeScreen);
     void setupWallpaperForAllScreens();
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
+    void setupWindowMouseHook();
     bool searchWorkerWindowToParentTo();
 
 

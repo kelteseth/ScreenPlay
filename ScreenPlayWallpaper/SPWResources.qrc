@@ -3,5 +3,7 @@
         <file>mainWindow.qml</file>
         <file>test.qml</file>
         <file>dot.png</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>WebView.qml</file>
     </qresource>
 </RCC>

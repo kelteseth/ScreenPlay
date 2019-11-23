@@ -232,7 +232,9 @@ public slots:
 
     void setCurrentTime(float currentTime)
     {
-        qWarning("Floating point comparison needs context sanity check");
+        if (currentTime < 0.0f || currentTime > 100000000000.0f)
+            return;
+
         if (qFuzzyCompare(m_currentTime, currentTime))
             return;
 

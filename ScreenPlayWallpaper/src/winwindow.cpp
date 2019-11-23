@@ -68,6 +68,7 @@ WinWindow::WinWindow(
     const QString fillmode)
     : BaseWindow(projectPath)
 {
+    m_window.hide();
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
 
     if (!IsWindow(m_windowHandle)) {
@@ -90,8 +91,8 @@ WinWindow::WinWindow(
 
     // WARNING: Setting Window flags must be called *here*!
     Qt::WindowFlags flags = m_window.flags();
-    m_window.setFlags(flags | Qt::FramelessWindowHint);
-    SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_CHILDWINDOW);
+    m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::SplashScreen | Qt::ForeignWindow | Qt::SubWindow);
+    //SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_CHILDWINDOW);
     SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE);
 
     // Windows coordante system begins at 0x0 at the
@@ -118,35 +119,18 @@ WinWindow::WinWindow(
     // we can set it here once :)
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setSource(QUrl("qrc:/mainWindow.qml"));
-
-    // MUST be called before setting hook for events!
-    //    if(type() == BaseWindow::WallpaperType::Qml){
-    //        winGlobalHook = &m_window;
-    //        if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
-    //            qDebug() << "Faild to install mouse hook!";
-    //        }
-    //    }
-
-    // FIXME WORKAROUND:
-    // There is a strange bug when we open the ScreenPlayWallpaper project on its one
-    // that if we set ShowWindow(m_windowHandle, SW_HIDE); we can no longer set
-    // the window visible via set Visible.
-    if (projectPath != "test") {
-        // Let QML decide when were are read to show the window
-        // ShowWindow(m_windowHandle, SW_HIDE);
-    }
+    m_window.hide();
 }
 
 void WinWindow::setVisible(bool show)
 {
     if (show) {
         if (!ShowWindow(m_windowHandle, SW_SHOW)) {
-            qDebug() << "Cannot set window handle visible";
+            qDebug() << "Cannot set window handle SW_SHOW";
         }
-        m_window.show();
     } else {
         if (!ShowWindow(m_windowHandle, SW_HIDE)) {
-            qDebug() << "Cannot set window handle hidden";
+            qDebug() << "Cannot set window handle SW_HIDE";
         }
     }
 }
@@ -220,11 +204,22 @@ void WinWindow::setupWallpaperForMultipleScreens(const QVector<int>& activeScree
     rect.setX(upperLeftScreen->geometry().x());
     rect.setY(upperLeftScreen->geometry().y());
 
-    if (!SetWindowPos(m_windowHandle, nullptr, rect.x()+ m_windowOffsetX, rect.y()+ m_windowOffsetY, rect.width(), rect.height(), SWP_SHOWWINDOW)) {
+    if (!SetWindowPos(m_windowHandle, nullptr, rect.x() + m_windowOffsetX, rect.y() + m_windowOffsetY, rect.width(), rect.height(), SWP_SHOWWINDOW)) {
         qFatal("Could not set window pos: ");
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
         qFatal("Could not attach to parent window");
+    }
+}
+
+void WinWindow::setupWindowMouseHook()
+{
+    // MUST be called before setting hook for events!
+    if (type() == BaseWindow::WallpaperType::Qml) {
+        winGlobalHook = &m_window;
+        if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
+            qDebug() << "Faild to install mouse hook!";
+        }
     }
 }
 
@@ -240,6 +235,7 @@ bool WinWindow::searchWorkerWindowToParentTo()
 
 void WinWindow::terminate()
 {
+
     ShowWindow(m_windowHandle, SW_HIDE);
 
     // Force refresh so that we display the regular

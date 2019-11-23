@@ -1,5 +1,4 @@
 import QtQuick 2.12
-import QtWebEngine 1.8
 import ScreenPlay.Wallpaper 1.0
 
 Rectangle {
@@ -15,102 +14,78 @@ Rectangle {
 
     property bool canFadeByWallpaperFillMode: true
 
+    Connections {
+        target: window
+
+        onQmlExit: {
+            if (canFadeByWallpaperFillMode && window.canFade) {
+                imgCover.state = "outExit"
+            } else {
+                window.terminate()
+            }
+        }
+
+        onQmlSceneValueReceived: {
+            var obj2 = 'import QtQuick 2.0; Item {Component.onCompleted: loader.item.'
+                    + key + ' = ' + value + '; }'
+            print(key, value)
+            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
+            newObject.destroy(10000)
+        }
+    }
+
     Component.onCompleted: {
-
-        WebEngine.settings.allowRunningInsecureContent = true
-        WebEngine.settings.accelerated2dCanvasEnabled = true
-        WebEngine.settings.javascriptCanOpenWindows = false
-        WebEngine.settings.printElementBackgrounds = false
-        WebEngine.settings.showScrollBars = false
-        WebEngine.settings.playbackRequiresUserGesture = false
-
         switch (window.type) {
         case Wallpaper.WallpaperType.Video:
-            webView.url = Qt.resolvedUrl(window.getApplicationPath() + "/index.html")
-            webView.enabled = true
+            loader.source = "qrc:/WebView.qml"
+
             break
         case Wallpaper.WallpaperType.Html:
-            webView.enabled = true
-            webView.url = Qt.resolvedUrl(window.fullContentPath)
+            loader.source = "qrc:/WebView.qml"
+            loader.webViewUrl = Qt.resolvedUrl(window.fullContentPath)
             break
         case Wallpaper.WallpaperType.ThreeJSScene:
-            webView.enabled = true
-            webView.url = Qt.resolvedUrl(window.fullContentPath)
+            loader.source = "qrc:/WebView.qml"
+            loader.webViewUrl = Qt.resolvedUrl(window.fullContentPath)
             break
         case Wallpaper.WallpaperType.Qml:
-            loader.enabled = true
             loader.source = Qt.resolvedUrl(window.fullContentPath)
-            fadeIn()
+            imgCover.state = "out"
             break
         }
     }
 
     function fadeIn() {
+        print("fadeIn()")
         window.setVisible(true)
+        print("setVisible()")
         if (canFadeByWallpaperFillMode && window.canFade) {
-            animFadeIn.start()
+            print("fadein")
+            imgCover.state = "out"
         } else {
+            print("imgCover.opacity = 0")
             imgCover.opacity = 0
         }
-    }
-
-    Timer {
-        id: fadeInTimer
-        interval: 50
-        onTriggered: fadeIn()
-    }
-
-    OpacityAnimator {
-        id: animFadeIn
-        target: imgCover
-        from: 1
-        to: 0
-        duration: 800
-        easing.type: Easing.InOutQuad
-    }
-
-    OpacityAnimator {
-        id: animFadeOut
-        target: imgCover
-        from: 0
-        to: 1
-        duration: 800
-        easing.type: Easing.InOutQuad
-        onFinished: window.terminate()
-    }
-
-    WebEngineView {
-        id: webView
-        enabled: false
-        anchors.fill: parent
-        onLoadProgressChanged: {
-            if (loadProgress === 100) {
-
-                // TODO 30:
-                // Currently wont work. Commit anyways til QtCreator and Qt work with js template literals
-
-                var src = ""
-                src += "var videoPlayer = document.getElementById('videoPlayer');"
-                src += "var videoSource = document.getElementById('videoSource');"
-                src += "videoSource.src = '" + window.fullContentPath + "';"
-                src += "videoPlayer.load();"
-                src += "videoPlayer.volume = " + window.volume + ";"
-                src += "videoPlayer.setAttribute('style', 'object-fit :" + window.fillMode + ";');"
-                src += "videoPlayer.play();"
-
-                webView.runJavaScript(src, function (result) {
-                    fadeInTimer.start()
-                })
-            }
-        }
-
-        onJavaScriptConsoleMessage: print(lineNumber, message)
     }
 
     Loader {
         id: loader
         anchors.fill: parent
         enabled: false
+        property string webViewUrl
+        onStatusChanged: {
+            if (loader.status === Loader.Ready) {
+                if (window.type === Wallpaper.WallpaperType.Video) {
+                    loader.item.url = loader.webViewUrl
+                }
+            }
+        }
+
+        Connections {
+            ignoreUnknownSignals: true
+            target: loader.item
+            onRequestFadeIn:fadeIn()
+        }
     }
 
     Image {
@@ -120,10 +95,62 @@ Rectangle {
             left: parent.left
             right: parent.right
         }
+        state: "in"
 
         sourceSize.width: window.width
         sourceSize.height: window.height
         source: Qt.resolvedUrl("file:///" + desktopProperties.wallpaperPath)
+
+        states: [
+            State {
+                name: "in"
+                PropertyChanges {
+                    target: imgCover
+                    opacity: 1
+                }
+            },
+            State {
+                name: "out"
+                PropertyChanges {
+                    target: imgCover
+                    opacity: 0
+                }
+            },
+            State {
+                name: "outExit"
+                PropertyChanges {
+                    target: imgCover
+                    opacity: 1
+                }
+            }
+        ]
+        transitions: [
+            Transition {
+                from: "out"
+                to: "in"
+                reversible: true
+                PropertyAnimation {
+                    target: imgCover
+                    duration: 600
+                    property: "opacity"
+                }
+            },
+            Transition {
+                from: "out"
+                to: "outExit"
+                reversible: true
+                SequentialAnimation {
+                    PropertyAnimation {
+                        target: imgCover
+                        duration: 600
+                        property: "opacity"
+                    }
+                    ScriptAction {
+                        script: window.terminate()
+                    }
+                }
+            }
+        ]
 
         Component.onCompleted: {
 
@@ -151,87 +178,6 @@ Rectangle {
             case 22:
                 canFadeByWallpaperFillMode = false
                 break
-            }
-        }
-    }
-
-    Connections {
-        target: window
-
-        onMutedChanged:{
-            if(muted){
-                webView.runJavaScript(
-                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
-            } else {
-                webView.runJavaScript(
-                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + window.volume + ";")
-            }
-        }
-
-        onQmlExit: {
-            webView.runJavaScript(
-                        "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
-
-            if (canFadeByWallpaperFillMode && window.canFade) {
-                animFadeOut.start()
-            } else {
-                window.terminate()
-            }
-        }
-
-        onQmlSceneValueReceived: {
-            var obj2 = 'import QtQuick 2.0; Item {Component.onCompleted: loader.item.'
-                    + key + ' = ' + value + '; }'
-            print(key, value)
-            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
-            newObject.destroy(10000)
-        }
-
-
-        onFillModeChanged:{
-            if (webView.loadProgress === 100) {
-                webView.runJavaScript(
-                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.setAttribute('style', 'object-fit :" + window.fillMode + ";');")
-            }
-        }
-
-        onLoopsChanged: {
-            if (webView.loadProgress === 100) {
-                webView.runJavaScript(
-                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.loop = " + loops + ";")
-            }
-        }
-
-        onVolumeChanged: {
-            if (webView.loadProgress === 100) {
-                webView.runJavaScript(
-                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + volume + ";")
-            }
-        }
-
-        onCurrentTimeChanged: {
-            if (webView.loadProgress === 100) {
-                webView.runJavaScript(
-                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.currentTime  = " + currentTime + " * videoPlayer.duration;")
-            }
-        }
-
-        onPlaybackRateChanged: {
-            if (webView.loadProgress === 100) {
-                webView.runJavaScript(
-                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.playbackRate  = " + playbackRate + ";")
-            }
-        }
-
-        onIsPlayingChanged: {
-            if (webView.loadProgress === 100) {
-                if (isPlaying) {
-                    webView.runJavaScript(
-                                "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.play();")
-                } else {
-                    webView.runJavaScript(
-                                "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.pause();")
-                }
             }
         }
     }
