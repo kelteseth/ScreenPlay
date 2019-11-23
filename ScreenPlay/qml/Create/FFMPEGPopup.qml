@@ -79,19 +79,57 @@ Popup {
         }
     }
 
-    Dialog {
+    Popup {
         id: closeDialog
-        title: qsTr("You cannot create Wallper without FFMPEG")
-        standardButtons: Dialog.Ok | Dialog.Cancel
-        onAccepted: closeDialog.close()
-        onRejected: ffmpegPopup.close()
+        width: 400
+        height: 250
+
+        Text {
+            text: qsTr("You cannot create Wallaper without FFMPEG installed!")
+            verticalAlignment: Text.AlignVCenter
+            horizontalAlignment: Text.AlignHCenter
+            font.pointSize: 16
+            height: 50
+            font.family: "Roboto"
+            anchors.fill: parent
+            anchors.margins: 50
+            wrapMode: Text.WordWrap
+            color: Material.color(Material.Orange)
+        }
+        RowLayout {
+            height: 30
+            anchors {
+                right:parent.right
+                bottom: parent.bottom
+                left:parent.left
+                margins: 20
+            }
+
+            Button {
+                text: qsTr("Abort")
+                onClicked: {
+                    ffmpegPopup.close()
+                    closeDialog.close()
+                    ScreenPlay.util.setNavigation("Installed")
+                }
+
+                Layout.alignment: Qt.AlignRight
+            }
+            Button {
+                text: qsTr("Download FFMPEG")
+                highlighted: true
+                onClicked: closeDialog.close()
+                Layout.alignment: Qt.AlignRight
+            }
+        }
+
+
+
         anchors.centerIn: Overlay.overlay
 
         closePolicy: Popup.NoAutoClose
         focus: true
-        height: 200
         modal: true
-        width: 300
     }
 
     ColumnLayout {
@@ -111,7 +149,6 @@ Popup {
         }
 
         Rectangle {
-            id: name
             Layout.fillHeight: true
             Layout.fillWidth: true
             color: "#eeeeee"
@@ -243,21 +280,19 @@ if you installed ScreenPlay via Steam!
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignBottom
             Button {
-                id:btnDownload
+                id: btnDownload
                 text: qsTr("Download FFMPEG")
                 onClicked: ScreenPlay.util.downloadFFMPEG()
                 highlighted: true
                 Layout.fillWidth: true
             }
             Button {
-                id:btnNotNow
+                id: btnNotNow
                 text: qsTr("Not now!")
                 onClicked: closeDialog.open()
                 Layout.fillWidth: true
             }
         }
-
-
 
         states: [
             State {
@@ -306,11 +341,10 @@ if you installed ScreenPlay via Steam!
             font.family: "Roboto"
             anchors {
                 horizontalCenter: parent.horizontalCenter
-                top:parent.top
+                top: parent.top
                 topMargin: 30
             }
         }
-
 
         Image {
             id: imgOk
@@ -318,7 +352,7 @@ if you installed ScreenPlay via Steam!
             source: "qrc:/assets/icons/icon_done.svg"
             width: 180
             height: width
-            sourceSize: Qt.size(width,width)
+            sourceSize: Qt.size(width, width)
             anchors.centerIn: parent
             smooth: true
         }
