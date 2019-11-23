@@ -38,15 +38,14 @@ Rectangle {
         switch (window.type) {
         case Wallpaper.WallpaperType.Video:
             loader.source = "qrc:/WebView.qml"
-
             break
         case Wallpaper.WallpaperType.Html:
-            loader.source = "qrc:/WebView.qml"
             loader.webViewUrl = Qt.resolvedUrl(window.fullContentPath)
+            loader.source = "qrc:/WebView.qml"
             break
         case Wallpaper.WallpaperType.ThreeJSScene:
-            loader.source = "qrc:/WebView.qml"
             loader.webViewUrl = Qt.resolvedUrl(window.fullContentPath)
+            loader.source = "qrc:/WebView.qml"
             break
         case Wallpaper.WallpaperType.Qml:
             loader.source = Qt.resolvedUrl(window.fullContentPath)
@@ -56,9 +55,7 @@ Rectangle {
     }
 
     function fadeIn() {
-        print("fadeIn()")
         window.setVisible(true)
-        print("setVisible()")
         if (canFadeByWallpaperFillMode && window.canFade) {
             print("fadein")
             imgCover.state = "out"
@@ -75,8 +72,10 @@ Rectangle {
         property string webViewUrl
         onStatusChanged: {
             if (loader.status === Loader.Ready) {
-                if (window.type === Wallpaper.WallpaperType.Video) {
+                if (window.type === Wallpaper.WallpaperType.Html
+                        || window.type === Wallpaper.WallpaperType.ThreeJSScene) {
                     loader.item.url = loader.webViewUrl
+                    print(loader.item.url," --- ",loader.webViewUrl)
                 }
             }
         }
@@ -84,7 +83,7 @@ Rectangle {
         Connections {
             ignoreUnknownSignals: true
             target: loader.item
-            onRequestFadeIn:fadeIn()
+            onRequestFadeIn: fadeIn()
         }
     }
 
