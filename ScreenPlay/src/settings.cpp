@@ -72,15 +72,53 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
         QDir steamWorkshopContentPath(QCoreApplication::applicationDirPath());
         steamWorkshopContentPath.cdUp();
         steamWorkshopContentPath.cdUp();
-        if (!steamWorkshopContentPath.cd("workshop")) {
-            qWarning() << "Steam workshop folder not found!";
-        } else {
 
+        /*
+         * ! We must use this (ugly) method, because to stay FOSS we cannot call the steamAPI here !
+         *
+         * We start with the assumption that when we go up 2 folder.
+         * So that there must be at least a common folder:
+         * Windows example:
+         * From -> C:\Program Files (x86)\Steam\steamapps\common\ScreenPlay
+         * To   -> C:\Program Files (x86)\Steam\steamapps\
+         * Dest.-> C:\Program Files (x86)\Steam\steamapps\workshop\content\672870
+         *
+         * When we reach the folder it _can_ contain a workshop folder when the user
+         * previously installed any workshop content. If the folder does not exsist we
+         * need to create it by hand. Normally Steam will create this folder but we need to
+         * set it here at this point so that the QFileSystemWatcher in InstalledListModel does
+         * not generate warnings.
+         */
+
+        bool hasCommonFolder = steamWorkshopContentPath.entryList().contains("common");
+
+        if (!hasCommonFolder) {
+            QString basePath = steamWorkshopContentPath.path();
+
+            auto checkIfFolderExsistOrCreate = [](const QString& path, const QString& foldername) {
+                QDir checkDir { path };
+
+                if (!checkDir.cd(foldername)) {
+                    return checkDir.mkdir(foldername);
+                } else {
+                    return true;
+                }
+            };
+
+            if (checkIfFolderExsistOrCreate(basePath, "common")) {
+                if (checkIfFolderExsistOrCreate(basePath + "/common", "content")) {
+                    if (checkIfFolderExsistOrCreate(basePath + "/common/content", "672870")) {
+                    }
+                }
+            }
+
+        } else {
+            steamWorkshopContentPath.cd("workshop");
             steamWorkshopContentPath.cd("content");
             steamWorkshopContentPath.cd("672870");
 
             m_globalVariables->setLocalStoragePath("file:///" + steamWorkshopContentPath.absolutePath());
-            if(!writeSingleSettingConfig("absoluteStoragePath", m_globalVariables->localStoragePath())){
+            if (!writeSingleSettingConfig("absoluteStoragePath", m_globalVariables->localStoragePath())) {
                 qWarning() << "Could not write settings file. Setup steam workshop folder at: " << m_globalVariables->localStoragePath();
             }
         }
@@ -89,6 +127,10 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
         m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(configObj.value().value("absoluteStoragePath").toString()));
     }
 
+    // We need these settings also in the steam version.
+    // This way it is easier to access them. Maybe we should move everything into
+    // the windows registry
+    //Computer\HKEY_CURRENT_USER\Software\ScreenPlay\ScreenPlay
     if (m_qSettings.value("ScreenPlayContentPath").toUrl() != QUrl::fromLocalFile(m_globalVariables->localStoragePath().toString())) {
         m_qSettings.setValue("ScreenPlayContentPath", QDir::toNativeSeparators(m_globalVariables->localStoragePath().toString().remove("file:///")));
         m_qSettings.sync();
