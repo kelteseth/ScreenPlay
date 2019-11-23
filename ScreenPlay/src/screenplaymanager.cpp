@@ -61,7 +61,7 @@ void ScreenPlayManager::createWallpaper(
         settings.insert("previewImage", previewImage);
         settings.insert("absolutePath", path);
 
-    } else if (type == "qmlWallpaper") {
+    } else if (type == "qmlWallpaper" || type == "htmlWallpaper") {
         wallpaper = make_shared<ScreenPlayWallpaper>(
             monitorIndex,
             m_globalVariables,
