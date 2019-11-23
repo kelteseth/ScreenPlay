@@ -1,5 +1,5 @@
 <div>
-<img width="100%" height="93" src="https://screen-play.app/images/logo_gitlab_fullwidth.svg">
+<img width="100%" height="93" src="logo_gitlab_fullwidth.svg">
 </div>
 
 <div align="center">
@@ -7,8 +7,8 @@ ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widge
 Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="https://forum.screen-play.app/">Forum</a>
 <br> Visit our <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/"> Developer Documentation</a> and our <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/"> Getting Started Guide</a>!
 <br>
-<h4><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h4>
-<h5> <a href="https://www.twitch.tv/kelteseth/"> Tune in for a Twitch programming live stream every other day to learn about contributing!</a> </h5>
+<!--<h4><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h4>-->
+<h4> <a href="https://forum.screen-play.app/topic/2/we-are-open-for-alpha-testing-via-steam"> >> Get a free Steam alpha key here! <<</a> </h4>
 </div>
 <br>
 
