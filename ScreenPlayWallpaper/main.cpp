@@ -21,15 +21,13 @@
 int main(int argc, char* argv[])
 {
 
-    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication app(argc, argv);
+
     // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
-
-    // Qt < 6.0 needs this init QtWebEngine
-    QtWebEngine::initialize();
 
     // If we start with only one argument (app path)
     // It means we want to test a single wallpaper

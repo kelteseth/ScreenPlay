@@ -20,9 +20,6 @@ App::App()
 
     QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
-    // Qt < 6.0 needs this init QtWebEngine
-    QtWebEngine::initialize();
-
     qRegisterMetaType<GlobalVariables*>();
     qRegisterMetaType<ScreenPlayManager*>();
     qRegisterMetaType<Create*>();
