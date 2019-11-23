@@ -59,7 +59,7 @@ App::App()
     // Init after we have the paths from settings
     m_installedListModel->init();
 
-#if QT_VERSION > QT_VERSION_CHECK(5, 14, 0)
+#if QT_VERSION >= QT_VERSION_CHECK(5, 14, 0)
     // Set visible if the -silent parameter was not set
     if (QGuiApplication::instance()->arguments().contains("-silent")) {
         settings()->setSilentStart(true);
