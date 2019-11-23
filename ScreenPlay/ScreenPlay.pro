@@ -4,6 +4,7 @@ CONFIG += c++17
 
 TARGETPATH = ScreenPlay
 
+
 ICON = favicon.ico
 
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -11,53 +12,52 @@ DEFINES += QT_DEPRECATED_WARNINGS
 GIT_VERSION = $$system(git describe --always)
 DEFINES += GIT_VERSION=\\\"$$GIT_VERSION\\\"
 
-
-
 DISTFILES += \
-    favicon.ico \
+    $$PWD/favicon.ico \
 
-RESOURCES += Resources.qrc
+RESOURCES += \
+    $$PWD/Resources.qrc
 
-SOURCES += main.cpp \
-    app.cpp \
-    src/createimportvideo.cpp \
-    src/installedlistmodel.cpp \
-    src/monitorlistmodel.cpp \
-    src/screenplaywallpaper.cpp \
-    src/screenplaywidget.cpp \
-    src/settings.cpp \
-    src/profilelistmodel.cpp \
-    src/installedlistfilter.cpp \
-    src/sdkconnector.cpp \
-    src/projectsettingslistmodel.cpp \
-    src/screenplaymanager.cpp \
-    src/util.cpp \
-    src/create.cpp
+SOURCES +=  \
+    $$PWD/main.cpp \
+    $$PWD/app.cpp \
+    $$PWD/src/createimportvideo.cpp \
+    $$PWD/src/installedlistmodel.cpp \
+    $$PWD/src/monitorlistmodel.cpp \
+    $$PWD/src/screenplaywallpaper.cpp \
+    $$PWD/src/screenplaywidget.cpp \
+    $$PWD/src/settings.cpp \
+    $$PWD/src/profilelistmodel.cpp \
+    $$PWD/src/installedlistfilter.cpp \
+    $$PWD/src/sdkconnector.cpp \
+    $$PWD/src/projectsettingslistmodel.cpp \
+    $$PWD/src/screenplaymanager.cpp \
+    $$PWD/src/util.cpp \
+    $$PWD/src/create.cpp
 
-
-
-TRANSLATIONS =  translations/ScreenPlay_en.ts   \
-                translations/ScreenPlay_de.ts
+TRANSLATIONS = \
+    $$PWD/translations/ScreenPlay_en.ts   \
+    $$PWD/translations/ScreenPlay_de.ts
 
 HEADERS += \
-    app.h \
-    src/globalvariables.h \
-    src/createimportvideo.h \
-    src/installedlistmodel.h \
-    src/monitorlistmodel.h \
-    src/screenplaywallpaper.h \
-    src/screenplaywidget.h \
-    src/settings.h \
-    src/profilelistmodel.h \
-    src/profile.h \
-    src/projectfile.h \
-    src/installedlistfilter.h \
-    src/sdkconnector.h \
-    src/projectsettingslistitem.h \
-    src/projectsettingslistmodel.h \
-    src/screenplaymanager.h \
-    src/util.h \
-    src/create.h
+    $$PWD/app.h \
+    $$PWD/src/globalvariables.h \
+    $$PWD/src/createimportvideo.h \
+    $$PWD/src/installedlistmodel.h \
+    $$PWD/src/monitorlistmodel.h \
+    $$PWD/src/screenplaywallpaper.h \
+    $$PWD/src/screenplaywidget.h \
+    $$PWD/src/settings.h \
+    $$PWD/src/profilelistmodel.h \
+    $$PWD/src/profile.h \
+    $$PWD/src/projectfile.h \
+    $$PWD/src/installedlistfilter.h \
+    $$PWD/src/sdkconnector.h \
+    $$PWD/src/projectsettingslistitem.h \
+    $$PWD/src/projectsettingslistmodel.h \
+    $$PWD/src/screenplaymanager.h \
+    $$PWD/src/util.h \
+    $$PWD/src/create.h
 
 INCLUDEPATH += \
     $$PWD/ThirdParty/ \
