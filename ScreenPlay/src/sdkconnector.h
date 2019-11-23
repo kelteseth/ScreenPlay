@@ -107,11 +107,24 @@ public slots:
             //Only use the first 32 chars for the appID
             QString appID = args.at(0);
             m_appID = appID.remove("appID=");
-            m_type = args.at(1);
-            qDebug() << "###### Wallpaper created:"
+
+
+            QStringList types {
+                "videoWallpaper",
+                "qmlWallpaper",
+                "htmlWallpaper",
+                "godotWallpaper"
+            };
+            for (QString type : types) {
+                if(msg.contains(type)){
+                    m_type = type;
+                }
+            }
+            qInfo() << "###### Wallpaper created:"
                      << "\t AppID:" << m_appID << "\t type: " << m_type;
+
         } else {
-            qDebug() << "### Message from: " << m_appID << "\n###" << msg;
+            qInfo() << "### Message from: " << m_appID << ": " << msg;
         }
     }
 
