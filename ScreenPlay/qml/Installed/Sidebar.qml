@@ -244,7 +244,7 @@ Item {
 
                     MonitorSelection {
                         id: monitorSelection
-                        height: 70
+                        height: 180
                         Layout.fillWidth: true
                         availableWidth: width
                         availableHeight: height
