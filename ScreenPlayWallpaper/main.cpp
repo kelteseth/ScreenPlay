@@ -72,8 +72,10 @@ int main(int argc, char* argv[])
         int monitor = monitorNumbers.toInt(&canParseMonitorNumber);
         if (!canParseMonitorNumber) {
             qFatal("Could not parse monitor id to diplay wallpaper");
+        } else {
+            list.append(monitor);
         }
-        list.append(monitor);
+
     } else {
 
         for (const QString& s : activeScreensList) {
@@ -81,11 +83,15 @@ int main(int argc, char* argv[])
             int val = s.toInt(&ok);
             if (!ok) {
                 qFatal("Could not parse monitor id to diplay wallpaper");
+            } else {
+                list.append(val);
             }
-            list.append(val);
         }
     }
 
+    if(list.empty()){
+        return -4;
+    }
     // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (4) volume, (5) fillmode, (6) type
     // See screenplay.h @ScreenPlayWallpaper constructor how the args get created
     qDebug() << argumentList;
