@@ -20,6 +20,7 @@ App::App()
 
     QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
+    qRegisterMetaType<QQmlApplicationEngine*>();
     qRegisterMetaType<GlobalVariables*>();
     qRegisterMetaType<ScreenPlayManager*>();
     qRegisterMetaType<Create*>();
@@ -65,5 +66,6 @@ App::App()
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
     m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
+
 #endif
 }

@@ -45,6 +45,7 @@ using std::make_unique,
 class App : public QObject {
     Q_OBJECT
 
+    Q_PROPERTY(QQmlApplicationEngine* mainWindowEngine READ mainWindowEngine WRITE setMainWindowEngine NOTIFY mainWindowEngineChanged)
     Q_PROPERTY(GlobalVariables* globalVariables READ globalVariables WRITE setGlobalVariables NOTIFY globalVariablesChanged)
     Q_PROPERTY(ScreenPlayManager* screenPlayManager READ screenPlayManager WRITE setScreenPlayManager NOTIFY screenPlayManagerChanged)
     Q_PROPERTY(Create* create READ create WRITE setCreate NOTIFY createChanged)
@@ -117,6 +118,11 @@ public:
         return m_sdkConnector.get();
     }
 
+    QQmlApplicationEngine* mainWindowEngine() const
+    {
+        return m_mainWindowEngine.get();
+    }
+
 signals:
     void globalVariablesChanged(GlobalVariables* globalVariables);
     void screenPlayManagerChanged(ScreenPlayManager* screenPlayManager);
@@ -128,6 +134,7 @@ signals:
     void profileListModelChanged(ProfileListModel* profileListModel);
     void installedListFilterChanged(InstalledListFilter* installedListFilter);
     void sdkConnectorChanged(SDKConnector* sdkConnector);
+    void mainWindowEngineChanged(QQmlApplicationEngine* mainWindowEngine);
 
 public slots:
     void setGlobalVariables(GlobalVariables* globalVariables)
@@ -216,6 +223,15 @@ public slots:
 
         m_sdkConnector.reset(sdkConnector);
         emit sdkConnectorChanged(m_sdkConnector.get());
+    }
+
+    void setMainWindowEngine(QQmlApplicationEngine* mainWindowEngine)
+    {
+        if (m_mainWindowEngine.get() == mainWindowEngine)
+            return;
+
+        m_mainWindowEngine.reset(mainWindowEngine);
+        emit mainWindowEngineChanged(m_mainWindowEngine.get());
     }
 
 private:

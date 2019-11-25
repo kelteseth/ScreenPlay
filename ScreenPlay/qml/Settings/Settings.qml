@@ -188,6 +188,9 @@ Item {
 
                                 ScreenPlay.settings.setqSetting("language",
                                                                 languageKey)
+
+                                ScreenPlay.settings.setupLanguage()
+                                ScreenPlay.mainWindowEngine.retranslate()
                             }
                             comboBoxListModel: ListModel {
                                 ListElement {

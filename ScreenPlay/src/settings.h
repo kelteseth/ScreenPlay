@@ -232,11 +232,11 @@ public slots:
         m_silentStart = silentStart;
         emit silentStartChanged(m_silentStart);
     }
+    void setupLanguage();
 
 private:
     void writeJsonFileFromResource(const QString& filename);
     void setupWidgetAndWindowPaths();
-    void setupLanguage();
 
 private:
     QVersionNumber m_version;
@@ -245,7 +245,7 @@ private:
 
     const shared_ptr<GlobalVariables>& m_globalVariables;
 
-    bool m_pauseWallpaperWhenIngame { true };
+    bool m_pauseWallpaperWhenIngame { false };
     bool m_autostart { true };
     bool m_highPriorityStart { true };
     bool m_sendStatistics { false };
