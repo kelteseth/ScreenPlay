@@ -79,11 +79,20 @@ signals:
     void debugMessagesChanged(QString debugMessages);
 
 public slots:
+    void openFolderInExplorer(const QString &url) const;
+
+    void requestAllLicenses();
+    void requestAllLDataProtection();
+
+    void downloadFFMPEG();
+
+    QString fixWindowsPath(QString url);
     static std::optional<QJsonObject> openJsonFileToObject(const QString& path);
     static std::optional<QString> openJsonFileToString(const QString& path);
     static std::optional<QVersionNumber> getVersionNumberFromString(const QString& str);
     static bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
 
+    static void logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg);
     static QString generateRandomString(quint32 length = 32);
 
     void setNavigation(QString nav)
@@ -101,16 +110,6 @@ public slots:
     {
         emit requestToggleWallpaperConfiguration();
     }
-    void openFolderInExplorer(QString url);
-
-    void requestAllLicenses();
-    void requestAllLDataProtection();
-
-    void downloadFFMPEG();
-
-    static void logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg);
-
-    QString fixWindowsPath(QString url);
 
     void setFfmpegAvailable(bool ffmpegAvailable)
     {
