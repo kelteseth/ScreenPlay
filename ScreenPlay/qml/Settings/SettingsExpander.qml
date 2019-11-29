@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
+import ScreenPlay 1.0
 
 Rectangle {
     id: root
@@ -31,6 +32,21 @@ Rectangle {
             color: "#626262"
             height: txtExpander.paintedHeight
             wrapMode: Text.WordWrap
+        }
+        MouseArea {
+            anchors.fill: parent
+            propagateComposedEvents: true
+            acceptedButtons: Qt.RightButton
+            onClicked: contextMenu.popup()
+        }
+    }
+    Menu {
+        id: contextMenu
+        MenuItem {
+            text: qsTr("Copy text to clipboard")
+            onClicked: {
+                ScreenPlay.util.copyToClipboard(txtExpander.text)
+            }
         }
     }
 

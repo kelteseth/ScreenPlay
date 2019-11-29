@@ -16,6 +16,7 @@
 #include <QTextStream>
 #include <QVersionNumber>
 #include <QtConcurrent/QtConcurrent>
+#include <QClipboard>
 #include <qqml.h>
 
 #include <fstream>
@@ -79,6 +80,7 @@ signals:
     void debugMessagesChanged(QString debugMessages);
 
 public slots:
+    void copyToClipboard(const QString& text) const;
     void openFolderInExplorer(const QString &url) const;
 
     void requestAllLicenses();

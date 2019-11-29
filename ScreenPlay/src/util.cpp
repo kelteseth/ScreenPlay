@@ -44,6 +44,12 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
         setFfmpegAvailable(true);
 }
 
+void Util::copyToClipboard(const QString &text) const
+{
+    auto* clipboard = QGuiApplication::clipboard();
+    clipboard->setText(text);
+}
+
 std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
 {
     auto jsonString = openJsonFileToString(path);
