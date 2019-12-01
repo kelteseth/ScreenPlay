@@ -1,6 +1,7 @@
-setlocal EnableExtensions
 
+git submodule update --recursive
 cd Common
+git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg
 git pull
 git checkout origin/master
