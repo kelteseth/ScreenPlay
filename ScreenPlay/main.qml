@@ -27,6 +27,9 @@ ApplicationWindow {
     Component.onCompleted: {
         if(!ScreenPlay.settings.silentStart){
             window.show()
+            ScreenPlay.setTrackerSendEvent("Installed");
+        } else {
+            ScreenPlay.setTrackerSendEvent("Silent");
         }
     }
 
@@ -167,7 +170,7 @@ ApplicationWindow {
             }
             MenuItem {
                 text: qsTr("Quit")
-                onTriggered: Qt.quit()
+                onTriggered: ScreenPlay.exit()
             }
         }
     }

@@ -11,12 +11,12 @@
 #include <QUrl>
 #include <QtGlobal>
 #include <qqml.h>
-#include <QtGlobal>
 
 #include <QtWebEngine>
 
 #include <memory>
 
+#include "ganalytics.h"
 #include "src/create.h"
 #include "src/globalvariables.h"
 #include "src/installedlistfilter.h"
@@ -137,6 +137,13 @@ signals:
     void mainWindowEngineChanged(QQmlApplicationEngine* mainWindowEngine);
 
 public slots:
+
+    void exit();
+    void setTrackerSendEvent(const QString& page){
+        m_tracker->sendEvent("navigation",page);
+    }
+
+
     void setGlobalVariables(GlobalVariables* globalVariables)
     {
         if (m_globalVariables.get() == globalVariables)
@@ -239,6 +246,7 @@ private:
     unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
 #endif
 
+    unique_ptr<GAnalytics> m_tracker;
     unique_ptr<Create> m_create;
     unique_ptr<ScreenPlayManager> m_screenPlayManager;
     unique_ptr<Util> m_util;

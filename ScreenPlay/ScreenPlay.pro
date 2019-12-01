@@ -4,7 +4,7 @@ CONFIG += c++17
 
 TARGETPATH = ScreenPlay
 
-
+include($$PWD/../Common/qt-google-analytics/qt-google-analytics.pri)
 ICON = favicon.ico
 
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -60,8 +60,7 @@ HEADERS += \
     $$PWD/src/create.h
 
 INCLUDEPATH += \
-    $$PWD/ThirdParty/ \
-    $$PWD/src/
+    $$PWD/src/\
 
 CONFIG(debug, debug|release) {
     install_it.path = $${OUT_PWD}/debug/
@@ -69,12 +68,13 @@ CONFIG(debug, debug|release) {
     install_it.path = $${OUT_PWD}/release/
 }
 
-INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
-DEPENDPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
+
 
 win32 {
     RC_ICONS += favicon.ico
 
+    INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
+    DEPENDPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
 
     LIBS += -L$$PWD/../Common/vcpkg/installed/x64-windows/lib/ -llibzippp
 CONFIG(debug, debug|release) {
