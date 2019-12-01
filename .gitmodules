@@ -1,9 +1,6 @@
-[submodule "ScreenPlay/ThirdParty/qt-google-analytics"]
-	path = ScreenPlay/ThirdParty/qt-google-analytics
+[submodule "Common/qt-google-analytics"]
+	path = Common/qt-google-analytics
 	url = https://github.com/HSAnet/qt-google-analytics.git
-[submodule "ScreenPlay/ThirdParty/stomt-qt-sdk"]
-	path = ScreenPlay/ThirdParty/stomt-qt-sdk
+[submodule "Common/stomt-qt-sdk"]
+	path = Common/stomt-qt-sdk
 	url = https://github.com/Aimber/stomt-qt-sdk.git
-[submodule "Common/vcpkg"]
-	path = Common/vcpkg
-	url = https://github.com/Microsoft/vcpkg.git

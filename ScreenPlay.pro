@@ -4,7 +4,7 @@ SUBDIRS +=   \
     ScreenPlaySDK/ScreenPlaySDK.pro \
     ScreenPlayWallpaper/ScreenPlayWallpaper.pro \
     ScreenPlayWidget/ScreenPlayWidget.pro \
-    ScreenPlay/ThirdParty/stomt-qt-sdk/sdk/stomt-qt-sdk.pro \
+    Common/stomt-qt-sdk/sdk/stomt-qt-sdk.pro \
 
 ScreenPlayWallpaper.depends = ScreenPlaySDK
 ScreenPlayWidget.depends = ScreenPlaySDK

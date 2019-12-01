@@ -68,9 +68,8 @@ Thumbs.db
 
 *.lnk
 
-!ScreenPlay/ThirdParty/**
+Common/vcpkg/**
 !ScreenPlay/translations/**
 /build-*/**
 *_qmlcache.qrc
-ScreenPlay/ThirdParty/.DS_Store
 *.DS_Store
