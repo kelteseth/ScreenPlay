@@ -27,13 +27,26 @@ Everyone can contribute with code, design, documentation or translation. Visit o
 # Getting started
 
 ### Basic
-1. Install latest git + git-lfs
-2. Download ScreenPlay with  __all submodules__
+1. Install latest [git + git-lfs](https://git-scm.com/)
+2. Clone ScreenPlay
 ``` bash
-# HTTPS
-git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
+git clone https://gitlab.com/kelteseth/ScreenPlay.git
 ```
-3. Download the latest __Qt 5.13__. Earlier versions are not supported!
+3. Download the latest [__Qt 5.14__](https://www.qt.io/download-qt-installer). Earlier versions are not supported!
+4. Start install-dependencies.bat to download dependencies into the Common/ folder
+``` bash
+.\install-dependencies.bat
+```
+   * This will install these dependencies via __vcpkg__
+      * libzippp
+      * nlohmann-json
+   * Download these dependencies via __git submodules__
+      * stomt-qt-sdk
+      * qt-google-analytics
+5. Follow the steps below for your OS. Then Open The ScreenPlay.pro via QtCreator.
+6. Add install to the build steps. Projects -> Build -> Add Build Step -> Select Make -> Insert "install" into Make arguments.
+7. Press build (the green play button). This will compile the project and copy all necessary files into your Qt installation.
+
 ### Windows
 1. [Download and install MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)
 2. [Download and install Win 10 SDK (debugging support. Not included via the MSVC installer)](https://developer.microsoft.com/en-us/windows/downloads/windows-10-sdk)
@@ -41,16 +54,13 @@ git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
 3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.13.0
+        - Qt 5.14.0
             - MSVC 2017 64-bit
             - Qt WebEngine
         - Developer and Designer Tools
             - Qt Creator 4.x CDB Debugger Support
             - OpenSSL 1.1.1.c Toolkit
                 - OpenSSL 64-bit binaries
-
-4. Start the vcpkg-install-dependencies.bat for the automatic dependencies management.
-
 
 ### Linux
 1. Install dependencies for your distro:
@@ -68,7 +78,7 @@ sudo zypper install -t pattern devel_basis
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.13.0 
+        - Qt 5.14.0 
             - GCC
             - Qt WebEngine
         - Developer and Designer Tools
@@ -81,7 +91,7 @@ sudo zypper install -t pattern devel_basis
 3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.13.0 
+        - Qt 5.14.0 
             - Qt WebEngine
         - Developer and Designer Tools
             - OpenSSL 1.1.1.c Toolkit
