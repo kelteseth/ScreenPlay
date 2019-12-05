@@ -20,7 +20,6 @@ App::App()
 
     QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
-
     qRegisterMetaType<QQmlApplicationEngine*>();
     qRegisterMetaType<GlobalVariables*>();
     qRegisterMetaType<ScreenPlayManager*>();
@@ -44,9 +43,13 @@ App::App()
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
     m_sdkConnector = make_shared<SDKConnector>();
     m_settings = make_shared<Settings>(m_globalVariables);
-    m_tracker = make_unique<GAnalytics>("UA-152830367-3");
-    m_tracker->setNetworkAccessManager(nam);
-    m_tracker->setSendInterval(1000);
+    // Only create tracker if user did not disallow!
+    if (m_settings->anonymousTelemetry()) {
+        m_tracker = make_unique<GAnalytics>("UA-152830367-3");
+        m_tracker->setNetworkAccessManager(nam);
+        m_tracker->setSendInterval(1000);
+        m_tracker->startSession();
+    }
 
     m_create = make_unique<Create>(m_globalVariables);
     m_screenPlayManager = make_unique<ScreenPlayManager>(m_globalVariables, m_monitorListModel, m_sdkConnector);
@@ -73,15 +76,17 @@ App::App()
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
 
 #endif
-    m_tracker->startSession();
-
 }
 
 void App::exit()
 {
-    // Workaround because we cannot force to send exit event
-    m_tracker->setSendInterval(5);
-    m_tracker->endSession();
-    QTimer::singleShot(150,[](){    QGuiApplication::instance()->quit();});
-
+    if (!m_tracker) {
+        QGuiApplication::instance()->quit();
+        return;
+    } else {
+        // Workaround because we cannot force to send exit event
+        m_tracker->setSendInterval(5);
+        m_tracker->endSession();
+        QTimer::singleShot(150, []() { QGuiApplication::instance()->quit(); });
+    }
 }

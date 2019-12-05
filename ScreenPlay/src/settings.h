@@ -45,10 +45,11 @@ class Settings : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QVersionNumber version READ version)
+    Q_PROPERTY(bool anonymousTelemetry READ anonymousTelemetry WRITE setAnonymousTelemetry NOTIFY anonymousTelemetryChanged)
     Q_PROPERTY(bool silentStart READ silentStart WRITE setSilentStart NOTIFY silentStartChanged)
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
-    Q_PROPERTY(bool sendStatistics READ sendStatistics WRITE setSendStatistics NOTIFY sendStatisticsChanged)
+
     Q_PROPERTY(bool pauseWallpaperWhenIngame READ pauseWallpaperWhenIngame WRITE setPauseWallpaperWhenIngame NOTIFY pauseWallpaperWhenIngameChanged)
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
@@ -89,11 +90,6 @@ public:
         return m_highPriorityStart;
     }
 
-    bool sendStatistics() const
-    {
-        return m_sendStatistics;
-    }
-
     QString decoder() const
     {
         return m_decoder;
@@ -109,10 +105,14 @@ public:
         return m_silentStart;
     }
 
+    bool anonymousTelemetry() const
+    {
+        return m_anonymousTelemetry;
+    }
+
 signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
-    void sendStatisticsChanged(bool status);
     void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
     void decoderChanged(QString decoder);
     void setMainWindowVisible(bool visible);
@@ -121,6 +121,8 @@ signals:
     void gitBuildHashChanged(QString gitBuildHash);
     void resetInstalledListmodel();
     void silentStartChanged(bool silentStart);
+
+    void anonymousTelemetryChanged(bool anonymousTelemetry);
 
 public slots:
     bool writeSingleSettingConfig(QString name, QVariant value);
@@ -162,17 +164,6 @@ public slots:
         m_highPriorityStart = highPriorityStart;
         writeSingleSettingConfig("highPriorityStart", highPriorityStart);
         emit highPriorityStartChanged(m_highPriorityStart);
-    }
-
-    void setSendStatistics(bool sendStatistics)
-    {
-        if (m_sendStatistics == sendStatistics)
-            return;
-
-        m_sendStatistics = sendStatistics;
-
-        writeSingleSettingConfig("sendStatistics", sendStatistics);
-        emit sendStatisticsChanged(m_sendStatistics);
     }
 
     void setLocalStoragePath(QUrl localStoragePath)
@@ -234,6 +225,15 @@ public slots:
     }
     void setupLanguage();
 
+    void setAnonymousTelemetry(bool anonymousTelemetry)
+    {
+        if (m_anonymousTelemetry == anonymousTelemetry)
+            return;
+
+        m_anonymousTelemetry = anonymousTelemetry;
+        emit anonymousTelemetryChanged(m_anonymousTelemetry);
+    }
+
 private:
     void writeJsonFileFromResource(const QString& filename);
     void setupWidgetAndWindowPaths();
@@ -248,11 +248,11 @@ private:
     bool m_pauseWallpaperWhenIngame { false };
     bool m_autostart { true };
     bool m_highPriorityStart { true };
-    bool m_sendStatistics { false };
     bool m_offlineMode { true };
 
     QString m_decoder { "" };
     QString m_gitBuildHash;
     bool m_silentStart { false };
+    bool m_anonymousTelemetry { true };
 };
 }

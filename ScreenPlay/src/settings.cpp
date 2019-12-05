@@ -138,7 +138,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 
     m_autostart = configObj.value().value("autostart").toBool();
     m_highPriorityStart = configObj.value().value("highPriorityStart").toBool();
-    m_sendStatistics = configObj.value().value("sendStatistics").toBool();
+    m_anonymousTelemetry = configObj.value().value("anonymousTelemetry").toBool();
 
     setupWidgetAndWindowPaths();
 }

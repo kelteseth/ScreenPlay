@@ -140,7 +140,9 @@ public slots:
 
     void exit();
     void setTrackerSendEvent(const QString& page){
-        m_tracker->sendEvent("navigation",page);
+        if(m_tracker){
+            m_tracker->sendEvent("navigation",page);
+        }
     }
 
 
