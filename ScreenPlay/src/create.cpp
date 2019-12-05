@@ -1,13 +1,12 @@
 #include "create.h"
 
 /*!
-    \class Create
-    \since 1.0
+    \class ScreenPlay::Create
+    \inmodule ScreenPlay
     \brief  Baseclass for creating wallapers, widgets and the corresponding
             wizards. As for this writing (April 2019) it is solely used to
             import webm wallpaper and create the gif/web 5 second previews.
-    \todo
-            - This class would need to be refactored to be used in more creation types.
+
 */
 namespace ScreenPlay {
 Create::Create(const shared_ptr<GlobalVariables>& globalVariables, QObject* parent)

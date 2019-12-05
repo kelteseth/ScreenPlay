@@ -2,6 +2,13 @@
 
 namespace ScreenPlay {
 
+/*!
+    \class ScreenPlay::MonitorListModel
+    \inmodule ScreenPlay
+    \brief MonitorListModel.
+
+*/
+
 MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
 {

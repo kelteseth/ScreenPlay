@@ -1,5 +1,6 @@
-#include "app.h"
 #include <QGuiApplication>
+
+#include "app.h"
 
 int main(int argc, char* argv[])
 {
@@ -7,6 +8,8 @@ int main(int argc, char* argv[])
     QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QGuiApplication qtGuiApp(argc, argv);
+
+    using namespace ScreenPlay;
 
 #if QT_VERSION < QT_VERSION_CHECK(5, 14, 0)
     qmlRegisterSingletonType<App>("ScreenPlay", 1, 0, "ScreenPlay", [](QQmlEngine* engine, QJSEngine*) -> QObject* {

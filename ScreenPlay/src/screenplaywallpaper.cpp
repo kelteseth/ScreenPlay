@@ -1,10 +1,13 @@
 #include "screenplaywallpaper.h"
 
-/*!
-    \class ScreenPlayWallpaper
-    \brief Used for ...
-*/
+
 namespace ScreenPlay {
+
+/*!
+    \class ScreenPlay::ScreenPlayWallpaper
+    \inmodule ScreenPlay
+    \brief ScreenPlayWallpaper.
+*/
 
 ScreenPlayWallpaper::ScreenPlayWallpaper(
     const QVector<int>& screenNumber,

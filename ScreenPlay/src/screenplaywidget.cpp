@@ -1,10 +1,12 @@
 #include "screenplaywidget.h"
 
-/*!
-    \class ScreenPlayWidget
-    \brief Used for ...
-*/
 namespace ScreenPlay {
+
+/*!
+    \class ScreenPlay::ScreenPlayWidget
+    \inmodule ScreenPlay
+    \brief ScreenPlayWidget.
+*/
 
 ScreenPlayWidget::ScreenPlayWidget(
     const QString& appID,

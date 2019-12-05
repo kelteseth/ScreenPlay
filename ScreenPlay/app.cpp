@@ -1,5 +1,21 @@
 #include "app.h"
 
+namespace ScreenPlay {
+
+/*!
+    \namespace ScreenPlay
+    \inmodule ScreenPlay
+    \brief Namespace for ScreenPlay.
+*/
+
+/*!
+    \class ScreenPlay::App
+    \inmodule ScreenPlay
+    \brief The App class contains all members for ScreenPlay.
+
+    Text
+*/
+
 App::App()
     : QObject(nullptr)
 {
@@ -89,4 +105,5 @@ void App::exit()
         m_tracker->endSession();
         QTimer::singleShot(150, []() { QGuiApplication::instance()->quit(); });
     }
+}
 }

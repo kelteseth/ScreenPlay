@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<!-- settings.cpp -->
+  <title>Settings Class | ScreemPlay</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container-fullwidth nav"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
+<li>Settings</li>
+<div class="sidebar">
+<div class="toc">
+<h3><a name="toc">Contents</a></h3>
+<ul>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#public-slots">Public Slots</a></li>
+<li class="level1"><a href="#signals">Signals</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title">Settings Class</h1>
+<span class="small-subtitle">(<a href="screenplay-settings.html">ScreenPlay::Settings</a>)<br/></span>
+<!-- $$$Settings-brief -->
+<p>Used for:. <a href="#details">More...</a></p>
+<!-- @@@Settings -->
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;Settings&gt;</span>
+</td></tr></table></div><ul>
+<li><a href="screenplay-settings-members.html">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#anonymousTelemetry-prop">anonymousTelemetry</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#autostart-prop">autostart</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#decoder-prop">decoder</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#gitBuildHash-prop">gitBuildHash</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#highPriorityStart-prop">highPriorityStart</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#offlineMode-prop">offlineMode</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#pauseWallpaperWhenIngame-prop">pauseWallpaperWhenIngame</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">silentStart</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QVersionNumber </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#version-prop">version</a></b>() const</td></tr>
+</table></div>
+<a name="public-slots"></a>
+<h2 id="public-slots">Public Slots</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#anonymousTelemetry-prop">setAnonymousTelemetry</a></b>(bool <i>anonymousTelemetry</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#autostart-prop">setAutostart</a></b>(bool <i>autostart</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#decoder-prop">setDecoder</a></b>(QString <i>decoder</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#gitBuildHash-prop">setGitBuildHash</a></b>(QString <i>gitBuildHash</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#highPriorityStart-prop">setHighPriorityStart</a></b>(bool <i>highPriorityStart</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#offlineMode-prop">setOfflineMode</a></b>(bool <i>offlineMode</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#pauseWallpaperWhenIngame-prop">setPauseWallpaperWhenIngame</a></b>(bool <i>pauseWallpaperWhenIngame</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">setSilentStart</a></b>(bool <i>silentStart</i>)</td></tr>
+</table></div>
+<a name="signals"></a>
+<h2 id="signals">Signals</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#anonymousTelemetry-prop">anonymousTelemetryChanged</a></b>(bool <i>anonymousTelemetry</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#autostart-prop">autostartChanged</a></b>(bool <i>autostart</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#decoder-prop">decoderChanged</a></b>(QString <i>decoder</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#gitBuildHash-prop">gitBuildHashChanged</a></b>(QString <i>gitBuildHash</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#highPriorityStart-prop">highPriorityStartChanged</a></b>(bool <i>highPriorityStart</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#offlineMode-prop">offlineModeChanged</a></b>(bool <i>offlineMode</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#pauseWallpaperWhenIngame-prop">pauseWallpaperWhenIngameChanged</a></b>(bool <i>pauseWallpaperWhenIngame</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">silentStartChanged</a></b>(bool <i>silentStart</i>)</td></tr>
+</table></div>
+<a name="details"></a>
+<!-- $$$Settings-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+<p><i>User</i> configuration <i>Communication</i> via the SDK Connector</p>
+</div>
+<!-- @@@Settings -->
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div></body>
+</html>

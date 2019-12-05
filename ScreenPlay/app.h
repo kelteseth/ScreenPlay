@@ -28,19 +28,11 @@
 #include "src/settings.h"
 #include "src/util.h"
 
+namespace ScreenPlay {
 using std::make_unique,
     std::unique_ptr,
     std::make_shared,
-    std::shared_ptr,
-    ScreenPlay::Util,
-    ScreenPlay::InstalledListModel,
-    ScreenPlay::ScreenPlayManager,
-    ScreenPlay::InstalledListFilter,
-    ScreenPlay::MonitorListModel,
-    ScreenPlay::ProfileListModel,
-    ScreenPlay::SDKConnector,
-    ScreenPlay::Settings,
-    ScreenPlay::Create;
+    std::shared_ptr;
 
 class App : public QObject {
     Q_OBJECT
@@ -262,3 +254,4 @@ private:
     shared_ptr<ProfileListModel> m_profileListModel;
     shared_ptr<InstalledListFilter> m_installedListFilter;
 };
+}

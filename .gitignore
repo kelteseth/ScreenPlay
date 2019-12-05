@@ -74,3 +74,4 @@ Common/vcpkg/**
 *_qmlcache.qrc
 *.DS_Store
 /Common/vcpkg/
+/Docs/html/screemplay.index

@@ -3,6 +3,15 @@
 #include <QUrl>
 #include <QVersionNumber>
 
+namespace ScreenPlay {
+
+/*!
+    \class ScreenPlay::GlobalVariables
+    \inmodule ScreenPlay
+    \brief GlobalVariables.
+
+*/
+
 class GlobalVariables : public QObject {
     Q_OBJECT
 
@@ -94,3 +103,4 @@ private:
     QUrl m_widgetExecutablePath;
     QVersionNumber m_version {1,0,0};
 };
+}

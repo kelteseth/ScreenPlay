@@ -3,15 +3,14 @@
 namespace ScreenPlay {
 
 /*!
-    \class CreateImportVideo
-    \brief This class imports (copies) and creates wallaper previews. This
-           class only exsits as long as the user creates a wallpaper and gets
-           destroyed if the creation was successful or not.
+    \class ScreenPlay::CreateImportVideo
+    \inmodule ScreenPlay
+    \brief This class imports (copies) and creates wallaper previews.
 
-           The state get propagated via createWallpaperStateChanged(ImportVideoState state);
+    This lass only exsits as long as the user creates a wallpaper and gets
+    destroyed if the creation was successful or not.
+    The state get propagated via createWallpaperStateChanged(ImportVideoState state);
 
-    \todo
-            - Maybe: Replace with QThread to avoid running QCoreApplication::processEvents();?
 */
 
 CreateImportVideo::CreateImportVideo(QObject* parent)
