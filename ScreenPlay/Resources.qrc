@@ -137,5 +137,6 @@
         <file>assets/icons/brand_gitlab.svg</file>
         <file>assets/icons/brand_twitter.svg</file>
         <file>assets/icons/icon_done.svg</file>
+        <file>qml/Create/Wizards/Wizard.qml</file>
     </qresource>
 </RCC>
