@@ -1,4 +1,4 @@
-import QtQuick 2.12
+﻿import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
@@ -13,6 +13,12 @@ Item {
     id: root
     anchors.fill: parent
     state: "out"
+
+    function setSource(path, arguments){
+        loader_wrapperContent.setSource(
+                    "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml",
+                    arguments)
+    }
 
     Component.onCompleted: {
         state = "in"

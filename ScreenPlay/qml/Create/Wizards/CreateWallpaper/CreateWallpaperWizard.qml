@@ -22,7 +22,7 @@ Item {
         state = "in"
         ScreenPlay.util.setNavigationActive(false)
 
-        loader_wrapperContent.setSource(
+        wizard.setSource(
                     "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml",
                     {
                         "filePath": createNew.filePath
@@ -59,7 +59,7 @@ Item {
     }
 
     Wizard {
-
+        id:wizard
     }
 
 }
