@@ -1,12 +1,18 @@
 #include "projectsettingslistmodel.h"
+
 namespace ScreenPlay {
+
+/*!
+    \class ScreenPlay::ProjectSettingsListModel
+    \inmodule ScreenPlay
+    \brief ProjectSettingsListModel.
+
+*/
 ProjectSettingsListModel::ProjectSettingsListModel(QString file, QObject* parent)
     : QAbstractListModel(parent)
 {
     init(file);
 }
-
-
 
 int ProjectSettingsListModel::rowCount(const QModelIndex& parent) const
 {
@@ -40,7 +46,7 @@ QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) cons
 
 QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
 {
-    static const QHash<int, QByteArray> roles{
+    static const QHash<int, QByteArray> roles {
         { NameRole, "name" },
         { IsHeadlineRole, "isHeadline" },
         { ValueRole, "value" },

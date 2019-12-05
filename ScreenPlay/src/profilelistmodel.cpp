@@ -8,6 +8,13 @@
 
 namespace ScreenPlay {
 
+/*!
+    \class ScreenPlay::ProfileListModel
+    \inmodule ScreenPlay
+    \brief ProfileListModel.
+
+*/
+
 ProfileListModel::ProfileListModel(const shared_ptr<GlobalVariables>& globalVariables, QObject* parent)
     : QAbstractListModel(parent)
     , m_globalVariables { globalVariables }

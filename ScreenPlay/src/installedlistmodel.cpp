@@ -1,12 +1,13 @@
 #include "installedlistmodel.h"
 
+namespace ScreenPlay {
+
 /*!
-    \class Installed List Model
+    \class ScreenPlay::InstalledListModel
+    \inmodule ScreenPlay
     \brief Lists all installed wallpapers, widgets etc. from a given Path
 
 */
-
-namespace ScreenPlay {
 
 InstalledListModel::InstalledListModel(
     const shared_ptr<GlobalVariables>& globalVariables,

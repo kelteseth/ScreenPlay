@@ -10,11 +10,36 @@ build:windows:
         - git clean -xdf
         - git submodule sync --recursive
         - git submodule update --init --recursive
+        # Needs MSVC 2017 installed!
+        # Setup vcvars32.bat manually because this is powershell and MS does not have something simmilar for PS. Wtf?
+        # https://gist.github.com/justinian/81a2e55c89e8301a8a96
+        # https://stackoverflow.com/questions/2124753/how-can-i-use-powershell-with-the-visual-studio-command-prompt
+        - $tempFile = [IO.Path]::GetTempFileName()  
+        - cmd /c " `"C:\Program Files (x86)\Microsoft Visual Studio\2017\Professional\VC\Auxiliary\Build\vcvars32.bat`" && set > `"$tempFile`" " 
+        - Get-Content $tempFile | Foreach-Object {if($_ -match "^(.*?)=(.*)$"){Set-Content "env:\$($matches[1])" $matches[2]}}
+        - Remove-Item $tempFile
+        - $Env:Path += ';C:\Qt\5.14.0\msvc2017_64\bin'
+        - $Env:Path += ';C:\Qt\Tools\QtCreator\bin'
+        - $env:path -split ";"
     script:
-        - call vcpkg-install-dependencies.bat
-        - call scripts/build.bat
-        - call scripts/package.bat
+        - call install-dependencies.bat
+        - mkdir BUILD
+        - mkdir PACKAGE
+        - cd BUILD
+        - qmake.exe ../ScreenPlay.pro -spec win32-msvc "CONFIG+=release"
+        - jom.exe qmake_all
+        - jom.exe  -j8
+        - jom.exe  install
+        - xcopy /s /y ScreenPlay\release ..\PACKAGE
+        - xcopy /s /y ScreenPlaySDK\release ..\PACKAGE
+        - xcopy /s /y ScreenPlayWidget\release ..\PACKAGE
+        - xcopy /s /y ScreenPlayWallpaper\release ..\PACKAGE
+        - cd ..
+        - windeployqt.exe  --release  --qmldir ScreenPlay/qml PACKAGE/ScreenPlay.exe
+        - windeployqt.exe  --release  --qmldir ScreenPlayWallpaper/qml PACKAGE/ScreenPlayWallpaper.exe
+        - cd PACKAGE
+        - del *.cpp,*.moc,*.h,*.obj,*.res,*.exp,*.lib,*.lik,*.pch
     artifacts:
-        expire_in: '3 weeks'
+        expire_in: '12 weeks'
         paths:
             - PACKAGE/

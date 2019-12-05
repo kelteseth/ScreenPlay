@@ -1,6 +1,13 @@
 #include "sdkconnector.h"
 
 namespace ScreenPlay {
+
+/*!
+    \class ScreenPlay::SDKConnector
+    \inmodule ScreenPlay
+    \brief SDKConnector.
+*/
+
 SDKConnector::SDKConnector(QObject* parent)
     : QObject(parent)
     , m_server { make_unique<QLocalServer>() }

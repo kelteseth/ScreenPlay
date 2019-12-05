@@ -1,15 +1,15 @@
 #include "installedlistfilter.h"
 
+
+namespace ScreenPlay {
+
 /*!
-    \class Installed List Filder
+    \class ScreenPlay::InstalledListFilter
+    \inmodule ScreenPlay
     \brief  Proxy between Installed List Model and QML view to filter items.
             Maybe this class could be merged with the InstalledListModel...
-
-    \todo
-            - Expand filter functionality
-
 */
-namespace ScreenPlay {
+
 InstalledListFilter::InstalledListFilter(const shared_ptr<InstalledListModel>& ilm)
     : QSortFilterProxyModel()
     , m_ilm(ilm)

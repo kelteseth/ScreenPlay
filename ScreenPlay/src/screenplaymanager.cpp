@@ -2,6 +2,13 @@
 
 namespace ScreenPlay {
 
+/*!
+    \class ScreenPlay::ScreenPlayManager
+    \inmodule ScreenPlay
+    \brief ScreenPlayManager.
+
+*/
+
 ScreenPlayManager::ScreenPlayManager(
     const shared_ptr<GlobalVariables>& globalVariables,
     const shared_ptr<MonitorListModel>& mlm,

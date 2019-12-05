@@ -3,7 +3,8 @@
 namespace ScreenPlay {
 
 /*!
-    \class Global QML Utilities
+    \class ScreenPlay::Util
+    \inmodule ScreenPlay
     \brief Easy to use global object to use to:
     \list
         \i Navigate the main menu
@@ -166,7 +167,6 @@ void Util::openFolderInExplorer(const QString& url) const
     explorer.setArguments({ QDir::toNativeSeparators(parameter) });
 #endif
 
-    qDebug() << explorer.arguments();
     explorer.startDetached();
 }
 

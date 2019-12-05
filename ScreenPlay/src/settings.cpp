@@ -1,7 +1,11 @@
 #include "settings.h"
 
+
+namespace ScreenPlay {
+
 /*!
-    \class Settings
+    \class ScreenPlay::Settings
+    \inmodule ScreenPlay
     \brief Used for:
     \list
         \i User configuration
@@ -9,8 +13,6 @@
     \endlist
 
 */
-
-namespace ScreenPlay {
 
 Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     QObject* parent)

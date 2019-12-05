@@ -1,0 +1,75 @@
+# Run:
+# C:\Qt\5.14.0\msvc2017_64\bin\qdoc.exe config.qdocconf
+# in this directory. You can shift + right click in this explorer
+# window and select "Open PowerShell Window here" for this.
+
+include(C:/Qt/5.14.0/msvc2017_64/doc/global/qt-cpp-defines.qdocconf)
+include(C:/Qt/5.14.0/msvc2017_64/doc/global/compat.qdocconf)
+include(C:/Qt/5.14.0/msvc2017_64/doc/global/fileextensions.qdocconf)
+
+descripton  = ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. 
+language    = Cpp
+project     = ScreemPlay
+
+# Source
+sourcedirs += ../ScreenPlay/src/
+sourcedirs += ../ScreenPlay/
+sourcedirs += ../ScreenPlaySDK/
+sourcedirs += ../ScreenPlaySysInfo/
+sourcedirs += ../ScreenPlayWallpaper/src/
+sourcedirs += ../ScreenPlayWallpaper/
+sourcedirs += ../ScreenPlayWidget/src/
+sourcedirs += ../ScreenPlayWidget/
+
+# Header
+headerdirs += ../ScreenPlay/src/
+headerdirs += ../ScreenPlay/
+headerdirs += ../ScreenPlaySDK/
+headerdirs += ../ScreenPlaySysInfo/
+headerdirs += ../ScreenPlayWallpaper/src/
+headerdirs += ../ScreenPlayWallpaper/
+headerdirs += ../ScreenPlayWidget/src/
+headerdirs += ../ScreenPlayWidget/
+
+# Include
+includepaths += ../ScreenPlay/src/
+includepaths += ../ScreenPlay/
+includepaths += ../ScreenPlaySDK/
+includepaths += ../ScreenPlaySysInfo/
+includepaths += ../ScreenPlayWallpaper/src/
+includepaths += ../ScreenPlayWallpaper/
+includepaths += ../ScreenPlayWidget/src/
+includepaths += ../ScreenPlayWidget/
+
+includepaths += C:/Qt/5.14.0/msvc2017_64/include/
+includepaths += C:/Qt/5.14.0/msvc2017_64/include/QtCore/
+
+# Images
+imagedirs = ./images
+
+# what kind of sources should be processed
+sources.fileextensions += "*.qdoc *.cpp *.qml"
+
+# what kind of headers should be processed
+headers.fileextensions += "*.h"
+
+syntaxhightlighting = true
+sourceencoding = UTF-8
+outputencoding = UTF-8
+
+# where to put the result
+outputdir = ./html
+# what format to use for generating documentation
+outputformats = HTML
+
+# the string that actually includes the CSS into documentation file
+HTML.headerstyles += "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/style.css\"/>"
+HTML.headerstyles += "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/bootstrap.min.css\"/>\n"
+
+# what to append to every page after header
+HTML.postheader += "<div class=\"container-fullwidth nav\"><div class=\"container navWrapper\"><a href=\"../index.html\"><span class=\"logo\">ScreenPlay Generated Docs </span></a><span class=\"navHome\"><a href=\"../index.html\">Home</a></span></div></div>"
+HTML.postheader += "<div id="mainWrapper" class=\"wrapper container \">\n"
+# what to append to every page after the content
+HTML.footer += "<div id="license"  class=\"footer center\"><p>This documentation is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution 4.0 International License</a>.</p></div>"
+
+
