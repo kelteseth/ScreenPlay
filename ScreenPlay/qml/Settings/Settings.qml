@@ -20,8 +20,6 @@ Item {
         contentHeight: columnWrapper.childrenRect.height
         contentWidth: 800
         flickableDirection: Flickable.VerticalFlick
-        maximumFlickVelocity: 5000
-        flickDeceleration: 5000
 
         anchors {
             top: parent.top
@@ -112,14 +110,13 @@ Item {
                         SettingsHorizontalSeperator {}
                         SettingBool {
                             height: 70
-                            available: false
                             headline: qsTr("Send anonymous crash reports and statistics")
                             description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!")
-                            isChecked: ScreenPlay.settings.sendStatistics
+                            isChecked: ScreenPlay.settings.anonymousTelemetry
                             onCheckboxChanged: {
-                                ScreenPlay.settings.setSendStatistics(checked)
+                                ScreenPlay.settings.setAnonymousTelemetry(checked)
                                 ScreenPlay.settings.writeSingleSettingConfig(
-                                            "sendStatistics", checked)
+                                            "anonymousTelemetry", checked)
                             }
                         }
                         SettingsHorizontalSeperator {}
