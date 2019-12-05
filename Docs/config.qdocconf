@@ -67,7 +67,7 @@ HTML.headerstyles += "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/s
 HTML.headerstyles += "<link rel=\"stylesheet\" type=\"text/css\" href=\"../css/bootstrap.min.css\"/>\n"
 
 # what to append to every page after header
-HTML.postheader += "<div class=\"container-fullwidth nav\"><div class=\"container navWrapper\"><a href=\"../index.html\"><span class=\"logo\">ScreenPlay Docs </span></a><span class=\"navHome\"><a href=\"../index.html\">Home</a></span></div></div>"
+HTML.postheader += "<div class=\"container-fullwidth nav\"><div class=\"container navWrapper\"><a href=\"../index.html\"><span class=\"logo\">ScreenPlay Generated Docs </span></a><span class=\"navHome\"><a href=\"../index.html\">Home</a></span></div></div>"
 HTML.postheader += "<div id="mainWrapper" class=\"wrapper container \">\n"
 # what to append to every page after the content
 HTML.footer += "<div id="license"  class=\"footer center\"><p>This documentation is licensed under a <a rel=\"license\" href=\"http://creativecommons.org/licenses/by/4.0/\">Creative Commons Attribution 4.0 International License</a>.</p></div>"
