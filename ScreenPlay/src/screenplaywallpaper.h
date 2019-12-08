@@ -49,7 +49,6 @@ public:
         const QJsonObject& profileJsonObject,
         QObject* parent = nullptr);
 
-
     const shared_ptr<ProjectSettingsListModel>& projectSettingsListModel() const
     {
         return m_projectSettingsListModel;

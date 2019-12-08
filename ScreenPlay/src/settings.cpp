@@ -6,14 +6,37 @@ namespace ScreenPlay {
 /*!
     \class ScreenPlay::Settings
     \inmodule ScreenPlay
-    \brief Used for:
-    \list
-        \i User configuration
-        \i Communication via the SDK Connector
-    \endlist
+    \brief Global settings class for reading and writing settings.
 
+    Used for:
+    \list
+        \li User configuration via AppData\Local\ScreenPlay\ScreenPlay
+        \list
+            \li profiles.json - saved wallpaper and widgets config
+            \li settings.json - saved settings like autostart and installedContentPath
+            \li Computer\\HKEY_CURRENT_USER\\Software\\ScreenPlay\\ScreenPlay - ScreenPlayContentPath for steam plugin
+        \endlist
+        \li Communication via the SDK Connector
+    \endlist
+    Currently we save the regular settings (not the setup of the wallpaper and widgets) in two different locations.
+    This can change in the future!
 */
 
+/*!
+    Constructor and sets up:
+    \list 1
+        \li Sets the git build hash via ScreenPlay.pro c++ define
+        \li Checks the langauge via settings or system and available ones and installes a translator.
+        \li Checks the paths for config folders in appdata
+        \li Checks if settings.json and profiles.json are available. If first run it creates the default settings and profiles json.
+        \li Parses the version and checks with the compiled one.
+        \li Checks the absoluteStoragePath.
+        \li Checks regisitry for steam plugin settings
+        \li Parses autostart, anonymousTelemetry, highPriorityStart
+        \li Checks ScreenPlayWallpaper and ScreenPlayWidgets executable paths.
+    \endlist
+    More errorchecking is needed here. For example when the proile or settings json cannot to parsed, use the default settings.
+ */
 Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     QObject* parent)
     : QObject(parent)
@@ -145,6 +168,9 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     setupWidgetAndWindowPaths();
 }
 
+/*!
+  Save a single \a value with a given \a name (key) into the settings.json. Returns \c true when successful otherise returns \c false.
+*/
 bool Settings::writeSingleSettingConfig(QString name, QVariant value)
 {
     QString filename = m_globalVariables->localSettingsPath().toLocalFile() + "/settings.json";
@@ -161,6 +187,13 @@ bool Settings::writeSingleSettingConfig(QString name, QVariant value)
     return Util::writeJsonObjectToFile(filename, newConfig);
 }
 
+/*!
+  Writes the default JsonFile from the resources and the given \a filename. Currently we have two default json files:
+   \list
+    \li profiles.json
+    \li settings.json
+   \endlist
+*/
 void Settings::writeJsonFileFromResource(const QString& filename)
 {
     QFile file(m_globalVariables->localSettingsPath().toLocalFile() + "/" + filename + ".json");
@@ -178,6 +211,11 @@ void Settings::writeJsonFileFromResource(const QString& filename)
     defaultSettings.close();
 }
 
+/*!
+  To have a better developer experience we check if we use a debug version. Then we assume
+  That the paths are the default QtCreator paths and set the widgets and wallpaper executable
+  paths accordingly.
+*/
 void Settings::setupWidgetAndWindowPaths()
 {
     QDir workingDir(QDir::currentPath());
@@ -231,6 +269,11 @@ void Settings::setupWidgetAndWindowPaths()
 #endif
 }
 
+/*!
+  When no default language is set in the registry we check the system set language. If there is no
+  matching translation is available we set it to english. This function gets called from the UI when
+  the user manually changes the language.
+*/
 void Settings::setupLanguage()
 {
     auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());

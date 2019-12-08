@@ -6,9 +6,14 @@ namespace ScreenPlay {
 /*!
     \class ScreenPlay::ScreenPlayWallpaper
     \inmodule ScreenPlay
-    \brief ScreenPlayWallpaper.
+    \brief A Single Object to manage a Wallpaper.
+
+    This class is only for managing the QProcess to an extern ScreenPlayWallpaper!
 */
 
+/*!
+    Constructor for video Wallpaper.
+*/
 ScreenPlayWallpaper::ScreenPlayWallpaper(
     const QVector<int>& screenNumber,
     const shared_ptr<GlobalVariables>& globalVariables,
@@ -62,6 +67,9 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     m_process.startDetached();
 }
 
+/*!
+    Constructor for scene Wallpaper with multile json settings.
+*/
 ScreenPlayWallpaper::ScreenPlayWallpaper(
     const QVector<int>& screenNumber,
     const shared_ptr<GlobalVariables>& globalVariables,

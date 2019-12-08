@@ -14,6 +14,7 @@
 <div class="toc">
 <h3><a name="toc">Contents</a></h3>
 <ul>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
 <li class="level1"><a href="#details">Detailed Description</a></li>
 </ul>
 </div>
@@ -21,17 +22,52 @@
 <h1 class="title">ProjectSettingsListModel Class</h1>
 <span class="small-subtitle">(<a href="screenplay-projectsettingslistmodel.html">ScreenPlay::ProjectSettingsListModel</a>)<br/></span>
 <!-- $$$ProjectSettingsListModel-brief -->
-<p>ProjectSettingsListModel. <a href="#details">More...</a></p>
+<p>ProjectSettingsListModel used for the dynamic loading of the properties json object inside a project.json. <a href="#details">More...</a></p>
 <!-- @@@ProjectSettingsListModel -->
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;ProjectSettingsListModel&gt;</span>
 </td></tr></table></div><ul>
+<li><a href="screenplay-projectsettingslistmodel-members.html">List of all members, including inherited members</a></li>
 </ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#init">init</a></b>(QString <i>file</i>)</td></tr>
+</table></div>
 <a name="details"></a>
 <!-- $$$ProjectSettingsListModel-description -->
 <div class="descr">
 <h2 id="details">Detailed Description</h2>
+<p>The loaded properties are allowed to have one level of nesting to simulate headlines:</p>
+<pre class="cpp"><span class="string">&quot;properties&quot;</span>: {
+    <span class="string">&quot;Attractor&quot;</span>: {
+        <span class="string">&quot;attStrength&quot;</span>: {
+            <span class="string">&quot;from&quot;</span>: <span class="number">0</span><span class="operator">,</span>
+            <span class="string">&quot;stepSize&quot;</span>: <span class="number">100</span><span class="operator">,</span>
+            <span class="string">&quot;to&quot;</span>: <span class="number">100000</span><span class="operator">,</span>
+            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;slider&quot;</span><span class="operator">,</span>
+            <span class="string">&quot;value&quot;</span>: <span class="number">8000000</span>
+        }
+    }<span class="operator">,</span>
+    <span class="string">&quot;Emitter&quot;</span>: {
+        <span class="string">&quot;emitRate&quot;</span>: {
+            <span class="string">&quot;from&quot;</span>: <span class="number">0</span><span class="operator">,</span>
+            <span class="string">&quot;stepSize&quot;</span>: <span class="number">1</span><span class="operator">,</span>
+            <span class="string">&quot;to&quot;</span>: <span class="number">2500</span><span class="operator">,</span>
+            <span class="string">&quot;type&quot;</span>: <span class="string">&quot;slider&quot;</span><span class="operator">,</span>
+            <span class="string">&quot;value&quot;</span>: <span class="number">25</span>
+        }
+    }
+}</pre>
+<p>In this example the Attractor and Emitter would be a headline. In the UI we then displays it for the user to modify. Otherwhise it is a regular QAbstractListModel based list model.</p>
 </div>
 <!-- @@@ProjectSettingsListModel -->
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div></body>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$init[overload1]$$$initQString -->
+<h3 class="fn" id="init"><a name="init"></a><span class="type">void</span> ProjectSettingsListModel::<span class="name">init</span>(<span class="type">QString</span> <i>file</i>)</h3>
+<p>Recursively loads the content of a project.json. See also <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/project/project/">https://kelteseth.gitlab.io/ScreenPlayDocs/project/project/</a> .</p>
+<!-- @@@init -->
+</div>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

@@ -1,15 +1,19 @@
 #include "installedlistfilter.h"
 
-
 namespace ScreenPlay {
 
 /*!
     \class ScreenPlay::InstalledListFilter
     \inmodule ScreenPlay
     \brief  Proxy between Installed List Model and QML view to filter items.
-            Maybe this class could be merged with the InstalledListModel...
+
+    This class could be merged with the InstalledListModel in the future.
 */
 
+/*!
+  Sets the default role type to "All" to display all available content. Needs a given
+  \a ilm (InstalledListModel).
+ */
 InstalledListFilter::InstalledListFilter(const shared_ptr<InstalledListModel>& ilm)
     : QSortFilterProxyModel()
     , m_ilm(ilm)
@@ -19,6 +23,15 @@ InstalledListFilter::InstalledListFilter(const shared_ptr<InstalledListModel>& i
     sortByRoleType("All");
 }
 
+/*!
+ Set the filter proxy to sort by the given \a type. This can be
+ \list
+    \li All
+    \li Videos
+    \li Widgets
+    \li Scenes
+ \endlist
+ */
 void InstalledListFilter::sortByRoleType(QString type)
 {
     if (type == "All") {
@@ -38,6 +51,10 @@ void InstalledListFilter::sortByRoleType(QString type)
     sort(0);
 }
 
+/*!
+  Invoked when the user uses the quicksearch at the top right of the installed page.
+  Uses the \a name to sort by name. This name is saved in the project.json title.
+ */
 void InstalledListFilter::sortByName(QString name)
 {
     setFilterRole(InstalledListModel::InstalledRole::TitleRole);
@@ -46,6 +63,9 @@ void InstalledListFilter::sortByName(QString name)
     sort(0);
 }
 
+/*!
+ Resets the filter and sorts by title.
+ */
 void InstalledListFilter::resetFilter()
 {
     setFilterRole(InstalledListModel::InstalledRole::TitleRole);

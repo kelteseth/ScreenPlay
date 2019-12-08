@@ -5,11 +5,7 @@ namespace ScreenPlay {
 /*!
     \class ScreenPlay::Util
     \inmodule ScreenPlay
-    \brief Easy to use global object to use to:
-    \list
-        \i Navigate the main menu
-        \i Open Explorer at a given path
-    \endlist
+    \brief Easy to use global object to use when certain functionality is not available in QML.
 */
 
 Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
@@ -45,12 +41,19 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
         setFfmpegAvailable(true);
 }
 
-void Util::copyToClipboard(const QString &text) const
+/*!
+  Copies the given string to the clipboard.
+*/
+void Util::copyToClipboard(const QString& text) const
 {
     auto* clipboard = QGuiApplication::clipboard();
     clipboard->setText(text);
 }
 
+/*!
+  Opens a json file (absolute path) and tries to convert it to a QJsonObject.
+  Return std::nullopt when not successful.
+*/
 std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
 {
     auto jsonString = openJsonFileToString(path);
@@ -71,6 +74,10 @@ std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
     return jsonDocument.object();
 }
 
+/*!
+  Opens a json file (absolute path) and tries to convert it to a QString.
+  Return std::nullopt when not successful.
+*/
 std::optional<QString> Util::openJsonFileToString(const QString& path)
 {
     QFile file;
@@ -85,6 +92,14 @@ std::optional<QString> Util::openJsonFileToString(const QString& path)
     return { fileContent };
 }
 
+/*!
+  Generates a (non secure) random string with the default length of 32. Can contain:
+  \list
+    \li A-Z
+    \li a-z
+    \li 0-9
+   \endlist
+*/
 QString Util::generateRandomString(quint32 length)
 {
     const QString possibleCharacters {
@@ -101,6 +116,11 @@ QString Util::generateRandomString(quint32 length)
     return randomString;
 }
 
+/*!
+  Parses a version from a given QString. The QString must be looke like this:
+  1.0.0 - Major.Minor.Patch. A fixed position is used for parsing (at 0,2,4).
+  Return std::nullopt when not successful.
+*/
 std::optional<QVersionNumber> Util::getVersionNumberFromString(const QString& str)
 {
     // Must be: Major.Minor.Patch
@@ -119,6 +139,10 @@ std::optional<QVersionNumber> Util::getVersionNumberFromString(const QString& st
     return QVersionNumber(major, minor, patch);
 }
 
+/*!
+   Writes a given QJsonObject to a file. The path must be absolute. When truncate is set to
+   true the exsisting json file will be overriten.
+*/
 bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate)
 {
     QFile configTmp;
@@ -141,11 +165,16 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
     return true;
 }
 
+
 QString Util::fixWindowsPath(QString url)
 {
     return url.replace("/", "\\\\");
 }
 
+
+/*!
+  Opens a native folder window on the given path. Windows and Mac only for now!
+*/
 void Util::openFolderInExplorer(const QString& url) const
 {
     QString fileString { "file:///" };
@@ -170,6 +199,10 @@ void Util::openFolderInExplorer(const QString& url) const
     explorer.startDetached();
 }
 
+/*!
+  Loads all content of the legal folder in the qrc into a property string of this class.
+  allLicenseLoaded is emited when loading is finished.
+*/
 void Util::Util::requestAllLicenses()
 {
 
@@ -212,6 +245,10 @@ void Util::Util::requestAllLicenses()
     });
 }
 
+/*!
+  Loads all dataprotection of the legal folder in the qrc into a property string of this class.
+  allDataProtectionLoaded is emited when loading is finished.
+*/
 void Util::Util::requestAllLDataProtection()
 {
     QtConcurrent::run([this]() {
@@ -228,6 +265,11 @@ void Util::Util::requestAllLDataProtection()
     });
 }
 
+
+/*!
+  Downloads and extracts ffmpeg static version from https://ffmpeg.zeranoe.com
+  The progress is tracked via setAquireFFMPEGStatus(AquireFFMPEGStatus);
+*/
 void Util::downloadFFMPEG()
 {
     QNetworkRequest req;
@@ -308,6 +350,10 @@ void Util::downloadFFMPEG()
         });
 }
 
+/*!
+  Basic logging to the GUI. No logging is done to a log file for now. This string can be copied
+  in the settings tab in the UI.
+*/
 void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
     qDebug() << msg;
@@ -340,6 +386,10 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
         utilPointer->appendDebugMessages(log);
 }
 
+/*!
+  Convenient function for the ffmpeg download extraction via libzippp. Extracts a given bytearray
+  to a given absolute file path and file name. Returns false if extraction or saving wasn't successful.
+*/
 bool Util::saveExtractedByteArray(libzippp::ZipEntry& entry, std::string& absolutePathAndName)
 {
     std::ofstream ofUnzippedFile(absolutePathAndName, std::ofstream::binary);

@@ -11,7 +11,9 @@ namespace ScreenPlay {
 /*!
     \class ScreenPlay::ProfileListModel
     \inmodule ScreenPlay
-    \brief ProfileListModel.
+    \brief Used to save all active wallpapers and widgets position and configurations after a restart.
+
+    Not yet in used class. Otherwhise it is a regular QAbstractListModel based list model.
 
 */
 

@@ -1,9 +1,10 @@
 #pragma once
 
+#include "installedlistmodel.h"
 #include <QRegExp>
 #include <QSortFilterProxyModel>
 #include <memory>
-#include "installedlistmodel.h"
+
 namespace ScreenPlay {
 
 class InstalledListFilter : public QSortFilterProxyModel {
@@ -16,6 +17,7 @@ public slots:
     void sortByRoleType(QString type);
     void sortByName(QString name);
     void resetFilter();
+
 private:
     const shared_ptr<InstalledListModel> m_ilm;
 };

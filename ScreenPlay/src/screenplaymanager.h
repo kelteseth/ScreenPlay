@@ -19,11 +19,6 @@
 #include <memory>
 #include <optional>
 
-/*!
-    \class ScreenPlay
-    \brief Used for Creation of Wallpaper, Scenes and Widgets
-*/
-
 namespace ScreenPlay {
 
 using std::shared_ptr,
@@ -46,7 +41,6 @@ public:
         const shared_ptr<MonitorListModel>& mlm,
         const shared_ptr<SDKConnector>& sdkc,
         QObject* parent = nullptr);
-
 
     int activeWallpaperCounter() const
     {
@@ -102,13 +96,12 @@ public slots:
     void createWidget(const QUrl& absoluteStoragePath, const QString& previewImage);
 
     void removeAllWallpapers();
-    void removeWallpaperAt(const int at = 0);
+    bool removeWallpaperAt(const int at = 0);
 
     void requestProjectSettingsListModelAt(const int index);
     void setWallpaperValue(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
     std::optional<shared_ptr<ScreenPlayWallpaper>> getWallpaperByAppID(const QString& appID);
-
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)
     {
@@ -131,7 +124,6 @@ public slots:
 private:
     void loadWallpaperProfiles();
     bool saveWallpaperProfile(const QString& profileName, const QJsonObject& content);
-
 
 private:
     const shared_ptr<GlobalVariables>& m_globalVariables;

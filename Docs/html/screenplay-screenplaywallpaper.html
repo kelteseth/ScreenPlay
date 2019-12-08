@@ -24,7 +24,7 @@
 <h1 class="title">ScreenPlayWallpaper Class</h1>
 <span class="small-subtitle">(<a href="screenplay-screenplaywallpaper.html">ScreenPlay::ScreenPlayWallpaper</a>)<br/></span>
 <!-- $$$ScreenPlayWallpaper-brief -->
-<p>ScreenPlayWallpaper. <a href="#details">More...</a></p>
+<p>A Single Object to manage a Wallpaper. <a href="#details">More...</a></p>
 <!-- @@@ScreenPlayWallpaper -->
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;ScreenPlayWallpaper&gt;</span>
@@ -34,6 +34,8 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#ScreenPlayWallpaper-1">ScreenPlayWallpaper</a></b>(const QVector&lt;int&gt; &amp;<i>screenNumber</i>, const shared_ptr&lt;ScreenPlay::GlobalVariables&gt; &amp;<i>globalVariables</i>, const QString &amp;<i>appID</i>, const QString &amp;<i>absolutePath</i>, const QString &amp;<i>previewImage</i>, const QString &amp;<i>type</i>, const QJsonObject &amp;<i>profileJsonObject</i>, QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#ScreenPlayWallpaper">ScreenPlayWallpaper</a></b>(const QVector&lt;int&gt; &amp;<i>screenNumber</i>, const shared_ptr&lt;ScreenPlay::GlobalVariables&gt; &amp;<i>globalVariables</i>, const QString &amp;<i>appID</i>, const QString &amp;<i>absolutePath</i>, const QString &amp;<i>previewImage</i>, const float <i>volume</i>, const QString &amp;<i>fillMode</i>, const QString &amp;<i>type</i>, QObject *<i>parent</i> = nullptr)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#absolutePath-prop">absolutePath</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#appID-prop">appID</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#file-prop">file</a></b>() const</td></tr>
@@ -71,7 +73,19 @@
 <!-- $$$ScreenPlayWallpaper-description -->
 <div class="descr">
 <h2 id="details">Detailed Description</h2>
+<p>This class is only for managing the QProcess to an extern ScreenPlayWallpaper!</p>
 </div>
 <!-- @@@ScreenPlayWallpaper -->
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div></body>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$ScreenPlayWallpaper$$$ScreenPlayWallpaperconstQVector<int>&constshared_ptr<ScreenPlay::GlobalVariables>&constQString&constQString&constQString&constQString&constQJsonObject&QObject* -->
+<h3 class="fn" id="ScreenPlayWallpaper-1"><a name="ScreenPlayWallpaper-1"></a>ScreenPlayWallpaper::<span class="name">ScreenPlayWallpaper</span>(const <span class="type">QVector</span>&lt;<span class="type">int</span>&gt; &amp;<i>screenNumber</i>, const <span class="type">shared_ptr</span>&lt;<span class="type">ScreenPlay::GlobalVariables</span>&gt; &amp;<i>globalVariables</i>, const <span class="type">QString</span> &amp;<i>appID</i>, const <span class="type">QString</span> &amp;<i>absolutePath</i>, const <span class="type">QString</span> &amp;<i>previewImage</i>, const <span class="type">QString</span> &amp;<i>type</i>, const <span class="type">QJsonObject</span> &amp;<i>profileJsonObject</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<p>Constructor for scene Wallpaper with multile json settings.</p>
+<!-- @@@ScreenPlayWallpaper -->
+<!-- $$$ScreenPlayWallpaper[overload1]$$$ScreenPlayWallpaperconstQVector<int>&constshared_ptr<ScreenPlay::GlobalVariables>&constQString&constQString&constQString&constfloatconstQString&constQString&QObject* -->
+<h3 class="fn" id="ScreenPlayWallpaper"><a name="ScreenPlayWallpaper"></a>ScreenPlayWallpaper::<span class="name">ScreenPlayWallpaper</span>(const <span class="type">QVector</span>&lt;<span class="type">int</span>&gt; &amp;<i>screenNumber</i>, const <span class="type">shared_ptr</span>&lt;<span class="type">ScreenPlay::GlobalVariables</span>&gt; &amp;<i>globalVariables</i>, const <span class="type">QString</span> &amp;<i>appID</i>, const <span class="type">QString</span> &amp;<i>absolutePath</i>, const <span class="type">QString</span> &amp;<i>previewImage</i>, const <span class="type">float</span> <i>volume</i>, const <span class="type">QString</span> &amp;<i>fillMode</i>, const <span class="type">QString</span> &amp;<i>type</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<p>Constructor for video Wallpaper.</p>
+<!-- @@@ScreenPlayWallpaper -->
+</div>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

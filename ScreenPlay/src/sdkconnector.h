@@ -53,6 +53,9 @@ class SDKConnection : public QObject {
     Q_PROPERTY(QVector<int> monitor READ monitor WRITE setMonitor NOTIFY monitorChanged)
 
 public:
+    /*!
+        SDKConnection.
+    */
     explicit SDKConnection(QLocalSocket* socket, QObject* parent = nullptr)
         : QObject(parent)
     {
@@ -76,7 +79,10 @@ public:
         return m_appID;
     }
 
-    QLocalSocket* socket() const;
+    QLocalSocket* socket() const
+    {
+        return m_socket;
+    }
 
     QVector<int> monitor() const
     {
@@ -108,7 +114,6 @@ public slots:
             QString appID = args.at(0);
             m_appID = appID.remove("appID=");
 
-
             QStringList types {
                 "videoWallpaper",
                 "qmlWallpaper",
@@ -116,12 +121,12 @@ public slots:
                 "godotWallpaper"
             };
             for (QString type : types) {
-                if(msg.contains(type)){
+                if (msg.contains(type)) {
                     m_type = type;
                 }
             }
             qInfo() << "###### Wallpaper created:"
-                     << "\t AppID:" << m_appID << "\t type: " << m_type;
+                    << "\t AppID:" << m_appID << "\t type: " << m_type;
 
         } else {
             qInfo() << "### Message from: " << m_appID << ": " << msg;

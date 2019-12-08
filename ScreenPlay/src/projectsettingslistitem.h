@@ -3,13 +3,15 @@
 #include <QString>
 #include <QVariant>
 
+namespace ScreenPlay {
+
 /*!
-    \class Project Settings List Item
-    \brief List Item for Project Settings List Model. See Project Settings List Model for more informations
+    \class ScreenPlay::ProjectSettingsListItem
+    \inmodule ScreenPlay
+    \brief List Item for Project Settings List Model. See ProjectSettingsListModel for more informations.
 
 
 */
-namespace ScreenPlay {
 
 struct ProjectSettingsListItem {
 
