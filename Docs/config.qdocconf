@@ -3,11 +3,9 @@
 # in this directory. You can shift + right click in this explorer
 # window and select "Open PowerShell Window here" for this.
 
-include($QT_INSTALL_DOCS/global/macros.qdocconf)
 include($QT_INSTALL_DOCS/global/qt-cpp-defines.qdocconf)
 include($QT_INSTALL_DOCS/global/compat.qdocconf)
 include($QT_INSTALL_DOCS/global/fileextensions.qdocconf)
-include($QT_INSTALL_DOCS/global/qt-html-templates-online.qdocconf)
 
 descripton  = ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. 
 language    = Cpp
