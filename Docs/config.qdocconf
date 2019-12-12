@@ -20,6 +20,8 @@ sourcedirs += ../ScreenPlayWallpaper/src/
 sourcedirs += ../ScreenPlayWallpaper/
 sourcedirs += ../ScreenPlayWidget/src/
 sourcedirs += ../ScreenPlayWidget/
+sourcedirs += /usr/include/x86_64-linux-gnu/qt5/QtCore/
+sourcedirs += /usr/include/x86_64-linux-gnu/qt5/QtGui/
 
 # Header
 headerdirs += ../ScreenPlay/src/
@@ -30,6 +32,8 @@ headerdirs += ../ScreenPlayWallpaper/src/
 headerdirs += ../ScreenPlayWallpaper/
 headerdirs += ../ScreenPlayWidget/src/
 headerdirs += ../ScreenPlayWidget/
+headerdirs += /usr/include/x86_64-linux-gnu/qt5/QtCore/
+includepaths += /usr/include/x86_64-linux-gnu/qt5/QtGui/
 
 # Include
 includepaths += ../ScreenPlay/src/
@@ -40,6 +44,8 @@ includepaths += ../ScreenPlayWallpaper/src/
 includepaths += ../ScreenPlayWallpaper/
 includepaths += ../ScreenPlayWidget/src/
 includepaths += ../ScreenPlayWidget/
+includepaths += /usr/include/x86_64-linux-gnu/qt5/QtCore/
+includepaths += /usr/include/x86_64-linux-gnu/qt5/QtGui/
 
 # Images
 imagedirs = ./images
