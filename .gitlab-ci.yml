@@ -15,7 +15,7 @@ build:windows:
         # https://gist.github.com/justinian/81a2e55c89e8301a8a96
         # https://stackoverflow.com/questions/2124753/how-can-i-use-powershell-with-the-visual-studio-command-prompt
         - $tempFile = [IO.Path]::GetTempFileName()  
-        - cmd /c " `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars32.bat`" && set > `"$tempFile`" " 
+        - cmd /c " `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat`" && set > `"$tempFile`" " 
         - Get-Content $tempFile | Foreach-Object {if($_ -match "^(.*?)=(.*)$"){Set-Content "env:\$($matches[1])" $matches[2]}}
         - Remove-Item $tempFile
         - $Env:Path += ';C:\Qt\5.14.0\msvc2017_64\bin'
