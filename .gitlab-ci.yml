@@ -22,7 +22,7 @@ build:windows:
         - $Env:Path += ';C:\Qt\Tools\QtCreator\bin'
         - $env:path -split ";"
     script:
-        - call install-dependencies.bat
+        - .\install-dependencies.bat
         - mkdir BUILD
         - mkdir PACKAGE
         - cd BUILD
