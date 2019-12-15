@@ -10,20 +10,18 @@ import ScreenPlay.QMLUtilities 1.0
 
 import "Wizards/CreateWallpaper"
 
+
 Item {
     id: create
     anchors.fill: parent
     state: "out"
 
-
     Component.onCompleted: {
         create.state = "in"
-
-
     }
 
-    function checkFFMPEG(){
-        if(!ScreenPlay.util.ffmpegAvailable){
+    function checkFFMPEG() {
+        if (!ScreenPlay.util.ffmpegAvailable) {
             ffmpegPopup.open()
         }
     }
@@ -37,46 +35,17 @@ Item {
         parent: create
     }
 
-    property url activeVideoFile: ""
-    property url activeFolder: ""
-
-    Connections {
-        target: createWallpaper
-        onVideoImportConvertFileSelected: {
-            create.state = "import"
-
-            activeVideoFile = videoFile
-            loader.setSource(
-                        "Wizards/CreateWallpaper/CreateWallpaperWizard.qml", {
-                            "filePath": activeVideoFile
-                        })
-        }
-
-        onProjectFileSelected: {
-            create.state = "import"
-            // TODO
-            // activeFolder = projectFile
-            // loader.setSource("CreateNew.qml", {  })
-        }
-    }
-
-    Connections {
-        target: loader.item
-        ignoreUnknownSignals: true
-        onBackToCreate: {
-            create.state = "in"
-            loader.active = false
-            activeVideoFile = ""
-        }
-        onUploadToSteamWorkshop: {
-            loader.setSource("CreateUpload.qml", {
-                                 "file": activeVideoFile
-                             })
-        }
-    }
-
     Item {
+        id:particleSystemWrapper
         anchors.fill: parent
+
+        Image {
+            id: backgroundNoisePattern
+            source: "qrc:/assets/images/noisy-texture-3.png"
+            anchors.fill: parent
+            fillMode: Image.Tile
+            opacity: .3
+        }
 
         MouseArea {
             id: ma
@@ -155,22 +124,34 @@ Item {
         }
     }
 
-    Loader {
-        id: loader
+
+    Wizard {
+        id:wizard
         anchors.fill: parent
-        z: 11
+
     }
 
-    Image {
-        id: name
-        source: "qrc:/assets/images/noisy-texture-3.png"
-        anchors.fill: parent
-        fillMode: Image.Tile
-        opacity: .3
+    CreateContent {
+        id: createContent
+        width: 500
+        height: 400
+        anchors {
+            top: parent.top
+            topMargin: 80
+            right: verticalSeperator.left
+            rightMargin: 50
+        }
+        onCreateContent: {
+            create.state = "wizard"
+            ScreenPlay.util.setNavigationActive(false)
+            if(type === "emptyWidget") {
+                wizard.setSource("qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",{})
+            }
+        }
     }
 
     Rectangle {
-        id: spaceBar
+        id: verticalSeperator
         width: 2
         height: 400
         opacity: .4
@@ -181,35 +162,23 @@ Item {
         }
     }
 
-    CreateWallpaper {
-        id: createWallpaper
+    ImportContent {
+        id: importContent
         width: 500
         height: 400
         anchors {
             top: parent.top
             topMargin: 84
-            left: spaceBar.right
+            left: verticalSeperator.right
             leftMargin: 50
         }
-    }
-
-    CreateWidget {
-        id: createWidget
-        width: 500
-        height: 400
-        anchors {
-            top: parent.top
-            topMargin: 80
-            right: spaceBar.left
-            rightMargin: 50
-        }
-        onButtonPressed: {
-            create.state = "new"
-            loader.setSource("CreateNew.qml", {
-                                 "project": type,
-                                 "projectTitle": title,
-                                 "icon": iconSource
-                             })
+        onVideoImportConvertFileSelected: {
+            create.state = "wizard"
+            ScreenPlay.util.setNavigationActive(false)
+            wizard.setSource(
+                        "Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml", {
+                            "filePath": videoFile
+                        })
         }
     }
 
@@ -291,7 +260,7 @@ Item {
         State {
             name: "out"
             PropertyChanges {
-                target: spaceBar
+                target: verticalSeperator
                 opacity: 0
             }
 
@@ -303,7 +272,7 @@ Item {
         State {
             name: "in"
             PropertyChanges {
-                target: spaceBar
+                target: verticalSeperator
                 opacity: .4
             }
             PropertyChanges {
@@ -312,46 +281,22 @@ Item {
             }
         },
         State {
-            name: "import"
-
-            PropertyChanges {
-                target: createWallpaper
-                state: "out"
-            }
-            PropertyChanges {
-                target: createWidget
-                state: "out"
-            }
-            PropertyChanges {
-                target: spaceBar
-                opacity: 0
-            }
-            PropertyChanges {
-                target: txtDescriptionBottom
-                opacity: 0
-            }
-            PropertyChanges {
-                target: footer
-                anchors.bottomMargin: -80
-            }
-        },
-        State {
-            name: "new"
+            name: "wizard"
 
             PropertyChanges {
                 target: footer
                 anchors.bottomMargin: -80
             }
             PropertyChanges {
-                target: createWallpaper
+                target: importContent
                 state: "out"
             }
             PropertyChanges {
-                target: createWidget
+                target: createContent
                 state: "out"
             }
             PropertyChanges {
-                target: spaceBar
+                target: verticalSeperator
                 opacity: 0
             }
             PropertyChanges {
@@ -360,6 +305,7 @@ Item {
             }
         }
     ]
+
     transitions: [
         Transition {
             from: "out"
@@ -379,7 +325,7 @@ Item {
                 }
 
                 NumberAnimation {
-                    target: spaceBar
+                    target: verticalSeperator
                     property: "opacity"
                     duration: 250
                     easing.type: Easing.InOutQuart
@@ -395,7 +341,7 @@ Item {
         },
         Transition {
             from: "in"
-            to: "new"
+            to: "wizard"
             reversible: true
 
             PropertyAnimation {

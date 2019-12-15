@@ -78,11 +78,9 @@
         <file>qml/Community/Community.qml</file>
         <file>qml/Community/Feedback.qml</file>
         <file>qml/Create/Create.qml</file>
-        <file>qml/Create/CreateNew.qml</file>
-        <file>qml/Create/CreateUpload.qml</file>
-        <file>qml/Create/CreateWallpaper.qml</file>
-        <file>qml/Create/CreateWidget.qml</file>
-        <file>qml/Create/CreateWidgetButton.qml</file>
+        <file>qml/Create/ImportContent.qml</file>
+        <file>qml/Create/CreateContent.qml</file>
+        <file>qml/Create/CreateContentButton.qml</file>
         <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperWizard.qml</file>
         <file>qml/Installed/Installed.qml</file>
         <file>qml/Installed/InstalledNavigation.qml</file>
@@ -137,6 +135,8 @@
         <file>assets/icons/brand_gitlab.svg</file>
         <file>assets/icons/brand_twitter.svg</file>
         <file>assets/icons/icon_done.svg</file>
-        <file>qml/Create/Wizards/Wizard.qml</file>
+        <file>qml/Common/CloseIcon.qml</file>
+        <file>qml/Create/Wizard.qml</file>
+        <file>qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml</file>
     </qresource>
 </RCC>

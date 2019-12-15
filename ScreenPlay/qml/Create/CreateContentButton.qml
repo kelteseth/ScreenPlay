@@ -13,7 +13,7 @@ Item {
     Component.onCompleted: btnEmpty.state = "in"
     property int animOffset: 0
     property string text
-    property bool buttonActive: false
+    property bool buttonActive: true
     property string imgSource: "qrc:/assets/icons/icon_library_music.svg"
 
     signal clicked

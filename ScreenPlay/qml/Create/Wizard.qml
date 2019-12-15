@@ -1,15 +1,33 @@
-import QtQuick 2.12
+﻿import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.2
+import QtQuick.Controls.Material 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.3
 
+import ScreenPlay 1.0
+import ScreenPlay.Create 1.0
+
+import "../Common"
 
 Item {
-    id: createNew
+    id: root
     anchors.fill: parent
     state: "out"
+
+    function setSource(path, arguments) {
+        loader_wrapperContent.setSource(
+                    path,
+                    arguments)
+        root.state = "in"
+    }
+
+
+
+    //Blocks some MouseArea from create page
+    MouseArea {
+        anchors.fill: parent
+    }
 
     RectangularGlow {
         id: effect
@@ -32,48 +50,33 @@ Item {
 
     Rectangle {
         id: wrapper
-
+        width: 1200
+        height: 600
+        radius: 4
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
+            topMargin: 0
         }
 
-        width: 910
-        radius: 4
-        height: 560
+        Loader {
+            id: loader_wrapperContent
+            anchors.fill: parent
+            z: 10
+        }
 
-        MouseArea {
-            anchors {
-                top: parent.top
-                right: parent.right
-                margins: 5
-            }
-            width: 32
-            height: width
-            cursorShape: Qt.PointingHandCursor
+        CloseIcon {
             onClicked: {
-                createNew.state = "out"
                 timerBack.start()
-            }
-
-            Image {
-                id: imgClose
-                source: "qrc:/assets/icons/font-awsome/close.svg"
-                width: 16
-                height: 16
-                anchors.centerIn: parent
-                sourceSize: Qt.size(width, width)
-            }
-            ColorOverlay {
-                id: iconColorOverlay
-                anchors.fill: imgClose
-                source: imgClose
-                color: "gray"
             }
             Timer {
                 id: timerBack
                 interval: 800
-                onTriggered: ScreenPlay.util.setNavigation("Create")
+                onTriggered: {
+                    ScreenPlay.create.abortAndCleanup()
+                    ScreenPlay.util.setNavigationActive(true)
+                    ScreenPlay.util.setNavigation("Create")
+                }
             }
         }
     }
@@ -95,12 +98,47 @@ Item {
             name: "in"
             PropertyChanges {
                 target: wrapper
-                anchors.topMargin: 40
+                anchors.topMargin: 70
                 opacity: 1
             }
             PropertyChanges {
                 target: effect
                 opacity: .4
+            }
+        },
+        State {
+            name: "error"
+            PropertyChanges {
+                target: wrapper
+                anchors.topMargin: 100
+                opacity: 1
+            }
+            PropertyChanges {
+                target: effect
+                opacity: .4
+            }
+            PropertyChanges {
+                target: loader_wrapperContent
+                opacity: 1
+                z: 1
+                source: "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml"
+            }
+        },
+        State {
+            name: "success"
+            PropertyChanges {
+                target: wrapper
+                anchors.topMargin: 100
+                opacity: 1
+            }
+            PropertyChanges {
+                target: effect
+                opacity: .4
+            }
+            PropertyChanges {
+                target: loader_wrapperContent
+                opacity: 0
+                z: 0
             }
         }
     ]
@@ -171,6 +209,21 @@ Item {
                         property: "opacity"
                         easing.type: Easing.OutQuart
                     }
+                }
+            }
+        },
+        Transition {
+            from: "in"
+            to: "error"
+            SequentialAnimation {
+                PropertyAnimation {
+                    target: loader_wrapperContent
+                    duration: 600
+                    property: "opacity"
+                    easing.type: Easing.OutQuart
+                }
+                PauseAnimation {
+                    duration: 50
                 }
             }
         }
