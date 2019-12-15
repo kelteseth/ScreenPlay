@@ -14,13 +14,6 @@
 
 #include <memory>
 
-/*!
-    \class Profile List Model
-    \brief Use to save all active wallpapers and widgets position and configurations after a restart
-    \todo  Implement this!
-           - Add a profile for a combination of active wallpaper and widgets!
-
-*/
 namespace ScreenPlay {
 
 using std::shared_ptr;

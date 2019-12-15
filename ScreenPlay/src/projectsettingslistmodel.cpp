@@ -5,8 +5,33 @@ namespace ScreenPlay {
 /*!
     \class ScreenPlay::ProjectSettingsListModel
     \inmodule ScreenPlay
-    \brief ProjectSettingsListModel.
+    \brief ProjectSettingsListModel used for the dynamic loading of the properties json object inside a project.json.
 
+    The loaded properties are allowed to have one level of nesting to simulate headlines:
+    \code
+    "properties": {
+        "Attractor": {
+            "attStrength": {
+                "from": 0,
+                "stepSize": 100,
+                "to": 100000,
+                "type": "slider",
+                "value": 8000000
+            }
+        },
+        "Emitter": {
+            "emitRate": {
+                "from": 0,
+                "stepSize": 1,
+                "to": 2500,
+                "type": "slider",
+                "value": 25
+            }
+        }
+    }
+    \endcode
+    In this example the Attractor and Emitter would be a headline. In the UI we then displays it for the user to modify.
+    Otherwhise it is a regular QAbstractListModel based list model.
 */
 ProjectSettingsListModel::ProjectSettingsListModel(QString file, QObject* parent)
     : QAbstractListModel(parent)
@@ -54,6 +79,10 @@ QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
     return roles;
 }
 
+/*!
+ Recursively loads the content of a project.json.
+ See also \l {https://kelteseth.gitlab.io/ScreenPlayDocs/project/project/} .
+ */
 void ProjectSettingsListModel::init(QString file)
 {
     QFile configTmp;

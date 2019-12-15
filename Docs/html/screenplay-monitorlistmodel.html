@@ -31,7 +31,14 @@
 <!-- $$$MonitorListModel-description -->
 <div class="descr">
 <h2 id="details">Detailed Description</h2>
+<p>Loads all available monitors and saves them in a QAbstractListModel inherited list model. This list model gets updated if:</p>
+<ul>
+<li>A user adds or removes a monitor</li>
+<li>A user adds or removes a wallpaper</li>
+<li>On startup based on profiles.json</li>
+</ul>
+<p>This listmodel is also needed for calculating the monitor preview in the UI.</p>
 </div>
 <!-- @@@MonitorListModel -->
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div></body>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

@@ -24,7 +24,7 @@
 <h1 class="title">Create Class</h1>
 <span class="small-subtitle">(<a href="screenplay-create.html">ScreenPlay::Create</a>)<br/></span>
 <!-- $$$Create-brief -->
-<p>Baseclass for creating wallapers, widgets and the corresponding wizards. As for this writing (April 2019) it is solely used to import webm wallpaper and create the gif/web 5 second previews. <a href="#details">More...</a></p>
+<p>Baseclass for creating wallapers, widgets and the corresponding wizards. <a href="#details">More...</a></p>
 <!-- @@@Create -->
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;Create&gt;</span>
@@ -34,6 +34,7 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#Create-1">Create</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#ffmpegOutput-prop">ffmpegOutput</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> float </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#progress-prop">progress</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#workingDir-prop">workingDir</a></b>() const</td></tr>
@@ -42,6 +43,8 @@
 <h2 id="public-slots">Public Slots</h2>
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#ffmpegOutput-prop">appendFfmpegOutput</a></b>(QString <i>ffmpegOutput</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#createWallpaperStart">createWallpaperStart</a></b>(QString <i>videoPath</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#saveWallpaper">saveWallpaper</a></b>(QString <i>title</i>, QString <i>description</i>, QString <i>filePath</i>, QString <i>previewImagePath</i>, QString <i>youtube</i>, QVector&lt;QString&gt; <i>tags</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#progress-prop">setProgress</a></b>(float <i>progress</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#workingDir-prop">setWorkingDir</a></b>(const QString &amp;<i>workingDir</i>)</td></tr>
 </table></div>
@@ -56,7 +59,23 @@
 <!-- $$$Create-description -->
 <div class="descr">
 <h2 id="details">Detailed Description</h2>
+<p>As for this writing (April 2019) it is solely used to import webm wallpaper and create the gif/web 5 second previews.</p>
 </div>
 <!-- @@@Create -->
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div></body>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$Create$$$Create -->
+<h3 class="fn" id="Create-1"><a name="Create-1"></a>Create::<span class="name">Create</span>()</h3>
+<p>Constructor for the QMLEngine.</p>
+<!-- @@@Create -->
+<!-- $$$createWallpaperStart[overload1]$$$createWallpaperStartQString -->
+<h3 class="fn" id="createWallpaperStart"><a name="createWallpaperStart"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">createWallpaperStart</span>(<span class="type">QString</span> <i>videoPath</i>)</h3>
+<p>Starts the process.</p>
+<!-- @@@createWallpaperStart -->
+<!-- $$$saveWallpaper[overload1]$$$saveWallpaperQStringQStringQStringQStringQStringQVector<QString> -->
+<h3 class="fn" id="saveWallpaper"><a name="saveWallpaper"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">saveWallpaper</span>(<span class="type">QString</span> <i>title</i>, <span class="type">QString</span> <i>description</i>, <span class="type">QString</span> <i>filePath</i>, <span class="type">QString</span> <i>previewImagePath</i>, <span class="type">QString</span> <i>youtube</i>, <span class="type">QVector</span>&lt;<span class="type">QString</span>&gt; <i>tags</i>)</h3>
+<p>When converting of the wallpaper steps where successful.</p>
+<!-- @@@saveWallpaper -->
+</div>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

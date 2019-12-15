@@ -7,6 +7,14 @@ namespace ScreenPlay {
     \inmodule ScreenPlay
     \brief MonitorListModel.
 
+    Loads all available monitors and saves them in a QAbstractListModel inherited list model.
+    This list model gets updated if:
+    \list
+        \li A user adds or removes a monitor
+        \li A user adds or removes a wallpaper
+        \li On startup based on profiles.json
+    \endlist
+    This listmodel is also needed for calculating the monitor preview in the UI.
 */
 
 MonitorListModel::MonitorListModel(QObject* parent)

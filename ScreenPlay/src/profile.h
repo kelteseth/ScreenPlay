@@ -3,13 +3,16 @@
 #include <QString>
 #include <QUrl>
 
+
+namespace ScreenPlay {
+
 /*!
-    \class Profile
+    \class ScreenPlay::Profile
+    \inmodule ScreenPlay
     \brief  A classed used in combination with Profile List Model.
             See Profile List Model for more details
 
 */
-namespace ScreenPlay {
 struct Profile {
 
     Profile() {}

@@ -4,8 +4,11 @@
     \class ScreenPlay::Create
     \inmodule ScreenPlay
     \brief  Baseclass for creating wallapers, widgets and the corresponding
-            wizards. As for this writing (April 2019) it is solely used to
-            import webm wallpaper and create the gif/web 5 second previews.
+            wizards.
+
+    As for this writing (April 2019) it is solely used to import webm wallpaper
+    and create the gif/web 5 second previews.
+
 
 */
 namespace ScreenPlay {
@@ -19,7 +22,9 @@ Create::Create(const shared_ptr<GlobalVariables>& globalVariables, QObject* pare
     qmlRegisterType<Create>("ScreenPlay.Create", 1, 0, "Create");
 }
 
-// Constructor for the QMLEngine
+/*!
+  Constructor for the QMLEngine.
+*/
 Create::Create()
     : QObject(nullptr)
     , m_globalVariables(nullptr)
@@ -29,6 +34,9 @@ Create::Create()
     qmlRegisterType<Create>("ScreenPlay.Create", 1, 0, "Create");
 }
 
+/*!
+    Starts the process.
+*/
 void Create::createWallpaperStart(QString videoPath)
 {
     clearFfmpegOutput();
@@ -67,6 +75,9 @@ void Create::createWallpaperStart(QString videoPath)
 
 }
 
+/*!
+    When converting of the wallpaper steps where successful.
+*/
 void Create::saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, QVector<QString> tags)
 {
     filePath.remove("file:///");

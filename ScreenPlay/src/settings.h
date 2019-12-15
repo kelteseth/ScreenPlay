@@ -126,6 +126,9 @@ signals:
 
 public slots:
     bool writeSingleSettingConfig(QString name, QVariant value);
+    void writeJsonFileFromResource(const QString& filename);
+    void setupWidgetAndWindowPaths();
+    void setupLanguage();
     void setqSetting(const QString& key, const QString& value)
     {
         m_qSettings.setValue(key, value);
@@ -223,7 +226,6 @@ public slots:
         m_silentStart = silentStart;
         emit silentStartChanged(m_silentStart);
     }
-    void setupLanguage();
 
     void setAnonymousTelemetry(bool anonymousTelemetry)
     {
@@ -233,10 +235,6 @@ public slots:
         m_anonymousTelemetry = anonymousTelemetry;
         emit anonymousTelemetryChanged(m_anonymousTelemetry);
     }
-
-private:
-    void writeJsonFileFromResource(const QString& filename);
-    void setupWidgetAndWindowPaths();
 
 private:
     QVersionNumber m_version;
