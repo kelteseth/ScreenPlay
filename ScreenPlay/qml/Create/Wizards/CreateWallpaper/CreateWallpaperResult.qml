@@ -75,7 +75,7 @@ Item {
         MenuItem {
             text: qsTr("Copy text to clipboard")
             onClicked: {
-                ScreenPlay.util.copyToClipboard(txtExpander.text)
+                ScreenPlay.util.copyToClipboard(txtFFMPEGDebug.text)
             }
         }
     }
