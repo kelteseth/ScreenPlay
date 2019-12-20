@@ -126,7 +126,7 @@ Item {
             visible: false
             smooth: true
             fillMode: Image.PreserveAspectFit
-            antialiasing: true
+
         }
 
         Item {
@@ -177,7 +177,6 @@ Item {
 
         OpacityMask {
             anchors.fill: itemWrapper
-            antialiasing: true
             source: itemWrapper
             maskSource: mask
 

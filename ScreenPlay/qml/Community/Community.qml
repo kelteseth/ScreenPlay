@@ -21,7 +21,6 @@ Item {
         }
         LinearGradient {
             id: tabShadow
-            antialiasing: true
             cached: true
             anchors.fill: parent
             start: Qt.point(0, 0)
