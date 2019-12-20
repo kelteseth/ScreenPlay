@@ -49,6 +49,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     if (!settingsFile.exists()) {
         qInfo("No Settings found, creating default settings");
         writeJsonFileFromResource("settings");
+        setAutostart(true);
     }
 
     // Wallpaper and Widgets config
