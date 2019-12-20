@@ -212,7 +212,7 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 onClicked: Qt.openUrlExternally(
-                               "https://screen-play.app/index.php/blog")
+                               "https://screen-play.app/blog/")
             }
             Button {
                 text: qsTr("Source Code")
