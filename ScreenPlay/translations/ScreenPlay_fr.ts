@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.1" language="fr">
 <context>
     <name>Community</name>
     <message>
         <location filename="../qml/Community/Community.qml" line="61"/>
         <source>We use Stomt because it provides quick and easy feedback via I like/I wish. So you can easily give us feedback and speak your mind. We will read these wishes on a daily basis!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nous utilisons Stomt parce qu&apos;il fournit un feedback rapide et facile via J&apos;aime / Je souhaite. Vous pouvez donc facilement nous donner votre avis et nous dire ce que vous pensez. Nous lirons ces souhaits quotidiennement !</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="105"/>
@@ -549,7 +549,7 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="87"/>
         <source>Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">démarrage automatique</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="88"/>

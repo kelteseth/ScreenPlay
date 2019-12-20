@@ -177,11 +177,16 @@ Item {
                                 case "Russian":
                                     languageKey = "ru"
                                     break
+                                case "French":
+                                    languageKey = "fr"
+                                    break
+                                case "Spanish":
+                                    languageKey = "es"
+                                    break
                                 default:
                                     languageKey = "en"
                                     break
                                 }
-                                print(key, languageKey)
 
                                 ScreenPlay.settings.setqSetting("language",
                                                                 languageKey)
@@ -198,6 +203,12 @@ Item {
                                 }
                                 ListElement {
                                     text: "Russian"
+                                }
+                                ListElement {
+                                    text: "French"
+                                }
+                                ListElement {
+                                    text: "Spanish"
                                 }
                             }
                         }

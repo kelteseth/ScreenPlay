@@ -37,7 +37,10 @@ SOURCES +=  \
 
 TRANSLATIONS = \
     $$PWD/translations/ScreenPlay_en.ts   \
-    $$PWD/translations/ScreenPlay_de.ts
+    $$PWD/translations/ScreenPlay_de.ts   \
+    $$PWD/translations/ScreenPlay_ru.ts   \
+    $$PWD/translations/ScreenPlay_es.ts   \
+    $$PWD/translations/ScreenPlay_fr.ts
 
 HEADERS += \
     $$PWD/app.h \

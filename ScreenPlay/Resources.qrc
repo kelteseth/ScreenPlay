@@ -137,5 +137,8 @@
         <file>assets/icons/brand_gitlab.svg</file>
         <file>assets/icons/brand_twitter.svg</file>
         <file>assets/icons/icon_done.svg</file>
+        <file>translations/ScreenPlay_es.qm</file>
+        <file>translations/ScreenPlay_fr.qm</file>
+        <file>translations/ScreenPlay_ru.qm</file>
     </qresource>
 </RCC>

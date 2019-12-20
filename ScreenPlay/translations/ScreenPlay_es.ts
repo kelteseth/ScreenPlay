@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="en_US">
+<TS version="2.1" language="es">
 <context>
     <name>Community</name>
     <message>
@@ -549,7 +549,7 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="87"/>
         <source>Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Autoencendido</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="88"/>
@@ -602,93 +602,93 @@ if you installed ScreenPlay via Steam!
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="241"/>
+        <location filename="../qml/Settings/Settings.qml" line="242"/>
         <source>Performance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="261"/>
+        <location filename="../qml/Settings/Settings.qml" line="262"/>
         <source>Pause wallpaper while ingame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="263"/>
+        <location filename="../qml/Settings/Settings.qml" line="264"/>
         <source>To maximise your framerates ingame, you can enable this setting to pause all active wallpapers!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="276"/>
+        <location filename="../qml/Settings/Settings.qml" line="277"/>
         <source>Default Fill Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="277"/>
+        <location filename="../qml/Settings/Settings.qml" line="278"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="326"/>
+        <location filename="../qml/Settings/Settings.qml" line="327"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="366"/>
+        <location filename="../qml/Settings/Settings.qml" line="367"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="453"/>
+        <location filename="../qml/Settings/Settings.qml" line="454"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="454"/>
+        <location filename="../qml/Settings/Settings.qml" line="455"/>
         <source>ScreenPlay Build Version </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="456"/>
+        <location filename="../qml/Settings/Settings.qml" line="457"/>
         <source>Open Changelog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="463"/>
+        <location filename="../qml/Settings/Settings.qml" line="464"/>
         <source>Third Party Software</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="464"/>
+        <location filename="../qml/Settings/Settings.qml" line="465"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="465"/>
+        <location filename="../qml/Settings/Settings.qml" line="466"/>
         <source>Licenses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="487"/>
-        <location filename="../qml/Settings/Settings.qml" line="489"/>
+        <location filename="../qml/Settings/Settings.qml" line="488"/>
+        <location filename="../qml/Settings/Settings.qml" line="490"/>
         <source>Debug Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="488"/>
+        <location filename="../qml/Settings/Settings.qml" line="489"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="504"/>
+        <location filename="../qml/Settings/Settings.qml" line="505"/>
         <source>Data Protection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="505"/>
+        <location filename="../qml/Settings/Settings.qml" line="506"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="506"/>
+        <location filename="../qml/Settings/Settings.qml" line="507"/>
         <source>Privacy</source>
         <translation type="unfinished"></translation>
     </message>
