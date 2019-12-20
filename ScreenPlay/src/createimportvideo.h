@@ -16,6 +16,8 @@
 #include <QThread>
 #include <QtMath>
 
+#include "util.h"
+
 namespace ScreenPlay {
 
 class CreateImportVideo : public QObject {

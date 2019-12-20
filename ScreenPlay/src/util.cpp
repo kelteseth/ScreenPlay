@@ -141,6 +141,15 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
     return true;
 }
 
+QString Util::toString(const QStringList &list)
+{
+    QString out;
+    for (auto string : list) {
+        out += string;
+    }
+    return out;
+}
+
 QString Util::fixWindowsPath(QString url)
 {
     return url.replace("/", "\\\\");

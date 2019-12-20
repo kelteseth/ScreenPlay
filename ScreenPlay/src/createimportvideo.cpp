@@ -73,6 +73,7 @@ bool CreateImportVideo::createWallpaperInfo()
     args.append("-show_format");
     args.append("-show_streams");
     args.append(m_videoPath);
+    this->processOutput("ffprobe " + Util::toString(args));
     QScopedPointer<QProcess> pro(new QProcess());
     pro->setArguments(args);
 
@@ -227,6 +228,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     // Disable audio
     args.append("-an");
     args.append(m_exportPath + "/preview.webm");
+    this->processOutput("ffmpeg " + Util::toString(args));
     QScopedPointer<QProcess> proConvertPreviewWebM(new QProcess());
 
     proConvertPreviewWebM->setArguments(args);
@@ -299,7 +301,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
     args.append("-filter_complex");
     args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
     args.append(m_exportPath + "/preview.gif");
-
+    this->processOutput("ffmpeg " + Util::toString(args));
     QScopedPointer<QProcess> proConvertGif(new QProcess());
     proConvertGif->setArguments(args);
 #ifdef Q_OS_WIN
@@ -358,6 +360,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
     args.append("2");
     args.append(m_exportPath + "/preview.jpg");
 
+    this->processOutput("ffmpeg " + Util::toString(args));
     QScopedPointer<QProcess> proConvertImage(new QProcess());
     proConvertImage->setArguments(args);
 #ifdef Q_OS_WIN
@@ -414,7 +417,7 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("-i");
     args.append(m_videoPath);
     args.append("-c:v");
-    args.append("libvpx-vp8");
+    args.append("libvpx");
     args.append("-crf");
     args.append("30");
     args.append("-pix_fmt");
@@ -428,6 +431,8 @@ bool CreateImportVideo::createWallpaperVideo()
 
     QScopedPointer<QProcess> proConvertVideo(new QProcess());
     proConvertVideo->setArguments(args);
+    this->processOutput("ffmpeg " + Util::toString(args));
+
 #ifdef Q_OS_WIN
     proConvertVideo->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
@@ -478,7 +483,7 @@ bool CreateImportVideo::createWallpaperVideo()
 
     QFile video(convertedFileAbsolutePath);
     if (!video.exists() || !(video.size() > 0)) {
-        qDebug() << convertedFileAbsolutePath << proConvertVideo->readAll();
+        qDebug() << convertedFileAbsolutePath << proConvertVideo->readAll() << video.exists() << video.size();
         emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
         return false;
     }

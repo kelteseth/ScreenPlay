@@ -50,7 +50,7 @@ void Create::createWallpaperStart(QString videoPath)
     m_createImportVideoThread = new QThread();
     m_createImportVideo = new CreateImportVideo(videoPath, workingDir());
     connect(m_createImportVideo, &CreateImportVideo::processOutput, this, [this](QString text) {
-        appendFfmpegOutput(text);
+        appendFfmpegOutput(text +"\n");
     });
 
     connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged);
