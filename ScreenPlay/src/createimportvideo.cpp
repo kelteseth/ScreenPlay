@@ -73,7 +73,7 @@ bool CreateImportVideo::createWallpaperInfo()
     args.append("-show_format");
     args.append("-show_streams");
     args.append(m_videoPath);
-    this->processOutput("ffprobe " + Util::toString(args));
+    emit processOutput("ffprobe " + Util::toString(args));
     QScopedPointer<QProcess> pro(new QProcess());
     pro->setArguments(args);
 
@@ -103,6 +103,7 @@ bool CreateImportVideo::createWallpaperInfo()
     QJsonDocument doc = QJsonDocument::fromJson(pro->readAll(), &err);
     if (err.error != QJsonParseError::NoError) {
         qDebug() << "Error parsing ffmpeg json output";
+        emit processOutput(pro->readAll());
         emit processOutput("Error parsing ffmpeg json output");
         emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
         return false;
@@ -113,6 +114,7 @@ bool CreateImportVideo::createWallpaperInfo()
     if (obj.empty()) {
         qDebug() << "Error! File could not be parsed.";
         emit processOutput("Error! File could not be parsed.");
+
         emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
         pro->close();
         return false;
@@ -228,7 +230,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     // Disable audio
     args.append("-an");
     args.append(m_exportPath + "/preview.webm");
-    this->processOutput("ffmpeg " + Util::toString(args));
+    emit processOutput("ffmpeg " + Util::toString(args));
     QScopedPointer<QProcess> proConvertPreviewWebM(new QProcess());
 
     proConvertPreviewWebM->setArguments(args);
@@ -257,7 +259,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
 
             this->setProgress(progress);
         }
-        this->processOutput(tmpOut);
+        emit processOutput(tmpOut);
     });
 
     proConvertPreviewWebM->start();
@@ -280,7 +282,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
         return false;
     }
 
-    this->processOutput(proConvertPreviewWebM->readAll());
+    emit processOutput(proConvertPreviewWebM->readAll());
     proConvertPreviewWebM->close();
 
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewVideoFinished);
@@ -301,7 +303,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
     args.append("-filter_complex");
     args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
     args.append(m_exportPath + "/preview.gif");
-    this->processOutput("ffmpeg " + Util::toString(args));
+    emit processOutput("ffmpeg " + Util::toString(args));
     QScopedPointer<QProcess> proConvertGif(new QProcess());
     proConvertGif->setArguments(args);
 #ifdef Q_OS_WIN
@@ -334,7 +336,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
         }
     }
 
-    this->processOutput(proConvertGif->readAll());
+    emit processOutput(proConvertGif->readAll());
     proConvertGif->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewGifFinished);
 
@@ -360,7 +362,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
     args.append("2");
     args.append(m_exportPath + "/preview.jpg");
 
-    this->processOutput("ffmpeg " + Util::toString(args));
+    emit processOutput("ffmpeg " + Util::toString(args));
     QScopedPointer<QProcess> proConvertImage(new QProcess());
     proConvertImage->setArguments(args);
 #ifdef Q_OS_WIN
@@ -393,7 +395,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
         }
     }
 
-    this->processOutput(proConvertImage->readAll());
+    emit processOutput(proConvertImage->readAll());
     proConvertImage->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageFinished);
 
@@ -431,7 +433,7 @@ bool CreateImportVideo::createWallpaperVideo()
 
     QScopedPointer<QProcess> proConvertVideo(new QProcess());
     proConvertVideo->setArguments(args);
-    this->processOutput("ffmpeg " + Util::toString(args));
+    emit processOutput("ffmpeg " + Util::toString(args));
 
 #ifdef Q_OS_WIN
     proConvertVideo->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
@@ -463,7 +465,7 @@ bool CreateImportVideo::createWallpaperVideo()
 
             this->setProgress(progress);
         }
-        this->processOutput(tmpOut);
+        emit processOutput(tmpOut);
     });
 
     proConvertVideo->start();
@@ -546,7 +548,7 @@ bool CreateImportVideo::extractWallpaperAudio()
         }
     }
 
-    this->processOutput(proConvertAudio->readAll());
+    emit processOutput(proConvertAudio->readAll());
     proConvertAudio->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingAudioFinished);
 
