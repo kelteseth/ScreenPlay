@@ -313,7 +313,7 @@ Item {
             }
             TextField {
                 id: txtSearch
-                width: 300
+                width: 250
                 height: 40
                 font.family: "Roboto"
                 leftPadding: 10
