@@ -282,6 +282,7 @@ Item {
                         visible: false
                         id: settingsComboBox
                         Layout.fillWidth: true
+                        currentIndex: 3
 
                         model: ListModel {
                             ListElement {
