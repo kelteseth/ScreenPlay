@@ -50,6 +50,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
         qInfo("No Settings found, creating default settings");
         writeJsonFileFromResource("settings");
         setAutostart(true);
+        setAnonymousTelemetry(true);
     }
 
     // Wallpaper and Widgets config
