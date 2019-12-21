@@ -22,11 +22,6 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 {
 
     setGitBuildHash(GIT_VERSION);
-
-#ifdef QT_NO_DEBUG
-    qInfo() << "ScreenPlay git hash: " << gitBuildHash();
-#endif
-
     setupLanguage();
 
     if (m_qSettings.value("ScreenPlayExecutable").isNull()) {
