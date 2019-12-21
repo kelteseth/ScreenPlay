@@ -158,7 +158,7 @@ bool Settings::writeSingleSettingConfig(QString name, QVariant value)
     }
 
     QJsonObject newConfig = obj.value();
-    newConfig.insert(name, value.toString());
+    newConfig.insert(name, QJsonValue::fromVariant(value));
 
     return Util::writeJsonObjectToFile(filename, newConfig);
 }
