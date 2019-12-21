@@ -237,6 +237,7 @@ public slots:
 private:
     void writeJsonFileFromResource(const QString& filename);
     void setupWidgetAndWindowPaths();
+    void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
 
 private:
     QVersionNumber m_version;

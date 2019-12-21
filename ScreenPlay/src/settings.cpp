@@ -56,6 +56,11 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     }
 
     std::optional<QJsonObject> configObj = Util::openJsonFileToObject(appConfigLocation + "/settings.json");
+
+    if (!configObj) {
+        restoreDefault(appConfigLocation, "settings");
+    }
+
     std::optional<QVersionNumber> version = Util::getVersionNumberFromString(configObj.value().value("version").toString());
 
     //Checks if the settings file has the same version as ScreenPlay
@@ -226,6 +231,18 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setWidgetExecutablePath(QUrl("ScreenPlayWidget.exe"));
     }
 #endif
+}
+
+void Settings::restoreDefault(const QString& appConfigLocation, const QString& settingsFileType)
+{
+    QString fullSettingsPath { appConfigLocation + "/" + settingsFileType + ".json" };
+    qWarning() << "Unable to load config from " << fullSettingsPath
+               << ". Restoring default!";
+    QFile file { fullSettingsPath };
+    file.remove();
+    writeJsonFileFromResource(settingsFileType);
+    setAutostart(true);
+    setAnonymousTelemetry(true);
 }
 
 void Settings::setupLanguage()
