@@ -420,12 +420,14 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append(m_videoPath);
     args.append("-c:v");
     args.append("libvpx");
-    args.append("-crf");
-    args.append("30");
-    args.append("-pix_fmt");
-    args.append("yuv420p");
-    args.append("-b:v");
+    args.append("-qmin");
     args.append("0");
+    args.append("-qmax");
+    args.append("50");
+    args.append("-crf");
+    args.append("5");
+    args.append("-b:v");
+    args.append("5M");
 
     QFileInfo file(m_videoPath);
     QString convertedFileAbsolutePath { m_exportPath + "/" + file.baseName() + ".webm" };
