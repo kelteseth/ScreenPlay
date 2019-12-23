@@ -12,6 +12,8 @@ Item {
     function enter() {
         if (screenPlayItemImage.sourceImageGIF != "") {
             imgGIFPreview.playing = true
+            imgGIFPreview.source = screenPlayItemImage.sourceImageGIF.trim()
+            imgGIFPreview.enabled = true
         }
     }
 
@@ -38,12 +40,12 @@ Item {
 
     AnimatedImage {
         id: imgGIFPreview
+        enabled: false
         asynchronous: true
         playing: false
         opacity: 0
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        source: screenPlayItemImage.sourceImageGIF.trim()
     }
 
     states: [
