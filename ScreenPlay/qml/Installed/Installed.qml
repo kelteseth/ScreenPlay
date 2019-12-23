@@ -98,7 +98,7 @@ Item {
             }
 
             Timer {
-                interval: 400
+                interval: 150
                 running: true
                 onTriggered: {
                     animFadeIn.start()
