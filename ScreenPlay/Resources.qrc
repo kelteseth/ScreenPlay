@@ -101,7 +101,6 @@
         <file>settings.json</file>
         <file>translations/ScreenPlay_de.qm</file>
         <file>translations/ScreenPlay_en.qm</file>
-        <file>qml/Screen/Screen.qml</file>
         <file>assets/icons/icon_screen.svg</file>
         <file>qml/Community/XMLNewsfeed.qml</file>
         <file>qml/Workshop/WorkshopAvailableTest.qml</file>
