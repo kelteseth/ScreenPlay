@@ -360,6 +360,8 @@ bool CreateImportVideo::createWallpaperImagePreview()
     args.append("1");
     args.append("-q:v");
     args.append("2");
+    args.append("-vf");
+    args.append("scale=320:-1");
     args.append(m_exportPath + "/preview.jpg");
 
     emit processOutput("ffmpeg " + Util::toString(args));
