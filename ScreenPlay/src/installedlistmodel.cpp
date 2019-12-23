@@ -87,11 +87,8 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
 
 void InstalledListModel::append(const QJsonObject& obj, const QString& folderName)
 {
-
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
-
     m_screenPlayFiles.append(ProjectFile(obj, folderName, m_globalVariables->localStoragePath()));
-    setCount((m_count + 1));
     endInsertRows();
 }
 
@@ -104,6 +101,7 @@ void InstalledListModel::loadInstalledContent()
 
         QFileInfoList list = QDir(m_globalVariables->localStoragePath().toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
         QString tmpPath;
+        int counter {};
 
         for (auto&& item : list) {
             tmpPath = m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json";
@@ -138,10 +136,15 @@ void InstalledListModel::loadInstalledContent()
                 "standaloneWidget"
             };
 
-            if (availableTypes.contains(obj.value("type").toString()))
-                emit addInstalledItem(obj, item.baseName());
+            if (availableTypes.contains(obj.value("type").toString())){
+                 emit addInstalledItem(obj, item.baseName());
+            }
+
+
+            counter += 1;
         }
 
+        setCount(counter);
         emit installedLoadingFinished();
     });
 }
@@ -174,7 +177,6 @@ void InstalledListModel::reset()
     beginResetModel();
     m_screenPlayFiles.clear();
     m_screenPlayFiles.squeeze();
-    setCount(0);
     endResetModel();
     loadInstalledContent();
 }
