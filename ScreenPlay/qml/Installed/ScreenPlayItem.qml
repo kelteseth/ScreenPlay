@@ -32,7 +32,14 @@ Item {
 
     Timer {
         id: timerAnim
-        interval: 40 * itemIndex * Math.random()
+        interval: {
+            var itemIndexMax = itemIndex
+            if(itemIndex > 30)
+                itemIndexMax = 3
+
+            10  * itemIndexMax *Math.random()
+        }
+
         running: true
         repeat: false
         onTriggered: showAnim.start()
@@ -64,18 +71,18 @@ Item {
         running: false
         RotationAnimation {
             target: rt
-            from: 90
+            from: 60
             to: 0
             duration: 500
-            easing.type: Easing.OutQuint
+            easing.type: Easing.OutCirc
             property: "angle"
         }
         PropertyAnimation {
             target: screenPlayItem
             from: 0
             to: 1
-            duration: 500
-            easing.type: Easing.OutQuint
+            duration: 800
+            easing.type: Easing.OutCirc
             property: "opacity"
         }
         PropertyAnimation {
@@ -83,15 +90,15 @@ Item {
             from: 80
             to: 0
             duration: 500
-            easing.type: Easing.OutQuint
+            easing.type: Easing.OutCirc
             property: "y"
         }
         PropertyAnimation {
             target: sc
-            from: .8
+            from: .5
             to: 1
-            duration: 500
-            easing.type: Easing.OutQuint
+            duration: 200
+            easing.type: Easing.OutCirc
             properties: "xScale,yScale"
         }
     }
