@@ -27,9 +27,9 @@ ApplicationWindow {
     Component.onCompleted: {
         if(!ScreenPlay.settings.silentStart){
             window.show()
-            ScreenPlay.setTrackerSendEvent("Installed");
+            ScreenPlay.setTrackerSendEvent("navigation","Installed");
         } else {
-            ScreenPlay.setTrackerSendEvent("Silent");
+            ScreenPlay.setTrackerSendEvent("navigation","Silent");
         }
     }
 

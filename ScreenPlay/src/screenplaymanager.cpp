@@ -9,15 +9,15 @@ namespace ScreenPlay {
 
 */
 
-ScreenPlayManager::ScreenPlayManager(
-    const shared_ptr<GlobalVariables>& globalVariables,
+ScreenPlayManager::ScreenPlayManager(const shared_ptr<GlobalVariables>& globalVariables,
     const shared_ptr<MonitorListModel>& mlm,
-    const shared_ptr<SDKConnector>& sdkc,
+    const shared_ptr<SDKConnector>& sdkc, const shared_ptr<GAnalytics>& tracker,
     QObject* parent)
     : QObject { parent }
     , m_globalVariables { globalVariables }
     , m_monitorListModel { mlm }
     , m_sdkconnector { sdkc }
+    , m_tracker { tracker }
 {
     loadWallpaperProfiles();
 }
@@ -32,6 +32,7 @@ void ScreenPlayManager::createWallpaper(
     const bool saveToProfilesConfigFile)
 {
 
+    m_tracker->sendEvent("wallpaper","start");
     QString path = absoluteStoragePath;
 
     if (absoluteStoragePath.contains("file:///"))
@@ -95,6 +96,7 @@ void ScreenPlayManager::createWallpaper(
 
 void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QString& previewImage)
 {
+    m_tracker->sendEvent("widget","start");
     increaseActiveWidgetsCounter();
 
     m_screenPlayWidgets.append(
@@ -110,6 +112,7 @@ void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QStr
 void ScreenPlayManager::removeAllWallpapers()
 {
     if (!m_screenPlayWallpapers.empty()) {
+        m_tracker->sendEvent("wallpaper","stopAll");
         m_sdkconnector->closeAllWallpapers();
         m_screenPlayWallpapers.clear();
         m_monitorListModel->clearActiveWallpaper();
@@ -145,6 +148,7 @@ void ScreenPlayManager::removeAllWallpapers()
 
 void ScreenPlayManager::removeWallpaperAt(int at)
 {
+    m_tracker->sendEvent("wallpaper","removeSingleWallpaper");
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(at)) {
         m_sdkconnector->closeWallpaper(appID.value());
         m_monitorListModel->closeWallpaper(appID.value());
@@ -212,7 +216,7 @@ bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const Q
     QJsonArray newWallpaperArray;
 
     if (oldWallpaperArray.empty()) {
-         newWallpaperArray.append(newProfileObject);
+        newWallpaperArray.append(newProfileObject);
     } else {
         for (QJsonValueRef wallpaper : oldWallpaperArray) {
             QJsonObject entry = wallpaper.toObject();

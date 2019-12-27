@@ -131,12 +131,12 @@ signals:
 public slots:
 
     void exit();
-    void setTrackerSendEvent(const QString& page){
-        if(m_tracker){
-            m_tracker->sendEvent("navigation",page);
+    void setTrackerSendEvent(const QString& category, const QString& page)
+    {
+        if (m_tracker) {
+            m_tracker->sendEvent(category, page);
         }
     }
-
 
     void setGlobalVariables(GlobalVariables* globalVariables)
     {
@@ -240,11 +240,11 @@ private:
     unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
 #endif
 
-    unique_ptr<GAnalytics> m_tracker;
     unique_ptr<Create> m_create;
     unique_ptr<ScreenPlayManager> m_screenPlayManager;
     unique_ptr<Util> m_util;
 
+    shared_ptr<GAnalytics> m_tracker;
     shared_ptr<GlobalVariables> m_globalVariables;
     shared_ptr<Settings> m_settings;
     shared_ptr<SDKConnector> m_sdkConnector;
