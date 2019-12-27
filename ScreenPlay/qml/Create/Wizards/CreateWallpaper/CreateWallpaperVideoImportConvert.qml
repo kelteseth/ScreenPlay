@@ -16,6 +16,18 @@ Item {
     property bool conversionFinishedSuccessful: false
     property bool canSave: false
     property string filePath
+    onFilePathChanged: {
+        textFieldName.text =  basename(filePath)
+    }
+
+    function basename(str)
+    {
+        let filenameWithExtentions = (str.slice(str.lastIndexOf("/")+1))
+        let filename = filenameWithExtentions.split('.').slice(0, -1).join('.')
+        return filename
+    }
+
+
     onCanSaveChanged: wrapperContent.checkCanSave()
     signal save
 
