@@ -26,8 +26,12 @@ struct ProjectFile {
         if (obj.contains("file"))
             m_file = obj.value("file");
 
-        if (obj.contains("preview"))
-            m_preview = obj.value("preview");
+        if (obj.contains("previewThumbnail")){
+            m_preview = obj.value("previewThumbnail");
+        } else {
+            if (obj.contains("preview"))
+                m_preview = obj.value("preview");
+        }
 
         if (obj.contains("previewGIF"))
             m_previewGIF = obj.value("previewGIF");

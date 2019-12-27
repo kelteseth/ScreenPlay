@@ -36,6 +36,9 @@ Item {
             case CreateImportVideo.ConvertingPreviewImage:
                 txtConvert.text = qsTr("Generating preview image...")
                 break
+            case CreateImportVideo.ConvertingPreviewThumbnailImage:
+                txtConvert.text = qsTr("Generating preview thumbnail image...")
+                break
             case CreateImportVideo.ConvertingPreviewImageFinished:
                 imgPreview.source = "file:///" + ScreenPlay.create.workingDir + "/preview.jpg"
                 imgPreview.visible = true

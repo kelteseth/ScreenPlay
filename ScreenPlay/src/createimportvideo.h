@@ -61,6 +61,9 @@ public:
         ConvertingPreviewImage,
         ConvertingPreviewImageFinished,
         ConvertingPreviewImageError,
+        ConvertingPreviewImageThumbnail,
+        ConvertingPreviewImageThumbnailFinished,
+        ConvertingPreviewImageThumbnailError,
         ConvertingAudio,
         ConvertingAudioFinished,
         ConvertingAudioError,
@@ -101,6 +104,7 @@ public slots:
     bool createWallpaperImagePreview();
     bool createWallpaperVideo();
     bool extractWallpaperAudio();
+    bool createWallpaperImageThumbnailPreview();
 
     void setProgress(float progress)
     {

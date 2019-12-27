@@ -124,6 +124,7 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     } else {
         obj.insert("preview", "preview.jpg");
     }
+    obj.insert("previewThumbnail", "previewThumbnail.jpg");
     obj.insert("type", "videoWallpaper");
 
     QJsonArray tagsJsonArray;

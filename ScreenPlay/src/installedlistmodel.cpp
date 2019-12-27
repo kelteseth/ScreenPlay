@@ -136,10 +136,9 @@ void InstalledListModel::loadInstalledContent()
                 "standaloneWidget"
             };
 
-            if (availableTypes.contains(obj.value("type").toString())){
-                 emit addInstalledItem(obj, item.baseName());
+            if (availableTypes.contains(obj.value("type").toString())) {
+                emit addInstalledItem(obj, item.baseName());
             }
-
 
             counter += 1;
         }

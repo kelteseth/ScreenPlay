@@ -33,6 +33,11 @@ void CreateImportVideo::process()
         return;
     }
 
+    if (!createWallpaperImageThumbnailPreview() || QThread::currentThread()->isInterruptionRequested()) {
+        emit abortAndCleanup();
+        return;
+    }
+
     if (!createWallpaperImagePreview() || QThread::currentThread()->isInterruptionRequested()) {
         emit abortAndCleanup();
         return;
@@ -343,6 +348,67 @@ bool CreateImportVideo::createWallpaperGifPreview()
     return true;
 }
 
+bool CreateImportVideo::createWallpaperImageThumbnailPreview()
+{
+
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageThumbnail);
+
+    QStringList args;
+    args.clear();
+    args.append("-y");
+    args.append("-stats");
+    args.append("-ss");
+    args.append("00:00:02");
+    args.append("-i");
+    args.append(m_videoPath);
+    args.append("-vframes");
+    args.append("1");
+    args.append("-q:v");
+    args.append("2");
+    args.append("-vf");
+    args.append("scale=320:-1");
+    args.append(m_exportPath + "/previewThumbnail.jpg");
+
+    emit processOutput("ffmpeg " + Util::toString(args));
+    QScopedPointer<QProcess> proConvertImage(new QProcess());
+    proConvertImage->setArguments(args);
+#ifdef Q_OS_WIN
+    proConvertImage->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+#endif
+
+#ifdef Q_OS_MACOS
+    proConvertImage->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+#endif
+    proConvertImage->start();
+
+    while (!proConvertImage->waitForFinished(100)) //Wake up every 100ms and check if we must exit
+    {
+        if (QThread::currentThread()->isInterruptionRequested()) {
+            qDebug() << "Interrupt thread";
+            proConvertImage->terminate();
+            if (!proConvertImage->waitForFinished(1000)) {
+                proConvertImage->kill();
+            }
+            break;
+        }
+        QCoreApplication::processEvents();
+    }
+    QString tmpErrImg = proConvertImage->readAllStandardError();
+    if (!tmpErrImg.isEmpty()) {
+        QFile previewImg(m_exportPath + "/previewThumbnail.jpg");
+        if (!previewImg.exists() || !(previewImg.size() > 0)) {
+            emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageThumbnailError);
+            return false;
+        }
+    }
+
+    emit processOutput(proConvertImage->readAll());
+    proConvertImage->close();
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageThumbnailFinished);
+
+    return true;
+}
+
 bool CreateImportVideo::createWallpaperImagePreview()
 {
 
@@ -360,8 +426,6 @@ bool CreateImportVideo::createWallpaperImagePreview()
     args.append("1");
     args.append("-q:v");
     args.append("2");
-    args.append("-vf");
-    args.append("scale=320:-1");
     args.append(m_exportPath + "/preview.jpg");
 
     emit processOutput("ffmpeg " + Util::toString(args));
