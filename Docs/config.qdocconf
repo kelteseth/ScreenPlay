@@ -41,8 +41,17 @@ includepaths += ../ScreenPlayWallpaper/
 includepaths += ../ScreenPlayWidget/src/
 includepaths += ../ScreenPlayWidget/
 
+# qt
+includepaths += /opt/qt/5.14.0/gcc_64/include/
+includepaths += /opt/qt/5.14.0/gcc_64/include/QtCore/
+includepaths += /opt/qt/5.14.0/gcc_64/include/QtGui/
+includepaths += /opt/qt/5.14.0/gcc_64/include/QtQml/
+includepaths += /opt/qt/5.14.0/gcc_64/include/QtWebView/
+
+
 # Images
 imagedirs = ./images
+
 
 # what kind of sources should be processed
 sources.fileextensions += "*.qdoc *.cpp *.qml"
