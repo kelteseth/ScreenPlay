@@ -221,7 +221,7 @@ void Util::Util::requestAllLicenses()
     });
 }
 
-void Util::Util::requestAllLDataProtection()
+void Util::Util::requestDataProtection()
 {
     QtConcurrent::run([this]() {
         QString tmp;

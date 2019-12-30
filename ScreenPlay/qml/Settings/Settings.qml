@@ -511,7 +511,7 @@ Item {
                             description: qsTr("We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!")
                             buttonText: qsTr("Privacy")
                             onButtonPressed: {
-                                ScreenPlay.util.requestAllLDataProtection()
+                                ScreenPlay.util.requestDataProtection()
                                 expanderDataProtection.toggle()
                             }
                         }

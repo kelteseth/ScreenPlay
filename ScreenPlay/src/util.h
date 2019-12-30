@@ -84,7 +84,7 @@ public slots:
     void openFolderInExplorer(const QString &url) const;
 
     void requestAllLicenses();
-    void requestAllLDataProtection();
+    void requestDataProtection();
 
     void downloadFFMPEG();
 
