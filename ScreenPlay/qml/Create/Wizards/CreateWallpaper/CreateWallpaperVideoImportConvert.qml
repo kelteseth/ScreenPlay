@@ -16,6 +16,7 @@ Item {
     property bool conversionFinishedSuccessful: false
     property bool canSave: false
     property string filePath
+
     onFilePathChanged: {
         textFieldName.text =  basename(filePath)
     }
@@ -82,6 +83,8 @@ Item {
                 conversionFinishedSuccessful = true
                 busyIndicator.running = false
                 wrapperContent.checkCanSave()
+
+                ScreenPlay.setTrackerSendEvent("createWallpaperSuccessful", "");
                 break
             }
         }

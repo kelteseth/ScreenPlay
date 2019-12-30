@@ -46,6 +46,8 @@ Item {
                     === CreateImportVideo.CreateProjectFileError || state
                     === CreateImportVideo.CreateTmpFolderError) {
                 createNew.state = "error"
+
+                ScreenPlay.setTrackerSendEvent("createWallpaperErrorState", state.toString());
             }
         }
     }
