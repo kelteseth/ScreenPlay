@@ -427,7 +427,7 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("-b:v");
     args.append("0");
     args.append("-crf");
-    args.append("30");
+    args.append("10");
     args.append("-pass");
     args.append("1");
 
@@ -449,7 +449,8 @@ bool CreateImportVideo::createWallpaperVideo()
     proConvertVideoPass1->setProgram(m_ffmpegExecutable);
     proConvertVideoPass1->setProcessChannelMode(QProcess::MergedChannels);
 
-    auto processOutputProgress = [&]() {
+
+    connect(proConvertVideoPass1.get(), &QProcess::readyReadStandardOutput, this, [&]() {
         QString tmpOut = proConvertVideoPass1->readAllStandardOutput();
         if (tmpOut.contains("Conversion failed!")) {
             emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
@@ -463,14 +464,12 @@ bool CreateImportVideo::createWallpaperVideo()
             if (!ok)
                 return;
 
-            float progress = currentFrame / m_numberOfFrames;
+            float progress = (currentFrame / m_numberOfFrames) / 2;
 
             this->setProgress(progress);
         }
         emit processOutput(tmpOut);
-    };
-
-    connect(proConvertVideoPass1.get(), &QProcess::readyReadStandardOutput, this, processOutputProgress);
+    });
 
     proConvertVideoPass1->start();
     waitForFinished(proConvertVideoPass1);
@@ -488,7 +487,7 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("-b:v");
     args.append("0");
     args.append("-crf");
-    args.append("30");
+    args.append("10");
     args.append("-pass");
     args.append("2");
     QFileInfo file(m_videoPath);
@@ -499,7 +498,27 @@ bool CreateImportVideo::createWallpaperVideo()
     proConvertVideoPass2->setArguments(args);
     proConvertVideoPass2->setProgram(m_ffmpegExecutable);
     proConvertVideoPass2->setProcessChannelMode(QProcess::MergedChannels);
-    connect(proConvertVideoPass2.get(), &QProcess::readyReadStandardOutput, this, processOutputProgress);
+
+    connect(proConvertVideoPass2.get(), &QProcess::readyReadStandardOutput, this, [&]() {
+        QString tmpOut = proConvertVideoPass2->readAllStandardOutput();
+        if (tmpOut.contains("Conversion failed!")) {
+            emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
+        }
+        auto tmpList = tmpOut.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+
+        if (tmpList.length() > 2) {
+            bool ok = false;
+            float currentFrame = QString(tmpList.at(1)).toFloat(&ok);
+
+            if (!ok)
+                return;
+
+            float progress = 0.5 + ((currentFrame / m_numberOfFrames) / 2);
+
+            this->setProgress(progress);
+        }
+        emit processOutput(tmpOut);
+    });
 
     proConvertVideoPass2->start();
     waitForFinished(proConvertVideoPass2);
