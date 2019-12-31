@@ -155,6 +155,20 @@ QString Util::fixWindowsPath(QString url)
     return url.replace("/", "\\\\");
 }
 
+std::optional<QJsonObject> Util::parseQByteArrayToQJsonObject(const QByteArray &byteArray)
+{
+    QJsonObject obj;
+    QJsonParseError err;
+    QJsonDocument doc = QJsonDocument::fromJson(byteArray, &err);
+
+    if (err.error == QJsonParseError::NoError) {
+        obj = doc.object();
+        return { obj };
+    }
+
+    return std::nullopt;
+}
+
 void Util::openFolderInExplorer(const QString& url) const
 {
     QString fileString { "file:///" };

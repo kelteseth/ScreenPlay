@@ -89,6 +89,7 @@ public slots:
     void downloadFFMPEG();
 
     QString fixWindowsPath(QString url);
+    static std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteArray);
     static std::optional<QJsonObject> openJsonFileToObject(const QString& path);
     static std::optional<QString> openJsonFileToString(const QString& path);
     static std::optional<QVersionNumber> getVersionNumberFromString(const QString& str);
