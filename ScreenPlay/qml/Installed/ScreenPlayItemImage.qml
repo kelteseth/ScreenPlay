@@ -25,6 +25,7 @@ Item {
         id: image
         anchors.fill: parent
         asynchronous: true
+        cache: true
         fillMode: Image.PreserveAspectCrop
         source: screenPlayItemImage.sourceImage.trim()
 
