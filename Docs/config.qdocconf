@@ -3,9 +3,9 @@
 # in this directory. You can shift + right click in this explorer
 # window and select "Open PowerShell Window here" for this.
 
-include($QT_INSTALL_DOCS/global/qt-cpp-defines.qdocconf)
-include($QT_INSTALL_DOCS/global/compat.qdocconf)
-include($QT_INSTALL_DOCS/global/fileextensions.qdocconf)
+include(/opt/qt/Docs/Qt-5.14.0/global/qt-cpp-defines.qdocconf)
+include(/opt/qt/Docs/Qt-5.14.0/global/compat.qdocconf)
+include(/opt/qt/Docs/Qt-5.14.0/global/fileextensions.qdocconf)
 
 descripton  = ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. 
 language    = Cpp
@@ -41,8 +41,17 @@ includepaths += ../ScreenPlayWallpaper/
 includepaths += ../ScreenPlayWidget/src/
 includepaths += ../ScreenPlayWidget/
 
+# qt
+includepaths += /opt/qt/5.14.0/gcc_64/include/
+includepaths += /opt/qt/5.14.0/gcc_64/include/QtCore/
+includepaths += /opt/qt/5.14.0/gcc_64/include/QtGui/
+includepaths += /opt/qt/5.14.0/gcc_64/include/QtQml/
+includepaths += /opt/qt/5.14.0/gcc_64/include/QtWebView/
+
+
 # Images
 imagedirs = ./images
+
 
 # what kind of sources should be processed
 sources.fileextensions += "*.qdoc *.cpp *.qml"
