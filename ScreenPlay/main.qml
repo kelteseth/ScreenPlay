@@ -138,7 +138,7 @@ ApplicationWindow {
             }
             MenuItem {
                 id: miMuteAll
-                property bool isMuted: false
+                property bool isMuted: true
                 text: qsTr("Mute all")
                 onTriggered: {
                     if (miMuteAll.isMuted) {
