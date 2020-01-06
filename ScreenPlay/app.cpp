@@ -49,7 +49,7 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.6.0");
+    QGuiApplication::setApplicationVersion("0.7.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
@@ -86,14 +86,14 @@ App::App()
     m_settings = make_shared<Settings>(m_globalVariables);
     // Only create tracker if user did not disallow!
     if (m_settings->anonymousTelemetry()) {
-        m_tracker = make_unique<GAnalytics>("UA-152830367-3");
+        m_tracker = make_shared<GAnalytics>("UA-152830367-3");
         m_tracker->setNetworkAccessManager(nam);
         m_tracker->setSendInterval(1000);
         m_tracker->startSession();
     }
 
     m_create = make_unique<Create>(m_globalVariables);
-    m_screenPlayManager = make_unique<ScreenPlayManager>(m_globalVariables, m_monitorListModel, m_sdkConnector);
+    m_screenPlayManager = make_unique<ScreenPlayManager>(m_globalVariables, m_monitorListModel, m_sdkConnector, m_tracker);
 
     // When the installed storage path changed
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);

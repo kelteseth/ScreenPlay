@@ -98,7 +98,7 @@ Item {
             }
 
             Timer {
-                interval: 400
+                interval: 150
                 running: true
                 onTriggered: {
                     animFadeIn.start()
@@ -305,20 +305,23 @@ Item {
                 width: 15
                 sourceSize: Qt.size(15, 15)
                 anchors {
-                    right: txtSearch.left
-                    rightMargin: 15
+                    right: parent.right
+                    rightMargin: 30
                     bottom: parent.bottom
                     bottomMargin: 15
                 }
             }
             TextField {
                 id: txtSearch
-                width: 300
+                width: 250
+                height: 40
+                font.family: "Roboto"
+                leftPadding: 10
                 anchors {
-                    right: parent.right
-                    rightMargin: 30
-                    bottom: parent.bottom
-                    bottomMargin: 5
+                    right: icnSearch.right
+                    rightMargin: 20
+                    top:parent.top
+                    topMargin:10
                 }
                 onTextChanged: {
                     if (txtSearch.text.length === 0) {
@@ -327,6 +330,7 @@ Item {
                         ScreenPlay.installedListFilter.sortByName(txtSearch.text)
                     }
                 }
+
 
                 selectByMouse: true
                 placeholderText: qsTr("Search for Wallpaper & Widgets")

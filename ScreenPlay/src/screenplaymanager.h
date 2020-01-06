@@ -5,6 +5,7 @@
 #include <QPoint>
 #include <QProcess>
 
+#include "ganalytics.h"
 #include "globalvariables.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -40,6 +41,7 @@ public:
         const shared_ptr<GlobalVariables>& globalVariables,
         const shared_ptr<MonitorListModel>& mlm,
         const shared_ptr<SDKConnector>& sdkc,
+        const shared_ptr<GAnalytics>& tracker,
         QObject* parent = nullptr);
 
     int activeWallpaperCounter() const
@@ -129,6 +131,7 @@ private:
     const shared_ptr<GlobalVariables>& m_globalVariables;
     const shared_ptr<MonitorListModel>& m_monitorListModel;
     const shared_ptr<SDKConnector>& m_sdkconnector;
+    const shared_ptr<GAnalytics>& m_tracker;
 
     QVector<shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
     QVector<shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;

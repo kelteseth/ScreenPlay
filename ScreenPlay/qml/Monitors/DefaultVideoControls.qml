@@ -57,7 +57,8 @@ ColumnLayout {
         }
         ComboBox {
             id: settingsComboBox
-            Layout.fillWidth: true
+            Layout.preferredWidth: parent.width - 20
+            Layout.leftMargin: 10
             onActivated: {
                 ScreenPlay.screenPlayManager.setWallpaperValue(
                             activeMonitorIndex, "fillmode",

@@ -24,8 +24,10 @@ Item {
 
     Connections {
         target: ScreenPlay.screenPlayManager
-        onActiveWallpaperCounterChanged:{
+        onActiveWallpaperCounterChanged: {
             rippleEffect.trigger()
+            ScreenPlay.setTrackerSendEvent("navigation",
+                                           "wallpaperConfiguration")
         }
     }
 
@@ -42,7 +44,8 @@ Item {
 
         Text {
             id: txtAmountActiveWallpapers
-            text: ScreenPlay.screenPlayManager.activeWallpaperCounter + ScreenPlay.screenPlayManager.activeWidgetsCounter
+            text: ScreenPlay.screenPlayManager.activeWallpaperCounter
+                  + ScreenPlay.screenPlayManager.activeWidgetsCounter
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             color: "orange"

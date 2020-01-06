@@ -21,7 +21,6 @@ Item {
         }
         LinearGradient {
             id: tabShadow
-            antialiasing: true
             cached: true
             anchors.fill: parent
             start: Qt.point(0, 0)
@@ -212,7 +211,7 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 onClicked: Qt.openUrlExternally(
-                               "https://screen-play.app/index.php/blog")
+                               "https://screen-play.app/blog/")
             }
             Button {
                 text: qsTr("Source Code")

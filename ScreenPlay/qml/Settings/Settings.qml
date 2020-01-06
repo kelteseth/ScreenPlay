@@ -177,11 +177,16 @@ Item {
                                 case "Russian":
                                     languageKey = "ru"
                                     break
+                                case "French":
+                                    languageKey = "fr"
+                                    break
+                                case "Spanish":
+                                    languageKey = "es"
+                                    break
                                 default:
                                     languageKey = "en"
                                     break
                                 }
-                                print(key, languageKey)
 
                                 ScreenPlay.settings.setqSetting("language",
                                                                 languageKey)
@@ -198,6 +203,12 @@ Item {
                                 }
                                 ListElement {
                                     text: "Russian"
+                                }
+                                ListElement {
+                                    text: "French"
+                                }
+                                ListElement {
+                                    text: "Spanish"
                                 }
                             }
                         }
@@ -500,7 +511,7 @@ Item {
                             description: qsTr("We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!")
                             buttonText: qsTr("Privacy")
                             onButtonPressed: {
-                                ScreenPlay.util.requestAllLDataProtection()
+                                ScreenPlay.util.requestDataProtection()
                                 expanderDataProtection.toggle()
                             }
                         }

@@ -84,15 +84,17 @@ public slots:
     void openFolderInExplorer(const QString &url) const;
 
     void requestAllLicenses();
-    void requestAllLDataProtection();
+    void requestDataProtection();
 
     void downloadFFMPEG();
 
     QString fixWindowsPath(QString url);
+    static std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteArray);
     static std::optional<QJsonObject> openJsonFileToObject(const QString& path);
     static std::optional<QString> openJsonFileToString(const QString& path);
     static std::optional<QVersionNumber> getVersionNumberFromString(const QString& str);
     static bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
+    static QString toString(const QStringList& list);
 
     static void logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg);
     static QString generateRandomString(quint32 length = 32);

@@ -165,6 +165,14 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
     return true;
 }
 
+QString Util::toString(const QStringList& list)
+{
+    QString out;
+    for (auto string : list) {
+        out += " " + string;
+    }
+    return out;
+}
 
 QString Util::fixWindowsPath(QString url)
 {
@@ -175,6 +183,20 @@ QString Util::fixWindowsPath(QString url)
 /*!
   Opens a native folder window on the given path. Windows and Mac only for now!
 */
+std::optional<QJsonObject> Util::parseQByteArrayToQJsonObject(const QByteArray &byteArray)
+{
+    QJsonObject obj;
+    QJsonParseError err;
+    QJsonDocument doc = QJsonDocument::fromJson(byteArray, &err);
+
+    if (err.error == QJsonParseError::NoError) {
+        obj = doc.object();
+        return { obj };
+    }
+
+    return std::nullopt;
+}
+
 void Util::openFolderInExplorer(const QString& url) const
 {
     QString fileString { "file:///" };
@@ -249,7 +271,7 @@ void Util::Util::requestAllLicenses()
   Loads all dataprotection of the legal folder in the qrc into a property string of this class.
   allDataProtectionLoaded is emited when loading is finished.
 */
-void Util::Util::requestAllLDataProtection()
+void Util::Util::requestDataProtection()
 {
     QtConcurrent::run([this]() {
         QString tmp;

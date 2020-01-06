@@ -90,61 +90,49 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
 
 void InstalledListModel::append(const QJsonObject& obj, const QString& folderName)
 {
-
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
-
     m_screenPlayFiles.append(ProjectFile(obj, folderName, m_globalVariables->localStoragePath()));
-    setCount((m_count + 1));
     endInsertRows();
 }
 
 void InstalledListModel::loadInstalledContent()
 {
-
     QtConcurrent::run([this]() {
-        QJsonDocument jsonProject;
-        QJsonParseError parseError;
-
         QFileInfoList list = QDir(m_globalVariables->localStoragePath().toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
-        QString tmpPath;
+        QString projectItemPath;
+        int counter {};
 
         for (auto&& item : list) {
-            tmpPath = m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json";
+            projectItemPath = m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json";
 
-            if (!QFile(tmpPath).exists())
-                continue;
+            if (auto obj = Util::openJsonFileToObject(projectItemPath)) {
 
-            QFile projectConfig;
-            projectConfig.setFileName(tmpPath);
-            projectConfig.open(QIODevice::ReadOnly | QIODevice::Text);
-            QString projectConfigData = projectConfig.readAll();
-            jsonProject = QJsonDocument::fromJson(projectConfigData.toUtf8(), &parseError);
-            QJsonObject obj = jsonProject.object();
+                if (obj.value().isEmpty())
+                    continue;
 
-            if (!(parseError.error == QJsonParseError::NoError))
-                continue;
+                if (!obj.value().contains("file") || !obj.value().contains("type"))
+                    continue;
 
-            if (jsonProject.isEmpty() || jsonProject.object().empty())
-                continue;
+                QStringList availableTypes {
+                    "qmlWallpaper",
+                    "htmlWallpaper",
+                    "videoWallpaper",
+                    "godotWallpaper",
 
-            if (!obj.contains("file") || !obj.contains("type"))
-                continue;
+                    "qmlWidget",
+                    "htmlWidget",
+                    "standaloneWidget"
+                };
 
-            QStringList availableTypes {
-                "qmlWallpaper",
-                "htmlWallpaper",
-                "videoWallpaper",
-                "godotWallpaper",
+                if (availableTypes.contains(obj.value().value("type").toString())) {
+                    emit addInstalledItem(obj.value(), item.baseName());
+                }
 
-                "qmlWidget",
-                "htmlWidget",
-                "standaloneWidget"
-            };
-
-            if (availableTypes.contains(obj.value("type").toString()))
-                emit addInstalledItem(obj, item.baseName());
+                counter += 1;
+            }
         }
 
+        setCount(counter);
         emit installedLoadingFinished();
     });
 }
@@ -177,7 +165,6 @@ void InstalledListModel::reset()
     beginResetModel();
     m_screenPlayFiles.clear();
     m_screenPlayFiles.squeeze();
-    setCount(0);
     endResetModel();
     loadInstalledContent();
 }

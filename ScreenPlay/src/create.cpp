@@ -58,7 +58,7 @@ void Create::createWallpaperStart(QString videoPath)
     m_createImportVideoThread = new QThread();
     m_createImportVideo = new CreateImportVideo(videoPath, workingDir());
     connect(m_createImportVideo, &CreateImportVideo::processOutput, this, [this](QString text) {
-        appendFfmpegOutput(text);
+        appendFfmpegOutput(text +"\n");
     });
 
     connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged);
@@ -135,6 +135,7 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     } else {
         obj.insert("preview", "preview.jpg");
     }
+    obj.insert("previewThumbnail", "previewThumbnail.jpg");
     obj.insert("type", "videoWallpaper");
 
     QJsonArray tagsJsonArray;

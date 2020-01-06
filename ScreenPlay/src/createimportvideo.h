@@ -16,6 +16,8 @@
 #include <QThread>
 #include <QtMath>
 
+#include "util.h"
+
 namespace ScreenPlay {
 
 class CreateImportVideo : public QObject {
@@ -54,14 +56,17 @@ public:
         ConvertingPreviewVideoFinished,
         ConvertingPreviewVideoError,
         ConvertingPreviewGif,
-        ConvertingPreviewGifFinished,
+        ConvertingPreviewGifFinished, //10
         ConvertingPreviewGifError,
         ConvertingPreviewImage,
         ConvertingPreviewImageFinished,
         ConvertingPreviewImageError,
+        ConvertingPreviewImageThumbnail,
+        ConvertingPreviewImageThumbnailFinished,
+        ConvertingPreviewImageThumbnailError,
         ConvertingAudio,
         ConvertingAudioFinished,
-        ConvertingAudioError,
+        ConvertingAudioError, //20
         ConvertingVideo,
         ConvertingVideoFinished,
         ConvertingVideoError,
@@ -71,7 +76,7 @@ public:
         CreateProjectFile,
         CreateProjectFileFinished,
         CreateProjectFileError,
-        AbortCleanupError,
+        AbortCleanupError, //30
         CreateTmpFolderError,
         Finished,
     };
@@ -91,7 +96,6 @@ signals:
 
 public slots:
     void process();
-    void requestInterruption() {}
 
     bool createWallpaperInfo();
     bool createWallpaperVideoPreview();
@@ -99,6 +103,7 @@ public slots:
     bool createWallpaperImagePreview();
     bool createWallpaperVideo();
     bool extractWallpaperAudio();
+    bool createWallpaperImageThumbnailPreview();
 
     void setProgress(float progress)
     {
@@ -111,6 +116,12 @@ public slots:
         m_progress = progress;
         emit progressChanged(m_progress);
     }
+
+private:
+    void waitForFinished(std::shared_ptr<QProcess>& process);
+
+    QString m_ffprobeExecutable;
+    QString m_ffmpegExecutable;
 };
 }
 Q_DECLARE_METATYPE(ScreenPlay::CreateImportVideo::ImportVideoState)

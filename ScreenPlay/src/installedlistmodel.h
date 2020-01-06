@@ -21,6 +21,7 @@
 #include "globalvariables.h"
 #include "profilelistmodel.h"
 #include "projectfile.h"
+#include "util.h"
 
 #include <memory>
 

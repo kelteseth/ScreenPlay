@@ -45,11 +45,6 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 {
 
     setGitBuildHash(GIT_VERSION);
-
-#ifdef QT_NO_DEBUG
-    qInfo() << "ScreenPlay git hash: " << gitBuildHash();
-#endif
-
     setupLanguage();
 
     if (m_qSettings.value("ScreenPlayExecutable").isNull()) {
@@ -72,6 +67,8 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     if (!settingsFile.exists()) {
         qInfo("No Settings found, creating default settings");
         writeJsonFileFromResource("settings");
+        setAutostart(true);
+        setAnonymousTelemetry(true);
     }
 
     // Wallpaper and Widgets config
@@ -82,6 +79,11 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     }
 
     std::optional<QJsonObject> configObj = Util::openJsonFileToObject(appConfigLocation + "/settings.json");
+
+    if (!configObj) {
+        restoreDefault(appConfigLocation, "settings");
+    }
+
     std::optional<QVersionNumber> version = Util::getVersionNumberFromString(configObj.value().value("version").toString());
 
     //Checks if the settings file has the same version as ScreenPlay
@@ -182,7 +184,7 @@ bool Settings::writeSingleSettingConfig(QString name, QVariant value)
     }
 
     QJsonObject newConfig = obj.value();
-    newConfig.insert(name, value.toString());
+    newConfig.insert(name, QJsonValue::fromVariant(value));
 
     return Util::writeJsonObjectToFile(filename, newConfig);
 }
@@ -274,6 +276,18 @@ void Settings::setupWidgetAndWindowPaths()
   matching translation is available we set it to english. This function gets called from the UI when
   the user manually changes the language.
 */
+void Settings::restoreDefault(const QString& appConfigLocation, const QString& settingsFileType)
+{
+    QString fullSettingsPath { appConfigLocation + "/" + settingsFileType + ".json" };
+    qWarning() << "Unable to load config from " << fullSettingsPath
+               << ". Restoring default!";
+    QFile file { fullSettingsPath };
+    file.remove();
+    writeJsonFileFromResource(settingsFileType);
+    setAutostart(true);
+    setAnonymousTelemetry(true);
+}
+
 void Settings::setupLanguage()
 {
     auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());

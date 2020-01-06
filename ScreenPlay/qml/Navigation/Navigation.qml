@@ -40,7 +40,7 @@ Rectangle {
     function onPageChanged(name) {
 
 
-        ScreenPlay.setTrackerSendEvent(name);
+        ScreenPlay.setTrackerSendEvent("navigation",name);
 
         if (!navActive)
             return

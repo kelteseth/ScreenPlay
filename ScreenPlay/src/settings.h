@@ -237,6 +237,9 @@ public slots:
     }
 
 private:
+    void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
+
+private:
     QVersionNumber m_version;
     QSettings m_qSettings;
     QTranslator m_translator;

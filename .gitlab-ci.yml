@@ -26,8 +26,8 @@ build:windows:
         - mkdir BUILD
         - mkdir PACKAGE
         - cd BUILD
-        - qmake.exe ../ScreenPlay.pro -spec win32-msvc "CONFIG+=release"
-        - jom.exe qmake_all
+        - qmake.exe ../ScreenPlay.pro -spec win32-msvc "CONFIG+=release qtquickcompiler"
+        - jom.exe qmake_all 
         - jom.exe  -j8
         - jom.exe  install
         - xcopy /s /y ScreenPlay\release ..\PACKAGE
@@ -36,7 +36,7 @@ build:windows:
         - xcopy /s /y ScreenPlayWallpaper\release ..\PACKAGE
         - cd ..
         - windeployqt.exe  --release  --qmldir ScreenPlay/qml PACKAGE/ScreenPlay.exe
-        - windeployqt.exe  --release  --qmldir ScreenPlayWallpaper/qml PACKAGE/ScreenPlayWallpaper.exe
+        - windeployqt.exe  --release  --qmldir ScreenPlayWallpaper PACKAGE/ScreenPlayWallpaper.exe
         - cd PACKAGE
         - del *.cpp,*.moc,*.h,*.obj,*.res,*.exp,*.lib,*.lik,*.pch
     artifacts:

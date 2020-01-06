@@ -33,6 +33,21 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 {
     m_videoPath = videoPath;
     m_exportPath = exportPath;
+
+#ifdef Q_OS_WIN
+    m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe.exe";
+#endif
+#if defined(Q_OS_MACOS) || defined(Q_OS_UNIX)
+    m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe";
+#endif
+
+#ifdef Q_OS_WIN
+    m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg.exe";
+#endif
+#if defined(Q_OS_MACOS) || defined(Q_OS_UNIX)
+    m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg";
+#endif
+    qDebug() << m_ffmpegExecutable << m_ffprobeExecutable;
 }
 
 /*!
@@ -51,6 +66,11 @@ void CreateImportVideo::process()
 {
 
     if (!createWallpaperInfo() || QThread::currentThread()->isInterruptionRequested()) {
+        emit abortAndCleanup();
+        return;
+    }
+
+    if (!createWallpaperImageThumbnailPreview() || QThread::currentThread()->isInterruptionRequested()) {
         emit abortAndCleanup();
         return;
     }
@@ -105,45 +125,34 @@ bool CreateImportVideo::createWallpaperInfo()
     args.append("-show_format");
     args.append("-show_streams");
     args.append(m_videoPath);
-    QScopedPointer<QProcess> pro(new QProcess());
+
+    emit processOutput("ffprobe " + Util::toString(args));
+
+    auto pro = std::make_shared<QProcess>();
     pro->setArguments(args);
-
-#ifdef Q_OS_WIN
-    pro->setProgram(QApplication::applicationDirPath() + "/ffprobe.exe");
-#endif
-#ifdef Q_OS_MACOS
-    pro->setProgram(QApplication::applicationDirPath() + "/ffprobe");
-#endif
-
+    pro->setProgram(m_ffprobeExecutable);
     pro->start();
+
     emit createWallpaperStateChanged(ImportVideoState::AnalyseVideo);
-    while (!pro->waitForFinished(100)) {
-        if (QThread::currentThread()->isInterruptionRequested()) {
-            qDebug() << "Interrupt thread";
-            pro->terminate();
-            if (!pro->waitForFinished(1000)) {
-                pro->kill();
-            }
-            break;
-        }
-        QCoreApplication::processEvents();
-    }
+
+    waitForFinished(pro);
+
     emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoFinished);
-    QJsonObject obj;
-    QJsonParseError err;
-    QJsonDocument doc = QJsonDocument::fromJson(pro->readAll(), &err);
-    if (err.error != QJsonParseError::NoError) {
+    auto a = pro->readAll();
+    auto objOptional = Util::parseQByteArrayToQJsonObject(a);
+    if (!objOptional) {
         qDebug() << "Error parsing ffmpeg json output";
+        emit processOutput(pro->readAll());
         emit processOutput("Error parsing ffmpeg json output");
         emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
         return false;
     }
 
-    obj = doc.object();
-
+    QJsonObject obj = objOptional.value();
     if (obj.empty()) {
         qDebug() << "Error! File could not be parsed.";
         emit processOutput("Error! File could not be parsed.");
+
         emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
         pro->close();
         return false;
@@ -278,19 +287,14 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     // Disable audio
     args.append("-an");
     args.append(m_exportPath + "/preview.webm");
-    QScopedPointer<QProcess> proConvertPreviewWebM(new QProcess());
+    emit processOutput("ffmpeg " + Util::toString(args));
+    auto proConvertPreviewWebM = std::make_shared<QProcess>();
 
     proConvertPreviewWebM->setArguments(args);
-#ifdef Q_OS_WIN
-    proConvertPreviewWebM->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
-#endif
-#ifdef Q_OS_MACOS
-    proConvertPreviewWebM->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
-#endif
-
+    proConvertPreviewWebM->setProgram(m_ffmpegExecutable);
     proConvertPreviewWebM->setProcessChannelMode(QProcess::MergedChannels);
 
-    connect(proConvertPreviewWebM.data(), &QProcess::readyReadStandardOutput, this, [&]() {
+    connect(proConvertPreviewWebM.get(), &QProcess::readyReadStandardOutput, this, [&]() {
         QString tmpOut = proConvertPreviewWebM->readAllStandardOutput();
         auto tmpList = tmpOut.split(QRegExp("\\s+"), QString::SkipEmptyParts);
 
@@ -301,27 +305,15 @@ bool CreateImportVideo::createWallpaperVideoPreview()
             if (!ok)
                 return;
 
-            qDebug() << currentFrame << static_cast<float>((m_framerate * 5));
             float progress = currentFrame / static_cast<float>((m_framerate * 5));
 
             this->setProgress(progress);
         }
-        this->processOutput(tmpOut);
+        emit processOutput(tmpOut);
     });
 
     proConvertPreviewWebM->start();
-    while (!proConvertPreviewWebM->waitForFinished(100)) //Wake up every 100ms and check if we must exit
-    {
-        if (QThread::currentThread()->isInterruptionRequested()) {
-            qDebug() << "Interrupt thread";
-            proConvertPreviewWebM->terminate();
-            if (!proConvertPreviewWebM->waitForFinished(1000)) {
-                proConvertPreviewWebM->kill();
-            }
-            break;
-        }
-        QCoreApplication::processEvents();
-    }
+    waitForFinished(proConvertPreviewWebM);
 
     QFile previewVideo(m_exportPath + "/preview.webm");
     if (!previewVideo.exists() || !(previewVideo.size() > 0)) {
@@ -329,7 +321,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
         return false;
     }
 
-    this->processOutput(proConvertPreviewWebM->readAll());
+    emit processOutput(proConvertPreviewWebM->readAll());
     proConvertPreviewWebM->close();
 
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewVideoFinished);
@@ -364,29 +356,13 @@ bool CreateImportVideo::createWallpaperGifPreview()
     args.append("-filter_complex");
     args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
     args.append(m_exportPath + "/preview.gif");
+    emit processOutput("ffmpeg " + Util::toString(args));
+    auto proConvertGif = std::make_shared<QProcess>();
 
-    QScopedPointer<QProcess> proConvertGif(new QProcess());
     proConvertGif->setArguments(args);
-#ifdef Q_OS_WIN
-    proConvertGif->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
-#endif
-#ifdef Q_OS_MACOS
-    proConvertGif->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
-#endif
-
+    proConvertGif->setProgram(m_ffmpegExecutable);
     proConvertGif->start();
-    while (!proConvertGif->waitForFinished(100)) //Wake up every 100ms and check if we must exit
-    {
-        if (QThread::currentThread()->isInterruptionRequested()) {
-            qDebug() << "Interrupt thread";
-            proConvertGif->terminate();
-            if (!proConvertGif->waitForFinished(1000)) {
-                proConvertGif->kill();
-            }
-            break;
-        }
-        QCoreApplication::processEvents();
-    }
+    waitForFinished(proConvertGif);
 
     QString tmpErrGif = proConvertGif->readAllStandardError();
     if (!tmpErrGif.isEmpty()) {
@@ -397,7 +373,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
         }
     }
 
-    this->processOutput(proConvertGif->readAll());
+    emit processOutput(proConvertGif->readAll());
     proConvertGif->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewGifFinished);
 
@@ -412,6 +388,51 @@ bool CreateImportVideo::createWallpaperGifPreview()
     \li Generally broken.
    \endlist
  */
+bool CreateImportVideo::createWallpaperImageThumbnailPreview()
+{
+
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageThumbnail);
+
+    QStringList args;
+    args.clear();
+    args.append("-y");
+    args.append("-stats");
+    args.append("-ss");
+    args.append("00:00:02");
+    args.append("-i");
+    args.append(m_videoPath);
+    args.append("-vframes");
+    args.append("1");
+    args.append("-q:v");
+    args.append("2");
+    args.append("-vf");
+    args.append("scale=320:-1");
+    args.append(m_exportPath + "/previewThumbnail.jpg");
+
+    emit processOutput("ffmpeg " + Util::toString(args));
+    auto proConvertImage = std::make_shared<QProcess>();
+    proConvertImage->setArguments(args);
+    proConvertImage->setProgram(m_ffmpegExecutable);
+    proConvertImage->start();
+
+    waitForFinished(proConvertImage);
+
+    QString tmpErrImg = proConvertImage->readAllStandardError();
+    if (!tmpErrImg.isEmpty()) {
+        QFile previewImg(m_exportPath + "/previewThumbnail.jpg");
+        if (!previewImg.exists() || !(previewImg.size() > 0)) {
+            emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageThumbnailError);
+            return false;
+        }
+    }
+
+    emit processOutput(proConvertImage->readAll());
+    proConvertImage->close();
+    emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageThumbnailFinished);
+
+    return true;
+}
+
 bool CreateImportVideo::createWallpaperImagePreview()
 {
 
@@ -431,29 +452,18 @@ bool CreateImportVideo::createWallpaperImagePreview()
     args.append("2");
     args.append(m_exportPath + "/preview.jpg");
 
-    QScopedPointer<QProcess> proConvertImage(new QProcess());
+    emit processOutput("ffmpeg " + Util::toString(args));
+    auto proConvertImage = std::make_shared<QProcess>();
     proConvertImage->setArguments(args);
 #ifdef Q_OS_WIN
     proConvertImage->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
 #endif
-
-#ifdef Q_OS_MACOS
+#ifdef defined(Q_OS_MACOS) || defined(Q_OS_UNIX)
     proConvertImage->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
 #endif
     proConvertImage->start();
+    waitForFinished(proConvertImage);
 
-    while (!proConvertImage->waitForFinished(100)) //Wake up every 100ms and check if we must exit
-    {
-        if (QThread::currentThread()->isInterruptionRequested()) {
-            qDebug() << "Interrupt thread";
-            proConvertImage->terminate();
-            if (!proConvertImage->waitForFinished(1000)) {
-                proConvertImage->kill();
-            }
-            break;
-        }
-        QCoreApplication::processEvents();
-    }
     QString tmpErrImg = proConvertImage->readAllStandardError();
     if (!tmpErrImg.isEmpty()) {
         QFile previewImg(m_exportPath + "/preview.jpg");
@@ -463,7 +473,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
         }
     }
 
-    this->processOutput(proConvertImage->readAll());
+    emit processOutput(proConvertImage->readAll());
     proConvertImage->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageFinished);
 
@@ -499,41 +509,41 @@ bool CreateImportVideo::createWallpaperVideo()
     emit createWallpaperStateChanged(ImportVideoState::ConvertingVideo);
 
     QStringList args;
-    args.clear();
     args.append("-hide_banner");
     args.append("-y");
     args.append("-stats");
     args.append("-i");
     args.append(m_videoPath);
     args.append("-c:v");
-    args.append("libvpx-vp8");
-    args.append("-crf");
-    args.append("30");
-    args.append("-pix_fmt");
-    args.append("yuv420p");
+    args.append("libvpx");
     args.append("-b:v");
     args.append("0");
+    args.append("-crf");
+    args.append("10");
+    args.append("-pass");
+    args.append("1");
 
-    QFileInfo file(m_videoPath);
-    QString convertedFileAbsolutePath { m_exportPath + "/" + file.baseName() + ".webm" };
-    args.append(convertedFileAbsolutePath);
-
-    QScopedPointer<QProcess> proConvertVideo(new QProcess());
-    proConvertVideo->setArguments(args);
 #ifdef Q_OS_WIN
-    proConvertVideo->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
+    args.append("-an");
+    args.append("-f");
+    args.append("webm");
+    args.append("NULL");
 #endif
-
 #ifdef Q_OS_MACOS
-    proConvertVideo->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
+    args.append("-an");
+    args.append("-f");
+    args.append("webm");
+    args.append("/dev/null");
 #endif
-    proConvertVideo->setProcessChannelMode(QProcess::MergedChannels);
-    connect(proConvertVideo.data(), &QProcess::errorOccurred, this, [&](QProcess::ProcessError error) {
-        qDebug() << error;
-    });
 
-    connect(proConvertVideo.data(), &QProcess::readyReadStandardOutput, this, [&]() {
-        QString tmpOut = proConvertVideo->readAllStandardOutput();
+    auto proConvertVideoPass1 = std::make_shared<QProcess>();
+    proConvertVideoPass1->setArguments(args);
+    proConvertVideoPass1->setProgram(m_ffmpegExecutable);
+    proConvertVideoPass1->setProcessChannelMode(QProcess::MergedChannels);
+
+
+    connect(proConvertVideoPass1.get(), &QProcess::readyReadStandardOutput, this, [&]() {
+        QString tmpOut = proConvertVideoPass1->readAllStandardOutput();
         if (tmpOut.contains("Conversion failed!")) {
             emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
         }
@@ -546,36 +556,73 @@ bool CreateImportVideo::createWallpaperVideo()
             if (!ok)
                 return;
 
-            float progress = currentFrame / m_numberOfFrames;
+            float progress = (currentFrame / m_numberOfFrames) / 2;
 
             this->setProgress(progress);
         }
-        this->processOutput(tmpOut);
+        emit processOutput(tmpOut);
     });
 
-    proConvertVideo->start();
+    proConvertVideoPass1->start();
+    waitForFinished(proConvertVideoPass1);
+    proConvertVideoPass1->close();
 
-    while (!proConvertVideo->waitForFinished(100)) //Wake up every 100ms and check if we must exit
-    {
-        if (QThread::currentThread()->isInterruptionRequested()) {
-            qDebug() << "Interrupt thread";
-            proConvertVideo->terminate();
-            if (!proConvertVideo->waitForFinished(1000)) {
-                proConvertVideo->kill();
-            }
-            break;
+
+    args.clear();
+    args.append("-hide_banner");
+    args.append("-y");
+    args.append("-stats");
+    args.append("-i");
+    args.append(m_videoPath);
+    args.append("-c:v");
+    args.append("libvpx");
+    args.append("-b:v");
+    args.append("0");
+    args.append("-crf");
+    args.append("10");
+    args.append("-pass");
+    args.append("2");
+    QFileInfo file(m_videoPath);
+    QString convertedFileAbsolutePath { m_exportPath + "/" + file.baseName() + ".webm" };
+    args.append(convertedFileAbsolutePath);
+
+    auto proConvertVideoPass2 = std::make_shared<QProcess>();
+    proConvertVideoPass2->setArguments(args);
+    proConvertVideoPass2->setProgram(m_ffmpegExecutable);
+    proConvertVideoPass2->setProcessChannelMode(QProcess::MergedChannels);
+
+    connect(proConvertVideoPass2.get(), &QProcess::readyReadStandardOutput, this, [&]() {
+        QString tmpOut = proConvertVideoPass2->readAllStandardOutput();
+        if (tmpOut.contains("Conversion failed!")) {
+            emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
         }
-        QCoreApplication::processEvents();
-    }
+        auto tmpList = tmpOut.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+
+        if (tmpList.length() > 2) {
+            bool ok = false;
+            float currentFrame = QString(tmpList.at(1)).toFloat(&ok);
+
+            if (!ok)
+                return;
+
+            float progress = 0.5 + ((currentFrame / m_numberOfFrames) / 2);
+
+            this->setProgress(progress);
+        }
+        emit processOutput(tmpOut);
+    });
+
+    proConvertVideoPass2->start();
+    waitForFinished(proConvertVideoPass2);
+    proConvertVideoPass2->close();
 
     QFile video(convertedFileAbsolutePath);
     if (!video.exists() || !(video.size() > 0)) {
-        qDebug() << convertedFileAbsolutePath << proConvertVideo->readAll();
+        qDebug() << convertedFileAbsolutePath << proConvertVideoPass1->readAll() << video.exists() << video.size();
         emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
         return false;
     }
 
-    proConvertVideo->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoFinished);
 
     return true;
@@ -602,7 +649,6 @@ bool CreateImportVideo::extractWallpaperAudio()
     emit createWallpaperStateChanged(ImportVideoState::ConvertingAudio);
 
     QStringList args;
-    args.clear();
     args.append("-y");
     args.append("-stats");
     args.append("-i");
@@ -614,28 +660,12 @@ bool CreateImportVideo::extractWallpaperAudio()
     args.append("-vn");
     args.append(m_exportPath + "/audio.mp3");
 
-    QScopedPointer<QProcess> proConvertAudio(new QProcess());
+    auto proConvertAudio = std::make_shared<QProcess>();
     proConvertAudio->setArguments(args);
-#ifdef Q_OS_WIN
-    proConvertAudio->setProgram(QApplication::applicationDirPath() + "/ffmpeg.exe");
-#endif
-#ifdef Q_OS_MACOS
-    proConvertAudio->setProgram(QApplication::applicationDirPath() + "/ffmpeg");
-#endif
-
+    proConvertAudio->setProgram(m_ffmpegExecutable);
     proConvertAudio->start(QIODevice::ReadOnly);
-    while (!proConvertAudio->waitForFinished(100)) //Wake up every 100ms and check if we must exit
-    {
-        if (QThread::currentThread()->isInterruptionRequested()) {
-            qDebug() << "Interrupt thread";
-            proConvertAudio->terminate();
-            if (!proConvertAudio->waitForFinished(1000)) {
-                proConvertAudio->kill();
-            }
-            break;
-        }
-        QCoreApplication::processEvents();
-    }
+
+    waitForFinished(proConvertAudio);
 
     QString tmpErrImg = proConvertAudio->readAllStandardError();
     if (!tmpErrImg.isEmpty()) {
@@ -648,11 +678,27 @@ bool CreateImportVideo::extractWallpaperAudio()
         }
     }
 
-    this->processOutput(proConvertAudio->readAll());
+    emit processOutput(proConvertAudio->readAll());
     proConvertAudio->close();
     emit createWallpaperStateChanged(ImportVideoState::ConvertingAudioFinished);
 
     return true;
+}
+
+void CreateImportVideo::waitForFinished(std::shared_ptr<QProcess>& process)
+{
+    while (!process->waitForFinished(100)) //Wake up every 100ms and check if we must exit
+    {
+        if (QThread::currentThread()->isInterruptionRequested()) {
+            qDebug() << "Interrupt thread";
+            process->terminate();
+            if (!process->waitForFinished(1000)) {
+                process->kill();
+            }
+            break;
+        }
+        QCoreApplication::processEvents();
+    }
 }
 
 }

@@ -20,16 +20,16 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 788
-    title: "ScreenPlay V0.6"
+    title: "ScreenPlay V0.7"
     minimumHeight: 450
     minimumWidth: 1050
 
     Component.onCompleted: {
         if(!ScreenPlay.settings.silentStart){
             window.show()
-            ScreenPlay.setTrackerSendEvent("Installed");
+            ScreenPlay.setTrackerSendEvent("navigation","Installed");
         } else {
-            ScreenPlay.setTrackerSendEvent("Silent");
+            ScreenPlay.setTrackerSendEvent("navigation","Silent");
         }
     }
 
@@ -138,7 +138,7 @@ ApplicationWindow {
             }
             MenuItem {
                 id: miMuteAll
-                property bool isMuted: false
+                property bool isMuted: true
                 text: qsTr("Mute all")
                 onTriggered: {
                     if (miMuteAll.isMuted) {
