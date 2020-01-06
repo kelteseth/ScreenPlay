@@ -51,7 +51,7 @@ Item {
     Rectangle {
         id: wrapper
         width: 1200
-        height: 600
+        height: 580
         radius: 4
         anchors {
             horizontalCenter: parent.horizontalCenter
@@ -63,17 +63,18 @@ Item {
             id: loader_wrapperContent
             anchors.fill: parent
             z: 10
+
         }
 
         CloseIcon {
             onClicked: {
+                loader_wrapperContent.item.cleanup()
                 timerBack.start()
             }
             Timer {
                 id: timerBack
                 interval: 800
                 onTriggered: {
-                    ScreenPlay.create.abortAndCleanup()
                     ScreenPlay.util.setNavigationActive(true)
                     ScreenPlay.util.setNavigation("Create")
                 }
@@ -121,7 +122,7 @@ Item {
                 target: loader_wrapperContent
                 opacity: 1
                 z: 1
-                source: "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml"
+                //source: "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml"
             }
         },
         State {
@@ -142,6 +143,7 @@ Item {
             }
         }
     ]
+
     transitions: [
         Transition {
             from: "out"

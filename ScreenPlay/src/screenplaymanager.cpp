@@ -58,7 +58,6 @@ void ScreenPlayManager::createWallpaper(
 
     std::shared_ptr<ScreenPlayWallpaper> wallpaper;
 
-    qDebug() << type;
     if (type == "videoWallpaper") {
         wallpaper = make_shared<ScreenPlayWallpaper>(
             monitorIndex,

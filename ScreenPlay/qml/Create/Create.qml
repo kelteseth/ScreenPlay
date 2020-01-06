@@ -10,7 +10,6 @@ import ScreenPlay.QMLUtilities 1.0
 
 import "Wizards/CreateWallpaper"
 
-
 Item {
     id: create
     anchors.fill: parent
@@ -35,100 +34,14 @@ Item {
         parent: create
     }
 
-    Item {
-        id:particleSystemWrapper
+    BackgroundParticleSystem {
+        id: particleSystemWrapper
         anchors.fill: parent
-
-        Image {
-            id: backgroundNoisePattern
-            source: "qrc:/assets/images/noisy-texture-3.png"
-            anchors.fill: parent
-            fillMode: Image.Tile
-            opacity: .3
-        }
-
-        MouseArea {
-            id: ma
-            anchors.fill: parent
-            hoverEnabled: true
-            onPressed: {
-                attractor.enabled = true
-            }
-            onPositionChanged: {
-                if (ma.pressed) {
-                    attractor.pointX = mouseX
-                    attractor.pointY = mouseY
-                }
-            }
-            onReleased: {
-                attractor.enabled = false
-            }
-        }
-
-        Attractor {
-            id: attractor
-            system: particleSystem
-            affectedParameter: Attractor.Acceleration
-            strength: 8000000
-            proportionalToDistance: Attractor.InverseQuadratic
-        }
-
-        ParticleSystem {
-            id: particleSystem
-        }
-
-        Emitter {
-            id: emitter
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                bottom: parent.bottom
-            }
-
-            width: parent.width
-            height: 80
-            system: particleSystem
-            emitRate: 25
-            lifeSpan: 5000
-            lifeSpanVariation: 1000
-            size: 8
-            endSize: 18
-            sizeVariation: 4
-            velocity: AngleDirection {
-                angle: -90
-                magnitude: 50
-                magnitudeVariation: 25
-                angleVariation: 10
-            }
-        }
-
-        ImageParticle {
-            height: 16
-            width: 16
-            color: "orange"
-            source: "qrc:/assets/particle/dot.png"
-            system: particleSystem
-            opacity: .75
-        }
-
-        Image {
-            id: bgGlow
-            width: 500
-            height: width
-            opacity: .3
-            source: "qrc:/assets/particle/backgroundGlow.png"
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                bottom: parent.bottom
-                bottomMargin: -width * .65
-            }
-        }
     }
 
-
     Wizard {
-        id:wizard
+        id: wizard
         anchors.fill: parent
-
     }
 
     CreateContent {
@@ -144,8 +57,22 @@ Item {
         onCreateContent: {
             create.state = "wizard"
             ScreenPlay.util.setNavigationActive(false)
-            if(type === "emptyWidget") {
-                wizard.setSource("qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",{})
+            if (type === "emptyWidget") {
+                wizard.setSource(
+                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
+                            {})
+            } else if (type === "clockWidget") {
+                wizard.setSource(
+                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
+                            {})
+            } else if (type === "musicVisualizer") {
+                wizard.setSource(
+                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
+                            {})
+            } else if (type === "unsplashSlideshow") {
+                wizard.setSource(
+                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
+                            {})
             }
         }
     }
@@ -176,9 +103,11 @@ Item {
             create.state = "wizard"
             ScreenPlay.util.setNavigationActive(false)
             wizard.setSource(
-                        "Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml", {
+                        "Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml",
+                        {
                             "filePath": videoFile
                         })
+            ScreenPlay.create.createWallpaperStart(videoFile);
         }
     }
 
@@ -196,64 +125,11 @@ Item {
         }
     }
 
-    Rectangle {
+    Footer {
         id: footer
-        height: 80
-        z: 100
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-            left: parent.left
-        }
-        Row {
-            anchors.centerIn: parent
-            spacing: 20
-            Button {
-                text: qsTr("QML Quickstart Guide")
-                Material.background: Material.Orange
-                Material.foreground: "white"
-                icon.source: "qrc:/assets/icons/icon_info.svg"
-                icon.color: "white"
-                icon.width: 16
-                icon.height: 16
-                onClicked: Qt.openUrlExternally(
-                               "http://qmlbook.github.io/ch04-qmlstart/qmlstart.html")
-            }
-            Button {
-                text: qsTr("Documentation")
-                Material.background: Material.LightGreen
-                Material.foreground: "white"
-                icon.source: "qrc:/assets/icons/icon_document.svg"
-                icon.color: "white"
-                icon.width: 16
-                icon.height: 16
-                onClicked: Qt.openUrlExternally(
-                               "https://kelteseth.gitlab.io/ScreenPlayDocs/")
-            }
-            Button {
-                text: qsTr("Forums")
-                Material.background: Material.Blue
-                Material.foreground: "white"
-                icon.source: "qrc:/assets/icons/icon_people.svg"
-                icon.color: "white"
-                icon.width: 16
-                icon.height: 16
-                onClicked: Qt.openUrlExternally(
-                               "https://forum.screen-play.app/")
-            }
-            Button {
-                text: qsTr("Workshop")
-                Material.background: Material.Red
-                Material.foreground: "white"
-
-                icon.source: "qrc:/assets/icons/icon_steam.svg"
-                icon.color: "white"
-                icon.width: 16
-                icon.height: 16
-                onClicked: Qt.openUrlExternally(
-                               "steam://url/SteamWorkshopPage/672870")
-            }
-        }
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
     }
 
     states: [
@@ -302,6 +178,10 @@ Item {
             PropertyChanges {
                 target: txtDescriptionBottom
                 opacity: 0
+            }
+            PropertyChanges {
+                target: wizard
+                z: 99
             }
         }
     ]

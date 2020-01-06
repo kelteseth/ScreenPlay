@@ -81,7 +81,6 @@
         <file>qml/Create/ImportContent.qml</file>
         <file>qml/Create/CreateContent.qml</file>
         <file>qml/Create/CreateContentButton.qml</file>
-        <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperWizard.qml</file>
         <file>qml/Installed/Installed.qml</file>
         <file>qml/Installed/InstalledNavigation.qml</file>
         <file>qml/Installed/ScreenPlayItem.qml</file>
@@ -140,5 +139,7 @@
         <file>translations/ScreenPlay_es.qm</file>
         <file>translations/ScreenPlay_fr.qm</file>
         <file>translations/ScreenPlay_ru.qm</file>
+        <file>qml/Create/Footer.qml</file>
+        <file>qml/Create/BackgroundParticleSystem.qml</file>
     </qresource>
 </RCC>
