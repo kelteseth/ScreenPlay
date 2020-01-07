@@ -34,34 +34,114 @@ Item {
             margins: 20
         }
 
-        Item {
+        Rectangle {
             id: leftWrapper
+            color: "#333333"
+            radius: 3
             Layout.fillHeight: true
             Layout.preferredWidth: parent.width * .5
 
-            TextField {
-                Layout.fillWidth: true
-            }
+
+        }
+        Item {
+            Layout.fillHeight: true
+            Layout.preferredWidth: 30
+
         }
         ColumnLayout {
             id: rightWrapper
+            spacing: 8
             Layout.fillHeight: true
             Layout.preferredWidth: parent.width * .5
+            Layout.alignment: Qt.AlignTop
+            Text {
+                text: qsTr("Type")
+                font.pointSize: 14
+                color: "#757575"
+            }
+            ComboBox {
+                id: comboBox
+                Layout.fillWidth: true
+                model: ListModel {
+                         id: model
+                         ListElement { text: "QML" }
+                         ListElement { text: "HTML" }
+                     }
+            }
+            Text {
+                text: qsTr("Settings")
+                font.pointSize: 14
+                color: "#757575"
+            }
+            TextField {
+                Layout.fillWidth: true
+                placeholderText: qsTr("Widget name")
+            }
+            TextField {
+                Layout.fillWidth: true
+                placeholderText: qsTr("Copyright owner")
+            }
+            Text {
+                text: qsTr("License")
+                font.pointSize: 14
+                color: "#757575"
+            }
+            ComboBox {
+                id: comboBoxLicense
+                Layout.fillWidth: true
+                model: ListModel {
+                         id: modelLicense
+                         ListElement { text: "All rights " }
+                         ListElement { text: "Open Source - GPLv3" }
+                         ListElement { text: "Open Source - MIT/Apache2" }
+                     }
+            }
+            Text {
+                text: qsTr("Help")
+                font.pointSize: 14
+                color: "#757575"
+            }
+            Row {
+                Layout.fillWidth: true
+                spacing: 70
+                Button {
+                    text: qsTr("QML Quickstart Guide")
+                    Material.background: Material.Orange
+                    Material.foreground: "white"
+                    icon.source: "qrc:/assets/icons/icon_info.svg"
+                    icon.color: "white"
+                    icon.width: 16
+                    icon.height: 16
+                    onClicked: Qt.openUrlExternally(
+                                   "http://qmlbook.github.io/ch04-qmlstart/qmlstart.html")
+                }
+                Button {
+                    text: qsTr("Documentation")
+                    Material.background: Material.LightGreen
+                    Material.foreground: "white"
+                    icon.source: "qrc:/assets/icons/icon_document.svg"
+                    icon.color: "white"
+                    icon.width: 16
+                    icon.height: 16
+                    onClicked: Qt.openUrlExternally(
+                                   "https://kelteseth.gitlab.io/ScreenPlayDocs/")
+                }
+                Button {
+                    text: qsTr("Forums")
+                    Material.background: Material.Blue
+                    Material.foreground: "white"
+                    icon.source: "qrc:/assets/icons/icon_people.svg"
+                    icon.color: "white"
+                    icon.width: 16
+                    icon.height: 16
+                    onClicked: Qt.openUrlExternally(
+                                   "https://forum.screen-play.app/")
+                }
+            }
 
-            TextField {
-                Layout.fillWidth: true
-            }
-            TextField {
-                Layout.fillWidth: true
-            }
-            TextField {
-                Layout.fillWidth: true
-            }
-            TextField {
-                Layout.fillWidth: true
-            }
         }
     }
+
     Row {
         height: 80
         width: childrenRect.width
