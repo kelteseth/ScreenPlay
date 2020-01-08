@@ -68,9 +68,19 @@ signals:
     void ffmpegOutputChanged(QString ffmpegOutput);
 
 public slots:
+    void createWidget(
+        const QString &localStoragePath,
+        const QString& title,
+        const QString& previewThumbnail,
+        const QString& createdBy,
+        const QString& license,
+        const QString& type,
+        const QVector<QString>& tags) const;
+
     void createWallpaperStart(QString videoPath);
     void saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, QVector<QString> tags);
     void abortAndCleanup();
+
 
     void setProgress(float progress)
     {

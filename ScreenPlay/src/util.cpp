@@ -179,11 +179,10 @@ QString Util::fixWindowsPath(QString url)
     return url.replace("/", "\\\\");
 }
 
-
 /*!
   Opens a native folder window on the given path. Windows and Mac only for now!
 */
-std::optional<QJsonObject> Util::parseQByteArrayToQJsonObject(const QByteArray &byteArray)
+std::optional<QJsonObject> Util::parseQByteArrayToQJsonObject(const QByteArray& byteArray)
 {
     QJsonObject obj;
     QJsonParseError err;
@@ -220,6 +219,8 @@ void Util::openFolderInExplorer(const QString& url) const
 
     explorer.startDetached();
 }
+
+
 
 /*!
   Loads all content of the legal folder in the qrc into a property string of this class.
@@ -286,7 +287,6 @@ void Util::Util::requestDataProtection()
         emit this->allDataProtectionLoaded(tmp);
     });
 }
-
 
 /*!
   Downloads and extracts ffmpeg static version from https://ffmpeg.zeranoe.com

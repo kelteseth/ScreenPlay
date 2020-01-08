@@ -309,6 +309,7 @@ Item {
 
                 onClicked: {
                     if (conversionFinishedSuccessful) {
+                        btnSave.enabled = false
                         ScreenPlay.create.saveWallpaper(
                                     textFieldName.text,
                                     textFieldDescription.text,
