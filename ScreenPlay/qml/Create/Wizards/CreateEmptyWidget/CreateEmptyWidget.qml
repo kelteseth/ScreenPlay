@@ -165,6 +165,13 @@ Item {
                     }
                 }
 
+                Connections {
+                    target: ScreenPlay.create
+                    onWidgetCreatedSuccessful:{
+                        ScreenPlay.util.openFolderInExplorer(path)
+                    }
+                }
+
                 Button {
                   id: btnExit
                   text: qsTr("Abort")

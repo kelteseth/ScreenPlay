@@ -34,7 +34,7 @@ Create::Create()
     qmlRegisterType<Create>("ScreenPlay.Create", 1, 0, "Create");
 }
 
-void Create::createWidget(const QString& localStoragePath, const QString& title, const QString& previewThumbnail, const QString& createdBy, const QString& license, const QString& type, const QVector<QString>& tags) const
+void Create::createWidget(const QString& localStoragePath, const QString& title, const QString& previewThumbnail, const QString& createdBy, const QString& license, const QString& type, const QVector<QString>& tags)
 {
     QUrl localStoragePathUrl { localStoragePath };
     QDir dir;
@@ -75,19 +75,21 @@ void Create::createWidget(const QString& localStoragePath, const QString& title,
 
     QUrl previewThumbnailUrl { previewThumbnail };
     QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
-    obj.insert("previewThumbnail", previewImageFile.fileName());
-    obj.insert("preview", previewImageFile.fileName());
+
+    if (!previewThumbnail.isEmpty()) {
+        obj.insert("previewThumbnail", previewImageFile.fileName());
+        obj.insert("preview", previewImageFile.fileName());
+        if (!QFile::copy(previewThumbnailUrl.toLocalFile(), workingPath + "/" + previewImageFile.fileName())) {
+            qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << workingPath + "/" + previewImageFile.fileName();
+            return;
+        }
+    }
 
     QTextStream out(&file);
     out.setCodec("UTF-8");
     QJsonDocument doc(obj);
     out << doc.toJson();
     file.close();
-
-    if (!QFile::copy(previewThumbnailUrl.toLocalFile(), workingPath + "/" + previewImageFile.fileName())) {
-        qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << workingPath + "/" + previewImageFile.fileName();
-        return;
-    }
 
     QFile fileMainQML(workingPath + "/main.qml");
     if (!fileMainQML.open(QIODevice::WriteOnly | QIODevice::Text)) {
@@ -99,6 +101,8 @@ void Create::createWidget(const QString& localStoragePath, const QString& title,
     outMainQML.setCodec("UTF-8");
     outMainQML << "import QtQuick 2.14 \n\n Item {\n id:root \n}";
     fileMainQML.close();
+
+    emit widgetCreatedSuccessful(workingPath);
 }
 
 /*!
