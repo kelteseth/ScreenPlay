@@ -1,4 +1,4 @@
-import QtQuick 2.12
+﻿import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
@@ -8,58 +8,25 @@ import QtQuick.Layouts 1.3
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 
+import "../Common"
+
 Item {
-    id: createNew
+    id: root
     anchors.fill: parent
     state: "out"
 
-    property string filePath
-    property bool canNext: false
-
-    Component.onCompleted: {
-        state = "in"
-        ScreenPlay.util.setNavigationActive(false)
-
+    function setSource(path, arguments) {
         loader_wrapperContent.setSource(
-                    "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml",
-                    {
-                        "filePath": createNew.filePath
-                    })
+                    path,
+                    arguments)
+        root.state = "in"
     }
+
+
 
     //Blocks some MouseArea from create page
     MouseArea {
         anchors.fill: parent
-    }
-
-    Connections {
-        target: ScreenPlay.create
-        onCreateWallpaperStateChanged: {
-            if (state === CreateImportVideo.AnalyseVideoError || state
-                    === CreateImportVideo.ConvertingVideoError || state
-                    === CreateImportVideo.AnalyseVideoHasNoVideoStreamError || state
-                    === CreateImportVideo.ConvertingPreviewGifError || state
-                    === CreateImportVideo.ConvertingPreviewImageError || state
-                    === CreateImportVideo.ConvertingAudioError || state
-                    === CreateImportVideo.AbortCleanupError || state
-                    === CreateImportVideo.CopyFilesError || state
-                    === CreateImportVideo.CreateProjectFileError || state
-                    === CreateImportVideo.CreateTmpFolderError) {
-                createNew.state = "error"
-
-                ScreenPlay.setTrackerSendEvent("createWallpaperErrorState", state.toString());
-            }
-        }
-    }
-
-    Timer {
-        interval: 1000
-        triggeredOnStart: false
-        running: true
-        repeat: false
-        onTriggered: {
-            ScreenPlay.create.createWallpaperStart(filePath)
-        }
     }
 
     RectangularGlow {
@@ -83,9 +50,9 @@ Item {
 
     Rectangle {
         id: wrapper
-        width: 910
+        width: 1200
+        height: 580
         radius: 4
-        height: 460
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: parent.top
@@ -96,41 +63,18 @@ Item {
             id: loader_wrapperContent
             anchors.fill: parent
             z: 10
+
         }
 
-        MouseArea {
-            anchors {
-                top: parent.top
-                right: parent.right
-                margins: 5
-            }
-            width: 32
-            height: width
-            cursorShape: Qt.PointingHandCursor
+        CloseIcon {
             onClicked: {
-                createNew.state = "out"
+                loader_wrapperContent.item.cleanup()
                 timerBack.start()
-            }
-
-            Image {
-                id: imgClose
-                source: "qrc:/assets/icons/font-awsome/close.svg"
-                width: 16
-                height: 16
-                anchors.centerIn: parent
-                sourceSize: Qt.size(width, width)
-            }
-            ColorOverlay {
-                id: iconColorOverlay
-                anchors.fill: imgClose
-                source: imgClose
-                color: "gray"
             }
             Timer {
                 id: timerBack
                 interval: 800
                 onTriggered: {
-                    ScreenPlay.create.abortAndCleanup()
                     ScreenPlay.util.setNavigationActive(true)
                     ScreenPlay.util.setNavigation("Create")
                 }
@@ -155,7 +99,7 @@ Item {
             name: "in"
             PropertyChanges {
                 target: wrapper
-                anchors.topMargin: 100
+                anchors.topMargin: 70
                 opacity: 1
             }
             PropertyChanges {
@@ -178,7 +122,7 @@ Item {
                 target: loader_wrapperContent
                 opacity: 1
                 z: 1
-                source: "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml"
+                //source: "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml"
             }
         },
         State {
@@ -196,10 +140,10 @@ Item {
                 target: loader_wrapperContent
                 opacity: 0
                 z: 0
-
             }
         }
     ]
+
     transitions: [
         Transition {
             from: "out"
@@ -287,13 +231,3 @@ Item {
         }
     ]
 }
-
-
-
-
-
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:768;width:1366}
-}
- ##^##*/

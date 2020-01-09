@@ -21,6 +21,10 @@ Item {
         textFieldName.text =  basename(filePath)
     }
 
+    function cleanup() {
+        ScreenPlay.create.abortAndCleanup()
+    }
+
     function basename(str)
     {
         let filenameWithExtentions = (str.slice(str.lastIndexOf("/")+1))
@@ -127,8 +131,9 @@ Item {
 
         Rectangle {
             id: imgWrapper
-            width: 425
-            height: 247
+            width: 570
+            height: 320
+
             color: Material.color(Material.Grey)
             anchors {
                 top: parent.top
@@ -205,7 +210,7 @@ Item {
             placeHolderText: qsTr("You can set your own preview image here!")
             anchors {
                 top: imgWrapper.bottom
-                topMargin: 20
+                topMargin: 50
                 right: parent.right
                 rightMargin: 30
                 left: parent.left
@@ -255,6 +260,7 @@ Item {
                 placeholderText: qsTr("Description")
                 width: parent.width
                 Layout.fillWidth: true
+
             }
 
             TextField {
@@ -277,7 +283,8 @@ Item {
             width: childrenRect.width
             spacing: 10
             anchors {
-                horizontalCenter: parent.horizontalCenter
+                right:parent.right
+                rightMargin: 30
                 bottom: parent.bottom
             }
 
@@ -302,6 +309,7 @@ Item {
 
                 onClicked: {
                     if (conversionFinishedSuccessful) {
+                        btnSave.enabled = false
                         ScreenPlay.create.saveWallpaper(
                                     textFieldName.text,
                                     textFieldDescription.text,
@@ -347,8 +355,9 @@ Item {
     }
 }
 
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:950}
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:580;width:1200}
 }
- ##^##*/
+##^##*/
 

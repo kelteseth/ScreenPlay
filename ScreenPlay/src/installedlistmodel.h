@@ -6,6 +6,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QFile>
+#include <QFileSystemWatcher>
 #include <QFuture>
 #include <QFutureWatcher>
 #include <QJsonArray>
@@ -15,13 +16,11 @@
 #include <QString>
 #include <QUrl>
 #include <QVector>
-#include <QFileSystemWatcher>
 #include <QtConcurrent/QtConcurrent>
 
-
+#include "globalvariables.h"
 #include "profilelistmodel.h"
 #include "projectfile.h"
-#include "globalvariables.h"
 #include "util.h"
 
 #include <memory>
@@ -44,7 +43,6 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-
     enum InstalledRole {
         TitleRole = Qt::UserRole,
         TypeRole,
@@ -57,7 +55,6 @@ public:
     };
     Q_ENUM(InstalledRole)
 
-
     int count() const
     {
         return m_count;
@@ -65,7 +62,7 @@ public:
 
 public slots:
     void loadInstalledContent();
-    void append(const QJsonObject &, const QString &);
+    void append(const QJsonObject&, const QString&);
     void reset();
     void init();
     QVariantMap get(QString folderId);
@@ -90,7 +87,7 @@ signals:
 private:
     QFileSystemWatcher m_fileSystemWatcher;
     QVector<ProjectFile> m_screenPlayFiles;
-    int m_count{0};
+    int m_count { 0 };
 
     const shared_ptr<GlobalVariables>& m_globalVariables;
 };

@@ -5,11 +5,14 @@ namespace ScreenPlay {
 /*!
     \class ScreenPlay::ScreenPlayManager
     \inmodule ScreenPlay
-    \brief ScreenPlayManager.
+    \brief The ScreenPlayManager is used to manage multiple ScreenPlayWallpaper and ScreenPlayWidget.
 
+    Creates and (indirectly) destroys Wallpaper and Widgets via opening and closing QLocalPipe connectons of the ScreenPlaySDK.
+    Also responsible to set the current active wallpaper to the monitorListModel.
 */
 
-ScreenPlayManager::ScreenPlayManager(const shared_ptr<GlobalVariables>& globalVariables,
+ScreenPlayManager::ScreenPlayManager(
+    const shared_ptr<GlobalVariables>& globalVariables,
     const shared_ptr<MonitorListModel>& mlm,
     const shared_ptr<SDKConnector>& sdkc, const shared_ptr<GAnalytics>& tracker,
     QObject* parent)
@@ -22,6 +25,12 @@ ScreenPlayManager::ScreenPlayManager(const shared_ptr<GlobalVariables>& globalVa
     loadWallpaperProfiles();
 }
 
+/*!
+    Creates a wallpaper with a given \a monitorIndex list, \a a absoluteStoragePath folder,
+    a \a previewImage (relative path to the absoluteStoragePath), a  default \a volume,
+    a \a fillMode, a \a type (htmlWallpaper, qmlWallpaper etc.), a \a saveToProfilesConfigFile bool only set to flase
+    if we call the method when using via the settings on startup to skip a unnecessary save.
+ */
 void ScreenPlayManager::createWallpaper(
     QVector<int> monitorIndex,
     const QString& absoluteStoragePath,
@@ -49,7 +58,6 @@ void ScreenPlayManager::createWallpaper(
 
     std::shared_ptr<ScreenPlayWallpaper> wallpaper;
 
-    qDebug() << type;
     if (type == "videoWallpaper") {
         wallpaper = make_shared<ScreenPlayWallpaper>(
             monitorIndex,
@@ -94,6 +102,9 @@ void ScreenPlayManager::createWallpaper(
     increaseActiveWallpaperCounter();
 }
 
+/*!
+  Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
+ */
 void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QString& previewImage)
 {
     m_tracker->sendEvent("widget","start");
@@ -109,6 +120,10 @@ void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QStr
             this));
 }
 
+/*!
+    Removes all wallpaper entries in the profiles.json. This method will likely be removed
+    when using nlohmann/json in the future.
+*/
 void ScreenPlayManager::removeAllWallpapers()
 {
     if (!m_screenPlayWallpapers.empty()) {
@@ -146,16 +161,28 @@ void ScreenPlayManager::removeAllWallpapers()
     }
 }
 
-void ScreenPlayManager::removeWallpaperAt(int at)
+/*!
+    Removes a Wallpaper at the given monitor \a at (index). Internally searches for a appID at the
+    given monitor index and then closes the sdk connection, removes the entries in the
+    monitor list model and decreases the active wallpaper counter property of ScreenPlayManager.
+*/
+bool ScreenPlayManager::removeWallpaperAt(int at)
 {
     m_tracker->sendEvent("wallpaper","removeSingleWallpaper");
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(at)) {
+
         m_sdkconnector->closeWallpaper(appID.value());
         m_monitorListModel->closeWallpaper(appID.value());
         decreaseActiveWallpaperCounter();
+        return true;
     }
+    return false;
 }
 
+/*!
+ Request a spesific json profile to display in the active wallpaper popup on the right.
+
+ */
 void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
 {
     for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
@@ -169,6 +196,9 @@ void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
     emit projectSettingsListModelNotFound();
 }
 
+/*!
+  Set a wallpaper \a value at a given \a index and \a key.
+ */
 void ScreenPlayManager::setWallpaperValue(const int index, const QString& key, const QString& value)
 {
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
@@ -180,6 +210,9 @@ void ScreenPlayManager::setWallpaperValue(const int index, const QString& key, c
     }
 }
 
+/*!
+  Convenient function to set a \a value at a given \a index and \a key for all wallaper. For exmaple used to mute all wallpaper.
+ */
 void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
 {
     for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
@@ -187,6 +220,9 @@ void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& 
     }
 }
 
+/*!
+  Returns \return a ScreenPlayWallpaper if successful, otherwhise \return std::nullopt.
+ */
 std::optional<shared_ptr<ScreenPlayWallpaper>> ScreenPlayManager::getWallpaperByAppID(const QString& appID)
 {
     for (auto& wallpaper : m_screenPlayWallpapers) {
@@ -197,6 +233,10 @@ std::optional<shared_ptr<ScreenPlayWallpaper>> ScreenPlayManager::getWallpaperBy
     return std::nullopt;
 }
 
+/*!
+    Saves a given wallpaper \a newProfileObject to a \a profileName. We ignore the profileName argument
+    because we currently only support one profile. Returns \return true if successfuly saved to profiles.json, otherwise \return false.
+ */
 bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const QJsonObject& newProfileObject)
 {
     // Remove when implementing profiles
@@ -248,6 +288,9 @@ bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const Q
     return Util::writeJsonObjectToFile(absoluteProfilesFilePath, newConfig);
 }
 
+/*!
+ Loads all wallpaper from profiles.json when the version number matches and starts the available wallpaper
+ */
 void ScreenPlayManager::loadWallpaperProfiles()
 {
 

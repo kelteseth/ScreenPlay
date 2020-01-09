@@ -4,8 +4,11 @@
     \class ScreenPlay::Create
     \inmodule ScreenPlay
     \brief  Baseclass for creating wallapers, widgets and the corresponding
-            wizards. As for this writing (April 2019) it is solely used to
-            import webm wallpaper and create the gif/web 5 second previews.
+            wizards.
+
+    As for this writing (April 2019) it is solely used to import webm wallpaper
+    and create the gif/web 5 second previews.
+
 
 */
 namespace ScreenPlay {
@@ -19,7 +22,9 @@ Create::Create(const shared_ptr<GlobalVariables>& globalVariables, QObject* pare
     qmlRegisterType<Create>("ScreenPlay.Create", 1, 0, "Create");
 }
 
-// Constructor for the QMLEngine
+/*!
+  Constructor for the QMLEngine.
+*/
 Create::Create()
     : QObject(nullptr)
     , m_globalVariables(nullptr)
@@ -29,6 +34,80 @@ Create::Create()
     qmlRegisterType<Create>("ScreenPlay.Create", 1, 0, "Create");
 }
 
+void Create::createWidget(const QString& localStoragePath, const QString& title, const QString& previewThumbnail, const QString& createdBy, const QString& license, const QString& type, const QVector<QString>& tags)
+{
+    QUrl localStoragePathUrl { localStoragePath };
+    QDir dir;
+    dir.cd(localStoragePathUrl.toLocalFile());
+    // Create a temp dir so we can later alter it to the workshop id
+    auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
+
+    if (!dir.mkdir(folderName)) {
+        qDebug() << "Could create folder: " << folderName;
+        return;
+    }
+
+    QJsonObject obj;
+    obj.insert("license", license);
+    obj.insert("title", title);
+    obj.insert("createdBy", createdBy);
+
+    if (type == "QML") {
+        obj.insert("type", "qmlWidget");
+        obj.insert("file", "main.qml");
+    } else {
+        obj.insert("type", "htmlWidget");
+        obj.insert("file", "index.html");
+    }
+
+    QJsonArray tagsJsonArray;
+    for (QString tmp : tags) {
+        tagsJsonArray.append(tmp);
+    }
+    obj.insert("tags", tagsJsonArray);
+    QString workingPath = dir.path() + "/" + folderName;
+
+    QFile file(workingPath + "/project.json");
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open /project.json";
+        return;
+    }
+
+    QUrl previewThumbnailUrl { previewThumbnail };
+    QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
+
+    if (!previewThumbnail.isEmpty()) {
+        obj.insert("previewThumbnail", previewImageFile.fileName());
+        obj.insert("preview", previewImageFile.fileName());
+        if (!QFile::copy(previewThumbnailUrl.toLocalFile(), workingPath + "/" + previewImageFile.fileName())) {
+            qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << workingPath + "/" + previewImageFile.fileName();
+            return;
+        }
+    }
+
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+    QJsonDocument doc(obj);
+    out << doc.toJson();
+    file.close();
+
+    QFile fileMainQML(workingPath + "/main.qml");
+    if (!fileMainQML.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open /main.qml";
+        return;
+    }
+
+    QTextStream outMainQML(&fileMainQML);
+    outMainQML.setCodec("UTF-8");
+    outMainQML << "import QtQuick 2.14 \n\n Item {\n id:root \n}";
+    fileMainQML.close();
+
+    emit widgetCreatedSuccessful(workingPath);
+}
+
+/*!
+    Starts the process.
+*/
 void Create::createWallpaperStart(QString videoPath)
 {
     clearFfmpegOutput();
@@ -50,7 +129,7 @@ void Create::createWallpaperStart(QString videoPath)
     m_createImportVideoThread = new QThread();
     m_createImportVideo = new CreateImportVideo(videoPath, workingDir());
     connect(m_createImportVideo, &CreateImportVideo::processOutput, this, [this](QString text) {
-        appendFfmpegOutput(text +"\n");
+        appendFfmpegOutput(text + "\n");
     });
 
     connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged);
@@ -64,9 +143,11 @@ void Create::createWallpaperStart(QString videoPath)
 
     m_createImportVideo->moveToThread(m_createImportVideoThread);
     m_createImportVideoThread->start();
-
 }
 
+/*!
+    When converting of the wallpaper steps where successful.
+*/
 void Create::saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, QVector<QString> tags)
 {
     filePath.remove("file:///");

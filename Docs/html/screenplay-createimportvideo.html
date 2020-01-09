@@ -34,11 +34,20 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#CreateImportVideo-2">CreateImportVideo</a></b>(const QString &amp;<i>videoPath</i>, const QString &amp;<i>exportPath</i>, QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#CreateImportVideo-1">CreateImportVideo</a></b>(QObject *<i>parent</i> = nullptr)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> float </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#progress-prop">progress</a></b>() const</td></tr>
 </table></div>
 <a name="public-slots"></a>
 <h2 id="public-slots">Public Slots</h2>
 <div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#createWallpaperGifPreview">createWallpaperGifPreview</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#createWallpaperImagePreview">createWallpaperImagePreview</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#createWallpaperInfo">createWallpaperInfo</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#createWallpaperVideo">createWallpaperVideo</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#createWallpaperVideoPreview">createWallpaperVideoPreview</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#extractWallpaperAudio">extractWallpaperAudio</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#process">process</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#progress-prop">setProgress</a></b>(float <i>progress</i>)</td></tr>
 </table></div>
 <a name="signals"></a>
@@ -53,5 +62,111 @@
 <p>This lass only exsits as long as the user creates a wallpaper and gets destroyed if the creation was successful or not. The state get propagated via createWallpaperStateChanged(ImportVideoState state);</p>
 </div>
 <!-- @@@CreateImportVideo -->
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div></body>
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$CreateImportVideo$$$CreateImportVideoconstQString&constQString&QObject* -->
+<h3 class="fn" id="CreateImportVideo-2"><a name="CreateImportVideo-2"></a>CreateImportVideo::<span class="name">CreateImportVideo</span>(const <span class="type">QString</span> &amp;<i>videoPath</i>, const <span class="type">QString</span> &amp;<i>exportPath</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<p>Creates a CreateImportVideo object to be used in a different thread. A <i>videoPath</i> and a <i>exportPath</i> are needed for convertion.</p>
+<!-- @@@CreateImportVideo -->
+<!-- $$$CreateImportVideo$$$CreateImportVideoQObject* -->
+<h3 class="fn" id="CreateImportVideo-1"><a name="CreateImportVideo-1"></a>CreateImportVideo::<span class="name">CreateImportVideo</span>(<span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<p>This constructor is only needed for calling qRegisterMetaType on CreateImportVideo to register the enums.</p>
+<pre class="cpp">qRegisterMetaType<span class="operator">&lt;</span>CreateImportVideo<span class="operator">::</span>ImportVideoState<span class="operator">&gt;</span>(<span class="string">&quot;CreateImportVideo::ImportVideoState&quot;</span>);</pre>
+<!-- @@@CreateImportVideo -->
+<!-- $$$createWallpaperGifPreview[overload1]$$$createWallpaperGifPreview -->
+<h3 class="fn" id="createWallpaperGifPreview"><a name="createWallpaperGifPreview"></a><code>[slot] </code><span class="type">bool</span> CreateImportVideo::<span class="name">createWallpaperGifPreview</span>()</h3>
+<p>Starts ffmpeg and tries to covert the given video to a 5 second preview gif.</p>
+<pre class="cpp"><span class="comment">//[...]</span>
+args<span class="operator">.</span>append(<span class="string">&quot;-filter_complex&quot;</span>);
+args<span class="operator">.</span>append(<span class="string">&quot;[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1&quot;</span>);
+args<span class="operator">.</span>append(m_exportPath <span class="operator">+</span> <span class="string">&quot;/preview.gif&quot;</span>);</pre>
+<p>Returns <b class="redFont"><code>\return</code></b> false if :</p>
+<ul>
+<li>Cannot convert the video</li>
+<li>Generally broken.</li>
+</ul>
+<!-- @@@createWallpaperGifPreview -->
+<!-- $$$createWallpaperImagePreview[overload1]$$$createWallpaperImagePreview -->
+<h3 class="fn" id="createWallpaperImagePreview"><a name="createWallpaperImagePreview"></a><code>[slot] </code><span class="type">bool</span> CreateImportVideo::<span class="name">createWallpaperImagePreview</span>()</h3>
+<p>Starts ffmpeg and tries to covert the given video to a image preview. Returns <b class="redFont"><code>\return</code></b> false if :</p>
+<ul>
+<li>Cannot convert the video</li>
+<li>Generally broken.</li>
+</ul>
+<!-- @@@createWallpaperImagePreview -->
+<!-- $$$createWallpaperInfo[overload1]$$$createWallpaperInfo -->
+<h3 class="fn" id="createWallpaperInfo"><a name="createWallpaperInfo"></a><code>[slot] </code><span class="type">bool</span> CreateImportVideo::<span class="name">createWallpaperInfo</span>()</h3>
+<p>Starts ffprobe and tries to parse the resulting json. Returns <b class="redFont"><code>\return</code></b> false if :</p>
+<ul>
+<li>Parsing the output json of ffprobe fails.</li>
+<li>Has no video.</li>
+<li>Cannot parse number of frames.</li>
+<li>Is a wrong file format or generally broken.</li>
+</ul>
+<!-- @@@createWallpaperInfo -->
+<!-- $$$createWallpaperVideo[overload1]$$$createWallpaperVideo -->
+<h3 class="fn" id="createWallpaperVideo"><a name="createWallpaperVideo"></a><code>[slot] </code><span class="type">bool</span> CreateImportVideo::<span class="name">createWallpaperVideo</span>()</h3>
+<p>Starts ffmpeg and tries to covert the given video to a webm video.</p>
+<pre class="cpp"><span class="comment">//[...]</span>
+args<span class="operator">.</span>append(<span class="string">&quot;-c:v&quot;</span>);
+args<span class="operator">.</span>append(<span class="string">&quot;libvpx-vp8&quot;</span>);
+args<span class="operator">.</span>append(<span class="string">&quot;-crf&quot;</span>);
+args<span class="operator">.</span>append(<span class="string">&quot;30&quot;</span>);
+args<span class="operator">.</span>append(<span class="string">&quot;-pix_fmt&quot;</span>);
+args<span class="operator">.</span>append(<span class="string">&quot;yuv420p&quot;</span>);
+args<span class="operator">.</span>append(<span class="string">&quot;-b:v&quot;</span>);
+args<span class="operator">.</span>append(<span class="string">&quot;0&quot;</span>);</pre>
+<p>Returns <b class="redFont"><code>\return</code></b> false if :</p>
+<ul>
+<li>Cannot convert the video</li>
+<li>Generally broken.</li>
+</ul>
+<!-- @@@createWallpaperVideo -->
+<!-- $$$createWallpaperVideoPreview[overload1]$$$createWallpaperVideoPreview -->
+<h3 class="fn" id="createWallpaperVideoPreview"><a name="createWallpaperVideoPreview"></a><code>[slot] </code><span class="type">bool</span> CreateImportVideo::<span class="name">createWallpaperVideoPreview</span>()</h3>
+<p>Starts ffmpeg and tries to covert the given video to a five second preview.</p>
+<pre class="cpp"><span class="comment">//[...]</span>
+args<span class="operator">.</span>append(<span class="string">&quot;-vf&quot;</span>);
+<span class="comment">// We allways want to have a 5 second clip via 24fps -&gt; 120 frames</span>
+<span class="comment">// Divided by the number of frames we can skip (timeInSeconds * Framrate)</span>
+<span class="comment">// scale &amp; crop parameter: https://unix.stackexchange.com/a/284731</span>
+args<span class="operator">.</span>append(<span class="string">&quot;select='not(mod(n,&quot;</span> <span class="operator">+</span> <span class="type">QString</span><span class="operator">::</span>number((m_length <span class="operator">/</span> <span class="number">5</span>)) <span class="operator">+</span> <span class="string">&quot;))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400&quot;</span>);
+<span class="comment">// Disable audio</span>
+args<span class="operator">.</span>append(<span class="string">&quot;-an&quot;</span>);
+args<span class="operator">.</span>append(m_exportPath <span class="operator">+</span> <span class="string">&quot;/preview.webm&quot;</span>);</pre>
+<p>Returns <b class="redFont"><code>\return</code></b> false if :</p>
+<ul>
+<li>Cannot convert the video</li>
+<li>Generally broken.</li>
+</ul>
+<!-- @@@createWallpaperVideoPreview -->
+<!-- $$$extractWallpaperAudio[overload1]$$$extractWallpaperAudio -->
+<h3 class="fn" id="extractWallpaperAudio"><a name="extractWallpaperAudio"></a><code>[slot] </code><span class="type">bool</span> CreateImportVideo::<span class="name">extractWallpaperAudio</span>()</h3>
+<p>Starts ffmpeg and tries to covert the given audio into a seperate mp3.</p>
+<pre class="cpp"><span class="comment">//[...]</span>
+args<span class="operator">.</span>append(<span class="string">&quot;mp3&quot;</span>);
+args<span class="operator">.</span>append(<span class="string">&quot;-ab&quot;</span>);
+args<span class="operator">.</span>append(<span class="string">&quot;192000&quot;</span>);
+args<span class="operator">.</span>append(<span class="string">&quot;-vn&quot;</span>);
+args<span class="operator">.</span>append(m_exportPath <span class="operator">+</span> <span class="string">&quot;/audio.mp3&quot;</span>);</pre>
+<p>Returns <b class="redFont"><code>\return</code></b> false if :</p>
+<ul>
+<li>Cannot convert the audio</li>
+<li>Generally broken.</li>
+</ul>
+<!-- @@@extractWallpaperAudio -->
+<!-- $$$process[overload1]$$$process -->
+<h3 class="fn" id="process"><a name="process"></a><code>[slot] </code><span class="type">void</span> CreateImportVideo::<span class="name">process</span>()</h3>
+<p>Processes the multiple steps of creating a wallpaper.</p>
+<ol class="1" type="1"><li><a href="screenplay-createimportvideo.html#createWallpaperInfo">createWallpaperInfo</a>()</li>
+<li><a href="screenplay-createimportvideo.html#createWallpaperImagePreview">createWallpaperImagePreview</a>()</li>
+<li><a href="screenplay-createimportvideo.html#createWallpaperVideoPreview">createWallpaperVideoPreview</a>()</li>
+<li><a href="screenplay-createimportvideo.html#createWallpaperGifPreview">createWallpaperGifPreview</a>()</li>
+<li><a href="screenplay-createimportvideo.html#createWallpaperVideo">createWallpaperVideo</a>() - skiped if already a webm</li>
+<li><a href="screenplay-createimportvideo.html#extractWallpaperAudio">extractWallpaperAudio</a>() - skiped if no audio</li>
+<li>emit createWallpaperStateChanged(ImportVideoState::Finished);</li>
+</ol>
+<!-- @@@process -->
+</div>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

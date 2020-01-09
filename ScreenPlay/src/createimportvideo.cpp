@@ -13,11 +13,21 @@ namespace ScreenPlay {
 
 */
 
+/*!
+ This constructor is only needed for calling  qRegisterMetaType on CreateImportVideo to register the enums.
+ \code
+ qRegisterMetaType<CreateImportVideo::ImportVideoState>("CreateImportVideo::ImportVideoState");
+ \endcode
+ */
 CreateImportVideo::CreateImportVideo(QObject* parent)
     : QObject(parent)
 {
 }
 
+/*!
+  Creates a CreateImportVideo object to be used in a different thread. A \a videoPath and a \a exportPath are
+  needed for convertion.
+*/
 CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& exportPath, QObject* parent)
     : QObject(parent)
 {
@@ -40,6 +50,18 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
     qDebug() << m_ffmpegExecutable << m_ffprobeExecutable;
 }
 
+/*!
+  Processes the multiple steps of creating a wallpaper.
+  \list 1
+    \li createWallpaperInfo()
+    \li createWallpaperImagePreview()
+    \li createWallpaperVideoPreview()
+    \li createWallpaperGifPreview()
+    \li createWallpaperVideo() - skiped if already a webm
+    \li extractWallpaperAudio() - skiped if no audio
+    \li emit createWallpaperStateChanged(ImportVideoState::Finished);
+  \endlist
+*/
 void CreateImportVideo::process()
 {
 
@@ -84,6 +106,16 @@ void CreateImportVideo::process()
     emit createWallpaperStateChanged(ImportVideoState::Finished);
 }
 
+/*!
+  Starts ffprobe and tries to parse the resulting json.
+  Returns \return false if :
+  \list
+    \li Parsing the output json of ffprobe fails.
+    \li Has no video.
+    \li Cannot parse number of frames.
+    \li Is a wrong file format or generally broken.
+   \endlist
+ */
 bool CreateImportVideo::createWallpaperInfo()
 {
     // Get video info
@@ -218,6 +250,25 @@ bool CreateImportVideo::createWallpaperInfo()
     return true;
 }
 
+/*!
+  Starts ffmpeg and tries to covert the given video to a five second preview.
+  \code
+    //[...]
+    args.append("-vf");
+    // We allways want to have a 5 second clip via 24fps -> 120 frames
+    // Divided by the number of frames we can skip (timeInSeconds * Framrate)
+    // scale & crop parameter: https://unix.stackexchange.com/a/284731
+    args.append("select='not(mod(n," + QString::number((m_length / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400");
+    // Disable audio
+    args.append("-an");
+    args.append(m_exportPath + "/preview.webm");
+  \endcode
+  Returns \return false if :
+  \list
+    \li Cannot convert the video
+    \li Generally broken.
+   \endlist
+ */
 bool CreateImportVideo::createWallpaperVideoPreview()
 {
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewVideo);
@@ -278,6 +329,20 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     return true;
 }
 
+/*!
+  Starts ffmpeg and tries to covert the given video to a 5 second preview gif.
+  \code
+    //[...]
+    args.append("-filter_complex");
+    args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
+    args.append(m_exportPath + "/preview.gif");
+  \endcode
+  Returns \return false if :
+  \list
+    \li Cannot convert the video
+    \li Generally broken.
+   \endlist
+ */
 bool CreateImportVideo::createWallpaperGifPreview()
 {
 
@@ -315,6 +380,14 @@ bool CreateImportVideo::createWallpaperGifPreview()
     return true;
 }
 
+/*!
+  Starts ffmpeg and tries to covert the given video to a image preview.
+  Returns \return false if :
+  \list
+    \li Cannot convert the video
+    \li Generally broken.
+   \endlist
+ */
 bool CreateImportVideo::createWallpaperImageThumbnailPreview()
 {
 
@@ -407,6 +480,25 @@ bool CreateImportVideo::createWallpaperImagePreview()
     return true;
 }
 
+/*!
+  Starts ffmpeg and tries to covert the given video to a webm video.
+  \code
+    //[...]
+    args.append("-c:v");
+    args.append("libvpx-vp8");
+    args.append("-crf");
+    args.append("30");
+    args.append("-pix_fmt");
+    args.append("yuv420p");
+    args.append("-b:v");
+    args.append("0");
+  \endcode
+  Returns \return false if :
+  \list
+    \li Cannot convert the video
+    \li Generally broken.
+   \endlist
+ */
 bool CreateImportVideo::createWallpaperVideo()
 {
 
@@ -535,7 +627,22 @@ bool CreateImportVideo::createWallpaperVideo()
 
     return true;
 }
-
+/*!
+  Starts ffmpeg and tries to covert the given audio into a seperate mp3.
+  \code
+    //[...]
+    args.append("mp3");
+    args.append("-ab");
+    args.append("192000");
+    args.append("-vn");
+    args.append(m_exportPath + "/audio.mp3");
+  \endcode
+  Returns \return false if :
+  \list
+    \li Cannot convert the audio
+    \li Generally broken.
+   \endlist
+ */
 bool CreateImportVideo::extractWallpaperAudio()
 {
 

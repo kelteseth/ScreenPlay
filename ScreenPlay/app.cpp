@@ -13,7 +13,32 @@ namespace ScreenPlay {
     \inmodule ScreenPlay
     \brief The App class contains all members for ScreenPlay.
 
-    Text
+
+    \raw HTML
+  <div class="mermaid">
+        graph TD
+
+        Main.cpp --> App
+        App --> QQmlApplicationEngine
+        App --> GlobalVariables
+        App --> ScreenPlayManager
+        ScreenPlayManager --> ScreenPlayWallpaper
+        ScreenPlayManager --> ScreenPlayWidget
+        App --> Create
+        Create--> CreateVideoImport
+        App --> Util
+        App --> Settings
+        App --> SDKConnector
+        App --> InstalledListModel
+        InstalledListModel --> ProjectFile
+        App --> InstalledListFilter
+        App --> MonitorListModel
+        MonitorListModel --> Monitor
+        App --> ProfileListModel
+        ProfileListModel --> Profile
+
+  </div>
+  \endraw
 */
 
 App::App()

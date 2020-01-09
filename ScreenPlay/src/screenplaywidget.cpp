@@ -5,7 +5,9 @@ namespace ScreenPlay {
 /*!
     \class ScreenPlay::ScreenPlayWidget
     \inmodule ScreenPlay
-    \brief ScreenPlayWidget.
+    \brief A Single Object to manage a Widget.
+
+    This class is only for managing the QProcess to an extern ScreenPlayWidget!
 */
 
 ScreenPlayWidget::ScreenPlayWidget(

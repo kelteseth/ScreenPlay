@@ -22,7 +22,7 @@ Item {
     }
     Text {
         id: txtHeadline
-        text: qsTr("Import Wallpaper")
+        text: qsTr("Import Content")
         opacity: 0
         anchors {
             top: parent.top

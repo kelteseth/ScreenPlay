@@ -15,15 +15,12 @@ Item {
     anchors.fill: parent
     state: "out"
 
-
     Component.onCompleted: {
         create.state = "in"
-
-
     }
 
-    function checkFFMPEG(){
-        if(!ScreenPlay.util.ffmpegAvailable){
+    function checkFFMPEG() {
+        if (!ScreenPlay.util.ffmpegAvailable) {
             ffmpegPopup.open()
         }
     }
@@ -37,140 +34,51 @@ Item {
         parent: create
     }
 
-    property url activeVideoFile: ""
-    property url activeFolder: ""
-
-    Connections {
-        target: createWallpaper
-        onVideoImportConvertFileSelected: {
-            create.state = "import"
-
-            activeVideoFile = videoFile
-            loader.setSource(
-                        "Wizards/CreateWallpaper/CreateWallpaperWizard.qml", {
-                            "filePath": activeVideoFile
-                        })
-        }
-
-        onProjectFileSelected: {
-            create.state = "import"
-            // TODO
-            // activeFolder = projectFile
-            // loader.setSource("CreateNew.qml", {  })
-        }
-    }
-
-    Connections {
-        target: loader.item
-        ignoreUnknownSignals: true
-        onBackToCreate: {
-            create.state = "in"
-            loader.active = false
-            activeVideoFile = ""
-        }
-        onUploadToSteamWorkshop: {
-            loader.setSource("CreateUpload.qml", {
-                                 "file": activeVideoFile
-                             })
-        }
-    }
-
-    Item {
+    BackgroundParticleSystem {
+        id: particleSystemWrapper
         anchors.fill: parent
-
-        MouseArea {
-            id: ma
-            anchors.fill: parent
-            hoverEnabled: true
-            onPressed: {
-                attractor.enabled = true
-            }
-            onPositionChanged: {
-                if (ma.pressed) {
-                    attractor.pointX = mouseX
-                    attractor.pointY = mouseY
-                }
-            }
-            onReleased: {
-                attractor.enabled = false
-            }
-        }
-
-        Attractor {
-            id: attractor
-            system: particleSystem
-            affectedParameter: Attractor.Acceleration
-            strength: 8000000
-            proportionalToDistance: Attractor.InverseQuadratic
-        }
-
-        ParticleSystem {
-            id: particleSystem
-        }
-
-        Emitter {
-            id: emitter
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                bottom: parent.bottom
-            }
-
-            width: parent.width
-            height: 80
-            system: particleSystem
-            emitRate: 25
-            lifeSpan: 5000
-            lifeSpanVariation: 1000
-            size: 8
-            endSize: 18
-            sizeVariation: 4
-            velocity: AngleDirection {
-                angle: -90
-                magnitude: 50
-                magnitudeVariation: 25
-                angleVariation: 10
-            }
-        }
-
-        ImageParticle {
-            height: 16
-            width: 16
-            color: "orange"
-            source: "qrc:/assets/particle/dot.png"
-            system: particleSystem
-            opacity: .75
-        }
-
-        Image {
-            id: bgGlow
-            width: 500
-            height: width
-            opacity: .3
-            source: "qrc:/assets/particle/backgroundGlow.png"
-            anchors {
-                horizontalCenter: parent.horizontalCenter
-                bottom: parent.bottom
-                bottomMargin: -width * .65
-            }
-        }
     }
 
-    Loader {
-        id: loader
+    Wizard {
+        id: wizard
         anchors.fill: parent
-        z: 11
     }
 
-    Image {
-        id: name
-        source: "qrc:/assets/images/noisy-texture-3.png"
-        anchors.fill: parent
-        fillMode: Image.Tile
-        opacity: .3
+    CreateContent {
+        id: createContent
+        width: 500
+        height: 400
+        anchors {
+            top: parent.top
+            topMargin: 80
+            right: verticalSeperator.left
+            rightMargin: 50
+        }
+        onCreateContent: {
+            create.state = "wizard"
+            ScreenPlay.util.setNavigationActive(false)
+            if (type === "emptyWidget") {
+                wizard.setSource(
+                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
+                            {})
+            } else if (type === "clockWidget") {
+                wizard.setSource(
+                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
+                            {})
+            } else if (type === "musicVisualizer") {
+                wizard.setSource(
+                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
+                            {})
+            } else if (type === "unsplashSlideshow") {
+                wizard.setSource(
+                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
+                            {})
+            }
+        }
     }
 
     Rectangle {
-        id: spaceBar
+        id: verticalSeperator
         width: 2
         height: 400
         opacity: .4
@@ -181,35 +89,25 @@ Item {
         }
     }
 
-    CreateWallpaper {
-        id: createWallpaper
+    ImportContent {
+        id: importContent
         width: 500
         height: 400
         anchors {
             top: parent.top
             topMargin: 84
-            left: spaceBar.right
+            left: verticalSeperator.right
             leftMargin: 50
         }
-    }
-
-    CreateWidget {
-        id: createWidget
-        width: 500
-        height: 400
-        anchors {
-            top: parent.top
-            topMargin: 80
-            right: spaceBar.left
-            rightMargin: 50
-        }
-        onButtonPressed: {
-            create.state = "new"
-            loader.setSource("CreateNew.qml", {
-                                 "project": type,
-                                 "projectTitle": title,
-                                 "icon": iconSource
-                             })
+        onVideoImportConvertFileSelected: {
+            create.state = "wizard"
+            ScreenPlay.util.setNavigationActive(false)
+            wizard.setSource(
+                        "Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml",
+                        {
+                            "filePath": videoFile
+                        })
+            ScreenPlay.create.createWallpaperStart(videoFile);
         }
     }
 
@@ -227,71 +125,18 @@ Item {
         }
     }
 
-    Rectangle {
+    Footer {
         id: footer
-        height: 80
-        z: 100
-        anchors {
-            right: parent.right
-            bottom: parent.bottom
-            left: parent.left
-        }
-        Row {
-            anchors.centerIn: parent
-            spacing: 20
-            Button {
-                text: qsTr("QML Quickstart Guide")
-                Material.background: Material.Orange
-                Material.foreground: "white"
-                icon.source: "qrc:/assets/icons/icon_info.svg"
-                icon.color: "white"
-                icon.width: 16
-                icon.height: 16
-                onClicked: Qt.openUrlExternally(
-                               "http://qmlbook.github.io/ch04-qmlstart/qmlstart.html")
-            }
-            Button {
-                text: qsTr("Documentation")
-                Material.background: Material.LightGreen
-                Material.foreground: "white"
-                icon.source: "qrc:/assets/icons/icon_document.svg"
-                icon.color: "white"
-                icon.width: 16
-                icon.height: 16
-                onClicked: Qt.openUrlExternally(
-                               "https://kelteseth.gitlab.io/ScreenPlayDocs/")
-            }
-            Button {
-                text: qsTr("Forums")
-                Material.background: Material.Blue
-                Material.foreground: "white"
-                icon.source: "qrc:/assets/icons/icon_people.svg"
-                icon.color: "white"
-                icon.width: 16
-                icon.height: 16
-                onClicked: Qt.openUrlExternally(
-                               "https://forum.screen-play.app/")
-            }
-            Button {
-                text: qsTr("Workshop")
-                Material.background: Material.Red
-                Material.foreground: "white"
-
-                icon.source: "qrc:/assets/icons/icon_steam.svg"
-                icon.color: "white"
-                icon.width: 16
-                icon.height: 16
-                onClicked: Qt.openUrlExternally(
-                               "steam://url/SteamWorkshopPage/672870")
-            }
-        }
+        anchors.bottom: parent.bottom
+        anchors.left: parent.left
+        anchors.right: parent.right
     }
 
     states: [
         State {
             name: "out"
             PropertyChanges {
-                target: spaceBar
+                target: verticalSeperator
                 opacity: 0
             }
 
@@ -303,7 +148,7 @@ Item {
         State {
             name: "in"
             PropertyChanges {
-                target: spaceBar
+                target: verticalSeperator
                 opacity: .4
             }
             PropertyChanges {
@@ -312,18 +157,22 @@ Item {
             }
         },
         State {
-            name: "import"
+            name: "wizard"
 
             PropertyChanges {
-                target: createWallpaper
+                target: footer
+                anchors.bottomMargin: -80
+            }
+            PropertyChanges {
+                target: importContent
                 state: "out"
             }
             PropertyChanges {
-                target: createWidget
+                target: createContent
                 state: "out"
             }
             PropertyChanges {
-                target: spaceBar
+                target: verticalSeperator
                 opacity: 0
             }
             PropertyChanges {
@@ -331,35 +180,12 @@ Item {
                 opacity: 0
             }
             PropertyChanges {
-                target: footer
-                anchors.bottomMargin: -80
-            }
-        },
-        State {
-            name: "new"
-
-            PropertyChanges {
-                target: footer
-                anchors.bottomMargin: -80
-            }
-            PropertyChanges {
-                target: createWallpaper
-                state: "out"
-            }
-            PropertyChanges {
-                target: createWidget
-                state: "out"
-            }
-            PropertyChanges {
-                target: spaceBar
-                opacity: 0
-            }
-            PropertyChanges {
-                target: txtDescriptionBottom
-                opacity: 0
+                target: wizard
+                z: 99
             }
         }
     ]
+
     transitions: [
         Transition {
             from: "out"
@@ -379,7 +205,7 @@ Item {
                 }
 
                 NumberAnimation {
-                    target: spaceBar
+                    target: verticalSeperator
                     property: "opacity"
                     duration: 250
                     easing.type: Easing.InOutQuart
@@ -395,7 +221,7 @@ Item {
         },
         Transition {
             from: "in"
-            to: "new"
+            to: "wizard"
             reversible: true
 
             PropertyAnimation {

@@ -20,11 +20,6 @@
 #include <memory>
 #include <optional>
 
-/*!
-    \class ScreenPlay
-    \brief Used for Creation of Wallpaper, Scenes and Widgets
-*/
-
 namespace ScreenPlay {
 
 using std::shared_ptr,
@@ -103,7 +98,7 @@ public slots:
     void createWidget(const QUrl& absoluteStoragePath, const QString& previewImage);
 
     void removeAllWallpapers();
-    void removeWallpaperAt(const int at = 0);
+    bool removeWallpaperAt(const int at = 0);
 
     void requestProjectSettingsListModelAt(const int index);
     void setWallpaperValue(const int index, const QString& key, const QString& value);

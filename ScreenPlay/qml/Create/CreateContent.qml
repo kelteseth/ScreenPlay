@@ -8,7 +8,7 @@ Item {
     state: "out"
     Component.onCompleted: state = "in"
 
-    signal buttonPressed(var type, var title, var iconSource)
+    signal createContent(var type)
 
     Text {
         id: txtCreate
@@ -25,7 +25,7 @@ Item {
         font.weight: Font.Thin
     }
 
-    CreateWidgetButton {
+    CreateContentButton {
         id: btnCreateEmptyWidget
         text: qsTr("Create Emtpy Widget")
         anchors.top: txtCreate.bottom
@@ -34,17 +34,7 @@ Item {
         state: createWidget.state
         imgSource: "qrc:/assets/icons/icon_emptyWidget.svg"
         onClicked: {
-
-            buttonPressed("empty", btnCreateEmptyWidget.text,
-                          btnCreateEmptyWidget.imgSource)
-            //folderDialog.open()
-        }
-        FolderDialog {
-            id: folderDialog
-            onAccepted: {
-                ScreenPlay.create.copyProject("/examples/scenes/empty",
-                                             folderDialog.currentFolder)
-            }
+            createContent("emptyWidget")
         }
     }
 
@@ -72,7 +62,7 @@ Item {
             topMargin: 200
             bottom: parent.bottom
         }
-        CreateWidgetButton {
+        CreateContentButton {
             id: btnEmpty1
             text: qsTr("Simple clock widget")
 
@@ -80,10 +70,10 @@ Item {
             state: createWidget.state
             imgSource: "qrc:/assets/icons/icon_time.svg"
             onClicked: {
-                buttonPressed("clock", btnEmpty1.text, btnEmpty1.imgSource)
+                createContent("clockWidget")
             }
         }
-        CreateWidgetButton {
+        CreateContentButton {
             id: btnEmpty2
             text: qsTr("Musik scene wallpaper visualizer")
 
@@ -91,10 +81,10 @@ Item {
             state: createWidget.state
             imgSource: "qrc:/assets/icons/icon_library_music.svg"
             onClicked: {
-                buttonPressed("music", btnEmpty2.text, btnEmpty2.imgSource)
+                createContent("musicVisualizer")
             }
         }
-        CreateWidgetButton {
+        CreateContentButton {
             id: btnEmpty3
             text: qsTr("Changing scene wallpaper via unsplash.com")
             imgSource: "qrc:/assets/icons/icon_scene.svg"
@@ -102,7 +92,7 @@ Item {
             animOffset: 250
             state: createWidget.state
             onClicked: {
-                buttonPressed("slideshow", btnEmpty3.text, btnEmpty3.imgSource)
+                createContent("unsplashSlideshow")
             }
         }
     }

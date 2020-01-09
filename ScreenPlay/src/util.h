@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QClipboard>
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QDebug>
@@ -16,7 +17,6 @@
 #include <QTextStream>
 #include <QVersionNumber>
 #include <QtConcurrent/QtConcurrent>
-#include <QClipboard>
 #include <qqml.h>
 
 #include <fstream>
@@ -24,6 +24,7 @@
 #include <optional>
 
 #include "libzippp/libzippp.h"
+#include "nlohmann/json.hpp"
 
 namespace ScreenPlay {
 
@@ -81,7 +82,8 @@ signals:
 
 public slots:
     void copyToClipboard(const QString& text) const;
-    void openFolderInExplorer(const QString &url) const;
+    void openFolderInExplorer(const QString& url) const;
+
 
     void requestAllLicenses();
     void requestDataProtection();

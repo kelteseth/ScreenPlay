@@ -150,7 +150,7 @@ Item {
 
         Button {
             id: btnOpen
-            text: qsTr("Open Image")
+            text: qsTr("Select Preview Image")
             Material.background: Material.Orange
             Material.foreground: "white"
             anchors {

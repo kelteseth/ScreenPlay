@@ -5,8 +5,11 @@ namespace ScreenPlay {
 /*!
     \class ScreenPlay::InstalledListModel
     \inmodule ScreenPlay
-    \brief Lists all installed wallpapers, widgets etc. from a given Path
+    \brief Lists all installed wallpapers, widgets etc. from a given Path.
 
+    Currently we only support one path for the user content. Via a QFileSystemWatcher we
+    automatically reload the list. Dynamic insert and remove is not yet implemented.
+    Otherwhise it is a regular QAbstractListModel based list model.
 */
 
 InstalledListModel::InstalledListModel(

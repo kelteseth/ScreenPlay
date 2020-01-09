@@ -19,11 +19,6 @@
 #include <memory>
 #include <optional>
 
-/*!
-    \class Monitor List Model
-    \brief Listsmodel for all active monitors
-
-*/
 namespace ScreenPlay {
 
 struct Monitor {
@@ -79,7 +74,6 @@ public:
 
     std::optional<QString> getAppIDByMonitorIndex(const int index) const;
 
-
 signals:
     void monitorReloadCompleted();
     void setNewActiveMonitor(int index, QString path);
@@ -92,13 +86,13 @@ public slots:
 
     void screenAdded(QScreen* screen)
     {
-        qDebug() << "screenAdded" << screen->geometry()<< m_monitorList.size();
+        qDebug() << "screenAdded" << screen->geometry() << m_monitorList.size();
         emit monitorConfigurationChanged();
         reset();
     }
     void screenRemoved(QScreen* screen)
     {
-        qDebug() << "screenRemoved"<< screen->geometry() << m_monitorList.size();
+        qDebug() << "screenRemoved" << screen->geometry() << m_monitorList.size();
         emit monitorConfigurationChanged();
         reset();
     }
@@ -108,7 +102,6 @@ public slots:
         auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
         return app->screens().at(0)->availableVirtualGeometry();
     }
-
 
 private:
     void loadMonitors();
