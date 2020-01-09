@@ -22,6 +22,7 @@ class ScreenPlayWidget : public QObject {
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
+    Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
 
 public:
     explicit ScreenPlayWidget(
@@ -30,7 +31,7 @@ public:
         const QString& projectPath,
         const QString& previewImage,
         const QString& fullPath,
-        QObject* parent = nullptr);
+        const QString& type);
 
     ~ScreenPlayWidget() {}
 
@@ -52,6 +53,11 @@ public:
     QString appID() const
     {
         return m_appID;
+    }
+
+    QString type() const
+    {
+        return m_type;
     }
 
 public slots:
@@ -91,11 +97,22 @@ public slots:
         emit appIDChanged(m_appID);
     }
 
+    void setType(QString type)
+    {
+        if (m_type == type)
+            return;
+
+        m_type = type;
+        emit typeChanged(m_type);
+    }
+
 signals:
     void projectPathChanged(QString projectPath);
     void previewImageChanged(QString previewImage);
     void positionChanged(QPoint position);
     void appIDChanged(QString appID);
+
+    void typeChanged(QString type);
 
 private:
     QProcess m_process;
@@ -105,5 +122,6 @@ private:
     QString m_previewImage;
     QString m_appID;
     QPoint m_position;
+    QString m_type;
 };
 }

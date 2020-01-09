@@ -337,14 +337,14 @@ Item {
                                     + "/" + activeScreen,
                                     ScreenPlay.installedListModel.get(activeScreen).screenPreview,
                                     (Math.round(sliderVolume.value * 100) / 100),
-                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
-                                        ), type)
+                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(), 
+                                    type)
 
                     } else {
                         ScreenPlay.screenPlayManager.createWidget(
                                     ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
-                                    ScreenPlay.installedListModel.get(
-                                        activeScreen).screenPreview)
+                                    ScreenPlay.installedListModel.get(activeScreen).screenPreview,
+                                    type)
                     }
                     sidebar.state = "inactive"
                     monitorSelection.deselectAll()

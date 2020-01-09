@@ -36,73 +36,87 @@ Create::Create()
 
 void Create::createWidget(const QString& localStoragePath, const QString& title, const QString& previewThumbnail, const QString& createdBy, const QString& license, const QString& type, const QVector<QString>& tags)
 {
-    QUrl localStoragePathUrl { localStoragePath };
-    QDir dir;
-    dir.cd(localStoragePathUrl.toLocalFile());
-    // Create a temp dir so we can later alter it to the workshop id
-    auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
+    QtConcurrent::run([=]() {
+        QUrl localStoragePathUrl { localStoragePath };
+        QDir dir;
+        dir.cd(localStoragePathUrl.toLocalFile());
+        // Create a temp dir so we can later alter it to the workshop id
+        auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
+        QString workingPath = dir.path() + "/" + folderName;
 
-    if (!dir.mkdir(folderName)) {
-        qDebug() << "Could create folder: " << folderName;
-        return;
-    }
-
-    QJsonObject obj;
-    obj.insert("license", license);
-    obj.insert("title", title);
-    obj.insert("createdBy", createdBy);
-
-    if (type == "QML") {
-        obj.insert("type", "qmlWidget");
-        obj.insert("file", "main.qml");
-    } else {
-        obj.insert("type", "htmlWidget");
-        obj.insert("file", "index.html");
-    }
-
-    QJsonArray tagsJsonArray;
-    for (QString tmp : tags) {
-        tagsJsonArray.append(tmp);
-    }
-    obj.insert("tags", tagsJsonArray);
-    QString workingPath = dir.path() + "/" + folderName;
-
-    QFile file(workingPath + "/project.json");
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Could not open /project.json";
-        return;
-    }
-
-    QUrl previewThumbnailUrl { previewThumbnail };
-    QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
-
-    if (!previewThumbnail.isEmpty()) {
-        obj.insert("previewThumbnail", previewImageFile.fileName());
-        obj.insert("preview", previewImageFile.fileName());
-        if (!QFile::copy(previewThumbnailUrl.toLocalFile(), workingPath + "/" + previewImageFile.fileName())) {
-            qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << workingPath + "/" + previewImageFile.fileName();
+        if (!dir.mkdir(folderName)) {
+            qDebug() << "Could create folder: " << folderName;
             return;
         }
-    }
 
-    QTextStream out(&file);
-    out.setCodec("UTF-8");
-    QJsonDocument doc(obj);
-    out << doc.toJson();
-    file.close();
+        QJsonObject obj;
+        obj.insert("license", license);
+        obj.insert("title", title);
+        obj.insert("createdBy", createdBy);
 
-    QFile fileMainQML(workingPath + "/main.qml");
-    if (!fileMainQML.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Could not open /main.qml";
-        return;
-    }
+        if (type == "QML") {
+            obj.insert("type", "qmlWidget");
+            obj.insert("file", "main.qml");
 
-    QTextStream outMainQML(&fileMainQML);
-    outMainQML.setCodec("UTF-8");
-    outMainQML << "import QtQuick 2.14 \n\n Item {\n id:root \n}";
-    fileMainQML.close();
+            QFile fileMainQML(workingPath + "/main.qml");
+            if (!fileMainQML.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                qDebug() << "Could not open /main.qml";
+                return;
+            }
 
-    emit widgetCreatedSuccessful(workingPath);
+            QTextStream outMainQML(&fileMainQML);
+            outMainQML.setCodec("UTF-8");
+            outMainQML << "import QtQuick 2.14 \n\n Item {\n id:root \n}";
+            fileMainQML.close();
+
+        } else {
+            obj.insert("type", "htmlWidget");
+            obj.insert("file", "index.html");
+
+            QFile fileMainHTML(workingPath + "/index.html");
+            if (!fileMainHTML.open(QIODevice::WriteOnly | QIODevice::Text)) {
+                qDebug() << "Could not open /index.html";
+                return;
+            }
+
+            QTextStream outMainHTML(&fileMainHTML);
+            outMainHTML.setCodec("UTF-8");
+            outMainHTML << "<html>\n<head></head>\n<body></body>\n</html>";
+            fileMainHTML.close();
+        }
+
+        QJsonArray tagsJsonArray;
+        for (QString tmp : tags) {
+            tagsJsonArray.append(tmp);
+        }
+        obj.insert("tags", tagsJsonArray);
+
+        QFile file(workingPath + "/project.json");
+        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+            qDebug() << "Could not open /project.json";
+            return;
+        }
+
+        QUrl previewThumbnailUrl { previewThumbnail };
+        QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
+
+        if (!previewThumbnail.isEmpty()) {
+            obj.insert("previewThumbnail", previewImageFile.fileName());
+            obj.insert("preview", previewImageFile.fileName());
+            if (!QFile::copy(previewThumbnailUrl.toLocalFile(), workingPath + "/" + previewImageFile.fileName())) {
+                qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << workingPath + "/" + previewImageFile.fileName();
+                return;
+            }
+        }
+
+        QTextStream out(&file);
+        out.setCodec("UTF-8");
+        QJsonDocument doc(obj);
+        out << doc.toJson();
+        file.close();
+
+        emit widgetCreatedSuccessful(workingPath);
+    });
 }
 
 /*!

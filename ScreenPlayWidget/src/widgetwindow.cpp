@@ -2,10 +2,20 @@
 
 #include <QCoreApplication>
 
-WidgetWindow::WidgetWindow(QString projectPath, QString appid, QObject* parent)
-    : QObject(parent)
+WidgetWindow::WidgetWindow(const QString projectPath, const QString appid, const QString type)
+    : QObject(nullptr)
     , m_appID { appid }
+    , m_type { type }
 {
+    QStringList availableTypes {
+        "qmlWidget",
+        "htmlWidget",
+        "standaloneWidget"
+    };
+
+    if (!availableTypes.contains(m_type)) {
+        QGuiApplication::exit(-4);
+    }
 
     Qt::WindowFlags flags = m_window.flags();
     m_window.setWidth(300);
@@ -41,6 +51,7 @@ WidgetWindow::WidgetWindow(QString projectPath, QString appid, QObject* parent)
     }
     // Instead of setting "renderType: Text.NativeRendering" every time
     // we can set it here once :)
+
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     //    m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
     m_window.setSource(QUrl("qrc:/mainWidget.qml"));

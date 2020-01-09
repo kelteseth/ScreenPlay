@@ -15,6 +15,7 @@
 #include <QWindow>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
+#include <QGuiApplication>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
@@ -24,7 +25,7 @@ class WidgetWindow : public QObject {
     Q_OBJECT
 
 public:
-    explicit WidgetWindow(QString projectPath, QString appid, QObject* parent = nullptr);
+    explicit WidgetWindow(const QString projectPath, const QString appid, const QString type);
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)

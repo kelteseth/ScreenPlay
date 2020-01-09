@@ -16,20 +16,21 @@ ScreenPlayWidget::ScreenPlayWidget(
     const QString& projectPath,
     const QString& previewImage,
     const QString& fullPath,
-    QObject* parent)
-    : QObject { parent }
+    const QString& type)
+    : QObject { nullptr }
     , m_globalVariables { globalVariables }
     , m_projectPath { projectPath }
     , m_previewImage { previewImage }
     , m_appID { appID }
     , m_position { 0, 0 }
+    , m_type { type }
 {
-    const QStringList proArgs { m_projectPath, m_appID };
+    const QStringList proArgs { m_projectPath, m_appID, m_type };
     m_process.setArguments(proArgs);
 
     if (fullPath.endsWith(".exe")) {
         m_process.setProgram(fullPath);
-    } else if (fullPath.endsWith(".qml")) {
+    } else {
         m_process.setProgram(m_globalVariables->widgetExecutablePath().path());
     }
 

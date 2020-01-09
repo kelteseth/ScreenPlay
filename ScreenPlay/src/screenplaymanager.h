@@ -95,7 +95,7 @@ public slots:
         const QString& fillMode,
         const QString& type, const bool saveToProfilesConfigFile = true);
 
-    void createWidget(const QUrl& absoluteStoragePath, const QString& previewImage);
+    void createWidget(const QUrl& absoluteStoragePath, const QString& previewImage, const QString &type);
 
     void removeAllWallpapers();
     bool removeWallpaperAt(const int at = 0);

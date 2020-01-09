@@ -41,7 +41,7 @@ void ScreenPlayManager::createWallpaper(
     const bool saveToProfilesConfigFile)
 {
 
-    m_tracker->sendEvent("wallpaper","start");
+    m_tracker->sendEvent("wallpaper", "start");
     QString path = absoluteStoragePath;
 
     if (absoluteStoragePath.contains("file:///"))
@@ -105,9 +105,9 @@ void ScreenPlayManager::createWallpaper(
 /*!
   Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
  */
-void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QString& previewImage)
+void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QString& previewImage, const QString& type)
 {
-    m_tracker->sendEvent("widget","start");
+    m_tracker->sendEvent("widget", "start");
     increaseActiveWidgetsCounter();
 
     m_screenPlayWidgets.append(
@@ -117,7 +117,7 @@ void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QStr
             absoluteStoragePath.toLocalFile(),
             previewImage,
             absoluteStoragePath.toString(),
-            this));
+            type));
 }
 
 /*!
@@ -127,7 +127,7 @@ void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QStr
 void ScreenPlayManager::removeAllWallpapers()
 {
     if (!m_screenPlayWallpapers.empty()) {
-        m_tracker->sendEvent("wallpaper","stopAll");
+        m_tracker->sendEvent("wallpaper", "stopAll");
         m_sdkconnector->closeAllWallpapers();
         m_screenPlayWallpapers.clear();
         m_monitorListModel->clearActiveWallpaper();
@@ -168,7 +168,7 @@ void ScreenPlayManager::removeAllWallpapers()
 */
 bool ScreenPlayManager::removeWallpaperAt(int at)
 {
-    m_tracker->sendEvent("wallpaper","removeSingleWallpaper");
+    m_tracker->sendEvent("wallpaper", "removeSingleWallpaper");
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(at)) {
 
         m_sdkconnector->closeWallpaper(appID.value());
