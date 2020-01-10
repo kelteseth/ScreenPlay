@@ -118,6 +118,8 @@ public:
     }
 
 signals:
+    void qmlExit();
+
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
     void isPlayingChanged(bool isPlaying);
@@ -125,12 +127,10 @@ signals:
     void typeChanged(WallpaperType type);
     void fullContentPathChanged(QString fullContentPath);
     void appIDChanged(QString appID);
-    void qmlExit();
     void qmlSceneValueReceived(QString key, QString value);
     void OSVersionChanged(QString OSVersion);
     void mutedChanged(bool muted);
     void currentTimeChanged(float currentTime);
-
     void canFadeChanged(bool canFade);
     void fillModeChanged(QString fillMode);
     void widthChanged(int width);
