@@ -147,6 +147,16 @@ Item {
                         monitors.state = "inactive"
                     }
                 }
+                Button {
+                    id: btnRemoveAllWidgets
+                    text: qsTr("Remove all Widgets")
+                    Material.background: Material.Orange
+                    Material.foreground: "white"
+                    onClicked: {
+                        ScreenPlay.screenPlayManager.removeAllWidgets()
+                        monitors.state = "inactive"
+                    }
+                }
             }
         }
 

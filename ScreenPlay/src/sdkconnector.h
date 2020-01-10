@@ -35,6 +35,7 @@ public slots:
     void newConnection();
     void closeAllConnections();
     void closeAllWallpapers();
+    void closeAllWidgets();
 
     void closeWallpapersAt(int at);
     void closeWallpaper(const QString& appID);
@@ -118,7 +119,11 @@ public slots:
                 "videoWallpaper",
                 "qmlWallpaper",
                 "htmlWallpaper",
-                "godotWallpaper"
+                "godotWallpaper",
+
+                "qmlWidget",
+                "htmlWidget",
+                "standaloneWidget"
             };
             for (QString type : types) {
                 if (msg.contains(type)) {

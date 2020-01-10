@@ -75,6 +75,22 @@ void SDKConnector::closeAllWallpapers()
     }
 }
 
+void SDKConnector::closeAllWidgets()
+{
+    QStringList types {
+        "qmlWidget",
+        "htmlWidget",
+        "standaloneWidget"
+    };
+
+    for (auto& client : m_clients) {
+        if (types.contains(client->type())) {
+            client->close();
+            m_clients.removeOne(client);
+        }
+    }
+}
+
 /*!
  Closes a wallpaper at the given \a index. The native monitor index is used here.
  On Windows the monitor 0 is the main display.

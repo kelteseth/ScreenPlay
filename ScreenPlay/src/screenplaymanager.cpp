@@ -131,7 +131,9 @@ void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QStr
 void ScreenPlayManager::removeAllWallpapers()
 {
     if (!m_screenPlayWallpapers.empty()) {
-        m_telemetry->sendEvent("wallpaper", "stopAll");
+        if (m_telemetry) {
+            m_telemetry->sendEvent("wallpaper", "stopAll");
+        }
         m_sdkconnector->closeAllWallpapers();
         m_screenPlayWallpapers.clear();
         m_monitorListModel->clearActiveWallpaper();
@@ -162,6 +164,17 @@ void ScreenPlayManager::removeAllWallpapers()
 
         Util::writeJsonObjectToFile(absoluteProfilesFilePath, newConfig);
         setActiveWallpaperCounter(0);
+    }
+}
+
+void ScreenPlayManager::removeAllWidgets()
+{
+    if (!m_screenPlayWidgets.empty()) {
+        if (m_telemetry) {
+            m_telemetry->sendEvent("widgets", "stopAll");
+        }
+        m_sdkconnector->closeAllWidgets();
+        setActiveWidgetsCounter(0);
     }
 }
 

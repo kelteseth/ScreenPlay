@@ -98,6 +98,7 @@ public slots:
     void createWidget(const QUrl& absoluteStoragePath, const QString& previewImage, const QString &type);
 
     void removeAllWallpapers();
+    void removeAllWidgets();
     bool removeWallpaperAt(const int at = 0);
 
     void requestProjectSettingsListModelAt(const int index);
