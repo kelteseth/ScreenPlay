@@ -141,5 +141,7 @@
         <file>translations/ScreenPlay_ru.qm</file>
         <file>qml/Create/Footer.qml</file>
         <file>qml/Create/BackgroundParticleSystem.qml</file>
+        <file>assets/wizards/example_html.png</file>
+        <file>assets/wizards/example_qml.png</file>
     </qresource>
 </RCC>
