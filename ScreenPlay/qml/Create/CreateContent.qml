@@ -65,7 +65,7 @@ Item {
         CreateContentButton {
             id: btnEmpty1
             text: qsTr("Simple clock widget")
-
+            buttonActive: false
             animOffset: 150
             state: createWidget.state
             imgSource: "qrc:/assets/icons/icon_time.svg"
@@ -76,7 +76,7 @@ Item {
         CreateContentButton {
             id: btnEmpty2
             text: qsTr("Musik scene wallpaper visualizer")
-
+            buttonActive: false
             animOffset: 200
             state: createWidget.state
             imgSource: "qrc:/assets/icons/icon_library_music.svg"
@@ -88,7 +88,7 @@ Item {
             id: btnEmpty3
             text: qsTr("Changing scene wallpaper via unsplash.com")
             imgSource: "qrc:/assets/icons/icon_scene.svg"
-
+            buttonActive: false
             animOffset: 250
             state: createWidget.state
             onClicked: {
