@@ -11,7 +11,7 @@ Item {
     id: root
     function cleanup() {}
 
-     Text {
+    Text {
         id: txtHeadline
         text: qsTr("Create an empty widget")
         height: 40
@@ -36,7 +36,7 @@ Item {
             margins: 20
         }
 
-        ColumnLayout{
+        ColumnLayout {
             Layout.fillHeight: true
             Layout.preferredWidth: parent.width * .5
 
@@ -47,19 +47,21 @@ Item {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
 
+                Image {
+                    id: imgPreview
+                    source: "qrc:/assets/wizards/example_qml.png"
+                }
             }
 
             ImageSelector {
-                id:imageSelector
+                id: imageSelector
                 Layout.fillWidth: true
             }
         }
 
-
         Item {
             Layout.fillHeight: true
             Layout.preferredWidth: 20
-
         }
         ColumnLayout {
             id: rightWrapper
@@ -73,7 +75,7 @@ Item {
                 color: "#757575"
             }
             TextField {
-                id:tfTitle
+                id: tfTitle
                 Layout.fillWidth: true
                 placeholderText: qsTr("Widget name")
                 onTextChanged: {
@@ -85,7 +87,7 @@ Item {
                 }
             }
             TextField {
-                id:tfCreatedBy
+                id: tfCreatedBy
                 Layout.fillWidth: true
                 placeholderText: qsTr("Copyright owner")
             }
@@ -99,8 +101,20 @@ Item {
                 Layout.fillWidth: true
                 model: ListModel {
                     id: model
-                    ListElement { text: "QML" }
-                    ListElement { text: "HTML" }
+                    ListElement {
+                        text: "QML"
+                    }
+                    ListElement {
+                        text: "HTML"
+                    }
+                }
+
+                onActivated: {
+                    if ( index == 0) {
+                        imgPreview.source = "qrc:/assets/wizards/example_qml.png"
+                    } else {
+                        imgPreview.source = "qrc:/assets/wizards/example_html.png"
+                    }
                 }
             }
 
@@ -114,9 +128,15 @@ Item {
                 Layout.fillWidth: true
                 model: ListModel {
                     id: modelLicense
-                    ListElement { text: "All rights " }
-                    ListElement { text: "Open Source - GPLv3" }
-                    ListElement { text: "Open Source - MIT/Apache2" }
+                    ListElement {
+                        text: "All rights "
+                    }
+                    ListElement {
+                        text: "Open Source - GPLv3"
+                    }
+                    ListElement {
+                        text: "Open Source - MIT/Apache2"
+                    }
                 }
             }
             Text {
@@ -126,7 +146,7 @@ Item {
             }
 
             TagSelector {
-                id:tagSelector
+                id: tagSelector
                 Layout.fillWidth: true
             }
 
@@ -141,8 +161,6 @@ Item {
                 Layout.fillWidth: true
                 spacing: 10
 
-
-
                 Button {
                     id: btnSave
                     text: qsTr("Save")
@@ -153,36 +171,32 @@ Item {
                     onClicked: {
                         btnSave.enabled = false
                         savePopup.open()
-                        var tags  = tagSelector.getTags()
-                        ScreenPlay.create.createWidget(ScreenPlay.globalVariables.localStoragePath,
-                                                     tfTitle.text,
-                                                     imageSelector.imageSource,
-                                                     tfCreatedBy.text,
-                                                     cbLicense.currentText,
-                                                     cbType.currentText,
-                                                     tags)
-
+                        var tags = tagSelector.getTags()
+                        ScreenPlay.create.createWidget(
+                                    ScreenPlay.globalVariables.localStoragePath,
+                                    tfTitle.text, imageSelector.imageSource,
+                                    tfCreatedBy.text, cbLicense.currentText,
+                                    cbType.currentText, tags)
                     }
                 }
 
                 Connections {
                     target: ScreenPlay.create
-                    onWidgetCreatedSuccessful:{
+                    onWidgetCreatedSuccessful: {
                         ScreenPlay.util.openFolderInExplorer(path)
                     }
                 }
 
                 Button {
-                  id: btnExit
-                  text: qsTr("Abort")
-                  Material.background: Material.Red
-                  Material.foreground: "white"
-                  onClicked: {
-                      ScreenPlay.util.setNavigationActive(true)
-                      ScreenPlay.util.setNavigation("Create")
-                  }
-              }
-
+                    id: btnExit
+                    text: qsTr("Abort")
+                    Material.background: Material.Red
+                    Material.foreground: "white"
+                    onClicked: {
+                        ScreenPlay.util.setNavigationActive(true)
+                        ScreenPlay.util.setNavigation("Create")
+                    }
+                }
             }
         }
     }
@@ -216,9 +230,6 @@ Item {
             }
         }
     }
-
-
-
 }
 
 /*##^##
