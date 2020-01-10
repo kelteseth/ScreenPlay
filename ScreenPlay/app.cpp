@@ -90,6 +90,7 @@ App::App()
         m_telemetry->setNetworkAccessManager(nam);
         m_telemetry->setSendInterval(1000);
         m_telemetry->startSession();
+        m_telemetry->sendEvent("version", QGuiApplication::applicationVersion());
     }
 
     m_create = make_unique<Create>(m_globalVariables);
