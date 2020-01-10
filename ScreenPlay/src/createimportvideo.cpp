@@ -47,7 +47,7 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 #if defined(Q_OS_MACOS) || defined(Q_OS_UNIX)
     m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg";
 #endif
-    qDebug() << m_ffmpegExecutable << m_ffprobeExecutable;
+
 }
 
 /*!

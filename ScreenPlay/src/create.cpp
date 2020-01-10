@@ -205,6 +205,13 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     obj.insert("description", description);
     obj.insert("title", title);
     obj.insert("youtube", youtube);
+    obj.insert("videoCodec", "vp8");
+
+    QFile audioFile { m_workingDir + "/audio.mp3" };
+    if (audioFile.exists() && audioFile.size() > 0) {
+        obj.insert("audio", "audio.mp3");
+        obj.insert("audioCodec", "mp3");
+    }
 
     // If the input file is a webm we don't need to convert it
     if (filePath.endsWith(".webm")) {
