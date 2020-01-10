@@ -10,6 +10,11 @@ Item {
     Connections {
         target: Widget
 
+        onQmlExit: {
+            Widget.setWindowBlur(0)
+            animFadeOut.start()
+        }
+
         onQmlSceneValueReceived: {
             var obj2 = 'import QtQuick 2.14; Item {Component.onCompleted: loader.item.'
                     + key + ' = ' + value + '; }'

@@ -28,7 +28,7 @@ int main(int argc, char* argv[])
     ScreenPlaySDK sdk(argumentList.at(2), argumentList.at(3));
     WidgetWindow spwmw(argumentList.at(1), argumentList.at(2), argumentList.at(3));
 
-    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &spwmw, &WidgetWindow::destroyThis);
+    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &spwmw, &WidgetWindow::qmlExit);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &spwmw, &WidgetWindow::messageReceived);
 
     return app.exec();
