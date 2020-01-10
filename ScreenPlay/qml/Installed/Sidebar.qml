@@ -67,7 +67,8 @@ Item {
     }
 
     onActiveScreenChanged: {
-        txtHeadline.text = ScreenPlay.installedListModel.get(activeScreen).screenTitle
+        txtHeadline.text = ScreenPlay.installedListModel.get(
+                    activeScreen).screenTitle
 
         if (ScreenPlay.installedListModel.get(
                     activeScreen).screenPreviewGIF === undefined) {
@@ -316,7 +317,17 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                enabled: monitorSelection.activeMonitors.length > 0
+                enabled: {
+                     if(type.endsWith("Wallpaper")) {
+                          if (monitorSelection.activeMonitors.length > 0) {
+                                return true
+                          }
+                    } else if(type.endsWith("Widget")){
+                         return true
+                    }
+                      return false
+                }
+
                 anchors {
                     bottom: parent.bottom
                     bottomMargin: 20
@@ -325,8 +336,8 @@ Item {
 
                 onClicked: {
                     if (type.endsWith("Wallpaper")) {
-                        let activeMonitors = monitorSelection.getActiveMonitors();
-
+                        let activeMonitors = monitorSelection.getActiveMonitors(
+                                )
 
                         // TODO Alert user to choose a monitor
                         if (activeMonitors.length === 0)
@@ -337,14 +348,14 @@ Item {
                                     + "/" + activeScreen,
                                     ScreenPlay.installedListModel.get(activeScreen).screenPreview,
                                     (Math.round(sliderVolume.value * 100) / 100),
-                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(), 
-                                    type)
-
+                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
+                                        ), type)
                     } else {
                         ScreenPlay.screenPlayManager.createWidget(
-                                    ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
-                                    ScreenPlay.installedListModel.get(activeScreen).screenPreview,
-                                    type)
+                                    ScreenPlay.globalVariables.localStoragePath
+                                    + "/" + activeScreen,
+                                    ScreenPlay.installedListModel.get(
+                                        activeScreen).screenPreview, type)
                     }
                     sidebar.state = "inactive"
                     monitorSelection.deselectAll()
@@ -434,6 +445,17 @@ Item {
             }
 
             PropertyChanges {
+                target: sliderVolume
+                visible: false
+            }
+
+            PropertyChanges {
+                target: monitorSelection
+                visible: false
+                enabled: false
+            }
+
+            PropertyChanges {
                 target: image
                 opacity: 1
                 anchors.topMargin: 0
@@ -441,7 +463,7 @@ Item {
 
             PropertyChanges {
                 target: btnSetWallpaper
-                text: qsTr("Set Widget")
+                text: qsTr("Create Widget")
             }
             PropertyChanges {
                 target: txtHeadlineMonitor
@@ -462,7 +484,7 @@ Item {
             }
             PropertyChanges {
                 target: btnSetWallpaper
-                text: qsTr("Set Scene")
+                text: qsTr("Create Wallpaper")
             }
             PropertyChanges {
                 target: txtHeadlineMonitor
@@ -489,7 +511,7 @@ Item {
 
             PropertyChanges {
                 target: btnSetWallpaper
-                text: qsTr("Set Wallpaper")
+                text: qsTr("Create Wallpaper")
             }
             PropertyChanges {
                 target: txtHeadlineMonitor
