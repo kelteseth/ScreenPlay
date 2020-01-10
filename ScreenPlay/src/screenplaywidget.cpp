@@ -25,7 +25,11 @@ ScreenPlayWidget::ScreenPlayWidget(
     , m_position { 0, 0 }
     , m_type { type }
 {
-    const QStringList proArgs { m_projectPath, m_appID, m_type };
+    const QStringList proArgs {
+        m_projectPath,
+        QString { "appID=" + m_appID },
+        m_type
+    };
     m_process.setArguments(proArgs);
 
     if (fullPath.endsWith(".exe")) {

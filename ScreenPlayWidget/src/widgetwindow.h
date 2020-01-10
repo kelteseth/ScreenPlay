@@ -2,6 +2,7 @@
 
 #include <QDebug>
 #include <QFile>
+#include <QGuiApplication>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
@@ -15,7 +16,6 @@
 #include <QWindow>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
-#include <QGuiApplication>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
@@ -53,6 +53,8 @@ public:
     }
 
 signals:
+    void qmlExit();
+
     void appIDChanged(QString appID);
     void typeChanged(QString type);
     void projectConfigChanged(QString projectConfig);
@@ -66,9 +68,6 @@ public slots:
     void setPos(int xPos, int yPos);
     void setClickPos(const QPoint& clickPos);
     void setWidgetSize(const int with, const int height);
-#ifdef Q_OS_WIN
-    void setWindowBlur(unsigned int style = 3);
-#endif
 
     void setAppID(QString appID)
     {
@@ -94,7 +93,6 @@ public slots:
         m_projectConfig = projectConfig;
         emit projectConfigChanged(m_projectConfig);
     }
-
     void setSourcePath(QString sourcePath)
     {
         if (m_sourcePath == sourcePath)
@@ -104,16 +102,21 @@ public slots:
         emit sourcePathChanged(m_sourcePath);
     }
 
+#ifdef Q_OS_WIN
+    void setWindowBlur(unsigned int style = 3);
+#endif
+
 private:
     QString m_appID { "" };
     QString m_type { "qmlWidget" };
     QString m_projectConfig { "" };
+    QString m_sourcePath { "" };
+
     QJsonObject m_project;
+    QPoint m_clickPos = { 0, 0 };
+    QQuickView m_window;
+
 #ifdef Q_OS_WIN
     HWND m_hwnd;
 #endif
-    QPoint m_clickPos = { 0, 0 };
-
-    QQuickView m_window;
-    QString m_sourcePath { "" };
 };

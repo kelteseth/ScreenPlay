@@ -140,13 +140,12 @@ public slots:
 
     void close()
     {
-        if ((m_socket->state()) == QLocalSocket::UnconnectedState || (m_socket->state()) == QLocalSocket::ClosingState)
-            return;
+        if (m_socket->state() == QLocalSocket::ConnectedState) {
+            m_socket->disconnectFromServer();
+            m_socket->close();
 
-        m_socket->disconnectFromServer();
-        m_socket->close();
-
-        qDebug() << "### Destroy APPID:\t " << m_appID << " State: " << m_socket->state();
+            qDebug() << "### Destroy APPID:\t " << m_appID << " State: " << m_socket->state();
+        }
     }
 
     void setAppID(QString appID)

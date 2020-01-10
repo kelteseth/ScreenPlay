@@ -2,22 +2,22 @@
 #include <QQmlApplicationEngine>
 #include <QStringList>
 
-#include "src/widgetwindow.h"
 #include "../ScreenPlaySDK/screenplaysdk.h"
+#include "src/widgetwindow.h"
 
 int main(int argc, char* argv[])
 {
     QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
-    ScreenPlaySDK sdk;
     QGuiApplication app(argc, argv);
 
     QStringList argumentList = app.arguments();
 
-    // If we start with only one argument (app, path, type),
+    // If we start with only one argument (path, appID, type),
     // it means we want to test a single widget
     if (argumentList.length() == 1) {
-        WidgetWindow spwmw("test","appid", "qmlWidget");
+        WidgetWindow spwmw("test", "appid", "qmlWidget");
         return app.exec();
     }
 
@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
         return -3;
     }
 
+    ScreenPlaySDK sdk(argumentList.at(2), argumentList.at(3));
     WidgetWindow spwmw(argumentList.at(1), argumentList.at(2), argumentList.at(3));
 
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &spwmw, &WidgetWindow::destroyThis);

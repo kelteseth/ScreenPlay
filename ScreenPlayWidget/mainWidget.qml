@@ -1,9 +1,22 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
+import QtWebEngine 1.8
+import ScreenPlayWidget 1.0
 
 Item {
     id: mainWindow
     anchors.fill: parent
+
+    Connections {
+        target: Widget
+
+        onQmlSceneValueReceived: {
+            var obj2 = 'import QtQuick 2.14; Item {Component.onCompleted: loader.item.'
+                    + key + ' = ' + value + '; }'
+            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
+            newObject.destroy(10000)
+        }
+    }
 
     OpacityAnimator {
         id: animFadeOut
@@ -12,7 +25,7 @@ Item {
         target: parent
         duration: 800
         easing.type: Easing.InOutQuad
-        onFinished: window.destroyThis()
+        onFinished: Widget.destroyThis()
     }
 
     Rectangle {
@@ -29,19 +42,36 @@ Item {
         opacity: .05
         fillMode: Image.Tile
     }
+
     Loader {
         id: loader
         anchors.fill: parent
         asynchronous: true
-        source: {
-            Qt.resolvedUrl(window.sourcePath)
+        Component.onCompleted: {
+            if (Widget.type === "qmlWidget") {
+                loader.source = Qt.resolvedUrl(Widget.sourcePath)
+            } else if (Widget.type === "htmlWidget") {
+                loader.sourceComponent = webViewComponent
+            }
         }
 
         Connections {
             target: loader.item
-            onSizeChanged: {
-                mainWindow.width = size.width
-                mainWindow.height = size.height
+            ignoreUnknownSignals: true
+            onWidthChanged: mainWindow.width = loader.item.width
+            onHeightChanged: mainWindow.height = loader.item.height
+        }
+    }
+
+    Component {
+        id: webViewComponent
+        WebEngineView {
+            id: webView
+            backgroundColor: "transparent"
+            anchors.fill: parent
+            onJavaScriptConsoleMessage: print(lineNumber, message)
+            Component.onCompleted: {
+                webView.url = Qt.resolvedUrl(Widget.sourcePath)
             }
         }
     }
@@ -51,23 +81,12 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         onPressed: {
-            window.setClickPos(Qt.point(mouse.x, mouse.y))
+            Widget.setClickPos(Qt.point(mouse.x, mouse.y))
         }
 
         onPositionChanged: {
             if (mouseArea.pressed)
-                window.setPos(mouse.x, mouse.y)
-        }
-    }
-
-    Connections {
-        target: window
-
-        onQmlSceneValueReceived: {
-            var obj2 = 'import QtQuick 2.12; Item {Component.onCompleted: loader.item.'
-                    + key + ' = ' + value + '; }'
-            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
-            newObject.destroy(10000)
+                Widget.setPos(mouse.x, mouse.y)
         }
     }
 
@@ -81,15 +100,25 @@ Item {
         }
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            window.setWindowBlur(0)
+            Widget.setWindowBlur(0)
             animFadeOut.start()
         }
+        hoverEnabled: true
+        onEntered: imgClose.opacity = 1
+        onExited: imgClose.opacity = .15
 
         Image {
+            id: imgClose
             source: "qrc:/assets/icons/baseline-close-24px.svg"
             anchors.centerIn: parent
+            opacity: .15
+            OpacityAnimator {
+                target: parent
+                duration: 300
+            }
         }
     }
+
     MouseArea {
         id: mouseAreaResize
         width: 20
@@ -107,7 +136,7 @@ Item {
 
         onPositionChanged: {
             if (mouseAreaResize.pressed) {
-                window.setWidgetSize(clickPosition.x + mouseX,
+                Widget.setWidgetSize(clickPosition.x + mouseX,
                                      clickPosition.y + mouseY)
             }
         }

@@ -9,8 +9,7 @@ WidgetWindow::WidgetWindow(const QString projectPath, const QString appid, const
 {
     QStringList availableTypes {
         "qmlWidget",
-        "htmlWidget",
-        "standaloneWidget"
+        "htmlWidget"
     };
 
     if (!availableTypes.contains(m_type)) {
