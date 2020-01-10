@@ -43,6 +43,7 @@ ColumnLayout {
     ColumnLayout {
         height: 50
         Layout.fillWidth: true
+        Layout.margins: 10
         spacing: 5
 
         Text {
@@ -57,7 +58,7 @@ ColumnLayout {
         }
         ComboBox {
             id: settingsComboBox
-            Layout.preferredWidth: parent.width - 20
+            Layout.fillWidth: true
             Layout.leftMargin: 10
             onActivated: {
                 ScreenPlay.screenPlayManager.setWallpaperValue(
