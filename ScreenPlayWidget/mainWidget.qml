@@ -83,15 +83,21 @@ Item {
 
     MouseArea {
         id: mouseArea
+        property var clickPos
         anchors.fill: parent
         hoverEnabled: true
         onPressed: {
-            Widget.setClickPos(Qt.point(mouse.x, mouse.y))
+            clickPos = {
+                "x": mouse.x,
+                "y": mouse.y
+            }
         }
 
         onPositionChanged: {
-            if (mouseArea.pressed)
-                Widget.setPos(mouse.x, mouse.y)
+            if (mouseArea.pressed) {
+                Widget.setPos(Widget.cursorPos().x - clickPos.x,
+                              Widget.cursorPos().y - clickPos.y)
+            }
         }
     }
 

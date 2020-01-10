@@ -76,12 +76,7 @@ void WidgetWindow::messageReceived(QString key, QString value)
 
 void WidgetWindow::setPos(int xPos, int yPos)
 {
-
-    QPoint delta((xPos - m_clickPos.x()), (yPos - m_clickPos.y()));
-    int new_x = m_window.x() + delta.x();
-    int new_y = m_window.y() + delta.y();
-
-    m_window.setPosition(QPoint(new_x, new_y));
+    m_window.setPosition({ xPos, yPos });
 }
 
 void WidgetWindow::setClickPos(const QPoint& clickPos)

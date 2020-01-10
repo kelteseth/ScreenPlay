@@ -102,6 +102,7 @@ public slots:
         emit sourcePathChanged(m_sourcePath);
     }
 
+    QPointF cursorPos() { return QCursor::pos(); }
 #ifdef Q_OS_WIN
     void setWindowBlur(unsigned int style = 3);
 #endif
@@ -114,6 +115,7 @@ private:
 
     QJsonObject m_project;
     QPoint m_clickPos = { 0, 0 };
+    QPoint m_lastPos = { 0, 0 };
     QQuickView m_window;
 
 #ifdef Q_OS_WIN
