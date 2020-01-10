@@ -41,7 +41,7 @@ public:
         const shared_ptr<GlobalVariables>& globalVariables,
         const shared_ptr<MonitorListModel>& mlm,
         const shared_ptr<SDKConnector>& sdkc,
-        const shared_ptr<GAnalytics>& tracker,
+        const shared_ptr<GAnalytics>& telemetry,
         QObject* parent = nullptr);
 
     int activeWallpaperCounter() const
@@ -131,7 +131,7 @@ private:
     const shared_ptr<GlobalVariables>& m_globalVariables;
     const shared_ptr<MonitorListModel>& m_monitorListModel;
     const shared_ptr<SDKConnector>& m_sdkconnector;
-    const shared_ptr<GAnalytics>& m_tracker;
+    const shared_ptr<GAnalytics>& m_telemetry;
 
     QVector<shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
     QVector<shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;

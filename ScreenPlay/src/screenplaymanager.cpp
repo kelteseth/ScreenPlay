@@ -14,13 +14,14 @@ namespace ScreenPlay {
 ScreenPlayManager::ScreenPlayManager(
     const shared_ptr<GlobalVariables>& globalVariables,
     const shared_ptr<MonitorListModel>& mlm,
-    const shared_ptr<SDKConnector>& sdkc, const shared_ptr<GAnalytics>& tracker,
+    const shared_ptr<SDKConnector>& sdkc,
+    const shared_ptr<GAnalytics>& telemetry,
     QObject* parent)
     : QObject { parent }
     , m_globalVariables { globalVariables }
     , m_monitorListModel { mlm }
     , m_sdkconnector { sdkc }
-    , m_tracker { tracker }
+    , m_telemetry { telemetry }
 {
     loadWallpaperProfiles();
 }
@@ -40,8 +41,9 @@ void ScreenPlayManager::createWallpaper(
     const QString& type,
     const bool saveToProfilesConfigFile)
 {
-
-    m_tracker->sendEvent("wallpaper", "start");
+    if (m_telemetry) {
+        m_telemetry->sendEvent("wallpaper", "start");
+    }
     QString path = absoluteStoragePath;
 
     if (absoluteStoragePath.contains("file:///"))
@@ -107,7 +109,9 @@ void ScreenPlayManager::createWallpaper(
  */
 void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QString& previewImage, const QString& type)
 {
-    m_tracker->sendEvent("widget", "start");
+    if (m_telemetry) {
+        m_telemetry->sendEvent("widget", "start");
+    }
     increaseActiveWidgetsCounter();
 
     m_screenPlayWidgets.append(
@@ -127,7 +131,7 @@ void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QStr
 void ScreenPlayManager::removeAllWallpapers()
 {
     if (!m_screenPlayWallpapers.empty()) {
-        m_tracker->sendEvent("wallpaper", "stopAll");
+        m_telemetry->sendEvent("wallpaper", "stopAll");
         m_sdkconnector->closeAllWallpapers();
         m_screenPlayWallpapers.clear();
         m_monitorListModel->clearActiveWallpaper();
@@ -168,7 +172,9 @@ void ScreenPlayManager::removeAllWallpapers()
 */
 bool ScreenPlayManager::removeWallpaperAt(int at)
 {
-    m_tracker->sendEvent("wallpaper", "removeSingleWallpaper");
+    if (m_telemetry) {
+        m_telemetry->sendEvent("wallpaper", "removeSingleWallpaper");
+    }
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(at)) {
 
         m_sdkconnector->closeWallpaper(appID.value());
