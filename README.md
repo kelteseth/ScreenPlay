@@ -8,7 +8,8 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 <br> Visit our <a href="https://kelteseth.gitlab.io/ScreenPlayDeveloperDocs/"> Developer C++ Classes Documentation</a> and our <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/"> Getting Started Guide for creating Wallpaper and Widgets</a>!
 <br>
 <!--<h4><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h4>-->
-<h4> <a href="https://forum.screen-play.app/topic/2/we-are-open-for-alpha-testing-via-steam"> >> Get a free Steam alpha key here! <<</a> </h4>
+<h4>Get a free Steam key for you and your friends here:</h4>
+<h4> <a href="https://forum.screen-play.app/topic/2/we-are-open-for-alpha-testing-via-steam">Steam</a> or <a href="https://discordapp.com/invite/3RygPHZ">Discord</a></h4>
 </div>
 <br>
 
