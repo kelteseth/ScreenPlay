@@ -27,7 +27,7 @@ Item {
 
     CreateContentButton {
         id: btnCreateEmptyWidget
-        text: qsTr("Create Emtpy Widget")
+        text: qsTr("Create Empty Widget")
         anchors.top: txtCreate.bottom
         anchors.topMargin: 10
         animOffset: 50
@@ -40,7 +40,7 @@ Item {
 
     Text {
         id: txtExamples
-        text: qsTr("Examples Widgets and Scenes")
+        text: qsTr("Example Widgets and Scenes")
         font.family: "Roboto"
 
         font.pointSize: 16

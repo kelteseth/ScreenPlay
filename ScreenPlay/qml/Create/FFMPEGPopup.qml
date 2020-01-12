@@ -241,16 +241,17 @@ Popup {
                         text: qsTr("<b>Why do we bother you with this?</b>
 <br><br> Well its because of <b>copyright</b> and many many <b>patents</b>.
 " + "Files like .mp4 or .webm are containers for video and audio. Every audio
-" + "and video file is encoded with a certain codec. These can be open sour
+" + "and video file is encoded with a certain codec. These can be open source
 ce" + "and free to use like <a href='https://wikipedia.org/wiki/VP8'>VP8</a> and the newer  <a href='https://wikipedia.org/wiki/VP9'>VP9</a> (the one YouTube uses for their web
-ms)" + "but there are also some proproatary ones like  <a href='https://wikipedia.org/wiki/H.264/MPEG-4_AVC'>h264</a> and the successor <a href='https://wikipedia.org/wiki/High_Efficiency_Video_Coding'>h265</a>." + "
+ms)" + "but there are also some proprietary ones like  <a href='https://wikipedia.org/wiki/H.264/MPEG-4_AVC'>h264</a> and the successor <a href='https://wikipedia.org/wiki/High_Efficiency_Video_Coding'>h265</a>." + "
 <br>
 <br>
-" + "\n\n We as software developer now need to deal with stuff like this in a field we
-" + "are do not have any expertise in. The desicion to enable only free codecs for content was
-" + "an easy one but we still need to provide a way for our user to import wallpape
-r " + "without a hassle. We do not provide  <a href='https://ffmpeg.org/'>FFMPEG</a> f
-or " + "converting video and audio with ScreenPlay because we are not allowed to. We let the user download <a href='https://ffmpeg.org/'>FFMPEG</a> wich " + "is perfectly fine!
+"
++ "\n\n We as software developer now need to deal with stuff like this in a field we"
++ "do not have any expertise in. The desicion to enable only free codecs for content was"
++ "an easy one but we still need to provide a way for our user to import wallpaper "
++ "without a hassle. We do not provide  <a href='https://ffmpeg.org/'>FFMPEG</a> for "
++ "converting video and audio with ScreenPlay because we are not allowed to. We let the user download <a href='https://ffmpeg.org/'>FFMPEG</a> wich " + "is perfectly fine!
 <br>
 Sorry for this little inconvenience :)" + "
 <br>

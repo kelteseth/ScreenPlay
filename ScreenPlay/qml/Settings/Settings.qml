@@ -355,7 +355,7 @@ Item {
                             Text {
                                 id: txtHeadline
                                 color: "#5D5D5D"
-                                text: "Thank you for using ScreenPlay"
+                                text: qsTr("Thank you for using ScreenPlay")
 
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft

@@ -6,7 +6,7 @@
     <message>
         <location filename="../qml/Community/Community.qml" line="61"/>
         <source>We use Stomt because it provides quick and easy feedback via I like/I wish. So you can easily give us feedback and speak your mind. We will read these wishes on a daily basis!</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="105"/>
@@ -37,28 +37,94 @@
 <context>
     <name>Create</name>
     <message>
-        <location filename="../qml/Create/Create.qml" line="218"/>
+        <location filename="../qml/Create/Create.qml" line="116"/>
         <source>Create wallpapers and widgets for local usage or the steam workshop!</source>
         <translation type="unfinished"></translation>
     </message>
+</context>
+<context>
+    <name>CreateContent</name>
     <message>
-        <location filename="../qml/Create/Create.qml" line="243"/>
-        <source>QML Quickstart Guide</source>
+        <location filename="../qml/Create/CreateContent.qml" line="15"/>
+        <source>Create Widgets and Scenes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Create.qml" line="254"/>
-        <source>Documentation</source>
+        <location filename="../qml/Create/CreateContent.qml" line="30"/>
+        <source>Create Empty Widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Create.qml" line="265"/>
-        <source>Forums</source>
+        <location filename="../qml/Create/CreateContent.qml" line="43"/>
+        <source>Example Widgets and Scenes</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Create.qml" line="276"/>
-        <source>Workshop</source>
+        <location filename="../qml/Create/CreateContent.qml" line="67"/>
+        <source>Simple clock widget</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/CreateContent.qml" line="78"/>
+        <source>Musik scene wallpaper visualizer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/CreateContent.qml" line="89"/>
+        <source>Changing scene wallpaper via unsplash.com</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>CreateEmptyWidget</name>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="16"/>
+        <source>Create an empty widget</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="73"/>
+        <source>General</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="80"/>
+        <source>Widget name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="92"/>
+        <source>Copyright owner</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="95"/>
+        <source>Type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="122"/>
+        <source>License</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="143"/>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="166"/>
+        <source>Save</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="192"/>
+        <source>Abort</source>
+        <translation type="unfinished">Cancel</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="218"/>
+        <source>Create Widget...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -77,64 +143,6 @@
         <source></source>
         <translation></translation>
     </message>
-    <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="245"/>
-        <source>Videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="252"/>
-        <source>Scenes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="259"/>
-        <source>Widgets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="266"/>
-        <source>AppDrawer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="273"/>
-        <source>Upload to Steam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="322"/>
-        <source>Creating Workshop Item</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CreateWallpaper</name>
-    <message>
-        <location filename="../qml/Create/CreateWallpaper.qml" line="25"/>
-        <source>Import Wallpaper</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateWallpaper.qml" line="77"/>
-        <source>Import video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateWallpaper.qml" line="77"/>
-        <source>FFMPEG Needed for import</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateWallpaper.qml" line="159"/>
-        <source>Import ThreeJs Scene</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateWallpaper.qml" line="241"/>
-        <source>Upload Exsisting Project to Steam</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>CreateWallpaperResult</name>
@@ -144,7 +152,12 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="70"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="76"/>
+        <source>Copy text to clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="86"/>
         <source>Back to create and send an error report!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -152,39 +165,44 @@
 <context>
     <name>CreateWallpaperVideoImportConvert</name>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="37"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="54"/>
         <source>Generating preview image...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="44"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="57"/>
+        <source>Generating preview thumbnail image...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="64"/>
         <source>Generating 5 second preview video...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="47"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="67"/>
         <source>Generating preview gif...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="56"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="76"/>
         <source>Converting Audio...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="59"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="79"/>
         <source>Converting Video... This can take some time!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="63"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="83"/>
         <source>Converting Video ERROR!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="85"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="107"/>
         <source>Convert a video to a wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Convert a video to a background live wallpaper</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="164"/>
@@ -192,76 +210,43 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="176"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="199"/>
         <source>Generating preview video...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="187"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="210"/>
         <source>You can set your own preview image here!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="223"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="246"/>
         <source>Name (required!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="237"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="260"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="244"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="268"/>
         <source>Youtube URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="268"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="293"/>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cancel</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="280"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="305"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="315"/>
+        <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="341"/>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>CreateWidget</name>
-    <message>
-        <location filename="../qml/Create/CreateWidget.qml" line="15"/>
-        <source>Create Widgets and Scenes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateWidget.qml" line="30"/>
-        <source>Create Emtpy Widget</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateWidget.qml" line="53"/>
-        <source>Examples Widgets and Scenes</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateWidget.qml" line="77"/>
-        <source>Simple clock widget</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateWidget.qml" line="88"/>
-        <source>Musik scene wallpaper visualizer</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/CreateWidget.qml" line="99"/>
-        <source>Changing scene wallpaper via unsplash.com</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -283,7 +268,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Monitors/DefaultVideoControls.qml" line="50"/>
+        <location filename="../qml/Monitors/DefaultVideoControls.qml" line="51"/>
         <source>Fill Mode</source>
         <translation type="unfinished"></translation>
     </message>
@@ -353,11 +338,11 @@
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="109"/>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cancel</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="119"/>
-        <location filename="../qml/Create/FFMPEGPopup.qml" line="286"/>
+        <location filename="../qml/Create/FFMPEGPopup.qml" line="287"/>
         <source>Download FFMPEG</source>
         <translation type="unfinished"></translation>
     </message>
@@ -371,18 +356,14 @@
         <source>&lt;b&gt;Why do we bother you with this?&lt;/b&gt;
 &lt;br&gt;&lt;br&gt; Well its because of &lt;b&gt;copyright&lt;/b&gt; and many many &lt;b&gt;patents&lt;/b&gt;.
 Files like .mp4 or .webm are containers for video and audio. Every audio
-and video file is encoded with a certain codec. These can be open sour
+and video file is encoded with a certain codec. These can be open source
 ceand free to use like &lt;a href=&apos;https://wikipedia.org/wiki/VP8&apos;&gt;VP8&lt;/a&gt; and the newer  &lt;a href=&apos;https://wikipedia.org/wiki/VP9&apos;&gt;VP9&lt;/a&gt; (the one YouTube uses for their web
-ms)but there are also some proproatary ones like  &lt;a href=&apos;https://wikipedia.org/wiki/H.264/MPEG-4_AVC&apos;&gt;h264&lt;/a&gt; and the successor &lt;a href=&apos;https://wikipedia.org/wiki/High_Efficiency_Video_Coding&apos;&gt;h265&lt;/a&gt;.
+ms)but there are also some proprietary ones like  &lt;a href=&apos;https://wikipedia.org/wiki/H.264/MPEG-4_AVC&apos;&gt;h264&lt;/a&gt; and the successor &lt;a href=&apos;https://wikipedia.org/wiki/High_Efficiency_Video_Coding&apos;&gt;h265&lt;/a&gt;.
 &lt;br&gt;
 &lt;br&gt;
 
 
- We as software developer now need to deal with stuff like this in a field we
-are do not have any expertise in. The desicion to enable only free codecs for content was
-an easy one but we still need to provide a way for our user to import wallpape
-r without a hassle. We do not provide  &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; f
-or converting video and audio with ScreenPlay because we are not allowed to. We let the user download &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; wich is perfectly fine!
+ We as software developer now need to deal with stuff like this in a field wedo not have any expertise in. The desicion to enable only free codecs for content wasan easy one but we still need to provide a way for our user to import wallpaper without a hassle. We do not provide  &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; for converting video and audio with ScreenPlay because we are not allowed to. We let the user download &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; wich is perfectly fine!
 &lt;br&gt;
 Sorry for this little inconvenience :)
 &lt;br&gt;
@@ -405,18 +386,41 @@ if you installed ScreenPlay via Steam!
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/FFMPEGPopup.qml" line="293"/>
+        <location filename="../qml/Create/FFMPEGPopup.qml" line="294"/>
         <source>Not now!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/FFMPEGPopup.qml" line="336"/>
+        <location filename="../qml/Create/FFMPEGPopup.qml" line="337"/>
         <source>You can now start creating content!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/FFMPEGPopup.qml" line="368"/>
+        <location filename="../qml/Create/FFMPEGPopup.qml" line="369"/>
         <source>Start!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Footer</name>
+    <message>
+        <location filename="../qml/Create/Footer.qml" line="23"/>
+        <source>QML Quickstart Guide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Footer.qml" line="34"/>
+        <source>Documentation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Footer.qml" line="45"/>
+        <source>Forums</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Footer.qml" line="56"/>
+        <source>Workshop</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -429,7 +433,35 @@ if you installed ScreenPlay via Steam!
     </message>
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="153"/>
-        <source>Open Image</source>
+        <source>Select Preview Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>ImportContent</name>
+    <message>
+        <location filename="../qml/Create/ImportContent.qml" line="25"/>
+        <source>Import Content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/ImportContent.qml" line="77"/>
+        <source>Import video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/ImportContent.qml" line="77"/>
+        <source>FFMPEG Needed for import</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/ImportContent.qml" line="159"/>
+        <source>Import ThreeJs Scene</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/ImportContent.qml" line="241"/>
+        <source>Upload Exsisting Project to Steam</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -512,16 +544,21 @@ if you installed ScreenPlay via Steam!
         <source>Remove all Wallpapers</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <location filename="../qml/Monitors/Monitors.qml" line="152"/>
+        <source>Remove all Widgets</source>
+        <translation></translation>
+    </message>
 </context>
 <context>
     <name>NavigationWallpaperConfiguration</name>
     <message>
-        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="65"/>
+        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
         <source>Configurate active Wallpaper or Widgets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="67"/>
+        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="70"/>
         <source>No active Wallpaper or Widgets</source>
         <translation type="unfinished"></translation>
     </message>
@@ -529,12 +566,12 @@ if you installed ScreenPlay via Steam!
 <context>
     <name>ScreenPlayItem</name>
     <message>
-        <location filename="../qml/Installed/ScreenPlayItem.qml" line="222"/>
+        <location filename="../qml/Installed/ScreenPlayItem.qml" line="229"/>
         <source>Open containing folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/ScreenPlayItem.qml" line="229"/>
+        <location filename="../qml/Installed/ScreenPlayItem.qml" line="236"/>
         <source>Open workshop Page</source>
         <translation type="unfinished"></translation>
     </message>
@@ -599,96 +636,101 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="163"/>
         <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Set the ScreenPlay userinterface Language</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="241"/>
+        <location filename="../qml/Settings/Settings.qml" line="247"/>
         <source>Performance</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="261"/>
+        <location filename="../qml/Settings/Settings.qml" line="267"/>
         <source>Pause wallpaper while ingame</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="263"/>
+        <location filename="../qml/Settings/Settings.qml" line="269"/>
         <source>To maximise your framerates ingame, you can enable this setting to pause all active wallpapers!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="276"/>
+        <location filename="../qml/Settings/Settings.qml" line="282"/>
         <source>Default Fill Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="277"/>
+        <location filename="../qml/Settings/Settings.qml" line="283"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="326"/>
+        <location filename="../qml/Settings/Settings.qml" line="332"/>
         <source>About</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="366"/>
+        <location filename="../qml/Settings/Settings.qml" line="358"/>
+        <source>Thank you for using ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="372"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="453"/>
+        <location filename="../qml/Settings/Settings.qml" line="459"/>
         <source>Version</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="454"/>
+        <location filename="../qml/Settings/Settings.qml" line="460"/>
         <source>ScreenPlay Build Version </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="456"/>
+        <location filename="../qml/Settings/Settings.qml" line="462"/>
         <source>Open Changelog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="463"/>
+        <location filename="../qml/Settings/Settings.qml" line="469"/>
         <source>Third Party Software</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="464"/>
+        <location filename="../qml/Settings/Settings.qml" line="470"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="465"/>
+        <location filename="../qml/Settings/Settings.qml" line="471"/>
         <source>Licenses</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="487"/>
-        <location filename="../qml/Settings/Settings.qml" line="489"/>
+        <location filename="../qml/Settings/Settings.qml" line="493"/>
+        <location filename="../qml/Settings/Settings.qml" line="495"/>
         <source>Debug Messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="488"/>
+        <location filename="../qml/Settings/Settings.qml" line="494"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="504"/>
+        <location filename="../qml/Settings/Settings.qml" line="510"/>
         <source>Data Protection</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="505"/>
+        <location filename="../qml/Settings/Settings.qml" line="511"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="506"/>
+        <location filename="../qml/Settings/Settings.qml" line="512"/>
         <source>Privacy</source>
         <translation type="unfinished"></translation>
     </message>
@@ -704,44 +746,44 @@ if you installed ScreenPlay via Steam!
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="187"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="188"/>
         <source>Headline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="238"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="239"/>
         <source>Select a Monitor to display the content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="262"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="263"/>
         <source>Set Volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="272"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="273"/>
         <source>Fill Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="309"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="311"/>
         <source>Set wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="403"/>
-        <location filename="../qml/Installed/Sidebar.qml" line="491"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="415"/>
         <source>Set Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="443"/>
-        <source>Set Widget</source>
+        <location filename="../qml/Installed/Sidebar.qml" line="466"/>
+        <source>Create Widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="464"/>
-        <source>Set Scene</source>
+        <location filename="../qml/Installed/Sidebar.qml" line="487"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="514"/>
+        <source>Create Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
