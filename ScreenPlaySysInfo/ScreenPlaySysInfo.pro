@@ -6,19 +6,22 @@ CONFIG += plugin c++17
 TARGET = $$qtLibraryTarget($$TARGET)
 uri = ScreenPlay.Sysinfo
 
-# Input
 SOURCES += \
         screenplaysysinfo_plugin.cpp \
         sysinfo.cpp \
-    cpu.cpp \
-    ram.cpp
+        cpu.cpp \
+        ram.cpp \
+        storage.cpp
+
 
 HEADERS += \
         screenplaysysinfo_plugin.h \
         sysinfo.h \
-    cpu.h \
-    ram.h \
-    mathhelper.h
+        cpu.h \
+        ram.h \
+        mathhelper.h \
+        storage.h
+
 
 DISTFILES = qmldir
 
