@@ -37,11 +37,13 @@ win32 {
         src/winwindow.h
 
     CONFIG(debug, debug|release) {
+        install_it.path   = $${OUT_PWD}/debug/
         install_it.files +=  \
                             $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libcrypto-1_1-x64.dll \
                             $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libssl-1_1-x64.dll \
 
     } else {
+        install_it.path   = $${OUT_PWD}/release/
         install_it.files +=  \
                             $$PWD/../Common/vcpkg/installed/x64-windows/bin/libcrypto-1_1-x64.dll \
                             $$PWD/../Common/vcpkg/installed/x64-windows/bin/libssl-1_1-x64.dll \
@@ -73,12 +75,10 @@ macx {
 
 !macx {
     CONFIG(debug, debug|release) {
-    LIBS += -lScreenPlaySDKd
-        install_it.path = $${OUT_PWD}/debug/
+        LIBS += -lScreenPlaySDKd
         QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
      } else {
-    LIBS += -lScreenPlaySDK
-        install_it.path = $${OUT_PWD}/release/
+        LIBS += -lScreenPlaySDK
         QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
      }
     QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK

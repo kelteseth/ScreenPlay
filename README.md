@@ -41,6 +41,7 @@ git clone https://gitlab.com/kelteseth/ScreenPlay.git
    * This will install these dependencies via __vcpkg__
       * libzippp
       * nlohmann-json
+      * openSSL 1.1.1d
    * Download these dependencies via __git submodules__
       * stomt-qt-sdk
       * qt-google-analytics
