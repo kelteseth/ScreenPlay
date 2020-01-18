@@ -15,6 +15,24 @@ RESOURCES += \
 
 include(../ScreenPlaySDK/ScreenPlaySDK.pri)
 
+
+
+win32 {
+
+    CONFIG(debug, debug|release) {
+        install_it.files +=  \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libcrypto-1_1-x64.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libssl-1_1-x64.dll \
+
+    } else {
+        install_it.files +=  \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/libcrypto-1_1-x64.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/libssl-1_1-x64.dll \
+    }
+
+}
+
+
 macx: {
     QMAKE_LIBDIR += $$OUT_PWD/
 }

@@ -35,6 +35,17 @@ win32 {
     HEADERS += \
         src/windowsdesktopproperties.h \
         src/winwindow.h
+
+    CONFIG(debug, debug|release) {
+        install_it.files +=  \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libcrypto-1_1-x64.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libssl-1_1-x64.dll \
+
+    } else {
+        install_it.files +=  \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/libcrypto-1_1-x64.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/libssl-1_1-x64.dll \
+    }
 }
 
 include(../ScreenPlaySDK/ScreenPlaySDK.pri)

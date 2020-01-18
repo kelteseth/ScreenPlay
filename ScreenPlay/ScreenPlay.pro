@@ -77,28 +77,28 @@ win32 {
     RC_ICONS += favicon.ico
 
     INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
-    DEPENDPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
-
-    LIBS += -L$$PWD/../Common/vcpkg/installed/x64-windows/lib/ -llibzippp
-CONFIG(debug, debug|release) {
-    install_it.files += $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/zip.dll \
-                        $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/zlibd1.dll \
-                        $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libzippp.dll \
-                        $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/bz2d.dll \
-
-} else {
-    install_it.files += $$PWD/../Common/vcpkg/installed/x64-windows/bin/zip.dll \
-                        $$PWD/../Common/vcpkg/installed/x64-windows/bin/zlib1.dll \
-                        $$PWD/../Common/vcpkg/installed/x64-windows/bin/libzippp.dll \
-                        $$PWD/../Common/vcpkg/installed/x64-windows/bin/bz2.dll \
-}
-
-
+    DEPENDPATH  += $$PWD/../Common/vcpkg/installed/x64-windows/include
 
     LIBS += -luser32
-    install_it.files += \
-                        $$PWD/ThirdParty/OpenSSL/libcrypto-1_1-x64.dll \
-                        $$PWD/ThirdParty/OpenSSL/libssl-1_1-x64.dll \
+    LIBS += -L$$PWD/../Common/vcpkg/installed/x64-windows/lib/ -llibzippp
+
+    CONFIG(debug, debug|release) {
+        install_it.files += $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/zip.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/zlibd1.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libzippp.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/bz2d.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libcrypto-1_1-x64.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libssl-1_1-x64.dll \
+
+    } else {
+        install_it.files += $$PWD/../Common/vcpkg/installed/x64-windows/bin/zip.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/zlib1.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/libzippp.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/bz2.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/libcrypto-1_1-x64.dll \
+                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/libssl-1_1-x64.dll \
+    }
+
 }
 
 
