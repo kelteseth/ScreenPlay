@@ -16,10 +16,10 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 ![Preview](preview.mp4)
 
 ## The ScreenPlay Project
-* General user docs. Hosted on gitlab, made with mkdocs
+* General user docs. Contains infromations about content creation for ScreenPlay. Hosted on gitlab, made with mkdocs:
    *  Contribute at:    https://gitlab.com/kelteseth/ScreenPlayDocs
    *  View at :         https://kelteseth.gitlab.io/ScreenPlayDocs/
-* Developer docs. Hosted on gitlab, made with qDoc
+* Developer docs generated from the ScreenPlay source code of this repo. Hosted on gitlab, made with qDoc:
    *  Contribute at:    https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs
    *  View at :         https://kelteseth.gitlab.io/ScreenPlayDeveloperDocs/
 * Discussons and content can be found via:
