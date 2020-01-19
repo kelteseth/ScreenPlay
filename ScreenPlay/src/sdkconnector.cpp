@@ -35,7 +35,9 @@ void SDKConnector::readyRead()
 */
 void SDKConnector::newConnection()
 {
-    m_clients.append(make_shared<SDKConnection>(m_server->nextPendingConnection()));
+    auto connection = make_shared<SDKConnection>(m_server->nextPendingConnection());
+    QObject::connect(connection.get(),&SDKConnection::requestDecreaseWidgetCount,this,&SDKConnector::requestDecreaseWidgetCount);
+    m_clients.append(connection);
 }
 
 /*!

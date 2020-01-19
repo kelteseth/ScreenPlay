@@ -54,33 +54,6 @@ public:
         return m_activeWidgetsCounter;
     }
 
-    void increaseActiveWidgetsCounter()
-    {
-        m_activeWidgetsCounter++;
-        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
-    }
-
-    void decreaseActivewidgetsCounter()
-    {
-        m_activeWidgetsCounter--;
-        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
-    }
-
-    void increaseActiveWallpaperCounter()
-    {
-        m_activeWallpaperCounter++;
-        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
-    }
-
-    void decreaseActiveWallpaperCounter()
-    {
-        if (m_activeWallpaperCounter <= 0) {
-            return;
-        }
-        m_activeWallpaperCounter--;
-        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
-    }
-
 signals:
     void projectSettingsListModelFound(ProjectSettingsListModel* li, const QString& type);
     void projectSettingsListModelNotFound();
@@ -95,7 +68,7 @@ public slots:
         const QString& fillMode,
         const QString& type, const bool saveToProfilesConfigFile = true);
 
-    void createWidget(const QUrl& absoluteStoragePath, const QString& previewImage, const QString &type);
+    void createWidget(const QUrl& absoluteStoragePath, const QString& previewImage, const QString& type);
 
     void removeAllWallpapers();
     void removeAllWidgets();
@@ -122,6 +95,36 @@ public slots:
 
         m_activeWidgetsCounter = activeWidgetsCounter;
         emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
+    }
+
+    void increaseActiveWidgetsCounter()
+    {
+        m_activeWidgetsCounter++;
+        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
+    }
+
+    void decreaseActiveWidgetsCounter()
+    {
+        if (m_activeWidgetsCounter <= 0) {
+            return;
+        }
+        m_activeWidgetsCounter--;
+        emit activeWidgetsCounterChanged(m_activeWidgetsCounter);
+    }
+
+    void increaseActiveWallpaperCounter()
+    {
+        m_activeWallpaperCounter++;
+        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
+    }
+
+    void decreaseActiveWallpaperCounter()
+    {
+        if (m_activeWallpaperCounter <= 0) {
+            return;
+        }
+        m_activeWallpaperCounter--;
+        emit activeWallpaperCounterChanged(m_activeWallpaperCounter);
     }
 
 private:

@@ -27,8 +27,12 @@ using std::make_unique,
 
 class SDKConnector : public QObject {
     Q_OBJECT
+
 public:
     explicit SDKConnector(QObject* parent = nullptr);
+
+signals:
+    void requestDecreaseWidgetCount();
 
 public slots:
     void readyRead();
@@ -99,8 +103,8 @@ signals:
     void requestCloseAt(int at);
     void appIDChanged(QString appID);
     void monitorChanged(QVector<int> monitor);
-
     void typeChanged(QString type);
+    void requestDecreaseWidgetCount();
 
 public slots:
     void readyRead()
@@ -145,6 +149,9 @@ public slots:
             m_socket->close();
 
             qDebug() << "### Destroy APPID:\t " << m_appID << " State: " << m_socket->state();
+        }
+        if(m_type.contains("widget",Qt::CaseInsensitive)){
+            emit requestDecreaseWidgetCount();
         }
     }
 
