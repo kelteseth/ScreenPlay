@@ -20,7 +20,7 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 788
-    title: "ScreenPlay V0.7"
+    title: "ScreenPlay V0.8"
     minimumHeight: 450
     minimumWidth: 1050
 
