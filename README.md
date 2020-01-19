@@ -9,12 +9,23 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 <br>
 <!--<h4><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h4>-->
 <h4>Get a free Steam key for you and your friends here:</h4>
-<h4> <a href="https://forum.screen-play.app/topic/2/we-are-open-for-alpha-testing-via-steam">Forums</a> or <a href="https://discordapp.com/invite/3RygPHZ">Discord</a></h4>
+<h4> <a href="https://forum.screen-play.app/topic/2/we-are-open-for-alpha-testing-via-steam">Forums</a> or <a href="https://discordapp.com/invite/3RygPHZ">Discord</a></h4>  or <a href="https://www.reddit.com/user/Kelteseth">Reddit PM</a></h4>
 </div>
 <br>
 
 ![Preview](preview.mp4)
 
+## The ScreenPlay Project
+* General user docs. Hosted on gitlab, made with mkdocs
+   *  Contribute at:    https://gitlab.com/kelteseth/ScreenPlayDocs
+   *  View at :         https://kelteseth.gitlab.io/ScreenPlayDocs/
+* Developer docs. Hosted on gitlab, made with qDoc
+   *  Contribute at:    https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs
+   *  View at :         https://kelteseth.gitlab.io/ScreenPlayDeveloperDocs/
+* Discussons and content can be found via:
+   * Discord:  https://discord.gg/3RygPHZ
+   * Forum:    https://forum.screen-play.app/
+   * Reddit:   https://www.reddit.com/r/ScreenPlayApp/
 
 ## Contributing
 
