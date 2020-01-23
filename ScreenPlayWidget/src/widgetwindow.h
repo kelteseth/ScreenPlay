@@ -68,6 +68,7 @@ public slots:
     void setPos(int xPos, int yPos);
     void setClickPos(const QPoint& clickPos);
     void setWidgetSize(const int with, const int height);
+    void clearComponentCache();
 
     void setAppID(QString appID)
     {

@@ -23,6 +23,21 @@ Item {
         }
     }
 
+    Action {
+        shortcut: "F5"
+        onTriggered:   {
+            loader.sourceComponent = undefined
+            loader.source = ""
+            Widget.clearComponentCache()
+            if (Widget.type === "qmlWidget") {
+                loader.source = Qt.resolvedUrl(Widget.sourcePath)
+            } else if (Widget.type === "htmlWidget") {
+                loader.sourceComponent = webViewComponent
+            }
+        }
+    }
+
+
     OpacityAnimator {
         id: animFadeOut
         from: 1
