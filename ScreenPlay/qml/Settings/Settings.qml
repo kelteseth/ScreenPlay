@@ -126,7 +126,11 @@ Item {
                             description: {
                                 // Remove file:/// so the used does not get confused
                                 let path = ScreenPlay.globalVariables.localStoragePath + ""
-                                return path.replace('file:///','');
+                                if (path.length === 0) {
+                                    return qsTr("Your storage path is empty!")
+                                } else {
+                                    return path.replace('file:///', '')
+                                }
                             }
 
                             buttonText: qsTr("Set location")
