@@ -135,6 +135,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
             if (checkIfFolderExsistOrCreate(basePath, "common")) {
                 if (checkIfFolderExsistOrCreate(basePath + "/common", "content")) {
                     if (checkIfFolderExsistOrCreate(basePath + "/common/content", "672870")) {
+                         m_globalVariables->setLocalStoragePath("file:///" + basePath + "/common/content/672870");
                     }
                 }
             }
@@ -145,11 +146,11 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
             steamWorkshopContentPath.cd("672870");
 
             m_globalVariables->setLocalStoragePath("file:///" + steamWorkshopContentPath.absolutePath());
-            if (!writeSingleSettingConfig("absoluteStoragePath", m_globalVariables->localStoragePath())) {
-                qWarning() << "Could not write settings file. Setup steam workshop folder at: " << m_globalVariables->localStoragePath();
-            }
         }
 
+        if (!writeSingleSettingConfig("absoluteStoragePath", m_globalVariables->localStoragePath())) {
+            qWarning() << "Could not write settings file. Setup steam workshop folder at: " << m_globalVariables->localStoragePath();
+        }
     } else {
         m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(configObj.value().value("absoluteStoragePath").toString()));
     }
