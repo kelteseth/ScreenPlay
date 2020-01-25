@@ -54,6 +54,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(QString gitBuildHash READ gitBuildHash WRITE setGitBuildHash NOTIFY gitBuildHashChanged)
+    Q_PROPERTY(QString language READ language WRITE setLanguage NOTIFY languageChanged)
 
 public:
     explicit Settings(
@@ -110,6 +111,11 @@ public:
         return m_anonymousTelemetry;
     }
 
+    QString language() const
+    {
+        return m_language;
+    }
+
 signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
@@ -123,6 +129,8 @@ signals:
     void silentStartChanged(bool silentStart);
 
     void anonymousTelemetryChanged(bool anonymousTelemetry);
+
+    void languageChanged(QString language);
 
 public slots:
     bool writeSingleSettingConfig(QString name, QVariant value);
@@ -171,7 +179,6 @@ public slots:
 
     void setLocalStoragePath(QUrl localStoragePath)
     {
-
         //Remove: "file:///"
         QJsonValue cleanedPath = QJsonValue(localStoragePath.toString());
 
@@ -236,6 +243,15 @@ public slots:
         emit anonymousTelemetryChanged(m_anonymousTelemetry);
     }
 
+    void setLanguage(QString language)
+    {
+        if (m_language == language)
+            return;
+
+        m_language = language;
+        emit languageChanged(m_language);
+    }
+
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
 
@@ -255,5 +271,6 @@ private:
     QString m_gitBuildHash;
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
+    QString m_language;
 };
 }

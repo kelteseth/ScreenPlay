@@ -6,10 +6,9 @@ Item {
     id: settingsComboBox
     property string headline: "Headline"
     property string description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
-    property int currentIndex:0
     property bool isChecked: false
     property bool enabled: true
-    property ListModel comboBoxListModel
+    property alias comboBox: comboBox
 
     onEnabledChanged: {
 
@@ -69,8 +68,5 @@ Item {
             rightMargin: 20
             verticalCenter: parent.verticalCenter
         }
-
-        model: comboBoxListModel
-        onActivated:settingsComboBox.currentIndex = currentIndex
     }
 }

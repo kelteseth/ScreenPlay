@@ -302,6 +302,7 @@ void Settings::setupLanguage()
         if (tsFile.exists(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm")) {
             m_translator.load(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm");
             m_qSettings.setValue("language", QVariant(localeSplits.at(0)));
+            setLanguage(QVariant(localeSplits.at(0)).toString());
             m_qSettings.sync();
             app->installTranslator(&m_translator);
         }
@@ -309,6 +310,7 @@ void Settings::setupLanguage()
         QFile tsFile;
         if (tsFile.exists(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm")) {
             m_translator.load(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm");
+            setLanguage(m_qSettings.value("language").toString());
             app->installTranslator(&m_translator);
         }
     }

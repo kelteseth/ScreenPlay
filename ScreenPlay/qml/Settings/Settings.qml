@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
+import QtQuick 2.14
+import QtQuick.Controls 2.14
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
@@ -162,58 +162,52 @@ Item {
                         }
 
                         SettingsHorizontalSeperator {}
+
                         SettingsComboBox {
                             id: settingsLanguage
                             headline: qsTr("Language")
                             description: qsTr("Set the ScreenPlay UI Language")
-                            onCurrentIndexChanged: {
-                                var key = settingsLanguage.comboBoxListModel.get(
-                                            settingsLanguage.currentIndex).text.toString()
+                            comboBox.currentIndex: indexOfValue(ScreenPlay.settings.language)
 
-                                var languageKey
 
-                                switch (key) {
-                                case "German":
-                                    languageKey = "de"
-                                    break
-                                case "English":
-                                    languageKey = "en"
-                                    break
-                                case "Russian":
-                                    languageKey = "ru"
-                                    break
-                                case "French":
-                                    languageKey = "fr"
-                                    break
-                                case "Spanish":
-                                    languageKey = "es"
-                                    break
-                                default:
-                                    languageKey = "en"
-                                    break
+                            function indexOfValue(value) {
+                                for (var i = 0; i < liLanguage.count; i++) {
+                                    let ourValue = liLanguage.get(i).value
+                                    if (value === ourValue)
+                                        return i
                                 }
-
-                                ScreenPlay.settings.setqSetting("language",
-                                                                languageKey)
-
+                                return -1
+                            }
+                            comboBox.onActivated: {
+                                ScreenPlay.settings.setqSetting(
+                                            "language",
+                                            liLanguage.get(comboBox.currentIndex).value)
                                 ScreenPlay.settings.setupLanguage()
                                 ScreenPlay.mainWindowEngine.retranslate()
                             }
-                            comboBoxListModel: ListModel {
+                            comboBox.textRole: "text"
+                            comboBox.valueRole: "value"
+                            comboBox.model: ListModel {
+                                id: liLanguage
                                 ListElement {
                                     text: "English"
+                                    value: "en"
                                 }
                                 ListElement {
                                     text: "German"
+                                    value: "de"
                                 }
                                 ListElement {
                                     text: "Russian"
+                                    value: "ru"
                                 }
                                 ListElement {
                                     text: "French"
+                                    value: "fr"
                                 }
                                 ListElement {
                                     text: "Spanish"
+                                    value: "es"
                                 }
                             }
                         }
@@ -286,10 +280,7 @@ Item {
                             id: settingsFillModeComboBox
                             headline: qsTr("Default Fill Mode")
                             description: qsTr("Set this property to define how the video is scaled to fit the target area.")
-                            onCurrentIndexChanged: {
-
-                            }
-                            comboBoxListModel: ListModel {
+                            comboBox.model: ListModel {
                                 ListElement {
                                     text: "Stretch"
                                 }
