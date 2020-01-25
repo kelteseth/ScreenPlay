@@ -117,15 +117,14 @@ Item {
                 }
             }
 
-            Row {
+            ColumnLayout {
                 anchors {
                     top: monitorSelection.bottom
                     right: parent.right
-                    bottom: parent.bottom
                     left: parent.left
                     margins: 20
                 }
-                spacing: 20
+                spacing: 5
                 Button {
                     id: btnRemoveSelectedWallpaper
                     text: qsTr("Remove selected")
@@ -142,6 +141,7 @@ Item {
                     text: qsTr("Remove all Wallpapers")
                     Material.background: Material.Orange
                     Material.foreground: "white"
+                    enabled: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeAllWallpapers()
                         monitors.state = "inactive"
@@ -152,6 +152,7 @@ Item {
                     text: qsTr("Remove all Widgets")
                     Material.background: Material.Orange
                     Material.foreground: "white"
+                    enabled: ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeAllWidgets()
                         monitors.state = "inactive"
