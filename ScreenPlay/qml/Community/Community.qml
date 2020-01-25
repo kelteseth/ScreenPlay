@@ -237,6 +237,18 @@ Item {
                 onClicked: Qt.openUrlExternally(
                                "steam://url/SteamWorkshopPage/672870")
             }
+            Button {
+                text: qsTr("Changelog")
+                Material.background: Material.Purple
+                Material.foreground: "white"
+
+                icon.source: "qrc:/assets/icons/icon_info.svg"
+                icon.color: "white"
+                icon.width: 16
+                icon.height: 16
+                onClicked: Qt.openUrlExternally(
+                               "https://gitlab.com/kelteseth/ScreenPlay/-/releases")
+            }
         }
     }
 }
