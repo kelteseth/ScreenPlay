@@ -123,7 +123,12 @@ Item {
 
                         SettingsButton {
                             headline: qsTr("Set save location")
-                            description: ScreenPlay.globalVariables.localStoragePath //qsTr("Choose where to find you content. The default save location is you steam installation")
+                            description: {
+                                // Remove file:/// so the used does not get confused
+                                let path = ScreenPlay.globalVariables.localStoragePath + ""
+                                return path.replace('file:///','');
+                            }
+
                             buttonText: qsTr("Set location")
                             onButtonPressed: {
                                 folderDialogSaveLocation.open()
@@ -132,7 +137,7 @@ Item {
                                 id: folderDialogSaveLocation
                                 currentFolder: ScreenPlay.globalVariables.localStoragePath
                                 onAccepted: {
-                                    ScreenPlay.globalVariables.setLocalStoragePath(
+                                    ScreenPlay.settings.setLocalStoragePath(
                                                 folderDialogSaveLocation.currentFolder)
                                 }
                             }
