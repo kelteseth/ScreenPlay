@@ -90,6 +90,11 @@ void WidgetWindow::setWidgetSize(const int with, const int height)
     m_window.setHeight(height);
 }
 
+void WidgetWindow::clearComponentCache()
+{
+    m_window.engine()->clearComponentCache();
+}
+
 #ifdef Q_OS_WIN
 void WidgetWindow::setWindowBlur(unsigned int style)
 {
