@@ -1,4 +1,5 @@
-import QtQuick 2.12
+import QtQuick 2.14
+import QtQuick.Controls 2.14
 import QtGraphicalEffects 1.0
 
 Item {
@@ -73,10 +74,15 @@ Item {
             opacity: buttonActive ? 1 : .25
             font.pointSize: 14
             color: "gray"
+            wrapMode:  Text.WrapAnywhere
+            maximumLineCount: 1
+
             anchors {
                 left: imgIcon.right
                 leftMargin: 20
                 verticalCenter: parent.verticalCenter
+                right:parent.right
+                rightMargin: 40
             }
         }
         Text {
@@ -93,12 +99,16 @@ Item {
         }
 
         MouseArea {
+            id:ma
             anchors.fill: parent
-            enabled: buttonActive
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                btnEmpty.clicked()
+                if(buttonActive)
+                    btnEmpty.clicked()
             }
+            hoverEnabled: true
+            ToolTip.visible: !buttonActive ? ma.containsMouse : false
+            ToolTip.text: qsTr("Not yet implemented. Stay tuned!")
         }
     }
 
