@@ -25,6 +25,9 @@ Rectangle {
         onRequestNavigationActive: {
             setActive(isActive)
         }
+        onRequestNavigation:{
+            onPageChanged(nav)
+        }
     }
 
     function setActive(active) {
