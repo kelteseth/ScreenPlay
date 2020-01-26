@@ -25,7 +25,7 @@ Item {
 
     Action {
         shortcut: "F5"
-        onTriggered:   {
+        onTriggered: {
             loader.sourceComponent = undefined
             loader.source = ""
             Widget.clearComponentCache()
@@ -36,7 +36,6 @@ Item {
             }
         }
     }
-
 
     OpacityAnimator {
         id: animFadeOut
@@ -74,12 +73,21 @@ Item {
                 loader.sourceComponent = webViewComponent
             }
         }
+        onStatusChanged: {
+            if (loader.status == Loader.Ready) {
+                if(loader.item.widgetBackground !== undefined){
+                    bgColor.color = loader.item.widgetBackground
+                }
+                if(loader.item.widgetBackgroundOpacity !== undefined){
+                    bgColor.opacity = loader.item.widgetBackgroundOpacity
+                }
+                if(loader.item.widgetWidth !== undefined &&
+                    loader.item.widgetHeight !== undefined){
+                    Widget.setWidgetSize(loader.item.widgetWidth,
+                                         loader.item.widgetHeight)
+                }
 
-        Connections {
-            target: loader.item
-            ignoreUnknownSignals: true
-            onWidthChanged: mainWindow.width = loader.item.width
-            onHeightChanged: mainWindow.height = loader.item.height
+            }
         }
     }
 
