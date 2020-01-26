@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.5
+import QtQuick 2.14
+import QtQuick.Controls 2.14
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 
@@ -17,13 +17,13 @@ Item {
 
     Component.onCompleted: {
         pageInstalled.state = "in"
-         ScreenPlay.installedListFilter.sortByRoleType("All")
+        ScreenPlay.installedListFilter.sortByRoleType("All")
         checkIsContentInstalled()
     }
 
     Action {
         shortcut: "F5"
-        onTriggered:   ScreenPlay.installedListModel.reset()
+        onTriggered: ScreenPlay.installedListModel.reset()
     }
 
     Connections {
@@ -37,8 +37,8 @@ Item {
         onInstalledLoadingFinished: {
             checkIsContentInstalled()
         }
-        onCountChanged:{
-            if(count === 0){
+        onCountChanged: {
+            if (count === 0) {
                 checkIsContentInstalled()
             }
         }
@@ -186,35 +186,6 @@ Item {
         }
     }
 
-    function onPageChanged(name) {
-        setSidebarActive(false)
-        if (name === "All") {
-            ScreenPlay.installedListFilter.sortByRoleType("All")
-            navAll.state = "active"
-            navWallpaper.state = "inactive"
-            navWidgets.state = "inactive"
-            navScenes.state = "inactive"
-        } else if (name === "Videos") {
-            ScreenPlay.installedListFilter.sortByRoleType("Videos")
-            navAll.state = "inactive"
-            navWallpaper.state = "active"
-            navWidgets.state = "inactive"
-            navScenes.state = "inactive"
-        } else if (name === "Widgets") {
-            ScreenPlay.installedListFilter.sortByRoleType("Widgets")
-            navAll.state = "inactive"
-            navWallpaper.state = "inactive"
-            navWidgets.state = "active"
-            navScenes.state = "inactive"
-        } else if (name === "Scenes") {
-            ScreenPlay.installedListFilter.sortByRoleType("Scenes")
-            navAll.state = "inactive"
-            navWallpaper.state = "inactive"
-            navWidgets.state = "inactive"
-            navScenes.state = "active"
-        }
-    }
-
     Item {
         id: navWrapper
         height: 115
@@ -248,56 +219,71 @@ Item {
                 right: parent.right
                 left: parent.left
             }
-
-            Row {
+            TabBar {
+                height: parent.height
+                background: Item {}
                 anchors {
                     top: parent.top
-                    right: icnSearch.left
+                    topMargin: 5
                     left: parent.left
                     leftMargin: 20
                     bottom: parent.bottom
-                    bottomMargin: -5
                 }
 
-                spacing: 0
-
-                InstalledNavigation {
-                    id: navAll
-                    state: "active"
-                    name: qsTr("All")
-                    iconSource: "qrc:/assets/icons/icon_installed.svg"
-                    onPageClicked: {
-                        onPageChanged(name)
+                TabButton {
+                    text: qsTr("All")
+                    icon.height: 16
+                    icon.width: 16
+                    height: parent.height
+                    width: implicitWidth
+                    background: Item {}
+                    icon.source: "qrc:/assets/icons/icon_installed.svg"
+                    onClicked: {
+                        setSidebarActive(false)
+                        ScreenPlay.installedListFilter.sortByRoleType("All")
                     }
                 }
-                InstalledNavigation {
-                    id: navWallpaper
-                    state: "inactive"
-                    name: qsTr("Videos")
-                    iconSource: "qrc:/assets/icons/icon_movie.svg"
-                    onPageClicked: {
-                        onPageChanged(name)
+                TabButton {
+                    text: qsTr("Scenes")
+                    icon.height: 16
+                    icon.width: 16
+                    width: implicitWidth
+                    height: parent.height
+                    background: Item {}
+                    icon.source: "qrc:/assets/icons/icon_code.svg"
+                    onClicked: {
+                        setSidebarActive(false)
+                        ScreenPlay.installedListFilter.sortByRoleType("Scenes")
                     }
                 }
-                InstalledNavigation {
-                    id: navScenes
-                    state: "inactive"
-                    name: qsTr("Scenes")
-                    iconSource: "qrc:/assets/icons/icon_code.svg"
-                    onPageClicked: {
-                        onPageChanged(name)
+                TabButton {
+                    text: qsTr("Videos")
+                    icon.height: 16
+                    icon.width: 16
+                    height: parent.height
+                    width: implicitWidth
+                    background: Item {}
+                    icon.source: "qrc:/assets/icons/icon_movie.svg"
+                    onClicked: {
+                        setSidebarActive(false)
+                        ScreenPlay.installedListFilter.sortByRoleType("Videos")
                     }
                 }
-                InstalledNavigation {
-                    id: navWidgets
-                    state: "inactive"
-                    name: qsTr("Widgets")
-                    iconSource: "qrc:/assets/icons/icon_widgets.svg"
-                    onPageClicked: {
-                        onPageChanged(name)
+                TabButton {
+                    text: qsTr("Widgets")
+                    icon.height: 16
+                    icon.width: 16
+                    height: parent.height
+                    width: implicitWidth
+                    background: Item {}
+                    icon.source: "qrc:/assets/icons/icon_widgets.svg"
+                    onClicked: {
+                        setSidebarActive(false)
+                        ScreenPlay.installedListFilter.sortByRoleType("Widgets")
                     }
                 }
             }
+
             Image {
                 id: icnSearch
                 source: "qrc:/assets/icons/icon_search.svg"
@@ -320,17 +306,17 @@ Item {
                 anchors {
                     right: icnSearch.right
                     rightMargin: 20
-                    top:parent.top
-                    topMargin:10
+                    top: parent.top
+                    topMargin: 10
                 }
                 onTextChanged: {
                     if (txtSearch.text.length === 0) {
                         ScreenPlay.installedListFilter.resetFilter()
                     } else {
-                        ScreenPlay.installedListFilter.sortByName(txtSearch.text)
+                        ScreenPlay.installedListFilter.sortByName(
+                                    txtSearch.text)
                     }
                 }
-
 
                 selectByMouse: true
                 placeholderText: qsTr("Search for Wallpaper & Widgets")

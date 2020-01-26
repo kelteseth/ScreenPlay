@@ -82,7 +82,6 @@
         <file>qml/Create/CreateContent.qml</file>
         <file>qml/Create/CreateContentButton.qml</file>
         <file>qml/Installed/Installed.qml</file>
-        <file>qml/Installed/InstalledNavigation.qml</file>
         <file>qml/Installed/ScreenPlayItem.qml</file>
         <file>qml/Installed/ScreenPlayItemImage.qml</file>
         <file>qml/Installed/Sidebar.qml</file>
