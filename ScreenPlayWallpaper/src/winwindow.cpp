@@ -92,8 +92,8 @@ WinWindow::WinWindow(
     // WARNING: Setting Window flags must be called *here*!
     Qt::WindowFlags flags = m_window.flags();
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::SplashScreen | Qt::ForeignWindow | Qt::SubWindow);
-    //SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_CHILDWINDOW);
-    SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE);
+    SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW );
+    SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_POPUPWINDOW);
 
     // Windows coordante system begins at 0x0 at the
     // main monitors upper left and not at the most left top monitor
@@ -176,7 +176,7 @@ void WinWindow::setupWallpaperForAllScreens()
     }
     m_window.setHeight(rect.height());
     m_window.setWidth(rect.width());
-    if (!SetWindowPos(m_windowHandle, nullptr, 0, 0, rect.width(), rect.height(), SWP_SHOWWINDOW)) {
+    if (!SetWindowPos(m_windowHandle, HWND_TOPMOST, 0, 0, rect.width(), rect.height(),SWP_NOSIZE | SWP_NOMOVE)) {
         qFatal("Could not set window pos: ");
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
