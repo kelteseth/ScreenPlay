@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- installedlistmodel.cpp -->
-  <title>InstalledListModel Class | ScreemPlay</title>
+  <title>InstalledListModel Class | ScreenPlay</title>
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
 </head>
 <body>
@@ -15,6 +15,7 @@
 <h3><a name="toc">Contents</a></h3>
 <ul>
 <li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#reimplemented-public-functions">Reimplemented Public Functions</a></li>
 <li class="level1"><a href="#public-slots">Public Slots</a></li>
 <li class="level1"><a href="#signals">Signals</a></li>
 <li class="level1"><a href="#details">Detailed Description</a></li>
@@ -34,11 +35,22 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#InstalledListModel">InstalledListModel</a></b>(const shared_ptr&lt;ScreenPlay::GlobalVariables&gt; &amp;<i>globalVariables</i>, QObject *<i>parent</i> = nullptr)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#count-prop">count</a></b>() const</td></tr>
+</table></div>
+<a name="reimplemented-public-functions"></a>
+<h2 id="reimplemented-public-functions">Reimplemented Public Functions</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QVariant </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#data">data</a></b>(const QModelIndex &amp;<i>index</i>, int <i>role</i> = Qt::DisplayRole) const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QHash&lt;int, QByteArray&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#roleNames">roleNames</a></b>() const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#rowCount">rowCount</a></b>(const QModelIndex &amp;<i>parent</i> = QModelIndex()) const override</td></tr>
 </table></div>
 <a name="public-slots"></a>
 <h2 id="public-slots">Public Slots</h2>
 <div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#append">append</a></b>(const QJsonObject &amp;<i>obj</i>, const QString &amp;<i>folderName</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#init">init</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#loadInstalledContent">loadInstalledContent</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#count-prop">setCount</a></b>(int <i>count</i>)</td></tr>
 </table></div>
 <a name="signals"></a>
@@ -53,5 +65,30 @@
 <p>Currently we only support one path for the user content. Via a QFileSystemWatcher we automatically reload the list. Dynamic insert and remove is not yet implemented. Otherwhise it is a regular QAbstractListModel based list model.</p>
 </div>
 <!-- @@@InstalledListModel -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$InstalledListModel[overload1]$$$InstalledListModelconstshared_ptr<ScreenPlay::GlobalVariables>&QObject* -->
+<h3 class="fn" id="InstalledListModel"><a name="InstalledListModel"></a>InstalledListModel::<span class="name">InstalledListModel</span>(const <span class="type">shared_ptr</span>&lt;<span class="type">ScreenPlay::GlobalVariables</span>&gt; &amp;<i>globalVariables</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<p>Constructor</p>
+<!-- @@@InstalledListModel -->
+<!-- $$$append[overload1]$$$appendconstQJsonObject&constQString& -->
+<h3 class="fn" id="append"><a name="append"></a><code>[slot] </code><span class="type">void</span> InstalledListModel::<span class="name">append</span>(const <span class="type">QJsonObject</span> &amp;<i>obj</i>, const <span class="type">QString</span> &amp;<i>folderName</i>)</h3>
+<!-- @@@append -->
+<!-- $$$init[overload1]$$$init -->
+<h3 class="fn" id="init"><a name="init"></a><code>[slot] </code><span class="type">void</span> InstalledListModel::<span class="name">init</span>()</h3>
+<!-- @@@init -->
+<!-- $$$loadInstalledContent[overload1]$$$loadInstalledContent -->
+<h3 class="fn" id="loadInstalledContent"><a name="loadInstalledContent"></a><code>[slot] </code><span class="type">void</span> InstalledListModel::<span class="name">loadInstalledContent</span>()</h3>
+<!-- @@@loadInstalledContent -->
+<!-- $$$data[overload1]$$$dataconstQModelIndex&int -->
+<h3 class="fn" id="data"><a name="data"></a><code>[override virtual] </code><span class="type">QVariant</span> InstalledListModel::<span class="name">data</span>(const <span class="type">QModelIndex</span> &amp;<i>index</i>, <span class="type">int</span> <i>role</i> = Qt::DisplayRole) const</h3>
+<!-- @@@data -->
+<!-- $$$roleNames[overload1]$$$roleNames -->
+<h3 class="fn" id="roleNames"><a name="roleNames"></a><code>[override virtual] </code><span class="type">QHash</span>&lt;<span class="type">int</span>, <span class="type">QByteArray</span>&gt; InstalledListModel::<span class="name">roleNames</span>() const</h3>
+<!-- @@@roleNames -->
+<!-- $$$rowCount[overload1]$$$rowCountconstQModelIndex& -->
+<h3 class="fn" id="rowCount"><a name="rowCount"></a><code>[override virtual] </code><span class="type">int</span> InstalledListModel::<span class="name">rowCount</span>(const <span class="type">QModelIndex</span> &amp;<i>parent</i> = QModelIndex()) const</h3>
+<!-- @@@rowCount -->
+</div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

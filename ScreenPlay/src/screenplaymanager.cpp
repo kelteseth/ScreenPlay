@@ -11,6 +11,9 @@ namespace ScreenPlay {
     Also responsible to set the current active wallpaper to the monitorListModel.
 */
 
+/*!
+  Constructor
+*/
 ScreenPlayManager::ScreenPlayManager(
     const shared_ptr<GlobalVariables>& globalVariables,
     const shared_ptr<MonitorListModel>& mlm,
@@ -240,7 +243,7 @@ void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& 
 }
 
 /*!
-  Returns \return a ScreenPlayWallpaper if successful, otherwhise \return std::nullopt.
+  Returns \c a ScreenPlayWallpaper if successful, otherwhise \c std::nullopt.
  */
 std::optional<shared_ptr<ScreenPlayWallpaper>> ScreenPlayManager::getWallpaperByAppID(const QString& appID)
 {
@@ -254,7 +257,7 @@ std::optional<shared_ptr<ScreenPlayWallpaper>> ScreenPlayManager::getWallpaperBy
 
 /*!
     Saves a given wallpaper \a newProfileObject to a \a profileName. We ignore the profileName argument
-    because we currently only support one profile. Returns \return true if successfuly saved to profiles.json, otherwise \return false.
+    because we currently only support one profile. Returns \c true if successfuly saved to profiles.json, otherwise \c false.
  */
 bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const QJsonObject& newProfileObject)
 {

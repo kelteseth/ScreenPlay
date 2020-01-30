@@ -10,6 +10,10 @@ namespace ScreenPlay {
     This class is only for managing the QProcess to an extern ScreenPlayWidget!
 */
 
+/*!
+
+  Constructor
+*/
 ScreenPlayWidget::ScreenPlayWidget(
     const QString& appID,
     const shared_ptr<GlobalVariables>& globalVariables,

@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- util.cpp -->
-  <title>Util Class | ScreemPlay</title>
+  <title>Util Class | ScreenPlay</title>
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
 </head>
 <body>
@@ -34,6 +34,7 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#Util">Util</a></b>(QNetworkAccessManager *<i>networkAccessManager</i>, QObject *<i>parent</i> = nullptr)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Util::AquireFFMPEGStatus </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#aquireFFMPEGStatus-prop">aquireFFMPEGStatus</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#debugMessages-prop">debugMessages</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#ffmpegAvailable-prop">ffmpegAvailable</a></b>() const</td></tr>
@@ -46,11 +47,11 @@
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#generateRandomString">generateRandomString</a></b>(quint32 <i>length</i> = 32)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#getVersionNumberFromString">getVersionNumberFromString</a></b>(<i>const QString &amp;</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#logToGui">logToGui</a></b>(QtMsgType <i>type</i>, const QMessageLogContext &amp;<i>context</i>, const QString &amp;<i>msg</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openFolderInExplorer">openFolderInExplorer</a></b>(const QString &amp;<i>url</i>) const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openJsonFileToObject">openJsonFileToObject</a></b>(<i>const QString &amp;</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openJsonFileToString">openJsonFileToString</a></b>(<i>const QString &amp;</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#requestAllLDataProtection">requestAllLDataProtection</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#parseQByteArrayToQJsonObject">parseQByteArrayToQJsonObject</a></b>(<i>const QByteArray &amp;</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#requestAllLicenses">requestAllLicenses</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#requestDataProtection">requestDataProtection</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#writeJsonObjectToFile">writeJsonObjectToFile</a></b>(const QString &amp;<i>absoluteFilePath</i>, const QJsonObject &amp;<i>object</i>, bool <i>truncate</i> = true)</td></tr>
 </table></div>
 <a name="signals"></a>
@@ -68,6 +69,10 @@
 <!-- @@@Util -->
 <div class="func">
 <h2>Member Function Documentation</h2>
+<!-- $$$Util[overload1]$$$UtilQNetworkAccessManager*QObject* -->
+<h3 class="fn" id="Util"><a name="Util"></a>Util::<span class="name">Util</span>(<span class="type">QNetworkAccessManager</span> *<i>networkAccessManager</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<p>Constructor</p>
+<!-- @@@Util -->
 <!-- $$$copyToClipboard[overload1]$$$copyToClipboardconstQString& -->
 <h3 class="fn" id="copyToClipboard"><a name="copyToClipboard"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">copyToClipboard</span>(const <span class="type">QString</span> &amp;<i>text</i>) const</h3>
 <p>Copies the given string to the clipboard.</p>
@@ -93,10 +98,6 @@
 <h3 class="fn" id="logToGui"><a name="logToGui"></a><code>[static slot] </code><span class="type">void</span> Util::<span class="name">logToGui</span>(<span class="type">QtMsgType</span> <i>type</i>, const <span class="type">QMessageLogContext</span> &amp;<i>context</i>, const <span class="type">QString</span> &amp;<i>msg</i>)</h3>
 <p>Basic logging to the GUI. No logging is done to a log file for now. This string can be copied in the settings tab in the UI.</p>
 <!-- @@@logToGui -->
-<!-- $$$openFolderInExplorer[overload1]$$$openFolderInExplorerconstQString& -->
-<h3 class="fn" id="openFolderInExplorer"><a name="openFolderInExplorer"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">openFolderInExplorer</span>(const <span class="type">QString</span> &amp;<i>url</i>) const</h3>
-<p>Opens a native folder window on the given path. Windows and Mac only for now!</p>
-<!-- @@@openFolderInExplorer -->
 <!-- $$$openJsonFileToObject[overload1]$$$openJsonFileToObjectconstQString& -->
 <h3 class="fn" id="openJsonFileToObject"><a name="openJsonFileToObject"></a><code>[static slot] </code><span class="type">int</span> Util::<span class="name">openJsonFileToObject</span>(<i>const QString &amp;</i>)</h3>
 <p>Opens a json file (absolute path) and tries to convert it to a QJsonObject. Return std::nullopt when not successful.</p>
@@ -105,14 +106,18 @@
 <h3 class="fn" id="openJsonFileToString"><a name="openJsonFileToString"></a><code>[static slot] </code><span class="type">int</span> Util::<span class="name">openJsonFileToString</span>(<i>const QString &amp;</i>)</h3>
 <p>Opens a json file (absolute path) and tries to convert it to a QString. Return std::nullopt when not successful.</p>
 <!-- @@@openJsonFileToString -->
-<!-- $$$requestAllLDataProtection[overload1]$$$requestAllLDataProtection -->
-<h3 class="fn" id="requestAllLDataProtection"><a name="requestAllLDataProtection"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">requestAllLDataProtection</span>()</h3>
-<p>Loads all dataprotection of the legal folder in the qrc into a property string of this class. allDataProtectionLoaded is emited when loading is finished.</p>
-<!-- @@@requestAllLDataProtection -->
+<!-- $$$parseQByteArrayToQJsonObject[overload1]$$$parseQByteArrayToQJsonObjectconstQByteArray& -->
+<h3 class="fn" id="parseQByteArrayToQJsonObject"><a name="parseQByteArrayToQJsonObject"></a><code>[static slot] </code><span class="type">int</span> Util::<span class="name">parseQByteArrayToQJsonObject</span>(<i>const QByteArray &amp;</i>)</h3>
+<p>Opens a native folder window on the given path. Windows and Mac only for now!</p>
+<!-- @@@parseQByteArrayToQJsonObject -->
 <!-- $$$requestAllLicenses[overload1]$$$requestAllLicenses -->
 <h3 class="fn" id="requestAllLicenses"><a name="requestAllLicenses"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">requestAllLicenses</span>()</h3>
 <p>Loads all content of the legal folder in the qrc into a property string of this class. allLicenseLoaded is emited when loading is finished.</p>
 <!-- @@@requestAllLicenses -->
+<!-- $$$requestDataProtection[overload1]$$$requestDataProtection -->
+<h3 class="fn" id="requestDataProtection"><a name="requestDataProtection"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">requestDataProtection</span>()</h3>
+<p>Loads all dataprotection of the legal folder in the qrc into a property string of this class. allDataProtectionLoaded is emited when loading is finished.</p>
+<!-- @@@requestDataProtection -->
 <!-- $$$writeJsonObjectToFile[overload1]$$$writeJsonObjectToFileconstQString&constQJsonObject&bool -->
 <h3 class="fn" id="writeJsonObjectToFile"><a name="writeJsonObjectToFile"></a><code>[static slot] </code><span class="type">bool</span> Util::<span class="name">writeJsonObjectToFile</span>(const <span class="type">QString</span> &amp;<i>absoluteFilePath</i>, const <span class="type">QJsonObject</span> &amp;<i>object</i>, <span class="type">bool</span> <i>truncate</i> = true)</h3>
 <p>Writes a given QJsonObject to a file. The path must be absolute. When truncate is set to true the exsisting json file will be overriten.</p>

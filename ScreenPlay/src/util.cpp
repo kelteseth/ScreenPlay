@@ -8,6 +8,9 @@ namespace ScreenPlay {
     \brief Easy to use global object to use when certain functionality is not available in QML.
 */
 
+/*!
+  Constructor
+*/
 Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     : QObject(parent)
     , m_networkAccessManager { networkAccessManager }

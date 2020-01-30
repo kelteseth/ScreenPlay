@@ -4,7 +4,7 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- screenplaymanager.cpp -->
-  <title>ScreenPlayManager Class | ScreemPlay</title>
+  <title>ScreenPlayManager Class | ScreenPlay</title>
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
 </head>
 <body>
@@ -34,6 +34,7 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#ScreenPlayManager">ScreenPlayManager</a></b>(const shared_ptr&lt;ScreenPlay::GlobalVariables&gt; &amp;<i>globalVariables</i>, const shared_ptr&lt;ScreenPlay::MonitorListModel&gt; &amp;<i>mlm</i>, const shared_ptr&lt;ScreenPlay::SDKConnector&gt; &amp;<i>sdkc</i>, const int &amp;<i>telemetry</i>, QObject *<i>parent</i> = nullptr)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#activeWallpaperCounter-prop">activeWallpaperCounter</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#activeWidgetsCounter-prop">activeWidgetsCounter</a></b>() const</td></tr>
 </table></div>
@@ -41,7 +42,7 @@
 <h2 id="public-slots">Public Slots</h2>
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#createWallpaper">createWallpaper</a></b>(QVector&lt;int&gt; <i>monitorIndex</i>, const QString &amp;<i>absoluteStoragePath</i>, const QString &amp;<i>previewImage</i>, const float <i>volume</i>, const QString &amp;<i>fillMode</i>, const QString &amp;<i>type</i>, const bool <i>saveToProfilesConfigFile</i> = true)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#createWidget">createWidget</a></b>(const QUrl &amp;<i>absoluteStoragePath</i>, const QString &amp;<i>previewImage</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#createWidget">createWidget</a></b>(const QUrl &amp;<i>absoluteStoragePath</i>, const QString &amp;<i>previewImage</i>, const QString &amp;<i>type</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#getWallpaperByAppID">getWallpaperByAppID</a></b>(<i>const QString &amp;</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#removeAllWallpapers">removeAllWallpapers</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#requestProjectSettingsListModelAt">requestProjectSettingsListModelAt</a></b>(const int <i>index</i>)</td></tr>
@@ -65,17 +66,21 @@
 <!-- @@@ScreenPlayManager -->
 <div class="func">
 <h2>Member Function Documentation</h2>
+<!-- $$$ScreenPlayManager[overload1]$$$ScreenPlayManagerconstshared_ptr<ScreenPlay::GlobalVariables>&constshared_ptr<ScreenPlay::MonitorListModel>&constshared_ptr<ScreenPlay::SDKConnector>&constint&QObject* -->
+<h3 class="fn" id="ScreenPlayManager"><a name="ScreenPlayManager"></a>ScreenPlayManager::<span class="name">ScreenPlayManager</span>(const <span class="type">shared_ptr</span>&lt;<span class="type">ScreenPlay::GlobalVariables</span>&gt; &amp;<i>globalVariables</i>, const <span class="type">shared_ptr</span>&lt;<span class="type"><a href="screenplay-monitorlistmodel.html">ScreenPlay::MonitorListModel</a></span>&gt; &amp;<i>mlm</i>, const <span class="type">shared_ptr</span>&lt;<span class="type"><a href="screenplay-sdkconnector.html">ScreenPlay::SDKConnector</a></span>&gt; &amp;<i>sdkc</i>, const <span class="type">int</span> &amp;<i>telemetry</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<p>Constructor</p>
+<!-- @@@ScreenPlayManager -->
 <!-- $$$createWallpaper[overload1]$$$createWallpaperQVector<int>constQString&constQString&constfloatconstQString&constQString&constbool -->
 <h3 class="fn" id="createWallpaper"><a name="createWallpaper"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">createWallpaper</span>(<span class="type">QVector</span>&lt;<span class="type">int</span>&gt; <i>monitorIndex</i>, const <span class="type">QString</span> &amp;<i>absoluteStoragePath</i>, const <span class="type">QString</span> &amp;<i>previewImage</i>, const <span class="type">float</span> <i>volume</i>, const <span class="type">QString</span> &amp;<i>fillMode</i>, const <span class="type">QString</span> &amp;<i>type</i>, const <span class="type">bool</span> <i>saveToProfilesConfigFile</i> = true)</h3>
 <p>Creates a wallpaper with a given <i>monitorIndex</i> list, <i>a</i> absoluteStoragePath folder, a <i>previewImage</i> (relative path to the absoluteStoragePath), a default <i>volume</i>, a <i>fillMode</i>, a <i>type</i> (htmlWallpaper, qmlWallpaper etc.), a <i>saveToProfilesConfigFile</i> bool only set to flase if we call the method when using via the settings on startup to skip a unnecessary save.</p>
 <!-- @@@createWallpaper -->
-<!-- $$$createWidget[overload1]$$$createWidgetconstQUrl&constQString& -->
-<h3 class="fn" id="createWidget"><a name="createWidget"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">createWidget</span>(const <span class="type">QUrl</span> &amp;<i>absoluteStoragePath</i>, const <span class="type">QString</span> &amp;<i>previewImage</i>)</h3>
+<!-- $$$createWidget[overload1]$$$createWidgetconstQUrl&constQString&constQString& -->
+<h3 class="fn" id="createWidget"><a name="createWidget"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">createWidget</span>(const <span class="type">QUrl</span> &amp;<i>absoluteStoragePath</i>, const <span class="type">QString</span> &amp;<i>previewImage</i>, const <span class="type">QString</span> &amp;<i>type</i>)</h3>
 <p>Creates a <a href="screenplay-screenplaywidget.html">ScreenPlayWidget</a> object via a <i>absoluteStoragePath</i> and a <i>preview</i> image (relative path).</p>
 <!-- @@@createWidget -->
 <!-- $$$getWallpaperByAppID[overload1]$$$getWallpaperByAppIDconstQString& -->
 <h3 class="fn" id="getWallpaperByAppID"><a name="getWallpaperByAppID"></a><code>[slot] </code><span class="type">int</span> ScreenPlayManager::<span class="name">getWallpaperByAppID</span>(<i>const QString &amp;</i>)</h3>
-<p>Returns <b class="redFont"><code>\return</code></b> a <a href="screenplay-screenplaywallpaper.html">ScreenPlayWallpaper</a> if successful, otherwhise <b class="redFont"><code>\return</code></b> std::nullopt.</p>
+<p>Returns <code>a</code> <a href="screenplay-screenplaywallpaper.html">ScreenPlayWallpaper</a> if successful, otherwhise <code>std::nullopt</code>.</p>
 <!-- @@@getWallpaperByAppID -->
 <!-- $$$removeAllWallpapers[overload1]$$$removeAllWallpapers -->
 <h3 class="fn" id="removeAllWallpapers"><a name="removeAllWallpapers"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">removeAllWallpapers</span>()</h3>

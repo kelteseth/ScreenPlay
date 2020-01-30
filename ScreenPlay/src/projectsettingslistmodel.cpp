@@ -33,6 +33,10 @@ namespace ScreenPlay {
     In this example the Attractor and Emitter would be a headline. In the UI we then displays it for the user to modify.
     Otherwhise it is a regular QAbstractListModel based list model.
 */
+
+/*!
+  Constructor
+*/
 ProjectSettingsListModel::ProjectSettingsListModel(QString file, QObject* parent)
     : QAbstractListModel(parent)
 {

@@ -17,6 +17,9 @@ namespace ScreenPlay {
     This listmodel is also needed for calculating the monitor preview in the UI.
 */
 
+/*!
+  Constructor
+*/
 MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
 {

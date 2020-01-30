@@ -12,6 +12,9 @@ namespace ScreenPlay {
     Otherwhise it is a regular QAbstractListModel based list model.
 */
 
+/*!
+  Constructor
+*/
 InstalledListModel::InstalledListModel(
     const shared_ptr<GlobalVariables>& globalVariables,
     QObject* parent)
@@ -21,6 +24,10 @@ InstalledListModel::InstalledListModel(
     QObject::connect(this, &InstalledListModel::addInstalledItem,
         this, &InstalledListModel::append, Qt::QueuedConnection);
 }
+
+/*!
+
+*/
 void InstalledListModel::init()
 {
     if (!m_fileSystemWatcher.addPath(m_globalVariables->localStoragePath().toLocalFile())) {
@@ -31,6 +38,10 @@ void InstalledListModel::init()
 
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &InstalledListModel::reset);
 }
+
+/*!
+
+*/
 int InstalledListModel::rowCount(const QModelIndex& parent) const
 {
     if (parent.isValid())
@@ -39,6 +50,9 @@ int InstalledListModel::rowCount(const QModelIndex& parent) const
     return m_screenPlayFiles.count();
 }
 
+/*!
+
+*/
 QVariant InstalledListModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
@@ -73,6 +87,9 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
+/*!
+
+*/
 QHash<int, QByteArray> InstalledListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles {
@@ -88,6 +105,9 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
     return roles;
 }
 
+/*!
+
+*/
 void InstalledListModel::append(const QJsonObject& obj, const QString& folderName)
 {
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
@@ -95,6 +115,9 @@ void InstalledListModel::append(const QJsonObject& obj, const QString& folderNam
     endInsertRows();
 }
 
+/*!
+
+*/
 void InstalledListModel::loadInstalledContent()
 {
     QtConcurrent::run([this]() {

@@ -4,7 +4,7 @@ include(/usr/share/qt5/doc/global/fileextensions.qdocconf)
 
 descripton  = ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. 
 language    = Cpp
-project     = ScreemPlay
+project     = ScreenPlay
 
 # Source
 sourcedirs += ../ScreenPlay/src/
@@ -35,13 +35,6 @@ includepaths += ../ScreenPlayWallpaper/src/
 includepaths += ../ScreenPlayWallpaper/
 includepaths += ../ScreenPlayWidget/src/
 includepaths += ../ScreenPlayWidget/
-
-# qt
-includepaths += /opt/qt/5.14.0/gcc_64/include/
-includepaths += /opt/qt/5.14.0/gcc_64/include/QtCore/
-includepaths += /opt/qt/5.14.0/gcc_64/include/QtGui/
-includepaths += /opt/qt/5.14.0/gcc_64/include/QtQml/
-includepaths += /opt/qt/5.14.0/gcc_64/include/QtWebView/
 
 
 # Images

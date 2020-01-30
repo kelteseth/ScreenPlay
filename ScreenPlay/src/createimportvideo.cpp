@@ -108,7 +108,7 @@ void CreateImportVideo::process()
 
 /*!
   Starts ffprobe and tries to parse the resulting json.
-  Returns \return false if :
+  Returns \c false if :
   \list
     \li Parsing the output json of ffprobe fails.
     \li Has no video.
@@ -263,7 +263,7 @@ bool CreateImportVideo::createWallpaperInfo()
     args.append("-an");
     args.append(m_exportPath + "/preview.webm");
   \endcode
-  Returns \return false if :
+  Returns \c false if :
   \list
     \li Cannot convert the video
     \li Generally broken.
@@ -337,7 +337,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
     args.append(m_exportPath + "/preview.gif");
   \endcode
-  Returns \return false if :
+  Returns \c false if :
   \list
     \li Cannot convert the video
     \li Generally broken.
@@ -382,7 +382,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
 
 /*!
   Starts ffmpeg and tries to covert the given video to a image preview.
-  Returns \return false if :
+  Returns \c false if :
   \list
     \li Cannot convert the video
     \li Generally broken.
@@ -493,7 +493,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
     args.append("-b:v");
     args.append("0");
   \endcode
-  Returns \return false if :
+  Returns \c false if :
   \list
     \li Cannot convert the video
     \li Generally broken.
@@ -637,7 +637,7 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("-vn");
     args.append(m_exportPath + "/audio.mp3");
   \endcode
-  Returns \return false if :
+  Returns \c false if :
   \list
     \li Cannot convert the audio
     \li Generally broken.

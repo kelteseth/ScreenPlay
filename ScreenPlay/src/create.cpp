@@ -1,5 +1,7 @@
 #include "create.h"
 
+namespace ScreenPlay {
+
 /*!
     \class ScreenPlay::Create
     \inmodule ScreenPlay
@@ -11,7 +13,10 @@
 
 
 */
-namespace ScreenPlay {
+
+/*!
+  Constructor.
+*/
 Create::Create(const shared_ptr<GlobalVariables>& globalVariables, QObject* parent)
     : QObject(parent)
     , m_globalVariables(globalVariables)
