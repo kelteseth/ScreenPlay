@@ -30,9 +30,22 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 | __Widgets__        | ✔       	    | ❓   	| ❓ Help Needed!    	|
 | __Multilanguage (EN,DE,RU,FR,ES)__              | ✔            	| ✔     	        |  ✔     	|
 
-| Plattform                	    | Windows 7	    | Windows 8/8.1 	        | Windows 10 	|   Gnome	    | KDE 	        | XFCE  	|
-|------------------------	    |---------	    |-------	        |-------	|---------	    |-------	        |-------	|
-| __Wallpaper__       | ❓ Help Needed!       	    | ❓ Help Needed!      	        | ✔      	| ❌ Help Needed!        	    | ❌ Help Needed!      	        |❌ Help Needed!     	|
+</div>
+
+Because every operating system has his own version of desktop environment we need to adapt the ScreenPlayWindow for every platform seperate. The most feature complete for now is Windows 10. Windows 7 works but the wallpaper have the [worng coordinates](https://gitlab.com/kelteseth/ScreenPlay/issues/34). MacOS has some basic wallpaper functionality but no maintainer. For Linux we sadly have no support for any desktops environments at the moment.
+
+__If you want to help and add new desktop environments look at ScreenPlayWallpaper/src folder__
+
+* [BaseWindow](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/ScreenPlayWallpaper/src/basewindow.h) baseclass for:
+    * [LinuxWindow](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/ScreenPlayWallpaper/src/linuxwindow.h)
+    * [WinWindow](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/ScreenPlayWallpaper/src/winwindow.h)
+    * [MacWindow](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/ScreenPlayWallpaper/src/macwindow.h)
+
+<div align="center">
+
+| Plattform                	    | Windows 7	       | Windows 8/8.1 	    | Windows 10  |   Gnome	         | KDE 	            | XFCE  	        | MacOS  	|
+|------------------------	    |---------	       |-------	            |-------	  |---------	     |-------	        |-------	        | -------	|
+| __Wallpaper__                 | ❓ Help Needed!   | ❓ Help Needed!    | ✔      	| ❌ Help Needed!  | ❌ Help Needed!  |❌ Help Needed!   | ❓ (Basic implementation) Help Needed!     	|
 
 
 </div>
