@@ -15,6 +15,29 @@ Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="ht
 
 ![Preview](.gitlab/media/preview.mp4)
 
+# Platform support
+
+* ❌ Not working/Not implemented
+* ❓ Only partical implemented/Not tested
+
+<div align="center">
+
+| Feature                	    | Windows 	    | Linux 	        | MacOS 	|
+|------------------------	    |---------	    |-------	        |-------	|
+| __ScreenPlay Main App__       | ✔       	    | ✔     	        | ✔     	|
+| __Steam Binaries__       | ✔       	    | ❌     	        | ❌     	|
+| __Wallpaper__       | ✔       	    | ❌ Help Needed for Gnome/KDE/etc!               | ❓ (Basic implementation) Help Needed!     	|
+| __Widgets__        | ✔       	    | ❓   	| ❓ Help Needed!    	|
+| __Multilanguage (EN,DE,RU,FR,ES)__              | ✔            	| ✔     	        |  ✔     	|
+
+| Plattform                	    | Windows 7	    | Windows 8/8.1 	        | Windows 10 	|   Gnome	    | KDE 	        | XFCE  	|
+|------------------------	    |---------	    |-------	        |-------	|---------	    |-------	        |-------	|
+| __Wallpaper__       | ❓ Help Needed!       	    | ❓ Help Needed!      	        | ✔      	| ❌ Help Needed!        	    | ❌ Help Needed!      	        |❌ Help Needed!     	|
+
+
+</div>
+
+
 ## The ScreenPlay Project
 * General user docs. Contains infromations about content creation for ScreenPlay. Hosted on gitlab, made with mkdocs:
    *  Contribute at:    https://gitlab.com/kelteseth/ScreenPlayDocs
