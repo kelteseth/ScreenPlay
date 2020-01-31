@@ -16,13 +16,10 @@ Item {
     state: "out"
 
     function setSource(path, arguments) {
-        loader_wrapperContent.setSource(
-                    path,
-                    arguments)
+        loader_wrapperContent.setSource(path, arguments)
+
         root.state = "in"
     }
-
-
 
     //Blocks some MouseArea from create page
     MouseArea {
@@ -62,18 +59,16 @@ Item {
         Loader {
             id: loader_wrapperContent
             anchors.fill: parent
-            z: 10
 
         }
 
         CloseIcon {
             onClicked: {
-                loader_wrapperContent.item.cleanup()
                 timerBack.start()
             }
             Timer {
                 id: timerBack
-                interval: 800
+                interval: 400
                 onTriggered: {
                     ScreenPlay.util.setNavigationActive(true)
                     ScreenPlay.util.setNavigation("Create")

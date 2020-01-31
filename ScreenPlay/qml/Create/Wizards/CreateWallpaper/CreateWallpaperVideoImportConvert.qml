@@ -17,6 +17,8 @@ Item {
     property bool canSave: false
     property string filePath
 
+
+
     onFilePathChanged: {
         textFieldName.text =  basename(filePath)
     }

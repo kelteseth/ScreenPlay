@@ -103,11 +103,10 @@ Item {
             create.state = "wizard"
             ScreenPlay.util.setNavigationActive(false)
             wizard.setSource(
-                        "Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml",
+                        "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaper.qml",
                         {
                             "filePath": videoFile
                         })
-            ScreenPlay.create.createWallpaperStart(videoFile);
         }
     }
 
@@ -166,18 +165,22 @@ Item {
             PropertyChanges {
                 target: importContent
                 state: "out"
+                 enabled:false
             }
             PropertyChanges {
                 target: createContent
                 state: "out"
+                 enabled:false
             }
             PropertyChanges {
                 target: verticalSeperator
                 opacity: 0
+                enabled:false
             }
             PropertyChanges {
                 target: txtDescriptionBottom
                 opacity: 0
+                 enabled:false
             }
             PropertyChanges {
                 target: wizard

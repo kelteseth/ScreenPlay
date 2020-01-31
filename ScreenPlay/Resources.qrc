@@ -142,5 +142,7 @@
         <file>qml/Create/BackgroundParticleSystem.qml</file>
         <file>assets/wizards/example_html.png</file>
         <file>assets/wizards/example_qml.png</file>
+        <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml</file>
+        <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaper.qml</file>
     </qresource>
 </RCC>
