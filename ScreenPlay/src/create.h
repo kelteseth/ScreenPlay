@@ -40,10 +40,16 @@ class Create : public QObject {
 
 public:
     explicit Create(
-        const shared_ptr<GlobalVariables> &globalVariables,
+        const shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
     Create();
 
+    enum class VideoCodec {
+        All,
+        VP8,
+        VP9
+    };
+    Q_ENUM(VideoCodec)
 
     float progress() const
     {
@@ -70,7 +76,7 @@ signals:
 
 public slots:
     void createWidget(
-        const QString &localStoragePath,
+        const QString& localStoragePath,
         const QString& title,
         const QString& previewThumbnail,
         const QString& createdBy,
@@ -78,10 +84,9 @@ public slots:
         const QString& type,
         const QVector<QString>& tags);
 
-    void createWallpaperStart(QString videoPath);
+    void createWallpaperStart(QString videoPath, Create::VideoCodec codec);
     void saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, QVector<QString> tags);
     void abortAndCleanup();
-
 
     void setProgress(float progress)
     {
@@ -107,14 +112,15 @@ public slots:
         emit ffmpegOutputChanged(m_ffmpegOutput);
     }
 
-    void clearFfmpegOutput(){
+    void clearFfmpegOutput()
+    {
         m_ffmpegOutput = "";
         emit ffmpegOutputChanged(m_ffmpegOutput);
     }
 
 private:
-    CreateImportVideo* m_createImportVideo {nullptr};
-    QThread* m_createImportVideoThread {nullptr};
+    CreateImportVideo* m_createImportVideo { nullptr };
+    QThread* m_createImportVideoThread { nullptr };
 
     const shared_ptr<GlobalVariables>& m_globalVariables;
 

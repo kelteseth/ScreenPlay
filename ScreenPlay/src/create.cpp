@@ -23,7 +23,9 @@ Create::Create(const shared_ptr<GlobalVariables>& globalVariables, QObject* pare
 
 {
     qRegisterMetaType<CreateImportVideo::ImportVideoState>("CreateImportVideo::ImportVideoState");
+    qRegisterMetaType<Create::VideoCodec>("Create::VideoCodec");
     qmlRegisterUncreatableType<CreateImportVideo>("ScreenPlay.Create", 1, 0, "CreateImportVideo", "Error only for enums");
+    qmlRegisterUncreatableType<Create>("ScreenPlay.Create", 1, 0, "VideoCodec", "Error only for enums");
     qmlRegisterType<Create>("ScreenPlay.Create", 1, 0, "Create");
 }
 
@@ -35,7 +37,9 @@ Create::Create()
     , m_globalVariables(nullptr)
 {
     qRegisterMetaType<CreateImportVideo::ImportVideoState>("CreateImportVideo::ImportVideoState");
+    qRegisterMetaType<Create::VideoCodec>("Create::VideoCodec");
     qmlRegisterUncreatableType<ScreenPlay::CreateImportVideo>("ScreenPlay.Create", 1, 0, "CreateImportVideo", "Error only for enums");
+    qmlRegisterUncreatableType<Create>("ScreenPlay.Create", 1, 0, "VideoCodec", "Error only for enums");
     qmlRegisterType<Create>("ScreenPlay.Create", 1, 0, "Create");
 }
 
@@ -127,7 +131,7 @@ void Create::createWidget(const QString& localStoragePath, const QString& title,
 /*!
     Starts the process.
 */
-void Create::createWallpaperStart(QString videoPath)
+void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
 {
     clearFfmpegOutput();
     videoPath.remove("file:///");

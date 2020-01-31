@@ -11,15 +11,38 @@ import ScreenPlay.Create 1.0
 import "../../../Common"
 
 Item {
-    id:root
+    id: root
+
+    property var codec: Create.All
+    onCodecChanged: print(codec)
 
     signal next
 
-    Rectangle {
+
+    ComboBox {
+        id: comboBoxCodec
+        textRole: "text"
+        valueRole: "value"
         anchors.centerIn: parent
-        width: 100
-        height: 100
-        color: "orange"
+        onCurrentIndexChanged: {
+            root.codec = model.get(comboBoxCodec.currentIndex).value
+        }
+
+        model: ListModel {
+            id: model
+            ListElement {
+                text: "Both"
+                value: Create.All
+            }
+            ListElement {
+                text: "VP8"
+                value: Create.VP8
+            }
+            ListElement {
+                text: "VP9"
+                value: Create.VP9
+            }
+        }
     }
 
     Button {
@@ -29,7 +52,7 @@ Item {
         }
 
         anchors {
-            right:parent.right
+            right: parent.right
             bottom: parent.bottom
         }
     }
