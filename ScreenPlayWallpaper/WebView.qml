@@ -4,13 +4,14 @@ import QtWebEngine 1.8
 import ScreenPlay.Wallpaper 1.0
 
 Item {
-    id:root
+    id: root
     property alias url: webView.url
 
     signal requestFadeIn()
 
     Component.onCompleted: {
-
+        WebEngine.settings.localContentCanAccessFileUrls = true
+        WebEngine.settings.localContentCanAccessRemoteUrls = true
         WebEngine.settings.allowRunningInsecureContent = true
         WebEngine.settings.accelerated2dCanvasEnabled = true
         WebEngine.settings.javascriptCanOpenWindows = false
@@ -22,7 +23,15 @@ Item {
     WebEngineView {
         id: webView
         anchors.fill: parent
-        url: Qt.resolvedUrl(window.getApplicationPath() + "/index.html")
+        url: {
+            if (window.type === Wallpaper.WallpaperType.Video) {
+                Qt.resolvedUrl(window.getApplicationPath() + "/index.html")
+            }
+            if (window.type === Wallpaper.WallpaperType.Html) {
+                Qt.resolvedUrl(window.fullContentPath + "/index.html")
+            }
+        }
+
         onUrlChanged: print(url)
         onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
