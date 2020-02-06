@@ -27,8 +27,11 @@ Item {
                 swipeView.currentIndex = 1
                 ScreenPlay.create.createWallpaperStart(filePath,codec)
             }
+            onCodecChanged:createWallpaperVideoImportConvert.codec = codec
         }
-        CreateWallpaperVideoImportConvert {}
+        CreateWallpaperVideoImportConvert {
+            id:createWallpaperVideoImportConvert
+        }
         CreateWallpaperResult {}
     }
 

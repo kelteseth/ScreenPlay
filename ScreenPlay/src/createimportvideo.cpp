@@ -28,11 +28,12 @@ CreateImportVideo::CreateImportVideo(QObject* parent)
   Creates a CreateImportVideo object to be used in a different thread. A \a videoPath and a \a exportPath are
   needed for convertion.
 */
-CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& exportPath, QObject* parent)
+CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& exportPath, const QStringList& codecs, QObject* parent)
     : QObject(parent)
 {
     m_videoPath = videoPath;
     m_exportPath = exportPath;
+    m_codecs = codecs;
 
 #ifdef Q_OS_WIN
     m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe.exe";
@@ -47,7 +48,6 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 #if defined(Q_OS_MACOS) || defined(Q_OS_UNIX)
     m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg";
 #endif
-
 }
 
 /*!
@@ -90,9 +90,11 @@ void CreateImportVideo::process()
         return;
     }
 
-    if (!createWallpaperVideo() || QThread::currentThread()->isInterruptionRequested()) {
-        emit abortAndCleanup();
-        return;
+    for (const auto codec : m_codecs) {
+        if (!createWallpaperVideo(codec) || QThread::currentThread()->isInterruptionRequested()) {
+            emit abortAndCleanup();
+            return;
+        }
     }
 
     // If the video has no audio we can skip the extraction
@@ -499,12 +501,12 @@ bool CreateImportVideo::createWallpaperImagePreview()
     \li Generally broken.
    \endlist
  */
-bool CreateImportVideo::createWallpaperVideo()
+bool CreateImportVideo::createWallpaperVideo(const QString& codec)
 {
 
-    if (m_videoPath.endsWith(".webm")) {
-        return true;
-    }
+//    if (m_videoPath.endsWith(".webm")) {
+//        return true;
+//    }
 
     emit createWallpaperStateChanged(ImportVideoState::ConvertingVideo);
 
@@ -515,7 +517,12 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("-i");
     args.append(m_videoPath);
     args.append("-c:v");
-    args.append("libvpx");
+    if (codec == "vp8") {
+        args.append("libvpx");
+    }
+    if (codec == "vp9") {
+        args.append("libvpx-vp9");
+    }
     args.append("-b:v");
     args.append("0");
     args.append("-crf");
@@ -523,16 +530,15 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("-pass");
     args.append("1");
 
-#ifdef Q_OS_WIN
     args.append("-an");
     args.append("-f");
     args.append("webm");
+
+#ifdef Q_OS_WIN
     args.append("NULL");
 #endif
+
 #ifdef Q_OS_MACOS
-    args.append("-an");
-    args.append("-f");
-    args.append("webm");
     args.append("/dev/null");
 #endif
 
@@ -540,7 +546,6 @@ bool CreateImportVideo::createWallpaperVideo()
     proConvertVideoPass1->setArguments(args);
     proConvertVideoPass1->setProgram(m_ffmpegExecutable);
     proConvertVideoPass1->setProcessChannelMode(QProcess::MergedChannels);
-
 
     connect(proConvertVideoPass1.get(), &QProcess::readyReadStandardOutput, this, [&]() {
         QString tmpOut = proConvertVideoPass1->readAllStandardOutput();
@@ -567,7 +572,6 @@ bool CreateImportVideo::createWallpaperVideo()
     waitForFinished(proConvertVideoPass1);
     proConvertVideoPass1->close();
 
-
     args.clear();
     args.append("-hide_banner");
     args.append("-y");
@@ -575,7 +579,12 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("-i");
     args.append(m_videoPath);
     args.append("-c:v");
-    args.append("libvpx");
+    if (codec == "vp8") {
+        args.append("libvpx");
+    }
+    if (codec == "vp9") {
+        args.append("libvpx-vp9");
+    }
     args.append("-b:v");
     args.append("0");
     args.append("-crf");

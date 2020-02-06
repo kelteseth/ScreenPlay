@@ -148,9 +148,15 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
         return;
     }
     setWorkingDir(dir.path() + "/" + folderName);
+    QStringList codecs;
+    if (codec == Create::VideoCodec::VP8) {
+        codecs.append("vp8");
+    } else {
+        codecs.append("vp9");
+    }
 
     m_createImportVideoThread = new QThread();
-    m_createImportVideo = new CreateImportVideo(videoPath, workingDir());
+    m_createImportVideo = new CreateImportVideo(videoPath, workingDir(), codecs);
     connect(m_createImportVideo, &CreateImportVideo::processOutput, this, [this](QString text) {
         appendFfmpegOutput(text + "\n");
     });
@@ -171,7 +177,7 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
 /*!
     When converting of the wallpaper steps where successful.
 */
-void Create::saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, QVector<QString> tags)
+void Create::saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, Create::VideoCodec codec, QVector<QString> tags)
 {
     filePath.remove("file:///");
     previewImagePath.remove("file:///");
@@ -214,7 +220,11 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     obj.insert("description", description);
     obj.insert("title", title);
     obj.insert("youtube", youtube);
-    obj.insert("videoCodec", "vp8");
+    if (codec == Create::VideoCodec::VP8) {
+        obj.insert("videoCodec", "vp8");
+    } else {
+        obj.insert("videoCodec", "vp9");
+    }
 
     QFile audioFile { m_workingDir + "/audio.mp3" };
     if (audioFile.exists() && audioFile.size() > 0) {

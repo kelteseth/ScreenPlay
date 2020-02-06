@@ -45,7 +45,6 @@ public:
     Create();
 
     enum class VideoCodec {
-        All,
         VP8,
         VP9
     };
@@ -85,7 +84,7 @@ public slots:
         const QVector<QString>& tags);
 
     void createWallpaperStart(QString videoPath, Create::VideoCodec codec);
-    void saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, QVector<QString> tags);
+    void saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, ScreenPlay::Create::VideoCodec codec, QVector<QString> tags);
     void abortAndCleanup();
 
     void setProgress(float progress)

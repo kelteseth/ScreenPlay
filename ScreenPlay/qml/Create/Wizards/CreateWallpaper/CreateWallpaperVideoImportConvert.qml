@@ -15,6 +15,7 @@ Item {
 
     property bool conversionFinishedSuccessful: false
     property bool canSave: false
+    property var codec: Create.VP8
     property string filePath
 
 
@@ -83,6 +84,9 @@ Item {
                 break
             case CreateImportVideo.ConvertingVideoError:
                 txtConvert.text = qsTr("Converting Video ERROR!")
+                break
+            case CreateImportVideo.AnalyseVideoError:
+                txtConvert.text = qsTr("Analyse Video ERROR!")
                 break
             case CreateImportVideo.Finished:
                 txtConvert.text = ""
@@ -318,6 +322,7 @@ Item {
                                     wrapperContent.filePath,
                                     previewSelector.imageSource,
                                     textFieldYoutubeURL.text,
+                                    codec,
                                     textFieldTags.getTags())
                         savePopup.open()
                         ScreenPlay.installedListModel.reset()

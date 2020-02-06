@@ -31,7 +31,7 @@ public:
         qDebug() << "CreateImportVideo";
     }
     CreateImportVideo(QObject* parent = nullptr);
-    explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, QObject* parent = nullptr);
+    explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, const QStringList& codecs, QObject* parent = nullptr);
 
     bool m_skipAudio { false };
 
@@ -40,6 +40,7 @@ public:
     QString m_videoPath;
     QString m_exportPath;
     QString m_format;
+    QStringList m_codecs;
 
     int m_numberOfFrames { 0 };
     int m_length { 0 };
@@ -101,7 +102,7 @@ public slots:
     bool createWallpaperVideoPreview();
     bool createWallpaperGifPreview();
     bool createWallpaperImagePreview();
-    bool createWallpaperVideo();
+    bool createWallpaperVideo(const QString &codec);
     bool extractWallpaperAudio();
     bool createWallpaperImageThumbnailPreview();
 

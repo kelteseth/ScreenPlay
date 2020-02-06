@@ -144,5 +144,6 @@
         <file>assets/wizards/example_qml.png</file>
         <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml</file>
         <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaper.qml</file>
+        <file>qml/Common/Headline.qml</file>
     </qresource>
 </RCC>
