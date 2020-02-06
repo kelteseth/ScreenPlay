@@ -92,8 +92,8 @@ WinWindow::WinWindow(
     // WARNING: Setting Window flags must be called *here*!
     Qt::WindowFlags flags = m_window.flags();
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::SplashScreen | Qt::ForeignWindow | Qt::SubWindow);
-    SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW );
-    SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_POPUPWINDOW);
+    SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
+    SetWindowLongPtr(m_windowHandle, GWL_STYLE,  WS_POPUP);
 
     // Windows coordante system begins at 0x0 at the
     // main monitors upper left and not at the most left top monitor
