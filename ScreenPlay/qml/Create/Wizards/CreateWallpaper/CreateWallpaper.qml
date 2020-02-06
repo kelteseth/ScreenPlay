@@ -31,6 +31,7 @@ Item {
         }
         CreateWallpaperVideoImportConvert {
             id:createWallpaperVideoImportConvert
+            filePath: root.filePath
         }
         CreateWallpaperResult {}
     }
