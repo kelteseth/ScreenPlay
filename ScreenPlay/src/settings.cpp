@@ -1,6 +1,5 @@
 #include "settings.h"
 
-
 namespace ScreenPlay {
 
 /*!
@@ -117,33 +116,47 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
          * not generate warnings.
          */
 
-        bool hasCommonFolder = steamWorkshopContentPath.entryList().contains("common");
+        bool hasCommonFolder = steamWorkshopContentPath.entryList().contains("workshop");
 
         if (!hasCommonFolder) {
             QString basePath = steamWorkshopContentPath.path();
+            qDebug() << "common folder not found. Creating... " << basePath;
 
             auto checkIfFolderExsistOrCreate = [](const QString& path, const QString& foldername) {
                 QDir checkDir { path };
 
                 if (!checkDir.cd(foldername)) {
-                    return checkDir.mkdir(foldername);
+                    qDebug() << checkDir;
+                    bool created = checkDir.mkdir(foldername);
+                    if (!created) {
+                        qDebug() << "error trying to create " << checkDir;
+                    }
+                    return created;
                 } else {
+                    qDebug() << "Creating folder " << foldername << " in path " << path;
                     return true;
                 }
             };
 
-            if (checkIfFolderExsistOrCreate(basePath, "common")) {
-                if (checkIfFolderExsistOrCreate(basePath + "/common", "content")) {
-                    if (checkIfFolderExsistOrCreate(basePath + "/common/content", "672870")) {
-                         m_globalVariables->setLocalStoragePath("file:///" + basePath + "/common/content/672870");
+            if (checkIfFolderExsistOrCreate(basePath, "workshop")) {
+                if (checkIfFolderExsistOrCreate(basePath + "/workshop", "content")) {
+                    if (checkIfFolderExsistOrCreate(basePath + "/workshop/content", "672870")) {
+                        m_globalVariables->setLocalStoragePath("file:///" + basePath + "/workshop/content/672870");
                     }
                 }
             }
 
         } else {
-            steamWorkshopContentPath.cd("workshop");
-            steamWorkshopContentPath.cd("content");
-            steamWorkshopContentPath.cd("672870");
+            if(!steamWorkshopContentPath.cd("workshop")){
+                qDebug() << "Error! No workshop folder found in path: " << steamWorkshopContentPath.absolutePath();
+            }
+            if(!steamWorkshopContentPath.cd("content")){
+                qDebug() << "Error! No content folder found in path: " << steamWorkshopContentPath.absolutePath();
+            }
+            if(!steamWorkshopContentPath.cd("672870")){
+                qDebug() << "Error! No 672870 folder found in path: " << steamWorkshopContentPath.absolutePath();
+            }
+            qDebug() << "Setup installed content path at" << steamWorkshopContentPath.absolutePath();
 
             m_globalVariables->setLocalStoragePath("file:///" + steamWorkshopContentPath.absolutePath());
         }
