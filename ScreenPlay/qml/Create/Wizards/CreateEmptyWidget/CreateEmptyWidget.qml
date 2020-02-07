@@ -50,6 +50,9 @@ Item {
                 Image {
                     id: imgPreview
                     source: "qrc:/assets/wizards/example_qml.png"
+                    width: parent.width
+                    fillMode: Image.PreserveAspectCrop
+
                 }
             }
 

@@ -47,7 +47,15 @@ Item {
 
     Rectangle {
         id: wrapper
-        width: 1200
+        width: {
+            if(parent.width < 1200) {
+                return parent.width - 20 // Add small margin left and right
+            } else {
+                return 1200
+            }
+
+        }
+
         height: 580
         radius: 4
         anchors {
@@ -94,7 +102,14 @@ Item {
             name: "in"
             PropertyChanges {
                 target: wrapper
-                anchors.topMargin: 70
+                anchors.topMargin: {
+                    if(root.height < 650){
+                        return 20
+                    } else {
+                        return 70
+                    }
+                }
+
                 opacity: 1
             }
             PropertyChanges {

@@ -137,16 +137,19 @@ Item {
 
         Rectangle {
             id: imgWrapper
-            width: 570
-            height: 320
-
-            color: Material.color(Material.Grey)
             anchors {
-                top: parent.top
+                top:parent.top
+                right: parent.right
+                rightMargin: 20
+                bottom: previewSelector.top
+                bottomMargin: 20
                 left: parent.left
             }
 
+            color: Material.color(Material.Grey)
+
             Image {
+                fillMode: Image.PreserveAspectCrop
                 id: imgPreview
                 asynchronous: true
                 visible: false
@@ -155,6 +158,7 @@ Item {
 
             AnimatedImage {
                 id: gifPreview
+                fillMode: Image.PreserveAspectCrop
                 asynchronous: true
                 playing: true
                 visible: false
@@ -213,13 +217,13 @@ Item {
         }
         ImageSelector {
             id: previewSelector
+            height: 80
             placeHolderText: qsTr("You can set your own preview image here!")
             anchors {
-                top: imgWrapper.bottom
-                topMargin: 50
                 right: parent.right
-                rightMargin: 30
+                rightMargin: 20
                 left: parent.left
+                bottom: parent.bottom
             }
         }
     }
@@ -237,7 +241,6 @@ Item {
             id: column
             spacing: 0
             anchors {
-
                 right: parent.right
                 left: parent.left
                 margins: 30
@@ -291,6 +294,7 @@ Item {
             anchors {
                 right:parent.right
                 rightMargin: 30
+                bottomMargin: -10
                 bottom: parent.bottom
             }
 

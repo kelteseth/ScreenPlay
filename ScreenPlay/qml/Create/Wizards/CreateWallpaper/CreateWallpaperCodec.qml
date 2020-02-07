@@ -79,8 +79,8 @@ Item {
         }
         ComboBox {
             id: comboBoxCodec
+            width: 260
             textRole: "text"
-            width: 300
             valueRole: "value"
             onCurrentIndexChanged: {
                 root.codec = model.get(comboBoxCodec.currentIndex).value
