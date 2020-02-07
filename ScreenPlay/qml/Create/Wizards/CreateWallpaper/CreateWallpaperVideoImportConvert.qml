@@ -357,10 +357,11 @@ Item {
 
         Timer {
             id: timerSave
-            interval: 3000 - Math.random() * 1000
+            interval: 1000 + Math.random() * 1000
             onTriggered: {
+                savePopup.close()
                 ScreenPlay.util.setNavigationActive(true)
-                ScreenPlay.util.setNavigation("Create")
+                ScreenPlay.util.setNavigation("Installed")
             }
         }
     }
