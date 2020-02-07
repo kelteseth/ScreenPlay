@@ -72,6 +72,7 @@ signals:
     void workingDirChanged(QString workingDir);
     void ffmpegOutputChanged(QString ffmpegOutput);
     void widgetCreatedSuccessful(QString path);
+    void htmlWallpaperCreatedSuccessful(QString path);
 
 public slots:
     void createWidget(
@@ -84,8 +85,11 @@ public slots:
         const QVector<QString>& tags);
 
     void createHTMLWallpaper(
+        const QString& localStoragePath,
         const QString& title,
-        const QString& previewThumbnail);
+        const QString& previewThumbnail,
+        const QString& license,
+        const QVector<QString>& tags);
 
     void createWallpaperStart(QString videoPath, Create::VideoCodec codec);
     void saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, ScreenPlay::Create::VideoCodec codec, QVector<QString> tags);
