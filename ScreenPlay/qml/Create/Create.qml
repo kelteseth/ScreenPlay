@@ -57,11 +57,11 @@ Item {
         onCreateContent: {
             create.state = "wizard"
             ScreenPlay.util.setNavigationActive(false)
-            if (type === "emptyWidget") {
+            if (type === "emptyHtmlWallpaper") {
                 wizard.setSource(
-                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
+                            "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml",
                             {})
-            } else if (type === "clockWidget") {
+            } else if (type === "emptyWidget") {
                 wizard.setSource(
                             "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
                             {})

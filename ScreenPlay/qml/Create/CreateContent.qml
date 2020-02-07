@@ -64,13 +64,12 @@ Item {
         }
         CreateContentButton {
             id: btnEmpty1
-            text: qsTr("Simple clock widget")
-            buttonActive: false
+            text: qsTr("Empty HTML Wallpaper")
             animOffset: 150
             state: createWidget.state
-            imgSource: "qrc:/assets/icons/icon_time.svg"
+            imgSource: "qrc:/assets/icons/icon_code.svg"
             onClicked: {
-                createContent("clockWidget")
+                createContent("emptyHtmlWallpaper")
             }
         }
         CreateContentButton {

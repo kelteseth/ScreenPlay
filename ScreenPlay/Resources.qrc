@@ -145,5 +145,7 @@
         <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml</file>
         <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaper.qml</file>
         <file>qml/Common/Headline.qml</file>
+        <file>qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml</file>
+        <file>assets/images/undraw_static_website_0107.svg</file>
     </qresource>
 </RCC>

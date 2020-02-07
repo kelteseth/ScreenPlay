@@ -128,6 +128,11 @@ void Create::createWidget(const QString& localStoragePath, const QString& title,
     });
 }
 
+void Create::createHTMLWallpaper(const QString &title, const QString &previewThumbnail)
+{
+
+}
+
 /*!
     Starts the process.
 */

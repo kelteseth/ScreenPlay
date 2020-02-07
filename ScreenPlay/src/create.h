@@ -83,6 +83,10 @@ public slots:
         const QString& type,
         const QVector<QString>& tags);
 
+    void createHTMLWallpaper(
+        const QString& title,
+        const QString& previewThumbnail);
+
     void createWallpaperStart(QString videoPath, Create::VideoCodec codec);
     void saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, ScreenPlay::Create::VideoCodec codec, QVector<QString> tags);
     void abortAndCleanup();
