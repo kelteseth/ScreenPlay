@@ -98,6 +98,19 @@ void ScreenPlayManager::createWallpaper(
         settings.insert("absolutePath", path);
     }
 
+    // Only support remove wallpaper that spans over 1 monitor
+    if (monitorIndex.length() == 1) {
+        int i = 0;
+        for (auto& wallpaper : m_screenPlayWallpapers) {
+            if (wallpaper->screenNumber().length() == 1) {
+                if (monitors.at(0) == wallpaper->screenNumber().at(0)) {
+                    removeWallpaperAt(i);
+                }
+            }
+            i++;
+        }
+    }
+
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
 
