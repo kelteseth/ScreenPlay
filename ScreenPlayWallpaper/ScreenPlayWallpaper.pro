@@ -73,7 +73,7 @@ macx {
         src/macwindow.h
 }
 
-!macx {
+unix {
 
     install_it.path = $${OUT_PWD}/
 

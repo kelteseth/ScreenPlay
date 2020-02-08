@@ -35,11 +35,11 @@ win32 {
 }
 
 
-macx: {
+macx {
     QMAKE_LIBDIR += $$OUT_PWD/
 }
 
-!macx: {
+unix {
 
 
     install_it.path = $${OUT_PWD}/
