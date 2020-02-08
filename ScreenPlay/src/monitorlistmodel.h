@@ -14,8 +14,9 @@
 #include "screenplaywallpaper.h"
 #include "screenplaywidget.h"
 
+#ifdef Q_OS_WIN
 #include <qt_windows.h>
-
+#endif
 #include <memory>
 #include <optional>
 

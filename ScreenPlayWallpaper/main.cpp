@@ -3,6 +3,7 @@
 #include <QStringList>
 #include <QtGlobal>
 #include <QtWebEngine>
+#include <QVector>
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
@@ -44,10 +45,10 @@ int main(int argc, char* argv[])
         //WinWindow window(list, "D:/672870/827874818", "appid", "1", "fill");
 #endif
 #if defined(Q_OS_LINUX)
-        LinuxWindow window(list, "test", "appid", "1");
+        LinuxWindow window(QVector<int>{ 0 }, "test", "appid", "1", "fill");
 #endif
 #if defined(Q_OS_OSX)
-        MacWindow window(list, "test", "appid", "1");
+        MacWindow window({ 0 }, "test", "appid", "1", "fill");
 #endif
 
         return app.exec();
@@ -103,7 +104,7 @@ int main(int argc, char* argv[])
 #endif
 
 #if defined(Q_OS_LINUX)
-    LinuxWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(5));
+    LinuxWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5));
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &LinuxWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &LinuxWindow::messageReceived);
 #endif

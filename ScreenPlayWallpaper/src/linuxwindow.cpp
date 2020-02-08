@@ -1,6 +1,6 @@
 #include "linuxwindow.h"
 
-LinuxWindow::LinuxWindow(QVector<int>& activeScreensList, QString projectPath, QString id, QString volume, QObject* parent)
+LinuxWindow::LinuxWindow(QVector<int> activeScreensList, QString projectPath, QString id, QString volume, const QString fillmode, QObject* parent)
     : BaseWindow(projectPath)
 {
     setAppID(id);
@@ -33,6 +33,3 @@ void LinuxWindow::destroyThis()
     QCoreApplication::quit();
 }
 
-void LinuxWindow::messageReceived(QString key, QString value)
-{
-}

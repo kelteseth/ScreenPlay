@@ -325,12 +325,14 @@ void Util::downloadFFMPEG()
 
         string path = QGuiApplication::instance()->applicationDirPath().toStdString() + "/";
 
+        ZipEntry entryFFMPEG;
+        std::string entryFFMPEGPath;
 #ifdef Q_OS_WIN
-        ZipEntry entryFFMPEG = archive->getEntry(ffmpegVersion.toStdString() + "-win64-static/bin/ffmpeg.exe");
-        std::string entryFFMPEGPath = path + "ffmpeg.exe";
+         entryFFMPEG = archive->getEntry(ffmpegVersion.toStdString() + "-win64-static/bin/ffmpeg.exe");
+         entryFFMPEGPath = path + "ffmpeg.exe";
 #elif defined(Q_OS_OSX)
-        ZipEntry entryFFMPEG = archive->getEntry(ffmpegVersion.toStdString() +"-macos64-static/bin/ffmpeg");
-        std::string entryFFMPEGPath = path + "ffmpeg";
+         entryFFMPEG = archive->getEntry(ffmpegVersion.toStdString() +"-macos64-static/bin/ffmpeg");
+         entryFFMPEGPath = path + "ffmpeg";
 #endif
 
         if (entryFFMPEG.isNull()) {
@@ -347,12 +349,14 @@ void Util::downloadFFMPEG()
             return;
         }
 
+         ZipEntry entryFFPROBE;
+         std::string entryFFPROBEPath;
 #ifdef Q_OS_WIN
-        ZipEntry entryFFPROBE = archive->getEntry(ffmpegVersion.toStdString() + "-win64-static/bin/ffprobe.exe");
-        std::string entryFFPROBEPath = path + "ffprobe.exe";
+        entryFFPROBE = archive->getEntry(ffmpegVersion.toStdString() + "-win64-static/bin/ffprobe.exe");
+        entryFFPROBEPath = path + "ffprobe.exe";
 #elif defined(Q_OS_OSX)
-        ZipEntry entryFFPROBE = archive->getEntry(ffmpegVersion.toStdString() +"-macos64-static/bin/ffprobe");
-        std::string entryFFPROBEPath = path + "ffprobe";
+        entryFFPROBE = archive->getEntry(ffmpegVersion.toStdString() +"-macos64-static/bin/ffprobe");
+        entryFFPROBEPath = path + "ffprobe";
 #endif
         if (entryFFPROBE.isNull()) {
             qDebug() << "null";

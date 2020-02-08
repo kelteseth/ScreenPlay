@@ -65,16 +65,18 @@ HEADERS += \
 INCLUDEPATH += \
     $$PWD/src/\
 
-CONFIG(debug, debug|release) {
-    install_it.path = $${OUT_PWD}/debug/
-} else {
-    install_it.path = $${OUT_PWD}/release/
-}
-
-
 
 win32 {
     RC_ICONS += favicon.ico
+
+
+    CONFIG(debug, debug|release) {
+        install_it.path = $${OUT_PWD}/debug/
+    } else {
+        install_it.path = $${OUT_PWD}/release/
+    }
+
+
 
     INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
     DEPENDPATH  += $$PWD/../Common/vcpkg/installed/x64-windows/include
@@ -120,6 +122,33 @@ macx {
     QMAKE_BUNDLE_DATA += steam_data_lib
 
 }
+
+unix {
+    INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-linux/include
+    DEPENDPATH  += $$PWD/../Common/vcpkg/installed/x64-linux/include
+
+    LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/lib/  -llibzippp -lzip
+
+    install_it.path = $${OUT_PWD}
+
+    CONFIG(debug, debug|release) {
+        install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/zip.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/zlibd1.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libzippp.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/bz2d.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libcrypto-1_1-x64.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libssl-1_1-x64.so \
+
+    } else {
+        install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/bin/zip.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/zlib1.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libzippp.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/bz2.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libcrypto-1_1-x64.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libssl-1_1-x64.so \
+    }
+}
+
 
 INSTALLS += install_it
 

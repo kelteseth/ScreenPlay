@@ -5,7 +5,7 @@ TARGET = $$qtLibraryTarget($$TARGET)
 QT += qml quick
 CONFIG += plugin c++17
 
-uri = ScreenPlay.screenplaysdk
+uri = ScreenPlay.ScreenPlaySDK
 
 # Input
 SOURCES += \

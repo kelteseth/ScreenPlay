@@ -74,14 +74,20 @@ macx {
 }
 
 !macx {
+
+    install_it.path = $${OUT_PWD}/
+
     CONFIG(debug, debug|release) {
-        LIBS += -lScreenPlaySDKd
-        QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/debug
-     } else {
-        LIBS += -lScreenPlaySDK
-        QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK/release
-     }
-    QMAKE_LIBDIR += $$OUT_PWD/../ScreenPlaySDK
+        install_it.files +=  \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libcrypto-1_1-x64.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libssl-1_1-x64.so \
+
+    } else {
+
+        install_it.files +=  \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libcrypto-1_1-x64.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libssl-1_1-x64.so \
+    }
 }
 
 install_it.files += index.html \
