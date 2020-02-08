@@ -7,7 +7,7 @@ Item {
     id: root
     property alias url: webView.url
 
-    signal requestFadeIn()
+    signal requestFadeIn
 
     Component.onCompleted: {
         WebEngine.settings.localContentCanAccessFileUrls = true
@@ -24,11 +24,12 @@ Item {
         id: webView
         anchors.fill: parent
         url: {
+
             if (window.type === Wallpaper.WallpaperType.Video) {
-                Qt.resolvedUrl(window.getApplicationPath() + "/index.html")
+                return Qt.resolvedUrl(window.getApplicationPath() + "/index.html")
             }
             if (window.type === Wallpaper.WallpaperType.Html) {
-                Qt.resolvedUrl(window.fullContentPath + "/index.html")
+                return Qt.resolvedUrl(window.fullContentPath + "/index.html")
             }
         }
 
@@ -37,7 +38,7 @@ Item {
         onLoadProgressChanged: {
             if ((loadProgress === 100)) {
 
-                if(window.type === Wallpaper.WallpaperType.Video){
+                if (window.type === Wallpaper.WallpaperType.Video) {
                     // TODO 30:
                     // Currently wont work. Commit anyways til QtCreator and Qt work with js template literals
                     var src = ""
@@ -46,7 +47,8 @@ Item {
                     src += "videoSource.src = '" + window.fullContentPath + "';"
                     src += "videoPlayer.load();"
                     src += "videoPlayer.volume = " + window.volume + ";"
-                    src += "videoPlayer.setAttribute('style', 'object-fit :" + window.fillMode + ";');"
+                    src += "videoPlayer.setAttribute('style', 'object-fit :"
+                            + window.fillMode + ";');"
                     src += "videoPlayer.play();"
 
                     webView.runJavaScript(src, function (result) {
@@ -57,7 +59,6 @@ Item {
                 }
             }
         }
-
     }
 
     Timer {
