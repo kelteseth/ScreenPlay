@@ -12,6 +12,7 @@ import "qml/Monitors"
 import "qml/Common"
 import "qml/Installed"
 import "qml/Navigation"
+import "qml/Workshop"
 
 ApplicationWindow {
     id: window
@@ -25,11 +26,11 @@ ApplicationWindow {
     minimumWidth: 1050
 
     Component.onCompleted: {
-        if(!ScreenPlay.settings.silentStart){
+        if (!ScreenPlay.settings.silentStart) {
             window.show()
-            ScreenPlay.setTrackerSendEvent("navigation","Installed");
+            ScreenPlay.setTrackerSendEvent("navigation", "Installed")
         } else {
-            ScreenPlay.setTrackerSendEvent("navigation","Silent");
+            ScreenPlay.setTrackerSendEvent("navigation", "Silent")
         }
     }
 
@@ -113,19 +114,19 @@ ApplicationWindow {
         visible: true
         iconSource: "qrc:/assets/icons/favicon.ico"
         tooltip: qsTr("ScreenPlay - Double click to change you settings.")
-        onActivated:{
-            switch(reason){
+        onActivated: {
+            switch (reason) {
             case SystemTrayIcon.Unknown:
-                break;
+                break
             case SystemTrayIcon.Context:
-                break;
+                break
             case SystemTrayIcon.DoubleClick:
                 window.show()
-                break;
+                break
             case SystemTrayIcon.Trigger:
-                break;
+                break
             case SystemTrayIcon.MiddleClick:
-                break;
+                break
             }
         }
 
@@ -144,11 +145,13 @@ ApplicationWindow {
                     if (miMuteAll.isMuted) {
                         isMuted = false
                         miMuteAll.text = qsTr("Mute all")
-                        ScreenPlay.screenPlayManager.setAllWallpaperValue("muted", "true")
+                        ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                                    "muted", "true")
                     } else {
                         isMuted = true
                         miMuteAll.text = qsTr("Unmute all")
-                        ScreenPlay.screenPlayManager.setAllWallpaperValue("muted", "false")
+                        ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                                    "muted", "false")
                     }
                 }
             }
@@ -160,11 +163,13 @@ ApplicationWindow {
                     if (miStopAll.isPlaying) {
                         isPlaying = false
                         miStopAll.text = qsTr("Pause all")
-                        ScreenPlay.screenPlayManager.setAllWallpaperValue("isPlaying", "true")
+                        ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                                    "isPlaying", "true")
                     } else {
                         isPlaying = true
                         miStopAll.text = qsTr("Play all")
-                        ScreenPlay.screenPlayManager.setAllWallpaperValue("isPlaying", "false")
+                        ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                                    "isPlaying", "false")
                     }
                 }
             }
@@ -227,7 +232,6 @@ ApplicationWindow {
     Connections {
         target: pageLoader.item
         ignoreUnknownSignals: true
-
 
         onSetSidebarActive: {
             if (active) {

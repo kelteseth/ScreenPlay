@@ -25,11 +25,13 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QtGlobal>
 
-#include "globalvariables.h"
-#include "util.h"
 
 #include <memory>
 #include <optional>
+
+#include "globalvariables.h"
+#include "util.h"
+#include "nlohmann/json.hpp"
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>

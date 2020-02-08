@@ -22,7 +22,7 @@ WidgetWindow::WidgetWindow(const QString projectPath, const QString appid, const
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
     m_window.setColor(Qt::transparent);
 
-    qmlRegisterSingletonInstance<WidgetWindow>("ScreenPlayWidget",1,0,"Widget",this);
+    qmlRegisterSingletonInstance<WidgetWindow>("ScreenPlayWidget", 1, 0, "Widget", this);
 
 #ifdef Q_OS_WIN
     m_hwnd = reinterpret_cast<HWND>(m_window.winId());
