@@ -21,7 +21,7 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 788
-    title: "ScreenPlay V0.8.1"
+    title: "ScreenPlay Alpha - V0.9.0"
     minimumHeight: 450
     minimumWidth: 1050
 
