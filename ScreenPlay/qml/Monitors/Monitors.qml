@@ -26,7 +26,7 @@ Item {
 
     Rectangle {
         id: background
-        color: "#99000000"
+        color: "#cc000000"
         anchors.fill: parent
 
         MouseArea {
