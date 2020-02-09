@@ -93,7 +93,7 @@ WinWindow::WinWindow(
     Qt::WindowFlags flags = m_window.flags();
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::SplashScreen | Qt::ForeignWindow | Qt::SubWindow);
     SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
-    SetWindowLongPtr(m_windowHandle, GWL_STYLE,  WS_POPUP);
+    SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_POPUP);
 
     // Windows coordante system begins at 0x0 at the
     // main monitors upper left and not at the most left top monitor
@@ -121,6 +121,9 @@ WinWindow::WinWindow(
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setSource(QUrl("qrc:/mainWindow.qml"));
     m_window.hide();
+
+    QObject::connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);
+    m_checkForFullScreenWindowTimer.start(30);
 }
 
 void WinWindow::setVisible(bool show)
@@ -176,7 +179,7 @@ void WinWindow::setupWallpaperForAllScreens()
     }
     m_window.setHeight(rect.height());
     m_window.setWidth(rect.width());
-    if (!SetWindowPos(m_windowHandle, HWND_TOPMOST, 0, 0, rect.width(), rect.height(),SWP_NOSIZE | SWP_NOMOVE)) {
+    if (!SetWindowPos(m_windowHandle, HWND_TOPMOST, 0, 0, rect.width(), rect.height(), SWP_NOSIZE | SWP_NOMOVE)) {
         qFatal("Could not set window pos: ");
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
@@ -226,12 +229,54 @@ void WinWindow::setupWindowMouseHook()
 
 bool WinWindow::searchWorkerWindowToParentTo()
 {
+
     HWND progman_hwnd = FindWindowW(L"Progman", L"Program Manager");
     const DWORD WM_SPAWN_WORKER = 0x052C;
     SendMessageTimeoutW(progman_hwnd, WM_SPAWN_WORKER, 0xD, 0x1, SMTO_NORMAL,
         10000, nullptr);
 
     return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
+}
+
+QString printWindowNameByhWnd(HWND hWnd){
+    std::wstring title(GetWindowTextLength(hWnd) + 1, L'\0');
+    GetWindowTextW(hWnd,&title[0], title.size());
+    return QString::fromStdWString(title);
+}
+
+BOOL CALLBACK FindTheDesiredWnd(HWND hWnd, LPARAM lParam)
+{
+    DWORD dwStyle = (DWORD)GetWindowLong(hWnd, GWL_STYLE);
+    if ((dwStyle & WS_MAXIMIZE) != 0) {
+        *(reinterpret_cast<HWND*>(lParam)) = hWnd;
+      //  qDebug() << "Window found " << printWindowNameByhWnd(hWnd);
+        return false; // stop enumerating
+    }
+    return true; // keep enumerating
+}
+
+
+
+void WinWindow::checkForFullScreenWindow()
+{
+    auto hWnd = GetForegroundWindow();
+    DWORD dwStyle = (DWORD)GetWindowLong(hWnd, GWL_STYLE);
+    DWORD dwExStyle = (DWORD)GetWindowLong(hWnd, GWL_EXSTYLE);
+
+    if ((dwStyle & WS_MAXIMIZE) != 0) {
+        // do stuff
+        setIsPlaying(false);
+       // qDebug() << "WS_MAXIMIZE: " << printWindowNameByhWnd(hWnd);
+    } else {
+
+        HWND hFoundWnd = nullptr;
+        EnumWindows(&FindTheDesiredWnd, reinterpret_cast<LPARAM>(&hFoundWnd));
+        if (hFoundWnd != nullptr) {
+            setIsPlaying(false);
+        } else {
+            setIsPlaying(true);
+        }
+    }
 }
 
 void WinWindow::terminate()

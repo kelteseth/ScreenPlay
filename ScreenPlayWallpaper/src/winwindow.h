@@ -11,6 +11,7 @@
 #include <QString>
 #include <QVector>
 #include <QApplication>
+#include <QTimer>
 #include <memory>
 
 #include <qt_windows.h>
@@ -38,6 +39,8 @@ private:
     void setupWindowMouseHook();
     bool searchWorkerWindowToParentTo();
 
+private slots:
+    void checkForFullScreenWindow();
 
 private:
     int m_windowOffsetX = 0;
@@ -45,5 +48,6 @@ private:
     QQuickView m_window;
     HWND m_windowHandle;
     HWND m_windowHandleWorker;
+    QTimer m_checkForFullScreenWindowTimer;
     WindowsDesktopProperties m_windowsDesktopProperties;
 };
