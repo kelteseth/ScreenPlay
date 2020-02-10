@@ -3,7 +3,7 @@
 </div>
 
 <div align="center">
-ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. It is written in modern C++17/Qt5/QML. Binaries with workshop support are available for Windows/Linux/MacOSX via <a href="https://store.steampowered.com/about/">Steam</a>. 
+ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. It is written in modern C++17/Qt5/QML. Binaries with workshop support are available for Windows and soon Linux & MacOSX via <a href="https://store.steampowered.com/about/">Steam</a>. 
 Join our community: <a href="https://screen-play.app/">Homepage</a>, <a href="https://forum.screen-play.app/">Forum</a>
 <br> Visit our <a href="https://kelteseth.gitlab.io/ScreenPlayDeveloperDocs/"> Developer C++ Classes Documentation</a> and our <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/"> Getting Started Guide for creating Wallpaper and Widgets</a>!
 <br>
