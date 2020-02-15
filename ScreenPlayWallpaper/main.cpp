@@ -38,9 +38,9 @@ int main(int argc, char* argv[])
         //Set the monitor number to test
 
 #if defined(Q_OS_WIN)
-        WinWindow window1({ 0 }, "test", "appid", "1", "fill");
-        WinWindow window2({ 1 }, "test", "appid", "1", "fill");
-        WinWindow window3({ 2 }, "test", "appid", "1", "fill");
+        //WinWindow window1({ 0 }, "test", "appid", "1", "fill");
+        //WinWindow window2({ 1 }, "test", "appid", "1", "fill");
+        //WinWindow window3({ 2 }, "test", "appid", "1", "fill");
 
         WinWindow window({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/1954178242", "appid", "1", "fill", true);
 #endif
