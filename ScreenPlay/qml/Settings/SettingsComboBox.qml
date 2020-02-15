@@ -62,7 +62,7 @@ Item {
 
     ComboBox {
         id:comboBox
-
+        implicitWidth: 200
         anchors {
             right: parent.right
             rightMargin: 20
