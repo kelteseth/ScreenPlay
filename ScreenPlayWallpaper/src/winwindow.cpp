@@ -62,11 +62,12 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 
 WinWindow::WinWindow(
     const QVector<int>& activeScreensList,
-    QString projectPath,
-    QString id,
-    QString volume,
-    const QString fillmode)
-    : BaseWindow(projectPath, activeScreensList)
+    const QString projectPath,
+    const QString id,
+    const QString volume,
+    const QString fillmode,
+    const bool checkWallpaperVisible)
+    : BaseWindow(projectPath, activeScreensList, checkWallpaperVisible)
 {
     m_window.hide();
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
@@ -123,7 +124,10 @@ WinWindow::WinWindow(
     m_window.hide();
 
     QObject::connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);
-    m_checkForFullScreenWindowTimer.start(30);
+
+    if (checkWallpaperVisible) {
+        m_checkForFullScreenWindowTimer.start(10);
+    }
 }
 
 void WinWindow::setVisible(bool show)
@@ -292,10 +296,10 @@ void WinWindow::checkForFullScreenWindow()
 
             if ((dwStyle & WS_MAXIMIZE) != 0) {
                 // do stuff
-                setIsPlaying(false);
+                setVisualsPaused(false);
                 qDebug() << "WS_MAXIMIZE: " << printWindowNameByhWnd(hWnd);
             } else {
-                setIsPlaying(true);
+                setVisualsPaused(true);
             }
             return;
         }
@@ -316,16 +320,16 @@ void WinWindow::checkForFullScreenWindow()
             if (activeScreensList().length() == 1) {
                 // If the window that has WS_MAXIMIZE is at the same monitor as this wallpaper
                 if (monitorIndex == activeScreensList().at(0)) {
-                    qDebug() << "monitorIndex" << monitorIndex;
-                    setIsPlaying(false);
+                    // qDebug() << "monitorIndex" << monitorIndex;
+                    setVisualsPaused(false);
                 } else {
-                    setIsPlaying(true);
+                    setVisualsPaused(true);
                 }
             }
 
         } else {
             //  qDebug() << "No window found, playing!";
-            setIsPlaying(true);
+            setVisualsPaused(true);
         }
     }
 }

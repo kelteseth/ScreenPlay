@@ -16,7 +16,7 @@ class BaseWindow : public QObject {
 
 public:
     BaseWindow(QObject* parent = nullptr);
-    BaseWindow(QString projectFilePath, QVector<int> activeScreensList);
+    BaseWindow(QString projectFilePath, const QVector<int> activeScreensList, const bool checkWallpaperVisible);
 
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
@@ -24,12 +24,16 @@ public:
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
+    Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
 
     Q_PROPERTY(bool loops READ loops WRITE setLoops NOTIFY loopsChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
     Q_PROPERTY(bool canFade READ canFade WRITE setCanFade NOTIFY canFadeChanged)
-    Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
+
+    // Save performance by checking if the wallpaper is visible (video wallpaper only for now)
+    Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
+    Q_PROPERTY(bool visualsPaused READ visualsPaused WRITE setVisualsPaused NOTIFY visualsPausedChanged)
 
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
@@ -123,6 +127,16 @@ public:
         return m_activeScreensList;
     }
 
+    bool checkWallpaperVisible() const
+    {
+        return m_checkWallpaperVisible;
+    }
+
+    bool visualsPaused() const
+    {
+        return m_visualsPaused;
+    }
+
 signals:
     void qmlExit();
 
@@ -143,8 +157,12 @@ signals:
     void heightChanged(int height);
     void activeScreensListChanged(QVector<int> activeScreensList);
 
+    void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
+
+    void visualsPausedChanged(bool visualsPaused);
+
 public slots:
-    virtual void destroyThis() {}
+    virtual void destroyThis() { }
     virtual void setVisible(bool show) { Q_UNUSED(show) }
     virtual void messageReceived(QString key, QString value) final;
 
@@ -307,7 +325,30 @@ public slots:
         emit activeScreensListChanged(m_activeScreensList);
     }
 
+    void setCheckWallpaperVisible(bool checkWallpaperVisible)
+    {
+        if (m_checkWallpaperVisible == checkWallpaperVisible)
+            return;
+
+        m_checkWallpaperVisible = checkWallpaperVisible;
+        emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
+    }
+
+    void setVisualsPaused(bool visualsPaused)
+    {
+        if (m_visualsPaused == visualsPaused)
+            return;
+
+        qDebug() << "visualsPaused: " << visualsPaused;
+
+        m_visualsPaused = visualsPaused;
+        emit visualsPausedChanged(m_visualsPaused);
+    }
+
 private:
+    bool m_checkWallpaperVisible { false };
+    bool m_visualsPaused { false };
+
     bool m_loops { true };
     bool m_isPlaying { true };
     bool m_muted { false };

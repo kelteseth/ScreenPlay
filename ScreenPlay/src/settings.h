@@ -25,13 +25,12 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QtGlobal>
 
-
 #include <memory>
 #include <optional>
 
 #include "globalvariables.h"
-#include "util.h"
 #include "nlohmann/json.hpp"
+#include "util.h"
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
@@ -47,13 +46,14 @@ class Settings : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QVersionNumber version READ version)
+
     Q_PROPERTY(bool anonymousTelemetry READ anonymousTelemetry WRITE setAnonymousTelemetry NOTIFY anonymousTelemetryChanged)
     Q_PROPERTY(bool silentStart READ silentStart WRITE setSilentStart NOTIFY silentStartChanged)
     Q_PROPERTY(bool autostart READ autostart WRITE setAutostart NOTIFY autostartChanged)
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
-
-    Q_PROPERTY(bool pauseWallpaperWhenIngame READ pauseWallpaperWhenIngame WRITE setPauseWallpaperWhenIngame NOTIFY pauseWallpaperWhenIngameChanged)
+    Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
+
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(QString gitBuildHash READ gitBuildHash WRITE setGitBuildHash NOTIFY gitBuildHashChanged)
     Q_PROPERTY(QString language READ language WRITE setLanguage NOTIFY languageChanged)
@@ -66,11 +66,6 @@ public:
     QVersionNumber version() const
     {
         return m_version;
-    }
-
-    bool pauseWallpaperWhenIngame() const
-    {
-        return m_pauseWallpaperWhenIngame;
     }
 
     bool offlineMode() const
@@ -118,21 +113,24 @@ public:
         return m_language;
     }
 
+    bool checkWallpaperVisible() const
+    {
+        return m_checkWallpaperVisible;
+    }
+
 signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
     void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
     void decoderChanged(QString decoder);
     void setMainWindowVisible(bool visible);
-    void pauseWallpaperWhenIngameChanged(bool pauseWallpaperWhenIngame);
     void offlineModeChanged(bool offlineMode);
     void gitBuildHashChanged(QString gitBuildHash);
     void resetInstalledListmodel();
     void silentStartChanged(bool silentStart);
-
     void anonymousTelemetryChanged(bool anonymousTelemetry);
-
     void languageChanged(QString language);
+    void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
 
 public slots:
     bool writeSingleSettingConfig(QString name, QVariant value);
@@ -200,15 +198,6 @@ public slots:
         emit decoderChanged(m_decoder);
     }
 
-    void setPauseWallpaperWhenIngame(bool pauseWallpaperWhenIngame)
-    {
-        if (m_pauseWallpaperWhenIngame == pauseWallpaperWhenIngame)
-            return;
-
-        m_pauseWallpaperWhenIngame = pauseWallpaperWhenIngame;
-        emit pauseWallpaperWhenIngameChanged(m_pauseWallpaperWhenIngame);
-    }
-
     void setOfflineMode(bool offlineMode)
     {
         if (m_offlineMode == offlineMode)
@@ -254,6 +243,16 @@ public slots:
         emit languageChanged(m_language);
     }
 
+    void setCheckWallpaperVisible(bool checkWallpaperVisible)
+    {
+        if (m_checkWallpaperVisible == checkWallpaperVisible)
+            return;
+
+        writeSingleSettingConfig("checkWallpaperVisible", checkWallpaperVisible);
+        m_checkWallpaperVisible = checkWallpaperVisible;
+        emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
+    }
+
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
 
@@ -264,15 +263,15 @@ private:
 
     const shared_ptr<GlobalVariables>& m_globalVariables;
 
-    bool m_pauseWallpaperWhenIngame { false };
     bool m_autostart { true };
     bool m_highPriorityStart { true };
     bool m_offlineMode { true };
-
-    QString m_decoder { "" };
-    QString m_gitBuildHash;
+    bool m_checkWallpaperVisible { true };
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
+
+    QString m_gitBuildHash;
+    QString m_decoder { "" };
     QString m_language;
 };
 }

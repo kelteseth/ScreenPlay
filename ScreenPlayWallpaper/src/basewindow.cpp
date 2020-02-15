@@ -5,9 +5,10 @@ BaseWindow::BaseWindow(QObject* parent)
 {
 }
 
-BaseWindow::BaseWindow(QString projectFilePath, QVector<int> activeScreensList)
+BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreensList, const bool checkWallpaperVisible)
     : QObject(nullptr)
     , m_activeScreensList(activeScreensList)
+    , m_checkWallpaperVisible(checkWallpaperVisible)
 {
     QApplication::instance()->installEventFilter(this);
     qRegisterMetaType<BaseWindow::WallpaperType>();

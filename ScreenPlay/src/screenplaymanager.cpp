@@ -19,12 +19,14 @@ ScreenPlayManager::ScreenPlayManager(
     const shared_ptr<MonitorListModel>& mlm,
     const shared_ptr<SDKConnector>& sdkc,
     const shared_ptr<GAnalytics>& telemetry,
+    const shared_ptr<Settings>& settings,
     QObject* parent)
     : QObject { parent }
     , m_globalVariables { globalVariables }
     , m_monitorListModel { mlm }
     , m_sdkconnector { sdkc }
     , m_telemetry { telemetry }
+    , m_settings { settings }
 {
     loadWallpaperProfiles();
 }
@@ -59,44 +61,17 @@ void ScreenPlayManager::createWallpaper(
         monitors.append(index);
     }
 
-    QJsonObject settings;
-
     std::shared_ptr<ScreenPlayWallpaper> wallpaper;
-
-    if (type == "videoWallpaper") {
-        wallpaper = make_shared<ScreenPlayWallpaper>(
-            monitorIndex,
-            m_globalVariables,
-            Util::generateRandomString(),
-            path,
-            previewImage,
-            volume,
-            fillMode,
-            type);
-
-        settings.insert("monitors", monitors);
-        settings.insert("type", type);
-        settings.insert("volume", static_cast<double>(volume));
-        settings.insert("isLooping", true);
-        settings.insert("fillMode", fillMode);
-        settings.insert("previewImage", previewImage);
-        settings.insert("absolutePath", path);
-
-    } else if (type == "qmlWallpaper" || type == "htmlWallpaper") {
-        wallpaper = make_shared<ScreenPlayWallpaper>(
-            monitorIndex,
-            m_globalVariables,
-            Util::generateRandomString(),
-            path,
-            previewImage,
-            type,
-            settings);
-
-        settings.insert("monitors", monitors);
-        settings.insert("type", type);
-        settings.insert("previewImage", previewImage);
-        settings.insert("absolutePath", path);
-    }
+    wallpaper = make_shared<ScreenPlayWallpaper>(
+        monitorIndex,
+        m_globalVariables,
+        Util::generateRandomString(),
+        path,
+        previewImage,
+        volume,
+        fillMode,
+        type,
+        m_settings->checkWallpaperVisible());
 
     // Only support remove wallpaper that spans over 1 monitor
     if (monitorIndex.length() == 1) {
@@ -113,11 +88,20 @@ void ScreenPlayManager::createWallpaper(
 
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
+    increaseActiveWallpaperCounter();
 
-    if (saveToProfilesConfigFile) {
+    if (saveToProfilesConfigFile && type == "videoWallpaper") {
+        QJsonObject settings;
+        settings.insert("monitors", monitors);
+        settings.insert("type", type);
+        settings.insert("volume", static_cast<double>(volume));
+        settings.insert("isLooping", true);
+        settings.insert("fillMode", fillMode);
+        settings.insert("previewImage", previewImage);
+        settings.insert("absolutePath", path);
+
         saveWallpaperProfile("default", settings);
     }
-    increaseActiveWallpaperCounter();
 }
 
 /*!
@@ -378,12 +362,6 @@ void ScreenPlayManager::loadWallpaperProfiles()
                 }
                 monitors.append(value);
             }
-
-            bool parsing = true;
-            bool isLooping = wallpaperObj.value("isLooping").toBool(parsing);
-
-            if (!parsing)
-                continue;
 
             float volume = static_cast<float>(wallpaperObj.value("volume").toDouble(-1.0));
 

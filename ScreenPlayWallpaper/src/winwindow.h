@@ -9,9 +9,8 @@
 #include <QScreen>
 #include <QSettings>
 #include <QString>
-#include <QVector>
-#include <QApplication>
 #include <QTimer>
+#include <QVector>
 #include <memory>
 
 #include <qt_windows.h>
@@ -22,9 +21,8 @@
 class WinWindow : public BaseWindow {
     Q_OBJECT
 
-
 public:
-    explicit WinWindow(const QVector<int>& activeScreensList, QString projectPath, QString id, QString volume, const QString fillmode);
+    explicit WinWindow(const QVector<int>& activeScreensList, const QString projectPath, const QString id, const QString volume, const QString fillmode, const bool checkWallpaperVisible);
 
 public slots:
     void setVisible(bool show) override;
