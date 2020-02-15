@@ -5,8 +5,9 @@ BaseWindow::BaseWindow(QObject* parent)
 {
 }
 
-BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
-    : QObject(parent)
+BaseWindow::BaseWindow(QString projectFilePath, QVector<int> activeScreensList)
+    : QObject(nullptr)
+    , m_activeScreensList(activeScreensList)
 {
     QApplication::instance()->installEventFilter(this);
     qRegisterMetaType<BaseWindow::WallpaperType>();
@@ -24,7 +25,7 @@ BaseWindow::BaseWindow(QString projectFilePath, QObject* parent)
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
 
-    if(projectFilePath.contains("file:\\\\\\"))
+    if (projectFilePath.contains("file:\\\\\\"))
         projectFilePath = projectFilePath.remove("file:\\\\\\");
 
     projectFile.setFileName(projectFilePath + "/project.json");

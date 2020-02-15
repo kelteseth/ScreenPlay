@@ -16,10 +16,11 @@ class BaseWindow : public QObject {
 
 public:
     BaseWindow(QObject* parent = nullptr);
-    BaseWindow(QString projectFilePath, QObject* parent = nullptr);
+    BaseWindow(QString projectFilePath, QVector<int> activeScreensList);
 
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
+    Q_PROPERTY(QVector<int> activeScreensList READ activeScreensList WRITE setActiveScreensList NOTIFY activeScreensListChanged)
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
@@ -117,6 +118,11 @@ public:
         return m_height;
     }
 
+    QVector<int> activeScreensList() const
+    {
+        return m_activeScreensList;
+    }
+
 signals:
     void qmlExit();
 
@@ -135,6 +141,7 @@ signals:
     void fillModeChanged(QString fillMode);
     void widthChanged(int width);
     void heightChanged(int height);
+    void activeScreensListChanged(QVector<int> activeScreensList);
 
 public slots:
     virtual void destroyThis() {}
@@ -291,6 +298,15 @@ public slots:
         emit heightChanged(m_height);
     }
 
+    void setActiveScreensList(QVector<int> activeScreensList)
+    {
+        if (m_activeScreensList == activeScreensList)
+            return;
+
+        m_activeScreensList = activeScreensList;
+        emit activeScreensListChanged(m_activeScreensList);
+    }
+
 private:
     bool m_loops { true };
     bool m_isPlaying { true };
@@ -309,4 +325,5 @@ private:
     QString m_fillMode;
     int m_width { 0 };
     int m_height { 0 };
+    QVector<int> m_activeScreensList;
 };

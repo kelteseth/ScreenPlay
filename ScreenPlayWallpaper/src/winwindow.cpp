@@ -66,7 +66,7 @@ WinWindow::WinWindow(
     QString id,
     QString volume,
     const QString fillmode)
-    : BaseWindow(projectPath)
+    : BaseWindow(projectPath, activeScreensList)
 {
     m_window.hide();
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
@@ -238,9 +238,10 @@ bool WinWindow::searchWorkerWindowToParentTo()
     return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
 }
 
-QString printWindowNameByhWnd(HWND hWnd){
+QString printWindowNameByhWnd(HWND hWnd)
+{
     std::wstring title(GetWindowTextLength(hWnd) + 1, L'\0');
-    GetWindowTextW(hWnd,&title[0], title.size());
+    GetWindowTextW(hWnd, &title[0], title.size());
     return QString::fromStdWString(title);
 }
 
@@ -249,31 +250,81 @@ BOOL CALLBACK FindTheDesiredWnd(HWND hWnd, LPARAM lParam)
     DWORD dwStyle = (DWORD)GetWindowLong(hWnd, GWL_STYLE);
     if ((dwStyle & WS_MAXIMIZE) != 0) {
         *(reinterpret_cast<HWND*>(lParam)) = hWnd;
-      //  qDebug() << "Window found " << printWindowNameByhWnd(hWnd);
         return false; // stop enumerating
     }
     return true; // keep enumerating
 }
 
+struct sEnumInfo {
+    int iIndex = 0;
+    HMONITOR hMonitor = NULL;
+};
 
+BOOL CALLBACK GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
+{
+    auto info = (sEnumInfo*)dwData;
+    if (info->hMonitor == hMonitor)
+        return FALSE;
+    ++info->iIndex;
+    return TRUE;
+}
+
+int GetMonitorIndex(HMONITOR hMonitor)
+{
+    sEnumInfo info;
+    info.hMonitor = hMonitor;
+
+    if (EnumDisplayMonitors(NULL, NULL, GetMonitorByHandle, (LPARAM)&info))
+        return -1;
+
+    return info.iIndex;
+}
 
 void WinWindow::checkForFullScreenWindow()
 {
-    auto hWnd = GetForegroundWindow();
-    DWORD dwStyle = (DWORD)GetWindowLong(hWnd, GWL_STYLE);
-    DWORD dwExStyle = (DWORD)GetWindowLong(hWnd, GWL_EXSTYLE);
+    // If one screen:
+    {
+        auto hWnd = GetForegroundWindow();
+        DWORD dwStyle = (DWORD)GetWindowLong(hWnd, GWL_STYLE);
 
-    if ((dwStyle & WS_MAXIMIZE) != 0) {
-        // do stuff
-        setIsPlaying(false);
-       // qDebug() << "WS_MAXIMIZE: " << printWindowNameByhWnd(hWnd);
-    } else {
+        int screensCount = QGuiApplication::screens().length();
+        if (screensCount == 1) {
 
+            if ((dwStyle & WS_MAXIMIZE) != 0) {
+                // do stuff
+                setIsPlaying(false);
+                qDebug() << "WS_MAXIMIZE: " << printWindowNameByhWnd(hWnd);
+            } else {
+                setIsPlaying(true);
+            }
+            return;
+        }
+    }
+
+    // If multiple screens:
+    {
         HWND hFoundWnd = nullptr;
         EnumWindows(&FindTheDesiredWnd, reinterpret_cast<LPARAM>(&hFoundWnd));
+        // True if one window has WS_MAXIMIZE
         if (hFoundWnd != nullptr) {
-            setIsPlaying(false);
+            DWORD dwFlags = 0;
+            HMONITOR monitor = MonitorFromWindow(hFoundWnd, dwFlags);
+            int monitorIndex = GetMonitorIndex(monitor);
+            // qDebug() << "Window found " << printWindowNameByhWnd(hFoundWnd) << monitorIndex <<  activeScreensList().at(0);
+
+            // We do not support autopause for multi monitor wallpaper
+            if (activeScreensList().length() == 1) {
+                // If the window that has WS_MAXIMIZE is at the same monitor as this wallpaper
+                if (monitorIndex == activeScreensList().at(0)) {
+                    qDebug() << "monitorIndex" << monitorIndex;
+                    setIsPlaying(false);
+                } else {
+                    setIsPlaying(true);
+                }
+            }
+
         } else {
+            //  qDebug() << "No window found, playing!";
             setIsPlaying(true);
         }
     }
