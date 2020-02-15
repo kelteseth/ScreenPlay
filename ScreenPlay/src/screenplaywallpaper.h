@@ -28,8 +28,7 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(QJsonObject profileJsonObject READ profileJsonObject WRITE setProfileJsonObject NOTIFY profileJsonObjectChanged)
 
 public:
-    explicit ScreenPlayWallpaper(
-        const QVector<int>& screenNumber,
+    explicit ScreenPlayWallpaper(const QVector<int>& screenNumber,
         const shared_ptr<GlobalVariables>& globalVariables,
         const QString& appID,
         const QString& absolutePath,
@@ -37,6 +36,7 @@ public:
         const float volume,
         const QString& fillMode,
         const QString& type,
+        const bool checkWallpaperVisible,
         QObject* parent = nullptr);
 
     explicit ScreenPlayWallpaper(

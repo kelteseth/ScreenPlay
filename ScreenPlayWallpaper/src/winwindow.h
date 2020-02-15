@@ -9,8 +9,8 @@
 #include <QScreen>
 #include <QSettings>
 #include <QString>
+#include <QTimer>
 #include <QVector>
-#include <QApplication>
 #include <memory>
 
 #include <qt_windows.h>
@@ -21,9 +21,8 @@
 class WinWindow : public BaseWindow {
     Q_OBJECT
 
-
 public:
-    explicit WinWindow(const QVector<int>& activeScreensList, QString projectPath, QString id, QString volume, const QString fillmode);
+    explicit WinWindow(const QVector<int>& activeScreensList, const QString projectPath, const QString id, const QString volume, const QString fillmode, const bool checkWallpaperVisible);
 
 public slots:
     void setVisible(bool show) override;
@@ -38,6 +37,8 @@ private:
     void setupWindowMouseHook();
     bool searchWorkerWindowToParentTo();
 
+private slots:
+    void checkForFullScreenWindow();
 
 private:
     int m_windowOffsetX = 0;
@@ -45,5 +46,6 @@ private:
     QQuickView m_window;
     HWND m_windowHandle;
     HWND m_windowHandleWorker;
+    QTimer m_checkForFullScreenWindowTimer;
     WindowsDesktopProperties m_windowsDesktopProperties;
 };

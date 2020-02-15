@@ -147,13 +147,13 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
             }
 
         } else {
-            if(!steamWorkshopContentPath.cd("workshop")){
+            if (!steamWorkshopContentPath.cd("workshop")) {
                 qDebug() << "Error! No workshop folder found in path: " << steamWorkshopContentPath.absolutePath();
             }
-            if(!steamWorkshopContentPath.cd("content")){
+            if (!steamWorkshopContentPath.cd("content")) {
                 qDebug() << "Error! No content folder found in path: " << steamWorkshopContentPath.absolutePath();
             }
-            if(!steamWorkshopContentPath.cd("672870")){
+            if (!steamWorkshopContentPath.cd("672870")) {
                 qDebug() << "Error! No 672870 folder found in path: " << steamWorkshopContentPath.absolutePath();
             }
             qDebug() << "Setup installed content path at" << steamWorkshopContentPath.absolutePath();
@@ -177,6 +177,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
         m_qSettings.sync();
     }
 
+    m_checkWallpaperVisible = configObj.value().value("checkWallpaperVisible").toBool();
     m_autostart = configObj.value().value("autostart").toBool();
     m_highPriorityStart = configObj.value().value("highPriorityStart").toBool();
     m_anonymousTelemetry = configObj.value().value("anonymousTelemetry").toBool();

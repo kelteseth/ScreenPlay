@@ -267,15 +267,14 @@ Item {
                         spacing: 10
 
                         SettingBool {
-                            headline: qsTr("Pause wallpaper while ingame")
-                            available: false
-                            description: qsTr("To maximise your framerates ingame, you can enable this setting to pause all active wallpapers!")
-                            isChecked: ScreenPlay.settings.pauseWallpaperWhenIngame
+                            headline: qsTr("Pause wallpaper while another app is in the foreground")
+                            description: qsTr("We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!")
+                            isChecked: ScreenPlay.settings.checkWallpaperVisible
                             onCheckboxChanged: {
-                                ScreenPlay.settings.setPauseWallpaperWhenIngame(
+                                ScreenPlay.settings.setCheckWallpaperVisible(
                                             checked)
                                 ScreenPlay.settings.writeSingleSettingConfig(
-                                            "setPauseWallpaperWhenIngame",
+                                            "checkWallpaperVisible",
                                             checked)
                             }
                         }

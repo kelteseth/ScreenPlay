@@ -15,6 +15,7 @@
 #include "screenplaywallpaper.h"
 #include "screenplaywidget.h"
 #include "sdkconnector.h"
+#include "settings.h"
 #include "util.h"
 
 #include <memory>
@@ -42,6 +43,7 @@ public:
         const shared_ptr<MonitorListModel>& mlm,
         const shared_ptr<SDKConnector>& sdkc,
         const shared_ptr<GAnalytics>& telemetry,
+        const shared_ptr<Settings>& settings,
         QObject* parent = nullptr);
 
     int activeWallpaperCounter() const
@@ -136,6 +138,7 @@ private:
     const shared_ptr<MonitorListModel>& m_monitorListModel;
     const shared_ptr<SDKConnector>& m_sdkconnector;
     const shared_ptr<GAnalytics>& m_telemetry;
+    const shared_ptr<Settings>& m_settings;
 
     QVector<shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
     QVector<shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;

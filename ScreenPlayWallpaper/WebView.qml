@@ -121,6 +121,12 @@ Item {
             }
         }
 
+        onVisualsPausedChanged:{
+            if(window.checkWallpaperVisible){
+                webView.visible = visualsPaused
+            }
+        }
+
         onIsPlayingChanged: {
             if (webView.loadProgress === 100) {
                 if (isPlaying) {

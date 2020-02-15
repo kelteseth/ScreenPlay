@@ -1,9 +1,9 @@
 #include <QApplication>
 #include <QObject>
 #include <QStringList>
+#include <QVector>
 #include <QtGlobal>
 #include <QtWebEngine>
-#include <QVector>
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
@@ -42,7 +42,7 @@ int main(int argc, char* argv[])
         WinWindow window2({ 1 }, "test", "appid", "1", "fill");
         WinWindow window3({ 2 }, "test", "appid", "1", "fill");
 
-        //WinWindow window(list, "D:/672870/827874818", "appid", "1", "fill");
+        WinWindow window({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/1954178242", "appid", "1", "fill", true);
 #endif
 #if defined(Q_OS_LINUX)
         LinuxWindow window(QVector<int>{ 0 }, "test", "appid", "1", "fill");
@@ -55,12 +55,12 @@ int main(int argc, char* argv[])
     }
 
     // 6 parameter + 1 OS working directory default paramter
-    if (argumentList.length() != 7) {
+    if (argumentList.length() != 8) {
         return -3;
     }
 
     // AppID, Type
-    ScreenPlaySDK sdk(argumentList.at(3),argumentList.at(6));
+    ScreenPlaySDK sdk(argumentList.at(3), argumentList.at(6));
 
     QString monitorNumbers = argumentList.at(1);
     QStringList activeScreensList = monitorNumbers.split(",");
@@ -90,15 +90,23 @@ int main(int argc, char* argv[])
         }
     }
 
-    if(list.empty()){
+    if (list.empty()) {
         return -4;
     }
-    // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (4) volume, (5) fillmode, (6) type
+
+    // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (4) volume, (5) fillmode, (6) type, (7)
     // See screenplay.h @ScreenPlayWallpaper constructor how the args get created
     qDebug() << argumentList;
 
+    bool okParseCheckWallpaperVisible = false;
+    bool checkWallpaperVisible = argumentList.at(7).toInt(&okParseCheckWallpaperVisible);
+    if (!okParseCheckWallpaperVisible) {
+        qFatal("Could not parse checkWallpaperVisible");
+        return -5;
+    }
+
 #if defined(Q_OS_WIN)
-    WinWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5));
+    WinWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5), checkWallpaperVisible);
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &WinWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &WinWindow::messageReceived);
 #endif
