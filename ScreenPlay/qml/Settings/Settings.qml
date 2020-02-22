@@ -6,12 +6,23 @@ import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 
 import ScreenPlay 1.0
+import Settings 1.0
 
 import "../Common"
 
 Item {
-    id: settingsWrapper
+    id: root
     anchors.fill: parent
+
+    function indexOfValue(model, value) {
+
+        for (var i = 0; i < model.length; i++) {
+            let ourValue = model[i].value
+            if (value === ourValue)
+                return i
+        }
+        return -1
+    }
 
     Flickable {
         id: flickableWrapper
@@ -114,7 +125,8 @@ Item {
                             description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!")
                             isChecked: ScreenPlay.settings.anonymousTelemetry
                             onCheckboxChanged: {
-                                ScreenPlay.settings.setAnonymousTelemetry(checked)
+                                ScreenPlay.settings.setAnonymousTelemetry(
+                                            checked)
                                 ScreenPlay.settings.writeSingleSettingConfig(
                                             "anonymousTelemetry", checked)
                             }
@@ -171,26 +183,16 @@ Item {
                             id: settingsLanguage
                             headline: qsTr("Language")
                             description: qsTr("Set the ScreenPlay UI Language")
-                            comboBox.currentIndex: indexOfValue(ScreenPlay.settings.language)
-
-
-                            function indexOfValue(value) {
-                                for (var i = 0; i < liLanguage.count; i++) {
-                                    let ourValue = liLanguage.get(i).value
-                                    if (value === ourValue)
-                                        return i
-                                }
-                                return -1
-                            }
+                            Component.onCompleted: comboBox.currentIndex
+                                                   = settingsLanguage.comboBox.indexOfValue(
+                                                       ScreenPlay.settings.language)
                             comboBox.onActivated: {
                                 ScreenPlay.settings.setqSetting(
-                                            "language",
-                                            liLanguage.get(comboBox.currentIndex).value)
+                                            "language", liLanguage.get(
+                                                comboBox.currentIndex).value)
                                 ScreenPlay.settings.setupLanguage()
                                 ScreenPlay.mainWindowEngine.retranslate()
                             }
-                            comboBox.textRole: "text"
-                            comboBox.valueRole: "value"
                             comboBox.model: ListModel {
                                 id: liLanguage
                                 ListElement {
@@ -221,7 +223,7 @@ Item {
 
             Item {
                 id: settingsPerformanceWrapper
-                height: 260
+                height: perfomanceWrapper.childrenRect.height + headerPerformance.height + 48
                 width: parent.width
 
                 RectangularGlow {
@@ -257,6 +259,7 @@ Item {
                     }
 
                     Column {
+                        id: perfomanceWrapper
                         anchors {
                             top: headerPerformance.bottom
                             margins: 20
@@ -274,25 +277,40 @@ Item {
                                 ScreenPlay.settings.setCheckWallpaperVisible(
                                             checked)
                                 ScreenPlay.settings.writeSingleSettingConfig(
-                                            "checkWallpaperVisible",
-                                            checked)
+                                            "checkWallpaperVisible", checked)
                             }
                         }
                         SettingsHorizontalSeperator {}
                         SettingsComboBox {
-                            id: settingsFillModeComboBox
+                            id: cbVideoFillMode
                             headline: qsTr("Default Fill Mode")
                             description: qsTr("Set this property to define how the video is scaled to fit the target area.")
-                            comboBox.model: ListModel {
-                                ListElement {
-                                    text: "Stretch"
-                                }
-                                ListElement {
-                                    text: "PreserveAspectFit"
-                                }
-                                ListElement {
-                                    text: "PreserveAspectCrop"
-                                }
+                            Component.onCompleted:{
+ cbVideoFillMode.comboBox.currentIndex
+                                                   = root.indexOfValue(
+                                                       cbVideoFillMode.comboBox.model,
+                                                       ScreenPlay.settings.videoFillMode)
+}
+                            comboBox {
+                                onActivated: ScreenPlay.settings.setVideoFillMode(
+                                                 cbVideoFillMode.comboBox.currentValue)
+
+                                model: [{
+                                        "value": FillMode.Stretch,
+                                        "text": qsTr("Stretch")
+                                    }, {
+                                        "value": FillMode.Fill,
+                                        "text": qsTr("Fill")
+                                    }, {
+                                        "value": FillMode.Contain,
+                                        "text": qsTr("Contain")
+                                    }, {
+                                        "value": FillMode.Cover,
+                                        "text": qsTr("Cover")
+                                    }, {
+                                        "value": FillMode.Scale_Down,
+                                        "text": qsTr("Scale-Down")
+                                    }]
                             }
                         }
                     }

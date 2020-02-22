@@ -74,6 +74,12 @@ App::App()
     qRegisterMetaType<MonitorListModel*>();
     qRegisterMetaType<ProfileListModel*>();
 
+    qmlRegisterAnonymousType<GlobalVariables>("ScreenPlay",1);
+    qmlRegisterAnonymousType<ScreenPlayManager>("ScreenPlay",1);
+    qmlRegisterAnonymousType<Util>("ScreenPlay",1);
+    qmlRegisterAnonymousType<Create>("ScreenPlay",1);
+    qmlRegisterAnonymousType<Settings>("ScreenPlay",1);
+
     // Util should be created as first so we redirect qDebugs etc. into the log
     auto* nam = new QNetworkAccessManager(this);
     m_util = make_unique<Util>(nam);

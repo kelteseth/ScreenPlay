@@ -43,6 +43,9 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     , m_globalVariables { globalVariables }
 {
 
+    qRegisterMetaType<Settings::FillMode>("Settings::FillMode");
+    qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "FillMode", "Error only for enums");
+
     setGitBuildHash(GIT_VERSION);
     setupLanguage();
 
@@ -50,6 +53,22 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
         m_qSettings.setValue("ScreenPlayExecutable", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
         m_qSettings.sync();
     }
+ {
+     auto metaEnum = QMetaEnum::fromType<Settings::FillMode>();
+    if (!m_qSettings.value("VideoFillMode").isNull()) {
+        QString value = m_qSettings.value("VideoFillMode").toString();
+
+
+        bool ok = false;
+        auto wantedEnum = static_cast<Settings::FillMode>(metaEnum.keyToValue(value.toUtf8(), &ok));
+
+        if (ok) {
+            setVideoFillMode(wantedEnum);
+        }
+    } else {
+        setVideoFillMode(FillMode::Fill);
+    }
+ }
 
     QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
     m_globalVariables->setLocalSettingsPath(QUrl::fromUserInput(appConfigLocation));
@@ -171,7 +190,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     // We need these settings also in the steam version.
     // This way it is easier to access them. Maybe we should move everything into
     // the windows registry
-    //Computer\HKEY_CURRENT_USER\Software\ScreenPlay\ScreenPlay
+    // Computer\HKEY_CURRENT_USER\Software\ScreenPlay\ScreenPlay
     if (m_qSettings.value("ScreenPlayContentPath").toUrl() != QUrl::fromLocalFile(m_globalVariables->localStoragePath().toString())) {
         m_qSettings.setValue("ScreenPlayContentPath", QDir::toNativeSeparators(m_globalVariables->localStoragePath().toString().remove("file:///")));
         m_qSettings.sync();

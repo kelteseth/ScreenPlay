@@ -54,6 +54,8 @@ class Settings : public QObject {
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
 
+    Q_PROPERTY(FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
+
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(QString gitBuildHash READ gitBuildHash WRITE setGitBuildHash NOTIFY gitBuildHashChanged)
     Q_PROPERTY(QString language READ language WRITE setLanguage NOTIFY languageChanged)
@@ -62,6 +64,15 @@ public:
     explicit Settings(
         const shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
+
+    enum class FillMode {
+        Stretch,
+        Fill,
+        Contain,
+        Cover,
+        Scale_Down
+    };
+    Q_ENUM(FillMode)
 
     QVersionNumber version() const
     {
@@ -118,6 +129,11 @@ public:
         return m_checkWallpaperVisible;
     }
 
+    FillMode videoFillMode() const
+    {
+        return m_videoFillMode;
+    }
+
 signals:
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
@@ -131,6 +147,8 @@ signals:
     void anonymousTelemetryChanged(bool anonymousTelemetry);
     void languageChanged(QString language);
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
+
+    void videoFillModeChanged(FillMode videoFillMode);
 
 public slots:
     bool writeSingleSettingConfig(QString name, QVariant value);
@@ -253,6 +271,18 @@ public slots:
         emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
     }
 
+    void setVideoFillMode(FillMode videoFillMode)
+    {
+        if (m_videoFillMode == videoFillMode)
+            return;
+
+        m_qSettings.setValue("VideoFillMode", QVariant::fromValue(videoFillMode).toString());
+        m_qSettings.sync();
+
+        m_videoFillMode = videoFillMode;
+        emit videoFillModeChanged(m_videoFillMode);
+    }
+
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
 
@@ -272,6 +302,7 @@ private:
 
     QString m_gitBuildHash;
     QString m_decoder { "" };
-    QString m_language;
+    QString m_language { "en" };
+    FillMode m_videoFillMode;
 };
 }

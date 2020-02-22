@@ -6,12 +6,13 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
 
 import ScreenPlay 1.0
+import Settings 1.0
 
 import "../Monitors"
 import "../Common" as SP
 
 Item {
-    id: sidebar
+    id: root
     width: 400
     state: "inactive"
     focus: true
@@ -20,19 +21,29 @@ Item {
     property string type
     property string activeScreen
 
+    function indexOfValue(model, value) {
+
+        for (var i = 0; i < model.length; i++) {
+            let ourValue = model[i].value
+            if (value === ourValue)
+                return i
+        }
+        return -1
+    }
+
     Connections {
         target: ScreenPlay.util
 
         onSetSidebarItem: {
 
             // Toggle sidebar if clicked on the same content twice
-            if (activeScreen === screenId && sidebar.state !== "inactive") {
-                sidebar.state = "inactive"
+            if (activeScreen === screenId && root.state !== "inactive") {
+                root.state = "inactive"
                 return
             }
 
             activeScreen = screenId
-            sidebar.type = type
+            root.type = type
 
             switch (type) {
             case "videoWallpaper":
@@ -89,13 +100,7 @@ Item {
 
     Item {
         id: sidebarWrapper
-
-        anchors {
-            top: sidebar.top
-            right: sidebar.right
-            bottom: sidebar.bottom
-            left: sidebar.left
-        }
+        anchors.fill: parent
 
         Item {
             id: navBackground
@@ -208,7 +213,7 @@ Item {
                     anchors.top: parent.top
                     anchors.left: parent.left
                     cursorShape: Qt.PointingHandCursor
-                    onClicked: sidebar.state = "inactive"
+                    onClicked: root.state = "inactive"
 
                     Image {
                         id: imgBack
@@ -280,28 +285,32 @@ Item {
                         Layout.fillWidth: true
                     }
                     ComboBox {
+                        id:cbVideoFillMode
                         visible: false
-                        id: settingsComboBox
                         Layout.fillWidth: true
-                        currentIndex: 3
+                        textRole: "text"
+                        valueRole: "value"
+                        currentIndex:   root.indexOfValue(
+                                        cbVideoFillMode.model,
+                                        ScreenPlay.settings.videoFillMode)
 
-                        model: ListModel {
-                            ListElement {
-                                text: "Stretch"
-                            }
-                            ListElement {
-                                text: "Fill"
-                            }
-                            ListElement {
-                                text: "Contain"
-                            }
-                            ListElement {
-                                text: "Cover"
-                            }
-                            ListElement {
-                                text: "Scale-Down"
-                            }
-                        }
+
+                        model: [{
+                                "value": FillMode.Stretch,
+                                "text": qsTr("Stretch")
+                            }, {
+                                "value": FillMode.Fill,
+                                "text": qsTr("Fill")
+                            }, {
+                                "value": FillMode.Contain,
+                                "text": qsTr("Contain")
+                            }, {
+                                "value": FillMode.Cover,
+                                "text": qsTr("Cover")
+                            }, {
+                                "value": FillMode.Scale_Down,
+                                "text": qsTr("Scale-Down")
+                            }]
                     }
                 }
             }
@@ -318,14 +327,14 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 enabled: {
-                     if(type.endsWith("Wallpaper")) {
-                          if (monitorSelection.activeMonitors.length > 0) {
-                                return true
-                          }
-                    } else if(type.endsWith("Widget")){
-                         return true
+                    if (type.endsWith("Wallpaper")) {
+                        if (monitorSelection.activeMonitors.length > 0) {
+                            return true
+                        }
+                    } else if (type.endsWith("Widget")) {
+                        return true
                     }
-                      return false
+                    return false
                 }
 
                 anchors {
@@ -348,7 +357,7 @@ Item {
                                     + "/" + activeScreen,
                                     ScreenPlay.installedListModel.get(activeScreen).screenPreview,
                                     (Math.round(sliderVolume.value * 100) / 100),
-                                    settingsComboBox.model.get(settingsComboBox.currentIndex).text.toString(
+                                    cbVideoFillMode.model.get(cbVideoFillMode.currentIndex).text.toString(
                                         ), type)
                     } else {
                         ScreenPlay.screenPlayManager.createWidget(
@@ -357,7 +366,7 @@ Item {
                                     ScreenPlay.installedListModel.get(
                                         activeScreen).screenPreview, type)
                     }
-                    sidebar.state = "inactive"
+                    root.state = "inactive"
                     monitorSelection.deselectAll()
                 }
             }
@@ -402,7 +411,7 @@ Item {
             }
 
             PropertyChanges {
-                target: sidebar
+                target: root
                 anchors.rightMargin: 0
             }
             PropertyChanges {
@@ -428,8 +437,8 @@ Item {
             }
 
             PropertyChanges {
-                target: sidebar
-                anchors.rightMargin: -sidebar.width
+                target: root
+                anchors.rightMargin: -root.width
             }
             PropertyChanges {
                 target: image
@@ -525,7 +534,7 @@ Item {
             }
 
             PropertyChanges {
-                target: settingsComboBox
+                target: cbVideoFillMode
                 opacity: 1
                 visible: true
             }
@@ -538,7 +547,7 @@ Item {
 
             SequentialAnimation {
                 NumberAnimation {
-                    target: sidebar
+                    target: root
                     properties: "anchors.rightMargin"
                     duration: 250
                     easing.type: Easing.OutQuart
@@ -573,7 +582,7 @@ Item {
             }
 
             NumberAnimation {
-                target: sidebar
+                target: root
                 properties: "anchors.rightMargin"
                 duration: 250
                 easing.type: Easing.OutQuart
@@ -584,7 +593,7 @@ Item {
 
             SequentialAnimation {
                 NumberAnimation {
-                    target: sidebar
+                    target: root
                     properties: "anchors.rightMargin"
                     duration: 250
                     easing.type: Easing.OutQuart
@@ -609,7 +618,7 @@ Item {
 
             SequentialAnimation {
                 NumberAnimation {
-                    target: sidebar
+                    target: root
                     properties: "anchors.rightMargin"
                     duration: 250
                     easing.type: Easing.OutQuart
@@ -634,7 +643,7 @@ Item {
 
             SequentialAnimation {
                 NumberAnimation {
-                    target: sidebar
+                    target: root
                     properties: "anchors.rightMargin"
                     duration: 250
                     easing.type: Easing.OutQuart
