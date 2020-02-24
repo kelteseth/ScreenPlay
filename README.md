@@ -117,10 +117,7 @@ sudo zypper install -t pattern devel_basis
             - GCC
             - Qt WebEngine
 ### OSX
-1. Install XCode via the app store
-2. Launch XCode and install the XCode command line tools. (This may take a few minutes)
-    - If in doubt or unsure, execute 'xcode-select --install'
-3. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
+1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
         - Qt 5.14.0 
@@ -128,4 +125,6 @@ sudo zypper install -t pattern devel_basis
         - Developer and Designer Tools
             - OpenSSL 1.1.1.c Toolkit
                 - OpenSSL 64-bit binaries
-4. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.13.0) -> Change c and c++ Compiler to Apple Clang (x86_64)
+2. Install [homebrew](https://brew.sh/)
+     - Open a terminal and install clang -> brew install llvm
+3. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.13.0) -> Change c and c++ Compiler to Apple Clang (x86_64)
