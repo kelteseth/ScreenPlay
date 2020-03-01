@@ -357,8 +357,7 @@ Item {
                                     + "/" + activeScreen,
                                     ScreenPlay.installedListModel.get(activeScreen).screenPreview,
                                     (Math.round(sliderVolume.value * 100) / 100),
-                                    cbVideoFillMode.model.get(cbVideoFillMode.currentIndex).text.toString(
-                                        ), type)
+                                    cbVideoFillMode.currentText, type)
                     } else {
                         ScreenPlay.screenPlayManager.createWidget(
                                     ScreenPlay.globalVariables.localStoragePath
