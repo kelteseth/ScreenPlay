@@ -100,8 +100,6 @@ Item {
                             isChecked: ScreenPlay.settings.autostart
                             onCheckboxChanged: {
                                 ScreenPlay.settings.setAutostart(checked)
-                                ScreenPlay.settings.writeSingleSettingConfig(
-                                            "autostart", checked)
                             }
                         }
                         SettingsHorizontalSeperator {}
@@ -114,8 +112,6 @@ Item {
                             onCheckboxChanged: {
                                 ScreenPlay.settings.setHighPriorityStart(
                                             checked)
-                                ScreenPlay.settings.writeSingleSettingConfig(
-                                            "highPriorityStart", checked)
                             }
                         }
                         SettingsHorizontalSeperator {}
@@ -127,8 +123,6 @@ Item {
                             onCheckboxChanged: {
                                 ScreenPlay.settings.setAnonymousTelemetry(
                                             checked)
-                                ScreenPlay.settings.writeSingleSettingConfig(
-                                            "anonymousTelemetry", checked)
                             }
                         }
                         SettingsHorizontalSeperator {}
@@ -183,38 +177,33 @@ Item {
                             id: settingsLanguage
                             headline: qsTr("Language")
                             description: qsTr("Set the ScreenPlay UI Language")
-                            Component.onCompleted: comboBox.currentIndex
-                                                   = settingsLanguage.comboBox.indexOfValue(
-                                                       ScreenPlay.settings.language)
-                            comboBox.onActivated: {
-                                ScreenPlay.settings.setqSetting(
-                                            "language", liLanguage.get(
-                                                comboBox.currentIndex).value)
-                                ScreenPlay.settings.setupLanguage()
-                                ScreenPlay.mainWindowEngine.retranslate()
+                            Component.onCompleted: {
+                                settingsLanguage.comboBox.currentIndex = root.indexOfValue(
+                                            settingsLanguage.comboBox.model,
+                                            ScreenPlay.settings.videoFillMode)
                             }
-                            comboBox.model: ListModel {
-                                id: liLanguage
-                                ListElement {
-                                    text: "English"
-                                    value: "en"
+
+                            comboBox {
+                                onActivated: {
+                                    ScreenPlay.settings.setLanguage(settingsLanguage.comboBox.currentValue)
+                                    ScreenPlay.settings.setupLanguage()
                                 }
-                                ListElement {
-                                    text: "German"
-                                    value: "de"
-                                }
-                                ListElement {
-                                    text: "Russian"
-                                    value: "ru"
-                                }
-                                ListElement {
-                                    text: "French"
-                                    value: "fr"
-                                }
-                                ListElement {
-                                    text: "Spanish"
-                                    value: "es"
-                                }
+                                model: [{
+                                        "value": Settings.En,
+                                        "text": qsTr("English")
+                                    }, {
+                                        "value":  Settings.De,
+                                        "text": qsTr("German")
+                                    }, {
+                                        "value":  Settings.Ru,
+                                        "text": qsTr("Russian")
+                                    }, {
+                                        "value":  Settings.Fr,
+                                        "text": qsTr("French")
+                                    }, {
+                                        "value":  Settings.Es,
+                                        "text": qsTr("Spanish")
+                                    }]
                             }
                         }
                     }
@@ -270,14 +259,12 @@ Item {
                         spacing: 10
 
                         SettingBool {
-                            headline: qsTr("Pause wallpaper while another app is in the foreground")
+                            headline: qsTr("Pause wallpaper video rendering while another app is in the foreground")
                             description: qsTr("We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!")
                             isChecked: ScreenPlay.settings.checkWallpaperVisible
                             onCheckboxChanged: {
                                 ScreenPlay.settings.setCheckWallpaperVisible(
                                             checked)
-                                ScreenPlay.settings.writeSingleSettingConfig(
-                                            "checkWallpaperVisible", checked)
                             }
                         }
                         SettingsHorizontalSeperator {}
@@ -285,30 +272,29 @@ Item {
                             id: cbVideoFillMode
                             headline: qsTr("Default Fill Mode")
                             description: qsTr("Set this property to define how the video is scaled to fit the target area.")
-                            Component.onCompleted:{
- cbVideoFillMode.comboBox.currentIndex
-                                                   = root.indexOfValue(
-                                                       cbVideoFillMode.comboBox.model,
-                                                       ScreenPlay.settings.videoFillMode)
-}
+                            Component.onCompleted: {
+                                cbVideoFillMode.comboBox.currentIndex = root.indexOfValue(
+                                            cbVideoFillMode.comboBox.model,
+                                            ScreenPlay.settings.videoFillMode)
+                            }
                             comboBox {
                                 onActivated: ScreenPlay.settings.setVideoFillMode(
                                                  cbVideoFillMode.comboBox.currentValue)
 
                                 model: [{
-                                        "value": FillMode.Stretch,
+                                        "value": Settings.Stretch,
                                         "text": qsTr("Stretch")
                                     }, {
-                                        "value": FillMode.Fill,
+                                        "value": Settings.Fill,
                                         "text": qsTr("Fill")
                                     }, {
-                                        "value": FillMode.Contain,
+                                        "value": Settings.Contain,
                                         "text": qsTr("Contain")
                                     }, {
-                                        "value": FillMode.Cover,
+                                        "value": Settings.Cover,
                                         "text": qsTr("Cover")
                                     }, {
-                                        "value": FillMode.Scale_Down,
+                                        "value": Settings.Scale_Down,
                                         "text": qsTr("Scale-Down")
                                     }]
                             }

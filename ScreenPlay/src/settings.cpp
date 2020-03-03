@@ -12,7 +12,6 @@ namespace ScreenPlay {
         \li User configuration via AppData\Local\ScreenPlay\ScreenPlay
         \list
             \li profiles.json - saved wallpaper and widgets config
-            \li settings.json - saved settings like autostart and installedContentPath
             \li Computer\\HKEY_CURRENT_USER\\Software\\ScreenPlay\\ScreenPlay - ScreenPlayContentPath for steam plugin
         \endlist
         \li Communication via the SDK Connector
@@ -27,9 +26,7 @@ namespace ScreenPlay {
         \li Sets the git build hash via ScreenPlay.pro c++ define
         \li Checks the langauge via settings or system and available ones and installes a translator.
         \li Checks the paths for config folders in appdata
-        \li Checks if settings.json and profiles.json are available. If first run it creates the default settings and profiles json.
-        \li Parses the version and checks with the compiled one.
-        \li Checks the absoluteStoragePath.
+        \li Checks the AbsoluteStoragePath.
         \li Checks regisitry for steam plugin settings
         \li Parses autostart, anonymousTelemetry, highPriorityStart
         \li Checks ScreenPlayWallpaper and ScreenPlayWidgets executable paths.
@@ -39,84 +36,46 @@ namespace ScreenPlay {
 Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     QObject* parent)
     : QObject(parent)
-    , m_version { QVersionNumber(1, 0, 0) }
     , m_globalVariables { globalVariables }
 {
-
     qRegisterMetaType<Settings::FillMode>("Settings::FillMode");
-    qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "FillMode", "Error only for enums");
+    qRegisterMetaType<Settings::Language>("Settings::Language");
+    qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
 
-    setGitBuildHash(GIT_VERSION);
-    setupLanguage();
-
-    if (m_qSettings.value("ScreenPlayExecutable").isNull()) {
-        m_qSettings.setValue("ScreenPlayExecutable", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()));
-        m_qSettings.sync();
-    }
- {
-     auto metaEnum = QMetaEnum::fromType<Settings::FillMode>();
-    if (!m_qSettings.value("VideoFillMode").isNull()) {
-        QString value = m_qSettings.value("VideoFillMode").toString();
-
-
-        bool ok = false;
-        auto wantedEnum = static_cast<Settings::FillMode>(metaEnum.keyToValue(value.toUtf8(), &ok));
-
-        if (ok) {
-            setVideoFillMode(wantedEnum);
-        }
-    } else {
-        setVideoFillMode(FillMode::Fill);
-    }
- }
-
-    QString appConfigLocation = QStandardPaths::writableLocation(QStandardPaths::DataLocation);
-    m_globalVariables->setLocalSettingsPath(QUrl::fromUserInput(appConfigLocation));
-
-    if (!QDir(appConfigLocation).exists()) {
-        if (!QDir().mkpath(appConfigLocation)) {
-            qWarning("ERROR: Cloud not create appConfigLocation dir");
-            return;
+    {
+        if (!m_qSettings.contains("Autostart")) {
+#ifdef Q_OS_WIN
+            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+            if (!m_qSettings.value("Autostart").toBool()) {
+                if (!settings.contains("ScreenPlay")) {
+                }
+            }
+            settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
+            settings.sync();
+#endif
+            m_qSettings.setValue("Autostart", true);
+            m_qSettings.sync();
+        } else {
+            setAutostart(m_qSettings.value("Autostart", true).toBool());
         }
     }
 
-    // App settings
-    QFile settingsFile(appConfigLocation + "/settings.json");
-    if (!settingsFile.exists()) {
-        qInfo("No Settings found, creating default settings");
-        writeJsonFileFromResource("settings");
-        setAutostart(true);
-        setAnonymousTelemetry(true);
-    }
+    setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", true).toBool());
+    setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
+    setVideoFillMode(SettingsSetQStringToEnum<FillMode>("VideoFillMode", FillMode::Fill, m_qSettings));
+    setLanguage(SettingsSetQStringToEnum<Language>("Language", Language::En, m_qSettings));
+    setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
+
 
     // Wallpaper and Widgets config
-    QFile profilesFile(appConfigLocation + "/profiles.json");
+    QFile profilesFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles.json");
     if (!profilesFile.exists()) {
         qInfo("No profiles.json found, creating default settings");
         writeJsonFileFromResource("profiles");
     }
 
-    std::optional<QJsonObject> configObj = Util::openJsonFileToObject(appConfigLocation + "/settings.json");
-
-    if (!configObj) {
-        restoreDefault(appConfigLocation, "settings");
-    }
-
-    std::optional<QVersionNumber> version = Util::getVersionNumberFromString(configObj.value().value("version").toString());
-
-    //Checks if the settings file has the same version as ScreenPlay
-    if (version.has_value() && version.value() != m_version) {
-        // TODO(Kelteseth): Display error message
-        qWarning() << "Version missmatch fileVersion: " << version.value().toString() << "m_version: " << m_version.toString();
-        return;
-    }
-
     //If empty use steam workshop location
-    if (QString(configObj.value().value("absoluteStoragePath").toString()).isEmpty()) {
-        qDebug() << QCoreApplication::applicationDirPath();
-        QDir steamWorkshopContentPath(QCoreApplication::applicationDirPath());
-        steamWorkshopContentPath.cdUp();
-        steamWorkshopContentPath.cdUp();
+    if (QString(m_qSettings.value("ScreenPlayContentPath").toString()).isEmpty()) {
 
         /*
          * ! We must use this (ugly) method, because to stay FOSS we cannot call the steamAPI here !
@@ -134,93 +93,23 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
          * set it here at this point so that the QFileSystemWatcher in InstalledListModel does
          * not generate warnings.
          */
-
-        bool hasCommonFolder = steamWorkshopContentPath.entryList().contains("workshop");
-
-        if (!hasCommonFolder) {
-            QString basePath = steamWorkshopContentPath.path();
-            qDebug() << "common folder not found. Creating... " << basePath;
-
-            auto checkIfFolderExsistOrCreate = [](const QString& path, const QString& foldername) {
-                QDir checkDir { path };
-
-                if (!checkDir.cd(foldername)) {
-                    qDebug() << checkDir;
-                    bool created = checkDir.mkdir(foldername);
-                    if (!created) {
-                        qDebug() << "error trying to create " << checkDir;
-                    }
-                    return created;
-                } else {
-                    qDebug() << "Creating folder " << foldername << " in path " << path;
-                    return true;
-                }
-            };
-
-            if (checkIfFolderExsistOrCreate(basePath, "workshop")) {
-                if (checkIfFolderExsistOrCreate(basePath + "/workshop", "content")) {
-                    if (checkIfFolderExsistOrCreate(basePath + "/workshop/content", "672870")) {
-                        m_globalVariables->setLocalStoragePath("file:///" + basePath + "/workshop/content/672870");
-                    }
-                }
-            }
-
+        QDir dir;
+        QString path = QGuiApplication::instance()->applicationDirPath() + "/../../workshop/content/672870";
+        if (!dir.mkpath(path)) {
+            qWarning() << "Could not create steam workshop path for path: " << path;
         } else {
-            if (!steamWorkshopContentPath.cd("workshop")) {
-                qDebug() << "Error! No workshop folder found in path: " << steamWorkshopContentPath.absolutePath();
-            }
-            if (!steamWorkshopContentPath.cd("content")) {
-                qDebug() << "Error! No content folder found in path: " << steamWorkshopContentPath.absolutePath();
-            }
-            if (!steamWorkshopContentPath.cd("672870")) {
-                qDebug() << "Error! No 672870 folder found in path: " << steamWorkshopContentPath.absolutePath();
-            }
-            qDebug() << "Setup installed content path at" << steamWorkshopContentPath.absolutePath();
-
-            m_globalVariables->setLocalStoragePath("file:///" + steamWorkshopContentPath.absolutePath());
+            m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(path));
+            m_qSettings.setValue("ScreenPlayContentPath", dir.cleanPath(path));
+            m_qSettings.sync();
         }
 
-        if (!writeSingleSettingConfig("absoluteStoragePath", m_globalVariables->localStoragePath())) {
-            qWarning() << "Could not write settings file. Setup steam workshop folder at: " << m_globalVariables->localStoragePath();
-        }
     } else {
-        m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(configObj.value().value("absoluteStoragePath").toString()));
+        m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(m_qSettings.value("ScreenPlayContentPath").toString()));
     }
-
-    // We need these settings also in the steam version.
-    // This way it is easier to access them. Maybe we should move everything into
-    // the windows registry
-    // Computer\HKEY_CURRENT_USER\Software\ScreenPlay\ScreenPlay
-    if (m_qSettings.value("ScreenPlayContentPath").toUrl() != QUrl::fromLocalFile(m_globalVariables->localStoragePath().toString())) {
-        m_qSettings.setValue("ScreenPlayContentPath", QDir::toNativeSeparators(m_globalVariables->localStoragePath().toString().remove("file:///")));
-        m_qSettings.sync();
-    }
-
-    m_checkWallpaperVisible = configObj.value().value("checkWallpaperVisible").toBool();
-    m_autostart = configObj.value().value("autostart").toBool();
-    m_highPriorityStart = configObj.value().value("highPriorityStart").toBool();
-    m_anonymousTelemetry = configObj.value().value("anonymousTelemetry").toBool();
 
     setupWidgetAndWindowPaths();
-}
-
-/*!
-  Save a single \a value with a given \a name (key) into the settings.json. Returns \c true when successful otherise returns \c false.
-*/
-bool Settings::writeSingleSettingConfig(QString name, QVariant value)
-{
-    QString filename = m_globalVariables->localSettingsPath().toLocalFile() + "/settings.json";
-    auto obj = Util::openJsonFileToObject(filename);
-
-    if (!obj.has_value()) {
-        qWarning("Settings Json Parse Error ");
-        return false;
-    }
-
-    QJsonObject newConfig = obj.value();
-    newConfig.insert(name, QJsonValue::fromVariant(value));
-
-    return Util::writeJsonObjectToFile(filename, newConfig);
+    setGitBuildHash(GIT_VERSION);
+    setupLanguage();
 }
 
 /*!
@@ -318,14 +207,12 @@ void Settings::restoreDefault(const QString& appConfigLocation, const QString& s
     QFile file { fullSettingsPath };
     file.remove();
     writeJsonFileFromResource(settingsFileType);
-    setAutostart(true);
-    setAnonymousTelemetry(true);
 }
 
 void Settings::setupLanguage()
 {
     auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
-    if (m_qSettings.value("language").isNull()) {
+    if (m_qSettings.value("Language").isNull()) {
         auto locale = QLocale::system().uiLanguages();
         auto localeSplits = locale.at(0).split("-");
 
@@ -335,18 +222,18 @@ void Settings::setupLanguage()
         if (tsFile.exists(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm")) {
             m_translator.load(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm");
             m_qSettings.setValue("language", QVariant(localeSplits.at(0)));
-            setLanguage(QVariant(localeSplits.at(0)).toString());
+            // setLanguage(QVariant(localeSplits.at(0)).toString());
+
             m_qSettings.sync();
             app->installTranslator(&m_translator);
         }
     } else {
         QFile tsFile;
-        if (tsFile.exists(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm")) {
-            m_translator.load(":/translations/ScreenPlay_" + m_qSettings.value("language").toString() + ".qm");
-            setLanguage(m_qSettings.value("language").toString());
+        if (tsFile.exists(":/translations/ScreenPlay_" + m_qSettings.value("Language").toString() + ".qm")) {
+            m_translator.load(":/translations/ScreenPlay_" + m_qSettings.value("Language").toString() + ".qm");
+            //  setLanguage(m_qSettings.value("language").toString());
             app->installTranslator(&m_translator);
         }
     }
 }
-
 }

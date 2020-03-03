@@ -296,19 +296,19 @@ Item {
 
 
                         model: [{
-                                "value": FillMode.Stretch,
+                                "value": Settings.Stretch,
                                 "text": qsTr("Stretch")
                             }, {
-                                "value": FillMode.Fill,
+                                "value": Settings.Fill,
                                 "text": qsTr("Fill")
                             }, {
-                                "value": FillMode.Contain,
+                                "value": Settings.Contain,
                                 "text": qsTr("Contain")
                             }, {
-                                "value": FillMode.Cover,
+                                "value": Settings.Cover,
                                 "text": qsTr("Cover")
                             }, {
-                                "value": FillMode.Scale_Down,
+                                "value": Settings.Scale_Down,
                                 "text": qsTr("Scale-Down")
                             }]
                     }

@@ -42,10 +42,26 @@ class ActiveProfile;
 using std::shared_ptr,
     std::make_shared;
 
+template <typename T>
+T SettingsSetQStringToEnum(const QString& key, const T defaultValue, const QSettings& settings)
+{
+    auto metaEnum = QMetaEnum::fromType<T>();
+    if (!settings.value(key).isNull()) {
+        QString value = settings.value(key).toString();
+
+        bool ok = false;
+        T wantedEnum = static_cast<T>(metaEnum.keyToValue(value.toUtf8(), &ok));
+
+        if (ok) {
+            return wantedEnum;
+        }
+    }
+    return defaultValue;
+}
+
 class Settings : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(QVersionNumber version READ version)
 
     Q_PROPERTY(bool anonymousTelemetry READ anonymousTelemetry WRITE setAnonymousTelemetry NOTIFY anonymousTelemetryChanged)
     Q_PROPERTY(bool silentStart READ silentStart WRITE setSilentStart NOTIFY silentStartChanged)
@@ -55,10 +71,10 @@ class Settings : public QObject {
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
 
     Q_PROPERTY(FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
+    Q_PROPERTY(Language language READ language WRITE setLanguage NOTIFY languageChanged)
 
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(QString gitBuildHash READ gitBuildHash WRITE setGitBuildHash NOTIFY gitBuildHashChanged)
-    Q_PROPERTY(QString language READ language WRITE setLanguage NOTIFY languageChanged)
 
 public:
     explicit Settings(
@@ -74,10 +90,15 @@ public:
     };
     Q_ENUM(FillMode)
 
-    QVersionNumber version() const
-    {
-        return m_version;
-    }
+    enum class Language {
+        En,
+        De,
+        Ru,
+        Fr,
+        Es
+    };
+    Q_ENUM(Language)
+
 
     bool offlineMode() const
     {
@@ -119,11 +140,6 @@ public:
         return m_anonymousTelemetry;
     }
 
-    QString language() const
-    {
-        return m_language;
-    }
-
     bool checkWallpaperVisible() const
     {
         return m_checkWallpaperVisible;
@@ -132,6 +148,11 @@ public:
     FillMode videoFillMode() const
     {
         return m_videoFillMode;
+    }
+
+    Language language() const
+    {
+        return m_language;
     }
 
 signals:
@@ -145,17 +166,15 @@ signals:
     void resetInstalledListmodel();
     void silentStartChanged(bool silentStart);
     void anonymousTelemetryChanged(bool anonymousTelemetry);
-    void languageChanged(QString language);
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
-
     void videoFillModeChanged(FillMode videoFillMode);
+    void languageChanged(Language language);
 
 public slots:
-    bool writeSingleSettingConfig(QString name, QVariant value);
     void writeJsonFileFromResource(const QString& filename);
     void setupWidgetAndWindowPaths();
     void setupLanguage();
-    void setqSetting(const QString& key, const QString& value)
+    void setqSetting(const QString& key, const QVariant& value)
     {
         m_qSettings.setValue(key, value);
         m_qSettings.sync();
@@ -166,22 +185,19 @@ public slots:
         if (m_autostart == autostart)
             return;
 
-        if (autostart) {
 #ifdef Q_OS_WIN
-
-            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+        QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+        if (autostart) {
             settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
             settings.sync();
-#endif
         } else {
-#ifdef Q_OS_WIN
-            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
             settings.remove("ScreenPlay");
 #endif
         }
 
+        setqSetting("Autostart", autostart);
+
         m_autostart = autostart;
-        writeSingleSettingConfig("autostart", autostart);
         emit autostartChanged(m_autostart);
     }
 
@@ -190,8 +206,9 @@ public slots:
         if (m_highPriorityStart == highPriorityStart)
             return;
 
+        setqSetting("HighPriorityStart", highPriorityStart);
+
         m_highPriorityStart = highPriorityStart;
-        writeSingleSettingConfig("highPriorityStart", highPriorityStart);
         emit highPriorityStartChanged(m_highPriorityStart);
     }
 
@@ -200,7 +217,7 @@ public slots:
         //Remove: "file:///"
         QJsonValue cleanedPath = QJsonValue(localStoragePath.toString());
 
-        writeSingleSettingConfig("absoluteStoragePath", cleanedPath);
+        setqSetting("ScreenPlayContentPath", cleanedPath);
 
         m_globalVariables->setLocalStoragePath(cleanedPath.toString());
         emit resetInstalledListmodel();
@@ -248,17 +265,10 @@ public slots:
         if (m_anonymousTelemetry == anonymousTelemetry)
             return;
 
+        setqSetting("AnonymousTelemetry", anonymousTelemetry);
+
         m_anonymousTelemetry = anonymousTelemetry;
         emit anonymousTelemetryChanged(m_anonymousTelemetry);
-    }
-
-    void setLanguage(QString language)
-    {
-        if (m_language == language)
-            return;
-
-        m_language = language;
-        emit languageChanged(m_language);
     }
 
     void setCheckWallpaperVisible(bool checkWallpaperVisible)
@@ -266,7 +276,8 @@ public slots:
         if (m_checkWallpaperVisible == checkWallpaperVisible)
             return;
 
-        writeSingleSettingConfig("checkWallpaperVisible", checkWallpaperVisible);
+        setqSetting("CheckWallpaperVisible", checkWallpaperVisible);
+
         m_checkWallpaperVisible = checkWallpaperVisible;
         emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
     }
@@ -276,18 +287,27 @@ public slots:
         if (m_videoFillMode == videoFillMode)
             return;
 
-        m_qSettings.setValue("VideoFillMode", QVariant::fromValue(videoFillMode).toString());
-        m_qSettings.sync();
+        setqSetting("VideoFillMode", QVariant::fromValue(videoFillMode).toString());
 
         m_videoFillMode = videoFillMode;
         emit videoFillModeChanged(m_videoFillMode);
+    }
+
+    void setLanguage(Language language)
+    {
+        if (m_language == language)
+            return;
+
+        setqSetting("Language", QVariant::fromValue(language).toString());
+
+        m_language = language;
+        emit languageChanged(m_language);
     }
 
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
 
 private:
-    QVersionNumber m_version;
     QSettings m_qSettings;
     QTranslator m_translator;
 
@@ -301,8 +321,8 @@ private:
     bool m_anonymousTelemetry { true };
 
     QString m_gitBuildHash;
-    QString m_decoder { "" };
-    QString m_language { "en" };
+    QString m_decoder;
     FillMode m_videoFillMode;
+    Language m_language = Language::En;
 };
 }

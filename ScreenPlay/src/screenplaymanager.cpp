@@ -76,9 +76,9 @@ void ScreenPlayManager::createWallpaper(
     // Only support remove wallpaper that spans over 1 monitor
     if (monitorIndex.length() == 1) {
         int i = 0;
-        for (auto& wallpaper : m_screenPlayWallpapers) {
-            if (wallpaper->screenNumber().length() == 1) {
-                if (monitors.at(0) == wallpaper->screenNumber().at(0)) {
+        for (auto& wallpaperIterator : m_screenPlayWallpapers) {
+            if (wallpaperIterator->screenNumber().length() == 1) {
+                if (monitors.at(0) == wallpaperIterator->screenNumber().at(0)) {
                     removeWallpaperAt(i);
                 }
             }
@@ -316,7 +316,7 @@ void ScreenPlayManager::loadWallpaperProfiles()
     auto configObj = Util::openJsonFileToObject(m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json");
 
     if (!configObj) {
-        qWarning() << "Could not load active profiles.";
+        qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json";
         return;
     }
 

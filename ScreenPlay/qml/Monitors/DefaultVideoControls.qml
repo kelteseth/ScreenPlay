@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
 import ScreenPlay 1.0
+import Settings 1.0
 
 import "../Common/" as SP
 
@@ -18,6 +19,16 @@ ColumnLayout {
         rightMargin: 20
         left: parent.left
         leftMargin: 20
+    }
+
+    function indexOfValue(model, value) {
+
+        for (var i = 0; i < model.length; i++) {
+            let ourValue = model[i].value
+            if (value === ourValue)
+                return i
+        }
+        return -1
     }
 
     property int activeMonitorIndex
@@ -66,23 +77,29 @@ ColumnLayout {
                             settingsComboBox.currentText)
             }
 
-            model: ListModel {
-                ListElement {
-                    text: "Stretch"
-                }
-                ListElement {
-                    text: "Fill"
-                }
-                ListElement {
-                    text: "Contain"
-                }
-                ListElement {
-                    text: "Cover"
-                }
-                ListElement {
-                    text: "Scale-Down"
-                }
-            }
+            textRole: "text"
+            valueRole: "value"
+            currentIndex:   root.indexOfValue(
+                            settingsComboBox.model,
+                            ScreenPlay.settings.videoFillMode)
+
+
+            model: [{
+                    "value": Settings.Stretch,
+                    "text": qsTr("Stretch")
+                }, {
+                    "value": Settings.Fill,
+                    "text": qsTr("Fill")
+                }, {
+                    "value": Settings.Contain,
+                    "text": qsTr("Contain")
+                }, {
+                    "value": Settings.Cover,
+                    "text": qsTr("Cover")
+                }, {
+                    "value": Settings.Scale_Down,
+                    "text": qsTr("Scale-Down")
+                }]
         }
     }
 
