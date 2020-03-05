@@ -68,7 +68,6 @@ Rectangle {
     Loader {
         id: loader
         anchors.fill: parent
-        enabled: false
         property string webViewUrl
         onStatusChanged: {
             if (loader.status === Loader.Ready) {
