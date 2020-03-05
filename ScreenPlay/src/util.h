@@ -137,7 +137,7 @@ public slots:
 
     void appendDebugMessages(QString debugMessages)
     {
-        if (m_debugMessages.size() > 1000000) {
+        if (m_debugMessages.size() > 10000) {
             m_debugMessages = "###### DEBUG CLEARED ######";
         }
 
