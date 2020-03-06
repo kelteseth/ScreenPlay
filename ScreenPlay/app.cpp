@@ -108,7 +108,7 @@ App::App()
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);
     QObject::connect(m_globalVariables.get(), &GlobalVariables::localStoragePathChanged, this, [this](QUrl localStoragePath) {
         m_settings->resetInstalledListmodel();
-        m_settings->writeSingleSettingConfig("absoluteStoragePath", localStoragePath.toString());
+        m_settings->setqSetting("ScreenPlayContentPath", localStoragePath.toString());
     });
     QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_sdkConnector.get(), &SDKConnector::closeAllWallpapers);
 

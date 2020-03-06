@@ -94,7 +94,6 @@
         <file>qml/Settings/SettingsHorizontalSeperator.qml</file>
         <file>qml/Workshop/Workshop.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file>settings.json</file>
         <file>translations/ScreenPlay_de.qm</file>
         <file>translations/ScreenPlay_en.qm</file>
         <file>assets/icons/icon_screen.svg</file>

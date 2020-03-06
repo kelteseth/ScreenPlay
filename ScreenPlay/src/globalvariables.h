@@ -1,5 +1,6 @@
 #pragma once
 #include <QObject>
+#include <QStandardPaths>
 #include <QUrl>
 #include <QVersionNumber>
 
@@ -25,6 +26,7 @@ public:
     explicit GlobalVariables(QObject* parent = nullptr)
         : QObject(parent)
     {
+        setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::DataLocation) });
     }
 
     QUrl localStoragePath() const
@@ -101,6 +103,6 @@ private:
     QUrl m_localSettingsPath;
     QUrl m_wallpaperExecutablePath;
     QUrl m_widgetExecutablePath;
-    QVersionNumber m_version {1,0,0};
+    QVersionNumber m_version { 1, 0, 0 };
 };
 }
