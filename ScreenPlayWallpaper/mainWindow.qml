@@ -57,10 +57,8 @@ Rectangle {
     function fadeIn() {
         window.setVisible(true)
         if (canFadeByWallpaperFillMode && window.canFade) {
-            print("fadein")
             imgCover.state = "out"
         } else {
-            print("imgCover.opacity = 0")
             imgCover.opacity = 0
         }
     }
