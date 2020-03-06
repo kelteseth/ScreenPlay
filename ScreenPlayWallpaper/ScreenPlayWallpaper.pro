@@ -6,6 +6,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 TARGETPATH = ScreenPlayWallpaper
 
+include($$PWD/../Common/qt-breakpad/qt-breakpad.pri)
+
 
 RESOURCES += \
     SPWResources.qrc

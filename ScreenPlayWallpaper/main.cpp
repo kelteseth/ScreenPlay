@@ -18,6 +18,7 @@
 #endif
 
 #include "../ScreenPlaySDK/screenplaysdk.h"
+#include "qt_breakpad.h"
 
 int main(int argc, char* argv[])
 {
@@ -26,6 +27,8 @@ int main(int argc, char* argv[])
     QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication app(argc, argv);
+
+    QtBreakpad::init(QDir::current().absolutePath());
 
     // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
