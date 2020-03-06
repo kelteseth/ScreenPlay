@@ -18,11 +18,13 @@
 #include "basewindow.h"
 #include "windowsdesktopproperties.h"
 
+
+
 class WinWindow : public BaseWindow {
     Q_OBJECT
 
 public:
-    explicit WinWindow(const QVector<int>& activeScreensList, const QString projectPath, const QString id, const QString volume, const QString fillmode, const bool checkWallpaperVisible);
+    explicit WinWindow(const QVector<int>& activeScreensList, const QString& projectPath, const QString& id, const QString& volume, const QString& fillmode, const bool checkWallpaperVisible);
 
 public slots:
     void setVisible(bool show) override;

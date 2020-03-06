@@ -62,13 +62,14 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 
 WinWindow::WinWindow(
     const QVector<int>& activeScreensList,
-    const QString projectPath,
-    const QString id,
-    const QString volume,
-    const QString fillmode,
+    const QString& projectPath,
+    const QString& id,
+    const QString& volume,
+    const QString& fillmode,
     const bool checkWallpaperVisible)
     : BaseWindow(projectPath, activeScreensList, checkWallpaperVisible)
 {
+
     m_window.hide();
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
 
