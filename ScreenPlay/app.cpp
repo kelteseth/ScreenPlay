@@ -52,6 +52,7 @@ App::App()
     QGuiApplication::setApplicationVersion("0.9.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
+    QtBreakpad::init(QDir::current().absolutePath());
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Light.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Regular.ttf");

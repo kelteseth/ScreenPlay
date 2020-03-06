@@ -5,6 +5,8 @@ CONFIG += c++17
 TARGETPATH = ScreenPlay
 
 include($$PWD/../Common/qt-google-analytics/qt-google-analytics.pri)
+include($$PWD/../Common/qt-breakpad/qt-breakpad.pri)
+
 ICON = favicon.ico
 
 DEFINES += QT_DEPRECATED_WARNINGS

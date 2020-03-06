@@ -10,13 +10,14 @@
 #include <QStringList>
 #include <QUrl>
 #include <QtGlobal>
-#include <qqml.h>
-
+#include <QtQml>
 #include <QtWebEngine>
 
 #include <memory>
 
 #include "ganalytics.h"
+#include "qt_breakpad.h"
+
 #include "src/create.h"
 #include "src/globalvariables.h"
 #include "src/installedlistfilter.h"
