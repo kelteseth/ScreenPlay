@@ -84,6 +84,7 @@ chmod +x install-dependencies.sh
    * Download these dependencies via __git submodules__
       * stomt-qt-sdk
       * qt-google-analytics
+      * qt-breakpad
 5. Follow the steps below for your OS. Then Open The ScreenPlay.pro via QtCreator.
 6. Add install to the build steps. Projects -> Build -> Add Build Step -> Select Make -> Insert "install" into Make arguments.
 7. Press build (the green play button). This will compile the project and copy all necessary files into your Qt installation.
