@@ -32,8 +32,6 @@ Item {
                 return Qt.resolvedUrl(window.fullContentPath + "/index.html")
             }
         }
-
-        onUrlChanged: print(url)
         onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
             if ((loadProgress === 100)) {
