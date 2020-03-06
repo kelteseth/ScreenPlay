@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.12
 import QtQuick.Shapes 1.12
@@ -23,19 +24,20 @@ Rectangle {
     MouseArea {
         id: ma
         anchors.fill: parent
+        preventStealing: true
+        propagateComposedEvents:true
         hoverEnabled: true
         Component.onCompleted: {
             attractor.pointX = parent.width * .5
-            attractor.pointY = 0
+            attractor.pointY = parent.height * .5
         }
 
         onPositionChanged: {
             setPosition()
-            if (ma.pressed) {
-            }
+
         }
         onClicked: {
-            setPosition()
+           // setPosition()
         }
         function setPosition() {
             attractor.pointX = mouseX - 25
@@ -48,9 +50,11 @@ Rectangle {
         id: mouseDot
         property int center: mouseDot.width * .5
         width: 10
-        visible: false
+        y: attractor.pointY
+        x: attractor.pointX
         height: width
         radius: width
+
         color: "orange"
     }
 
@@ -100,15 +104,84 @@ Rectangle {
     }
 
     Text {
+        id: txtButtonConter
+        property int counter: 0
+        text: txtButtonConter.counter
+        font.pointSize: 32
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        wrapMode: Text.WordWrap
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: name.top
+            bottomMargin: 20
+        }
+        color: "white"
+    }
+    Text {
         id: name
         text: qsTr("This is a empty test window. You can change the source in test.qml")
         font.pointSize: 32
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap
-        anchors.fill: parent
+        anchors.centerIn:  parent
         anchors.margins: 10
         color: "white"
+    }
+
+
+    Row {
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            top:name.bottom
+            topMargin: 20
+        }
+        spacing: 20
+        Button {
+            highlighted: true
+
+            onClicked: {
+                 focus =false
+                 focus =true
+                print("Button Clicked!" )
+                txtButtonConter.counter = txtButtonConter.counter - 1
+            }
+            text: qsTr("Click me! - 1")
+        }
+        Button {
+            highlighted: true
+
+            onClicked: {
+                 focus =false
+                 focus =true
+                print("Button Clicked!" )
+                txtButtonConter.counter = txtButtonConter.counter
+            }
+            text: qsTr("Click me!")
+        }
+        Button {
+            highlighted: true
+           focusPolicy: Qt.ClickFocus
+            onClicked: {
+
+                print("Button Clicked!" )
+                txtButtonConter.counter = txtButtonConter.counter + 1
+            }
+            text: qsTr("Click me! +1")
+        }
+
+    }
+
+    WebView {
+        width: 1000
+        height: 400
+        url: "https://screen-play.app"
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+            bottomMargin: 50
+        }
     }
 }
 
