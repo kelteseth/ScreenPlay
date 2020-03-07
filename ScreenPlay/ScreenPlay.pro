@@ -5,7 +5,7 @@ CONFIG += c++17
 TARGETPATH = ScreenPlay
 
 include($$PWD/../Common/qt-google-analytics/qt-google-analytics.pri)
-include($$PWD/../Common/qt-breakpad/qt-breakpad.pri)
+
 
 ICON = favicon.ico
 
@@ -68,7 +68,6 @@ HEADERS += \
 
 INCLUDEPATH += \
     $$PWD/src/\
-
 
 CONFIG(debug, debug|release) {
     install_assets.path = $${OUT_PWD}/assets/fonts
@@ -135,22 +134,25 @@ unix {
     INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-linux/include
     DEPENDPATH  += $$PWD/../Common/vcpkg/installed/x64-linux/include
 
-    LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/lib/  -llibzippp -lzip
 
     install_it.path = $${OUT_PWD}
 
     CONFIG(debug, debug|release) {
+        LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/debug/lib/   -lzip  -llibzippp
+
         install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/zip.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/zlibd1.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libzippp.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/liblibzippp.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/bz2d.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libcrypto-1_1-x64.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libssl-1_1-x64.so \
 
     } else {
+        LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/lib/  -lzip  -llibzippp
+
         install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/bin/zip.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/bin/zlib1.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libzippp.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/liblibzippp.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/bin/bz2.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/bin/libcrypto-1_1-x64.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/bin/libssl-1_1-x64.so \

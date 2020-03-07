@@ -203,8 +203,9 @@ public slots:
             settings.sync();
         } else {
             settings.remove("ScreenPlay");
-#endif
+
         }
+#endif
 
         setqSetting("Autostart", autostart);
 

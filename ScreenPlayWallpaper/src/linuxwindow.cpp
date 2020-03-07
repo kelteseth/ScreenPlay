@@ -1,7 +1,7 @@
 #include "linuxwindow.h"
 
-LinuxWindow::LinuxWindow(QVector<int> activeScreensList, QString projectPath, QString id, QString volume, const QString fillmode, QObject* parent)
-    : BaseWindow(projectPath)
+LinuxWindow::LinuxWindow(QVector<int> activeScreensList, QString projectPath, QString id, QString volume, const QString fillmode,const bool checkWallpaperVisible, QObject* parent)
+    : BaseWindow(projectPath,activeScreensList,checkWallpaperVisible)
 {
     setAppID(id);
     bool ok = false;

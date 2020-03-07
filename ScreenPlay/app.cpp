@@ -52,7 +52,9 @@ App::App()
     QGuiApplication::setApplicationVersion("0.10.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
+#ifdef Q_OS_WINDOWS
     QtBreakpad::init(QDir::current().absolutePath());
+#endif
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
 

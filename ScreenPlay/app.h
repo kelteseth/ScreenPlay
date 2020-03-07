@@ -16,8 +16,9 @@
 #include <memory>
 
 #include "ganalytics.h"
+#ifdef Q_OS_WINDOWS
 #include "qt_breakpad.h"
-
+#endif
 #include "src/create.h"
 #include "src/globalvariables.h"
 #include "src/installedlistfilter.h"
