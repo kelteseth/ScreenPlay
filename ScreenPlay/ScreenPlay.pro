@@ -138,7 +138,7 @@ unix {
     install_it.path = $${OUT_PWD}
 
     CONFIG(debug, debug|release) {
-        LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/debug/lib/  -llibzippp -lzip -lbz2d -lz -lcrypto
+        LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/debug/lib/  -llibzippp -lzip -lbz2d -lz -lcrypto -lssl -ldl
 
         install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libbz2d.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libcrypto.so \
