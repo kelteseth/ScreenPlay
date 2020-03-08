@@ -148,7 +148,7 @@ unix {
                             $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libzip.so \
 
     } else {
-        LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/lib/  -llibzippp -lzip -lbz2d -lz -lcrypto
+        LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/debug/lib/  -llibzippp -lzip -lbz2d -lz -lcrypto -lssl -ldl
 
         install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/bin/libbz2d.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/bin/libcrypto.so \
