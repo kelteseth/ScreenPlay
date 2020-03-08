@@ -138,24 +138,24 @@ unix {
     install_it.path = $${OUT_PWD}
 
     CONFIG(debug, debug|release) {
-        LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/debug/lib/   -lzip  -llibzippp
+        LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/debug/lib/  -llibzippp -lzip -lbz2d -lz -lcrypto
 
-        install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/zip.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/zlibd1.so \
+        install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libbz2d.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libcrypto.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/liblibzippp.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/bz2d.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libcrypto-1_1-x64.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libssl-1_1-x64.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libssl.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libz.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libzip.so \
 
     } else {
-        LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/lib/  -lzip  -llibzippp
+        LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/lib/  -llibzippp -lzip -lbz2d -lz -lcrypto
 
-        install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/bin/zip.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/zlib1.so \
+        install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/bin/libbz2d.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libcrypto.so \
                             $$PWD/../Common/vcpkg/installed/x64-linux/bin/liblibzippp.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/bz2.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libcrypto-1_1-x64.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libssl-1_1-x64.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libssl.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libz.so \
+                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libzip.so \
     }
 }
 
