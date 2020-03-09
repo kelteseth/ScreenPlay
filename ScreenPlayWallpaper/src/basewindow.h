@@ -10,6 +10,7 @@
 #include <QString>
 #include <QSysInfo>
 #include <QtQml>
+#include <QFileSystemWatcher>
 
 class BaseWindow : public QObject {
     Q_OBJECT
@@ -139,6 +140,7 @@ public:
 
 signals:
     void qmlExit();
+    void reloadQML();
 
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
@@ -156,9 +158,7 @@ signals:
     void widthChanged(int width);
     void heightChanged(int height);
     void activeScreensListChanged(QVector<int> activeScreensList);
-
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
-
     void visualsPausedChanged(bool visualsPaused);
 
 public slots:
@@ -367,4 +367,5 @@ private:
     int m_width { 0 };
     int m_height { 0 };
     QVector<int> m_activeScreensList;
+    QFileSystemWatcher m_fileSystemWatcher;
 };

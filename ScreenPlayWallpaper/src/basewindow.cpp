@@ -64,6 +64,10 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
 
     setFullContentPath("file:///" + projectFilePath + "/" + projectObject.value("file").toString());
 
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &BaseWindow::reloadQML);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, &BaseWindow::reloadQML);
+    m_fileSystemWatcher.addPaths({projectFilePath, projectFilePath + "/" + projectObject.value("file").toString()});
+
     if (projectObject.value("type") == "videoWallpaper") {
         setType(BaseWindow::WallpaperType::Video);
         return;
