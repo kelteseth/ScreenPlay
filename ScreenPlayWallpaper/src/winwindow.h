@@ -30,6 +30,7 @@ public slots:
     void setVisible(bool show) override;
     void destroyThis() override;
     void terminate();
+    void clearComponentCache();
 
 private:
     void calcOffsets();
