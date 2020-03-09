@@ -127,6 +127,8 @@ WinWindow::WinWindow(
     if (checkWallpaperVisible) {
         m_checkForFullScreenWindowTimer.start(10);
     }
+
+    setupWindowMouseHook();
 }
 
 void WinWindow::setVisible(bool show)
