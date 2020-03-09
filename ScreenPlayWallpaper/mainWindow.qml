@@ -39,7 +39,6 @@ Rectangle {
             newObject.destroy(10000)
         }
         onReloadQML:{
-            print("Reload")
             loader.sourceComponent = undefined
             loader.source = ""
             window.clearComponentCache()

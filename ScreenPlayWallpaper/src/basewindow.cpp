@@ -87,9 +87,6 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
         setType(BaseWindow::WallpaperType::Html);
         return;
     }
-
-
-
 }
 
 void BaseWindow::messageReceived(QString key, QString value)
