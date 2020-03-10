@@ -17,6 +17,7 @@ HHOOK mouseHook;
 
 QQuickView* winGlobalHook = nullptr;
 
+
 LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 {
     Qt::MouseButton mouseButton {};
@@ -56,6 +57,21 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     auto* app = QApplication::instance();
 
     app->sendEvent(winGlobalHook, &event);
+
+    if (type == QMouseEvent::Type::MouseButtonPress) {
+        QTimer::singleShot(100, []() {
+            Qt::MouseButton mouseButton {};
+            Qt::MouseButtons mouseButtons {};
+            Qt::KeyboardModifier keyboardModifier {};
+            auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, { 0, 0 }, mouseButton, mouseButtons, keyboardModifier);
+
+            auto* app = QApplication::instance();
+
+            app->sendEvent(winGlobalHook, &eventRelease);
+
+            qDebug() << mouseButton << mouseButtons;
+        });
+    }
 
     return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 }
@@ -127,6 +143,8 @@ WinWindow::WinWindow(
     if (checkWallpaperVisible) {
         m_checkForFullScreenWindowTimer.start(10);
     }
+
+    setupWindowMouseHook();
 }
 
 void WinWindow::setVisible(bool show)
@@ -296,10 +314,10 @@ void WinWindow::checkForFullScreenWindow()
             if ((dwStyle & WS_MAXIMIZE) != 0) {
                 // do stuff
                 setVisualsPaused(false);
-                qDebug() << "WS_MAXIMIZE: " << printWindowNameByhWnd(hWnd);
             } else {
                 setVisualsPaused(true);
             }
+
             return;
         }
     }
@@ -327,7 +345,6 @@ void WinWindow::checkForFullScreenWindow()
             }
 
         } else {
-            //  qDebug() << "No window found, playing!";
             setVisualsPaused(true);
         }
     }
