@@ -62,7 +62,12 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
         qFatal("No type was specified inside the json object!");
     }
 
+    setBasePath(projectFilePath);
     setFullContentPath("file:///" + projectFilePath + "/" + projectObject.value("file").toString());
+
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &BaseWindow::reloadQML);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, &BaseWindow::reloadQML);
+    m_fileSystemWatcher.addPaths({ projectFilePath, projectFilePath + "/" + projectObject.value("file").toString() });
 
     if (projectObject.value("type") == "videoWallpaper") {
         setType(BaseWindow::WallpaperType::Video);
@@ -138,4 +143,14 @@ void BaseWindow::messageReceived(QString key, QString value)
     }
 
     emit qmlSceneValueReceived(key, value);
+}
+
+QString BaseWindow::loadFromFile(const QString& filename)
+{
+    QFile file;
+    file.setFileName(basePath() + "/" + filename);
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        return file.readAll();
+    }
+    return "";
 }

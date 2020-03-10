@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
         //WinWindow window2({ 1 }, "test", "appid", "1", "fill");
         //WinWindow window3({ 2 }, "test", "appid", "1", "fill");
 
-        WinWindow window({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/1954178242", "appid", "1", "fill", true);
+        WinWindow window({ 0 }, "H:/SteamLibrary/SteamApps/workshop/content/672870/MechaGirl", "appid", "1", "fill", false);
 #endif
 #if defined(Q_OS_LINUX)
         LinuxWindow window(QVector<int>{ 0 }, "test", "appid", "1", "fill");

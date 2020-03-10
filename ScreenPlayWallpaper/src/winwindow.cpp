@@ -362,3 +362,8 @@ void WinWindow::terminate()
 
     QCoreApplication::quit();
 }
+
+void WinWindow::clearComponentCache()
+{
+    m_window.engine()->clearComponentCache();
+}

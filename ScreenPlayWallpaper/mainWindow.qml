@@ -14,6 +14,12 @@ Rectangle {
 
     property bool canFadeByWallpaperFillMode: true
 
+
+    Component.onCompleted: {
+        init();
+    }
+
+
     Connections {
         target: window
 
@@ -32,9 +38,15 @@ Rectangle {
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
             newObject.destroy(10000)
         }
+        onReloadQML:{
+            loader.sourceComponent = undefined
+            loader.source = ""
+            window.clearComponentCache()
+            root.init()
+        }
     }
 
-    Component.onCompleted: {
+    function init(){
         switch (window.type) {
         case Wallpaper.WallpaperType.Video:
             loader.source = "qrc:/WebView.qml"
