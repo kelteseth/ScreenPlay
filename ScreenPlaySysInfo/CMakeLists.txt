@@ -17,7 +17,7 @@ set(headers screenplaysysinfo_plugin.h
 	ram.h
 	mathhelper.h
 	storage.h)
-add_library($$qtLibraryTarget($$TARGET) MODULE ${src} ${headers})
-target_link_libraries($$qtLibraryTarget($$TARGET) PRIVATE Qt5::Core Qt5::Quick Qt5::Gui Qt5::Qml)
-set_target_properties($$qtLibraryTarget($$TARGET) PROPERTIES DEBUG_POSTFIX "d")
-install(TARGETS $$qtLibraryTarget($$TARGET) DESTINATION Libs)
+
+add_library(screenplaysysinfo MODULE ${src} ${headers})
+target_link_libraries(screenplaysysinfo PRIVATE Qt5::Core Qt5::Quick Qt5::Gui Qt5::Qml)
+install(TARGETS screenplaysysinfo DESTINATION Libs)

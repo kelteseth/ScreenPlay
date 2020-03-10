@@ -12,5 +12,6 @@ set(src main.cpp
 	src/widgetwindow.cpp)
 set(headers src/widgetwindow.h)
 set(resources SPWidgetResources.qrc)
-target_link_libraries( PRIVATE Qt5::Qml Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core)
-target_compile_definitions( PRIVATE  QT_DEPRECATED_WARNINGS)
+add_executable(ScreenPlayWidget ${src} ${headers} ${resources})
+target_link_libraries( ScreenPlayWidget Qt5::Qml Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core)
+

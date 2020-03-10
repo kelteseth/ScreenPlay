@@ -23,8 +23,8 @@ set(headers src/basewindow.h
 	src/macbridge.h
 	src/macwindow.h)
 set(resources SPWResources.qrc)
-add_executable( ${src} ${headers} ${resources})
-target_link_libraries( PRIVATE Qt5::Qml Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core)
-target_compile_definitions( PRIVATE  QT_DEPRECATED_WARNINGS)
-set_target_properties( PROPERTIES DEBUG_POSTFIX "d")
+add_executable(ScreenPlayWallpaper ${src} ${headers} ${resources})
+target_link_libraries( ScreenPlayWallpaper Qt5::Qml Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core)
+
+
 install(TARGETS  DESTINATION Bin)
