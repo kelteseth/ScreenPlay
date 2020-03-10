@@ -47,6 +47,7 @@ Item {
 
             var obj = JSON.parse(value.toString())
 
+            txtDescription.text = obj["text"]
 
             switch(obj["type"]){
                 case "slider":
@@ -77,7 +78,7 @@ Item {
                     onCheckedChanged: {
                         var value = checkbox.checked
                         txtCheckboxValue.text = value;
-                        ScreenPlay.screenPlayManager.setWallpaperValue(selectedMonitor,txtDescription.text,value)
+                        ScreenPlay.screenPlayManager.setWallpaperValue(selectedMonitor,name,value)
                     }
                 }
                 Text {
@@ -113,7 +114,7 @@ Item {
                     onValueChanged: {
                         var value = Math.round(slider.value * 100) / 100;
                         txtSliderValue.text = value;
-                        ScreenPlay.screenPlayManager.setWallpaperValue(selectedMonitor,txtDescription.text,value)
+                        ScreenPlay.screenPlayManager.setWallpaperValue(selectedMonitor,name,value)
                     }
                 }
                 Text {
