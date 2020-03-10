@@ -47,14 +47,49 @@ Item {
 
             var obj = JSON.parse(value.toString())
 
-            if (obj["type"] === "slider") {
-                loader.sourceComponent = compSlider
-                loader.item.from = obj["from"]
-                loader.item.to = obj["to"]
-                loader.item.value = obj["value"]
-                loader.item.stepSize = obj["stepSize"]
+
+            switch(obj["type"]){
+                case "slider":
+                    loader.sourceComponent = compSlider
+                    loader.item.from = obj["from"]
+                    loader.item.to = obj["to"]
+                    loader.item.value = obj["value"]
+                    loader.item.stepSize = obj["stepSize"]
+                    break;
+                case "bool":
+                    loader.sourceComponent = compCheckbox
+                    loader.item.value = obj["value"]
+                    break;
             }
         }
+        Component{
+            id: compCheckbox
+
+            Item {
+                id:root
+                anchors.fill: parent
+                property bool value
+
+                CheckBox {
+                    id: checkbox
+                    checkable: true
+                    checked: root.value
+                    onCheckedChanged: {
+                        var value = checkbox.checked
+                        txtCheckboxValue.text = value;
+                        ScreenPlay.screenPlayManager.setWallpaperValue(selectedMonitor,txtDescription.text,value)
+                    }
+                }
+                Text {
+                    id: txtCheckboxValue
+                    anchors{
+                        right:parent.right
+                        verticalCenter: parent.verticalCenter
+                    }
+                }
+            }
+        }
+
         Component {
             id: compSlider
 
