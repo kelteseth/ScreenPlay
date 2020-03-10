@@ -24,6 +24,7 @@ public:
     Q_PROPERTY(QVector<int> activeScreensList READ activeScreensList WRITE setActiveScreensList NOTIFY activeScreensListChanged)
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
+    Q_PROPERTY(QString basePath READ basePath WRITE setBasePath NOTIFY basePathChanged)
     Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
     Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
 
@@ -138,6 +139,11 @@ public:
         return m_visualsPaused;
     }
 
+    QString basePath() const
+    {
+        return m_basePath;
+    }
+
 signals:
     void qmlExit();
     void reloadQML();
@@ -161,10 +167,14 @@ signals:
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
     void visualsPausedChanged(bool visualsPaused);
 
+    void basePathChanged(QString basePath);
+
 public slots:
     virtual void destroyThis() { }
     virtual void setVisible(bool show) { Q_UNUSED(show) }
     virtual void messageReceived(QString key, QString value) final;
+
+    QString loadFromFile(const QString& filename);
 
     QString getApplicationPath()
     {
@@ -345,6 +355,15 @@ public slots:
         emit visualsPausedChanged(m_visualsPaused);
     }
 
+    void setBasePath(QString basePath)
+    {
+        if (m_basePath == basePath)
+            return;
+
+        m_basePath = basePath;
+        emit basePathChanged(m_basePath);
+    }
+
 private:
     bool m_checkWallpaperVisible { false };
     bool m_visualsPaused { false };
@@ -368,4 +387,5 @@ private:
     int m_height { 0 };
     QVector<int> m_activeScreensList;
     QFileSystemWatcher m_fileSystemWatcher;
+    QString m_basePath;
 };
