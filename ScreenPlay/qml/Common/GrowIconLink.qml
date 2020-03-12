@@ -1,11 +1,13 @@
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
+import QtQuick.Controls.Material 2.12
 
 Rectangle {
     id: root
-    color: "gray"
-    width: 32
-    height: 32
+    color: Material.background
+    width: 42
+    height: width
+    radius: width
 
     property alias iconSource: icon.source
     property string url
@@ -13,9 +15,10 @@ Rectangle {
 
     Image {
         id: icon
-        sourceSize: Qt.size(32, 32)
+        sourceSize: Qt.size(28, 28)
         anchors.centerIn: parent
         visible: false
+        smooth: true
         source: "qrc:/assets/icons/icon_info.svg"
     }
 
@@ -40,9 +43,9 @@ Rectangle {
             name: "hover"
             PropertyChanges {
                 target: icon
-                width:40
-                height:40
-                sourceSize: Qt.size(40,40)
+                width: 34
+                height: 34
+                sourceSize: Qt.size(34,34)
             }
         }
     ]

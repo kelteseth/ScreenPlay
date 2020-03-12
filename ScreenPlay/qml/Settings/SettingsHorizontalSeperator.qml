@@ -1,9 +1,10 @@
 import QtQuick 2.12
+import QtQuick.Controls.Material 2.12
 
 Item {
     property real customWidth: parent.width
     property real customHeight: 1
-    property color customColor: "#dddddd"
+    property color customColor:  Material.background
     property real customMargin: 10
 
     height: customMargin

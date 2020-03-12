@@ -40,6 +40,8 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 {
     qRegisterMetaType<Settings::FillMode>("Settings::FillMode");
     qRegisterMetaType<Settings::Language>("Settings::Language");
+    qRegisterMetaType<Settings::Theme>("Settings::Theme");
+
     qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
 
     {
@@ -60,12 +62,18 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
         }
     }
 
-    setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", true).toBool());
+
+    setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", false).toBool());
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
     if (m_qSettings.contains("VideoFillMode")) {
         auto value = m_qSettings.value("VideoFillMode").toString();
         setVideoFillMode(QStringToEnum<FillMode>(value, FillMode::Fill));
     }
+    if (m_qSettings.contains("Theme")) {
+        auto value = m_qSettings.value("Theme").toString();
+        setTheme(QStringToEnum<Theme>(value, Theme::System));
+    }
+
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
 
     // Wallpaper and Widgets config

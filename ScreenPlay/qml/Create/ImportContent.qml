@@ -1,8 +1,8 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.3
-import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
+import Qt.labs.platform 1.0
 
 import ScreenPlay 1.0
 
@@ -47,6 +47,8 @@ Item {
 
         Rectangle {
             id: importVideoBg
+            color: Material.background
+
             radius: 3
             z: 10
             anchors {
@@ -130,6 +132,8 @@ Item {
 
         Rectangle {
             id: convertVideoBg
+            color: Material.background
+
             radius: 3
             z: 10
             anchors {
@@ -232,6 +236,8 @@ Item {
         Rectangle {
             id: importVideoBg3
             radius: 3
+            color: Material.background
+
             z: 10
             anchors {
                 fill: parent

@@ -1,11 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Window 2.2
 import QtQuick.Controls 2.3
+import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 
 import ScreenPlay 1.0
+import Settings 1.0
 
 import "qml/"
 import "qml/Monitors"
@@ -16,7 +18,7 @@ import "qml/Workshop"
 
 ApplicationWindow {
     id: window
-    color: "#eeeeee"
+    color: Material.background
     // Set visible if the -silent parameter was not set (see app.cpp end of constructor).
     visible: false
     width: 1400
@@ -25,7 +27,33 @@ ApplicationWindow {
     minimumHeight: 450
     minimumWidth: 1050
 
+    Material.theme: {
+        switch (Settings.theme) {
+        case Settings.Auto:
+            return Material.System
+        case Settings.Dark:
+            return Material.Dark
+        case Settings.Light:
+            return Material.Light
+        }
+    }
+
+    function setTheme(theme){
+        switch (theme) {
+        case Settings.System:
+            window.Material.theme = Material.System
+            break
+        case Settings.Dark:
+            window.Material.theme = Material.Dark
+            break
+        case Settings.Light:
+            window.Material.theme = Material.Light
+            break
+        }
+    }
+
     Component.onCompleted: {
+
         if (!ScreenPlay.settings.silentStart) {
             window.show()
             ScreenPlay.setTrackerSendEvent("navigation", "Installed")
@@ -70,6 +98,11 @@ ApplicationWindow {
     Background {
         id: bg
         anchors.fill: parent
+    }
+
+    Connections {
+        target: ScreenPlay.settings
+        onThemeChanged:setTheme(theme)
     }
 
     Connections {

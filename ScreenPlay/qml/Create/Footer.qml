@@ -14,8 +14,8 @@ Rectangle {
     id: footer
     height: 80
     z: 100
-    anchors {
-    }
+    color: Material.background
+
     Row {
         anchors.centerIn: parent
         spacing: 20
