@@ -47,7 +47,9 @@ Item {
 
             var obj = JSON.parse(value.toString())
 
-            txtDescription.text = obj["text"]
+            if(obj["text"]){
+                txtDescription.text = obj["text"]
+            }
 
             switch(obj["type"]){
                 case "slider":
