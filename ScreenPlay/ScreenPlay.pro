@@ -44,6 +44,7 @@ TRANSLATIONS = \
     $$PWD/translations/ScreenPlay_es.ts   \
     $$PWD/translations/ScreenPlay_fr.ts   \
     $$PWD/translations/ScreenPlay_ko.ts   \
+    $$PWD/translations/ScreenPlay_vi.ts   \
 
 HEADERS += \
     $$PWD/app.h \

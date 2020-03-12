@@ -94,7 +94,8 @@ public:
         Ru,
         Fr,
         Es,
-        Ko
+        Ko,
+        Vi
     };
     Q_ENUM(Language)
 

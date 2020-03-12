@@ -206,6 +206,9 @@ Item {
                                     }, {
                                         "value":  Settings.Ko,
                                         "text": qsTr("Korean")
+                                    }, {
+                                        "value":  Settings.Vi,
+                                        "text": qsTr("Vietnamese")
                                     }]
                             }
                         }

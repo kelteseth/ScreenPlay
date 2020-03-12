@@ -151,5 +151,6 @@
         <file>assets/fonts/NotoSans-Medium.ttf</file>
         <file>assets/fonts/NotoSans-Regular.ttf</file>
         <file>assets/fonts/NotoSans-Thin.ttf</file>
+        <file>translations/ScreenPlay_vi.qm</file>
     </qresource>
 </RCC>
