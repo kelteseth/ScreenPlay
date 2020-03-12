@@ -18,7 +18,14 @@ import "qml/Workshop"
 
 ApplicationWindow {
     id: window
-    color: Material.background
+    color: {
+        if(Material.theme === Material.Dark){
+            return Qt.darker(Material.background)
+        } else {
+            return  Material.background
+        }
+    }
+
     // Set visible if the -silent parameter was not set (see app.cpp end of constructor).
     visible: false
     width: 1400
@@ -37,6 +44,9 @@ ApplicationWindow {
             return Material.Light
         }
     }
+    Material.accent:  {
+        return Material.color(Material.Orange)
+    }
 
     function setTheme(theme){
         switch (theme) {
@@ -45,14 +55,20 @@ ApplicationWindow {
             break
         case Settings.Dark:
             window.Material.theme = Material.Dark
+            window.Material.accent = Material.color(Material.Orange)
             break
         case Settings.Light:
             window.Material.theme = Material.Light
             break
         }
     }
+    Connections {
+        target: ScreenPlay.settings
+        onThemeChanged:setTheme(theme)
+    }
 
     Component.onCompleted: {
+        setTheme(Settings.theme)
 
         if (!ScreenPlay.settings.silentStart) {
             window.show()
@@ -100,10 +116,6 @@ ApplicationWindow {
         anchors.fill: parent
     }
 
-    Connections {
-        target: ScreenPlay.settings
-        onThemeChanged:setTheme(theme)
-    }
 
     Connections {
         target: ScreenPlay.util

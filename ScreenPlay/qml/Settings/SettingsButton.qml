@@ -68,8 +68,6 @@ Item {
     Button {
         id: btnSettings
         text: settingsButton.buttonText
-        Material.background: Material.Orange
-        Material.foreground: "white"
         icon.width: 20
         icon.height: 20
         font.family: ScreenPlay.settings.font

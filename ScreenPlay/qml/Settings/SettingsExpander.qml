@@ -4,7 +4,7 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 import ScreenPlay 1.0
 
-Rectangle {
+Item {
     id: root
     state: "off"
     clip: true

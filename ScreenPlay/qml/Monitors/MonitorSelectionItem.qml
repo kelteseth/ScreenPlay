@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import ScreenPlay 1.0
+import QtQuick.Controls.Material 2.12
 
 Item {
     id: root
@@ -34,6 +35,7 @@ Item {
             top: wrapper.bottom
             topMargin: 5
         }
+        color: Material.foreground
 
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
