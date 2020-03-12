@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
-//import QtQuick.XmlListModel 2.0
+import ScreenPlay 1.0
 import QtWebEngine 1.8
 
 Item {
@@ -59,7 +59,7 @@ Item {
             color: "white"
             height: 100
             text: qsTr("We use Stomt because it provides quick and easy feedback via I like/I wish. So you can easily give us feedback and speak your mind. We will read these wishes on a daily basis!")
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
             font.weight: Font.Normal
             wrapMode: Text.WordWrap
             horizontalAlignment: Qt.AlignHCenter
@@ -195,6 +195,7 @@ Item {
                 text: qsTr("Forums")
                 Material.background: Material.Blue
                 Material.foreground: "white"
+                font.family: ScreenPlay.settings.font
                 onClicked: Qt.openUrlExternally(
                                "https://forum.screen-play.app/")
                 icon.source: "qrc:/assets/icons/icon_people.svg"
@@ -206,6 +207,7 @@ Item {
                 text: qsTr("Blog")
                 Material.background: Material.LightGreen
                 Material.foreground: "white"
+                font.family: ScreenPlay.settings.font
                 icon.source: "qrc:/assets/icons/icon_document.svg"
                 icon.color: "white"
                 icon.width: 16
@@ -217,7 +219,7 @@ Item {
                 text: qsTr("Source Code")
                 Material.background: Material.Orange
                 Material.foreground: "white"
-
+                font.family: ScreenPlay.settings.font
                 icon.source: "qrc:/assets/icons/icon_code.svg"
                 icon.color: "white"
                 icon.width: 16
@@ -229,7 +231,7 @@ Item {
                 text: qsTr("Workshop")
                 Material.background: Material.Red
                 Material.foreground: "white"
-
+                font.family: ScreenPlay.settings.font
                 icon.source: "qrc:/assets/icons/icon_steam.svg"
                 icon.color: "white"
                 icon.width: 16
@@ -241,7 +243,7 @@ Item {
                 text: qsTr("Changelog")
                 Material.background: Material.Purple
                 Material.foreground: "white"
-
+                font.family: ScreenPlay.settings.font
                 icon.source: "qrc:/assets/icons/icon_info.svg"
                 icon.color: "white"
                 icon.width: 16

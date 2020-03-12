@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
+import ScreenPlay 1.0
 
 Item {
     id: settingsHeader
@@ -65,8 +66,7 @@ Item {
                 font.pointSize: 12
                 color: "white"
                 verticalAlignment: Text.AlignTop
-
-                font.family: "Roboto"
+                font.family: ScreenPlay.settings.font
                 anchors {
                     top: parent.top
                     topMargin: 0

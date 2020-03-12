@@ -90,7 +90,7 @@ Popup {
             horizontalAlignment: Text.AlignHCenter
             font.pointSize: 16
             height: 50
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
             anchors.fill: parent
             anchors.margins: 50
             wrapMode: Text.WordWrap
@@ -145,7 +145,7 @@ Popup {
             height: 50
             Layout.fillWidth: true
             color: "gray"
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
         }
 
         Rectangle {
@@ -187,7 +187,7 @@ Popup {
                     height: 50
                     Layout.fillWidth: true
                     color: Material.color(Material.Orange)
-                    font.family: "Roboto"
+                    font.family: ScreenPlay.settings.font
                     wrapMode: Text.WordWrap
                     anchors {
                         top: busyIndicator.bottom
@@ -234,7 +234,7 @@ Popup {
                         height: txtExpander.paintedHeight
                         wrapMode: Text.WordWrap
                         font.pointSize: 12
-                        font.family: "Roboto"
+                        font.family: ScreenPlay.settings.font
                         onLinkHovered: maHoverEffect.cursorShape = Qt.PointingHandCursor
                         onLinkActivated: Qt.openUrlExternally(link)
                         linkColor: Material.color(Material.LightBlue)
@@ -339,7 +339,7 @@ if you installed ScreenPlay via Steam!
             height: 50
             Layout.fillWidth: true
             color: "gray"
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
             anchors {
                 horizontalCenter: parent.horizontalCenter
                 top: parent.top

@@ -51,7 +51,7 @@ Item {
             color: "orange"
             font.pointSize: 10
             font.bold: true
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
 
             anchors {
                 horizontalCenter: parent.horizontalCenter
@@ -79,7 +79,7 @@ Item {
         horizontalAlignment: Text.AlignRight
         color: "#626262"
         font.pointSize: 12
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
     }
     MouseArea {
         id: ma

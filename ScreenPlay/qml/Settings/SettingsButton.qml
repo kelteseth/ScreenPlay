@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
+import ScreenPlay 1.0
 
 Item {
     id: settingsButton
@@ -31,7 +32,6 @@ Item {
         id: txtHeadline
         color: "#5D5D5D"
         text: settingsButton.headline
-
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         anchors {
@@ -42,6 +42,7 @@ Item {
         }
 
         font.pointSize: 12
+        font.family: ScreenPlay.settings.font
     }
 
     Text {
@@ -53,7 +54,7 @@ Item {
         wrapMode: Text.WordWrap
         horizontalAlignment: Text.AlignLeft
         font.pointSize: 10
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
         anchors {
             top: txtHeadline.bottom
             topMargin: 6
@@ -71,6 +72,7 @@ Item {
         Material.foreground: "white"
         icon.width: 20
         icon.height: 20
+        font.family: ScreenPlay.settings.font
         anchors {
             right: parent.right
             rightMargin: 20

@@ -15,7 +15,7 @@ Item {
         id: txtHeadline
         text: qsTr("Create an empty widget")
         height: 40
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
         font.weight: Font.Light
         color: "#757575"
 
@@ -76,11 +76,13 @@ Item {
                 text: qsTr("General")
                 font.pointSize: 14
                 color: "#757575"
+                font.family: ScreenPlay.settings.font
             }
             TextField {
                 id: tfTitle
                 Layout.fillWidth: true
                 placeholderText: qsTr("Widget name")
+                font.family: ScreenPlay.settings.font
                 onTextChanged: {
                     if (text.length >= 3) {
                         btnSave.enabled = true
@@ -93,15 +95,18 @@ Item {
                 id: tfCreatedBy
                 Layout.fillWidth: true
                 placeholderText: qsTr("Copyright owner")
+                font.family: ScreenPlay.settings.font
             }
             Text {
                 text: qsTr("Type")
                 font.pointSize: 14
                 color: "#757575"
+                font.family: ScreenPlay.settings.font
             }
             ComboBox {
                 id: cbType
                 Layout.fillWidth: true
+                font.family: ScreenPlay.settings.font
                 model: ListModel {
                     id: model
                     ListElement {
@@ -125,10 +130,12 @@ Item {
                 text: qsTr("License")
                 font.pointSize: 14
                 color: "#757575"
+                font.family: ScreenPlay.settings.font
             }
             ComboBox {
                 id: cbLicense
                 Layout.fillWidth: true
+                font.family: ScreenPlay.settings.font
                 model: ListModel {
                     id: modelLicense
                     ListElement {
@@ -146,11 +153,13 @@ Item {
                 text: qsTr("Tags")
                 font.pointSize: 14
                 color: "#757575"
+                font.family: ScreenPlay.settings.font
             }
 
             TagSelector {
                 id: tagSelector
                 Layout.fillWidth: true
+                font.family: ScreenPlay.settings.font
             }
 
             Item {
@@ -170,6 +179,7 @@ Item {
                     enabled: false
                     Material.background: Material.Orange
                     Material.foreground: "white"
+                    font.family: ScreenPlay.settings.font
 
                     onClicked: {
                         btnSave.enabled = false
@@ -193,6 +203,7 @@ Item {
                 Button {
                     id: btnExit
                     text: qsTr("Abort")
+                    font.family: ScreenPlay.settings.font
                     Material.background: Material.Red
                     Material.foreground: "white"
                     onClicked: {

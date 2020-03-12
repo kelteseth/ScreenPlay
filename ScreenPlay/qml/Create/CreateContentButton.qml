@@ -1,6 +1,7 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtGraphicalEffects 1.0
+import ScreenPlay 1.0
 
 Item {
     id: btnEmpty
@@ -70,7 +71,7 @@ Item {
         Text {
             id: name
             text: btnEmpty.text
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
             opacity: buttonActive ? 1 : .25
             font.pointSize: 14
             color: "gray"
@@ -87,7 +88,7 @@ Item {
         }
         Text {
             text: ">"
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
             font.pointSize: 18
             opacity: buttonActive ? 1 : .25
             color: "#b9b9b9"

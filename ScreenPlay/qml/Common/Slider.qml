@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.2
+import ScreenPlay 1.0
 
 Item {
     id: sliderVolumeWrapperBottom
@@ -19,7 +20,7 @@ Item {
         text: headline
         height: 20
         font.pointSize: 10
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
         color: "#626262"
 
         anchors {

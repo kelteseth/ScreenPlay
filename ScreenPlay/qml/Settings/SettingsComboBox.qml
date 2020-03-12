@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
+import ScreenPlay 1.0
 
 Item {
     id: settingsComboBox
@@ -26,7 +27,7 @@ Item {
         }
 
         font.pointSize: 12
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
     }
 
     Text {
@@ -38,7 +39,7 @@ Item {
         horizontalAlignment: Text.AlignLeft
         wrapMode: Text.WordWrap
         font.pointSize: 10
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
         anchors {
             top: txtHeadline.bottom
             topMargin: 6
@@ -54,6 +55,7 @@ Item {
         implicitWidth: 200
         textRole: "text"
         valueRole: "value"
+        font.family: ScreenPlay.settings.font
         anchors {
             right: parent.right
             rightMargin: 20

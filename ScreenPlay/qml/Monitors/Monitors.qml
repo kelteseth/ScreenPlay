@@ -65,7 +65,7 @@ Item {
                 text: qsTr("Wallpaper Configuration")
                 font.pointSize: 21
                 color: "#626262"
-                font.family: "Roboto"
+                font.family: ScreenPlay.settings.font
                 font.weight: Font.Thin
                 width: 400
                 anchors {
@@ -130,6 +130,7 @@ Item {
                     text: qsTr("Remove selected")
                     Material.background: Material.Orange
                     Material.foreground: "white"
+                    font.family: ScreenPlay.settings.font
                     enabled: monitorSelection.activeMonitors.length == 1
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeWallpaperAt(monitorSelection.activeMonitors[0])
@@ -141,6 +142,7 @@ Item {
                     text: qsTr("Remove all Wallpapers")
                     Material.background: Material.Orange
                     Material.foreground: "white"
+                    font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeAllWallpapers()
@@ -152,6 +154,7 @@ Item {
                     text: qsTr("Remove all Widgets")
                     Material.background: Material.Orange
                     Material.foreground: "white"
+                    font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeAllWidgets()

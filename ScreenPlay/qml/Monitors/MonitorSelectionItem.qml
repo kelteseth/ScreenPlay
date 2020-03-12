@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
+import ScreenPlay 1.0
 
 Item {
     id: root
@@ -37,7 +38,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.pointSize: root.fontSize
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
         wrapMode: Text.WrapAnywhere
     }
 

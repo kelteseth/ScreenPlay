@@ -20,8 +20,7 @@ Item {
 
         color: "white"
         font.pointSize: 21
-
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
         font.weight: Font.Thin
     }
 
@@ -41,8 +40,7 @@ Item {
     Text {
         id: txtExamples
         text: qsTr("Example Widgets and Scenes")
-        font.family: "Roboto"
-
+        font.family: ScreenPlay.settings.font
         font.pointSize: 16
         color: "white"
 

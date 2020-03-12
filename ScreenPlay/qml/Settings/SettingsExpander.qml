@@ -32,6 +32,7 @@ Rectangle {
             color: "#626262"
             height: txtExpander.paintedHeight
             wrapMode: Text.WordWrap
+             font.family: ScreenPlay.settings.font
         }
         MouseArea {
             anchors.fill: parent

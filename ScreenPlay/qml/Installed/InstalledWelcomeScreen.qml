@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls.Material 2.2
-
+import ScreenPlay 1.0
 import "../Common"
 
 Item {
@@ -52,7 +52,7 @@ Item {
         x: 20
         y: 80
         text: qsTr("Get free Widgets and Wallpaper via the Steam Workshop")
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
 
         wrapMode: Text.WordWrap
         color: "white"

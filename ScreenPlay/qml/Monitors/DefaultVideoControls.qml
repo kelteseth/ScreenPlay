@@ -60,7 +60,7 @@ ColumnLayout {
         Text {
             id: txtComboBoxFillMode
             text: qsTr("Fill Mode")
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
             verticalAlignment: Text.AlignVCenter
             font.pointSize: 10
             color: "#626262"

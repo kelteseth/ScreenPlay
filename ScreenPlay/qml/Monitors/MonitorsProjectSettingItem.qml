@@ -4,6 +4,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 import ScreenPlay 1.0
+
 Item {
     id: delegate
     focus: true
@@ -23,7 +24,7 @@ Item {
         width: 100
         font.pointSize: isHeadline ? 21 : 14
         anchors.verticalCenter: parent.verticalCenter
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
         font.weight: Font.Normal
         
         anchors {
