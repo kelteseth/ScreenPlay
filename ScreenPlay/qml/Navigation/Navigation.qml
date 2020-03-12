@@ -14,6 +14,10 @@ Rectangle {
     width: 1366
     color: "#ffffff"
 
+    MouseArea {
+        anchors.fill: parent
+    }
+
     signal changePage(string name)
 
     property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity]
