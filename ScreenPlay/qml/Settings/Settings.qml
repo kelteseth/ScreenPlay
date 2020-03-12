@@ -180,7 +180,7 @@ Item {
                             Component.onCompleted: {
                                 settingsLanguage.comboBox.currentIndex = root.indexOfValue(
                                             settingsLanguage.comboBox.model,
-                                            ScreenPlay.settings.videoFillMode)
+                                            ScreenPlay.settings.language)
                             }
 
                             comboBox {
