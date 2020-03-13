@@ -85,9 +85,9 @@ Rectangle {
                         right: parent.right
                         verticalCenter: parent.verticalCenter
                     }
-                    onCheckedChanged: {
+                    onCheckedChanged: {  
                         ScreenPlay.screenPlayManager.setWallpaperValue(
-                                    selectedMonitor, name, value)
+                                    selectedMonitor, name, checkbox.checked)
                     }
                 }
             }
@@ -129,8 +129,9 @@ Rectangle {
                     title: qsTr("Please choose a color")
                     onAccepted: {
                         rctPreviewColor.color = colorDialog.color
+                        let tmpColor = "'" + colorDialog.color.toString() + "'"
                         ScreenPlay.screenPlayManager.setWallpaperValue(
-                                    selectedMonitor, name, colorDialog.color)
+                                    selectedMonitor, name, tmpColor)
                     }
                 }
             }
