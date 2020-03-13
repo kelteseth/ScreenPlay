@@ -43,25 +43,22 @@ using std::shared_ptr,
     std::make_shared;
 
 template <typename T>
-T SettingsSetQStringToEnum(const QString& key, const T defaultValue, const QSettings& settings)
+T QStringToEnum(const QString& key, const T defaultValue)
 {
     auto metaEnum = QMetaEnum::fromType<T>();
-    if (!settings.value(key).isNull()) {
-        QString value = settings.value(key).toString();
 
-        bool ok = false;
-        T wantedEnum = static_cast<T>(metaEnum.keyToValue(value.toUtf8(), &ok));
+    bool ok = false;
+    T wantedEnum = static_cast<T>(metaEnum.keyToValue(key.toUtf8(), &ok));
 
-        if (ok) {
-            return wantedEnum;
-        }
+    if (ok) {
+        return wantedEnum;
     }
+
     return defaultValue;
 }
 
 class Settings : public QObject {
     Q_OBJECT
-
 
     Q_PROPERTY(bool anonymousTelemetry READ anonymousTelemetry WRITE setAnonymousTelemetry NOTIFY anonymousTelemetryChanged)
     Q_PROPERTY(bool silentStart READ silentStart WRITE setSilentStart NOTIFY silentStartChanged)
@@ -75,6 +72,7 @@ class Settings : public QObject {
 
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(QString gitBuildHash READ gitBuildHash WRITE setGitBuildHash NOTIFY gitBuildHashChanged)
+    Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged)
 
 public:
     explicit Settings(
@@ -95,10 +93,11 @@ public:
         De,
         Ru,
         Fr,
-        Es
+        Es,
+        Ko,
+        Vi
     };
     Q_ENUM(Language)
-
 
     bool offlineMode() const
     {
@@ -155,7 +154,17 @@ public:
         return m_language;
     }
 
+public:
+    void setupLanguage();
+
+    QString font() const
+    {
+        return m_font;
+    }
+
 signals:
+    void requestRetranslation();
+
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
     void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
@@ -170,10 +179,12 @@ signals:
     void videoFillModeChanged(FillMode videoFillMode);
     void languageChanged(Language language);
 
+    void fontChanged(QString font);
+
 public slots:
     void writeJsonFileFromResource(const QString& filename);
     void setupWidgetAndWindowPaths();
-    void setupLanguage();
+    bool retranslateUI();
     void setqSetting(const QString& key, const QVariant& value)
     {
         m_qSettings.setValue(key, value);
@@ -304,6 +315,15 @@ public slots:
         emit languageChanged(m_language);
     }
 
+    void setFont(QString font)
+    {
+        if (m_font == font)
+            return;
+
+        m_font = font;
+        emit fontChanged(m_font);
+    }
+
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
 
@@ -324,5 +344,6 @@ private:
     QString m_decoder;
     FillMode m_videoFillMode;
     Language m_language = Language::En;
+    QString m_font {"Roboto"};
 };
 }

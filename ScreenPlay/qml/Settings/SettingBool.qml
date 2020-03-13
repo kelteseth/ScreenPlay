@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
+import ScreenPlay 1.0
 
 Item {
     id: settingsBool
@@ -26,7 +27,7 @@ Item {
         id: txtHeadline
         color: "#5D5D5D"
         text: settingsBool.headline
-
+        font.family: ScreenPlay.settings.font
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         anchors{
@@ -38,7 +39,6 @@ Item {
         }
 
         font.pointSize: 12
-        font.family: "Roboto"
     }
 
     Text {
@@ -46,11 +46,11 @@ Item {
         text: settingsBool.description
         wrapMode: Text.WordWrap
         color: "#B5B5B5"
-
+        font.family: ScreenPlay.settings.font
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         font.pointSize: 10
-        font.family: "Roboto"
+
         anchors{
             top:txtHeadline.bottom
             topMargin: 6

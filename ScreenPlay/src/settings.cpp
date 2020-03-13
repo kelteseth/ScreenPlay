@@ -62,15 +62,17 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 
     setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", true).toBool());
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
-    setVideoFillMode(SettingsSetQStringToEnum<FillMode>("VideoFillMode", FillMode::Fill, m_qSettings));
-    setLanguage(SettingsSetQStringToEnum<Language>("Language", Language::En, m_qSettings));
+    if (m_qSettings.contains("VideoFillMode")) {
+        auto value = m_qSettings.value("VideoFillMode").toString();
+        setVideoFillMode(QStringToEnum<FillMode>(value, FillMode::Fill));
+    }
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
 
-
     // Wallpaper and Widgets config
-    QFile profilesFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles.json");
+    QFile profilesFile(m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json");
     if (!profilesFile.exists()) {
-        qInfo("No profiles.json found, creating default settings");
+        qInfo("No profiles.json found, creating default profiles.json");
+        qDebug() << profilesFile;
         writeJsonFileFromResource("profiles");
     }
 
@@ -109,7 +111,6 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 
     setupWidgetAndWindowPaths();
     setGitBuildHash(GIT_VERSION);
-    setupLanguage();
 }
 
 /*!
@@ -211,29 +212,46 @@ void Settings::restoreDefault(const QString& appConfigLocation, const QString& s
 
 void Settings::setupLanguage()
 {
-    auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
+    QString langCode;
     if (m_qSettings.value("Language").isNull()) {
-        auto locale = QLocale::system().uiLanguages();
-        auto localeSplits = locale.at(0).split("-");
+        auto localeList = QLocale::system().uiLanguages();
 
-        // Only install a translator if one exsists
-        QFile tsFile;
-        qDebug() << ":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm";
-        if (tsFile.exists(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm")) {
-            m_translator.load(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm");
-            m_qSettings.setValue("language", QVariant(localeSplits.at(0)));
-            // setLanguage(QVariant(localeSplits.at(0)).toString());
+        // Like En-us, De-de
+        QStringList localeSplits = localeList.at(0).split("-");
+        langCode = localeSplits.at(0);
 
-            m_qSettings.sync();
-            app->installTranslator(&m_translator);
+        // Ether De, En, Ru, Fr...
+        if (langCode.length() != 2) {
+            qWarning() << "Could not parse locale of value " << langCode;
+            return;
         }
     } else {
-        QFile tsFile;
-        if (tsFile.exists(":/translations/ScreenPlay_" + m_qSettings.value("Language").toString() + ".qm")) {
-            m_translator.load(":/translations/ScreenPlay_" + m_qSettings.value("Language").toString() + ".qm");
-            //  setLanguage(m_qSettings.value("language").toString());
-            app->installTranslator(&m_translator);
-        }
+        langCode = m_qSettings.value("Language").toString();
     }
+
+    setLanguage(QStringToEnum<Language>(langCode, Language::En));
+    retranslateUI();
+}
+
+bool Settings::retranslateUI()
+{
+    auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
+    QString langCode = QVariant::fromValue(language()).toString();
+    langCode = langCode.toLower();
+    QFile tsFile;
+
+    if (tsFile.exists(":/translations/ScreenPlay_" + langCode + ".qm")) {
+        m_translator.load(":/translations/ScreenPlay_" + langCode + ".qm");
+        app->installTranslator(&m_translator);
+        emit requestRetranslation();
+
+        if (language() == Settings::Language::Ko) {
+            setFont("Noto Sans CJK KR Regular");
+        } else {
+            setFont("Roboto");
+        }
+        return true;
+    }
+    return false;
 }
 }

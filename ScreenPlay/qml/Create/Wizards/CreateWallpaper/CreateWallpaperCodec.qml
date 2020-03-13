@@ -64,6 +64,7 @@ Item {
             width: parent.width
             font.pointSize: 13
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+            font.family: ScreenPlay.settings.font
         }
         Item {
             width: parent.width
@@ -76,12 +77,14 @@ Item {
             color: "gray"
             width: parent.width
             font.pointSize: 14
+            font.family: ScreenPlay.settings.font
         }
         ComboBox {
             id: comboBoxCodec
             width: 260
             textRole: "text"
             valueRole: "value"
+            font.family: ScreenPlay.settings.font
             onCurrentIndexChanged: {
                 root.codec = model.get(comboBoxCodec.currentIndex).value
             }
@@ -109,6 +112,7 @@ Item {
         icon.color: "white"
         icon.width: 16
         icon.height: 16
+        font.family: ScreenPlay.settings.font
         onClicked: Qt.openUrlExternally(
                        "https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
         anchors {
@@ -120,6 +124,7 @@ Item {
     Button {
         text: qsTr("Next")
         highlighted: true
+        font.family: ScreenPlay.settings.font
         onClicked: {
             root.next()
         }

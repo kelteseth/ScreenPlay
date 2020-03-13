@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.3
+import ScreenPlay 1.0
 
 Item {
     id: tag
@@ -24,6 +25,7 @@ Item {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
+            font.family: ScreenPlay.settings.font
         }
         TextField {
             id: textField
@@ -32,13 +34,14 @@ Item {
             anchors.fill: parent
             anchors.margins: 10
             anchors.bottomMargin: 0
+            font.family: ScreenPlay.settings.font
         }
 
         TextMetrics {
             id: textMetrics
             text: txt.text
             font.pointSize: 14
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
         }
     }
     MouseArea {

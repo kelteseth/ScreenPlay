@@ -20,7 +20,7 @@ Rectangle {
         width: 100
         font.pointSize: isHeadline ? 18 : 12
         anchors.verticalCenter: parent.verticalCenter
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
         font.weight: Font.Normal
         color: isHeadline ? Qt.darker(Material.foreground) : Material.foreground
 

@@ -163,7 +163,7 @@ Item {
                             wrapMode: Text.WordWrap
                             horizontalAlignment: Text.AlignLeft
                             font.pointSize: 10
-                            font.family: "Roboto"
+                            font.family: ScreenPlay.settings.font
                             anchors {
                                 right: parent.right
                                 left: parent.left
@@ -180,13 +180,13 @@ Item {
                             Component.onCompleted: {
                                 settingsLanguage.comboBox.currentIndex = root.indexOfValue(
                                             settingsLanguage.comboBox.model,
-                                            ScreenPlay.settings.videoFillMode)
+                                            ScreenPlay.settings.language)
                             }
 
                             comboBox {
                                 onActivated: {
                                     ScreenPlay.settings.setLanguage(settingsLanguage.comboBox.currentValue)
-                                    ScreenPlay.settings.setupLanguage()
+                                    ScreenPlay.settings.retranslateUI()
                                 }
                                 model: [{
                                         "value": Settings.En,
@@ -203,6 +203,12 @@ Item {
                                     }, {
                                         "value":  Settings.Es,
                                         "text": qsTr("Spanish")
+                                    }, {
+                                        "value":  Settings.Ko,
+                                        "text": qsTr("Korean")
+                                    }, {
+                                        "value":  Settings.Vi,
+                                        "text": qsTr("Vietnamese")
                                     }]
                             }
                         }
@@ -363,6 +369,7 @@ Item {
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
                                 font.pointSize: 16
+                                 font.family: ScreenPlay.settings.font
                                 anchors {
                                     top: parent.top
                                     topMargin: 6
@@ -379,7 +386,7 @@ Item {
                                 verticalAlignment: Text.AlignTop
                                 horizontalAlignment: Text.AlignLeft
                                 font.pointSize: 11
-                                font.family: "Roboto"
+                                font.family: ScreenPlay.settings.font
                                 width: parent.width * .6
                                 anchors {
                                     top: txtHeadline.bottom

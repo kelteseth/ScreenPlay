@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
+import ScreenPlay 1.0
 
 Item {
     id: navigationItem
@@ -64,7 +65,7 @@ Item {
             font.pointSize: 14
             color: "#626262"
             anchors.verticalCenter: parent.verticalCenter
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
             font.weight: Font.Normal
             text: ""
 
@@ -78,7 +79,7 @@ Item {
             font.pointSize: 14
             color: "#626262"
             anchors.verticalCenter: parent.verticalCenter
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
             font.weight: Font.Normal
         }
 

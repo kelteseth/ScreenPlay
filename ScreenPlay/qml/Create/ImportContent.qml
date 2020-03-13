@@ -31,8 +31,7 @@ Item {
 
         color: "white"
         font.pointSize: 21
-
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
         font.weight: Font.Thin
     }
 
@@ -85,6 +84,7 @@ Item {
                 icon.source: "qrc:/assets/icons/icon_upload.svg"
                 icon.color: "white"
                 icon.width: 16
+                font.family: ScreenPlay.settings.font
                 enabled: ScreenPlay.util.ffmpegAvailable
                 icon.height: 16
                 onClicked: fileDialogImportVideo.open()
@@ -169,6 +169,7 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
+                font.family: ScreenPlay.settings.font
                 onClicked: fileDialogImportProject.open()
             }
 
@@ -246,6 +247,7 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
+                font.family: ScreenPlay.settings.font
                 onClicked: {
                     ScreenPlay.util.requestNavigation("Workshop")
                 }

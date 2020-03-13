@@ -313,9 +313,9 @@ void WinWindow::checkForFullScreenWindow()
 
             if ((dwStyle & WS_MAXIMIZE) != 0) {
                 // do stuff
-                setVisualsPaused(false);
-            } else {
                 setVisualsPaused(true);
+            } else {
+                setVisualsPaused(false);
             }
 
             return;
@@ -330,22 +330,24 @@ void WinWindow::checkForFullScreenWindow()
         if (hFoundWnd != nullptr) {
             DWORD dwFlags = 0;
             HMONITOR monitor = MonitorFromWindow(hFoundWnd, dwFlags);
+            HMONITOR wallpaper = MonitorFromWindow(m_windowHandle, dwFlags);
             int monitorIndex = GetMonitorIndex(monitor);
-            // qDebug() << "Window found " << printWindowNameByhWnd(hFoundWnd) << monitorIndex <<  activeScreensList().at(0);
+            int wallpaperIndex = GetMonitorIndex(wallpaper);
+           // qDebug() << "Window found " << printWindowNameByhWnd(hFoundWnd) << monitorIndex <<  activeScreensList().at(0) << wallpaperIndex;
 
             // We do not support autopause for multi monitor wallpaper
             if (activeScreensList().length() == 1) {
                 // If the window that has WS_MAXIMIZE is at the same monitor as this wallpaper
-                if (monitorIndex == activeScreensList().at(0)) {
-                    // qDebug() << "monitorIndex" << monitorIndex;
-                    setVisualsPaused(false);
-                } else {
+                if (monitorIndex ==  wallpaperIndex) {
+                    //qDebug() << "monitorIndex" << monitorIndex;
                     setVisualsPaused(true);
+                } else {
+                    setVisualsPaused(false);
                 }
             }
 
         } else {
-            setVisualsPaused(true);
+            setVisualsPaused(false);
         }
     }
 }

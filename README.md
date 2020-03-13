@@ -27,7 +27,7 @@ ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widge
 | __Steam Binaries__       | ✔       	    | ❌     	        | ❌     	|
 | __Wallpaper__       | ✔       	    | ❌ Help Needed for Gnome/KDE/etc!               | ❓ (Basic implementation) Help Needed!     	|
 | __Widgets__        | ✔       	    | ❓   	| ❓ Help Needed!    	|
-| __Multilanguage (EN,DE,RU,FR,ES)__              | ✔            	| ✔     	        |  ✔     	|
+| __Multilanguage (EN,DE,RU,FR,ES,KO🆕,VI🆕)__              | ✔            	| ✔     	        |  ✔     	|
 
 </div>
 

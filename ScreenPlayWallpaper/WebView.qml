@@ -121,7 +121,7 @@ Item {
 
         onVisualsPausedChanged:{
             if(window.checkWallpaperVisible){
-                webView.visible = visualsPaused
+                webView.visible = !visualsPaused
             }
         }
 

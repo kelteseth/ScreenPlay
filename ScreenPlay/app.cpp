@@ -53,12 +53,23 @@ App::App()
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QtBreakpad::init(QDir::current().absolutePath());
+
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
+
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Light.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Regular.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Thin.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Light.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Thin.ttf");
+
+    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Thin.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Medium.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Light.ttf");
+
+    if(-1 == QFontDatabase::addApplicationFont(QDir::current().absolutePath()+"/assets/fonts/NotoSansCJKkr-Regular.otf")){
+        qWarning() << "Could not load korean font from: " << QDir::current().absolutePath() + "/assets/fonts/NotoSansCJKkr-Regular.otf";
+    }
 
     QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
@@ -91,6 +102,7 @@ App::App()
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
     m_sdkConnector = make_shared<SDKConnector>();
     m_settings = make_shared<Settings>(m_globalVariables);
+    m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
 
     // Only create tracker if user did not disallow!
     if (m_settings->anonymousTelemetry()) {
@@ -107,6 +119,9 @@ App::App()
 
     // When the installed storage path changed
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);
+    QObject::connect(m_settings.get(), &Settings::requestRetranslation, m_mainWindowEngine.get(), &QQmlEngine::retranslate);
+    m_settings->setupLanguage();
+
     QObject::connect(m_globalVariables.get(), &GlobalVariables::localStoragePathChanged, this, [this](QUrl localStoragePath) {
         m_settings->resetInstalledListmodel();
         m_settings->setqSetting("ScreenPlayContentPath", localStoragePath.toString());
@@ -122,7 +137,6 @@ App::App()
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
-    m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
 }
 

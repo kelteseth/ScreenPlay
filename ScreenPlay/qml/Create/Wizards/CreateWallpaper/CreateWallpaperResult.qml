@@ -16,13 +16,14 @@ Item {
     Text {
         id: txtErrorHeadline
         text: qsTr("An error occurred!")
+
         anchors {
             top: parent.top
             topMargin: 30
             horizontalCenter: parent.horizontalCenter
         }
         height: 40
-        font.family: "Segoe UI, Roboto"
+        font.family: ScreenPlay.settings.font
         font.weight: Font.Light
         color: Material.color(Material.DeepOrange)
         font.pointSize: 32
@@ -57,6 +58,7 @@ Item {
                     left: parent.left
                     margins: 20
                 }
+                font.family: ScreenPlay.settings.font
                 wrapMode: Text.WordWrap
                 color: "#626262"
                 text: ScreenPlay.create.ffmpegOutput
@@ -86,6 +88,7 @@ Item {
         text: qsTr("Back to create and send an error report!")
         Material.background: Material.Orange
         Material.foreground: "white"
+        font.family: ScreenPlay.settings.font
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom

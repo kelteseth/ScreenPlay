@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import Qt.labs.platform 1.1
-
+import ScreenPlay 1.0
 /*!
    \qmltype Image Selector
    \brief A image selector with popup preview.
@@ -103,7 +103,7 @@ Item {
             id: txtPlaceholder
             clip: true
             font.pointSize: 12
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
             wrapMode: Text.WordWrap
             color: Material.color(Material.Grey)
             verticalAlignment: Text.AlignVCenter
@@ -121,7 +121,7 @@ Item {
             id: txtName
             clip: true
             font.pointSize: 12
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
             wrapMode: Text.WordWrap
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
@@ -139,6 +139,7 @@ Item {
             text: qsTr("Clear")
             Material.background: Material.Grey
             Material.foreground: "white"
+            font.family: ScreenPlay.settings.font
             anchors {
                 top: parent.top
                 right: btnOpen.left
@@ -153,6 +154,7 @@ Item {
             text: qsTr("Select Preview Image")
             Material.background: Material.Orange
             Material.foreground: "white"
+            font.family: ScreenPlay.settings.font
             anchors {
                 top: parent.top
                 right: parent.right
