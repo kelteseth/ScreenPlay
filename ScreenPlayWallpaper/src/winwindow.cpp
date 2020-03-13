@@ -68,8 +68,6 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
             auto* app = QApplication::instance();
 
             app->sendEvent(winGlobalHook, &eventRelease);
-
-            qDebug() << mouseButton << mouseButtons;
         });
     }
 
@@ -144,7 +142,9 @@ WinWindow::WinWindow(
         m_checkForFullScreenWindowTimer.start(10);
     }
 
-    setupWindowMouseHook();
+    QTimer::singleShot(1000,[this](){
+       setupWindowMouseHook();
+    });
 }
 
 void WinWindow::setVisible(bool show)
