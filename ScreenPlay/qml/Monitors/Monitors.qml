@@ -206,6 +206,7 @@ Item {
 
             ScrollBar.vertical: ScrollBar {
                 snapMode: ScrollBar.SnapOnRelease
+                policy: ScrollBar.AlwaysOn
             }
 
             states: [

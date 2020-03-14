@@ -261,7 +261,7 @@ bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const Q
     // Remove when implementing profiles
     Q_UNUSED(profileName)
 
-    QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json";
+    QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toString() + "/profiles.json";
     auto configOptional = Util::openJsonFileToObject(absoluteProfilesFilePath);
 
     if (!configOptional) {
@@ -313,10 +313,10 @@ bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const Q
 void ScreenPlayManager::loadWallpaperProfiles()
 {
 
-    auto configObj = Util::openJsonFileToObject(m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json");
+    auto configObj = Util::openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
 
     if (!configObj) {
-        qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json";
+        qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toString() + "/profiles.json";
         return;
     }
 
