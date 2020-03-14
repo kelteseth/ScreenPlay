@@ -17,7 +17,6 @@ HHOOK mouseHook;
 
 QQuickView* winGlobalHook = nullptr;
 
-
 LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 {
     Qt::MouseButton mouseButton {};
@@ -142,8 +141,8 @@ WinWindow::WinWindow(
         m_checkForFullScreenWindowTimer.start(10);
     }
 
-    QTimer::singleShot(1000,[this](){
-       setupWindowMouseHook();
+    QTimer::singleShot(1000, [this]() {
+        setupWindowMouseHook();
     });
 }
 
@@ -303,52 +302,31 @@ int GetMonitorIndex(HMONITOR hMonitor)
 
 void WinWindow::checkForFullScreenWindow()
 {
-    // If one screen:
-    {
-        auto hWnd = GetForegroundWindow();
-        DWORD dwStyle = (DWORD)GetWindowLong(hWnd, GWL_STYLE);
 
-        int screensCount = QGuiApplication::screens().length();
-        if (screensCount == 1) {
+    HWND hFoundWnd = nullptr;
+    EnumWindows(&FindTheDesiredWnd, reinterpret_cast<LPARAM>(&hFoundWnd));
+    // True if one window has WS_MAXIMIZE
+    if (hFoundWnd != nullptr) {
+        DWORD dwFlags = 0;
+        HMONITOR monitor = MonitorFromWindow(hFoundWnd, dwFlags);
+        HMONITOR wallpaper = MonitorFromWindow(m_windowHandle, dwFlags);
+        int monitorIndex = GetMonitorIndex(monitor);
+        int wallpaperIndex = GetMonitorIndex(wallpaper);
+        // qDebug() << "Window found " << printWindowNameByhWnd(hFoundWnd) << monitorIndex <<  activeScreensList().at(0) << wallpaperIndex;
 
-            if ((dwStyle & WS_MAXIMIZE) != 0) {
-                // do stuff
+        // We do not support autopause for multi monitor wallpaper
+        if (activeScreensList().length() == 1) {
+            // If the window that has WS_MAXIMIZE is at the same monitor as this wallpaper
+            if (monitorIndex == wallpaperIndex) {
+                //qDebug() << "monitorIndex" << monitorIndex;
                 setVisualsPaused(true);
             } else {
                 setVisualsPaused(false);
             }
-
-            return;
         }
-    }
 
-    // If multiple screens:
-    {
-        HWND hFoundWnd = nullptr;
-        EnumWindows(&FindTheDesiredWnd, reinterpret_cast<LPARAM>(&hFoundWnd));
-        // True if one window has WS_MAXIMIZE
-        if (hFoundWnd != nullptr) {
-            DWORD dwFlags = 0;
-            HMONITOR monitor = MonitorFromWindow(hFoundWnd, dwFlags);
-            HMONITOR wallpaper = MonitorFromWindow(m_windowHandle, dwFlags);
-            int monitorIndex = GetMonitorIndex(monitor);
-            int wallpaperIndex = GetMonitorIndex(wallpaper);
-           // qDebug() << "Window found " << printWindowNameByhWnd(hFoundWnd) << monitorIndex <<  activeScreensList().at(0) << wallpaperIndex;
-
-            // We do not support autopause for multi monitor wallpaper
-            if (activeScreensList().length() == 1) {
-                // If the window that has WS_MAXIMIZE is at the same monitor as this wallpaper
-                if (monitorIndex ==  wallpaperIndex) {
-                    //qDebug() << "monitorIndex" << monitorIndex;
-                    setVisualsPaused(true);
-                } else {
-                    setVisualsPaused(false);
-                }
-            }
-
-        } else {
-            setVisualsPaused(false);
-        }
+    } else {
+        setVisualsPaused(false);
     }
 }
 
