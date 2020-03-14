@@ -101,7 +101,18 @@ void ScreenPlayManager::createWallpaper(
         settings.insert("absolutePath", path);
 
         saveWallpaperProfile("default", settings);
+        return;
     }
+    if (saveToProfilesConfigFile && type == "qmlWallpaper") {
+        QJsonObject settings;
+        settings.insert("monitors", monitors);
+        settings.insert("type", type);
+        settings.insert("previewImage", previewImage);
+        settings.insert("absolutePath", path);
+
+        saveWallpaperProfile("default", settings);
+    }
+
 }
 
 /*!
@@ -138,7 +149,7 @@ void ScreenPlayManager::removeAllWallpapers()
         m_screenPlayWallpapers.clear();
         m_monitorListModel->clearActiveWallpaper();
 
-        QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json";
+        QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toString() + "/profiles.json";
         auto configOptional = Util::openJsonFileToObject(absoluteProfilesFilePath);
 
         if (!configOptional) {
