@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0 )
+cmake_minimum_required(VERSION 3.16.0)
 project(ScreenPlaySysInfo)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
