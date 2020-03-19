@@ -175,6 +175,8 @@ void ScreenPlayManager::removeAllWallpapers()
 
         Util::writeJsonObjectToFile(absoluteProfilesFilePath, newConfig);
         setActiveWallpaperCounter(0);
+    } else {
+        qWarning() << "Trying to remove all wallpapers while m_screenPlayWallpapers is not empty. Count: "<< m_screenPlayWallpapers.size();
     }
 }
 
