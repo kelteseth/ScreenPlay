@@ -134,7 +134,7 @@ Item {
 
         Rectangle {
             id: sidebarBackground
-            color: Material.background
+            color: Material.theme === Material.Light ? "white" : Material.background
             anchors {
                 top: navBackground.bottom
                 right: parent.right

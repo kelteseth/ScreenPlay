@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.2
 import ScreenPlay 1.0
 
 Item {
@@ -29,7 +30,8 @@ Item {
                 left: parent.left
                 margins: 20
             }
-            color: "#626262"
+            color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
+
             height: txtExpander.paintedHeight
             wrapMode: Text.WordWrap
              font.family: ScreenPlay.settings.font

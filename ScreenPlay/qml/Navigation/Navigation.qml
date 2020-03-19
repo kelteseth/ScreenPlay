@@ -13,7 +13,7 @@ Rectangle {
     height: 60
     clip: true
     width: 1366
-    color: Material.background
+    color: Material.theme === Material.Light ? "white" : Material.background
 
     MouseArea {
         anchors.fill: parent

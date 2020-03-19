@@ -38,7 +38,7 @@ Item {
 
     Rectangle {
         id: monitorsSettingsWrapper
-        color: "white"
+        color: Material.background
         radius: 3
         z: 98
         width: 1000
@@ -77,7 +77,6 @@ Item {
             }
             MonitorSelection {
                 id: monitorSelection
-                background: "#E4E4E4"
                 radius: 3
                 height: 200
                 z: 99

@@ -75,7 +75,7 @@ Item {
                     anchors.fill: parent
                     radius: 4
                     clip: true
-                    color: Material.backgroundColor
+                    color: Material.theme === Material.Light ? "white" : Material.background
 
                     SettingsHeader {
                         id: headerGeneral
@@ -158,7 +158,7 @@ Item {
                         Text {
                             id: txtDirChangesInfo
                             text: qsTr("Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!")
-                            color: "#B5B5B5"
+                            color: Qt.darker(Material.foreground)
                             height: 30
                             width: parent.width
                             verticalAlignment: Text.AlignVCenter
@@ -229,7 +229,8 @@ Item {
 
                             comboBox {
                                 onActivated: {
-                                    ScreenPlay.settings.setTheme(settingsTheme.comboBox.currentValue)
+                                    ScreenPlay.settings.setTheme(
+                                                settingsTheme.comboBox.currentValue)
                                 }
                                 model: [{
                                         "value": Settings.System,
@@ -270,7 +271,7 @@ Item {
 
                 Rectangle {
                     anchors.fill: parent
-                    color: Material.backgroundColor
+                    color: Material.theme === Material.Light ? "white" : Material.background
                     radius: 4
                     clip: true
 
@@ -363,7 +364,7 @@ Item {
                 }
 
                 Rectangle {
-                    color: Material.backgroundColor
+                    color: Material.theme === Material.Light ? "white" : Material.background
                     anchors.fill: parent
                     radius: 4
                     clip: true
@@ -395,7 +396,7 @@ Item {
                             height: 180
                             Text {
                                 id: txtHeadline
-                                color: "#5D5D5D"
+                                color: Material.foreground
                                 text: qsTr("Thank you for using ScreenPlay")
 
                                 verticalAlignment: Text.AlignVCenter
@@ -412,7 +413,7 @@ Item {
                             Text {
                                 id: txtDescriptionAbout
                                 text: qsTr("Hi, I'm Elias Steurer also known as Kelteseth and I'm the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:")
-                                color: "#B5B5B5"
+                                color: Qt.darker(Material.foreground)
 
                                 wrapMode: Text.WordWrap
                                 verticalAlignment: Text.AlignTop

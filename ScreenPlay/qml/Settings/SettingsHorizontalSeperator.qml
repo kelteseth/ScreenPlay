@@ -4,11 +4,11 @@ import QtQuick.Controls.Material 2.12
 Item {
     property real customWidth: parent.width
     property real customHeight: 1
-    property color customColor:  Material.background
+    property color customColor: Material.theme === Material.Light ? "#eeeeee" : Qt.darker(Material.foreground)
     property real customMargin: 10
 
     height: customMargin
-    width:customWidth
+    width: customWidth
 
     Rectangle {
         height: customHeight
@@ -18,8 +18,8 @@ Item {
             right: parent.right
             rightMargin: customMargin
             left: parent.left
-            leftMargin:customMargin
-
+            leftMargin: customMargin
+            verticalCenter: parent.verticalCenter
         }
     }
 }

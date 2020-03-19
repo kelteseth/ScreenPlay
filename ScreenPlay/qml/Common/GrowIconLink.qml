@@ -26,7 +26,7 @@ Rectangle {
         id: overlay
         anchors.fill: icon
         source: icon
-        color: "orange"
+        color: Material.accent
     }
 
     MouseArea {

@@ -30,7 +30,7 @@ Item {
 
     Text {
         id: txtHeadline
-        color: "#5D5D5D"
+        color: Material.foreground
         text: settingsButton.headline
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
@@ -48,7 +48,7 @@ Item {
     Text {
         id: txtDescription
         text: settingsButton.description
-        color: "#B5B5B5"
+        color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
 
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap
@@ -71,6 +71,8 @@ Item {
         icon.width: 20
         icon.height: 20
         font.family: ScreenPlay.settings.font
+        Material.background: Material.accent
+        Material.foreground: "white"
         anchors {
             right: parent.right
             rightMargin: 20

@@ -90,7 +90,7 @@ Item {
             opacity: 0
             onIsVisibleChanged: {
                 if (isVisible) {
-                    txtHeader.color = "orange"
+                    txtHeader.color =  Material.accent
                     txtHeader.text = qsTr("Refreshing!")
                 } else {
                     txtHeader.color = "gray"
@@ -215,7 +215,7 @@ Item {
 
         Rectangle {
             id: nav
-            color: Material.background
+            color: Material.theme === Material.Light ? "white" : Material.background
             height: 50
             anchors {
                 top: parent.top
@@ -242,9 +242,11 @@ Item {
                     icon.height: 16
                     icon.width: 16
                     height: parent.height
+
                     width: implicitWidth
                     background: Item {}
                     icon.source: "qrc:/assets/icons/icon_installed.svg"
+
                     onClicked: {
                         setSidebarActive(false)
                         ScreenPlay.installedListFilter.sortByRoleType("All")

@@ -47,13 +47,13 @@ Item {
 
     Rectangle {
         id: wrapper
+        color: Material.theme === Material.Light ? "white" : Material.background
         width: {
-            if(parent.width < 1200) {
+            if (parent.width < 1200) {
                 return parent.width - 20 // Add small margin left and right
             } else {
                 return 1200
             }
-
         }
 
         height: 580
@@ -67,7 +67,6 @@ Item {
         Loader {
             id: loader_wrapperContent
             anchors.fill: parent
-
         }
 
         CloseIcon {
@@ -103,7 +102,7 @@ Item {
             PropertyChanges {
                 target: wrapper
                 anchors.topMargin: {
-                    if(root.height < 650){
+                    if (root.height < 650) {
                         return 20
                     } else {
                         return 70

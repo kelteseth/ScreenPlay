@@ -76,7 +76,7 @@ Item {
             font.family: ScreenPlay.settings.font
             opacity: buttonActive ? 1 : .25
             font.pointSize: 14
-            color: "gray"
+            color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
             wrapMode:  Text.WrapAnywhere
             maximumLineCount: 1
 
@@ -93,7 +93,7 @@ Item {
             font.family: ScreenPlay.settings.font
             font.pointSize: 18
             opacity: buttonActive ? 1 : .25
-            color: "#b9b9b9"
+            color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
             anchors {
                 right: parent.right
                 rightMargin: 20
