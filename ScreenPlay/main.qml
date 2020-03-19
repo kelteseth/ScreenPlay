@@ -26,6 +26,7 @@ ApplicationWindow {
         }
     }
 
+
     // Set visible if the -silent parameter was not set (see app.cpp end of constructor).
     visible: false
     width: 1400
@@ -34,16 +35,7 @@ ApplicationWindow {
     minimumHeight: 450
     minimumWidth: 1050
 
-    Material.theme: {
-        switch (Settings.theme) {
-        case Settings.Auto:
-            return Material.System
-        case Settings.Dark:
-            return Material.Dark
-        case Settings.Light:
-            return Material.Light
-        }
-    }
+
     Material.accent:  {
         return Material.color(Material.Orange)
     }
@@ -51,11 +43,10 @@ ApplicationWindow {
     function setTheme(theme){
         switch (theme) {
         case Settings.System:
-            window.Material.theme = Material.System
+            window.Material.theme = Material.Light
             break
         case Settings.Dark:
             window.Material.theme = Material.Dark
-            window.Material.accent = Material.color(Material.Orange)
             break
         case Settings.Light:
             window.Material.theme = Material.Light
@@ -68,7 +59,7 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        setTheme(Settings.theme)
+        setTheme(ScreenPlay.settings.theme)
 
         if (!ScreenPlay.settings.silentStart) {
             window.show()
