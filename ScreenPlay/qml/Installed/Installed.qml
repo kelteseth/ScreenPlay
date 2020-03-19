@@ -222,6 +222,9 @@ Item {
                 right: parent.right
                 left: parent.left
             }
+            MouseArea {
+                anchors.fill: parent
+            }
             TabBar {
                 height: parent.height
                 background: Item {}

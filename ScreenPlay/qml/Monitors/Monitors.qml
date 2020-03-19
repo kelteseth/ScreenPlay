@@ -177,6 +177,7 @@ Item {
             }
         }
 
+
         GridView {
             id: customPropertiesGridView
             boundsBehavior: Flickable.DragOverBounds
@@ -191,18 +192,21 @@ Item {
                 top: parent.top
                 topMargin: 60
                 right: parent.right
+                rightMargin: 40
                 bottom: parent.bottom
-                margins: 30
+                bottomMargin: 30
                 left: itmLeftWrapper.right
             }
 
             delegate: MonitorsProjectSettingItem {
                 id: delegate
+                width: parent.width - 40
                 selectedMonitor: monitors.activeMonitorIndex
             }
 
             ScrollBar.vertical: ScrollBar {
                 snapMode: ScrollBar.SnapOnRelease
+                policy: ScrollBar.AlwaysOn
             }
 
             states: [
@@ -337,3 +341,9 @@ Item {
         }
     ]
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:768;width:1366}
+}
+##^##*/

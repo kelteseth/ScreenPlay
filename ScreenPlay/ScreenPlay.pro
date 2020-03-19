@@ -70,17 +70,21 @@ INCLUDEPATH += \
     $$PWD/src/\
 
 
+CONFIG(debug, debug|release) {
+    install_assets.path = $${OUT_PWD}/assets/fonts
+} else {
+    install_assets.path = $${OUT_PWD}/assets/fonts
+}
+
+install_assets.files += $$PWD/assets/fonts/NotoSansCJKkr-Regular.otf
+
 win32 {
     RC_ICONS += favicon.ico
-
-
     CONFIG(debug, debug|release) {
         install_it.path = $${OUT_PWD}/debug/
     } else {
         install_it.path = $${OUT_PWD}/release/
     }
-
-
 
     INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
     DEPENDPATH  += $$PWD/../Common/vcpkg/installed/x64-windows/include
@@ -154,5 +158,5 @@ unix {
 }
 
 
-INSTALLS += install_it
+INSTALLS += install_it install_assets
 

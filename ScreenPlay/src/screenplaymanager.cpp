@@ -101,7 +101,18 @@ void ScreenPlayManager::createWallpaper(
         settings.insert("absolutePath", path);
 
         saveWallpaperProfile("default", settings);
+        return;
     }
+    if (saveToProfilesConfigFile && type == "qmlWallpaper") {
+        QJsonObject settings;
+        settings.insert("monitors", monitors);
+        settings.insert("type", type);
+        settings.insert("previewImage", previewImage);
+        settings.insert("absolutePath", path);
+
+        saveWallpaperProfile("default", settings);
+    }
+
 }
 
 /*!
@@ -138,7 +149,7 @@ void ScreenPlayManager::removeAllWallpapers()
         m_screenPlayWallpapers.clear();
         m_monitorListModel->clearActiveWallpaper();
 
-        QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json";
+        QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toString() + "/profiles.json";
         auto configOptional = Util::openJsonFileToObject(absoluteProfilesFilePath);
 
         if (!configOptional) {
@@ -164,6 +175,8 @@ void ScreenPlayManager::removeAllWallpapers()
 
         Util::writeJsonObjectToFile(absoluteProfilesFilePath, newConfig);
         setActiveWallpaperCounter(0);
+    } else {
+        qWarning() << "Trying to remove all wallpapers while m_screenPlayWallpapers is not empty. Count: "<< m_screenPlayWallpapers.size();
     }
 }
 
@@ -261,7 +274,7 @@ bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const Q
     // Remove when implementing profiles
     Q_UNUSED(profileName)
 
-    QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json";
+    QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toString() + "/profiles.json";
     auto configOptional = Util::openJsonFileToObject(absoluteProfilesFilePath);
 
     if (!configOptional) {
@@ -313,10 +326,10 @@ bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const Q
 void ScreenPlayManager::loadWallpaperProfiles()
 {
 
-    auto configObj = Util::openJsonFileToObject(m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json");
+    auto configObj = Util::openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
 
     if (!configObj) {
-        qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json";
+        qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toString() + "/profiles.json";
         return;
     }
 

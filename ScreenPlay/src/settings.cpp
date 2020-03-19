@@ -77,7 +77,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
 
     // Wallpaper and Widgets config
-    QFile profilesFile(m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json");
+    QFile profilesFile(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
     if (!profilesFile.exists()) {
         qInfo("No profiles.json found, creating default profiles.json");
         qDebug() << profilesFile;
@@ -130,7 +130,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 */
 void Settings::writeJsonFileFromResource(const QString& filename)
 {
-    QFile file(m_globalVariables->localSettingsPath().toLocalFile() + "/" + filename + ".json");
+    QFile file(m_globalVariables->localSettingsPath().toString() + "/" + filename + ".json");
     QFile defaultSettings(":/" + filename + ".json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
