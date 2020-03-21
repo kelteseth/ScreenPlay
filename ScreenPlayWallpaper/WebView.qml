@@ -65,6 +65,20 @@ Item {
         onTriggered: requestFadeIn()
     }
 
+    Text {
+        id: txtVisualsPaused
+        text: qsTr("If you can read this, then the VisualsPaused optimization does not work on your system. You can fix this by disable this in: \n Settings -> Perfromance -> Pause wallpaper video rendering while another app is in the foreground ")
+        font.pointSize: 32
+        visible:  false
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        anchors.centerIn:  parent
+
+        width: parent.width * .8
+        color: "white"
+    }
+
     Connections {
         target: window
 
@@ -122,6 +136,7 @@ Item {
         onVisualsPausedChanged:{
             if(window.checkWallpaperVisible){
                 webView.visible = !visualsPaused
+                txtVisualsPaused.visible = visualsPaused
             }
         }
 
