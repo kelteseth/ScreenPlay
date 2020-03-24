@@ -336,7 +336,7 @@ private:
     bool m_autostart { true };
     bool m_highPriorityStart { true };
     bool m_offlineMode { true };
-    bool m_checkWallpaperVisible { true };
+    bool m_checkWallpaperVisible { false };
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
 
