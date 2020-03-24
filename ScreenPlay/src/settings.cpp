@@ -60,7 +60,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
         }
     }
 
-    setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", true).toBool());
+    setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", false).toBool());
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
     if (m_qSettings.contains("VideoFillMode")) {
         auto value = m_qSettings.value("VideoFillMode").toString();
