@@ -74,10 +74,10 @@ ApplicationWindow {
 
     Connections {
         target: ScreenPlay.util
-        onRequestNavigation: {
+        function onRequestNavigation(nav) {
             switchPage(nav)
         }
-        onRequestToggleWallpaperConfiguration: {
+        function onRequestToggleWallpaperConfiguration() {
             monitors.state = monitors.state == "active" ? "inactive" : "active"
             ScreenPlay.screenPlayManager.requestProjectSettingsListModelAt(0)
         }
@@ -233,7 +233,7 @@ ApplicationWindow {
         target: pageLoader.item
         ignoreUnknownSignals: true
 
-        onSetSidebarActive: {
+        function onSetSidebarActive(active) {
             if (active) {
                 sidebar.state = "active"
             } else {
@@ -241,7 +241,7 @@ ApplicationWindow {
             }
         }
 
-        onSetNavigationItem: {
+        function onSetNavigationItem(pos) {
             if (pos === 0) {
                 nav.onPageChanged("Create")
             } else {

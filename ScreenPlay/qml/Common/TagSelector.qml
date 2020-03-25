@@ -53,7 +53,7 @@ Item {
 
                 Connections {
                     target: delegate
-                    onRemoveThis: {
+                    function onRemoveThis() {
                         listModel.remove(itemIndex)
                     }
                 }

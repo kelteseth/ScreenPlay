@@ -28,16 +28,16 @@ Item {
 
     Connections {
         target: loaderHelp.item
-        onHelperButtonPressed: {
+        function onHelperButtonPressed(pos) {
             setNavigationItem(pos)
         }
     }
     Connections {
         target: ScreenPlay.installedListModel
-        onInstalledLoadingFinished: {
+        function onInstalledLoadingFinished(){
             checkIsContentInstalled()
         }
-        onCountChanged: {
+        function onCountChanged(count) {
             if (count === 0) {
                 checkIsContentInstalled()
             }

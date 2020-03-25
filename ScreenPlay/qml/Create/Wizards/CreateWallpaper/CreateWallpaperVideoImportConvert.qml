@@ -50,7 +50,7 @@ Item {
     Connections {
         target: ScreenPlay.create
 
-        onCreateWallpaperStateChanged: {
+        function onCreateWallpaperStateChanged(state) {
 
             switch (state) {
             case CreateImportVideo.ConvertingPreviewImage:

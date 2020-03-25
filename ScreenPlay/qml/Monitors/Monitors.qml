@@ -98,10 +98,10 @@ Item {
                 }
                 Connections {
                     target: ScreenPlay.screenPlayManager
-                    onProjectSettingsListModelFound: {
+                    function onProjectSettingsListModelFound(li,type) {
                         videoControlWrapper.state = "visible"
                         customPropertiesGridView.model = li
-                        if (type == "videoWallpaper") {
+                        if (type === "videoWallpaper") {
                             customPropertiesGridView.state = "hidden"
                             videoControlWrapper.state = "visible"
                         } else {
@@ -109,7 +109,7 @@ Item {
                             videoControlWrapper.state = "hidden"
                         }
                     }
-                    onProjectSettingsListModelNotFound: {
+                    function onProjectSettingsListModelNotFound() {
                         customPropertiesGridView.model = null
                         videoControlWrapper.state = "hidden"
                         customPropertiesGridView.state = "hidden"

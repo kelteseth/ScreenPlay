@@ -82,12 +82,12 @@ Item {
     Connections {
         target: window
 
-        onQmlExit: {
+        function onQmlExit() {
             webView.runJavaScript(
                         "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
         }
 
-        onMutedChanged: {
+        function onMutedChanged(muted) {
             if (muted) {
                 webView.runJavaScript(
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
@@ -97,28 +97,28 @@ Item {
             }
         }
 
-        onFillModeChanged: {
+        function onFillModeChanged(fillMode) {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
-                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.setAttribute('style', 'object-fit :" + window.fillMode + ";');")
+                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.setAttribute('style', 'object-fit :" + fillMode + ";');")
             }
         }
 
-        onLoopsChanged: {
+        function onLoopsChanged(loops) {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.loop = " + loops + ";")
             }
         }
 
-        onVolumeChanged: {
+        function onVolumeChanged(volume) {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + volume + ";")
             }
         }
 
-        onCurrentTimeChanged: {
+        function onCurrentTimeChanged(currentTime) {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.currentTime  = "
@@ -126,21 +126,21 @@ Item {
             }
         }
 
-        onPlaybackRateChanged: {
+        function onPlaybackRateChanged(playbackRate) {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.playbackRate  = " + playbackRate + ";")
             }
         }
 
-        onVisualsPausedChanged:{
-            if(window.checkWallpaperVisible){
+       function  onVisualsPausedChanged(checkWallpaperVisible){
+            if(checkWallpaperVisible){
                 webView.visible = !visualsPaused
                 txtVisualsPaused.visible = visualsPaused
             }
         }
 
-        onIsPlayingChanged: {
+        function onIsPlayingChanged(isPlaying) {
             if (webView.loadProgress === 100) {
                 if (isPlaying) {
                     webView.runJavaScript(

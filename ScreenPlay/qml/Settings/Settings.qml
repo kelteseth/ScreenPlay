@@ -493,7 +493,7 @@ Item {
 
                             Connections {
                                 target: ScreenPlay.util
-                                onAllLicenseLoaded: {
+                                function onAllLicenseLoaded(licensesText) {
                                     expanderCopyright.text = licensesText
                                 }
                             }
@@ -534,7 +534,7 @@ Item {
 
                             Connections {
                                 target: ScreenPlay.util
-                                onAllDataProtectionLoaded: {
+                                function onAllDataProtectionLoaded(dataProtectionText) {
                                     expanderDataProtection.text = dataProtectionText
                                 }
                             }

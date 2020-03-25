@@ -25,10 +25,10 @@ Rectangle {
 
     Connections {
         target: ScreenPlay.util
-        onRequestNavigationActive: {
+        function onRequestNavigationActive(isActive) {
             setActive(isActive)
         }
-        onRequestNavigation:{
+        function onRequestNavigation(nav){
             onPageChanged(nav)
         }
     }
