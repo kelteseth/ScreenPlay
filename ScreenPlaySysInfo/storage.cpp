@@ -88,7 +88,7 @@ void Storage::reset()
 void Storage::loadStorageDevices()
 {
     beginInsertRows(QModelIndex(), 0, rowCount());
-    for (auto storage : QStorageInfo::mountedVolumes()) {
+    for (const auto &storage : QStorageInfo::mountedVolumes()) {
         m_storageInfoList.append(storage);
     }
     endInsertRows();

@@ -34,7 +34,6 @@ Create::Create(const shared_ptr<GlobalVariables>& globalVariables, QObject* pare
 */
 Create::Create()
     : QObject(nullptr)
-    , m_globalVariables(nullptr)
 {
     qRegisterMetaType<CreateImportVideo::ImportVideoState>("CreateImportVideo::ImportVideoState");
     qRegisterMetaType<Create::VideoCodec>("Create::VideoCodec");
@@ -95,7 +94,7 @@ void Create::createWidget(const QString& localStoragePath, const QString& title,
         }
 
         QJsonArray tagsJsonArray;
-        for (QString tmp : tags) {
+        for (const QString& tmp : tags) {
             tagsJsonArray.append(tmp);
         }
         obj.insert("tags", tagsJsonArray);
@@ -169,7 +168,7 @@ void Create::createHTMLWallpaper(
         fileMainHTML.close();
 
         QJsonArray tagsJsonArray;
-        for (QString tmp : tags) {
+        for (const QString& tmp : tags) {
             tagsJsonArray.append(tmp);
         }
         obj.insert("tags", tagsJsonArray);
@@ -323,7 +322,7 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     obj.insert("type", "videoWallpaper");
 
     QJsonArray tagsJsonArray;
-    for (QString tmp : tags) {
+    for (const QString &tmp : tags) {
         tagsJsonArray.append(tmp);
     }
     obj.insert("tags", tagsJsonArray);

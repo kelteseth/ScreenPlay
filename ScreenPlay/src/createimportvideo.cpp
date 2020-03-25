@@ -90,7 +90,7 @@ void CreateImportVideo::process()
         return;
     }
 
-    for (const auto codec : m_codecs) {
+    for (const auto& codec : qAsConst(m_codecs)) {
         if (!createWallpaperVideo(codec) || QThread::currentThread()->isInterruptionRequested()) {
             emit abortAndCleanup();
             return;

@@ -129,7 +129,7 @@ public slots:
                 "htmlWidget",
                 "standaloneWidget"
             };
-            for (QString type : types) {
+            for (const QString &type : types) {
                 if (msg.contains(type)) {
                     m_type = type;
                 }

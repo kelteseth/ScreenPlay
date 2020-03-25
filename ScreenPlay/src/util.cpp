@@ -171,7 +171,7 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
 QString Util::toString(const QStringList& list)
 {
     QString out;
-    for (auto string : list) {
+    for (const auto &string : list) {
         out += " " + string;
     }
     return out;

@@ -99,7 +99,7 @@ void SDKConnector::closeAllWidgets()
 */
 void SDKConnector::closeWallpapersAt(int at)
 {
-    for (const shared_ptr<SDKConnection>& refSDKConnection : m_clients) {
+    for (const shared_ptr<SDKConnection>& refSDKConnection : qAsConst(m_clients)) {
         refSDKConnection->close();
         if (!refSDKConnection->monitor().empty()) {
             if (refSDKConnection->monitor().at(0) == at) {

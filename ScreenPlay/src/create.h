@@ -129,7 +129,7 @@ private:
     CreateImportVideo* m_createImportVideo { nullptr };
     QThread* m_createImportVideoThread { nullptr };
 
-    const shared_ptr<GlobalVariables>& m_globalVariables;
+    const shared_ptr<GlobalVariables> m_globalVariables;
 
     float m_progress { 0.0F };
     QString m_workingDir;
