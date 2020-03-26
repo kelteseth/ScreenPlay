@@ -79,7 +79,9 @@ void ScreenPlayManager::createWallpaper(
         for (auto& wallpaperIterator : m_screenPlayWallpapers) {
             if (wallpaperIterator->screenNumber().length() == 1) {
                 if (monitors.at(0) == wallpaperIterator->screenNumber().at(0)) {
-                    removeWallpaperAt(i);
+                    if(!removeWallpaperAt(i)){
+                        qWarning() << "Could not remove wallpaper at index " << i;
+                    }
                 }
             }
             i++;
