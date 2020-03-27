@@ -26,6 +26,11 @@ SDKConnector::SDKConnector(QObject* parent)
     }
 }
 
+SDKConnector::~SDKConnector()
+{
+    m_server->close();
+}
+
 void SDKConnector::readyRead()
 {
 }

@@ -30,6 +30,7 @@ class SDKConnector : public QObject {
 
 public:
     explicit SDKConnector(QObject* parent = nullptr);
+    ~SDKConnector();
 
 signals:
     void requestDecreaseWidgetCount();
