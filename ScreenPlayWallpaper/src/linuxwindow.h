@@ -26,5 +26,9 @@ public slots:
     void destroyThis() override;
 private:
     QQuickView m_window;
+    void calcOffsets();
+    void setupWallpaperForOneScreen(int activeScreen);
+    void setupWallpaperForAllScreens();
+    void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
 };
 

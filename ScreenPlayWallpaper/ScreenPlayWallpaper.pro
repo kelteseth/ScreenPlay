@@ -79,6 +79,8 @@ unix {
 
     install_it.path = $${OUT_PWD}/
 
+    LIBS += -lX11
+
     CONFIG(debug, debug|release) {
         install_it.files +=  \
                             $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libcrypto-1_1-x64.so \

@@ -49,7 +49,7 @@ int main(int argc, char* argv[])
         WinWindow window({ 0 }, "H:/SteamLibrary/SteamApps/workshop/content/672870/MechaGirl", "appid", "1", "fill", false);
 #endif
 #if defined(Q_OS_LINUX)
-        LinuxWindow window(QVector<int>{ 0 }, "test", "appid", "1", "fill",false);
+        LinuxWindow window({ 0 }, "/home/graphicscore/Desktop/wallpapers/MechaGirl", "appid", "1", "fill", false);
 #endif
 #if defined(Q_OS_OSX)
         MacWindow window({ 0 }, "test", "appid", "1", "fill");
@@ -116,7 +116,7 @@ int main(int argc, char* argv[])
 #endif
 
 #if defined(Q_OS_LINUX)
-    LinuxWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5),false);
+    LinuxWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5), checkWallpaperVisible);
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &LinuxWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &LinuxWindow::messageReceived);
 #endif
