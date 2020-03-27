@@ -1,6 +1,6 @@
 #pragma once
 
-#include <QGuiApplication>
+#include <QApplication>
 #include <QObject>
 #include <QPoint>
 #include <QProcess>

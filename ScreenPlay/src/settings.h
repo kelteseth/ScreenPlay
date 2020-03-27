@@ -4,7 +4,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFontDatabase>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>

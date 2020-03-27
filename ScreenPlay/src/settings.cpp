@@ -96,7 +96,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
          * not generate warnings.
          */
         QDir dir;
-        QString path = QGuiApplication::instance()->applicationDirPath() + "/../../workshop/content/672870";
+        QString path = QApplication::instance()->applicationDirPath() + "/../../workshop/content/672870";
         if (!dir.mkpath(path)) {
             qWarning() << "Could not create steam workshop path for path: " << path;
         } else {
@@ -235,7 +235,7 @@ void Settings::setupLanguage()
 
 bool Settings::retranslateUI()
 {
-    auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
+    auto* app = static_cast<QApplication*>(QApplication::instance());
     QString langCode = QVariant::fromValue(language()).toString();
     langCode = langCode.toLower();
     QFile tsFile;

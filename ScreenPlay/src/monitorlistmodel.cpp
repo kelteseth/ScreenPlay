@@ -25,9 +25,9 @@ MonitorListModel::MonitorListModel(QObject* parent)
 {
     loadMonitors();
 
-    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
-    connect(guiAppInst, &QGuiApplication::screenAdded, this, &MonitorListModel::screenAdded);
-    connect(guiAppInst, &QGuiApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
+    auto* guiAppInst = dynamic_cast<QApplication*>(QApplication::instance());
+    connect(guiAppInst, &QApplication::screenAdded, this, &MonitorListModel::screenAdded);
+    connect(guiAppInst, &QApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
 }
 
 QHash<int, QByteArray> MonitorListModel::roleNames() const
