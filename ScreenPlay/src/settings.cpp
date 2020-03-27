@@ -164,6 +164,11 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
         m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper/debug/ScreenPlayWallpaper.exe"));
 #endif
+
+#ifdef Q_OS_LINUX
+        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget/ScreenPlayWidget"));
+        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper/ScreenPlayWallpaper"));
+#endif
     }
 
     // We need to detect the right base path so we can copy later the example projects
