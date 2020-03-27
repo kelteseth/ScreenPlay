@@ -123,6 +123,10 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 void Settings::writeJsonFileFromResource(const QString& filename)
 {
     QFile file(m_globalVariables->localSettingsPath().toString() + "/" + filename + ".json");
+    QDir directory(m_globalVariables->localSettingsPath().toString());
+    if(!directory.exists()){
+        directory.mkpath(directory.path());
+    }
     QFile defaultSettings(":/" + filename + ".json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
