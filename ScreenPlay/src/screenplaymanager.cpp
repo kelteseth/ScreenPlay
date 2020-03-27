@@ -49,10 +49,8 @@ void ScreenPlayManager::createWallpaper(
     if (m_telemetry) {
         m_telemetry->sendEvent("wallpaper", "start");
     }
-    QString path = absoluteStoragePath;
 
-    if (absoluteStoragePath.contains("file:///"))
-        path = path.remove("file:///");
+    QString path = QUrl(absoluteStoragePath).toLocalFile();
 
     std::sort(monitorIndex.begin(), monitorIndex.end());
 
