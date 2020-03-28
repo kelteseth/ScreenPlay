@@ -92,6 +92,7 @@ Item {
 
             FileDialog {
                 id: fileDialogImportVideo
+                nameFilters: ["Video files (*.mp4 *.webm *.mkv *.mpg *.mp2 *.mpeg *.ogv *.ogg *.avi *.wmv *.m4v *.3gp *.flv)"]
 
                 onAccepted: {
                     videoImportConvertFileSelected(
