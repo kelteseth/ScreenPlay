@@ -51,7 +51,6 @@ Item {
         target: ScreenPlay.create
 
         function onCreateWallpaperStateChanged(state) {
-
             switch (state) {
             case CreateImportVideo.ConvertingPreviewImage:
                 txtConvert.text = qsTr("Generating preview image...")
@@ -98,7 +97,7 @@ Item {
                 break
             }
         }
-        onProgressChanged: {
+        function onProgressChanged(progress) {
             var percentage = Math.floor(progress * 100)
 
             if (percentage > 100 || progress > 0.95)
