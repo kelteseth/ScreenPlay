@@ -137,8 +137,11 @@ WinWindow::WinWindow(
 
     QObject::connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);
 
-    if (checkWallpaperVisible) {
-        m_checkForFullScreenWindowTimer.start(10);
+    // We do not support autopause for multi monitor wallpaper
+    if (this->activeScreensList().length() == 1) {
+        if (checkWallpaperVisible) {
+            m_checkForFullScreenWindowTimer.start(10);
+        }
     }
 
     QTimer::singleShot(1000, [this]() {
@@ -302,23 +305,6 @@ int GetMonitorIndex(HMONITOR hMonitor)
 
 void WinWindow::checkForFullScreenWindow()
 {
-    // If one screen:
-    {
-        int screensCount = QGuiApplication::screens().length();
-        if (screensCount == 1) {
-
-            auto hWnd = GetForegroundWindow();
-            DWORD dwStyle = (DWORD)GetWindowLong(hWnd, GWL_STYLE);
-
-            if ((dwStyle & WS_MAXIMIZE) != 0) {
-                setVisualsPaused(true);
-            } else {
-                setVisualsPaused(false);
-            }
-
-            return;
-        }
-    }
 
     HWND hFoundWnd = nullptr;
     EnumWindows(&FindTheDesiredWnd, reinterpret_cast<LPARAM>(&hFoundWnd));
@@ -330,16 +316,14 @@ void WinWindow::checkForFullScreenWindow()
         HMONITOR wallpaper = MonitorFromWindow(m_windowHandle, dwFlags);
         int monitorIndex = GetMonitorIndex(monitor);
         int wallpaperIndex = GetMonitorIndex(wallpaper);
+       // qDebug() << monitorIndex << wallpaperIndex;
 
-        // We do not support autopause for multi monitor wallpaper
-        if (activeScreensList().length() == 1) {
-            // If the window that has WS_MAXIMIZE is at the same monitor as this wallpaper
-            if (monitorIndex == wallpaperIndex) {
-                //qDebug() << "monitorIndex" << monitorIndex;
-                setVisualsPaused(true);
-            } else {
-                setVisualsPaused(false);
-            }
+        // If the window that has WS_MAXIMIZE is at the same monitor as this wallpaper
+        if (monitorIndex == wallpaperIndex) {
+
+            setVisualsPaused(true);
+        } else {
+            setVisualsPaused(false);
         }
 
     } else {
