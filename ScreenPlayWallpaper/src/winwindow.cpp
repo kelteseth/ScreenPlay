@@ -302,9 +302,27 @@ int GetMonitorIndex(HMONITOR hMonitor)
 
 void WinWindow::checkForFullScreenWindow()
 {
+    // If one screen:
+    {
+        int screensCount = QGuiApplication::screens().length();
+        if (screensCount == 1) {
+
+            auto hWnd = GetForegroundWindow();
+            DWORD dwStyle = (DWORD)GetWindowLong(hWnd, GWL_STYLE);
+
+            if ((dwStyle & WS_MAXIMIZE) != 0) {
+                setVisualsPaused(true);
+            } else {
+                setVisualsPaused(false);
+            }
+
+            return;
+        }
+    }
 
     HWND hFoundWnd = nullptr;
     EnumWindows(&FindTheDesiredWnd, reinterpret_cast<LPARAM>(&hFoundWnd));
+
     // True if one window has WS_MAXIMIZE
     if (hFoundWnd != nullptr) {
         DWORD dwFlags = 0;
@@ -312,7 +330,6 @@ void WinWindow::checkForFullScreenWindow()
         HMONITOR wallpaper = MonitorFromWindow(m_windowHandle, dwFlags);
         int monitorIndex = GetMonitorIndex(monitor);
         int wallpaperIndex = GetMonitorIndex(wallpaper);
-        // qDebug() << "Window found " << printWindowNameByhWnd(hFoundWnd) << monitorIndex <<  activeScreensList().at(0) << wallpaperIndex;
 
         // We do not support autopause for multi monitor wallpaper
         if (activeScreensList().length() == 1) {
