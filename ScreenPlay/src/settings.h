@@ -342,7 +342,7 @@ private:
 
     QString m_gitBuildHash;
     QString m_decoder;
-    FillMode m_videoFillMode;
+    FillMode m_videoFillMode = FillMode::Cover;
     Language m_language = Language::En;
     QString m_font {"Roboto"};
 };

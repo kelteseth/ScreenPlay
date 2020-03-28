@@ -42,30 +42,31 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     qRegisterMetaType<Settings::Language>("Settings::Language");
     qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
 
-    {
-        if (!m_qSettings.contains("Autostart")) {
+    if (!m_qSettings.contains("Autostart")) {
 #ifdef Q_OS_WIN
-            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
-            if (!m_qSettings.value("Autostart").toBool()) {
-                if (!settings.contains("ScreenPlay")) {
-                }
+        QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+        if (!m_qSettings.value("Autostart").toBool()) {
+            if (!settings.contains("ScreenPlay")) {
             }
-            settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
-            settings.sync();
-#endif
-            m_qSettings.setValue("Autostart", true);
-            m_qSettings.sync();
-        } else {
-            setAutostart(m_qSettings.value("Autostart", true).toBool());
         }
+        settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
+        settings.sync();
+#endif
+        m_qSettings.setValue("Autostart", true);
+        m_qSettings.sync();
+    } else {
+        setAutostart(m_qSettings.value("Autostart", true).toBool());
     }
 
     setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", false).toBool());
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
     if (m_qSettings.contains("VideoFillMode")) {
         auto value = m_qSettings.value("VideoFillMode").toString();
-        setVideoFillMode(QStringToEnum<FillMode>(value, FillMode::Fill));
+        setVideoFillMode(QStringToEnum<FillMode>(value, FillMode::Cover));
+    } else {
+        setVideoFillMode(FillMode::Cover);
     }
+
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
 
     // Wallpaper and Widgets config
