@@ -69,15 +69,26 @@ Item {
         id: txtVisualsPaused
         text: qsTr("If you can read this, then the VisualsPaused optimization does not work on your system. You can fix this by disable this in: \n Settings -> Perfromance -> Pause wallpaper video rendering while another app is in the foreground ")
         font.pointSize: 32
-        visible:  false
+        visible: false
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-        anchors.centerIn:  parent
+        anchors.centerIn: parent
 
         width: parent.width * .8
         color: "white"
     }
+
+
+    Timer {
+        id: timerCover
+        interval: 300
+        onTriggered: {
+            webView.visible = !window.visualsPaused
+            txtVisualsPaused.visible = window.visualsPaused
+        }
+    }
+
 
     Connections {
         target: window
@@ -133,10 +144,13 @@ Item {
             }
         }
 
-       function  onVisualsPausedChanged(checkWallpaperVisible){
-            if(checkWallpaperVisible){
-                webView.visible = !visualsPaused
-                txtVisualsPaused.visible = visualsPaused
+        function onVisualsPausedChanged(visualsPaused) {
+            if (visualsPaused) {
+                // Wait until window animation is finsihed
+                timerCover.restart()
+            } else {
+                webView.visible = true
+                txtVisualsPaused.visible = false
             }
         }
 
