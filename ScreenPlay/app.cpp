@@ -91,16 +91,18 @@ App::App()
     qmlRegisterAnonymousType<Util>("ScreenPlay",1);
     qmlRegisterAnonymousType<Create>("ScreenPlay",1);
     qmlRegisterAnonymousType<Settings>("ScreenPlay",1);
+    qmlRegisterAnonymousType<SDKConnector>("ScreenPlay",1);
 
     // Util should be created as first so we redirect qDebugs etc. into the log
     auto* nam = new QNetworkAccessManager(this);
+    // SDKConnect first to check if another ScreenPlay Instace is running
+    m_sdkConnector = make_shared<SDKConnector>();
     m_util = make_unique<Util>(nam);
     m_globalVariables = make_shared<GlobalVariables>();
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables);
     m_installedListFilter = make_shared<InstalledListFilter>(m_installedListModel);
     m_monitorListModel = make_shared<MonitorListModel>();
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
-    m_sdkConnector = make_shared<SDKConnector>();
     m_settings = make_shared<Settings>(m_globalVariables);
     m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
 
@@ -116,6 +118,7 @@ App::App()
     m_create = make_unique<Create>(m_globalVariables);
     m_screenPlayManager = make_unique<ScreenPlayManager>(m_globalVariables, m_monitorListModel, m_sdkConnector, m_telemetry, m_settings);
     QObject::connect(m_sdkConnector.get(), &SDKConnector::requestDecreaseWidgetCount, m_screenPlayManager.get(), &ScreenPlayManager::decreaseActiveWidgetsCounter);
+
 
     // When the installed storage path changed
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);

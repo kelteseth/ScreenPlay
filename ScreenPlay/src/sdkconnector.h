@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QApplication>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>
@@ -33,10 +34,11 @@ public:
 
 signals:
     void requestDecreaseWidgetCount();
+    void requestRaise();
 
 public slots:
-    void readyRead();
     void newConnection();
+    void closeConntectionByType(const QStringList& list);
     void closeAllConnections();
     void closeAllWallpapers();
     void closeAllWidgets();
@@ -44,11 +46,11 @@ public slots:
     void closeWallpapersAt(int at);
     void closeWallpaper(const QString& appID);
     void setWallpaperValue(QString appID, QString key, QString value);
-    void setSceneValue(QString appID, QString key, QString value);
 
 private:
     unique_ptr<QLocalServer> m_server;
     QVector<shared_ptr<SDKConnection>> m_clients;
+    void isSingleInstanceRunning();
 };
 
 class SDKConnection : public QObject {
@@ -105,6 +107,7 @@ signals:
     void monitorChanged(QVector<int> monitor);
     void typeChanged(QString type);
     void requestDecreaseWidgetCount();
+    void requestRaise();
 
 public slots:
     void readyRead()
@@ -129,7 +132,7 @@ public slots:
                 "htmlWidget",
                 "standaloneWidget"
             };
-            for (const QString &type : types) {
+            for (const QString& type : types) {
                 if (msg.contains(type)) {
                     m_type = type;
                 }
@@ -137,6 +140,12 @@ public slots:
             qInfo() << "###### Wallpaper created:"
                     << "\t AppID:" << m_appID << "\t type: " << m_type;
 
+        } else if(msg.startsWith("command=")){
+            msg.remove("command=");
+            if(msg == "requestRaise") {
+                qInfo() << "Another ScreenPlay instance reuqested this one to raise!";
+                emit requestRaise();
+            }
         } else {
             qInfo() << "### Message from: " << m_appID << ": " << msg;
         }
@@ -150,7 +159,8 @@ public slots:
 
             qDebug() << "### Destroy APPID:\t " << m_appID << " State: " << m_socket->state();
         }
-        if(m_type.contains("widget",Qt::CaseInsensitive)){
+
+        if (m_type.contains("widget", Qt::CaseInsensitive)) {
             emit requestDecreaseWidgetCount();
         }
     }

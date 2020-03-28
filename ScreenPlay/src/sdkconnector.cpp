@@ -20,23 +20,45 @@ SDKConnector::SDKConnector(QObject* parent)
     , m_server { make_unique<QLocalServer>() }
 {
 
+    isSingleInstanceRunning();
+
     connect(m_server.get(), &QLocalServer::newConnection, this, &SDKConnector::newConnection);
+    m_server->setSocketOptions(QLocalServer::WorldAccessOption);
     if (!m_server->listen("ScreenPlay")) {
-        qCritical("Could not open Local Socket with the name ScreenPlay. Usually this means another ScreenPlay instance is running!");
+        qCritical("Could not open Local Socket with the name ScreenPlay!");
     }
 }
 
-void SDKConnector::readyRead()
+void SDKConnector::isSingleInstanceRunning()
 {
-}
+    QLocalSocket socket;
+    socket.connectToServer("ScreenPlay");
 
+    if (!socket.isOpen()) {
+        socket.close();
+        return;
+    }
+
+    qInfo("Another ScreenPlay app is already running!");
+    QByteArray msg = "command=requestRaise";
+    qDebug() << 1;
+    socket.write(msg);
+
+    qDebug() << 2;
+    socket.close();
+    qDebug() << 3;
+    QApplication::exit();
+    qDebug() << 4;
+}
 /*!
     Appends a new SDKConnection object shared_ptr to the m_clients list.
 */
 void SDKConnector::newConnection()
 {
     auto connection = make_shared<SDKConnection>(m_server->nextPendingConnection());
-    QObject::connect(connection.get(),&SDKConnection::requestDecreaseWidgetCount,this,&SDKConnector::requestDecreaseWidgetCount);
+    // Because user can close widgets by pressing x the widgets must send us the event
+    QObject::connect(connection.get(), &SDKConnection::requestDecreaseWidgetCount, this, &SDKConnector::requestDecreaseWidgetCount);
+    QObject::connect(connection.get(), &SDKConnection::requestRaise, this, &SDKConnector::requestRaise);
     m_clients.append(connection);
 }
 
@@ -69,14 +91,17 @@ void SDKConnector::closeAllWallpapers()
         "godotWallpaper"
     };
 
-    for (auto& client : m_clients) {
-        if (types.contains(client->type())) {
-            client->close();
-            m_clients.removeOne(client);
-        }
-    }
+    closeConntectionByType(types);
 }
 
+/*!
+ \brief Closes all widgets connection with the following type:
+ \list
+    \li qmlWidget
+    \li htmlWidget
+    \li standaloneWidget
+ \endlist
+*/
 void SDKConnector::closeAllWidgets()
 {
     QStringList types {
@@ -85,8 +110,16 @@ void SDKConnector::closeAllWidgets()
         "standaloneWidget"
     };
 
+    closeConntectionByType(types);
+}
+
+/*!
+  \brief SDKConnector::closeConntectionByType
+*/
+void SDKConnector::closeConntectionByType(const QStringList& list)
+{
     for (auto& client : m_clients) {
-        if (types.contains(client->type())) {
+        if (list.contains(client->type())) {
             client->close();
             m_clients.removeOne(client);
         }
@@ -94,7 +127,7 @@ void SDKConnector::closeAllWidgets()
 }
 
 /*!
- Closes a wallpaper at the given \a index. The native monitor index is used here.
+ \brief Closes a wallpaper at the given \a index. The native monitor index is used here.
  On Windows the monitor 0 is the main display.
 */
 void SDKConnector::closeWallpapersAt(int at)
@@ -115,7 +148,7 @@ void SDKConnector::closeWallpapersAt(int at)
 }
 
 /*!
-    Closes a wallpaper by the given \a appID.
+  \brief  Closes a wallpaper by the given \a appID.
 */
 void SDKConnector::closeWallpaper(const QString& appID)
 {
@@ -129,7 +162,7 @@ void SDKConnector::closeWallpaper(const QString& appID)
 }
 
 /*!
-    Sets a given \a value to a given \a key. The \a appID is used to identify the receiver socket.
+   \brief Sets a given \a value to a given \a key. The \a appID is used to identify the receiver socket.
 */
 void SDKConnector::setWallpaperValue(QString appID, QString key, QString value)
 {
@@ -137,24 +170,6 @@ void SDKConnector::setWallpaperValue(QString appID, QString key, QString value)
     for (int i = 0; i < m_clients.count(); ++i) {
         if (m_clients.at(i)->appID() == appID) {
             QJsonObject obj;
-            obj.insert(key, QJsonValue(value));
-
-            QByteArray send = QJsonDocument(obj).toJson();
-            m_clients.at(i)->socket()->write(send);
-            m_clients.at(i)->socket()->waitForBytesWritten();
-        }
-    }
-}
-
-/*!
- Sets a given \a value to a given \a key. The \a appID is used to identify the receiver socket.
-*/
-void SDKConnector::setSceneValue(QString appID, QString key, QString value)
-{
-    for (int i = 0; i < m_clients.count(); ++i) {
-        if (m_clients.at(i)->appID() == appID) {
-            QJsonObject obj;
-            obj.insert("type", QJsonValue("qmlScene"));
             obj.insert(key, QJsonValue(value));
 
             QByteArray send = QJsonDocument(obj).toJson();
