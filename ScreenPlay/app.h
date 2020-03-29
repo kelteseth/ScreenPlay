@@ -54,6 +54,9 @@ class App : public QObject {
 public:
     explicit App();
 
+    void init();
+    bool m_isAnotherScreenPlayInstanceRunning { false };
+
     GlobalVariables* globalVariables() const
     {
         return m_globalVariables.get();

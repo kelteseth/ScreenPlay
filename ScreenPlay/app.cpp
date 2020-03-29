@@ -67,7 +67,7 @@ App::App()
     QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Medium.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Light.ttf");
 
-    if(-1 == QFontDatabase::addApplicationFont(QDir::current().absolutePath()+"/assets/fonts/NotoSansCJKkr-Regular.otf")){
+    if (-1 == QFontDatabase::addApplicationFont(QDir::current().absolutePath() + "/assets/fonts/NotoSansCJKkr-Regular.otf")) {
         qWarning() << "Could not load korean font from: " << QDir::current().absolutePath() + "/assets/fonts/NotoSansCJKkr-Regular.otf";
     }
 
@@ -86,17 +86,22 @@ App::App()
     qRegisterMetaType<MonitorListModel*>();
     qRegisterMetaType<ProfileListModel*>();
 
-    qmlRegisterAnonymousType<GlobalVariables>("ScreenPlay",1);
-    qmlRegisterAnonymousType<ScreenPlayManager>("ScreenPlay",1);
-    qmlRegisterAnonymousType<Util>("ScreenPlay",1);
-    qmlRegisterAnonymousType<Create>("ScreenPlay",1);
-    qmlRegisterAnonymousType<Settings>("ScreenPlay",1);
-    qmlRegisterAnonymousType<SDKConnector>("ScreenPlay",1);
+    qmlRegisterAnonymousType<GlobalVariables>("ScreenPlay", 1);
+    qmlRegisterAnonymousType<ScreenPlayManager>("ScreenPlay", 1);
+    qmlRegisterAnonymousType<Util>("ScreenPlay", 1);
+    qmlRegisterAnonymousType<Create>("ScreenPlay", 1);
+    qmlRegisterAnonymousType<Settings>("ScreenPlay", 1);
+    qmlRegisterAnonymousType<SDKConnector>("ScreenPlay", 1);
 
-    // Util should be created as first so we redirect qDebugs etc. into the log
-    auto* nam = new QNetworkAccessManager(this);
     // SDKConnect first to check if another ScreenPlay Instace is running
     m_sdkConnector = make_shared<SDKConnector>();
+    m_isAnotherScreenPlayInstanceRunning = m_sdkConnector->m_isAnotherScreenPlayInstanceRunning;
+}
+
+void App::init()
+{
+    // Util should be created as first so we redirect qDebugs etc. into the log
+    auto* nam = new QNetworkAccessManager(this);
     m_util = make_unique<Util>(nam);
     m_globalVariables = make_shared<GlobalVariables>();
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables);
@@ -118,7 +123,6 @@ App::App()
     m_create = make_unique<Create>(m_globalVariables);
     m_screenPlayManager = make_unique<ScreenPlayManager>(m_globalVariables, m_monitorListModel, m_sdkConnector, m_telemetry, m_settings);
     QObject::connect(m_sdkConnector.get(), &SDKConnector::requestDecreaseWidgetCount, m_screenPlayManager.get(), &ScreenPlayManager::decreaseActiveWidgetsCounter);
-
 
     // When the installed storage path changed
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);

@@ -32,6 +32,8 @@ class SDKConnector : public QObject {
 public:
     explicit SDKConnector(QObject* parent = nullptr);
 
+    bool m_isAnotherScreenPlayInstanceRunning { false };
+
 signals:
     void requestDecreaseWidgetCount();
     void requestRaise();
@@ -50,7 +52,7 @@ public slots:
 private:
     unique_ptr<QLocalServer> m_server;
     QVector<shared_ptr<SDKConnection>> m_clients;
-    void isSingleInstanceRunning();
+    bool isAnotherScreenPlayInstanceRunning();
 };
 
 class SDKConnection : public QObject {

@@ -20,7 +20,10 @@ SDKConnector::SDKConnector(QObject* parent)
     , m_server { make_unique<QLocalServer>() }
 {
 
-    isSingleInstanceRunning();
+    if (isAnotherScreenPlayInstanceRunning()) {
+        m_isAnotherScreenPlayInstanceRunning = true;
+        return;
+    }
 
     connect(m_server.get(), &QLocalServer::newConnection, this, &SDKConnector::newConnection);
     m_server->setSocketOptions(QLocalServer::WorldAccessOption);
@@ -29,26 +32,22 @@ SDKConnector::SDKConnector(QObject* parent)
     }
 }
 
-void SDKConnector::isSingleInstanceRunning()
+bool SDKConnector::isAnotherScreenPlayInstanceRunning()
 {
     QLocalSocket socket;
     socket.connectToServer("ScreenPlay");
 
     if (!socket.isOpen()) {
         socket.close();
-        return;
+        return false;
     }
 
     qInfo("Another ScreenPlay app is already running!");
     QByteArray msg = "command=requestRaise";
-    qDebug() << 1;
     socket.write(msg);
-
-    qDebug() << 2;
+    socket.waitForBytesWritten(500);
     socket.close();
-    qDebug() << 3;
-    QApplication::exit();
-    qDebug() << 4;
+    return true;
 }
 /*!
     Appends a new SDKConnection object shared_ptr to the m_clients list.
