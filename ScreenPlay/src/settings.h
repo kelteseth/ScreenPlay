@@ -362,15 +362,15 @@ private:
     bool m_autostart { true };
     bool m_highPriorityStart { true };
     bool m_offlineMode { true };
-    bool m_checkWallpaperVisible { true };
+    bool m_checkWallpaperVisible { false };
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
 
     QString m_gitBuildHash;
     QString m_decoder;
-    FillMode m_videoFillMode { FillMode::Fill };
+    FillMode m_videoFillMode { FillMode::Cover };
     Language m_language { Language::En };
     Theme m_theme { Theme::System };
-    QString m_font { "Roboto" };
+    QString m_font {"Roboto"};
 };
 }

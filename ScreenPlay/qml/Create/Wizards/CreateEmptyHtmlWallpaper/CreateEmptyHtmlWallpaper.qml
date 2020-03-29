@@ -206,7 +206,7 @@ Item {
 
                 Connections {
                     target: ScreenPlay.create
-                    onHtmlWallpaperCreatedSuccessful: {
+                    function onHtmlWallpaperCreatedSuccessful(path) {
                         ScreenPlay.util.openFolderInExplorer(path)
                     }
                 }

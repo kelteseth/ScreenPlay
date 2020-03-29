@@ -137,8 +137,11 @@ WinWindow::WinWindow(
 
     QObject::connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);
 
-    if (checkWallpaperVisible) {
-        m_checkForFullScreenWindowTimer.start(10);
+    // We do not support autopause for multi monitor wallpaper
+    if (this->activeScreensList().length() == 1) {
+        if (checkWallpaperVisible) {
+            m_checkForFullScreenWindowTimer.start(10);
+        }
     }
 
     QTimer::singleShot(1000, [this]() {
@@ -305,6 +308,7 @@ void WinWindow::checkForFullScreenWindow()
 
     HWND hFoundWnd = nullptr;
     EnumWindows(&FindTheDesiredWnd, reinterpret_cast<LPARAM>(&hFoundWnd));
+
     // True if one window has WS_MAXIMIZE
     if (hFoundWnd != nullptr) {
         DWORD dwFlags = 0;
@@ -312,17 +316,14 @@ void WinWindow::checkForFullScreenWindow()
         HMONITOR wallpaper = MonitorFromWindow(m_windowHandle, dwFlags);
         int monitorIndex = GetMonitorIndex(monitor);
         int wallpaperIndex = GetMonitorIndex(wallpaper);
-        // qDebug() << "Window found " << printWindowNameByhWnd(hFoundWnd) << monitorIndex <<  activeScreensList().at(0) << wallpaperIndex;
+       // qDebug() << monitorIndex << wallpaperIndex;
 
-        // We do not support autopause for multi monitor wallpaper
-        if (activeScreensList().length() == 1) {
-            // If the window that has WS_MAXIMIZE is at the same monitor as this wallpaper
-            if (monitorIndex == wallpaperIndex) {
-                //qDebug() << "monitorIndex" << monitorIndex;
-                setVisualsPaused(true);
-            } else {
-                setVisualsPaused(false);
-            }
+        // If the window that has WS_MAXIMIZE is at the same monitor as this wallpaper
+        if (monitorIndex == wallpaperIndex) {
+
+            setVisualsPaused(true);
+        } else {
+            setVisualsPaused(false);
         }
 
     } else {

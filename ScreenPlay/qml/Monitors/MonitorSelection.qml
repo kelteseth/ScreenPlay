@@ -30,7 +30,7 @@ Rectangle {
 
     Connections {
         target:  ScreenPlay.monitorListModel
-        onMonitorReloadCompleted: {
+        function onMonitorReloadCompleted() {
             resize()
         }
     }

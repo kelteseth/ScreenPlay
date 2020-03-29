@@ -39,7 +39,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
     QString tmpScreenNumber;
     if (m_screenNumber.length() > 1) {
-        for (const int number : m_screenNumber) {
+        for (const int number : qAsConst(m_screenNumber)) {
             // IMPORTANT: NO TRAILING COMMA!
             if (number == m_screenNumber.back()) {
                 tmpScreenNumber += QString::number(number);

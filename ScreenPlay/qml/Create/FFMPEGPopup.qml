@@ -19,7 +19,8 @@ Popup {
 
     Connections {
         target: ScreenPlay.util
-        onAquireFFMPEGStatusChanged: {
+
+        function onAquireFFMPEGStatusChanged(aquireFFMPEGStatus) {
 
             switch (aquireFFMPEGStatus) {
             case QMLUtilities.Init:

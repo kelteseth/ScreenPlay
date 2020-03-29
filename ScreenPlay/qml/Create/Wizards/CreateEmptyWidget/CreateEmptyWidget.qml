@@ -195,7 +195,7 @@ Item {
 
                 Connections {
                     target: ScreenPlay.create
-                    onWidgetCreatedSuccessful: {
+                    function onWidgetCreatedSuccessful(path) {
                         ScreenPlay.util.openFolderInExplorer(path)
                     }
                 }

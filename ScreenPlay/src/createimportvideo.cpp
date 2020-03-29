@@ -90,7 +90,7 @@ void CreateImportVideo::process()
         return;
     }
 
-    for (const auto codec : m_codecs) {
+    for (const auto& codec : qAsConst(m_codecs)) {
         if (!createWallpaperVideo(codec) || QThread::currentThread()->isInterruptionRequested()) {
             emit abortAndCleanup();
             return;
@@ -249,6 +249,10 @@ bool CreateImportVideo::createWallpaperInfo()
     framerate = qCeil(value1 / value2);
     m_framerate = framerate;
 
+    // If the video is to short
+    m_smallVideo = m_numberOfFrames < (m_framerate * 3);
+
+
     return true;
 }
 
@@ -273,6 +277,7 @@ bool CreateImportVideo::createWallpaperInfo()
  */
 bool CreateImportVideo::createWallpaperVideoPreview()
 {
+
     emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewVideo);
 
     QStringList args;
@@ -280,13 +285,15 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     args.append("-stats");
     args.append("-i");
     args.append(m_videoPath);
-
-    args.append("-vf");
-    // We allways want to have a 5 second clip via 24fps -> 120 frames
-    // Divided by the number of frames we can skip (timeInSeconds * Framrate)
-    // scale & crop parameter: https://unix.stackexchange.com/a/284731
-    args.append("select='not(mod(n," + QString::number((m_length / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400");
-    // Disable audio
+    // If the video is shorter than 6 seconds we simply convert the original to webm
+    if (!m_smallVideo) {
+        args.append("-vf");
+        // We allways want to have a 5 second clip via 24fps -> 120 frames
+        // Divided by the number of frames we can skip (timeInSeconds * Framrate)
+        // scale & crop parameter: https://unix.stackexchange.com/a/284731
+        args.append("select='not(mod(n," + QString::number((m_length / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400");
+        // Disable audio
+    }
     args.append("-an");
     args.append(m_exportPath + "/preview.webm");
     emit processOutput("ffmpeg " + Util::toString(args));
@@ -399,16 +406,28 @@ bool CreateImportVideo::createWallpaperImageThumbnailPreview()
     args.clear();
     args.append("-y");
     args.append("-stats");
-    args.append("-ss");
-    args.append("00:00:02");
+    // If the video is shorter than 3 seconds we use the first frame
+    if (!m_smallVideo) {
+        args.append("-ss");
+        args.append("00:00:02");
+    }
     args.append("-i");
     args.append(m_videoPath);
-    args.append("-vframes");
-    args.append("1");
+    // Order of arguments is important
+    if(!m_smallVideo){
+        args.append("-vframes");
+        args.append("1");
+    }
     args.append("-q:v");
     args.append("2");
-    args.append("-vf");
-    args.append("scale=320:-1");
+    if(m_smallVideo){
+        args.append("-vf");
+        // Select first frame https://stackoverflow.com/a/44073745/12619313
+        args.append("select=eq(n\\,0), scale=320:-1");
+    } else {
+        args.append("-vf");
+        args.append("scale=320:-1");
+    }
     args.append(m_exportPath + "/previewThumbnail.jpg");
 
     emit processOutput("ffmpeg " + Util::toString(args));
@@ -444,14 +463,20 @@ bool CreateImportVideo::createWallpaperImagePreview()
     args.clear();
     args.append("-y");
     args.append("-stats");
-    args.append("-ss");
-    args.append("00:00:02");
+    // If the video is shorter than 3 seconds we use the first frame
+    if (!m_smallVideo) {
+        args.append("-ss");
+        args.append("00:00:02");
+    }
     args.append("-i");
     args.append(m_videoPath);
-    args.append("-vframes");
-    args.append("1");
     args.append("-q:v");
     args.append("2");
+    if(m_smallVideo){
+        args.append("-vf");
+        // Select first frame https://stackoverflow.com/a/44073745/12619313
+        args.append("select=eq(n\\,0)");
+    }
     args.append(m_exportPath + "/preview.jpg");
 
     emit processOutput("ffmpeg " + Util::toString(args));
@@ -504,9 +529,9 @@ bool CreateImportVideo::createWallpaperImagePreview()
 bool CreateImportVideo::createWallpaperVideo(const QString& codec)
 {
 
-//    if (m_videoPath.endsWith(".webm")) {
-//        return true;
-//    }
+    //    if (m_videoPath.endsWith(".webm")) {
+    //        return true;
+    //    }
 
     emit createWallpaperStateChanged(ImportVideoState::ConvertingVideo);
 

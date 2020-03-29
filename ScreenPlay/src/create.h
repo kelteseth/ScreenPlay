@@ -75,6 +75,8 @@ signals:
     void htmlWallpaperCreatedSuccessful(QString path);
 
 public slots:
+    void createWallpaperStart(QString videoPath, Create::VideoCodec codec);
+
     void createWidget(
         const QString& localStoragePath,
         const QString& title,
@@ -91,8 +93,14 @@ public slots:
         const QString& license,
         const QVector<QString>& tags);
 
-    void createWallpaperStart(QString videoPath, Create::VideoCodec codec);
-    void saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, ScreenPlay::Create::VideoCodec codec, QVector<QString> tags);
+    void saveWallpaper(QString title,
+        QString description,
+        QString filePath,
+        QString previewImagePath,
+        QString youtube,
+        ScreenPlay::Create::VideoCodec codec,
+        QVector<QString> tags);
+
     void abortAndCleanup();
 
     void setProgress(float progress)
@@ -129,7 +137,7 @@ private:
     CreateImportVideo* m_createImportVideo { nullptr };
     QThread* m_createImportVideoThread { nullptr };
 
-    const shared_ptr<GlobalVariables>& m_globalVariables;
+    const shared_ptr<GlobalVariables> m_globalVariables;
 
     float m_progress { 0.0F };
     QString m_workingDir;

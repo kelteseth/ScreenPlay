@@ -25,26 +25,13 @@ class CreateImportVideo : public QObject {
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
 
 public:
-    CreateImportVideo() {}
+    CreateImportVideo() { }
     ~CreateImportVideo()
     {
         qDebug() << "CreateImportVideo";
     }
     CreateImportVideo(QObject* parent = nullptr);
     explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, const QStringList& codecs, QObject* parent = nullptr);
-
-    bool m_skipAudio { false };
-
-    float m_progress { 0.0F };
-
-    QString m_videoPath;
-    QString m_exportPath;
-    QString m_format;
-    QStringList m_codecs;
-
-    int m_numberOfFrames { 0 };
-    int m_length { 0 };
-    int m_framerate { 0 };
 
     enum class ImportVideoState {
         Idle,
@@ -88,6 +75,22 @@ public:
         return m_progress;
     }
 
+    bool m_skipAudio { false };
+
+    // If the video is < 1s in duration we cannot create a 5s preview
+    bool m_smallVideo { false };
+
+    float m_progress { 0.0F };
+
+    QString m_videoPath;
+    QString m_exportPath;
+    QString m_format;
+    QStringList m_codecs;
+
+    int m_numberOfFrames { 0 };
+    int m_length { 0 };
+    int m_framerate { 0 };
+
 signals:
     void createWallpaperStateChanged(CreateImportVideo::ImportVideoState state);
     void processOutput(QString text);
@@ -102,7 +105,7 @@ public slots:
     bool createWallpaperVideoPreview();
     bool createWallpaperGifPreview();
     bool createWallpaperImagePreview();
-    bool createWallpaperVideo(const QString &codec);
+    bool createWallpaperVideo(const QString& codec);
     bool extractWallpaperAudio();
     bool createWallpaperImageThumbnailPreview();
 
@@ -123,6 +126,8 @@ private:
 
     QString m_ffprobeExecutable;
     QString m_ffmpegExecutable;
+
+
 };
 }
 Q_DECLARE_METATYPE(ScreenPlay::CreateImportVideo::ImportVideoState)

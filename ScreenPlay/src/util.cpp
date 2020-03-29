@@ -171,7 +171,7 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
 QString Util::toString(const QStringList& list)
 {
     QString out;
-    for (auto string : list) {
+    for (const auto &string : list) {
         out += " " + string;
     }
     return out;
@@ -391,7 +391,7 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
     QByteArray line = "in line " + QByteArray::number(context.line) + ", ";
     QByteArray function = "function " + QByteArray(context.function) + ", Message: ";
 
-    QString log = "&emsp; <font color=\"#03A9F4\"> " + QDateTime::currentDateTime().toString() + "</font> &emsp; " + localMsg + "<br><br>";
+    QString log = "&emsp; <font color=\"#03A9F4\"> " + QDateTime::currentDateTime().toString() + "</font> &emsp; " + localMsg + "<br>";
 
     switch (type) {
     case QtDebugMsg:
@@ -410,6 +410,7 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
         log.prepend("<b><font color=\"#F44336\"> Fatal</font>:</b>");
         break;
     }
+    log.append("\n");
 
     if (utilPointer != nullptr)
         utilPointer->appendDebugMessages(log);

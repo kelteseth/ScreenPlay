@@ -31,10 +31,10 @@ Item {
                 margins: 20
             }
             color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
-
+            lineHeight: 1.2
             height: txtExpander.paintedHeight
             wrapMode: Text.WordWrap
-             font.family: ScreenPlay.settings.font
+            font.family: ScreenPlay.settings.font
         }
         MouseArea {
             anchors.fill: parent

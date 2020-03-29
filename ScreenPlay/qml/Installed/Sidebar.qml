@@ -34,7 +34,7 @@ Item {
     Connections {
         target: ScreenPlay.util
 
-        onSetSidebarItem: {
+        function onSetSidebarItem(screenId, type) {
 
             // Toggle sidebar if clicked on the same content twice
             if (activeScreen === screenId && root.state !== "inactive") {

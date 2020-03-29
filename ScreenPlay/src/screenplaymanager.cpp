@@ -79,7 +79,9 @@ void ScreenPlayManager::createWallpaper(
         for (auto& wallpaperIterator : m_screenPlayWallpapers) {
             if (wallpaperIterator->screenNumber().length() == 1) {
                 if (monitors.at(0) == wallpaperIterator->screenNumber().at(0)) {
-                    removeWallpaperAt(i);
+                    if(!removeWallpaperAt(i)){
+                        qWarning() << "Could not remove wallpaper at index " << i;
+                    }
                 }
             }
             i++;
@@ -217,7 +219,7 @@ bool ScreenPlayManager::removeWallpaperAt(int at)
  */
 void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
 {
-    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
+    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
         if (!uPtrWallpaper->screenNumber().empty() && uPtrWallpaper->screenNumber()[0] == index) {
             emit projectSettingsListModelFound(
                 uPtrWallpaper->projectSettingsListModel().get(),
@@ -247,7 +249,7 @@ void ScreenPlayManager::setWallpaperValue(const int index, const QString& key, c
  */
 void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
 {
-    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
+    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
         m_sdkconnector->setWallpaperValue(uPtrWallpaper->appID(), key, value);
     }
 }
