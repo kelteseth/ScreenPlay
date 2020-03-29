@@ -34,8 +34,6 @@ ApplicationWindow {
         }
     }
 
-
-
     function switchPage(name) {
         if (name === "Create") {
             bg.state = "create"
@@ -80,6 +78,13 @@ ApplicationWindow {
         function onRequestToggleWallpaperConfiguration() {
             monitors.state = monitors.state == "active" ? "inactive" : "active"
             ScreenPlay.screenPlayManager.requestProjectSettingsListModelAt(0)
+        }
+    }
+
+    Connections {
+        target: ScreenPlay.sdkConnector
+        function onRequestRaise() {
+            window.show()
         }
     }
 

@@ -11,5 +11,10 @@ int main(int argc, char* argv[])
 
     ScreenPlay::App app;
 
-    return qtGuiApp.exec();
+    if (app.m_isAnotherScreenPlayInstanceRunning) {
+        return 0;
+    } else {
+        app.init();
+        return qtGuiApp.exec();
+    }
 }
