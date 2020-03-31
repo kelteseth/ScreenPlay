@@ -21,11 +21,10 @@ namespace ScreenPlay {
 */
 
 /*!
-    Constructor and sets up:
+    \brief Constructor and sets up:
     \list 1
         \li Sets the git build hash via ScreenPlay.pro c++ define
         \li Checks the langauge via settings or system and available ones and installes a translator.
-        \li Checks the paths for config folders in appdata
         \li Checks the AbsoluteStoragePath.
         \li Checks regisitry for steam plugin settings
         \li Parses autostart, anonymousTelemetry, highPriorityStart
@@ -115,7 +114,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 }
 
 /*!
-  Writes the default JsonFile from the resources and the given \a filename. Currently we have two default json files:
+  \brief Writes the default JsonFile from the resources and the given \a filename. Currently we have two default json files:
    \list
     \li profiles.json
     \li settings.json
@@ -139,7 +138,7 @@ void Settings::writeJsonFileFromResource(const QString& filename)
 }
 
 /*!
-  To have a better developer experience we check if we use a debug version. Then we assume
+  \brief To have a better developer experience we check if we use a debug version. Then we assume
   That the paths are the default QtCreator paths and set the widgets and wallpaper executable
   paths accordingly.
 */
@@ -197,7 +196,7 @@ void Settings::setupWidgetAndWindowPaths()
 }
 
 /*!
-  When no default language is set in the registry we check the system set language. If there is no
+  \brief When no default language is set in the registry we check the system set language. If there is no
   matching translation is available we set it to english. This function gets called from the UI when
   the user manually changes the language.
 */
@@ -211,6 +210,10 @@ void Settings::restoreDefault(const QString& appConfigLocation, const QString& s
     writeJsonFileFromResource(settingsFileType);
 }
 
+/*!
+    \brief Checks if there is already a saved language. If not we try to use the system langauge.
+     If we do not support the system language we use english.
+*/
 void Settings::setupLanguage()
 {
     QString langCode;
@@ -234,6 +237,11 @@ void Settings::setupLanguage()
     retranslateUI();
 }
 
+/*!
+    \brief Check for supported langauges. If we use a langauge that not uses
+    latin characters, we change the font. For example this happens for korean user. We ship google
+    Noto Sans CJK KR Regular for this..
+*/
 bool Settings::retranslateUI()
 {
     auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());

@@ -13,8 +13,8 @@ namespace ScreenPlay {
 */
 
 /*!
-    Starts the QLocalServer with the pipename ScreenPlay.
- */
+    \brief Starts the QLocalServer with the pipename ScreenPlay.
+*/
 SDKConnector::SDKConnector(QObject* parent)
     : QObject(parent)
     , m_server { make_unique<QLocalServer>() }
@@ -32,6 +32,11 @@ SDKConnector::SDKConnector(QObject* parent)
     }
 }
 
+/*!
+    \brief Checks if another ScreenPlay instance is running by trying to connect to a pipe
+    with the name ScreenPlay.
+    If successful we send a raise command and quit via m_isAnotherScreenPlayInstanceRunning = true.
+*/
 bool SDKConnector::isAnotherScreenPlayInstanceRunning()
 {
     QLocalSocket socket;
@@ -49,8 +54,9 @@ bool SDKConnector::isAnotherScreenPlayInstanceRunning()
     socket.close();
     return true;
 }
+
 /*!
-    Appends a new SDKConnection object shared_ptr to the m_clients list.
+    \brief Appends a new SDKConnection object shared_ptr to the m_clients list.
 */
 void SDKConnector::newConnection()
 {
@@ -62,7 +68,7 @@ void SDKConnector::newConnection()
 }
 
 /*!
- Closes all m_clients connections and clears the QVector.
+    \brief Closes all m_clients connections and clears the QVector.
 */
 void SDKConnector::closeAllConnections()
 {
@@ -73,7 +79,7 @@ void SDKConnector::closeAllConnections()
 }
 
 /*!
- Closes all wallpaper connection with the following type:
+ \brief Closes all wallpaper connection with the following type:
  \list
     \li videoWallpaper
     \li qmlWallpaper
@@ -113,7 +119,7 @@ void SDKConnector::closeAllWidgets()
 }
 
 /*!
-  \brief SDKConnector::closeConntectionByType
+  \brief Closes a connection by type. Used only by closeAllWidgets() and closeAllWallpapers()
 */
 void SDKConnector::closeConntectionByType(const QStringList& list)
 {
@@ -147,7 +153,7 @@ void SDKConnector::closeWallpapersAt(int at)
 }
 
 /*!
-  \brief  Closes a wallpaper by the given \a appID.
+  \brief Closes a wallpaper by the given \a appID.
 */
 void SDKConnector::closeWallpaper(const QString& appID)
 {
