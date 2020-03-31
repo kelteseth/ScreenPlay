@@ -71,8 +71,8 @@ Item {
     GridView {
         id: gridView
         boundsBehavior: Flickable.DragOverBounds
-        maximumFlickVelocity: 7000
-        flickDeceleration: 5000
+        maximumFlickVelocity: 2500
+        flickDeceleration: 2500
         anchors.fill: parent
         cellWidth: 340
         cellHeight: 200
