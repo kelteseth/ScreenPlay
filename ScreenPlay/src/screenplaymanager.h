@@ -63,12 +63,14 @@ signals:
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
 
 public slots:
-    void createWallpaper(QVector<int> monitorIndex,
+    void createWallpaper(
+        QVector<int> monitorIndex,
+        const GlobalVariables::WallpaperType type,
         const QString& absoluteStoragePath,
         const QString& previewImage,
         const float volume,
         const QString& fillMode,
-        const QString& type, const bool saveToProfilesConfigFile = true);
+        const bool saveToProfilesConfigFile = true);
 
     void createWidget(
         const QUrl& absoluteStoragePath,

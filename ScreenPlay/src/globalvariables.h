@@ -1,5 +1,6 @@
 #pragma once
 #include <QObject>
+#include <QQmlEngine>
 #include <QStandardPaths>
 #include <QUrl>
 #include <QVersionNumber>
@@ -28,8 +29,24 @@ public:
     explicit GlobalVariables(QObject* parent = nullptr)
         : QObject(parent)
     {
+        qRegisterMetaType<GlobalVariables::WallpaperType>("CreateImportVideo::WallpaperType");
+        qRegisterMetaType<GlobalVariables::WidgetType>("CreateImportVideo::WallpaperType");
+        qmlRegisterUncreatableType<GlobalVariables>("ScreenPlay.GlobalVariables", 1, 0, "GlobalVariables", "Error only for enums");
         setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::DataLocation) });
     }
+
+    enum class WallpaperType {
+        VideoWallpaper,
+        QMLWallpaper,
+        HTMLWallpaper
+    };
+    Q_ENUM(WallpaperType)
+
+    enum class WidgetType {
+        QMLWidget,
+        HTMLWidget
+    };
+    Q_ENUM(WidgetType)
 
     /*!
         \brief Returns the localStoragePath.

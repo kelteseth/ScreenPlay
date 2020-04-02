@@ -39,7 +39,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 {
     qRegisterMetaType<Settings::FillMode>("Settings::FillMode");
     qRegisterMetaType<Settings::Language>("Settings::Language");
-    qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
+    qmlRegisterUncreatableType<Settings>("ScreenPlay.Settings", 1, 0, "Settings", "Error only for enums");
 
     if (!m_qSettings.contains("Autostart")) {
 #ifdef Q_OS_WIN

@@ -6,7 +6,7 @@ import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 
 import ScreenPlay 1.0
-import Settings 1.0
+import ScreenPlay.Settings 1.0
 
 import "../Common"
 

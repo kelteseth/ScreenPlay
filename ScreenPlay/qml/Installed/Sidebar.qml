@@ -6,7 +6,8 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
 
 import ScreenPlay 1.0
-import Settings 1.0
+import ScreenPlay.GlobalVariables 1.0
+import ScreenPlay.Settings 1.0
 
 import "../Monitors"
 import "../Common" as SP

@@ -39,11 +39,11 @@ ScreenPlayManager::ScreenPlayManager(
 */
 void ScreenPlayManager::createWallpaper(
     QVector<int> monitorIndex,
+    const GlobalVariables::WallpaperType type,
     const QString& absoluteStoragePath,
     const QString& previewImage,
     const float volume,
     const QString& fillMode,
-    const QString& type,
     const bool saveToProfilesConfigFile)
 {
     if (m_telemetry) {
@@ -79,7 +79,7 @@ void ScreenPlayManager::createWallpaper(
         for (auto& wallpaperIterator : m_screenPlayWallpapers) {
             if (wallpaperIterator->screenNumber().length() == 1) {
                 if (monitors.at(0) == wallpaperIterator->screenNumber().at(0)) {
-                    if(!removeWallpaperAt(i)){
+                    if (!removeWallpaperAt(i)) {
                         qWarning() << "Could not remove wallpaper at index " << i;
                     }
                 }
@@ -88,33 +88,28 @@ void ScreenPlayManager::createWallpaper(
         }
     }
 
+    // Do not save on app start
+    if (saveToProfilesConfigFile) {
+        if (type == GlobalVariables::WallpaperType::VideoWallpaper) {
+            QJsonObject settings = wallpaper->getActiveSettingsJson();
+
+            saveWallpaperProfile("default", settings);
+            return;
+        }
+        if (type == GlobalVariables::WallpaperType::QMLWallpaper) {
+            QJsonObject settings;
+            settings.insert("monitors", monitors);
+            settings.insert("type", QVariant::fromValue(type).toString());
+            settings.insert("previewImage", previewImage);
+            settings.insert("absolutePath", path);
+
+            saveWallpaperProfile("default", settings);
+        }
+    }
+
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
     increaseActiveWallpaperCounter();
-
-    if (saveToProfilesConfigFile && type == "videoWallpaper") {
-        QJsonObject settings;
-        settings.insert("monitors", monitors);
-        settings.insert("type", type);
-        settings.insert("volume", static_cast<double>(volume));
-        settings.insert("isLooping", true);
-        settings.insert("fillMode", fillMode);
-        settings.insert("previewImage", previewImage);
-        settings.insert("absolutePath", path);
-
-        saveWallpaperProfile("default", settings);
-        return;
-    }
-    if (saveToProfilesConfigFile && type == "qmlWallpaper") {
-        QJsonObject settings;
-        settings.insert("monitors", monitors);
-        settings.insert("type", type);
-        settings.insert("previewImage", previewImage);
-        settings.insert("absolutePath", path);
-
-        saveWallpaperProfile("default", settings);
-    }
-
 }
 
 /*!
@@ -178,7 +173,7 @@ void ScreenPlayManager::removeAllWallpapers()
         Util::writeJsonObjectToFile(absoluteProfilesFilePath, newConfig);
         setActiveWallpaperCounter(0);
     } else {
-        qWarning() << "Trying to remove all wallpapers while m_screenPlayWallpapers is not empty. Count: "<< m_screenPlayWallpapers.size();
+        qWarning() << "Trying to remove all wallpapers while m_screenPlayWallpapers is not empty. Count: " << m_screenPlayWallpapers.size();
     }
 }
 
@@ -225,7 +220,7 @@ void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
         if (!uPtrWallpaper->screenNumber().empty() && uPtrWallpaper->screenNumber()[0] == index) {
             emit projectSettingsListModelFound(
                 uPtrWallpaper->projectSettingsListModel().get(),
-                uPtrWallpaper->type());
+                QVariant::fromValue(uPtrWallpaper->type()).toString());
             return;
         }
     }
@@ -278,50 +273,26 @@ bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const Q
     // Remove when implementing profiles
     Q_UNUSED(profileName)
 
-    QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toString() + "/profiles.json";
-    auto configOptional = Util::openJsonFileToObject(absoluteProfilesFilePath);
+    QJsonArray wallpaper {};
 
-    if (!configOptional) {
-        qWarning() << "Could not load active profiles.";
-        return false;
-    }
-
-    QJsonObject oldConfig = configOptional.value();
-    QJsonObject oldConfigProfile = oldConfig.value("profiles").toArray().first().toObject();
-    QJsonArray oldWallpaperArray = oldConfigProfile.value("wallpaper").toArray();
-    QJsonArray newWallpaperArray;
-
-    if (oldWallpaperArray.empty()) {
-        newWallpaperArray.append(newProfileObject);
-    } else {
-        for (QJsonValueRef wallpaper : oldWallpaperArray) {
-            QJsonObject entry = wallpaper.toObject();
-
-            if (entry.value("monitors").toArray() != newProfileObject.value("monitors").toArray()) {
-                newWallpaperArray.append(entry);
-                continue;
-            }
-
-            if ((entry.value("absolutePath").toString() == newProfileObject.value("absolutePath").toString())) {
-                newWallpaperArray.append(newProfileObject);
-            }
-        }
+    for (const auto activeWallpaper : m_screenPlayWallpapers) {
+        wallpaper.append(activeWallpaper->getActiveSettingsJson());
     }
 
     QJsonObject profileDefault;
-    profileDefault.insert("widgets", oldConfigProfile.value("widgets").toArray());
-    profileDefault.insert("appdrawer", oldConfigProfile.value("appdrawer").toArray());
-    profileDefault.insert("wallpaper", newWallpaperArray);
+    profileDefault.insert("widgets", QJsonArray {});
+    profileDefault.insert("appdrawer", QJsonArray {});
+    profileDefault.insert("wallpaper", wallpaper);
     profileDefault.insert("name", "default");
 
     QJsonArray profiles;
     profiles.append(profileDefault);
 
-    QJsonObject newConfig;
-    newConfig.insert("version", oldConfig.value("version").toString());
-    newConfig.insert("profiles", profiles);
+    QJsonObject profile;
+    profile.insert("version", "1.0.0");
+    profile.insert("profiles", profiles);
 
-    return Util::writeJsonObjectToFile(absoluteProfilesFilePath, newConfig);
+    return Util::writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile);
 }
 
 /*!
@@ -391,7 +362,7 @@ void ScreenPlayManager::loadWallpaperProfiles()
             QString file = wallpaperObj.value("file").toString();
             QString type = wallpaperObj.value("type").toString();
 
-            createWallpaper(monitors, absolutePath, previewImage, volume, fillMode, type, false);
+            createWallpaper(monitors, QStringToEnum<GlobalVariables::WallpaperType>(type, GlobalVariables::WallpaperType::VideoWallpaper), absolutePath, previewImage, volume, fillMode, false);
             monitors.clear();
         }
     }

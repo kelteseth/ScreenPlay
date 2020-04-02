@@ -42,20 +42,6 @@ class ActiveProfile;
 using std::shared_ptr,
     std::make_shared;
 
-template <typename T>
-T QStringToEnum(const QString& key, const T defaultValue)
-{
-    auto metaEnum = QMetaEnum::fromType<T>();
-
-    bool ok = false;
-    T wantedEnum = static_cast<T>(metaEnum.keyToValue(key.toUtf8(), &ok));
-
-    if (ok) {
-        return wantedEnum;
-    }
-
-    return defaultValue;
-}
 
 class Settings : public QObject {
     Q_OBJECT
