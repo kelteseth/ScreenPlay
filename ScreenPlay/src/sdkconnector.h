@@ -21,10 +21,6 @@
 namespace ScreenPlay {
 class SDKConnection;
 
-using std::make_unique,
-    std::unique_ptr,
-    std::shared_ptr,
-    std::make_shared;
 
 class SDKConnector : public QObject {
     Q_OBJECT
@@ -50,8 +46,8 @@ public slots:
     void setWallpaperValue(QString appID, QString key, QString value);
 
 private:
-    unique_ptr<QLocalServer> m_server;
-    QVector<shared_ptr<SDKConnection>> m_clients;
+    std::unique_ptr<QLocalServer> m_server;
+    QVector<std::shared_ptr<SDKConnection>> m_clients;
     bool isAnotherScreenPlayInstanceRunning();
 };
 

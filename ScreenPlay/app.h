@@ -30,10 +30,6 @@
 #include "src/util.h"
 
 namespace ScreenPlay {
-using std::make_unique,
-    std::unique_ptr,
-    std::make_shared,
-    std::shared_ptr;
 
 class App : public QObject {
     Q_OBJECT
@@ -233,20 +229,20 @@ public slots:
     }
 
 private:
-    unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
+    std::unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
 
-    unique_ptr<Create> m_create;
-    unique_ptr<ScreenPlayManager> m_screenPlayManager;
-    unique_ptr<Util> m_util;
+    std::unique_ptr<Create> m_create;
+    std::unique_ptr<ScreenPlayManager> m_screenPlayManager;
+    std::unique_ptr<Util> m_util;
 
-    shared_ptr<GAnalytics> m_telemetry;
-    shared_ptr<GlobalVariables> m_globalVariables;
-    shared_ptr<Settings> m_settings;
-    shared_ptr<SDKConnector> m_sdkConnector;
+    std::shared_ptr<GAnalytics> m_telemetry;
+    std::shared_ptr<GlobalVariables> m_globalVariables;
+    std::shared_ptr<Settings> m_settings;
+    std::shared_ptr<SDKConnector> m_sdkConnector;
 
-    shared_ptr<InstalledListModel> m_installedListModel;
-    shared_ptr<MonitorListModel> m_monitorListModel;
-    shared_ptr<ProfileListModel> m_profileListModel;
-    shared_ptr<InstalledListFilter> m_installedListFilter;
+    std::shared_ptr<InstalledListModel> m_installedListModel;
+    std::shared_ptr<MonitorListModel> m_monitorListModel;
+    std::shared_ptr<ProfileListModel> m_profileListModel;
+    std::shared_ptr<InstalledListFilter> m_installedListFilter;
 };
 }

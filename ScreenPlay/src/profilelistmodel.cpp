@@ -20,7 +20,7 @@ namespace ScreenPlay {
 /*!
   Constructor
 */
-ProfileListModel::ProfileListModel(const shared_ptr<GlobalVariables>& globalVariables, QObject* parent)
+ProfileListModel::ProfileListModel(const std::shared_ptr<GlobalVariables>& globalVariables, QObject* parent)
     : QAbstractListModel(parent)
     , m_globalVariables { globalVariables }
 {

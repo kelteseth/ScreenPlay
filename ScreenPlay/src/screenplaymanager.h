@@ -23,13 +23,6 @@
 
 namespace ScreenPlay {
 
-using std::shared_ptr,
-    std::unique_ptr,
-    std::make_shared,
-    std::make_unique,
-    std::vector,
-    std::size_t,
-    std::remove_if;
 
 class ScreenPlayManager : public QObject {
     Q_OBJECT
@@ -39,11 +32,11 @@ class ScreenPlayManager : public QObject {
 
 public:
     explicit ScreenPlayManager(
-        const shared_ptr<GlobalVariables>& globalVariables,
-        const shared_ptr<MonitorListModel>& mlm,
-        const shared_ptr<SDKConnector>& sdkc,
-        const shared_ptr<GAnalytics>& telemetry,
-        const shared_ptr<Settings>& settings,
+        const std::shared_ptr<GlobalVariables>& globalVariables,
+        const std::shared_ptr<MonitorListModel>& mlm,
+        const std::shared_ptr<SDKConnector>& sdkc,
+        const std::shared_ptr<GAnalytics>& telemetry,
+        const std::shared_ptr<Settings>& settings,
         QObject* parent = nullptr);
 
     int activeWallpaperCounter() const
@@ -84,7 +77,7 @@ public slots:
     void requestProjectSettingsListModelAt(const int index);
     void setWallpaperValue(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
-    std::optional<shared_ptr<ScreenPlayWallpaper>> getWallpaperByAppID(const QString& appID);
+    std::optional<std::shared_ptr<ScreenPlayWallpaper>> getWallpaperByAppID(const QString& appID);
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)
     {
@@ -139,14 +132,14 @@ private:
     bool saveWallpaperProfile(const QString& profileName, const QJsonObject& content);
 
 private:
-    const shared_ptr<GlobalVariables>& m_globalVariables;
-    const shared_ptr<MonitorListModel>& m_monitorListModel;
-    const shared_ptr<SDKConnector>& m_sdkconnector;
-    const shared_ptr<GAnalytics>& m_telemetry;
-    const shared_ptr<Settings>& m_settings;
+    const std::shared_ptr<GlobalVariables>& m_globalVariables;
+    const std::shared_ptr<MonitorListModel>& m_monitorListModel;
+    const std::shared_ptr<SDKConnector>& m_sdkconnector;
+    const std::shared_ptr<GAnalytics>& m_telemetry;
+    const std::shared_ptr<Settings>& m_settings;
 
-    QVector<shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
-    QVector<shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
+    QVector<std::shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
+    QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
     int m_activeWallpaperCounter { 0 };
     int m_activeWidgetsCounter { 0 };
 };

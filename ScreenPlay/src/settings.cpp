@@ -32,7 +32,7 @@ namespace ScreenPlay {
     \endlist
     More errorchecking is needed here. For example when the proile or settings json cannot to parsed, use the default settings.
  */
-Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
+Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     QObject* parent)
     : QObject(parent)
     , m_globalVariables { globalVariables }

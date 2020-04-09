@@ -17,7 +17,7 @@ namespace ScreenPlay {
 */
 SDKConnector::SDKConnector(QObject* parent)
     : QObject(parent)
-    , m_server { make_unique<QLocalServer>() }
+    , m_server { std::make_unique<QLocalServer>() }
 {
 
     if (isAnotherScreenPlayInstanceRunning()) {
@@ -60,7 +60,7 @@ bool SDKConnector::isAnotherScreenPlayInstanceRunning()
 */
 void SDKConnector::newConnection()
 {
-    auto connection = make_shared<SDKConnection>(m_server->nextPendingConnection());
+    auto connection = std::make_shared<SDKConnection>(m_server->nextPendingConnection());
     // Because user can close widgets by pressing x the widgets must send us the event
     QObject::connect(connection.get(), &SDKConnection::requestDecreaseWidgetCount, this, &SDKConnector::requestDecreaseWidgetCount);
     QObject::connect(connection.get(), &SDKConnection::requestRaise, this, &SDKConnector::requestRaise);
@@ -137,7 +137,7 @@ void SDKConnector::closeConntectionByType(const QStringList& list)
 */
 void SDKConnector::closeWallpapersAt(int at)
 {
-    for (const shared_ptr<SDKConnection>& refSDKConnection : qAsConst(m_clients)) {
+    for (const std::shared_ptr<SDKConnection>& refSDKConnection : qAsConst(m_clients)) {
         refSDKConnection->close();
         if (!refSDKConnection->monitor().empty()) {
             if (refSDKConnection->monitor().at(0) == at) {

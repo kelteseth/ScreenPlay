@@ -12,9 +12,6 @@
 
 namespace ScreenPlay {
 
-using std::shared_ptr,
-    std::make_shared;
-
 class ScreenPlayWidget : public QObject {
     Q_OBJECT
 
@@ -27,7 +24,7 @@ class ScreenPlayWidget : public QObject {
 public:
     explicit ScreenPlayWidget(
         const QString& appID,
-        const shared_ptr<GlobalVariables>& globalVariables,
+        const std::shared_ptr<GlobalVariables>& globalVariables,
         const QString& projectPath,
         const QString& previewImage,
         const QString& fullPath,
@@ -116,7 +113,7 @@ signals:
 
 private:
     QProcess m_process;
-    const shared_ptr<GlobalVariables>& m_globalVariables;
+    const std::shared_ptr<GlobalVariables>& m_globalVariables;
 
     QString m_projectPath;
     QString m_previewImage;

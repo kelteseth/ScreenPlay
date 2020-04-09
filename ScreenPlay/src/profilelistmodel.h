@@ -16,8 +16,6 @@
 
 namespace ScreenPlay {
 
-using std::shared_ptr;
-
 struct Profile;
 
 class ProfileListModel : public QAbstractListModel {
@@ -25,7 +23,7 @@ class ProfileListModel : public QAbstractListModel {
 
 public:
     explicit ProfileListModel(
-        const shared_ptr<GlobalVariables>& globalVariables,
+        const std::shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
 
     enum RoleNames {
@@ -41,6 +39,6 @@ public:
 
 private:
     QVector<Profile> m_profileList;
-    const shared_ptr<GlobalVariables>& m_globalVariables;
+    const std::shared_ptr<GlobalVariables>& m_globalVariables;
 };
 }

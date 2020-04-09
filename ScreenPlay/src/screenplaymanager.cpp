@@ -15,11 +15,11 @@ namespace ScreenPlay {
   \brief Constructor-.
 */
 ScreenPlayManager::ScreenPlayManager(
-    const shared_ptr<GlobalVariables>& globalVariables,
-    const shared_ptr<MonitorListModel>& mlm,
-    const shared_ptr<SDKConnector>& sdkc,
-    const shared_ptr<GAnalytics>& telemetry,
-    const shared_ptr<Settings>& settings,
+    const std::shared_ptr<GlobalVariables>& globalVariables,
+    const std::shared_ptr<MonitorListModel>& mlm,
+    const std::shared_ptr<SDKConnector>& sdkc,
+    const std::shared_ptr<GAnalytics>& telemetry,
+    const std::shared_ptr<Settings>& settings,
     QObject* parent)
     : QObject { parent }
     , m_globalVariables { globalVariables }
@@ -62,7 +62,7 @@ void ScreenPlayManager::createWallpaper(
     }
 
     std::shared_ptr<ScreenPlayWallpaper> wallpaper;
-    wallpaper = make_shared<ScreenPlayWallpaper>(
+    wallpaper = std::make_shared<ScreenPlayWallpaper>(
         monitorIndex,
         m_globalVariables,
         Util::generateRandomString(),
@@ -123,7 +123,7 @@ void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QStr
     increaseActiveWidgetsCounter();
 
     m_screenPlayWidgets.append(
-        make_unique<ScreenPlayWidget>(
+        std::make_unique<ScreenPlayWidget>(
             Util::generateRandomString(),
             m_globalVariables,
             absoluteStoragePath.toLocalFile(),
@@ -216,7 +216,7 @@ bool ScreenPlayManager::removeWallpaperAt(int at)
 */
 void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
 {
-    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
+    for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
         if (!uPtrWallpaper->screenNumber().empty() && uPtrWallpaper->screenNumber()[0] == index) {
             emit projectSettingsListModelFound(
                 uPtrWallpaper->projectSettingsListModel().get(),
@@ -246,7 +246,7 @@ void ScreenPlayManager::setWallpaperValue(const int index, const QString& key, c
 */
 void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
 {
-    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
+    for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
         m_sdkconnector->setWallpaperValue(uPtrWallpaper->appID(), key, value);
     }
 }
@@ -254,7 +254,7 @@ void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& 
 /*!
   \brief Returns \c a ScreenPlayWallpaper if successful, otherwhise \c std::nullopt.
 */
-std::optional<shared_ptr<ScreenPlayWallpaper>> ScreenPlayManager::getWallpaperByAppID(const QString& appID)
+std::optional<std::shared_ptr<ScreenPlayWallpaper>> ScreenPlayManager::getWallpaperByAppID(const QString& appID)
 {
     for (auto& wallpaper : m_screenPlayWallpapers) {
         if (wallpaper->appID() == appID) {

@@ -15,7 +15,7 @@ namespace ScreenPlay {
 */
 ScreenPlayWidget::ScreenPlayWidget(
     const QString& appID,
-    const shared_ptr<GlobalVariables>& globalVariables,
+    const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString& projectPath,
     const QString& previewImage,
     const QString& fullPath,

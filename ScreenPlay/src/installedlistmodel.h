@@ -27,8 +27,6 @@
 
 namespace ScreenPlay {
 
-using std::shared_ptr;
-
 class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
 
@@ -36,7 +34,7 @@ class InstalledListModel : public QAbstractListModel {
 
 public:
     explicit InstalledListModel(
-        const shared_ptr<GlobalVariables>& globalVariables,
+        const std::shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
 
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
@@ -89,6 +87,6 @@ private:
     QVector<ProjectFile> m_screenPlayFiles;
     int m_count { 0 };
 
-    const shared_ptr<GlobalVariables>& m_globalVariables;
+    const std::shared_ptr<GlobalVariables>& m_globalVariables;
 };
 }

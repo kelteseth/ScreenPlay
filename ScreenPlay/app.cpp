@@ -44,7 +44,6 @@ namespace ScreenPlay {
 App::App()
     : QObject(nullptr)
 {
-
     QGuiApplication::setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
@@ -94,7 +93,7 @@ App::App()
     qmlRegisterAnonymousType<SDKConnector>("ScreenPlay", 1);
 
     // SDKConnect first to check if another ScreenPlay Instace is running
-    m_sdkConnector = make_shared<SDKConnector>();
+    m_sdkConnector = std::make_shared<SDKConnector>();
     m_isAnotherScreenPlayInstanceRunning = m_sdkConnector->m_isAnotherScreenPlayInstanceRunning;
 }
 
@@ -106,6 +105,8 @@ App::App()
 */
 void App::init()
 {
+    using std::make_shared, std::make_unique;
+
     // Util should be created as first so we redirect qDebugs etc. into the log
     auto* nam = new QNetworkAccessManager(this);
     m_util = make_unique<Util>(nam);

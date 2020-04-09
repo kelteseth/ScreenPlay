@@ -39,10 +39,6 @@
 namespace ScreenPlay {
 class ActiveProfile;
 
-using std::shared_ptr,
-    std::make_shared;
-
-
 class Settings : public QObject {
     Q_OBJECT
 
@@ -62,7 +58,7 @@ class Settings : public QObject {
 
 public:
     explicit Settings(
-        const shared_ptr<GlobalVariables>& globalVariables,
+        const std::shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
 
     enum class FillMode {
@@ -317,7 +313,7 @@ private:
     QSettings m_qSettings;
     QTranslator m_translator;
 
-    const shared_ptr<GlobalVariables>& m_globalVariables;
+    const std::shared_ptr<GlobalVariables>& m_globalVariables;
 
     bool m_autostart { true };
     bool m_highPriorityStart { true };

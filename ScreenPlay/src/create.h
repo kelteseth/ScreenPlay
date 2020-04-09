@@ -28,9 +28,6 @@
 
 namespace ScreenPlay {
 
-using std::shared_ptr,
-    std::make_shared;
-
 class Create : public QObject {
     Q_OBJECT
 
@@ -40,7 +37,7 @@ class Create : public QObject {
 
 public:
     explicit Create(
-        const shared_ptr<GlobalVariables>& globalVariables,
+        const std::shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
     Create();
 
@@ -137,7 +134,7 @@ private:
     CreateImportVideo* m_createImportVideo { nullptr };
     QThread* m_createImportVideoThread { nullptr };
 
-    const shared_ptr<GlobalVariables> m_globalVariables;
+    const std::shared_ptr<GlobalVariables> m_globalVariables;
 
     float m_progress { 0.0F };
     QString m_workingDir;
