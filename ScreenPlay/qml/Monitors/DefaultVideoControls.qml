@@ -6,6 +6,7 @@ import QtQuick.Layouts 1.3
 
 import ScreenPlay 1.0
 import ScreenPlay.Settings 1.0
+import ScreenPlay.GlobalVariables 1.0
 
 import "../Common/" as SP
 

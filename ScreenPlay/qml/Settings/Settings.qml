@@ -7,6 +7,7 @@ import Qt.labs.platform 1.0
 
 import ScreenPlay 1.0
 import ScreenPlay.Settings 1.0
+import ScreenPlay.GlobalVariables 1.0
 
 import "../Common"
 
@@ -288,19 +289,19 @@ Item {
                                                  cbVideoFillMode.comboBox.currentValue)
 
                                 model: [{
-                                        "value": Settings.Stretch,
+                                        "value": GlobalVariables.Stretch,
                                         "text": qsTr("Stretch")
                                     }, {
-                                        "value": Settings.Fill,
+                                        "value": GlobalVariables.Fill,
                                         "text": qsTr("Fill")
                                     }, {
-                                        "value": Settings.Contain,
+                                        "value": GlobalVariables.Contain,
                                         "text": qsTr("Contain")
                                     }, {
-                                        "value": Settings.Cover,
+                                        "value": GlobalVariables.Cover,
                                         "text": qsTr("Cover")
                                     }, {
-                                        "value": Settings.Scale_Down,
+                                        "value": GlobalVariables.Scale_Down,
                                         "text": qsTr("Scale-Down")
                                     }]
                             }

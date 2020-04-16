@@ -13,13 +13,12 @@ namespace ScreenPlay {
 /*!
   \brief Constructor.
 */
-ScreenPlayWidget::ScreenPlayWidget(
-    const QString& appID,
+ScreenPlayWidget::ScreenPlayWidget(const QString& appID,
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString& projectPath,
     const QString& previewImage,
     const QString& fullPath,
-    const QString& type)
+    const GlobalVariables::WidgetType type)
     : QObject { nullptr }
     , m_globalVariables { globalVariables }
     , m_projectPath { projectPath }
@@ -31,7 +30,7 @@ ScreenPlayWidget::ScreenPlayWidget(
     const QStringList proArgs {
         m_projectPath,
         QString { "appID=" + m_appID },
-        m_type
+        QVariant::fromValue(m_type).toString()
     };
     m_process.setArguments(proArgs);
 

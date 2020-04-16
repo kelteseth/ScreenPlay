@@ -129,7 +129,12 @@ void BaseWindow::messageReceived(QString key, QString value)
     }
 
     if (key == "fillmode") {
-        setFillMode(QVariant(value).toString());
+        // HTML5 Video uses - that c++ enums cannot
+        if(QVariant(value).toString() == "Scale_Down"){
+            setFillMode("Scale-Down");
+        } else {
+            setFillMode(QVariant(value).toString());
+        }
         return;
     }
 

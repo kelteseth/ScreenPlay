@@ -34,7 +34,7 @@ public:
         const QString& absolutePath,
         const QString& previewImage,
         const float volume,
-        const QString& fillMode,
+        const GlobalVariables::FillMode fillMode,
         const GlobalVariables::WallpaperType type,
         const bool checkWallpaperVisible,
         QObject* parent = nullptr);

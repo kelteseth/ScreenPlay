@@ -108,9 +108,9 @@ void App::init()
     using std::make_shared, std::make_unique;
 
     // Util should be created as first so we redirect qDebugs etc. into the log
+    m_globalVariables = make_shared<GlobalVariables>();
     auto* nam = new QNetworkAccessManager(this);
     m_util = make_unique<Util>(nam);
-    m_globalVariables = make_shared<GlobalVariables>();
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables);
     m_installedListFilter = make_shared<InstalledListFilter>(m_installedListModel);
     m_monitorListModel = make_shared<MonitorListModel>();

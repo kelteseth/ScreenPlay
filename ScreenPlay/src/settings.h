@@ -49,7 +49,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
 
-    Q_PROPERTY(FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
+    Q_PROPERTY(GlobalVariables::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
     Q_PROPERTY(Language language READ language WRITE setLanguage NOTIFY languageChanged)
 
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
@@ -60,15 +60,6 @@ public:
     explicit Settings(
         const std::shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
-
-    enum class FillMode {
-        Stretch,
-        Fill,
-        Contain,
-        Cover,
-        Scale_Down
-    };
-    Q_ENUM(FillMode)
 
     enum class Language {
         En,
@@ -126,7 +117,7 @@ public:
         return m_checkWallpaperVisible;
     }
 
-    FillMode videoFillMode() const
+    GlobalVariables::FillMode videoFillMode() const
     {
         return m_videoFillMode;
     }
@@ -158,7 +149,7 @@ signals:
     void silentStartChanged(bool silentStart);
     void anonymousTelemetryChanged(bool anonymousTelemetry);
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
-    void videoFillModeChanged(FillMode videoFillMode);
+    void videoFillModeChanged(GlobalVariables::FillMode videoFillMode);
     void languageChanged(Language language);
     void fontChanged(QString font);
 
@@ -275,7 +266,7 @@ public slots:
         emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
     }
 
-    void setVideoFillMode(FillMode videoFillMode)
+    void setVideoFillMode(GlobalVariables::FillMode videoFillMode)
     {
         if (m_videoFillMode == videoFillMode)
             return;
@@ -324,8 +315,8 @@ private:
 
     QString m_gitBuildHash;
     QString m_decoder;
-    FillMode m_videoFillMode = FillMode::Cover;
+    GlobalVariables::FillMode m_videoFillMode = GlobalVariables::FillMode::Cover;
     Language m_language = Language::En;
-    QString m_font {"Roboto"};
+    QString m_font { "Roboto" };
 };
 }

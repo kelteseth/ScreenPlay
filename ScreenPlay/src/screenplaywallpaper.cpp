@@ -13,14 +13,13 @@ namespace ScreenPlay {
 /*!
     \brief  Constructor for video Wallpaper.
 */
-ScreenPlayWallpaper::ScreenPlayWallpaper(
-    const QVector<int>& screenNumber,
+ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString& appID,
     const QString& absolutePath,
     const QString& previewImage,
     const float volume,
-    const QString& fillMode,
+    const GlobalVariables::FillMode fillMode,
     const GlobalVariables::WallpaperType type,
     const bool checkWallpaperVisible,
     QObject* parent)
@@ -56,7 +55,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         m_absolutePath,
         QString { "appID=" + m_appID },
         QString::number(static_cast<double>(volume)),
-        fillMode,
+        QVariant::fromValue(fillMode).toString(),
         QVariant::fromValue(type).toString(),
         QString::number(checkWallpaperVisible)
     };

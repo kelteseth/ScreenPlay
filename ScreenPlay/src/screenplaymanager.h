@@ -57,18 +57,18 @@ signals:
 
 public slots:
     void createWallpaper(
-        QVector<int> monitorIndex,
         const GlobalVariables::WallpaperType type,
         const QString& absoluteStoragePath,
         const QString& previewImage,
+        QVector<int> monitorIndex,
         const float volume,
-        const QString& fillMode,
+        const GlobalVariables::FillMode fillMode,
         const bool saveToProfilesConfigFile = true);
 
     void createWidget(
+        const GlobalVariables::WidgetType type,
         const QUrl& absoluteStoragePath,
-        const QString& previewImage,
-        const QString& type);
+        const QString& previewImage);
 
     void removeAllWallpapers();
     void removeAllWidgets();

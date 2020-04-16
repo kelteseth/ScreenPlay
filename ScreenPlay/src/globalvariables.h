@@ -26,14 +26,17 @@ class GlobalVariables : public QObject {
     Q_PROPERTY(QUrl widgetExecutablePath READ widgetExecutablePath WRITE setWidgetExecutablePath NOTIFY widgetExecutablePathChanged)
 
 public:
-    explicit GlobalVariables(QObject* parent = nullptr)
-        : QObject(parent)
-    {
-        qRegisterMetaType<GlobalVariables::WallpaperType>("CreateImportVideo::WallpaperType");
-        qRegisterMetaType<GlobalVariables::WidgetType>("CreateImportVideo::WallpaperType");
-        qmlRegisterUncreatableType<GlobalVariables>("ScreenPlay.GlobalVariables", 1, 0, "GlobalVariables", "Error only for enums");
-        setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::DataLocation) });
-    }
+    explicit GlobalVariables(QObject* parent = nullptr);
+
+    enum class FillMode {
+        Stretch,
+        Fill,
+        Contain,
+        Cover,
+        Scale_Down
+    };
+    Q_ENUM(FillMode)
+
 
     enum class WallpaperType {
         VideoWallpaper,
@@ -49,6 +52,7 @@ public:
     Q_ENUM(WidgetType)
 
     /*!
+        \property GlobalVariables::localStoragePath
         \brief Returns the localStoragePath.
     */
     QUrl localStoragePath() const
@@ -56,6 +60,7 @@ public:
         return m_localStoragePath;
     }
     /*!
+        \property GlobalVariables::localSettingsPath
         \brief Returns the localSettingsPath.
     */
     QUrl localSettingsPath() const
@@ -63,6 +68,7 @@ public:
         return m_localSettingsPath;
     }
     /*!
+        \property GlobalVariables::wallpaperExecutablePath
         \brief  Returns the wallpaperExecutablePath. This only differes in development builds.
     */
     QUrl wallpaperExecutablePath() const
@@ -70,6 +76,7 @@ public:
         return m_wallpaperExecutablePath;
     }
     /*!
+        \property GlobalVariables::widgetExecutablePath
         \brief Returns the widgetExecutablePath. This only differes in development builds.
     */
     QUrl widgetExecutablePath() const
@@ -77,6 +84,7 @@ public:
         return m_widgetExecutablePath;
     }
     /*!
+        \property GlobalVariables::m_version
         \brief Returns the current app version. Not yet used.
     */
     QVersionNumber version() const

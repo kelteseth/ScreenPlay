@@ -23,6 +23,7 @@ RESOURCES += \
 SOURCES +=  \
     $$PWD/main.cpp \
     $$PWD/app.cpp \
+    $$PWD/src/globalvariables.cpp \
     $$PWD/src/createimportvideo.cpp \
     $$PWD/src/installedlistmodel.cpp \
     $$PWD/src/monitorlistmodel.cpp \

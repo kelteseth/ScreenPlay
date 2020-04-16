@@ -38,12 +38,12 @@ ScreenPlayManager::ScreenPlayManager(
     if we call the method when using via the settings on startup to skip a unnecessary save.
 */
 void ScreenPlayManager::createWallpaper(
-    QVector<int> monitorIndex,
     const GlobalVariables::WallpaperType type,
     const QString& absoluteStoragePath,
     const QString& previewImage,
+    QVector<int> monitorIndex,
     const float volume,
-    const QString& fillMode,
+    const GlobalVariables::FillMode fillMode,
     const bool saveToProfilesConfigFile)
 {
     if (m_telemetry) {
@@ -115,7 +115,10 @@ void ScreenPlayManager::createWallpaper(
 /*!
   \brief Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
 */
-void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QString& previewImage, const QString& type)
+void ScreenPlayManager::createWidget(
+    const GlobalVariables::WidgetType type,
+    const QUrl& absoluteStoragePath,
+    const QString& previewImage)
 {
     if (m_telemetry) {
         m_telemetry->sendEvent("widget", "start");
@@ -357,12 +360,14 @@ void ScreenPlayManager::loadWallpaperProfiles()
                 volume = 1.0f;
 
             QString absolutePath = wallpaperObj.value("absolutePath").toString();
-            QString fillMode = wallpaperObj.value("fillMode").toString();
+            QString fillModeString = wallpaperObj.value("fillMode").toString();
             QString previewImage = wallpaperObj.value("previewImage").toString();
             QString file = wallpaperObj.value("file").toString();
-            QString type = wallpaperObj.value("type").toString();
+            QString typeString = wallpaperObj.value("type").toString();
+            auto type = QStringToEnum<GlobalVariables::WallpaperType>(typeString, GlobalVariables::WallpaperType::VideoWallpaper);
+            auto fillMode = QStringToEnum<GlobalVariables::FillMode>(fillModeString, GlobalVariables::FillMode::Cover);
 
-            createWallpaper(monitors, QStringToEnum<GlobalVariables::WallpaperType>(type, GlobalVariables::WallpaperType::VideoWallpaper), absolutePath, previewImage, volume, fillMode, false);
+            createWallpaper(type, absolutePath, previewImage, monitors, volume, fillMode, false);
             monitors.clear();
         }
     }

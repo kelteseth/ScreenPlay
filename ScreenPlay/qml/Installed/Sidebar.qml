@@ -20,6 +20,7 @@ Item {
 
     property real navHeight
     property string type
+    property var typeEnum: GlobalVariables.QMLWallpaper
     property string activeScreen
 
     function indexOfValue(model, value) {
@@ -48,22 +49,27 @@ Item {
 
             switch (type) {
             case "videoWallpaper":
+                root.typeEnum = GlobalVariables.VideoWallpaper
                 state = "videoWallpaper"
                 return
             case "htmlWallpaper":
                 state = "activeScene"
+                root.typeEnum = GlobalVariables.HTMLWallpaper
                 return
             case "qmlWallpaper":
                 state = "activeScene"
+                root.typeEnum = GlobalVariables.QMLWallpaper
                 return
             case "godotWallpaper":
                 state = "activeScene"
                 return
             case "qmlWidget":
                 state = "activeWidget"
+                root.typeEnum = GlobalVariables.QMLWidget
                 return
             case "htmlWidget":
                 state = "activeWidget"
+                root.typeEnum = GlobalVariables.HTMLWidget
                 return
             case "standaloneWidget":
                 state = "activeWidget"
@@ -298,19 +304,19 @@ Item {
 
 
                         model: [{
-                                "value": Settings.Stretch,
+                                "value": GlobalVariables.Stretch,
                                 "text": qsTr("Stretch")
                             }, {
-                                "value": Settings.Fill,
+                                "value": GlobalVariables.Fill,
                                 "text": qsTr("Fill")
                             }, {
-                                "value": Settings.Contain,
+                                "value": GlobalVariables.Contain,
                                 "text": qsTr("Contain")
                             }, {
-                                "value": Settings.Cover,
+                                "value": GlobalVariables.Cover,
                                 "text": qsTr("Cover")
                             }, {
-                                "value": Settings.Scale_Down,
+                                "value": GlobalVariables.Scale_Down,
                                 "text": qsTr("Scale-Down")
                             }]
                     }
@@ -354,18 +360,22 @@ Item {
                         if (activeMonitors.length === 0)
                             return
 
+                        print(typeEnum)
+ typeof(typeEnum)
                         ScreenPlay.screenPlayManager.createWallpaper(
-                                    activeMonitors, ScreenPlay.globalVariables.localStoragePath
-                                    + "/" + activeScreen,
+                                    typeEnum ,
+                                    ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
                                     ScreenPlay.installedListModel.get(activeScreen).screenPreview,
+                                    activeMonitors,
                                     (Math.round(sliderVolume.value * 100) / 100),
-                                    cbVideoFillMode.currentText, type)
+                                    cbVideoFillMode.currentValue
+                                    )
                     } else {
+
                         ScreenPlay.screenPlayManager.createWidget(
-                                    ScreenPlay.globalVariables.localStoragePath
-                                    + "/" + activeScreen,
-                                    ScreenPlay.installedListModel.get(
-                                        activeScreen).screenPreview, type)
+                                    ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
+                                    ScreenPlay.installedListModel.get( activeScreen).screenPreview,
+                                    typeEnum)
                     }
                     root.state = "inactive"
                     monitorSelection.deselectAll()

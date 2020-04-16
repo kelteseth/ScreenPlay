@@ -37,7 +37,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     : QObject(parent)
     , m_globalVariables { globalVariables }
 {
-    qRegisterMetaType<Settings::FillMode>("Settings::FillMode");
+
     qRegisterMetaType<Settings::Language>("Settings::Language");
     qmlRegisterUncreatableType<Settings>("ScreenPlay.Settings", 1, 0, "Settings", "Error only for enums");
 
@@ -61,9 +61,9 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
     if (m_qSettings.contains("VideoFillMode")) {
         auto value = m_qSettings.value("VideoFillMode").toString();
-        setVideoFillMode(QStringToEnum<FillMode>(value, FillMode::Cover));
+        setVideoFillMode(QStringToEnum<GlobalVariables::FillMode>(value, GlobalVariables::FillMode::Cover));
     } else {
-        setVideoFillMode(FillMode::Cover);
+        setVideoFillMode(GlobalVariables::FillMode::Cover);
     }
 
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
