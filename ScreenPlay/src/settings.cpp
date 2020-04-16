@@ -21,11 +21,10 @@ namespace ScreenPlay {
 */
 
 /*!
-    Constructor and sets up:
+    \brief Constructor and sets up:
     \list 1
         \li Sets the git build hash via ScreenPlay.pro c++ define
         \li Checks the langauge via settings or system and available ones and installes a translator.
-        \li Checks the paths for config folders in appdata
         \li Checks the AbsoluteStoragePath.
         \li Checks regisitry for steam plugin settings
         \li Parses autostart, anonymousTelemetry, highPriorityStart
@@ -42,35 +41,38 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     qRegisterMetaType<Settings::Language>("Settings::Language");
     qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
 
-    {
-        if (!m_qSettings.contains("Autostart")) {
+    if (!m_qSettings.contains("Autostart")) {
 #ifdef Q_OS_WIN
-            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
-            if (!m_qSettings.value("Autostart").toBool()) {
-                if (!settings.contains("ScreenPlay")) {
-                }
+        QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+        if (!m_qSettings.value("Autostart").toBool()) {
+            if (!settings.contains("ScreenPlay")) {
             }
-            settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
-            settings.sync();
-#endif
-            m_qSettings.setValue("Autostart", true);
-            m_qSettings.sync();
-        } else {
-            setAutostart(m_qSettings.value("Autostart", true).toBool());
         }
+        settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
+        settings.sync();
+#endif
+        m_qSettings.setValue("Autostart", true);
+        m_qSettings.sync();
+    } else {
+        setAutostart(m_qSettings.value("Autostart", true).toBool());
     }
 
-    setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", true).toBool());
+    setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", false).toBool());
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
-    setVideoFillMode(SettingsSetQStringToEnum<FillMode>("VideoFillMode", FillMode::Fill, m_qSettings));
-    setLanguage(SettingsSetQStringToEnum<Language>("Language", Language::En, m_qSettings));
+    if (m_qSettings.contains("VideoFillMode")) {
+        auto value = m_qSettings.value("VideoFillMode").toString();
+        setVideoFillMode(QStringToEnum<FillMode>(value, FillMode::Cover));
+    } else {
+        setVideoFillMode(FillMode::Cover);
+    }
+
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
 
-
     // Wallpaper and Widgets config
-    QFile profilesFile(QStandardPaths::writableLocation(QStandardPaths::DataLocation) + "/profiles.json");
+    QFile profilesFile(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
     if (!profilesFile.exists()) {
-        qInfo("No profiles.json found, creating default settings");
+        qInfo("No profiles.json found, creating default profiles.json");
+        qDebug() << profilesFile;
         writeJsonFileFromResource("profiles");
     }
 
@@ -109,11 +111,10 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 
     setupWidgetAndWindowPaths();
     setGitBuildHash(GIT_VERSION);
-    setupLanguage();
 }
 
 /*!
-  Writes the default JsonFile from the resources and the given \a filename. Currently we have two default json files:
+  \brief Writes the default JsonFile from the resources and the given \a filename. Currently we have two default json files:
    \list
     \li profiles.json
     \li settings.json
@@ -121,7 +122,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
 */
 void Settings::writeJsonFileFromResource(const QString& filename)
 {
-    QFile file(m_globalVariables->localSettingsPath().toLocalFile() + "/" + filename + ".json");
+    QFile file(m_globalVariables->localSettingsPath().toString() + "/" + filename + ".json");
     QFile defaultSettings(":/" + filename + ".json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -137,7 +138,7 @@ void Settings::writeJsonFileFromResource(const QString& filename)
 }
 
 /*!
-  To have a better developer experience we check if we use a debug version. Then we assume
+  \brief To have a better developer experience we check if we use a debug version. Then we assume
   That the paths are the default QtCreator paths and set the widgets and wallpaper executable
   paths accordingly.
 */
@@ -195,7 +196,7 @@ void Settings::setupWidgetAndWindowPaths()
 }
 
 /*!
-  When no default language is set in the registry we check the system set language. If there is no
+  \brief When no default language is set in the registry we check the system set language. If there is no
   matching translation is available we set it to english. This function gets called from the UI when
   the user manually changes the language.
 */
@@ -209,31 +210,57 @@ void Settings::restoreDefault(const QString& appConfigLocation, const QString& s
     writeJsonFileFromResource(settingsFileType);
 }
 
+/*!
+    \brief Checks if there is already a saved language. If not we try to use the system langauge.
+     If we do not support the system language we use english.
+*/
 void Settings::setupLanguage()
 {
-    auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
+    QString langCode;
     if (m_qSettings.value("Language").isNull()) {
-        auto locale = QLocale::system().uiLanguages();
-        auto localeSplits = locale.at(0).split("-");
+        auto localeList = QLocale::system().uiLanguages();
 
-        // Only install a translator if one exsists
-        QFile tsFile;
-        qDebug() << ":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm";
-        if (tsFile.exists(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm")) {
-            m_translator.load(":/translations/ScreenPlay_" + localeSplits.at(0) + ".qm");
-            m_qSettings.setValue("language", QVariant(localeSplits.at(0)));
-            // setLanguage(QVariant(localeSplits.at(0)).toString());
+        // Like En-us, De-de
+        QStringList localeSplits = localeList.at(0).split("-");
+        langCode = localeSplits.at(0);
 
-            m_qSettings.sync();
-            app->installTranslator(&m_translator);
+        // Ether De, En, Ru, Fr...
+        if (langCode.length() != 2) {
+            qWarning() << "Could not parse locale of value " << langCode;
+            return;
         }
     } else {
-        QFile tsFile;
-        if (tsFile.exists(":/translations/ScreenPlay_" + m_qSettings.value("Language").toString() + ".qm")) {
-            m_translator.load(":/translations/ScreenPlay_" + m_qSettings.value("Language").toString() + ".qm");
-            //  setLanguage(m_qSettings.value("language").toString());
-            app->installTranslator(&m_translator);
-        }
+        langCode = m_qSettings.value("Language").toString();
     }
+
+    setLanguage(QStringToEnum<Language>(langCode, Language::En));
+    retranslateUI();
+}
+
+/*!
+    \brief Check for supported langauges. If we use a langauge that not uses
+    latin characters, we change the font. For example this happens for korean user. We ship google
+    Noto Sans CJK KR Regular for this..
+*/
+bool Settings::retranslateUI()
+{
+    auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
+    QString langCode = QVariant::fromValue(language()).toString();
+    langCode = langCode.toLower();
+    QFile tsFile;
+
+    if (tsFile.exists(":/translations/ScreenPlay_" + langCode + ".qm")) {
+        m_translator.load(":/translations/ScreenPlay_" + langCode + ".qm");
+        app->installTranslator(&m_translator);
+        emit requestRetranslation();
+
+        if (language() == Settings::Language::Ko) {
+            setFont("Noto Sans CJK KR Regular");
+        } else {
+            setFont("Roboto");
+        }
+        return true;
+    }
+    return false;
 }
 }

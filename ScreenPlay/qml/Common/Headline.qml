@@ -1,5 +1,6 @@
 import QtQuick 2.14
-
+import QtQuick.Controls.Material 2.12
+import ScreenPlay 1.0
 
 Item {
     id:root
@@ -10,10 +11,10 @@ Item {
 
     Text {
         id: txtHeadline
-        font.family: "Roboto"
         font.pointSize: 18
         color: "#444444"
         text: qsTr("Headline")
+        font.family: ScreenPlay.settings.font
     }
 
     Rectangle {

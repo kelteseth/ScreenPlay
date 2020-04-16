@@ -11,8 +11,7 @@ namespace ScreenPlay {
 */
 
 /*!
-
-  Constructor
+  \brief Constructor.
 */
 ScreenPlayWidget::ScreenPlayWidget(
     const QString& appID,

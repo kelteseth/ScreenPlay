@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.12
+import ScreenPlay 1.0
 
 Item {
     id: tagSelector
@@ -52,7 +53,7 @@ Item {
 
                 Connections {
                     target: delegate
-                    onRemoveThis: {
+                    function onRemoveThis() {
                         listModel.remove(itemIndex)
                     }
                 }
@@ -93,6 +94,7 @@ Item {
                 id: textField
                 anchors.fill: parent
                 anchors.rightMargin: 15
+                font.family: ScreenPlay.settings.font
                 anchors.leftMargin: 15
                 onTextChanged: {
                     if(textField.length >= 10){
@@ -109,6 +111,7 @@ Item {
             enabled: false
             Material.background: Material.Red
             Material.foreground: "white"
+            font.family: ScreenPlay.settings.font
             anchors {
                 right: btnAdd.left
                 rightMargin: 10
@@ -125,6 +128,7 @@ Item {
             text: qsTr("Add Tag")
             Material.background: Material.LightGreen
             Material.foreground: "white"
+            font.family: ScreenPlay.settings.font
             anchors {
                 right: parent.right
                 rightMargin: 10

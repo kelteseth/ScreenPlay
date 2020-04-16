@@ -49,16 +49,27 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.9.0");
+    QGuiApplication::setApplicationVersion("0.10.1");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QtBreakpad::init(QDir::current().absolutePath());
+
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
+
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Light.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Regular.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Thin.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Light.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Thin.ttf");
+
+    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Thin.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Regular.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Medium.ttf");
+    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Light.ttf");
+
+    if (-1 == QFontDatabase::addApplicationFont(QDir::current().absolutePath() + "/assets/fonts/NotoSansCJKkr-Regular.otf")) {
+        qWarning() << "Could not load korean font from: " << QDir::current().absolutePath() + "/assets/fonts/NotoSansCJKkr-Regular.otf";
+    }
 
     QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
@@ -75,12 +86,26 @@ App::App()
     qRegisterMetaType<MonitorListModel*>();
     qRegisterMetaType<ProfileListModel*>();
 
-    qmlRegisterAnonymousType<GlobalVariables>("ScreenPlay",1);
-    qmlRegisterAnonymousType<ScreenPlayManager>("ScreenPlay",1);
-    qmlRegisterAnonymousType<Util>("ScreenPlay",1);
-    qmlRegisterAnonymousType<Create>("ScreenPlay",1);
-    qmlRegisterAnonymousType<Settings>("ScreenPlay",1);
+    qmlRegisterAnonymousType<GlobalVariables>("ScreenPlay", 1);
+    qmlRegisterAnonymousType<ScreenPlayManager>("ScreenPlay", 1);
+    qmlRegisterAnonymousType<Util>("ScreenPlay", 1);
+    qmlRegisterAnonymousType<Create>("ScreenPlay", 1);
+    qmlRegisterAnonymousType<Settings>("ScreenPlay", 1);
+    qmlRegisterAnonymousType<SDKConnector>("ScreenPlay", 1);
 
+    // SDKConnect first to check if another ScreenPlay Instace is running
+    m_sdkConnector = make_shared<SDKConnector>();
+    m_isAnotherScreenPlayInstanceRunning = m_sdkConnector->m_isAnotherScreenPlayInstanceRunning;
+}
+
+/*!
+    \brief Used for initialization after the constructor. The sole purpose is to check if
+    another ScreenPlay instance is running and then quit early. This is also because we cannot
+    call QApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
+    loop ) has started.
+*/
+void App::init()
+{
     // Util should be created as first so we redirect qDebugs etc. into the log
     auto* nam = new QNetworkAccessManager(this);
     m_util = make_unique<Util>(nam);
@@ -89,8 +114,8 @@ App::App()
     m_installedListFilter = make_shared<InstalledListFilter>(m_installedListModel);
     m_monitorListModel = make_shared<MonitorListModel>();
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
-    m_sdkConnector = make_shared<SDKConnector>();
     m_settings = make_shared<Settings>(m_globalVariables);
+    m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
 
     // Only create tracker if user did not disallow!
     if (m_settings->anonymousTelemetry()) {
@@ -107,6 +132,9 @@ App::App()
 
     // When the installed storage path changed
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);
+    QObject::connect(m_settings.get(), &Settings::requestRetranslation, m_mainWindowEngine.get(), &QQmlEngine::retranslate);
+    m_settings->setupLanguage();
+
     QObject::connect(m_globalVariables.get(), &GlobalVariables::localStoragePathChanged, this, [this](QUrl localStoragePath) {
         m_settings->resetInstalledListmodel();
         m_settings->setqSetting("ScreenPlayContentPath", localStoragePath.toString());
@@ -122,10 +150,12 @@ App::App()
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
-    m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
 }
 
+/*!
+    \brief Tries to send the telemetry quit event before we call quit ourself.
+*/
 void App::exit()
 {
     if (!m_telemetry) {

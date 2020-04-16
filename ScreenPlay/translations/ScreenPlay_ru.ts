@@ -6,7 +6,7 @@
     <message>
         <location filename="../qml/Community/Community.qml" line="61"/>
         <source>We use Stomt because it provides quick and easy feedback via I like/I wish. So you can easily give us feedback and speak your mind. We will read these wishes on a daily basis!</source>
-        <translation type="unfinished">Мы используем Stomt, потому что он обеспечивает быструю и легкую обратную связь через &quot;Мне нравится / нравится&quot;. Таким образом, вы можете легко дать нам обратную связь и высказать свое мнение. Мы будем читать эти пожелания ежедневно!</translation>
+        <translation type="unfinished">Мы используем Stomt, потому что он обеспечивает быструю и легкую обратную связь через &quot;Мне нравится / Я бы хотел&quot;. Таким образом, вы можете легко дать нам обратную связь и высказать свое мнение. Мы будем читать эти пожелания ежедневно!</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="105"/>
@@ -31,7 +31,7 @@
     <message>
         <location filename="../qml/Community/Community.qml" line="229"/>
         <source>Workshop</source>
-        <translation type="unfinished">Семинар</translation>
+        <translation type="unfinished">Мастерская</translation>
     </message>
 </context>
 <context>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../qml/Create/Create.qml" line="116"/>
         <source>Create wallpapers and widgets for local usage or the steam workshop!</source>
-        <translation type="unfinished">Создавайте обои и виджеты для местного использования или для паровой мастерской!</translation>
+        <translation type="unfinished">Создавайте обои и виджеты для персонального использования или для мастерской Steam!</translation>
     </message>
 </context>
 <context>
@@ -56,12 +56,12 @@
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="30"/>
         <source>Create Empty Widget</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Создать пустой виджет</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="43"/>
         <source>Example Widgets and Scenes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Примеры виджетов и сцен</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="67"/>
@@ -71,12 +71,12 @@
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="78"/>
         <source>Musik scene wallpaper visualizer</source>
-        <translation type="unfinished">визуализатор обоев сцены Musik</translation>
+        <translation type="unfinished">Визуализатор сцены обоев Musik</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="89"/>
         <source>Changing scene wallpaper via unsplash.com</source>
-        <translation type="unfinished">Изменение обоев сцены через unsplash.com</translation>
+        <translation type="unfinished">Изменение сцены обоев через unsplash.com</translation>
     </message>
 </context>
 <context>
@@ -104,7 +104,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="95"/>
         <source>Type</source>
-        <translation type="unfinished">Введите</translation>
+        <translation type="unfinished">Тип</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="122"/>
@@ -124,7 +124,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="192"/>
         <source>Abort</source>
-        <translation type="unfinished">Прервать работу</translation>
+        <translation type="unfinished">Отменить</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="218"/>
@@ -153,7 +153,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="18"/>
         <source>An error occurred!</source>
-        <translation type="unfinished">Une erreur s&apos;est produite !</translation>
+        <translation type="unfinished">Произошла ошибка!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="76"/>
@@ -186,7 +186,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="67"/>
         <source>Generating preview gif...</source>
-        <translation type="unfinished">Генерирование предварительного просмотра таланта...</translation>
+        <translation type="unfinished">Генерирование предварительного просмотра gif-анимации...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="76"/>
@@ -196,17 +196,17 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="79"/>
         <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished">Conversión de vídeo... Esto puede llevar algo de tiempo!</translation>
+        <translation type="unfinished">Конвертирование видео... Это может занять некоторое время!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="83"/>
         <source>Converting Video ERROR!</source>
-        <translation type="unfinished">Конвертировать не удалось!</translation>
+        <translation type="unfinished">Конвертирование не удалось!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="107"/>
         <source>Convert a video to a wallpaper</source>
-        <translation type="unfinished">Конвертировать видео в фоновые живые обои</translation>
+        <translation type="unfinished">Конвертировать видео в видео обои</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="164"/>
@@ -236,7 +236,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="268"/>
         <source>Youtube URL</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ссылка на Youtube</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="293"/>
@@ -259,17 +259,17 @@
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="26"/>
         <source>Volume</source>
-        <translation type="unfinished">Том</translation>
+        <translation type="unfinished">Звук</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="32"/>
         <source>Playback rate</source>
-        <translation type="unfinished">скорость воспроизведения</translation>
+        <translation type="unfinished">Скорость воспроизведения</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="38"/>
         <source>Current Video Time</source>
-        <translation type="unfinished">Текущее видео время</translation>
+        <translation type="unfinished">Текущее время видео</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="51"/>
@@ -292,7 +292,7 @@
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="39"/>
         <source>FFMPEG download successful</source>
-        <translation type="unfinished">FFMPEG скачать успешно</translation>
+        <translation type="unfinished">FFMPEG скачан успешно</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="42"/>
@@ -302,22 +302,22 @@
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="46"/>
         <source>ERROR extracting ffmpeg from RAM</source>
-        <translation type="unfinished">Извлечение ОШИБКИ ffmpeg из оперативной памяти</translation>
+        <translation type="unfinished">ОШИБКА извлечения ffmpeg из оперативной памяти</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="51"/>
         <source>ERROR extracing ffmpeg</source>
-        <translation type="unfinished">экстракционный ффмпег ОШИБКИ</translation>
+        <translation type="unfinished">ОШИБКА распаковки ffmpeg</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="56"/>
         <source>ERROR saving FFMPEG to disk</source>
-        <translation type="unfinished">ОШИБКА Сохранение FFMPEG на диск</translation>
+        <translation type="unfinished">ОШИБКА сохранения FFMPEG на диск</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="61"/>
         <source>ERROR extracing FFPROBE</source>
-        <translation type="unfinished">Добыча ОШИБКИ ФФПРОБЕ</translation>
+        <translation type="unfinished">ОШИБКА распаковки FFPROBE</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="66"/>
@@ -327,7 +327,7 @@
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="70"/>
         <source>Extraction successful</source>
-        <translation type="unfinished">Добыча прошла успешно</translation>
+        <translation type="unfinished">Распаковка прошла успешно</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="73"/>
@@ -337,7 +337,7 @@
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="88"/>
         <source>You cannot create Wallaper without FFMPEG installed!</source>
-        <translation type="unfinished">Вы не сможете создать Wallaper без установленного FFMPEG!</translation>
+        <translation type="unfinished">Вы не сможете создать обои без установленного FFMPEG!</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="109"/>
@@ -464,7 +464,7 @@ ms)но есть и некоторые пророторские, такие ка
 
 
  Нам, как разработчикам программного обеспечения, теперь нужно иметь дело с такими вещами в области, в которой мы...
-не имеют никакого опыта. Преследование, позволяющее использовать только бесплатные кодеки для контента, было следующим
+не имеем никакого опыта. Преследование, позволяющее использовать только бесплатные кодеки для контента, было следующим
 простой, но нам все же нужно предоставить способ для нашего пользователя, чтобы импортировать обои.
 r без хлопот. Мы не предоставляем &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; f.
 или преобразование видео и аудио с помощью ScreenPlay, потому что мы не имеем права. Мы разрешили пользователю загрузить &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt;, что совершенно нормально!
@@ -501,7 +501,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="369"/>
         <source>Start!</source>
-        <translation type="unfinished">Начинай!</translation>
+        <translation type="unfinished">Начать!</translation>
     </message>
 </context>
 <context>
@@ -524,7 +524,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Create/Footer.qml" line="56"/>
         <source>Workshop</source>
-        <translation type="unfinished">Семинар</translation>
+        <translation type="unfinished">Мастерская</translation>
     </message>
 </context>
 <context>
@@ -532,7 +532,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="139"/>
         <source>Clear</source>
-        <translation type="unfinished">Чисто</translation>
+        <translation type="unfinished">Очистить</translation>
     </message>
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="153"/>
@@ -545,12 +545,12 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="25"/>
         <source>Import Content</source>
-        <translation type="unfinished">Импортируемое содержимое</translation>
+        <translation type="unfinished">Импорт содержимого</translation>
     </message>
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="77"/>
         <source>Import video</source>
-        <translation type="unfinished">Импортное видео</translation>
+        <translation type="unfinished">Импорт видео</translation>
     </message>
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="77"/>
@@ -560,7 +560,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="159"/>
         <source>Import ThreeJs Scene</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Импортировать сцены ThreeJs</translation>
     </message>
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="241"/>
@@ -573,13 +573,13 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Installed/Installed.qml" line="93"/>
         <source>Refreshing!</source>
-        <translation type="unfinished">Освежающе!</translation>
+        <translation type="unfinished">Обновление!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="96"/>
         <location filename="../qml/Installed/Installed.qml" line="118"/>
         <source>Pull to refresh!</source>
-        <translation type="unfinished">Тяни, чтобы освежиться!</translation>
+        <translation type="unfinished">Тяни, чтобы обновить!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="133"/>
@@ -594,7 +594,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Installed/Installed.qml" line="276"/>
         <source>Videos</source>
-        <translation type="unfinished">Видеозаписи</translation>
+        <translation type="unfinished">Видео</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="285"/>
@@ -627,7 +627,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="84"/>
         <source>Browse the Steam Workshop</source>
-        <translation type="unfinished">Просмотрите Steam мастерскую</translation>
+        <translation type="unfinished">Просмотреть мастерскую Steam</translation>
     </message>
 </context>
 <context>
@@ -635,12 +635,12 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="65"/>
         <source>Wallpaper Configuration</source>
-        <translation type="unfinished">Обои Конфигурация</translation>
+        <translation type="unfinished">Настройка обоев</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="131"/>
         <source>Remove selected</source>
-        <translation type="unfinished">Удалить выбранный</translation>
+        <translation type="unfinished">Удалить выбранные</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="142"/>
@@ -650,7 +650,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="152"/>
         <source>Remove all Widgets</source>
-        <translation type="unfinished">Supprimer tous les Widgets</translation>
+        <translation type="unfinished">Удалить все виджеты</translation>
     </message>
 </context>
 <context>
@@ -671,12 +671,12 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Installed/ScreenPlayItem.qml" line="229"/>
         <source>Open containing folder</source>
-        <translation type="unfinished">Открытая содержащая папка</translation>
+        <translation type="unfinished">Открытая содержащую папку</translation>
     </message>
     <message>
         <location filename="../qml/Installed/ScreenPlayItem.qml" line="236"/>
         <source>Open workshop Page</source>
-        <translation type="unfinished">Открытый семинар Страница</translation>
+        <translation type="unfinished">Открыть страницу мастерской</translation>
     </message>
 </context>
 <context>
@@ -694,12 +694,12 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="88"/>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation type="unfinished">ScreenPlay начнется с Windows и каждый раз будет настраивать ваш рабочий стол для вас.</translation>
+        <translation type="unfinished">ScreenPlay запустится с Windows и каждый раз будет настраивать ваш рабочий стол для вас.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="98"/>
         <source>High priority Autostart</source>
-        <translation type="unfinished">Высокий приоритет Автостарт</translation>
+        <translation type="unfinished">Высокий приоритет автостарта</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="101"/>
@@ -709,7 +709,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="113"/>
         <source>Send anonymous crash reports and statistics</source>
-        <translation type="unfinished">Отправлять анонимные сообщения о дорожно-транспортных происшествиях и статистику</translation>
+        <translation type="unfinished">Отправлять анонимные сообщения о падениях и статистику</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="114"/>
@@ -719,17 +719,17 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="125"/>
         <source>Set save location</source>
-        <translation type="unfinished">Установить сохранение местоположения</translation>
+        <translation type="unfinished">Установить расположение для сохранения</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="127"/>
         <source>Set location</source>
-        <translation type="unfinished">Установленное место</translation>
+        <translation type="unfinished">Выбрать расположение</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="143"/>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation type="unfinished">Важно: Изменение этого справочника не влияет на путь загрузки для мастерской. ScreenPlay поддерживает только одну папку с содержимым!</translation>
+        <translation type="unfinished">Важно: Изменение этой директории не влияет на путь загрузки для мастерской. ScreenPlay поддерживает только одну папку с содержимым!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="162"/>
@@ -749,7 +749,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="267"/>
         <source>Pause wallpaper while ingame</source>
-        <translation type="unfinished">Остановите wallpaper во время игры</translation>
+        <translation type="unfinished">Остановить обои во время игры</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="269"/>
@@ -779,7 +779,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="372"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation type="unfinished">Привет, я Elias Steurer, также известный как Kelteseth, и я разработчик ScreenPlay. Спасибо за использование моего программного обеспечения. Вы можете следить за мной, чтобы получать обновления о ScreenPlay здесь:</translation>
+        <translation type="unfinished">Привет, я Elias Steurer, также известный как Kelteseth, и я разработчик ScreenPlay. Спасибо за использование моего программного обеспечения. Вы можете подписаться на меня, чтобы получать обновления о ScreenPlay:</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="459"/>
@@ -794,12 +794,12 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="462"/>
         <source>Open Changelog</source>
-        <translation type="unfinished">Открытый журнал изменений</translation>
+        <translation type="unfinished">Открыть журнал изменений</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="469"/>
         <source>Third Party Software</source>
-        <translation type="unfinished">стороннее ПО</translation>
+        <translation type="unfinished">Стороннее ПО</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="470"/>
@@ -820,7 +820,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="494"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation type="unfinished">Если ваш ScreenPlay пропустит, это хороший способ поиска ответов. Он показывает все журналы и предупреждения во время выполнения.</translation>
+        <translation type="unfinished">Если ваш ScreenPlay плохо себя ведет, это хороший способ поиска ответов. Он показывает все журналы и предупреждения во время работы.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="510"/>
@@ -866,28 +866,28 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="273"/>
         <source>Fill Mode</source>
-        <translation type="unfinished">Режим наполнения</translation>
+        <translation type="unfinished">Режим заполнения</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="311"/>
         <source>Set wallpaper</source>
-        <translation type="unfinished">wallpaper выдвигаться</translation>
+        <translation type="unfinished">Установить обои</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="415"/>
         <source>Set Wallpaper</source>
-        <translation type="unfinished">wallpaper выдвигаться</translation>
+        <translation type="unfinished">Установить обои</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="466"/>
         <source>Create Widget</source>
-        <translation>widget Создать</translation>
+        <translation>Создать виджет</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="487"/>
         <location filename="../qml/Installed/Sidebar.qml" line="514"/>
         <source>Create Wallpaper</source>
-        <translation type="unfinished">wallpaper Создать</translation>
+        <translation type="unfinished">Создать обои</translation>
     </message>
 </context>
 <context>
@@ -900,7 +900,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="14"/>
         <source>Add tag</source>
-        <translation>Добавить метку</translation>
+        <translation>Добавить тэг</translation>
     </message>
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="107"/>
@@ -910,7 +910,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="125"/>
         <source>Add Tag</source>
-        <translation type="unfinished">Добавить метку</translation>
+        <translation type="unfinished">Добавить тэг</translation>
     </message>
 </context>
 <context>
@@ -918,7 +918,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Community/XMLNewsfeed.qml" line="58"/>
         <source>News &amp; Patchnotes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Список изменений</translation>
     </message>
 </context>
 <context>
@@ -931,7 +931,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../main.qml" line="134"/>
         <source>Open ScreenPlay</source>
-        <translation type="unfinished">Открытый ScreenPlay</translation>
+        <translation type="unfinished">Открыть ScreenPlay</translation>
     </message>
     <message>
         <location filename="../main.qml" line="142"/>
@@ -953,7 +953,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../main.qml" line="166"/>
         <source>Play all</source>
-        <translation type="unfinished">Играть во все</translation>
+        <translation type="unfinished">Играть всё</translation>
     </message>
     <message>
         <location filename="../main.qml" line="172"/>

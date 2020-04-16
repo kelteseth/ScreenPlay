@@ -21,9 +21,14 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 788
-    title: "ScreenPlay Alpha - V0.9.0"
+    title: "ScreenPlay Alpha - V0.10.1"
     minimumHeight: 450
     minimumWidth: 1050
+    onVisibilityChanged:  {
+        if(window.visibility === 2){
+            switchPage("Installed")
+        }
+    }
 
     Component.onCompleted: {
         if (!ScreenPlay.settings.silentStart) {
@@ -33,8 +38,6 @@ ApplicationWindow {
             ScreenPlay.setTrackerSendEvent("navigation", "Silent")
         }
     }
-
-
 
     function switchPage(name) {
         if (name === "Create") {
@@ -74,12 +77,19 @@ ApplicationWindow {
 
     Connections {
         target: ScreenPlay.util
-        onRequestNavigation: {
+        function onRequestNavigation(nav) {
             switchPage(nav)
         }
-        onRequestToggleWallpaperConfiguration: {
+        function onRequestToggleWallpaperConfiguration() {
             monitors.state = monitors.state == "active" ? "inactive" : "active"
             ScreenPlay.screenPlayManager.requestProjectSettingsListModelAt(0)
+        }
+    }
+
+    Connections {
+        target: ScreenPlay.sdkConnector
+        function onRequestRaise() {
+            window.show()
         }
     }
 
@@ -233,7 +243,7 @@ ApplicationWindow {
         target: pageLoader.item
         ignoreUnknownSignals: true
 
-        onSetSidebarActive: {
+        function onSetSidebarActive(active) {
             if (active) {
                 sidebar.state = "active"
             } else {
@@ -241,7 +251,7 @@ ApplicationWindow {
             }
         }
 
-        onSetNavigationItem: {
+        function onSetNavigationItem(pos) {
             if (pos === 0) {
                 nav.onPageChanged("Create")
             } else {

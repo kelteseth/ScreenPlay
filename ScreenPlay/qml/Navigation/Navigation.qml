@@ -2,7 +2,6 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtGraphicalEffects 1.0
 
-
 import ScreenPlay 1.0
 
 import "../Workshop"
@@ -15,6 +14,10 @@ Rectangle {
     width: 1366
     color: "#ffffff"
 
+    MouseArea {
+        anchors.fill: parent
+    }
+
     signal changePage(string name)
 
     property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity]
@@ -22,10 +25,10 @@ Rectangle {
 
     Connections {
         target: ScreenPlay.util
-        onRequestNavigationActive: {
+        function onRequestNavigationActive(isActive) {
             setActive(isActive)
         }
-        onRequestNavigation:{
+        function onRequestNavigation(nav){
             onPageChanged(nav)
         }
     }

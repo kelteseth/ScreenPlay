@@ -11,7 +11,7 @@ namespace ScreenPlay {
 */
 
 /*!
-    Constructor for video Wallpaper.
+    \brief  Constructor for video Wallpaper.
 */
 ScreenPlayWallpaper::ScreenPlayWallpaper(
     const QVector<int>& screenNumber,
@@ -39,7 +39,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
 
     QString tmpScreenNumber;
     if (m_screenNumber.length() > 1) {
-        for (const int number : m_screenNumber) {
+        for (const int number : qAsConst(m_screenNumber)) {
             // IMPORTANT: NO TRAILING COMMA!
             if (number == m_screenNumber.back()) {
                 tmpScreenNumber += QString::number(number);
@@ -68,13 +68,18 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     m_process.startDetached();
 }
 
+/*!
+    \brief Prints the exit code if != 0.
+*/
 void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitStatus)
 {
     Q_UNUSED(exitStatus)
     if (exitCode != 0)
         qDebug() << "WARNING EXIT CODE: " << exitCode;
 }
-
+/*!
+    \brief Prints the exit code error.
+*/
 void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
 {
     qDebug() << "EX: " << error;

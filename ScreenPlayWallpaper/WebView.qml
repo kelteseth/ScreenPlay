@@ -65,15 +65,40 @@ Item {
         onTriggered: requestFadeIn()
     }
 
+    Text {
+        id: txtVisualsPaused
+        text: qsTr("If you can read this, then the VisualsPaused optimization does not work on your system. You can fix this by disable this in: \n Settings -> Perfromance -> Pause wallpaper video rendering while another app is in the foreground ")
+        font.pointSize: 32
+        visible: false
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+        anchors.centerIn: parent
+
+        width: parent.width * .8
+        color: "white"
+    }
+
+
+    Timer {
+        id: timerCover
+        interval: 300
+        onTriggered: {
+            webView.visible = !window.visualsPaused
+            txtVisualsPaused.visible = window.visualsPaused
+        }
+    }
+
+
     Connections {
         target: window
 
-        onQmlExit: {
+        function onQmlExit() {
             webView.runJavaScript(
                         "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
         }
 
-        onMutedChanged: {
+        function onMutedChanged(muted) {
             if (muted) {
                 webView.runJavaScript(
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
@@ -83,28 +108,28 @@ Item {
             }
         }
 
-        onFillModeChanged: {
+        function onFillModeChanged(fillMode) {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
-                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.setAttribute('style', 'object-fit :" + window.fillMode + ";');")
+                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.setAttribute('style', 'object-fit :" + fillMode + ";');")
             }
         }
 
-        onLoopsChanged: {
+        function onLoopsChanged(loops) {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.loop = " + loops + ";")
             }
         }
 
-        onVolumeChanged: {
+        function onVolumeChanged(volume) {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + volume + ";")
             }
         }
 
-        onCurrentTimeChanged: {
+        function onCurrentTimeChanged(currentTime) {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.currentTime  = "
@@ -112,20 +137,24 @@ Item {
             }
         }
 
-        onPlaybackRateChanged: {
+        function onPlaybackRateChanged(playbackRate) {
             if (webView.loadProgress === 100) {
                 webView.runJavaScript(
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.playbackRate  = " + playbackRate + ";")
             }
         }
 
-        onVisualsPausedChanged:{
-            if(window.checkWallpaperVisible){
-                webView.visible = visualsPaused
+        function onVisualsPausedChanged(visualsPaused) {
+            if (visualsPaused) {
+                // Wait until window animation is finsihed
+                timerCover.restart()
+            } else {
+                webView.visible = true
+                txtVisualsPaused.visible = false
             }
         }
 
-        onIsPlayingChanged: {
+        function onIsPlayingChanged(isPlaying) {
             if (webView.loadProgress === 100) {
                 if (isPlaying) {
                     webView.runJavaScript(

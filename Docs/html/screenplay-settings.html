@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8">
 <!-- settings.cpp -->
   <title>Settings Class | ScreenPlay</title>
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
@@ -22,7 +21,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">Settings Class</h1>
-<span class="small-subtitle">(<a href="screenplay-settings.html">ScreenPlay::Settings</a>)<br/></span>
+<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::Settings</span>
 <!-- $$$Settings-brief -->
 <p>Global settings class for reading and writing settings. <a href="#details">More...</a></p>
 <!-- @@@Settings -->
@@ -37,43 +36,49 @@
 <tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#Settings">Settings</a></b>(const shared_ptr&lt;ScreenPlay::GlobalVariables&gt; &amp;<i>globalVariables</i>, QObject *<i>parent</i> = nullptr)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#anonymousTelemetry-prop">anonymousTelemetry</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#autostart-prop">autostart</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#checkWallpaperVisible-prop">checkWallpaperVisible</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#decoder-prop">decoder</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#font-prop">font</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#gitBuildHash-prop">gitBuildHash</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#highPriorityStart-prop">highPriorityStart</a></b>() const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#language-prop">language</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Settings::Language </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#language-prop">language</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#offlineMode-prop">offlineMode</a></b>() const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#pauseWallpaperWhenIngame-prop">pauseWallpaperWhenIngame</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#setupLanguage">setupLanguage</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">silentStart</a></b>() const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> QVersionNumber </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#version-prop">version</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Settings::FillMode </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">videoFillMode</a></b>() const</td></tr>
 </table></div>
 <a name="public-slots"></a>
 <h2 id="public-slots">Public Slots</h2>
 <div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#retranslateUI">retranslateUI</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#anonymousTelemetry-prop">setAnonymousTelemetry</a></b>(bool <i>anonymousTelemetry</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#autostart-prop">setAutostart</a></b>(bool <i>autostart</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#checkWallpaperVisible-prop">setCheckWallpaperVisible</a></b>(bool <i>checkWallpaperVisible</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#decoder-prop">setDecoder</a></b>(QString <i>decoder</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#font-prop">setFont</a></b>(QString <i>font</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#gitBuildHash-prop">setGitBuildHash</a></b>(QString <i>gitBuildHash</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#highPriorityStart-prop">setHighPriorityStart</a></b>(bool <i>highPriorityStart</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#language-prop">setLanguage</a></b>(QString <i>language</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#language-prop">setLanguage</a></b>(ScreenPlay::Settings::Language <i>language</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#offlineMode-prop">setOfflineMode</a></b>(bool <i>offlineMode</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#pauseWallpaperWhenIngame-prop">setPauseWallpaperWhenIngame</a></b>(bool <i>pauseWallpaperWhenIngame</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">setSilentStart</a></b>(bool <i>silentStart</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">setVideoFillMode</a></b>(ScreenPlay::Settings::FillMode <i>videoFillMode</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#setupWidgetAndWindowPaths">setupWidgetAndWindowPaths</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#writeJsonFileFromResource">writeJsonFileFromResource</a></b>(const QString &amp;<i>filename</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#writeSingleSettingConfig">writeSingleSettingConfig</a></b>(QString <i>name</i>, QVariant <i>value</i>)</td></tr>
 </table></div>
 <a name="signals"></a>
 <h2 id="signals">Signals</h2>
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#anonymousTelemetry-prop">anonymousTelemetryChanged</a></b>(bool <i>anonymousTelemetry</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#autostart-prop">autostartChanged</a></b>(bool <i>autostart</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#checkWallpaperVisible-prop">checkWallpaperVisibleChanged</a></b>(bool <i>checkWallpaperVisible</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#decoder-prop">decoderChanged</a></b>(QString <i>decoder</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#font-prop">fontChanged</a></b>(QString <i>font</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#gitBuildHash-prop">gitBuildHashChanged</a></b>(QString <i>gitBuildHash</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#highPriorityStart-prop">highPriorityStartChanged</a></b>(bool <i>highPriorityStart</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#language-prop">languageChanged</a></b>(QString <i>language</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#language-prop">languageChanged</a></b>(ScreenPlay::Settings::Language <i>language</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#offlineMode-prop">offlineModeChanged</a></b>(bool <i>offlineMode</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#pauseWallpaperWhenIngame-prop">pauseWallpaperWhenIngameChanged</a></b>(bool <i>pauseWallpaperWhenIngame</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">silentStartChanged</a></b>(bool <i>silentStart</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">videoFillModeChanged</a></b>(ScreenPlay::Settings::FillMode <i>videoFillMode</i>)</td></tr>
 </table></div>
 <a name="details"></a>
 <!-- $$$Settings-description -->
@@ -81,9 +86,8 @@
 <h2 id="details">Detailed Description</h2>
 <p>Used for:</p>
 <ul>
-<li>User configuration via AppDataLocalScreenPlayScreenPlay<ul>
+<li>User configuration via AppData<b class="redFont"><code>\Local</code></b>ScreenPlayScreenPlay<ul>
 <li>profiles.json - saved wallpaper and widgets config</li>
-<li>settings.json - saved settings like autostart and installedContentPath</li>
 <li>Computer\HKEY_CURRENT_USER\Software\<a href="screenplay.html">ScreenPlay</a>\<a href="screenplay.html">ScreenPlay</a> - ScreenPlayContentPath for steam plugin</li>
 </ul>
 </li>
@@ -99,16 +103,17 @@
 <p>Constructor and sets up:</p>
 <ol class="1" type="1"><li>Sets the git build hash via <a href="screenplay.html">ScreenPlay</a>.pro c++ define</li>
 <li>Checks the langauge via settings or system and available ones and installes a translator.</li>
-<li>Checks the paths for config folders in appdata</li>
-<li>Checks if settings.json and profiles.json are available. If first run it creates the default settings and profiles json.</li>
-<li>Parses the version and checks with the compiled one.</li>
-<li>Checks the absoluteStoragePath.</li>
+<li>Checks the AbsoluteStoragePath.</li>
 <li>Checks regisitry for steam plugin settings</li>
 <li>Parses autostart, <a href="screenplay-settings.html#anonymousTelemetry-prop">anonymousTelemetry</a>, <a href="screenplay-settings.html#highPriorityStart-prop">highPriorityStart</a></li>
 <li>Checks <a href="screenplay-screenplaywallpaper.html">ScreenPlayWallpaper</a> and ScreenPlayWidgets executable paths.</li>
 </ol>
 <p>More errorchecking is needed here. For example when the proile or settings json cannot to parsed, use the default settings.</p>
 <!-- @@@Settings -->
+<!-- $$$retranslateUI[overload1]$$$retranslateUI -->
+<h3 class="fn" id="retranslateUI"><a name="retranslateUI"></a><code>[slot] </code><span class="type">bool</span> Settings::<span class="name">retranslateUI</span>()</h3>
+<p>Check for supported langauges. If we use a langauge that not uses latin characters, we change the font. For example this happens for korean user. We ship google Noto Sans CJK KR Regular for this..</p>
+<!-- @@@retranslateUI -->
 <!-- $$$setupWidgetAndWindowPaths[overload1]$$$setupWidgetAndWindowPaths -->
 <h3 class="fn" id="setupWidgetAndWindowPaths"><a name="setupWidgetAndWindowPaths"></a><code>[slot] </code><span class="type">void</span> Settings::<span class="name">setupWidgetAndWindowPaths</span>()</h3>
 <p>To have a better developer experience we check if we use a debug version. Then we assume That the paths are the default QtCreator paths and set the widgets and wallpaper executable paths accordingly.</p>
@@ -121,10 +126,10 @@
 <li>settings.json</li>
 </ul>
 <!-- @@@writeJsonFileFromResource -->
-<!-- $$$writeSingleSettingConfig[overload1]$$$writeSingleSettingConfigQStringQVariant -->
-<h3 class="fn" id="writeSingleSettingConfig"><a name="writeSingleSettingConfig"></a><code>[slot] </code><span class="type">bool</span> Settings::<span class="name">writeSingleSettingConfig</span>(<span class="type">QString</span> <i>name</i>, <span class="type">QVariant</span> <i>value</i>)</h3>
-<p>Save a single <i>value</i> with a given <i>name</i> (key) into the settings.json. Returns <code>true</code> when successful otherise returns <code>false</code>.</p>
-<!-- @@@writeSingleSettingConfig -->
+<!-- $$$setupLanguage[overload1]$$$setupLanguage -->
+<h3 class="fn" id="setupLanguage"><a name="setupLanguage"></a><span class="type">void</span> Settings::<span class="name">setupLanguage</span>()</h3>
+<p>Checks if there is already a saved language. If not we try to use the system langauge. If we do not support the system language we use english.</p>
+<!-- @@@setupLanguage -->
 </div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

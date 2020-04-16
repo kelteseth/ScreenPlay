@@ -34,7 +34,7 @@ Item {
     Connections {
         target: ScreenPlay.util
 
-        onSetSidebarItem: {
+        function onSetSidebarItem(screenId, type) {
 
             // Toggle sidebar if clicked on the same content twice
             if (activeScreen === screenId && root.state !== "inactive") {
@@ -191,7 +191,7 @@ Item {
                 Text {
                     id: txtHeadline
                     text: qsTr("Headline")
-                    font.family: "Roboto"
+                    font.family: ScreenPlay.settings.font
                     font.weight: Font.Thin
                     verticalAlignment: Text.AlignBottom
                     font.pointSize: 16
@@ -242,7 +242,7 @@ Item {
                         id: txtHeadlineMonitor
                         height: 20
                         text: qsTr("Select a Monitor to display the content")
-                        font.family: "Roboto"
+                        font.family: ScreenPlay.settings.font
                         verticalAlignment: Text.AlignVCenter
                         font.pointSize: 10
                         color: "#626262"
@@ -277,7 +277,7 @@ Item {
                         id: txtComboBoxFillMode
                         text: qsTr("Fill Mode")
 
-                        font.family: "Roboto"
+                        font.family: ScreenPlay.settings.font
                         verticalAlignment: Text.AlignVCenter
                         font.pointSize: 10
                         color: "#626262"
@@ -290,6 +290,7 @@ Item {
                         Layout.fillWidth: true
                         textRole: "text"
                         valueRole: "value"
+                        font.family: ScreenPlay.settings.font
                         currentIndex:   root.indexOfValue(
                                         cbVideoFillMode.model,
                                         ScreenPlay.settings.videoFillMode)
@@ -321,7 +322,7 @@ Item {
                 Material.accent: Material.Orange
                 Material.background: Material.Orange
                 Material.foreground: "white"
-
+                font.family: ScreenPlay.settings.font
                 icon.source: "qrc:/assets/icons/icon_plus.svg"
                 icon.color: "white"
                 icon.width: 16

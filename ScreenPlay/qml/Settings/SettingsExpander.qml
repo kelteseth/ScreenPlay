@@ -29,9 +29,11 @@ Rectangle {
                 left: parent.left
                 margins: 20
             }
+            lineHeight: 1.2
             color: "#626262"
             height: txtExpander.paintedHeight
             wrapMode: Text.WordWrap
+            font.family: ScreenPlay.settings.font
         }
         MouseArea {
             anchors.fill: parent

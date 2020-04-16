@@ -50,8 +50,7 @@ Item {
     Connections {
         target: ScreenPlay.create
 
-        onCreateWallpaperStateChanged: {
-
+        function onCreateWallpaperStateChanged(state) {
             switch (state) {
             case CreateImportVideo.ConvertingPreviewImage:
                 txtConvert.text = qsTr("Generating preview image...")
@@ -98,7 +97,7 @@ Item {
                 break
             }
         }
-        onProgressChanged: {
+        function onProgressChanged(progress) {
             var percentage = Math.floor(progress * 100)
 
             if (percentage > 100 || progress > 0.95)
@@ -112,7 +111,7 @@ Item {
         id: txtHeadline
         text: qsTr("Convert a video to a wallpaper")
         height: 40
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
         font.weight: Font.Light
         color: "#757575"
 
@@ -196,6 +195,7 @@ Item {
                 color: "white"
                 text: qsTr("")
                 font.pointSize: 21
+                font.family: ScreenPlay.settings.font
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -208,6 +208,7 @@ Item {
                 color: "white"
                 text: qsTr("Generating preview video...")
                 font.pointSize: 14
+                font.family: ScreenPlay.settings.font
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -254,6 +255,7 @@ Item {
                 id: textFieldName
                 placeholderText: qsTr("Name (required!)")
                 width: parent.width
+                font.family: ScreenPlay.settings.font
                 Layout.fillWidth: true
                 onTextChanged: {
                     if (textFieldName.text.length >= 3) {
@@ -267,6 +269,7 @@ Item {
             TextField {
                 id: textFieldDescription
                 placeholderText: qsTr("Description")
+                font.family: ScreenPlay.settings.font
                 width: parent.width
                 Layout.fillWidth: true
 
@@ -275,6 +278,7 @@ Item {
             TextField {
                 id: textFieldYoutubeURL
                 placeholderText: qsTr("Youtube URL")
+                font.family: ScreenPlay.settings.font
                 width: parent.width
                 Layout.fillWidth: true
             }
@@ -282,6 +286,7 @@ Item {
             TagSelector {
                 id: textFieldTags
                 width: parent.width
+
                 Layout.fillWidth: true
             }
         }
@@ -303,6 +308,7 @@ Item {
                 text: qsTr("Abort")
                 Material.background: Material.Red
                 Material.foreground: "white"
+                font.family: ScreenPlay.settings.font
                 onClicked: {
                     ScreenPlay.create.abortAndCleanup()
                     ScreenPlay.util.setNavigationActive(true)
@@ -316,6 +322,7 @@ Item {
                 enabled: false
                 Material.background: Material.Orange
                 Material.foreground: "white"
+                font.family: ScreenPlay.settings.font
 
                 onClicked: {
                     if (conversionFinishedSuccessful) {
@@ -353,6 +360,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 30
+            font.family: ScreenPlay.settings.font
         }
 
         Timer {

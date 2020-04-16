@@ -62,7 +62,7 @@ GridView {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
             font.pointSize: 32
-            font.family: "Roboto"
+            font.family: ScreenPlay.settings.font
 
             anchors {
                 top: parent.top
@@ -138,7 +138,7 @@ GridView {
                     margins: 20
                 }
                 color: "white"
-                font.family: "Roboto"
+                font.family: ScreenPlay.settings.font
                 font.weight: Font.Normal
                 font.pointSize: 18
                 wrapMode: Text.WordWrap
@@ -157,7 +157,7 @@ GridView {
                     leftMargin: 20
                 }
                 color: "white"
-                font.family: "Roboto"
+                font.family: ScreenPlay.settings.font
                 
                 font.weight: Font.Normal
                 font.pointSize: 14

@@ -23,7 +23,7 @@ Rectangle {
     Connections {
         target: window
 
-        onQmlExit: {
+        function onQmlExit() {
             if (canFadeByWallpaperFillMode && window.canFade) {
                 imgCover.state = "outExit"
             } else {
@@ -31,14 +31,14 @@ Rectangle {
             }
         }
 
-        onQmlSceneValueReceived: {
+        function onQmlSceneValueReceived(key,value) {
             var obj2 = 'import QtQuick 2.0; Item {Component.onCompleted: loader.item.'
                     + key + ' = ' + value + '; }'
             print(key, value)
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
             newObject.destroy(10000)
         }
-        onReloadQML:{
+        function onReloadQML(){
             loader.sourceComponent = undefined
             loader.source = ""
             window.clearComponentCache()
@@ -92,7 +92,9 @@ Rectangle {
         Connections {
             ignoreUnknownSignals: true
             target: loader.item
-            onRequestFadeIn: fadeIn()
+            function onRequestFadeIn() {
+                fadeIn()
+            }
         }
     }
 

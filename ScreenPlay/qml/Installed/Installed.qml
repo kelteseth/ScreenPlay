@@ -28,16 +28,16 @@ Item {
 
     Connections {
         target: loaderHelp.item
-        onHelperButtonPressed: {
+        function onHelperButtonPressed(pos) {
             setNavigationItem(pos)
         }
     }
     Connections {
         target: ScreenPlay.installedListModel
-        onInstalledLoadingFinished: {
+        function onInstalledLoadingFinished(){
             checkIsContentInstalled()
         }
-        onCountChanged: {
+        function onCountChanged(count) {
             if (count === 0) {
                 checkIsContentInstalled()
             }
@@ -71,8 +71,8 @@ Item {
     GridView {
         id: gridView
         boundsBehavior: Flickable.DragOverBounds
-        maximumFlickVelocity: 7000
-        flickDeceleration: 5000
+        maximumFlickVelocity: 2500
+        flickDeceleration: 2500
         anchors.fill: parent
         cellWidth: 340
         cellHeight: 200
@@ -116,6 +116,7 @@ Item {
             Text {
                 id: txtHeader
                 text: qsTr("Pull to refresh!")
+                font.family: ScreenPlay.settings.font
                 anchors.centerIn: parent
                 color: "gray"
                 font.pointSize: 18
@@ -130,6 +131,7 @@ Item {
 
             Text {
                 id: txtFooter
+                font.family: ScreenPlay.settings.font
                 text: qsTr("Get more Wallpaper & Widgets via the Steam workshop!")
                 anchors.centerIn: parent
                 color: "gray"
@@ -219,6 +221,9 @@ Item {
                 right: parent.right
                 left: parent.left
             }
+            MouseArea {
+                anchors.fill: parent
+            }
             TabBar {
                 height: parent.height
                 background: Item {}
@@ -232,6 +237,7 @@ Item {
 
                 TabButton {
                     text: qsTr("All")
+                    font.family: ScreenPlay.settings.font
                     icon.height: 16
                     icon.width: 16
                     height: parent.height
@@ -247,6 +253,7 @@ Item {
                     text: qsTr("Scenes")
                     icon.height: 16
                     icon.width: 16
+                    font.family: ScreenPlay.settings.font
                     width: implicitWidth
                     height: parent.height
                     background: Item {}
@@ -260,6 +267,7 @@ Item {
                     text: qsTr("Videos")
                     icon.height: 16
                     icon.width: 16
+                    font.family: ScreenPlay.settings.font
                     height: parent.height
                     width: implicitWidth
                     background: Item {}
@@ -273,6 +281,7 @@ Item {
                     text: qsTr("Widgets")
                     icon.height: 16
                     icon.width: 16
+                    font.family: ScreenPlay.settings.font
                     height: parent.height
                     width: implicitWidth
                     background: Item {}
@@ -301,7 +310,7 @@ Item {
                 id: txtSearch
                 width: 250
                 height: 40
-                font.family: "Roboto"
+                font.family: ScreenPlay.settings.font
                 leftPadding: 10
                 anchors {
                     right: icnSearch.right

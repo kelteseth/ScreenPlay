@@ -113,7 +113,7 @@ Item {
     Text {
         id: txtDescriptionBottom
         text: qsTr("Create wallpapers and widgets for local usage or the steam workshop!")
-        font.family: "Roboto"
+        font.family: ScreenPlay.settings.font
 
         font.pointSize: 10
         color: "white"

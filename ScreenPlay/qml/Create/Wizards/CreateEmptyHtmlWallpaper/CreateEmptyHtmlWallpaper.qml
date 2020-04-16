@@ -55,7 +55,7 @@ Item {
                     color: "gray"
                     width: parent.width - 40
                     font.pointSize: 13
-
+                    font.family: ScreenPlay.settings.font
                     anchors {
                         centerIn: parent
                     }
@@ -72,7 +72,7 @@ Item {
                     bottom: parent.bottom
                     margins: 20
                 }
-
+                font.family: ScreenPlay.settings.font
                 onClicked: swipeView.incrementCurrentIndex()
             }
         }
@@ -123,11 +123,13 @@ Item {
                         text: qsTr("General")
                         font.pointSize: 14
                         color: "#757575"
+                        font.family: ScreenPlay.settings.font
                     }
                     TextField {
                         id: tfTitle
                         Layout.fillWidth: true
                         placeholderText: qsTr("Wallpaper name")
+                        font.family: ScreenPlay.settings.font
                         onTextChanged: {
                             if (text.length >= 3) {
                                 btnSave.enabled = true
@@ -138,6 +140,7 @@ Item {
                     }
                     TextField {
                         id: tfCreatedBy
+                        font.family: ScreenPlay.settings.font
                         Layout.fillWidth: true
                         placeholderText: qsTr("Copyright owner")
                     }
@@ -146,10 +149,12 @@ Item {
                         text: qsTr("License")
                         font.pointSize: 14
                         color: "#757575"
+                        font.family: ScreenPlay.settings.font
                     }
                     ComboBox {
                         id: cbLicense
                         Layout.fillWidth: true
+                        font.family: ScreenPlay.settings.font
                         model: ListModel {
                             id: modelLicense
                             ListElement {
@@ -167,16 +172,19 @@ Item {
                         text: qsTr("Tags")
                         font.pointSize: 14
                         color: "#757575"
+                        font.family: ScreenPlay.settings.font
                     }
 
                     TagSelector {
                         id: tagSelector
+
                         Layout.fillWidth: true
                     }
                     Text {
                         text: qsTr("Preview Image")
                         font.pointSize: 14
                         color: "#757575"
+                        font.family: ScreenPlay.settings.font
                     }
                     ImageSelector {
                         id: previewSelector
@@ -198,7 +206,7 @@ Item {
 
                 Connections {
                     target: ScreenPlay.create
-                    onHtmlWallpaperCreatedSuccessful: {
+                    function onHtmlWallpaperCreatedSuccessful(path) {
                         ScreenPlay.util.openFolderInExplorer(path)
                     }
                 }
@@ -208,6 +216,7 @@ Item {
                     text: qsTr("Abort")
                     Material.background: Material.Red
                     Material.foreground: "white"
+                    font.family: ScreenPlay.settings.font
                     onClicked: {
                         ScreenPlay.util.setNavigationActive(true)
                         ScreenPlay.util.setNavigation("Create")
@@ -220,7 +229,7 @@ Item {
                     enabled: false
                     Material.background: Material.Orange
                     Material.foreground: "white"
-
+                    font.family: ScreenPlay.settings.font
                     onClicked: {
                         btnSave.enabled = false
                         savePopup.open()
@@ -255,6 +264,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 30
+            font.family: ScreenPlay.settings.font
         }
 
         Timer {

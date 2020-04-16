@@ -9,7 +9,7 @@ namespace ScreenPlay {
 */
 
 /*!
-  Constructor
+  \brief Constructor.
 */
 Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     : QObject(parent)
@@ -45,7 +45,7 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
 }
 
 /*!
-  Copies the given string to the clipboard.
+  \brief Copies the given string to the clipboard.
 */
 void Util::copyToClipboard(const QString& text) const
 {
@@ -54,8 +54,8 @@ void Util::copyToClipboard(const QString& text) const
 }
 
 /*!
-  Opens a json file (absolute path) and tries to convert it to a QJsonObject.
-  Return std::nullopt when not successful.
+  \brief Opens a json file (absolute path) and tries to convert it to a QJsonObject.
+  Returns std::nullopt when not successful.
 */
 std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
 {
@@ -78,8 +78,8 @@ std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
 }
 
 /*!
-  Opens a json file (absolute path) and tries to convert it to a QString.
-  Return std::nullopt when not successful.
+  \brief  Opens a json file (absolute path) and tries to convert it to a QString.
+  Returns std::nullopt when not successful.
 */
 std::optional<QString> Util::openJsonFileToString(const QString& path)
 {
@@ -96,7 +96,7 @@ std::optional<QString> Util::openJsonFileToString(const QString& path)
 }
 
 /*!
-  Generates a (non secure) random string with the default length of 32. Can contain:
+  \brief Generates a (non secure) random string with the default length of 32. Can contain:
   \list
     \li A-Z
     \li a-z
@@ -120,7 +120,7 @@ QString Util::generateRandomString(quint32 length)
 }
 
 /*!
-  Parses a version from a given QString. The QString must be looke like this:
+  \brief Parses a version from a given QString. The QString must be looke like this:
   1.0.0 - Major.Minor.Patch. A fixed position is used for parsing (at 0,2,4).
   Return std::nullopt when not successful.
 */
@@ -143,7 +143,7 @@ std::optional<QVersionNumber> Util::getVersionNumberFromString(const QString& st
 }
 
 /*!
-   Writes a given QJsonObject to a file. The path must be absolute. When truncate is set to
+   \brief Writes a given QJsonObject to a file. The path must be absolute. When truncate is set to
    true the exsisting json file will be overriten.
 */
 bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate)
@@ -168,22 +168,20 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
     return true;
 }
 
+/*!
+    \brief Helper function to append a QStringList into a QString with a space between the items.
+*/
 QString Util::toString(const QStringList& list)
 {
     QString out;
-    for (auto string : list) {
+    for (const auto &string : list) {
         out += " " + string;
     }
     return out;
 }
 
-QString Util::fixWindowsPath(QString url)
-{
-    return url.replace("/", "\\\\");
-}
-
 /*!
-  Opens a native folder window on the given path. Windows and Mac only for now!
+  \brief Parses a QByteArray to a QJsonObject. If returns and std::nullopt on failure.
 */
 std::optional<QJsonObject> Util::parseQByteArrayToQJsonObject(const QByteArray& byteArray)
 {
@@ -199,6 +197,9 @@ std::optional<QJsonObject> Util::parseQByteArrayToQJsonObject(const QByteArray& 
     return std::nullopt;
 }
 
+/*!
+  \brief Opens a native folder window on the given path. Windows and Mac only for now!
+*/
 void Util::openFolderInExplorer(const QString& url) const
 {
     QString fileString { "file:///" };
@@ -223,10 +224,8 @@ void Util::openFolderInExplorer(const QString& url) const
     explorer.startDetached();
 }
 
-
-
 /*!
-  Loads all content of the legal folder in the qrc into a property string of this class.
+  \brief Loads all content of the legal folder in the qrc into a property string of this class.
   allLicenseLoaded is emited when loading is finished.
 */
 void Util::Util::requestAllLicenses()
@@ -272,7 +271,7 @@ void Util::Util::requestAllLicenses()
 }
 
 /*!
-  Loads all dataprotection of the legal folder in the qrc into a property string of this class.
+  \brief Loads all dataprotection of the legal folder in the qrc into a property string of this class.
   allDataProtectionLoaded is emited when loading is finished.
 */
 void Util::Util::requestDataProtection()
@@ -292,7 +291,7 @@ void Util::Util::requestDataProtection()
 }
 
 /*!
-  Downloads and extracts ffmpeg static version from https://ffmpeg.zeranoe.com
+  \brief Downloads and extracts ffmpeg static version from https://ffmpeg.zeranoe.com
   The progress is tracked via setAquireFFMPEGStatus(AquireFFMPEGStatus);
 */
 void Util::downloadFFMPEG()
@@ -380,7 +379,7 @@ void Util::downloadFFMPEG()
 }
 
 /*!
-  Basic logging to the GUI. No logging is done to a log file for now. This string can be copied
+  \brief Basic logging to the GUI. No logging is done to a log file for now. This string can be copied
   in the settings tab in the UI.
 */
 void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg)
@@ -391,7 +390,7 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
     QByteArray line = "in line " + QByteArray::number(context.line) + ", ";
     QByteArray function = "function " + QByteArray(context.function) + ", Message: ";
 
-    QString log = "&emsp; <font color=\"#03A9F4\"> " + QDateTime::currentDateTime().toString() + "</font> &emsp; " + localMsg + "<br><br>";
+    QString log = "&emsp; <font color=\"#03A9F4\"> " + QDateTime::currentDateTime().toString() + "</font> &emsp; " + localMsg + "<br>";
 
     switch (type) {
     case QtDebugMsg:
@@ -410,13 +409,14 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
         log.prepend("<b><font color=\"#F44336\"> Fatal</font>:</b>");
         break;
     }
+    log.append("\n");
 
     if (utilPointer != nullptr)
         utilPointer->appendDebugMessages(log);
 }
 
 /*!
-  Convenient function for the ffmpeg download extraction via libzippp. Extracts a given bytearray
+  \brief Convenient function for the ffmpeg download extraction via libzippp. Extracts a given bytearray
   to a given absolute file path and file name. Returns false if extraction or saving wasn't successful.
 */
 bool Util::saveExtractedByteArray(libzippp::ZipEntry& entry, std::string& absolutePathAndName)

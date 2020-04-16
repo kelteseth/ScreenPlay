@@ -11,6 +11,8 @@ namespace ScreenPlay {
     \inmodule ScreenPlay
     \brief GlobalVariables.
 
+    A header only class used only for storing some global variables like localStoragePath.
+
 */
 
 class GlobalVariables : public QObject {
@@ -29,26 +31,37 @@ public:
         setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::DataLocation) });
     }
 
+    /*!
+        \brief Returns the localStoragePath.
+    */
     QUrl localStoragePath() const
     {
         return m_localStoragePath;
     }
-
+    /*!
+        \brief Returns the localSettingsPath.
+    */
     QUrl localSettingsPath() const
     {
         return m_localSettingsPath;
     }
-
+    /*!
+        \brief  Returns the wallpaperExecutablePath. This only differes in development builds.
+    */
     QUrl wallpaperExecutablePath() const
     {
         return m_wallpaperExecutablePath;
     }
-
+    /*!
+        \brief Returns the widgetExecutablePath. This only differes in development builds.
+    */
     QUrl widgetExecutablePath() const
     {
         return m_widgetExecutablePath;
     }
-
+    /*!
+        \brief Returns the current app version. Not yet used.
+    */
     QVersionNumber version() const
     {
         return m_version;

@@ -12,7 +12,7 @@ namespace ScreenPlay {
 */
 
 /*!
-  Constructor
+  \brief Constructor-.
 */
 ScreenPlayManager::ScreenPlayManager(
     const shared_ptr<GlobalVariables>& globalVariables,
@@ -32,11 +32,11 @@ ScreenPlayManager::ScreenPlayManager(
 }
 
 /*!
-    Creates a wallpaper with a given \a monitorIndex list, \a a absoluteStoragePath folder,
+    \brief Creates a wallpaper with a given \a monitorIndex list, \a a absoluteStoragePath folder,
     a \a previewImage (relative path to the absoluteStoragePath), a  default \a volume,
     a \a fillMode, a \a type (htmlWallpaper, qmlWallpaper etc.), a \a saveToProfilesConfigFile bool only set to flase
     if we call the method when using via the settings on startup to skip a unnecessary save.
- */
+*/
 void ScreenPlayManager::createWallpaper(
     QVector<int> monitorIndex,
     const QString& absoluteStoragePath,
@@ -79,7 +79,9 @@ void ScreenPlayManager::createWallpaper(
         for (auto& wallpaperIterator : m_screenPlayWallpapers) {
             if (wallpaperIterator->screenNumber().length() == 1) {
                 if (monitors.at(0) == wallpaperIterator->screenNumber().at(0)) {
-                    removeWallpaperAt(i);
+                    if(!removeWallpaperAt(i)){
+                        qWarning() << "Could not remove wallpaper at index " << i;
+                    }
                 }
             }
             i++;
@@ -101,12 +103,23 @@ void ScreenPlayManager::createWallpaper(
         settings.insert("absolutePath", path);
 
         saveWallpaperProfile("default", settings);
+        return;
     }
+    if (saveToProfilesConfigFile && type == "qmlWallpaper") {
+        QJsonObject settings;
+        settings.insert("monitors", monitors);
+        settings.insert("type", type);
+        settings.insert("previewImage", previewImage);
+        settings.insert("absolutePath", path);
+
+        saveWallpaperProfile("default", settings);
+    }
+
 }
 
 /*!
-  Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
- */
+  \brief Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
+*/
 void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QString& previewImage, const QString& type)
 {
     if (m_telemetry) {
@@ -125,7 +138,7 @@ void ScreenPlayManager::createWidget(const QUrl& absoluteStoragePath, const QStr
 }
 
 /*!
-    Removes all wallpaper entries in the profiles.json. This method will likely be removed
+    \brief Removes all wallpaper entries in the profiles.json. This method will likely be removed
     when using nlohmann/json in the future.
 */
 void ScreenPlayManager::removeAllWallpapers()
@@ -138,7 +151,7 @@ void ScreenPlayManager::removeAllWallpapers()
         m_screenPlayWallpapers.clear();
         m_monitorListModel->clearActiveWallpaper();
 
-        QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json";
+        QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toString() + "/profiles.json";
         auto configOptional = Util::openJsonFileToObject(absoluteProfilesFilePath);
 
         if (!configOptional) {
@@ -164,9 +177,14 @@ void ScreenPlayManager::removeAllWallpapers()
 
         Util::writeJsonObjectToFile(absoluteProfilesFilePath, newConfig);
         setActiveWallpaperCounter(0);
+    } else {
+        qWarning() << "Trying to remove all wallpapers while m_screenPlayWallpapers is not empty. Count: "<< m_screenPlayWallpapers.size();
     }
 }
 
+/*!
+    \brief Removes all widgets and resets the activeWidgetCounter to 0.
+*/
 void ScreenPlayManager::removeAllWidgets()
 {
     if (!m_screenPlayWidgets.empty()) {
@@ -179,7 +197,7 @@ void ScreenPlayManager::removeAllWidgets()
 }
 
 /*!
-    Removes a Wallpaper at the given monitor \a at (index). Internally searches for a appID at the
+    \brief Removes a Wallpaper at the given monitor \a at (index). Internally searches for a appID at the
     given monitor index and then closes the sdk connection, removes the entries in the
     monitor list model and decreases the active wallpaper counter property of ScreenPlayManager.
 */
@@ -199,12 +217,11 @@ bool ScreenPlayManager::removeWallpaperAt(int at)
 }
 
 /*!
- Request a spesific json profile to display in the active wallpaper popup on the right.
-
- */
+    \brief Request a spesific json profile to display in the active wallpaper popup on the right.
+*/
 void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
 {
-    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
+    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
         if (!uPtrWallpaper->screenNumber().empty() && uPtrWallpaper->screenNumber()[0] == index) {
             emit projectSettingsListModelFound(
                 uPtrWallpaper->projectSettingsListModel().get(),
@@ -216,8 +233,8 @@ void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
 }
 
 /*!
-  Set a wallpaper \a value at a given \a index and \a key.
- */
+  \brief Set a wallpaper \a value at a given \a index and \a key.
+*/
 void ScreenPlayManager::setWallpaperValue(const int index, const QString& key, const QString& value)
 {
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
@@ -230,18 +247,18 @@ void ScreenPlayManager::setWallpaperValue(const int index, const QString& key, c
 }
 
 /*!
-  Convenient function to set a \a value at a given \a index and \a key for all wallaper. For exmaple used to mute all wallpaper.
- */
+  \brief Convenient function to set a \a value at a given \a index and \a key for all wallaper. For exmaple used to mute all wallpaper.
+*/
 void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
 {
-    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : m_screenPlayWallpapers) {
+    for (const shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
         m_sdkconnector->setWallpaperValue(uPtrWallpaper->appID(), key, value);
     }
 }
 
 /*!
-  Returns \c a ScreenPlayWallpaper if successful, otherwhise \c std::nullopt.
- */
+  \brief Returns \c a ScreenPlayWallpaper if successful, otherwhise \c std::nullopt.
+*/
 std::optional<shared_ptr<ScreenPlayWallpaper>> ScreenPlayManager::getWallpaperByAppID(const QString& appID)
 {
     for (auto& wallpaper : m_screenPlayWallpapers) {
@@ -253,15 +270,15 @@ std::optional<shared_ptr<ScreenPlayWallpaper>> ScreenPlayManager::getWallpaperBy
 }
 
 /*!
-    Saves a given wallpaper \a newProfileObject to a \a profileName. We ignore the profileName argument
+    \brief Saves a given wallpaper \a newProfileObject to a \a profileName. We ignore the profileName argument
     because we currently only support one profile. Returns \c true if successfuly saved to profiles.json, otherwise \c false.
- */
+*/
 bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const QJsonObject& newProfileObject)
 {
     // Remove when implementing profiles
     Q_UNUSED(profileName)
 
-    QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json";
+    QString absoluteProfilesFilePath = m_globalVariables->localSettingsPath().toString() + "/profiles.json";
     auto configOptional = Util::openJsonFileToObject(absoluteProfilesFilePath);
 
     if (!configOptional) {
@@ -308,15 +325,15 @@ bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const Q
 }
 
 /*!
- Loads all wallpaper from profiles.json when the version number matches and starts the available wallpaper
- */
+ \brief Loads all wallpaper from profiles.json when the version number matches and starts the available wallpaper
+*/
 void ScreenPlayManager::loadWallpaperProfiles()
 {
 
-    auto configObj = Util::openJsonFileToObject(m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json");
+    auto configObj = Util::openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
 
     if (!configObj) {
-        qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toLocalFile() + "/profiles.json";
+        qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toString() + "/profiles.json";
         return;
     }
 

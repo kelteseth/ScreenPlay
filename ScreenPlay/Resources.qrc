@@ -146,5 +146,11 @@
         <file>qml/Common/Headline.qml</file>
         <file>qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml</file>
         <file>assets/images/undraw_static_website_0107.svg</file>
+        <file>translations/ScreenPlay_ko.qm</file>
+        <file>assets/fonts/NotoSans-Light.ttf</file>
+        <file>assets/fonts/NotoSans-Medium.ttf</file>
+        <file>assets/fonts/NotoSans-Regular.ttf</file>
+        <file>assets/fonts/NotoSans-Thin.ttf</file>
+        <file>translations/ScreenPlay_vi.qm</file>
     </qresource>
 </RCC>

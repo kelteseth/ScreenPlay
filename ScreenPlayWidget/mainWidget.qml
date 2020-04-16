@@ -10,12 +10,12 @@ Item {
     Connections {
         target: Widget
 
-        onQmlExit: {
+        function onQmlExit() {
             Widget.setWindowBlur(0)
             animFadeOut.start()
         }
 
-        onQmlSceneValueReceived: {
+        function onQmlSceneValueReceived(key,value) {
             var obj2 = 'import QtQuick 2.14; Item {Component.onCompleted: loader.item.'
                     + key + ' = ' + value + '; }'
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err")

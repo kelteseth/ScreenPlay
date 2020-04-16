@@ -65,7 +65,7 @@ Item {
                 text: qsTr("Wallpaper Configuration")
                 font.pointSize: 21
                 color: "#626262"
-                font.family: "Roboto"
+                font.family: ScreenPlay.settings.font
                 font.weight: Font.Thin
                 width: 400
                 anchors {
@@ -98,10 +98,10 @@ Item {
                 }
                 Connections {
                     target: ScreenPlay.screenPlayManager
-                    onProjectSettingsListModelFound: {
+                    function onProjectSettingsListModelFound(li,type) {
                         videoControlWrapper.state = "visible"
                         customPropertiesGridView.model = li
-                        if (type == "videoWallpaper") {
+                        if (type === "videoWallpaper") {
                             customPropertiesGridView.state = "hidden"
                             videoControlWrapper.state = "visible"
                         } else {
@@ -109,7 +109,7 @@ Item {
                             videoControlWrapper.state = "hidden"
                         }
                     }
-                    onProjectSettingsListModelNotFound: {
+                    function onProjectSettingsListModelNotFound() {
                         customPropertiesGridView.model = null
                         videoControlWrapper.state = "hidden"
                         customPropertiesGridView.state = "hidden"
@@ -130,6 +130,7 @@ Item {
                     text: qsTr("Remove selected")
                     Material.background: Material.Orange
                     Material.foreground: "white"
+                    font.family: ScreenPlay.settings.font
                     enabled: monitorSelection.activeMonitors.length == 1
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeWallpaperAt(monitorSelection.activeMonitors[0])
@@ -141,6 +142,7 @@ Item {
                     text: qsTr("Remove all Wallpapers")
                     Material.background: Material.Orange
                     Material.foreground: "white"
+                    font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeAllWallpapers()
@@ -152,6 +154,7 @@ Item {
                     text: qsTr("Remove all Widgets")
                     Material.background: Material.Orange
                     Material.foreground: "white"
+                    font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeAllWidgets()
@@ -174,6 +177,7 @@ Item {
             }
         }
 
+
         GridView {
             id: customPropertiesGridView
             boundsBehavior: Flickable.DragOverBounds
@@ -188,18 +192,21 @@ Item {
                 top: parent.top
                 topMargin: 60
                 right: parent.right
+                rightMargin: 40
                 bottom: parent.bottom
-                margins: 30
+                bottomMargin: 30
                 left: itmLeftWrapper.right
             }
 
             delegate: MonitorsProjectSettingItem {
                 id: delegate
+                width: parent.width - 40
                 selectedMonitor: monitors.activeMonitorIndex
             }
 
             ScrollBar.vertical: ScrollBar {
                 snapMode: ScrollBar.SnapOnRelease
+                policy: ScrollBar.AlwaysOn
             }
 
             states: [
@@ -334,3 +341,9 @@ Item {
         }
     ]
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:768;width:1366}
+}
+##^##*/
