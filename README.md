@@ -74,6 +74,7 @@ git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
 .\install-dependencies.bat
 
 //Linux
+sudo apt install git gcc
 chmod +x install-dependencies.sh
 .\install-dependencies.sh
 ```
