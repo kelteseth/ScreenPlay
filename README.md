@@ -65,7 +65,7 @@ Everyone can contribute with code, design, documentation or translation. Visit o
 1. Install latest [git + git-lfs](https://git-scm.com/)
 2. Clone ScreenPlay
 ``` bash
-git clone https://gitlab.com/kelteseth/ScreenPlay.git
+git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
 ```
 3. Download the latest [__Qt 5.14__](https://www.qt.io/download-qt-installer). Earlier versions are not supported!
 4. Start install-dependencies.bat to download dependencies into the Common/ folder
