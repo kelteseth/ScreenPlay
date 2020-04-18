@@ -103,7 +103,7 @@ chmod +x install-dependencies.sh
 1. Install dependencies for your distro:
 ``` bash
 # Debian/Ubuntu
-sudo apt install build-essential libgl1-mesa-dev
+sudo apt install build-essential libgl1-mesa-dev lld
 
 # Fedora/RHEL/CentOS (yum)
 sudo yum groupinstall "C Development Tools and Libraries"
