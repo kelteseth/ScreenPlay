@@ -74,7 +74,7 @@ git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
 .\install-dependencies.bat
 
 //Linux
-sudo apt install git gcc cmake build-essential
+sudo apt install git gcc cmake build-essential libgl1-mesa-dev
 chmod +x install-dependencies.sh
 .\install-dependencies.sh
 ```
