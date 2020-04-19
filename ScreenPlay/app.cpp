@@ -51,8 +51,10 @@ App::App()
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion("0.10.1");
     QGuiApplication::setQuitOnLastWindowClosed(false);
-
+    
+#ifdef Q_OS_WINDOWS
     QtBreakpad::init(QDir::current().absolutePath());
+#endif
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
 
@@ -117,7 +119,7 @@ void App::init()
         m_telemetry->setNetworkAccessManager(nam);
         m_telemetry->setSendInterval(1000);
         m_telemetry->startSession();
-        m_telemetry->sendEvent("version", QGuiApplication::applicationVersion());
+        m_telemetry->sendEvent("version", QApplication::applicationVersion());
     }
 
     m_create = make_unique<Create>(m_globalVariables);
@@ -139,7 +141,7 @@ void App::init()
     m_installedListModel->init();
 
     // Set visible if the -silent parameter was not set
-    if (QGuiApplication::instance()->arguments().contains("-silent")) {
+    if (QApplication::instance()->arguments().contains("-silent")) {
         settings()->setSilentStart(true);
     }
 
@@ -150,13 +152,13 @@ void App::init()
 void App::exit()
 {
     if (!m_telemetry) {
-        QGuiApplication::instance()->quit();
+        QApplication::instance()->quit();
         return;
     } else {
         // Workaround because we cannot force to send exit event
         m_telemetry->setSendInterval(5);
         m_telemetry->endSession();
-        QTimer::singleShot(150, []() { QGuiApplication::instance()->quit(); });
+        QTimer::singleShot(150, []() { QApplication::instance()->quit(); });
     }
 }
 }

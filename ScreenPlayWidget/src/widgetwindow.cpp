@@ -13,7 +13,7 @@ WidgetWindow::WidgetWindow(const QString projectPath, const QString appid, const
     };
 
     if (!availableTypes.contains(m_type)) {
-        QGuiApplication::exit(-4);
+        QApplication::exit(-4);
     }
 
     Qt::WindowFlags flags = m_window.flags();

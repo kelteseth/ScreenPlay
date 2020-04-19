@@ -28,7 +28,7 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
 
-    QString path = QGuiApplication::instance()->applicationDirPath() + "/";
+    QString path = QApplication::instance()->applicationDirPath() + "/";
     QFile fileFFMPEG;
     QFile fileFFPROBE;
 
@@ -49,7 +49,7 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
 */
 void Util::copyToClipboard(const QString& text) const
 {
-    auto* clipboard = QGuiApplication::clipboard();
+    auto* clipboard = QApplication::clipboard();
     clipboard->setText(text);
 }
 
@@ -323,7 +323,7 @@ void Util::downloadFFMPEG()
             return;
         }
 
-        string path = QGuiApplication::instance()->applicationDirPath().toStdString() + "/";
+        string path = QApplication::instance()->applicationDirPath().toStdString() + "/";
 
         ZipEntry entryFFMPEG;
         std::string entryFFMPEGPath;

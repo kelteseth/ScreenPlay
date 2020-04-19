@@ -6,6 +6,8 @@
 #include <QtWebEngine>
 
 #if defined(Q_OS_WIN)
+#include "qt_breakpad.h"
+
 #include "src/winwindow.h"
 #endif
 
@@ -18,17 +20,14 @@
 #endif
 
 #include "../ScreenPlaySDK/screenplaysdk.h"
-#include "qt_breakpad.h"
 
 int main(int argc, char* argv[])
 {
 
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication app(argc, argv);
-
-    QtBreakpad::init(QDir::current().absolutePath());
 
     // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
@@ -41,6 +40,8 @@ int main(int argc, char* argv[])
         //Set the monitor number to test
 
 #if defined(Q_OS_WIN)
+        QtBreakpad::init(QDir::current().absolutePath());
+
         //WinWindow window1({ 0 }, "test", "appid", "1", "fill");
         //WinWindow window2({ 1 }, "test", "appid", "1", "fill");
         //WinWindow window3({ 2 }, "test", "appid", "1", "fill");
@@ -48,7 +49,7 @@ int main(int argc, char* argv[])
         WinWindow window({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/1958068745", "appid", "1", "fill", true);
 #endif
 #if defined(Q_OS_LINUX)
-        LinuxWindow window(QVector<int>{ 0 }, "test", "appid", "1", "fill");
+        LinuxWindow window({ 0 }, "/home/graphicscore/Desktop/wallpapers/MechaGirl", "appid", "1", "fill", false);
 #endif
 #if defined(Q_OS_OSX)
         MacWindow window({ 0 }, "test", "appid", "1", "fill");
@@ -115,7 +116,7 @@ int main(int argc, char* argv[])
 #endif
 
 #if defined(Q_OS_LINUX)
-    LinuxWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5));
+    LinuxWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5), checkWallpaperVisible);
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &LinuxWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &LinuxWindow::messageReceived);
 #endif

@@ -6,7 +6,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 TARGETPATH = ScreenPlayWallpaper
 
-include($$PWD/../Common/qt-breakpad/qt-breakpad.pri)
 
 
 RESOURCES += \
@@ -29,6 +28,7 @@ unix{
 }
 
 win32 {
+    include($$PWD/../Common/qt-breakpad/qt-breakpad.pri)
     LIBS += -luser32
     SOURCES += \
         src/windowsdesktopproperties.cpp \
@@ -78,6 +78,8 @@ macx {
 unix {
 
     install_it.path = $${OUT_PWD}/
+
+    LIBS += -lX11
 
     CONFIG(debug, debug|release) {
         install_it.files +=  \
