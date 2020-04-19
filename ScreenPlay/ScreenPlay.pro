@@ -116,22 +116,14 @@ win32 {
 
 }
 
-macx {
-
-
-}
-
 unix {
 
-    install_it.path = $${OUT_PWD}
-	LIBS += -L$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/lib/  -llibzippp -lzip -lbz2d -lz -lcrypto -lssl -ldl
-
-    install_it.files += $$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/libbz2d.so \
-	                    $$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/libcrypto.so \
-						$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/liblibzippp.so \
-						$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/libssl.so \
-						$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/libz.so \
-						$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/libzip.so \
+    CONFIG(debug, debug|release){
+        #lbz2d uses d
+        LIBS += -L$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/lib/  -llibzippp -lzip -lbz2d -lz -lcrypto -lssl -ldl
+    } else {
+        LIBS += -L$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/lib/  -llibzippp -lzip -lbz2 -lz -lcrypto -lssl -ldl
+    }
 
 
 }
