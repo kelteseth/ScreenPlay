@@ -12,6 +12,7 @@
 #include <QVector>
 
 #include "basewindow.h"
+#include "macintegration.h"
 
 class MacWindow : public BaseWindow
 {
