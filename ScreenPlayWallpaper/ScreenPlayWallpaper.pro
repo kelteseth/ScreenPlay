@@ -19,14 +19,6 @@ SOURCES += \
 HEADERS += \
     src/basewindow.h \
 
-unix{
-    SOURCES += \
-        src/linuxwindow.cpp
-
-    HEADERS += \
-        src/linuxwindow.h
-}
-
 win32 {
     include($$PWD/../Common/qt-breakpad/qt-breakpad.pri)
     LIBS += -luser32
@@ -75,11 +67,17 @@ macx {
         src/macwindow.h
 }
 
-unix {
+unix:!macx  {
 
     install_it.path = $${OUT_PWD}/
 
     LIBS += -lX11
+
+    SOURCES += \
+        src/linuxwindow.cpp
+
+    HEADERS += \
+        src/linuxwindow.h
 
     CONFIG(debug, debug|release) {
         install_it.files +=  \
