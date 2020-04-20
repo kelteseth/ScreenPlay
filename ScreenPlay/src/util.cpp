@@ -303,7 +303,7 @@ void Util::downloadFFMPEG()
 #ifdef Q_OS_WIN
     req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/win64/static/" + ffmpegVersion + "-win64-static.zip"));
 #elif defined(Q_OS_OSX)
-    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/" + ffmpegVersion + "-win64-static.zip"));
+    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/" + ffmpegVersion + "-macos64-static.zip"));
 #endif
     setAquireFFMPEGStatus(AquireFFMPEGStatus::Download);
 
