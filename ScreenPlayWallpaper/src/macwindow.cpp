@@ -1,7 +1,12 @@
 #include "macwindow.h"
 
-MacWindow::MacWindow(QVector<int>& activeScreensList, QString projectPath, QString id, QString volume, QObject* parent)
-    : BaseWindow(projectPath)
+MacWindow::MacWindow(
+        const QVector<int> &activeScreensList,
+        const QString &projectPath,
+        const QString &id,
+        const QString &volume,
+        const QString &fillmode)
+    : BaseWindow(projectPath, activeScreensList, false)
 {
     setAppID(id);
     bool ok = false;
@@ -31,8 +36,4 @@ void MacWindow::setVisible(bool show)
 void MacWindow::destroyThis()
 {
     QCoreApplication::quit();
-}
-
-void MacWindow::messageReceived(QString key, QString value)
-{
 }

@@ -122,9 +122,9 @@ int main(int argc, char* argv[])
 #endif
 
 #if defined(Q_OS_OSX)
-    MacWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(5));
-    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &MacWindow, &MacWindow::destroyThis);
-    QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &MacWindow, &MacWindow::messageReceived);
+    MacWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5));
+    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &MacWindow::destroyThis);
+    QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &MacWindow::messageReceived);
 #endif
 
     return app.exec();

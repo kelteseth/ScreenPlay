@@ -157,7 +157,7 @@ void ScreenPlayManager::removeAllWallpapers()
             return;
         }
 
-        QJsonObject oldConfig = configOptional.value();
+        QJsonObject oldConfig = *configOptional;
         QJsonObject oldConfigProfile = oldConfig.value("profiles").toArray().first().toObject();
 
         QJsonObject profileDefault;
@@ -203,8 +203,8 @@ bool ScreenPlayManager::removeWallpaperAt(int at)
     }
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(at)) {
 
-        m_sdkconnector->closeWallpaper(appID.value());
-        m_monitorListModel->closeWallpaper(appID.value());
+        m_sdkconnector->closeWallpaper(*appID);
+        m_monitorListModel->closeWallpaper(*appID);
         decreaseActiveWallpaperCounter();
         return true;
     }
@@ -235,9 +235,9 @@ void ScreenPlayManager::setWallpaperValue(const int index, const QString& key, c
 {
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
 
-        m_sdkconnector->setWallpaperValue(appID.value(), key, value);
+        m_sdkconnector->setWallpaperValue(*appID, key, value);
 
-        if (auto wallpaper = getWallpaperByAppID(appID.value())) {
+        if (auto wallpaper = getWallpaperByAppID(*appID)) {
         }
     }
 }
@@ -282,7 +282,7 @@ bool ScreenPlayManager::saveWallpaperProfile(const QString& profileName, const Q
         return false;
     }
 
-    QJsonObject oldConfig = configOptional.value();
+    QJsonObject oldConfig = *configOptional;
     QJsonObject oldConfigProfile = oldConfig.value("profiles").toArray().first().toObject();
     QJsonArray oldWallpaperArray = oldConfigProfile.value("wallpaper").toArray();
     QJsonArray newWallpaperArray;
@@ -333,14 +333,14 @@ void ScreenPlayManager::loadWallpaperProfiles()
         return;
     }
 
-    std::optional<QVersionNumber> version = Util::getVersionNumberFromString(configObj.value().value("version").toString());
+    std::optional<QVersionNumber> version = Util::getVersionNumberFromString(configObj->value("version").toString());
 
-    if (version && version.value() != m_globalVariables->version()) {
-        qWarning() << "Version missmatch fileVersion: " << version.value().toString() << "m_version: " << m_globalVariables->version().toString();
+    if (version && *version != m_globalVariables->version()) {
+        qWarning() << "Version missmatch fileVersion: " << version->toString() << "m_version: " << m_globalVariables->version().toString();
         return;
     }
 
-    QJsonArray activeProfilesTmp = configObj.value().value("profiles").toArray();
+    QJsonArray activeProfilesTmp = configObj->value("profiles").toArray();
 
     if (activeProfilesTmp.size() > 1) {
         qWarning() << "We currently only support one profile!";

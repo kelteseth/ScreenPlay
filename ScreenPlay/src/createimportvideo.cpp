@@ -141,8 +141,8 @@ bool CreateImportVideo::createWallpaperInfo()
 
     emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoFinished);
     auto a = pro->readAll();
-    auto objOptional = Util::parseQByteArrayToQJsonObject(a);
-    if (!objOptional) {
+    auto obj = Util::parseQByteArrayToQJsonObject(a);
+    if (!obj) {
         qDebug() << "Error parsing ffmpeg json output";
         emit processOutput(pro->readAll());
         emit processOutput("Error parsing ffmpeg json output");
@@ -150,8 +150,7 @@ bool CreateImportVideo::createWallpaperInfo()
         return false;
     }
 
-    QJsonObject obj = objOptional.value();
-    if (obj.empty()) {
+    if (obj->empty()) {
         qDebug() << "Error! File could not be parsed.";
         emit processOutput("Error! File could not be parsed.");
 
@@ -163,7 +162,7 @@ bool CreateImportVideo::createWallpaperInfo()
     pro->close();
 
     // Check for audio and video streams
-    QJsonArray arrayStream = obj.value("streams").toArray();
+    QJsonArray arrayStream = obj->value("streams").toArray();
 
     bool hasAudioStream { false };
     bool hasVideoStream { false };
@@ -204,7 +203,7 @@ bool CreateImportVideo::createWallpaperInfo()
         return false;
     }
 
-    QJsonObject objFormat = obj.value("format").toObject();
+    QJsonObject objFormat = obj->value("format").toObject();
 
     // Get video length
     bool okParseDuration = false;
@@ -221,7 +220,7 @@ bool CreateImportVideo::createWallpaperInfo()
     m_length = length;
 
     // Get framerate
-    QJsonArray arrSteams = obj.value("streams").toArray();
+    QJsonArray arrSteams = obj->value("streams").toArray();
     if (arrSteams.empty()) {
         qDebug() << "Error container does not have any video streams";
         emit processOutput("Error container does not have any video streams");

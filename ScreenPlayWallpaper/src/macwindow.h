@@ -17,14 +17,18 @@ class MacWindow : public BaseWindow
 {
     Q_OBJECT
 public:
-    explicit MacWindow(QVector<int>& activeScreensList, QString projectPath, QString id, QString volume,QObject *parent = nullptr);
+    explicit MacWindow(
+            const QVector<int>& activeScreensList,
+            const QString& projectPath,
+            const QString& id,
+            const QString& volume,
+            const QString& fillmode);
 
 signals:
 
 public slots:
     void setVisible(bool show) override;
     void destroyThis() override;
-    void messageReceived(QString key, QString value) override;
 private:
     QQuickView m_window;
 };

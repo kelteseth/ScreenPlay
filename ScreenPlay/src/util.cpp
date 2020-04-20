@@ -67,7 +67,7 @@ std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
 
     QJsonDocument jsonDocument;
     QJsonParseError parseError {};
-    jsonDocument = QJsonDocument::fromJson(jsonString.value().toUtf8(), &parseError);
+    jsonDocument = QJsonDocument::fromJson(jsonString->toUtf8(), &parseError);
 
     if (!(parseError.error == QJsonParseError::NoError)) {
         qWarning() << "Settings Json Parse Error: " << parseError.errorString();
