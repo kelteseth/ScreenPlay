@@ -3,7 +3,7 @@
 #include <QAbstractListModel>
 #include <QApplication>
 #include <QDebug>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QRect>
 #include <QScreen>
 #include <QSize>
@@ -100,7 +100,7 @@ public slots:
 
     QRect getAbsoluteDesktopSize() const
     {
-        auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
+        auto* app = static_cast<QApplication*>(QApplication::instance());
         return app->screens().at(0)->availableVirtualGeometry();
     }
 

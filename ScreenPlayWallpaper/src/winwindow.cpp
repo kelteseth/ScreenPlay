@@ -242,7 +242,7 @@ void WinWindow::setupWallpaperForMultipleScreens(const QVector<int>& activeScree
 void WinWindow::setupWindowMouseHook()
 {
     // MUST be called before setting hook for events!
-    if (type() == BaseWindow::WallpaperType::Qml) {
+    if (type() != BaseWindow::WallpaperType::Video) {
         winGlobalHook = &m_window;
         if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
             qDebug() << "Faild to install mouse hook!";
@@ -316,7 +316,7 @@ void WinWindow::checkForFullScreenWindow()
         HMONITOR wallpaper = MonitorFromWindow(m_windowHandle, dwFlags);
         int monitorIndex = GetMonitorIndex(monitor);
         int wallpaperIndex = GetMonitorIndex(wallpaper);
-       // qDebug() << monitorIndex << wallpaperIndex;
+        // qDebug() << monitorIndex << wallpaperIndex;
 
         // If the window that has WS_MAXIMIZE is at the same monitor as this wallpaper
         if (monitorIndex == wallpaperIndex) {

@@ -1,4 +1,4 @@
-#include <QGuiApplication>
+#include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QStringList>
 
@@ -7,10 +7,10 @@
 
 int main(int argc, char* argv[])
 {
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
-    QGuiApplication app(argc, argv);
+    QApplication app(argc, argv);
 
     QStringList argumentList = app.arguments();
 

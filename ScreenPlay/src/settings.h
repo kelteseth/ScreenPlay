@@ -4,7 +4,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFontDatabase>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -203,8 +203,9 @@ public slots:
             settings.sync();
         } else {
             settings.remove("ScreenPlay");
-#endif
+
         }
+#endif
 
         setqSetting("Autostart", autostart);
 

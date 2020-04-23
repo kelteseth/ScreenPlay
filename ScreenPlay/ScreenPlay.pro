@@ -5,7 +5,10 @@ CONFIG += c++17
 TARGETPATH = ScreenPlay
 
 include($$PWD/../Common/qt-google-analytics/qt-google-analytics.pri)
-include($$PWD/../Common/qt-breakpad/qt-breakpad.pri)
+
+!unix {
+    include($$PWD/../Common/qt-breakpad/qt-breakpad.pri)
+}
 
 ICON = favicon.ico
 
@@ -69,7 +72,6 @@ HEADERS += \
 INCLUDEPATH += \
     $$PWD/src/\
 
-
 CONFIG(debug, debug|release) {
     install_assets.path = $${OUT_PWD}/assets/fonts
 } else {
@@ -77,6 +79,20 @@ CONFIG(debug, debug|release) {
 }
 
 install_assets.files += $$PWD/assets/fonts/NotoSansCJKkr-Regular.otf
+
+win32: ARCH_OS = x64-windows
+unix:!macx { ARCH_OS = x64-linux}
+macx: ARCH_OS = x64-osx
+
+CONFIG(debug, debug|release){
+    ARCH_OS_BUILD = $$ARCH_OS/debug
+} else {
+    ARCH_OS_BUILD = $$ARCH_OS
+}
+
+INCLUDEPATH += $$PWD/../Common/vcpkg/installed/$$ARCH_OS/include
+DEPENDPATH  += $$PWD/../Common/vcpkg/installed/$$ARCH_OS/include
+
 
 win32 {
     RC_ICONS += favicon.ico
@@ -86,75 +102,30 @@ win32 {
         install_it.path = $${OUT_PWD}/release/
     }
 
-    INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-windows/include
-    DEPENDPATH  += $$PWD/../Common/vcpkg/installed/x64-windows/include
 
     LIBS += -luser32
-    LIBS += -L$$PWD/../Common/vcpkg/installed/x64-windows/lib/ -llibzippp
-
-    CONFIG(debug, debug|release) {
-        install_it.files += $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/zip.dll \
-                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/zlibd1.dll \
-                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libzippp.dll \
-                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/bz2d.dll \
-                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libcrypto-1_1-x64.dll \
-                            $$PWD/../Common/vcpkg/installed/x64-windows/debug/bin/libssl-1_1-x64.dll \
-
-    } else {
-        install_it.files += $$PWD/../Common/vcpkg/installed/x64-windows/bin/zip.dll \
-                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/zlib1.dll \
-                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/libzippp.dll \
-                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/bz2.dll \
-                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/libcrypto-1_1-x64.dll \
-                            $$PWD/../Common/vcpkg/installed/x64-windows/bin/libssl-1_1-x64.dll \
-    }
-
-}
+	LIBS += -L$$PWD/../Common/vcpkg/installed/x64-windows/lib/ -llibzippp
 
 
-
-macx {
-    LIBS += -L$$PWD/ThirdParty/steam/redistributable_bin/osx32/ -lsteam_api
-    DEPENDPATH += $$PWD/ThirdParty/steam/redistributable_bin/osx32
-
-    INCLUDEPATH += $$PWD/ThirdParty/steam/
-    DEPENDPATH += $$PWD/ThirdParty/steam/
-
-    LIBS += -L$$PWD/ThirdParty/steam/lib/osx32/ -lsdkencryptedappticket
-
-    steam_data.files += steam_appid.txt
-    steam_data.path = Contents/MacOS
-    steam_data_lib.files += $$PWD/ThirdParty/steam/redistributable_bin/osx32/libsteam_api.dylib
-    steam_data_lib.path = Contents/MacOS/
-    QMAKE_BUNDLE_DATA += steam_data
-    QMAKE_BUNDLE_DATA += steam_data_lib
+    install_it.files += $$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/zip.dll \
+	                    $$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/zlibd1.dll \
+						$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/libzippp.dll \
+						$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/bz2d.dll \
+						$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/libcrypto-1_1-x64.dll \
+						$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/bin/libssl-1_1-x64.dll \
 
 }
 
 unix {
-    INCLUDEPATH += $$PWD/../Common/vcpkg/installed/x64-linux/include
-    DEPENDPATH  += $$PWD/../Common/vcpkg/installed/x64-linux/include
 
-    LIBS += -L$$PWD/../Common/vcpkg/installed/x64-linux/lib/  -llibzippp -lzip
-
-    install_it.path = $${OUT_PWD}
-
-    CONFIG(debug, debug|release) {
-        install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/zip.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/zlibd1.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libzippp.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/bz2d.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libcrypto-1_1-x64.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/debug/bin/libssl-1_1-x64.so \
-
+    CONFIG(debug, debug|release){
+        #lbz2d uses d
+        LIBS += -L$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/lib/  -llibzippp -lzip -lbz2d -lz -lcrypto -lssl -ldl
     } else {
-        install_it.files += $$PWD/../Common/vcpkg/installed/x64-linux/bin/zip.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/zlib1.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libzippp.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/bz2.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libcrypto-1_1-x64.so \
-                            $$PWD/../Common/vcpkg/installed/x64-linux/bin/libssl-1_1-x64.so \
+        LIBS += -L$$PWD/../Common/vcpkg/installed/$$ARCH_OS_BUILD/lib/  -llibzippp -lzip -lbz2 -lz -lcrypto -lssl -ldl
     }
+
+
 }
 
 

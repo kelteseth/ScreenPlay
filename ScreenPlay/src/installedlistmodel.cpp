@@ -130,10 +130,10 @@ void InstalledListModel::loadInstalledContent()
 
             if (auto obj = Util::openJsonFileToObject(projectItemPath)) {
 
-                if (obj.value().isEmpty())
+                if (obj->isEmpty())
                     continue;
 
-                if (!obj.value().contains("file") || !obj.value().contains("type"))
+                if (!obj->contains("file") || !obj->contains("type"))
                     continue;
 
                 QStringList availableTypes {
@@ -147,8 +147,8 @@ void InstalledListModel::loadInstalledContent()
                     "standaloneWidget"
                 };
 
-                if (availableTypes.contains(obj.value().value("type").toString())) {
-                    emit addInstalledItem(obj.value(), item.baseName());
+                if (availableTypes.contains(obj->value("type").toString())) {
+                    emit addInstalledItem(*obj, item.baseName());
                 }
 
                 counter += 1;
