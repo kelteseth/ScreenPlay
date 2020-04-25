@@ -179,6 +179,7 @@ void Settings::setupWidgetAndWindowPaths()
     baseDir.cd("ScreenPlay");
 #endif
 #ifdef QT_NO_DEBUG
+    #ifdef Q_OS_WIN
     qDebug() << "Starting in Release mode!";
 
     // If we build in the release version we must be cautious!
@@ -202,6 +203,12 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setWallpaperExecutablePath(QUrl("ScreenPlayWallpaper.exe"));
         m_globalVariables->setWidgetExecutablePath(QUrl("ScreenPlayWidget.exe"));
     }
+    #endif
+
+//#ifdef Q_OS_OSX
+//        m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
+//        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../../ScreenPlayWallpaper/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
+//#endif
 #endif
 }
 
