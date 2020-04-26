@@ -1,13 +1,13 @@
-#include <QGuiApplication>
+#include <QApplication>
 
 #include "app.h"
 
 int main(int argc, char* argv[])
 {
-    QGuiApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
-    QGuiApplication qtGuiApp(argc, argv);
+    QApplication qtGuiApp(argc, argv);
 
     ScreenPlay::App app;
 

@@ -96,7 +96,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
          * not generate warnings.
          */
         QDir dir;
-        QString path = QGuiApplication::instance()->applicationDirPath() + "/../../workshop/content/672870";
+        QString path = QApplication::instance()->applicationDirPath() + "/../../workshop/content/672870";
         if (!dir.mkpath(path)) {
             qWarning() << "Could not create steam workshop path for path: " << path;
         } else {
@@ -123,6 +123,10 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 void Settings::writeJsonFileFromResource(const QString& filename)
 {
     QFile file(m_globalVariables->localSettingsPath().toString() + "/" + filename + ".json");
+    QDir directory(m_globalVariables->localSettingsPath().toString());
+    if(!directory.exists()){
+        directory.mkpath(directory.path());
+    }
     QFile defaultSettings(":/" + filename + ".json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
@@ -160,6 +164,11 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
         m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper/debug/ScreenPlayWallpaper.exe"));
 #endif
+
+#ifdef Q_OS_LINUX
+        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget/ScreenPlayWidget"));
+        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper/ScreenPlayWallpaper"));
+#endif
     }
 
     // We need to detect the right base path so we can copy later the example projects
@@ -169,6 +178,7 @@ void Settings::setupWidgetAndWindowPaths()
     baseDir.cd("ScreenPlay");
 #endif
 #ifdef QT_NO_DEBUG
+    #ifdef Q_OS_WIN
     qDebug() << "Starting in Release mode!";
 
     // If we build in the release version we must be cautious!
@@ -192,6 +202,12 @@ void Settings::setupWidgetAndWindowPaths()
         m_globalVariables->setWallpaperExecutablePath(QUrl("ScreenPlayWallpaper.exe"));
         m_globalVariables->setWidgetExecutablePath(QUrl("ScreenPlayWidget.exe"));
     }
+    #endif
+
+//#ifdef Q_OS_OSX
+//        m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
+//        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../../ScreenPlayWallpaper/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
+//#endif
 #endif
 }
 
@@ -244,7 +260,7 @@ void Settings::setupLanguage()
 */
 bool Settings::retranslateUI()
 {
-    auto* app = static_cast<QGuiApplication*>(QGuiApplication::instance());
+    auto* app = static_cast<QApplication*>(QApplication::instance());
     QString langCode = QVariant::fromValue(language()).toString();
     langCode = langCode.toLower();
     QFile tsFile;

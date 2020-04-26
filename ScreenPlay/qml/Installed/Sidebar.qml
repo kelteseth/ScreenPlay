@@ -23,6 +23,26 @@ Item {
     property var typeEnum: GlobalVariables.QMLWallpaper
     property string activeScreen
 
+    function isWallpaper() {
+        if (typeEnum === GlobalVariables.VideoWallpaper
+                || typeEnum === GlobalVariables.HTMLWallpaper
+                || typeEnum === GlobalVariables.QMLWallpaper) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function isWidget() {
+
+        if (typeEnum === GlobalVariables.HTMLWidget
+                || typeEnum === GlobalVariables.QMLWidget) {
+            return true
+        } else {
+            return false
+        }
+    }
+
     function indexOfValue(model, value) {
 
         for (var i = 0; i < model.length; i++) {
@@ -335,11 +355,12 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 enabled: {
-                    if (type.endsWith("Wallpaper")) {
+                    if (root.isWallpaper()) {
                         if (monitorSelection.activeMonitors.length > 0) {
                             return true
                         }
-                    } else if (type.endsWith("Widget")) {
+                    }
+                    if (root.isWidget()) {
                         return true
                     }
                     return false
@@ -352,7 +373,7 @@ Item {
                 }
 
                 onClicked: {
-                    if (type.endsWith("Wallpaper")) {
+                    if (root.isWallpaper()) {
                         let activeMonitors = monitorSelection.getActiveMonitors(
                                 )
 
@@ -360,21 +381,23 @@ Item {
                         if (activeMonitors.length === 0)
                             return
 
-                        print(typeEnum)
- typeof(typeEnum)
                         ScreenPlay.screenPlayManager.createWallpaper(
-                                    typeEnum ,
-                                    ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
-                                    ScreenPlay.installedListModel.get(activeScreen).screenPreview,
-                                    activeMonitors,
-                                    (Math.round(sliderVolume.value * 100) / 100),
-                                    cbVideoFillMode.currentValue
-                                    )
-                    } else {
-
-                        ScreenPlay.screenPlayManager.createWidget(
+                                    root.typeEnum,
+                                    cbVideoFillMode.currentValue,
                                     ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
                                     ScreenPlay.installedListModel.get( activeScreen).screenPreview,
+                                    activeMonitors,
+                                    (Math.round( sliderVolume.value * 100) / 100),
+                                    true)
+
+                    }
+                    else if(root.isWidget())
+                    {
+                        ScreenPlay.screenPlayManager.createWidget(
+                                    ScreenPlay.globalVariables.localStoragePath
+                                    + "/" + activeScreen,
+                                    ScreenPlay.installedListModel.get(
+                                        activeScreen).screenPreview,
                                     typeEnum)
                     }
                     root.state = "inactive"

@@ -28,7 +28,7 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
 
-    QString path = QGuiApplication::instance()->applicationDirPath() + "/";
+    QString path = QApplication::instance()->applicationDirPath() + "/";
     QFile fileFFMPEG;
     QFile fileFFPROBE;
 
@@ -49,7 +49,7 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
 */
 void Util::copyToClipboard(const QString& text) const
 {
-    auto* clipboard = QGuiApplication::clipboard();
+    auto* clipboard = QApplication::clipboard();
     clipboard->setText(text);
 }
 
@@ -67,7 +67,7 @@ std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
 
     QJsonDocument jsonDocument;
     QJsonParseError parseError {};
-    jsonDocument = QJsonDocument::fromJson(jsonString.value().toUtf8(), &parseError);
+    jsonDocument = QJsonDocument::fromJson(jsonString->toUtf8(), &parseError);
 
     if (!(parseError.error == QJsonParseError::NoError)) {
         qWarning() << "Settings Json Parse Error: " << parseError.errorString();
@@ -202,11 +202,9 @@ std::optional<QJsonObject> Util::parseQByteArrayToQJsonObject(const QByteArray& 
 */
 void Util::openFolderInExplorer(const QString& url) const
 {
-    QString fileString { "file:///" };
-    QString parameter = url;
-    if (url.contains(fileString)) {
-        parameter.remove(fileString);
-    }
+
+    QString path = QUrl::fromUserInput(url).toLocalFile();
+
     QProcess explorer;
 #ifdef Q_OS_WIN
     explorer.setProgram("explorer.exe");
@@ -214,11 +212,11 @@ void Util::openFolderInExplorer(const QString& url) const
     // C:\Program Files (x86)\Steam\...
     // we cannot set the path as an argument. But we can set the working it
     // to the wanted path and open the current path via the dot.
-    explorer.setWorkingDirectory(QDir::toNativeSeparators(parameter));
+    explorer.setWorkingDirectory(QDir::toNativeSeparators(path));
     explorer.setArguments({ "." });
 #elif defined(Q_OS_OSX)
     explorer.setProgram("open");
-    explorer.setArguments({ QDir::toNativeSeparators(parameter) });
+    explorer.setArguments({ QDir::toNativeSeparators(path) });
 #endif
 
     explorer.startDetached();
@@ -302,7 +300,7 @@ void Util::downloadFFMPEG()
 #ifdef Q_OS_WIN
     req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/win64/static/" + ffmpegVersion + "-win64-static.zip"));
 #elif defined(Q_OS_OSX)
-    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/" + ffmpegVersion + "-win64-static.zip"));
+    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/" + ffmpegVersion + "-macos64-static.zip"));
 #endif
     setAquireFFMPEGStatus(AquireFFMPEGStatus::Download);
 
@@ -322,7 +320,7 @@ void Util::downloadFFMPEG()
             return;
         }
 
-        string path = QGuiApplication::instance()->applicationDirPath().toStdString() + "/";
+        string path = QApplication::instance()->applicationDirPath().toStdString() + "/";
 
         ZipEntry entryFFMPEG;
         std::string entryFFMPEGPath;

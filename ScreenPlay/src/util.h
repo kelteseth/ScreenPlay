@@ -5,7 +5,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkAccessManager>
