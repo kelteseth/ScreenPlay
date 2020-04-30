@@ -110,7 +110,7 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     }
 
     setupWidgetAndWindowPaths();
-    setGitBuildHash(GIT_VERSION);
+    setGitBuildHash("GIT_VERSION");
 }
 
 /*!

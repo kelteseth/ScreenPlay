@@ -1,16 +1,24 @@
-cmake_minimum_required(VERSION 3.16.0)
 project(ScreenPlaySDK)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
+set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
-find_package(Qt5Core)
-find_package(Qt5Quick)
-find_package(Qt5Gui)
-find_package(Qt5Qml)
+
+
+find_package(
+  Qt5
+  COMPONENTS Quick
+             QML
+             Widgets
+             Gui
+             Network
+             Core
+  REQUIRED)
+
 set(src screenplay-sdk_plugin.cpp
         screenplaysdk.cpp)
 set(headers screenplay-sdk_plugin.h
         screenplaysdk.h)
-add_library(screenplaysdk MODULE ${src} ${headers})
-target_link_libraries(screenplaysdk PRIVATE Qt5::Core Qt5::Quick Qt5::Gui Qt5::Qml)
-set_target_properties(screenplaysdk PROPERTIES DEBUG_POSTFIX "d")
-install(TARGETS screenplaysdk DESTINATION Libs)
+
+add_library(${PROJECT_NAME}  ${src} ${headers})
+
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick Qt5::Gui Qt5::Qml Qt5::Network)

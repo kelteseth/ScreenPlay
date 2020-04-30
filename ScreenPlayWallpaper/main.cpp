@@ -6,7 +6,6 @@
 #include <QtWebEngine>
 
 #if defined(Q_OS_WIN)
-#include "qt_breakpad.h"
 
 #include "src/winwindow.h"
 #endif
@@ -40,7 +39,6 @@ int main(int argc, char* argv[])
         //Set the monitor number to test
 
 #if defined(Q_OS_WIN)
-        QtBreakpad::init(QDir::current().absolutePath());
 
         //WinWindow window1({ 0 }, "test", "appid", "1", "fill");
         //WinWindow window2({ 1 }, "test", "appid", "1", "fill");

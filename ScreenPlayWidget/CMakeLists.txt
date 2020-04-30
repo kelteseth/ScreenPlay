@@ -13,5 +13,14 @@ set(src main.cpp
 set(headers src/widgetwindow.h)
 set(resources SPWidgetResources.qrc)
 add_executable(ScreenPlayWidget ${src} ${headers} ${resources})
-target_link_libraries( ScreenPlayWidget Qt5::Qml Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core)
+
+target_link_libraries( ScreenPlayWidget
+    PRIVATE
+    Qt5::Qml
+    Qt5::Quick
+    Qt5::Gui
+    Qt5::Widgets
+    Qt5::Core
+    ScreenPlaySDK
+    )
 
