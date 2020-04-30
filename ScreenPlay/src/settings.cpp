@@ -151,56 +151,19 @@ void Settings::setupWidgetAndWindowPaths()
     QDir workingDir(QDir::currentPath());
     QDir baseDir(QDir::currentPath());
 
-#ifdef QT_DEBUG
-
-    if (workingDir.cdUp()) {
-
-#ifdef Q_OS_OSX
-        m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
-        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../ScreenPlayWallpaper/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
+#if defined(Q_OS_WIN)
+    m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget.exe"));
+    m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper.exe"));
 #endif
 
-#ifdef Q_OS_WIN
-        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
-        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper/debug/ScreenPlayWallpaper.exe"));
+#if defined(Q_OS_LINUX)
+    m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget"));
+    m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/SScreenPlayWallpaper"));
 #endif
 
-#ifdef Q_OS_LINUX
-        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget/ScreenPlayWidget"));
-        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper/ScreenPlayWallpaper"));
-#endif
-    }
-
-    // We need to detect the right base path so we can copy later the example projects
-    baseDir.cdUp();
-    baseDir.cdUp();
-    baseDir.cd("ScreenPlay");
-    baseDir.cd("ScreenPlay");
-#endif
-#ifdef QT_NO_DEBUG
-    qDebug() << "Starting in Release mode!";
-
-    // If we build in the release version we must be cautious!
-    // The working dir in steam is the ScreenPlay.exe location
-    // In QtCreator is the dir above ScreenPlay.exe (!)
-
-    workingDir.cdUp();
-    workingDir.cd("ScreenPlayWallpaper");
-
-    if (QDir(workingDir.path() + "/release").exists()) {
-        // If started by QtCreator
-        workingDir.cd("release");
-        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper.exe"));
-        workingDir.cdUp();
-        workingDir.cdUp();
-        workingDir.cd("ScreenPlayWidget");
-        workingDir.cd("release");
-        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget.exe"));
-    } else {
-        // If started by Steam
-        m_globalVariables->setWallpaperExecutablePath(QUrl("ScreenPlayWallpaper.exe"));
-        m_globalVariables->setWidgetExecutablePath(QUrl("ScreenPlayWidget.exe"));
-    }
+#if defined(Q_OS_OSX)
+    m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
+    m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
 #endif
 }
 
