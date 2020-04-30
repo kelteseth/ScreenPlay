@@ -1,6 +1,3 @@
-[submodule "Common/stomt-qt-sdk"]
-	path = Common/stomt-qt-sdk
-	url = https://github.com/Aimber/stomt-qt-sdk.git
 [submodule "Common/qt-google-analytics"]
 	path = Common/qt-google-analytics
 	url = https://github.com/HSAnet/qt-google-analytics.git
