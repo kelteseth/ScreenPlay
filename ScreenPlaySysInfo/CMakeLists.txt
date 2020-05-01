@@ -27,3 +27,26 @@ add_library(${PROJECT_NAME}  ${src} ${headers})
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick Qt5::Qml)
 
 
+
+# QML module deployment
+set(URI "ScreenPlay/Sysinfo")
+string(REPLACE "." "/" TARGETPATH ${URI})
+if (NOT DEFINED QT_QMAKE_EXECUTABLE)
+    get_target_property (QT_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+    if (NOT QT_QMAKE_EXECUTABLE)
+        message(FATAL_ERROR "Cannot find qmake")
+    endif()
+endif()
+
+execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_QML OUTPUT_VARIABLE QT_INSTALL_QML_RAW)
+string(STRIP ${QT_INSTALL_QML_RAW} QT_INSTALL_QML)
+set(DESTDIR "${QT_INSTALL_QML}/${TARGETPATH}")
+message("DESTDIR ${DESTDIR}")
+
+
+# Copies ScreenPlaySysInfo.* into qt qml plugins folder
+add_custom_command(
+  TARGET ${PROJECT_NAME}
+  POST_BUILD
+  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ScreenPlaySysInfo>
+          ${DESTDIR}/$<TARGET_FILE_NAME:ScreenPlaySysInfo>)
