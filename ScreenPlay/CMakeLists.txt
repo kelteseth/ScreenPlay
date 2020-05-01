@@ -80,6 +80,12 @@ target_include_directories(${PROJECT_NAME}
     ${QT_TELEMTRY_INCLUDE}
     ${QT_BREAKPAD_INCLUDE})
 
+install(FILES
+    assets/fonts/NotoSansCJKkr-Regular.otf
+    DESTINATION
+    ${CMAKE_BINARY_DIR}/assets/fonts/ )
+
+
 
 execute_process(COMMAND git log --pretty=format:'%h' -n 1
                 OUTPUT_VARIABLE GIT_VERSION
