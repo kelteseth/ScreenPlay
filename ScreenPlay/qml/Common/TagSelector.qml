@@ -26,7 +26,7 @@ Item {
 
     Rectangle {
         id: rectangle
-        color: "#F0F0F0"
+        color: Material.background
         radius: 3
         clip: true
         anchors {

@@ -127,7 +127,7 @@ Item {
                 Button {
                     id: btnRemoveSelectedWallpaper
                     text: qsTr("Remove selected")
-                    Material.background: Material.Orange
+                    Material.background: Material.accent
                     Material.foreground: "white"
                     font.family: ScreenPlay.settings.font
                     enabled: monitorSelection.activeMonitors.length == 1
@@ -139,7 +139,7 @@ Item {
                 Button {
                     id: btnRemoveAllWallpaper
                     text: qsTr("Remove all Wallpapers")
-                    Material.background: Material.Orange
+                    Material.background: Material.accent
                     Material.foreground: "white"
                     font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
@@ -151,7 +151,7 @@ Item {
                 Button {
                     id: btnRemoveAllWidgets
                     text: qsTr("Remove all Widgets")
-                    Material.background: Material.Orange
+                    Material.background: Material.accent
                     Material.foreground: "white"
                     font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWidgetsCounter > 0

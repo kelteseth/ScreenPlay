@@ -45,7 +45,7 @@ Item {
 
     Rectangle {
         id: rectangle
-        color: "#F0F0F0"
+        color: Material.background
         radius: 3
         clip: true
         anchors {
@@ -137,9 +137,9 @@ Item {
         Button {
             id: btnClear
             text: qsTr("Clear")
-            Material.background: Material.Grey
+            Material.background: Material.theme === Material.Light ? Qt.lighter(Material.accent) : Qt.darker(Material.accent)
             Material.foreground: "white"
-            font.family: ScreenPlay.settings.font
+
             anchors {
                 top: parent.top
                 right: btnOpen.left
@@ -152,7 +152,7 @@ Item {
         Button {
             id: btnOpen
             text: qsTr("Select Preview Image")
-            Material.background: Material.Orange
+            Material.background: Material.accent
             Material.foreground: "white"
             font.family: ScreenPlay.settings.font
             anchors {

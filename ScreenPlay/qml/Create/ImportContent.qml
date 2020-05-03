@@ -81,7 +81,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: 20
                 }
-                Material.background: Material.Orange
+                Material.background: Material.accent
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_upload.svg"
                 icon.color: "white"
@@ -168,7 +168,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: 20
                 }
-                Material.background: Material.Orange
+                Material.background: Material.accent
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_upload.svg"
                 icon.color: "white"
@@ -248,7 +248,7 @@ Item {
             Button {
                 text: qsTr("Upload Exsisting Project to Steam")
                 anchors.centerIn: parent
-                Material.background: Material.Orange
+                Material.background: Material.accent
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_steam.svg"
                 icon.color: "white"

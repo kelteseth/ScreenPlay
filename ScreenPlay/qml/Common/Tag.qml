@@ -15,13 +15,14 @@ Item {
     Rectangle {
         id: rectangle
         radius: 3
-
+        color: Qt.lighter(Material.background)
         anchors.fill: parent
 
         Text {
             id: txt
             text: _name
-            color: Material.color(Material.Grey)
+            color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
+
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
