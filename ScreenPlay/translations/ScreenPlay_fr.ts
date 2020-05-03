@@ -47,11 +47,11 @@
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="15"/>
         <source>Create Widgets and Scenes</source>
-        <translation type="unfinished">Crear Widgets y Escenarios</translation>
+        <translation type="unfinished">Créer des widgets et des scènes</translation>
     </message>
     <message>
         <source>Create Emtpy Widget</source>
-        <translation type="obsolete">Créer un widget Emtpy</translation>
+        <translation type="obsolete">Créer un widget vide</translation>
     </message>
     <message>
         <source>Examples Widgets and Scenes</source>
@@ -60,12 +60,12 @@
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="30"/>
         <source>Create Empty Widget</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Créer un widget vide</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="43"/>
         <source>Example Widgets and Scenes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exemples de Widgets et de Scène</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="67"/>
@@ -140,16 +140,16 @@
     <name>CreateImport</name>
     <message>
         <location filename="../qml/Create/CreateImport.qml" line="137"/>
-        <source></source>
-        <translation></translation>
+        <source>Import a Creation</source>
+        <translation>Importer une création</translation>
     </message>
 </context>
 <context>
     <name>CreateUpload</name>
     <message>
         <location filename="../qml/Create/CreateUpload.qml" line="219"/>
-        <source></source>
-        <translation></translation>
+        <source>Upload a Creation</source>
+        <translation>Poster une création</translation>
     </message>
 </context>
 <context>
@@ -205,7 +205,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="83"/>
         <source>Converting Video ERROR!</source>
-        <translation type="unfinished">Convertir no tiene éxito!</translation>
+        <translation type="unfinished">Conversion de la vidéo ERREUR !</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="107"/>
@@ -240,7 +240,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="268"/>
         <source>Youtube URL</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">URL Youtube</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="293"/>
@@ -255,7 +255,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="341"/>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished">Sauvegarder le papier peint...</translation>
+        <translation type="unfinished">Sauvegarder le fond d´écran...</translation>
     </message>
 </context>
 <context>
@@ -268,7 +268,7 @@
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="32"/>
         <source>Playback rate</source>
-        <translation type="unfinished">taux de lecture</translation>
+        <translation type="unfinished">Taux de lecture</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="38"/>
@@ -331,7 +331,7 @@
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="70"/>
         <source>Extraction successful</source>
-        <translation type="unfinished">Добыча прошла успешно</translation>
+        <translation type="unfinished">Succès de l´extraction</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="73"/>
@@ -340,8 +340,8 @@
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="88"/>
-        <source>You cannot create Wallaper without FFMPEG installed!</source>
-        <translation type="unfinished">Vous ne pouvez pas créer de Wallaper sans FFMPEG installé !</translation>
+        <source>You cannot create Wallpaper without FFMPEG installed!</source>
+        <translation type="unfinished">Vous ne pouvez pas créer de fonds d´écrans sans FFMPEG installé !</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="109"/>
