@@ -15,7 +15,7 @@ Item {
     Rectangle {
         id: rectangle
         radius: 3
-        color: Qt.lighter(Material.background)
+        color: Material.theme === Material.Light ? Qt.lighter(Material.background) : Material.background
         anchors.fill: parent
 
         Text {

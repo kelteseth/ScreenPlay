@@ -45,7 +45,7 @@ Item {
 
     Rectangle {
         id: rectangle
-        color: Material.background
+        color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
         radius: 3
         clip: true
         anchors {
