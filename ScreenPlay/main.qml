@@ -48,7 +48,7 @@ ApplicationWindow {
     function setTheme(theme){
         switch (theme) {
         case Settings.System:
-            window.Material.theme = Material.Light
+            window.Material.theme = Material.System
             break
         case Settings.Dark:
             window.Material.theme = Material.Dark

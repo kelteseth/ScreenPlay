@@ -35,7 +35,7 @@ Item {
     }
     Connections {
         target: ScreenPlay.installedListModel
-        function onInstalledLoadingFinished(){
+        function onInstalledLoadingFinished() {
             checkIsContentInstalled()
         }
         function onCountChanged(count) {
@@ -90,7 +90,7 @@ Item {
             opacity: 0
             onIsVisibleChanged: {
                 if (isVisible) {
-                    txtHeader.color =  Material.accent
+                    txtHeader.color = Material.accent
                     txtHeader.text = qsTr("Refreshing!")
                 } else {
                     txtHeader.color = "gray"
@@ -242,11 +242,10 @@ Item {
                     icon.height: 16
                     icon.width: 16
                     height: parent.height
-
                     width: implicitWidth
                     background: Item {}
+                    font.weight: Font.Thin
                     icon.source: "qrc:/assets/icons/icon_installed.svg"
-
                     onClicked: {
                         setSidebarActive(false)
                         ScreenPlay.installedListFilter.sortByRoleType("All")
@@ -260,6 +259,7 @@ Item {
                     width: implicitWidth
                     height: parent.height
                     background: Item {}
+                    font.weight: Font.Thin
                     icon.source: "qrc:/assets/icons/icon_code.svg"
                     onClicked: {
                         setSidebarActive(false)
@@ -274,6 +274,7 @@ Item {
                     height: parent.height
                     width: implicitWidth
                     background: Item {}
+                    font.weight: Font.Thin
                     icon.source: "qrc:/assets/icons/icon_movie.svg"
                     onClicked: {
                         setSidebarActive(false)
@@ -288,6 +289,7 @@ Item {
                     height: parent.height
                     width: implicitWidth
                     background: Item {}
+                    font.weight: Font.Thin
                     icon.source: "qrc:/assets/icons/icon_widgets.svg"
                     onClicked: {
                         setSidebarActive(false)

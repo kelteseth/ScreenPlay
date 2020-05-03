@@ -6,7 +6,7 @@ import ScreenPlay 1.0
 
 Rectangle {
     id: rect
-    color: Material.theme === Material.Light ? Qt.darker(Material.background) : Qt.lighter(Material.background)
+    color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
 
     height: availableHeight
     width: availableWidth
