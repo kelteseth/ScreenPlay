@@ -60,7 +60,9 @@ ApplicationWindow {
     }
     Connections {
         target: ScreenPlay.settings
-        onThemeChanged:setTheme(theme)
+        function onThemeChanged(theme) {
+            setTheme(theme)
+        }
     }
 
     Component.onCompleted: {
