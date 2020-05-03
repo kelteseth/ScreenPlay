@@ -1,9 +1,10 @@
-[submodule "Common/stomt-qt-sdk"]
-	path = Common/stomt-qt-sdk
-	url = https://github.com/Aimber/stomt-qt-sdk.git
 [submodule "Common/qt-google-analytics"]
 	path = Common/qt-google-analytics
 	url = https://github.com/HSAnet/qt-google-analytics.git
 [submodule "Common/qt-breakpad"]
 	path = Common/qt-breakpad
 	url = https://github.com/kelteseth/qt-breakpad
+[submodule "Common/stomt-qml"]
+	path = Common/stomt-qml
+	url = https://gitlab.com/kelteseth/stomt-qml.git
+	branch = master

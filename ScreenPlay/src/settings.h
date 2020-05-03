@@ -4,7 +4,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFontDatabase>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -177,6 +177,7 @@ public:
 
 signals:
     void requestRetranslation();
+    void resetInstalledListmodel();
 
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
@@ -185,13 +186,11 @@ signals:
     void setMainWindowVisible(bool visible);
     void offlineModeChanged(bool offlineMode);
     void gitBuildHashChanged(QString gitBuildHash);
-    void resetInstalledListmodel();
     void silentStartChanged(bool silentStart);
     void anonymousTelemetryChanged(bool anonymousTelemetry);
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
     void videoFillModeChanged(FillMode videoFillMode);
     void languageChanged(Language language);
-
     void fontChanged(QString font);
 
     void themeChanged(Theme theme);
@@ -200,6 +199,7 @@ public slots:
     void writeJsonFileFromResource(const QString& filename);
     void setupWidgetAndWindowPaths();
     bool retranslateUI();
+
     void setqSetting(const QString& key, const QVariant& value)
     {
         m_qSettings.setValue(key, value);
@@ -218,8 +218,9 @@ public slots:
             settings.sync();
         } else {
             settings.remove("ScreenPlay");
-#endif
+
         }
+#endif
 
         setqSetting("Autostart", autostart);
 

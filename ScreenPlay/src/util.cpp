@@ -9,7 +9,7 @@ namespace ScreenPlay {
 */
 
 /*!
-  Constructor
+  \brief Constructor.
 */
 Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     : QObject(parent)
@@ -28,7 +28,7 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
 
-    QString path = QGuiApplication::instance()->applicationDirPath() + "/";
+    QString path = QApplication::instance()->applicationDirPath() + "/";
     QFile fileFFMPEG;
     QFile fileFFPROBE;
 
@@ -45,17 +45,17 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
 }
 
 /*!
-  Copies the given string to the clipboard.
+  \brief Copies the given string to the clipboard.
 */
 void Util::copyToClipboard(const QString& text) const
 {
-    auto* clipboard = QGuiApplication::clipboard();
+    auto* clipboard = QApplication::clipboard();
     clipboard->setText(text);
 }
 
 /*!
-  Opens a json file (absolute path) and tries to convert it to a QJsonObject.
-  Return std::nullopt when not successful.
+  \brief Opens a json file (absolute path) and tries to convert it to a QJsonObject.
+  Returns std::nullopt when not successful.
 */
 std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
 {
@@ -67,7 +67,7 @@ std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
 
     QJsonDocument jsonDocument;
     QJsonParseError parseError {};
-    jsonDocument = QJsonDocument::fromJson(jsonString.value().toUtf8(), &parseError);
+    jsonDocument = QJsonDocument::fromJson(jsonString->toUtf8(), &parseError);
 
     if (!(parseError.error == QJsonParseError::NoError)) {
         qWarning() << "Settings Json Parse Error: " << parseError.errorString();
@@ -78,8 +78,8 @@ std::optional<QJsonObject> Util::openJsonFileToObject(const QString& path)
 }
 
 /*!
-  Opens a json file (absolute path) and tries to convert it to a QString.
-  Return std::nullopt when not successful.
+  \brief  Opens a json file (absolute path) and tries to convert it to a QString.
+  Returns std::nullopt when not successful.
 */
 std::optional<QString> Util::openJsonFileToString(const QString& path)
 {
@@ -96,7 +96,7 @@ std::optional<QString> Util::openJsonFileToString(const QString& path)
 }
 
 /*!
-  Generates a (non secure) random string with the default length of 32. Can contain:
+  \brief Generates a (non secure) random string with the default length of 32. Can contain:
   \list
     \li A-Z
     \li a-z
@@ -120,7 +120,7 @@ QString Util::generateRandomString(quint32 length)
 }
 
 /*!
-  Parses a version from a given QString. The QString must be looke like this:
+  \brief Parses a version from a given QString. The QString must be looke like this:
   1.0.0 - Major.Minor.Patch. A fixed position is used for parsing (at 0,2,4).
   Return std::nullopt when not successful.
 */
@@ -143,7 +143,7 @@ std::optional<QVersionNumber> Util::getVersionNumberFromString(const QString& st
 }
 
 /*!
-   Writes a given QJsonObject to a file. The path must be absolute. When truncate is set to
+   \brief Writes a given QJsonObject to a file. The path must be absolute. When truncate is set to
    true the exsisting json file will be overriten.
 */
 bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate)
@@ -168,6 +168,9 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
     return true;
 }
 
+/*!
+    \brief Helper function to append a QStringList into a QString with a space between the items.
+*/
 QString Util::toString(const QStringList& list)
 {
     QString out;
@@ -177,13 +180,8 @@ QString Util::toString(const QStringList& list)
     return out;
 }
 
-QString Util::fixWindowsPath(QString url)
-{
-    return url.replace("/", "\\\\");
-}
-
 /*!
-  Opens a native folder window on the given path. Windows and Mac only for now!
+  \brief Parses a QByteArray to a QJsonObject. If returns and std::nullopt on failure.
 */
 std::optional<QJsonObject> Util::parseQByteArrayToQJsonObject(const QByteArray& byteArray)
 {
@@ -199,13 +197,14 @@ std::optional<QJsonObject> Util::parseQByteArrayToQJsonObject(const QByteArray& 
     return std::nullopt;
 }
 
+/*!
+  \brief Opens a native folder window on the given path. Windows and Mac only for now!
+*/
 void Util::openFolderInExplorer(const QString& url) const
 {
-    QString fileString { "file:///" };
-    QString parameter = url;
-    if (url.contains(fileString)) {
-        parameter.remove(fileString);
-    }
+
+    QString path = QUrl::fromUserInput(url).toLocalFile();
+
     QProcess explorer;
 #ifdef Q_OS_WIN
     explorer.setProgram("explorer.exe");
@@ -213,20 +212,18 @@ void Util::openFolderInExplorer(const QString& url) const
     // C:\Program Files (x86)\Steam\...
     // we cannot set the path as an argument. But we can set the working it
     // to the wanted path and open the current path via the dot.
-    explorer.setWorkingDirectory(QDir::toNativeSeparators(parameter));
+    explorer.setWorkingDirectory(QDir::toNativeSeparators(path));
     explorer.setArguments({ "." });
 #elif defined(Q_OS_OSX)
     explorer.setProgram("open");
-    explorer.setArguments({ QDir::toNativeSeparators(parameter) });
+    explorer.setArguments({ QDir::toNativeSeparators(path) });
 #endif
 
     explorer.startDetached();
 }
 
-
-
 /*!
-  Loads all content of the legal folder in the qrc into a property string of this class.
+  \brief Loads all content of the legal folder in the qrc into a property string of this class.
   allLicenseLoaded is emited when loading is finished.
 */
 void Util::Util::requestAllLicenses()
@@ -272,7 +269,7 @@ void Util::Util::requestAllLicenses()
 }
 
 /*!
-  Loads all dataprotection of the legal folder in the qrc into a property string of this class.
+  \brief Loads all dataprotection of the legal folder in the qrc into a property string of this class.
   allDataProtectionLoaded is emited when loading is finished.
 */
 void Util::Util::requestDataProtection()
@@ -292,7 +289,7 @@ void Util::Util::requestDataProtection()
 }
 
 /*!
-  Downloads and extracts ffmpeg static version from https://ffmpeg.zeranoe.com
+  \brief Downloads and extracts ffmpeg static version from https://ffmpeg.zeranoe.com
   The progress is tracked via setAquireFFMPEGStatus(AquireFFMPEGStatus);
 */
 void Util::downloadFFMPEG()
@@ -303,7 +300,7 @@ void Util::downloadFFMPEG()
 #ifdef Q_OS_WIN
     req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/win64/static/" + ffmpegVersion + "-win64-static.zip"));
 #elif defined(Q_OS_OSX)
-    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/" + ffmpegVersion + "-win64-static.zip"));
+    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/" + ffmpegVersion + "-macos64-static.zip"));
 #endif
     setAquireFFMPEGStatus(AquireFFMPEGStatus::Download);
 
@@ -323,7 +320,7 @@ void Util::downloadFFMPEG()
             return;
         }
 
-        string path = QGuiApplication::instance()->applicationDirPath().toStdString() + "/";
+        string path = QApplication::instance()->applicationDirPath().toStdString() + "/";
 
         ZipEntry entryFFMPEG;
         std::string entryFFMPEGPath;
@@ -380,7 +377,7 @@ void Util::downloadFFMPEG()
 }
 
 /*!
-  Basic logging to the GUI. No logging is done to a log file for now. This string can be copied
+  \brief Basic logging to the GUI. No logging is done to a log file for now. This string can be copied
   in the settings tab in the UI.
 */
 void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg)
@@ -417,7 +414,7 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
 }
 
 /*!
-  Convenient function for the ffmpeg download extraction via libzippp. Extracts a given bytearray
+  \brief Convenient function for the ffmpeg download extraction via libzippp. Extracts a given bytearray
   to a given absolute file path and file name. Returns false if extraction or saving wasn't successful.
 */
 bool Util::saveExtractedByteArray(libzippp::ZipEntry& entry, std::string& absolutePathAndName)

@@ -14,10 +14,10 @@ namespace ScreenPlay {
 */
 
 /*!
- This constructor is only needed for calling  qRegisterMetaType on CreateImportVideo to register the enums.
- \code
- qRegisterMetaType<CreateImportVideo::ImportVideoState>("CreateImportVideo::ImportVideoState");
- \endcode
+ \brief This constructor is only needed for calling  qRegisterMetaType on CreateImportVideo to register the enums.
+     \code
+     qRegisterMetaType<CreateImportVideo::ImportVideoState>("CreateImportVideo::ImportVideoState");
+     \endcode
  */
 CreateImportVideo::CreateImportVideo(QObject* parent)
     : QObject(parent)
@@ -25,7 +25,7 @@ CreateImportVideo::CreateImportVideo(QObject* parent)
 }
 
 /*!
-  Creates a CreateImportVideo object to be used in a different thread. A \a videoPath and a \a exportPath are
+  \brief Creates a CreateImportVideo object to be used in a different thread. A \a videoPath and a \a exportPath are
   needed for convertion.
 */
 CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& exportPath, const QStringList& codecs, QObject* parent)
@@ -51,7 +51,7 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 }
 
 /*!
-  Processes the multiple steps of creating a wallpaper.
+  \brief Processes the multiple steps of creating a wallpaper.
   \list 1
     \li createWallpaperInfo()
     \li createWallpaperImagePreview()
@@ -109,7 +109,7 @@ void CreateImportVideo::process()
 }
 
 /*!
-  Starts ffprobe and tries to parse the resulting json.
+  \brief Starts ffprobe and tries to parse the resulting json.
   Returns \c false if :
   \list
     \li Parsing the output json of ffprobe fails.
@@ -141,8 +141,8 @@ bool CreateImportVideo::createWallpaperInfo()
 
     emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoFinished);
     auto a = pro->readAll();
-    auto objOptional = Util::parseQByteArrayToQJsonObject(a);
-    if (!objOptional) {
+    auto obj = Util::parseQByteArrayToQJsonObject(a);
+    if (!obj) {
         qDebug() << "Error parsing ffmpeg json output";
         emit processOutput(pro->readAll());
         emit processOutput("Error parsing ffmpeg json output");
@@ -150,8 +150,7 @@ bool CreateImportVideo::createWallpaperInfo()
         return false;
     }
 
-    QJsonObject obj = objOptional.value();
-    if (obj.empty()) {
+    if (obj->empty()) {
         qDebug() << "Error! File could not be parsed.";
         emit processOutput("Error! File could not be parsed.");
 
@@ -163,7 +162,7 @@ bool CreateImportVideo::createWallpaperInfo()
     pro->close();
 
     // Check for audio and video streams
-    QJsonArray arrayStream = obj.value("streams").toArray();
+    QJsonArray arrayStream = obj->value("streams").toArray();
 
     bool hasAudioStream { false };
     bool hasVideoStream { false };
@@ -204,7 +203,7 @@ bool CreateImportVideo::createWallpaperInfo()
         return false;
     }
 
-    QJsonObject objFormat = obj.value("format").toObject();
+    QJsonObject objFormat = obj->value("format").toObject();
 
     // Get video length
     bool okParseDuration = false;
@@ -221,7 +220,7 @@ bool CreateImportVideo::createWallpaperInfo()
     m_length = length;
 
     // Get framerate
-    QJsonArray arrSteams = obj.value("streams").toArray();
+    QJsonArray arrSteams = obj->value("streams").toArray();
     if (arrSteams.empty()) {
         qDebug() << "Error container does not have any video streams";
         emit processOutput("Error container does not have any video streams");
@@ -257,7 +256,7 @@ bool CreateImportVideo::createWallpaperInfo()
 }
 
 /*!
-  Starts ffmpeg and tries to covert the given video to a five second preview.
+  \brief Starts ffmpeg and tries to covert the given video to a five second preview.
   \code
     //[...]
     args.append("-vf");
@@ -339,7 +338,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
 }
 
 /*!
-  Starts ffmpeg and tries to covert the given video to a 5 second preview gif.
+  \brief Starts ffmpeg and tries to covert the given video to a 5 second preview gif.
   \code
     //[...]
     args.append("-filter_complex");
@@ -390,7 +389,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
 }
 
 /*!
-  Starts ffmpeg and tries to covert the given video to a image preview.
+  \brief Starts ffmpeg and tries to covert the given video to a image preview.
   Returns \c false if :
   \list
     \li Cannot convert the video
@@ -454,6 +453,9 @@ bool CreateImportVideo::createWallpaperImageThumbnailPreview()
     return true;
 }
 
+/*!
+  \brief .
+*/
 bool CreateImportVideo::createWallpaperImagePreview()
 {
 
@@ -508,7 +510,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
 }
 
 /*!
-  Starts ffmpeg and tries to covert the given video to a webm video.
+  \brief Starts ffmpeg and tries to covert the given video to a webm video.
   \code
     //[...]
     args.append("-c:v");
@@ -662,7 +664,7 @@ bool CreateImportVideo::createWallpaperVideo(const QString& codec)
     return true;
 }
 /*!
-  Starts ffmpeg and tries to covert the given audio into a seperate mp3.
+  \brief Starts ffmpeg and tries to covert the given audio into a seperate mp3.
   \code
     //[...]
     args.append("mp3");
@@ -719,6 +721,9 @@ bool CreateImportVideo::extractWallpaperAudio()
     return true;
 }
 
+/*!
+  \brief .
+*/
 void CreateImportVideo::waitForFinished(std::shared_ptr<QProcess>& process)
 {
     while (!process->waitForFinished(100)) //Wake up every 100ms and check if we must exit

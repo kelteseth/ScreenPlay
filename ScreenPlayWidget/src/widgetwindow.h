@@ -2,7 +2,7 @@
 
 #include <QDebug>
 #include <QFile>
-#include <QGuiApplication>
+#include <QApplication>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>

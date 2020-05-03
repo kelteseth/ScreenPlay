@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8">
 <!-- monitorlistmodel.cpp -->
   <title>MonitorListModel Class | ScreenPlay</title>
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
@@ -15,12 +14,14 @@
 <h3><a name="toc">Contents</a></h3>
 <ul>
 <li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#reimplemented-public-functions">Reimplemented Public Functions</a></li>
+<li class="level1"><a href="#public-slots">Public Slots</a></li>
 <li class="level1"><a href="#details">Detailed Description</a></li>
 </ul>
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">MonitorListModel Class</h1>
-<span class="small-subtitle">(<a href="screenplay-monitorlistmodel.html">ScreenPlay::MonitorListModel</a>)<br/></span>
+<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::MonitorListModel</span>
 <!-- $$$MonitorListModel-brief -->
 <p>MonitorListModel. <a href="#details">More...</a></p>
 <!-- @@@MonitorListModel -->
@@ -33,6 +34,22 @@
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#MonitorListModel">MonitorListModel</a></b>(QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#getAppIDByMonitorIndex">getAppIDByMonitorIndex</a></b>(<i>const int</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#setWallpaperActiveMonitor">setWallpaperActiveMonitor</a></b>(const std::shared_ptr&lt;ScreenPlayWallpaper&gt; &amp;<i>wallpaper</i>, const QVector&lt;int&gt; <i>monitors</i>)</td></tr>
+</table></div>
+<a name="reimplemented-public-functions"></a>
+<h2 id="reimplemented-public-functions">Reimplemented Public Functions</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QVariant </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#data">data</a></b>(const QModelIndex &amp;<i>index</i>, int <i>role</i> = Qt::DisplayRole) const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QHash&lt;int, QByteArray&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#roleNames">roleNames</a></b>() const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#rowCount">rowCount</a></b>(const QModelIndex &amp;<i>parent</i> = QModelIndex()) const override</td></tr>
+</table></div>
+<a name="public-slots"></a>
+<h2 id="public-slots">Public Slots</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#clearActiveWallpaper">clearActiveWallpaper</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#closeWallpaper">closeWallpaper</a></b>(const QString &amp;<i>appID</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#reset">reset</a></b>()</td></tr>
 </table></div>
 <a name="details"></a>
 <!-- $$$MonitorListModel-description -->
@@ -51,8 +68,40 @@
 <h2>Member Function Documentation</h2>
 <!-- $$$MonitorListModel[overload1]$$$MonitorListModelQObject* -->
 <h3 class="fn" id="MonitorListModel"><a name="MonitorListModel"></a>MonitorListModel::<span class="name">MonitorListModel</span>(<span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
-<p>Constructor</p>
+<p>Constructor.</p>
 <!-- @@@MonitorListModel -->
+<!-- $$$clearActiveWallpaper[overload1]$$$clearActiveWallpaper -->
+<h3 class="fn" id="clearActiveWallpaper"><a name="clearActiveWallpaper"></a><code>[slot] </code><span class="type">void</span> MonitorListModel::<span class="name">clearActiveWallpaper</span>()</h3>
+<p>Clears the listmodel.</p>
+<!-- @@@clearActiveWallpaper -->
+<!-- $$$closeWallpaper[overload1]$$$closeWallpaperconstQString& -->
+<h3 class="fn" id="closeWallpaper"><a name="closeWallpaper"></a><code>[slot] </code><span class="type">void</span> MonitorListModel::<span class="name">closeWallpaper</span>(const <span class="type">QString</span> &amp;<i>appID</i>)</h3>
+<p>Removes the preview image and appID inside an monitor item.</p>
+<!-- @@@closeWallpaper -->
+<!-- $$$reset[overload1]$$$reset -->
+<h3 class="fn" id="reset"><a name="reset"></a><code>[slot] </code><span class="type">void</span> MonitorListModel::<span class="name">reset</span>()</h3>
+<p>Removes all items and loads them vida loadMonitors() again.</p>
+<!-- @@@reset -->
+<!-- $$$data[overload1]$$$dataconstQModelIndex&int -->
+<h3 class="fn" id="data"><a name="data"></a><code>[override virtual] </code><span class="type">QVariant</span> MonitorListModel::<span class="name">data</span>(const <span class="type">QModelIndex</span> &amp;<i>index</i>, <span class="type">int</span> <i>role</i> = Qt::DisplayRole) const</h3>
+<p>Retruns the data member of the Monitor.</p>
+<!-- @@@data -->
+<!-- $$$getAppIDByMonitorIndex[overload1]$$$getAppIDByMonitorIndexconstint -->
+<h3 class="fn" id="getAppIDByMonitorIndex"><a name="getAppIDByMonitorIndex"></a><span class="type">int</span> MonitorListModel::<span class="name">getAppIDByMonitorIndex</span>(<i>const int</i>) const</h3>
+<p>If successful this function returns an AppID. Otherwhise std::nullopt.</p>
+<!-- @@@getAppIDByMonitorIndex -->
+<!-- $$$roleNames[overload1]$$$roleNames -->
+<h3 class="fn" id="roleNames"><a name="roleNames"></a><code>[override virtual] </code><span class="type">QHash</span>&lt;<span class="type">int</span>, <span class="type">QByteArray</span>&gt; MonitorListModel::<span class="name">roleNames</span>() const</h3>
+<p>Returns the variable names for QML.</p>
+<!-- @@@roleNames -->
+<!-- $$$rowCount[overload1]$$$rowCountconstQModelIndex& -->
+<h3 class="fn" id="rowCount"><a name="rowCount"></a><code>[override virtual] </code><span class="type">int</span> MonitorListModel::<span class="name">rowCount</span>(const <span class="type">QModelIndex</span> &amp;<i>parent</i> = QModelIndex()) const</h3>
+<p>Returns the amount of active monitors.</p>
+<!-- @@@rowCount -->
+<!-- $$$setWallpaperActiveMonitor[overload1]$$$setWallpaperActiveMonitorconststd::shared_ptr<ScreenPlayWallpaper>&constQVector<int> -->
+<h3 class="fn" id="setWallpaperActiveMonitor"><a name="setWallpaperActiveMonitor"></a><span class="type">void</span> MonitorListModel::<span class="name">setWallpaperActiveMonitor</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-screenplaywallpaper.html">ScreenPlayWallpaper</a></span>&gt; &amp;<i>wallpaper</i>, const <span class="type">QVector</span>&lt;<span class="type">int</span>&gt; <i>monitors</i>)</h3>
+<p>Sets the previewImage and appID for a list item.</p>
+<!-- @@@setWallpaperActiveMonitor -->
 </div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

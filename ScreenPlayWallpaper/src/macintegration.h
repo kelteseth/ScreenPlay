@@ -1,4 +1,4 @@
-#pragma oncer
+#pragma once
 
 #include <QApplication>
 

@@ -42,6 +42,9 @@ Create::Create()
     qmlRegisterType<Create>("ScreenPlay.Create", 1, 0, "Create");
 }
 
+/*!
+  \brief Creates a new widget.
+*/
 void Create::createWidget(const QString& localStoragePath, const QString& title, const QString& previewThumbnail, const QString& createdBy, const QString& license, const QString& type, const QVector<QString>& tags)
 {
     QtConcurrent::run([=]() {
@@ -127,6 +130,9 @@ void Create::createWidget(const QString& localStoragePath, const QString& title,
     });
 }
 
+/*!
+  \brief Creates a HTML wallpaper.
+*/
 void Create::createHTMLWallpaper(
     const QString& localStoragePath,
     const QString& title,
@@ -202,7 +208,7 @@ void Create::createHTMLWallpaper(
 }
 
 /*!
-    Starts the process.
+    \brief Starts the process.
 */
 void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
 {
@@ -248,7 +254,7 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
 }
 
 /*!
-    When converting of the wallpaper steps where successful.
+    \brief When converting of the wallpaper steps where successful.
 */
 void Create::saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, Create::VideoCodec codec, QVector<QString> tags)
 {
@@ -342,7 +348,9 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     file.close();
     emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CreateProjectFileFinished);
 }
-
+/*!
+  \brief .
+*/
 void Create::abortAndCleanup()
 {
     qWarning() << "Abort and Cleanup!";

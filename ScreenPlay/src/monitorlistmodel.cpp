@@ -18,18 +18,21 @@ namespace ScreenPlay {
 */
 
 /*!
-  Constructor
+  \brief Constructor.
 */
 MonitorListModel::MonitorListModel(QObject* parent)
     : QAbstractListModel(parent)
 {
     loadMonitors();
 
-    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
-    connect(guiAppInst, &QGuiApplication::screenAdded, this, &MonitorListModel::screenAdded);
-    connect(guiAppInst, &QGuiApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
+    auto* guiAppInst = dynamic_cast<QApplication*>(QApplication::instance());
+    connect(guiAppInst, &QApplication::screenAdded, this, &MonitorListModel::screenAdded);
+    connect(guiAppInst, &QApplication::screenRemoved, this, &MonitorListModel::screenRemoved);
 }
 
+/*!
+    \brief Returns the variable names for QML.
+*/
 QHash<int, QByteArray> MonitorListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles {
@@ -48,6 +51,10 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
     return roles;
 }
 
+
+/*!
+    \brief Returns the amount of active monitors.
+*/
 int MonitorListModel::rowCount(const QModelIndex& parent) const
 {
     if (parent.isValid())
@@ -56,6 +63,9 @@ int MonitorListModel::rowCount(const QModelIndex& parent) const
     return m_monitorList.count();
 }
 
+/*!
+    \brief Retruns the data member of the Monitor.
+*/
 QVariant MonitorListModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
@@ -113,6 +123,9 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
+/*!
+  \brief Reloads the listmodel of monitors.
+*/
 void MonitorListModel::loadMonitors()
 {
     int offsetX = 0;
@@ -148,6 +161,9 @@ void MonitorListModel::loadMonitors()
     emit monitorReloadCompleted();
 }
 
+/*!
+  \brief Clears the listmodel.
+*/
 void MonitorListModel::clearActiveWallpaper()
 {
     int i { 0 };
@@ -163,6 +179,9 @@ void MonitorListModel::clearActiveWallpaper()
     }
 }
 
+/*!
+  \brief Removes the preview image and appID inside an monitor item.
+*/
 void MonitorListModel::closeWallpaper(const QString& appID)
 {
     int i {};
@@ -182,6 +201,9 @@ void MonitorListModel::closeWallpaper(const QString& appID)
     }
 }
 
+/*!
+  \brief Sets the previewImage and appID for a list item.
+*/
 void MonitorListModel::setWallpaperActiveMonitor(const std::shared_ptr<ScreenPlayWallpaper>& wallpaper, const QVector<int> monitors)
 {
 
@@ -197,6 +219,9 @@ void MonitorListModel::setWallpaperActiveMonitor(const std::shared_ptr<ScreenPla
     }
 }
 
+/*!
+  \brief If successful this function returns an AppID. Otherwhise std::nullopt.
+*/
 std::optional<QString> MonitorListModel::getAppIDByMonitorIndex(const int index) const
 {
     for (auto& monitor : m_monitorList) {
@@ -207,6 +232,9 @@ std::optional<QString> MonitorListModel::getAppIDByMonitorIndex(const int index)
     return std::nullopt;
 }
 
+/*!
+  \brief Removes all items and loads them vida loadMonitors() again.
+*/
 void MonitorListModel::reset()
 {
     beginResetModel();

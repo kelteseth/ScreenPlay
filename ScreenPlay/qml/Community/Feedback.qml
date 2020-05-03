@@ -1,5 +1,5 @@
 import QtQuick 2.12
-import com.stomt.qmlSDK 1.0
+import com.stomt.sdk 1.0
 
 Item {
     id: feedback
