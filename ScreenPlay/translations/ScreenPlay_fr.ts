@@ -693,17 +693,17 @@ si vous avez installé ScreenPlay via Steam !
     <message>
         <location filename="../qml/Settings/Settings.qml" line="87"/>
         <source>Autostart</source>
-        <translation type="unfinished">démarrage automatique</translation>
+        <translation type="unfinished">Démarrage automatique</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="88"/>
-        <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation type="unfinished">ScreenPlay démarrera avec Windows et configurera votre bureau à chaque fois pour vous.</translation>
+        <source>ScreenPlay will start with your operating system and will setup your Desktop every time for you.</source>
+        <translation type="unfinished">ScreenPlay démarrera avec votre système d´exploitation et configurera votre bureau à chaque fois pour vous.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="98"/>
         <source>High priority Autostart</source>
-        <translation type="unfinished">Haute priorité Autostart</translation>
+        <translation type="unfinished">Démarrage automatique en haute priorité</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="101"/>
@@ -753,7 +753,7 @@ si vous avez installé ScreenPlay via Steam !
     <message>
         <location filename="../qml/Settings/Settings.qml" line="267"/>
         <source>Pause wallpaper while ingame</source>
-        <translation type="unfinished">Pause wallpaper pendant le jeu</translation>
+        <translation type="unfinished">Met en pause le fond d´écran pendant le jeu</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="269"/>
@@ -922,7 +922,7 @@ si vous avez installé ScreenPlay via Steam !
     <message>
         <location filename="../qml/Community/XMLNewsfeed.qml" line="58"/>
         <source>News &amp; Patchnotes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nouveautées et notes de versions</translation>
     </message>
 </context>
 <context>
