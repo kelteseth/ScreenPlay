@@ -56,3 +56,9 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::WebEngine
     ScreenPlaySDK
     )
+
+
+install(FILES
+    index.html
+    DESTINATION
+    ${CMAKE_BINARY_DIR} )
