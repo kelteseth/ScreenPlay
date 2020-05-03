@@ -39,7 +39,9 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 {
 
     qRegisterMetaType<Settings::Language>("Settings::Language");
-    qmlRegisterUncreatableType<Settings>("ScreenPlay.Settings", 1, 0, "Settings", "Error only for enums");
+    qRegisterMetaType<Settings::Theme>("Settings::Theme");
+
+    qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
 
     if (!m_qSettings.contains("Autostart")) {
 #ifdef Q_OS_WIN
@@ -57,6 +59,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
         setAutostart(m_qSettings.value("Autostart", true).toBool());
     }
 
+
     setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", false).toBool());
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
     if (m_qSettings.contains("VideoFillMode")) {
@@ -64,6 +67,11 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
         setVideoFillMode(QStringToEnum<GlobalVariables::FillMode>(value, GlobalVariables::FillMode::Cover));
     } else {
         setVideoFillMode(GlobalVariables::FillMode::Cover);
+    }
+    
+    if (m_qSettings.contains("Theme")) {
+        auto value = m_qSettings.value("Theme").toString();
+        setTheme(QStringToEnum<Theme>(value, Theme::System));
     }
 
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
@@ -110,7 +118,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     }
 
     setupWidgetAndWindowPaths();
-    setGitBuildHash(GIT_VERSION);
+    setGitBuildHash("GIT_VERSION");
 }
 
 /*!
@@ -151,63 +159,19 @@ void Settings::setupWidgetAndWindowPaths()
     QDir workingDir(QDir::currentPath());
     QDir baseDir(QDir::currentPath());
 
-#ifdef QT_DEBUG
-
-    if (workingDir.cdUp()) {
-
-#ifdef Q_OS_OSX
-        m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
-        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../ScreenPlayWallpaper/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
+#if defined(Q_OS_WIN)
+    m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget.exe"));
+    m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper.exe"));
 #endif
 
-#ifdef Q_OS_WIN
-        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget/debug/ScreenPlayWidget.exe"));
-        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper/debug/ScreenPlayWallpaper.exe"));
+#if defined(Q_OS_LINUX)
+    m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget"));
+    m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/SScreenPlayWallpaper"));
 #endif
 
-#ifdef Q_OS_LINUX
-        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget/ScreenPlayWidget"));
-        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper/ScreenPlayWallpaper"));
-#endif
-    }
-
-    // We need to detect the right base path so we can copy later the example projects
-    baseDir.cdUp();
-    baseDir.cdUp();
-    baseDir.cd("ScreenPlay");
-    baseDir.cd("ScreenPlay");
-#endif
-#ifdef QT_NO_DEBUG
-    #ifdef Q_OS_WIN
-    qDebug() << "Starting in Release mode!";
-
-    // If we build in the release version we must be cautious!
-    // The working dir in steam is the ScreenPlay.exe location
-    // In QtCreator is the dir above ScreenPlay.exe (!)
-
-    workingDir.cdUp();
-    workingDir.cd("ScreenPlayWallpaper");
-
-    if (QDir(workingDir.path() + "/release").exists()) {
-        // If started by QtCreator
-        workingDir.cd("release");
-        m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper.exe"));
-        workingDir.cdUp();
-        workingDir.cdUp();
-        workingDir.cd("ScreenPlayWidget");
-        workingDir.cd("release");
-        m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget.exe"));
-    } else {
-        // If started by Steam
-        m_globalVariables->setWallpaperExecutablePath(QUrl("ScreenPlayWallpaper.exe"));
-        m_globalVariables->setWidgetExecutablePath(QUrl("ScreenPlayWidget.exe"));
-    }
-    #endif
-
-//#ifdef Q_OS_OSX
-//        m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../../ScreenPlayWidget/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
-//        m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/../../../../ScreenPlayWallpaper/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
-//#endif
+#if defined(Q_OS_OSX)
+    m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
+    m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
 #endif
 }
 

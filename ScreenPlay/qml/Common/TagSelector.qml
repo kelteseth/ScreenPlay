@@ -26,7 +26,7 @@ Item {
 
     Rectangle {
         id: rectangle
-        color: "#F0F0F0"
+        color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
         radius: 3
         clip: true
         anchors {
@@ -72,7 +72,7 @@ Item {
             radius: 3
             height: parent.height - 20
             width: 200
-            color: "#aaffffff"
+            color: Material.theme === Material.Light ? Qt.lighter(Material.background) : Material.background
             anchors {
                 top: parent.top
                 topMargin: -80

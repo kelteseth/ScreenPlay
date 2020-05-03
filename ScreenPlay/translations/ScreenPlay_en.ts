@@ -132,16 +132,16 @@
     <name>CreateImport</name>
     <message>
         <location filename="../qml/Create/CreateImport.qml" line="137"/>
-        <source></source>
-        <translation></translation>
+        <source>Import a Creation</source>
+        <translation>Import a Creation</translation>
     </message>
 </context>
 <context>
     <name>CreateUpload</name>
     <message>
         <location filename="../qml/Create/CreateUpload.qml" line="219"/>
-        <source></source>
-        <translation></translation>
+        <source>Upload a Creation</source>
+        <translation>Upload a Creation</translation>
     </message>
 </context>
 <context>
@@ -332,7 +332,7 @@
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="88"/>
-        <source>You cannot create Wallaper without FFMPEG installed!</source>
+        <source>You cannot create Wallpaper without FFMPEG installed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -590,7 +590,7 @@ if you installed ScreenPlay via Steam!
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="88"/>
-        <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
+        <source>ScreenPlay will start with start with your operating system and will setup your Desktop every time for you.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

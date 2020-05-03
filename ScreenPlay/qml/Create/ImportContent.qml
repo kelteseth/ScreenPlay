@@ -1,8 +1,8 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.3
-import Qt.labs.platform 1.0
 import QtQuick.Controls.Material 2.2
+import Qt.labs.platform 1.0
 
 import ScreenPlay 1.0
 
@@ -47,6 +47,8 @@ Item {
 
         Rectangle {
             id: importVideoBg
+            color: Material.background
+
             radius: 3
             z: 10
             anchors {
@@ -79,7 +81,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: 20
                 }
-                Material.background: Material.Orange
+                Material.background: Material.accent
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_upload.svg"
                 icon.color: "white"
@@ -131,6 +133,8 @@ Item {
 
         Rectangle {
             id: convertVideoBg
+            color: Material.background
+
             radius: 3
             z: 10
             anchors {
@@ -164,7 +168,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: 20
                 }
-                Material.background: Material.Orange
+                Material.background: Material.accent
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_upload.svg"
                 icon.color: "white"
@@ -233,6 +237,8 @@ Item {
         Rectangle {
             id: importVideoBg3
             radius: 3
+            color: Material.background
+
             z: 10
             anchors {
                 fill: parent
@@ -242,7 +248,7 @@ Item {
             Button {
                 text: qsTr("Upload Exsisting Project to Steam")
                 anchors.centerIn: parent
-                Material.background: Material.Orange
+                Material.background: Material.accent
                 Material.foreground: "white"
                 icon.source: "qrc:/assets/icons/icon_steam.svg"
                 icon.color: "white"

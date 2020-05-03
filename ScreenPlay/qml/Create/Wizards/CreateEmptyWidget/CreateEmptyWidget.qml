@@ -177,7 +177,7 @@ Item {
                     id: btnSave
                     text: qsTr("Save")
                     enabled: false
-                    Material.background: Material.Orange
+                    Material.background: Material.accent
                     Material.foreground: "white"
                     font.family: ScreenPlay.settings.font
 

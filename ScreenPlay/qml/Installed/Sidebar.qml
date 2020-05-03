@@ -161,7 +161,7 @@ Item {
 
         Rectangle {
             id: sidebarBackground
-            color: "white"
+            color: Material.theme === Material.Light ? "white" : Material.background
             anchors {
                 top: navBackground.bottom
                 right: parent.right
@@ -346,8 +346,7 @@ Item {
             Button {
                 id: btnSetWallpaper
                 text: qsTr("Set wallpaper")
-                Material.accent: Material.Orange
-                Material.background: Material.Orange
+                Material.background: Material.accent
                 Material.foreground: "white"
                 font.family: ScreenPlay.settings.font
                 icon.source: "qrc:/assets/icons/icon_plus.svg"

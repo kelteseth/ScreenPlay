@@ -86,7 +86,7 @@ Item {
     Button {
         id: btnBack
         text: qsTr("Back to create and send an error report!")
-        Material.background: Material.Orange
+        Material.background: Material.accent
         Material.foreground: "white"
         font.family: ScreenPlay.settings.font
         anchors {

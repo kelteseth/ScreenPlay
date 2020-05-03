@@ -108,7 +108,7 @@ Item {
                 bottomMargin: 30
                 horizontalCenter: parent.horizontalCenter
             }
-            Material.background: Material.Orange
+            Material.background: Material.accent
             Material.foreground: "white"
 
             icon.source: "qrc:/assets/icons/icon_share.svg"

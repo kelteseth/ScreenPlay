@@ -1,5 +1,6 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.3
+import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
 import QtGraphicalEffects 1.0
 
 import ScreenPlay 1.0
@@ -12,7 +13,7 @@ Rectangle {
     height: 60
     clip: true
     width: 1366
-    color: "#ffffff"
+    color: Material.theme === Material.Light ? "white" : Material.background
 
     MouseArea {
         anchors.fill: parent
@@ -42,11 +43,9 @@ Rectangle {
         }
     }
 
-
     function onPageChanged(name) {
 
-
-        ScreenPlay.setTrackerSendEvent("navigation",name);
+        ScreenPlay.setTrackerSendEvent("navigation", name)
 
         if (!navActive)
             return
@@ -117,8 +116,7 @@ Rectangle {
         }
     }
 
-    NavigationWallpaperConfiguration {
-    }
+    NavigationWallpaperConfiguration {}
     states: [
         State {
             name: "enabled"

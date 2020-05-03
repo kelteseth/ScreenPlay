@@ -1,10 +1,13 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtGraphicalEffects 1.0
+import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
 import ScreenPlay 1.0
 
 Rectangle {
     id: rect
+    color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
 
     height: availableHeight
     width: availableWidth

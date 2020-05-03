@@ -1,5 +1,6 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
+import QtQuick.Controls.Material 2.12
 import QtGraphicalEffects 1.0
 import ScreenPlay 1.0
 
@@ -39,6 +40,7 @@ Item {
 
     Rectangle {
         id: bg
+        color: Material.background
         height: parent.height - 10
         anchors {
             top: parent.top
@@ -74,7 +76,7 @@ Item {
             font.family: ScreenPlay.settings.font
             opacity: buttonActive ? 1 : .25
             font.pointSize: 14
-            color: "gray"
+            color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
             wrapMode:  Text.WrapAnywhere
             maximumLineCount: 1
 
@@ -91,7 +93,7 @@ Item {
             font.family: ScreenPlay.settings.font
             font.pointSize: 18
             opacity: buttonActive ? 1 : .25
-            color: "#b9b9b9"
+            color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
             anchors {
                 right: parent.right
                 rightMargin: 20

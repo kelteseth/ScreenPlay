@@ -1,5 +1,6 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
+import QtQuick.Controls.Material 2.12
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 
@@ -34,7 +35,7 @@ Item {
     }
     Connections {
         target: ScreenPlay.installedListModel
-        function onInstalledLoadingFinished(){
+        function onInstalledLoadingFinished() {
             checkIsContentInstalled()
         }
         function onCountChanged(count) {
@@ -89,7 +90,7 @@ Item {
             opacity: 0
             onIsVisibleChanged: {
                 if (isVisible) {
-                    txtHeader.color = "orange"
+                    txtHeader.color = Material.accent
                     txtHeader.text = qsTr("Refreshing!")
                 } else {
                     txtHeader.color = "gray"
@@ -214,7 +215,7 @@ Item {
 
         Rectangle {
             id: nav
-            color: "#ffffff"
+            color: Material.theme === Material.Light ? "white" : Material.background
             height: 50
             anchors {
                 top: parent.top
@@ -243,6 +244,7 @@ Item {
                     height: parent.height
                     width: implicitWidth
                     background: Item {}
+                    font.weight: Font.Thin
                     icon.source: "qrc:/assets/icons/icon_installed.svg"
                     onClicked: {
                         setSidebarActive(false)
@@ -257,6 +259,7 @@ Item {
                     width: implicitWidth
                     height: parent.height
                     background: Item {}
+                    font.weight: Font.Thin
                     icon.source: "qrc:/assets/icons/icon_code.svg"
                     onClicked: {
                         setSidebarActive(false)
@@ -271,6 +274,7 @@ Item {
                     height: parent.height
                     width: implicitWidth
                     background: Item {}
+                    font.weight: Font.Thin
                     icon.source: "qrc:/assets/icons/icon_movie.svg"
                     onClicked: {
                         setSidebarActive(false)
@@ -285,6 +289,7 @@ Item {
                     height: parent.height
                     width: implicitWidth
                     background: Item {}
+                    font.weight: Font.Thin
                     icon.source: "qrc:/assets/icons/icon_widgets.svg"
                     onClicked: {
                         setSidebarActive(false)

@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
+import QtQuick.Controls.Material 2.12
 import QtGraphicalEffects 1.0
 
 import ScreenPlay 1.0
@@ -48,7 +49,7 @@ Item {
                   + ScreenPlay.screenPlayManager.activeWidgetsCounter
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            color: "orange"
+            color: Material.accent
             font.pointSize: 10
             font.bold: true
             font.family: ScreenPlay.settings.font
@@ -77,7 +78,7 @@ Item {
             verticalCenter: parent.verticalCenter
         }
         horizontalAlignment: Text.AlignRight
-        color: "#626262"
+        color: Material.foreground
         font.pointSize: 12
         font.family: ScreenPlay.settings.font
     }
