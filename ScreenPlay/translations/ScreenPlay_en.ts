@@ -590,7 +590,7 @@ if you installed ScreenPlay via Steam!
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="88"/>
-        <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
+        <source>ScreenPlay will start with start with your operating system and will setup your Desktop every time for you.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
