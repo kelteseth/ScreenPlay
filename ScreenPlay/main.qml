@@ -24,6 +24,11 @@ ApplicationWindow {
     title: "ScreenPlay Alpha - V0.10.1"
     minimumHeight: 450
     minimumWidth: 1050
+    onVisibilityChanged:  {
+        if(window.visibility === 2){
+            switchPage("Installed")
+        }
+    }
 
     Component.onCompleted: {
         if (!ScreenPlay.settings.silentStart) {

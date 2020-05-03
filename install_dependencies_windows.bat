@@ -4,7 +4,6 @@ cd Common
 git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg
 git pull
-git checkout origin/master
+git checkout 2bc6cd714
 call bootstrap-vcpkg.bat
-vcpkg.exe install libzippp:x64-windows nlohmann-json:x64-windows openssl:x64-windows
-pause
+vcpkg.exe install zlib libzip libzippp nlohmann-json openssl breakpad  --triplet x64-windows --recurse

@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta charset="utf-8">
 <!-- sdkconnector.cpp -->
   <title>SDKConnector Class | ScreenPlay</title>
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
@@ -21,7 +20,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">SDKConnector Class</h1>
-<span class="small-subtitle">(<a href="screenplay-sdkconnector.html">ScreenPlay::SDKConnector</a>)<br/></span>
+<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::SDKConnector</span>
 <!-- $$$SDKConnector-brief -->
 <p>SDKConnector is used for the QLocalSocket connection between <a href="screenplay.html">ScreenPlay</a> and the standalone <a href="screenplay-screenplaywallpaper.html">ScreenPlayWallpaper</a> and <a href="screenplay-screenplaywidget.html">ScreenPlayWidget</a> executables. <a href="#details">More...</a></p>
 <!-- @@@SDKConnector -->
@@ -40,10 +39,11 @@
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnector.html#closeAllConnections">closeAllConnections</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnector.html#closeAllWallpapers">closeAllWallpapers</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnector.html#closeAllWidgets">closeAllWidgets</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnector.html#closeConntectionByType">closeConntectionByType</a></b>(const QStringList &amp;<i>list</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnector.html#closeWallpaper">closeWallpaper</a></b>(const QString &amp;<i>appID</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnector.html#closeWallpapersAt">closeWallpapersAt</a></b>(int <i>at</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnector.html#newConnection">newConnection</a></b>()</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnector.html#setSceneValue">setSceneValue</a></b>(QString <i>appID</i>, QString <i>key</i>, QString <i>value</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnector.html#setWallpaperValue">setWallpaperValue</a></b>(QString <i>appID</i>, QString <i>key</i>, QString <i>value</i>)</td></tr>
 </table></div>
 <a name="details"></a>
@@ -73,6 +73,19 @@
 <li>godotWallpaper</li>
 </ul>
 <!-- @@@closeAllWallpapers -->
+<!-- $$$closeAllWidgets[overload1]$$$closeAllWidgets -->
+<h3 class="fn" id="closeAllWidgets"><a name="closeAllWidgets"></a><code>[slot] </code><span class="type">void</span> SDKConnector::<span class="name">closeAllWidgets</span>()</h3>
+<p>Closes all widgets connection with the following type:</p>
+<ul>
+<li>qmlWidget</li>
+<li>htmlWidget</li>
+<li>standaloneWidget</li>
+</ul>
+<!-- @@@closeAllWidgets -->
+<!-- $$$closeConntectionByType[overload1]$$$closeConntectionByTypeconstQStringList& -->
+<h3 class="fn" id="closeConntectionByType"><a name="closeConntectionByType"></a><code>[slot] </code><span class="type">void</span> SDKConnector::<span class="name">closeConntectionByType</span>(const <span class="type">QStringList</span> &amp;<i>list</i>)</h3>
+<p>Closes a connection by type. Used only by <a href="screenplay-sdkconnector.html#closeAllWidgets">closeAllWidgets</a>() and <a href="screenplay-sdkconnector.html#closeAllWallpapers">closeAllWallpapers</a>()</p>
+<!-- @@@closeConntectionByType -->
 <!-- $$$closeWallpaper[overload1]$$$closeWallpaperconstQString& -->
 <h3 class="fn" id="closeWallpaper"><a name="closeWallpaper"></a><code>[slot] </code><span class="type">void</span> SDKConnector::<span class="name">closeWallpaper</span>(const <span class="type">QString</span> &amp;<i>appID</i>)</h3>
 <p>Closes a wallpaper by the given <i>appID</i>.</p>
@@ -85,10 +98,6 @@
 <h3 class="fn" id="newConnection"><a name="newConnection"></a><code>[slot] </code><span class="type">void</span> SDKConnector::<span class="name">newConnection</span>()</h3>
 <p>Appends a new SDKConnection object shared_ptr to the m_clients list.</p>
 <!-- @@@newConnection -->
-<!-- $$$setSceneValue[overload1]$$$setSceneValueQStringQStringQString -->
-<h3 class="fn" id="setSceneValue"><a name="setSceneValue"></a><code>[slot] </code><span class="type">void</span> SDKConnector::<span class="name">setSceneValue</span>(<span class="type">QString</span> <i>appID</i>, <span class="type">QString</span> <i>key</i>, <span class="type">QString</span> <i>value</i>)</h3>
-<p>Sets a given <i>value</i> to a given <i>key</i>. The <i>appID</i> is used to identify the receiver socket.</p>
-<!-- @@@setSceneValue -->
 <!-- $$$setWallpaperValue[overload1]$$$setWallpaperValueQStringQStringQString -->
 <h3 class="fn" id="setWallpaperValue"><a name="setWallpaperValue"></a><code>[slot] </code><span class="type">void</span> SDKConnector::<span class="name">setWallpaperValue</span>(<span class="type">QString</span> <i>appID</i>, <span class="type">QString</span> <i>key</i>, <span class="type">QString</span> <i>value</i>)</h3>
 <p>Sets a given <i>value</i> to a given <i>key</i>. The <i>appID</i> is used to identify the receiver socket.</p>

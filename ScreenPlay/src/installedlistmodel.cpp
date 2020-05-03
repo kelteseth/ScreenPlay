@@ -13,7 +13,7 @@ namespace ScreenPlay {
 */
 
 /*!
-  Constructor
+  \brief Constructor.
 */
 InstalledListModel::InstalledListModel(
     const shared_ptr<GlobalVariables>& globalVariables,
@@ -26,7 +26,7 @@ InstalledListModel::InstalledListModel(
 }
 
 /*!
-
+    \brief Init function that needs to be called after the constructor because we need the GlobalVariables to finish loading.
 */
 void InstalledListModel::init()
 {
@@ -40,7 +40,7 @@ void InstalledListModel::init()
 }
 
 /*!
-
+    \brief Returns the length of the installed items.
 */
 int InstalledListModel::rowCount(const QModelIndex& parent) const
 {
@@ -51,7 +51,7 @@ int InstalledListModel::rowCount(const QModelIndex& parent) const
 }
 
 /*!
-
+    \brief Retruns the data member of the ProjectFile.
 */
 QVariant InstalledListModel::data(const QModelIndex& index, int role) const
 {
@@ -88,7 +88,7 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
 }
 
 /*!
-
+    \brief Returns the variable names for QML.
 */
 QHash<int, QByteArray> InstalledListModel::roleNames() const
 {

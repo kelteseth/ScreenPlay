@@ -100,6 +100,12 @@ App::App()
     m_isAnotherScreenPlayInstanceRunning = m_sdkConnector->m_isAnotherScreenPlayInstanceRunning;
 }
 
+/*!
+    \brief Used for initialization after the constructor. The sole purpose is to check if
+    another ScreenPlay instance is running and then quit early. This is also because we cannot
+    call QApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
+    loop ) has started.
+*/
 void App::init()
 {
     // Util should be created as first so we redirect qDebugs etc. into the log
@@ -149,6 +155,9 @@ void App::init()
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
 }
 
+/*!
+    \brief Tries to send the telemetry quit event before we call quit ourself.
+*/
 void App::exit()
 {
     if (!m_telemetry) {
