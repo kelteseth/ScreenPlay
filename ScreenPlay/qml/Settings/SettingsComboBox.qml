@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
+import QtQuick.Controls.Material 2.2
 import ScreenPlay 1.0
 
 Item {
@@ -14,7 +15,7 @@ Item {
 
     Text {
         id: txtHeadline
-        color: "#5D5D5D"
+        color: Material.foreground
         text: settingsComboBox.headline
 
         verticalAlignment: Text.AlignVCenter
@@ -33,7 +34,7 @@ Item {
     Text {
         id: txtDescription
         text: settingsComboBox.description
-        color: "#B5B5B5"
+        color: Qt.darker(Material.foreground)
 
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft

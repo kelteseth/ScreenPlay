@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
+import QtQuick.Controls.Material 2.12
 import ScreenPlay 1.0
 
 Item {
@@ -63,7 +64,7 @@ Item {
             anchors.left: icon.right
             anchors.leftMargin: 10
             font.pointSize: 14
-            color: "#626262"
+            color: Material.foreground
             anchors.verticalCenter: parent.verticalCenter
             font.family: ScreenPlay.settings.font
             font.weight: Font.Normal
@@ -77,7 +78,7 @@ Item {
             anchors.leftMargin: navigationItem.amount == "" ? 0 : 5
             text: "name"
             font.pointSize: 14
-            color: "#626262"
+            color: Material.foreground
             anchors.verticalCenter: parent.verticalCenter
             font.family: ScreenPlay.settings.font
             font.weight: Font.Normal
@@ -87,14 +88,14 @@ Item {
             id: iconColorOverlay
             anchors.fill: icon
             source: icon
-            color: "#FFAB00"
+            color: Material.accentColor
         }
 
         Rectangle {
             id: navIndicator
             y: 83
             height: 3
-            color: "#FFAB00"
+            color: Material.accent
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.bottom: parent.bottom
@@ -113,7 +114,7 @@ Item {
 
             PropertyChanges {
                 target: iconColorOverlay
-                color: "#FFAB00"
+                color: Material.accent
             }
         },
         State {

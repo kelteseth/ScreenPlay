@@ -1,5 +1,6 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
+import QtQuick.Controls.Material 2.12
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
@@ -51,7 +52,7 @@ Item {
 
             Item {
                 id: settingsGeneralWrapper
-                height: 540 + txtDirChangesInfo.paintedHeight
+                height: 620 + txtDirChangesInfo.paintedHeight
                 width: parent.width
 
                 RectangularGlow {
@@ -74,6 +75,7 @@ Item {
                     anchors.fill: parent
                     radius: 4
                     clip: true
+                    color: Material.theme === Material.Light ? "white" : Material.background
 
                     SettingsHeader {
                         id: headerGeneral
@@ -156,7 +158,7 @@ Item {
                         Text {
                             id: txtDirChangesInfo
                             text: qsTr("Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!")
-                            color: "#B5B5B5"
+                            color: Qt.darker(Material.foreground)
                             height: 30
                             width: parent.width
                             verticalAlignment: Text.AlignVCenter
@@ -185,30 +187,60 @@ Item {
 
                             comboBox {
                                 onActivated: {
-                                    ScreenPlay.settings.setLanguage(settingsLanguage.comboBox.currentValue)
+                                    ScreenPlay.settings.setLanguage(
+                                                settingsLanguage.comboBox.currentValue)
                                     ScreenPlay.settings.retranslateUI()
                                 }
                                 model: [{
                                         "value": Settings.En,
                                         "text": qsTr("English")
                                     }, {
-                                        "value":  Settings.De,
+                                        "value": Settings.De,
                                         "text": qsTr("German")
                                     }, {
-                                        "value":  Settings.Ru,
+                                        "value": Settings.Ru,
                                         "text": qsTr("Russian")
                                     }, {
-                                        "value":  Settings.Fr,
+                                        "value": Settings.Fr,
                                         "text": qsTr("French")
                                     }, {
-                                        "value":  Settings.Es,
+                                        "value": Settings.Es,
                                         "text": qsTr("Spanish")
                                     }, {
-                                        "value":  Settings.Ko,
+                                        "value": Settings.Ko,
                                         "text": qsTr("Korean")
                                     }, {
-                                        "value":  Settings.Vi,
+                                        "value": Settings.Vi,
                                         "text": qsTr("Vietnamese")
+                                    }]
+                            }
+                        }
+                        SettingsHorizontalSeperator {}
+
+                        SettingsComboBox {
+                            id: settingsTheme
+                            headline: qsTr("Theme")
+                            description: qsTr("Switch dark/light theme")
+                            Component.onCompleted: {
+                                settingsTheme.comboBox.currentIndex = root.indexOfValue(
+                                            settingsTheme.comboBox.model,
+                                            ScreenPlay.settings.theme)
+                            }
+
+                            comboBox {
+                                onActivated: {
+                                    ScreenPlay.settings.setTheme(
+                                                settingsTheme.comboBox.currentValue)
+                                }
+                                model: [{
+                                        "value": Settings.System,
+                                        "text": qsTr("System Default")
+                                    }, {
+                                        "value": Settings.Dark,
+                                        "text": qsTr("Dark")
+                                    }, {
+                                        "value": Settings.Light,
+                                        "text": qsTr("Light")
                                     }]
                             }
                         }
@@ -239,6 +271,7 @@ Item {
 
                 Rectangle {
                     anchors.fill: parent
+                    color: Material.theme === Material.Light ? "white" : Material.background
                     radius: 4
                     clip: true
 
@@ -331,7 +364,7 @@ Item {
                 }
 
                 Rectangle {
-
+                    color: Material.theme === Material.Light ? "white" : Material.background
                     anchors.fill: parent
                     radius: 4
                     clip: true
@@ -363,13 +396,13 @@ Item {
                             height: 180
                             Text {
                                 id: txtHeadline
-                                color: "#5D5D5D"
+                                color: Material.foreground
                                 text: qsTr("Thank you for using ScreenPlay")
 
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
                                 font.pointSize: 16
-                                 font.family: ScreenPlay.settings.font
+                                font.family: ScreenPlay.settings.font
                                 anchors {
                                     top: parent.top
                                     topMargin: 6
@@ -380,7 +413,7 @@ Item {
                             Text {
                                 id: txtDescriptionAbout
                                 text: qsTr("Hi, I'm Elias Steurer also known as Kelteseth and I'm the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:")
-                                color: "#B5B5B5"
+                                color: Qt.darker(Material.foreground)
 
                                 wrapMode: Text.WordWrap
                                 verticalAlignment: Text.AlignTop

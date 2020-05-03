@@ -6,13 +6,14 @@
 
 import QtQuick 2.0
 import QtGraphicalEffects 1.0
+import QtQuick.Controls.Material 2.12
 
 Item {
     id: control
     anchors.fill: parent
 
     property alias radius: mask.radius
-    property color color: "orange"
+    property color color:  Material.accent
     property var target
     property int duration: 600
 

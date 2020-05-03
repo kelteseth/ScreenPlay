@@ -2,9 +2,10 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Dialogs 1.2
 import QtQuick.Layouts 1.3
+import QtQuick.Controls.Material 2.2
 import ScreenPlay 1.0
 
-Rectangle {
+Item {
     id: root
     state: "off"
     clip: true
@@ -29,8 +30,8 @@ Rectangle {
                 left: parent.left
                 margins: 20
             }
+            color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
             lineHeight: 1.2
-            color: "#626262"
             height: txtExpander.paintedHeight
             wrapMode: Text.WordWrap
             font.family: ScreenPlay.settings.font

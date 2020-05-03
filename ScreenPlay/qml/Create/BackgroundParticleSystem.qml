@@ -77,7 +77,7 @@ Item {
     ImageParticle {
         height: 16
         width: 16
-        color: "orange"
+        color: Material.accent
         source: "qrc:/assets/particle/dot.png"
         system: particleSystem
         opacity: .75

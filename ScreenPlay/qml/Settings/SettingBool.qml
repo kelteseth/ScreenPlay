@@ -25,9 +25,10 @@ Item {
 
     Text {
         id: txtHeadline
-        color: "#5D5D5D"
+        color: Material.foreground
         text: settingsBool.headline
         font.family: ScreenPlay.settings.font
+        font.pointSize: 12
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         anchors{
@@ -38,14 +39,13 @@ Item {
 
         }
 
-        font.pointSize: 12
     }
-
     Text {
         id: txtDescription
         text: settingsBool.description
         wrapMode: Text.WordWrap
-        color: "#B5B5B5"
+        color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
+
         font.family: ScreenPlay.settings.font
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft

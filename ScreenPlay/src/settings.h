@@ -69,6 +69,7 @@ class Settings : public QObject {
 
     Q_PROPERTY(FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
     Q_PROPERTY(Language language READ language WRITE setLanguage NOTIFY languageChanged)
+    Q_PROPERTY(Theme theme READ theme WRITE setTheme NOTIFY themeChanged)
 
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
     Q_PROPERTY(QString gitBuildHash READ gitBuildHash WRITE setGitBuildHash NOTIFY gitBuildHashChanged)
@@ -98,6 +99,13 @@ public:
         Vi
     };
     Q_ENUM(Language)
+
+    enum class Theme {
+        System,
+        Dark,
+        Light
+    };
+    Q_ENUM(Theme)
 
     bool offlineMode() const
     {
@@ -162,6 +170,11 @@ public:
         return m_font;
     }
 
+    Theme theme() const
+    {
+        return m_theme;
+    }
+
 signals:
     void requestRetranslation();
     void resetInstalledListmodel();
@@ -179,6 +192,8 @@ signals:
     void videoFillModeChanged(FillMode videoFillMode);
     void languageChanged(Language language);
     void fontChanged(QString font);
+
+    void themeChanged(Theme theme);
 
 public slots:
     void writeJsonFileFromResource(const QString& filename);
@@ -325,6 +340,17 @@ public slots:
         emit fontChanged(m_font);
     }
 
+    void setTheme(Theme theme)
+    {
+        if (m_theme == theme)
+            return;
+
+         setqSetting("Theme", QVariant::fromValue(theme).toString());
+
+        m_theme = theme;
+        emit themeChanged(m_theme);
+    }
+
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
 
@@ -343,8 +369,9 @@ private:
 
     QString m_gitBuildHash;
     QString m_decoder;
-    FillMode m_videoFillMode = FillMode::Cover;
-    Language m_language = Language::En;
+    FillMode m_videoFillMode { FillMode::Cover };
+    Language m_language { Language::En };
+    Theme m_theme { Theme::System };
     QString m_font {"Roboto"};
 };
 }

@@ -38,7 +38,7 @@ Item {
 
     Rectangle {
         id: monitorsSettingsWrapper
-        color: "white"
+        color: Material.background
         radius: 3
         z: 98
         width: 1000
@@ -77,7 +77,6 @@ Item {
             }
             MonitorSelection {
                 id: monitorSelection
-                background: "#E4E4E4"
                 radius: 3
                 height: 200
                 z: 99
@@ -128,7 +127,7 @@ Item {
                 Button {
                     id: btnRemoveSelectedWallpaper
                     text: qsTr("Remove selected")
-                    Material.background: Material.Orange
+                    Material.background: Material.accent
                     Material.foreground: "white"
                     font.family: ScreenPlay.settings.font
                     enabled: monitorSelection.activeMonitors.length == 1
@@ -140,7 +139,7 @@ Item {
                 Button {
                     id: btnRemoveAllWallpaper
                     text: qsTr("Remove all Wallpapers")
-                    Material.background: Material.Orange
+                    Material.background: Material.accent
                     Material.foreground: "white"
                     font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
@@ -152,7 +151,7 @@ Item {
                 Button {
                     id: btnRemoveAllWidgets
                     text: qsTr("Remove all Widgets")
-                    Material.background: Material.Orange
+                    Material.background: Material.accent
                     Material.foreground: "white"
                     font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
