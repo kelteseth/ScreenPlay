@@ -23,6 +23,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 set(src main.cpp
         app.cpp
         ../Common/qt-google-analytics/ganalytics.cpp
+        src/globalvariables.cpp
         src/createimportvideo.cpp
         src/installedlistmodel.cpp
         src/monitorlistmodel.cpp
