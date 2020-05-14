@@ -89,7 +89,7 @@ chmod +x install-dependencies.sh
       * qt-google-analytics
       * qt-breakpad
 5. **Follow the steps below for your OS**. 
-6. Open the CMakeLists.txt via QtCreator.
+6. Open the CMakeLists.txt via QtCreator. **This can take some time until QtCreator parses all files!**
 7. Add a second build step at: Projects -> Build -> Add Build Step -> Select Build -> Select "install" .
 
 <div>
