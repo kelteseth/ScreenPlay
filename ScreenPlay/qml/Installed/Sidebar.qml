@@ -6,8 +6,7 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
 
 import ScreenPlay 1.0
-import ScreenPlay.GlobalVariables 1.0
-import ScreenPlay.Settings 1.0
+import ScreenPlayEnums 1.0
 
 import "../Monitors"
 import "../Common" as SP
@@ -20,13 +19,13 @@ Item {
 
     property real navHeight
     property string type
-    property var typeEnum: GlobalVariables.QMLWallpaper
+    property var typeEnum: ScreenPlayEnums.QMLWallpaper
     property string activeScreen
 
     function isWallpaper() {
-        if (typeEnum === GlobalVariables.VideoWallpaper
-                || typeEnum === GlobalVariables.HTMLWallpaper
-                || typeEnum === GlobalVariables.QMLWallpaper) {
+        if (typeEnum === ScreenPlayEnums.VideoWallpaper
+                || typeEnum === ScreenPlayEnums.HTMLWallpaper
+                || typeEnum === ScreenPlayEnums.QMLWallpaper) {
             return true
         } else {
             return false
@@ -35,8 +34,8 @@ Item {
 
     function isWidget() {
 
-        if (typeEnum === GlobalVariables.HTMLWidget
-                || typeEnum === GlobalVariables.QMLWidget) {
+        if (typeEnum === ScreenPlayEnums.HTMLWidget
+                || typeEnum === ScreenPlayEnums.QMLWidget) {
             return true
         } else {
             return false
@@ -69,27 +68,27 @@ Item {
 
             switch (type) {
             case "videoWallpaper":
-                root.typeEnum = GlobalVariables.VideoWallpaper
+                root.typeEnum = ScreenPlayEnums.VideoWallpaper
                 state = "videoWallpaper"
                 return
             case "htmlWallpaper":
                 state = "activeScene"
-                root.typeEnum = GlobalVariables.HTMLWallpaper
+                root.typeEnum = ScreenPlayEnums.HTMLWallpaper
                 return
             case "qmlWallpaper":
                 state = "activeScene"
-                root.typeEnum = GlobalVariables.QMLWallpaper
+                root.typeEnum = ScreenPlayEnums.QMLWallpaper
                 return
             case "godotWallpaper":
                 state = "activeScene"
                 return
             case "qmlWidget":
                 state = "activeWidget"
-                root.typeEnum = GlobalVariables.QMLWidget
+                root.typeEnum = ScreenPlayEnums.QMLWidget
                 return
             case "htmlWidget":
                 state = "activeWidget"
-                root.typeEnum = GlobalVariables.HTMLWidget
+                root.typeEnum = ScreenPlayEnums.HTMLWidget
                 return
             case "standaloneWidget":
                 state = "activeWidget"
@@ -324,19 +323,19 @@ Item {
 
 
                         model: [{
-                                "value": GlobalVariables.Stretch,
+                                "value": ScreenPlayEnums.Stretch,
                                 "text": qsTr("Stretch")
                             }, {
-                                "value": GlobalVariables.Fill,
+                                "value": ScreenPlayEnums.Fill,
                                 "text": qsTr("Fill")
                             }, {
-                                "value": GlobalVariables.Contain,
+                                "value": ScreenPlayEnums.Contain,
                                 "text": qsTr("Contain")
                             }, {
-                                "value": GlobalVariables.Cover,
+                                "value": ScreenPlayEnums.Cover,
                                 "text": qsTr("Cover")
                             }, {
-                                "value": GlobalVariables.Scale_Down,
+                                "value": ScreenPlayEnums.Scale_Down,
                                 "text": qsTr("Scale-Down")
                             }]
                     }
@@ -379,6 +378,14 @@ Item {
                         // TODO Alert user to choose a monitor
                         if (activeMonitors.length === 0)
                             return
+
+                        print(root.typeEnum,
+                              cbVideoFillMode.currentValue,
+                              ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
+                              ScreenPlay.installedListModel.get( activeScreen).screenPreview,
+                              activeMonitors,
+                              (Math.round( sliderVolume.value * 100) / 100),
+                              true)
 
                         ScreenPlay.screenPlayManager.createWallpaper(
                                     root.typeEnum,

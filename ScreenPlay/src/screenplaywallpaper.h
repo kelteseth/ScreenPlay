@@ -25,7 +25,7 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
-    Q_PROPERTY(GlobalVariables::WallpaperType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(Enums::WallpaperType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
     explicit ScreenPlayWallpaper(const QVector<int>& screenNumber,
@@ -34,8 +34,8 @@ public:
         const QString& absolutePath,
         const QString& previewImage,
         const float volume,
-        const GlobalVariables::FillMode fillMode,
-        const GlobalVariables::WallpaperType type,
+        const Enums::FillMode fillMode,
+        const Enums::WallpaperType type,
         const bool checkWallpaperVisible,
         QObject* parent = nullptr);
 
@@ -45,7 +45,7 @@ public:
         const QString& appID,
         const QString& absolutePath,
         const QString& previewImage,
-        const GlobalVariables::WallpaperType type,
+        const Enums::WallpaperType type,
         const QJsonObject& profileJsonObject,
         QObject* parent = nullptr);
 
@@ -71,7 +71,7 @@ public:
         return m_appID;
     }
 
-    GlobalVariables::WallpaperType type() const
+    Enums::WallpaperType type() const
     {
         return m_type;
     }
@@ -105,7 +105,7 @@ signals:
     void screenNumberChanged(QVector<int> screenNumber);
     void previewImageChanged(QString previewImage);
     void appIDChanged(QString appID);
-    void typeChanged(GlobalVariables::WallpaperType type);
+    void typeChanged(Enums::WallpaperType type);
     void fileChanged(QString file);
     void fillModeChanged(QString fillMode);
     void absolutePathChanged(QString absolutePath);
@@ -144,7 +144,7 @@ public slots:
         emit appIDChanged(m_appID);
     }
 
-    void setType(GlobalVariables::WallpaperType type)
+    void setType(Enums::WallpaperType type)
     {
         if (m_type == type)
             return;
@@ -210,7 +210,7 @@ private:
     QVector<int> m_screenNumber;
 
     QString m_previewImage;
-    GlobalVariables::WallpaperType m_type;
+    Enums::WallpaperType m_type;
     QString m_appID;
     QString m_file;
     QString m_fillMode;

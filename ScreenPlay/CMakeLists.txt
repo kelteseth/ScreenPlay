@@ -60,7 +60,7 @@ set(headers app.h
 
 set(resources Resources.qrc)
 
-add_executable(ScreenPlay ${src} ${headers} ${resources})
+add_executable(${PROJECT_NAME} ${src} ${headers} ${resources})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE  "GIT_VERSION=${GIT_VERSION}")
 

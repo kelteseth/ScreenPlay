@@ -15,17 +15,17 @@ import "qml/Common"
 import "qml/Installed"
 import "qml/Navigation"
 import "qml/Workshop"
+import "qml/Community"
 
 ApplicationWindow {
     id: window
     color: {
-        if(Material.theme === Material.Dark){
+        if (Material.theme === Material.Dark) {
             return Qt.darker(Material.background)
         } else {
-            return  Material.background
+            return Material.background
         }
     }
-
 
     // Set visible if the -silent parameter was not set (see app.cpp end of constructor).
     visible: false
@@ -34,18 +34,17 @@ ApplicationWindow {
     title: "ScreenPlay Alpha - V0.10.1"
     minimumHeight: 450
     minimumWidth: 1050
-    onVisibilityChanged:  {
-        if(window.visibility === 2){
+    onVisibilityChanged: {
+        if (window.visibility === 2) {
             switchPage("Installed")
         }
     }
 
-
-    Material.accent:  {
+    Material.accent: {
         return Material.color(Material.Orange)
     }
 
-    function setTheme(theme){
+    function setTheme(theme) {
         switch (theme) {
         case Settings.System:
             window.Material.theme = Material.System
@@ -111,7 +110,6 @@ ApplicationWindow {
         id: bg
         anchors.fill: parent
     }
-
 
     Connections {
         target: ScreenPlay.util
@@ -331,4 +329,5 @@ ApplicationWindow {
         anchors.fill: pageLoader
         z: 98
     }
+
 }

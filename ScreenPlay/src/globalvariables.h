@@ -16,6 +16,34 @@ namespace ScreenPlay {
 
 */
 
+namespace Enums {
+    Q_NAMESPACE
+
+    enum class FillMode {
+        Stretch,
+        Fill,
+        Contain,
+        Cover,
+        Scale_Down
+    };
+    Q_ENUM_NS(FillMode)
+
+
+    enum class WallpaperType {
+        VideoWallpaper,
+        QMLWallpaper,
+        HTMLWallpaper
+    };
+    Q_ENUM_NS(WallpaperType)
+
+    enum class WidgetType {
+        QMLWidget,
+        HTMLWidget
+    };
+    Q_ENUM_NS(WidgetType)
+
+}
+
 class GlobalVariables : public QObject {
     Q_OBJECT
 
@@ -28,28 +56,8 @@ class GlobalVariables : public QObject {
 public:
     explicit GlobalVariables(QObject* parent = nullptr);
 
-    enum class FillMode {
-        Stretch,
-        Fill,
-        Contain,
-        Cover,
-        Scale_Down
-    };
-    Q_ENUM(FillMode)
 
 
-    enum class WallpaperType {
-        VideoWallpaper,
-        QMLWallpaper,
-        HTMLWallpaper
-    };
-    Q_ENUM(WallpaperType)
-
-    enum class WidgetType {
-        QMLWidget,
-        HTMLWidget
-    };
-    Q_ENUM(WidgetType)
 
     /*!
         \property GlobalVariables::localStoragePath

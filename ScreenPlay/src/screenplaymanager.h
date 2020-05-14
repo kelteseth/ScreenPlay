@@ -56,17 +56,18 @@ signals:
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
 
 public slots:
+    // moc needs full enum namespace info see QTBUG-58454
     void createWallpaper(
-        const GlobalVariables::WallpaperType type,
+        const ScreenPlay::Enums::WallpaperType type,
+        const ScreenPlay::Enums::FillMode fillMode,
         const QString& absoluteStoragePath,
         const QString& previewImage,
         QVector<int> monitorIndex,
         const float volume,
-        const GlobalVariables::FillMode fillMode,
-        const bool saveToProfilesConfigFile = true);
+        const bool saveToProfilesConfigFile);
 
     void createWidget(
-        const GlobalVariables::WidgetType type,
+        const ScreenPlay::Enums::WidgetType type,
         const QUrl& absoluteStoragePath,
         const QString& previewImage);
 

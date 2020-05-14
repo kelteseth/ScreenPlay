@@ -86,12 +86,18 @@ App::App()
     qRegisterMetaType<InstalledListFilter*>();
     qRegisterMetaType<MonitorListModel*>();
     qRegisterMetaType<ProfileListModel*>();
-    qRegisterMetaType<GlobalVariables::FillMode>();
-    qRegisterMetaType<GlobalVariables::WallpaperType>();
-    qRegisterMetaType<GlobalVariables::WidgetType>();
-    qmlRegisterUncreatableType<GlobalVariables>("ScreenPlay.GlobalVariables", 1, 0, "GlobalVariables", "Error only for enums");
+    qRegisterMetaType<Enums::FillMode>();
+    qRegisterMetaType<Enums::WallpaperType>();
+    qRegisterMetaType<Enums::WidgetType>();
 
-
+    // Registers the enums from globalvariables.
+    // Apparently this is the only way for qml to work
+    // https://www.kdab.com/new-qt-5-8-meta-object-support-namespaces/
+    qmlRegisterUncreatableMetaObject(ScreenPlay::Enums::staticMetaObject,
+        "ScreenPlayEnums",
+        1, 0,
+        "ScreenPlayEnums",
+        "Error: only enums");
 
     qmlRegisterAnonymousType<GlobalVariables>("ScreenPlay", 1);
     qmlRegisterAnonymousType<ScreenPlayManager>("ScreenPlay", 1);

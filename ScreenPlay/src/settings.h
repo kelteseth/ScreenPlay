@@ -1,10 +1,10 @@
 #pragma once
 
+#include <QApplication>
 #include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QFontDatabase>
-#include <QApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -49,7 +49,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
 
-    Q_PROPERTY(GlobalVariables::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
+    Q_PROPERTY(ScreenPlay::Enums::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
     Q_PROPERTY(Language language READ language WRITE setLanguage NOTIFY languageChanged)
     Q_PROPERTY(Theme theme READ theme WRITE setTheme NOTIFY themeChanged)
 
@@ -125,7 +125,7 @@ public:
         return m_checkWallpaperVisible;
     }
 
-    GlobalVariables::FillMode videoFillMode() const
+    ScreenPlay::Enums::FillMode videoFillMode() const
     {
         return m_videoFillMode;
     }
@@ -162,7 +162,7 @@ signals:
     void silentStartChanged(bool silentStart);
     void anonymousTelemetryChanged(bool anonymousTelemetry);
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
-    void videoFillModeChanged(GlobalVariables::FillMode videoFillMode);
+    void videoFillModeChanged(ScreenPlay::Enums::FillMode videoFillMode);
     void languageChanged(Language language);
     void fontChanged(QString font);
 
@@ -191,7 +191,6 @@ public slots:
             settings.sync();
         } else {
             settings.remove("ScreenPlay");
-
         }
 #endif
 
@@ -282,7 +281,7 @@ public slots:
         emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
     }
 
-    void setVideoFillMode(GlobalVariables::FillMode videoFillMode)
+    void setVideoFillMode(ScreenPlay::Enums::FillMode videoFillMode)
     {
         if (m_videoFillMode == videoFillMode)
             return;
@@ -318,7 +317,7 @@ public slots:
         if (m_theme == theme)
             return;
 
-         setqSetting("Theme", QVariant::fromValue(theme).toString());
+        setqSetting("Theme", QVariant::fromValue(theme).toString());
 
         m_theme = theme;
         emit themeChanged(m_theme);
@@ -342,9 +341,9 @@ private:
 
     QString m_gitBuildHash;
     QString m_decoder;
-    FillMode m_videoFillMode { FillMode::Cover };
+    ScreenPlay::Enums::FillMode m_videoFillMode { ScreenPlay::Enums::FillMode::Cover };
     Language m_language { Language::En };
     Theme m_theme { Theme::System };
-    QString m_font {"Roboto"};
+    QString m_font { "Roboto" };
 };
 }

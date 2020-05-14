@@ -19,8 +19,8 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const QString& absolutePath,
     const QString& previewImage,
     const float volume,
-    const GlobalVariables::FillMode fillMode,
-    const GlobalVariables::WallpaperType type,
+    const Enums::FillMode fillMode,
+    const Enums::WallpaperType type,
     const bool checkWallpaperVisible,
     QObject* parent)
     : QObject(parent)

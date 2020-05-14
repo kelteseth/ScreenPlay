@@ -18,7 +18,7 @@ ScreenPlayWidget::ScreenPlayWidget(const QString& appID,
     const QString& projectPath,
     const QString& previewImage,
     const QString& fullPath,
-    const GlobalVariables::WidgetType type)
+    const Enums::WidgetType type)
     : QObject { nullptr }
     , m_globalVariables { globalVariables }
     , m_projectPath { projectPath }

@@ -38,12 +38,12 @@ ScreenPlayManager::ScreenPlayManager(
     if we call the method when using via the settings on startup to skip a unnecessary save.
 */
 void ScreenPlayManager::createWallpaper(
-    const GlobalVariables::WallpaperType type,
+    const Enums::WallpaperType type,
+    const Enums::FillMode fillMode,
     const QString& absoluteStoragePath,
     const QString& previewImage,
     QVector<int> monitorIndex,
     const float volume,
-    const GlobalVariables::FillMode fillMode,
     const bool saveToProfilesConfigFile)
 {
     if (m_telemetry) {
@@ -88,13 +88,13 @@ void ScreenPlayManager::createWallpaper(
 
     // Do not save on app start
     if (saveToProfilesConfigFile) {
-        if (type == GlobalVariables::WallpaperType::VideoWallpaper) {
+        if (type == Enums::WallpaperType::VideoWallpaper) {
             QJsonObject settings = wallpaper->getActiveSettingsJson();
 
             saveWallpaperProfile("default", settings);
             return;
         }
-        if (type == GlobalVariables::WallpaperType::QMLWallpaper) {
+        if (type == Enums::WallpaperType::QMLWallpaper) {
             QJsonObject settings;
             settings.insert("monitors", monitors);
             settings.insert("type", QVariant::fromValue(type).toString());
@@ -114,7 +114,7 @@ void ScreenPlayManager::createWallpaper(
   \brief Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
 */
 void ScreenPlayManager::createWidget(
-    const GlobalVariables::WidgetType type,
+    const Enums::WidgetType type,
     const QUrl& absoluteStoragePath,
     const QString& previewImage)
 {
@@ -362,10 +362,10 @@ void ScreenPlayManager::loadWallpaperProfiles()
             QString previewImage = wallpaperObj.value("previewImage").toString();
             QString file = wallpaperObj.value("file").toString();
             QString typeString = wallpaperObj.value("type").toString();
-            auto type = QStringToEnum<GlobalVariables::WallpaperType>(typeString, GlobalVariables::WallpaperType::VideoWallpaper);
-            auto fillMode = QStringToEnum<GlobalVariables::FillMode>(fillModeString, GlobalVariables::FillMode::Cover);
+            auto type = QStringToEnum<Enums::WallpaperType>(typeString, Enums::WallpaperType::VideoWallpaper);
+            auto fillMode = QStringToEnum<Enums::FillMode>(fillModeString, Enums::FillMode::Cover);
 
-            createWallpaper(type, absolutePath, previewImage, monitors, volume, fillMode, false);
+            createWallpaper(type, fillMode, absolutePath, previewImage, monitors, volume,  false);
             monitors.clear();
         }
     }
