@@ -89,9 +89,11 @@ chmod +x install-dependencies.sh
       * qt-google-analytics
       * qt-breakpad
 5. **Follow the steps below for your OS**. Then open the CMakeLists.txt via QtCreator.
+
 <div>
-<img width="100%" height="93" src=".gitlab/media/QtCreator_kit.png">
+<img width="100%" height="auto" src=".gitlab/media/QtCreator_kit.png">
 </div>
+
 6. Add install to the build steps. Projects -> Build -> Add Build Step -> Select Build -> Select "install" .
     * CMake -> Check if cmake is listed there, otherwise add it
     * Kits -> CMakeGenerator -> Change... (Otherwhise your builds are slow!)
