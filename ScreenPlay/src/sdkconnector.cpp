@@ -132,19 +132,19 @@ void SDKConnector::closeConntectionByType(const QStringList& list)
     }
 }
 
-
 /*!
   \brief Closes a wallpaper by the given \a appID.
 */
-void SDKConnector::closeWallpaper(const QString& appID)
+bool SDKConnector::closeWallpaper(const QString& appID)
 {
     for (auto& client : m_clients) {
         if (client->appID() == appID) {
             client->close();
             m_clients.removeOne(client);
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 /*!

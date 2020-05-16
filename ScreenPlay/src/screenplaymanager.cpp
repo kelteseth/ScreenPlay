@@ -172,10 +172,13 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
         if (!saveProfiles()) {
             qWarning() << "Could not save profiles.json";
         }
-        m_sdkconnector->closeWallpaper(*appID);
+        if (!m_sdkconnector->closeWallpaper(*appID)) {
+            qWarning() << "Could not  close socket. Abort!";
+            return false;
+        }
         m_monitorListModel->closeWallpaper(*appID);
-        const QString appIDCopy = *appID;
 
+        const QString appIDCopy = *appID;
         if (!removeWallpaperByAppID(appIDCopy)) {
             qWarning() << "Could not remove Wallpaper " << appIDCopy << " from wallpaper list!";
             return false;

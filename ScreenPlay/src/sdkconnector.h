@@ -55,7 +55,6 @@
 namespace ScreenPlay {
 class SDKConnection;
 
-
 class SDKConnector : public QObject {
     Q_OBJECT
 
@@ -74,7 +73,7 @@ public slots:
     void closeAllConnections();
     void closeAllWallpapers();
     void closeAllWidgets();
-    void closeWallpaper(const QString& appID);
+    bool closeWallpaper(const QString& appID);
     void setWallpaperValue(QString appID, QString key, QString value);
 
 private:
@@ -170,9 +169,9 @@ public slots:
             qInfo() << "###### Wallpaper created:"
                     << "\t AppID:" << m_appID << "\t type: " << m_type;
 
-        } else if(msg.startsWith("command=")){
+        } else if (msg.startsWith("command=")) {
             msg.remove("command=");
-            if(msg == "requestRaise") {
+            if (msg == "requestRaise") {
                 qInfo() << "Another ScreenPlay instance reuqested this one to raise!";
                 emit requestRaise();
             }
