@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17.0 )
+cmake_minimum_required(VERSION 3.16.0 )
 
 if(WIN32)
   set(VCPKG_TARGET_TRIPLET "x64-windows")
@@ -36,5 +36,6 @@ add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlaySysInfo)
 add_subdirectory(Common/stomt-qml)
 add_subdirectory(Common/qt-breakpad)
+
 
 

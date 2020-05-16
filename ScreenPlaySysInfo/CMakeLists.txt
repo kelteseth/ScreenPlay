@@ -6,7 +6,6 @@ set(CMAKE_AUTOMOC ON)
 find_package(
   Qt5
   COMPONENTS Quick
-             QML
              Core
   REQUIRED)
 
@@ -24,8 +23,11 @@ set(headers screenplaysysinfo_plugin.h
 	storage.h)
 
 add_library(${PROJECT_NAME}  ${src} ${headers})
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick Qt5::Qml)
 
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
+    Qt5::Core
+    Qt5::Quick)
 
 
 # QML module deployment

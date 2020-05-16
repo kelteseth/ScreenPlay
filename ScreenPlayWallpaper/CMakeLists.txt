@@ -7,7 +7,6 @@ set(CMAKE_AUTOMOC ON)
 find_package(
   Qt5
   COMPONENTS Quick
-             QML
              Widgets
              Gui
              WebEngine
@@ -48,7 +47,6 @@ add_executable(${PROJECT_NAME}  ${src} ${headers} ${src_plattform} ${headers_pla
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
-    Qt5::Qml
     Qt5::Quick
     Qt5::Gui
     Qt5::Widgets
