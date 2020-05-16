@@ -1,4 +1,4 @@
-### Basic
+# Developer Setup
 1. Install latest [git + git-lfs](https://git-scm.com/)
 2. Clone ScreenPlay
 ``` bash
