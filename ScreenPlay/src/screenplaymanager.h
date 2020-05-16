@@ -74,7 +74,7 @@ public slots:
 
     void removeAllWallpapers();
     void removeAllWidgets();
-    bool removeWallpaperAt(const int index = 0);
+    bool removeWallpaperAt(const int index);
 
     void requestProjectSettingsListModelAt(const int index);
     void setWallpaperValue(const int index, const QString& key, const QString& value);

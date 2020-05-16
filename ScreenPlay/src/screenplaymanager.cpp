@@ -51,13 +51,12 @@ void ScreenPlayManager::createWallpaper(
         m_telemetry->sendEvent("wallpaper", "start");
     }
 
-    QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
-
     QJsonArray monitors;
     for (const int index : monitorIndex) {
         monitors.append(index);
     }
 
+    QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
     QString appID = Util::generateRandomString();
 
     std::shared_ptr<ScreenPlayWallpaper> wallpaper;
@@ -277,7 +276,7 @@ bool ScreenPlayManager::removeWallpaperByAppID(const QString& appID)
             qInfo() << "Remove wallpaper " << wallpaper->file() << "at monitor " << wallpaper->screenNumber();
             decreaseActiveWallpaperCounter();
             m_screenPlayWallpapers.removeOne(wallpaper);
-            if(activeWallpaperCounter() != m_screenPlayWallpapers.length()){
+            if (activeWallpaperCounter() != m_screenPlayWallpapers.length()) {
                 qWarning() << "activeWallpaperCounter value: " << activeWallpaperCounter()
                            << "does not match m_screenPlayWallpapers length:" << m_screenPlayWallpapers.length();
                 return false;

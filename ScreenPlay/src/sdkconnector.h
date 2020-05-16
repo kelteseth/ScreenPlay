@@ -40,8 +40,6 @@ public slots:
     void closeAllConnections();
     void closeAllWallpapers();
     void closeAllWidgets();
-
-    void closeWallpapersAt(int at);
     void closeWallpaper(const QString& appID);
     void setWallpaperValue(QString appID, QString key, QString value);
 
