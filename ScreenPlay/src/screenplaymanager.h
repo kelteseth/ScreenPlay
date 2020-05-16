@@ -62,6 +62,7 @@ public slots:
         const ScreenPlay::Enums::FillMode fillMode,
         const QString& absoluteStoragePath,
         const QString& previewImage,
+        const QString &file,
         QVector<int> monitorIndex,
         const float volume,
         const bool saveToProfilesConfigFile);
@@ -73,7 +74,7 @@ public slots:
 
     void removeAllWallpapers();
     void removeAllWidgets();
-    bool removeWallpaperAt(const int at = 0);
+    bool removeWallpaperAt(const int index = 0);
 
     void requestProjectSettingsListModelAt(const int index);
     void setWallpaperValue(const int index, const QString& key, const QString& value);
@@ -129,8 +130,9 @@ public slots:
     }
 
 private:
-    void loadWallpaperProfiles();
-    bool saveWallpaperProfile(const QString& profileName, const QJsonObject& content);
+    void loadProfiles();
+    bool saveProfiles();
+    [[nodiscard]] bool removeWallpaperByAppID(const QString& appID);
 
 private:
     const std::shared_ptr<GlobalVariables>& m_globalVariables;

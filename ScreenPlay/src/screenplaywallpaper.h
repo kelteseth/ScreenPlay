@@ -1,5 +1,6 @@
 #pragma once
 
+#include <QDebug>
 #include <QJsonObject>
 #include <QObject>
 #include <QProcess>
@@ -21,18 +22,21 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(bool isLooping READ isLooping WRITE setIsLooping NOTIFY isLoopingChanged)
 
     Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged)
-    Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
     Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
+
+    Q_PROPERTY(Enums::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
     Q_PROPERTY(Enums::WallpaperType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
-    explicit ScreenPlayWallpaper(const QVector<int>& screenNumber,
+    explicit ScreenPlayWallpaper(
+        const QVector<int>& screenNumber,
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const QString& appID,
         const QString& absolutePath,
         const QString& previewImage,
+        const QString& file,
         const float volume,
         const Enums::FillMode fillMode,
         const Enums::WallpaperType type,
@@ -48,6 +52,11 @@ public:
         const Enums::WallpaperType type,
         const QJsonObject& profileJsonObject,
         QObject* parent = nullptr);
+
+    ~ScreenPlayWallpaper()
+    {
+        qInfo() << "Remove wallpaper" << absolutePath() << " at monitor: " << screenNumber();
+    }
 
     QJsonObject getActiveSettingsJson();
 
@@ -81,7 +90,7 @@ public:
         return m_file;
     }
 
-    QString fillMode() const
+    Enums::FillMode fillMode() const
     {
         return m_fillMode;
     }
@@ -107,7 +116,7 @@ signals:
     void appIDChanged(QString appID);
     void typeChanged(Enums::WallpaperType type);
     void fileChanged(QString file);
-    void fillModeChanged(QString fillMode);
+    void fillModeChanged(Enums::FillMode fillMode);
     void absolutePathChanged(QString absolutePath);
     void profileJsonObjectChanged(QJsonObject profileJsonObject);
     void volumeChanged(float volume);
@@ -162,7 +171,7 @@ public slots:
         emit fileChanged(m_file);
     }
 
-    void setFillMode(QString fillMode)
+    void setFillMode(Enums::FillMode fillMode)
     {
         if (m_fillMode == fillMode)
             return;
@@ -211,10 +220,10 @@ private:
 
     QString m_previewImage;
     Enums::WallpaperType m_type;
+    Enums::FillMode m_fillMode;
     QString m_appID;
-    QString m_file;
-    QString m_fillMode;
     QString m_absolutePath;
+    QString m_file;
     float m_volume { 1.0f };
     bool m_isLooping { true };
 };

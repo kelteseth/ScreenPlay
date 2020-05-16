@@ -13,11 +13,13 @@ namespace ScreenPlay {
 /*!
     \brief  Constructor for video Wallpaper.
 */
-ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
+ScreenPlayWallpaper::ScreenPlayWallpaper(
+    const QVector<int>& screenNumber,
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString& appID,
     const QString& absolutePath,
     const QString& previewImage,
+    const QString& file,
     const float volume,
     const Enums::FillMode fillMode,
     const Enums::WallpaperType type,
@@ -27,10 +29,13 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     , m_projectSettingsListModel { std::make_shared<ProjectSettingsListModel>(absolutePath + "/project.json") }
     , m_globalVariables { globalVariables }
     , m_screenNumber { screenNumber }
-    , m_previewImage { QString { absolutePath + "/" + previewImage } }
+    , m_previewImage { previewImage }
     , m_type { type }
+    , m_fillMode { fillMode }
     , m_appID { appID }
     , m_absolutePath { absolutePath }
+    , m_file { file }
+
 {
 
     QObject::connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &ScreenPlayWallpaper::processExit);
@@ -73,13 +78,15 @@ QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
     for (const int i : m_screenNumber) {
         screenNumber.append(i);
     }
+
     QJsonObject obj;
+    obj.insert("file", m_file);
     obj.insert("absolutePath", m_absolutePath);
-    obj.insert("fillMode", m_fillMode);
+    obj.insert("fillMode", QVariant::fromValue(m_fillMode).toString());
     obj.insert("isLooping", m_isLooping);
     obj.insert("monitors", screenNumber);
     obj.insert("previewImage", m_previewImage);
-    obj.insert("videoWallpaper", QVariant::fromValue(m_type).toString());
+    obj.insert("type", QVariant::fromValue(m_type).toString());
     obj.insert("volume", m_volume);
     return obj;
 }

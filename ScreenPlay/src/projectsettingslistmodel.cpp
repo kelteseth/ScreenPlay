@@ -97,9 +97,18 @@ void ProjectSettingsListModel::init(QString file)
 
     configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
     QString config = configTmp.readAll();
+
+    if(config.isEmpty()){
+        qWarning() << "File: " << configTmp << " is empty!";
+        return;
+    }
+
     configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
 
     if (!(parseError.error == QJsonParseError::NoError)) {
+        qInfo() << "File: " << file;
+        qInfo() << "Value: " << config;
+        qInfo() <<parseError.error << parseError.errorString();
         qWarning("Settings Json Parse Error ");
         return;
     }

@@ -379,19 +379,12 @@ Item {
                         if (activeMonitors.length === 0)
                             return
 
-                        print(root.typeEnum,
-                              cbVideoFillMode.currentValue,
-                              ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
-                              ScreenPlay.installedListModel.get( activeScreen).screenPreview,
-                              activeMonitors,
-                              (Math.round( sliderVolume.value * 100) / 100),
-                              true)
-
                         ScreenPlay.screenPlayManager.createWallpaper(
                                     root.typeEnum,
                                     cbVideoFillMode.currentValue,
                                     ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
-                                    ScreenPlay.installedListModel.get( activeScreen).screenPreview,
+                                    ScreenPlay.installedListModel.get(activeScreen).screenPreview,
+                                    ScreenPlay.installedListModel.get(activeScreen).screenFile,
                                     activeMonitors,
                                     (Math.round( sliderVolume.value * 100) / 100),
                                     true)

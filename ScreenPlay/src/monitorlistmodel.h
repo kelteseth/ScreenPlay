@@ -70,7 +70,8 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-    void setWallpaperActiveMonitor(const std::shared_ptr<ScreenPlayWallpaper>& wallpaper,
+    void setWallpaperActiveMonitor(
+        const std::shared_ptr<ScreenPlayWallpaper>& wallpaper,
         const QVector<int> monitors);
 
     std::optional<QString> getAppIDByMonitorIndex(const int index) const;
