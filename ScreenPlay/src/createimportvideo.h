@@ -3,20 +3,11 @@
 ** Copyright (C) 2020 Elias Steurer (Kelteseth)
 ** Contact: https://screen-play.app
 **
-** This file is part of ScreenPlay. ScreenPlay is licensed under a dual license.
-** When you contribute to ScreenPlay via a Gitlab Merge Request you accept that
-** your work will be available under the two following licenses:
+** This file is part of ScreenPlay. ScreenPlay is licensed under a dual license in
+** order to ensure its sustainability. When you contribute to ScreenPlay
+** you accept that your work will be available under the two following licenses:
 **
 ** $SCREENPLAY_BEGIN_LICENSE$
-**
-** #### Commercial License
-** This code is owned by Elias Steurer. By changing/adding to the code you agree to the
-** terms written in:
-**  * Legal/corporate_contributor_license_agreement.md - For corporate contributors
-**  * Legal/individual_contributor_license_agreement.md - For individual contributors
-**
-** Each Contributor hereby grants Elias Steurer (Kelteseth) a world-wide,
-** royalty-free, non-exclusive license.
 **
 ** #### Affero General Public License Usage (AGPLv3)
 ** Alternatively, this file may be used under the terms of the GNU Affero
@@ -26,13 +17,21 @@
 ** ensure the GNU Affero Lesser General Public License version 3 requirements
 ** will be met: https://www.gnu.org/licenses/agpl-3.0.en.html.
 **
-** Additional Limitations to the AGPLv3 and Commercial Lincese
+** #### Commercial License
+** This code is owned by Elias Steurer. By changing/adding to the code you agree to the
+** terms written in:
+**  * Legal/corporate_contributor_license_agreement.md - For corporate contributors
+**  * Legal/individual_contributor_license_agreement.md - For individual contributors
+**
+** #### Additional Limitations to the AGPLv3 and Commercial Lincese
 ** This License does not grant any rights in the trademarks,
-** service marks, or logos of any Contributor.
+** service marks, or logos.
+**
 **
 ** $SCREENPLAY_END_LICENSE$
 **
 ****************************************************************************/
+
 #pragma once
 
 #include <QApplication>
