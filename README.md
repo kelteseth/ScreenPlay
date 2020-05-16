@@ -26,7 +26,9 @@ Everyone can contribute with code, design, documentation or translation. Visit o
 
 # Contributing for programmer
  * If you want to contribute but don't know how to start, take a look at our open issues and WIP merge request.
- * If you need help don't hesitate to ask me (Keltseth) via our forum/discord!
+ * If you need help don't hesitate to ask me (Keltseth) via:
+     * [Create a forum topic with a detailed description](https://forum.screen-play.app/category/2/general-discussion)
+     * [discord channel general](https://discord.gg/3RygPHZ)
  * [Developer setup guide on how to download and compile ScreenPlay yourself.](Docs/DeveloperSetup.md)
  * [ScreenPlay project overview](Docs/ProjectOverview.md)
  * [Developer C++ Classes Documentation](https://kelteseth.gitlab.io/ScreenPlayDeveloperDocs/)
