@@ -96,7 +96,7 @@ chmod +x install-dependencies.sh
         * Extra Generator: CodeBlocks
     * Add CMAKE_TOOLCHAIN_FILE and VCPKG_TARGET_TRIPLET
        * Extras -> Tools -> Kits -> <Your Kit> -> CMake Configuration -> Append this:
-       * CMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/ScreenPlay/Common/vcpkg/scripts/buildsystems/vcpkg.cmake
+       * CMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/Common/vcpkg/scripts/buildsystems/vcpkg.cmake
        * VCPKG_TARGET_TRIPLET:STRING=x64-windows
        * or  Linux: x64-linux MacOSX: x64-osx
 7. Press build (the green play button). This will compile the project and copy all necessary files into your Qt installation.
