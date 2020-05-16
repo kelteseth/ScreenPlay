@@ -20,9 +20,9 @@ set(headers
 set(resources
     SPWidgetResources.qrc)
 
-add_executable(ScreenPlayWidget ${src} ${headers} ${resources})
+add_executable(${PROJECT_NAME} ${src} ${headers} ${resources})
 
-target_link_libraries( ScreenPlayWidget
+target_link_libraries(${PROJECT_NAME}
     PRIVATE
     Qt5::Quick
     Qt5::Gui
