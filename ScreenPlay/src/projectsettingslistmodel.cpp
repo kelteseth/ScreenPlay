@@ -91,46 +91,25 @@ QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
  */
 void ProjectSettingsListModel::init(QString file)
 {
-    QFile configTmp;
-    configTmp.setFileName(file);
-    QJsonDocument configJsonDocument;
-    QJsonParseError parseError;
-    QJsonObject obj;
+    if (auto config = Util::openJsonFileToObject(file)) {
 
-    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString config = configTmp.readAll();
+        QJsonObject obj = *config;
+        QJsonObject tmpParent;
 
-    if(config.isEmpty()){
-        qWarning() << "File: " << configTmp << " is empty!";
-        return;
-    }
+        if (obj.contains("properties")) {
+            tmpParent = obj.value("properties").toObject();
+        } else {
+            return;
+        }
 
-    configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
+        QJsonObject::iterator itParent, itChild;
+        for (itParent = tmpParent.begin(); itParent != tmpParent.end(); itParent++) {
+            QJsonObject tmpChildObj = tmpParent.value(itParent.key()).toObject();
+            append(itParent.key(), true, "");
 
-    if (!(parseError.error == QJsonParseError::NoError)) {
-        qInfo() << "File: " << file;
-        qInfo() << "Value: " << config;
-        qInfo() <<parseError.error << parseError.errorString();
-        qWarning("Settings Json Parse Error ");
-        return;
-    }
-
-    obj = configJsonDocument.object();
-    QJsonObject tmpParent;
-
-    if (obj.contains("properties")) {
-        tmpParent = obj.value("properties").toObject();
-    } else {
-        return;
-    }
-
-    QJsonObject::iterator itParent, itChild;
-    for (itParent = tmpParent.begin(); itParent != tmpParent.end(); itParent++) {
-        QJsonObject tmpChildObj = tmpParent.value(itParent.key()).toObject();
-        append(itParent.key(), true, "");
-
-        for (itChild = tmpChildObj.begin(); itChild != tmpChildObj.end(); itChild++) {
-            append(itChild.key(), false, QJsonDocument(tmpChildObj.value(itChild.key()).toObject()).toJson());
+            for (itChild = tmpChildObj.begin(); itChild != tmpChildObj.end(); itChild++) {
+                append(itChild.key(), false, QJsonDocument(tmpChildObj.value(itChild.key()).toObject()).toJson());
+            }
         }
     }
 }

@@ -44,6 +44,7 @@
 #include <QVector>
 
 #include "projectsettingslistitem.h"
+#include "util.h"
 
 namespace ScreenPlay {
 
