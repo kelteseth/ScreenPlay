@@ -38,7 +38,7 @@ Item {
 
     Rectangle {
         id: monitorsSettingsWrapper
-        color: Material.background
+        color: Material.theme === Material.Light ? "white" : Material.background
         radius: 3
         z: 98
         width: 1000
