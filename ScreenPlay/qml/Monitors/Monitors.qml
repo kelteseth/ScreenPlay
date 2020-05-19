@@ -91,8 +91,7 @@ Item {
                 availableWidth: width - 20
                 availableHeight: 150
                 onRequestProjectSettings: {
-                    // This will return in the connection with target: screenPlay
-                    ScreenPlay.screenPlayManager.requestProjectSettingsListModelAt(at)
+                    ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(at)
                     activeMonitorIndex = at
                 }
                 Connections {

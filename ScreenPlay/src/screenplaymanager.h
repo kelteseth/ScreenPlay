@@ -108,8 +108,8 @@ public slots:
     void removeAllWidgets();
     bool removeWallpaperAt(const int index);
 
-    void requestProjectSettingsListModelAt(const int index);
-    void setWallpaperValue(const int index, const QString& key, const QString& value);
+    void requestProjectSettingsAtMonitorIndex(const int index);
+    void setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
     std::optional<std::shared_ptr<ScreenPlayWallpaper>> getWallpaperByAppID(const QString& appID);
 

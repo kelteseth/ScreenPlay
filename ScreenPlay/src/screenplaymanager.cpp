@@ -193,10 +193,10 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
 /*!
     \brief Request a spesific json profile to display in the active wallpaper popup on the right.
 */
-void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
+void ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
 {
     for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
-        if (!uPtrWallpaper->screenNumber().empty() && uPtrWallpaper->screenNumber()[0] == index) {
+        if (uPtrWallpaper->screenNumber()[0] == index) {
             emit projectSettingsListModelResult(
                 true,
                 uPtrWallpaper->projectSettingsListModel().get(),
@@ -210,7 +210,7 @@ void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
 /*!
   \brief Set a wallpaper \a value at a given \a index and \a key.
 */
-void ScreenPlayManager::setWallpaperValue(const int index, const QString& key, const QString& value)
+void ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value)
 {
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
 

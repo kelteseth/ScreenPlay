@@ -86,7 +86,7 @@ Rectangle {
                         verticalCenter: parent.verticalCenter
                     }
                     onCheckedChanged: {  
-                        ScreenPlay.screenPlayManager.setWallpaperValue(
+                        ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                                     selectedMonitor, name, checkbox.checked)
                     }
                 }
@@ -130,7 +130,7 @@ Rectangle {
                     onAccepted: {
                         rctPreviewColor.color = colorDialog.color
                         let tmpColor = "'" + colorDialog.color.toString() + "'"
-                        ScreenPlay.screenPlayManager.setWallpaperValue(
+                        ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                                     selectedMonitor, name, tmpColor)
                     }
                 }
@@ -167,7 +167,7 @@ Rectangle {
                     onValueChanged: {
                         var value = Math.round(slider.value * 100) / 100
                         txtSliderValue.text = value
-                        ScreenPlay.screenPlayManager.setWallpaperValue(
+                        ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                                     selectedMonitor, name, value)
                     }
                 }

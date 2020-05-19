@@ -36,19 +36,19 @@ ColumnLayout {
 
     SP.Slider {
         headline: qsTr("Volume")
-        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValue(
+        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                             activeMonitorIndex, "volume", value)
         Layout.fillWidth: true
     }
     SP.Slider {
         headline: qsTr("Playback rate")
-        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValue(
+        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                             activeMonitorIndex, "playbackRate", value)
         Layout.fillWidth: true
     }
     SP.Slider {
         headline: qsTr("Current Video Time")
-        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValue(
+        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                             activeMonitorIndex, "currentTime", value)
         Layout.fillWidth: true
     }
@@ -73,7 +73,7 @@ ColumnLayout {
             Layout.fillWidth: true
             Layout.leftMargin: 10
             onActivated: {
-                ScreenPlay.screenPlayManager.setWallpaperValue(
+                ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                             activeMonitorIndex, "fillmode",
                             settingsComboBox.currentText)
             }
