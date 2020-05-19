@@ -32,12 +32,12 @@ namespace ScreenPlay {
     \endlist
     More errorchecking is needed here. For example when the proile or settings json cannot to parsed, use the default settings.
  */
-Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
+Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     QObject* parent)
     : QObject(parent)
     , m_globalVariables { globalVariables }
 {
-    qRegisterMetaType<Settings::FillMode>("Settings::FillMode");
+
     qRegisterMetaType<Settings::Language>("Settings::Language");
     qRegisterMetaType<Settings::Theme>("Settings::Theme");
 
@@ -64,9 +64,9 @@ Settings::Settings(const shared_ptr<GlobalVariables>& globalVariables,
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
     if (m_qSettings.contains("VideoFillMode")) {
         auto value = m_qSettings.value("VideoFillMode").toString();
-        setVideoFillMode(QStringToEnum<FillMode>(value, FillMode::Cover));
+        setVideoFillMode(QStringToEnum<Enums::FillMode>(value, Enums::FillMode::Cover));
     } else {
-        setVideoFillMode(FillMode::Cover);
+        setVideoFillMode(Enums::FillMode::Cover);
     }
     
     if (m_qSettings.contains("Theme")) {

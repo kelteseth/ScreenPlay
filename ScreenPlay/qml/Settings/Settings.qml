@@ -7,7 +7,8 @@ import QtGraphicalEffects 1.0
 import Qt.labs.platform 1.0
 
 import ScreenPlay 1.0
-import Settings 1.0
+import ScreenPlayEnums 1.0
+
 
 import "../Common"
 
@@ -321,19 +322,19 @@ Item {
                                                  cbVideoFillMode.comboBox.currentValue)
 
                                 model: [{
-                                        "value": Settings.Stretch,
+                                        "value": ScreenPlayEnums.Stretch,
                                         "text": qsTr("Stretch")
                                     }, {
-                                        "value": Settings.Fill,
+                                        "value": ScreenPlayEnums.Fill,
                                         "text": qsTr("Fill")
                                     }, {
-                                        "value": Settings.Contain,
+                                        "value": ScreenPlayEnums.Contain,
                                         "text": qsTr("Contain")
                                     }, {
-                                        "value": Settings.Cover,
+                                        "value": ScreenPlayEnums.Cover,
                                         "text": qsTr("Cover")
                                     }, {
-                                        "value": Settings.Scale_Down,
+                                        "value": ScreenPlayEnums.Scale_Down,
                                         "text": qsTr("Scale-Down")
                                     }]
                             }

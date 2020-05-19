@@ -1,10 +1,44 @@
+/****************************************************************************
+**
+** Copyright (C) 2020 Elias Steurer (Kelteseth)
+** Contact: https://screen-play.app
+**
+** This file is part of ScreenPlay. ScreenPlay is licensed under a dual license in
+** order to ensure its sustainability. When you contribute to ScreenPlay
+** you accept that your work will be available under the two following licenses:
+**
+** $SCREENPLAY_BEGIN_LICENSE$
+**
+** #### Affero General Public License Usage (AGPLv3)
+** Alternatively, this file may be used under the terms of the GNU Affero
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file "ScreenPlay License.md" included in the
+** packaging of this App. Please review the following information to
+** ensure the GNU Affero Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/agpl-3.0.en.html.
+**
+** #### Commercial License
+** This code is owned by Elias Steurer. By changing/adding to the code you agree to the
+** terms written in:
+**  * Legal/corporate_contributor_license_agreement.md - For corporate contributors
+**  * Legal/individual_contributor_license_agreement.md - For individual contributors
+**
+** #### Additional Limitations to the AGPLv3 and Commercial Lincese
+** This License does not grant any rights in the trademarks,
+** service marks, or logos.
+**
+**
+** $SCREENPLAY_END_LICENSE$
+**
+****************************************************************************/
+
 #pragma once
 
+#include <QApplication>
 #include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QFontDatabase>
-#include <QApplication>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -39,24 +73,6 @@
 namespace ScreenPlay {
 class ActiveProfile;
 
-using std::shared_ptr,
-    std::make_shared;
-
-template <typename T>
-T QStringToEnum(const QString& key, const T defaultValue)
-{
-    auto metaEnum = QMetaEnum::fromType<T>();
-
-    bool ok = false;
-    T wantedEnum = static_cast<T>(metaEnum.keyToValue(key.toUtf8(), &ok));
-
-    if (ok) {
-        return wantedEnum;
-    }
-
-    return defaultValue;
-}
-
 class Settings : public QObject {
     Q_OBJECT
 
@@ -67,7 +83,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
 
-    Q_PROPERTY(FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
+    Q_PROPERTY(ScreenPlay::Enums::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
     Q_PROPERTY(Language language READ language WRITE setLanguage NOTIFY languageChanged)
     Q_PROPERTY(Theme theme READ theme WRITE setTheme NOTIFY themeChanged)
 
@@ -77,17 +93,8 @@ class Settings : public QObject {
 
 public:
     explicit Settings(
-        const shared_ptr<GlobalVariables>& globalVariables,
+        const std::shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
-
-    enum class FillMode {
-        Stretch,
-        Fill,
-        Contain,
-        Cover,
-        Scale_Down
-    };
-    Q_ENUM(FillMode)
 
     enum class Language {
         En,
@@ -152,7 +159,7 @@ public:
         return m_checkWallpaperVisible;
     }
 
-    FillMode videoFillMode() const
+    ScreenPlay::Enums::FillMode videoFillMode() const
     {
         return m_videoFillMode;
     }
@@ -189,7 +196,7 @@ signals:
     void silentStartChanged(bool silentStart);
     void anonymousTelemetryChanged(bool anonymousTelemetry);
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
-    void videoFillModeChanged(FillMode videoFillMode);
+    void videoFillModeChanged(ScreenPlay::Enums::FillMode videoFillMode);
     void languageChanged(Language language);
     void fontChanged(QString font);
 
@@ -218,7 +225,6 @@ public slots:
             settings.sync();
         } else {
             settings.remove("ScreenPlay");
-
         }
 #endif
 
@@ -309,7 +315,7 @@ public slots:
         emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
     }
 
-    void setVideoFillMode(FillMode videoFillMode)
+    void setVideoFillMode(ScreenPlay::Enums::FillMode videoFillMode)
     {
         if (m_videoFillMode == videoFillMode)
             return;
@@ -345,7 +351,7 @@ public slots:
         if (m_theme == theme)
             return;
 
-         setqSetting("Theme", QVariant::fromValue(theme).toString());
+        setqSetting("Theme", QVariant::fromValue(theme).toString());
 
         m_theme = theme;
         emit themeChanged(m_theme);
@@ -358,7 +364,7 @@ private:
     QSettings m_qSettings;
     QTranslator m_translator;
 
-    const shared_ptr<GlobalVariables>& m_globalVariables;
+    const std::shared_ptr<GlobalVariables>& m_globalVariables;
 
     bool m_autostart { true };
     bool m_highPriorityStart { true };
@@ -369,9 +375,9 @@ private:
 
     QString m_gitBuildHash;
     QString m_decoder;
-    FillMode m_videoFillMode { FillMode::Cover };
+    ScreenPlay::Enums::FillMode m_videoFillMode { ScreenPlay::Enums::FillMode::Cover };
     Language m_language { Language::En };
     Theme m_theme { Theme::System };
-    QString m_font {"Roboto"};
+    QString m_font { "Roboto" };
 };
 }

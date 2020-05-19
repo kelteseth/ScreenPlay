@@ -78,16 +78,17 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
 
     auto roleEnum = static_cast<MonitorRole>(role);
 
-    if (index.row() < rowCount())
+
+    if (row < rowCount())
         switch (roleEnum) {
         case MonitorRole::AppID:
-            if (m_monitorList.at(index.row()).m_activeWallpaper) {
-                return m_monitorList.at(index.row()).m_activeWallpaper->appID();
+            if (m_monitorList.at(row).m_activeWallpaper) {
+                return m_monitorList.at(row).m_activeWallpaper->appID();
             } else {
                 return QVariant("");
             }
         case MonitorRole::MonitorID: {
-            QScreen* screen = m_monitorList.at(index.row()).m_screen;
+            QScreen* screen = m_monitorList.at(row).m_screen;
 
             QVariant id = QString::number(screen->size().width())
                 + "x" + QString::number(screen->size().height())
@@ -97,24 +98,25 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
             return id;
         }
         case MonitorRole::Name:
-            return m_monitorList.at(index.row()).m_screen->name();
+            return m_monitorList.at(row).m_screen->name();
         case MonitorRole::Size:
-            return m_monitorList.at(index.row()).m_screen->size();
+            return m_monitorList.at(row).m_screen->size();
         case MonitorRole::AvailableGeometry:
-            return m_monitorList.at(index.row()).m_availableGeometry;
+            return m_monitorList.at(row).m_availableGeometry;
         case MonitorRole::AvailableVirtualGeometry:
-            return m_monitorList.at(index.row()).m_screen->availableVirtualGeometry();
+            return m_monitorList.at(row).m_screen->availableVirtualGeometry();
         case MonitorRole::Number:
-            return m_monitorList.at(index.row()).m_number;
+            return m_monitorList.at(row).m_number;
         case MonitorRole::Geometry:
-            return m_monitorList.at(index.row()).m_screen->geometry();
+            return m_monitorList.at(row).m_screen->geometry();
         case MonitorRole::Model:
-            return m_monitorList.at(index.row()).m_screen->model();
+            return m_monitorList.at(row).m_screen->model();
         case MonitorRole::Manufacturer:
-            return m_monitorList.at(index.row()).m_screen->manufacturer();
+            return m_monitorList.at(row).m_screen->manufacturer();
         case MonitorRole::PreviewImage:
-            if (m_monitorList.at(index.row()).m_activeWallpaper) {
-                return m_monitorList.at(index.row()).m_activeWallpaper->previewImage();
+            if (m_monitorList.at(row).m_activeWallpaper) {
+                QString absolutePath =  m_monitorList.at(row).m_activeWallpaper->absolutePath();
+                return absolutePath + "/" +  m_monitorList.at(row).m_activeWallpaper->previewImage();
             } else {
                 return QVariant("");
             }

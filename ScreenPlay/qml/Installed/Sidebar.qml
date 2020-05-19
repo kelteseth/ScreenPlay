@@ -6,7 +6,7 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
 
 import ScreenPlay 1.0
-import Settings 1.0
+import ScreenPlayEnums 1.0
 
 import "../Monitors"
 import "../Common" as SP
@@ -19,7 +19,28 @@ Item {
 
     property real navHeight
     property string type
+    property var typeEnum: ScreenPlayEnums.QMLWallpaper
     property string activeScreen
+
+    function isWallpaper() {
+        if (typeEnum === ScreenPlayEnums.VideoWallpaper
+                || typeEnum === ScreenPlayEnums.HTMLWallpaper
+                || typeEnum === ScreenPlayEnums.QMLWallpaper) {
+            return true
+        } else {
+            return false
+        }
+    }
+
+    function isWidget() {
+
+        if (typeEnum === ScreenPlayEnums.HTMLWidget
+                || typeEnum === ScreenPlayEnums.QMLWidget) {
+            return true
+        } else {
+            return false
+        }
+    }
 
     function indexOfValue(model, value) {
 
@@ -47,22 +68,27 @@ Item {
 
             switch (type) {
             case "videoWallpaper":
+                root.typeEnum = ScreenPlayEnums.VideoWallpaper
                 state = "videoWallpaper"
                 return
             case "htmlWallpaper":
                 state = "activeScene"
+                root.typeEnum = ScreenPlayEnums.HTMLWallpaper
                 return
             case "qmlWallpaper":
                 state = "activeScene"
+                root.typeEnum = ScreenPlayEnums.QMLWallpaper
                 return
             case "godotWallpaper":
                 state = "activeScene"
                 return
             case "qmlWidget":
                 state = "activeWidget"
+                root.typeEnum = ScreenPlayEnums.QMLWidget
                 return
             case "htmlWidget":
                 state = "activeWidget"
+                root.typeEnum = ScreenPlayEnums.HTMLWidget
                 return
             case "standaloneWidget":
                 state = "activeWidget"
@@ -297,19 +323,19 @@ Item {
 
 
                         model: [{
-                                "value": Settings.Stretch,
+                                "value": ScreenPlayEnums.Stretch,
                                 "text": qsTr("Stretch")
                             }, {
-                                "value": Settings.Fill,
+                                "value": ScreenPlayEnums.Fill,
                                 "text": qsTr("Fill")
                             }, {
-                                "value": Settings.Contain,
+                                "value": ScreenPlayEnums.Contain,
                                 "text": qsTr("Contain")
                             }, {
-                                "value": Settings.Cover,
+                                "value": ScreenPlayEnums.Cover,
                                 "text": qsTr("Cover")
                             }, {
-                                "value": Settings.Scale_Down,
+                                "value": ScreenPlayEnums.Scale_Down,
                                 "text": qsTr("Scale-Down")
                             }]
                     }
@@ -327,11 +353,12 @@ Item {
                 icon.width: 16
                 icon.height: 16
                 enabled: {
-                    if (type.endsWith("Wallpaper")) {
+                    if (root.isWallpaper()) {
                         if (monitorSelection.activeMonitors.length > 0) {
                             return true
                         }
-                    } else if (type.endsWith("Widget")) {
+                    }
+                    if (root.isWidget()) {
                         return true
                     }
                     return false
@@ -344,7 +371,7 @@ Item {
                 }
 
                 onClicked: {
-                    if (type.endsWith("Wallpaper")) {
+                    if (root.isWallpaper()) {
                         let activeMonitors = monitorSelection.getActiveMonitors(
                                 )
 
@@ -353,17 +380,24 @@ Item {
                             return
 
                         ScreenPlay.screenPlayManager.createWallpaper(
-                                    activeMonitors, ScreenPlay.globalVariables.localStoragePath
-                                    + "/" + activeScreen,
+                                    root.typeEnum,
+                                    cbVideoFillMode.currentValue,
+                                    ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
                                     ScreenPlay.installedListModel.get(activeScreen).screenPreview,
-                                    (Math.round(sliderVolume.value * 100) / 100),
-                                    cbVideoFillMode.currentText, type)
-                    } else {
+                                    ScreenPlay.installedListModel.get(activeScreen).screenFile,
+                                    activeMonitors,
+                                    (Math.round( sliderVolume.value * 100) / 100),
+                                    true)
+
+                    }
+                    else if(root.isWidget())
+                    {
                         ScreenPlay.screenPlayManager.createWidget(
                                     ScreenPlay.globalVariables.localStoragePath
                                     + "/" + activeScreen,
                                     ScreenPlay.installedListModel.get(
-                                        activeScreen).screenPreview, type)
+                                        activeScreen).screenPreview,
+                                    typeEnum)
                     }
                     root.state = "inactive"
                     monitorSelection.deselectAll()

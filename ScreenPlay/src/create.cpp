@@ -17,7 +17,7 @@ namespace ScreenPlay {
 /*!
   Constructor.
 */
-Create::Create(const shared_ptr<GlobalVariables>& globalVariables, QObject* parent)
+Create::Create(const std::shared_ptr<GlobalVariables>& globalVariables, QObject* parent)
     : QObject(parent)
     , m_globalVariables(globalVariables)
 

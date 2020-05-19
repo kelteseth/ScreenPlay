@@ -17,7 +17,7 @@ namespace ScreenPlay {
 */
 SDKConnector::SDKConnector(QObject* parent)
     : QObject(parent)
-    , m_server { make_unique<QLocalServer>() }
+    , m_server { std::make_unique<QLocalServer>() }
 {
 
     if (isAnotherScreenPlayInstanceRunning()) {
@@ -60,7 +60,7 @@ bool SDKConnector::isAnotherScreenPlayInstanceRunning()
 */
 void SDKConnector::newConnection()
 {
-    auto connection = make_shared<SDKConnection>(m_server->nextPendingConnection());
+    auto connection = std::make_shared<SDKConnection>(m_server->nextPendingConnection());
     // Because user can close widgets by pressing x the widgets must send us the event
     QObject::connect(connection.get(), &SDKConnection::requestDecreaseWidgetCount, this, &SDKConnector::requestDecreaseWidgetCount);
     QObject::connect(connection.get(), &SDKConnection::requestRaise, this, &SDKConnector::requestRaise);
@@ -76,6 +76,7 @@ void SDKConnector::closeAllConnections()
         client->close();
     }
     m_clients.clear();
+    m_clients.squeeze();
 }
 
 /*!
@@ -132,38 +133,18 @@ void SDKConnector::closeConntectionByType(const QStringList& list)
 }
 
 /*!
- \brief Closes a wallpaper at the given \a index. The native monitor index is used here.
- On Windows the monitor 0 is the main display.
-*/
-void SDKConnector::closeWallpapersAt(int at)
-{
-    for (const shared_ptr<SDKConnection>& refSDKConnection : qAsConst(m_clients)) {
-        refSDKConnection->close();
-        if (!refSDKConnection->monitor().empty()) {
-            if (refSDKConnection->monitor().at(0) == at) {
-                refSDKConnection->close();
-                qDebug() << "Wall Closed...!";
-            } else {
-                qDebug() << "COULD NOT CLOSE!";
-            }
-        } else {
-            qDebug() << "no wp window ";
-        }
-    }
-}
-
-/*!
   \brief Closes a wallpaper by the given \a appID.
 */
-void SDKConnector::closeWallpaper(const QString& appID)
+bool SDKConnector::closeWallpaper(const QString& appID)
 {
-    for (auto& item : m_clients) {
-        if (item->appID() == appID) {
-            item->close();
-            m_clients.removeOne(item);
-            return;
+    for (auto& client : m_clients) {
+        if (client->appID() == appID) {
+            client->close();
+            m_clients.removeOne(client);
+            return true;
         }
     }
+    return false;
 }
 
 /*!

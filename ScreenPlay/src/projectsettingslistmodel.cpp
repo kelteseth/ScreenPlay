@@ -58,14 +58,16 @@ QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) cons
     if (!index.isValid())
         return QVariant();
 
-    if (index.row() < rowCount())
+    const int row = rowCount();
+
+    if (row < rowCount())
         switch (role) {
         case NameRole:
-            return m_projectSettings.at(index.row()).m_name;
+            return m_projectSettings.at(row).m_name;
         case IsHeadlineRole:
-            return m_projectSettings.at(index.row()).m_isHeadline;
+            return m_projectSettings.at(row).m_isHeadline;
         case ValueRole:
-            return m_projectSettings.at(index.row()).m_value;
+            return m_projectSettings.at(row).m_value;
         default:
             return QVariant();
         }
@@ -89,37 +91,25 @@ QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
  */
 void ProjectSettingsListModel::init(QString file)
 {
-    QFile configTmp;
-    configTmp.setFileName(file);
-    QJsonDocument configJsonDocument;
-    QJsonParseError parseError;
-    QJsonObject obj;
+    if (auto config = Util::openJsonFileToObject(file)) {
 
-    configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString config = configTmp.readAll();
-    configJsonDocument = QJsonDocument::fromJson(config.toUtf8(), &parseError);
+        QJsonObject obj = *config;
+        QJsonObject tmpParent;
 
-    if (!(parseError.error == QJsonParseError::NoError)) {
-        qWarning("Settings Json Parse Error ");
-        return;
-    }
+        if (obj.contains("properties")) {
+            tmpParent = obj.value("properties").toObject();
+        } else {
+            return;
+        }
 
-    obj = configJsonDocument.object();
-    QJsonObject tmpParent;
+        QJsonObject::iterator itParent, itChild;
+        for (itParent = tmpParent.begin(); itParent != tmpParent.end(); itParent++) {
+            QJsonObject tmpChildObj = tmpParent.value(itParent.key()).toObject();
+            append(itParent.key(), true, "");
 
-    if (obj.contains("properties")) {
-        tmpParent = obj.value("properties").toObject();
-    } else {
-        return;
-    }
-
-    QJsonObject::iterator itParent, itChild;
-    for (itParent = tmpParent.begin(); itParent != tmpParent.end(); itParent++) {
-        QJsonObject tmpChildObj = tmpParent.value(itParent.key()).toObject();
-        append(itParent.key(), true, "");
-
-        for (itChild = tmpChildObj.begin(); itChild != tmpChildObj.end(); itChild++) {
-            append(itChild.key(), false, QJsonDocument(tmpChildObj.value(itChild.key()).toObject()).toJson());
+            for (itChild = tmpChildObj.begin(); itChild != tmpChildObj.end(); itChild++) {
+                append(itChild.key(), false, QJsonDocument(tmpChildObj.value(itChild.key()).toObject()).toJson());
+            }
         }
     }
 }

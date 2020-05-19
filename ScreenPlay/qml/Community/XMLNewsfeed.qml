@@ -3,7 +3,8 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
-import QtQuick.XmlListModel 2.0
+import QtQuick.XmlListModel 2.15
+import ScreenPlay 1.0
 
 GridView {
     id: changelogFlickableWrapper
@@ -12,40 +13,32 @@ GridView {
     flickDeceleration: 5000
     cellHeight: 205
     cellWidth: 360
+    clip: true
     model: feedModel
+    onCountChanged: print("count ",count)
 
-    Timer {
-        interval: 200
-        running: true
-        repeat: false
-        onTriggered: {
-            feedModel.source = "https://screen-play.app/index.php?option=com_content&view=category&layout=blog&id=10&format=feed&type=rss"
-        }
-    }
 
     XmlListModel {
         id: feedModel
-
-        query: "/rss/channel/item"
+        namespaceDeclarations: "declare default element namespace 'http://www.w3.org/2005/Atom';"
+        onProgressChanged: print("progress ",progress)
+        source: "https://gitlab.com/kelteseth/ScreenPlay/-/tags?&format=atom"
+        query: "/entry"
         XmlRole {
             name: "title"
             query: "title/string()"
         }
         XmlRole {
-            name: "backgroundImage"
-            query: "description/string()"
+            name: "content"
+            query: "content/string()"
         }
         XmlRole {
             name: "link"
             query: "link/string()"
         }
         XmlRole {
-            name: "pubDate"
-            query: "pubDate/string()"
-        }
-        XmlRole {
-            name: "category"
-            query: "category/string()"
+            name: "updated"
+            query: "updated/string()"
         }
     }
 
@@ -98,35 +91,6 @@ GridView {
             anchors.margins: 5
             radius: 4
 
-            Image {
-                fillMode: Image.PreserveAspectCrop
-                anchors.fill: parent
-                source: {
-                    var a = backgroundImage
-                    var r = new RegExp(/<img[^>]+src="([^">]+)"/)
-                    var url = r.exec(a)
-                    return url[1].toString()
-                }
-            }
-
-            LinearGradient {
-                visible: true
-                opacity: .5
-                anchors.fill: parent
-                start: Qt.point(0, parent.height)
-                end: Qt.point(0, parent.height - 150)
-                gradient: Gradient {
-                    GradientStop {
-                        position: 0.0
-                        color: "#BB000000"
-                    }
-                    GradientStop {
-                        position: 1.0
-                        color: "#00000000"
-                    }
-                }
-            }
-
             Text {
                 id: txtTitle
                 text: title
@@ -137,7 +101,7 @@ GridView {
                     left: parent.left
                     margins: 20
                 }
-                color: "white"
+                color: "#333333"
                 font.family: ScreenPlay.settings.font
                 font.weight: Font.Normal
                 font.pointSize: 18
@@ -145,9 +109,7 @@ GridView {
             }
             Text {
                 id: txtPubDate
-                text: {
-                    return pubDate.replace("+0000", "")
-                }
+                text: updated
                 anchors {
                     right: parent.right
                     rightMargin: 20

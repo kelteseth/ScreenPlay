@@ -76,7 +76,7 @@ Item {
             font.family: ScreenPlay.settings.font
             opacity: buttonActive ? 1 : .25
             font.pointSize: 14
-            color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
+            color: Material.foreground
             wrapMode:  Text.WrapAnywhere
             maximumLineCount: 1
 

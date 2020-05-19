@@ -16,7 +16,7 @@ namespace ScreenPlay {
   \brief Constructor.
 */
 InstalledListModel::InstalledListModel(
-    const shared_ptr<GlobalVariables>& globalVariables,
+    const std::shared_ptr<GlobalVariables>& globalVariables,
     QObject* parent)
     : QAbstractListModel(parent)
     , m_globalVariables { globalVariables }

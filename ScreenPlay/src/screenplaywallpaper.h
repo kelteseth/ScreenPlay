@@ -1,5 +1,40 @@
+/****************************************************************************
+**
+** Copyright (C) 2020 Elias Steurer (Kelteseth)
+** Contact: https://screen-play.app
+**
+** This file is part of ScreenPlay. ScreenPlay is licensed under a dual license in
+** order to ensure its sustainability. When you contribute to ScreenPlay
+** you accept that your work will be available under the two following licenses:
+**
+** $SCREENPLAY_BEGIN_LICENSE$
+**
+** #### Affero General Public License Usage (AGPLv3)
+** Alternatively, this file may be used under the terms of the GNU Affero
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file "ScreenPlay License.md" included in the
+** packaging of this App. Please review the following information to
+** ensure the GNU Affero Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/agpl-3.0.en.html.
+**
+** #### Commercial License
+** This code is owned by Elias Steurer. By changing/adding to the code you agree to the
+** terms written in:
+**  * Legal/corporate_contributor_license_agreement.md - For corporate contributors
+**  * Legal/individual_contributor_license_agreement.md - For individual contributors
+**
+** #### Additional Limitations to the AGPLv3 and Commercial Lincese
+** This License does not grant any rights in the trademarks,
+** service marks, or logos.
+**
+**
+** $SCREENPLAY_END_LICENSE$
+**
+****************************************************************************/
+
 #pragma once
 
+#include <QDebug>
 #include <QJsonObject>
 #include <QObject>
 #include <QProcess>
@@ -11,45 +46,55 @@
 
 namespace ScreenPlay {
 
-using std::shared_ptr,
-    std::make_shared;
-
 class ScreenPlayWallpaper : public QObject {
     Q_OBJECT
 
     Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
 
+    Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
+
+    Q_PROPERTY(bool isLooping READ isLooping WRITE setIsLooping NOTIFY isLoopingChanged)
+
     Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged)
-    Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
     Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
-    Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
-    Q_PROPERTY(QJsonObject profileJsonObject READ profileJsonObject WRITE setProfileJsonObject NOTIFY profileJsonObjectChanged)
+
+    Q_PROPERTY(Enums::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
+    Q_PROPERTY(Enums::WallpaperType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
-    explicit ScreenPlayWallpaper(const QVector<int>& screenNumber,
-        const shared_ptr<GlobalVariables>& globalVariables,
+    explicit ScreenPlayWallpaper(
+        const QVector<int>& screenNumber,
+        const std::shared_ptr<GlobalVariables>& globalVariables,
         const QString& appID,
         const QString& absolutePath,
         const QString& previewImage,
+        const QString& file,
         const float volume,
-        const QString& fillMode,
-        const QString& type,
+        const Enums::FillMode fillMode,
+        const Enums::WallpaperType type,
         const bool checkWallpaperVisible,
         QObject* parent = nullptr);
 
     explicit ScreenPlayWallpaper(
         const QVector<int>& screenNumber,
-        const shared_ptr<GlobalVariables>& globalVariables,
+        const std::shared_ptr<GlobalVariables>& globalVariables,
         const QString& appID,
         const QString& absolutePath,
         const QString& previewImage,
-        const QString& type,
+        const Enums::WallpaperType type,
         const QJsonObject& profileJsonObject,
         QObject* parent = nullptr);
 
-    const shared_ptr<ProjectSettingsListModel>& projectSettingsListModel() const
+    ~ScreenPlayWallpaper()
+    {
+        qInfo() << "Remove wallpaper" << absolutePath() << " at monitor: " << screenNumber();
+    }
+
+    QJsonObject getActiveSettingsJson();
+
+    const std::shared_ptr<ProjectSettingsListModel>& projectSettingsListModel() const
     {
         return m_projectSettingsListModel;
     }
@@ -69,7 +114,7 @@ public:
         return m_appID;
     }
 
-    QString type() const
+    Enums::WallpaperType type() const
     {
         return m_type;
     }
@@ -79,7 +124,7 @@ public:
         return m_file;
     }
 
-    QString fillMode() const
+    Enums::FillMode fillMode() const
     {
         return m_fillMode;
     }
@@ -89,20 +134,27 @@ public:
         return m_absolutePath;
     }
 
-    QJsonObject profileJsonObject() const
+    float volume() const
     {
-        return m_profileJsonObject;
+        return m_volume;
+    }
+
+    bool isLooping() const
+    {
+        return m_isLooping;
     }
 
 signals:
     void screenNumberChanged(QVector<int> screenNumber);
     void previewImageChanged(QString previewImage);
     void appIDChanged(QString appID);
-    void typeChanged(QString type);
+    void typeChanged(Enums::WallpaperType type);
     void fileChanged(QString file);
-    void fillModeChanged(QString fillMode);
+    void fillModeChanged(Enums::FillMode fillMode);
     void absolutePathChanged(QString absolutePath);
     void profileJsonObjectChanged(QJsonObject profileJsonObject);
+    void volumeChanged(float volume);
+    void isLoopingChanged(bool isLooping);
 
 public slots:
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
@@ -135,7 +187,7 @@ public slots:
         emit appIDChanged(m_appID);
     }
 
-    void setType(QString type)
+    void setType(Enums::WallpaperType type)
     {
         if (m_type == type)
             return;
@@ -153,7 +205,7 @@ public slots:
         emit fileChanged(m_file);
     }
 
-    void setFillMode(QString fillMode)
+    void setFillMode(Enums::FillMode fillMode)
     {
         if (m_fillMode == fillMode)
             return;
@@ -171,29 +223,42 @@ public slots:
         emit absolutePathChanged(m_absolutePath);
     }
 
-    void setProfileJsonObject(QJsonObject profileJsonObject)
+    void setVolume(float volume)
     {
-        if (m_profileJsonObject == profileJsonObject)
+        if (volume < 0.0f || volume > 1.0f)
             return;
 
-        m_profileJsonObject = profileJsonObject;
-        emit profileJsonObjectChanged(m_profileJsonObject);
+        if (qFuzzyCompare(m_volume, volume))
+            return;
+
+        m_volume = volume;
+        emit volumeChanged(m_volume);
+    }
+
+    void setIsLooping(bool isLooping)
+    {
+        if (m_isLooping == isLooping)
+            return;
+
+        m_isLooping = isLooping;
+        emit isLoopingChanged(m_isLooping);
     }
 
 private:
     QProcess m_process;
 
-    shared_ptr<ProjectSettingsListModel> m_projectSettingsListModel;
-    const shared_ptr<GlobalVariables>& m_globalVariables;
+    std::shared_ptr<ProjectSettingsListModel> m_projectSettingsListModel;
+    const std::shared_ptr<GlobalVariables>& m_globalVariables;
 
     QVector<int> m_screenNumber;
 
     QString m_previewImage;
-    QString m_type;
+    Enums::WallpaperType m_type;
+    Enums::FillMode m_fillMode;
     QString m_appID;
-    QString m_file;
-    QString m_fillMode;
     QString m_absolutePath;
-    QJsonObject m_profileJsonObject;
+    QString m_file;
+    float m_volume { 1.0f };
+    bool m_isLooping { true };
 };
 }

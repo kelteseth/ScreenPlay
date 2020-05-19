@@ -29,10 +29,20 @@ void ScreenPlaySDK::init()
     m_socket.setServerName("ScreenPlay");
     connect(&m_socket, &QLocalSocket::connected, this, &ScreenPlaySDK::connected);
     connect(&m_socket, &QLocalSocket::disconnected, this, &ScreenPlaySDK::disconnected);
-    connect(&m_socket, &QLocalSocket::bytesWritten, this, &ScreenPlaySDK::bytesWritten);
     connect(&m_socket, &QLocalSocket::readyRead, this, &ScreenPlaySDK::readyRead);
     connect(&m_socket, QOverload<QLocalSocket::LocalSocketError>::of(&QLocalSocket::error), this, &ScreenPlaySDK::error);
     m_socket.connectToServer();
+
+    // If the wallpaper never connects it will never get the
+    // disconnect event. We can savely assume no connection will
+    // be made after 1 second timeout.
+    QTimer::singleShot(1000,[this](){
+        if(m_socket.state() != QLocalSocket::ConnectedState){
+           m_socket.disconnectFromServer();
+           emit sdkDisconnected();
+        }
+    });
+
 }
 
 ScreenPlaySDK::~ScreenPlaySDK()
@@ -56,14 +66,9 @@ void ScreenPlaySDK::disconnected()
     emit sdkDisconnected();
 }
 
-void ScreenPlaySDK::bytesWritten(qint64 bytes)
-{
-}
-
 void ScreenPlaySDK::readyRead()
 {
     QString tmp = m_socket.readAll();
-    //qDebug() << "SDK MESSAGE RECEIVED: " << tmp;
     QJsonParseError err;
     auto doc = QJsonDocument::fromJson(QByteArray::fromStdString(tmp.toStdString()), &err);
 
@@ -95,32 +100,14 @@ void ScreenPlaySDK::redirectMessage(QByteArray& msg)
 
 void ScreenPlaySDK::ScreenPlaySDK::redirectMessageOutputToMainWindow(QtMsgType type, const QMessageLogContext& context, const QString& msg)
 {
+    Q_UNUSED(type)
+
     if (global_sdkPtr == nullptr)
         return;
 
     QByteArray localMsg = msg.toLocal8Bit();
     QByteArray file = "File: " + QByteArray(context.file) + ", ";
     QByteArray line = "in line " + QByteArray::number(context.line) + ", ";
-    //QByteArray function = "function " + QByteArray(context.function) + ", Message: ";
 
-    //localMsg = file + line +  localMsg;
     global_sdkPtr->redirectMessage(localMsg);
-
-    switch (type) {
-    case QtDebugMsg:
-        //localMsg = " SDK START: " /*+  QByteArray::fromStdString(global_sdkPtr->contentType().toStdString()) + " "*/ + localMsg;
-        break;
-    case QtInfoMsg:
-        //fprintf(stderr, "Info: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
-        break;
-    case QtWarningMsg:
-        //fprintf(stderr, "Warning: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
-        break;
-    case QtCriticalMsg:
-        //fprintf(stderr, "Critical: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
-        break;
-    case QtFatalMsg:
-        //(stderr, "Fatal: %s (%s:%u, %s)\n", localMsg.constData(), context.file, context.line, context.function);
-        break;
-    }
 }

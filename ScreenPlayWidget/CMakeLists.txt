@@ -1,22 +1,29 @@
-cmake_minimum_required(VERSION 3.16.0)
 project(ScreenPlayWidget)
-set(CMAKE_INCLUDE_CURRENT_DIR ON)
+
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
-find_package(Qt5Qml)
-find_package(Qt5Quick)
-find_package(Qt5Gui)
-find_package(Qt5Widgets)
-find_package(Qt5Core)
+
+find_package(
+  Qt5
+  COMPONENTS Quick
+             Widgets
+             Gui
+             WebEngine
+  REQUIRED)
+
 set(src main.cpp
 	src/widgetwindow.cpp)
-set(headers src/widgetwindow.h)
-set(resources SPWidgetResources.qrc)
-add_executable(ScreenPlayWidget ${src} ${headers} ${resources})
 
-target_link_libraries( ScreenPlayWidget
+set(headers
+    src/widgetwindow.h)
+
+set(resources
+    SPWidgetResources.qrc)
+
+add_executable(${PROJECT_NAME} ${src} ${headers} ${resources})
+
+target_link_libraries(${PROJECT_NAME}
     PRIVATE
-    Qt5::Qml
     Qt5::Quick
     Qt5::Gui
     Qt5::Widgets

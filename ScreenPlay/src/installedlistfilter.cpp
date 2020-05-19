@@ -14,7 +14,7 @@ namespace ScreenPlay {
   \brief Sets the default role type to "All" to display all available content. Needs a given
   \a ilm (InstalledListModel).
 */
-InstalledListFilter::InstalledListFilter(const shared_ptr<InstalledListModel>& ilm)
+InstalledListFilter::InstalledListFilter(const std::shared_ptr<InstalledListModel>& ilm)
     : QSortFilterProxyModel()
     , m_ilm(ilm)
 {

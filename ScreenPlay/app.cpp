@@ -44,14 +44,13 @@ namespace ScreenPlay {
 App::App()
     : QObject(nullptr)
 {
-
     QGuiApplication::setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion("0.10.1");
     QGuiApplication::setQuitOnLastWindowClosed(false);
-    
+
 #ifdef Q_OS_WINDOWS
     QtBreakpad::init(QDir::current().absolutePath());
 #endif
@@ -87,6 +86,18 @@ App::App()
     qRegisterMetaType<InstalledListFilter*>();
     qRegisterMetaType<MonitorListModel*>();
     qRegisterMetaType<ProfileListModel*>();
+    qRegisterMetaType<Enums::FillMode>();
+    qRegisterMetaType<Enums::WallpaperType>();
+    qRegisterMetaType<Enums::WidgetType>();
+
+    // Registers the enums from globalvariables.
+    // Apparently this is the only way for qml to work
+    // https://www.kdab.com/new-qt-5-8-meta-object-support-namespaces/
+    qmlRegisterUncreatableMetaObject(ScreenPlay::Enums::staticMetaObject,
+        "ScreenPlayEnums",
+        1, 0,
+        "ScreenPlayEnums",
+        "Error: only enums");
 
     qmlRegisterAnonymousType<GlobalVariables>("ScreenPlay", 1);
     qmlRegisterAnonymousType<ScreenPlayManager>("ScreenPlay", 1);
@@ -96,7 +107,7 @@ App::App()
     qmlRegisterAnonymousType<SDKConnector>("ScreenPlay", 1);
 
     // SDKConnect first to check if another ScreenPlay Instace is running
-    m_sdkConnector = make_shared<SDKConnector>();
+    m_sdkConnector = std::make_shared<SDKConnector>();
     m_isAnotherScreenPlayInstanceRunning = m_sdkConnector->m_isAnotherScreenPlayInstanceRunning;
 }
 
@@ -108,10 +119,12 @@ App::App()
 */
 void App::init()
 {
+    using std::make_shared, std::make_unique;
+
     // Util should be created as first so we redirect qDebugs etc. into the log
+    m_globalVariables = make_shared<GlobalVariables>();
     auto* nam = new QNetworkAccessManager(this);
     m_util = make_unique<Util>(nam);
-    m_globalVariables = make_shared<GlobalVariables>();
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables);
     m_installedListFilter = make_shared<InstalledListFilter>(m_installedListModel);
     m_monitorListModel = make_shared<MonitorListModel>();

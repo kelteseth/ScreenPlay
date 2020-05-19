@@ -1,5 +1,41 @@
+/****************************************************************************
+**
+** Copyright (C) 2020 Elias Steurer (Kelteseth)
+** Contact: https://screen-play.app
+**
+** This file is part of ScreenPlay. ScreenPlay is licensed under a dual license in
+** order to ensure its sustainability. When you contribute to ScreenPlay
+** you accept that your work will be available under the two following licenses:
+**
+** $SCREENPLAY_BEGIN_LICENSE$
+**
+** #### Affero General Public License Usage (AGPLv3)
+** Alternatively, this file may be used under the terms of the GNU Affero
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file "ScreenPlay License.md" included in the
+** packaging of this App. Please review the following information to
+** ensure the GNU Affero Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/agpl-3.0.en.html.
+**
+** #### Commercial License
+** This code is owned by Elias Steurer. By changing/adding to the code you agree to the
+** terms written in:
+**  * Legal/corporate_contributor_license_agreement.md - For corporate contributors
+**  * Legal/individual_contributor_license_agreement.md - For individual contributors
+**
+** #### Additional Limitations to the AGPLv3 and Commercial Lincese
+** This License does not grant any rights in the trademarks,
+** service marks, or logos.
+**
+**
+** $SCREENPLAY_END_LICENSE$
+**
+****************************************************************************/
+
 #pragma once
+
 #include <QObject>
+#include <QQmlEngine>
 #include <QStandardPaths>
 #include <QUrl>
 #include <QVersionNumber>
@@ -15,6 +51,34 @@ namespace ScreenPlay {
 
 */
 
+namespace Enums {
+    Q_NAMESPACE
+
+    enum class FillMode {
+        Stretch,
+        Fill,
+        Contain,
+        Cover,
+        Scale_Down
+    };
+    Q_ENUM_NS(FillMode)
+
+
+    enum class WallpaperType {
+        VideoWallpaper,
+        QMLWallpaper,
+        HTMLWallpaper
+    };
+    Q_ENUM_NS(WallpaperType)
+
+    enum class WidgetType {
+        QMLWidget,
+        HTMLWidget
+    };
+    Q_ENUM_NS(WidgetType)
+
+}
+
 class GlobalVariables : public QObject {
     Q_OBJECT
 
@@ -25,13 +89,13 @@ class GlobalVariables : public QObject {
     Q_PROPERTY(QUrl widgetExecutablePath READ widgetExecutablePath WRITE setWidgetExecutablePath NOTIFY widgetExecutablePathChanged)
 
 public:
-    explicit GlobalVariables(QObject* parent = nullptr)
-        : QObject(parent)
-    {
-        setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::DataLocation) });
-    }
+    explicit GlobalVariables(QObject* parent = nullptr);
+
+
+
 
     /*!
+        \property GlobalVariables::localStoragePath
         \brief Returns the localStoragePath.
     */
     QUrl localStoragePath() const
@@ -39,6 +103,7 @@ public:
         return m_localStoragePath;
     }
     /*!
+        \property GlobalVariables::localSettingsPath
         \brief Returns the localSettingsPath.
     */
     QUrl localSettingsPath() const
@@ -46,6 +111,7 @@ public:
         return m_localSettingsPath;
     }
     /*!
+        \property GlobalVariables::wallpaperExecutablePath
         \brief  Returns the wallpaperExecutablePath. This only differes in development builds.
     */
     QUrl wallpaperExecutablePath() const
@@ -53,6 +119,7 @@ public:
         return m_wallpaperExecutablePath;
     }
     /*!
+        \property GlobalVariables::widgetExecutablePath
         \brief Returns the widgetExecutablePath. This only differes in development builds.
     */
     QUrl widgetExecutablePath() const
@@ -60,6 +127,7 @@ public:
         return m_widgetExecutablePath;
     }
     /*!
+        \property GlobalVariables::m_version
         \brief Returns the current app version. Not yet used.
     */
     QVersionNumber version() const

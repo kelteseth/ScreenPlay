@@ -5,7 +5,7 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
-import Settings 1.0
+
 import ScreenPlay 1.0
 
 Rectangle {

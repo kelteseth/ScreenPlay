@@ -1,4 +1,5 @@
-import QtQuick 2.12
+import QtQuick 2.14
+import QtQuick.Controls 2.14
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
@@ -18,7 +19,7 @@ Rectangle {
     property bool multipleMonitorsSelectable: true
 
     // We preselect the main monitor
-    property var activeMonitors:[0]
+    property var activeMonitors: [0]
 
     property alias background: rect.color
     property alias radius: rect.radius
@@ -30,38 +31,36 @@ Rectangle {
     }
 
     Connections {
-        target:  ScreenPlay.monitorListModel
+        target: ScreenPlay.monitorListModel
         function onMonitorReloadCompleted() {
             resize()
         }
     }
 
-    function deselectOthers(index){
+    function deselectOthers(index) {
         for (var i = 0; i < rp.count; i++) {
 
-            if(i === index){
+            if (i === index) {
                 rp.itemAt(i).isSelected = true
-                continue;
+                continue
             }
             rp.itemAt(i).isSelected = false
-
         }
-
     }
 
-    function deselectAll(){
+    function deselectAll() {
         for (var i = 0; i < rp.count; i++) {
             rp.itemAt(i).isSelected = false
         }
         getActiveMonitors()
     }
 
-    function getActiveMonitors(){
+    function getActiveMonitors() {
         rect.activeMonitors = []
         for (var i = 0; i < rp.count; i++) {
-             if(rp.itemAt(i).isSelected){
-                 rect.activeMonitors.push(rp.itemAt(i).index)
-             }
+            if (rp.itemAt(i).isSelected) {
+                rect.activeMonitors.push(rp.itemAt(i).index)
+            }
         }
         // Must be called manually. When QML properties are getting altered in js the
         // property binding breaks
@@ -71,7 +70,7 @@ Rectangle {
 
     function resize() {
 
-        var absoluteDesktopSize =  ScreenPlay.monitorListModel.getAbsoluteDesktopSize()
+        var absoluteDesktopSize = ScreenPlay.monitorListModel.getAbsoluteDesktopSize()
         var isWidthGreaterThanHeight = false
         var windowsDelta = 0
 
@@ -104,44 +103,52 @@ Rectangle {
             rp.itemAt(i).width = rp.itemAt(i).width * monitorWidthRationDelta
             rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta
             rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta
-
         }
     }
 
-    Repeater {
-        id: rp
+    Flickable {
         anchors.fill: parent
-        model:  ScreenPlay.monitorListModel
+        ScrollBar.vertical: ScrollBar {
+            snapMode: ScrollBar.SnapOnRelease
+        }
+        ScrollBar.horizontal: ScrollBar {
+            snapMode: ScrollBar.SnapOnRelease
+        }
 
-        Component.onCompleted: rp.itemAt(0).isSelected = true
+        Repeater {
+            id: rp
+            model: ScreenPlay.monitorListModel
 
-        delegate: MonitorSelectionItem {
-            id: delegate
-            monitorID: m_monitorID
-            monitorName: m_name
-            height: m_availableGeometry.height
-            width: m_availableGeometry.width
-            x: m_availableGeometry.x
-            y: m_availableGeometry.y
-            monitorManufacturer: m_manufacturer
-            monitorModel: m_model
-            monitorSize: m_availableGeometry
-            fontSize: rect.fontSize
-            index: m_number
-            previewImage: m_previewImage
+            Component.onCompleted: rp.itemAt(0).isSelected = true
 
-            onMonitorSelected: {
+            delegate: MonitorSelectionItem {
+                id: delegate
+                monitorID: m_monitorID
+                monitorName: m_name
+                height: m_availableGeometry.height
+                width: m_availableGeometry.width
+                x: m_availableGeometry.x
+                y: m_availableGeometry.y
+                monitorManufacturer: m_manufacturer
+                monitorModel: m_model
+                monitorSize: m_availableGeometry
+                fontSize: rect.fontSize
+                index: m_number
+                previewImage: m_previewImage
 
-                if(!multipleMonitorsSelectable){
-                    deselectOthers(index)
-                } else {
-                      rp.itemAt(index).isSelected = !rp.itemAt(index).isSelected
+                onMonitorSelected: {
+
+                    if (!multipleMonitorsSelectable) {
+                        deselectOthers(index)
+                    } else {
+                        rp.itemAt(index).isSelected = !rp.itemAt(
+                                    index).isSelected
+                    }
+
+                    getActiveMonitors()
+
+                    requestProjectSettings(index)
                 }
-
-
-                getActiveMonitors()
-
-                requestProjectSettings(index)
             }
         }
     }

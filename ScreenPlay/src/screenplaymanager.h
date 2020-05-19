@@ -1,3 +1,37 @@
+/****************************************************************************
+**
+** Copyright (C) 2020 Elias Steurer (Kelteseth)
+** Contact: https://screen-play.app
+**
+** This file is part of ScreenPlay. ScreenPlay is licensed under a dual license in
+** order to ensure its sustainability. When you contribute to ScreenPlay
+** you accept that your work will be available under the two following licenses:
+**
+** $SCREENPLAY_BEGIN_LICENSE$
+**
+** #### Affero General Public License Usage (AGPLv3)
+** Alternatively, this file may be used under the terms of the GNU Affero
+** General Public License version 3 as published by the Free Software
+** Foundation and appearing in the file "ScreenPlay License.md" included in the
+** packaging of this App. Please review the following information to
+** ensure the GNU Affero Lesser General Public License version 3 requirements
+** will be met: https://www.gnu.org/licenses/agpl-3.0.en.html.
+**
+** #### Commercial License
+** This code is owned by Elias Steurer. By changing/adding to the code you agree to the
+** terms written in:
+**  * Legal/corporate_contributor_license_agreement.md - For corporate contributors
+**  * Legal/individual_contributor_license_agreement.md - For individual contributors
+**
+** #### Additional Limitations to the AGPLv3 and Commercial Lincese
+** This License does not grant any rights in the trademarks,
+** service marks, or logos.
+**
+**
+** $SCREENPLAY_END_LICENSE$
+**
+****************************************************************************/
+
 #pragma once
 
 #include <QApplication>
@@ -23,14 +57,6 @@
 
 namespace ScreenPlay {
 
-using std::shared_ptr,
-    std::unique_ptr,
-    std::make_shared,
-    std::make_unique,
-    std::vector,
-    std::size_t,
-    std::remove_if;
-
 class ScreenPlayManager : public QObject {
     Q_OBJECT
 
@@ -39,11 +65,11 @@ class ScreenPlayManager : public QObject {
 
 public:
     explicit ScreenPlayManager(
-        const shared_ptr<GlobalVariables>& globalVariables,
-        const shared_ptr<MonitorListModel>& mlm,
-        const shared_ptr<SDKConnector>& sdkc,
-        const shared_ptr<GAnalytics>& telemetry,
-        const shared_ptr<Settings>& settings,
+        const std::shared_ptr<GlobalVariables>& globalVariables,
+        const std::shared_ptr<MonitorListModel>& mlm,
+        const std::shared_ptr<SDKConnector>& sdkc,
+        const std::shared_ptr<GAnalytics>& telemetry,
+        const std::shared_ptr<Settings>& settings,
         QObject* parent = nullptr);
 
     int activeWallpaperCounter() const
@@ -57,32 +83,35 @@ public:
     }
 
 signals:
-    void projectSettingsListModelFound(ProjectSettingsListModel* li, const QString& type);
-    void projectSettingsListModelNotFound();
+    void projectSettingsListModelResult(const bool found, ProjectSettingsListModel* li = nullptr, const ScreenPlay::Enums::WallpaperType type = ScreenPlay::Enums::WallpaperType::VideoWallpaper);
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
 
 public slots:
-    void createWallpaper(QVector<int> monitorIndex,
+    // moc needs full enum namespace info see QTBUG-58454
+    void createWallpaper(
+        const ScreenPlay::Enums::WallpaperType type,
+        const ScreenPlay::Enums::FillMode fillMode,
         const QString& absoluteStoragePath,
         const QString& previewImage,
+        const QString& file,
+        QVector<int> monitorIndex,
         const float volume,
-        const QString& fillMode,
-        const QString& type, const bool saveToProfilesConfigFile = true);
+        const bool saveToProfilesConfigFile);
 
     void createWidget(
+        const ScreenPlay::Enums::WidgetType type,
         const QUrl& absoluteStoragePath,
-        const QString& previewImage,
-        const QString& type);
+        const QString& previewImage);
 
     void removeAllWallpapers();
     void removeAllWidgets();
-    bool removeWallpaperAt(const int at = 0);
+    bool removeWallpaperAt(const int index);
 
     void requestProjectSettingsListModelAt(const int index);
     void setWallpaperValue(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
-    std::optional<shared_ptr<ScreenPlayWallpaper>> getWallpaperByAppID(const QString& appID);
+    std::optional<std::shared_ptr<ScreenPlayWallpaper>> getWallpaperByAppID(const QString& appID);
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)
     {
@@ -133,18 +162,19 @@ public slots:
     }
 
 private:
-    void loadWallpaperProfiles();
-    bool saveWallpaperProfile(const QString& profileName, const QJsonObject& content);
+    void loadProfiles();
+    bool saveProfiles();
+    [[nodiscard]] bool removeWallpaperByAppID(const QString& appID);
 
 private:
-    const shared_ptr<GlobalVariables>& m_globalVariables;
-    const shared_ptr<MonitorListModel>& m_monitorListModel;
-    const shared_ptr<SDKConnector>& m_sdkconnector;
-    const shared_ptr<GAnalytics>& m_telemetry;
-    const shared_ptr<Settings>& m_settings;
+    const std::shared_ptr<GlobalVariables>& m_globalVariables;
+    const std::shared_ptr<MonitorListModel>& m_monitorListModel;
+    const std::shared_ptr<SDKConnector>& m_sdkconnector;
+    const std::shared_ptr<GAnalytics>& m_telemetry;
+    const std::shared_ptr<Settings>& m_settings;
 
-    QVector<shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
-    QVector<shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
+    QVector<std::shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
+    QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
     int m_activeWallpaperCounter { 0 };
     int m_activeWidgetsCounter { 0 };
 };

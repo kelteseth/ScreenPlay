@@ -5,7 +5,8 @@ import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
 import ScreenPlay 1.0
-import Settings 1.0
+import ScreenPlayEnums 1.0
+
 
 import "../Common/" as SP
 
@@ -85,19 +86,19 @@ ColumnLayout {
 
 
             model: [{
-                    "value": Settings.Stretch,
+                    "value": ScreenPlayEnums.Stretch,
                     "text": qsTr("Stretch")
                 }, {
-                    "value": Settings.Fill,
+                    "value": ScreenPlayEnums.Fill,
                     "text": qsTr("Fill")
                 }, {
-                    "value": Settings.Contain,
+                    "value": ScreenPlayEnums.Contain,
                     "text": qsTr("Contain")
                 }, {
-                    "value": Settings.Cover,
+                    "value": ScreenPlayEnums.Cover,
                     "text": qsTr("Cover")
                 }, {
-                    "value": Settings.Scale_Down,
+                    "value": ScreenPlayEnums.Scale_Down,
                     "text": qsTr("Scale-Down")
                 }]
         }

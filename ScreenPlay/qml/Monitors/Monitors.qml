@@ -4,8 +4,8 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
-
 import ScreenPlay 1.0
+import ScreenPlayEnums 1.0
 import "../Common/" as SP
 
 Item {
@@ -97,21 +97,23 @@ Item {
                 }
                 Connections {
                     target: ScreenPlay.screenPlayManager
-                    function onProjectSettingsListModelFound(li,type) {
+                    function onProjectSettingsListModelResult(found,listModel,type) {
+                        if(!found){
+                            customPropertiesGridView.model = null
+                            videoControlWrapper.state = "hidden"
+                            customPropertiesGridView.state = "hidden"
+                            return
+                        }
+
                         videoControlWrapper.state = "visible"
-                        customPropertiesGridView.model = li
-                        if (type === "videoWallpaper") {
+                        customPropertiesGridView.model = listModel
+                        if (type === ScreenPlayEnums.VideoWallpaper) {
                             customPropertiesGridView.state = "hidden"
                             videoControlWrapper.state = "visible"
                         } else {
                             customPropertiesGridView.state = "visible"
                             videoControlWrapper.state = "hidden"
                         }
-                    }
-                    function onProjectSettingsListModelNotFound() {
-                        customPropertiesGridView.model = null
-                        videoControlWrapper.state = "hidden"
-                        customPropertiesGridView.state = "hidden"
                     }
                 }
             }

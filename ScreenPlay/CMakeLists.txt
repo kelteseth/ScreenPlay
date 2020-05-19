@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.17)
+cmake_minimum_required(VERSION 3.16.0)
 
 project(ScreenPlay)
 
@@ -23,7 +23,7 @@ find_package(nlohmann_json CONFIG REQUIRED)
 set(src main.cpp
         app.cpp
         ../Common/qt-google-analytics/ganalytics.cpp
-
+        src/globalvariables.cpp
         src/createimportvideo.cpp
         src/installedlistmodel.cpp
         src/monitorlistmodel.cpp
@@ -60,12 +60,12 @@ set(headers app.h
 
 set(resources Resources.qrc)
 
-add_executable(ScreenPlay ${src} ${headers} ${resources})
+add_executable(${PROJECT_NAME} ${src} ${headers} ${resources})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE  "GIT_VERSION=${GIT_VERSION}")
 
-target_link_libraries(ScreenPlay PRIVATE
-    Qt5::Qml
+target_link_libraries(${PROJECT_NAME}
+    PRIVATE
     Qt5::Quick
     Qt5::Gui
     Qt5::Widgets
