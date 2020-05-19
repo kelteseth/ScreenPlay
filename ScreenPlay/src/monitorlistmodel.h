@@ -144,7 +144,6 @@ private:
 
 private:
     QVector<Monitor> m_monitorList;
-    QVector<QSharedPointer<ProjectSettingsListModel>> m_plm;
 };
 
 }
