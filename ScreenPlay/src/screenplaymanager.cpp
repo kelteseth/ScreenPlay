@@ -197,13 +197,14 @@ void ScreenPlayManager::requestProjectSettingsListModelAt(const int index)
 {
     for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
         if (!uPtrWallpaper->screenNumber().empty() && uPtrWallpaper->screenNumber()[0] == index) {
-            emit projectSettingsListModelFound(
+            emit projectSettingsListModelResult(
+                true,
                 uPtrWallpaper->projectSettingsListModel().get(),
-                QVariant::fromValue(uPtrWallpaper->type()).toString());
+                uPtrWallpaper->type());
             return;
         }
     }
-    emit projectSettingsListModelNotFound();
+    emit projectSettingsListModelResult(false);
 }
 
 /*!

@@ -57,7 +57,6 @@
 
 namespace ScreenPlay {
 
-
 class ScreenPlayManager : public QObject {
     Q_OBJECT
 
@@ -84,8 +83,7 @@ public:
     }
 
 signals:
-    void projectSettingsListModelFound(ProjectSettingsListModel* li, const QString& type);
-    void projectSettingsListModelNotFound();
+    void projectSettingsListModelResult(const bool found, ProjectSettingsListModel* li = nullptr, const ScreenPlay::Enums::WallpaperType type = ScreenPlay::Enums::WallpaperType::VideoWallpaper);
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
 
@@ -96,7 +94,7 @@ public slots:
         const ScreenPlay::Enums::FillMode fillMode,
         const QString& absoluteStoragePath,
         const QString& previewImage,
-        const QString &file,
+        const QString& file,
         QVector<int> monitorIndex,
         const float volume,
         const bool saveToProfilesConfigFile);
