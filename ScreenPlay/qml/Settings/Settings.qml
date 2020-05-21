@@ -8,7 +8,7 @@ import Qt.labs.platform 1.0
 
 import ScreenPlay 1.0
 import ScreenPlayEnums 1.0
-
+import Settings 1.0
 
 import "../Common"
 
