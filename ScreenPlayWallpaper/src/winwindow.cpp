@@ -41,6 +41,8 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
             mouseButtons.setFlag(Qt::RightButton);
             type = QMouseEvent::Type::MouseButtonPress;
             break;
+        default:
+            type = QMouseEvent::Type::MouseMove;
         }
     }
 
@@ -57,18 +59,16 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 
     app->sendEvent(winGlobalHook, &event);
 
-    if (type == QMouseEvent::Type::MouseButtonPress) {
-        QTimer::singleShot(100, []() {
-            Qt::MouseButton mouseButton {};
-            Qt::MouseButtons mouseButtons {};
-            Qt::KeyboardModifier keyboardModifier {};
-            auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, { 0, 0 }, mouseButton, mouseButtons, keyboardModifier);
+    QTimer::singleShot(100, []() {
+        Qt::MouseButton mouseButton {};
+        Qt::MouseButtons mouseButtons {};
+        Qt::KeyboardModifier keyboardModifier {};
+        auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, { 0, 0 }, mouseButton, mouseButtons, keyboardModifier);
 
-            auto* app = QApplication::instance();
+        auto* app = QApplication::instance();
 
-            app->sendEvent(winGlobalHook, &eventRelease);
-        });
-    }
+        app->sendEvent(winGlobalHook, &eventRelease);
+    });
 
     return CallNextHookEx(mouseHook, nCode, wParam, lParam);
 }
