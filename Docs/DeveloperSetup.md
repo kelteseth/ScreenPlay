@@ -95,5 +95,5 @@ sudo zypper install -t pattern devel_basis
             - Cmake
             - Ninja
 2. Install [homebrew](https://brew.sh/)
-     - Open a terminal and install clang -> brew install llvm
+     - Open a terminal and install clang -> brew install llvm cmake ninja
 3. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.13.0) -> Change c and c++ Compiler to Apple Clang (x86_64)
