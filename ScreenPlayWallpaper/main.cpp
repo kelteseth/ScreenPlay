@@ -57,7 +57,7 @@ int main(int argc, char* argv[])
     }
 
     // 6 parameter + 1 OS working directory default paramter
-    if (argumentList.length() != 8) {
+    if (argumentList.length() != 9) {
         return -3;
     }
 

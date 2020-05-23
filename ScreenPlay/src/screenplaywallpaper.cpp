@@ -62,7 +62,9 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         QString::number(static_cast<double>(volume)),
         QVariant::fromValue(fillMode).toString(),
         QVariant::fromValue(type).toString(),
-        QString::number(checkWallpaperVisible)
+        QString::number(checkWallpaperVisible),
+        // Fixes issue 84 media key overlay
+        " --disable-features=HardwareMediaKeyHandling"
     };
 
     qDebug() << "Creating ScreenPlayWallpaper " << proArgs;
