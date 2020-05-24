@@ -1,6 +1,6 @@
 <RCC>
     <qresource prefix="/">
-        <file>mainWindow.qml</file>
+        <file>Wallpaper.qml</file>
         <file>test.qml</file>
         <file>dot.png</file>
         <file>qtquickcontrols2.conf</file>

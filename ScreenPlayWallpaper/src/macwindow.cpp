@@ -40,7 +40,7 @@ MacWindow::MacWindow(
 
     // we can set it here once :)
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
-    m_window.setSource(QUrl("qrc:/mainWindow.qml"));
+    m_window.setSource(QUrl("qrc:/Wallpaper.qml"));
 
     MacIntegration* macIntegration = new MacIntegration(this);
     macIntegration->SetBackgroundLevel(&m_window);

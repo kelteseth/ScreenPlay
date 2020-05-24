@@ -54,7 +54,7 @@ WidgetWindow::WidgetWindow(const QString projectPath, const QString appid, const
 
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     //    m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
-    m_window.setSource(QUrl("qrc:/mainWidget.qml"));
+    m_window.setSource(QUrl("qrc:/Widget.qml"));
     m_window.show();
 }
 

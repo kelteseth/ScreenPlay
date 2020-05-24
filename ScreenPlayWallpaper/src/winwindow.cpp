@@ -132,7 +132,7 @@ WinWindow::WinWindow(
     // we can set it here once :)
 
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
-    m_window.setSource(QUrl("qrc:/mainWindow.qml"));
+    m_window.setSource(QUrl("qrc:/Wallpaper.qml"));
     m_window.hide();
 
     QObject::connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);

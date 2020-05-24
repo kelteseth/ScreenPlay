@@ -179,7 +179,7 @@ LinuxWindow::LinuxWindow(QVector<int> activeScreensList, QString projectPath, QS
     // Instead of setting "renderType: Text.NativeRendering" every time
     // we can set it here once :)
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
-    m_window.setSource(QUrl("qrc:/mainWindow.qml"));*/
+    m_window.setSource(QUrl("qrc:/Wallpaper.qml"));*/
 }
 
 void LinuxWindow::setupWallpaperForOneScreen(int activeScreen)
