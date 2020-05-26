@@ -13,12 +13,13 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
     return TRUE;
 }
 
-HHOOK mouseHook;
-
-QQuickView* winGlobalHook = nullptr;
+HHOOK g_mouseHook;
+QPoint g_LastMousePosition { 0, 0 };
+QQuickView* g_winGlobalHook = nullptr;
 
 LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 {
+
     Qt::MouseButton mouseButton {};
     Qt::MouseButtons mouseButtons {};
     Qt::KeyboardModifier keyboardModifier {};
@@ -47,30 +48,26 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     }
 
     POINT p {};
-    QPoint point { 0, 0 };
     if (GetCursorPos(&p)) {
-        point.setX(p.x);
-        point.setY(p.y);
+        g_LastMousePosition.setX(p.x);
+        g_LastMousePosition.setY(p.y);
+    } else {
+        return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
     }
 
-    auto event = QMouseEvent(type, point, mouseButton, mouseButtons, keyboardModifier);
+    auto event = QMouseEvent(type, g_LastMousePosition, mouseButton, mouseButtons, keyboardModifier);
 
-    auto* app = QApplication::instance();
+    QApplication::sendEvent(g_winGlobalHook, &event);
 
-    app->sendEvent(winGlobalHook, &event);
+    if (type == QMouseEvent::Type::MouseButtonPress) {
 
-    QTimer::singleShot(100, []() {
-        Qt::MouseButton mouseButton {};
-        Qt::MouseButtons mouseButtons {};
-        Qt::KeyboardModifier keyboardModifier {};
-        auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, { 0, 0 }, mouseButton, mouseButtons, keyboardModifier);
+        QTimer::singleShot(100, []() {
+            auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, Qt::MouseButton::LeftButton, Qt::LeftButton, {});
+            QApplication::sendEvent(g_winGlobalHook, &eventRelease);
+        });
+    }
 
-        auto* app = QApplication::instance();
-
-        app->sendEvent(winGlobalHook, &eventRelease);
-    });
-
-    return CallNextHookEx(mouseHook, nCode, wParam, lParam);
+    return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
 }
 
 WinWindow::WinWindow(
@@ -243,8 +240,9 @@ void WinWindow::setupWindowMouseHook()
 {
     // MUST be called before setting hook for events!
     if (type() != BaseWindow::WallpaperType::Video) {
-        winGlobalHook = &m_window;
-        if (!(mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
+        qInfo() << "Enable mousehook";
+        g_winGlobalHook = &m_window;
+        if (!(g_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
             qDebug() << "Faild to install mouse hook!";
         }
     }
