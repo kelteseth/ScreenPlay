@@ -77,6 +77,15 @@ void ScreenPlaySDK::readyRead()
         return;
     }
     QJsonObject ob = doc.object();
+
+    if(ob.size() == 1){
+        if(ob.contains("command")){
+            if(ob.value("command") == "quit"){
+                emit sdkDisconnected();
+                return;
+            }
+        }
+    }
     QJsonObject::iterator iterator;
     for (iterator = ob.begin(); iterator != ob.end(); iterator++) {
         emit incommingMessage(iterator.key(), ob.value(iterator.key()).toString());

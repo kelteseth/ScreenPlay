@@ -188,6 +188,16 @@ public slots:
 
     void close()
     {
+
+        qInfo() << "Close " << m_type;
+
+        QJsonObject obj;
+        obj.insert("command", QJsonValue("quit"));
+        QByteArray command = QJsonDocument(obj).toJson();
+
+        m_socket->write(command);
+        m_socket->waitForBytesWritten();
+
         if (m_socket->state() == QLocalSocket::ConnectedState) {
             m_socket->disconnectFromServer();
             m_socket->close();
