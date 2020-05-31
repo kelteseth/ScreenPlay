@@ -98,7 +98,6 @@ public:
 
         m_socket = socket;
         connect(m_socket, &QLocalSocket::readyRead, this, &SDKConnection::readyRead);
-        connect(m_socket, &QLocalSocket::disconnected, this, &SDKConnection::close);
     }
     ~SDKConnection()
     {
