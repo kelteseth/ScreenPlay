@@ -20,7 +20,7 @@ Item {
     onStateChanged: {
         bgMouseArea.focus = monitors.state == "active" ? true : false
         if (monitors.state === "active") {
-            ScreenPlay.screenPlayManager.requestProjectSettingsListModelAt(0)
+            ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(0)
         }
     }
 
@@ -91,14 +91,16 @@ Item {
                 availableWidth: width - 20
                 availableHeight: 150
                 onRequestProjectSettings: {
-                    ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(at)
+                    ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(
+                                at)
                     activeMonitorIndex = at
                 }
                 Connections {
                     target: ScreenPlay.screenPlayManager
-                    function onProjectSettingsListModelResult(found,listModel,type) {
-                        if(!found){
-                            customPropertiesGridView.model = null
+                    function onProjectSettingsListModelResult(found, listModel, type) {
+
+                        customPropertiesGridView.model = null
+                        if (!found) {
                             videoControlWrapper.state = "hidden"
                             customPropertiesGridView.state = "hidden"
                             return
@@ -133,7 +135,8 @@ Item {
                     font.family: ScreenPlay.settings.font
                     enabled: monitorSelection.activeMonitors.length == 1
                     onClicked: {
-                        ScreenPlay.screenPlayManager.removeWallpaperAt(monitorSelection.activeMonitors[0])
+                        ScreenPlay.screenPlayManager.removeWallpaperAt(
+                                    monitorSelection.activeMonitors[0])
                         monitorSelection.deselectAll()
                     }
                 }
@@ -176,7 +179,6 @@ Item {
                 left: itmLeftWrapper.right
             }
         }
-
 
         GridView {
             id: customPropertiesGridView
