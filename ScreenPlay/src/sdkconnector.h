@@ -152,19 +152,25 @@ public slots:
             m_appID = appID.remove("appID=");
 
             QStringList types {
-                "videoWallpaper",
-                "qmlWallpaper",
-                "htmlWallpaper",
-                "godotWallpaper",
+                "VideoWallpaper",
+                "QmlWallpaper",
+                "HtmlWallpaper",
+                "GodotWallpaper",
 
-                "qmlWidget",
-                "htmlWidget",
-                "standaloneWidget"
+                "QmlWidget",
+                "HtmlWidget",
+                "StandaloneWidget"
             };
+            bool typeFound = false;
             for (const QString& type : types) {
-                if (msg.contains(type)) {
+                if (msg.contains(type,Qt::CaseInsensitive)) {
                     m_type = type;
+                    typeFound = true;
+                    break;
                 }
+            }
+            if(!typeFound){
+                qCritical() << "Wallpaper type not found. Expected: " << types << " got: " << msg;
             }
             qInfo() << "###### Wallpaper created:"
                     << "\t AppID:" << m_appID << "\t type: " << m_type;
