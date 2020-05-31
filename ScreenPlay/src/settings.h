@@ -199,7 +199,6 @@ signals:
     void videoFillModeChanged(ScreenPlay::Enums::FillMode videoFillMode);
     void languageChanged(Language language);
     void fontChanged(QString font);
-
     void themeChanged(Theme theme);
 
 public slots:
