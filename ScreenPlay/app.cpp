@@ -48,7 +48,7 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.10.1");
+    QGuiApplication::setApplicationVersion("0.11.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
 #ifdef Q_OS_WINDOWS
