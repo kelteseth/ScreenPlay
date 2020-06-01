@@ -37,6 +37,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QFile>
+#include <QFileSystemWatcher>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
@@ -44,7 +45,6 @@
 #include <QString>
 #include <QSysInfo>
 #include <QtQml>
-#include <QFileSystemWatcher>
 
 class BaseWindow : public QObject {
     Q_OBJECT
@@ -78,7 +78,6 @@ public:
     Q_PROPERTY(WallpaperType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
 
-    QSysInfo m_sysinfo;
 
     enum class WallpaperType {
         Video,
@@ -420,5 +419,6 @@ private:
     int m_height { 0 };
     QVector<int> m_activeScreensList;
     QFileSystemWatcher m_fileSystemWatcher;
+    QSysInfo m_sysinfo;
     QString m_basePath;
 };
