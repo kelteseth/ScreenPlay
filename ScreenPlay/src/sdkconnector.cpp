@@ -91,10 +91,10 @@ void SDKConnector::closeAllConnections()
 void SDKConnector::closeAllWallpapers()
 {
     QStringList types {
-        "videoWallpaper",
-        "qmlWallpaper",
-        "htmlWallpaper",
-        "godotWallpaper"
+        "VideoWallpaper",
+        "QmlWallpaper",
+        "HtmlWallpaper",
+        "GodotWallpaper"
     };
 
     closeConntectionByType(types);
@@ -111,9 +111,9 @@ void SDKConnector::closeAllWallpapers()
 void SDKConnector::closeAllWidgets()
 {
     QStringList types {
-        "qmlWidget",
-        "htmlWidget",
-        "standaloneWidget"
+        "QmlWidget",
+        "HtmlWidget",
+        "StandaloneWidget"
     };
 
     closeConntectionByType(types);
@@ -125,7 +125,7 @@ void SDKConnector::closeAllWidgets()
 void SDKConnector::closeConntectionByType(const QStringList& list)
 {
     for (auto& client : m_clients) {
-        if (list.contains(client->type())) {
+        if (list.contains(client->type(), Qt::CaseInsensitive)) {
             client->close();
             m_clients.removeOne(client);
         }

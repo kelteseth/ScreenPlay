@@ -78,11 +78,10 @@ public:
     Q_PROPERTY(WallpaperType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
 
-
     enum class WallpaperType {
         Video,
         Html,
-        ThreeJSScene,
+        Godot,
         Qml,
     };
     Q_ENUM(WallpaperType)

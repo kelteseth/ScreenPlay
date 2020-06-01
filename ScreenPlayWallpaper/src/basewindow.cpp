@@ -69,23 +69,25 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, &BaseWindow::reloadQML);
     m_fileSystemWatcher.addPaths({ projectFilePath, projectFilePath + "/" + projectObject.value("file").toString() });
 
-    if (projectObject.value("type") == "videoWallpaper") {
+    QString type = projectObject.value("type").toString().toLower();
+
+    if (type.contains("VideoWallpaper", Qt::CaseInsensitive)) {
         setType(BaseWindow::WallpaperType::Video);
         return;
     }
 
-    if (projectObject.value("type") == "threeJSWallpaper") {
-        setType(BaseWindow::WallpaperType::ThreeJSScene);
-        return;
-    }
-
-    if (projectObject.value("type") == "qmlWallpaper") {
+    if (type.contains("QmlWallpaper", Qt::CaseInsensitive)) {
         setType(BaseWindow::WallpaperType::Qml);
         return;
     }
 
-    if (projectObject.value("type") == "htmlWallpaper") {
+    if (type.contains("HtmlWallpaper", Qt::CaseInsensitive)) {
         setType(BaseWindow::WallpaperType::Html);
+        return;
+    }
+
+    if (type.contains("GodotWallpaper", Qt::CaseInsensitive)) {
+        setType(BaseWindow::WallpaperType::Godot);
         return;
     }
 }
@@ -130,7 +132,7 @@ void BaseWindow::messageReceived(QString key, QString value)
 
     if (key == "fillmode") {
         // HTML5 Video uses - that c++ enums cannot
-        if(QVariant(value).toString() == "Scale_Down"){
+        if (QVariant(value).toString() == "Scale_Down") {
             setFillMode("Scale-Down");
         } else {
             setFillMode(QVariant(value).toString());

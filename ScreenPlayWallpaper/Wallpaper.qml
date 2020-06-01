@@ -55,10 +55,6 @@ Rectangle {
             loader.webViewUrl = Qt.resolvedUrl(window.fullContentPath)
             loader.source = "qrc:/WebView.qml"
             break
-        case Wallpaper.WallpaperType.ThreeJSScene:
-            loader.webViewUrl = Qt.resolvedUrl(window.fullContentPath)
-            loader.source = "qrc:/WebView.qml"
-            break
         case Wallpaper.WallpaperType.Qml:
             loader.source = Qt.resolvedUrl(window.fullContentPath)
             imgCover.state = "out"
