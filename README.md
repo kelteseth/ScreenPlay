@@ -11,7 +11,7 @@ ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widge
 
 ![Preview](.gitlab/media/preview.mp4)
 
-<br> <h4><a href=""> </a>  and  <a href="">Wallpaper And Widgets Guide</a></h4>
+<br> <h4><a href="https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/">Wallpaper </a>  and  <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/widgets/">  Widgets </a>Guide</h4>
 </div>
 
 
