@@ -10,7 +10,7 @@ Rectangle {
     color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
 
     height: availableHeight
-    width: availableWidth
+    width: parent.width
 
     // Width of the Sidebar or Space that should be used
     property real availableWidth: 0
@@ -82,8 +82,14 @@ Rectangle {
             isWidthGreaterThanHeight = true
         }
 
+        if(rp.count === 1){
+            availableWidth = availableWidth *.66
+        }
+
+
         var dynamicHeight = availableWidth * windowsDelta
         var dynamicWidth = availableHeight * windowsDelta
+
 
         // Delta (height/width)
         var monitorHeightRationDelta = 0
