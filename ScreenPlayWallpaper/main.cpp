@@ -23,7 +23,11 @@
 int main(int argc, char* argv[])
 {
 
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    // Buggy with every Qt version except 5.14.0!
+    // Displays wrong DPI scaled monitor resolution
+    // 4k with 150% scaling to FULL HD on Windows
+    // https://bugreports.qt.io/browse/QTBUG-81694
+    //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication app(argc, argv);
