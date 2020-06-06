@@ -127,9 +127,7 @@ void ScreenPlayManager::createWidget(
 void ScreenPlayManager::removeAllWallpapers()
 {
     if (!m_screenPlayWallpapers.empty()) {
-        if (m_telemetry) {
-            m_telemetry->sendEvent("wallpaper", "stopAll");
-        }
+
         m_sdkconnector->closeAllWallpapers();
         m_screenPlayWallpapers.clear();
 
@@ -137,7 +135,18 @@ void ScreenPlayManager::removeAllWallpapers()
 
         saveProfiles();
         setActiveWallpaperCounter(0);
+        if (activeWallpaperCounter() != m_screenPlayWallpapers.length()) {
+            if (m_telemetry) {
+                m_telemetry->sendEvent("wallpaper", "error_removeAllWallpapers");
+            }
+
+            qWarning() << "activeWallpaperCounter value: " << activeWallpaperCounter()
+                       << "does not match m_screenPlayWallpapers length:" << m_screenPlayWallpapers.length();
+        }
     } else {
+        if (m_telemetry) {
+            m_telemetry->sendEvent("wallpaper", "error_removeAllWallpapers_m_screenPlayWallpapers_notEmpty");
+        }
         qWarning() << "Trying to remove all wallpapers while m_screenPlayWallpapers is not empty. Count: " << m_screenPlayWallpapers.size();
     }
 }
@@ -148,9 +157,6 @@ void ScreenPlayManager::removeAllWallpapers()
 void ScreenPlayManager::removeAllWidgets()
 {
     if (!m_screenPlayWidgets.empty()) {
-        if (m_telemetry) {
-            m_telemetry->sendEvent("widgets", "stopAll");
-        }
         m_sdkconnector->closeAllWidgets();
         saveProfiles();
         setActiveWidgetsCounter(0);
@@ -164,9 +170,6 @@ void ScreenPlayManager::removeAllWidgets()
 */
 bool ScreenPlayManager::removeWallpaperAt(int index)
 {
-    if (m_telemetry) {
-        m_telemetry->sendEvent("wallpaper", "removeSingleWallpaper");
-    }
 
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
         if (!saveProfiles()) {
@@ -180,11 +183,17 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
 
         const QString appIDCopy = *appID;
         if (!removeWallpaperByAppID(appIDCopy)) {
+            if (m_telemetry) {
+                m_telemetry->sendEvent("wallpaper", "error_removeWallpaperAt_removeWallpaperByAppID");
+            }
             qWarning() << "Could not remove Wallpaper " << appIDCopy << " from wallpaper list!";
             return false;
         }
         saveProfiles();
         return true;
+    }
+    if (m_telemetry) {
+        m_telemetry->sendEvent("wallpaper", "error_removeWallpaperAt");
     }
     qWarning() << "Could not remove Wallpaper at index:" << index;
     return false;

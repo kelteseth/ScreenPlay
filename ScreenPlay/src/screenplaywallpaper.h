@@ -77,21 +77,6 @@ public:
         const bool checkWallpaperVisible,
         QObject* parent = nullptr);
 
-    explicit ScreenPlayWallpaper(
-        const QVector<int>& screenNumber,
-        const std::shared_ptr<GlobalVariables>& globalVariables,
-        const QString& appID,
-        const QString& absolutePath,
-        const QString& previewImage,
-        const Enums::WallpaperType type,
-        const QJsonObject& profileJsonObject,
-        QObject* parent = nullptr);
-
-    ~ScreenPlayWallpaper()
-    {
-        qInfo() << "Remove wallpaper" << absolutePath() << " at monitor: " << screenNumber();
-    }
-
     QJsonObject getActiveSettingsJson();
 
     QVector<int> screenNumber() const

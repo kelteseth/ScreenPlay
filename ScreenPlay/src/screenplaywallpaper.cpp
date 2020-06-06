@@ -67,12 +67,11 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
         " --disable-features=HardwareMediaKeyHandling"
     };
 
-    qDebug() << "Creating ScreenPlayWallpaper " << proArgs;
-
     m_process.setArguments(proArgs);
     m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
     m_process.startDetached();
 }
+
 
 QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 {
@@ -102,6 +101,7 @@ void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitSta
     if (exitCode != 0)
         qDebug() << "WARNING EXIT CODE: " << exitCode;
 }
+
 /*!
     \brief Prints the exit code error.
 */
