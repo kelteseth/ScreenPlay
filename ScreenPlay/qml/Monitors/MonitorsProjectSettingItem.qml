@@ -8,31 +8,34 @@ import QtQuick.Layouts 1.3
 
 import ScreenPlay 1.0
 
-Rectangle {
-    id: delegate
+Item {
+    id: root
     focus: true
     height: isHeadline ? 50 : 30
     property int selectedMonitor
+    property string name
+    property var value
+    property bool isHeadline
 
     Text {
         id: txtDescription
-        text: name
+        text: root.name
         width: 100
-        font.pointSize: isHeadline ? 18 : 12
+        font.pointSize: root.isHeadline ? 18 : 12
         anchors.verticalCenter: parent.verticalCenter
         font.family: ScreenPlay.settings.font
         font.weight: Font.Normal
-        color: isHeadline ? Qt.darker(Material.foreground) : Material.foreground
+        color: root.isHeadline ? Qt.darker(Material.foreground) : Material.foreground
 
         anchors {
             left: parent.left
-            leftMargin: isHeadline ? 0 : 25
+            leftMargin: root.isHeadline ? 0 : 25
         }
     }
 
     Item {
         height: parent.height
-        visible: !isHeadline
+        visible: !root.isHeadline
         anchors {
             left: txtDescription.right
             leftMargin: 20
@@ -40,11 +43,11 @@ Rectangle {
         }
 
         Component.onCompleted: {
-            if (value.toString() === "") {
+            if (root.value.toString() === "") {
                 return
             }
 
-            var obj = JSON.parse(value.toString())
+            var obj = JSON.parse(root.value.toString())
 
             if (obj["text"]) {
                 txtDescription.text = obj["text"]

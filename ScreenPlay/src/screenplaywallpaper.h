@@ -94,11 +94,6 @@ public:
 
     QJsonObject getActiveSettingsJson();
 
-    const std::shared_ptr<ProjectSettingsListModel>& projectSettingsListModel() const
-    {
-        return m_projectSettingsListModel;
-    }
-
     QVector<int> screenNumber() const
     {
         return m_screenNumber;
@@ -143,6 +138,8 @@ public:
     {
         return m_isLooping;
     }
+
+    ProjectSettingsListModel* getProjectSettingsListModel();
 
 signals:
     void screenNumberChanged(QVector<int> screenNumber);
@@ -247,7 +244,7 @@ public slots:
 private:
     QProcess m_process;
 
-    std::shared_ptr<ProjectSettingsListModel> m_projectSettingsListModel;
+    ProjectSettingsListModel m_projectSettingsListModel;
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
 
     QVector<int> m_screenNumber;

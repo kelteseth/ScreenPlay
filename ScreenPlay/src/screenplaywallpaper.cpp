@@ -26,7 +26,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     const bool checkWallpaperVisible,
     QObject* parent)
     : QObject(parent)
-    , m_projectSettingsListModel { std::make_shared<ProjectSettingsListModel>(absolutePath + "/project.json") }
+    , m_projectSettingsListModel { absolutePath + "/project.json"}
     , m_globalVariables { globalVariables }
     , m_screenNumber { screenNumber }
     , m_previewImage { previewImage }
@@ -108,6 +108,11 @@ void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitSta
 void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
 {
     qDebug() << "EX: " << error;
+}
+
+ProjectSettingsListModel* ScreenPlayWallpaper::getProjectSettingsListModel()
+{
+    return &m_projectSettingsListModel;
 }
 
 }

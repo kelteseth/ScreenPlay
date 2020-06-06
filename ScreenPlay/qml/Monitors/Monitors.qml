@@ -16,7 +16,6 @@ Item {
     property string activeMonitorName: ""
     property int activeMonitorIndex
 
-
     onStateChanged: {
         bgMouseArea.focus = monitors.state == "active" ? true : false
         if (monitors.state === "active") {
@@ -203,7 +202,10 @@ Item {
             delegate: MonitorsProjectSettingItem {
                 id: delegate
                 width: parent.width - 40
-                selectedMonitor: monitors.activeMonitorIndex
+                selectedMonitor: activeMonitorIndex
+                name: m_name
+                isHeadline: m_isHeadline
+                value: m_value
             }
 
             ScrollBar.vertical: ScrollBar {
@@ -217,7 +219,7 @@ Item {
                     PropertyChanges {
                         target: customPropertiesGridView
                         opacity: 1
-                        z:1
+                        z: 1
                         anchors.topMargin: 60
                     }
                 },
@@ -226,7 +228,7 @@ Item {
                     PropertyChanges {
                         target: customPropertiesGridView
                         opacity: 0
-                        z:-1
+                        z: -1
                         anchors.topMargin: -100
                     }
                 }
@@ -349,3 +351,4 @@ Designer {
     D{i:0;autoSize:true;height:768;width:1366}
 }
 ##^##*/
+

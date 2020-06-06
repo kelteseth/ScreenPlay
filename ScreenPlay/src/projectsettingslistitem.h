@@ -58,7 +58,6 @@ struct ProjectSettingsListItem {
         m_isHeadline = isHeadline;
         m_value = value;
     }
-    ProjectSettingsListItem() {}
 
     QString m_name;
     bool m_isHeadline { false };

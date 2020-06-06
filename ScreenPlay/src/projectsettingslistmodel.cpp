@@ -79,9 +79,9 @@ QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) cons
 QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles {
-        { NameRole, "name" },
-        { IsHeadlineRole, "isHeadline" },
-        { ValueRole, "value" },
+        { NameRole, "m_name" },
+        { IsHeadlineRole, "m_isHeadline" },
+        { ValueRole, "m_value" },
     };
     return roles;
 }
@@ -90,7 +90,7 @@ QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
  Recursively loads the content of a project.json.
  See also \l {https://kelteseth.gitlab.io/ScreenPlayDocs/project/project/} .
  */
-void ProjectSettingsListModel::init(QString file)
+void ProjectSettingsListModel::init(const QString& file)
 {
     if (auto config = Util::openJsonFileToObject(file)) {
 
@@ -105,23 +105,26 @@ void ProjectSettingsListModel::init(QString file)
 
         QJsonObject::iterator itParent, itChild;
         for (itParent = tmpParent.begin(); itParent != tmpParent.end(); itParent++) {
+
+            // The first object is always a category
             QJsonObject tmpChildObj = tmpParent.value(itParent.key()).toObject();
             append(itParent.key(), true, "");
 
+            // Children of this category
             for (itChild = tmpChildObj.begin(); itChild != tmpChildObj.end(); itChild++) {
                 append(itChild.key(), false, QJsonDocument(tmpChildObj.value(itChild.key()).toObject()).toJson());
             }
         }
+    } else {
+        qWarning() << "Could not load: " << file << " for wallpaper settings!";
     }
 }
 
 void ProjectSettingsListModel::append(QString name, bool isHeadline, QVariant value)
 {
     beginInsertRows(QModelIndex(), m_projectSettings.size(), m_projectSettings.size());
-
-    ProjectSettingsListItem tmpFile(name, isHeadline, value);
+    ProjectSettingsListItem tmpFile(name, isHeadline, value.toString());
     m_projectSettings.append(tmpFile);
-
     endInsertRows();
 }
 }

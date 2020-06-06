@@ -65,7 +65,7 @@ public:
     };
     Q_ENUM(ProjectSettingsRole)
 
-    void init(QString file);
+    void init(const QString& file);
 
 public slots:
     void append(QString name, bool isHeadline, QVariant value);
