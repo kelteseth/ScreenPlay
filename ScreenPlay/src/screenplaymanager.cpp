@@ -197,9 +197,10 @@ void ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
 {
     for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
         if (uPtrWallpaper->screenNumber()[0] == index) {
+
             emit projectSettingsListModelResult(
                 true,
-                uPtrWallpaper->projectSettingsListModel().get(),
+                uPtrWallpaper->getProjectSettingsListModel(),
                 uPtrWallpaper->type());
             return;
         }
