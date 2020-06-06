@@ -58,17 +58,18 @@ QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) cons
     if (!index.isValid())
         return QVariant();
 
-    const int row = rowCount();
+    const int rowIndex = index.row();
 
-    if (row < rowCount())
+    if (index.row() < rowCount())
         switch (role) {
         case NameRole:
-            return m_projectSettings.at(row).m_name;
+            return m_projectSettings.at(rowIndex).m_name;
         case IsHeadlineRole:
-            return m_projectSettings.at(row).m_isHeadline;
+            return m_projectSettings.at(rowIndex).m_isHeadline;
         case ValueRole:
-            return m_projectSettings.at(row).m_value;
+            return m_projectSettings.at(rowIndex).m_value;
         default:
+            qWarning() << "Could not determine row for ProjectSettingsListModel";
             return QVariant();
         }
 
