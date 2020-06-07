@@ -16,6 +16,10 @@ Popup {
     height: 600
     padding: 30
     width: 900
+    background: Rectangle {
+        anchors.fill: parent
+        color: Material.theme === Material.Light ? "white" : Material.background
+    }
 
     Connections {
         target: ScreenPlay.util
@@ -84,7 +88,10 @@ Popup {
         id: closeDialog
         width: 400
         height: 250
-
+        background: Rectangle {
+            anchors.fill: parent
+            color: Material.theme === Material.Light ? "white" : Material.background
+        }
         Text {
             text: qsTr("You cannot create Wallaper without FFMPEG installed!")
             verticalAlignment: Text.AlignVCenter
@@ -100,9 +107,9 @@ Popup {
         RowLayout {
             height: 30
             anchors {
-                right:parent.right
+                right: parent.right
                 bottom: parent.bottom
-                left:parent.left
+                left: parent.left
                 margins: 20
             }
 
@@ -123,8 +130,6 @@ Popup {
                 Layout.alignment: Qt.AlignRight
             }
         }
-
-
 
         anchors.centerIn: Overlay.overlay
 
@@ -149,10 +154,9 @@ Popup {
             font.family: ScreenPlay.settings.font
         }
 
-        Rectangle {
+        Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
-            color: "#eeeeee"
 
             Item {
                 width: parent.width * .33
@@ -247,12 +251,11 @@ ce" + "and free to use like <a href='https://wikipedia.org/wiki/VP8'>VP8</a> and
 ms)" + "but there are also some proprietary ones like  <a href='https://wikipedia.org/wiki/H.264/MPEG-4_AVC'>h264</a> and the successor <a href='https://wikipedia.org/wiki/High_Efficiency_Video_Coding'>h265</a>." + "
 <br>
 <br>
-"
-+ "\n\n We as software developer now need to deal with stuff like this in a field we"
-+ "do not have any expertise in. The desicion to enable only free codecs for content was"
-+ "an easy one but we still need to provide a way for our user to import wallpaper "
-+ "without a hassle. We do not provide  <a href='https://ffmpeg.org/'>FFMPEG</a> for "
-+ "converting video and audio with ScreenPlay because we are not allowed to. We let the user download <a href='https://ffmpeg.org/'>FFMPEG</a> wich " + "is perfectly fine!
+" + "\n\n We as software developer now need to deal with stuff like this in a field we
+" + "do not have any expertise in. The desicion to enable only free codecs for content wa
+s" + "an easy one but we still need to provide a way for our user to import wallpape
+r " + "without a hassle. We do not provide  <a href='https://ffmpeg.org/'>FFMPEG</a> f
+or " + "converting video and audio with ScreenPlay because we are not allowed to. We let the user download <a href='https://ffmpeg.org/'>FFMPEG</a> wich " + "is perfectly fine!
 <br>
 Sorry for this little inconvenience :)" + "
 <br>
