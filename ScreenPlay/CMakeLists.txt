@@ -84,7 +84,7 @@ target_include_directories(${PROJECT_NAME}
 install(FILES
     assets/fonts/NotoSansCJKkr-Regular.otf
     DESTINATION
-    ${CMAKE_BINARY_DIR}/assets/fonts/ )
+    ${CMAKE_BINARY_DIR}/bin/assets/fonts/ )
 
 
 

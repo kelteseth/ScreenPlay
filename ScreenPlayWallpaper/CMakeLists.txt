@@ -59,4 +59,4 @@ target_link_libraries(${PROJECT_NAME}
 install(FILES
     index.html
     DESTINATION
-    ${CMAKE_BINARY_DIR} )
+    ${CMAKE_BINARY_DIR}/bin )
