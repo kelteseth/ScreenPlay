@@ -21,7 +21,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     const QString& previewImage,
     const QString& file,
     const float volume,
-    const Enums::FillMode fillMode,
+    const FillMode::FillMode fillMode,
     const InstalledType::InstalledType type,
     const bool checkWallpaperVisible,
     QObject* parent)

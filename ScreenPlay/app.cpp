@@ -90,11 +90,11 @@ App::App()
     // Registers the enums from globalvariables.
     // Apparently this is the only way for qml to work
     // https://www.kdab.com/new-qt-5-8-meta-object-support-namespaces/
-    qRegisterMetaType<Enums::FillMode>();
-    qmlRegisterUncreatableMetaObject(ScreenPlay::Enums::staticMetaObject,
-        "ScreenPlayEnums",
+    qRegisterMetaType<FillMode::FillMode>();
+    qmlRegisterUncreatableMetaObject(ScreenPlay::FillMode::staticMetaObject,
+        "ScreenPlay.Enums.FillMode",
         1, 0,
-        "ScreenPlayEnums",
+        "FillMode",
         "Error: only enums");
 
     qRegisterMetaType<InstalledType::InstalledType>();
@@ -102,6 +102,13 @@ App::App()
         "ScreenPlay.Enums.InstalledType",
         1, 0,
         "InstalledType",
+        "Error: only enums");
+
+    qRegisterMetaType<SearchType::SearchType>();
+    qmlRegisterUncreatableMetaObject(ScreenPlay::SearchType::staticMetaObject,
+        "ScreenPlay.Enums.SearchType",
+        1, 0,
+        "SearchType",
         "Error: only enums");
 
 

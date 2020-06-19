@@ -83,7 +83,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
 
-    Q_PROPERTY(ScreenPlay::Enums::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
+    Q_PROPERTY(ScreenPlay::FillMode::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
     Q_PROPERTY(Language language READ language WRITE setLanguage NOTIFY languageChanged)
     Q_PROPERTY(Theme theme READ theme WRITE setTheme NOTIFY themeChanged)
 
@@ -159,7 +159,7 @@ public:
         return m_checkWallpaperVisible;
     }
 
-    ScreenPlay::Enums::FillMode videoFillMode() const
+    ScreenPlay::FillMode::FillMode videoFillMode() const
     {
         return m_videoFillMode;
     }
@@ -196,7 +196,7 @@ signals:
     void silentStartChanged(bool silentStart);
     void anonymousTelemetryChanged(bool anonymousTelemetry);
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
-    void videoFillModeChanged(ScreenPlay::Enums::FillMode videoFillMode);
+    void videoFillModeChanged(ScreenPlay::FillMode::FillMode videoFillMode);
     void languageChanged(Language language);
     void fontChanged(QString font);
     void themeChanged(Theme theme);
@@ -314,7 +314,7 @@ public slots:
         emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
     }
 
-    void setVideoFillMode(ScreenPlay::Enums::FillMode videoFillMode)
+    void setVideoFillMode(ScreenPlay::FillMode::FillMode videoFillMode)
     {
         if (m_videoFillMode == videoFillMode)
             return;
@@ -374,7 +374,7 @@ private:
 
     QString m_gitBuildHash;
     QString m_decoder;
-    ScreenPlay::Enums::FillMode m_videoFillMode { ScreenPlay::Enums::FillMode::Cover };
+    ScreenPlay::FillMode::FillMode m_videoFillMode { ScreenPlay::FillMode::FillMode::Cover };
     Language m_language { Language::En };
     Theme m_theme { Theme::System };
     QString m_font { "Roboto" };

@@ -57,10 +57,12 @@ namespace InstalledType {
 
     enum class InstalledType {
         Unknown,
+
         VideoWallpaper,
         QMLWallpaper,
         HTMLWallpaper,
         GodotWallpaper,
+
         QMLWidget,
         HTMLWidget,
     };
@@ -68,7 +70,21 @@ namespace InstalledType {
 
 }
 
-namespace Enums {
+namespace SearchType {
+    Q_NAMESPACE
+
+    enum class SearchType {
+        All,
+        Text,
+        Scenes, //QML, HTML, Godot wallpaper
+        Wallpaper,
+        Widget,
+    };
+    Q_ENUM_NS(SearchType)
+
+}
+
+namespace FillMode {
     Q_NAMESPACE
 
     enum class FillMode {

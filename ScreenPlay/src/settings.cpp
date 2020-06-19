@@ -64,9 +64,9 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
     if (m_qSettings.contains("VideoFillMode")) {
         auto value = m_qSettings.value("VideoFillMode").toString();
-        setVideoFillMode(QStringToEnum<Enums::FillMode>(value, Enums::FillMode::Cover));
+        setVideoFillMode(QStringToEnum<FillMode::FillMode>(value, FillMode::FillMode::Cover));
     } else {
-        setVideoFillMode(Enums::FillMode::Cover);
+        setVideoFillMode(FillMode::FillMode::Cover);
     }
     
     if (m_qSettings.contains("Theme")) {

@@ -85,6 +85,7 @@ public:
         AbsoluteStoragePathRole,
         WorkshopIDRole,
         TagsRole,
+        SearchTypeRole,
     };
     Q_ENUM(InstalledRole)
 
@@ -93,13 +94,12 @@ public:
         return m_count;
     }
 
-
 public slots:
     void loadInstalledContent();
     void append(const QJsonObject&, const QString&);
     void reset();
     void init();
-    QVariantMap get(QString folderId);
+    QVariantMap get(QString folderId) const;
 
     void setCount(int count)
     {

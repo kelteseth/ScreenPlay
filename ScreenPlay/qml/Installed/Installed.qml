@@ -5,6 +5,8 @@ import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 
 import ScreenPlay 1.0
+import ScreenPlay.Enums.InstalledType 1.0
+import ScreenPlay.Enums.SearchType 1.0
 
 Item {
     id: pageInstalled
@@ -18,7 +20,7 @@ Item {
 
     Component.onCompleted: {
         pageInstalled.state = "in"
-        ScreenPlay.installedListFilter.sortByRoleType("All")
+        ScreenPlay.installedListFilter.sortBySearchType(SearchType.All)
         checkIsContentInstalled()
     }
 
@@ -248,7 +250,7 @@ Item {
                     icon.source: "qrc:/assets/icons/icon_installed.svg"
                     onClicked: {
                         setSidebarActive(false)
-                        ScreenPlay.installedListFilter.sortByRoleType("All")
+                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.All)
                     }
                 }
                 TabButton {
@@ -263,7 +265,7 @@ Item {
                     icon.source: "qrc:/assets/icons/icon_code.svg"
                     onClicked: {
                         setSidebarActive(false)
-                        ScreenPlay.installedListFilter.sortByRoleType("Scenes")
+                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.Scenes)
                     }
                 }
                 TabButton {
@@ -278,7 +280,7 @@ Item {
                     icon.source: "qrc:/assets/icons/icon_movie.svg"
                     onClicked: {
                         setSidebarActive(false)
-                        ScreenPlay.installedListFilter.sortByRoleType("Videos")
+                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.Wallpaper)
                     }
                 }
                 TabButton {
@@ -293,7 +295,7 @@ Item {
                     icon.source: "qrc:/assets/icons/icon_widgets.svg"
                     onClicked: {
                         setSidebarActive(false)
-                        ScreenPlay.installedListFilter.sortByRoleType("Widgets")
+                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.Widgets)
                     }
                 }
             }

@@ -84,6 +84,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(row).m_workshopID;
         case TagsRole:
             return m_screenPlayFiles.at(row).m_tags;
+        case SearchTypeRole:
+            return QVariant::fromValue(m_screenPlayFiles.at(row).m_searchType);
         default:
             return QVariant();
         }
@@ -105,6 +107,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { AbsoluteStoragePathRole, "screenAbsoluteStoragePath" },
         { WorkshopIDRole, "screenWorkshopID" },
         { TagsRole, "screenTags" },
+        { SearchTypeRole, "screenSearchType" },
     };
     return roles;
 }
@@ -153,7 +156,7 @@ void InstalledListModel::loadInstalledContent()
     });
 }
 
-QVariantMap InstalledListModel::get(QString folderId)
+QVariantMap InstalledListModel::get(QString folderId) const
 {
 
     QVariantMap map;

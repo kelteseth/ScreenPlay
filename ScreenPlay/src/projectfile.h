@@ -102,9 +102,11 @@ struct ProjectFile {
         QString type = obj.value("type").toString();
         if (type.endsWith("Wallpaper")) {
             if (type.startsWith("video")) {
+                m_searchType = SearchType::SearchType::Wallpaper;
                 m_type = InstalledType::InstalledType::VideoWallpaper;
                 return;
             }
+            m_searchType = SearchType::SearchType::Scenes;
             if (type.startsWith("qml")) {
                 m_type = InstalledType::InstalledType::QMLWallpaper;
                 return;
@@ -120,6 +122,7 @@ struct ProjectFile {
         }
 
         if (type.endsWith("Widget")) {
+            m_searchType = SearchType::SearchType::Widget;
             if (type.startsWith("qml")) {
                 m_type = InstalledType::InstalledType::QMLWidget;
                 return;
@@ -144,6 +147,7 @@ struct ProjectFile {
     QString m_folderId;
     QUrl m_absoluteStoragePath;
     InstalledType::InstalledType m_type = InstalledType::InstalledType::Unknown;
+    SearchType::SearchType m_searchType = SearchType::SearchType::All;
     int m_workshopID { 0 };
     QVariantList m_tags;
 };

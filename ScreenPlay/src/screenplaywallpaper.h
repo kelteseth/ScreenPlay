@@ -60,7 +60,7 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
 
-    Q_PROPERTY(Enums::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
+    Q_PROPERTY(FillMode::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
     Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
@@ -72,7 +72,7 @@ public:
         const QString& previewImage,
         const QString& file,
         const float volume,
-        const Enums::FillMode fillMode,
+        const FillMode::FillMode fillMode,
         const InstalledType::InstalledType type,
         const bool checkWallpaperVisible,
         QObject* parent = nullptr);
@@ -104,7 +104,7 @@ public:
         return m_file;
     }
 
-    Enums::FillMode fillMode() const
+    FillMode::FillMode fillMode() const
     {
         return m_fillMode;
     }
@@ -132,7 +132,7 @@ signals:
     void appIDChanged(QString appID);
     void typeChanged(InstalledType::InstalledType type);
     void fileChanged(QString file);
-    void fillModeChanged(Enums::FillMode fillMode);
+    void fillModeChanged(FillMode::FillMode fillMode);
     void absolutePathChanged(QString absolutePath);
     void profileJsonObjectChanged(QJsonObject profileJsonObject);
     void volumeChanged(float volume);
@@ -187,7 +187,7 @@ public slots:
         emit fileChanged(m_file);
     }
 
-    void setFillMode(Enums::FillMode fillMode)
+    void setFillMode(FillMode::FillMode fillMode)
     {
         if (m_fillMode == fillMode)
             return;
@@ -236,7 +236,7 @@ private:
 
     QString m_previewImage;
     InstalledType::InstalledType m_type;
-    Enums::FillMode m_fillMode;
+    FillMode::FillMode m_fillMode;
     QString m_appID;
     QString m_absolutePath;
     QString m_file;

@@ -34,10 +34,12 @@
 
 #pragma once
 
-#include "installedlistmodel.h"
 #include <QRegExp>
 #include <QSortFilterProxyModel>
 #include <memory>
+
+#include "globalvariables.h"
+#include "installedlistmodel.h"
 
 namespace ScreenPlay {
 
@@ -48,11 +50,12 @@ public:
     InstalledListFilter(const std::shared_ptr<InstalledListModel>& ilm);
 
 public slots:
-    void sortByRoleType(QString type);
-    void sortByName(QString name);
+    void sortBySearchType(const ScreenPlay::SearchType::SearchType searchType);
+    void sortByName(const QString& name);
     void resetFilter();
 
 private:
     const std::shared_ptr<InstalledListModel> m_ilm;
+    ScreenPlay::SearchType::SearchType m_searchType = ScreenPlay::SearchType::SearchType::All;
 };
 }

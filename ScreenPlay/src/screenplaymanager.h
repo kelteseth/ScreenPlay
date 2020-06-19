@@ -94,7 +94,7 @@ public slots:
     // moc needs full enum namespace info see QTBUG-58454
     void createWallpaper(
         const ScreenPlay::InstalledType::InstalledType type,
-        const ScreenPlay::Enums::FillMode fillMode,
+        const ScreenPlay::FillMode::FillMode fillMode,
         const QString& absoluteStoragePath,
         const QString& previewImage,
         const QString& file,

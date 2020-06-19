@@ -39,7 +39,7 @@ ScreenPlayManager::ScreenPlayManager(
 */
 void ScreenPlayManager::createWallpaper(
     const InstalledType::InstalledType type,
-    const Enums::FillMode fillMode,
+    const FillMode::FillMode fillMode,
     const QString& absoluteStoragePath,
     const QString& previewImage,
     const QString& file,
@@ -366,7 +366,7 @@ void ScreenPlayManager::loadProfiles()
             QString typeString = wallpaperObj.value("type").toString();
 
             auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::VideoWallpaper);
-            auto fillMode = QStringToEnum<Enums::FillMode>(fillModeString, Enums::FillMode::Cover);
+            auto fillMode = QStringToEnum<FillMode::FillMode>(fillModeString, FillMode::FillMode::Cover);
 
             createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, false);
             monitors.clear();

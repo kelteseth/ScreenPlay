@@ -6,7 +6,7 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
 
 import ScreenPlay 1.0
-import ScreenPlayEnums 1.0
+import ScreenPlay.Enums.FillMode 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 
 import "../Monitors"
@@ -311,19 +311,19 @@ Item {
                                           ScreenPlay.settings.videoFillMode)
 
                         model: [{
-                                "value": ScreenPlayEnums.Stretch,
+                                "value": InstalledType.Stretch,
                                 "text": qsTr("Stretch")
                             }, {
-                                "value": ScreenPlayEnums.Fill,
+                                "value": InstalledType.Fill,
                                 "text": qsTr("Fill")
                             }, {
-                                "value": ScreenPlayEnums.Contain,
+                                "value": InstalledType.Contain,
                                 "text": qsTr("Contain")
                             }, {
-                                "value": ScreenPlayEnums.Cover,
+                                "value": InstalledType.Cover,
                                 "text": qsTr("Cover")
                             }, {
-                                "value": ScreenPlayEnums.Scale_Down,
+                                "value": InstalledType.Scale_Down,
                                 "text": qsTr("Scale-Down")
                             }]
                     }

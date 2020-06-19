@@ -5,7 +5,7 @@ import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
 import ScreenPlay 1.0
-import ScreenPlayEnums 1.0
+import ScreenPlay.Enums.InstalledType 1.0
 import "../Common/" as SP
 
 Item {
@@ -107,7 +107,7 @@ Item {
 
                         videoControlWrapper.state = "visible"
                         customPropertiesGridView.model = listModel
-                        if (type === ScreenPlayEnums.VideoWallpaper) {
+                        if (type === InstalledType.VideoWallpaper) {
                             customPropertiesGridView.state = "hidden"
                             videoControlWrapper.state = "visible"
                         } else {

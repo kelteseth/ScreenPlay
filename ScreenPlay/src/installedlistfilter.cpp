@@ -20,46 +20,28 @@ InstalledListFilter::InstalledListFilter(const std::shared_ptr<InstalledListMode
 {
     setSourceModel(m_ilm.get());
     setFilterRole(InstalledListModel::InstalledRole::TitleRole);
-    sortByRoleType("All");
-}
-
-/*!
- \brief Set the filter proxy to sort by the given \a type. This can be:
- \list
-    \li All
-    \li Videos
-    \li Widgets
-    \li Scenes
- \endlist
-*/
-void InstalledListFilter::sortByRoleType(QString type)
-{
-    if (type == "All") {
-        setFilterRole(InstalledListModel::InstalledRole::TitleRole);
-        setFilterWildcard("*");
-    } else if (type == "Videos") {
-        setFilterRole(InstalledListModel::InstalledRole::TypeRole);
-        setFilterFixedString("videoWallpaper");
-    } else if (type == "Widgets") {
-        setFilterRole(InstalledListModel::InstalledRole::TypeRole);
-        setFilterWildcard("*Widget");
-    } else if (type == "Scenes") {
-        setFilterRole(InstalledListModel::InstalledRole::TypeRole);
-        setFilterFixedString("qmlWallpaper");
-    }
-
-    sort(0);
 }
 
 /*!
   \brief Invoked when the user uses the quicksearch at the top right of the installed page.
   Uses the \a name to sort by name. This name is saved in the project.json title.
 */
-void InstalledListFilter::sortByName(QString name)
+void InstalledListFilter::sortByName(const QString& name)
 {
     setFilterRole(InstalledListModel::InstalledRole::TitleRole);
     setFilterCaseSensitivity(Qt::CaseInsensitive);
     setFilterFixedString(name);
+    sort(0);
+}
+
+void InstalledListFilter::sortBySearchType(const ScreenPlay::SearchType::SearchType searchType)
+{
+    if (searchType == SearchType::SearchType::All) {
+        resetFilter();
+        return;
+    }
+    setFilterRole(InstalledListModel::InstalledRole::SearchTypeRole);
+    setFilterFixedString(QVariant::fromValue(searchType).toString());
     sort(0);
 }
 
@@ -72,4 +54,5 @@ void InstalledListFilter::resetFilter()
     setFilterWildcard("*");
     sort(0);
 }
+
 }
