@@ -22,11 +22,11 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     const QString& file,
     const float volume,
     const Enums::FillMode fillMode,
-    const Enums::WallpaperType type,
+    const InstalledType::InstalledType type,
     const bool checkWallpaperVisible,
     QObject* parent)
     : QObject(parent)
-    , m_projectSettingsListModel { absolutePath + "/project.json"}
+    , m_projectSettingsListModel { absolutePath + "/project.json" }
     , m_globalVariables { globalVariables }
     , m_screenNumber { screenNumber }
     , m_previewImage { previewImage }
@@ -71,7 +71,6 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
     m_process.startDetached();
 }
-
 
 QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 {

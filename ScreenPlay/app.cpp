@@ -86,13 +86,11 @@ App::App()
     qRegisterMetaType<InstalledListFilter*>();
     qRegisterMetaType<MonitorListModel*>();
     qRegisterMetaType<ProfileListModel*>();
-    qRegisterMetaType<Enums::FillMode>();
-    qRegisterMetaType<Enums::WallpaperType>();
-    qRegisterMetaType<Enums::WidgetType>();
 
     // Registers the enums from globalvariables.
     // Apparently this is the only way for qml to work
     // https://www.kdab.com/new-qt-5-8-meta-object-support-namespaces/
+    qRegisterMetaType<Enums::FillMode>();
     qmlRegisterUncreatableMetaObject(ScreenPlay::Enums::staticMetaObject,
         "ScreenPlayEnums",
         1, 0,

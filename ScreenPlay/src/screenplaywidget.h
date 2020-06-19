@@ -53,16 +53,14 @@ class ScreenPlayWidget : public QObject {
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
-    Q_PROPERTY(Enums::WidgetType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
-    explicit ScreenPlayWidget(
-        const QString& appID,
+    explicit ScreenPlayWidget(const QString& appID,
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const QString& projectPath,
         const QString& previewImage,
-        const QString& fullPath,
-        const Enums::WidgetType type);
+        const InstalledType::InstalledType type);
 
     ~ScreenPlayWidget() { }
 
@@ -86,7 +84,7 @@ public:
         return m_appID;
     }
 
-    Enums::WidgetType type() const
+    InstalledType::InstalledType type() const
     {
         return m_type;
     }
@@ -128,7 +126,7 @@ public slots:
         emit appIDChanged(m_appID);
     }
 
-    void setType(Enums::WidgetType type)
+    void setType(InstalledType::InstalledType type)
     {
         if (m_type == type)
             return;
@@ -142,7 +140,7 @@ signals:
     void previewImageChanged(QString previewImage);
     void positionChanged(QPoint position);
     void appIDChanged(QString appID);
-    void typeChanged(Enums::WidgetType type);
+    void typeChanged(InstalledType::InstalledType type);
 
 private:
     QProcess m_process;
@@ -152,6 +150,6 @@ private:
     QString m_previewImage;
     QString m_appID;
     QPoint m_position;
-    Enums::WidgetType m_type;
+    InstalledType::InstalledType m_type;
 };
 }

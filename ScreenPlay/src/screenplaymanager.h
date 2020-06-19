@@ -83,14 +83,17 @@ public:
     }
 
 signals:
-    void projectSettingsListModelResult(const bool found, ProjectSettingsListModel* li = nullptr, const ScreenPlay::Enums::WallpaperType type = ScreenPlay::Enums::WallpaperType::VideoWallpaper);
+    void projectSettingsListModelResult(
+        const bool found,
+        ProjectSettingsListModel* li = nullptr,
+        const ScreenPlay::InstalledType::InstalledType type = ScreenPlay::InstalledType::InstalledType::VideoWallpaper);
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
 
 public slots:
     // moc needs full enum namespace info see QTBUG-58454
     void createWallpaper(
-        const ScreenPlay::Enums::WallpaperType type,
+        const ScreenPlay::InstalledType::InstalledType type,
         const ScreenPlay::Enums::FillMode fillMode,
         const QString& absoluteStoragePath,
         const QString& previewImage,
@@ -100,8 +103,8 @@ public slots:
         const bool saveToProfilesConfigFile);
 
     void createWidget(
-        const ScreenPlay::Enums::WidgetType type,
-        const QUrl& absoluteStoragePath,
+        const ScreenPlay::InstalledType::InstalledType type,
+        const QString& absoluteStoragePath,
         const QString& previewImage);
 
     void removeAllWallpapers();

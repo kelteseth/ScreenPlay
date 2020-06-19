@@ -26,8 +26,9 @@ Item {
         txtHeadline.text = ScreenPlay.installedListModel.get(
                     root.contentFolderName).screenTitle
 
-        if (ScreenPlay.installedListModel.get(
-                    root.contentFolderName).screenPreviewGIF === undefined) {
+        const hasPreviewGif = ScreenPlay.installedListModel.get(
+                                root.contentFolderName).screenPreviewGIF !== undefined
+        if (!hasPreviewGif) {
             image.source = Qt.resolvedUrl(
                         ScreenPlay.globalVariables.localStoragePath + "/"
                         + root.contentFolderName + "/" + ScreenPlay.installedListModel.get(
@@ -42,7 +43,7 @@ Item {
             image.playing = true
         }
 
-        if (isWidget() || monitorSelection.activeMonitors.length > 0) {
+        if (isWidget() || (monitorSelection.activeMonitors.length > 0)) {
             btnSetWallpaper.enabled = true
             return
         }
@@ -338,7 +339,10 @@ Item {
                 }
 
                 onClicked: {
-                    print(root.type, root.isWidget(),root.isWallpaper())
+                    const absoluteStoragePath = ScreenPlay.globalVariables.localStoragePath
+                                              + "/" + root.contentFolderName
+                    const previewImage = ScreenPlay.installedListModel.get(
+                                           root.contentFolderName).screenPreview
                     if (root.isWallpaper()) {
                         let activeMonitors = monitorSelection.getActiveMonitors(
                                 )
@@ -347,23 +351,22 @@ Item {
                         if (activeMonitors.length === 0)
                             return
 
+                        const volume = Math.round(
+                                         sliderVolume.value * 100) / 100
+                        const screenFile = ScreenPlay.installedListModel.get(
+                                             root.contentFolderName).screenFile
+
                         ScreenPlay.screenPlayManager.createWallpaper(
                                     root.type, cbVideoFillMode.currentValue,
-                                    ScreenPlay.globalVariables.localStoragePath + "/"
-                                    + root.contentFolderName, ScreenPlay.installedListModel.get(
-                                        root.contentFolderName).screenPreview, ScreenPlay.installedListModel.get(
-                                        root.contentFolderName).screenFile, activeMonitors,
-                                    (Math.round(sliderVolume.value * 100) / 100),
-                                    true)
-                    } else if (root.isWidget()) {
-                        print("widget")
-                        ScreenPlay.screenPlayManager.createWidget(
-                                    ScreenPlay.globalVariables.localStoragePath
-                                    + "/" + root.contentFolderName,
-                                    ScreenPlay.installedListModel.get(
-                                        root.contentFolderName).screenPreview,
-                                    type)
+                                    absoluteStoragePath, previewImage,
+                                    screenFile, activeMonitors, volume, true)
                     }
+
+                    if (root.isWidget()) {
+                        ScreenPlay.screenPlayManager.createWidget(
+                                     type, absoluteStoragePath, previewImage)
+                    }
+
                     root.state = "inactive"
                     monitorSelection.deselectAll()
                 }

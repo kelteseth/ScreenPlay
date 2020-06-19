@@ -38,7 +38,7 @@ ScreenPlayManager::ScreenPlayManager(
     if we call the method when using via the settings on startup to skip a unnecessary save.
 */
 void ScreenPlayManager::createWallpaper(
-    const Enums::WallpaperType type,
+    const InstalledType::InstalledType type,
     const Enums::FillMode fillMode,
     const QString& absoluteStoragePath,
     const QString& previewImage,
@@ -56,8 +56,8 @@ void ScreenPlayManager::createWallpaper(
         monitors.append(index);
     }
 
-    QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
-    QString appID = Util::generateRandomString();
+    const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
+    const QString appID = Util::generateRandomString();
 
     std::shared_ptr<ScreenPlayWallpaper> wallpaper;
     wallpaper = std::make_shared<ScreenPlayWallpaper>(
@@ -101,23 +101,20 @@ void ScreenPlayManager::createWallpaper(
   \brief Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
 */
 void ScreenPlayManager::createWidget(
-    const Enums::WidgetType type,
-    const QUrl& absoluteStoragePath,
+    const InstalledType::InstalledType type,
+    const QString& absoluteStoragePath,
     const QString& previewImage)
 {
-    if (m_telemetry) {
-        m_telemetry->sendEvent("widget", "start");
-    }
-    increaseActiveWidgetsCounter();
+    const QString appID = Util::generateRandomString();
+    const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
 
-    m_screenPlayWidgets.append(
-        std::make_unique<ScreenPlayWidget>(
-            Util::generateRandomString(),
-            m_globalVariables,
-            absoluteStoragePath.toLocalFile(),
-            previewImage,
-            absoluteStoragePath.toString(),
-            type));
+    if (path.isEmpty()) {
+        qInfo() << "Path is empty, Abort! String: " << absoluteStoragePath;
+        return;
+    }
+
+    increaseActiveWidgetsCounter();
+    m_screenPlayWidgets.append(std::make_unique<ScreenPlayWidget>(appID, m_globalVariables, path, previewImage, type));
 }
 
 /*!
@@ -368,7 +365,7 @@ void ScreenPlayManager::loadProfiles()
             QString file = wallpaperObj.value("file").toString();
             QString typeString = wallpaperObj.value("type").toString();
 
-            auto type = QStringToEnum<Enums::WallpaperType>(typeString, Enums::WallpaperType::VideoWallpaper);
+            auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::VideoWallpaper);
             auto fillMode = QStringToEnum<Enums::FillMode>(fillModeString, Enums::FillMode::Cover);
 
             createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, false);

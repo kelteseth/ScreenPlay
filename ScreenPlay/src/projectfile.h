@@ -88,7 +88,6 @@ struct ProjectFile {
                     for (const auto& tag : tagArray) {
                         m_tags.append(tag.toString());
                     }
-                    qInfo() << m_tags;
                 }
             }
         }

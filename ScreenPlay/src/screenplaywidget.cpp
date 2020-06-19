@@ -13,12 +13,12 @@ namespace ScreenPlay {
 /*!
   \brief Constructor.
 */
-ScreenPlayWidget::ScreenPlayWidget(const QString& appID,
+ScreenPlayWidget::ScreenPlayWidget(
+    const QString& appID,
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString& projectPath,
     const QString& previewImage,
-    const QString& fullPath,
-    const Enums::WidgetType type)
+    const InstalledType::InstalledType type)
     : QObject { nullptr }
     , m_globalVariables { globalVariables }
     , m_projectPath { projectPath }
@@ -32,15 +32,11 @@ ScreenPlayWidget::ScreenPlayWidget(const QString& appID,
         QString { "appID=" + m_appID },
         QVariant::fromValue(m_type).toString()
     };
+
     m_process.setArguments(proArgs);
+    m_process.setProgram(m_globalVariables->widgetExecutablePath().path());
 
-    if (fullPath.endsWith(".exe")) {
-        m_process.setProgram(fullPath);
-    } else {
-        m_process.setProgram(m_globalVariables->widgetExecutablePath().path());
-    }
-
-    qDebug() << m_process.program();
+    qDebug() << proArgs;
 
     QObject::connect(&m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
         qDebug() << "error: " << error;

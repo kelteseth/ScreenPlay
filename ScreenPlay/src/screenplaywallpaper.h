@@ -61,7 +61,7 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
 
     Q_PROPERTY(Enums::FillMode fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
-    Q_PROPERTY(Enums::WallpaperType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
     explicit ScreenPlayWallpaper(
@@ -73,7 +73,7 @@ public:
         const QString& file,
         const float volume,
         const Enums::FillMode fillMode,
-        const Enums::WallpaperType type,
+        const InstalledType::InstalledType type,
         const bool checkWallpaperVisible,
         QObject* parent = nullptr);
 
@@ -94,7 +94,7 @@ public:
         return m_appID;
     }
 
-    Enums::WallpaperType type() const
+    InstalledType::InstalledType type() const
     {
         return m_type;
     }
@@ -130,7 +130,7 @@ signals:
     void screenNumberChanged(QVector<int> screenNumber);
     void previewImageChanged(QString previewImage);
     void appIDChanged(QString appID);
-    void typeChanged(Enums::WallpaperType type);
+    void typeChanged(InstalledType::InstalledType type);
     void fileChanged(QString file);
     void fillModeChanged(Enums::FillMode fillMode);
     void absolutePathChanged(QString absolutePath);
@@ -169,7 +169,7 @@ public slots:
         emit appIDChanged(m_appID);
     }
 
-    void setType(Enums::WallpaperType type)
+    void setType(InstalledType::InstalledType type)
     {
         if (m_type == type)
             return;
@@ -235,7 +235,7 @@ private:
     QVector<int> m_screenNumber;
 
     QString m_previewImage;
-    Enums::WallpaperType m_type;
+    InstalledType::InstalledType m_type;
     Enums::FillMode m_fillMode;
     QString m_appID;
     QString m_absolutePath;

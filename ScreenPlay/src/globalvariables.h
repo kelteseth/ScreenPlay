@@ -80,19 +80,6 @@ namespace Enums {
     };
     Q_ENUM_NS(FillMode)
 
-    enum class WallpaperType {
-        VideoWallpaper,
-        QMLWallpaper,
-        HTMLWallpaper
-    };
-    Q_ENUM_NS(WallpaperType)
-
-    enum class WidgetType {
-        QMLWidget,
-        HTMLWidget
-    };
-    Q_ENUM_NS(WidgetType)
-
 }
 
 class GlobalVariables : public QObject {
