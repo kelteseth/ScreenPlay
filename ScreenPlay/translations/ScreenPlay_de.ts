@@ -6,7 +6,7 @@
     <message>
         <location filename="../qml/Community/Community.qml" line="61"/>
         <source>We use Stomt because it provides quick and easy feedback via I like/I wish. So you can easily give us feedback and speak your mind. We will read these wishes on a daily basis!</source>
-        <translation type="unfinished">Wir verwenden Stomt, weil es ein schnelles und einfaches Feedback über I like/I wish liefert. So können Sie uns einfach Feedback geben und Ihre Meinung sagen. Wir werden diese Wünsche täglich lesen!</translation>
+        <translation type="unfinished">Wir verwenden Stomt, weil es ein schnelles und einfaches Feedback über I like/I wish liefert. So kannst du uns einfach Feedback geben und uns deine Meinung sagen. Wir lesen alle Wünsche täglich!</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="105"/>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../qml/Create/Create.qml" line="116"/>
         <source>Create wallpapers and widgets for local usage or the steam workshop!</source>
-        <translation type="unfinished">Erstellen Sie Tapeten und Widgets für den lokalen Gebrauch oder die Dampfwerkstatt!</translation>
+        <translation type="unfinished">Erstelle Wallpaper und Widgets für den eigenen Gebrauch oder den Steam Workshop!</translation>
     </message>
 </context>
 <context>
@@ -47,7 +47,7 @@
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="15"/>
         <source>Create Widgets and Scenes</source>
-        <translation type="unfinished">Widgets und Szenen erstellen</translation>
+        <translation type="unfinished">Erstelle Widgets und Szenen</translation>
     </message>
     <message>
         <source>Create Emtpy Widget</source>
@@ -60,17 +60,17 @@
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="30"/>
         <source>Create Empty Widget</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erstelle ein leeres Widget</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="43"/>
         <source>Example Widgets and Scenes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Beispiel Widgets und Szenen</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="67"/>
         <source>Simple clock widget</source>
-        <translation type="unfinished">Einfaches Clock-Widget</translation>
+        <translation type="unfinished">Einfaches Uhr-Widget</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="78"/>
@@ -98,7 +98,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="80"/>
         <source>Widget name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Widget Name</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="92"/>
@@ -162,7 +162,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="76"/>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished">Copiar texto al portapapeles</translation>
+        <translation type="unfinished">Kopiere den Text in die Zwischenablage</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="86"/>
@@ -175,32 +175,32 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="54"/>
         <source>Generating preview image...</source>
-        <translation type="unfinished">Vorschaubild erzeugen...</translation>
+        <translation type="unfinished">Erzeuge Vorschaubild...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="57"/>
         <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished">Vorschau-Miniaturbild erzeugen...</translation>
+        <translation type="unfinished">Erzeuge Vorschau-Miniaturbild...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="64"/>
         <source>Generating 5 second preview video...</source>
-        <translation type="unfinished">Das Generieren eines 5-Sekunden-Vorschau-Videos...</translation>
+        <translation type="unfinished">Generiere ein 5-Sekunden-Vorschau-Video...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="67"/>
         <source>Generating preview gif...</source>
-        <translation type="unfinished">Vorschau-Gif generieren...</translation>
+        <translation type="unfinished">Generiere Vorschau-Gif...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="76"/>
         <source>Converting Audio...</source>
-        <translation type="unfinished">Audio konvertieren...</translation>
+        <translation type="unfinished">Konvertiere Audio...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="79"/>
         <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished">Video umwandeln... Dies kann einige Zeit dauern!</translation>
+        <translation type="unfinished">Video wird umgewandelt... Das kann etwas dauern!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="83"/>
@@ -210,7 +210,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="107"/>
         <source>Convert a video to a wallpaper</source>
-        <translation type="unfinished">Ein Video in ein Hintergrund Live Wallpaper konvertieren</translation>
+        <translation type="unfinished">Konvertiere ein Video in ein Hintergrund Live Wallpaper</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="164"/>
@@ -220,12 +220,12 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="199"/>
         <source>Generating preview video...</source>
-        <translation type="unfinished">Vorschau-Video generieren...</translation>
+        <translation type="unfinished">Generiere Vorschau-Video...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="210"/>
         <source>You can set your own preview image here!</source>
-        <translation type="unfinished">Hier können Sie Ihr eigenes Vorschaubild einstellen!</translation>
+        <translation type="unfinished">Hier kannst du dein eigenes Vorschaubild einstellen!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="246"/>
@@ -240,7 +240,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="268"/>
         <source>Youtube URL</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">YouTube-URL</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="293"/>
@@ -250,12 +250,12 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="305"/>
         <source>Save</source>
-        <translation type="unfinished">Speichern Sie</translation>
+        <translation type="unfinished">Speichern</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="341"/>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished">Wallpaper speichern...</translation>
+        <translation type="unfinished">Speicher Wallpaper...</translation>
     </message>
 </context>
 <context>
@@ -291,47 +291,47 @@
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="35"/>
         <source>FFMPEG download failed</source>
-        <translation type="unfinished">FFMPEG-Download fehlgeschlagen</translation>
+        <translation type="unfinished">Der FFMPEG-Download  ist fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="39"/>
         <source>FFMPEG download successful</source>
-        <translation type="unfinished">FFMPEG-Download erfolgreich</translation>
+        <translation type="unfinished">Der FFMPEG-Download war erfolgreich</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="42"/>
         <source>Extracting FFMPEG</source>
-        <translation type="unfinished">Extrahieren von FFMPEG</translation>
+        <translation type="unfinished">FFMPEG wird extrahiert</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="46"/>
         <source>ERROR extracting ffmpeg from RAM</source>
-        <translation type="unfinished">ERROR Extrahieren von ffmpeg aus dem RAM</translation>
+        <translation type="unfinished">ERROR beim extrahieren von ffmpeg aus dem RAM</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="51"/>
         <source>ERROR extracing ffmpeg</source>
-        <translation type="unfinished">ERROR Extrahieren von ffmpeg</translation>
+        <translation type="unfinished">ERROR beim extrahieren von ffmpeg</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="56"/>
         <source>ERROR saving FFMPEG to disk</source>
-        <translation type="unfinished">ERROR Speichern von FFMPEG auf Festplatte</translation>
+        <translation type="unfinished">ERROR beim speichern von FFMPEG auf der Festplatte</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="61"/>
         <source>ERROR extracing FFPROBE</source>
-        <translation type="unfinished">ERROR Extrahieren von FFPROBE</translation>
+        <translation type="unfinished">ERROR beim extrahieren von FFPROBE</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="66"/>
         <source>ERROR saving FFPROBE to disk</source>
-        <translation type="unfinished">ERROR FFPROBE auf Festplatte speichern</translation>
+        <translation type="unfinished">ERROR beim speichern von FFPROBE auf der Festplatte</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="70"/>
         <source>Extraction successful</source>
-        <translation type="unfinished">Extraktion erfolgreich</translation>
+        <translation type="unfinished">Extrahieren war erfolgreich</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="73"/>
@@ -341,7 +341,7 @@
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="88"/>
         <source>You cannot create Wallaper without FFMPEG installed!</source>
-        <translation type="unfinished">Ohne installiertes FFMPEG können Sie keinen Wallaper erstellen!</translation>
+        <translation type="unfinished">Ohne installiertes FFMPEG kannst du keine Wallpaper erstellen!</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="109"/>
@@ -357,7 +357,7 @@
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="141"/>
         <source>Before we can start creating content you need to download FFMPEG</source>
-        <translation type="unfinished">Bevor wir mit der Erstellung von Inhalten beginnen können, müssen Sie FFMPEG herunterladen.</translation>
+        <translation type="unfinished">Bevor wir mit der Erstellung von Inhalten beginnen können, musst du FFMPEG herunterladen</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="241"/>
@@ -391,12 +391,12 @@ if you installed ScreenPlay via Steam!
 &lt;br&gt;
 &lt;br&gt;
 &lt;b&gt;~ Kelteseth | Elias Steurer&lt;/b&gt;</source>
-        <translation type="unfinished">&lt;b&gt;Warum belästigen wir Sie damit?&lt;/b&gt;
+        <translation type="unfinished">&lt;b&gt;Warum belästigen wir dich damit?&lt;/b&gt;
 &lt;br&gt;&lt;&lt;br&gt; Es ist wegen &lt;b&gt;Copyright&lt;/b&gt; und vielen vielen &lt;b&gt;Patenten&lt;/b&gt;.
 Dateien wie .mp4 oder .webm sind Container für Video und Audio. Jede Audio
-und die Videodatei ist mit einem bestimmten Codec kodiert. Diese können quelloffen sein
-und frei zu benutzen wie &lt;a href=&apos;https://wikipedia.org/wiki/VP8&apos;&gt;VP8&lt;/a&gt; und das neuere &lt;a href=&apos;https://wikipedia.org/wiki/VP9&apos;&gt;VP9&lt;/a&gt; (dasjenige, das YouTube für ihre Web
-ms)aber es gibt auch einige proprietäre wie &lt;a href=&apos;https://wikipedia.org/wiki/H.264/MPEG-4_AVC&apos;&gt;h264&lt;/a&gt; und den Nachfolger &lt;a href=&apos;https://wikipedia.org/wiki/High_Efficiency_Video_Coding&apos;&gt;h265&lt;/a&gt;.
+und Videodatei ist mit einem bestimmten Codec kodiert. Diese können quelloffen 
+und frei zu benutzen sein, wie &lt;a href=&apos;https://wikipedia.org/wiki/VP8&apos;&gt;VP8&lt;/a&gt; und das neuere &lt;a href=&apos;https://wikipedia.org/wiki/VP9&apos;&gt;VP9&lt;/a&gt; (Dasselbe, welches YouTube für ihre Web
+ms nutzt) aber es gibt auch einige proprietäre wie &lt;a href=&apos;https://wikipedia.org/wiki/H.264/MPEG-4_AVC&apos;&gt;h264&lt;/a&gt; und den Nachfolger &lt;a href=&apos;https://wikipedia.org/wiki/High_Efficiency_Video_Coding&apos;&gt;h265&lt;/a&gt;.
 &lt;br&gt;
 &lt;br&gt;
 
@@ -409,14 +409,14 @@ Entschuldigung für diese kleine Unannehmlichkeit :)
 &lt;Zentrum&gt;
 &lt;b&gt;
 WENN SIE KEINE INTERNETVERBINDUNG HABEN, KÖNNEN SIE EINFACH FFMPEG UND FFPROBE
-IM GLEICHEN ORDNER WIE IHR AUSFÜHRBARES DREHBUCH!
+IN DEN GLEICHEN ORDNER WIE IHRE SCREENPLAY.EXE EINFÜGEN!
 &lt;/b&gt;
 &lt;br&gt;
 &lt;br&gt;
 Das ist meistens:
 &lt;br&gt; C:Programmdateien (x86)SteamsteamappscommonScreenPlay
 &lt;br&gt;
-wenn Sie ScreenPlay über Steam! installiert haben
+wenn du ScreenPlay über Steam installiert hast!
 &lt;/center&gt;
 &lt;br&gt;
 &lt;br&gt;
@@ -500,7 +500,7 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="337"/>
         <source>You can now start creating content!</source>
-        <translation type="unfinished">Sie können jetzt mit der Erstellung von Inhalten beginnen!</translation>
+        <translation type="unfinished">Du  kannst jetzt mit der Erstellung von Inhalten beginnen!</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="369"/>
@@ -536,12 +536,12 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="139"/>
         <source>Clear</source>
-        <translation type="unfinished">Klar</translation>
+        <translation type="unfinished">Leeren</translation>
     </message>
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="153"/>
         <source>Select Preview Image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wähle ein Vorschaubild</translation>
     </message>
 </context>
 <context>
@@ -549,22 +549,22 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="25"/>
         <source>Import Content</source>
-        <translation type="unfinished">Inhalt importieren</translation>
+        <translation type="unfinished">Importiere neue Inhalte</translation>
     </message>
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="77"/>
         <source>Import video</source>
-        <translation type="unfinished">Video importieren</translation>
+        <translation type="unfinished">Importiere ein Video</translation>
     </message>
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="77"/>
         <source>FFMPEG Needed for import</source>
-        <translation type="unfinished">FFMPEG Erforderlich für die Aufnahme</translation>
+        <translation type="unfinished">FFMPEG ist erforderlich fürs Importieren</translation>
     </message>
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="159"/>
         <source>Import ThreeJs Scene</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ThreeJs Szene importieren</translation>
     </message>
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="241"/>
@@ -577,23 +577,23 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Installed/Installed.qml" line="93"/>
         <source>Refreshing!</source>
-        <translation type="unfinished">Erfrischend!</translation>
+        <translation type="unfinished">Aktualisiere!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="96"/>
         <location filename="../qml/Installed/Installed.qml" line="118"/>
         <source>Pull to refresh!</source>
-        <translation type="unfinished">Zum Erfrischen ziehen!</translation>
+        <translation type="unfinished">Drücken zum aktualisieren!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="133"/>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation type="unfinished">Holen Sie sich mehr Wallpaper &amp; Widgets über den Steam-Workshop!</translation>
+        <translation type="unfinished">Holen dir mehr Wallpaper und Widgets über den Steam-Workshop!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="267"/>
         <source>All</source>
-        <translation type="unfinished">Alle</translation>
+        <translation type="unfinished">Alles</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="276"/>
@@ -626,12 +626,12 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="54"/>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-        <translation type="unfinished">Holen Sie sich kostenlose Widgets und Wallpaper via Steam</translation>
+        <translation type="unfinished">Hole dir kostenlose Widgets und Wallpaper via Steam</translation>
     </message>
     <message>
         <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="84"/>
         <source>Browse the Steam Workshop</source>
-        <translation type="unfinished">Stöbern Sie in den Steam Workshop</translation>
+        <translation type="unfinished">Stöbere durch den Steam Workshop</translation>
     </message>
 </context>
 <context>
@@ -644,7 +644,7 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="131"/>
         <source>Remove selected</source>
-        <translation type="unfinished">Ausgewählte entfernen</translation>
+        <translation type="unfinished">Die Auswahl entfernen</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="142"/>
@@ -662,7 +662,7 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
         <source>Configurate active Wallpaper or Widgets</source>
-        <translation type="unfinished">Konfigurieren Sie aktive Wallpaper oder Widgets</translation>
+        <translation type="unfinished">Konfiguriere aktive Wallpaper oder Widgets</translation>
     </message>
     <message>
         <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="70"/>
@@ -698,12 +698,12 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Settings/Settings.qml" line="88"/>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation type="unfinished">ScreenPlay startet mit Windows und richtet Ihren Desktop jedes Mal für Sie ein.</translation>
+        <translation type="unfinished">ScreenPlay startet mit Windows und richtet deinen Desktop jedes Mal für dich ein.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="98"/>
         <source>High priority Autostart</source>
-        <translation type="unfinished">Hohe Priorität Autostart</translation>
+        <translation type="unfinished">Hohe Priorität für Autostart</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="101"/>
@@ -713,27 +713,27 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Settings/Settings.qml" line="113"/>
         <source>Send anonymous crash reports and statistics</source>
-        <translation type="unfinished">Senden Sie anonyme Absturzberichte und Statistiken</translation>
+        <translation type="unfinished">Sende anonyme Absturzberichte und Statistiken</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="114"/>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!</source>
-        <translation type="unfinished">Helfen Sie uns, ScreenPlay schneller und stabiler zu machen. Alle gesammelten Daten sind rein anonym und werden nur zu Entwicklungszwecken verwendet!</translation>
+        <translation type="unfinished">Hilf uns, ScreenPlay schneller und stabiler zu machen. Alle gesammelten Daten sind rein anonym und werden nur zu Entwicklungszwecken verwendet!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="125"/>
         <source>Set save location</source>
-        <translation type="unfinished">Speicherort einstellen</translation>
+        <translation type="unfinished">Speicherort auswählen</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="127"/>
         <source>Set location</source>
-        <translation type="unfinished">Standort einstellen</translation>
+        <translation type="unfinished">Standort auswählen</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="143"/>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation type="unfinished">Wichtig: Eine Änderung dieses Verzeichnisses hat keine Auswirkungen auf den Download-Pfad des Workshops. ScreenPlay unterstützt nur ein Inhaltsverzeichnis!</translation>
+        <translation type="unfinished">Wichtig: Eine Änderung dieses Verzeichnisses hat keine Auswirkungen auf den Download-Pfad des Workshops. ScreenPlay unterstützt nur ein Verzeichnis!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="162"/>
@@ -743,7 +743,7 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Settings/Settings.qml" line="163"/>
         <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished">Sprache der ScreenPlay-Bedienoberfläche einstellen</translation>
+        <translation type="unfinished">Wähle die Sprache des Programms aus</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="247"/>
@@ -753,7 +753,7 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Settings/Settings.qml" line="267"/>
         <source>Pause wallpaper while ingame</source>
-        <translation type="unfinished">Pausieren der Wallpaper während des Spiels</translation>
+        <translation type="unfinished">Pausiere dein Wallpaper während des Spiels</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="269"/>
@@ -768,7 +768,7 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Settings/Settings.qml" line="283"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation type="unfinished">Legen Sie diese Eigenschaft fest, um zu definieren, wie das Video skaliert wird, damit es in den Zielbereich passt.</translation>
+        <translation type="unfinished">Lege diese Eigenschaft fest, um zu definieren, wie das Video skaliert wird, damit es in den Zielbereich passt.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="332"/>
@@ -778,12 +778,12 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Settings/Settings.qml" line="358"/>
         <source>Thank you for using ScreenPlay</source>
-        <translation type="unfinished">Danke, dass Sie ScreenPlay verwenden</translation>
+        <translation type="unfinished">Danke, dass du ScreenPlay verwendest</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="372"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation type="unfinished">Moin, ich bin &quot;Elias Steurer&quot; auch bekannt als Kelteseth und ich bin der Entwickler von ScreenPlay. Danke, dass Sie meine Software benutzen. Sie können mir hier folgen, um Updates über ScreenPlay zu erhalten:</translation>
+        <translation type="unfinished">Moin, ich bin Elias Steurer, auch bekannt als Kelteseth und ich bin der Entwickler von ScreenPlay. Danke, dass du meine Software nutzt. Du kannst mir hier folgen, um Updates über ScreenPlay zu erhalten:</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="459"/>
@@ -824,7 +824,7 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Settings/Settings.qml" line="494"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation type="unfinished">Wenn Ihr ScreenPlay sich falsch verhält, ist dies eine gute Möglichkeit, nach Antworten zu suchen. Hier werden alle Protokolle und Warnungen während der Laufzeit angezeigt.</translation>
+        <translation type="unfinished">Wenn den ScreenPlay sich falsch verhält, ist hier eine gute Möglichkeit, nach Antworten zu suchen. Hier werden alle Protokolle und Warnungen während der Laufzeit angezeigt.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="510"/>
@@ -834,7 +834,7 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Settings/Settings.qml" line="511"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation type="unfinished">Wir verwenden Ihre Daten sehr sorgfältig, um ScreenPlay zu verbessern. Wir verkaufen oder teilen diese (anonymen) Informationen nicht mit anderen!</translation>
+        <translation type="unfinished">Wir verwenden deine Daten sehr sorgfältig, um ScreenPlay zu verbessern. Wir verkaufen oder teilen diese (anonymen) Informationen nicht mit anderen!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="512"/>
@@ -847,7 +847,7 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Settings/SettingsExpander.qml" line="46"/>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished">Text in die Zwischenablage kopieren</translation>
+        <translation type="unfinished">Kopiere den Text in die Zwischenablage</translation>
     </message>
 </context>
 <context>
@@ -860,7 +860,7 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="239"/>
         <source>Select a Monitor to display the content</source>
-        <translation type="unfinished">Wählen Sie einen Monitor zur Anzeige des Inhalts</translation>
+        <translation type="unfinished">Wähle einen Monitor zur Anzeige des Inhalts</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="263"/>
@@ -922,7 +922,7 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../qml/Community/XMLNewsfeed.qml" line="58"/>
         <source>News &amp; Patchnotes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Neuigkeiten &amp; Patchnotes</translation>
     </message>
 </context>
 <context>
@@ -930,29 +930,29 @@ wenn Sie ScreenPlay über Steam! installiert haben
     <message>
         <location filename="../main.qml" line="115"/>
         <source>ScreenPlay - Double click to change you settings.</source>
-        <translation type="unfinished">ScreenPlay - Doppelklicken Sie, um Ihre Einstellungen zu ändern.</translation>
+        <translation type="unfinished">ScreenPlay - Doppelklicke, um deine Einstellungen zu ändern.</translation>
     </message>
     <message>
         <location filename="../main.qml" line="134"/>
         <source>Open ScreenPlay</source>
-        <translation type="unfinished">ScreenPlay öffnen</translation>
+        <translation type="unfinished">Öffne ScreenPlay</translation>
     </message>
     <message>
         <location filename="../main.qml" line="142"/>
         <location filename="../main.qml" line="146"/>
         <source>Mute all</source>
-        <translation type="unfinished">Alle stummschalten</translation>
+        <translation type="unfinished">Alles stummschalten</translation>
     </message>
     <message>
         <location filename="../main.qml" line="150"/>
         <source>Unmute all</source>
-        <translation type="unfinished">Alle Stummschaltung aufheben</translation>
+        <translation type="unfinished">Alle Stummschaltungen aufheben</translation>
     </message>
     <message>
         <location filename="../main.qml" line="158"/>
         <location filename="../main.qml" line="162"/>
         <source>Pause all</source>
-        <translation type="unfinished">Alle pausieren</translation>
+        <translation type="unfinished">Alles pausieren</translation>
     </message>
     <message>
         <location filename="../main.qml" line="166"/>
