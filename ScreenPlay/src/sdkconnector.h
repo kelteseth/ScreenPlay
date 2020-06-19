@@ -46,6 +46,8 @@
 
 #include <memory>
 
+#include "globalvariables.h"
+
 /*!
     \class SDKConnector
     \brief Used for every Wallpaper, Scene or Widget communication via Windows pipes/QLocalSocket
@@ -150,29 +152,20 @@ public slots:
             QString appID = args.at(0);
             m_appID = appID.remove("appID=");
 
-            QStringList types {
-                "VideoWallpaper",
-                "QmlWallpaper",
-                "HtmlWallpaper",
-                "GodotWallpaper",
-
-                "QmlWidget",
-                "HtmlWidget",
-                "StandaloneWidget"
-            };
             bool typeFound = false;
-            for (const QString& type : types) {
-                if (msg.contains(type,Qt::CaseInsensitive)) {
+            for (const QString& type : GlobalVariables::getAvailableTypes()) {
+                if (msg.contains(type, Qt::CaseInsensitive)) {
                     m_type = type;
                     typeFound = true;
                     break;
                 }
             }
-            if(!typeFound){
-                qCritical() << "Wallpaper type not found. Expected: " << types << " got: " << msg;
+
+            if (!typeFound) {
+                qCritical() << "Wallpaper type not found. Expected: " << GlobalVariables::getAvailableTypes() << " got: " << msg;
             }
-            qInfo() << "###### Wallpaper created:"
-                    << "\t AppID:" << m_appID << "\t type: " << m_type;
+            qInfo() << "###### " << m_type << " created:"
+                    << "\t AppID:" << m_appID;
 
         } else if (msg.startsWith("command=")) {
             msg.remove("command=");
