@@ -262,6 +262,14 @@ Item {
                         availableWidth: width
                         availableHeight: height
                         fontSize: 11
+                        onActiveMonitorsChanged: {
+                            if(isWidget()){
+                                btnSetWallpaper.enabled = true
+                                return
+                            }
+
+                            btnSetWallpaper.enabled = activeMonitors.length > 0
+                        }
                     }
                 }
 
@@ -364,7 +372,7 @@ Item {
 
                     if (root.isWidget()) {
                         ScreenPlay.screenPlayManager.createWidget(
-                                     type, absoluteStoragePath, previewImage)
+                                    type, absoluteStoragePath, previewImage)
                     }
 
                     root.state = "inactive"
