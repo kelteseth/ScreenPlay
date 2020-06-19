@@ -3,6 +3,6 @@ namespace ScreenPlay {
 ScreenPlay::GlobalVariables::GlobalVariables(QObject* parent)
     : QObject(parent)
 {
-     setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::DataLocation) });
+    setLocalSettingsPath(QUrl { QStandardPaths::writableLocation(QStandardPaths::DataLocation) });
 }
 }

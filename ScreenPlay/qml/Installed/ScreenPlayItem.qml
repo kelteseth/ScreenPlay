@@ -3,6 +3,8 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Styles 1.4
 import ScreenPlay 1.0
+import ScreenPlay.Enums.InstalledType 1.0
+
 Item {
     id: screenPlayItem
     width: 320
@@ -12,18 +14,27 @@ Item {
 
     property string customTitle: "name here"
     property url absoluteStoragePath
-    property string type
+    property var type
     property bool hasMenuOpen: false
     property int workshopID: 0
     property int itemIndex
     property string screenId: ""
 
     onTypeChanged: {
-        if(type.endsWith("Widget"))
+        switch (type) {
+        case InstalledType.Unknown:
+            return
+        case InstalledType.VideoWallpaper:
+        case InstalledType.QMLWallpaper:
+        case InstalledType.HTMLWallpaper:
+        case InstalledType.GodotWallpaper:
             icnType.source = "qrc:/assets/icons/icon_widgets.svg"
-
-        if(type.endsWith("Wallpaper"))
+            return
+        case InstalledType.QMLWidget:
+        case InstalledType.HTMLWidget:
             icnType.source = "qrc:/assets/icons/icon_movie.svg"
+            return
+        }
     }
 
     Component.onCompleted: {
@@ -34,10 +45,10 @@ Item {
         id: timerAnim
         interval: {
             var itemIndexMax = itemIndex
-            if(itemIndex > 30)
+            if (itemIndex > 30)
                 itemIndexMax = 3
 
-            10  * itemIndexMax *Math.random()
+            10 * itemIndexMax * Math.random()
         }
 
         running: true
@@ -133,7 +144,6 @@ Item {
             visible: false
             smooth: true
             fillMode: Image.PreserveAspectFit
-
         }
 
         Item {
@@ -202,15 +212,16 @@ Item {
                 onExited: {
                     if (!hasMenuOpen) {
                         screenPlayItem.state = "visible"
-                         screenPlayItemImage.state = "loaded"
+                        screenPlayItemImage.state = "loaded"
                         screenPlayItemImage.exit()
                     }
                 }
 
                 onClicked: {
                     if (mouse.button === Qt.LeftButton) {
-                        ScreenPlay.util.setSidebarItem(screenPlayItem.screenId, screenPlayItem.type.toString())
-
+                        ScreenPlay.util.setSidebarItem(
+                                    screenPlayItem.screenId,
+                                    screenPlayItem.type)
                     } else if (mouse.button === Qt.RightButton) {
                         if (workshopID != 0) {
                             miWorkshop.enabled = true

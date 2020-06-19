@@ -34,6 +34,7 @@
 
 #pragma once
 
+#include <QMetaType>
 #include <QObject>
 #include <QQmlEngine>
 #include <QStandardPaths>
@@ -51,6 +52,22 @@ namespace ScreenPlay {
 
 */
 
+namespace InstalledType {
+    Q_NAMESPACE
+
+    enum class InstalledType {
+        Unknown,
+        VideoWallpaper,
+        QMLWallpaper,
+        HTMLWallpaper,
+        GodotWallpaper,
+        QMLWidget,
+        HTMLWidget,
+    };
+    Q_ENUM_NS(InstalledType)
+
+}
+
 namespace Enums {
     Q_NAMESPACE
 
@@ -62,7 +79,6 @@ namespace Enums {
         Scale_Down
     };
     Q_ENUM_NS(FillMode)
-
 
     enum class WallpaperType {
         VideoWallpaper,
@@ -90,9 +106,6 @@ class GlobalVariables : public QObject {
 
 public:
     explicit GlobalVariables(QObject* parent = nullptr);
-
-
-
 
     /*!
         \property GlobalVariables::localStoragePath
@@ -133,6 +146,28 @@ public:
     QVersionNumber version() const
     {
         return m_version;
+    }
+
+    static QStringList getAvailableWallpaper()
+    {
+        return {
+            "qmlWallpaper",
+            "htmlWallpaper",
+            "videoWallpaper",
+            "godotWallpaper",
+        };
+    }
+    static QStringList getAvailableWidgets()
+    {
+        return {
+            "qmlWidget",
+            "htmlWidget",
+        };
+    }
+
+    static QStringList getAvailableTypes()
+    {
+        return { getAvailableWallpaper() + getAvailableWidgets() };
     }
 
 signals:

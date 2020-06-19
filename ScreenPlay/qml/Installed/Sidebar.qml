@@ -7,6 +7,7 @@ import QtQuick.Controls.Material 2.12
 
 import ScreenPlay 1.0
 import ScreenPlayEnums 1.0
+import ScreenPlay.Enums.InstalledType 1.0
 
 import "../Monitors"
 import "../Common" as SP
@@ -18,28 +19,46 @@ Item {
     focus: true
 
     property real navHeight
-    property string type
-    property var typeEnum: ScreenPlayEnums.QMLWallpaper
-    property string activeScreen
+    property var type: InstalledType.QMLWallpaper
+    property string contentFolderName
+
+    onContentFolderNameChanged: {
+        txtHeadline.text = ScreenPlay.installedListModel.get(
+                    root.contentFolderName).screenTitle
+
+        if (ScreenPlay.installedListModel.get(
+                    root.contentFolderName).screenPreviewGIF === undefined) {
+            image.source = Qt.resolvedUrl(
+                        ScreenPlay.globalVariables.localStoragePath + "/"
+                        + root.contentFolderName + "/" + ScreenPlay.installedListModel.get(
+                            root.contentFolderName).screenPreview)
+            image.playing = false
+        } else {
+
+            image.source = Qt.resolvedUrl(
+                        ScreenPlay.globalVariables.localStoragePath + "/"
+                        + root.contentFolderName + "/" + ScreenPlay.installedListModel.get(
+                            root.contentFolderName).screenPreviewGIF)
+            image.playing = true
+        }
+
+        if (isWidget() || monitorSelection.activeMonitors.length > 0) {
+            btnSetWallpaper.enabled = true
+            return
+        }
+
+        btnSetWallpaper.enabled = false
+    }
 
     function isWallpaper() {
-        if (typeEnum === ScreenPlayEnums.VideoWallpaper
-                || typeEnum === ScreenPlayEnums.HTMLWallpaper
-                || typeEnum === ScreenPlayEnums.QMLWallpaper) {
-            return true
-        } else {
-            return false
-        }
+        return type === InstalledType.VideoWallpaper
+                || type === InstalledType.HTMLWallpaper
+                || type === InstalledType.QMLWallpaper
     }
 
     function isWidget() {
-
-        if (typeEnum === ScreenPlayEnums.HTMLWidget
-                || typeEnum === ScreenPlayEnums.QMLWidget) {
-            return true
-        } else {
-            return false
-        }
+        return type === InstalledType.HTMLWidget
+                || type === InstalledType.QMLWidget
     }
 
     function indexOfValue(model, value) {
@@ -55,79 +74,40 @@ Item {
     Connections {
         target: ScreenPlay.util
 
-        function onSetSidebarItem(screenId, type) {
+        function onSetSidebarItem(folderName, type) {
 
             // Toggle sidebar if clicked on the same content twice
-            if (activeScreen === screenId && root.state !== "inactive") {
+            if (root.contentFolderName === folderName
+                    && root.state !== "inactive") {
                 root.state = "inactive"
                 return
             }
 
-            activeScreen = screenId
+            root.contentFolderName = folderName
             root.type = type
 
-            switch (type) {
-            case "videoWallpaper":
-                root.typeEnum = ScreenPlayEnums.VideoWallpaper
-                state = "videoWallpaper"
-                return
-            case "htmlWallpaper":
-                state = "activeScene"
-                root.typeEnum = ScreenPlayEnums.HTMLWallpaper
-                return
-            case "qmlWallpaper":
-                state = "activeScene"
-                root.typeEnum = ScreenPlayEnums.QMLWallpaper
-                return
-            case "godotWallpaper":
-                state = "activeScene"
-                return
-            case "qmlWidget":
-                state = "activeWidget"
-                root.typeEnum = ScreenPlayEnums.QMLWidget
-                return
-            case "htmlWidget":
-                state = "activeWidget"
-                root.typeEnum = ScreenPlayEnums.HTMLWidget
-                return
-            case "standaloneWidget":
-                state = "activeWidget"
-                return
+            if (root.isWallpaper()) {
+                if (type === InstalledType.VideoWallpaper) {
+                    root.state = "activeWallpaper"
+                } else {
+                    root.state = "activeScene"
+                }
+                btnSetWallpaper.text = qsTr("Set Wallpaper")
+            } else {
+                root.state = "activeWidget"
+                btnSetWallpaper.text = qsTr("Set Widget")
             }
-        }
-    }
-
-    MouseArea {
-        id: mouseAreaHelper
-        anchors.fill: parent
-        enabled: true
-    }
-
-    onActiveScreenChanged: {
-        txtHeadline.text = ScreenPlay.installedListModel.get(
-                    activeScreen).screenTitle
-
-        if (ScreenPlay.installedListModel.get(
-                    activeScreen).screenPreviewGIF === undefined) {
-            image.source = Qt.resolvedUrl(
-                        ScreenPlay.globalVariables.localStoragePath + "/"
-                        + activeScreen + "/" + ScreenPlay.installedListModel.get(
-                            activeScreen).screenPreview)
-            image.playing = false
-        } else {
-
-            image.source = Qt.resolvedUrl(
-                        ScreenPlay.globalVariables.localStoragePath + "/"
-                        + activeScreen + "/" + ScreenPlay.installedListModel.get(
-                            activeScreen).screenPreviewGIF)
-            image.playing = true
         }
     }
 
     Item {
         id: sidebarWrapper
         anchors.fill: parent
-
+        MouseArea {
+            id: mouseAreaHelper
+            anchors.fill: parent
+            enabled: true
+        }
         Item {
             id: navBackground
             height: navHeight
@@ -311,16 +291,15 @@ Item {
                         Layout.fillWidth: true
                     }
                     ComboBox {
-                        id:cbVideoFillMode
+                        id: cbVideoFillMode
                         visible: false
                         Layout.fillWidth: true
                         textRole: "text"
                         valueRole: "value"
                         font.family: ScreenPlay.settings.font
-                        currentIndex:   root.indexOfValue(
-                                        cbVideoFillMode.model,
-                                        ScreenPlay.settings.videoFillMode)
-
+                        currentIndex: root.indexOfValue(
+                                          cbVideoFillMode.model,
+                                          ScreenPlay.settings.videoFillMode)
 
                         model: [{
                                 "value": ScreenPlayEnums.Stretch,
@@ -344,7 +323,6 @@ Item {
 
             Button {
                 id: btnSetWallpaper
-                text: qsTr("Set wallpaper")
                 Material.background: Material.accent
                 Material.foreground: "white"
                 font.family: ScreenPlay.settings.font
@@ -352,17 +330,6 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
-                enabled: {
-                    if (root.isWallpaper()) {
-                        if (monitorSelection.activeMonitors.length > 0) {
-                            return true
-                        }
-                    }
-                    if (root.isWidget()) {
-                        return true
-                    }
-                    return false
-                }
 
                 anchors {
                     bottom: parent.bottom
@@ -371,6 +338,7 @@ Item {
                 }
 
                 onClicked: {
+                    print(root.type, root.isWidget(),root.isWallpaper())
                     if (root.isWallpaper()) {
                         let activeMonitors = monitorSelection.getActiveMonitors(
                                 )
@@ -380,24 +348,21 @@ Item {
                             return
 
                         ScreenPlay.screenPlayManager.createWallpaper(
-                                    root.typeEnum,
-                                    cbVideoFillMode.currentValue,
-                                    ScreenPlay.globalVariables.localStoragePath + "/" + activeScreen,
-                                    ScreenPlay.installedListModel.get(activeScreen).screenPreview,
-                                    ScreenPlay.installedListModel.get(activeScreen).screenFile,
-                                    activeMonitors,
-                                    (Math.round( sliderVolume.value * 100) / 100),
+                                    root.type, cbVideoFillMode.currentValue,
+                                    ScreenPlay.globalVariables.localStoragePath + "/"
+                                    + root.contentFolderName, ScreenPlay.installedListModel.get(
+                                        root.contentFolderName).screenPreview, ScreenPlay.installedListModel.get(
+                                        root.contentFolderName).screenFile, activeMonitors,
+                                    (Math.round(sliderVolume.value * 100) / 100),
                                     true)
-
-                    }
-                    else if(root.isWidget())
-                    {
+                    } else if (root.isWidget()) {
+                        print("widget")
                         ScreenPlay.screenPlayManager.createWidget(
                                     ScreenPlay.globalVariables.localStoragePath
-                                    + "/" + activeScreen,
+                                    + "/" + root.contentFolderName,
                                     ScreenPlay.installedListModel.get(
-                                        activeScreen).screenPreview,
-                                    typeEnum)
+                                        root.contentFolderName).screenPreview,
+                                    type)
                     }
                     root.state = "inactive"
                     monitorSelection.deselectAll()
@@ -435,32 +400,6 @@ Item {
     }
 
     states: [
-        State {
-            name: "active"
-
-            PropertyChanges {
-                target: mouseAreaHelper
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: root
-                anchors.rightMargin: 0
-            }
-            PropertyChanges {
-                target: image
-                opacity: 1
-                anchors.topMargin: 0
-            }
-            PropertyChanges {
-                target: btnSetWallpaper
-                text: qsTr("Set Wallpaper")
-            }
-            PropertyChanges {
-                target: txtHeadlineMonitor
-                opacity: 1
-            }
-        },
         State {
             name: "inactive"
 
@@ -502,18 +441,13 @@ Item {
                 opacity: 1
                 anchors.topMargin: 0
             }
-
-            PropertyChanges {
-                target: btnSetWallpaper
-                text: qsTr("Create Widget")
-            }
             PropertyChanges {
                 target: txtHeadlineMonitor
                 opacity: 0
             }
         },
         State {
-            name: "activeScene"
+            name: "activeWallpaper"
             PropertyChanges {
                 target: mouseAreaHelper
                 enabled: true
@@ -523,37 +457,6 @@ Item {
                 target: image
                 opacity: 1
                 anchors.topMargin: 0
-            }
-            PropertyChanges {
-                target: btnSetWallpaper
-                text: qsTr("Create Wallpaper")
-            }
-            PropertyChanges {
-                target: txtHeadlineMonitor
-                opacity: 1
-            }
-            PropertyChanges {
-                target: sliderVolume
-                opacity: 0
-                visible: false
-            }
-        },
-        State {
-            name: "videoWallpaper"
-            PropertyChanges {
-                target: mouseAreaHelper
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: image
-                opacity: 1
-                anchors.topMargin: 0
-            }
-
-            PropertyChanges {
-                target: btnSetWallpaper
-                text: qsTr("Create Wallpaper")
             }
             PropertyChanges {
                 target: txtHeadlineMonitor
@@ -571,12 +474,57 @@ Item {
                 opacity: 1
                 visible: true
             }
+        },
+        State {
+            name: "activeScene"
+            PropertyChanges {
+                target: mouseAreaHelper
+                enabled: true
+            }
+
+            PropertyChanges {
+                target: image
+                opacity: 1
+                anchors.topMargin: 0
+            }
+            PropertyChanges {
+                target: txtHeadlineMonitor
+                opacity: 1
+            }
+            PropertyChanges {
+                target: sliderVolume
+                opacity: 0
+                visible: false
+            }
         }
     ]
 
     transitions: [
         Transition {
-            to: "active"
+            to: "inactive"
+            from: "*"
+            reversible: true
+            NumberAnimation {
+                target: image
+                property: "opacity"
+                duration: 200
+            }
+            NumberAnimation {
+                target: image
+                property: "anchors.topMargin"
+                duration: 400
+            }
+
+            NumberAnimation {
+                target: root
+                properties: "anchors.rightMargin"
+                duration: 250
+                easing.type: Easing.OutQuart
+            }
+        },
+        Transition {
+            to: "activeWidget"
+            from: "*"
 
             SequentialAnimation {
                 NumberAnimation {
@@ -601,29 +549,8 @@ Item {
             }
         },
         Transition {
-            to: "inactive"
-
-            NumberAnimation {
-                target: image
-                property: "opacity"
-                duration: 200
-            }
-            NumberAnimation {
-                target: image
-                property: "anchors.topMargin"
-                duration: 400
-            }
-
-            NumberAnimation {
-                target: root
-                properties: "anchors.rightMargin"
-                duration: 250
-                easing.type: Easing.OutQuart
-            }
-        },
-        Transition {
-            to: "activeWidget"
-
+            to: "activeWallpaper"
+            from: "*"
             SequentialAnimation {
                 NumberAnimation {
                     target: root
@@ -648,32 +575,6 @@ Item {
         },
         Transition {
             to: "activeScene"
-
-            SequentialAnimation {
-                NumberAnimation {
-                    target: root
-                    properties: "anchors.rightMargin"
-                    duration: 250
-                    easing.type: Easing.OutQuart
-                }
-
-                ParallelAnimation {
-                    NumberAnimation {
-                        target: image
-                        property: "opacity"
-                        duration: 200
-                    }
-                    NumberAnimation {
-                        target: image
-                        property: "anchors.topMargin"
-                        duration: 100
-                    }
-                }
-            }
-        },
-        Transition {
-            to: "videoWallpaper"
-
             SequentialAnimation {
                 NumberAnimation {
                     target: root

@@ -298,7 +298,7 @@ ApplicationWindow {
 
     Sidebar {
         id: sidebar
-        width: 400
+
         navHeight: nav.height
         anchors {
             top: parent.top

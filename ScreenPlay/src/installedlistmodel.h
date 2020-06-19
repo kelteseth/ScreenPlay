@@ -84,6 +84,7 @@ public:
         FileIdRole,
         AbsoluteStoragePathRole,
         WorkshopIDRole,
+        TagsRole,
     };
     Q_ENUM(InstalledRole)
 
@@ -91,6 +92,7 @@ public:
     {
         return m_count;
     }
+
 
 public slots:
     void loadInstalledContent();

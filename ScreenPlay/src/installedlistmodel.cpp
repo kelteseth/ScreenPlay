@@ -37,6 +37,7 @@ void InstalledListModel::init()
     loadInstalledContent();
 
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &InstalledListModel::reset);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, &InstalledListModel::reset);
 }
 
 /*!
@@ -63,24 +64,26 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
         return QVariant();
     }
 
-    if (index.row() < rowCount())
+    if (row < rowCount())
         switch (role) {
         case TitleRole:
-            return m_screenPlayFiles.at(index.row()).m_title;
+            return m_screenPlayFiles.at(row).m_title;
         case PreviewRole:
-            return m_screenPlayFiles.at(index.row()).m_preview;
+            return m_screenPlayFiles.at(row).m_preview;
         case PreviewGIFRole:
-            return m_screenPlayFiles.at(index.row()).m_previewGIF;
+            return m_screenPlayFiles.at(row).m_previewGIF;
         case TypeRole:
-            return m_screenPlayFiles.at(index.row()).m_type;
+            return QVariant::fromValue(m_screenPlayFiles.at(row).m_type);
         case FolderIdRole:
-            return m_screenPlayFiles.at(index.row()).m_folderId;
+            return m_screenPlayFiles.at(row).m_folderId;
         case FileIdRole:
-            return m_screenPlayFiles.at(index.row()).m_file;
+            return m_screenPlayFiles.at(row).m_file;
         case AbsoluteStoragePathRole:
-            return m_screenPlayFiles.at(index.row()).m_absoluteStoragePath;
+            return m_screenPlayFiles.at(row).m_absoluteStoragePath;
         case WorkshopIDRole:
-            return m_screenPlayFiles.at(index.row()).m_workshopID;
+            return m_screenPlayFiles.at(row).m_workshopID;
+        case TagsRole:
+            return m_screenPlayFiles.at(row).m_tags;
         default:
             return QVariant();
         }
@@ -101,6 +104,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { FileIdRole, "screenFile" },
         { AbsoluteStoragePathRole, "screenAbsoluteStoragePath" },
         { WorkshopIDRole, "screenWorkshopID" },
+        { TagsRole, "screenTags" },
     };
     return roles;
 }
@@ -136,18 +140,7 @@ void InstalledListModel::loadInstalledContent()
                 if (!obj->contains("file") || !obj->contains("type"))
                     continue;
 
-                QStringList availableTypes {
-                    "qmlWallpaper",
-                    "htmlWallpaper",
-                    "videoWallpaper",
-                    "godotWallpaper",
-
-                    "qmlWidget",
-                    "htmlWidget",
-                    "standaloneWidget"
-                };
-
-                if (availableTypes.contains(obj->value("type").toString())) {
+                if (GlobalVariables::getAvailableTypes().contains(obj->value("type").toString())) {
                     emit addInstalledItem(*obj, item.baseName());
                 }
 
@@ -174,7 +167,7 @@ QVariantMap InstalledListModel::get(QString folderId)
             map.insert("screenPreview", m_screenPlayFiles[i].m_preview);
             map.insert("screenPreviewGIF", m_screenPlayFiles[i].m_previewGIF);
             map.insert("screenFile", m_screenPlayFiles[i].m_file);
-            map.insert("screenType", m_screenPlayFiles[i].m_type);
+            map.insert("screenType", QVariant::fromValue(m_screenPlayFiles[i].m_type));
             map.insert("screenAbsoluteStoragePath", m_screenPlayFiles[i].m_absoluteStoragePath);
             map.insert("screenWorkshopID", m_screenPlayFiles[i].m_workshopID);
         }

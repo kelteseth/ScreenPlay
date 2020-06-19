@@ -34,8 +34,12 @@
 
 #pragma once
 
+#include "globalvariables.h"
 #include <QDebug>
+#include <QJsonArray>
 #include <QJsonObject>
+#include <QMetaEnum>
+#include <QString>
 #include <QUrl>
 #include <QVariant>
 #include <QVariantList>
@@ -60,7 +64,7 @@ struct ProjectFile {
         if (obj.contains("file"))
             m_file = obj.value("file");
 
-        if (obj.contains("previewThumbnail")){
+        if (obj.contains("previewThumbnail")) {
             m_preview = obj.value("previewThumbnail");
         } else {
             if (obj.contains("preview"))
@@ -73,21 +77,65 @@ struct ProjectFile {
         if (obj.contains("title"))
             m_title = obj.value("title");
 
-        if (obj.contains("type"))
-            m_type = obj.value("type").toString();
-
         if (obj.contains("workshopid")) {
-            m_workshopID = obj.value("workshopid").toInt();
-        } else {
-            m_workshopID = 0;
+            m_workshopID = obj.value("workshopid").toInt(0);
+        }
+
+        if (obj.contains("tags")) {
+            if (obj.value("tags").isArray()) {
+                auto tagArray = obj.value("tags").toArray();
+                if (tagArray.size() > 0) {
+                    for (const auto& tag : tagArray) {
+                        m_tags.append(tag.toString());
+                    }
+                    qInfo() << m_tags;
+                }
+            }
         }
 
         m_absoluteStoragePath = QUrl(absolutePath.toString() + "/" + folderName);
 
         m_folderId = folderName;
+
+        if (!obj.contains("type"))
+            return;
+
+        QString type = obj.value("type").toString();
+        if (type.endsWith("Wallpaper")) {
+            if (type.startsWith("video")) {
+                m_type = InstalledType::InstalledType::VideoWallpaper;
+                return;
+            }
+            if (type.startsWith("qml")) {
+                m_type = InstalledType::InstalledType::QMLWallpaper;
+                return;
+            }
+            if (type.startsWith("html")) {
+                m_type = InstalledType::InstalledType::HTMLWallpaper;
+                return;
+            }
+            if (type.startsWith("godot")) {
+                m_type = InstalledType::InstalledType::GodotWallpaper;
+                return;
+            }
+        }
+
+        if (type.endsWith("Widget")) {
+            if (type.startsWith("qml")) {
+                m_type = InstalledType::InstalledType::QMLWidget;
+                return;
+            }
+            if (type.startsWith("html")) {
+                m_type = InstalledType::InstalledType::HTMLWidget;
+                return;
+            }
+        }
+
+
+        qWarning() << "Type could not parsed from: " << type << folderName;
     }
 
-    ProjectFile() {}
+    ProjectFile() { }
 
     QVariant m_description;
     QVariant m_file;
@@ -96,10 +144,8 @@ struct ProjectFile {
     QVariant m_title;
     QString m_folderId;
     QUrl m_absoluteStoragePath;
-    QString m_type;
-    QJsonObject m_settings;
-    int m_workshopID {0};
-
-    QVariantList m_tags; //TODO: Implement me!
+    InstalledType::InstalledType m_type = InstalledType::InstalledType::Unknown;
+    int m_workshopID { 0 };
+    QVariantList m_tags;
 };
 }

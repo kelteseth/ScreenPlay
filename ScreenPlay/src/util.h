@@ -34,12 +34,12 @@
 
 #pragma once
 
+#include <QApplication>
 #include <QClipboard>
 #include <QCoreApplication>
 #include <QDateTime>
 #include <QDebug>
 #include <QDir>
-#include <QApplication>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QNetworkAccessManager>
@@ -57,8 +57,8 @@
 #include <iostream>
 #include <optional>
 
+#include "globalvariables.h"
 #include "libzippp/libzippp.h"
-#include "nlohmann/json.hpp"
 
 namespace ScreenPlay {
 
@@ -76,7 +76,6 @@ T QStringToEnum(const QString& key, const T defaultValue)
 
     return defaultValue;
 }
-
 
 class Util : public QObject {
     Q_OBJECT
@@ -123,7 +122,7 @@ signals:
     void requestNavigation(QString nav);
     void requestNavigationActive(bool isActive);
     void requestToggleWallpaperConfiguration();
-    void setSidebarItem(QString screenId, QString type);
+    void setSidebarItem(QString folderName, ScreenPlay::InstalledType::InstalledType type);
     void allLicenseLoaded(QString licensesText);
     void allDataProtectionLoaded(QString dataProtectionText);
     void ffmpegAvailableChanged(bool ffmpegAvailable);
@@ -133,7 +132,6 @@ signals:
 public slots:
     void copyToClipboard(const QString& text) const;
     void openFolderInExplorer(const QString& url) const;
-
 
     void requestAllLicenses();
     void requestDataProtection();

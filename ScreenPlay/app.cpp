@@ -99,6 +99,14 @@ App::App()
         "ScreenPlayEnums",
         "Error: only enums");
 
+    qRegisterMetaType<InstalledType::InstalledType>();
+    qmlRegisterUncreatableMetaObject(ScreenPlay::InstalledType::staticMetaObject,
+        "ScreenPlay.Enums.InstalledType",
+        1, 0,
+        "InstalledType",
+        "Error: only enums");
+
+
     qmlRegisterAnonymousType<GlobalVariables>("ScreenPlay", 1);
     qmlRegisterAnonymousType<ScreenPlayManager>("ScreenPlay", 1);
     qmlRegisterAnonymousType<Util>("ScreenPlay", 1);
