@@ -15,18 +15,43 @@ Item {
         WebEngine.settings.allowRunningInsecureContent = true
         WebEngine.settings.accelerated2dCanvasEnabled = true
         WebEngine.settings.javascriptCanOpenWindows = false
-        WebEngine.settings.printElementBackgrounds = false
         WebEngine.settings.showScrollBars = false
         WebEngine.settings.playbackRequiresUserGesture = false
+        WebEngine.settings.focusOnNavigationEnabled = true
+    }
+
+    Connections {
+        target: window
+
+        function onReloadVideo() {
+            webView.runJavaScript(root.getSetVideoCommand())
+        }
+    }
+
+    function getSetVideoCommand() {
+        // TODO 30:
+        // Currently wont work. Commit anyways til QtCreator and Qt work with js template literals
+        var src = ""
+        src += "var videoPlayer = document.getElementById('videoPlayer');"
+        src += "var videoSource = document.getElementById('videoSource');"
+        src += "videoSource.src = '" + window.fullContentPath + "';"
+        src += "videoPlayer.load();"
+        src += "videoPlayer.volume = " + window.volume + ";"
+        src += "videoPlayer.setAttribute('style', 'object-fit :" + window.fillMode + ";');"
+        src += "videoPlayer.play();"
+
+        return src
     }
 
     WebEngineView {
         id: webView
+
         anchors.fill: parent
         url: {
 
             if (window.type === Wallpaper.WallpaperType.Video) {
-                return Qt.resolvedUrl(window.getApplicationPath() + "/index.html")
+                return Qt.resolvedUrl(window.getApplicationPath(
+                                          ) + "/index.html")
             }
             if (window.type === Wallpaper.WallpaperType.Html) {
                 return Qt.resolvedUrl(window.fullContentPath + "/index.html")
@@ -37,21 +62,11 @@ Item {
             if ((loadProgress === 100)) {
 
                 if (window.type === Wallpaper.WallpaperType.Video) {
-                    // TODO 30:
-                    // Currently wont work. Commit anyways til QtCreator and Qt work with js template literals
-                    var src = ""
-                    src += "var videoPlayer = document.getElementById('videoPlayer');"
-                    src += "var videoSource = document.getElementById('videoSource');"
-                    src += "videoSource.src = '" + window.fullContentPath + "';"
-                    src += "videoPlayer.load();"
-                    src += "videoPlayer.volume = " + window.volume + ";"
-                    src += "videoPlayer.setAttribute('style', 'object-fit :"
-                            + window.fillMode + ";');"
-                    src += "videoPlayer.play();"
 
-                    webView.runJavaScript(src, function (result) {
-                        fadeInTimer.start()
-                    })
+                    webView.runJavaScript(root.getSetVideoCommand(),
+                                          function (result) {
+                                              fadeInTimer.start()
+                                          })
                 } else {
                     fadeInTimer.start()
                 }
@@ -79,7 +94,6 @@ Item {
         color: "white"
     }
 
-
     Timer {
         id: timerCover
         interval: 300
@@ -88,7 +102,6 @@ Item {
             txtVisualsPaused.visible = window.visualsPaused
         }
     }
-
 
     Connections {
         target: window

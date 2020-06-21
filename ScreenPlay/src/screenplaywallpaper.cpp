@@ -16,6 +16,7 @@ namespace ScreenPlay {
 ScreenPlayWallpaper::ScreenPlayWallpaper(
     const QVector<int>& screenNumber,
     const std::shared_ptr<GlobalVariables>& globalVariables,
+    const std::shared_ptr<SDKConnector>& sdkConnector,
     const QString& appID,
     const QString& absolutePath,
     const QString& previewImage,
@@ -28,6 +29,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     : QObject(parent)
     , m_projectSettingsListModel { absolutePath + "/project.json" }
     , m_globalVariables { globalVariables }
+    , m_sdkConnector { sdkConnector }
     , m_screenNumber { screenNumber }
     , m_previewImage { previewImage }
     , m_type { type }
@@ -112,6 +114,33 @@ void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
 ProjectSettingsListModel* ScreenPlayWallpaper::getProjectSettingsListModel()
 {
     return &m_projectSettingsListModel;
+}
+
+void ScreenPlayWallpaper::replace(
+    const QString& absolutePath,
+    const QString& previewImage,
+    const QString& file,
+    const float volume,
+    const FillMode::FillMode fillMode,
+    const InstalledType::InstalledType type,
+    const bool checkWallpaperVisible)
+{
+    m_previewImage = previewImage;
+    m_type = type;
+    m_fillMode = fillMode;
+    m_absolutePath = absolutePath;
+    m_file = file;
+
+    QJsonObject obj;
+    obj.insert("command", "replace");
+    obj.insert("type", QVariant::fromValue(type).toString());
+    obj.insert("fillMode", QVariant::fromValue(fillMode).toString());
+    obj.insert("volume", volume);
+    obj.insert("absolutePath", absolutePath);
+    obj.insert("file", file);
+    obj.insert("checkWallpaperVisible", checkWallpaperVisible);
+
+    m_sdkConnector->replace(m_appID, obj);
 }
 
 }

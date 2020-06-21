@@ -115,6 +115,7 @@ int main(int argc, char* argv[])
     WinWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5), checkWallpaperVisible);
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &WinWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &WinWindow::messageReceived);
+    QObject::connect(&sdk, &ScreenPlaySDK::replaceWallpaper, &window, &WinWindow::replaceWallpaper);
 #endif
 
 #if defined(Q_OS_LINUX)

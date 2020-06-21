@@ -77,6 +77,7 @@ public slots:
     void closeAllWidgets();
     bool closeWallpaper(const QString& appID);
     void setWallpaperValue(QString appID, QString key, QString value);
+    void replace(const QString& appID, const QJsonObject& obj);
 
 private:
     std::unique_ptr<QLocalServer> m_server;

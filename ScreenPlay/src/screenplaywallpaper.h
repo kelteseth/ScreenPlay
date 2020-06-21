@@ -43,6 +43,7 @@
 
 #include "globalvariables.h"
 #include "projectsettingslistmodel.h"
+#include "sdkconnector.h"
 
 namespace ScreenPlay {
 
@@ -67,6 +68,7 @@ public:
     explicit ScreenPlayWallpaper(
         const QVector<int>& screenNumber,
         const std::shared_ptr<GlobalVariables>& globalVariables,
+        const std::shared_ptr<SDKConnector>& sdkConnector,
         const QString& appID,
         const QString& absolutePath,
         const QString& previewImage,
@@ -125,6 +127,14 @@ public:
     }
 
     ProjectSettingsListModel* getProjectSettingsListModel();
+
+    void replace(const QString& absolutePath,
+        const QString& previewImage,
+        const QString& file,
+        const float volume,
+        const FillMode::FillMode fillMode,
+        const InstalledType::InstalledType type,
+        const bool checkWallpaperVisible);
 
 signals:
     void screenNumberChanged(QVector<int> screenNumber);
@@ -231,6 +241,7 @@ private:
 
     ProjectSettingsListModel m_projectSettingsListModel;
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
+    const std::shared_ptr<SDKConnector>& m_sdkConnector;
 
     QVector<int> m_screenNumber;
 

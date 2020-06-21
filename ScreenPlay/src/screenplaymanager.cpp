@@ -1,4 +1,5 @@
 #include "screenplaymanager.h"
+#include <QScopeGuard>
 
 namespace ScreenPlay {
 
@@ -47,6 +48,13 @@ void ScreenPlayManager::createWallpaper(
     const float volume,
     const bool saveToProfilesConfigFile)
 {
+    auto saveToProfile = qScopeGuard([=, this] {
+        // Do not save on app start
+        if (saveToProfilesConfigFile) {
+            saveProfiles();
+        }
+    });
+
     if (m_telemetry) {
         m_telemetry->sendEvent("wallpaper", "start");
     }
@@ -59,10 +67,34 @@ void ScreenPlayManager::createWallpaper(
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
     const QString appID = Util::generateRandomString();
 
+    // Only support remove wallpaper that spans over 1 monitor
+    if (monitorIndex.length() == 1) {
+        int i = 0;
+        for (auto& wallpaper : m_screenPlayWallpapers) {
+            if (wallpaper->screenNumber().length() == 1) {
+                if (monitors.at(0) == wallpaper->screenNumber().at(0)) {
+                    wallpaper->replace(
+                        path,
+                        previewImage,
+                        file,
+                        volume,
+                        fillMode,
+                        type,
+                        m_settings->checkWallpaperVisible());
+                    m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
+
+                    return;
+                }
+            }
+            i++;
+        }
+    }
+
     std::shared_ptr<ScreenPlayWallpaper> wallpaper;
     wallpaper = std::make_shared<ScreenPlayWallpaper>(
         monitorIndex,
         m_globalVariables,
+        m_sdkconnector,
         appID,
         path,
         previewImage,
@@ -72,29 +104,9 @@ void ScreenPlayManager::createWallpaper(
         type,
         m_settings->checkWallpaperVisible());
 
-    // Only support remove wallpaper that spans over 1 monitor
-    if (monitorIndex.length() == 1) {
-        int i = 0;
-        for (auto& wallpaperIterator : m_screenPlayWallpapers) {
-            if (wallpaperIterator->screenNumber().length() == 1) {
-                if (monitors.at(0) == wallpaperIterator->screenNumber().at(0)) {
-                    if (!removeWallpaperAt(i)) {
-                        qWarning() << "Could not remove wallpaper at index " << i;
-                    }
-                }
-            }
-            i++;
-        }
-    }
-
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
     increaseActiveWallpaperCounter();
-
-    // Do not save on app start
-    if (saveToProfilesConfigFile) {
-        saveProfiles();
-    }
 }
 
 /*!

@@ -35,6 +35,7 @@
 #pragma once
 
 #include <QByteArray>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
@@ -54,7 +55,7 @@ class ScreenPlaySDK : public QQuickItem {
 
 public:
     ScreenPlaySDK(QQuickItem* parent = nullptr);
-    ScreenPlaySDK( const QString& appID, const QString& type,QQuickItem* parent = nullptr);
+    ScreenPlaySDK(const QString& appID, const QString& type, QQuickItem* parent = nullptr);
     ~ScreenPlaySDK();
 
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
@@ -124,6 +125,14 @@ signals:
 
     void appIDChanged(QString appID);
     void newRedirectMessage(QByteArray& msg);
+
+    void replaceWallpaper(
+        const QString absolutePath,
+        const QString file,
+        const float volume,
+        const QString fillMode,
+        const QString type,
+        const bool checkWallpaperVisible);
 
 private:
     void init();

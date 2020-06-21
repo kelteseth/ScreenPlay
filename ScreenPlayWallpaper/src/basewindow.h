@@ -179,6 +179,7 @@ public:
 signals:
     void qmlExit();
     void reloadQML();
+    void reloadVideo();
 
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
@@ -204,6 +205,14 @@ public slots:
     virtual void destroyThis() { }
     virtual void setVisible(bool show) { Q_UNUSED(show) }
     virtual void messageReceived(QString key, QString value) final;
+    virtual void replaceWallpaper(
+        const QString absolutePath,
+        const QString file,
+        const float volume,
+        const QString fillMode,
+        const QString type,
+        const bool checkWallpaperVisible) final;
+
 
     QString loadFromFile(const QString& filename);
 
@@ -394,6 +403,9 @@ public slots:
         m_basePath = basePath;
         emit basePathChanged(m_basePath);
     }
+
+private:
+    BaseWindow::WallpaperType parseWallpaperType(const QString& type);
 
 private:
     bool m_checkWallpaperVisible { false };

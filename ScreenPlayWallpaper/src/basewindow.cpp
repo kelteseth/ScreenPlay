@@ -71,25 +71,7 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
 
     QString type = projectObject.value("type").toString().toLower();
 
-    if (type.contains("VideoWallpaper", Qt::CaseInsensitive)) {
-        setType(BaseWindow::WallpaperType::Video);
-        return;
-    }
-
-    if (type.contains("QmlWallpaper", Qt::CaseInsensitive)) {
-        setType(BaseWindow::WallpaperType::Qml);
-        return;
-    }
-
-    if (type.contains("HtmlWallpaper", Qt::CaseInsensitive)) {
-        setType(BaseWindow::WallpaperType::Html);
-        return;
-    }
-
-    if (type.contains("GodotWallpaper", Qt::CaseInsensitive)) {
-        setType(BaseWindow::WallpaperType::Godot);
-        return;
-    }
+    setType(parseWallpaperType(type));
 }
 
 void BaseWindow::messageReceived(QString key, QString value)
@@ -152,6 +134,31 @@ void BaseWindow::messageReceived(QString key, QString value)
     emit qmlSceneValueReceived(key, value);
 }
 
+void BaseWindow::replaceWallpaper(
+    const QString absolutePath,
+    const QString file,
+    const float volume,
+    const QString fillMode,
+    const QString type,
+    const bool checkWallpaperVisible)
+{
+    setCheckWallpaperVisible(checkWallpaperVisible);
+    setVolume(volume);
+    setFillMode(fillMode);
+    setType(parseWallpaperType(type));
+    setFullContentPath("file:///" + absolutePath + "/" + file);
+    qInfo( ) << file;
+
+    if (m_type == WallpaperType::Qml || m_type == WallpaperType::Html)
+        emit reloadQML();
+
+    if (m_type == WallpaperType::Video)
+        emit reloadVideo();
+
+}
+
+// Used for loading shader
+// Loading shader relative to the qml file will be available in Qt 6
 QString BaseWindow::loadFromFile(const QString& filename)
 {
     QFile file;
@@ -160,4 +167,28 @@ QString BaseWindow::loadFromFile(const QString& filename)
         return file.readAll();
     }
     return "";
+}
+
+BaseWindow::WallpaperType BaseWindow::parseWallpaperType(const QString& type)
+{
+
+    if (type.contains("VideoWallpaper", Qt::CaseInsensitive)) {
+        return (BaseWindow::WallpaperType::Video);
+    }
+
+    if (type.contains("QmlWallpaper", Qt::CaseInsensitive)) {
+        return (BaseWindow::WallpaperType::Qml);
+    }
+
+    if (type.contains("HtmlWallpaper", Qt::CaseInsensitive)) {
+        return (BaseWindow::WallpaperType::Html);
+    }
+
+    if (type.contains("GodotWallpaper", Qt::CaseInsensitive)) {
+        return (BaseWindow::WallpaperType::Godot);
+    }
+
+    qWarning() << "Could not parse Wallpaper type from value: " << type;
+
+    return BaseWindow::WallpaperType::Video;
 }

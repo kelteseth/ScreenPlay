@@ -90,14 +90,7 @@ void SDKConnector::closeAllConnections()
 */
 void SDKConnector::closeAllWallpapers()
 {
-    QStringList types {
-        "VideoWallpaper",
-        "QmlWallpaper",
-        "HtmlWallpaper",
-        "GodotWallpaper"
-    };
-
-    closeConntectionByType(types);
+    closeConntectionByType(GlobalVariables::getAvailableWallpaper());
 }
 
 /*!
@@ -110,13 +103,7 @@ void SDKConnector::closeAllWallpapers()
 */
 void SDKConnector::closeAllWidgets()
 {
-    QStringList types {
-        "QmlWidget",
-        "HtmlWidget",
-        "StandaloneWidget"
-    };
-
-    closeConntectionByType(types);
+    closeConntectionByType(GlobalVariables::getAvailableWidgets());
 }
 
 /*!
@@ -157,6 +144,18 @@ void SDKConnector::setWallpaperValue(QString appID, QString key, QString value)
         if (m_clients.at(i)->appID() == appID) {
             QJsonObject obj;
             obj.insert(key, QJsonValue(value));
+
+            QByteArray send = QJsonDocument(obj).toJson();
+            m_clients.at(i)->socket()->write(send);
+            m_clients.at(i)->socket()->waitForBytesWritten();
+        }
+    }
+}
+
+void SDKConnector::replace(const QString& appID, const QJsonObject& obj)
+{
+    for (int i = 0; i < m_clients.count(); ++i) {
+        if (m_clients.at(i)->appID() == appID) {
 
             QByteArray send = QJsonDocument(obj).toJson();
             m_clients.at(i)->socket()->write(send);

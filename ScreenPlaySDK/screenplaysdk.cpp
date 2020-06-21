@@ -36,13 +36,12 @@ void ScreenPlaySDK::init()
     // If the wallpaper never connects it will never get the
     // disconnect event. We can savely assume no connection will
     // be made after 1 second timeout.
-    QTimer::singleShot(1000,[this](){
-        if(m_socket.state() != QLocalSocket::ConnectedState){
-           m_socket.disconnectFromServer();
-           emit sdkDisconnected();
+    QTimer::singleShot(1000, [this]() {
+        if (m_socket.state() != QLocalSocket::ConnectedState) {
+            m_socket.disconnectFromServer();
+            emit sdkDisconnected();
         }
     });
-
 }
 
 ScreenPlaySDK::~ScreenPlaySDK()
@@ -76,19 +75,58 @@ void ScreenPlaySDK::readyRead()
         emit incommingMessageError(err.errorString());
         return;
     }
-    QJsonObject ob = doc.object();
+    QJsonObject obj = doc.object();
 
-    if(ob.size() == 1){
-        if(ob.contains("command")){
-            if(ob.value("command") == "quit"){
+    if (obj.size() == 1) {
+        if (obj.contains("command")) {
+            if (obj.value("command") == "quit") {
                 emit sdkDisconnected();
                 return;
             }
         }
     }
+
+    if (obj.contains("command")) {
+        if (obj.value("command") == "replace") {
+            QString type = obj.value("type").toString();
+            QString fillMode = obj.value("fillMode").toString();
+            QString absolutePath = obj.value("absolutePath").toString();
+            QString file = obj.value("file").toString();
+            bool checkWallpaperVisible = obj.value("checkWallpaperVisible").toBool();
+            if (type.isEmpty()
+                || fillMode.isEmpty()
+                || absolutePath.isEmpty()
+                || file.isEmpty()
+                || (!obj.contains("volume"))) {
+                qWarning() << "Command replace with incompile message received: "
+                           << type
+                           << fillMode
+                           << absolutePath
+                           << file;
+                return;
+            }
+
+            bool volumeParsedOK = false;
+            float volumeParsed = QVariant(obj.value("volume").toVariant()).toFloat(&volumeParsedOK);
+            if (!volumeParsedOK && (volumeParsed > 0.0 && volumeParsed <= 1.0)) {
+                qWarning() << "Command replaced contained bad volume float value: " << volumeParsed;
+            }
+
+            qWarning()
+                << type
+                << fillMode
+                << volumeParsed
+                << absolutePath
+                << file;
+
+            emit replaceWallpaper(absolutePath, file, volumeParsed, fillMode, type, checkWallpaperVisible);
+            return;
+        }
+    }
+
     QJsonObject::iterator iterator;
-    for (iterator = ob.begin(); iterator != ob.end(); iterator++) {
-        emit incommingMessage(iterator.key(), ob.value(iterator.key()).toString());
+    for (iterator = obj.begin(); iterator != obj.end(); iterator++) {
+        emit incommingMessage(iterator.key(), obj.value(iterator.key()).toString());
     }
 }
 
