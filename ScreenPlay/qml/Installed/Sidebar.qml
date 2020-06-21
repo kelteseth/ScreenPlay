@@ -376,7 +376,7 @@ Item {
                     }
 
                     root.state = "inactive"
-                    monitorSelection.deselectAll()
+                    monitorSelection.reset()
                 }
             }
         }

@@ -48,10 +48,11 @@ Rectangle {
         }
     }
 
-    function deselectAll() {
+    function reset() {
         for (var i = 0; i < rp.count; i++) {
             rp.itemAt(i).isSelected = false
         }
+         rp.itemAt(0).isSelected = true
         getActiveMonitors()
     }
 
