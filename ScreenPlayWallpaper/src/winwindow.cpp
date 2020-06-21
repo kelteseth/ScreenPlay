@@ -80,12 +80,13 @@ WinWindow::WinWindow(
     : BaseWindow(projectPath, activeScreensList, checkWallpaperVisible)
 {
 
-    m_window.hide();
+
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
 
     if (!IsWindow(m_windowHandle)) {
         qFatal("Could not get a valid window handle!");
     }
+    ShowWindow(m_windowHandleWorker, SW_HIDE);
     setAppID(id);
 
     bool ok = false;
@@ -181,7 +182,8 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
     QScreen* screen = QApplication::screens().at(activeScreen);
     QRect screenRect = screen->geometry();
-    if (!SetWindowPos(m_windowHandle, nullptr, screenRect.x() + m_windowOffsetX - 1, screenRect.y() + m_windowOffsetY - 1, screenRect.width() + 2, screenRect.height() + 2, SWP_SHOWWINDOW)) {
+
+    if (!SetWindowPos(m_windowHandle, nullptr, screenRect.x() + m_windowOffsetX - 1, screenRect.y() + m_windowOffsetY - 1, screenRect.width() + 2, screenRect.height() + 2, SWP_HIDEWINDOW)) {
         qFatal("Could not set window pos: ");
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
