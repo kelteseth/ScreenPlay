@@ -22,7 +22,7 @@ set(resources
     SPWidgetResources.qrc)
 
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-    qtquick_compiler_add_resources(${resources})
+    qtquick_compiler_add_resources( resources ${resources})
 endif()
 
 
