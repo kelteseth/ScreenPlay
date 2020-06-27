@@ -17,7 +17,7 @@ ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widge
 
 # Contributing for none programmer
 
-Everyone can contribute with code, design, documentation or translation. Visit our [contributing guide](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/contribute) for more informations.
+Everyone can contribute with code, design, documentation or translation. Visit our [contributing guide](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/contribute) for more informations. Also check our [Collaboration Guidelines](Docs/CodeOfConduct.md).
 
 * If you want to help [translate](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/translations/)
 * If you are a [designer](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/contribute/#design)
