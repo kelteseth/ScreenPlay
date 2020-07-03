@@ -288,8 +288,8 @@ Item {
                     spacing: 5
 
                     Text {
-                        visible: false
                         id: txtComboBoxFillMode
+                        visible: false
                         text: qsTr("Fill Mode")
 
                         font.family: ScreenPlay.settings.font
@@ -306,24 +306,25 @@ Item {
                         textRole: "text"
                         valueRole: "value"
                         font.family: ScreenPlay.settings.font
-                        currentIndex: root.indexOfValue(
-                                          cbVideoFillMode.model,
-                                          ScreenPlay.settings.videoFillMode)
-
+                        Component.onCompleted: {
+                            cbVideoFillMode.currentIndex = root.indexOfValue(
+                                        cbVideoFillMode.model,
+                                        ScreenPlay.settings.videoFillMode)
+                        }
                         model: [{
-                                "value": InstalledType.Stretch,
+                                "value": FillMode.Stretch,
                                 "text": qsTr("Stretch")
                             }, {
-                                "value": InstalledType.Fill,
+                                "value": FillMode.Fill,
                                 "text": qsTr("Fill")
                             }, {
-                                "value": InstalledType.Contain,
+                                "value": FillMode.Contain,
                                 "text": qsTr("Contain")
                             }, {
-                                "value": InstalledType.Cover,
+                                "value": FillMode.Cover,
                                 "text": qsTr("Cover")
                             }, {
-                                "value": InstalledType.Scale_Down,
+                                "value": FillMode.Scale_Down,
                                 "text": qsTr("Scale-Down")
                             }]
                     }
