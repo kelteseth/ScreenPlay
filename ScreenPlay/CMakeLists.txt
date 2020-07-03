@@ -58,14 +58,10 @@ set(headers app.h
         src/util.h
         src/create.h)
 
-
-
-
-
 set(resources Resources.qrc)
 
 if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-    qtquick_compiler_add_resources(${resources})
+    qtquick_compiler_add_resources(resources ${resources})
 endif()
 
 
