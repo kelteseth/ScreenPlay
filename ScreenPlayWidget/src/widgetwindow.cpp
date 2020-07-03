@@ -40,7 +40,7 @@ WidgetWindow::WidgetWindow(const QString projectPath, const QString appid, const
         configJsonDocument = QJsonDocument::fromJson(m_projectConfig.toUtf8(), &parseError);
 
         if (!(parseError.error == QJsonParseError::NoError)) {
-            qWarning("Settings Json Parse Error ");
+            qWarning() << "Settings Json Parse Error "  << parseError.errorString() << configTmp.fileName();
         }
 
         m_project = configJsonDocument.object();

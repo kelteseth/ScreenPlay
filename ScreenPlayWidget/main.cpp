@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
     }
 
     ScreenPlaySDK sdk(argumentList.at(2), argumentList.at(3));
+    // 1. Project path, 2. AppID, 3. Type
     WidgetWindow spwmw(argumentList.at(1), argumentList.at(2), argumentList.at(3));
 
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &spwmw, &WidgetWindow::qmlExit);
