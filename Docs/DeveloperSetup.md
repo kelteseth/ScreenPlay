@@ -27,13 +27,8 @@ chmod +x install-dependencies.sh
       * qt-breakpad
 5. **Follow the steps below for your OS**. 
 6. Open the CMakeLists.txt via QtCreator. **This can take some time until QtCreator parses all files!**
-7. Add a second build step at: Projects -> Build -> Add Build Step -> Select Build -> Select "install" .
 
-<div>
-<img width="100%" height="auto" src="../.gitlab/media/QtCreator_install.png">
-</div>
-
-8. Add CMake variables
+7. Add CMake variables
     * Add CMAKE_TOOLCHAIN_FILE and VCPKG_TARGET_TRIPLET
        * Extras -> Tools -> Kits -> <Your Kit> -> CMake Configuration -> Append this:
        * CMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/Common/vcpkg/scripts/buildsystems/vcpkg.cmake
@@ -44,12 +39,12 @@ chmod +x install-dependencies.sh
 <img width="100%" height="auto" src="../.gitlab/media/QtCreator_kit.png">
 </div>
 
-9. Check if Ninja is selected
+8. Check if Ninja is selected
     * Extras -> Tools -> Kits -> <Your Kit> -> CMakeGenerator -> Change to:
         * Generator: Ninja
         * Extra Generator: CodeBlocks
-10. Save and close the settings.
-11. Press build (the big green play button). This will compile the project and copy all necessary files into your Qt installation.
+9. Save and close the settings.
+10. Press build (the big green play button). This will compile the project and copy all necessary files into your Qt installation.
 
 ### Windows
 1. [Download and install MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)

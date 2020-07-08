@@ -45,10 +45,9 @@ string(STRIP ${QT_INSTALL_QML_RAW} QT_INSTALL_QML)
 set(DESTDIR "${QT_INSTALL_QML}/${TARGETPATH}")
 message("DESTDIR ${DESTDIR}")
 
-install(FILES
-    qmldir
-    DESTINATION
-    ${DESTDIR} )
+file(MAKE_DIRECTORY ${DESTDIR})
+
+configure_file(qmldir ${DESTDIR} COPYONLY)
 
 
 # Copies ScreenPlaySysInfo.* into qt qml plugins folder
