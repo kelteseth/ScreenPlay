@@ -90,7 +90,8 @@ target_include_directories(${PROJECT_NAME}
     ${QT_TELEMTRY_INCLUDE}
     ${QT_BREAKPAD_INCLUDE})
 
-configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/assets/fonts/ COPYONLY)
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets/fonts)
+configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/assets/fonts COPYONLY)
 
 
 execute_process(COMMAND git log --pretty=format:'%h' -n 1
