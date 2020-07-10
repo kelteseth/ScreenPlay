@@ -43,11 +43,13 @@ set( src
 set( headers
         src/basewindow.h)
 
-set(resources SPWResources.qrc)
 
-if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-    qtquick_compiler_add_resources(resources ${resources})
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(resources SPWResources.qrc)
+else()
+    qtquick_compiler_add_resources(resources SPWResources.qrc )
 endif()
+
 
 
 add_executable(${PROJECT_NAME}  ${src} ${headers} ${src_plattform} ${headers_plattform} ${resources})

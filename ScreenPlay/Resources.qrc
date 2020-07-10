@@ -6,6 +6,10 @@
         <file>assets/fonts/Roboto-Thin.ttf</file>
         <file>assets/fonts/RobotoMono-Light.ttf</file>
         <file>assets/fonts/RobotoMono-Thin.ttf</file>
+        <file>assets/fonts/NotoSans-Light.ttf</file>
+        <file>assets/fonts/NotoSans-Medium.ttf</file>
+        <file>assets/fonts/NotoSans-Regular.ttf</file>
+        <file>assets/fonts/NotoSans-Thin.ttf</file>
         <file>assets/icons/favicon.ico</file>
         <file>assets/icons/font-awsome/close.svg</file>
         <file>assets/icons/font-awsome/frown-o.svg</file>
@@ -62,11 +66,33 @@
         <file>assets/images/noisy-texture-2.png</file>
         <file>assets/images/noisy-texture-3.png</file>
         <file>assets/images/noisy-texture.png</file>
-        <file>assets/licenses/Apache2.txt</file>
-        <file>assets/licenses/OFL.txt</file>
         <file>assets/particle/backgroundGlow.png</file>
         <file>assets/particle/dot.png</file>
         <file>assets/shader/movingcolorramp.fsh</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>assets/icons/icon_screen.svg</file>
+        <file>assets/icons/icon_close.svg</file>
+        <file>assets/images/FFmpeg_Logo_new.svg</file>
+        <file>profiles.json</file>
+        <file>assets/images/mask_round.svg</file>
+        <file>assets/icons/icon_launch.svg</file>
+        <file>assets/icons/brand_twitch.svg</file>
+        <file>assets/icons/brand_github.svg</file>
+        <file>assets/icons/brand_gitlab.svg</file>
+        <file>assets/icons/brand_twitter.svg</file>
+        <file>assets/icons/icon_done.svg</file>
+        <file>assets/wizards/example_html.png</file>
+        <file>assets/wizards/example_qml.png</file>
+        <file>assets/images/undraw_static_website_0107.svg</file>
+        <file>translations/ScreenPlay_de.qm</file>
+        <file>translations/ScreenPlay_en.qm</file>
+        <file>translations/ScreenPlay_es.qm</file>
+        <file>translations/ScreenPlay_fr.qm</file>
+        <file>translations/ScreenPlay_ru.qm</file>
+        <file>translations/ScreenPlay_ko.qm</file>
+        <file>translations/ScreenPlay_vi.qm</file>
+        <file>assets/licenses/Apache2.txt</file>
+        <file>assets/licenses/OFL.txt</file>
         <file>legal/DataProtection.txt</file>
         <file>legal/Font Awesome Free License.txt</file>
         <file>legal/OFL.txt</file>
@@ -74,83 +100,5 @@
         <file>legal/Qt LGPLv3.txt</file>
         <file>legal/gpl-3.0.txt</file>
         <file>legal/lgpl-2.1.txt</file>
-        <file>main.qml</file>
-        <file>qml/Community/Community.qml</file>
-        <file>qml/Community/Feedback.qml</file>
-        <file>qml/Create/Create.qml</file>
-        <file>qml/Create/ImportContent.qml</file>
-        <file>qml/Create/CreateContent.qml</file>
-        <file>qml/Create/CreateContentButton.qml</file>
-        <file>qml/Installed/Installed.qml</file>
-        <file>qml/Installed/ScreenPlayItem.qml</file>
-        <file>qml/Installed/ScreenPlayItemImage.qml</file>
-        <file>qml/Installed/Sidebar.qml</file>
-        <file>qml/Settings/SettingBool.qml</file>
-        <file>qml/Settings/Settings.qml</file>
-        <file>qml/Settings/SettingsButton.qml</file>
-        <file>qml/Settings/SettingsComboBox.qml</file>
-        <file>qml/Settings/SettingsExpander.qml</file>
-        <file>qml/Settings/SettingsHeader.qml</file>
-        <file>qml/Settings/SettingsHorizontalSeperator.qml</file>
-        <file>qml/Workshop/Workshop.qml</file>
-        <file>qtquickcontrols2.conf</file>
-        <file>translations/ScreenPlay_de.qm</file>
-        <file>translations/ScreenPlay_en.qm</file>
-        <file>assets/icons/icon_screen.svg</file>
-        <file>qml/Community/XMLNewsfeed.qml</file>
-        <file>qml/Workshop/WorkshopAvailableTest.qml</file>
-        <file>qml/Workshop/WorkshopLoader.qml</file>
-        <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml</file>
-        <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml</file>
-        <file>qml/Common/TagSelector.qml</file>
-        <file>qml/Common/Tag.qml</file>
-        <file>assets/icons/icon_close.svg</file>
-        <file>qml/Common/ImageSelector.qml</file>
-        <file>qml/Common/Slider.qml</file>
-        <file>qml/Monitors/Monitors.qml</file>
-        <file>qml/Monitors/MonitorSelection.qml</file>
-        <file>qml/Monitors/MonitorSelectionItem.qml</file>
-        <file>qml/Monitors/MonitorsProjectSettingItem.qml</file>
-        <file>qml/Common/Background.qml</file>
-        <file>qml/Navigation/Navigation.qml</file>
-        <file>qml/Navigation/NavigationItem.qml</file>
-        <file>qml/Navigation/NavigationWallpaperConfiguration.qml</file>
-        <file>qml/Common/RippleEffect.qml</file>
-        <file>qml/Create/FFMPEGPopup.qml</file>
-        <file>assets/images/FFmpeg_Logo_new.svg</file>
-        <file>profiles.json</file>
-        <file>qml/Common/Shake.qml</file>
-        <file>qml/Common/Grow.qml</file>
-        <file>qml/Installed/InstalledWelcomeScreen.qml</file>
-        <file>qml/Monitors/DefaultVideoControls.qml</file>
-        <file>assets/images/mask_round.svg</file>
-        <file>assets/icons/icon_launch.svg</file>
-        <file>qml/Common/GrowIconLink.qml</file>
-        <file>assets/icons/brand_twitch.svg</file>
-        <file>assets/icons/brand_github.svg</file>
-        <file>assets/icons/brand_gitlab.svg</file>
-        <file>assets/icons/brand_twitter.svg</file>
-        <file>assets/icons/icon_done.svg</file>
-        <file>qml/Common/CloseIcon.qml</file>
-        <file>qml/Create/Wizard.qml</file>
-        <file>qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml</file>
-        <file>translations/ScreenPlay_es.qm</file>
-        <file>translations/ScreenPlay_fr.qm</file>
-        <file>translations/ScreenPlay_ru.qm</file>
-        <file>qml/Create/Footer.qml</file>
-        <file>qml/Create/BackgroundParticleSystem.qml</file>
-        <file>assets/wizards/example_html.png</file>
-        <file>assets/wizards/example_qml.png</file>
-        <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml</file>
-        <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaper.qml</file>
-        <file>qml/Common/Headline.qml</file>
-        <file>qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml</file>
-        <file>assets/images/undraw_static_website_0107.svg</file>
-        <file>translations/ScreenPlay_ko.qm</file>
-        <file>assets/fonts/NotoSans-Light.ttf</file>
-        <file>assets/fonts/NotoSans-Medium.ttf</file>
-        <file>assets/fonts/NotoSans-Regular.ttf</file>
-        <file>assets/fonts/NotoSans-Thin.ttf</file>
-        <file>translations/ScreenPlay_vi.qm</file>
     </qresource>
 </RCC>

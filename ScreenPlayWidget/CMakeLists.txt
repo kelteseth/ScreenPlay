@@ -18,13 +18,11 @@ set(src main.cpp
 set(headers
     src/widgetwindow.h)
 
-set(resources
-    SPWidgetResources.qrc)
-
-if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
-    qtquick_compiler_add_resources( resources ${resources})
+if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    set(resources SPWidgetResources.qrc)
+else()
+    qtquick_compiler_add_resources(resources SPWidgetResources.qrc )
 endif()
-
 
 add_executable(${PROJECT_NAME} ${src} ${headers} ${resources})
 
