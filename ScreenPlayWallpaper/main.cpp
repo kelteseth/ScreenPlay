@@ -18,7 +18,7 @@
 #include "src/macwindow.h"
 #endif
 
-#include "../ScreenPlaySDK/screenplaysdk.h"
+#include "screenplaysdk.h"
 
 int main(int argc, char* argv[])
 {

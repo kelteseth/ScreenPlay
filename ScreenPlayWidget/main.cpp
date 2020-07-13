@@ -2,7 +2,6 @@
 #include <QQmlApplicationEngine>
 #include <QStringList>
 
-#include "../ScreenPlaySDK/screenplaysdk.h"
 #include "src/widgetwindow.h"
 
 int main(int argc, char* argv[])

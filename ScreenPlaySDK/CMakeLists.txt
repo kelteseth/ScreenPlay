@@ -10,11 +10,12 @@ find_package(
              Core
   REQUIRED)
 
-set(src screenplay-sdk_plugin.cpp
-        screenplaysdk.cpp)
+set(src src/screenplay-sdk_plugin.cpp
+        src/screenplaysdk.cpp)
 
-set(headers screenplay-sdk_plugin.h
-        screenplaysdk.h)
+set(headers
+        inc/screenplay-sdk_plugin.h
+        inc/screenplaysdk.h)
 
 add_library(${PROJECT_NAME}  ${src} ${headers})
 
@@ -24,3 +25,8 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Quick
     Qt5::Gui
     Qt5::Network)
+
+target_include_directories(
+    ${PROJECT_NAME}
+    PUBLIC  inc
+    )
