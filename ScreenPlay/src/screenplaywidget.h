@@ -36,6 +36,7 @@
 
 #include <QCoreApplication>
 #include <QDebug>
+#include <QJsonObject>
 #include <QObject>
 #include <QPoint>
 #include <QProcess>
@@ -49,7 +50,7 @@ namespace ScreenPlay {
 class ScreenPlayWidget : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
+    Q_PROPERTY(QString absolutePath READ absolutePath WRITE setAbsolutePath NOTIFY absolutePathChanged)
     Q_PROPERTY(QString previewImage READ previewImage WRITE setPreviewImage NOTIFY previewImageChanged)
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
@@ -58,16 +59,12 @@ class ScreenPlayWidget : public QObject {
 public:
     explicit ScreenPlayWidget(const QString& appID,
         const std::shared_ptr<GlobalVariables>& globalVariables,
-        const QString& projectPath,
+        const QPoint& position,
+        const QString& absolutePath,
         const QString& previewImage,
         const InstalledType::InstalledType type);
 
     ~ScreenPlayWidget() { }
-
-    QString projectPath() const
-    {
-        return m_projectPath;
-    }
 
     QString previewImage() const
     {
@@ -77,6 +74,11 @@ public:
     QPoint position() const
     {
         return m_position;
+    }
+
+    QString absolutePath() const
+    {
+        return m_absolutePath;
     }
 
     QString appID() const
@@ -90,14 +92,7 @@ public:
     }
 
 public slots:
-    void setProjectPath(QString projectPath)
-    {
-        if (m_projectPath == projectPath)
-            return;
-
-        m_projectPath = projectPath;
-        emit projectPathChanged(m_projectPath);
-    }
+    QJsonObject getActiveSettingsJson();
 
     void setPreviewImage(QString previewImage)
     {
@@ -135,21 +130,30 @@ public slots:
         emit typeChanged(m_type);
     }
 
+    void setAbsolutePath(QString absolutePath)
+    {
+        if (m_absolutePath == absolutePath)
+            return;
+
+        m_absolutePath = absolutePath;
+        emit absolutePathChanged(m_absolutePath);
+    }
+
 signals:
-    void projectPathChanged(QString projectPath);
     void previewImageChanged(QString previewImage);
     void positionChanged(QPoint position);
     void appIDChanged(QString appID);
     void typeChanged(InstalledType::InstalledType type);
+    void absolutePathChanged(QString absolutePath);
 
 private:
     QProcess m_process;
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
 
-    QString m_projectPath;
     QString m_previewImage;
     QString m_appID;
     QPoint m_position;
     InstalledType::InstalledType m_type;
+    QString m_absolutePath;
 };
 }

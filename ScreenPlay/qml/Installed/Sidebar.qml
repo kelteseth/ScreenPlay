@@ -373,7 +373,7 @@ Item {
 
                     if (root.isWidget()) {
                         ScreenPlay.screenPlayManager.createWidget(
-                                    type, absoluteStoragePath, previewImage)
+                                    type, Qt.point(0,0), absoluteStoragePath, previewImage, true)
                     }
 
                     root.state = "inactive"

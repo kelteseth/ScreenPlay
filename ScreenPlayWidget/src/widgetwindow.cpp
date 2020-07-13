@@ -2,11 +2,21 @@
 
 #include <QCoreApplication>
 
-WidgetWindow::WidgetWindow(const QString projectPath, const QString appid, const QString type)
+WidgetWindow::WidgetWindow(const QString& projectPath,
+    const QPoint& position,
+    const QString& appid,
+    const QString& type)
     : QObject(nullptr)
     , m_appID { appid }
     , m_type { type }
+    , m_position { position }
 {
+
+    m_sdk = std::make_unique<ScreenPlaySDK>(appid, type);
+
+    QObject::connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WidgetWindow::qmlExit);
+    QObject::connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &WidgetWindow::messageReceived);
+
     QStringList availableTypes {
         "qmlWidget",
         "htmlWidget"
@@ -15,6 +25,11 @@ WidgetWindow::WidgetWindow(const QString projectPath, const QString appid, const
     if (!availableTypes.contains(m_type)) {
         QApplication::exit(-4);
     }
+    auto sendPositionUpdate = [this](int arg) {
+        m_sdk->sendMessage({});
+    };
+    QObject::connect(&m_window, &QWindow::xChanged, this, sendPositionUpdate);
+    QObject::connect(&m_window, &QWindow::yChanged, this, sendPositionUpdate);
 
     Qt::WindowFlags flags = m_window.flags();
     m_window.setWidth(300);
@@ -40,7 +55,7 @@ WidgetWindow::WidgetWindow(const QString projectPath, const QString appid, const
         configJsonDocument = QJsonDocument::fromJson(m_projectConfig.toUtf8(), &parseError);
 
         if (!(parseError.error == QJsonParseError::NoError)) {
-            qWarning() << "Settings Json Parse Error "  << parseError.errorString() << configTmp.fileName();
+            qWarning() << "Settings Json Parse Error " << parseError.errorString() << configTmp.fileName();
         }
 
         m_project = configJsonDocument.object();
@@ -55,6 +70,7 @@ WidgetWindow::WidgetWindow(const QString projectPath, const QString appid, const
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     //    m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
     m_window.setSource(QUrl("qrc:/Widget.qml"));
+    m_window.setPosition(m_position);
     m_window.show();
 }
 

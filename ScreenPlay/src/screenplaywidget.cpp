@@ -16,21 +16,24 @@ namespace ScreenPlay {
 ScreenPlayWidget::ScreenPlayWidget(
     const QString& appID,
     const std::shared_ptr<GlobalVariables>& globalVariables,
-    const QString& projectPath,
+    const QPoint& position,
+    const QString& absolutePath,
     const QString& previewImage,
     const InstalledType::InstalledType type)
     : QObject { nullptr }
     , m_globalVariables { globalVariables }
-    , m_projectPath { projectPath }
     , m_previewImage { previewImage }
     , m_appID { appID }
-    , m_position { 0, 0 }
+    , m_position { position }
     , m_type { type }
+    , m_absolutePath { absolutePath }
 {
     const QStringList proArgs {
-        m_projectPath,
+        m_absolutePath,
         QString { "appID=" + m_appID },
-        QVariant::fromValue(m_type).toString()
+        QVariant::fromValue(m_type).toString(),
+        QString::number(m_position.x()),
+        QString::number(m_position.y()),
     };
 
     m_process.setArguments(proArgs);
@@ -42,5 +45,16 @@ ScreenPlayWidget::ScreenPlayWidget(
         qDebug() << "error: " << error;
     });
     m_process.startDetached();
+}
+
+QJsonObject ScreenPlayWidget::getActiveSettingsJson()
+{
+    QJsonObject obj;
+    obj.insert("previewImage", m_previewImage);
+    obj.insert("absolutePath", m_absolutePath);
+    obj.insert("positionX", m_position.x());
+    obj.insert("positionY", m_position.y());
+    obj.insert("type", QVariant::fromValue(m_type).toString());
+    return obj;
 }
 }

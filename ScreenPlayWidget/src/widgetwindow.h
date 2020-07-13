@@ -34,9 +34,9 @@
 
 #pragma once
 
+#include <QApplication>
 #include <QDebug>
 #include <QFile>
-#include <QApplication>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
@@ -55,16 +55,25 @@
 #include <qt_windows.h>
 #endif
 
+#include <memory>
+
+#include "screenplaysdk.h"
+
 class WidgetWindow : public QObject {
     Q_OBJECT
 
 public:
-    explicit WidgetWindow(const QString projectPath, const QString appid, const QString type);
+    explicit WidgetWindow(
+        const QString& projectPath,
+        const QPoint& position,
+        const QString& appid,
+        const QString& type);
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString projectConfig READ projectConfig WRITE setProjectConfig NOTIFY projectConfigChanged)
     Q_PROPERTY(QString sourcePath READ sourcePath WRITE setSourcePath NOTIFY sourcePathChanged)
+    Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
 
     QString appID() const
     {
@@ -86,6 +95,11 @@ public:
         return m_sourcePath;
     }
 
+    QPoint position() const
+    {
+        return m_position;
+    }
+
 signals:
     void qmlExit();
 
@@ -94,6 +108,8 @@ signals:
     void projectConfigChanged(QString projectConfig);
     void sourcePathChanged(QString sourcePath);
     void qmlSceneValueReceived(QString key, QString value);
+
+    void positionChanged(QPoint position);
 
 public slots:
     void setSize(QSize size);
@@ -142,6 +158,15 @@ public slots:
     void setWindowBlur(unsigned int style = 3);
 #endif
 
+    void setPosition(QPoint position)
+    {
+        if (m_position == position)
+            return;
+
+        m_position = position;
+        emit positionChanged(m_position);
+    }
+
 private:
     QString m_appID { "" };
     QString m_type { "qmlWidget" };
@@ -156,4 +181,6 @@ private:
 #ifdef Q_OS_WIN
     HWND m_hwnd;
 #endif
+    QPoint m_position;
+    std::unique_ptr<ScreenPlaySDK> m_sdk;
 };

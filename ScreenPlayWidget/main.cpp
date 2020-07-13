@@ -16,20 +16,29 @@ int main(int argc, char* argv[])
     // If we start with only one argument (path, appID, type),
     // it means we want to test a single widget
     if (argumentList.length() == 1) {
-        WidgetWindow spwmw("test", "appid", "qmlWidget");
+        WidgetWindow spwmw("test", { 0, 0 }, "appid", "qmlWidget");
         return app.exec();
     }
 
-    if (argumentList.length() != 4) {
+    if (argumentList.length() != 6) {
         return -3;
     }
 
-    ScreenPlaySDK sdk(argumentList.at(2), argumentList.at(3));
-    // 1. Project path, 2. AppID, 3. Type
-    WidgetWindow spwmw(argumentList.at(1), argumentList.at(2), argumentList.at(3));
+    bool okPosX = false;
+    int positionX = QVariant(argumentList.at(4)).toInt(&okPosX);
+    if (!okPosX) {
+        qWarning() << "Could not parse PositionX value to int: " << argumentList.at(4);
+        positionX = 0;
+    }
+    bool okPosY = false;
+    int positionY = QVariant(argumentList.at(5)).toInt(&okPosY);
+    if (!okPosY) {
+        qWarning() << "Could not parse PositionY value to int: " << argumentList.at(5);
+        positionY = 0;
+    }
 
-    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &spwmw, &WidgetWindow::qmlExit);
-    QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &spwmw, &WidgetWindow::messageReceived);
+    // 0. App Path, 1. Project path, 2. AppID, 3. Type, 4. Posx, 5. PosY
+    WidgetWindow spwmw(argumentList.at(1), QPoint { positionX, positionY }, argumentList.at(2), argumentList.at(3));
 
     return app.exec();
 }

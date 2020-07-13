@@ -102,10 +102,10 @@ public slots:
         const float volume,
         const bool saveToProfilesConfigFile);
 
-    void createWidget(
-        const ScreenPlay::InstalledType::InstalledType type,
+    void createWidget(const ScreenPlay::InstalledType::InstalledType type, const QPoint &position,
         const QString& absoluteStoragePath,
-        const QString& previewImage);
+        const QString& previewImage,
+        const bool saveToProfilesConfigFile);
 
     void removeAllWallpapers();
     void removeAllWidgets();

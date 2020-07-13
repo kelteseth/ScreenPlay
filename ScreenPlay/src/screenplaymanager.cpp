@@ -114,9 +114,18 @@ void ScreenPlayManager::createWallpaper(
 */
 void ScreenPlayManager::createWidget(
     const InstalledType::InstalledType type,
+    const QPoint& position,
     const QString& absoluteStoragePath,
-    const QString& previewImage)
+    const QString& previewImage,
+    const bool saveToProfilesConfigFile)
 {
+    auto saveToProfile = qScopeGuard([=, this] {
+        // Do not save on app start
+        if (saveToProfilesConfigFile) {
+            saveProfiles();
+        }
+    });
+
     const QString appID = Util::generateRandomString();
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
 
@@ -126,7 +135,7 @@ void ScreenPlayManager::createWidget(
     }
 
     increaseActiveWidgetsCounter();
-    m_screenPlayWidgets.append(std::make_unique<ScreenPlayWidget>(appID, m_globalVariables, path, previewImage, type));
+    m_screenPlayWidgets.append(std::make_unique<ScreenPlayWidget>(appID, m_globalVariables, position, path, previewImage, type));
 }
 
 /*!
@@ -170,6 +179,7 @@ void ScreenPlayManager::removeAllWidgets()
         saveProfiles();
         setActiveWidgetsCounter(0);
     }
+
 }
 
 /*!
@@ -271,14 +281,18 @@ bool ScreenPlayManager::saveProfiles()
 {
 
     QJsonArray wallpaper {};
-
-    for (const auto activeWallpaper : m_screenPlayWallpapers) {
+    for (const auto& activeWallpaper : m_screenPlayWallpapers) {
         wallpaper.append(activeWallpaper->getActiveSettingsJson());
     }
 
+    QJsonArray widgets {};
+    for (const auto& activeWidget : m_screenPlayWidgets) {
+        widgets.append(activeWidget->getActiveSettingsJson());
+    }
+
     QJsonObject profileDefault;
-    profileDefault.insert("widgets", QJsonArray {});
     profileDefault.insert("appdrawer", QJsonArray {});
+    profileDefault.insert("widgets", widgets);
     profileDefault.insert("wallpaper", wallpaper);
     profileDefault.insert("name", "default");
 
@@ -371,17 +385,34 @@ void ScreenPlayManager::loadProfiles()
             if (volume == -1.0F)
                 volume = 1.0f;
 
-            QString absolutePath = wallpaperObj.value("absolutePath").toString();
-            QString fillModeString = wallpaperObj.value("fillMode").toString();
-            QString previewImage = wallpaperObj.value("previewImage").toString();
-            QString file = wallpaperObj.value("file").toString();
-            QString typeString = wallpaperObj.value("type").toString();
+            const QString absolutePath = wallpaperObj.value("absolutePath").toString();
+            const QString fillModeString = wallpaperObj.value("fillMode").toString();
+            const QString previewImage = wallpaperObj.value("previewImage").toString();
+            const QString file = wallpaperObj.value("file").toString();
+            const QString typeString = wallpaperObj.value("type").toString();
 
-            auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::VideoWallpaper);
-            auto fillMode = QStringToEnum<FillMode::FillMode>(fillModeString, FillMode::FillMode::Cover);
+            const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::VideoWallpaper);
+            const auto fillMode = QStringToEnum<FillMode::FillMode>(fillModeString, FillMode::FillMode::Cover);
 
             createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, false);
             monitors.clear();
+        }
+
+        for (const QJsonValueRef widget : wallpaper.toObject().value("widgets").toArray()) {
+            QJsonObject widgetObj = widget.toObject();
+
+            if (widgetObj.empty())
+                continue;
+
+            const QString absolutePath = widgetObj.value("absolutePath").toString();
+            const QString previewImage = widgetObj.value("previewImage").toString();
+            const QString typeString = widgetObj.value("type").toString();
+            const int positionX = widgetObj.value("positionX").toInt(0);
+            const int positionY = widgetObj.value("positionY").toInt(0);
+            const QPoint position { positionX, positionY };
+            const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::QMLWidget);
+
+            createWidget(type, position, absolutePath, previewImage, false);
         }
     }
 }
