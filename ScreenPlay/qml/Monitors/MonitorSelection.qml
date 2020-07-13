@@ -7,10 +7,12 @@ import ScreenPlay 1.0
 
 Rectangle {
     id: rect
-    color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
+    color: Material.theme === Material.Light ? Material.background : Qt.darker(
+                                                   Material.background)
 
     height: availableHeight
     width: parent.width
+    clip: true
 
     // Width of the Sidebar or Space that should be used
     property real availableWidth: 0
@@ -52,7 +54,7 @@ Rectangle {
         for (var i = 0; i < rp.count; i++) {
             rp.itemAt(i).isSelected = false
         }
-         rp.itemAt(0).isSelected = true
+        rp.itemAt(0).isSelected = true
         getActiveMonitors()
     }
 
@@ -83,14 +85,12 @@ Rectangle {
             isWidthGreaterThanHeight = true
         }
 
-        if(rp.count === 1){
-            availableWidth = availableWidth *.66
+        if (rp.count === 1) {
+            availableWidth = availableWidth * .66
         }
-
 
         var dynamicHeight = availableWidth * windowsDelta
         var dynamicWidth = availableHeight * windowsDelta
-
 
         // Delta (height/width)
         var monitorHeightRationDelta = 0
@@ -110,21 +110,36 @@ Rectangle {
             rp.itemAt(i).width = rp.itemAt(i).width * monitorWidthRationDelta
             rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta
             rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta
+
+            rp.contentWidth += rp.itemAt(i).width
+            rp.contentHeight += rp.itemAt(i).height
         }
+        rp.contentWidth += 200
+        rp.contentHeight += 200
     }
 
     Flickable {
+        id: flickable
         anchors.fill: parent
+        contentWidth: rp.contentWidth
+        contentHeight: rp.contentHeight
         ScrollBar.vertical: ScrollBar {
+            policy: ScrollBar.AlwaysOff
+
             snapMode: ScrollBar.SnapOnRelease
         }
         ScrollBar.horizontal: ScrollBar {
+            policy: ScrollBar.AlwaysOff
+
             snapMode: ScrollBar.SnapOnRelease
         }
+
 
         Repeater {
             id: rp
             model: ScreenPlay.monitorListModel
+            property int contentWidth
+            property int contentHeight
 
             Component.onCompleted: rp.itemAt(0).isSelected = true
 

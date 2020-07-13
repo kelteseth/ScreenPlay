@@ -139,15 +139,21 @@ Item {
             }
         }
 
-        Rectangle {
+        Item {
             id: sidebarBackground
-            color: Material.theme === Material.Light ? "white" : Material.background
+
             anchors {
                 top: navBackground.bottom
                 right: parent.right
                 bottom: parent.bottom
                 left: parent.left
                 leftMargin: 5
+            }
+
+            Rectangle {
+                anchors.fill: parent
+                color: Material.theme === Material.Light ? "white" : Material.background
+                opacity: 0.95
             }
 
             Rectangle {

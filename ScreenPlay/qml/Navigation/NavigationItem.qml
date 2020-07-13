@@ -64,7 +64,7 @@ Item {
             anchors.left: icon.right
             anchors.leftMargin: 10
             font.pointSize: 14
-            color: Material.foreground
+            color: Material.primaryTextColor
             anchors.verticalCenter: parent.verticalCenter
             font.family: ScreenPlay.settings.font
             font.weight: Font.Normal
