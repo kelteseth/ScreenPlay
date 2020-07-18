@@ -63,7 +63,7 @@ Item {
                 id: txtHeadline
                 text: qsTr("Wallpaper Configuration")
                 font.pointSize: 21
-                color: "#626262"
+                color: Material.primaryTextColor
                 font.family: ScreenPlay.settings.font
                 font.weight: Font.Thin
                 width: 400
@@ -136,7 +136,6 @@ Item {
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeWallpaperAt(
                                     monitorSelection.activeMonitors[0])
-
                     }
                 }
                 Button {
@@ -166,32 +165,15 @@ Item {
             }
         }
 
-        DefaultVideoControls {
-            id: videoControlWrapper
-            activeMonitorIndex: monitors.activeMonitorIndex
-            anchors {
-                top: parent.top
-                topMargin: 60
-                right: parent.right
-                bottom: parent.bottom
-                margins: 30
-                left: itmLeftWrapper.right
-            }
-        }
-
-        GridView {
-            id: customPropertiesGridView
-            boundsBehavior: Flickable.DragOverBounds
-            maximumFlickVelocity: 7000
-            flickDeceleration: 5000
-            cellWidth: 340
-            cellHeight: 50
-            cacheBuffer: 10000
+        Rectangle {
+            color: Material.theme === Material.Light ? Material.background : Qt.darker(
+                                                           Material.background)
+            radius: 3
             clip: true
 
             anchors {
                 top: parent.top
-                topMargin: 60
+                topMargin: 75
                 right: parent.right
                 rightMargin: 40
                 bottom: parent.bottom
@@ -199,56 +181,81 @@ Item {
                 left: itmLeftWrapper.right
             }
 
-            delegate: MonitorsProjectSettingItem {
-                id: delegate
-                width: parent.width - 40
-                selectedMonitor: activeMonitorIndex
-                name: m_name
-                isHeadline: m_isHeadline
-                value: m_value
+            DefaultVideoControls {
+                id: videoControlWrapper
+                activeMonitorIndex: monitors.activeMonitorIndex
+                anchors {
+                    top: parent.top
+                    topMargin: 10
+                    right: parent.right
+                    rightMargin: 20
+                    left: parent.left
+                    leftMargin: 20
+                }
             }
 
-            ScrollBar.vertical: ScrollBar {
-                snapMode: ScrollBar.SnapOnRelease
-                policy: ScrollBar.AlwaysOn
+            GridView {
+                id: customPropertiesGridView
+                boundsBehavior: Flickable.DragOverBounds
+                maximumFlickVelocity: 7000
+                flickDeceleration: 5000
+                cellWidth: 340
+                cellHeight: 50
+                cacheBuffer: 10000
+                clip: true
+                anchors.fill: parent
+                anchors.margins: 10
+
+                delegate: MonitorsProjectSettingItem {
+                    id: delegate
+                    width: parent.width - 40
+                    selectedMonitor: activeMonitorIndex
+                    name: m_name
+                    isHeadline: m_isHeadline
+                    value: m_value
+                }
+
+                ScrollBar.vertical: ScrollBar {
+                    snapMode: ScrollBar.SnapOnRelease
+                    policy: ScrollBar.AlwaysOn
+                }
+
+                states: [
+                    State {
+                        name: "visible"
+                        PropertyChanges {
+                            target: customPropertiesGridView
+                            opacity: 1
+                            z: 1
+                            anchors.topMargin: 60
+                        }
+                    },
+                    State {
+                        name: "hidden"
+                        PropertyChanges {
+                            target: customPropertiesGridView
+                            opacity: 0
+                            z: -1
+                            anchors.topMargin: -100
+                        }
+                    }
+                ]
+
+                transitions: [
+                    Transition {
+                        from: "visible"
+                        to: "hidden"
+                        reversible: true
+                        PropertyAnimation {
+                            target: customPropertiesGridView
+                            duration: 300
+                            easing.type: Easing.InOutQuart
+                            properties: "anchors.topMargin, opacity"
+                        }
+                    }
+                ]
             }
-
-            states: [
-                State {
-                    name: "visible"
-                    PropertyChanges {
-                        target: customPropertiesGridView
-                        opacity: 1
-                        z: 1
-                        anchors.topMargin: 60
-                    }
-                },
-                State {
-                    name: "hidden"
-                    PropertyChanges {
-                        target: customPropertiesGridView
-                        opacity: 0
-                        z: -1
-                        anchors.topMargin: -100
-                    }
-                }
-            ]
-
-            transitions: [
-                Transition {
-                    from: "visible"
-                    to: "hidden"
-                    reversible: true
-                    PropertyAnimation {
-                        target: customPropertiesGridView
-                        duration: 300
-                        easing.type: Easing.InOutQuart
-                        properties: "anchors.topMargin, opacity"
-                    }
-                }
-            ]
         }
-
         MouseArea {
             anchors {
                 top: parent.top

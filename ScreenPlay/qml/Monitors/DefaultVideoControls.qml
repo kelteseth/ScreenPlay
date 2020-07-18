@@ -15,12 +15,6 @@ ColumnLayout {
     spacing: 20
     state: "hidden"
     clip: true
-    anchors {
-        right: parent.right
-        rightMargin: 20
-        left: parent.left
-        leftMargin: 20
-    }
 
     function indexOfValue(model, value) {
 
@@ -110,7 +104,7 @@ ColumnLayout {
             PropertyChanges {
                 target: root
                 opacity: 1
-                anchors.topMargin: 60
+                anchors.topMargin: 20
             }
         },
         State {
