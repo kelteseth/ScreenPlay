@@ -350,17 +350,6 @@ void ScreenPlayManager::newConnection()
     m_clients.append(connection);
 }
 
-/*!
-    \brief Closes all m_clients connections and clears the QVector.
-*/
-void ScreenPlayManager::closeAllConnections()
-{
-    for (auto& client : m_clients) {
-        client->close();
-    }
-    m_clients.clear();
-    m_clients.squeeze();
-}
 
 /*!
  \brief Closes all wallpaper connection with the following type:
@@ -422,30 +411,13 @@ bool ScreenPlayManager::closeWallpaper(const QString& appID)
 */
 void ScreenPlayManager::setWallpaperValue(QString appID, QString key, QString value)
 {
-
-    for (int i = 0; i < m_clients.count(); ++i) {
-        if (m_clients.at(i)->appID() == appID) {
-            QJsonObject obj;
-            obj.insert(key, QJsonValue(value));
-
-            QByteArray send = QJsonDocument(obj).toJson();
-            m_clients.at(i)->socket()->write(send);
-            m_clients.at(i)->socket()->waitForBytesWritten();
+    for (const auto& wallpaper : m_screenPlayWallpapers) {
+        if (wallpaper->appID() == appID) {
+            wallpaper->setWallpaperValue(key, value);
         }
     }
 }
 
-void ScreenPlayManager::replace(const QString& appID, const QJsonObject& obj)
-{
-    for (int i = 0; i < m_clients.count(); ++i) {
-        if (m_clients.at(i)->appID() == appID) {
-
-            QByteArray send = QJsonDocument(obj).toJson();
-            m_clients.at(i)->socket()->write(send);
-            m_clients.at(i)->socket()->waitForBytesWritten();
-        }
-    }
-}
 
 /*!
     \brief Saves a given wallpaper \a newProfileObject to a \a profileName. We ignore the profileName argument
@@ -482,7 +454,7 @@ void ScreenPlayManager::saveProfiles()
 
 bool ScreenPlayManager::removeWallpaperByAppID(const QString& appID)
 {
-    for (auto wallpaper : m_screenPlayWallpapers) {
+    for (auto& wallpaper : m_screenPlayWallpapers) {
         if (wallpaper->appID() == appID) {
             qInfo() << "Remove wallpaper " << wallpaper->file() << "at monitor " << wallpaper->screenNumber();
             decreaseActiveWallpaperCounter();

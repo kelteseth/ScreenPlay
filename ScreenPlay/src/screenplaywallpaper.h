@@ -155,6 +155,7 @@ signals:
 public slots:
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
     void processError(QProcess::ProcessError error);
+    void setWallpaperValue(const QString &key, const QString &value);
 
     void setScreenNumber(QVector<int> screenNumber)
     {
@@ -241,14 +242,12 @@ public slots:
     }
 
 private:
-    QProcess m_process;
-
-    ProjectSettingsListModel m_projectSettingsListModel;
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
     std::shared_ptr<SDKConnection> m_connection;
 
+    ProjectSettingsListModel m_projectSettingsListModel;
     QVector<int> m_screenNumber;
-
+    QProcess m_process;
     QString m_previewImage;
     InstalledType::InstalledType m_type;
     FillMode::FillMode m_fillMode;

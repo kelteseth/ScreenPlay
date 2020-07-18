@@ -124,13 +124,11 @@ public slots:
 
     void saveProfiles();
     void newConnection();
-    void closeAllConnections();
     void closeAllWallpapers();
     void closeAllWidgets();
     void closeConntectionByType(const QStringList& list);
     bool closeWallpaper(const QString& appID);
     void setWallpaperValue(QString appID, QString key, QString value);
-    void replace(const QString& appID, const QJsonObject& obj);
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)
     {

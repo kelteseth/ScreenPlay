@@ -109,6 +109,14 @@ void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
     qDebug() << "EX: " << error;
 }
 
+void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value)
+{
+    QJsonObject obj;
+    obj.insert(key, value);
+
+    m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+}
+
 ProjectSettingsListModel* ScreenPlayWallpaper::getProjectSettingsListModel()
 {
     return &m_projectSettingsListModel;
@@ -147,7 +155,9 @@ void ScreenPlayWallpaper::replace(
     obj.insert("file", file);
     obj.insert("checkWallpaperVisible", checkWallpaperVisible);
 
-    m_connection->sendMessage(QJsonDocument(obj).toJson());
+
+
+    m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
 }
 
 }

@@ -152,14 +152,14 @@ signals:
     void requestSave();
 
 private:
-    QProcess m_process;
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
+    std::shared_ptr<SDKConnection> m_connection;
 
+    QProcess m_process;
     QString m_previewImage;
     QString m_appID;
     QPoint m_position;
     InstalledType::InstalledType m_type;
     QString m_absolutePath;
-    std::shared_ptr<SDKConnection> m_connection;
 };
 }
