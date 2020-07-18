@@ -28,7 +28,6 @@ namespace ScreenPlay {
         Create--> CreateVideoImport
         App --> Util
         App --> Settings
-        App --> SDKConnector
         App --> InstalledListModel
         InstalledListModel --> ProjectFile
         App --> InstalledListFilter
@@ -79,7 +78,6 @@ App::App()
     qRegisterMetaType<ScreenPlayManager*>();
     qRegisterMetaType<Util*>();
     qRegisterMetaType<Create*>();
-    qRegisterMetaType<SDKConnector*>();
     qRegisterMetaType<Settings*>();
 
     qRegisterMetaType<InstalledListModel*>();
@@ -111,17 +109,15 @@ App::App()
         "SearchType",
         "Error: only enums");
 
-
     qmlRegisterAnonymousType<GlobalVariables>("ScreenPlay", 1);
     qmlRegisterAnonymousType<ScreenPlayManager>("ScreenPlay", 1);
     qmlRegisterAnonymousType<Util>("ScreenPlay", 1);
     qmlRegisterAnonymousType<Create>("ScreenPlay", 1);
     qmlRegisterAnonymousType<Settings>("ScreenPlay", 1);
-    qmlRegisterAnonymousType<SDKConnector>("ScreenPlay", 1);
 
-    // SDKConnect first to check if another ScreenPlay Instace is running
-    m_sdkConnector = std::make_shared<SDKConnector>();
-    m_isAnotherScreenPlayInstanceRunning = m_sdkConnector->m_isAnotherScreenPlayInstanceRunning;
+    // ScreenPlayManager first to check if another ScreenPlay Instace is running
+    m_screenPlayManager = std::make_unique<ScreenPlayManager>();
+    m_isAnotherScreenPlayInstanceRunning = m_screenPlayManager->isAnotherScreenPlayInstanceRunning();
 }
 
 /*!
@@ -144,6 +140,7 @@ void App::init()
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
     m_settings = make_shared<Settings>(m_globalVariables);
     m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
+    m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_telemetry, m_settings);
 
     // Only create tracker if user did not disallow!
     if (m_settings->anonymousTelemetry()) {
@@ -155,8 +152,6 @@ void App::init()
     }
 
     m_create = make_unique<Create>(m_globalVariables);
-    m_screenPlayManager = make_unique<ScreenPlayManager>(m_globalVariables, m_monitorListModel, m_sdkConnector, m_telemetry, m_settings);
-    QObject::connect(m_sdkConnector.get(), &SDKConnector::requestDecreaseWidgetCount, m_screenPlayManager.get(), &ScreenPlayManager::decreaseActiveWidgetsCounter);
 
     // When the installed storage path changed
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);
@@ -167,7 +162,7 @@ void App::init()
         m_settings->resetInstalledListmodel();
         m_settings->setqSetting("ScreenPlayContentPath", localStoragePath.toString());
     });
-    QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_sdkConnector.get(), &SDKConnector::closeAllWallpapers);
+    QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_screenPlayManager.get(), &ScreenPlayManager::closeAllWallpapers);
 
     // Init after we have the paths from settings
     m_installedListModel->init();

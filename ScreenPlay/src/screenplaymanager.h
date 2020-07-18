@@ -48,7 +48,6 @@
 #include "projectsettingslistmodel.h"
 #include "screenplaywallpaper.h"
 #include "screenplaywidget.h"
-#include "sdkconnector.h"
 #include "settings.h"
 #include "util.h"
 
@@ -65,11 +64,7 @@ class ScreenPlayManager : public QObject {
 
 public:
     explicit ScreenPlayManager(
-        const std::shared_ptr<GlobalVariables>& globalVariables,
-        const std::shared_ptr<MonitorListModel>& mlm,
-        const std::shared_ptr<SDKConnector>& sdkc,
-        const std::shared_ptr<GAnalytics>& telemetry,
-        const std::shared_ptr<Settings>& settings,
+
         QObject* parent = nullptr);
 
     int activeWallpaperCounter() const
@@ -81,6 +76,16 @@ public:
     {
         return m_activeWidgetsCounter;
     }
+    bool isAnotherScreenPlayInstanceRunning()
+    {
+        return m_isAnotherScreenPlayInstanceRunning;
+    }
+
+    void init(
+        const std::shared_ptr<GlobalVariables>& globalVariables,
+        const std::shared_ptr<MonitorListModel>& mlm,
+        const std::shared_ptr<GAnalytics>& telemetry,
+        const std::shared_ptr<Settings>& settings);
 
 signals:
     void projectSettingsListModelResult(
@@ -89,10 +94,9 @@ signals:
         const ScreenPlay::InstalledType::InstalledType type = ScreenPlay::InstalledType::InstalledType::VideoWallpaper);
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
+    void requestRaise();
 
 public slots:
-    void saveProfiles();
-
     // moc needs full enum namespace info see QTBUG-58454
     void createWallpaper(
         const ScreenPlay::InstalledType::InstalledType type,
@@ -109,8 +113,6 @@ public slots:
         const QString& previewImage,
         const bool saveToProfilesConfigFile);
 
-    void appConnected(const std::shared_ptr<SDKConnection>& connection);
-
     void removeAllWallpapers();
     void removeAllWidgets();
     bool removeWallpaperAt(const int index);
@@ -119,6 +121,16 @@ public slots:
     void setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
     std::optional<std::shared_ptr<ScreenPlayWallpaper>> getWallpaperByAppID(const QString& appID);
+
+    void saveProfiles();
+    void newConnection();
+    void closeAllConnections();
+    void closeAllWallpapers();
+    void closeAllWidgets();
+    void closeConntectionByType(const QStringList& list);
+    bool closeWallpaper(const QString& appID);
+    void setWallpaperValue(QString appID, QString key, QString value);
+    void replace(const QString& appID, const QJsonObject& obj);
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)
     {
@@ -170,20 +182,24 @@ public slots:
 
 private:
     void loadProfiles();
-
+    void appConnected(const std::shared_ptr<SDKConnection>& connection);
+    bool checkIsAnotherScreenPlayInstanceRunning();
     [[nodiscard]] bool removeWallpaperByAppID(const QString& appID);
 
 private:
-    const std::shared_ptr<GlobalVariables>& m_globalVariables;
-    const std::shared_ptr<MonitorListModel>& m_monitorListModel;
-    const std::shared_ptr<SDKConnector>& m_sdkconnector;
-    const std::shared_ptr<GAnalytics>& m_telemetry;
-    const std::shared_ptr<Settings>& m_settings;
+    std::shared_ptr<GlobalVariables> m_globalVariables;
+    std::shared_ptr<MonitorListModel> m_monitorListModel;
+    std::shared_ptr<GAnalytics> m_telemetry;
+    std::shared_ptr<Settings> m_settings;
+    std::unique_ptr<QLocalServer> m_server;
 
     QVector<std::shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
     QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
+    QVector<std::shared_ptr<SDKConnection>> m_clients;
     int m_activeWallpaperCounter { 0 };
     int m_activeWidgetsCounter { 0 };
+
+    bool m_isAnotherScreenPlayInstanceRunning = false;
 };
 
 }

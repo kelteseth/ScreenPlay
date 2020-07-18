@@ -16,7 +16,6 @@ namespace ScreenPlay {
 ScreenPlayWallpaper::ScreenPlayWallpaper(
     const QVector<int>& screenNumber,
     const std::shared_ptr<GlobalVariables>& globalVariables,
-    const std::shared_ptr<SDKConnector>& sdkConnector,
     const QString& appID,
     const QString& absolutePath,
     const QString& previewImage,
@@ -29,7 +28,6 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(
     : QObject(parent)
     , m_projectSettingsListModel { absolutePath + "/project.json" }
     , m_globalVariables { globalVariables }
-    , m_sdkConnector { sdkConnector }
     , m_screenNumber { screenNumber }
     , m_previewImage { previewImage }
     , m_type { type }
@@ -116,22 +114,24 @@ ProjectSettingsListModel* ScreenPlayWallpaper::getProjectSettingsListModel()
     return &m_projectSettingsListModel;
 }
 
-void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection> &connection)
+void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>& connection)
 {
     m_connection = connection;
     qInfo() << "App Wallpaper connected!";
-    //QObject::connect(m_connection.get(),&SDKConnection::readyRead,this,[](){});
 }
 
 void ScreenPlayWallpaper::replace(
-        const QString& absolutePath,
-        const QString& previewImage,
-        const QString& file,
-        const float volume,
-        const FillMode::FillMode fillMode,
-        const InstalledType::InstalledType type,
-        const bool checkWallpaperVisible)
+    const QString& absolutePath,
+    const QString& previewImage,
+    const QString& file,
+    const float volume,
+    const FillMode::FillMode fillMode,
+    const InstalledType::InstalledType type,
+    const bool checkWallpaperVisible)
 {
+    if (!m_connection)
+        return;
+
     m_previewImage = previewImage;
     m_type = type;
     m_fillMode = fillMode;
@@ -147,7 +147,7 @@ void ScreenPlayWallpaper::replace(
     obj.insert("file", file);
     obj.insert("checkWallpaperVisible", checkWallpaperVisible);
 
-    m_sdkConnector->replace(m_appID, obj);
+    m_connection->sendMessage(QJsonDocument(obj).toJson());
 }
 
 }

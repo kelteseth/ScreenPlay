@@ -60,7 +60,6 @@
 #include "src/monitorlistmodel.h"
 #include "src/profilelistmodel.h"
 #include "src/screenplaymanager.h"
-#include "src/sdkconnector.h"
 #include "src/settings.h"
 #include "src/util.h"
 
@@ -75,7 +74,6 @@ class App : public QObject {
     Q_PROPERTY(Create* create READ create WRITE setCreate NOTIFY createChanged)
     Q_PROPERTY(Util* util READ util WRITE setUtil NOTIFY utilChanged)
     Q_PROPERTY(Settings* settings READ settings WRITE setSettings NOTIFY settingsChanged)
-    Q_PROPERTY(SDKConnector* sdkConnector READ sdkConnector WRITE setSdkConnector NOTIFY sdkConnectorChanged)
 
     Q_PROPERTY(InstalledListModel* installedListModel READ installedListModel WRITE setInstalledListModel NOTIFY installedListModelChanged)
     Q_PROPERTY(InstalledListFilter* installedListFilter READ installedListFilter WRITE setInstalledListFilter NOTIFY installedListFilterChanged)
@@ -133,10 +131,6 @@ public:
         return m_installedListFilter.get();
     }
 
-    SDKConnector* sdkConnector() const
-    {
-        return m_sdkConnector.get();
-    }
 
     QQmlApplicationEngine* mainWindowEngine() const
     {
@@ -153,7 +147,6 @@ signals:
     void monitorListModelChanged(MonitorListModel* monitorListModel);
     void profileListModelChanged(ProfileListModel* profileListModel);
     void installedListFilterChanged(InstalledListFilter* installedListFilter);
-    void sdkConnectorChanged(SDKConnector* sdkConnector);
     void mainWindowEngineChanged(QQmlApplicationEngine* mainWindowEngine);
 
 public slots:
@@ -245,14 +238,6 @@ public slots:
         emit installedListFilterChanged(m_installedListFilter.get());
     }
 
-    void setSdkConnector(SDKConnector* sdkConnector)
-    {
-        if (m_sdkConnector.get() == sdkConnector)
-            return;
-
-        m_sdkConnector.reset(sdkConnector);
-        emit sdkConnectorChanged(m_sdkConnector.get());
-    }
 
     void setMainWindowEngine(QQmlApplicationEngine* mainWindowEngine)
     {
@@ -273,7 +258,6 @@ private:
     std::shared_ptr<GAnalytics> m_telemetry;
     std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<Settings> m_settings;
-    std::shared_ptr<SDKConnector> m_sdkConnector;
 
     std::shared_ptr<InstalledListModel> m_installedListModel;
     std::shared_ptr<MonitorListModel> m_monitorListModel;

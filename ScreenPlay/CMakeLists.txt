@@ -32,7 +32,6 @@ set(src main.cpp
         src/settings.cpp
         src/profilelistmodel.cpp
         src/installedlistfilter.cpp
-        src/sdkconnector.cpp
         src/projectsettingslistmodel.cpp
         src/screenplaymanager.cpp
         src/sdkconnection.cpp
@@ -52,7 +51,6 @@ set(headers app.h
         src/profile.h
         src/projectfile.h
         src/installedlistfilter.h
-        src/sdkconnector.h
         src/projectsettingslistitem.h
         src/projectsettingslistmodel.h
         src/screenplaymanager.h

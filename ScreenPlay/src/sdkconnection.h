@@ -103,7 +103,7 @@ signals:
 
 public slots:
     void readyRead();
-
+    void sendMessage(const QByteArray& message);
     void close();
 
     void setAppID(QString appID)

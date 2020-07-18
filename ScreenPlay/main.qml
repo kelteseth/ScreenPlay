@@ -123,7 +123,7 @@ ApplicationWindow {
     }
 
     Connections {
-        target: ScreenPlay.sdkConnector
+        target: ScreenPlay.screenPlayManager
         function onRequestRaise() {
             window.show()
         }

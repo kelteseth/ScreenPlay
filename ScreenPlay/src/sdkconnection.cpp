@@ -66,6 +66,12 @@ void ScreenPlay::SDKConnection::readyRead()
     }
 }
 
+void ScreenPlay::SDKConnection::sendMessage(const QByteArray &message)
+{
+    m_socket->write(message);
+    m_socket->waitForBytesWritten();
+}
+
 void ScreenPlay::SDKConnection::close()
 {
 

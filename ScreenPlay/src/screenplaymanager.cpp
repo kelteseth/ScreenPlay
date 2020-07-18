@@ -16,20 +16,57 @@ namespace ScreenPlay {
   \brief Constructor-.
 */
 ScreenPlayManager::ScreenPlayManager(
-    const std::shared_ptr<GlobalVariables>& globalVariables,
-    const std::shared_ptr<MonitorListModel>& mlm,
-    const std::shared_ptr<SDKConnector>& sdkc,
-    const std::shared_ptr<GAnalytics>& telemetry,
-    const std::shared_ptr<Settings>& settings,
     QObject* parent)
     : QObject { parent }
-    , m_globalVariables { globalVariables }
-    , m_monitorListModel { mlm }
-    , m_sdkconnector { sdkc }
-    , m_telemetry { telemetry }
-    , m_settings { settings }
+
+    , m_server { std::make_unique<QLocalServer>() }
 {
-    QObject::connect(m_sdkconnector.get(), &SDKConnector::appConnected, this, &ScreenPlayManager::appConnected);
+
+    if (checkIsAnotherScreenPlayInstanceRunning()) {
+        m_isAnotherScreenPlayInstanceRunning = true;
+        return;
+    }
+
+    QObject::connect(m_server.get(), &QLocalServer::newConnection, this, &ScreenPlayManager::newConnection);
+    m_server->setSocketOptions(QLocalServer::WorldAccessOption);
+    if (!m_server->listen("ScreenPlay")) {
+        qCritical("Could not open Local Socket with the name ScreenPlay!");
+    }
+}
+
+/*!
+    \brief Checks if another ScreenPlay instance is running by trying to connect to a pipe
+    with the name ScreenPlay.
+    If successful we send a raise command and quit via m_isAnotherScreenPlayInstanceRunning = true.
+*/
+bool ScreenPlayManager::checkIsAnotherScreenPlayInstanceRunning()
+{
+    QLocalSocket socket;
+    socket.connectToServer("ScreenPlay");
+
+    if (!socket.isOpen()) {
+        socket.close();
+        return false;
+    }
+
+    qInfo("Another ScreenPlay app is already running!");
+    QByteArray msg = "command=requestRaise";
+    socket.write(msg);
+    socket.waitForBytesWritten(500);
+    socket.close();
+    return true;
+}
+
+void ScreenPlayManager::init(
+    const std::shared_ptr<GlobalVariables>& globalVariables,
+    const std::shared_ptr<MonitorListModel>& mlm,
+    const std::shared_ptr<GAnalytics>& telemetry,
+    const std::shared_ptr<Settings>& settings)
+{
+    m_globalVariables = globalVariables;
+    m_monitorListModel = mlm;
+    m_telemetry = telemetry;
+    m_settings = settings;
     loadProfiles();
 }
 
@@ -95,7 +132,6 @@ void ScreenPlayManager::createWallpaper(
     wallpaper = std::make_shared<ScreenPlayWallpaper>(
         monitorIndex,
         m_globalVariables,
-        m_sdkconnector,
         appID,
         path,
         previewImage,
@@ -166,7 +202,7 @@ void ScreenPlayManager::removeAllWallpapers()
 {
     if (!m_screenPlayWallpapers.empty()) {
 
-        m_sdkconnector->closeAllWallpapers();
+        closeAllWallpapers();
         m_screenPlayWallpapers.clear();
 
         m_monitorListModel->clearActiveWallpaper();
@@ -195,7 +231,7 @@ void ScreenPlayManager::removeAllWallpapers()
 void ScreenPlayManager::removeAllWidgets()
 {
     if (!m_screenPlayWidgets.empty()) {
-        m_sdkconnector->closeAllWidgets();
+        closeAllWidgets();
         m_screenPlayWidgets.clear();
         saveProfiles();
         setActiveWidgetsCounter(0);
@@ -213,7 +249,7 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
         saveProfiles();
 
-        if (!m_sdkconnector->closeWallpaper(*appID)) {
+        if (!closeWallpaper(*appID)) {
             qWarning() << "Could not  close socket. Abort!";
             return false;
         }
@@ -262,7 +298,7 @@ void ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const Q
 {
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
 
-        m_sdkconnector->setWallpaperValue(*appID, key, value);
+        setWallpaperValue(*appID, key, value);
 
         if (auto wallpaper = getWallpaperByAppID(*appID)) {
         }
@@ -275,7 +311,7 @@ void ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const Q
 void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
 {
     for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
-        m_sdkconnector->setWallpaperValue(uPtrWallpaper->appID(), key, value);
+        setWallpaperValue(uPtrWallpaper->appID(), key, value);
     }
 }
 
@@ -290,6 +326,125 @@ std::optional<std::shared_ptr<ScreenPlayWallpaper>> ScreenPlayManager::getWallpa
         }
     }
     return std::nullopt;
+}
+
+/*!
+    \brief Appends a new SDKConnection object shared_ptr to the m_clients list.
+*/
+void ScreenPlayManager::newConnection()
+{
+    auto connection = std::make_shared<SDKConnection>(m_server->nextPendingConnection());
+    // Because user can close widgets by pressing x the widgets must send us the event
+    QObject::connect(connection.get(), &SDKConnection::requestDecreaseWidgetCount, this, [this]() { setActiveWidgetsCounter(activeWallpaperCounter() - 1); });
+    QObject::connect(connection.get(), &SDKConnection::requestRaise, this, &ScreenPlayManager::requestRaise);
+    // Only after we receive the first message with appID and type we can set the shared reference to the
+    // ScreenPlayWallpaper or ScreenPlayWidgets class
+    QObject::connect(connection.get(), &SDKConnection::appConnected, this, [this](const SDKConnection* connection) {
+        for (const auto& client : m_clients) {
+            if (client.get() == connection) {
+                appConnected(client);
+                return;
+            }
+        }
+    });
+    m_clients.append(connection);
+}
+
+/*!
+    \brief Closes all m_clients connections and clears the QVector.
+*/
+void ScreenPlayManager::closeAllConnections()
+{
+    for (auto& client : m_clients) {
+        client->close();
+    }
+    m_clients.clear();
+    m_clients.squeeze();
+}
+
+/*!
+ \brief Closes all wallpaper connection with the following type:
+ \list
+    \li videoWallpaper
+    \li qmlWallpaper
+    \li htmlWallpaper
+    \li godotWallpaper
+ \endlist
+*/
+void ScreenPlayManager::closeAllWallpapers()
+{
+    closeConntectionByType(GlobalVariables::getAvailableWallpaper());
+}
+
+/*!
+ \brief Closes all widgets connection with the following type:
+ \list
+    \li qmlWidget
+    \li htmlWidget
+    \li standaloneWidget
+ \endlist
+*/
+void ScreenPlayManager::closeAllWidgets()
+{
+    closeConntectionByType(GlobalVariables::getAvailableWidgets());
+}
+
+/*!
+  \brief Closes a connection by type. Used only by closeAllWidgets() and closeAllWallpapers()
+*/
+void ScreenPlayManager::closeConntectionByType(const QStringList& list)
+{
+    for (auto& client : m_clients) {
+        if (list.contains(client->type(), Qt::CaseInsensitive)) {
+            client->close();
+            m_clients.removeOne(client);
+        }
+    }
+}
+
+/*!
+  \brief Closes a wallpaper by the given \a appID.
+*/
+bool ScreenPlayManager::closeWallpaper(const QString& appID)
+{
+    for (auto& client : m_clients) {
+        if (client->appID() == appID) {
+            client->close();
+            m_clients.removeOne(client);
+            return true;
+        }
+    }
+    return false;
+}
+
+/*!
+   \brief Sets a given \a value to a given \a key. The \a appID is used to identify the receiver socket.
+*/
+void ScreenPlayManager::setWallpaperValue(QString appID, QString key, QString value)
+{
+
+    for (int i = 0; i < m_clients.count(); ++i) {
+        if (m_clients.at(i)->appID() == appID) {
+            QJsonObject obj;
+            obj.insert(key, QJsonValue(value));
+
+            QByteArray send = QJsonDocument(obj).toJson();
+            m_clients.at(i)->socket()->write(send);
+            m_clients.at(i)->socket()->waitForBytesWritten();
+        }
+    }
+}
+
+void ScreenPlayManager::replace(const QString& appID, const QJsonObject& obj)
+{
+    for (int i = 0; i < m_clients.count(); ++i) {
+        if (m_clients.at(i)->appID() == appID) {
+
+            QByteArray send = QJsonDocument(obj).toJson();
+            m_clients.at(i)->socket()->write(send);
+            m_clients.at(i)->socket()->waitForBytesWritten();
+        }
+    }
 }
 
 /*!
@@ -435,4 +590,5 @@ void ScreenPlayManager::loadProfiles()
         }
     }
 }
+
 }

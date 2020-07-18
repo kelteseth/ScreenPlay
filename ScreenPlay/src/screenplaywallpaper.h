@@ -44,7 +44,6 @@
 #include "globalvariables.h"
 #include "projectsettingslistmodel.h"
 #include "sdkconnection.h"
-#include "sdkconnector.h"
 
 namespace ScreenPlay {
 
@@ -69,7 +68,6 @@ public:
     explicit ScreenPlayWallpaper(
         const QVector<int>& screenNumber,
         const std::shared_ptr<GlobalVariables>& globalVariables,
-        const std::shared_ptr<SDKConnector>& sdkConnector,
         const QString& appID,
         const QString& absolutePath,
         const QString& previewImage,
@@ -81,6 +79,8 @@ public:
         QObject* parent = nullptr);
 
     QJsonObject getActiveSettingsJson();
+
+    bool m_isAnotherScreenPlayInstanceRunning { false };
 
     QVector<int> screenNumber() const
     {
@@ -245,7 +245,6 @@ private:
 
     ProjectSettingsListModel m_projectSettingsListModel;
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
-    const std::shared_ptr<SDKConnector>& m_sdkConnector;
     std::shared_ptr<SDKConnection> m_connection;
 
     QVector<int> m_screenNumber;
