@@ -52,19 +52,36 @@
 #include "basewindow.h"
 #include "windowsdesktopproperties.h"
 
-
-
 class WinWindow : public BaseWindow {
     Q_OBJECT
 
+    Q_PROPERTY(WindowsDesktopProperties* windowsDesktopProperties READ windowsDesktopProperties WRITE setWindowsDesktopProperties NOTIFY windowsDesktopPropertiesChanged)
+
 public:
     explicit WinWindow(const QVector<int>& activeScreensList, const QString& projectPath, const QString& id, const QString& volume, const QString& fillmode, const bool checkWallpaperVisible);
+
+    WindowsDesktopProperties* windowsDesktopProperties() const
+    {
+        return m_windowsDesktopProperties.get();
+    }
 
 public slots:
     void setVisible(bool show) override;
     void destroyThis() override;
     void terminate();
     void clearComponentCache();
+
+    void setWindowsDesktopProperties(WindowsDesktopProperties* windowsDesktopProperties)
+    {
+        if (m_windowsDesktopProperties.get() == windowsDesktopProperties)
+            return;
+
+        m_windowsDesktopProperties.reset(windowsDesktopProperties);
+        emit windowsDesktopPropertiesChanged(m_windowsDesktopProperties.get());
+    }
+
+signals:
+    void windowsDesktopPropertiesChanged(WindowsDesktopProperties* windowsDesktopProperties);
 
 private:
     void calcOffsets();
@@ -84,5 +101,5 @@ private:
     HWND m_windowHandle;
     HWND m_windowHandleWorker;
     QTimer m_checkForFullScreenWindowTimer;
-    WindowsDesktopProperties m_windowsDesktopProperties;
+    std::unique_ptr<WindowsDesktopProperties> m_windowsDesktopProperties;
 };

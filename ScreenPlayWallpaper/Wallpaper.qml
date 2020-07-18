@@ -1,70 +1,70 @@
-import QtQuick 2.12
-import ScreenPlay.Wallpaper 1.0
+import QtQuick 2.14
+import QtQml 2.14
+import ScreenPlayWallpaper 1.0
 
 Rectangle {
     id: root
     anchors.fill: parent
     color: {
-        if (desktopProperties.color === null) {
+        if (Qt.platform.os !== "windows") {
             return "black"
         } else {
-            return desktopProperties.color
+            return Wallpaper.windowsDesktopProperties.color
         }
     }
 
     property bool canFadeByWallpaperFillMode: true
 
-
     Component.onCompleted: {
-        init();
+        init()
     }
 
-
     Connections {
-        target: window
+        target: Wallpaper
 
         function onQmlExit() {
-            if (canFadeByWallpaperFillMode && window.canFade) {
+            if (canFadeByWallpaperFillMode && Wallpaper.canFade) {
                 imgCover.state = "outExit"
             } else {
-                window.terminate()
+                Wallpaper.terminate()
             }
         }
 
-        function onQmlSceneValueReceived(key,value) {
+        function onQmlSceneValueReceived(key, value) {
             var obj2 = 'import QtQuick 2.0; Item {Component.onCompleted: loader.item.'
                     + key + ' = ' + value + '; }'
             print(key, value)
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
             newObject.destroy(10000)
         }
-        function onReloadQML(){
+
+        function onReloadQML() {
             loader.sourceComponent = undefined
             loader.source = ""
-            window.clearComponentCache()
+            Wallpaper.clearComponentCache()
             root.init()
         }
     }
 
-    function init(){
-        switch (window.type) {
+    function init() {
+        switch (Wallpaper.type) {
         case Wallpaper.WallpaperType.Video:
             loader.source = "qrc:/WebView.qml"
             break
         case Wallpaper.WallpaperType.Html:
-            loader.webViewUrl = Qt.resolvedUrl(window.fullContentPath)
+            loader.webViewUrl = Qt.resolvedUrl(Wallpaper.fullContentPath)
             loader.source = "qrc:/WebView.qml"
             break
         case Wallpaper.WallpaperType.Qml:
-            loader.source = Qt.resolvedUrl(window.fullContentPath)
+            loader.source = Qt.resolvedUrl(Wallpaper.fullContentPath)
             imgCover.state = "out"
             break
         }
     }
 
     function fadeIn() {
-        window.setVisible(true)
-        if (canFadeByWallpaperFillMode && window.canFade) {
+        Wallpaper.setVisible(true)
+        if (canFadeByWallpaperFillMode && Wallpaper.canFade) {
             imgCover.state = "out"
         } else {
             imgCover.opacity = 0
@@ -77,10 +77,10 @@ Rectangle {
         property string webViewUrl
         onStatusChanged: {
             if (loader.status === Loader.Ready) {
-                if (window.type === Wallpaper.WallpaperType.Html
-                        || window.type === Wallpaper.WallpaperType.ThreeJSScene) {
+                if (Wallpaper.type === Wallpaper.WallpaperType.Html
+                        || Wallpaper.type === Wallpaper.WallpaperType.ThreeJSScene) {
                     loader.item.url = loader.webViewUrl
-                    print(loader.item.url," --- ",loader.webViewUrl)
+                    print(loader.item.url, " --- ", loader.webViewUrl)
                 }
             }
         }
@@ -103,9 +103,16 @@ Rectangle {
         }
         state: "in"
 
-        sourceSize.width: window.width
-        sourceSize.height: window.height
-        source: Qt.resolvedUrl("file:///" + desktopProperties.wallpaperPath)
+        sourceSize.width: Wallpaper.width
+        sourceSize.height: Wallpaper.height
+        source: {
+            if (Qt.platform.os === "windows") {
+                return Qt.resolvedUrl(
+                            "file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath)
+            } else {
+                return ""
+            }
+        }
 
         states: [
             State {
@@ -152,7 +159,7 @@ Rectangle {
                         property: "opacity"
                     }
                     ScriptAction {
-                        script: window.terminate()
+                        script: Wallpaper.terminate()
                     }
                 }
             }
@@ -160,7 +167,10 @@ Rectangle {
 
         Component.onCompleted: {
 
-            switch (desktopProperties.wallpaperStyle) {
+            if (Qt.platform.os !== "windows")
+                return
+
+            switch (Wallpaper.windowsDesktopProperties.wallpaperStyle) {
             case 10:
                 imgCover.fillMode = Image.PreserveAspectCrop
                 break

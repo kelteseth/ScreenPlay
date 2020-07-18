@@ -3,7 +3,7 @@
 WindowsDesktopProperties::WindowsDesktopProperties(QObject* parent)
     : QObject(parent)
 {
-    qmlRegisterType<WindowsDesktopProperties>();
+
     QSettings settings("HKEY_CURRENT_USER\\Control Panel\\Desktop", QSettings::NativeFormat);
 
     setWallpaperPath(settings.value("WallPaper").toString());
@@ -26,18 +26,19 @@ WindowsDesktopProperties::WindowsDesktopProperties(QObject* parent)
         int colorG = colorStringRGBList.at(1).toInt();
         int colorB = colorStringRGBList.at(2).toInt();
         setColor(QColor::fromRgb(colorR, colorG, colorB));
+    } else {
+        setColor(QColor::fromRgb(0, 0, 0));
     }
 
     QSettings settingsWindowsVersion("HKEY_LOCAL_MACHINE\\SOFTWARE\\Microsoft\\Windows NT\\CurrentVersion", QSettings::NativeFormat);
 
     // Only Windows > 10 has this variable
-    if(!settingsWindowsVersion.contains("ReleaseID"))
+    if (!settingsWindowsVersion.contains("ReleaseID"))
         return;
 
-    bool canParse {false};
+    bool canParse { false };
     int value = settingsWindowsVersion.value("ReleaseId").toInt(&canParse);
 
-    if(canParse)
+    if (canParse)
         setWindowsVersion(value);
-
 }

@@ -1,5 +1,7 @@
 #include "winwindow.h"
 
+#include "qqml.h"
+
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
     // 0xXXXXXXX "" WorkerW
@@ -78,9 +80,12 @@ WinWindow::WinWindow(
     const QString& fillmode,
     const bool checkWallpaperVisible)
     : BaseWindow(projectPath, activeScreensList, checkWallpaperVisible)
+
 {
 
-
+    qRegisterMetaType<WindowsDesktopProperties*>();
+    qRegisterMetaType<WinWindow*>();
+    m_windowsDesktopProperties = std::make_unique<WindowsDesktopProperties>();
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
 
     if (!IsWindow(m_windowHandle)) {
@@ -123,13 +128,12 @@ WinWindow::WinWindow(
     setWidth(m_window.width());
     setHeight(m_window.height());
 
-    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.rootContext()->setContextProperty("window", this);
-    m_window.rootContext()->setContextProperty("desktopProperties", &m_windowsDesktopProperties);
+    qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
+
     // Instead of setting "renderType: Text.NativeRendering" every time
     // we can set it here once :)
-
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
+    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_window.setSource(QUrl("qrc:/Wallpaper.qml"));
     m_window.hide();
 
@@ -285,6 +289,9 @@ struct sEnumInfo {
 
 BOOL CALLBACK GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
 {
+    Q_UNUSED(hdcMonitor)
+    Q_UNUSED(lprcMonitor)
+
     auto info = (sEnumInfo*)dwData;
     if (info->hMonitor == hMonitor)
         return FALSE;

@@ -1,7 +1,7 @@
 import QtQuick 2.0
 import QtWebEngine 1.8
 
-import ScreenPlay.Wallpaper 1.0
+import ScreenPlayWallpaper 1.0
 
 Item {
     id: root
@@ -20,24 +20,16 @@ Item {
         WebEngine.settings.focusOnNavigationEnabled = true
     }
 
-    Connections {
-        target: window
-
-        function onReloadVideo() {
-            webView.runJavaScript(root.getSetVideoCommand())
-        }
-    }
-
     function getSetVideoCommand() {
         // TODO 30:
         // Currently wont work. Commit anyways til QtCreator and Qt work with js template literals
         var src = ""
         src += "var videoPlayer = document.getElementById('videoPlayer');"
         src += "var videoSource = document.getElementById('videoSource');"
-        src += "videoSource.src = '" + window.fullContentPath + "';"
+        src += "videoSource.src = '" + Wallpaper.fullContentPath + "';"
         src += "videoPlayer.load();"
-        src += "videoPlayer.volume = " + window.volume + ";"
-        src += "videoPlayer.setAttribute('style', 'object-fit :" + window.fillMode + ";');"
+        src += "videoPlayer.volume = " + Wallpaper.volume + ";"
+        src += "videoPlayer.setAttribute('style', 'object-fit :" + Wallpaper.fillMode + ";');"
         src += "videoPlayer.play();"
 
         return src
@@ -49,19 +41,19 @@ Item {
         anchors.fill: parent
         url: {
 
-            if (window.type === Wallpaper.WallpaperType.Video) {
-                return Qt.resolvedUrl(window.getApplicationPath(
+            if (Wallpaper.type === Wallpaper.WallpaperType.Video) {
+                return Qt.resolvedUrl(Wallpaper.getApplicationPath(
                                           ) + "/index.html")
             }
-            if (window.type === Wallpaper.WallpaperType.Html) {
-                return Qt.resolvedUrl(window.fullContentPath + "/index.html")
+            if (Wallpaper.type === Wallpaper.WallpaperType.Html) {
+                return Qt.resolvedUrl(Wallpaper.fullContentPath + "/index.html")
             }
         }
         onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
             if ((loadProgress === 100)) {
 
-                if (window.type === Wallpaper.WallpaperType.Video) {
+                if (Wallpaper.type === Wallpaper.WallpaperType.Video) {
 
                     webView.runJavaScript(root.getSetVideoCommand(),
                                           function (result) {
@@ -98,13 +90,17 @@ Item {
         id: timerCover
         interval: 300
         onTriggered: {
-            webView.visible = !window.visualsPaused
-            txtVisualsPaused.visible = window.visualsPaused
+            webView.visible = !Wallpaper.visualsPaused
+            txtVisualsPaused.visible = Wallpaper.visualsPaused
         }
     }
 
     Connections {
-        target: window
+        target: Wallpaper
+
+        function onReloadVideo() {
+            webView.runJavaScript(root.getSetVideoCommand())
+        }
 
         function onQmlExit() {
             webView.runJavaScript(
@@ -117,7 +113,7 @@ Item {
                             "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = 0;")
             } else {
                 webView.runJavaScript(
-                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + window.volume + ";")
+                            "var videoPlayer = document.getElementById('videoPlayer'); videoPlayer.volume = " + Wallpaper.volume + ";")
             }
         }
 
@@ -159,7 +155,7 @@ Item {
 
         function onVisualsPausedChanged(visualsPaused) {
             if (visualsPaused) {
-                // Wait until window animation is finsihed
+                // Wait until Wallpaper animation is finsihed
                 timerCover.restart()
             } else {
                 webView.visible = true

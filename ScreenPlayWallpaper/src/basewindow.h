@@ -213,7 +213,6 @@ public slots:
         const QString type,
         const bool checkWallpaperVisible) final;
 
-
     QString loadFromFile(const QString& filename);
 
     QString getApplicationPath()
