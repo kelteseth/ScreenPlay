@@ -49,6 +49,13 @@ ScreenPlaySDK::~ScreenPlaySDK()
     m_socket.disconnectFromServer();
 }
 
+void ScreenPlaySDK::sendMessage(const QJsonObject& obj)
+{
+    QJsonDocument doc(obj);
+    m_socket.write({ doc.toJson(QJsonDocument::Compact) });
+    m_socket.waitForBytesWritten();
+}
+
 void ScreenPlaySDK::connected()
 {
     QByteArray welcomeMessage = QString(m_appID + "," + m_type).toUtf8();

@@ -43,6 +43,7 @@
 
 #include "globalvariables.h"
 #include "projectsettingslistmodel.h"
+#include "sdkconnection.h"
 #include "sdkconnector.h"
 
 namespace ScreenPlay {
@@ -128,6 +129,8 @@ public:
 
     ProjectSettingsListModel* getProjectSettingsListModel();
 
+    void setSDKConnection(const std::shared_ptr<SDKConnection>& connection);
+
     void replace(const QString& absolutePath,
         const QString& previewImage,
         const QString& file,
@@ -147,6 +150,7 @@ signals:
     void profileJsonObjectChanged(QJsonObject profileJsonObject);
     void volumeChanged(float volume);
     void isLoopingChanged(bool isLooping);
+    void requestSave();
 
 public slots:
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
@@ -242,6 +246,7 @@ private:
     ProjectSettingsListModel m_projectSettingsListModel;
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
     const std::shared_ptr<SDKConnector>& m_sdkConnector;
+    std::shared_ptr<SDKConnection> m_connection;
 
     QVector<int> m_screenNumber;
 

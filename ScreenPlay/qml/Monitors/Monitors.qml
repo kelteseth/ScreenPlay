@@ -136,7 +136,7 @@ Item {
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeWallpaperAt(
                                     monitorSelection.activeMonitors[0])
-                        monitorSelection.deselectAll()
+
                     }
                 }
                 Button {

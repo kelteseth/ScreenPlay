@@ -183,4 +183,5 @@ private:
 #endif
     QPoint m_position;
     std::unique_ptr<ScreenPlaySDK> m_sdk;
+    QTimer m_positionMessageLimiter;
 };

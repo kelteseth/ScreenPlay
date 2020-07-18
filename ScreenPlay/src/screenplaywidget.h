@@ -37,6 +37,7 @@
 #include <QCoreApplication>
 #include <QDebug>
 #include <QJsonObject>
+#include <QLocalSocket>
 #include <QObject>
 #include <QPoint>
 #include <QProcess>
@@ -44,6 +45,7 @@
 #include <memory>
 
 #include "globalvariables.h"
+#include "sdkconnection.h"
 
 namespace ScreenPlay {
 
@@ -90,6 +92,8 @@ public:
     {
         return m_type;
     }
+
+    void setSDKConnection(const std::shared_ptr<SDKConnection>& connection);
 
 public slots:
     QJsonObject getActiveSettingsJson();
@@ -145,6 +149,7 @@ signals:
     void appIDChanged(QString appID);
     void typeChanged(InstalledType::InstalledType type);
     void absolutePathChanged(QString absolutePath);
+    void requestSave();
 
 private:
     QProcess m_process;
@@ -155,5 +160,6 @@ private:
     QPoint m_position;
     InstalledType::InstalledType m_type;
     QString m_absolutePath;
+    std::shared_ptr<SDKConnection> m_connection;
 };
 }

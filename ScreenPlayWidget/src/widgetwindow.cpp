@@ -25,15 +25,29 @@ WidgetWindow::WidgetWindow(const QString& projectPath,
     if (!availableTypes.contains(m_type)) {
         QApplication::exit(-4);
     }
-    auto sendPositionUpdate = [this](int arg) {
-        m_sdk->sendMessage({});
-    };
-    QObject::connect(&m_window, &QWindow::xChanged, this, sendPositionUpdate);
-    QObject::connect(&m_window, &QWindow::yChanged, this, sendPositionUpdate);
+
+    {
+        // We limit ourself to only update the position every 500ms!
+        auto sendPositionUpdate = [this]() {
+            m_positionMessageLimiter.stop();
+            if (!m_sdk->isConnected())
+                return;
+
+            QJsonObject obj;
+            obj.insert("messageType", "positionUpdate");
+            obj.insert("positionX", m_window.x());
+            obj.insert("positionY", m_window.y());
+            m_sdk->sendMessage(obj);
+        };
+        m_positionMessageLimiter.setInterval(500);
+
+        QObject::connect(&m_positionMessageLimiter, &QTimer::timeout, this, sendPositionUpdate);
+        QObject::connect(&m_window, &QWindow::xChanged, this, [this]() { m_positionMessageLimiter.start(); });
+        QObject::connect(&m_window, &QWindow::yChanged, this, [this]() { m_positionMessageLimiter.start(); });
+    }
 
     Qt::WindowFlags flags = m_window.flags();
-    m_window.setWidth(300);
-    m_window.setHeight(300);
+
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
     m_window.setColor(Qt::transparent);
 
@@ -68,7 +82,7 @@ WidgetWindow::WidgetWindow(const QString& projectPath,
     // we can set it here once :)
 
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
-    //    m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
+    m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
     m_window.setSource(QUrl("qrc:/Widget.qml"));
     m_window.setPosition(m_position);
     m_window.show();

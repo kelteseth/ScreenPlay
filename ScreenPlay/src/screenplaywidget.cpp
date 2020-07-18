@@ -47,6 +47,18 @@ ScreenPlayWidget::ScreenPlayWidget(
     m_process.startDetached();
 }
 
+void ScreenPlayWidget::setSDKConnection(const std::shared_ptr<SDKConnection>& connection)
+{
+    m_connection = connection;
+    qInfo() << "App widget connected!";
+    QObject::connect(m_connection.get(), &SDKConnection::jsonMessageReceived, this, [this](const QJsonObject obj) {
+        if (obj.value("messageType") == "positionUpdate") {
+            setPosition({ obj.value("positionX").toInt(0), obj.value("positionY").toInt(0) });
+            emit requestSave();
+        }
+    });
+}
+
 QJsonObject ScreenPlayWidget::getActiveSettingsJson()
 {
     QJsonObject obj;

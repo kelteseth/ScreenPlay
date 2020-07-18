@@ -116,14 +116,21 @@ ProjectSettingsListModel* ScreenPlayWallpaper::getProjectSettingsListModel()
     return &m_projectSettingsListModel;
 }
 
+void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection> &connection)
+{
+    m_connection = connection;
+    qInfo() << "App Wallpaper connected!";
+    //QObject::connect(m_connection.get(),&SDKConnection::readyRead,this,[](){});
+}
+
 void ScreenPlayWallpaper::replace(
-    const QString& absolutePath,
-    const QString& previewImage,
-    const QString& file,
-    const float volume,
-    const FillMode::FillMode fillMode,
-    const InstalledType::InstalledType type,
-    const bool checkWallpaperVisible)
+        const QString& absolutePath,
+        const QString& previewImage,
+        const QString& file,
+        const float volume,
+        const FillMode::FillMode fillMode,
+        const InstalledType::InstalledType type,
+        const bool checkWallpaperVisible)
 {
     m_previewImage = previewImage;
     m_type = type;

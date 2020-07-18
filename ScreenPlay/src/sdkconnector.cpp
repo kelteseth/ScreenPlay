@@ -1,4 +1,5 @@
 #include "sdkconnector.h"
+#include "sdkconnection.h"
 
 namespace ScreenPlay {
 
@@ -64,6 +65,16 @@ void SDKConnector::newConnection()
     // Because user can close widgets by pressing x the widgets must send us the event
     QObject::connect(connection.get(), &SDKConnection::requestDecreaseWidgetCount, this, &SDKConnector::requestDecreaseWidgetCount);
     QObject::connect(connection.get(), &SDKConnection::requestRaise, this, &SDKConnector::requestRaise);
+    // Only after we receive the first message with appID and type we can set the shared reference to the
+    // ScreenPlayWallpaper or ScreenPlayWidgets class
+    QObject::connect(connection.get(), &SDKConnection::appConnected, this, [this](const SDKConnection* connection) {
+        for (const auto& client : m_clients) {
+            if (client.get() == connection) {
+                emit appConnected(client);
+                return;
+            }
+        }
+    });
     m_clients.append(connection);
 }
 

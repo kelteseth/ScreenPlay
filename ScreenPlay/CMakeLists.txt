@@ -35,6 +35,7 @@ set(src main.cpp
         src/sdkconnector.cpp
         src/projectsettingslistmodel.cpp
         src/screenplaymanager.cpp
+        src/sdkconnection.cpp
         src/util.cpp
         src/create.cpp)
 
@@ -55,6 +56,7 @@ set(headers app.h
         src/projectsettingslistitem.h
         src/projectsettingslistmodel.h
         src/screenplaymanager.h
+        src/sdkconnection.h
         src/util.h
         src/create.h)
 

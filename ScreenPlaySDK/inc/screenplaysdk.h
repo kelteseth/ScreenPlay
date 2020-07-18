@@ -78,6 +78,7 @@ public:
     }
 
 public slots:
+    void sendMessage(const QJsonObject& obj);
     void connected();
     void disconnected();
     void readyRead();

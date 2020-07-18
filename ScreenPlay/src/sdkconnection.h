@@ -41,6 +41,7 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QObject>
+#include <QString>
 #include <QTimer>
 #include <QVector>
 
@@ -49,42 +50,93 @@
 #include "globalvariables.h"
 #include "util.h"
 
+namespace ScreenPlay {
+
 /*!
-    \class SDKConnector
-    \brief Used for every Wallpaper, Scene or Widget communication via Windows pipes/QLocalSocket
+    \class SDKConnection
+    \brief
 
 */
 
-namespace ScreenPlay {
-class SDKConnection;
-
-class SDKConnector : public QObject {
+class SDKConnection : public QObject {
     Q_OBJECT
+    Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
+    Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(QVector<int> monitor READ monitor WRITE setMonitor NOTIFY monitorChanged)
 
 public:
-    explicit SDKConnector(QObject* parent = nullptr);
+    /*!
+        SDKConnection.
+    */
+    explicit SDKConnection(QLocalSocket* socket, QObject* parent = nullptr);
+    ~SDKConnection();
 
-    bool m_isAnotherScreenPlayInstanceRunning { false };
+    QString appID() const
+    {
+        return m_appID;
+    }
+
+    QLocalSocket* socket() const
+    {
+        return m_socket;
+    }
+
+    QVector<int> monitor() const
+    {
+        return m_monitor;
+    }
+
+    QString type() const
+    {
+        return m_type;
+    }
 
 signals:
+    void requestCloseAt(int at);
+    void appIDChanged(QString appID);
+    void monitorChanged(QVector<int> monitor);
+    void typeChanged(QString type);
     void requestDecreaseWidgetCount();
     void requestRaise();
-    void appConnected(const std::shared_ptr<SDKConnection>& connection);
+    void appConnected(const SDKConnection* connection);
+    void jsonMessageReceived(const QJsonObject obj);
 
 public slots:
-    void newConnection();
-    void closeConntectionByType(const QStringList& list);
-    void closeAllConnections();
-    void closeAllWallpapers();
-    void closeAllWidgets();
-    bool closeWallpaper(const QString& appID);
-    void setWallpaperValue(QString appID, QString key, QString value);
-    void replace(const QString& appID, const QJsonObject& obj);
+    void readyRead();
+
+    void close();
+
+    void setAppID(QString appID)
+    {
+        if (m_appID == appID)
+            return;
+
+        m_appID = appID;
+        emit appIDChanged(m_appID);
+    }
+
+    void setMonitor(QVector<int> monitor)
+    {
+        if (m_monitor == monitor)
+            return;
+
+        m_monitor = monitor;
+        emit monitorChanged(m_monitor);
+    }
+
+    void setType(QString type)
+    {
+        if (m_type == type)
+            return;
+
+        m_type = type;
+        emit typeChanged(m_type);
+    }
 
 private:
-    std::unique_ptr<QLocalServer> m_server;
-    QVector<std::shared_ptr<SDKConnection>> m_clients;
-    bool isAnotherScreenPlayInstanceRunning();
+    QLocalSocket* m_socket { nullptr };
+    QString m_appID;
+    QVector<int> m_monitor;
+    QString m_type;
 };
-
 }

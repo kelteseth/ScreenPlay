@@ -91,6 +91,8 @@ signals:
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
 
 public slots:
+    void saveProfiles();
+
     // moc needs full enum namespace info see QTBUG-58454
     void createWallpaper(
         const ScreenPlay::InstalledType::InstalledType type,
@@ -102,10 +104,12 @@ public slots:
         const float volume,
         const bool saveToProfilesConfigFile);
 
-    void createWidget(const ScreenPlay::InstalledType::InstalledType type, const QPoint &position,
+    void createWidget(const ScreenPlay::InstalledType::InstalledType type, const QPoint& position,
         const QString& absoluteStoragePath,
         const QString& previewImage,
         const bool saveToProfilesConfigFile);
+
+    void appConnected(const std::shared_ptr<SDKConnection>& connection);
 
     void removeAllWallpapers();
     void removeAllWidgets();
@@ -166,7 +170,7 @@ public slots:
 
 private:
     void loadProfiles();
-    bool saveProfiles();
+
     [[nodiscard]] bool removeWallpaperByAppID(const QString& appID);
 
 private:
