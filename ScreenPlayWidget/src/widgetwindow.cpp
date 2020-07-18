@@ -2,29 +2,32 @@
 
 #include <QCoreApplication>
 
-WidgetWindow::WidgetWindow(const QString& projectPath,
-    const QPoint& position,
-    const QString& appid,
-    const QString& type)
+WidgetWindow::WidgetWindow(
+    const QString& projectPath,
+    const QString& appID,
+    const QString& type,
+    const QPoint& position)
     : QObject(nullptr)
-    , m_appID { appid }
+    , m_appID { appID }
     , m_type { type }
     , m_position { position }
 {
 
-    m_sdk = std::make_unique<ScreenPlaySDK>(appid, type);
+    m_sdk = std::make_unique<ScreenPlaySDK>(appID, type);
 
     QObject::connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WidgetWindow::qmlExit);
     QObject::connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &WidgetWindow::messageReceived);
 
     QStringList availableTypes {
-        "qmlWidget",
-        "htmlWidget"
+        "QMLWidget",
+        "HTMLWidget"
     };
 
-    if (!availableTypes.contains(m_type)) {
+    if (!availableTypes.contains(m_type, Qt::CaseSensitivity::CaseInsensitive)) {
         QApplication::exit(-4);
     }
+
+    setType(type);
 
     {
         // We limit ourself to only update the position every 500ms!
@@ -58,7 +61,9 @@ WidgetWindow::WidgetWindow(const QString& projectPath,
     setWindowBlur();
 #endif
 
-    if (projectPath != "test") {
+    if (projectPath == "test") {
+        setSourcePath("qrc:/test.qml");
+    } else {
         QFile configTmp;
         QJsonDocument configJsonDocument;
         QJsonParseError parseError;
@@ -75,11 +80,7 @@ WidgetWindow::WidgetWindow(const QString& projectPath,
         m_project = configJsonDocument.object();
         QString fullPath = "file:///" + projectPath + "/" + m_project.value("file").toString();
         setSourcePath(fullPath);
-    } else {
-        setSourcePath("qrc:/test.qml");
     }
-    // Instead of setting "renderType: Text.NativeRendering" every time
-    // we can set it here once :)
 
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);

@@ -65,9 +65,9 @@ class WidgetWindow : public QObject {
 public:
     explicit WidgetWindow(
         const QString& projectPath,
-        const QPoint& position,
         const QString& appid,
-        const QString& type);
+        const QString& type,
+        const QPoint& position);
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)

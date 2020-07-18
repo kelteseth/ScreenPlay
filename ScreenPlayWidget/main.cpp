@@ -37,8 +37,8 @@ int main(int argc, char* argv[])
         positionY = 0;
     }
 
-    // 0. App Path, 1. Project path, 2. AppID, 3. Type, 4. Posx, 5. PosY
-    WidgetWindow spwmw(argumentList.at(1), QPoint { positionX, positionY }, argumentList.at(2), argumentList.at(3));
+    //                 1. Project path,    2. AppID,           3. Type,                      4. Posx,  5. PosY
+    WidgetWindow spwmw(argumentList.at(1), argumentList.at(2), argumentList.at(3), QPoint { positionX, positionY });
 
     return app.exec();
 }

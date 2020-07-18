@@ -15,7 +15,7 @@ Item {
             animFadeOut.start()
         }
 
-        function onQmlSceneValueReceived(key,value) {
+        function onQmlSceneValueReceived(key, value) {
             var obj2 = 'import QtQuick 2.14; Item {Component.onCompleted: loader.item.'
                     + key + ' = ' + value + '; }'
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
@@ -67,26 +67,26 @@ Item {
         anchors.fill: parent
         asynchronous: true
         Component.onCompleted: {
-            if (Widget.type === "qmlWidget") {
+            if (Widget.type === "QMLWidget") {
                 loader.source = Qt.resolvedUrl(Widget.sourcePath)
-            } else if (Widget.type === "htmlWidget") {
+                print("loader.source", loader.source)
+            } else if (Widget.type === "HTMLWidget") {
                 loader.sourceComponent = webViewComponent
             }
         }
         onStatusChanged: {
             if (loader.status == Loader.Ready) {
-                if(loader.item.widgetBackground !== undefined){
+                if (loader.item.widgetBackground !== undefined) {
                     bgColor.color = loader.item.widgetBackground
                 }
-                if(loader.item.widgetBackgroundOpacity !== undefined){
+                if (loader.item.widgetBackgroundOpacity !== undefined) {
                     bgColor.opacity = loader.item.widgetBackgroundOpacity
                 }
-                if(loader.item.widgetWidth !== undefined &&
-                    loader.item.widgetHeight !== undefined){
+                if (loader.item.widgetWidth !== undefined
+                        && loader.item.widgetHeight !== undefined) {
                     Widget.setWidgetSize(loader.item.widgetWidth,
                                          loader.item.widgetHeight)
                 }
-
             }
         }
     }
