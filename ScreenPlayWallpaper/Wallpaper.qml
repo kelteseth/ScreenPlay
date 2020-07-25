@@ -54,10 +54,12 @@ Rectangle {
         case Wallpaper.WallpaperType.Html:
             loader.webViewUrl = Qt.resolvedUrl(Wallpaper.fullContentPath)
             loader.source = "qrc:/WebView.qml"
+             fadeIn()
             break
         case Wallpaper.WallpaperType.Qml:
             loader.source = Qt.resolvedUrl(Wallpaper.fullContentPath)
             imgCover.state = "out"
+             fadeIn()
             break
         }
     }
