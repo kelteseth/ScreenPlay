@@ -101,7 +101,7 @@ namespace FillMode {
 class GlobalVariables : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(QVersionNumber version READ version)
+    Q_PROPERTY(QVersionNumber version READ version CONSTANT)
     Q_PROPERTY(QUrl localStoragePath READ localStoragePath WRITE setLocalStoragePath NOTIFY localStoragePathChanged)
     Q_PROPERTY(QUrl localSettingsPath READ localSettingsPath WRITE setLocalSettingsPath NOTIFY localSettingsPathChanged)
     Q_PROPERTY(QUrl wallpaperExecutablePath READ wallpaperExecutablePath WRITE setWallpaperExecutablePath NOTIFY wallpaperExecutablePathChanged)

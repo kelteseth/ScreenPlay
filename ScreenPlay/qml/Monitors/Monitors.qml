@@ -96,24 +96,8 @@ Item {
                 }
                 Connections {
                     target: ScreenPlay.screenPlayManager
-                    function onProjectSettingsListModelResult(found, listModel, type) {
-
-                        customPropertiesGridView.model = null
-                        if (!found) {
-                            videoControlWrapper.state = "hidden"
-                            customPropertiesGridView.state = "hidden"
-                            return
-                        }
-
-                        videoControlWrapper.state = "visible"
+                    function onProjectSettingsListModelResult(listModel) {
                         customPropertiesGridView.model = listModel
-                        if (type === InstalledType.VideoWallpaper) {
-                            customPropertiesGridView.state = "hidden"
-                            videoControlWrapper.state = "visible"
-                        } else {
-                            customPropertiesGridView.state = "visible"
-                            videoControlWrapper.state = "hidden"
-                        }
                     }
                 }
             }
@@ -181,19 +165,6 @@ Item {
                 left: itmLeftWrapper.right
             }
 
-            DefaultVideoControls {
-                id: videoControlWrapper
-                activeMonitorIndex: monitors.activeMonitorIndex
-                anchors {
-                    top: parent.top
-                    topMargin: 10
-                    right: parent.right
-                    rightMargin: 20
-                    left: parent.left
-                    leftMargin: 20
-                }
-            }
-
             GridView {
                 id: customPropertiesGridView
                 boundsBehavior: Flickable.DragOverBounds
@@ -219,41 +190,6 @@ Item {
                     snapMode: ScrollBar.SnapOnRelease
                     policy: ScrollBar.AlwaysOn
                 }
-
-                states: [
-                    State {
-                        name: "visible"
-                        PropertyChanges {
-                            target: customPropertiesGridView
-                            opacity: 1
-                            z: 1
-                            anchors.topMargin: 60
-                        }
-                    },
-                    State {
-                        name: "hidden"
-                        PropertyChanges {
-                            target: customPropertiesGridView
-                            opacity: 0
-                            z: -1
-                            anchors.topMargin: -100
-                        }
-                    }
-                ]
-
-                transitions: [
-                    Transition {
-                        from: "visible"
-                        to: "hidden"
-                        reversible: true
-                        PropertyAnimation {
-                            target: customPropertiesGridView
-                            duration: 300
-                            easing.type: Easing.InOutQuart
-                            properties: "anchors.topMargin, opacity"
-                        }
-                    }
-                ]
             }
         }
         MouseArea {

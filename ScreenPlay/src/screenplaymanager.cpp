@@ -32,6 +32,15 @@ ScreenPlayManager::ScreenPlayManager(
     if (!m_server->listen("ScreenPlay")) {
         qCritical("Could not open Local Socket with the name ScreenPlay!");
     }
+
+    // We limit the time we save via a Qtimer. This is because we can live update values like
+    // volume to the wallpaper very fast. This would be very imperformant for HDD user, so
+    // we limit ourself to m_saveLimiters interval below:
+    m_saveLimiter.setInterval(1000);
+    QObject::connect(&m_saveLimiter, &QTimer::timeout, this, &ScreenPlayManager::saveProfiles);
+    QObject::connect(this, &ScreenPlayManager::requestSaveProfiles, this, [this]() {
+        m_saveLimiter.start();
+    });
 }
 
 /*!
@@ -76,20 +85,20 @@ void ScreenPlayManager::init(
     a \a fillMode, a \a type (htmlWallpaper, qmlWallpaper etc.), a \a saveToProfilesConfigFile bool only set to flase
     if we call the method when using via the settings on startup to skip a unnecessary save.
 */
-void ScreenPlayManager::createWallpaper(
-    const InstalledType::InstalledType type,
+void ScreenPlayManager::createWallpaper(const InstalledType::InstalledType type,
     const FillMode::FillMode fillMode,
     const QString& absoluteStoragePath,
     const QString& previewImage,
     const QString& file,
-    QVector<int> monitorIndex,
+    const QVector<int>& monitorIndex,
     const float volume,
+    const float playbackRate, const QJsonObject& properties,
     const bool saveToProfilesConfigFile)
 {
     auto saveToProfile = qScopeGuard([=, this] {
         // Do not save on app start
         if (saveToProfilesConfigFile) {
-            saveProfiles();
+            emit requestSaveProfiles();
         }
     });
 
@@ -128,8 +137,7 @@ void ScreenPlayManager::createWallpaper(
         }
     }
 
-    std::shared_ptr<ScreenPlayWallpaper> wallpaper;
-    wallpaper = std::make_shared<ScreenPlayWallpaper>(
+    auto wallpaper = std::make_shared<ScreenPlayWallpaper>(
         monitorIndex,
         m_globalVariables,
         appID,
@@ -137,11 +145,13 @@ void ScreenPlayManager::createWallpaper(
         previewImage,
         file,
         volume,
+        playbackRate,
         fillMode,
         type,
+        properties,
         m_settings->checkWallpaperVisible());
 
-    QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestSave, this, &ScreenPlayManager::saveProfiles);
+    QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
     increaseActiveWallpaperCounter();
@@ -150,17 +160,17 @@ void ScreenPlayManager::createWallpaper(
 /*!
   \brief Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
 */
-void ScreenPlayManager::createWidget(
-    const InstalledType::InstalledType type,
+void ScreenPlayManager::createWidget(const InstalledType::InstalledType type,
     const QPoint& position,
     const QString& absoluteStoragePath,
     const QString& previewImage,
+    const QJsonObject& properties,
     const bool saveToProfilesConfigFile)
 {
     auto saveToProfile = qScopeGuard([=, this] {
         // Do not save on app start
         if (saveToProfilesConfigFile) {
-            saveProfiles();
+            emit requestSaveProfiles();
         }
     });
 
@@ -171,8 +181,17 @@ void ScreenPlayManager::createWidget(
         qInfo() << "Path is empty, Abort! String: " << absoluteStoragePath;
         return;
     }
-    auto widget = std::make_shared<ScreenPlayWidget>(appID, m_globalVariables, position, path, previewImage, type);
-    QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::saveProfiles);
+
+    auto widget = std::make_shared<ScreenPlayWidget>(
+        appID,
+        m_globalVariables,
+        position,
+        path,
+        previewImage,
+        properties,
+        type);
+
+    QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     increaseActiveWidgetsCounter();
     m_screenPlayWidgets.append(widget);
 }
@@ -207,7 +226,7 @@ void ScreenPlayManager::removeAllWallpapers()
 
         m_monitorListModel->clearActiveWallpaper();
 
-        saveProfiles();
+        emit requestSaveProfiles();
         setActiveWallpaperCounter(0);
         if (activeWallpaperCounter() != m_screenPlayWallpapers.length()) {
             if (m_telemetry) {
@@ -233,7 +252,7 @@ void ScreenPlayManager::removeAllWidgets()
     if (!m_screenPlayWidgets.empty()) {
         closeAllWidgets();
         m_screenPlayWidgets.clear();
-        saveProfiles();
+        emit requestSaveProfiles();
         setActiveWidgetsCounter(0);
     }
 }
@@ -247,7 +266,7 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
 {
 
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
-        saveProfiles();
+        emit requestSaveProfiles();
 
         if (!closeWallpaper(*appID)) {
             qWarning() << "Could not  close socket. Abort!";
@@ -263,7 +282,7 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
             qWarning() << "Could not remove Wallpaper " << appIDCopy << " from wallpaper list!";
             return false;
         }
-        saveProfiles();
+        emit requestSaveProfiles();
         return true;
     }
     if (m_telemetry) {
@@ -282,13 +301,10 @@ void ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
         if (uPtrWallpaper->screenNumber()[0] == index) {
 
             emit projectSettingsListModelResult(
-                true,
-                uPtrWallpaper->getProjectSettingsListModel(),
-                uPtrWallpaper->type());
+                uPtrWallpaper->getProjectSettingsListModel());
             return;
         }
     }
-    emit projectSettingsListModelResult(false);
 }
 
 /*!
@@ -340,7 +356,7 @@ void ScreenPlayManager::newConnection()
     // Only after we receive the first message with appID and type we can set the shared reference to the
     // ScreenPlayWallpaper or ScreenPlayWidgets class
     QObject::connect(connection.get(), &SDKConnection::appConnected, this, [this](const SDKConnection* connection) {
-        for (const auto& client : m_clients) {
+        for (const auto& client : qAsConst(m_clients)) {
             if (client.get() == connection) {
                 appConnected(client);
                 return;
@@ -349,7 +365,6 @@ void ScreenPlayManager::newConnection()
     });
     m_clients.append(connection);
 }
-
 
 /*!
  \brief Closes all wallpaper connection with the following type:
@@ -409,15 +424,14 @@ bool ScreenPlayManager::closeWallpaper(const QString& appID)
 /*!
    \brief Sets a given \a value to a given \a key. The \a appID is used to identify the receiver socket.
 */
-void ScreenPlayManager::setWallpaperValue(QString appID, QString key, QString value)
+void ScreenPlayManager::setWallpaperValue(const QString& appID, const QString& key, const QVariant& value)
 {
     for (const auto& wallpaper : m_screenPlayWallpapers) {
         if (wallpaper->appID() == appID) {
-            wallpaper->setWallpaperValue(key, value);
+            wallpaper->setWallpaperValue(key, value, true);
         }
     }
 }
-
 
 /*!
     \brief Saves a given wallpaper \a newProfileObject to a \a profileName. We ignore the profileName argument
@@ -425,7 +439,8 @@ void ScreenPlayManager::setWallpaperValue(QString appID, QString key, QString va
 */
 void ScreenPlayManager::saveProfiles()
 {
-
+    m_saveLimiter.stop();
+    qInfo() << "Save profiles!";
     QJsonArray wallpaper {};
     for (const auto& activeWallpaper : m_screenPlayWallpapers) {
         wallpaper.append(activeWallpaper->getActiveSettingsJson());
@@ -534,13 +549,15 @@ void ScreenPlayManager::loadProfiles()
             const QString absolutePath = wallpaperObj.value("absolutePath").toString();
             const QString fillModeString = wallpaperObj.value("fillMode").toString();
             const QString previewImage = wallpaperObj.value("previewImage").toString();
+            const float playbackRate = wallpaperObj.value("playbackRate").toDouble(1.0);
             const QString file = wallpaperObj.value("file").toString();
             const QString typeString = wallpaperObj.value("type").toString();
+            const QJsonObject properties = wallpaperObj.value("properties").toObject();
 
             const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::VideoWallpaper);
             const auto fillMode = QStringToEnum<FillMode::FillMode>(fillModeString, FillMode::FillMode::Cover);
 
-            createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, false);
+            createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, playbackRate, properties, false);
             monitors.clear();
         }
 
@@ -557,8 +574,9 @@ void ScreenPlayManager::loadProfiles()
             const int positionY = widgetObj.value("positionY").toInt(0);
             const QPoint position { positionX, positionY };
             const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::QMLWidget);
+            const QJsonObject properties = widgetObj.value("properties").toObject();
 
-            createWidget(type, position, absolutePath, previewImage, false);
+            createWidget(type, position, absolutePath, previewImage, properties, false);
         }
     }
 }

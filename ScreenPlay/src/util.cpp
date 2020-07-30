@@ -175,7 +175,7 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
 QString Util::toString(const QStringList& list)
 {
     QString out;
-    for (const auto &string : list) {
+    for (const auto& string : list) {
         out += " " + string;
     }
     return out;
@@ -326,8 +326,8 @@ void Util::downloadFFMPEG()
         ZipEntry entryFFMPEG;
         std::string entryFFMPEGPath;
 #ifdef Q_OS_WIN
-         entryFFMPEG = archive->getEntry(ffmpegVersion.toStdString() + "-win64-static/bin/ffmpeg.exe");
-         entryFFMPEGPath = path + "ffmpeg.exe";
+        entryFFMPEG = archive->getEntry(ffmpegVersion.toStdString() + "-win64-static/bin/ffmpeg.exe");
+        entryFFMPEGPath = path + "ffmpeg.exe";
 #elif defined(Q_OS_OSX)
          entryFFMPEG = archive->getEntry(ffmpegVersion.toStdString() +"-macos64-static/bin/ffmpeg");
          entryFFMPEGPath = path + "ffmpeg";
@@ -347,8 +347,8 @@ void Util::downloadFFMPEG()
             return;
         }
 
-         ZipEntry entryFFPROBE;
-         std::string entryFFPROBEPath;
+        ZipEntry entryFFPROBE;
+        std::string entryFFPROBEPath;
 #ifdef Q_OS_WIN
         entryFFPROBE = archive->getEntry(ffmpegVersion.toStdString() + "-win64-static/bin/ffprobe.exe");
         entryFFPROBEPath = path + "ffprobe.exe";
@@ -375,6 +375,56 @@ void Util::downloadFFMPEG()
         [this](QNetworkReply::NetworkError code) {
             this->setAquireFFMPEGStatus(AquireFFMPEGStatus::DownloadFailed);
         });
+}
+
+SearchType::SearchType Util::getSearchTypeFromInstalledType(const InstalledType::InstalledType type)
+{
+    using InstalledType::InstalledType;
+    using SearchType::SearchType;
+
+    switch (type) {
+    case InstalledType::GodotWallpaper:
+    case InstalledType::HTMLWallpaper:
+    case InstalledType::QMLWallpaper:
+        return SearchType::Scenes;
+    case InstalledType::VideoWallpaper:
+        return SearchType::Wallpaper;
+    case InstalledType::HTMLWidget:
+    case InstalledType::QMLWidget:
+        return SearchType::Widget;
+    case InstalledType::Unknown:
+    default:
+        return SearchType::All;
+    }
+}
+
+std::optional<InstalledType::InstalledType> Util::getInstalledTypeFromString(const QString& type)
+{
+    if (type.endsWith("Wallpaper")) {
+        if (type.startsWith("video", Qt::CaseInsensitive)) {
+            return InstalledType::InstalledType::VideoWallpaper;
+        }
+        if (type.startsWith("qml", Qt::CaseInsensitive)) {
+            return InstalledType::InstalledType::QMLWallpaper;
+        }
+        if (type.startsWith("html", Qt::CaseInsensitive)) {
+            return InstalledType::InstalledType::HTMLWallpaper;
+        }
+        if (type.startsWith("godot", Qt::CaseInsensitive)) {
+            return InstalledType::InstalledType::GodotWallpaper;
+        }
+    }
+
+    if (type.endsWith("Widget")) {
+        if (type.startsWith("qml", Qt::CaseInsensitive)) {
+            return InstalledType::InstalledType::QMLWidget;
+        }
+        if (type.startsWith("html", Qt::CaseInsensitive)) {
+            return InstalledType::InstalledType::HTMLWidget;
+        }
+    }
+
+    return std::nullopt;
 }
 
 /*!

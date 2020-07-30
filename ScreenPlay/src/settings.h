@@ -197,9 +197,9 @@ signals:
     void anonymousTelemetryChanged(bool anonymousTelemetry);
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
     void videoFillModeChanged(ScreenPlay::FillMode::FillMode videoFillMode);
-    void languageChanged(Language language);
+    void languageChanged(ScreenPlay::Settings::Language language);
     void fontChanged(QString font);
-    void themeChanged(Theme theme);
+    void themeChanged(ScreenPlay::Settings::Theme theme);
 
 public slots:
     void writeJsonFileFromResource(const QString& filename);
@@ -325,7 +325,7 @@ public slots:
         emit videoFillModeChanged(m_videoFillMode);
     }
 
-    void setLanguage(Language language)
+    void setLanguage(ScreenPlay::Settings::Language language)
     {
         if (m_language == language)
             return;
@@ -345,7 +345,7 @@ public slots:
         emit fontChanged(m_font);
     }
 
-    void setTheme(Theme theme)
+    void setTheme(ScreenPlay::Settings::Theme theme)
     {
         if (m_theme == theme)
             return;

@@ -269,7 +269,7 @@ Item {
                         availableHeight: height
                         fontSize: 11
                         onActiveMonitorsChanged: {
-                            if(isWidget()){
+                            if (isWidget()) {
                                 btnSetWallpaper.enabled = true
                                 return
                             }
@@ -281,10 +281,13 @@ Item {
 
                 SP.Slider {
                     id: sliderVolume
-                    stepSize: 0.01
-                    from: 0
-                    value: 1
-                    to: 1
+                    slider {
+                        stepSize: 0.01
+                        from: 0
+                        value: 1
+                        to: 1
+                    }
+
                     Layout.fillWidth: true
                     headline: qsTr("Set Volume")
                 }
@@ -374,12 +377,14 @@ Item {
                         ScreenPlay.screenPlayManager.createWallpaper(
                                     root.type, cbVideoFillMode.currentValue,
                                     absoluteStoragePath, previewImage,
-                                    screenFile, activeMonitors, volume, true)
+                                    screenFile, activeMonitors, volume,
+                                    1.0, {}, true)
                     }
 
                     if (root.isWidget()) {
                         ScreenPlay.screenPlayManager.createWidget(
-                                    type, Qt.point(0,0), absoluteStoragePath, previewImage, true)
+                                    type, Qt.point(0, 0), absoluteStoragePath,
+                                    previewImage, {}, true)
                     }
 
                     root.state = "inactive"

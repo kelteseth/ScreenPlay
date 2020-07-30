@@ -45,6 +45,7 @@
 #include <memory>
 
 #include "globalvariables.h"
+#include "projectsettingslistmodel.h"
 #include "sdkconnection.h"
 
 namespace ScreenPlay {
@@ -63,7 +64,7 @@ public:
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const QPoint& position,
         const QString& absolutePath,
-        const QString& previewImage,
+        const QString& previewImage, const QJsonObject& properties,
         const InstalledType::InstalledType type);
 
     ~ScreenPlayWidget() { }
@@ -97,6 +98,11 @@ public:
 
 public slots:
     QJsonObject getActiveSettingsJson();
+
+    ProjectSettingsListModel* getProjectSettingsListModel()
+    {
+        return &m_projectSettingsListModel;
+    }
 
     void setPreviewImage(QString previewImage)
     {
@@ -154,6 +160,7 @@ signals:
 private:
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
     std::shared_ptr<SDKConnection> m_connection;
+    ProjectSettingsListModel m_projectSettingsListModel;
 
     QProcess m_process;
     QString m_previewImage;

@@ -88,29 +88,34 @@ public:
         const std::shared_ptr<Settings>& settings);
 
 signals:
-    void projectSettingsListModelResult(
-        const bool found,
-        ProjectSettingsListModel* li = nullptr,
-        const ScreenPlay::InstalledType::InstalledType type = ScreenPlay::InstalledType::InstalledType::VideoWallpaper);
+    void projectSettingsListModelResult(ScreenPlay::ProjectSettingsListModel* li = nullptr);
     void activeWallpaperCounterChanged(int activeWallpaperCounter);
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
+    void requestSaveProfiles();
     void requestRaise();
+
+private slots:
+    void saveProfiles();
 
 public slots:
     // moc needs full enum namespace info see QTBUG-58454
-    void createWallpaper(
-        const ScreenPlay::InstalledType::InstalledType type,
+    void createWallpaper(const ScreenPlay::InstalledType::InstalledType type,
         const ScreenPlay::FillMode::FillMode fillMode,
         const QString& absoluteStoragePath,
         const QString& previewImage,
         const QString& file,
-        QVector<int> monitorIndex,
+        const QVector<int>& monitorIndex,
         const float volume,
+        const float playbackRate,
+        const QJsonObject& properties,
         const bool saveToProfilesConfigFile);
 
-    void createWidget(const ScreenPlay::InstalledType::InstalledType type, const QPoint& position,
+    void createWidget(
+        const ScreenPlay::InstalledType::InstalledType type,
+        const QPoint& position,
         const QString& absoluteStoragePath,
         const QString& previewImage,
+        const QJsonObject& properties,
         const bool saveToProfilesConfigFile);
 
     void removeAllWallpapers();
@@ -122,13 +127,12 @@ public slots:
     void setAllWallpaperValue(const QString& key, const QString& value);
     std::optional<std::shared_ptr<ScreenPlayWallpaper>> getWallpaperByAppID(const QString& appID);
 
-    void saveProfiles();
     void newConnection();
     void closeAllWallpapers();
     void closeAllWidgets();
     void closeConntectionByType(const QStringList& list);
     bool closeWallpaper(const QString& appID);
-    void setWallpaperValue(QString appID, QString key, QString value);
+    void setWallpaperValue(const QString& appID, const QString& key, const QVariant& value);
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)
     {
@@ -198,6 +202,7 @@ private:
     int m_activeWidgetsCounter { 0 };
 
     bool m_isAnotherScreenPlayInstanceRunning = false;
+    QTimer m_saveLimiter;
 };
 
 }

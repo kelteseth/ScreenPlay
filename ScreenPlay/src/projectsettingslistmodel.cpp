@@ -35,12 +35,40 @@ namespace ScreenPlay {
 */
 
 /*!
-  Constructor
+  Constructor when loading properties from settings.json
 */
-ProjectSettingsListModel::ProjectSettingsListModel(QString file, QObject* parent)
-    : QAbstractListModel(parent)
+
+void ProjectSettingsListModel::init(const InstalledType::InstalledType& type, const QJsonObject& properties)
 {
-    init(file);
+    if (type == InstalledType::InstalledType::VideoWallpaper) {
+//        beginInsertRows(QModelIndex(), m_projectSettings.size(), m_projectSettings.size());
+
+//        m_projectSettings.append("General");
+
+//        if (properties.contains("volume"))
+//            append({"slider", properties.value("volume")}=;
+
+//        if (properties.contains("playbackRate"))
+//            append("slider", properties.value("playbackRate").toObject());
+//        endInsertRows();
+
+    } else {
+        for (QJsonObject::const_iterator itParent = properties.begin(); itParent != properties.end(); itParent++) {
+
+            // The first object is always a category
+            const QJsonObject category = properties.value(itParent.key()).toObject();
+            beginInsertRows(QModelIndex(), m_projectSettings.size(), m_projectSettings.size());
+            m_projectSettings.append(ProjectSettingsListItem { itParent.key() });
+            endInsertRows();
+            // Children of this category
+            for (QJsonObject::const_iterator itChild = category.begin(); itChild != category.end(); itChild++) {
+                qInfo() << itChild.key() << itChild.value();
+                beginInsertRows(QModelIndex(), m_projectSettings.size(), m_projectSettings.size());
+                m_projectSettings.append(ProjectSettingsListItem {itChild.key(), itChild.value().toObject() });
+                endInsertRows();
+            }
+        }
+    }
 }
 
 int ProjectSettingsListModel::rowCount(const QModelIndex& parent) const
@@ -63,7 +91,7 @@ QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) cons
     if (index.row() < rowCount())
         switch (role) {
         case NameRole:
-            return m_projectSettings.at(rowIndex).m_name;
+            return m_projectSettings.at(rowIndex).m_key;
         case IsHeadlineRole:
             return m_projectSettings.at(rowIndex).m_isHeadline;
         case ValueRole:
@@ -86,45 +114,26 @@ QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
     return roles;
 }
 
-/*!
- Recursively loads the content of a project.json.
- See also \l {https://kelteseth.gitlab.io/ScreenPlayDocs/project/project/} .
- */
-void ProjectSettingsListModel::init(const QString& file)
+QJsonObject ProjectSettingsListModel::getActiveSettingsJson()
 {
-    if (auto config = Util::openJsonFileToObject(file)) {
-
-        QJsonObject obj = *config;
-        QJsonObject tmpParent;
-
-        if (obj.contains("properties")) {
-            tmpParent = obj.value("properties").toObject();
-        } else {
-            return;
-        }
-
-        QJsonObject::iterator itParent, itChild;
-        for (itParent = tmpParent.begin(); itParent != tmpParent.end(); itParent++) {
-
-            // The first object is always a category
-            QJsonObject tmpChildObj = tmpParent.value(itParent.key()).toObject();
-            append(itParent.key(), true, "");
-
-            // Children of this category
-            for (itChild = tmpChildObj.begin(); itChild != tmpChildObj.end(); itChild++) {
-                append(itChild.key(), false, QJsonDocument(tmpChildObj.value(itChild.key()).toObject()).toJson());
-            }
-        }
-    } else {
-        qWarning() << "Could not load: " << file << " for wallpaper settings!";
+    if (m_projectSettings.isEmpty()) {
+        qWarning() << "Trying to read emppty projectSettings. Abort!";
+        return {};
     }
+
+    QJsonObject obj;
+    for (const auto& itemCategory : m_projectSettings) {
+        QJsonObject category;
+        if (itemCategory.m_isHeadline) {
+            for (const auto& itemProperties : m_projectSettings) {
+                if (itemProperties.m_isHeadline)
+                    continue;
+                category.insert(itemProperties.m_key, QJsonValue::fromVariant(itemProperties.m_value));
+            }
+            obj.insert(itemCategory.m_key, category);
+        }
+    }
+    return obj;
 }
 
-void ProjectSettingsListModel::append(QString name, bool isHeadline, QVariant value)
-{
-    beginInsertRows(QModelIndex(), m_projectSettings.size(), m_projectSettings.size());
-    ProjectSettingsListItem tmpFile(name, isHeadline, value.toString());
-    m_projectSettings.append(tmpFile);
-    endInsertRows();
-}
 }

@@ -126,7 +126,7 @@ signals:
     void allLicenseLoaded(QString licensesText);
     void allDataProtectionLoaded(QString dataProtectionText);
     void ffmpegAvailableChanged(bool ffmpegAvailable);
-    void aquireFFMPEGStatusChanged(AquireFFMPEGStatus aquireFFMPEGStatus);
+    void aquireFFMPEGStatusChanged(ScreenPlay::Util::AquireFFMPEGStatus aquireFFMPEGStatus);
     void debugMessagesChanged(QString debugMessages);
 
 public slots:
@@ -138,6 +138,8 @@ public slots:
 
     void downloadFFMPEG();
 
+    static SearchType::SearchType getSearchTypeFromInstalledType(const InstalledType::InstalledType type);
+    static std::optional<InstalledType::InstalledType> getInstalledTypeFromString(const QString& type);
     static std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteArray);
     static std::optional<QJsonObject> openJsonFileToObject(const QString& path);
     static std::optional<QString> openJsonFileToString(const QString& path);
@@ -173,7 +175,7 @@ public slots:
         emit ffmpegAvailableChanged(m_ffmpegAvailable);
     }
 
-    void setAquireFFMPEGStatus(AquireFFMPEGStatus aquireFFMPEGStatus)
+    void setAquireFFMPEGStatus(ScreenPlay::Util::AquireFFMPEGStatus aquireFFMPEGStatus)
     {
         if (m_aquireFFMPEGStatus == aquireFFMPEGStatus)
             return;

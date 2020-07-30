@@ -30,20 +30,24 @@ ColumnLayout {
 
     SP.Slider {
         headline: qsTr("Volume")
-        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
-                            activeMonitorIndex, "volume", value)
+         slider.onMoved:  {
+             print("MODEV")
+             ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
+                                         activeMonitorIndex, "volume", slider.value)
+         }
+
         Layout.fillWidth: true
     }
     SP.Slider {
         headline: qsTr("Playback rate")
-        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
-                            activeMonitorIndex, "playbackRate", value)
+         slider.onMoved: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
+                            activeMonitorIndex, "playbackRate", slider.value)
         Layout.fillWidth: true
     }
     SP.Slider {
         headline: qsTr("Current Video Time")
-        onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
-                            activeMonitorIndex, "currentTime", value)
+        slider.onMoved: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
+                            activeMonitorIndex, "currentTime", slider.value)
         Layout.fillWidth: true
     }
     ColumnLayout {
@@ -93,7 +97,7 @@ ColumnLayout {
                     "text": qsTr("Cover")
                 }, {
                     "value": FillMode.Scale_Down,
-                    "text": qsTr("Scale-Down")
+                    "text": qsTr("Scale_Down")
                 }]
         }
     }

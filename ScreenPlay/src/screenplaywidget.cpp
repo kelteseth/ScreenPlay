@@ -19,6 +19,7 @@ ScreenPlayWidget::ScreenPlayWidget(
     const QPoint& position,
     const QString& absolutePath,
     const QString& previewImage,
+    const QJsonObject& properties,
     const InstalledType::InstalledType type)
     : QObject { nullptr }
     , m_globalVariables { globalVariables }
@@ -28,6 +29,25 @@ ScreenPlayWidget::ScreenPlayWidget(
     , m_type { type }
     , m_absolutePath { absolutePath }
 {
+    {
+        // If
+        QJsonObject projectSettingsListModelProperties;
+
+        if (properties.isEmpty()) {
+            auto obj = Util::openJsonFileToObject(absolutePath + "/project.json");
+            if (!obj)
+                return;
+
+            if (!obj->contains("properties"))
+                return;
+            projectSettingsListModelProperties = obj->value("properties").toObject();
+        } else {
+            projectSettingsListModelProperties = properties;
+        }
+
+        m_projectSettingsListModel.init(type, projectSettingsListModelProperties);
+    }
+
     const QStringList proArgs {
         m_absolutePath,
         QString { "appID=" + m_appID },
@@ -38,8 +58,6 @@ ScreenPlayWidget::ScreenPlayWidget(
 
     m_process.setArguments(proArgs);
     m_process.setProgram(m_globalVariables->widgetExecutablePath().path());
-
-    qDebug() << proArgs;
 
     QObject::connect(&m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
         qDebug() << "error: " << error;
@@ -62,6 +80,11 @@ void ScreenPlayWidget::setSDKConnection(const std::shared_ptr<SDKConnection>& co
 QJsonObject ScreenPlayWidget::getActiveSettingsJson()
 {
     QJsonObject obj;
+
+    auto properties = m_projectSettingsListModel.getActiveSettingsJson();
+    if (!properties.isEmpty())
+        obj.insert("properties", properties);
+
     obj.insert("previewImage", m_previewImage);
     obj.insert("absolutePath", m_absolutePath);
     obj.insert("positionX", m_position.x());

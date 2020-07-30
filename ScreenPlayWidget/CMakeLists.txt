@@ -1,4 +1,6 @@
-project(ScreenPlayWidget)
+cmake_minimum_required(VERSION 3.17 )
+
+project(ScreenPlayWidget  LANGUAGES CXX)
 
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)

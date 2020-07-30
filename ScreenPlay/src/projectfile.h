@@ -34,7 +34,6 @@
 
 #pragma once
 
-#include "globalvariables.h"
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -43,6 +42,9 @@
 #include <QUrl>
 #include <QVariant>
 #include <QVariantList>
+
+#include "globalvariables.h"
+#include "util.h"
 
 /*!
     \class ProjectFile
@@ -99,42 +101,14 @@ struct ProjectFile {
         if (!obj.contains("type"))
             return;
 
-        QString type = obj.value("type").toString();
-        if (type.endsWith("Wallpaper")) {
-            if (type.startsWith("video")) {
-                m_searchType = SearchType::SearchType::Wallpaper;
-                m_type = InstalledType::InstalledType::VideoWallpaper;
-                return;
-            }
-            m_searchType = SearchType::SearchType::Scenes;
-            if (type.startsWith("qml")) {
-                m_type = InstalledType::InstalledType::QMLWallpaper;
-                return;
-            }
-            if (type.startsWith("html")) {
-                m_type = InstalledType::InstalledType::HTMLWallpaper;
-                return;
-            }
-            if (type.startsWith("godot")) {
-                m_type = InstalledType::InstalledType::GodotWallpaper;
-                return;
-            }
+        auto type = Util::getInstalledTypeFromString(obj.value("type").toString());
+        if (!type) {
+            qWarning() << "Type could not parsed from: " << *type << folderName;
+            return;
         }
 
-        if (type.endsWith("Widget")) {
-            m_searchType = SearchType::SearchType::Widget;
-            if (type.startsWith("qml")) {
-                m_type = InstalledType::InstalledType::QMLWidget;
-                return;
-            }
-            if (type.startsWith("html")) {
-                m_type = InstalledType::InstalledType::HTMLWidget;
-                return;
-            }
-        }
-
-
-        qWarning() << "Type could not parsed from: " << type << folderName;
+        m_type = *type;
+        m_searchType = Util::getSearchTypeFromInstalledType(m_type);
     }
 
     ProjectFile() { }

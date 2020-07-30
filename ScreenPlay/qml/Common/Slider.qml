@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.2 as QQC
 import ScreenPlay 1.0
 
 Item {
@@ -9,11 +9,7 @@ Item {
 
     property string headline: "dummyHeandline"
     property string iconSource: "qrc:/assets/icons/icon_volume.svg"
-    property alias value: slider.value
-
-    property alias from: slider.from
-    property alias to: slider.to
-    property alias stepSize: slider.stepSize
+    property alias slider: slider
 
     Text {
         id: txtHeadline
@@ -48,14 +44,14 @@ Item {
             Layout.alignment: Qt.AlignVCenter
         }
 
-        Slider {
+        QQC.Slider {
             id: slider
             stepSize: 0.01
             from: 0
             value: 1
+            to: 1
             Layout.fillWidth: true
             Layout.alignment: Qt.AlignVCenter
-            to: 1
         }
 
         Text {

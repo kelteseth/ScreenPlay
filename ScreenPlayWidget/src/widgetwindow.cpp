@@ -29,26 +29,6 @@ WidgetWindow::WidgetWindow(
 
     setType(type);
 
-    {
-        // We limit ourself to only update the position every 500ms!
-        auto sendPositionUpdate = [this]() {
-            m_positionMessageLimiter.stop();
-            if (!m_sdk->isConnected())
-                return;
-
-            QJsonObject obj;
-            obj.insert("messageType", "positionUpdate");
-            obj.insert("positionX", m_window.x());
-            obj.insert("positionY", m_window.y());
-            m_sdk->sendMessage(obj);
-        };
-        m_positionMessageLimiter.setInterval(500);
-
-        QObject::connect(&m_positionMessageLimiter, &QTimer::timeout, this, sendPositionUpdate);
-        QObject::connect(&m_window, &QWindow::xChanged, this, [this]() { m_positionMessageLimiter.start(); });
-        QObject::connect(&m_window, &QWindow::yChanged, this, [this]() { m_positionMessageLimiter.start(); });
-    }
-
     Qt::WindowFlags flags = m_window.flags();
 
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
@@ -87,6 +67,27 @@ WidgetWindow::WidgetWindow(
     m_window.setSource(QUrl("qrc:/Widget.qml"));
     m_window.setPosition(m_position);
     m_window.show();
+
+    // Do not trigger position changed save reuqest on startup
+    QTimer::singleShot(1000, [=, this]() {
+        // We limit ourself to only update the position every 500ms!
+        auto sendPositionUpdate = [this]() {
+            m_positionMessageLimiter.stop();
+            if (!m_sdk->isConnected())
+                return;
+
+            QJsonObject obj;
+            obj.insert("messageType", "positionUpdate");
+            obj.insert("positionX", m_window.x());
+            obj.insert("positionY", m_window.y());
+            m_sdk->sendMessage(obj);
+        };
+        m_positionMessageLimiter.setInterval(500);
+
+        QObject::connect(&m_positionMessageLimiter, &QTimer::timeout, this, sendPositionUpdate);
+        QObject::connect(&m_window, &QWindow::xChanged, this, [this]() { m_positionMessageLimiter.start(); });
+        QObject::connect(&m_window, &QWindow::yChanged, this, [this]() { m_positionMessageLimiter.start(); });
+    });
 }
 
 void WidgetWindow::setSize(QSize size)

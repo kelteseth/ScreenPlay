@@ -98,7 +98,7 @@ signals:
     void typeChanged(QString type);
     void requestDecreaseWidgetCount();
     void requestRaise();
-    void appConnected(const SDKConnection* connection);
+    void appConnected(const ScreenPlay::SDKConnection* connection);
     void jsonMessageReceived(const QJsonObject obj);
 
 public slots:

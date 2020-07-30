@@ -5,7 +5,6 @@ import QtQuick.Dialogs 1.2
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
-
 import ScreenPlay 1.0
 
 Item {
@@ -25,7 +24,8 @@ Item {
         anchors.verticalCenter: parent.verticalCenter
         font.family: ScreenPlay.settings.font
         font.weight: Font.Normal
-        color: root.isHeadline ? Qt.darker(Material.foreground) : Material.foreground
+        color: root.isHeadline ? Qt.darker(
+                                     Material.foreground) : Material.foreground
 
         anchors {
             left: parent.left
@@ -47,28 +47,33 @@ Item {
                 return
             }
 
-            var obj = JSON.parse(root.value.toString())
+            if (root.isHeadline)
+                return
 
-            if (obj["text"]) {
-                txtDescription.text = obj["text"]
-            }
 
-            switch (obj["type"]) {
-            case "slider":
-                loader.sourceComponent = compSlider
-                loader.item.from = obj["from"]
-                loader.item.to = obj["to"]
-                loader.item.value = obj["value"]
-                loader.item.stepSize = obj["stepSize"]
-                break
-            case "bool":
-                loader.sourceComponent = compCheckbox
-                loader.item.value = obj["value"]
-                break
-            case "color":
-                loader.sourceComponent = compColorpicker
-                loader.item.value = obj["value"]
-                break
+            for (let item in root.value) {
+               // print(item.toString())
+                switch (item["type"]) {
+                case "slider":
+                    loader.sourceComponent = compSlider
+                    loader.item.from = obj["from"]
+                    loader.item.to = obj["to"]
+                    loader.item.value = obj["value"]
+                    loader.item.stepSize = obj["stepSize"]
+                    break
+                case "bool":
+                    loader.sourceComponent = compCheckbox
+                    loader.item.value = obj["value"]
+                    break
+                case "color":
+                    loader.sourceComponent = compColorpicker
+                    loader.item.value = obj["value"]
+                    break
+                }
+
+                if (item["text"]) {
+                    txtDescription.text = obj["text"]
+                }
             }
         }
 
@@ -88,7 +93,7 @@ Item {
                         right: parent.right
                         verticalCenter: parent.verticalCenter
                     }
-                    onCheckedChanged: {  
+                    onCheckedChanged: {
                         ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                                     selectedMonitor, name, checkbox.checked)
                     }
@@ -161,9 +166,9 @@ Item {
 
                     anchors {
                         verticalCenter: parent.verticalCenter
-                        right:txtSliderValue.left
+                        right: txtSliderValue.left
                         rightMargin: 20
-                        left:parent.left
+                        left: parent.left
                         leftMargin: 20
                     }
 
@@ -176,7 +181,7 @@ Item {
                 }
                 Text {
                     id: txtSliderValue
-                    color:  Material.foreground
+                    color: Material.foreground
                     horizontalAlignment: Text.AlignRight
                     font.family: ScreenPlay.settings.font
                     anchors {

@@ -44,6 +44,7 @@
 #include "globalvariables.h"
 #include "projectsettingslistmodel.h"
 #include "sdkconnection.h"
+#include "util.h"
 
 namespace ScreenPlay {
 
@@ -53,6 +54,7 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
 
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
+    Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
 
     Q_PROPERTY(bool isLooping READ isLooping WRITE setIsLooping NOTIFY isLoopingChanged)
 
@@ -65,22 +67,29 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
-    explicit ScreenPlayWallpaper(
-        const QVector<int>& screenNumber,
+    explicit ScreenPlayWallpaper(const QVector<int>& screenNumber,
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const QString& appID,
         const QString& absolutePath,
         const QString& previewImage,
         const QString& file,
-        const float volume,
+        const float volume, const float playbackRate,
         const FillMode::FillMode fillMode,
-        const InstalledType::InstalledType type,
+        const InstalledType::InstalledType type, const QJsonObject& properties,
         const bool checkWallpaperVisible,
         QObject* parent = nullptr);
 
-    QJsonObject getActiveSettingsJson();
+    void replace(const QString& absolutePath,
+        const QString& previewImage,
+        const QString& file,
+        const float volume,
+        const FillMode::FillMode fillMode,
+        const InstalledType::InstalledType type,
+        const bool checkWallpaperVisible);
 
-    bool m_isAnotherScreenPlayInstanceRunning { false };
+    void setSDKConnection(const std::shared_ptr<SDKConnection>& connection);
+
+    QJsonObject getActiveSettingsJson();
 
     QVector<int> screenNumber() const
     {
@@ -127,17 +136,15 @@ public:
         return m_isLooping;
     }
 
-    ProjectSettingsListModel* getProjectSettingsListModel();
+    ProjectSettingsListModel* getProjectSettingsListModel()
+    {
+        return &m_projectSettingsListModel;
+    }
 
-    void setSDKConnection(const std::shared_ptr<SDKConnection>& connection);
-
-    void replace(const QString& absolutePath,
-        const QString& previewImage,
-        const QString& file,
-        const float volume,
-        const FillMode::FillMode fillMode,
-        const InstalledType::InstalledType type,
-        const bool checkWallpaperVisible);
+    float playbackRate() const
+    {
+        return m_playbackRate;
+    }
 
 signals:
     void screenNumberChanged(QVector<int> screenNumber);
@@ -151,11 +158,12 @@ signals:
     void volumeChanged(float volume);
     void isLoopingChanged(bool isLooping);
     void requestSave();
+    void playbackRateChanged(float playbackRate);
 
 public slots:
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
     void processError(QProcess::ProcessError error);
-    void setWallpaperValue(const QString &key, const QString &value);
+    void setWallpaperValue(const QString& key, const QVariant& value, const bool save = false);
 
     void setScreenNumber(QVector<int> screenNumber)
     {
@@ -241,6 +249,15 @@ public slots:
         emit isLoopingChanged(m_isLooping);
     }
 
+    void setPlaybackRate(float playbackRate)
+    {
+        if (playbackRate < 0.0f || playbackRate > 1.0f)
+            return;
+
+        m_playbackRate = playbackRate;
+        emit playbackRateChanged(m_playbackRate);
+    }
+
 private:
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
     std::shared_ptr<SDKConnection> m_connection;
@@ -256,5 +273,6 @@ private:
     QString m_file;
     float m_volume { 1.0f };
     bool m_isLooping { true };
+    float m_playbackRate { 1.0f };
 };
 }

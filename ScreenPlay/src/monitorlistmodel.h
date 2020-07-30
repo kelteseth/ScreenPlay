@@ -37,7 +37,6 @@
 #include <QAbstractListModel>
 #include <QApplication>
 #include <QDebug>
-#include <QApplication>
 #include <QRect>
 #include <QScreen>
 #include <QSize>
@@ -110,6 +109,12 @@ public:
 
     std::optional<QString> getAppIDByMonitorIndex(const int index) const;
 
+    QRect getAbsoluteDesktopSize() const
+    {
+        auto* app = static_cast<QApplication*>(QApplication::instance());
+        return app->screens().at(0)->availableVirtualGeometry();
+    }
+
 signals:
     void monitorReloadCompleted();
     void setNewActiveMonitor(int index, QString path);
@@ -131,12 +136,6 @@ public slots:
         qDebug() << "screenRemoved" << screen->geometry() << m_monitorList.size();
         emit monitorConfigurationChanged();
         reset();
-    }
-
-    QRect getAbsoluteDesktopSize() const
-    {
-        auto* app = static_cast<QApplication*>(QApplication::instance());
-        return app->screens().at(0)->availableVirtualGeometry();
     }
 
 private:

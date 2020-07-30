@@ -1,6 +1,6 @@
-cmake_minimum_required(VERSION 3.16.0)
+cmake_minimum_required(VERSION 3.17 )
 
-project(ScreenPlay)
+project(ScreenPlay  LANGUAGES CXX)
 
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
