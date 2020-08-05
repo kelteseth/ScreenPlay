@@ -410,7 +410,7 @@ ms)но есть также некоторые проприетарные, та�
 &lt;br&gt;
 &lt;br&gt;
 Обычно это так:
-&lt;br&gt; C:Программные файлы (x86)SteamsteamappscommonScreenPlay
+&lt;br&gt; C:Program Files (x86)SteamsteamappscommonScreenPlay
 &lt;br&gt;
 если вы установили ScreenPlay через Steam!
 &lt;/центр&gt;
@@ -453,37 +453,36 @@ if you installed ScreenPlay via Steam!
 &lt;br&gt;
 &lt;br&gt;
 &lt;b&gt;~ Kelteseth | Elias Steurer&lt;/b&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Почему мы беспокоим тебя этим?&lt;/b&gt;
-&lt;br&gt;&lt;br&gt; Ну, это связано с &lt;b&gt;авторскими правами&lt;/b&gt; и множеством патентов&lt;/b&gt;.
+        <translation type="obsolete">&lt;b&gt;Почему мы говорим это вам?&lt;/b&gt;
+&lt;br&gt;&lt;br&gt; Что ж, это связано с &lt;b&gt;авторскими правами&lt;/b&gt; и множеством патентов&lt;/b&gt;.
 Такие файлы, как .mp4 или .webm, являются контейнерами для видео и аудио. Каждый аудио
-а видеофайл закодирован определенным кодеком. Они могут быть открытыми кислыми
-и свободно использовать как &lt;a href=&apos;https://wikipedia.org/wiki/VP8&apos;&gt;VP8&lt;/a&gt; и более новый &lt;a href=&apos;https://wikipedia.org/wiki/VP9&apos;&gt;VP9&lt;/a&gt; (тот, который YouTube использует для их сети).
-ms)но есть и некоторые пророторские, такие как &lt;a href=&apos;https://wikipedia.org/wiki/H.264/MPEG-4_AVC&apos;&gt;h264&lt;/a&gt; и преемник &lt;a href=&apos;https://wikipedia.org/wiki/High_Efficiency_Video_Coding&apos;&gt;h265&lt;/a&gt;.
+а видеофайл закодирован определенным кодеком. Они могут быть с открытым исходным кодом
+и свободно использоваться, например &lt;a href=&apos;https://wikipedia.org/wiki/VP8&apos;&gt;VP8&lt;/a&gt; и более новый &lt;a href=&apos;https://wikipedia.org/wiki/VP9&apos;&gt;VP9&lt;/a&gt; (тот, который YouTube использует для их сети).
+ms), но есть и некоторые проприетарные, такие как &lt;a href=&apos;https://wikipedia.org/wiki/H.264/MPEG-4_AVC&apos;&gt;h264&lt;/a&gt; и преемник &lt;a href=&apos;https://wikipedia.org/wiki/High_Efficiency_Video_Coding&apos;&gt;h265&lt;/a&gt;.
 &lt;br&gt;
 &lt;br&gt;
 
 
- Нам, как разработчикам программного обеспечения, теперь нужно иметь дело с такими вещами в области, в которой мы...
-не имеем никакого опыта. Преследование, позволяющее использовать только бесплатные кодеки для контента, было следующим
-простой, но нам все же нужно предоставить способ для нашего пользователя, чтобы импортировать обои.
-r без хлопот. Мы не предоставляем &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; f.
-или преобразование видео и аудио с помощью ScreenPlay, потому что мы не имеем права. Мы разрешили пользователю загрузить &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt;, что совершенно нормально!
+ Нам как разработчикам программного обеспечения теперь нужно иметь дело с такими вещами в области, в которой мы в этом деле
+не имеем в этом деле никакого опыта. Было принято решение включить только бесплатные кодеки для контента.
+Это легко, но нам все еще нужно предоставить способ для нашего пользователя импортировать обои без лишних хлопот. Мы не предоставляем &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt;
+для преобразования видео и аудио с помощью ScreenPlay, потому что мы не имеем права. Мы разрешили пользователю загрузить &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt;, что совершенно нормально!
 &lt;br&gt;
-Приносим извинения за это небольшое неудобство :)
+Приносим прощения за это небольшое неудобство :)
 &lt;br&gt;
 &lt;br&gt;
-&lt;центр&gt;
+&lt;center&gt;
 &lt;b&gt;
-ЕСЛИ У ВАС НЕТ ПОДКЛЮЧЕНИЯ К ИНТЕРНЕТУ, ВЫ МОЖЕТЕ ПРОСТО ПОСТАВИТЬ FFMPEG И FFPROBE.
-В ТОЙ ЖЕ ПАПКЕ, ЧТО И ИСПОЛНЯЕМЫЙ ФАЙЛ ВАШЕГО СЦЕНАРИЯ!
+ЕСЛИ У ВАС НЕТ ПОДКЛЮЧЕНИЯ К ИНТЕРНЕТУ, ВЫ МОЖЕТЕ САМОСТОЯТЕЛЬНО УСТАНОВИТЬ FFMPEG И FFPROBE.
+ОНИ НАХОДЯТСЯ В ТОЙ ЖЕ ПАПКЕ, ГДЕ И EXE-ФАЙЛ SCREENPLAY!
 &lt;/b&gt;
 &lt;br&gt;
 &lt;br&gt;
 Обычно это так:
-&lt;br&gt; C:Программные файлы (x86)SteamsteamappscommonScreenPlay
+&lt;br&gt; C:Program Files (x86)SteamsteamappscommonScreenPlay
 &lt;br&gt;
 если вы установили ScreenPlay через Steam!
-&lt;/центр&gt;
+&lt;/center&gt;
 &lt;br&gt;
 &lt;br&gt;
 &lt;b&gt;~ Kelteseth | Elias Steurer&lt;/b&gt;</translation>
@@ -573,7 +572,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Installed/Installed.qml" line="93"/>
         <source>Refreshing!</source>
-        <translation type="unfinished">Обновление!</translation>
+        <translation type="unfinished">Обновляю!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="96"/>
@@ -622,7 +621,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="54"/>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-        <translation type="unfinished">Получите бесплатные виджеты и обои с помощью Steam</translation>
+        <translation type="unfinished">Получите бесплатные виджеты и обои через Steam</translation>
     </message>
     <message>
         <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="84"/>
@@ -671,7 +670,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Installed/ScreenPlayItem.qml" line="229"/>
         <source>Open containing folder</source>
-        <translation type="unfinished">Открытая содержащую папку</translation>
+        <translation type="unfinished">Открыть содержащую папку</translation>
     </message>
     <message>
         <location filename="../qml/Installed/ScreenPlayItem.qml" line="236"/>
@@ -689,7 +688,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="87"/>
         <source>Autostart</source>
-        <translation type="unfinished">Автостарт</translation>
+        <translation type="unfinished">Автозапуск</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="88"/>
@@ -714,7 +713,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="114"/>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!</source>
-        <translation type="unfinished">Помогите нам сделать ScreenPlay более быстрым и стабильным. Все собранные данные являются чисто анонимными и используются только в целях разработки!</translation>
+        <translation type="unfinished">Помогите нам сделать ScreenPlay более быстрым и стабильным. Все собранные данные являются абсолютно анонимными и используются только в целях разработки!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="125"/>
@@ -739,7 +738,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="163"/>
         <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished">Установите язык пользовательского интерфейса ScreenPlay</translation>
+        <translation type="unfinished">Установите язык интерфейса ScreenPlay</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="247"/>
@@ -754,7 +753,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="269"/>
         <source>To maximise your framerates ingame, you can enable this setting to pause all active wallpapers!</source>
-        <translation type="unfinished">Чтобы максимизировать количество кадров в игре, вы можете включить эту настройку, чтобы поставить на паузу все активные wallpapers!</translation>
+        <translation type="unfinished">Чтобы максимизировать количество кадров в игре, вы можете включить эту настройку, чтобы поставить на паузу все активные обои!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="282"/>
@@ -764,7 +763,7 @@ r без хлопот. Мы не предоставляем &lt;a href=&apos;htt
     <message>
         <location filename="../qml/Settings/Settings.qml" line="283"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation type="unfinished">Установите это свойство, чтобы определить, как видео масштабируется в соответствии с целевой областью.</translation>
+        <translation type="unfinished">Включите эту настройку, чтобы определить, как видео масштабируется в соответствии с целевой областью.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="332"/>
