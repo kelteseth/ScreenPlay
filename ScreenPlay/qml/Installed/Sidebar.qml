@@ -369,8 +369,12 @@ Item {
                         if (activeMonitors.length === 0)
                             return
 
-                        const volume = Math.round(
-                                         sliderVolume.value * 100) / 100
+                        // We only have sliderVolume if it is a VideoWallpaper
+                        let volume = 0.0
+                        if (type === InstalledType.VideoWallpaper) {
+                            volume = Math.round(sliderVolume.value * 100) / 100
+                        }
+
                         const screenFile = ScreenPlay.installedListModel.get(
                                              root.contentFolderName).screenFile
 
