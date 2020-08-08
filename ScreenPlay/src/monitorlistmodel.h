@@ -79,11 +79,6 @@ class MonitorListModel : public QAbstractListModel {
 public:
     explicit MonitorListModel(QObject* parent = nullptr);
 
-    ~MonitorListModel() override
-    {
-        m_monitorList.clear();
-    }
-
     enum class MonitorRole {
         AppID = Qt::UserRole,
         MonitorID,
@@ -96,6 +91,7 @@ public:
         Model,
         Manufacturer,
         PreviewImage,
+        InstalledType,
     };
     Q_ENUM(MonitorRole)
 
@@ -103,17 +99,10 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-    void setWallpaperActiveMonitor(
-        const std::shared_ptr<ScreenPlayWallpaper>& wallpaper,
+    void setWallpaperActiveMonitor(const std::shared_ptr<ScreenPlayWallpaper>& wallpaper,
         const QVector<int> monitors);
 
     std::optional<QString> getAppIDByMonitorIndex(const int index) const;
-
-    QRect getAbsoluteDesktopSize() const
-    {
-        auto* app = static_cast<QApplication*>(QApplication::instance());
-        return app->screens().at(0)->availableVirtualGeometry();
-    }
 
 signals:
     void monitorReloadCompleted();
@@ -124,6 +113,7 @@ public slots:
     void reset();
     void clearActiveWallpaper();
     void closeWallpaper(const QString& appID);
+    QRect getAbsoluteDesktopSize() const;
 
     void screenAdded(QScreen* screen)
     {

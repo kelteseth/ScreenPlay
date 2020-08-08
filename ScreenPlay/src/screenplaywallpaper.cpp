@@ -13,6 +13,8 @@ namespace ScreenPlay {
 /*!
     \brief  Constructor for video Wallpaper.
 */
+
+
 ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString& appID,
@@ -88,7 +90,6 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
         // Fixes issue 84 media key overlay
         " --disable-features=HardwareMediaKeyHandling"
     };
-    qInfo() << proArgs;
 
     m_process.setArguments(proArgs);
     m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
@@ -110,7 +111,7 @@ QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
         obj.insert("volume", m_volume);
         obj.insert("playbackRate", m_playbackRate);
     } else {
-        auto properties = m_projectSettingsListModel.getActiveSettingsJson();
+        QJsonObject properties = m_projectSettingsListModel.getActiveSettingsJson();
         if (!properties.isEmpty())
             obj.insert("properties", properties);
     }
@@ -156,7 +157,7 @@ void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& 
     }
 
     m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
-    qInfo() << "save" << save;
+
     if (save)
         emit requestSave();
 }
@@ -164,8 +165,6 @@ void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& 
 void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>& connection)
 {
     m_connection = connection;
-    qInfo() << "App Wallpaper connected!";
-    qInfo() << playbackRate() << (playbackRate() != 1.0);
     QTimer::singleShot(500, [this]() {
         if (playbackRate() != 1.0) {
             setWallpaperValue("playbackRate", playbackRate(), false);

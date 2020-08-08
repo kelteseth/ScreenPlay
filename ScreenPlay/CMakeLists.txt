@@ -51,7 +51,6 @@ set(headers app.h
         src/profile.h
         src/projectfile.h
         src/installedlistfilter.h
-        src/projectsettingslistitem.h
         src/projectsettingslistmodel.h
         src/screenplaymanager.h
         src/sdkconnection.h

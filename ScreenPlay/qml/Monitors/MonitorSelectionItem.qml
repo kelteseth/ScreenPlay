@@ -12,6 +12,10 @@ Item {
     property string monitorName
     property string monitorID
     property string previewImage: ""
+    property string appID
+    property var installedType
+
+
     onPreviewImageChanged: {
         if (previewImage === "") {
             imgPreview.opacity = 0

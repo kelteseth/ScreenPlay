@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
 import ScreenPlay 1.0
+
 import ScreenPlay.Enums.InstalledType 1.0
 import "../Common/" as SP
 
@@ -89,15 +90,28 @@ Item {
                 }
                 availableWidth: width - 20
                 availableHeight: 150
+
                 onRequestProjectSettings: {
-                    ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(
-                                at)
-                    activeMonitorIndex = at
+                    if (installedType === InstalledType.VideoWallpaper) {
+                        videoControlWrapper.state = "visible"
+                        customPropertiesGridView.visible = false
+                        print(appID)
+                        const wallpaper = ScreenPlay.screenPlayManager.getWallpaperByAppID(appID)
+                        print("volume", wallpaper.volume)
+                    } else {
+                        videoControlWrapper.state = "hidden"
+                        customPropertiesGridView.visible = true
+                        ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(
+                                    index)
+                    }
+
+                    activeMonitorIndex = index
                 }
+
                 Connections {
                     target: ScreenPlay.screenPlayManager
                     function onProjectSettingsListModelResult(listModel) {
-                        customPropertiesGridView.model = listModel
+                        customPropertiesGridView.projectSettingsListmodelRef = listModel
                     }
                 }
             }
@@ -165,6 +179,14 @@ Item {
                 left: itmLeftWrapper.right
             }
 
+            DefaultVideoControls {
+                id: videoControlWrapper
+                activeMonitorIndex: monitors.activeMonitorIndex
+                state: "hidden"
+                anchors.fill: parent
+                anchors.margins: 10
+            }
+
             GridView {
                 id: customPropertiesGridView
                 boundsBehavior: Flickable.DragOverBounds
@@ -176,6 +198,9 @@ Item {
                 clip: true
                 anchors.fill: parent
                 anchors.margins: 10
+                visible: false
+                model: customPropertiesGridView.projectSettingsListmodelRef
+                property var projectSettingsListmodelRef
 
                 delegate: MonitorsProjectSettingItem {
                     id: delegate
@@ -184,6 +209,8 @@ Item {
                     name: m_name
                     isHeadline: m_isHeadline
                     value: m_value
+                    itemIndex: index
+                    projectSettingsListmodelRef: customPropertiesGridView.projectSettingsListmodelRef
                 }
 
                 ScrollBar.vertical: ScrollBar {

@@ -36,39 +36,113 @@ namespace ScreenPlay {
 
 /*!
   Constructor when loading properties from settings.json
+  We need to _flatten_ the json to make it work with a flat list model!
+  See \sa getActiveSettingsJson to make the flat list to a hierarchical json object
 */
 
 void ProjectSettingsListModel::init(const InstalledType::InstalledType& type, const QJsonObject& properties)
 {
-    if (type == InstalledType::InstalledType::VideoWallpaper) {
-//        beginInsertRows(QModelIndex(), m_projectSettings.size(), m_projectSettings.size());
 
-//        m_projectSettings.append("General");
+    for (QJsonObject::const_iterator itParent = properties.begin(); itParent != properties.end(); itParent++) {
 
-//        if (properties.contains("volume"))
-//            append({"slider", properties.value("volume")}=;
+        // The first object is always a category
+        const QJsonObject category = properties.value(itParent.key()).toObject();
 
-//        if (properties.contains("playbackRate"))
-//            append("slider", properties.value("playbackRate").toObject());
-//        endInsertRows();
+        append(SettingsItem { itParent.key() });
 
-    } else {
-        for (QJsonObject::const_iterator itParent = properties.begin(); itParent != properties.end(); itParent++) {
-
-            // The first object is always a category
-            const QJsonObject category = properties.value(itParent.key()).toObject();
-            beginInsertRows(QModelIndex(), m_projectSettings.size(), m_projectSettings.size());
-            m_projectSettings.append(ProjectSettingsListItem { itParent.key() });
-            endInsertRows();
-            // Children of this category
-            for (QJsonObject::const_iterator itChild = category.begin(); itChild != category.end(); itChild++) {
-                qInfo() << itChild.key() << itChild.value();
-                beginInsertRows(QModelIndex(), m_projectSettings.size(), m_projectSettings.size());
-                m_projectSettings.append(ProjectSettingsListItem {itChild.key(), itChild.value().toObject() });
-                endInsertRows();
-            }
+        // Children of this category
+        for (QJsonObject::const_iterator itChild = category.begin(); itChild != category.end(); itChild++) {
+            const QJsonObject child = category.value(itChild.key()).toObject();
+            append(SettingsItem { itChild.key(), child });
         }
     }
+}
+
+/*!
+ * \brief ProjectSettingsListModel::getActiveSettingsJson
+ * \return
+ */
+QJsonObject ProjectSettingsListModel::getActiveSettingsJson()
+{
+    if (m_projectSettings.isEmpty()) {
+        qWarning() << "Trying to read empty projectSettings. Abort!";
+        return {};
+    }
+
+    // This creates a hierarchical json from the flat list model:
+    // Category 1               // <- this is a headline item
+    //    emitRate:
+    //      "from": 0,
+    //      "stepSize": 1,
+    //      "to": 2500,
+    //      "type": "slider",
+    //      "value": 25
+    // Category 2
+    //    property 1
+    // ...
+    QString currentCategory;
+    QJsonObject ret;
+    std::unique_ptr<QJsonObject> properties = std::make_unique<QJsonObject>();
+
+    for (auto& item : m_projectSettings) {
+
+        if (item.m_isHeadline) {
+
+            // It is empty the first time
+            if (!properties->isEmpty()) {
+
+                // We only write the current category right _before_
+                // we start with the next one. This way we need to save
+                // the last category below!
+
+                ret.insert(currentCategory, *properties);
+            }
+
+            currentCategory = item.m_name;
+            properties = std::make_unique<QJsonObject>();
+
+        } else {
+            properties->insert(item.m_name, item.m_value);
+        }
+
+        // Because the last item is never a headline,
+        // we need to add the last category here because
+        if (&item == &m_projectSettings.last()) {
+            ret.insert(currentCategory, *properties);
+        }
+    }
+    return ret;
+}
+
+void ProjectSettingsListModel::append(const SettingsItem&& item)
+{
+    beginInsertRows(QModelIndex(), m_projectSettings.size(), m_projectSettings.size());
+    m_projectSettings.append(item);
+    endInsertRows();
+}
+
+void ProjectSettingsListModel::setValueAtIndex(const int row, const QString& key, const QJsonObject& value)
+{
+    if (row >= m_projectSettings.size() || row < 0) {
+        qWarning() << "Cannot setValueAtIndex when index is out of bounce! Row: " << row << ", m_projectSettings size: " << m_projectSettings.size();
+        return;
+    }
+
+    if (m_projectSettings.at(row).m_isHeadline) {
+        qWarning() << "Cannot set settings item from type headline!";
+        return;
+    }
+
+    if (m_projectSettings.at(row).m_name != key) {
+        qWarning() << "Name of the element does not match current settings";
+        return;
+    }
+
+    m_projectSettings.replace(row, SettingsItem { key, value });
+
+    QVector<int> roles = { ValueRole };
+
+    emit dataChanged(index(row, 0), index(row, 0), roles);
 }
 
 int ProjectSettingsListModel::rowCount(const QModelIndex& parent) const
@@ -91,7 +165,7 @@ QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) cons
     if (index.row() < rowCount())
         switch (role) {
         case NameRole:
-            return m_projectSettings.at(rowIndex).m_key;
+            return m_projectSettings.at(rowIndex).m_name;
         case IsHeadlineRole:
             return m_projectSettings.at(rowIndex).m_isHeadline;
         case ValueRole:
@@ -112,28 +186,6 @@ QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
         { ValueRole, "m_value" },
     };
     return roles;
-}
-
-QJsonObject ProjectSettingsListModel::getActiveSettingsJson()
-{
-    if (m_projectSettings.isEmpty()) {
-        qWarning() << "Trying to read emppty projectSettings. Abort!";
-        return {};
-    }
-
-    QJsonObject obj;
-    for (const auto& itemCategory : m_projectSettings) {
-        QJsonObject category;
-        if (itemCategory.m_isHeadline) {
-            for (const auto& itemProperties : m_projectSettings) {
-                if (itemProperties.m_isHeadline)
-                    continue;
-                category.insert(itemProperties.m_key, QJsonValue::fromVariant(itemProperties.m_value));
-            }
-            obj.insert(itemCategory.m_key, category);
-        }
-    }
-    return obj;
 }
 
 }

@@ -125,7 +125,7 @@ public slots:
     void requestProjectSettingsAtMonitorIndex(const int index);
     void setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
-    std::optional<std::shared_ptr<ScreenPlayWallpaper>> getWallpaperByAppID(const QString& appID);
+    ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID) const;
 
     void newConnection();
     void closeAllWallpapers();

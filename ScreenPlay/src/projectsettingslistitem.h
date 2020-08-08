@@ -42,6 +42,8 @@
 #include <QUrl>
 #include <QVariant>
 
+#include <memory>
+
 namespace ScreenPlay {
 
 /*!
@@ -53,106 +55,76 @@ namespace ScreenPlay {
 */
 
 struct IListItem {
-    //MOC complains otherwise WTF
-    bool operator!=(const IListItem& val)
-    {
-        return true;
-    }
+    Q_GADGET
+public:
+    QVariant m_value;
+    virtual QJsonObject getItemSettings() = 0;
+public slots:
+    virtual void setData(const QJsonObject& obj){}
 };
 
 struct SliderItem : public IListItem {
     Q_GADGET
+
     Q_PROPERTY(double from MEMBER m_from)
     Q_PROPERTY(double to MEMBER m_to)
     Q_PROPERTY(double stepSize MEMBER m_stepSize)
     Q_PROPERTY(double value MEMBER m_value)
 public:
     double m_from = { 0.0 };
+    double m_value = { 0.0 };
     double m_to = { 0.1 };
     double m_stepSize = { 0.1 };
-    double m_value = { 0.0 };
+    QJsonObject getItemSettings() override;
+public slots:
+    void setData(const QJsonObject& obj) override;
 };
 
 struct ColorItem : public IListItem {
     Q_GADGET
     Q_PROPERTY(QColor color MEMBER m_color)
 public:
+    QJsonObject getItemSettings() override;
     QColor m_color = { QColor::fromRgb(0, 0, 0) };
+public slots:
+    void setData(const QJsonObject& obj) override;
 };
+
 struct CheckBoxItem : public IListItem {
     Q_GADGET
-    Q_PROPERTY(bool value MEMBER m_value)
+    Q_PROPERTY(bool checked MEMBER m_checked)
 public:
-    bool m_value = { false };
+    QJsonObject getItemSettings() override;
+    bool m_checked = { false };
+public slots:
+    void setData(const QJsonObject& obj) override;
 };
+
 struct FileItem : public IListItem {
     Q_GADGET
     Q_PROPERTY(QUrl file MEMBER m_file)
+    Q_PROPERTY(QString formats MEMBER m_formats)
 public:
+    QJsonObject getItemSettings() override;
     QUrl m_file = {};
+    QString m_formats = {};
+public slots:
+    void setData(const QJsonObject& obj) override;
 };
 
 struct ProjectSettingsListItem {
     Q_GADGET
-    Q_PROPERTY(IListItem item MEMBER m_item)
 public:
     ProjectSettingsListItem(
-        const QString& headline)
-    {
-        m_isHeadline = true;
-        m_key = headline;
-    }
+        const QString& headline);
 
     ProjectSettingsListItem(
         const QString& key,
-        const QJsonObject& obj)
-    {
-        m_isHeadline = false;
-        m_key = key;
-        QString type = obj.value("type").toString();
-        qInfo() << type;
-        if (type == "slider") {
-            SliderItem item;
-            item.m_from = obj.value("from").toDouble(0);
-            item.m_to = obj.value("to").toDouble(1);
-            item.m_stepSize = obj.value("stepSize").toDouble(0.1);
-            item.m_value = obj.value("value").toDouble(1);
-            m_item = item;
-            return;
-        }
-
-        if (type == "file") {
-            FileItem item;
-            item.m_file = obj.value("file").toString();
-            m_item = item;
-            return;
-        }
-
-        if (type == "color") {
-            ColorItem item;
-            item.m_color = { obj.value("file").toString() };
-            m_item = item;
-            return;
-        }
-
-        if (type == "bool") {
-            CheckBoxItem item;
-
-            m_item = item;
-            return;
-        }
-    }
+        const QJsonObject& obj);
 
     QString m_key;
     bool m_isHeadline { false };
-    QVariant m_value;
-    IListItem m_item;
-    QVariant value() const
-    {
-        return m_value;
-    }
-
+    std::shared_ptr<IListItem> m_item;
 };
-
 
 }

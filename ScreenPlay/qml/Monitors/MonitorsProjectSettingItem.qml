@@ -15,6 +15,8 @@ Item {
     property string name
     property var value
     property bool isHeadline
+    property int itemIndex
+    property var projectSettingsListmodelRef
 
     Text {
         id: txtDescription
@@ -42,38 +44,44 @@ Item {
             right: parent.right
         }
 
-        Component.onCompleted: {
-            if (root.value.toString() === "") {
-                return
-            }
+        Loader {
+            id: loader
+            anchors.fill: parent
+            anchors.rightMargin: 10
 
+            Connections {
+                target: loader.item
+                function onSave(value) {
+                    projectSettingsListmodelRef.setValueAtIndex(root.itemIndex,
+                                                                name, value)
+                }
+            }
+        }
+
+        Component.onCompleted: {
             if (root.isHeadline)
                 return
 
+            switch (root.value["type"]) {
+            case "slider":
+                loader.sourceComponent = compSlider
+                loader.item.from = root.value["from"]
+                loader.item.to = root.value["to"]
+                loader.item.value = root.value["value"]
+                loader.item.stepSize = root.value["stepSize"]
+                break
+            case "bool":
+                loader.sourceComponent = compCheckbox
+                loader.item.value = root.value["value"]
+                break
+            case "color":
+                loader.sourceComponent = compColorpicker
+                loader.item.value = root.value["value"]
+                break
+            }
 
-            for (let item in root.value) {
-               // print(item.toString())
-                switch (item["type"]) {
-                case "slider":
-                    loader.sourceComponent = compSlider
-                    loader.item.from = obj["from"]
-                    loader.item.to = obj["to"]
-                    loader.item.value = obj["value"]
-                    loader.item.stepSize = obj["stepSize"]
-                    break
-                case "bool":
-                    loader.sourceComponent = compCheckbox
-                    loader.item.value = obj["value"]
-                    break
-                case "color":
-                    loader.sourceComponent = compColorpicker
-                    loader.item.value = obj["value"]
-                    break
-                }
-
-                if (item["text"]) {
-                    txtDescription.text = obj["text"]
-                }
+            if (root.value["text"]) {
+                txtDescription.text = root.value["text"]
             }
         }
 
@@ -94,6 +102,13 @@ Item {
                         verticalCenter: parent.verticalCenter
                     }
                     onCheckedChanged: {
+                        let obj = {
+                            "value": checkbox.checked,
+                            "type": "checkBox",
+                        }
+
+                        root.save(obj)
+
                         ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                                     selectedMonitor, name, checkbox.checked)
                     }
@@ -108,6 +123,8 @@ Item {
                 id: root
                 anchors.fill: parent
                 property color value
+
+                signal save(var value)
 
                 Button {
                     id: btnSetColor
@@ -138,6 +155,15 @@ Item {
                     onAccepted: {
                         rctPreviewColor.color = colorDialog.color
                         let tmpColor = "'" + colorDialog.color.toString() + "'"
+
+
+                        let obj = {
+                            "value": colorDialog.color,
+                            "type": "color",
+                        }
+
+                        root.save(obj)
+
                         ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                                     selectedMonitor, name, tmpColor)
                     }
@@ -155,6 +181,8 @@ Item {
                 property int to
                 property int value
                 property int stepSize
+
+                signal save(var value)
 
                 Slider {
                     id: slider
@@ -175,6 +203,17 @@ Item {
                     onValueChanged: {
                         var value = Math.round(slider.value * 100) / 100
                         txtSliderValue.text = value
+
+                        let obj = {
+                            "from": root.from,
+                            "to": root.to,
+                            "value": value,
+                            "type": "slider",
+                            "stepSize": root.stepSize
+                        }
+
+                        root.save(obj)
+
                         ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                                     selectedMonitor, name, value)
                     }
@@ -190,12 +229,6 @@ Item {
                     }
                 }
             }
-        }
-
-        Loader {
-            id: loader
-            anchors.fill: parent
-            anchors.rightMargin: 10
         }
     }
 }

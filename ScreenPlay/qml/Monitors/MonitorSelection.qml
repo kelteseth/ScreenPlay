@@ -6,7 +6,7 @@ import QtQuick.Controls.Material 2.12
 import ScreenPlay 1.0
 
 Rectangle {
-    id: rect
+    id: root
     color: Material.theme === Material.Light ? Material.background : Qt.darker(
                                                    Material.background)
 
@@ -18,15 +18,15 @@ Rectangle {
     property real availableWidth: 0
     property real availableHeight: 0
     property int fontSize: 12
-    property bool multipleMonitorsSelectable: true
+    property bool multipleMonitorsSelectable: false
 
     // We preselect the main monitor
     property var activeMonitors: [0]
 
-    property alias background: rect.color
-    property alias radius: rect.radius
+    property alias background: root.color
+    property alias radius: root.radius
 
-    signal requestProjectSettings(var at)
+    signal requestProjectSettings(int index, var installedType, string appID)
 
     Component.onCompleted: {
         resize()
@@ -59,16 +59,16 @@ Rectangle {
     }
 
     function getActiveMonitors() {
-        rect.activeMonitors = []
+        root.activeMonitors = []
         for (var i = 0; i < rp.count; i++) {
             if (rp.itemAt(i).isSelected) {
-                rect.activeMonitors.push(rp.itemAt(i).index)
+                root.activeMonitors.push(rp.itemAt(i).index)
             }
         }
         // Must be called manually. When QML properties are getting altered in js the
         // property binding breaks
-        rect.activeMonitorsChanged()
-        return rect.activeMonitors
+        root.activeMonitorsChanged()
+        return root.activeMonitors
     }
 
     function resize() {
@@ -134,7 +134,6 @@ Rectangle {
             snapMode: ScrollBar.SnapOnRelease
         }
 
-
         Repeater {
             id: rp
             model: ScreenPlay.monitorListModel
@@ -147,6 +146,7 @@ Rectangle {
                 id: delegate
                 monitorID: m_monitorID
                 monitorName: m_name
+                appID: m_appID
                 height: m_availableGeometry.height
                 width: m_availableGeometry.width
                 x: m_availableGeometry.x
@@ -154,9 +154,10 @@ Rectangle {
                 monitorManufacturer: m_manufacturer
                 monitorModel: m_model
                 monitorSize: m_availableGeometry
-                fontSize: rect.fontSize
+                fontSize: root.fontSize
                 index: m_number
                 previewImage: m_previewImage
+                installedType: m_installedType
 
                 onMonitorSelected: {
 
@@ -169,7 +170,7 @@ Rectangle {
 
                     getActiveMonitors()
 
-                    requestProjectSettings(index)
+                    root.requestProjectSettings(delegate.index, delegate.installedType, delegate.appID)
                 }
             }
         }

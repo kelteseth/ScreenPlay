@@ -7,7 +7,6 @@ import QtQuick.Layouts 1.3
 import ScreenPlay 1.0
 import ScreenPlay.Enums.FillMode 1.0
 
-
 import "../Common/" as SP
 
 ColumnLayout {
@@ -30,26 +29,29 @@ ColumnLayout {
 
     SP.Slider {
         headline: qsTr("Volume")
-         slider.onMoved:  {
-             print("MODEV")
-             ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
-                                         activeMonitorIndex, "volume", slider.value)
-         }
+        slider.stepSize: 0.1
+        slider.onMoved: {
+            ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
+                        activeMonitorIndex, "volume", slider.value)
+        }
 
         Layout.fillWidth: true
     }
     SP.Slider {
         headline: qsTr("Playback rate")
-         slider.onMoved: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
+        slider.onMoved: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                             activeMonitorIndex, "playbackRate", slider.value)
         Layout.fillWidth: true
+        slider.stepSize: 0.1
     }
     SP.Slider {
         headline: qsTr("Current Video Time")
         slider.onMoved: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                             activeMonitorIndex, "currentTime", slider.value)
         Layout.fillWidth: true
+        slider.stepSize: 0.1
     }
+
     ColumnLayout {
         height: 50
         Layout.fillWidth: true
@@ -78,10 +80,8 @@ ColumnLayout {
 
             textRole: "text"
             valueRole: "value"
-            currentIndex:   root.indexOfValue(
-                            settingsComboBox.model,
-                            ScreenPlay.settings.videoFillMode)
-
+            currentIndex: root.indexOfValue(settingsComboBox.model,
+                                            ScreenPlay.settings.videoFillMode)
 
             model: [{
                     "value": FillMode.Stretch,

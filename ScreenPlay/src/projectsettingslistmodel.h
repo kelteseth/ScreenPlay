@@ -43,10 +43,37 @@
 #include <QJsonObject>
 #include <QVector>
 
-#include "projectsettingslistitem.h"
 #include "util.h"
 
 namespace ScreenPlay {
+
+struct SettingsItem {
+    SettingsItem(
+        const QString& name,
+        const QJsonObject& value)
+    {
+        m_name = name;
+        m_isHeadline = false;
+        m_value = value;
+    }
+
+    SettingsItem(
+        const QString& name)
+    {
+        m_name = name;
+        m_isHeadline = true;
+    }
+    QString m_name;
+    bool m_isHeadline;
+    QJsonObject m_value;
+    QString m_type;
+
+public:
+    void SettingsItem::setValue(const QJsonObject& value)
+    {
+        m_value = value;
+    }
+};
 
 class ProjectSettingsListModel : public QAbstractListModel {
     Q_OBJECT
@@ -65,8 +92,12 @@ public:
 
     QJsonObject getActiveSettingsJson();
     void init(const InstalledType::InstalledType& type, const QJsonObject& properties);
+    void append(const SettingsItem&& item);
+
+public slots:
+    void setValueAtIndex(const int row, const QString& key, const QJsonObject& value);
 
 private:
-    QVector<ProjectSettingsListItem> m_projectSettings;
+    QVector<SettingsItem> m_projectSettings;
 };
 }

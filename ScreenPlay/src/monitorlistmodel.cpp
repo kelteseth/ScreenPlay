@@ -47,10 +47,10 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
         { static_cast<int>(MonitorRole::Model), "m_model" },
         { static_cast<int>(MonitorRole::Manufacturer), "m_manufacturer" },
         { static_cast<int>(MonitorRole::PreviewImage), "m_previewImage" },
+        { static_cast<int>(MonitorRole::InstalledType), "m_installedType" },
     };
     return roles;
 }
-
 
 /*!
     \brief Returns the amount of active monitors.
@@ -77,7 +77,6 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
     }
 
     auto roleEnum = static_cast<MonitorRole>(role);
-
 
     if (row < rowCount())
         switch (roleEnum) {
@@ -113,10 +112,16 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
             return m_monitorList.at(row).m_screen->model();
         case MonitorRole::Manufacturer:
             return m_monitorList.at(row).m_screen->manufacturer();
+        case MonitorRole::InstalledType:
+            if (m_monitorList.at(row).m_activeWallpaper) {
+                return static_cast<int>(m_monitorList.at(row).m_activeWallpaper->type());
+            } else {
+                return { "" };
+            }
         case MonitorRole::PreviewImage:
             if (m_monitorList.at(row).m_activeWallpaper) {
-                QString absolutePath =  m_monitorList.at(row).m_activeWallpaper->absolutePath();
-                return absolutePath + "/" +  m_monitorList.at(row).m_activeWallpaper->previewImage();
+                QString absolutePath = m_monitorList.at(row).m_activeWallpaper->absolutePath();
+                return absolutePath + "/" + m_monitorList.at(row).m_activeWallpaper->previewImage();
             } else {
                 return QVariant("");
             }
@@ -176,6 +181,7 @@ void MonitorListModel::clearActiveWallpaper()
             index(i, 0),
             QVector<int> {
                 static_cast<int>(MonitorRole::PreviewImage),
+                static_cast<int>(MonitorRole::InstalledType),
                 static_cast<int>(MonitorRole::AppID) });
         ++i;
     }
@@ -196,11 +202,22 @@ void MonitorListModel::closeWallpaper(const QString& appID)
                     index(i, 0),
                     QVector<int> {
                         static_cast<int>(MonitorRole::PreviewImage),
+                        static_cast<int>(MonitorRole::InstalledType),
                         static_cast<int>(MonitorRole::AppID) });
             }
         }
         ++i;
     }
+}
+
+/*!
+ * \brief MonitorListModel::getAbsoluteDesktopSize
+ * \return
+ */
+QRect MonitorListModel::getAbsoluteDesktopSize() const
+{
+    auto* app = static_cast<QApplication*>(QApplication::instance());
+    return app->screens().at(0)->availableVirtualGeometry();
 }
 
 /*!
@@ -217,6 +234,7 @@ void MonitorListModel::setWallpaperActiveMonitor(const std::shared_ptr<ScreenPla
             index(monitor, 0),
             QVector<int> {
                 static_cast<int>(MonitorRole::PreviewImage),
+                static_cast<int>(MonitorRole::InstalledType),
                 static_cast<int>(MonitorRole::AppID) });
     }
 }

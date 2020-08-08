@@ -67,6 +67,7 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
+    ScreenPlayWallpaper(){}
     explicit ScreenPlayWallpaper(const QVector<int>& screenNumber,
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const QString& appID,
@@ -259,7 +260,7 @@ public slots:
     }
 
 private:
-    const std::shared_ptr<GlobalVariables>& m_globalVariables;
+    const std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<SDKConnection> m_connection;
 
     ProjectSettingsListModel m_projectSettingsListModel;

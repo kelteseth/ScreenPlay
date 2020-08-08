@@ -96,13 +96,13 @@ public:
 
     void setSDKConnection(const std::shared_ptr<SDKConnection>& connection);
 
-public slots:
-    QJsonObject getActiveSettingsJson();
-
     ProjectSettingsListModel* getProjectSettingsListModel()
     {
         return &m_projectSettingsListModel;
     }
+
+public slots:
+    QJsonObject getActiveSettingsJson();
 
     void setPreviewImage(QString previewImage)
     {
