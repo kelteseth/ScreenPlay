@@ -296,7 +296,7 @@ void Util::Util::requestDataProtection()
 void Util::downloadFFMPEG()
 {
     QNetworkRequest req;
-    QString ffmpegVersion { "ffmpeg-4.2.2" };
+    QString ffmpegVersion { "ffmpeg-4.3.1" };
 
 #ifdef Q_OS_WIN
     req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/win64/static/" + ffmpegVersion + "-win64-static.zip"));
