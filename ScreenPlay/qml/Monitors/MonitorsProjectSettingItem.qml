@@ -92,6 +92,7 @@ Item {
                 id: root
                 anchors.fill: parent
                 property bool value
+                signal save(var value)
 
                 CheckBox {
                     id: checkbox
@@ -104,7 +105,7 @@ Item {
                     onCheckedChanged: {
                         let obj = {
                             "value": checkbox.checked,
-                            "type": "checkBox",
+                            "type": "checkBox"
                         }
 
                         root.save(obj)
@@ -156,10 +157,9 @@ Item {
                         rctPreviewColor.color = colorDialog.color
                         let tmpColor = "'" + colorDialog.color.toString() + "'"
 
-
                         let obj = {
                             "value": colorDialog.color,
-                            "type": "color",
+                            "type": "color"
                         }
 
                         root.save(obj)
@@ -180,7 +180,7 @@ Item {
                 property int from
                 property int to
                 property int value
-                property int stepSize
+                property int stepSize: 1
 
                 signal save(var value)
 
@@ -201,7 +201,7 @@ Item {
                     }
 
                     onValueChanged: {
-                        var value = Math.round(slider.value * 100) / 100
+                        const value = Math.trunc(slider.value * 100) / 100
                         txtSliderValue.text = value
 
                         let obj = {

@@ -9,46 +9,42 @@ import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 import "../Common/" as SP
 
-Item {
+Popup {
     id: monitors
-    state: "inactive"
+    width: 1000
+    height: 500
+    dim: true
+    anchors.centerIn: Overlay.overlay
+
+    modal: true
     focus: true
+    background: Rectangle {
+        anchors.fill: parent
+        color: Material.theme === Material.Light ? "white" : Material.background
+    }
 
     property string activeMonitorName: ""
     property int activeMonitorIndex
 
-    onStateChanged: {
-        bgMouseArea.focus = monitors.state == "active" ? true : false
-        if (monitors.state === "active") {
-            ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(0)
+    Connections {
+        target: ScreenPlay.util
+        function onRequestToggleWallpaperConfiguration() {
+            monitors.open()
         }
     }
 
-    Rectangle {
-        id: background
-        color: "#cc000000"
-        anchors.fill: parent
-
-        MouseArea {
-            id: bgMouseArea
-            anchors.fill: parent
-            onClicked: monitors.state = "inactive"
-        }
+    onOpened: {
+        ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(
+                          0)
     }
 
-    Rectangle {
+    Item {
         id: monitorsSettingsWrapper
-        color: Material.theme === Material.Light ? "white" : Material.background
-        radius: 3
-        z: 98
-        width: 1000
-        height: 500
+
         clip: true
         anchors {
-            top: parent.top
-            topMargin: 50
-            horizontalCenter: parent.horizontalCenter
-            margins: 50
+            fill: parent
+            margins: 10
         }
 
         Item {
@@ -92,11 +88,13 @@ Item {
                 availableHeight: 150
 
                 onRequestProjectSettings: {
+
                     if (installedType === InstalledType.VideoWallpaper) {
                         videoControlWrapper.state = "visible"
                         customPropertiesGridView.visible = false
                         print(appID)
-                        const wallpaper = ScreenPlay.screenPlayManager.getWallpaperByAppID(appID)
+                        const wallpaper = ScreenPlay.screenPlayManager.getWallpaperByAppID(
+                                            appID)
                         print("volume", wallpaper.volume)
                     } else {
                         videoControlWrapper.state = "hidden"
@@ -219,101 +217,23 @@ Item {
                 }
             }
         }
-        MouseArea {
+
+
+        ToolButton{
             anchors {
                 top: parent.top
                 right: parent.right
-                margins: 5
             }
             width: 32
             height: width
-            cursorShape: Qt.PointingHandCursor
-            onClicked: monitors.state = "inactive"
+            icon.width: 16
+            icon.height:16
+            icon.source: "qrc:/assets/icons/font-awsome/close.svg"
+            icon.color: "gray"
+            onClicked: monitors.close()
 
-            Image {
-                id: imgClose
-                source: "qrc:/assets/icons/font-awsome/close.svg"
-                width: 16
-                height: 16
-                anchors.centerIn: parent
-                sourceSize: Qt.size(width, width)
-            }
-            ColorOverlay {
-                id: iconColorOverlay
-                anchors.fill: imgClose
-                source: imgClose
-                color: "gray"
-            }
         }
     }
-
-    states: [
-        State {
-            name: "active"
-
-            PropertyChanges {
-                target: monitors
-                opacity: 1
-                enabled: true
-            }
-
-            PropertyChanges {
-                target: background
-                opacity: 1
-            }
-
-            PropertyChanges {
-                target: monitorsSettingsWrapper
-                anchors.topMargin: 50
-            }
-        },
-        State {
-            name: "inactive"
-            PropertyChanges {
-                target: monitors
-                opacity: 0
-                enabled: false
-            }
-
-            PropertyChanges {
-                target: background
-                opacity: 0
-            }
-            PropertyChanges {
-                target: monitorsSettingsWrapper
-                anchors.topMargin: 150
-            }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            from: "active"
-            to: "inactive"
-            reversible: true
-
-            PropertyAnimation {
-                target: background
-                property: "opacity"
-                duration: 200
-                easing.type: Easing.OutQuart
-            }
-
-            PropertyAnimation {
-                target: monitorsSettingsWrapper
-                property: "anchors.topMargin"
-                duration: 200
-                easing.type: Easing.OutQuad
-            }
-
-            NumberAnimation {
-                target: monitors
-                property: "opacity"
-                duration: 200
-                easing.type: Easing.OutQuad
-            }
-        }
-    ]
 }
 
 /*##^##

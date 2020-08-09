@@ -116,10 +116,6 @@ ApplicationWindow {
         function onRequestNavigation(nav) {
             switchPage(nav)
         }
-        function onRequestToggleWallpaperConfiguration() {
-            monitors.state = monitors.state == "active" ? "inactive" : "active"
-            ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(0)
-        }
     }
 
     Connections {
@@ -315,19 +311,13 @@ ApplicationWindow {
             left: parent.left
         }
         onChangePage: {
-            if (monitors.state === "active") {
-                monitors.state = "inactive"
-            }
-
+            monitors.close()
             switchPage(name)
         }
     }
 
     Monitors {
         id: monitors
-        state: "inactive"
-        anchors.fill: pageLoader
-        z: 98
     }
 
 }
