@@ -32,9 +32,9 @@ build:windows:
         - cmake.exe ../  -DCMAKE_PREFIX_PATH=c:/Qt/5.14.2/msvc2017 -DCMAKE_IGNORE_PATH=C:/Strawberry/c/bin -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="$(Get-Location)/../Common/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows "-GCodeBlocks - Ninja" -B.
         - cmake.exe --build . --target all
         - cd bin
-        - windeployqt.exe  --release  --qmldir ../ScreenPlay/qml ScreenPlay.exe
-        - windeployqt.exe  --release  --qmldir ../ScreenPlayWidget/qml ScreenPlayWidget.exe
-        - windeployqt.exe  --release  --qmldir ../ScreenPlayWallpaper/qml ScreenPlayWallpaper.exe
+        - windeployqt.exe  --release  --qmldir ../../ScreenPlay/qml ScreenPlay.exe
+        - windeployqt.exe  --release  --qmldir ../../ScreenPlayWidget ScreenPlayWidget.exe
+        - windeployqt.exe  --release  --qmldir ../../ScreenPlayWallpaper ScreenPlayWallpaper.exe
         - del *.cpp,*.moc,*.h,*.obj,*.res,*.exp,*.lib,*.lik,*.pch, *.ninja, *.exe.manifest, *.cbp, *.cmake, *.ninja_log, *.ninja_deps
         - Remove-Item  CMakeFiles  -Recurse -Force
     artifacts:
