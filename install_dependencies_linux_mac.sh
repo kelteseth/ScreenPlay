@@ -10,7 +10,7 @@ chmod +x bootstrap-vcpkg.sh
 chmod +x vcpkg
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-./vcpkg install zlib libzip libzippp nlohmann-json openssl-unix libzip breakpad --triplet x64-osx --recurse
+./vcpkg install zlib libzip libzippp openssl-unix libzip breakpad --triplet x64-osx --recurse
 else
-./vcpkg install zlib libzip libzippp nlohmann-json openssl-unix libzip breakpad --triplet x64-linux --recurse
+./vcpkg install zlib libzip libzippp openssl-unix libzip breakpad --triplet x64-linux --recurse
 fi
