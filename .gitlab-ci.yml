@@ -36,7 +36,6 @@ build:windows:
         - windeployqt.exe  --release  --qmldir ../../ScreenPlayWidget ScreenPlayWidget.exe
         - windeployqt.exe  --release  --qmldir ../../ScreenPlayWallpaper ScreenPlayWallpaper.exe
         - del *.cpp,*.moc,*.h,*.obj,*.res,*.exp,*.lib,*.lik,*.pch, *.ninja, *.exe.manifest, *.cbp, *.cmake, *.ninja_log, *.ninja_deps
-        - Remove-Item  CMakeFiles  -Recurse -Force
     artifacts:
         expire_in: '12 weeks'
         paths:
