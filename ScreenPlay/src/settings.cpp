@@ -118,7 +118,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     }
 
     setupWidgetAndWindowPaths();
-    setGitBuildHash("GIT_VERSION");
+    setGitBuildHash(COMPILE_INFO);
 }
 
 /*!
