@@ -17,7 +17,6 @@ find_package(
 find_package(ZLIB REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(libzippp CONFIG REQUIRED)
-find_package(nlohmann_json CONFIG REQUIRED)
 
 
 set(src main.cpp
@@ -57,6 +56,8 @@ set(headers app.h
         src/util.h
         src/create.h)
 
+
+
 qt5_add_big_resources(resources  resources.qrc)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
@@ -81,7 +82,6 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Widgets
     Qt5::Core
     Qt5::WebEngine
-    nlohmann_json::nlohmann_json
     libzippp::libzippp
     ScreenPlaySDK
     QTBreakpadplugin)
