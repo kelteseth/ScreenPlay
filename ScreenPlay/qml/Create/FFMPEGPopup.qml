@@ -148,9 +148,9 @@ Popup {
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             font.pointSize: 16
-            height: 50
             Layout.fillWidth: true
-            color: "gray"
+            Layout.preferredHeight: 60
+            color: Material.foreground
             font.family: ScreenPlay.settings.font
         }
 
@@ -203,8 +203,16 @@ Popup {
                 }
             }
 
-            Item {
+            Page {
                 width: parent.width * .66
+                background:  Rectangle{
+                    anchors.fill:parent
+                    color: Material.theme === Material.Light ? Material.background : Qt.darker(
+                                                                   Material.background)
+                    radius: 3
+                }
+                padding: 10
+
                 anchors {
                     top: parent.top
                     bottom: parent.bottom
@@ -233,8 +241,7 @@ Popup {
                             margins: 30
                             leftMargin: 0
                         }
-
-                        color: "#626262"
+                        color: Material.foreground
 
                         height: txtExpander.paintedHeight
                         wrapMode: Text.WordWrap
@@ -342,7 +349,7 @@ if you installed ScreenPlay via Steam!
             font.pointSize: 16
             height: 50
             Layout.fillWidth: true
-            color: "gray"
+            color: Material.foreground
             font.family: ScreenPlay.settings.font
             anchors {
                 horizontalCenter: parent.horizontalCenter
