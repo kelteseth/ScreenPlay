@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.3
+import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.2
 import ScreenPlay 1.0
 
@@ -9,6 +9,8 @@ Item {
     id: root
     state: "off"
     clip: true
+    width: parent.width
+    implicitHeight: 50
 
     property alias text: txtExpander.text
 

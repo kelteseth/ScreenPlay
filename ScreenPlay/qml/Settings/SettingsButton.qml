@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.2
 import ScreenPlay 1.0
 
@@ -13,6 +14,9 @@ Item {
     property bool isChecked: false
     property bool enabled: true
     property bool available: true
+
+    height: txtHeadline.paintedHeight + txtDescription.paintedHeight + 20
+    width: parent.width
     onAvailableChanged: {
         if (!available) {
             settingsButton.opacity = .5
@@ -24,9 +28,6 @@ Item {
     }
 
     signal buttonPressed
-
-    height: 20 + txtHeadline.paintedHeight + txtDescription.paintedHeight
-    width: parent.width
 
     Text {
         id: txtHeadline
@@ -48,7 +49,9 @@ Item {
     Text {
         id: txtDescription
         text: settingsButton.description
-        color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
+        color: Material.theme === Material.Light ? Qt.lighter(
+                                                       Material.foreground) : Qt.darker(
+                                                       Material.foreground)
 
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap

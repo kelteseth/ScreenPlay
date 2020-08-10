@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtQuick.Layouts 1.12
 import QtGraphicalEffects 1.0
 import ScreenPlay 1.0
 
@@ -9,8 +10,8 @@ Item {
     property color background: "#FFAB00"
     property string text: "HEADLINE"
     property url image: "qrc:/assets/icons/icon_settings.svg"
-    height: 50
     width: parent.width
+    height: 70
 
     Rectangle {
         id: radiusWorkaround
@@ -82,13 +83,13 @@ Item {
 
             PropertyChanges {
                 target: imgIcon
-                anchors.leftMargin: -50
+                anchors.leftMargin: -10
                 opacity: 0
             }
 
             PropertyChanges {
                 target: txtHeadline
-                anchors.topMargin: 50
+                anchors.topMargin: 10
                 opacity: 0
             }
         },

@@ -1,23 +1,23 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
+import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.2
 import ScreenPlay 1.0
 
-Item {
+Control {
     id: settingsComboBox
     property string headline: "Headline"
     property string description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
     property bool enabled: true
     property alias comboBox: comboBox
 
-    height: 20 + txtDescription.paintedHeight + txtHeadline.paintedHeight
     width: parent.width
+    height: txtHeadline.paintedHeight + txtDescription.paintedHeight +20
 
     Text {
         id: txtHeadline
         color: Material.foreground
         text: settingsComboBox.headline
-
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         anchors {
