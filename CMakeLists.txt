@@ -7,7 +7,15 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(CMAKE_CXX_STANDARD 20)
 
+if(WIN32)
+    set(VCPKG_ARCH "x64-windows")
+elseif(UNIX)
+    set(VCPKG_ARCH "x64-linux")
+elseif(APPLE)
+    set(VCPKG_ARCH "x64-osx")
+endif()
 
+set(VCPKG_INCLUDE_PATH  ${CMAKE_CURRENT_SOURCE_DIR}/Common/vcpkg/installed/${VCPKG_ARCH}/include/)
 set(QT_TELEMTRY_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/Common/qt-google-analytics/)
 set(QT_BREAKPAD_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/Common/qt-breakpad/)
 
