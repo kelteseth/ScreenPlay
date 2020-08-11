@@ -36,14 +36,35 @@ void InstalledListModel::init()
 
     loadInstalledContent();
 
-    auto reloadLambda = [this](){
-        QTimer::singleShot(500,[this](){
-           reset();
+    auto reloadLambda = [this]() {
+        QTimer::singleShot(500, [this]() {
+            reset();
         });
     };
 
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, reloadLambda);
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, reloadLambda);
+}
+
+bool InstalledListModel::deinstallItemAt(const int index)
+{
+    if (index < 0 || index >= m_screenPlayFiles.count()) {
+        qWarning() << "remove folder error, invalid index " << index;
+        return false;
+    }
+
+    beginRemoveRows(QModelIndex(), index, index);
+    const QString path = QUrl::fromUserInput(m_screenPlayFiles.at(index).m_absoluteStoragePath.toString()).toLocalFile();
+
+    QDir dir(path);
+    const bool success = dir.removeRecursively();
+
+    if (!success)
+        qWarning() << "Could not remove folder: " << m_screenPlayFiles.at(index).m_absoluteStoragePath.toString();
+
+    m_screenPlayFiles.removeAt(index);
+    endRemoveRows();
+    return success;
 }
 
 /*!

@@ -100,5 +100,6 @@
         <file>legal/Qt LGPLv3.txt</file>
         <file>legal/gpl-3.0.txt</file>
         <file>legal/lgpl-2.1.txt</file>
+        <file>assets/icons/icon_delete.svg</file>
     </qresource>
 </RCC>

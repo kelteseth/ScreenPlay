@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.3
+import QtQuick.Controls 2.12
 import QtQuick.Controls.Styles 1.4
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
@@ -219,14 +219,9 @@ Item {
 
                 onClicked: {
                     if (mouse.button === Qt.LeftButton) {
-                        ScreenPlay.util.setSidebarItem(
-                                    screenPlayItem.screenId,
-                                    screenPlayItem.type)
+                        ScreenPlay.util.setSidebarItem(screenPlayItem.screenId,
+                                                       screenPlayItem.type)
                     } else if (mouse.button === Qt.RightButton) {
-                        if (workshopID != 0) {
-                            miWorkshop.enabled = true
-                        }
-
                         contextMenu.popup()
                         hasMenuOpen = true
                     }
@@ -238,20 +233,40 @@ Item {
             onClosed: hasMenuOpen = false
             MenuItem {
                 text: qsTr("Open containing folder")
+                icon.source: "qrc:/assets/icons/icon_folder_open.svg"
                 onClicked: {
                     ScreenPlay.util.openFolderInExplorer(absoluteStoragePath)
                 }
             }
             MenuItem {
+                text: qsTr("Deinstall Item")
+                icon.source: "qrc:/assets/icons/icon_delete.svg"
+                enabled: screenPlayItem.workshopID === 0
+                onClicked: {
+                    deleteDialog.open()
+                }
+            }
+            MenuItem {
                 id: miWorkshop
                 text: qsTr("Open workshop Page")
-                enabled: false
-
+                enabled: screenPlayItem.workshopID !== 0
+                icon.source: "qrc:/assets/icons/icon_steam.svg"
                 onClicked: {
                     Qt.openUrlExternally(
                                 "steam://url/CommunityFilePage/" + workshopID)
                 }
             }
+        }
+        Dialog {
+            id: deleteDialog
+            title: "Are you sure you want to delete this item?"
+            standardButtons: Dialog.Ok | Dialog.Cancel
+            modal: true
+            dim: true
+            anchors.centerIn: Overlay.overlay
+
+            onAccepted: ScreenPlay.installedListModel.deinstallItemAt(
+                            screenPlayItem.itemIndex)
         }
     }
 

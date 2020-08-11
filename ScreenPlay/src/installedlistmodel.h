@@ -43,6 +43,7 @@
 #include <QFileSystemWatcher>
 #include <QFuture>
 #include <QFutureWatcher>
+#include <QHash>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -100,6 +101,7 @@ public slots:
     void reset();
     void init();
     QVariantMap get(QString folderId) const;
+    bool deinstallItemAt(const int index);
 
     void setCount(int count)
     {
@@ -109,7 +111,6 @@ public slots:
         m_count = count;
         emit countChanged(m_count);
     }
-
 signals:
     void setScreenVisible(bool visible);
     void setScreenToVideo(QString absolutePath);
