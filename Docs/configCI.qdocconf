@@ -1,6 +1,6 @@
-include(/usr/share/qt5/doc/global/qt-cpp-defines.qdocconf)
-include(/usr/share/qt5/doc/global/compat.qdocconf)
-include(/usr/share/qt5/doc/global/fileextensions.qdocconf)
+include(../QtInstall/5.15.0/gcc_64/doc/global/qt-cpp-defines.qdocconf)
+include(../QtInstall/5.15.0/gcc_64/doc/global/compat.qdocconf)
+include(../QtInstall/5.15.0/gcc_64/doc/global/fileextensions.qdocconf)
 
 descripton  = ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. 
 language    = Cpp
