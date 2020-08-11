@@ -39,7 +39,7 @@ build:windows:
     artifacts:
         expire_in: '12 weeks'
         paths:
-            - PACKAGE/
+            - BUILD_WINDOWS/
 
 build_docs:
   stage: .post 
