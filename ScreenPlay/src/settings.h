@@ -63,7 +63,6 @@
 #include <optional>
 
 #include "globalvariables.h"
-#include "nlohmann/json.hpp"
 #include "util.h"
 
 #ifdef Q_OS_WIN
