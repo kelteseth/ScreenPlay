@@ -35,7 +35,7 @@ build:windows:
         - windeployqt.exe  --release  --qmldir ../../ScreenPlay/qml ScreenPlay.exe
         - windeployqt.exe  --release  --qmldir ../../ScreenPlayWidget ScreenPlayWidget.exe
         - windeployqt.exe  --release  --qmldir ../../ScreenPlayWallpaper ScreenPlayWallpaper.exe
-        - del *.cpp,*.moc,*.h,*.obj,*.res,*.exp,*.lib,*.lik,*.pch, *.ninja, *.exe.manifest, *.cbp, *.cmake, *.ninja_log, *.ninja_deps *.manifest
+        - del *.cpp,*.moc,*.h,*.obj,*.res,*.exp,*.lib,*.lik,*.pch, *.ninja, *.exe.manifest, *.cbp, *.cmake, *.ninja_log, *.ninja_deps, *.manifest
     artifacts:
         expire_in: '12 weeks'
         paths:
