@@ -37,14 +37,14 @@ includepaths += ../ScreenPlayWidget/src/
 includepaths += ../ScreenPlayWidget/
 
 # qt
-includepaths += /usr/include/x86_64-linux-gnu/qt5/
-includepaths += /usr/include/x86_64-linux-gnu/qt5/QtCore/
-includepaths += /usr/include/x86_64-linux-gnu/qt5/QtGui/
-includepaths += /usr/include/x86_64-linux-gnu/qt5/QtQml/
-includepaths += /usr/include/x86_64-linux-gnu/qt5/QtWebEngine/
-includepaths += /usr/include/x86_64-linux-gnu/qt5/QtNetwork/
-includepaths += /usr/include/x86_64-linux-gnu/qt5/QtQuick/
-includepaths += /usr/include/x86_64-linux-gnu/qt5/QtQuickControls2/
+includepaths += ../QtInstall/5.15.0/gcc_64/bin/
+includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtCore/
+includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtGui/
+includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtQml/
+includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtWebEngine/
+includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtNetwork/
+includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtQuick/
+includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtQuickControls2/
 
 # Images
 imagedirs = ./images
