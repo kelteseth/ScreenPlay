@@ -1,11 +1,11 @@
 # Run:
-# C:\Qt\5.15.0\msvc2017_64\bin\qdoc.exe config.qdocconf
+# C:\Qt\5.15.1\msvc2019_64\bin\qdoc.exe config.qdocconf
 # in this directory. You can shift + right click in this explorer
 # window and select "Open PowerShell Window here" for this.
 
-include(C:\Qt\5.15.0\msvc2017_64\doc\global\qt-cpp-defines.qdocconf)
-include(C:\Qt\5.15.0\msvc2017_64\doc\global\compat.qdocconf)
-include(C:\Qt\5.15.0\msvc2017_64\doc\global\fileextensions.qdocconf)
+include(C:\Qt\5.15.1\msvc2019_64\doc\global\qt-cpp-defines.qdocconf)
+include(C:\Qt\5.15.1\msvc2019_64\doc\global\compat.qdocconf)
+include(C:\Qt\5.15.1\msvc2019_64\doc\global\fileextensions.qdocconf)
 
 descripton  = ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. 
 language    = Cpp
@@ -42,14 +42,14 @@ includepaths += ../ScreenPlayWidget/src/
 includepaths += ../ScreenPlayWidget/
 
 # qt
-includepaths += C:/Qt/5.14.0/msvc2017_64/include/
-includepaths += C:/Qt/5.14.0/msvc2017_64/include/QtCore/
-includepaths += C:/Qt/5.14.0/msvc2017_64/include/QtGui/
-includepaths += C:/Qt/5.14.0/msvc2017_64/include/QtQml/
-includepaths += C:/Qt/5.14.0/msvc2017_64/include/QtWebEngine/
-includepaths += C:/Qt/5.14.0/msvc2017_64/include/QtNetwork/
-includepaths += C:/Qt/5.14.0/msvc2017_64/include/QtQuick/
-includepaths += C:/Qt/5.14.0/msvc2017_64/include/QtQuickControls2/
+includepaths += C:/Qt/5.15.1/msvc2019_64/include/
+includepaths += C:/Qt/5.15.1/msvc2019_64/include/QtCore/
+includepaths += C:/Qt/5.15.1/msvc2019_64/include/QtGui/
+includepaths += C:/Qt/5.15.1/msvc2019_64/include/QtQml/
+includepaths += C:/Qt/5.15.1/msvc2019_64/include/QtWebEngine/
+includepaths += C:/Qt/5.15.1/msvc2019_64/include/QtNetwork/
+includepaths += C:/Qt/5.15.1/msvc2019_64/include/QtQuick/
+includepaths += C:/Qt/5.15.1/msvc2019_64/include/QtQuickControls2/
 
 
 

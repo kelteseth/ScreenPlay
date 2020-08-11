@@ -31,8 +31,8 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
-<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#ProjectSettingsListModel">ProjectSettingsListModel</a></b>(QString <i>file</i>, QObject *<i>parent</i> = nullptr)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#init">init</a></b>(QString <i>file</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QJsonObject </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#getActiveSettingsJson">getActiveSettingsJson</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#init">init</a></b>(const InstalledType::InstalledType &amp;<i>type</i>, const QJsonObject &amp;<i>properties</i>)</td></tr>
 </table></div>
 <a name="details"></a>
 <!-- $$$ProjectSettingsListModel-description -->
@@ -64,13 +64,14 @@
 <!-- @@@ProjectSettingsListModel -->
 <div class="func">
 <h2>Member Function Documentation</h2>
-<!-- $$$ProjectSettingsListModel[overload1]$$$ProjectSettingsListModelQStringQObject* -->
-<h3 class="fn" id="ProjectSettingsListModel"><a name="ProjectSettingsListModel"></a>ProjectSettingsListModel::<span class="name">ProjectSettingsListModel</span>(<span class="type">QString</span> <i>file</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
-<p>Constructor</p>
-<!-- @@@ProjectSettingsListModel -->
-<!-- $$$init[overload1]$$$initQString -->
-<h3 class="fn" id="init"><a name="init"></a><span class="type">void</span> ProjectSettingsListModel::<span class="name">init</span>(<span class="type">QString</span> <i>file</i>)</h3>
-<p>Recursively loads the content of a project.json. See also <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/project/project/">https://kelteseth.gitlab.io/ScreenPlayDocs/project/project/</a> .</p>
+<!-- $$$getActiveSettingsJson[overload1]$$$getActiveSettingsJson -->
+<h3 class="fn" id="getActiveSettingsJson"><a name="getActiveSettingsJson"></a><span class="type">QJsonObject</span> ProjectSettingsListModel::<span class="name">getActiveSettingsJson</span>()</h3>
+<p>ProjectSettingsListModel::getActiveSettingsJson <b class="redFont"><code>\return</code></b></p>
+<!-- @@@getActiveSettingsJson -->
+<!-- $$$init[overload1]$$$initconstInstalledType::InstalledType&constQJsonObject& -->
+<h3 class="fn" id="init"><a name="init"></a><span class="type">void</span> ProjectSettingsListModel::<span class="name">init</span>(const <span class="type">InstalledType::InstalledType</span> &amp;<i>type</i>, const <span class="type">QJsonObject</span> &amp;<i>properties</i>)</h3>
+<p>Constructor when loading properties from settings.json We need to _flatten_ the json to make it work with a flat list model! See</p>
+<p><b>See also </b><a href="screenplay-projectsettingslistmodel.html#getActiveSettingsJson">getActiveSettingsJson</a>, to, make, the, flat, list, to, a, hierarchical, json, and object.</p>
 <!-- @@@init -->
 </div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>

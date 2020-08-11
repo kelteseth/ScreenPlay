@@ -42,7 +42,6 @@
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::MonitorListModel *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#monitorListModel-prop">monitorListModel</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::ProfileListModel *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#profileListModel-prop">profileListModel</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::ScreenPlayManager *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#screenPlayManager-prop">screenPlayManager</a></b>() const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::SDKConnector *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#sdkConnector-prop">sdkConnector</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Settings *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#settings-prop">settings</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Util *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#util-prop">util</a></b>() const</td></tr>
 </table></div>
@@ -58,7 +57,6 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#monitorListModel-prop">setMonitorListModel</a></b>(ScreenPlay::MonitorListModel *<i>monitorListModel</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#profileListModel-prop">setProfileListModel</a></b>(ScreenPlay::ProfileListModel *<i>profileListModel</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#screenPlayManager-prop">setScreenPlayManager</a></b>(ScreenPlay::ScreenPlayManager *<i>screenPlayManager</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#sdkConnector-prop">setSdkConnector</a></b>(ScreenPlay::SDKConnector *<i>sdkConnector</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#settings-prop">setSettings</a></b>(ScreenPlay::Settings *<i>settings</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#util-prop">setUtil</a></b>(ScreenPlay::Util *<i>util</i>)</td></tr>
 </table></div>
@@ -73,7 +71,6 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#monitorListModel-prop">monitorListModelChanged</a></b>(ScreenPlay::MonitorListModel *<i>monitorListModel</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#profileListModel-prop">profileListModelChanged</a></b>(ScreenPlay::ProfileListModel *<i>profileListModel</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#screenPlayManager-prop">screenPlayManagerChanged</a></b>(ScreenPlay::ScreenPlayManager *<i>screenPlayManager</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#sdkConnector-prop">sdkConnectorChanged</a></b>(ScreenPlay::SDKConnector *<i>sdkConnector</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#settings-prop">settingsChanged</a></b>(ScreenPlay::Settings *<i>settings</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#util-prop">utilChanged</a></b>(ScreenPlay::Util *<i>util</i>)</td></tr>
 </table></div>
@@ -94,7 +91,6 @@
         Create--> CreateVideoImport
         App --> Util
         App --> Settings
-        App --> SDKConnector
         App --> InstalledListModel
         InstalledListModel --> ProjectFile
         App --> InstalledListFilter
@@ -114,7 +110,7 @@
 <!-- @@@exit -->
 <!-- $$$init[overload1]$$$init -->
 <h3 class="fn" id="init"><a name="init"></a><span class="type">void</span> App::<span class="name">init</span>()</h3>
-<p>Used for initialization after the constructor. The sole purpose is to check if another <a href="screenplay.html">ScreenPlay</a> instance is running and then quit early. This is also because we cannot call QApplication::quit(); in the <a href="screenplay-sdkconnector.html">SDKConnector</a> before the app.exec(); ( the Qt main event loop ) has started.</p>
+<p>Used for initialization after the constructor. The sole purpose is to check if another <a href="screenplay.html">ScreenPlay</a> instance is running and then quit early. This is also because we cannot call QApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event loop ) has started.</p>
 <!-- @@@init -->
 </div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>

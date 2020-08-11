@@ -12,22 +12,32 @@
 <div class="sidebar"><div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">List of All Members for ScreenPlayManager</h1>
 <p>This is the complete list of members for <a href="screenplay-screenplaymanager.html">ScreenPlay::ScreenPlayManager</a>, including inherited members.</p>
-<ul>
-<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#ScreenPlayManager">ScreenPlayManager</a></b></span>(const shared_ptr&lt;ScreenPlay::GlobalVariables&gt; &amp;, const shared_ptr&lt;ScreenPlay::MonitorListModel&gt; &amp;, const shared_ptr&lt;ScreenPlay::SDKConnector&gt; &amp;, const int &amp;, const shared_ptr&lt;ScreenPlay::Settings&gt; &amp;, QObject *)</li>
+<div class="table"><table class="propsummary">
+<tr><td class="topAlign"><ul>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#ScreenPlayManager">ScreenPlayManager</a></b></span>(QObject *)</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#activeWallpaperCounter-prop">activeWallpaperCounterChanged</a></b></span>(int )</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#activeWidgetsCounter-prop">activeWidgetsCounterChanged</a></b></span>(int )</li>
-<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#createWallpaper">createWallpaper</a></b></span>(QVector&lt;int&gt; , const QString &amp;, const QString &amp;, const float , const QString &amp;, const QString &amp;, const bool )</li>
-<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#createWidget">createWidget</a></b></span>(const QUrl &amp;, const QString &amp;, const QString &amp;)</li>
-<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#getWallpaperByAppID">getWallpaperByAppID</a></b></span>(<i>const QString &amp;</i>) : int</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#closeAllWallpapers">closeAllWallpapers</a></b></span>()</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#closeAllWidgets">closeAllWidgets</a></b></span>()</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#closeConntectionByType">closeConntectionByType</a></b></span>(const QStringList &amp;)</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#closeWallpaper">closeWallpaper</a></b></span>(const QString &amp;) : bool</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#createWallpaper">createWallpaper</a></b></span>(const ScreenPlay::InstalledType::InstalledType , const ScreenPlay::FillMode::FillMode , const QString &amp;, const QString &amp;, const QString &amp;, const QVector&lt;int&gt; &amp;, const float , const float , const QJsonObject &amp;, const bool )</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#createWidget">createWidget</a></b></span>(const ScreenPlay::InstalledType::InstalledType , const QPoint &amp;, const QString &amp;, const QString &amp;, const QJsonObject &amp;, const bool )</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#getWallpaperByAppID">getWallpaperByAppID</a></b></span>(const QString &amp;) const : ScreenPlay::ScreenPlayWallpaper *</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#newConnection">newConnection</a></b></span>()</li>
+</ul></td><td class="topAlign"><ul>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#removeAllWallpapers">removeAllWallpapers</a></b></span>()</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#removeAllWidgets">removeAllWidgets</a></b></span>()</li>
-<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#requestProjectSettingsListModelAt">requestProjectSettingsListModelAt</a></b></span>(const int )</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#requestProjectSettingsAtMonitorIndex">requestProjectSettingsAtMonitorIndex</a></b></span>(const int )</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#activeWallpaperCounter-prop">setActiveWallpaperCounter</a></b></span>(int )</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#activeWidgetsCounter-prop">setActiveWidgetsCounter</a></b></span>(int )</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#setAllWallpaperValue">setAllWallpaperValue</a></b></span>(const QString &amp;, const QString &amp;)</li>
-<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#setWallpaperValue">setWallpaperValue</a></b></span>(const int , const QString &amp;, const QString &amp;)</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#setWallpaperValue">setWallpaperValue</a></b></span>(const QString &amp;, const QString &amp;, const QVariant &amp;)</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#setWallpaperValueAtMonitorIndex">setWallpaperValueAtMonitorIndex</a></b></span>(const int , const QString &amp;, const QString &amp;)</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#activeWallpaperCounter-prop">activeWallpaperCounter</a></b></span>() const : int</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#activeWidgetsCounter-prop">activeWidgetsCounter</a></b></span>() const : int</li>
 </ul>
+</td></tr>
+</table></div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>
