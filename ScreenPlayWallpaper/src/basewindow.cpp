@@ -13,6 +13,7 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
     QApplication::instance()->installEventFilter(this);
 
     qRegisterMetaType<BaseWindow::WallpaperType>();
+
     qmlRegisterType<BaseWindow>("ScreenPlay.Wallpaper", 1, 0, "Wallpaper");
 
     setOSVersion(QSysInfo::productVersion());
@@ -66,8 +67,9 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
     setBasePath(projectFilePath);
     setFullContentPath("file:///" + projectFilePath + "/" + projectObject.value("file").toString());
 
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, &BaseWindow::reloadQML);
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, &BaseWindow::reloadQML);
+    auto reloadQMLLambda = [this]() { emit reloadQML(type()); };
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, reloadQMLLambda);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, reloadQMLLambda);
     m_fileSystemWatcher.addPaths({ projectFilePath, projectFilePath + "/" + projectObject.value("file").toString() });
 
     QString type = projectObject.value("type").toString().toLower();
@@ -143,6 +145,7 @@ void BaseWindow::replaceWallpaper(
     const QString type,
     const bool checkWallpaperVisible)
 {
+    const WallpaperType oldType = this->type();
     setCheckWallpaperVisible(checkWallpaperVisible);
     setVolume(volume);
     setFillMode(fillMode);
@@ -151,10 +154,10 @@ void BaseWindow::replaceWallpaper(
     qInfo() << file;
 
     if (m_type == WallpaperType::Qml || m_type == WallpaperType::Html)
-        emit reloadQML();
+        emit reloadQML(oldType);
 
     if (m_type == WallpaperType::Video)
-        emit reloadVideo();
+        emit reloadVideo(oldType);
 }
 
 // Used for loading shader

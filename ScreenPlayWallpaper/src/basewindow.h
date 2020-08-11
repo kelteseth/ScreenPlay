@@ -106,7 +106,7 @@ public:
         return m_playbackRate;
     }
 
-    WallpaperType type() const
+    BaseWindow::WallpaperType type() const
     {
         return m_type;
     }
@@ -178,14 +178,14 @@ public:
 
 signals:
     void qmlExit();
-    void reloadQML();
-    void reloadVideo();
+    void reloadQML(const BaseWindow::WallpaperType oldType);
+    void reloadVideo(const BaseWindow::WallpaperType oldType);
 
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
     void isPlayingChanged(bool isPlaying);
     void playbackRateChanged(float playbackRate);
-    void typeChanged(WallpaperType type);
+    void typeChanged(BaseWindow::WallpaperType type);
     void fullContentPathChanged(QString fullContentPath);
     void appIDChanged(QString appID);
     void qmlSceneValueReceived(QString key, QString value);
@@ -259,7 +259,7 @@ public slots:
         emit playbackRateChanged(m_playbackRate);
     }
 
-    void setType(WallpaperType type)
+    void setType(BaseWindow::WallpaperType type)
     {
         if (m_type == type)
             return;

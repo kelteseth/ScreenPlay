@@ -38,11 +38,28 @@ Rectangle {
             newObject.destroy(10000)
         }
 
-        function onReloadQML() {
+        // Replace wallpaper with QML Scene
+        function onReloadQML(oldType) {
+
             loader.sourceComponent = undefined
             loader.source = ""
-            Wallpaper.clearComponentCache()
-            root.init()
+            if (oldType === Wallpaper.WallpaperType.QML)
+                Wallpaper.clearComponentCache()
+
+            loader.source = Qt.resolvedUrl(Wallpaper.fullContentPath)
+        }
+
+        // This function only gets called here (the same function
+        // is inside the WebView.qml) when the previous Wallpaper type
+        // was not a video
+        function onReloadVideo(oldType) {
+            // We need to check if the old type
+            // was also Video not get called twice
+            if (oldType === Wallpaper.WallpaperType.Video)
+               return
+
+            imgCover.state = "in"
+            loader.source = "qrc:/WebView.qml"
         }
     }
 
@@ -54,12 +71,12 @@ Rectangle {
         case Wallpaper.WallpaperType.Html:
             loader.webViewUrl = Qt.resolvedUrl(Wallpaper.fullContentPath)
             loader.source = "qrc:/WebView.qml"
-             fadeIn()
+            fadeIn()
             break
         case Wallpaper.WallpaperType.Qml:
             loader.source = Qt.resolvedUrl(Wallpaper.fullContentPath)
             imgCover.state = "out"
-             fadeIn()
+            fadeIn()
             break
         }
     }

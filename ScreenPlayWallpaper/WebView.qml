@@ -98,7 +98,8 @@ Item {
     Connections {
         target: Wallpaper
 
-        function onReloadVideo() {
+        function onReloadVideo(oldType) {
+
             webView.runJavaScript(root.getSetVideoCommand())
         }
 
