@@ -154,7 +154,7 @@ ApplicationWindow {
     SystemTrayIcon {
         id: sti
         visible: true
-        iconSource: "qrc:/assets/icons/favicon.ico"
+        iconSource: "qrc:/assets/icons/app.ico"
         tooltip: qsTr("ScreenPlay - Double click to change you settings.")
         onActivated: {
             switch (reason) {

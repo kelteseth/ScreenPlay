@@ -10,7 +10,6 @@
         <file>assets/fonts/NotoSans-Medium.ttf</file>
         <file>assets/fonts/NotoSans-Regular.ttf</file>
         <file>assets/fonts/NotoSans-Thin.ttf</file>
-        <file>assets/icons/favicon.ico</file>
         <file>assets/icons/font-awsome/close.svg</file>
         <file>assets/icons/font-awsome/frown-o.svg</file>
         <file>assets/icons/icon_arrow_left.svg</file>
@@ -101,5 +100,6 @@
         <file>legal/gpl-3.0.txt</file>
         <file>legal/lgpl-2.1.txt</file>
         <file>assets/icons/icon_delete.svg</file>
+        <file>assets/icons/app.ico</file>
     </qresource>
 </RCC>

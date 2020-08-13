@@ -61,13 +61,18 @@ set(headers app.h
 qt5_add_big_resources(resources  resources.qrc)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    set(qml qml.qrc)
+    qt5_add_resources(qml qml.qrc)
 else()
     qtquick_compiler_add_resources(qml qml.qrc )
 endif()
 
-
 add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml})
+
+if(WIN32)
+    # Icon
+    target_sources(${PROJECT_NAME}  PRIVATE ScreenPlay.rc)
+endif()
+
 
 # Disable console window on Windows
 # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows

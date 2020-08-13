@@ -43,7 +43,7 @@ namespace ScreenPlay {
 App::App()
     : QObject(nullptr)
 {
-    QGuiApplication::setWindowIcon(QIcon(":/assets/icons/favicon.ico"));
+    QGuiApplication::setWindowIcon(QIcon(":/assets/icons/app.ico"));
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
