@@ -41,6 +41,9 @@ void ScreenPlaySDK::init()
             m_socket.disconnectFromServer();
             emit sdkDisconnected();
         }
+
+        QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlaySDK::pingAlive);
+        m_pingAliveTimer.start(5000);
     });
 }
 
@@ -149,6 +152,15 @@ void ScreenPlaySDK::redirectMessage(QByteArray& msg)
     if (isConnected()) {
         m_socket.write(msg);
         m_socket.waitForBytesWritten();
+    }
+}
+
+void ScreenPlaySDK::pingAlive()
+{
+    m_socket.write("ping");
+    if (!m_socket.waitForBytesWritten(500)) {
+        qInfo() << "Cannot ping to main application. Closing!";
+        emit sdkDisconnected();
     }
 }
 

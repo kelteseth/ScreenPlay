@@ -84,6 +84,7 @@ public slots:
     void readyRead();
     void error(QLocalSocket::LocalSocketError socketError);
     void redirectMessage(QByteArray& msg);
+    void pingAlive();
 
     void setType(QString type)
     {
@@ -145,4 +146,5 @@ private:
     bool m_isConnected = false;
 
     QString m_appID;
+    QTimer m_pingAliveTimer;
 };
