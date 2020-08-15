@@ -51,11 +51,8 @@ Item {
             width: parent.width - 40
             spacing: 30
 
-            Page {
+            SettingsPage {
                 id: settingsGeneralWrapper
-                width: columnWrapper.width
-                height: contentHeight + headerGeneral.height + columnGeneral.spacing * 3
-                Material.elevation: 4
 
                 header: SettingsHeader {
                     id: headerGeneral
@@ -219,11 +216,7 @@ Item {
                 }
             }
 
-            Page {
-                width: columnWrapper.width
-                height: contentHeight + headerGeneral.height + columnGeneral.spacing * 3
-                Material.elevation: 4
-
+            SettingsPage {
                 header: SettingsHeader {
                     id: headerPerformance
                     text: qsTr("Performance")
@@ -284,11 +277,7 @@ Item {
                 }
             }
 
-            Page {
-                width: columnWrapper.width
-                height: contentHeight + headerAbout.height + aboutWrapper.spacing * 3
-                Material.elevation: 4
-
+            SettingsPage {
                 header: SettingsHeader {
                     id: headerAbout
                     text: qsTr("About")

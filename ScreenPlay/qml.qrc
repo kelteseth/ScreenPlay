@@ -1,5 +1,6 @@
 <RCC>
-    <qresource prefix="/"><file>main.qml</file>
+    <qresource prefix="/">
+        <file>main.qml</file>
         <file>qml/Create/Create.qml</file>
         <file>qml/Create/ImportContent.qml</file>
         <file>qml/Create/CreateContent.qml</file>
@@ -51,5 +52,6 @@
         <file>qml/Common/GrowIconLink.qml</file>
         <file>qml/Common/CloseIcon.qml</file>
         <file>qml/Common/Headline.qml</file>
+        <file>qml/Settings/SettingsPage.qml</file>
     </qresource>
 </RCC>
