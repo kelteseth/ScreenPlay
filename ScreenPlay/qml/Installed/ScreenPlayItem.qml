@@ -9,7 +9,6 @@ Item {
     id: screenPlayItem
     width: 320
     height: 180
-    state: "invisible"
     opacity: 0
 
     property string customTitle: "name here"
@@ -36,11 +35,6 @@ Item {
             return
         }
     }
-
-    Component.onCompleted: {
-        screenPlayItem.state = "visible"
-    }
-
     Timer {
         id: timerAnim
         interval: {
@@ -77,6 +71,7 @@ Item {
             origin.y: height * .5
         }
     ]
+
     ParallelAnimation {
         id: showAnim
         running: false
@@ -211,7 +206,7 @@ Item {
                 }
                 onExited: {
                     if (!hasMenuOpen) {
-                        screenPlayItem.state = "visible"
+                        screenPlayItem.state = ""
                         screenPlayItemImage.state = "loaded"
                         screenPlayItemImage.exit()
                     }
@@ -271,43 +266,7 @@ Item {
     }
 
     states: [
-        State {
-            name: "invisible"
 
-            PropertyChanges {
-                target: screenPlayItemWrapper
-                y: -10
-                opacity: 0
-            }
-            PropertyChanges {
-                target: effect
-                opacity: 0
-            }
-        },
-        State {
-            name: "visible"
-            PropertyChanges {
-                target: effect
-                opacity: 0.4
-            }
-            PropertyChanges {
-                target: screenPlayItemWrapper
-                y: 0
-                opacity: 1
-            }
-            PropertyChanges {
-                target: screenPlayItem
-                width: 320
-                height: 180
-            }
-            PropertyChanges {
-                target: icnType
-                opacity: 0
-            }
-        },
-        State {
-            name: "description"
-        },
         State {
             name: "hover"
             PropertyChanges {
@@ -333,7 +292,7 @@ Item {
     ]
     transitions: [
         Transition {
-            from: "visible"
+            from: ""
             to: "hover"
             reversible: true
 
