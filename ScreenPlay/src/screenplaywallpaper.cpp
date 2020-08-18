@@ -14,7 +14,6 @@ namespace ScreenPlay {
     \brief  Constructor for video Wallpaper.
 */
 
-
 ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString& appID,
@@ -37,6 +36,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     , m_appID { appID }
     , m_absolutePath { absolutePath }
     , m_file { file }
+    , m_volume { volume }
     , m_playbackRate { playbackRate }
 {
     {

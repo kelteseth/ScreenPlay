@@ -96,6 +96,7 @@ Popup {
                         const wallpaper = ScreenPlay.screenPlayManager.getWallpaperByAppID(
                                             appID)
                         print("volume", wallpaper.volume)
+                        videoControlWrapper.wallpaper = wallpaper
                     } else {
                         videoControlWrapper.state = "hidden"
                         customPropertiesGridView.visible = true

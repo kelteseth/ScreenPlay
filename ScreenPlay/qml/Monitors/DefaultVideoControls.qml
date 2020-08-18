@@ -15,6 +15,17 @@ ColumnLayout {
     state: "hidden"
     clip: true
 
+    property ScreenPlayWallpaper wallpaper
+    onWallpaperChanged: {
+        if(!wallpaper)
+        {
+            return
+        }
+        slVolume.slider.value =  wallpaper.volume
+        slPlaybackRate.slider.value =  wallpaper.playbackRate
+        //slCurrentVideoTime.slider.value =  wallpaper.volume
+    }
+
     function indexOfValue(model, value) {
 
         for (var i = 0; i < model.length; i++) {
@@ -28,26 +39,29 @@ ColumnLayout {
     property int activeMonitorIndex
 
     SP.Slider {
+        id:slVolume
         headline: qsTr("Volume")
         slider.stepSize: 0.1
         slider.onMoved: {
             ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
-                        activeMonitorIndex, "volume", slider.value)
+                        activeMonitorIndex, "volume", Number(slider.value).toFixed(1))
         }
 
         Layout.fillWidth: true
     }
     SP.Slider {
+        id:slPlaybackRate
         headline: qsTr("Playback rate")
         slider.onMoved: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
-                            activeMonitorIndex, "playbackRate", slider.value)
+                            activeMonitorIndex, "playbackRate", Number(slider.value).toFixed(1))
         Layout.fillWidth: true
         slider.stepSize: 0.1
     }
     SP.Slider {
+        id: slCurrentVideoTime
         headline: qsTr("Current Video Time")
         slider.onMoved: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
-                            activeMonitorIndex, "currentTime", slider.value)
+                            activeMonitorIndex, "currentTime", Number(slider.value).toFixed(1))
         Layout.fillWidth: true
         slider.stepSize: 0.1
     }

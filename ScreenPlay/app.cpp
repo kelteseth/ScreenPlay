@@ -80,6 +80,12 @@ App::App()
     qRegisterMetaType<Create*>();
     qRegisterMetaType<Settings*>();
 
+    qmlRegisterType<ScreenPlayWallpaper>("ScreenPlay", 1, 0, "ScreenPlayWallpaper");
+    qmlRegisterType<ScreenPlayWidget>("ScreenPlay", 1, 0, "ScreenPlayWidget");
+
+    qRegisterMetaType<ScreenPlayWallpaper*>("ScreenPlayWallpaper*");
+    qRegisterMetaType<ScreenPlayWidget*>("ScreenPlayWidget*");
+
     qRegisterMetaType<InstalledListModel*>();
     qRegisterMetaType<InstalledListFilter*>();
     qRegisterMetaType<MonitorListModel*>();
@@ -118,6 +124,8 @@ App::App()
     // ScreenPlayManager first to check if another ScreenPlay Instace is running
     m_screenPlayManager = std::make_unique<ScreenPlayManager>();
     m_isAnotherScreenPlayInstanceRunning = m_screenPlayManager->isAnotherScreenPlayInstanceRunning();
+
+
 }
 
 /*!

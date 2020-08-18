@@ -313,9 +313,20 @@ void ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
 /*!
   \brief Set a wallpaper \a value at a given \a index and \a key.
 */
-void ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value)
+void ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QVariant& value)
 {
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
+
+        if (key == "volume" || key == "currentTime" || key == "playbackRate") {
+            bool ok = false;
+            float _value = value.toFloat(&ok);
+            if (ok) {
+               // _value = std::floor(_value * 100.0f) / 100.0f;
+                qInfo() << _value;
+                setWallpaperValue(*appID, key, _value);
+            } else
+                qWarning() << "Could not convert " << key << " to float with value " << value;
+        }
         setWallpaperValue(*appID, key, value);
     } else {
         qWarning() << "Could net get appID from m_monitorListModel!";

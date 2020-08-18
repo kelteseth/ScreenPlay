@@ -67,7 +67,7 @@ public:
         const QString& previewImage, const QJsonObject& properties,
         const InstalledType::InstalledType type);
 
-    ~ScreenPlayWidget() { }
+    ScreenPlayWidget() { }
 
     QString previewImage() const
     {
@@ -158,7 +158,7 @@ signals:
     void requestSave();
 
 private:
-    const std::shared_ptr<GlobalVariables>& m_globalVariables;
+    const std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<SDKConnection> m_connection;
     ProjectSettingsListModel m_projectSettingsListModel;
 
