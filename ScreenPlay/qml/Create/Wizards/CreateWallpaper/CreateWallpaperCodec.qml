@@ -81,7 +81,7 @@ Item {
         }
         ComboBox {
             id: comboBoxCodec
-            width: 260
+            width: parent.width
             textRole: "text"
             valueRole: "value"
             font.family: ScreenPlay.settings.font
@@ -92,11 +92,11 @@ Item {
             model: ListModel {
                 id: model
                 ListElement {
-                    text: "VP8 (Old Intel best)"
+                    text: "VP8 (Better for older hardware)"
                     value: Create.VP8
                 }
                 ListElement {
-                    text: "VP9 (AMD/Nvidia best)"
+                    text: "VP9 (Better for newer hardware 2018+)"
                     value: Create.VP9
                 }
             }
@@ -136,3 +136,9 @@ Item {
         }
     }
 }
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:768;width:1366}
+}
+##^##*/
