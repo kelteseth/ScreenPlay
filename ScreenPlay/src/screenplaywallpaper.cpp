@@ -170,6 +170,18 @@ void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>&
             setWallpaperValue("playbackRate", playbackRate(), false);
         }
     });
+
+    // Check every X seconds if the wallpaper is still alive
+    QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {
+        qInfo() << "pingAliveReceived";
+        m_pingAliveTimer.stop();
+        m_pingAliveTimer.start(16000);
+    });
+
+    QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
+        qInfo() << "For " << m_pingAliveTimer.interval() << "ms no alive signal received. This means the wallpaper is dead and likely crashed!";
+    });
+    m_pingAliveTimer.start(16000);
 }
 
 void ScreenPlayWallpaper::replace(

@@ -16,12 +16,18 @@ ScreenPlay::SDKConnection::~SDKConnection()
     // the descructor
     m_socket->disconnect();
     m_socket->disconnectFromServer();
+    m_socket->close();
 }
 
 void ScreenPlay::SDKConnection::readyRead()
 {
 
     auto msg = QString(m_socket->readAll());
+
+    if (msg == "ping") {
+        emit pingAliveReceived();
+        return;
+    }
 
     // The first message allways contains the appID
     if (msg.startsWith("appID=")) {
@@ -66,7 +72,7 @@ void ScreenPlay::SDKConnection::readyRead()
     }
 }
 
-void ScreenPlay::SDKConnection::sendMessage(const QByteArray &message)
+void ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 {
     m_socket->write(message);
     m_socket->waitForBytesWritten();

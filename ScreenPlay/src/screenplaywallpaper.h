@@ -275,5 +275,6 @@ private:
     float m_volume { 1.0f };
     bool m_isLooping { true };
     float m_playbackRate { 1.0f };
+    QTimer m_pingAliveTimer;
 };
 }

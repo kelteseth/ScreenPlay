@@ -168,5 +168,6 @@ private:
     QPoint m_position;
     InstalledType::InstalledType m_type;
     QString m_absolutePath;
+    QTimer m_pingAliveTimer;
 };
 }

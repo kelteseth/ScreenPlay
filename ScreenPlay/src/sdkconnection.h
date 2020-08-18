@@ -100,6 +100,7 @@ signals:
     void requestRaise();
     void appConnected(const ScreenPlay::SDKConnection* connection);
     void jsonMessageReceived(const QJsonObject obj);
+    void pingAliveReceived();
 
 public slots:
     void readyRead();
