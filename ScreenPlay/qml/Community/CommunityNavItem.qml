@@ -43,7 +43,6 @@ TabButton {
             anchors {
                 top: parent.top
                 topMargin: 15
-
                 right: parent.right
             }
             opacity: 0.6
@@ -53,6 +52,11 @@ TabButton {
             icon.width: 16
             icon.height: 16
             onClicked: Qt.openUrlExternally(control.openLink)
+
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Open in browser")
         }
     }
 

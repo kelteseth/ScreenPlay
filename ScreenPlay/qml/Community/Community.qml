@@ -35,19 +35,16 @@ Item {
                 openLink: swipeView.itemAt(0).url
                 icon.source: "qrc:/assets/icons/icon_forum.svg"
             }
-
             CommunityNavItem {
                 text: qsTr("Wiki")
                 openLink: swipeView.itemAt(1).url
                 icon.source: "qrc:/assets/icons/icon_help_center.svg"
             }
-
             CommunityNavItem {
                 text: qsTr("Issues List")
                 openLink: swipeView.itemAt(2).url
                 icon.source: "qrc:/assets/icons/icon_report_problem.svg"
             }
-
             CommunityNavItem {
                 text: qsTr("Release Notes")
                 openLink: swipeView.itemAt(3).url
@@ -58,12 +55,18 @@ Item {
                 openLink: swipeView.itemAt(4).url
                 icon.source: "qrc:/assets/icons/icon_supervisor_account.svg"
             }
+            CommunityNavItem {
+                enabled: false
+                text: qsTr("Steam Workshop")
+                openLink: "steam://url/GameHub/672870"
+                icon.source: "qrc:/assets/icons/icon_steam.svg"
+            }
         }
     }
 
     LinearGradient {
         height: 6
-        z:99
+        z: 99
         anchors {
             top: navWrapper.bottom
             left: parent.left
@@ -112,6 +115,10 @@ Item {
 
         WebEngineView {
             url: "https://gitlab.com/kelteseth/ScreenPlay#contributing-for-none-programmer"
+        }
+
+        WebEngineView {
+            url: "https://steamcommunity.com/app/672870/workshop/"
         }
     }
 }
