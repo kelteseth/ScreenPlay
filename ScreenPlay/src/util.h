@@ -58,7 +58,7 @@
 #include <optional>
 
 #include "globalvariables.h"
-#include "libzippp/libzippp.h"
+#include "libzippp.h"
 
 namespace ScreenPlay {
 
