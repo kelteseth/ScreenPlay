@@ -1,10 +1,12 @@
 import QtQuick 2.12
+import QtQuick.Controls.Material 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Particles 2.0
 
-Item {
+Rectangle {
     id: element
     anchors.fill: parent
+    color: Material.theme === Material.Light ? "white" :  Qt.darker( Material.background)
     state: "init"
     onStateChanged: {
         if (state === "init") {
