@@ -34,8 +34,7 @@ Popup {
     }
 
     onOpened: {
-        ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(
-                          0)
+        ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(0)
     }
 
     Item {
@@ -95,8 +94,8 @@ Popup {
                         print(appID)
                         const wallpaper = ScreenPlay.screenPlayManager.getWallpaperByAppID(
                                             appID)
-                        print("volume", wallpaper.volume)
                         videoControlWrapper.wallpaper = wallpaper
+                        print("volume", wallpaper.volume, wallpaper)
                     } else {
                         videoControlWrapper.state = "hidden"
                         customPropertiesGridView.visible = true
@@ -219,8 +218,7 @@ Popup {
             }
         }
 
-
-        ToolButton{
+        ToolButton {
             anchors {
                 top: parent.top
                 right: parent.right
@@ -228,11 +226,10 @@ Popup {
             width: 32
             height: width
             icon.width: 16
-            icon.height:16
+            icon.height: 16
             icon.source: "qrc:/assets/icons/font-awsome/close.svg"
             icon.color: "gray"
             onClicked: monitors.close()
-
         }
     }
 }

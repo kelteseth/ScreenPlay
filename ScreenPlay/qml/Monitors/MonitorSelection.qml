@@ -170,7 +170,9 @@ Rectangle {
 
                     getActiveMonitors()
 
-                    root.requestProjectSettings(delegate.index, delegate.installedType, delegate.appID)
+                    root.requestProjectSettings(delegate.index,
+                                                delegate.installedType,
+                                                delegate.appID)
                 }
             }
         }
