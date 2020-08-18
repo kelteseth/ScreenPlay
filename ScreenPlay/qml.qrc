@@ -21,7 +21,6 @@
         <file>qml/Installed/Sidebar.qml</file>
         <file>qml/Installed/InstalledWelcomeScreen.qml</file>
         <file>qml/Community/Community.qml</file>
-        <file>qml/Community/Feedback.qml</file>
         <file>qml/Community/XMLNewsfeed.qml</file>
         <file>qml/Settings/SettingBool.qml</file>
         <file>qml/Settings/Settings.qml</file>
@@ -53,5 +52,11 @@
         <file>qml/Common/CloseIcon.qml</file>
         <file>qml/Common/Headline.qml</file>
         <file>qml/Settings/SettingsPage.qml</file>
+        <file>qml/Community/CommunityNavItem.qml</file>
+        <file>assets/icons/icon_supervisor_account.svg</file>
+        <file>assets/icons/icon_new_releases.svg</file>
+        <file>assets/icons/icon_report_problem.svg</file>
+        <file>assets/icons/icon_help_center.svg</file>
+        <file>assets/icons/icon_forum.svg</file>
     </qresource>
 </RCC>

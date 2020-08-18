@@ -54,7 +54,6 @@ add_subdirectory(ScreenPlaySDK)
 add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlaySysInfo)
-add_subdirectory(Common/stomt-qml)
 add_subdirectory(Common/qt-breakpad)
 
 

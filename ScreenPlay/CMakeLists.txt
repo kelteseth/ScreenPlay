@@ -58,12 +58,12 @@ set(headers app.h
 
 
 
-qt5_add_big_resources(resources  resources.qrc)
+#qt5_add_big_resources(resources  resources.qrc)
 
+qt5_add_resources(qml qml.qrc resources.qrc)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
-    qt5_add_resources(qml qml.qrc)
 else()
-    qtquick_compiler_add_resources(qml qml.qrc )
+#    qtquick_compiler_add_resources(qml qml.qrc resources.qrc)
 endif()
 
 add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml})

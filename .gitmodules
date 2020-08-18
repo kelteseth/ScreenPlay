@@ -4,7 +4,3 @@
 [submodule "Common/qt-breakpad"]
 	path = Common/qt-breakpad
 	url = https://github.com/kelteseth/qt-breakpad
-[submodule "Common/stomt-qml"]
-	path = Common/stomt-qml
-	url = https://gitlab.com/kelteseth/stomt-qml.git
-	branch = master
