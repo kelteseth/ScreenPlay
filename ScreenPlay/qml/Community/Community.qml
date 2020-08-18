@@ -10,19 +10,6 @@ Item {
     id: community
     anchors.fill: parent
 
-    RectangularGlow {
-        id: effect
-        anchors {
-            fill: navWrapper
-        }
-        cached: true
-        glowRadius: 2
-        spread: 0.15
-        color: "black"
-        opacity: 0.3
-        cornerRadius: 15
-    }
-
     Rectangle {
         id: navWrapper
         color: Material.theme === Material.Light ? "white" : Material.background
@@ -70,6 +57,29 @@ Item {
                 text: qsTr("Contribution Guide")
                 openLink: swipeView.itemAt(4).url
                 icon.source: "qrc:/assets/icons/icon_supervisor_account.svg"
+            }
+        }
+    }
+
+    LinearGradient {
+        height: 6
+        z:99
+        anchors {
+            top: navWrapper.bottom
+            left: parent.left
+            right: parent.right
+        }
+
+        start: Qt.point(0, 0)
+        end: Qt.point(0, 6)
+        gradient: Gradient {
+            GradientStop {
+                position: 0.0
+                color: "#33333333"
+            }
+            GradientStop {
+                position: 1.0
+                color: "transparent"
             }
         }
     }

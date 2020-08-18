@@ -15,13 +15,13 @@ TabButton {
             icon.source: control.icon.source
             anchors {
                 right: txt.left
-                rightMargin: 5
                 verticalCenter: txt.verticalCenter
             }
             icon.color: control.checked ? Material.accentColor : Material.primaryTextColor
             hoverEnabled: false
             icon.width: 16
             icon.height: 16
+            enabled: false
         }
 
         Text {
@@ -46,6 +46,7 @@ TabButton {
 
                 right: parent.right
             }
+            opacity: 0.6
 
             width: parent.width * .2
             icon.source: "qrc:/assets/icons/icon_open_in_new.svg"
