@@ -58,5 +58,20 @@
         <file>assets/icons/icon_report_problem.svg</file>
         <file>assets/icons/icon_help_center.svg</file>
         <file>assets/icons/icon_forum.svg</file>
+        <file>qml/Workshop/ScreenPlayItem.qml</file>
+        <file>qml/Workshop/ScreenPlayItemImage.qml</file>
+        <file>qml/Workshop/WorkshopAlertBanner.qml</file>
+        <file>qml/Workshop/WorkshopBackground.qml</file>
+        <file>qml/Workshop/WorkshopBanner.qml</file>
+        <file>qml/Workshop/WorkshopInstalled.qml</file>
+        <file>qml/Workshop/WorkshopItem.qml</file>
+        <file>qml/Workshop/WorkshopItemDetail.qml</file>
+        <file>qml/Workshop/WorkshopNavigation.qml</file>
+        <file>qml/Workshop/WorkshopPopupOffline.qml</file>
+        <file>qml/Workshop/WorkshopWrapper.qml</file>
+        <file>qml/Workshop/upload/PopupSteamWorkshopAgreement.qml</file>
+        <file>qml/Workshop/upload/UploadProject.qml</file>
+        <file>qml/Workshop/upload/UploadProjectBigItem.qml</file>
+        <file>qml/Workshop/upload/UploadProjectItem.qml</file>
     </qresource>
 </RCC>

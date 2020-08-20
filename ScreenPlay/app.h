@@ -63,6 +63,8 @@
 #include "src/settings.h"
 #include "src/util.h"
 
+class ScreenPlayWorkshopPlugin;
+
 namespace ScreenPlay {
 
 class App : public QObject {
@@ -130,7 +132,6 @@ public:
     {
         return m_installedListFilter.get();
     }
-
 
     QQmlApplicationEngine* mainWindowEngine() const
     {
@@ -238,7 +239,6 @@ public slots:
         emit installedListFilterChanged(m_installedListFilter.get());
     }
 
-
     void setMainWindowEngine(QQmlApplicationEngine* mainWindowEngine)
     {
         if (m_mainWindowEngine.get() == mainWindowEngine)
@@ -249,6 +249,10 @@ public slots:
     }
 
 private:
+    bool loadSteamPlugin();
+
+private:
+    QPluginLoader m_workshopPlugin;
     std::unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
 
     std::unique_ptr<Create> m_create;

@@ -100,5 +100,20 @@
         <file>legal/lgpl-2.1.txt</file>
         <file>assets/icons/icon_delete.svg</file>
         <file>assets/icons/app.ico</file>
+        <file>assets/icons/icon_supervisor_account.svg</file>
+        <file>assets/icons/icon_new_releases.svg</file>
+        <file>assets/icons/icon_report_problem.svg</file>
+        <file>assets/icons/icon_help_center.svg</file>
+        <file>assets/icons/icon_forum.svg</file>
+        <file>assets/icons/icon_thumb_up.svg</file>
+        <file>assets/icons/icon_thumb_down.svg</file>
+        <file>assets/icons/icon_cake.afdesign</file>
+        <file>assets/icons/icon_window.svg</file>
+        <file>assets/WorkshopPreview.html</file>
+        <file>assets/images/ava.png</file>
+        <file>assets/images/mask.svg</file>
+        <file>assets/images/mask_workshop.png</file>
+        <file>assets/images/Untitled.png</file>
+        <file>assets/images/window.svg</file>
     </qresource>
 </RCC>

@@ -124,8 +124,6 @@ App::App()
     // ScreenPlayManager first to check if another ScreenPlay Instace is running
     m_screenPlayManager = std::make_unique<ScreenPlayManager>();
     m_isAnotherScreenPlayInstanceRunning = m_screenPlayManager->isAnotherScreenPlayInstanceRunning();
-
-
 }
 
 /*!
@@ -181,6 +179,10 @@ void App::init()
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
+
+    if (!loadSteamPlugin())
+        qWarning() << "Steam plugin not provided!";
+
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
 }
 
@@ -198,5 +200,26 @@ void App::exit()
         m_telemetry->endSession();
         QTimer::singleShot(150, []() { QApplication::instance()->quit(); });
     }
+}
+
+bool App::loadSteamPlugin()
+{
+#ifdef Q_OS_MACOS
+    const QString fileSuffix = ".dylib";
+#endif
+#ifdef Q_OS_WIN
+    const QString fileSuffix = ".dll";
+#else
+    const QString fileSuffix = ".so";
+#endif
+
+    m_workshopPlugin.setFileName(QApplication::applicationDirPath() + "/ScreenPlayWorkshop" + fileSuffix);
+
+    if (!m_workshopPlugin.load()) {
+        return false;
+    }
+
+    const ScreenPlayWorkshopPlugin* workshopPlugin = reinterpret_cast<ScreenPlayWorkshopPlugin*>(m_workshopPlugin.instance());
+    return true;
 }
 }
