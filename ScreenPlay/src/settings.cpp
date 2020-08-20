@@ -71,7 +71,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     
     if (m_qSettings.contains("Theme")) {
         auto value = m_qSettings.value("Theme").toString();
-        setTheme(QStringToEnum<Theme>(value, Theme::System));
+        setTheme(QStringToEnum<Theme>(value, Theme::Dark));
     }
 
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());

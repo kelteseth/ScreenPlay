@@ -4,7 +4,8 @@ import QtQuick.Controls.Material 2.12
 
 Rectangle {
     id: root
-    color: Material.background
+    color: Material.theme === Material.Light ? Material.background : Qt.darker(
+                                                   Material.background)
     width: 42
     height: width
     radius: width

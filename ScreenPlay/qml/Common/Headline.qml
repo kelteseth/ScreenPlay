@@ -12,7 +12,7 @@ Item {
     Text {
         id: txtHeadline
         font.pointSize: 18
-        color: "#444444"
+        color: Material.primaryTextColor
         text: qsTr("Headline")
         font.family: ScreenPlay.settings.font
     }
@@ -20,7 +20,7 @@ Item {
     Rectangle {
         height: 2
         width: parent.width
-        color: "#444444"
+        color: Material.secondaryTextColor
         anchors {
             right:parent.right
             left:parent.left

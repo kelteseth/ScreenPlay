@@ -11,9 +11,10 @@ import "../Common/" as SP
 
 ColumnLayout {
     id: root
-    spacing: 20
+    spacing: 10
     state: "hidden"
     clip: true
+
 
     property ScreenPlayWallpaper wallpaper
     onWallpaperChanged: {
@@ -48,6 +49,8 @@ ColumnLayout {
         }
 
         Layout.fillWidth: true
+        Layout.leftMargin: 10
+        Layout.rightMargin: 10
     }
     SP.Slider {
         id:slPlaybackRate
@@ -56,6 +59,8 @@ ColumnLayout {
                             activeMonitorIndex, "playbackRate", Number(slider.value).toFixed(1))
         Layout.fillWidth: true
         slider.stepSize: 0.1
+        Layout.leftMargin: 10
+        Layout.rightMargin: 10
     }
     SP.Slider {
         id: slCurrentVideoTime
@@ -64,6 +69,8 @@ ColumnLayout {
                             activeMonitorIndex, "currentTime", Number(slider.value).toFixed(1))
         Layout.fillWidth: true
         slider.stepSize: 0.1
+        Layout.leftMargin: 10
+        Layout.rightMargin: 10
     }
 
     ColumnLayout {

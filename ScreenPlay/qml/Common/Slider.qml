@@ -1,4 +1,5 @@
 import QtQuick 2.12
+import QtQuick.Controls.Material 2.0 as QQCM
 import QtQuick.Layouts 1.12
 import QtQuick.Controls 2.2 as QQC
 import ScreenPlay 1.0
@@ -17,7 +18,7 @@ Item {
         height: 20
         font.pointSize: 10
         font.family: ScreenPlay.settings.font
-        color: "#626262"
+        color: QQCM.Material.primaryTextColor
 
         anchors {
             top: parent.top
@@ -56,7 +57,7 @@ Item {
 
         Text {
             id: txtValue
-            color: "#818181"
+            color: QQCM.Material.secondaryTextColor
             text: Math.round(slider.value * 100) / 100
             Layout.alignment: Qt.AlignVCenter
             font.pointSize: 12

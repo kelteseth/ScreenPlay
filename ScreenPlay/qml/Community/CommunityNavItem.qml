@@ -17,7 +17,7 @@ TabButton {
                 right: txt.left
                 verticalCenter: txt.verticalCenter
             }
-            icon.color: control.checked ? Material.accentColor : Material.primaryTextColor
+            icon.color: control.checked ? Material.accentColor : Material.secondaryTextColor
             hoverEnabled: false
             icon.width: 16
             icon.height: 16

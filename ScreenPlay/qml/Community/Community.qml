@@ -31,17 +31,18 @@ Item {
             }
 
             CommunityNavItem {
-                text: qsTr("Forum")
+                text: qsTr("Wiki")
                 openLink: swipeView.itemAt(0).url
+                icon.source: "qrc:/assets/icons/icon_help_center.svg"
+            }
+
+            CommunityNavItem {
+                text: qsTr("Forum")
+                openLink: swipeView.itemAt(1).url
                 icon.source: "qrc:/assets/icons/icon_forum.svg"
             }
             CommunityNavItem {
-                text: qsTr("Wiki")
-                openLink: swipeView.itemAt(1).url
-                icon.source: "qrc:/assets/icons/icon_help_center.svg"
-            }
-            CommunityNavItem {
-                text: qsTr("Issues List")
+                text: qsTr("Issue List")
                 openLink: swipeView.itemAt(2).url
                 icon.source: "qrc:/assets/icons/icon_report_problem.svg"
             }
@@ -98,11 +99,11 @@ Item {
         }
 
         WebEngineView {
-            url: "https://forum.screen-play.app/"
+            url: "https://kelteseth.gitlab.io/ScreenPlayDocs/"
         }
 
         WebEngineView {
-            url: "https://kelteseth.gitlab.io/ScreenPlayDocs/"
+            url: "https://forum.screen-play.app/"
         }
 
         WebEngineView {

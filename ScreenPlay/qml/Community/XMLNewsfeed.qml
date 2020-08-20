@@ -3,7 +3,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
 import QtGraphicalEffects 1.0
 import QtQuick.Layouts 1.3
-import QtQuick.XmlListModel 2.15
+import QtQuick.XmlListModel 2.12
 import ScreenPlay 1.0
 
 GridView {
@@ -20,6 +20,7 @@ GridView {
 
     XmlListModel {
         id: feedModel
+
         namespaceDeclarations: "declare default element namespace 'http://www.w3.org/2005/Atom';"
         onProgressChanged: print("progress ",progress)
         source: "https://gitlab.com/kelteseth/ScreenPlay/-/tags?&format=atom"
@@ -40,6 +41,7 @@ GridView {
             name: "updated"
             query: "updated/string()"
         }
+
     }
 
     header: Item {
@@ -101,7 +103,7 @@ GridView {
                     left: parent.left
                     margins: 20
                 }
-                color: "#333333"
+                color: Material.primaryTextColor
                 font.family: ScreenPlay.settings.font
                 font.weight: Font.Normal
                 font.pointSize: 18
@@ -118,7 +120,7 @@ GridView {
                     left: parent.left
                     leftMargin: 20
                 }
-                color: "white"
+                color: Material.primaryTextColor
                 font.family: ScreenPlay.settings.font
                 
                 font.weight: Font.Normal
