@@ -16,7 +16,6 @@ Item {
     id: root
     width: 400
     state: "inactive"
-    focus: true
 
     property real navHeight
     property var type: InstalledType.QMLWallpaper
@@ -108,6 +107,8 @@ Item {
             id: mouseAreaHelper
             anchors.fill: parent
             enabled: true
+            hoverEnabled: true
+            propagateComposedEvents: false
         }
         Item {
             id: navBackground
