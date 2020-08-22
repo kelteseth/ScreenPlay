@@ -69,7 +69,3 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::WebEngine
     ScreenPlaySDK
     )
-
-
-configure_file(index.html ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-
