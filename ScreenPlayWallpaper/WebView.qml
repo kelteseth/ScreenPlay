@@ -37,18 +37,8 @@ Item {
 
     WebEngineView {
         id: webView
-
         anchors.fill: parent
-        url: {
-
-            if (Wallpaper.type === Wallpaper.WallpaperType.Video) {
-                return Qt.resolvedUrl(Wallpaper.getApplicationPath(
-                                          ) + "/index.html")
-            }
-            if (Wallpaper.type === Wallpaper.WallpaperType.Html) {
-                return Qt.resolvedUrl(Wallpaper.fullContentPath + "/index.html")
-            }
-        }
+        url: "qrc:/index.html"
         onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
             if ((loadProgress === 100)) {

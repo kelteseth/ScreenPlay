@@ -115,7 +115,7 @@ Drawer {
 
             opacity: 0
             property bool ready: false
-            url: Qt.resolvedUrl(".") + "WorkshopPreview.html"
+            url: "qrc:/assets/WorkshopPreview.html"
             onUrlChanged: print(url)
 
             Behavior on opacity {
