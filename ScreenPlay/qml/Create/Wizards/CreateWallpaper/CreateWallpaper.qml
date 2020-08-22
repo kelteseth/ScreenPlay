@@ -37,33 +37,5 @@ Item {
     }
 
 
-    Connections {
-        target: ScreenPlay.create
-
-        function onCreateWallpaperStateChanged(state) {
-            switch (state) {
-            case CreateImportVideo.AnalyseVideoError:
-            case CreateImportVideo.AnalyseVideoHasNoVideoStreamError:
-            case CreateImportVideo.ConvertingPreviewVideoError:
-            case CreateImportVideo.ConvertingPreviewGifError:
-            case CreateImportVideo.ConvertingPreviewImageError:
-            case CreateImportVideo.ConvertingPreviewImageThumbnailError:
-            case CreateImportVideo.CopyFilesError:
-            case CreateImportVideo.CreateProjectFileError:
-            case CreateImportVideo.AbortCleanupError:
-            case CreateImportVideo.CreateTmpFolderError:
-
-                break
-            }
-        }
-        function onProgressChanged(progress) {
-            var percentage = Math.floor(progress * 100)
-
-            if (percentage > 100 || progress > 0.95)
-                percentage = 100
-
-            txtConvertNumber.text = percentage + "%"
-        }
-    }
 
 }

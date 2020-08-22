@@ -120,12 +120,30 @@ void CreateImportVideo::process()
  */
 bool CreateImportVideo::createWallpaperInfo()
 {
+    if (m_videoPath.endsWith(".webm") || m_videoPath.endsWith(".mkv")) {
+        m_isMatroska = true;
+        // TODO add webm/matroska support
+        return true;
+    }
+
     // Get video info
     QStringList args;
     args.append("-print_format");
     args.append("json");
-    args.append("-show_format");
-    args.append("-show_streams");
+
+    // MKV/Webm a simple container query will result in N/A nb_frames
+    // https://stackoverflow.com/questions/2017843/fetch-frame-count-with-ffmpeg
+    if (m_isMatroska) {
+        args.append("-count_frames");
+        args.append("-select_streams");
+        args.append("v:0");
+        args.append("-show_entries");
+        args.append("stream=nb_read_frames");
+    } else {
+        args.append("-show_format");
+        args.append("-show_streams");
+    }
+
     args.append(m_videoPath);
 
     emit processOutput("ffprobe " + Util::toString(args));
@@ -140,10 +158,12 @@ bool CreateImportVideo::createWallpaperInfo()
     waitForFinished(pro);
 
     emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoFinished);
-    auto a = pro->readAll();
-    auto obj = Util::parseQByteArrayToQJsonObject(a);
+
+    auto obj = Util::parseQByteArrayToQJsonObject(pro->readAll());
     if (!obj) {
-        qDebug() << "Error parsing ffmpeg json output";
+        QString error = pro->readAll();
+        qDebug() << "Error parsing ffmpeg json output:" << error << "\n Args: " << args;
+
         emit processOutput(pro->readAll());
         emit processOutput("Error parsing ffmpeg json output");
         emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
@@ -249,8 +269,7 @@ bool CreateImportVideo::createWallpaperInfo()
     m_framerate = framerate;
 
     // If the video is to short
-    m_smallVideo = m_numberOfFrames < (m_framerate * 3);
-
+    m_smallVideo = m_numberOfFrames < (m_framerate * 5);
 
     return true;
 }
@@ -284,7 +303,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     args.append("-stats");
     args.append("-i");
     args.append(m_videoPath);
-    // If the video is shorter than 6 seconds we simply convert the original to webm
+    // If the video is shorter than 5 seconds we simply convert the original to webm
     if (!m_smallVideo) {
         args.append("-vf");
         // We allways want to have a 5 second clip via 24fps -> 120 frames
@@ -413,13 +432,13 @@ bool CreateImportVideo::createWallpaperImageThumbnailPreview()
     args.append("-i");
     args.append(m_videoPath);
     // Order of arguments is important
-    if(!m_smallVideo){
+    if (!m_smallVideo) {
         args.append("-vframes");
         args.append("1");
     }
     args.append("-q:v");
     args.append("2");
-    if(m_smallVideo){
+    if (m_smallVideo) {
         args.append("-vf");
         // Select first frame https://stackoverflow.com/a/44073745/12619313
         args.append("select=eq(n\\,0), scale=320:-1");
@@ -474,7 +493,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
     args.append(m_videoPath);
     args.append("-q:v");
     args.append("2");
-    if(m_smallVideo){
+    if (m_smallVideo) {
         args.append("-vf");
         // Select first frame https://stackoverflow.com/a/44073745/12619313
         args.append("select=eq(n\\,0)");

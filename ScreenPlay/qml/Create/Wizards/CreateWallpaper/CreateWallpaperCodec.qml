@@ -60,7 +60,7 @@ Item {
         Text {
             id: txtDescription
             text: qsTr("Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper!")
-            color: Material.secondaryTextColor
+            color: Material.primaryTextColor
             width: parent.width
             font.pointSize: 13
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere

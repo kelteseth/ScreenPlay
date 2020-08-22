@@ -18,23 +18,19 @@ Item {
     property var codec: Create.VP8
     property string filePath
 
-
-
     onFilePathChanged: {
-        textFieldName.text =  basename(filePath)
+        textFieldName.text = basename(filePath)
     }
 
     function cleanup() {
         ScreenPlay.create.abortAndCleanup()
     }
 
-    function basename(str)
-    {
-        let filenameWithExtentions = (str.slice(str.lastIndexOf("/")+1))
+    function basename(str) {
+        let filenameWithExtentions = (str.slice(str.lastIndexOf("/") + 1))
         let filename = filenameWithExtentions.split('.').slice(0, -1).join('.')
         return filename
     }
-
 
     onCanSaveChanged: wrapperContent.checkCanSave()
     signal save
@@ -49,6 +45,8 @@ Item {
 
     Connections {
         target: ScreenPlay.create
+
+
 
         function onCreateWallpaperStateChanged(state) {
             switch (state) {
@@ -93,7 +91,7 @@ Item {
                 busyIndicator.running = false
                 wrapperContent.checkCanSave()
 
-                ScreenPlay.setTrackerSendEvent("createWallpaperSuccessful", "");
+                ScreenPlay.setTrackerSendEvent("createWallpaperSuccessful", "")
                 break
             }
         }
@@ -102,6 +100,10 @@ Item {
 
             if (percentage > 100 || progress > 0.95)
                 percentage = 100
+
+            if(percentage === NaN) {
+                print(progress, percentage)
+            }
 
             txtConvertNumber.text = percentage + "%"
         }
@@ -113,7 +115,7 @@ Item {
         height: 40
         font.family: ScreenPlay.settings.font
         font.weight: Font.Light
-        color: "#757575"
+        color: Material.primaryTextColor
 
         font.pointSize: 23
         anchors {
@@ -137,7 +139,7 @@ Item {
         Rectangle {
             id: imgWrapper
             anchors {
-                top:parent.top
+                top: parent.top
                 right: parent.right
                 rightMargin: 20
                 bottom: previewSelector.top
@@ -205,7 +207,7 @@ Item {
 
             Text {
                 id: txtConvert
-                color: "white"
+                color: Material.secondaryTextColor
                 text: qsTr("Generating preview video...")
                 font.pointSize: 14
                 font.family: ScreenPlay.settings.font
@@ -272,7 +274,6 @@ Item {
                 font.family: ScreenPlay.settings.font
                 width: parent.width
                 Layout.fillWidth: true
-
             }
 
             TextField {
@@ -297,7 +298,7 @@ Item {
             width: childrenRect.width
             spacing: 10
             anchors {
-                right:parent.right
+                right: parent.right
                 rightMargin: 30
                 bottomMargin: -10
                 bottom: parent.bottom
@@ -332,8 +333,7 @@ Item {
                                     textFieldDescription.text,
                                     wrapperContent.filePath,
                                     previewSelector.imageSource,
-                                    textFieldYoutubeURL.text,
-                                    codec,
+                                    textFieldYoutubeURL.text, codec,
                                     textFieldTags.getTags())
                         savePopup.open()
                         ScreenPlay.installedListModel.reset()
@@ -357,6 +357,7 @@ Item {
         }
         Text {
             text: qsTr("Save Wallpaper...")
+            color: Material.primaryTextColor
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 30

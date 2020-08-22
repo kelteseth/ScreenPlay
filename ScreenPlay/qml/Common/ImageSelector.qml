@@ -3,6 +3,8 @@ import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import Qt.labs.platform 1.1
 import ScreenPlay 1.0
+
+
 /*!
    \qmltype Image Selector
    \brief A image selector with popup preview.
@@ -22,7 +24,6 @@ import ScreenPlay 1.0
    \endqml
 
 */
-
 Item {
     id: imageSelector
     height: 70
@@ -45,7 +46,8 @@ Item {
 
     Rectangle {
         id: rectangle
-        color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
+        color: Material.theme === Material.Light ? Material.background : Qt.darker(
+                                                       Material.background)
         radius: 3
         clip: true
         anchors {
@@ -105,7 +107,7 @@ Item {
             font.pointSize: 12
             font.family: ScreenPlay.settings.font
             wrapMode: Text.WordWrap
-            color: Material.color(Material.Grey)
+            color: Material.secondaryTextColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
             anchors {
@@ -125,6 +127,7 @@ Item {
             wrapMode: Text.WordWrap
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignLeft
+            color: Material.secondaryTextColor
             anchors {
                 top: parent.top
                 left: imgWrapper.right
@@ -137,7 +140,10 @@ Item {
         Button {
             id: btnClear
             text: qsTr("Clear")
-            Material.background: Material.theme === Material.Light ? Qt.lighter(Material.accent) : Qt.darker(Material.accent)
+            Material.background: Material.theme
+                                 === Material.Light ? Qt.lighter(
+                                                          Material.accent) : Qt.darker(
+                                                          Material.accent)
             Material.foreground: "white"
 
             anchors {

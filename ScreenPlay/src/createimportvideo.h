@@ -114,6 +114,9 @@ public:
     // If the video is < 1s in duration we cannot create a 5s preview
     bool m_smallVideo { false };
 
+    // We do not get many infos with this
+    bool m_isMatroska { false };
+
     float m_progress { 0.0F };
 
     QString m_videoPath;
