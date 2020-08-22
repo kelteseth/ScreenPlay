@@ -1,7 +1,9 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
-import ScreenPlay 1.0
 import QtQuick.Controls.Material 2.12
+
+import ScreenPlay 1.0
+import ScreenPlay.Enums.InstalledType 1.0
 
 Item {
     id: root
@@ -13,8 +15,9 @@ Item {
     property string monitorID
     property string previewImage: ""
     property string appID
-    property var installedType
-
+    property var installedType: InstalledType.QMLWallpaper
+    property bool monitorWithoutContentSelectable: true
+    property bool hasContent: appID !== ""
 
     onPreviewImageChanged: {
         if (previewImage === "") {
@@ -80,7 +83,13 @@ Item {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                monitorSelected(index)
+                if (monitorWithoutContentSelectable) {
+                    monitorSelected(index)
+                    return
+                }
+
+                if (root.hasContent && !root.monitorWithoutContentSelectable)
+                    monitorSelected(index)
             }
         }
     }

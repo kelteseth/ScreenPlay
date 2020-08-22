@@ -93,6 +93,7 @@ signals:
     void activeWidgetsCounterChanged(int activeWidgetsCounter);
     void requestSaveProfiles();
     void requestRaise();
+    void profilesSaved();
 
 private slots:
     void saveProfiles();

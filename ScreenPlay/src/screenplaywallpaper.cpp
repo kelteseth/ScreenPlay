@@ -173,7 +173,6 @@ void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>&
 
     // Check every X seconds if the wallpaper is still alive
     QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {
-        qInfo() << "pingAliveReceived";
         m_pingAliveTimer.stop();
         m_pingAliveTimer.start(16000);
     });
@@ -206,7 +205,7 @@ void ScreenPlayWallpaper::replace(
     obj.insert("command", "replace");
     obj.insert("type", QVariant::fromValue(type).toString());
     obj.insert("fillMode", QVariant::fromValue(fillMode).toString());
-    obj.insert("volume", volume);
+    obj.insert("volume", std::floor(volume * 100.0f) / 100.0f);
     obj.insert("absolutePath", absolutePath);
     obj.insert("file", file);
     obj.insert("checkWallpaperVisible", checkWallpaperVisible);

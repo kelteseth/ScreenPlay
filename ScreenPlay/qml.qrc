@@ -73,5 +73,6 @@
         <file>qml/Workshop/upload/UploadProject.qml</file>
         <file>qml/Workshop/upload/UploadProjectBigItem.qml</file>
         <file>qml/Workshop/upload/UploadProjectItem.qml</file>
+        <file>qml/Monitors/SaveNotification.qml</file>
     </qresource>
 </RCC>

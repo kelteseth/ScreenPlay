@@ -4,6 +4,8 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.2
 import QtQuick.Layouts 1.3
 
+import QtQuick.Controls.Material.impl 2.12
+
 import ScreenPlay 1.0
 
 import ScreenPlay.Enums.InstalledType 1.0
@@ -20,6 +22,11 @@ Popup {
     focus: true
     background: Rectangle {
         anchors.fill: parent
+        radius: 4
+        layer.enabled: true
+        layer.effect: ElevationEffect {
+            elevation: 6
+        }
         color: Material.theme === Material.Light ? "white" : Material.background
     }
 
@@ -61,7 +68,7 @@ Popup {
                 font.pointSize: 21
                 color: Material.primaryTextColor
                 font.family: ScreenPlay.settings.font
-                font.weight: Font.Thin
+                font.weight: Font.Light
                 width: 400
                 anchors {
                     top: parent.top
@@ -77,6 +84,7 @@ Popup {
                 z: 99
                 width: parent.width * .9
                 multipleMonitorsSelectable: false
+                monitorWithoutContentSelectable: false
                 anchors {
                     top: txtHeadline.bottom
                     topMargin: 20
@@ -91,11 +99,9 @@ Popup {
                     if (installedType === InstalledType.VideoWallpaper) {
                         videoControlWrapper.state = "visible"
                         customPropertiesGridView.visible = false
-                        print(appID)
                         const wallpaper = ScreenPlay.screenPlayManager.getWallpaperByAppID(
                                             appID)
                         videoControlWrapper.wallpaper = wallpaper
-                        print("volume", wallpaper.volume, wallpaper)
                     } else {
                         videoControlWrapper.state = "hidden"
                         customPropertiesGridView.visible = true
@@ -135,8 +141,10 @@ Popup {
                     }
                 }
                 Button {
-                    id: btnRemoveAllWallpaper
-                    text: qsTr("Remove all Wallpapers")
+                    id: btnRemoveAllWallpape
+                    text: qsTr("Remove ")
+                          + ScreenPlay.screenPlayManager.activeWallpaperCounter + " " + qsTr(
+                              "Wallpapers")
                     Material.background: Material.accent
                     Material.foreground: "white"
                     font.family: ScreenPlay.settings.font
@@ -148,7 +156,9 @@ Popup {
                 }
                 Button {
                     id: btnRemoveAllWidgets
-                    text: qsTr("Remove all Widgets")
+                    text: qsTr("Remove ")
+                          + ScreenPlay.screenPlayManager.activeWidgetsCounter + " " + qsTr(
+                              "Widgets")
                     Material.background: Material.accent
                     Material.foreground: "white"
                     font.family: ScreenPlay.settings.font
@@ -232,11 +242,18 @@ Popup {
             onClicked: monitors.close()
         }
     }
-}
 
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:768;width:1366}
+    SaveNotification {
+        id: saveNotification
+        width: parent.width - 40
+        leftMargin: 20
+        rightMargin: 20
+        Connections {
+            target: ScreenPlay.screenPlayManager
+            function onProfilesSaved() {
+                if (monitors.opened)
+                    saveNotification.open()
+            }
+        }
+    }
 }
-##^##*/
-

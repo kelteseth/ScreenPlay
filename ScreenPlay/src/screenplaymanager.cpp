@@ -321,8 +321,6 @@ void ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const Q
             bool ok = false;
             float _value = value.toFloat(&ok);
             if (ok) {
-               // _value = std::floor(_value * 100.0f) / 100.0f;
-                qInfo() << _value;
                 setWallpaperValue(*appID, key, _value);
             } else
                 qWarning() << "Could not convert " << key << " to float with value " << value;
@@ -452,7 +450,7 @@ void ScreenPlayManager::setWallpaperValue(const QString& appID, const QString& k
 void ScreenPlayManager::saveProfiles()
 {
     m_saveLimiter.stop();
-    qInfo() << "Save profiles!";
+
     QJsonArray wallpaper {};
     for (const auto& activeWallpaper : qAsConst(m_screenPlayWallpapers)) {
         wallpaper.append(activeWallpaper->getActiveSettingsJson());
@@ -476,7 +474,8 @@ void ScreenPlayManager::saveProfiles()
     profile.insert("version", "1.0.0");
     profile.insert("profiles", activeProfileList);
 
-    Util::writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile);
+    if (Util::writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile))
+        emit profilesSaved();
 }
 
 bool ScreenPlayManager::removeWallpaperByAppID(const QString& appID)

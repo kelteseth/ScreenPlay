@@ -13,11 +13,22 @@ Rectangle {
     height: availableHeight
     width: parent.width
     clip: true
-
+    layer.enabled: true
+    layer.effect: InnerShadow {
+        cached: true
+        fast: true
+        smooth: true
+        radius: 32
+        spread: .8
+        verticalOffset: 3
+        color: "#55000000"
+    }
     // Width of the Sidebar or Space that should be used
     property real availableWidth: 0
     property real availableHeight: 0
     property int fontSize: 12
+
+    property bool monitorWithoutContentSelectable: true
     property bool multipleMonitorsSelectable: false
 
     // We preselect the main monitor
@@ -121,6 +132,7 @@ Rectangle {
     Flickable {
         id: flickable
         anchors.fill: parent
+
         contentWidth: rp.contentWidth
         contentHeight: rp.contentHeight
         ScrollBar.vertical: ScrollBar {
@@ -158,6 +170,7 @@ Rectangle {
                 index: m_number
                 previewImage: m_previewImage
                 installedType: m_installedType
+                monitorWithoutContentSelectable: root.monitorWithoutContentSelectable
 
                 onMonitorSelected: {
 
@@ -170,9 +183,10 @@ Rectangle {
 
                     getActiveMonitors()
 
-                    root.requestProjectSettings(delegate.index,
-                                                delegate.installedType,
-                                                delegate.appID)
+                    if (delegate.hasContent)
+                        root.requestProjectSettings(delegate.index,
+                                                    delegate.installedType,
+                                                    delegate.appID)
                 }
             }
         }
