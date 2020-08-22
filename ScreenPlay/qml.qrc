@@ -30,8 +30,6 @@
         <file>qml/Settings/SettingsHeader.qml</file>
         <file>qml/Settings/SettingsHorizontalSeperator.qml</file>
         <file>qml/Workshop/Workshop.qml</file>
-        <file>qml/Workshop/WorkshopAvailableTest.qml</file>
-        <file>qml/Workshop/WorkshopLoader.qml</file>
         <file>qml/Monitors/Monitors.qml</file>
         <file>qml/Monitors/MonitorSelection.qml</file>
         <file>qml/Monitors/MonitorSelectionItem.qml</file>

@@ -84,11 +84,14 @@ ApplicationWindow {
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
             pageLoaderCreate.item.checkFFMPEG()
         } else if (name === "Workshop") {
-            bg.state = "init"
-            pageLoader.visible = false
-            pageLoaderCreate.visible = false
-            pageLoaderWorkshop.visible = true
-            pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
+            if (ScreenPlay.settings.steamVersion) {
+
+                bg.state = "init"
+                pageLoader.visible = false
+                pageLoaderCreate.visible = false
+                pageLoaderWorkshop.visible = true
+                pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
+            }
         } else if (name === "Community") {
             bg.state = "community"
             pageLoader.visible = true
@@ -262,6 +265,7 @@ ApplicationWindow {
     Loader {
         id: pageLoaderWorkshop
         visible: false
+        enabled: ScreenPlay.settings.steamVersion
         asynchronous: true
         anchors {
             top: nav.bottom
@@ -319,5 +323,4 @@ ApplicationWindow {
     Monitors {
         id: monitors
     }
-
 }

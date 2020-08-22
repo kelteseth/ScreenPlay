@@ -80,7 +80,6 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     QFile profilesFile(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
     if (!profilesFile.exists()) {
         qInfo("No profiles.json found, creating default profiles.json");
-        qDebug() << profilesFile;
         writeJsonFileFromResource("profiles");
     }
 

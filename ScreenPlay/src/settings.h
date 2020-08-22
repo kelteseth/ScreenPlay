@@ -81,6 +81,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool highPriorityStart READ highPriorityStart WRITE setHighPriorityStart NOTIFY highPriorityStartChanged)
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
     Q_PROPERTY(bool offlineMode READ offlineMode WRITE setOfflineMode NOTIFY offlineModeChanged)
+    Q_PROPERTY(bool steamVersion READ steamVersion WRITE setSteamVersion NOTIFY steamVersionChanged)
 
     Q_PROPERTY(ScreenPlay::FillMode::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
     Q_PROPERTY(Language language READ language WRITE setLanguage NOTIFY languageChanged)
@@ -181,6 +182,11 @@ public:
         return m_theme;
     }
 
+    bool steamVersion() const
+    {
+        return m_steamVersion;
+    }
+
 signals:
     void requestRetranslation();
     void resetInstalledListmodel();
@@ -199,6 +205,8 @@ signals:
     void languageChanged(ScreenPlay::Settings::Language language);
     void fontChanged(QString font);
     void themeChanged(ScreenPlay::Settings::Theme theme);
+
+    void steamVersionChanged(bool steamVersion);
 
 public slots:
     void writeJsonFileFromResource(const QString& filename);
@@ -355,6 +363,15 @@ public slots:
         emit themeChanged(m_theme);
     }
 
+    void setSteamVersion(bool steamVersion)
+    {
+        if (m_steamVersion == steamVersion)
+            return;
+
+        m_steamVersion = steamVersion;
+        emit steamVersionChanged(m_steamVersion);
+    }
+
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
 
@@ -377,5 +394,6 @@ private:
     Language m_language { Language::En };
     Theme m_theme { Theme::System };
     QString m_font { "Roboto" };
+    bool m_steamVersion { false };
 };
 }

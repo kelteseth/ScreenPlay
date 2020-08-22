@@ -208,7 +208,11 @@ bool App::loadSteamPlugin()
     const QString fileSuffix = ".dylib";
 #endif
 #ifdef Q_OS_WIN
+#ifdef QT_NO_DEBUG
     const QString fileSuffix = ".dll";
+#else
+    const QString fileSuffix = "d.dll";
+#endif
 #else
     const QString fileSuffix = ".so";
 #endif
@@ -220,6 +224,7 @@ bool App::loadSteamPlugin()
     }
 
     const ScreenPlayWorkshopPlugin* workshopPlugin = reinterpret_cast<ScreenPlayWorkshopPlugin*>(m_workshopPlugin.instance());
+    settings()->setSteamVersion(true);
     return true;
 }
 }

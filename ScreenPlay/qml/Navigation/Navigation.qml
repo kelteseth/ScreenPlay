@@ -62,9 +62,6 @@ Rectangle {
         }
     }
 
-    WorkshopLoader {
-        id: wl
-    }
 
     Row {
         id: row
@@ -86,7 +83,7 @@ Rectangle {
             id: navWorkshop
             state: "inactive"
             name: "Workshop"
-            enabled: wl.available
+            enabled: ScreenPlay.settings.steamVersion
             iconSource: "qrc:/assets/icons/icon_steam.svg"
             onPageClicked: navigation.onPageChanged(name)
         }
