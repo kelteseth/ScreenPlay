@@ -17,9 +17,6 @@ Item {
     signal videoImportConvertFileSelected(var videoFile)
     signal projectFileSelected(var projectFile)
 
-    WorkshopLoader {
-        id: wl
-    }
     Text {
         id: txtHeadline
         text: qsTr("Import Content")
@@ -126,7 +123,7 @@ Item {
         id: wrapperUploadProject
         width: parent.width
         height: 120
-        visible: wl.available
+        visible: ScreenPlay.settings.steamVersion
 
         anchors {
             top: wrapperImportVideo.bottom
