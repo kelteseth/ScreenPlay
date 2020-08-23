@@ -313,17 +313,12 @@ void ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
 /*!
   \brief Set a wallpaper \a value at a given \a index and \a key.
 */
-void ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QVariant& value)
+void ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value)
 {
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
 
         if (key == "volume" || key == "currentTime" || key == "playbackRate") {
-            bool ok = false;
-            float _value = value.toFloat(&ok);
-            if (ok) {
-                setWallpaperValue(*appID, key, _value);
-            } else
-                qWarning() << "Could not convert " << key << " to float with value " << value;
+            setWallpaperValue(*appID, key, value);
         }
         setWallpaperValue(*appID, key, value);
     } else {
@@ -434,7 +429,7 @@ bool ScreenPlayManager::closeWallpaper(const QString& appID)
 /*!
    \brief Sets a given \a value to a given \a key. The \a appID is used to identify the receiver socket.
 */
-void ScreenPlayManager::setWallpaperValue(const QString& appID, const QString& key, const QVariant& value)
+void ScreenPlayManager::setWallpaperValue(const QString& appID, const QString& key, const QString& value)
 {
     for (const auto& wallpaper : qAsConst(m_screenPlayWallpapers)) {
         if (wallpaper->appID() == appID) {

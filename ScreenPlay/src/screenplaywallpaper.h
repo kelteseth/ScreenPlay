@@ -164,7 +164,7 @@ signals:
 public slots:
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
     void processError(QProcess::ProcessError error);
-    void setWallpaperValue(const QString& key, const QVariant& value, const bool save = false);
+    void setWallpaperValue(const QString& key, const QString &value, const bool save = false);
 
     void setScreenNumber(QVector<int> screenNumber)
     {

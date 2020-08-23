@@ -141,10 +141,10 @@ void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
     qDebug() << "EX: " << error;
 }
 
-void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& value, const bool save)
+void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value, const bool save)
 {
     QJsonObject obj;
-    obj.insert(key, value.toString());
+    obj.insert(key, value);
 
     if (key == "volume") {
         setVolume(value.toFloat());
@@ -153,7 +153,7 @@ void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QVariant& 
         setPlaybackRate(value.toFloat());
     }
     if (key == "fillmode") {
-        setFillMode(QStringToEnum<FillMode::FillMode>(value.toString(), FillMode::FillMode::Cover));
+        setFillMode(QStringToEnum<FillMode::FillMode>(value, FillMode::FillMode::Cover));
     }
 
     m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
@@ -167,7 +167,7 @@ void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>&
     m_connection = connection;
     QTimer::singleShot(500, [this]() {
         if (playbackRate() != 1.0) {
-            setWallpaperValue("playbackRate", playbackRate(), false);
+            setWallpaperValue("playbackRate", QString::number(playbackRate()), false);
         }
     });
 
