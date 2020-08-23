@@ -20,6 +20,7 @@ ColumnLayout {
     onWallpaperChanged: {
         if(!wallpaper)
         {
+            slPlaybackRate.slider.value =  1
             return
         }
         slVolume.slider.value =  wallpaper.volume
@@ -43,7 +44,7 @@ ColumnLayout {
         id:slVolume
         headline: qsTr("Volume")
         slider.stepSize: 0.1
-        slider.onMoved: {
+        slider.onValueChanged: {
             ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                         activeMonitorIndex, "volume", Number(slider.value).toFixed(1))
         }
@@ -55,17 +56,18 @@ ColumnLayout {
     SP.Slider {
         id:slPlaybackRate
         headline: qsTr("Playback rate")
-        slider.onMoved: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
+        slider.onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                             activeMonitorIndex, "playbackRate", Number(slider.value).toFixed(1))
         Layout.fillWidth: true
         slider.stepSize: 0.1
+        slider.to: 1
         Layout.leftMargin: 10
         Layout.rightMargin: 10
     }
     SP.Slider {
         id: slCurrentVideoTime
         headline: qsTr("Current Video Time")
-        slider.onMoved: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
+        slider.onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
                             activeMonitorIndex, "currentTime", Number(slider.value).toFixed(1))
         Layout.fillWidth: true
         slider.stepSize: 0.1

@@ -249,7 +249,7 @@ public slots:
     }
 
 private:
-    bool loadSteamPlugin();
+    void loadSteamPlugin();
 
 private:
     QPluginLoader m_workshopPlugin;

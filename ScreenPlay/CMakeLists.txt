@@ -70,12 +70,13 @@ set(l10n
 set_source_files_properties(${l10n} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/translations")
 qt5_add_translation(qmFiles ${l10n})
 
-#qt5_add_big_resources(resources  resources.qrc)
+# For development purposes to display source files in QtCreator
+#qt5_add_resources(qml qml.qrc resources.qrc)
 
-qt5_add_resources(qml qml.qrc resources.qrc)
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+    qt5_add_resources(qml qml.qrc resources.qrc)
 else()
-#    qtquick_compiler_add_resources(qml qml.qrc resources.qrc)
+    qtquick_compiler_add_resources(qml qml.qrc resources.qrc)
 endif()
 
 add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml})
@@ -110,4 +111,3 @@ target_include_directories(${PROJECT_NAME}
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets/fonts)
 configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/assets/fonts COPYONLY)
-

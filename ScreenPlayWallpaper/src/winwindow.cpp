@@ -72,6 +72,21 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
 }
 
+void WinWindow::setupWindowMouseHook()
+{
+    // MUST be called before setting hook for events!
+    if (type() != BaseWindow::WallpaperType::Video) {
+        qInfo() << "Enable mousehook";
+        g_winGlobalHook = &m_window;
+
+        HINSTANCE hInstance = GetModuleHandle(NULL);
+        if (!(g_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, hInstance, 0))) {
+            qDebug() << "Faild to install mouse hook!";
+        }
+        qInfo() << "Setup mousehook";
+    }
+}
+
 WinWindow::WinWindow(
     const QVector<int>& activeScreensList,
     const QString& projectPath,
@@ -239,18 +254,6 @@ void WinWindow::setupWallpaperForMultipleScreens(const QVector<int>& activeScree
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
         qFatal("Could not attach to parent window");
-    }
-}
-
-void WinWindow::setupWindowMouseHook()
-{
-    // MUST be called before setting hook for events!
-    if (type() != BaseWindow::WallpaperType::Video) {
-        qInfo() << "Enable mousehook";
-        g_winGlobalHook = &m_window;
-        if (!(g_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, nullptr, 0))) {
-            qDebug() << "Faild to install mouse hook!";
-        }
     }
 }
 

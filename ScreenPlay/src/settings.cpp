@@ -59,7 +59,6 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
         setAutostart(m_qSettings.value("Autostart", true).toBool());
     }
 
-
     setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", false).toBool());
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
     if (m_qSettings.contains("VideoFillMode")) {
@@ -68,7 +67,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     } else {
         setVideoFillMode(FillMode::FillMode::Cover);
     }
-    
+
     if (m_qSettings.contains("Theme")) {
         auto value = m_qSettings.value("Theme").toString();
         setTheme(QStringToEnum<Theme>(value, Theme::Dark));

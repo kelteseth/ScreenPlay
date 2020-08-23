@@ -78,7 +78,7 @@ Item {
             anchors.leftMargin: navigationItem.amount == "" ? 0 : 5
             text: "name"
             font.pointSize: 14
-            color: Material.foreground
+            color: Material.primaryTextColor
             anchors.verticalCenter: parent.verticalCenter
             font.family: ScreenPlay.settings.font
             font.weight: Font.Normal

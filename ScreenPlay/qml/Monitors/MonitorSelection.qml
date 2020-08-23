@@ -50,7 +50,7 @@ Rectangle {
         }
     }
 
-    function deselectOthers(index) {
+    function selectOnly(index) {
         for (var i = 0; i < rp.count; i++) {
 
             if (i === index) {
@@ -80,6 +80,20 @@ Rectangle {
         // property binding breaks
         root.activeMonitorsChanged()
         return root.activeMonitors
+    }
+
+    function selectMonitorAt(index) {
+        if (!multipleMonitorsSelectable) {
+            selectOnly(index)
+        } else {
+            rp.itemAt(index).isSelected = !rp.itemAt(index).isSelected
+        }
+
+        getActiveMonitors()
+
+        if (rp.itemAt(index).hasContent)
+            root.requestProjectSettings(index, rp.itemAt(index).installedType,
+                                        rp.itemAt(index).appID)
     }
 
     function resize() {
@@ -151,9 +165,6 @@ Rectangle {
             model: ScreenPlay.monitorListModel
             property int contentWidth
             property int contentHeight
-
-            Component.onCompleted: rp.itemAt(0).isSelected = true
-
             delegate: MonitorSelectionItem {
                 id: delegate
                 monitorID: m_monitorID
@@ -171,23 +182,7 @@ Rectangle {
                 previewImage: m_previewImage
                 installedType: m_installedType
                 monitorWithoutContentSelectable: root.monitorWithoutContentSelectable
-
-                onMonitorSelected: {
-
-                    if (!multipleMonitorsSelectable) {
-                        deselectOthers(index)
-                    } else {
-                        rp.itemAt(index).isSelected = !rp.itemAt(
-                                    index).isSelected
-                    }
-
-                    getActiveMonitors()
-
-                    if (delegate.hasContent)
-                        root.requestProjectSettings(delegate.index,
-                                                    delegate.installedType,
-                                                    delegate.appID)
-                }
+                onMonitorSelected: root.selectMonitorAt(delegate.index)
             }
         }
     }

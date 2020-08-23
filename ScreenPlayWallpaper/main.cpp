@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
     // Displays wrong DPI scaled monitor resolution
     // 4k with 150% scaling to FULL HD on Windows
     // https://bugreports.qt.io/browse/QTBUG-81694
-    //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    // QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication app(argc, argv);
@@ -44,11 +44,11 @@ int main(int argc, char* argv[])
 
 #if defined(Q_OS_WIN)
 
-        //WinWindow window1({ 0 }, "test", "appid", "1", "fill");
+        WinWindow window1({ 0 }, "test", "appid", "1", "fill", true);
         //WinWindow window2({ 1 }, "test", "appid", "1", "fill");
         //WinWindow window3({ 2 }, "test", "appid", "1", "fill");
 
-        WinWindow window({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/1958068745", "appid", "1", "fill", true);
+        // WinWindow window({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/qmlParticles", "appid", "1", "fill", true);
 #endif
 #if defined(Q_OS_LINUX)
         LinuxWindow window({ 0 }, "/home/graphicscore/Desktop/wallpapers/MechaGirl", "appid", "1", "fill", false);
@@ -102,7 +102,6 @@ int main(int argc, char* argv[])
 
     // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (4) volume, (5) fillmode, (6) type, (7)
     // See screenplay.h @ScreenPlayWallpaper constructor how the args get created
-    qDebug() << argumentList;
 
     bool okParseCheckWallpaperVisible = false;
     bool checkWallpaperVisible = argumentList.at(7).toInt(&okParseCheckWallpaperVisible);

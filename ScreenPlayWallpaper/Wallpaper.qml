@@ -56,7 +56,7 @@ Rectangle {
             // We need to check if the old type
             // was also Video not get called twice
             if (oldType === Wallpaper.WallpaperType.Video)
-               return
+                return
 
             imgCover.state = "in"
             loader.source = "qrc:/WebView.qml"
@@ -186,8 +186,10 @@ Rectangle {
 
         Component.onCompleted: {
 
-            if (Qt.platform.os !== "windows")
+            if (Qt.platform.os !== "windows") {
+                root.canFadeByWallpaperFillMode = false
                 return
+            }
 
             switch (Wallpaper.windowsDesktopProperties.wallpaperStyle) {
             case 10:
@@ -211,7 +213,7 @@ Rectangle {
                 }
                 break
             case 22:
-                canFadeByWallpaperFillMode = false
+                root.canFadeByWallpaperFillMode = false
                 break
             }
         }

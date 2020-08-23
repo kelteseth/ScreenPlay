@@ -47,7 +47,7 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.11.0");
+    QGuiApplication::setApplicationVersion("0.12.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
 #ifdef Q_OS_WINDOWS
@@ -179,10 +179,7 @@ void App::init()
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
-
-    if (!loadSteamPlugin())
-        qWarning() << "Steam plugin not provided!";
-
+    loadSteamPlugin();
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
 }
 
@@ -202,7 +199,7 @@ void App::exit()
     }
 }
 
-bool App::loadSteamPlugin()
+void App::loadSteamPlugin()
 {
 #ifdef Q_OS_MACOS
     const QString fileSuffix = ".dylib";
@@ -220,11 +217,11 @@ bool App::loadSteamPlugin()
     m_workshopPlugin.setFileName(QApplication::applicationDirPath() + "/ScreenPlayWorkshop" + fileSuffix);
 
     if (!m_workshopPlugin.load()) {
-        return false;
+        qWarning() << "Steam plugin not provided!";
+        qWarning() << m_workshopPlugin.fileName() << " - With error: " << m_workshopPlugin.errorString();
     }
 
     const ScreenPlayWorkshopPlugin* workshopPlugin = reinterpret_cast<ScreenPlayWorkshopPlugin*>(m_workshopPlugin.instance());
     settings()->setSteamVersion(true);
-    return true;
 }
 }

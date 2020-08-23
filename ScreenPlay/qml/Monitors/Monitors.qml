@@ -41,7 +41,7 @@ Popup {
     }
 
     onOpened: {
-        ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(0)
+        monitorSelection.selectMonitorAt(0)
     }
 
     Item {
@@ -81,7 +81,6 @@ Popup {
                 id: monitorSelection
                 radius: 3
                 height: 200
-                z: 99
                 width: parent.width * .9
                 multipleMonitorsSelectable: false
                 monitorWithoutContentSelectable: false
