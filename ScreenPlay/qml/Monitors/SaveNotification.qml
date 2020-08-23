@@ -5,54 +5,34 @@ import QtQuick.Controls.Material 2.14
 import QtQuick.Controls.Material.impl 2.12
 import ScreenPlay 1.0
 
-Drawer {
+Rectangle {
     id: root
     height: 40
-    modal: false
-    dim: false
-    interactive: false
-    edge: Qt.BottomEdge
-
-    enter: Transition {
-        SmoothedAnimation {
-            velocity: 10
-            easing.type: Easing.InOutQuart
-        }
-        PropertyAnimation {
-            property: "opacity"
-            from: 0
-            to: 1
-            duration: 250
-        }
+    opacity: 0
+    anchors {
+        horizontalCenter: parent.horizontalCenter
+        bottomMargin: -root.height
+        bottom: parent.bottom
     }
 
-    exit: Transition {
-        PropertyAnimation {
-            property: "opacity"
-            from: 1
-            to: 0
-            duration: 250
-        }
-
-        SmoothedAnimation {
-            velocity: 10
-            easing.type: Easing.InOutQuart
-        }
+    radius: 4
+    color: Material.color(Material.LightGreen)
+    layer.enabled: true
+    layer.effect: ElevationEffect {
+        elevation: 6
     }
 
-    background: Rectangle {
-        radius: 4
-        color: Material.color(Material.Orange)
-        layer.enabled: true
-        layer.effect: ElevationEffect {
-            elevation: 6
-        }
+    function open() {
+        root.state = "in"
+        closeTimer.start()
+    }
+    function close() {
+        root.state = ""
     }
 
-    onOpened: closeTimer.start()
     Timer {
         id: closeTimer
-        interval: 1000
+        interval: 1500
         onTriggered: root.close()
     }
 
@@ -71,4 +51,28 @@ Drawer {
             bottomMargin: 5
         }
     }
+    transitions: [
+        Transition {
+            from: ""
+            to: "in"
+            reversible: true
+            PropertyAnimation {
+                target: root
+                properties: "opacity,anchors.bottomMargin"
+                duration: 250
+                easing.type: Easing.InOutQuart
+            }
+        }
+    ]
+    states: [
+        State {
+            name: "in"
+
+            PropertyChanges {
+                target: root
+                anchors.bottomMargin: 10
+                opacity: 1
+            }
+        }
+    ]
 }

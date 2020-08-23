@@ -151,7 +151,7 @@ Popup {
                     enabled: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeAllWallpapers()
-                        monitors.state = "inactive"
+                        monitors.close()
                     }
                 }
                 Button {
@@ -165,7 +165,7 @@ Popup {
                     enabled: ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
                     onClicked: {
                         ScreenPlay.screenPlayManager.removeAllWidgets()
-                        monitors.state = "inactive"
+                        monitors.close()
                     }
                 }
             }
@@ -241,18 +241,16 @@ Popup {
             icon.color: "gray"
             onClicked: monitors.close()
         }
-    }
 
-    SaveNotification {
-        id: saveNotification
-        width: parent.width - 40
-        leftMargin: 20
-        rightMargin: 20
-        Connections {
-            target: ScreenPlay.screenPlayManager
-            function onProfilesSaved() {
-                if (monitors.opened)
-                    saveNotification.open()
+        SaveNotification {
+            id: saveNotification
+            width: parent.width - 40
+            Connections {
+                target: ScreenPlay.screenPlayManager
+                function onProfilesSaved() {
+                    if (monitors.opened)
+                        saveNotification.open()
+                }
             }
         }
     }
