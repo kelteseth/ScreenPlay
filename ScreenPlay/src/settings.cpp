@@ -72,6 +72,8 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     if (m_qSettings.contains("Theme")) {
         auto value = m_qSettings.value("Theme").toString();
         setTheme(QStringToEnum<Theme>(value, Theme::Dark));
+    } else {
+        setTheme(Theme::Dark);
     }
 
     setAnonymousTelemetry(m_qSettings.value("AnonymousTelemetry", true).toBool());
@@ -131,7 +133,7 @@ void Settings::writeJsonFileFromResource(const QString& filename)
 {
     QFile file(m_globalVariables->localSettingsPath().toString() + "/" + filename + ".json");
     QDir directory(m_globalVariables->localSettingsPath().toString());
-    if(!directory.exists()){
+    if (!directory.exists()) {
         directory.mkpath(directory.path());
     }
     QFile defaultSettings(":/" + filename + ".json");
