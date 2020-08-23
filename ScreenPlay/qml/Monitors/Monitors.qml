@@ -238,7 +238,7 @@ Popup {
             icon.width: 16
             icon.height: 16
             icon.source: "qrc:/assets/icons/font-awsome/close.svg"
-            icon.color: "gray"
+            icon.color: Material.iconColor
             onClicked: monitors.close()
         }
 

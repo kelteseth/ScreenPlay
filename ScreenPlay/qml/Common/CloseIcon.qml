@@ -29,7 +29,7 @@ MouseArea {
 
         Color if the icon.
     */
-    property color color: Material.color(Material.Grey)
+    property color color: Material.iconColor
 
 
     /*!
