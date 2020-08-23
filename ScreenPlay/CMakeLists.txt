@@ -12,6 +12,7 @@ find_package(
              Widgets
              Gui
              WebEngine
+             LinguistTools
   REQUIRED)
 
 find_package(ZLIB REQUIRED)
@@ -56,7 +57,18 @@ set(headers app.h
         src/util.h
         src/create.h)
 
+set(l10n
+    translations/ScreenPlay_de.ts
+    translations/ScreenPlay_en.ts
+    translations/ScreenPlay_es.ts
+    translations/ScreenPlay_fr.ts
+    translations/ScreenPlay_ko.ts
+    translations/ScreenPlay_ru.ts
+    translations/ScreenPlay_vi.ts
+    )
 
+set_source_files_properties(${l10n} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/translations")
+qt5_add_translation(qmFiles ${l10n})
 
 #qt5_add_big_resources(resources  resources.qrc)
 
