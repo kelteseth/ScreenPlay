@@ -76,7 +76,7 @@ namespace SearchType {
     enum class SearchType {
         All,
         Text,
-        Scenes, //QML, HTML, Godot wallpaper
+        Scene, //QML, HTML, Godot wallpaper
         Wallpaper,
         Widget,
     };

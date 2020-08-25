@@ -386,7 +386,7 @@ SearchType::SearchType Util::getSearchTypeFromInstalledType(const InstalledType:
     case InstalledType::GodotWallpaper:
     case InstalledType::HTMLWallpaper:
     case InstalledType::QMLWallpaper:
-        return SearchType::Scenes;
+        return SearchType::Scene;
     case InstalledType::VideoWallpaper:
         return SearchType::Wallpaper;
     case InstalledType::HTMLWidget:

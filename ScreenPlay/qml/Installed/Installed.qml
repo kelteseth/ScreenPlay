@@ -265,7 +265,7 @@ Item {
                     icon.source: "qrc:/assets/icons/icon_code.svg"
                     onClicked: {
                         setSidebarActive(false)
-                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.Scenes)
+                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.Scene)
                     }
                 }
                 TabButton {
@@ -295,7 +295,7 @@ Item {
                     icon.source: "qrc:/assets/icons/icon_widgets.svg"
                     onClicked: {
                         setSidebarActive(false)
-                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.Widgets)
+                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.Widget)
                     }
                 }
             }
