@@ -3,6 +3,7 @@ import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.12
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
+import QtQuick.Controls.Material.impl 2.12
 
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
@@ -10,7 +11,6 @@ import ScreenPlay.Enums.SearchType 1.0
 
 Item {
     id: pageInstalled
-    state: "out"
 
     signal setNavigationItem(var pos)
     signal setSidebarActive(var active)
@@ -19,7 +19,7 @@ Item {
     property bool enabled: true
 
     Component.onCompleted: {
-        pageInstalled.state = "in"
+        navWrapper.state = "in"
         ScreenPlay.installedListFilter.sortBySearchType(SearchType.All)
         checkIsContentInstalled()
     }
@@ -35,6 +35,7 @@ Item {
             setNavigationItem(pos)
         }
     }
+
     Connections {
         target: ScreenPlay.installedListModel
         function onInstalledLoadingFinished() {
@@ -191,183 +192,14 @@ Item {
         }
     }
 
-    Item {
+    Navigation {
         id: navWrapper
         height: 115
-        z: 999
         width: parent.width
         anchors {
             top: parent.top
             right: parent.right
             left: parent.left
         }
-
-        RectangularGlow {
-            id: effect
-            anchors {
-                fill: nav
-            }
-            cached: true
-            glowRadius: 2
-            spread: 0.15
-            color: "black"
-            opacity: 0.3
-            cornerRadius: 15
-        }
-
-        Rectangle {
-            id: nav
-            color: Material.theme === Material.Light ? "white" : Material.background
-            height: 50
-            anchors {
-                top: parent.top
-                right: parent.right
-                left: parent.left
-            }
-            MouseArea {
-                anchors.fill: parent
-            }
-            TabBar {
-                height: parent.height
-                background: Item {}
-                anchors {
-                    top: parent.top
-                    topMargin: 5
-                    left: parent.left
-                    leftMargin: 20
-                    bottom: parent.bottom
-                }
-
-                TabButton {
-                    text: qsTr("All")
-                    font.family: ScreenPlay.settings.font
-                    icon.height: 16
-                    icon.width: 16
-                    height: parent.height
-                    width: implicitWidth
-                    background: Item {}
-                    font.weight: Font.Thin
-                    icon.source: "qrc:/assets/icons/icon_installed.svg"
-                    onClicked: {
-                        setSidebarActive(false)
-                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.All)
-                    }
-                }
-                TabButton {
-                    text: qsTr("Scenes")
-                    icon.height: 16
-                    icon.width: 16
-                    font.family: ScreenPlay.settings.font
-                    width: implicitWidth
-                    height: parent.height
-                    background: Item {}
-                    font.weight: Font.Thin
-                    icon.source: "qrc:/assets/icons/icon_code.svg"
-                    onClicked: {
-                        setSidebarActive(false)
-                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.Scene)
-                    }
-                }
-                TabButton {
-                    text: qsTr("Videos")
-                    icon.height: 16
-                    icon.width: 16
-                    font.family: ScreenPlay.settings.font
-                    height: parent.height
-                    width: implicitWidth
-                    background: Item {}
-                    font.weight: Font.Thin
-                    icon.source: "qrc:/assets/icons/icon_movie.svg"
-                    onClicked: {
-                        setSidebarActive(false)
-                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.Wallpaper)
-                    }
-                }
-                TabButton {
-                    text: qsTr("Widgets")
-                    icon.height: 16
-                    icon.width: 16
-                    font.family: ScreenPlay.settings.font
-                    height: parent.height
-                    width: implicitWidth
-                    background: Item {}
-                    font.weight: Font.Thin
-                    icon.source: "qrc:/assets/icons/icon_widgets.svg"
-                    onClicked: {
-                        setSidebarActive(false)
-                        ScreenPlay.installedListFilter.sortBySearchType(SearchType.Widget)
-                    }
-                }
-            }
-
-            Image {
-                id: icnSearch
-                source: "qrc:/assets/icons/icon_search.svg"
-                height: 15
-                width: 15
-                sourceSize: Qt.size(15, 15)
-                anchors {
-                    right: parent.right
-                    rightMargin: 30
-                    bottom: parent.bottom
-                    bottomMargin: 15
-                }
-            }
-            TextField {
-                id: txtSearch
-                width: 250
-                height: 40
-                font.family: ScreenPlay.settings.font
-                leftPadding: 10
-                anchors {
-                    right: icnSearch.right
-                    rightMargin: 20
-                    top: parent.top
-                    topMargin: 10
-                }
-                onTextChanged: {
-                    if (txtSearch.text.length === 0) {
-                        ScreenPlay.installedListFilter.resetFilter()
-                    } else {
-                        ScreenPlay.installedListFilter.sortByName(
-                                    txtSearch.text)
-                    }
-                }
-
-                selectByMouse: true
-                placeholderText: qsTr("Search for Wallpaper & Widgets")
-            }
-        }
     }
-
-    states: [
-        State {
-            name: "out"
-            PropertyChanges {
-                target: navWrapper
-                anchors.topMargin: -115
-            }
-        },
-        State {
-            name: "in"
-            PropertyChanges {
-                target: navWrapper
-                anchors.topMargin: 0
-            }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            from: "out"
-            to: "in"
-
-            NumberAnimation {
-                target: navWrapper
-                property: "anchors.topMargin"
-                duration: 400
-                easing.type: Easing.InOutQuart
-            }
-        }
-    ]
 }

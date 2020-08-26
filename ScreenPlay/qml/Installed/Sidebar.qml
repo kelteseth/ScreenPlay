@@ -4,13 +4,14 @@ import QtQuick.Controls 2.12
 import QtQuick.Extras 1.4
 import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
+import QtQuick.Controls.Material.impl 2.12
 
 import ScreenPlay 1.0
 import ScreenPlay.Enums.FillMode 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 
 import "../Monitors"
-import "../Common" as SP
+import "../Common" as Common
 
 Item {
     id: root
@@ -100,16 +101,23 @@ Item {
         }
     }
 
+    Common.MouseHoverBlocker {}
+
+    Rectangle {
+        anchors.fill: parent
+        color: Material.theme === Material.Light ? "white" : Material.background
+        opacity: 0.95
+        layer.enabled: true
+        layer.effect: ElevationEffect {
+            elevation: 4
+        }
+    }
+
     Item {
         id: sidebarWrapper
         anchors.fill: parent
-        MouseArea {
-            id: mouseAreaHelper
-            anchors.fill: parent
-            enabled: true
-            hoverEnabled: true
-            propagateComposedEvents: false
-        }
+
+
         Item {
             id: navBackground
             height: navHeight
@@ -148,13 +156,6 @@ Item {
                 right: parent.right
                 bottom: parent.bottom
                 left: parent.left
-                leftMargin: 5
-            }
-
-            Rectangle {
-                anchors.fill: parent
-                color: Material.theme === Material.Light ? "white" : Material.background
-                opacity: 0.95
             }
 
             Rectangle {
@@ -280,7 +281,7 @@ Item {
                     }
                 }
 
-                SP.Slider {
+                Common.Slider {
                     id: sliderVolume
                     slider {
                         stepSize: 0.01
@@ -397,44 +398,12 @@ Item {
                 }
             }
         }
-
-        Item {
-            id: shadow
-            width: 5
-
-            anchors {
-                top: parent.top
-                right: sidebarBackground.left
-                bottom: parent.bottom
-                left: parent.left
-            }
-
-            LinearGradient {
-                anchors.fill: parent
-                start: Qt.point(0, 0)
-                end: Qt.point(5, 0)
-                gradient: Gradient {
-                    GradientStop {
-                        position: 0.0
-                        color: "#00000000"
-                    }
-                    GradientStop {
-                        position: 1.0
-                        color: "#22000000"
-                    }
-                }
-            }
-        }
     }
 
     states: [
         State {
             name: "inactive"
 
-            PropertyChanges {
-                target: mouseAreaHelper
-                enabled: false
-            }
 
             PropertyChanges {
                 target: root
@@ -448,10 +417,6 @@ Item {
         },
         State {
             name: "activeWidget"
-            PropertyChanges {
-                target: mouseAreaHelper
-                enabled: true
-            }
 
             PropertyChanges {
                 target: sliderVolume
@@ -476,10 +441,7 @@ Item {
         },
         State {
             name: "activeWallpaper"
-            PropertyChanges {
-                target: mouseAreaHelper
-                enabled: true
-            }
+
 
             PropertyChanges {
                 target: image
@@ -505,10 +467,6 @@ Item {
         },
         State {
             name: "activeScene"
-            PropertyChanges {
-                target: mouseAreaHelper
-                enabled: true
-            }
 
             PropertyChanges {
                 target: image

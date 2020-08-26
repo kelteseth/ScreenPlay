@@ -7,17 +7,24 @@ import QtQuick.Controls.Material 2.12
 import ScreenPlay.Workshop.SteamEnums 1.0
 import QtQuick.Layouts 1.12
 
+import QtQuick.Controls.Material.impl 2.12
+
 Page {
     id: root
+    width: 800
+    height: 240
+    anchors.centerIn: parent
     background: Rectangle {
-        color: "#333333"
-        //        color: Material.theme === Material.Light ? Material.background : Qt.darker(
-        //                                                       Material.background)
-        radius: 3
+        radius: 4
+        anchors.fill: parent
+        layer.enabled: true
+        layer.effect: ElevationEffect {
+            elevation: 6
+        }
+        color: Material.theme === Material.Light ? "white" : Material.background
     }
 
     padding: 20
-    height: 240
 
     property string previewImagePath
     onPreviewImagePathChanged: img.source = Qt.resolvedUrl(
@@ -382,6 +389,7 @@ Page {
     contentItem: Item {
         anchors.fill: parent
         state: "base"
+
         Image {
             id: img
             width: 300
@@ -426,7 +434,7 @@ Page {
                 text: root.name
                 verticalAlignment: Text.AlignVCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                color: "white"
+                color: Material.primaryTextColor
                 font.pointSize: 18
                 Layout.preferredHeight: 30
                 Layout.fillWidth: true
@@ -439,7 +447,7 @@ Page {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignHCenter
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                color: "white"
+                color: Material.primaryTextColor
                 font.pointSize: 14
                 Layout.preferredHeight: 30
             }
@@ -458,7 +466,7 @@ Page {
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
-                    color: "white"
+                    color: Material.primaryTextColor
                     font.pointSize: 14
                     height: 50
                 }

@@ -13,7 +13,6 @@ Popup {
     modal: true
     dim: true
     closePolicy: Popup.NoAutoClose
-//    anchors.centerIn: Overlay.overlay
     onAboutToShow: uploadLoader.sourceComponent = com
     onAboutToHide: uploadLoader.sourceComponent = undefined
     background: Rectangle {

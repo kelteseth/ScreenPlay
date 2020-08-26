@@ -10,23 +10,17 @@ import ScreenPlay 1.0
 import Settings 1.0
 
 import "qml/"
-import "qml/Monitors"
-import "qml/Common"
-import "qml/Installed"
-import "qml/Navigation"
-import "qml/Workshop"
-import "qml/Community"
+import "qml/Monitors" as Monitors
+import "qml/Common" as Common
+import "qml/Installed" as Installed
+import "qml/Navigation" as Navigation
+import "qml/Workshop" as Workshop
+import "qml/Community" as Community
 
 ApplicationWindow {
     id: window
-    color: {
-        if (Material.theme === Material.Dark) {
-            return Qt.darker(Material.background)
-        } else {
-            return Material.background
-        }
-    }
-
+    color: Material.theme === Material.Dark ? Qt.darker(
+                                                  Material.background) : Material.background
     // Set visible if the -silent parameter was not set (see app.cpp end of constructor).
     visible: false
     width: 1400
@@ -40,8 +34,40 @@ ApplicationWindow {
         }
     }
 
-    Material.accent: {
-        return Material.color(Material.Orange)
+    // Partial workaround for
+    // https://bugreports.qt.io/browse/QTBUG-86047
+    Material.accent: Material.color(Material.Orange)
+
+    Component.onCompleted: {
+        setTheme(ScreenPlay.settings.theme)
+
+        if (!ScreenPlay.settings.silentStart) {
+            window.show()
+            ScreenPlay.setTrackerSendEvent("navigation", "Installed")
+        } else {
+            ScreenPlay.setTrackerSendEvent("navigation", "Silent")
+        }
+    }
+
+    Connections {
+        target: ScreenPlay.settings
+        function onThemeChanged(theme) {
+            setTheme(theme)
+        }
+    }
+
+    Connections {
+        target: ScreenPlay.util
+        function onRequestNavigation(nav) {
+            switchPage(nav)
+        }
+    }
+
+    Connections {
+        target: ScreenPlay.screenPlayManager
+        function onRequestRaise() {
+            window.show()
+        }
     }
 
     function setTheme(theme) {
@@ -55,23 +81,6 @@ ApplicationWindow {
         case Settings.Light:
             window.Material.theme = Material.Light
             break
-        }
-    }
-    Connections {
-        target: ScreenPlay.settings
-        function onThemeChanged(theme) {
-            setTheme(theme)
-        }
-    }
-
-    Component.onCompleted: {
-        setTheme(ScreenPlay.settings.theme)
-
-        if (!ScreenPlay.settings.silentStart) {
-            window.show()
-            ScreenPlay.setTrackerSendEvent("navigation", "Installed")
-        } else {
-            ScreenPlay.setTrackerSendEvent("navigation", "Silent")
         }
     }
 
@@ -109,121 +118,13 @@ ApplicationWindow {
         sidebar.state = "inactive"
     }
 
-    Background {
+    Common.TrayIcon {}
+
+    Common.Background {
         id: bg
         anchors.fill: parent
     }
 
-    Connections {
-        target: ScreenPlay.util
-        function onRequestNavigation(nav) {
-            switchPage(nav)
-        }
-    }
-
-    Connections {
-        target: ScreenPlay.screenPlayManager
-        function onRequestRaise() {
-            window.show()
-        }
-    }
-
-    LinearGradient {
-        id: tabShadow
-        height: 4
-        visible: true
-        z: 500
-        cached: true
-
-        anchors {
-            top: nav.bottom
-            right: parent.right
-            left: parent.left
-        }
-        start: Qt.point(0, 0)
-        end: Qt.point(0, 4)
-        gradient: Gradient {
-            GradientStop {
-                position: 0.0
-                color: "#33000000"
-            }
-            GradientStop {
-                position: 1.0
-                color: "#00000000"
-            }
-        }
-    }
-
-    SystemTrayIcon {
-        id: sti
-        visible: true
-        iconSource: "qrc:/assets/icons/app.ico"
-        tooltip: qsTr("ScreenPlay - Double click to change you settings.")
-        onActivated: {
-            switch (reason) {
-            case SystemTrayIcon.Unknown:
-                break
-            case SystemTrayIcon.Context:
-                break
-            case SystemTrayIcon.DoubleClick:
-                window.show()
-                break
-            case SystemTrayIcon.Trigger:
-                break
-            case SystemTrayIcon.MiddleClick:
-                break
-            }
-        }
-
-        menu: Menu {
-            MenuItem {
-                text: qsTr("Open ScreenPlay")
-                onTriggered: {
-                    window.show()
-                }
-            }
-            MenuItem {
-                id: miMuteAll
-                property bool isMuted: true
-                text: qsTr("Mute all")
-                onTriggered: {
-                    if (miMuteAll.isMuted) {
-                        isMuted = false
-                        miMuteAll.text = qsTr("Mute all")
-                        ScreenPlay.screenPlayManager.setAllWallpaperValue(
-                                    "muted", "true")
-                    } else {
-                        isMuted = true
-                        miMuteAll.text = qsTr("Unmute all")
-                        ScreenPlay.screenPlayManager.setAllWallpaperValue(
-                                    "muted", "false")
-                    }
-                }
-            }
-            MenuItem {
-                id: miStopAll
-                property bool isPlaying: false
-                text: qsTr("Pause all")
-                onTriggered: {
-                    if (miStopAll.isPlaying) {
-                        isPlaying = false
-                        miStopAll.text = qsTr("Pause all")
-                        ScreenPlay.screenPlayManager.setAllWallpaperValue(
-                                    "isPlaying", "true")
-                    } else {
-                        isPlaying = true
-                        miStopAll.text = qsTr("Play all")
-                        ScreenPlay.screenPlayManager.setAllWallpaperValue(
-                                    "isPlaying", "false")
-                    }
-                }
-            }
-            MenuItem {
-                text: qsTr("Quit")
-                onTriggered: ScreenPlay.exit()
-            }
-        }
-    }
 
     Loader {
         id: pageLoader
@@ -296,7 +197,7 @@ ApplicationWindow {
         }
     }
 
-    Sidebar {
+    Installed.Sidebar {
         id: sidebar
 
         navHeight: nav.height
@@ -307,7 +208,7 @@ ApplicationWindow {
         }
     }
 
-    Navigation {
+    Navigation.Navigation {
         id: nav
         anchors {
             top: parent.top
@@ -320,7 +221,7 @@ ApplicationWindow {
         }
     }
 
-    Monitors {
+    Monitors.Monitors {
         id: monitors
     }
 }

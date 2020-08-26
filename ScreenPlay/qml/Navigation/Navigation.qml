@@ -3,6 +3,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtGraphicalEffects 1.0
 
+import QtQuick.Controls.Material.impl 2.12
 import ScreenPlay 1.0
 
 import "../Workshop"
@@ -14,10 +15,12 @@ Rectangle {
     clip: true
     width: 1366
     color: Material.theme === Material.Light ? "white" : Material.background
-
-    MouseArea {
-        anchors.fill: parent
+    layer.enabled: true
+    layer.effect: ElevationEffect {
+        elevation: 2
     }
+
+    MouseHoverBlocker {}
 
     signal changePage(string name)
 
@@ -29,7 +32,7 @@ Rectangle {
         function onRequestNavigationActive(isActive) {
             setActive(isActive)
         }
-        function onRequestNavigation(nav){
+        function onRequestNavigation(nav) {
             onPageChanged(nav)
         }
     }
@@ -61,7 +64,6 @@ Rectangle {
             }
         }
     }
-
 
     Row {
         id: row

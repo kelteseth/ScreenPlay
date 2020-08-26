@@ -3,6 +3,8 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
+
+import QtQuick.Controls.Material.impl 2.12
 import ScreenPlay 1.0
 
 import "../"
@@ -32,23 +34,31 @@ Item {
             icnType.source = "icons/icon_code.svg"
         }
     }
-//    Component.onCompleted: {
-//        print("root.preview",root.preview)
-//        if (root.preview == undefined) {
-//            print("invalid")
-//        } else {
-//            root.isProjectValid = true
-//        }
 
-//        if (!isProjectValid) {
-//            root.state = "invalid"
-//        }
-//    }
+    //    Component.onCompleted: {
+    //        print("root.preview",root.preview)
+    //        if (root.preview == undefined) {
+    //            print("invalid")
+    //        } else {
+    //            root.isProjectValid = true
+    //        }
 
+    //        if (!isProjectValid) {
+    //            root.state = "invalid"
+    //        }
+    //    }
     Rectangle {
+        anchors.fill: screenPlayItemWrapper
+        radius: 4
+        layer.enabled: true
+        layer.effect: ElevationEffect {
+            elevation: 6
+        }
+        color: Material.theme === Material.Light ? "white" : Material.background
+    }
+
+    Item {
         id: screenPlayItemWrapper
-        color: Material.theme === Material.Light ? "white" : Qt.darker(
-                                                       Material.background)
         anchors.fill: parent
         anchors.margins: 20
 

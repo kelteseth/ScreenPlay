@@ -3,6 +3,8 @@ import QtQuick.Controls 2.13
 import QtQuick.Controls.Material 2.13
 import QtGraphicalEffects 1.0
 
+import QtQuick.Controls.Material.impl 2.12
+
 import ScreenPlay.Workshop 1.0
 import ScreenPlay.Workshop.SteamEnums 1.0
 import SteamQMLImageProvider 1.0
@@ -21,6 +23,10 @@ Item {
         opacity: .9
         radius: 3
         anchors.fill: wrapper
+        layer.enabled: true
+        layer.effect: ElevationEffect {
+            elevation: 4
+        }
     }
 
     Item {
