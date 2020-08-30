@@ -15,17 +15,15 @@ ColumnLayout {
     state: "hidden"
     clip: true
 
-
+    property int activeMonitorIndex
     property ScreenPlayWallpaper wallpaper
     onWallpaperChanged: {
-        if(!wallpaper)
-        {
-            slPlaybackRate.slider.value =  1
+        if (!wallpaper) {
+            slPlaybackRate.slider.value = 1
             return
         }
-        slVolume.slider.value =  wallpaper.volume
-        slPlaybackRate.slider.value =  wallpaper.playbackRate
-        //slCurrentVideoTime.slider.value =  wallpaper.volume
+        slVolume.slider.value = wallpaper.volume
+        slPlaybackRate.slider.value = wallpaper.playbackRate
     }
 
     function indexOfValue(model, value) {
@@ -38,15 +36,14 @@ ColumnLayout {
         return -1
     }
 
-    property int activeMonitorIndex
-
     SP.Slider {
-        id:slVolume
+        id: slVolume
         headline: qsTr("Volume")
         slider.stepSize: 0.1
         slider.onValueChanged: {
             ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
-                        activeMonitorIndex, "volume", Number(slider.value).toFixed(1))
+                        activeMonitorIndex, "volume",
+                        (Math.round(slVolume.slider.value * 100) / 100))
         }
 
         Layout.fillWidth: true
@@ -54,10 +51,11 @@ ColumnLayout {
         Layout.rightMargin: 10
     }
     SP.Slider {
-        id:slPlaybackRate
+        id: slPlaybackRate
         headline: qsTr("Playback rate")
         slider.onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
-                            activeMonitorIndex, "playbackRate", Number(slider.value).toFixed(1))
+                                   activeMonitorIndex, "playbackRate",
+                                  (Math.round(slPlaybackRate.slider.value * 100) / 100))
         Layout.fillWidth: true
         slider.stepSize: 0.1
         slider.to: 1
@@ -68,7 +66,8 @@ ColumnLayout {
         id: slCurrentVideoTime
         headline: qsTr("Current Video Time")
         slider.onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(
-                            activeMonitorIndex, "currentTime", Number(slider.value).toFixed(1))
+                                   activeMonitorIndex, "currentTime",
+                                   (Math.round(slCurrentVideoTime.slider.value * 100) / 100))
         Layout.fillWidth: true
         slider.stepSize: 0.1
         Layout.leftMargin: 10

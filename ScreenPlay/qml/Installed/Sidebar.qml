@@ -374,7 +374,7 @@ Item {
                         // We only have sliderVolume if it is a VideoWallpaper
                         let volume = 0.0
                         if (type === InstalledType.VideoWallpaper) {
-                            volume = Math.round(sliderVolume.value * 100) / 100
+                            volume = Math.round(sliderVolume.slider.value * 100) / 100
                         }
 
                         const screenFile = ScreenPlay.installedListModel.get(
