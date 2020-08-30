@@ -362,7 +362,7 @@ Item {
                     const absoluteStoragePath = ScreenPlay.globalVariables.localStoragePath
                                               + "/" + root.contentFolderName
                     const previewImage = ScreenPlay.installedListModel.get(
-                                           root.contentFolderName).screenPreview
+                                           root.contentFolderName).m_preview
                     if (root.isWallpaper()) {
                         let activeMonitors = monitorSelection.getActiveMonitors(
                                 )
@@ -378,7 +378,7 @@ Item {
                         }
 
                         const screenFile = ScreenPlay.installedListModel.get(
-                                             root.contentFolderName).screenFile
+                                             root.contentFolderName).m_file
 
                         ScreenPlay.screenPlayManager.createWallpaper(
                                     root.type, cbVideoFillMode.currentValue,
