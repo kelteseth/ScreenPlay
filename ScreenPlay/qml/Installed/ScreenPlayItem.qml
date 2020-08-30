@@ -6,7 +6,7 @@ import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 
 Item {
-    id: screenPlayItem
+    id: root
     width: 320
     height: 180
     opacity: 0
@@ -14,10 +14,11 @@ Item {
     property string customTitle: "name here"
     property url absoluteStoragePath
     property var type
-    property bool hasMenuOpen: false
     property int workshopID: 0
     property int itemIndex
     property string screenId: ""
+
+    signal openContextMenu(point position)
 
     onTypeChanged: {
         switch (type) {
@@ -35,6 +36,7 @@ Item {
             return
         }
     }
+
     Timer {
         id: timerAnim
         interval: {
@@ -46,7 +48,6 @@ Item {
         }
 
         running: true
-        repeat: false
         onTriggered: showAnim.start()
     }
 
@@ -84,7 +85,7 @@ Item {
             property: "angle"
         }
         PropertyAnimation {
-            target: screenPlayItem
+            target: root
             from: 0
             to: 1
             duration: 800
@@ -123,6 +124,7 @@ Item {
         spread: 0.2
         color: "black"
         opacity: 0.4
+
         cornerRadius: 15
     }
 
@@ -135,7 +137,7 @@ Item {
         Image {
             id: mask
             source: "qrc:/assets/images/Window.svg"
-            sourceSize: Qt.size(screenPlayItem.width, screenPlayItem.height)
+            sourceSize: Qt.size(root.width, root.height)
             visible: false
             smooth: true
             fillMode: Image.PreserveAspectFit
@@ -149,16 +151,9 @@ Item {
             ScreenPlayItemImage {
                 id: screenPlayItemImage
                 anchors.fill: parent
-                sourceImage: Qt.resolvedUrl(
-                                 screenPlayItem.absoluteStoragePath + "/" + screenPreview)
-                sourceImageGIF: {
-                    if (screenPreviewGIF === undefined) {
-                        return ""
-                    } else {
-                        return Qt.resolvedUrl(
-                                    screenPlayItem.absoluteStoragePath + "/" + screenPreviewGIF)
-                    }
-                }
+                sourceImage: m_preview
+                sourceImageGIF: m_previewGIF
+                absoluteStoragePath: m_absoluteStoragePath
             }
 
             Image {
@@ -198,70 +193,24 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onEntered: {
-                    if (!hasMenuOpen) {
-                        screenPlayItem.state = "hover"
-                        screenPlayItemImage.state = "hover"
-                        screenPlayItemImage.enter()
-                    }
+                    root.state = "hover"
+                    screenPlayItemImage.state = "hover"
+                    screenPlayItemImage.enter()
                 }
                 onExited: {
-                    if (!hasMenuOpen) {
-                        screenPlayItem.state = ""
-                        screenPlayItemImage.state = "loaded"
-                        screenPlayItemImage.exit()
-                    }
+                    root.state = ""
+                    screenPlayItemImage.state = "loaded"
+                    screenPlayItemImage.exit()
                 }
 
                 onClicked: {
                     if (mouse.button === Qt.LeftButton) {
-                        ScreenPlay.util.setSidebarItem(screenPlayItem.screenId,
-                                                       screenPlayItem.type)
+                        ScreenPlay.util.setSidebarItem(root.screenId, root.type)
                     } else if (mouse.button === Qt.RightButton) {
-                        contextMenu.popup()
-                        hasMenuOpen = true
+                        root.openContextMenu(Qt.point(mouseX, mouseY))
                     }
                 }
             }
-        }
-        Menu {
-            id: contextMenu
-            onClosed: hasMenuOpen = false
-            MenuItem {
-                text: qsTr("Open containing folder")
-                icon.source: "qrc:/assets/icons/icon_folder_open.svg"
-                onClicked: {
-                    ScreenPlay.util.openFolderInExplorer(absoluteStoragePath)
-                }
-            }
-            MenuItem {
-                text: qsTr("Deinstall Item")
-                icon.source: "qrc:/assets/icons/icon_delete.svg"
-                enabled: screenPlayItem.workshopID === 0
-                onClicked: {
-                    deleteDialog.open()
-                }
-            }
-            MenuItem {
-                id: miWorkshop
-                text: qsTr("Open workshop Page")
-                enabled: screenPlayItem.workshopID !== 0
-                icon.source: "qrc:/assets/icons/icon_steam.svg"
-                onClicked: {
-                    Qt.openUrlExternally(
-                                "steam://url/CommunityFilePage/" + workshopID)
-                }
-            }
-        }
-        Dialog {
-            id: deleteDialog
-            title: "Are you sure you want to delete this item?"
-            standardButtons: Dialog.Ok | Dialog.Cancel
-            modal: true
-            dim: true
-            anchors.centerIn: Overlay.overlay
-
-            onAccepted: ScreenPlay.installedListModel.deinstallItemAt(
-                            screenPlayItem.itemIndex)
         }
     }
 

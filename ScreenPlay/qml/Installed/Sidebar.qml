@@ -24,22 +24,22 @@ Item {
 
     onContentFolderNameChanged: {
         txtHeadline.text = ScreenPlay.installedListModel.get(
-                    root.contentFolderName).screenTitle
+                    root.contentFolderName).m_title
 
         const hasPreviewGif = ScreenPlay.installedListModel.get(
-                                root.contentFolderName).screenPreviewGIF !== undefined
+                                root.contentFolderName).m_previewGIF !== undefined
         if (!hasPreviewGif) {
             image.source = Qt.resolvedUrl(
                         ScreenPlay.globalVariables.localStoragePath + "/"
                         + root.contentFolderName + "/" + ScreenPlay.installedListModel.get(
-                            root.contentFolderName).screenPreview)
+                            root.contentFolderName).m_preview)
             image.playing = false
         } else {
 
             image.source = Qt.resolvedUrl(
                         ScreenPlay.globalVariables.localStoragePath + "/"
                         + root.contentFolderName + "/" + ScreenPlay.installedListModel.get(
-                            root.contentFolderName).screenPreviewGIF)
+                            root.contentFolderName).m_previewGIF)
             image.playing = true
         }
 

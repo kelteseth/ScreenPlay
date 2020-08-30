@@ -55,29 +55,31 @@ namespace ScreenPlay {
 
 struct ProjectFile {
 
-    ProjectFile(const QJsonObject& obj,
+    ProjectFile(
+        const QJsonObject& obj,
         const QString& folderName,
         const QUrl& absolutePath)
     {
 
         if (obj.contains("description"))
-            m_description = obj.value("description");
+            m_description = obj.value("description").toString();
 
         if (obj.contains("file"))
-            m_file = obj.value("file");
+            m_file = obj.value("file").toString();
 
         if (obj.contains("previewThumbnail")) {
-            m_preview = obj.value("previewThumbnail");
+            m_preview = obj.value("previewThumbnail").toString();
         } else {
-            if (obj.contains("preview"))
-                m_preview = obj.value("preview");
+            if (obj.contains("preview")) {
+                m_preview = obj.value("preview").toString();
+            }
         }
 
         if (obj.contains("previewGIF"))
-            m_previewGIF = obj.value("previewGIF");
+            m_previewGIF = obj.value("previewGIF").toString();
 
         if (obj.contains("title"))
-            m_title = obj.value("title");
+            m_title = obj.value("title").toString();
 
         if (obj.contains("workshopid")) {
             m_workshopID = obj.value("workshopid").toInt(0);
@@ -113,16 +115,21 @@ struct ProjectFile {
 
     ProjectFile() { }
 
-    QVariant m_description;
-    QVariant m_file;
-    QVariant m_preview;
-    QVariant m_previewGIF;
-    QVariant m_title;
-    QString m_folderId;
+    QString m_title;
+    QString m_description;
+    //Filenames
+    QString m_file;
+    QString m_preview;
+    QString m_previewGIF;
+    //Path
     QUrl m_absoluteStoragePath;
+    //Folder name
+    QString m_folderId;
+
+    int m_workshopID { 0 };
+    QStringList m_tags;
+
     InstalledType::InstalledType m_type = InstalledType::InstalledType::Unknown;
     SearchType::SearchType m_searchType = SearchType::SearchType::All;
-    int m_workshopID { 0 };
-    QVariantList m_tags;
 };
 }

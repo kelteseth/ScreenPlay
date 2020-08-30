@@ -93,25 +93,25 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
 
     if (row < rowCount())
         switch (role) {
-        case TitleRole:
+        case static_cast<int>(ScreenPlayItem::Title):
             return m_screenPlayFiles.at(row).m_title;
-        case PreviewRole:
+        case static_cast<int>(ScreenPlayItem::Preview):
             return m_screenPlayFiles.at(row).m_preview;
-        case PreviewGIFRole:
+        case static_cast<int>(ScreenPlayItem::PreviewGIF):
             return m_screenPlayFiles.at(row).m_previewGIF;
-        case TypeRole:
+        case static_cast<int>(ScreenPlayItem::Type):
             return QVariant::fromValue(m_screenPlayFiles.at(row).m_type);
-        case FolderIdRole:
+        case static_cast<int>(ScreenPlayItem::FolderId):
             return m_screenPlayFiles.at(row).m_folderId;
-        case FileIdRole:
+        case static_cast<int>(ScreenPlayItem::FileId):
             return m_screenPlayFiles.at(row).m_file;
-        case AbsoluteStoragePathRole:
+        case static_cast<int>(ScreenPlayItem::AbsoluteStoragePath):
             return m_screenPlayFiles.at(row).m_absoluteStoragePath;
-        case WorkshopIDRole:
+        case static_cast<int>(ScreenPlayItem::WorkshopID):
             return m_screenPlayFiles.at(row).m_workshopID;
-        case TagsRole:
+        case static_cast<int>(ScreenPlayItem::Tags):
             return m_screenPlayFiles.at(row).m_tags;
-        case SearchTypeRole:
+        case static_cast<int>(ScreenPlayItem::SearchType):
             return QVariant::fromValue(m_screenPlayFiles.at(row).m_searchType);
         default:
             return QVariant();
@@ -124,17 +124,18 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
 */
 QHash<int, QByteArray> InstalledListModel::roleNames() const
 {
+
     static const QHash<int, QByteArray> roles {
-        { TitleRole, "screenTitle" },
-        { TypeRole, "screenType" },
-        { PreviewRole, "screenPreview" },
-        { PreviewGIFRole, "screenPreviewGIF" },
-        { FolderIdRole, "screenFolderId" },
-        { FileIdRole, "screenFile" },
-        { AbsoluteStoragePathRole, "screenAbsoluteStoragePath" },
-        { WorkshopIDRole, "screenWorkshopID" },
-        { TagsRole, "screenTags" },
-        { SearchTypeRole, "screenSearchType" },
+        { static_cast<int>(ScreenPlayItem::Title), "m_title" },
+        { static_cast<int>(ScreenPlayItem::Type), "m_type" },
+        { static_cast<int>(ScreenPlayItem::Preview), "m_preview" },
+        { static_cast<int>(ScreenPlayItem::PreviewGIF), "m_previewGIF" },
+        { static_cast<int>(ScreenPlayItem::FolderId), "m_folderId" },
+        { static_cast<int>(ScreenPlayItem::FileId), "m_file" },
+        { static_cast<int>(ScreenPlayItem::AbsoluteStoragePath), "m_absoluteStoragePath" },
+        { static_cast<int>(ScreenPlayItem::WorkshopID), "m_workshopID" },
+        { static_cast<int>(ScreenPlayItem::Tags), "m_tags" },
+        { static_cast<int>(ScreenPlayItem::SearchType), "m_searchType" },
     };
     return roles;
 }
@@ -183,27 +184,28 @@ void InstalledListModel::loadInstalledContent()
     });
 }
 
-QVariantMap InstalledListModel::get(QString folderId) const
+QVariantMap InstalledListModel::get(const QString& folderId) const
 {
 
-    QVariantMap map;
     if (m_screenPlayFiles.count() == 0)
-        return map;
+        return {};
 
+    QVariantMap map;
     for (int i = 0; i < m_screenPlayFiles.count(); i++) {
 
         if (m_screenPlayFiles[i].m_folderId == folderId) {
-            map.insert("screenTitle", m_screenPlayFiles[i].m_title);
-            map.insert("screenPreview", m_screenPlayFiles[i].m_preview);
-            map.insert("screenPreviewGIF", m_screenPlayFiles[i].m_previewGIF);
-            map.insert("screenFile", m_screenPlayFiles[i].m_file);
-            map.insert("screenType", QVariant::fromValue(m_screenPlayFiles[i].m_type));
-            map.insert("screenAbsoluteStoragePath", m_screenPlayFiles[i].m_absoluteStoragePath);
-            map.insert("screenWorkshopID", m_screenPlayFiles[i].m_workshopID);
+            map.insert("m_title", m_screenPlayFiles[i].m_title);
+            map.insert("m_preview", m_screenPlayFiles[i].m_preview);
+            map.insert("m_previewGIF", m_screenPlayFiles[i].m_previewGIF);
+            map.insert("m_file", m_screenPlayFiles[i].m_file);
+            map.insert("m_type", QVariant::fromValue(m_screenPlayFiles[i].m_type));
+            map.insert("m_absoluteStoragePath", m_screenPlayFiles[i].m_absoluteStoragePath);
+            map.insert("m_workshopID", m_screenPlayFiles[i].m_workshopID);
+            return map;
         }
     }
 
-    return map;
+    return {};
 }
 
 void InstalledListModel::reset()

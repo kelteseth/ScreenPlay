@@ -32,6 +32,7 @@ Item {
         }
     }
 
+
     Image {
         id: image
         width: 24

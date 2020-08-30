@@ -19,7 +19,7 @@ InstalledListFilter::InstalledListFilter(const std::shared_ptr<InstalledListMode
     , m_ilm(ilm)
 {
     setSourceModel(m_ilm.get());
-    setFilterRole(InstalledListModel::InstalledRole::TitleRole);
+    setFilterRole(static_cast<int>(InstalledListModel::ScreenPlayItem::Title));
 }
 
 /*!
@@ -28,7 +28,7 @@ InstalledListFilter::InstalledListFilter(const std::shared_ptr<InstalledListMode
 */
 void InstalledListFilter::sortByName(const QString& name)
 {
-    setFilterRole(InstalledListModel::InstalledRole::TitleRole);
+    setFilterRole(static_cast<int>(InstalledListModel::ScreenPlayItem::Title));
     setFilterCaseSensitivity(Qt::CaseInsensitive);
     setFilterFixedString(name);
     sort(0);
@@ -40,7 +40,7 @@ void InstalledListFilter::sortBySearchType(const ScreenPlay::SearchType::SearchT
         resetFilter();
         return;
     }
-    setFilterRole(InstalledListModel::InstalledRole::SearchTypeRole);
+    setFilterRole(static_cast<int>(InstalledListModel::ScreenPlayItem::SearchType));
     setFilterFixedString(QVariant::fromValue(searchType).toString());
     sort(0);
 }
@@ -50,7 +50,7 @@ void InstalledListFilter::sortBySearchType(const ScreenPlay::SearchType::SearchT
 */
 void InstalledListFilter::resetFilter()
 {
-    setFilterRole(InstalledListModel::InstalledRole::TitleRole);
+    setFilterRole(static_cast<int>(InstalledListModel::ScreenPlayItem::Title));
     setFilterWildcard("*");
     sort(0);
 }

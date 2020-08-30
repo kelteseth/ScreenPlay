@@ -76,19 +76,19 @@ public:
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    enum InstalledRole {
-        TitleRole = Qt::UserRole,
-        TypeRole,
-        PreviewRole,
-        PreviewGIFRole,
-        FolderIdRole,
-        FileIdRole,
-        AbsoluteStoragePathRole,
-        WorkshopIDRole,
-        TagsRole,
-        SearchTypeRole,
+    enum class ScreenPlayItem {
+        Title = Qt::UserRole,
+        Type,
+        Preview,
+        PreviewGIF,
+        FolderId,
+        FileId,
+        AbsoluteStoragePath,
+        WorkshopID,
+        Tags,
+        SearchType,
     };
-    Q_ENUM(InstalledRole)
+    Q_ENUM(ScreenPlayItem)
 
     int count() const
     {
@@ -96,11 +96,12 @@ public:
     }
 
 public slots:
+    QVariantMap get(const QString &folderId) const;
+
     void loadInstalledContent();
     void append(const QJsonObject&, const QString&);
     void reset();
     void init();
-    QVariantMap get(QString folderId) const;
     bool deinstallItemAt(const int index);
 
     void setCount(int count)
@@ -111,12 +112,10 @@ public slots:
         m_count = count;
         emit countChanged(m_count);
     }
+
 signals:
-    void setScreenVisible(bool visible);
-    void setScreenToVideo(QString absolutePath);
     void addInstalledItem(const QJsonObject, const QString);
     void installedLoadingFinished();
-    void isLoadingContentChanged(bool isLoadingContent);
     void countChanged(int count);
 
 private:

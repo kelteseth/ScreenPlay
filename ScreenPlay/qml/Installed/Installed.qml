@@ -76,10 +76,11 @@ Item {
         id: gridView
         boundsBehavior: Flickable.DragOverBounds
         maximumFlickVelocity: 2500
-        flickDeceleration: 2500
+        flickDeceleration: 500
         anchors.fill: parent
         cellWidth: 340
         cellHeight: 200
+        cacheBuffer: 160
         interactive: pageInstalled.enabled
         anchors {
             topMargin: 0
@@ -178,18 +179,68 @@ Item {
         delegate: ScreenPlayItem {
             id: delegate
             focus: true
-
-            customTitle: screenTitle
-            type: screenType
-            screenId: screenFolderId
-            absoluteStoragePath: screenAbsoluteStoragePath
-            workshopID: screenWorkshopID
+            customTitle: m_title
+            type: m_type
+            screenId: m_folderId
+            absoluteStoragePath: m_absoluteStoragePath
+            workshopID: m_workshopID
             itemIndex: index
-        }
+            onOpenContextMenu: {
+                // Set the menu to the current item informations
+                contextMenu.workshopID = delegate.workshopID
+                contextMenu.absoluteStoragePath = delegate.absoluteStoragePath
 
+                const pos = delegate.mapToItem(pageInstalled, position.x,
+                                               position.y)
+
+                contextMenu.popup(pos.x, pos.y)
+            }
+        }
         ScrollBar.vertical: ScrollBar {
             snapMode: ScrollBar.SnapOnRelease
         }
+    }
+
+    Menu {
+        id: contextMenu
+        property int workshopID: 0
+        property url absoluteStoragePath
+        MenuItem {
+            text: qsTr("Open containing folder")
+            icon.source: "qrc:/assets/icons/icon_folder_open.svg"
+            onClicked: {
+                ScreenPlay.util.openFolderInExplorer(contextMenu.absoluteStoragePath)
+            }
+        }
+        MenuItem {
+            text: qsTr("Deinstall Item")
+            icon.source: "qrc:/assets/icons/icon_delete.svg"
+            enabled: contextMenu.workshopID === 0
+            onClicked: {
+                deleteDialog.open()
+            }
+        }
+        MenuItem {
+            id: miWorkshop
+            text: qsTr("Open workshop Page")
+            enabled: contextMenu.workshopID !== 0
+            icon.source: "qrc:/assets/icons/icon_steam.svg"
+            onClicked: {
+                Qt.openUrlExternally(
+                            "steam://url/CommunityFilePage/" + workshopID)
+            }
+        }
+    }
+    Dialog {
+        id: deleteDialog
+        title: "Are you sure you want to delete this item?"
+        standardButtons: Dialog.Ok | Dialog.Cancel
+        modal: true
+        dim: true
+        anchors.centerIn: Overlay.overlay
+
+        onAccepted: ScreenPlay.installedListModel.deinstallItemAt(
+                        screenPlayItem.itemIndex)
     }
 
     Navigation {

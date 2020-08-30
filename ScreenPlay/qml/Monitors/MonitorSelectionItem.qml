@@ -13,7 +13,7 @@ Item {
     property string monitorManufacturer
     property string monitorName
     property string monitorID
-    property string previewImage: ""
+    property string previewImage
     property string appID
     property var installedType: InstalledType.QMLWallpaper
     property bool monitorWithoutContentSelectable: true
