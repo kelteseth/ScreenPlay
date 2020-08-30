@@ -2,6 +2,9 @@ cmake_minimum_required(VERSION 3.17 )
 
 project(ScreenPlay  LANGUAGES CXX)
 
+set(CMAKE_CXX_STANDARD 20)
+
+
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
@@ -70,10 +73,8 @@ set(l10n
 set_source_files_properties(${l10n} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/translations")
 qt5_add_translation(qmFiles ${l10n})
 
-# For development purposes to display source files in QtCreator
-#qt5_add_resources(qml qml.qrc resources.qrc)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
     qt5_add_resources(qml qml.qrc resources.qrc)
 else()
     qtquick_compiler_add_resources(qml qml.qrc resources.qrc)

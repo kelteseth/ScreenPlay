@@ -20,7 +20,7 @@ set(src main.cpp
 set(headers
     src/widgetwindow.h)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
     set(resources SPWidgetResources.qrc)
 else()
     qtquick_compiler_add_resources(resources SPWidgetResources.qrc )

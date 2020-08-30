@@ -45,10 +45,8 @@ set( src
 set( headers
         src/basewindow.h)
 
-# For development purposes to display source files in QtCreator
-#qt5_add_resources(resources SPWResources.qrc)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug")
+if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
     set(resources SPWResources.qrc)
 else()
     qtquick_compiler_add_resources(resources SPWResources.qrc )
