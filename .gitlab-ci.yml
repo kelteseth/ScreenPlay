@@ -18,7 +18,7 @@ build:windows:
         - cmd /c " `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat`" && set > `"$tempFile`" " 
         - Get-Content $tempFile | Foreach-Object {if($_ -match "^(.*?)=(.*)$"){Set-Content "env:\$($matches[1])" $matches[2]}}
         - Remove-Item $tempFile
-        - $Env:Path += ';C:\Qt\5.14.2\msvc2017_64\bin'
+        - $Env:Path += ';C:\Qt\5.15.1\msvc2019_64\bin'
         - $Env:Path += ';C:\Qt\Tools\QtCreator\bin'
         - $env:path -split ";"
     cache:
@@ -29,7 +29,7 @@ build:windows:
         - .\install_dependencies_windows.bat
         - mkdir BUILD_WINDOWS
         - cd BUILD_WINDOWS
-        - cmake.exe ../  -DCMAKE_PREFIX_PATH=c:/Qt/5.14.2/msvc2017 -DCMAKE_IGNORE_PATH=C:/Strawberry/c/bin -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="$(Get-Location)/../Common/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows "-GCodeBlocks - Ninja" -B.
+        - cmake.exe ../  -DCMAKE_PREFIX_PATH=c:/Qt/5.15.1/msvc2019 -DCMAKE_IGNORE_PATH=C:/Strawberry/c/bin -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE="$(Get-Location)/../Common/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows "-GCodeBlocks - Ninja" -B.
         - cmake.exe --build . --target all
         - cd bin
         - windeployqt.exe  --release  --qmldir ../../ScreenPlay/qml ScreenPlay.exe
