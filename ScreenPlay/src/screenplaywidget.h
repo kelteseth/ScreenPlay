@@ -155,7 +155,9 @@ signals:
     void appIDChanged(QString appID);
     void typeChanged(InstalledType::InstalledType type);
     void absolutePathChanged(QString absolutePath);
+
     void requestSave();
+    void requestClose(const QString& appID);
 
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;

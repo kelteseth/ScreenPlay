@@ -178,7 +178,8 @@ void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>&
     });
 
     QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
-        qInfo() << "For " << m_pingAliveTimer.interval() << "ms no alive signal received. This means the wallpaper is dead and likely crashed!";
+        qInfo() << "For " << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Wallpaper is dead and likely crashed!";
+        emit requestClose(m_appID);
     });
     m_pingAliveTimer.start(16000);
 }

@@ -100,7 +100,8 @@ private slots:
 
 public slots:
     // moc needs full enum namespace info see QTBUG-58454
-    void createWallpaper(const ScreenPlay::InstalledType::InstalledType type,
+    void createWallpaper(
+        const ScreenPlay::InstalledType::InstalledType type,
         const ScreenPlay::FillMode::FillMode fillMode,
         const QString& absoluteStoragePath,
         const QString& previewImage,
@@ -122,18 +123,19 @@ public slots:
     void removeAllWallpapers();
     void removeAllWidgets();
     bool removeWallpaperAt(const int index);
+    bool removeApp(const QString& appID);
 
     void requestProjectSettingsAtMonitorIndex(const int index);
-    void setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString &value);
+    void setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
     ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID) const;
 
     void newConnection();
     void closeAllWallpapers();
     void closeAllWidgets();
-    void closeConntectionByType(const QStringList& list);
-    bool closeWallpaper(const QString& appID);
-    void setWallpaperValue(const QString& appID, const QString& key, const QString &value);
+    void closeConntectionByType(const QStringList& types);
+    bool closeConnection(const QString& appID);
+    void setWallpaperValue(const QString& appID, const QString& key, const QString& value);
 
     void setActiveWallpaperCounter(int activeWallpaperCounter)
     {

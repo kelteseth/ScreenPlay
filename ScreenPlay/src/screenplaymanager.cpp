@@ -154,6 +154,7 @@ void ScreenPlayManager::createWallpaper(
         m_settings->checkWallpaperVisible());
 
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
+    QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestClose, this, &ScreenPlayManager::removeApp);
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
     increaseActiveWallpaperCounter();
@@ -195,6 +196,7 @@ void ScreenPlayManager::createWidget(
         type);
 
     QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
+    QObject::connect(widget.get(), &ScreenPlayWidget::requestClose, this, &ScreenPlayManager::removeApp);
     increaseActiveWidgetsCounter();
     m_screenPlayWidgets.append(widget);
 }
@@ -269,30 +271,35 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
 {
 
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
-        emit requestSaveProfiles();
-
-        if (!closeWallpaper(*appID)) {
-            qWarning() << "Could not  close socket. Abort!";
-            return false;
-        }
-        m_monitorListModel->closeWallpaper(*appID);
-
-        const QString appIDCopy = *appID;
-        if (!removeWallpaperByAppID(appIDCopy)) {
-            if (m_telemetry) {
-                m_telemetry->sendEvent("wallpaper", "error_removeWallpaperAt_removeWallpaperByAppID");
-            }
-            qWarning() << "Could not remove Wallpaper " << appIDCopy << " from wallpaper list!";
-            return false;
-        }
-        emit requestSaveProfiles();
-        return true;
+        return removeApp(*appID);
     }
     if (m_telemetry) {
         m_telemetry->sendEvent("wallpaper", "error_removeWallpaperAt");
     }
     qWarning() << "Could not remove Wallpaper at index:" << index;
     return false;
+}
+
+bool ScreenPlayManager::removeApp(const QString &appID)
+{
+    emit requestSaveProfiles();
+
+    if (!closeConnection(appID)) {
+        qWarning() << "Could not  close socket. Abort!";
+        return false;
+    }
+    m_monitorListModel->closeWallpaper(appID);
+
+    const QString appIDCopy = appID;
+    if (!removeWallpaperByAppID(appIDCopy)) {
+        if (m_telemetry) {
+            m_telemetry->sendEvent("wallpaper", "error_removeWallpaperAt_removeWallpaperByAppID");
+        }
+        qWarning() << "Could not remove Wallpaper " << appIDCopy << " from wallpaper list!";
+        return false;
+    }
+    emit requestSaveProfiles();
+    return true;
 }
 
 /*!
@@ -401,10 +408,10 @@ void ScreenPlayManager::closeAllWidgets()
 /*!
   \brief Closes a connection by type. Used only by closeAllWidgets() and closeAllWallpapers()
 */
-void ScreenPlayManager::closeConntectionByType(const QStringList& list)
+void ScreenPlayManager::closeConntectionByType(const QStringList& types)
 {
     for (auto& client : m_clients) {
-        if (list.contains(client->type(), Qt::CaseInsensitive)) {
+        if (types.contains(client->type(), Qt::CaseInsensitive)) {
             client->close();
             m_clients.removeOne(client);
         }
@@ -412,15 +419,14 @@ void ScreenPlayManager::closeConntectionByType(const QStringList& list)
 }
 
 /*!
-  \brief Closes a wallpaper by the given \a appID.
+  \brief Closes a Wallpaper or Widget connection by the given \a appID.
 */
-bool ScreenPlayManager::closeWallpaper(const QString& appID)
+bool ScreenPlayManager::closeConnection(const QString& appID)
 {
     for (auto& client : m_clients) {
         if (client->appID() == appID) {
             client->close();
-            m_clients.removeOne(client);
-            return true;
+            return m_clients.removeOne(client);
         }
     }
     return false;

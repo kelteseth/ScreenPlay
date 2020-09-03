@@ -67,8 +67,10 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
-    ScreenPlayWallpaper(){}
-    explicit ScreenPlayWallpaper(const QVector<int>& screenNumber,
+    ScreenPlayWallpaper() { }
+
+    explicit ScreenPlayWallpaper(
+        const QVector<int>& screenNumber,
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const QString& appID,
         const QString& absolutePath,
@@ -80,7 +82,8 @@ public:
         const bool checkWallpaperVisible,
         QObject* parent = nullptr);
 
-    void replace(const QString& absolutePath,
+    void replace(
+        const QString& absolutePath,
         const QString& previewImage,
         const QString& file,
         const float volume,
@@ -158,13 +161,15 @@ signals:
     void profileJsonObjectChanged(QJsonObject profileJsonObject);
     void volumeChanged(float volume);
     void isLoopingChanged(bool isLooping);
-    void requestSave();
     void playbackRateChanged(float playbackRate);
+
+    void requestSave();
+    void requestClose(const QString& appID);
 
 public slots:
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
     void processError(QProcess::ProcessError error);
-    void setWallpaperValue(const QString& key, const QString &value, const bool save = false);
+    void setWallpaperValue(const QString& key, const QString& value, const bool save = false);
 
     void setScreenNumber(QVector<int> screenNumber)
     {
