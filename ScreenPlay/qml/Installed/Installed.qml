@@ -82,6 +82,7 @@ Item {
         cellHeight: 200
         cacheBuffer: 160
         interactive: pageInstalled.enabled
+        snapMode: GridView.SnapToRow
         anchors {
             topMargin: 0
             rightMargin: 0
@@ -209,7 +210,8 @@ Item {
             text: qsTr("Open containing folder")
             icon.source: "qrc:/assets/icons/icon_folder_open.svg"
             onClicked: {
-                ScreenPlay.util.openFolderInExplorer(contextMenu.absoluteStoragePath)
+                ScreenPlay.util.openFolderInExplorer(
+                            contextMenu.absoluteStoragePath)
             }
         }
         MenuItem {

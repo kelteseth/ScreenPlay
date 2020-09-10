@@ -80,38 +80,11 @@ T QStringToEnum(const QString& key, const T defaultValue)
 class Util : public QObject {
     Q_OBJECT
 
-    Q_PROPERTY(bool ffmpegAvailable READ ffmpegAvailable NOTIFY ffmpegAvailableChanged)
-    Q_PROPERTY(AquireFFMPEGStatus aquireFFMPEGStatus READ aquireFFMPEGStatus NOTIFY aquireFFMPEGStatusChanged)
     Q_PROPERTY(QString debugMessages READ debugMessages NOTIFY debugMessagesChanged)
 
 public:
     explicit Util(QNetworkAccessManager* networkAccessManager, QObject* parent = nullptr);
 
-    enum class AquireFFMPEGStatus {
-        Init,
-        Download,
-        DownloadFailed,
-        DownloadSuccessful,
-        Extracting,
-        ExtractingFailedReadFromBuffer,
-        ExtractingFailedFFMPEG,
-        ExtractingFailedFFMPEGSave,
-        ExtractingFailedFFPROBE,
-        ExtractingFailedFFPROBESave,
-        ExtractingSuccessful,
-        FinishedSuccessful,
-    };
-    Q_ENUM(AquireFFMPEGStatus)
-
-    bool ffmpegAvailable() const
-    {
-        return m_ffmpegAvailable;
-    }
-
-    AquireFFMPEGStatus aquireFFMPEGStatus() const
-    {
-        return m_aquireFFMPEGStatus;
-    }
 
     QString debugMessages() const
     {
@@ -125,8 +98,6 @@ signals:
     void setSidebarItem(QString folderName, ScreenPlay::InstalledType::InstalledType type);
     void allLicenseLoaded(QString licensesText);
     void allDataProtectionLoaded(QString dataProtectionText);
-    void ffmpegAvailableChanged(bool ffmpegAvailable);
-    void aquireFFMPEGStatusChanged(ScreenPlay::Util::AquireFFMPEGStatus aquireFFMPEGStatus);
     void debugMessagesChanged(QString debugMessages);
 
 public slots:
@@ -135,8 +106,6 @@ public slots:
 
     void requestAllLicenses();
     void requestDataProtection();
-
-    void downloadFFMPEG();
 
     static SearchType::SearchType getSearchTypeFromInstalledType(const InstalledType::InstalledType type);
     static std::optional<InstalledType::InstalledType> getInstalledTypeFromString(const QString& type);
@@ -166,23 +135,7 @@ public slots:
         emit requestToggleWallpaperConfiguration();
     }
 
-    void setFfmpegAvailable(bool ffmpegAvailable)
-    {
-        if (m_ffmpegAvailable == ffmpegAvailable)
-            return;
 
-        m_ffmpegAvailable = ffmpegAvailable;
-        emit ffmpegAvailableChanged(m_ffmpegAvailable);
-    }
-
-    void setAquireFFMPEGStatus(ScreenPlay::Util::AquireFFMPEGStatus aquireFFMPEGStatus)
-    {
-        if (m_aquireFFMPEGStatus == aquireFFMPEGStatus)
-            return;
-
-        m_aquireFFMPEGStatus = aquireFFMPEGStatus;
-        emit aquireFFMPEGStatusChanged(m_aquireFFMPEGStatus);
-    }
 
     void appendDebugMessages(QString debugMessages)
     {
@@ -200,8 +153,6 @@ private:
 private:
     QNetworkAccessManager* m_networkAccessManager { nullptr };
 
-    bool m_ffmpegAvailable { false };
-    AquireFFMPEGStatus m_aquireFFMPEGStatus { AquireFFMPEGStatus::Init };
     QString m_debugMessages {};
 };
 
