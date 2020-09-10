@@ -1,8 +1,11 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
+
+import QtQuick.Controls.Material.impl 2.12
 
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
@@ -11,12 +14,13 @@ import ScreenPlay.QMLUtilities 1.0
 import "Wizards/CreateWallpaper"
 
 Item {
-    id: create
+    id: root
     anchors.fill: parent
     state: "out"
 
     Component.onCompleted: {
-        create.state = "in"
+        root.state = "in"
+        checkFFMPEG()
     }
 
     function checkFFMPEG() {
@@ -27,11 +31,11 @@ Item {
 
     FFMPEGPopup {
         id: ffmpegPopup
-        anchors.centerIn: create
+        anchors.centerIn: root
         closePolicy: Popup.NoAutoClose
         focus: true
         modal: true
-        parent: create
+        parent: root
     }
 
     BackgroundParticleSystem {
@@ -44,83 +48,172 @@ Item {
         anchors.fill: parent
     }
 
-    CreateContent {
-        id: createContent
-        width: 500
-        height: 400
+    RowLayout {
+        id: wrapper
+        height: parent.height - (footer.height + 80)
         anchors {
             top: parent.top
-            topMargin: 80
-            right: verticalSeperator.left
-            rightMargin: 50
+            right: parent.right
+            left: parent.left
+            margins: 40
         }
-        onCreateContent: {
-            create.state = "wizard"
-            ScreenPlay.util.setNavigationActive(false)
-            if (type === "emptyHtmlWallpaper") {
-                wizard.setSource(
-                            "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml",
-                            {})
-            } else if (type === "emptyWidget") {
-                wizard.setSource(
-                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
-                            {})
-            } else if (type === "musicVisualizer") {
-                wizard.setSource(
-                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
-                            {})
-            } else if (type === "unsplashSlideshow") {
-                wizard.setSource(
-                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
-                            {})
+        spacing: 40
+
+        ListView {
+            id: listView
+            Layout.fillHeight: true
+            Layout.preferredWidth: parent.width * 0.25
+            currentIndex: 0
+            spacing: 10
+            model: ListModel {
+
+                ListElement {
+                    headline: "Empty Html Wallpaper"
+                    source: "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml"
+                    category: "create"
+                }
+
+                ListElement {
+                    headline: "Empty Widget"
+                    source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
+                    category: "create"
+                }
+
+                ListElement {
+                    headline: "Create3"
+                    source: ""
+                    category: "create"
+                }
+
+                ListElement {
+                    headline: "1"
+                    source: ""
+                    category: "import"
+                }
+
+                ListElement {
+                    headline: "2"
+                    source: ""
+                    category: "import"
+                }
+
+                ListElement {
+                    headline: "Create3"
+                    source: ""
+                    category: "create"
+                }
+
+                ListElement {
+                    headline: "1"
+                    source: ""
+                    category: "import"
+                }
+
+                ListElement {
+                    headline: "2"
+                    source: ""
+                    category: "import"
+                }
+                ListElement {
+                    headline: "Create3"
+                    source: ""
+                    category: "create"
+                }
+
+                ListElement {
+                    headline: "1"
+                    source: ""
+                    category: "import"
+                }
+
+                ListElement {
+                    headline: "2"
+                    source: ""
+                    category: "import"
+                }
+            }
+
+            ScrollBar.vertical: ScrollBar {
+                snapMode: ScrollBar.SnapOnRelease
+                policy: ScrollBar.AlwaysOn
+            }
+            snapMode: ListView.SnapToItem
+            section.property: "category"
+            section.delegate: Item {
+                height: 80
+                Text {
+                    verticalAlignment: Qt.AlignVCenter
+                    anchors {
+                        top: parent.top
+                        bottom: parent.bottom
+                        left: parent.left
+                        leftMargin: 20
+                    }
+                    font.pointSize: 16
+
+                    color: Material.primaryTextColor
+                    text: section
+                }
+            }
+
+            delegate: ItemDelegate {
+                id: listItem
+                width: listView.width - 40
+                height: 45
+                highlighted: ListView.isCurrentItem
+                onClicked: {
+                    listView.currentIndex = index
+                    print(source)
+                    loader.source = source
+                }
+               // required property string source
+                background: Rectangle {
+                    radius: 4
+                    layer.enabled: true
+                    layer.effect: ElevationEffect {
+                        elevation: 6
+                    }
+                    color: {
+                        if (Material.theme === Material.Light) {
+                            return listItem.highlighted ? Material.accentColor : "white"
+                        } else {
+                            return listItem.highlighted ? Material.accentColor : Material.background
+                        }
+                    }
+                }
+
+                Text {
+                    verticalAlignment: Qt.AlignVCenter
+                    color: Material.secondaryTextColor
+                    text: headline
+                    anchors {
+                        top: parent.top
+                        bottom: parent.bottom
+                        left: parent.left
+                        leftMargin: 20
+                    }
+                    font.pointSize: 14
+                }
             }
         }
-    }
 
-    Rectangle {
-        id: verticalSeperator
-        width: 2
-        height: 400
-        opacity: .4
-        anchors {
-            top: parent.top
-            topMargin: 100
-            horizontalCenter: parent.horizontalCenter
-        }
-    }
+        Rectangle {
+            Layout.fillHeight: true
+            Layout.preferredWidth: parent.width * 0.75 - parent.spacing
+            radius: 4
+            layer.enabled: true
+            layer.effect: ElevationEffect {
+                elevation: 6
+            }
+            color: Material.theme === Material.Light ? "white" : Material.background
 
-    ImportContent {
-        id: importContent
-        width: 500
-        height: 400
-        anchors {
-            top: parent.top
-            topMargin: 84
-            left: verticalSeperator.right
-            leftMargin: 50
-        }
-        onVideoImportConvertFileSelected: {
-            create.state = "wizard"
-            ScreenPlay.util.setNavigationActive(false)
-            wizard.setSource(
-                        "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaper.qml",
-                        {
-                            "filePath": videoFile
-                        })
-        }
-    }
-
-    Text {
-        id: txtDescriptionBottom
-        text: qsTr("Create wallpapers and widgets for local usage or the steam workshop!")
-        font.family: ScreenPlay.settings.font
-
-        font.pointSize: 10
-        color: "white"
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            bottom: footer.top
-            bottomMargin: 20
+            Loader {
+                id: loader
+                anchors {
+                    fill: parent
+                    margins: 20
+                }
+            }
         }
     }
 
@@ -134,25 +227,30 @@ Item {
     states: [
         State {
             name: "out"
-            PropertyChanges {
-                target: verticalSeperator
-                opacity: 0
-            }
 
             PropertyChanges {
                 target: footer
                 anchors.bottomMargin: -80
             }
+
+            PropertyChanges {
+                target: wrapper
+                anchors.topMargin: 100
+                opacity: 0
+            }
         },
         State {
             name: "in"
-            PropertyChanges {
-                target: verticalSeperator
-                opacity: .4
-            }
+
             PropertyChanges {
                 target: footer
                 anchors.bottomMargin: 0
+            }
+
+            PropertyChanges {
+                target: wrapper
+                opacity: 1
+                anchors.topMargin: wrapper.spacing
             }
         },
         State {
@@ -163,28 +261,13 @@ Item {
                 anchors.bottomMargin: -80
             }
             PropertyChanges {
-                target: importContent
-                state: "out"
-                 enabled:false
-            }
-            PropertyChanges {
-                target: createContent
-                state: "out"
-                 enabled:false
-            }
-            PropertyChanges {
-                target: verticalSeperator
-                opacity: 0
-                enabled:false
-            }
-            PropertyChanges {
-                target: txtDescriptionBottom
-                opacity: 0
-                 enabled:false
-            }
-            PropertyChanges {
                 target: wizard
                 z: 99
+            }
+            PropertyChanges {
+                target: wrapper
+                anchors.topMargin: 100
+                opacity: 0
             }
         }
     ]
@@ -195,29 +278,9 @@ Item {
             to: "in"
             reversible: true
 
-            NumberAnimation {
-                targets: [txtDescriptionBottom, footer]
-                property: "opacity"
-                duration: 400
-                easing.type: Easing.InOutQuart
-            }
-            SequentialAnimation {
-
-                PauseAnimation {
-                    duration: 300
-                }
-
-                NumberAnimation {
-                    target: verticalSeperator
-                    property: "opacity"
-                    duration: 250
-                    easing.type: Easing.InOutQuart
-                }
-            }
-
             PropertyAnimation {
-                target: footer
-                property: "anchors.bottomMargin"
+                targets: [footer, wrapper]
+                properties: "anchors.bottomMargin, anchors.topMargin, opacity"
                 duration: 400
                 easing.type: Easing.InOutQuart
             }
@@ -228,8 +291,8 @@ Item {
             reversible: true
 
             PropertyAnimation {
-                target: footer
-                property: "anchors.bottomMargin"
+                targets: [footer, wrapper]
+                properties: "anchors.bottomMargin, anchors.topMargin, opacity"
                 duration: 400
                 easing.type: Easing.InOutQuart
             }
