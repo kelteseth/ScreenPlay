@@ -2,5 +2,7 @@
     <qresource prefix="/">
         <file>lightning.frag</file>
         <file>lightning.vert</file>
+        <file>water.frag</file>
+        <file>water.vert</file>
     </qresource>
 </RCC>
