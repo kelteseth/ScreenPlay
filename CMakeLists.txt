@@ -51,6 +51,7 @@ project(ScreenPlay)
 
 add_subdirectory(ScreenPlay)
 add_subdirectory(ScreenPlaySDK)
+add_subdirectory(ScreenPlayShader)
 add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlaySysInfo)

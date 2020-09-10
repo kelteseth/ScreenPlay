@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>lightning.frag</file>
+        <file>lightning.vert</file>
+    </qresource>
+</RCC>

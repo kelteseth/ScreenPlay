@@ -19,7 +19,7 @@ set(headers
         inc/screenplay-sdk_plugin.h
         inc/screenplaysdk.h)
 
-add_library(${PROJECT_NAME}  ${src} ${headers})
+add_library(${PROJECT_NAME}   ${src} ${headers})
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
