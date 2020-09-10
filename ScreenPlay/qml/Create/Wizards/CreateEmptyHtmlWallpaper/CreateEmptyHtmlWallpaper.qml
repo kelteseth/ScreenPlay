@@ -56,11 +56,10 @@ Item {
                     width: parent.width - 40
                     font.pointSize: 13
                     font.family: ScreenPlay.settings.font
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     anchors {
                         centerIn: parent
                     }
-
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }
 
@@ -236,10 +235,8 @@ Item {
                         var tags = tagSelector.getTags()
                         ScreenPlay.create.createHTMLWallpaper(
                                     ScreenPlay.globalVariables.localStoragePath,
-                                    tfTitle.text,
-                                    previewSelector.imageSource,
-                                    cbLicense.currentText,
-                                    tags)
+                                    tfTitle.text, previewSelector.imageSource,
+                                    cbLicense.currentText, tags)
                     }
                 }
             }

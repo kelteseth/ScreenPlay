@@ -68,6 +68,15 @@ namespace InstalledType {
     };
     Q_ENUM_NS(InstalledType)
 
+    static bool isWallpaper(const InstalledType type)
+    {
+        return (type == InstalledType::VideoWallpaper || type == InstalledType::QMLWallpaper || type == InstalledType::HTMLWallpaper || type == InstalledType::GodotWallpaper);
+    }
+
+    static bool isWidget(const InstalledType type)
+    {
+        return (type == InstalledType::QMLWidget || type == InstalledType::HTMLWidget);
+    }
 }
 
 namespace SearchType {

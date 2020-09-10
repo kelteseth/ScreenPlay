@@ -4,17 +4,11 @@ import QtGraphicalEffects 1.0
 import QtQuick.Particles 2.0
 
 Rectangle {
-    id: element
+    id: root
     anchors.fill: parent
-    color: Material.theme === Material.Light ? "white" :  Qt.darker( Material.background)
     state: "init"
-    onStateChanged: {
-        if (state === "init") {
-            colorShaderCreateTimer.stop()
-        } else {
-            colorShaderCreateTimer.start()
-        }
-    }
+    color: Material.theme === Material.Light ? "white" : Qt.darker(
+                                                   Material.background)
 
     Rectangle {
         id: bgCommunity
@@ -32,12 +26,14 @@ Rectangle {
         id: colorShaderCreateTimer
         interval: 16
         repeat: true
+        running: root.state === "create"
         onTriggered: colorShaderCreate.time = myDate.getMilliseconds()
     }
 
     ShaderEffect {
         id: colorShaderCreate
         anchors.fill: parent
+        enabled: root.state === "create"
         blending: true
         property real shaderOpacity: 0
         property real time: 45
@@ -110,7 +106,6 @@ Rectangle {
     ]
 
     transitions: [
-
 
         Transition {
             from: "*"
