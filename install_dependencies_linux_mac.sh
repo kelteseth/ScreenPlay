@@ -4,13 +4,14 @@ cd Common
 git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg
 git pull
-git checkout 2bc6cd714
+# master 10.09.2020 - 18ab4b72a26284f0df28295ce7bf9b21c96f20f4
+git checkout 18ab4b72a26284f0df28295ce7bf9b21c96f20f4
 chmod +x bootstrap-vcpkg.sh
 ./bootstrap-vcpkg.sh
 chmod +x vcpkg
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-./vcpkg install zlib libzip libzippp openssl-unix libzip breakpad --triplet x64-osx --recurse
+./vcpkg install zlib libzip libzippp openssl-unix libzip sentry-native --triplet x64-osx --recurse
 else
-./vcpkg install zlib libzip libzippp openssl-unix libzip breakpad --triplet x64-linux --recurse
+./vcpkg install zlib libzip libzippp openssl-unix libzip sentry-native --triplet x64-linux --recurse
 fi

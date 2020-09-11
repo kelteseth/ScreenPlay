@@ -21,6 +21,8 @@ find_package(
 find_package(ZLIB REQUIRED)
 find_package(OpenSSL REQUIRED)
 find_package(libzippp CONFIG REQUIRED)
+find_package(sentry CONFIG REQUIRED)
+
 
 
 set(src main.cpp
@@ -102,13 +104,19 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Core
     Qt5::WebEngine
     libzippp::libzippp
+    sentry::sentry
     ScreenPlaySDK
-    QTBreakpadplugin)
+    )
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE
-    ${QT_TELEMTRY_INCLUDE}
-    ${QT_BREAKPAD_INCLUDE})
+    ${QT_TELEMTRY_INCLUDE})
 
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets/fonts)
 configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/assets/fonts COPYONLY)
+
+if(WIN32)
+    configure_file(${VCPKG_TOOLS_PATH}/sentry-native/crashpad_handler.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+else()
+    configure_file(${VCPKG_TOOLS_PATH}/sentry-native/crashpad_handler ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+endif()
