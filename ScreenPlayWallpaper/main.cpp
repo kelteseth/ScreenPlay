@@ -6,7 +6,6 @@
 #include <QtWebEngine>
 
 #if defined(Q_OS_WIN)
-
 #include "src/winwindow.h"
 #endif
 

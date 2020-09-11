@@ -24,7 +24,7 @@ set(headers screenplaysysinfo_plugin.h
 	mathhelper.h
 	storage.h)
 
-add_library(${PROJECT_NAME}  ${src} ${headers})
+add_library(${PROJECT_NAME}  SHARED  ${src} ${headers})
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE

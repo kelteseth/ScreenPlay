@@ -16,8 +16,8 @@ elseif(APPLE)
 endif()
 
 set(VCPKG_INCLUDE_PATH  ${CMAKE_CURRENT_SOURCE_DIR}/Common/vcpkg/installed/${VCPKG_ARCH}/include/)
+set(VCPKG_TOOLS_PATH  ${CMAKE_CURRENT_SOURCE_DIR}/Common/vcpkg/installed/${VCPKG_ARCH}/tools/)
 set(QT_TELEMTRY_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/Common/qt-google-analytics/)
-set(QT_BREAKPAD_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/Common/qt-breakpad/)
 
 
 find_package(Git REQUIRED)
@@ -55,7 +55,3 @@ add_subdirectory(ScreenPlayShader)
 add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlaySysInfo)
-add_subdirectory(Common/qt-breakpad)
-
-
-
