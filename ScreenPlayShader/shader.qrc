@@ -5,4 +5,8 @@
         <file>water.frag</file>
         <file>water.vert</file>
     </qresource>
+    <qresource prefix="/ShaderWrapper">
+        <file>ScreenPlayShader.qml</file>
+        <file>Testyyy.qml</file>
+    </qresource>
 </RCC>

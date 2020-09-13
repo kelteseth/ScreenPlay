@@ -61,6 +61,7 @@ class ShaderLibrary : public QQuickItem {
     Q_DISABLE_COPY(ShaderLibrary)
 
     Q_PROPERTY(Shader* lightning READ lightning WRITE setLightning NOTIFY lightningChanged)
+    Q_PROPERTY(Shader* water READ water WRITE setWater NOTIFY waterChanged)
 
 public:
     explicit ShaderLibrary(QQuickItem* parent = nullptr);
@@ -69,6 +70,11 @@ public:
     Shader* lightning() const
     {
         return m_lightning.get();
+    }
+
+    Shader* water() const
+    {
+        return m_water.get();
     }
 
 public slots:
@@ -81,9 +87,21 @@ public slots:
         emit lightningChanged(m_lightning.get());
     }
 
+    void setWater(Shader* water)
+    {
+        if (m_water.get() == water)
+            return;
+
+        m_water.reset(water);
+        emit waterChanged(m_water.get());
+    }
+
 signals:
     void lightningChanged(Shader* lightning);
 
+    void waterChanged(Shader* water);
+
 private:
     std::unique_ptr<Shader> m_lightning;
+    std::unique_ptr<Shader> m_water;
 };
