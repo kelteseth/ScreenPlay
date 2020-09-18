@@ -23,8 +23,8 @@ rem Create ffmpeg folder
 mkdir Common/ffmpeg
 
 rem Remove not used ffplay
-rm ffplay.exe
+DEL  ffplay.exe
 
 rem Move ffmpeg into folder
-mv ffmpeg.exe  Common/ffmpeg
-mv ffprobe.exe  Common/ffmpeg
+move /Y  ffmpeg.exe  Common/ffmpeg
+move /Y  ffprobe.exe  Common/ffmpeg
