@@ -19,20 +19,6 @@ Item {
         create.state = "in"
     }
 
-    function checkFFMPEG() {
-        if (!ScreenPlay.util.ffmpegAvailable) {
-            ffmpegPopup.open()
-        }
-    }
-
-    FFMPEGPopup {
-        id: ffmpegPopup
-        anchors.centerIn: create
-        closePolicy: Popup.NoAutoClose
-        focus: true
-        modal: true
-        parent: create
-    }
 
     BackgroundParticleSystem {
         id: particleSystemWrapper

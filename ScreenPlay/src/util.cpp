@@ -19,7 +19,6 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     // Fix log access vilation on quit
     QObject::connect(QGuiApplication::instance(), &QGuiApplication::aboutToQuit, this, []() { utilPointer = nullptr; });
 
-    qRegisterMetaType<Util::AquireFFMPEGStatus>();
     qmlRegisterUncreatableType<Util>("ScreenPlay.QMLUtilities", 1, 0, "QMLUtilities", "Error only for enums");
 
     // In release mode redirect messages to logging otherwhise we break the nice clickable output :(
@@ -30,21 +29,6 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
 
     // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
-
-    QString path = QApplication::instance()->applicationDirPath() + "/";
-    QFile fileFFMPEG;
-    QFile fileFFPROBE;
-
-#ifdef Q_OS_WIN
-    fileFFMPEG.setFileName(path + "ffmpeg.exe");
-    fileFFPROBE.setFileName(path + "ffprobe.exe");
-#else
-    fileFFMPEG.setFileName(path + "ffmpeg");
-    fileFFPROBE.setFileName(path + "ffprobe");
-#endif
-
-    if (fileFFMPEG.exists() && fileFFPROBE.exists())
-        setFfmpegAvailable(true);
 }
 
 /*!
@@ -292,94 +276,6 @@ void Util::Util::requestDataProtection()
     });
 }
 
-/*!
-  \brief Downloads and extracts ffmpeg static version from https://ffmpeg.zeranoe.com
-  The progress is tracked via setAquireFFMPEGStatus(AquireFFMPEGStatus);
-*/
-void Util::downloadFFMPEG()
-{
-    QNetworkRequest req;
-    QString ffmpegVersion { "ffmpeg-4.3.1" };
-
-#ifdef Q_OS_WIN
-    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/win64/static/" + ffmpegVersion + "-win64-static.zip"));
-#elif defined(Q_OS_OSX)
-    req.setUrl(QUrl("https://ffmpeg.zeranoe.com/builds/macos64/static/" + ffmpegVersion + "-macos64-static.zip"));
-#endif
-    setAquireFFMPEGStatus(AquireFFMPEGStatus::Download);
-
-    QNetworkReply* reply = m_networkAccessManager->get(req);
-    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply, ffmpegVersion]() {
-        using namespace libzippp;
-        using namespace std;
-
-        setAquireFFMPEGStatus(AquireFFMPEGStatus::DownloadSuccessful);
-
-        QByteArray download = reply->readAll();
-
-        auto* archive = ZipArchive::fromBuffer(download.data(), download.size(), ZipArchive::OpenMode::READ_ONLY, true);
-
-        if (archive == nullptr) {
-            setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedReadFromBuffer);
-            return;
-        }
-
-        string path = QApplication::instance()->applicationDirPath().toStdString() + "/";
-
-        ZipEntry entryFFMPEG;
-        std::string entryFFMPEGPath;
-#ifdef Q_OS_WIN
-        entryFFMPEG = archive->getEntry(ffmpegVersion.toStdString() + "-win64-static/bin/ffmpeg.exe");
-        entryFFMPEGPath = path + "ffmpeg.exe";
-#elif defined(Q_OS_OSX)
-         entryFFMPEG = archive->getEntry(ffmpegVersion.toStdString() +"-macos64-static/bin/ffmpeg");
-         entryFFMPEGPath = path + "ffmpeg";
-#endif
-
-        if (entryFFMPEG.isNull()) {
-            qDebug() << "entryFFMPEG is null. No more entry is available.";
-            qDebug() << "Download size was: " << download.size() << "bytes";
-
-            setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFMPEG);
-            return;
-        }
-
-        if (!saveExtractedByteArray(entryFFMPEG, entryFFMPEGPath)) {
-            qDebug() << "could not save ffmpeg";
-            setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFMPEGSave);
-            return;
-        }
-
-        ZipEntry entryFFPROBE;
-        std::string entryFFPROBEPath;
-#ifdef Q_OS_WIN
-        entryFFPROBE = archive->getEntry(ffmpegVersion.toStdString() + "-win64-static/bin/ffprobe.exe");
-        entryFFPROBEPath = path + "ffprobe.exe";
-#elif defined(Q_OS_OSX)
-        entryFFPROBE = archive->getEntry(ffmpegVersion.toStdString() +"-macos64-static/bin/ffprobe");
-        entryFFPROBEPath = path + "ffprobe";
-#endif
-        if (entryFFPROBE.isNull()) {
-            qDebug() << "null";
-            setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFPROBE);
-            return;
-        }
-
-        if (!saveExtractedByteArray(entryFFPROBE, entryFFPROBEPath)) {
-            qDebug() << "could not save ffprobe";
-            setAquireFFMPEGStatus(AquireFFMPEGStatus::ExtractingFailedFFPROBESave);
-            return;
-        }
-
-        setAquireFFMPEGStatus(AquireFFMPEGStatus::FinishedSuccessful);
-    });
-
-    QObject::connect(reply, QOverload<QNetworkReply::NetworkError>::of(&QNetworkReply::error),
-        [this](QNetworkReply::NetworkError code) {
-            this->setAquireFFMPEGStatus(AquireFFMPEGStatus::DownloadFailed);
-        });
-}
-
 SearchType::SearchType Util::getSearchTypeFromInstalledType(const InstalledType::InstalledType type)
 {
     using InstalledType::InstalledType;
@@ -465,28 +361,6 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
 
     if (utilPointer != nullptr)
         utilPointer->appendDebugMessages(log);
-}
-
-/*!
-  \brief Convenient function for the ffmpeg download extraction via libzippp. Extracts a given bytearray
-  to a given absolute file path and file name. Returns false if extraction or saving wasn't successful.
-*/
-bool Util::saveExtractedByteArray(libzippp::ZipEntry& entry, std::string& absolutePathAndName)
-{
-    std::ofstream ofUnzippedFile(absolutePathAndName, std::ofstream::binary);
-
-    if (ofUnzippedFile) {
-        if (entry.readContent(ofUnzippedFile) != 0) {
-            qDebug() << "Error cannot read ffmpeg zip content";
-            return false;
-        }
-    } else {
-        qDebug() << "Coud not open ofstream" << QString::fromStdString(absolutePathAndName);
-        return false;
-    }
-
-    ofUnzippedFile.close();
-    return true;
 }
 
 }

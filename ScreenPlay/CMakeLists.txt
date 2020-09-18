@@ -87,12 +87,13 @@ add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml})
 if(WIN32)
     # Icon
     target_sources(${PROJECT_NAME}  PRIVATE ScreenPlay.rc)
+
+    # Disable console window on Windows
+    # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
+    set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
 endif()
 
 
-# Disable console window on Windows
-# https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
-set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE  "GIT_VERSION=${GIT_VERSION}")
 
@@ -115,8 +116,12 @@ target_include_directories(${PROJECT_NAME}
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets/fonts)
 configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/assets/fonts COPYONLY)
 
+# Copy ffmpeg. If the ffmpeg files are missing, start the
+# install_dependencies_XXX for your system!
 if(WIN32)
-    configure_file(${VCPKG_TOOLS_PATH}/sentry-native/crashpad_handler.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffmpeg.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 else()
-    configure_file(${VCPKG_TOOLS_PATH}/sentry-native/crashpad_handler ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffmpeg ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 endif()

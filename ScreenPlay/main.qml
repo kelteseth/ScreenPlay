@@ -91,7 +91,6 @@ ApplicationWindow {
             pageLoaderCreate.visible = true
             pageLoaderWorkshop.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
-            pageLoaderCreate.item.checkFFMPEG()
         } else if (name === "Workshop") {
             if (ScreenPlay.settings.steamVersion) {
 

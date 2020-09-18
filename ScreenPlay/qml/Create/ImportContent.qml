@@ -72,7 +72,7 @@ Item {
             }
 
             Button {
-                text: ScreenPlay.util.ffmpegAvailable ? qsTr("Import video") : qsTr("FFMPEG Needed for import")
+                text: qsTr("Import video")
                 anchors {
                     horizontalCenter: parent.horizontalCenter
                     bottom: parent.bottom
@@ -84,7 +84,6 @@ Item {
                 icon.color: "white"
                 icon.width: 16
                 font.family: ScreenPlay.settings.font
-                enabled: ScreenPlay.util.ffmpegAvailable
                 icon.height: 16
                 onClicked: fileDialogImportVideo.open()
             }
