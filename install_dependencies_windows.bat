@@ -19,12 +19,9 @@ rem We only need the content of the bin folder
 rem --strip-components 2 removes folder
 tar -xvf ffmpeg.zip  --strip-components 2  ffmpeg-4.3.1-full_build/bin
 
-rem Create ffmpeg folder
-mkdir Common/ffmpeg
-
 rem Remove not used ffplay
-DEL  ffplay.exe
+rm ffplay.exe
 
 rem Move ffmpeg into folder
-move /Y  ffmpeg.exe  Common/ffmpeg
-move /Y  ffprobe.exe  Common/ffmpeg
+mv ffmpeg.exe  Common/ffmpeg
+mv ffprobe.exe  Common/ffmpeg

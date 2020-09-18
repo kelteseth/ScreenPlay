@@ -26,7 +26,17 @@ build:windows:
         paths:
             - Common\vcpkg\
     script:
-        - cmd /c `install_dependencies_windows.bat`
+        - git submodule update --init
+        - git submodule update --recursive
+        - cd Common
+        - git clone https://github.com/microsoft/vcpkg.git
+        - cd vcpkg
+        - git pull
+        - git checkout  18ab4b72a26284f0df28295ce7bf9b21c96f20f4
+        - call bootstrap-vcpkg.bat
+        - vcpkg.exe install openssl  --triplet x64-windows --recurse
+        - cd ..
+        - cd ..
         - mkdir BUILD_WINDOWS
         - cd BUILD_WINDOWS
         - cmake.exe ../  -DCMAKE_PREFIX_PATH=c:/Qt/5.15.1/msvc2019 -DCMAKE_IGNORE_PATH=C:/Strawberry/c/bin -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE="$(Get-Location)/../Common/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows "-GCodeBlocks - Ninja" -B.
