@@ -18,12 +18,8 @@ find_package(
              LinguistTools
   REQUIRED)
 
-find_package(ZLIB REQUIRED)
 find_package(OpenSSL REQUIRED)
-find_package(libzippp CONFIG REQUIRED)
 find_package(sentry CONFIG REQUIRED)
-
-
 
 set(src main.cpp
         app.cpp
@@ -104,7 +100,6 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Widgets
     Qt5::Core
     Qt5::WebEngine
-    libzippp::libzippp
     sentry::sentry
     ScreenPlaySDK
     )

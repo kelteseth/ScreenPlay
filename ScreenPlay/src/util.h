@@ -58,7 +58,7 @@
 #include <optional>
 
 #include "globalvariables.h"
-#include "libzippp.h"
+
 
 namespace ScreenPlay {
 
@@ -144,8 +144,6 @@ public slots:
         emit debugMessagesChanged(m_debugMessages);
     }
 
-private:
-    bool saveExtractedByteArray(libzippp::ZipEntry& entry, std::string& absolutePathAndName);
 
 private:
     QNetworkAccessManager* m_networkAccessManager { nullptr };
