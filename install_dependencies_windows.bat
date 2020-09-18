@@ -12,7 +12,7 @@ rem Install vcpkg dependencies
 vcpkg.exe install openssl  --triplet x64-windows --recurse
 
 rem Donwload ffmpeg
-curl.exe -L https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full.zip --output ffmpeg.zip
+curl.exe -L https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.3.1-full_build.zip --output ffmpeg.zip
 
 rem Extract ffmpeg. Needs Windows 10 build 17063 or higher!
 rem We only need the content of the bin folder
