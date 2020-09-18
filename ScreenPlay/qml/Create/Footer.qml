@@ -12,7 +12,7 @@ import "Wizards/CreateWallpaper"
 
 Rectangle {
     id: footer
-    height: 80
+    height: 60
     z: 100
     color: Material.background
 

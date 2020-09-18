@@ -124,7 +124,8 @@ public slots:
         const QString& license,
         const QVector<QString>& tags);
 
-    void saveWallpaper(QString title,
+    void saveWallpaper(
+        QString title,
         QString description,
         QString filePath,
         QString previewImagePath,
