@@ -85,7 +85,6 @@ class Util : public QObject {
 public:
     explicit Util(QNetworkAccessManager* networkAccessManager, QObject* parent = nullptr);
 
-
     QString debugMessages() const
     {
         return m_debugMessages;
@@ -134,8 +133,6 @@ public slots:
     {
         emit requestToggleWallpaperConfiguration();
     }
-
-
 
     void appendDebugMessages(QString debugMessages)
     {

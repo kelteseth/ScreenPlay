@@ -87,12 +87,13 @@ add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml})
 if(WIN32)
     # Icon
     target_sources(${PROJECT_NAME}  PRIVATE ScreenPlay.rc)
+
+    # Disable console window on Windows
+    # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
+    set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
 endif()
 
 
-# Disable console window on Windows
-# https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
-set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE  "GIT_VERSION=${GIT_VERSION}")
 

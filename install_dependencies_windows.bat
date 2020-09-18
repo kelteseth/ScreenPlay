@@ -11,6 +11,9 @@ call bootstrap-vcpkg.bat
 rem Install vcpkg dependencies
 vcpkg.exe install openssl  --triplet x64-windows --recurse
 
+cd ..
+cd ..
+
 rem Donwload ffmpeg
 curl.exe -L https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.3.1-full_build.zip --output ffmpeg.zip
 
@@ -20,8 +23,12 @@ rem --strip-components 2 removes folder
 tar -xvf ffmpeg.zip  --strip-components 2  ffmpeg-4.3.1-full_build/bin
 
 rem Remove not used ffplay
-rm ffplay.exe
+DEL  ffplay.exe
 
 rem Move ffmpeg into folder
-mv ffmpeg.exe  Common/ffmpeg
-mv ffprobe.exe  Common/ffmpeg
+move /Y ffmpeg.exe  Common/ffmpeg
+move /Y ffprobe.exe  Common/ffmpeg
+
+DEL ffmpeg.zip
+
+pause
