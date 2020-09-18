@@ -29,8 +29,7 @@ build:windows:
         - git submodule update --init
         - git submodule update --recursive
         - cd Common
-        # https://gitlab.com/gitlab-org/gitlab-runner/-/issues/4480#note_342652247
-        - git clone https://github.com/microsoft/vcpkg.git; echo 0
+        - if (!(Test-Path "vcpkg")){git clone https://github.com/microsoft/vcpkg.git}
         - cd vcpkg
         - git pull
         - git checkout  18ab4b72a26284f0df28295ce7bf9b21c96f20f4
