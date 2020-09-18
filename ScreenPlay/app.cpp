@@ -47,7 +47,7 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.12.0");
+    QGuiApplication::setApplicationVersion("0.12.1");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
