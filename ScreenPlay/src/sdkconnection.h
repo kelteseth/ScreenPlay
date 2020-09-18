@@ -69,7 +69,6 @@ public:
         SDKConnection.
     */
     explicit SDKConnection(QLocalSocket* socket, QObject* parent = nullptr);
-    ~SDKConnection();
 
     QString appID() const
     {

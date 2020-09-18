@@ -16,6 +16,10 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     , m_networkAccessManager { networkAccessManager }
 {
     utilPointer = this;
+    // Fix log access vilation on quit
+    QObject::connect(QGuiApplication::instance(), &QGuiApplication::aboutToQuit, this, []() { utilPointer = nullptr; });
+
+    qRegisterMetaType<Util::AquireFFMPEGStatus>();
     qmlRegisterUncreatableType<Util>("ScreenPlay.QMLUtilities", 1, 0, "QMLUtilities", "Error only for enums");
 
     // In release mode redirect messages to logging otherwhise we break the nice clickable output :(

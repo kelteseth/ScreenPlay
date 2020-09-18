@@ -11,7 +11,7 @@ chmod +x bootstrap-vcpkg.sh
 chmod +x vcpkg
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-./vcpkg install zlib libzip libzippp openssl-unix libzip breakpad  ffmpeg[x264,vpx,mp3lame,opus] --triplet x64-osx --recurse
+./vcpkg install  openssl-unix  sentry-native --triplet x64-osx --recurse
 else
-./vcpkg install zlib libzip libzippp openssl-unix libzip breakpad  ffmpeg[x264,vpx,mp3lame,opus] --triplet x64-linux --recurse
+./vcpkg install  openssl-unix  sentry-native --triplet x64-linux --recurse
 fi

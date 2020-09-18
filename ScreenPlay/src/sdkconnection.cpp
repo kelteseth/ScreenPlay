@@ -8,17 +8,6 @@ ScreenPlay::SDKConnection::SDKConnection(QLocalSocket* socket, QObject* parent)
     connect(m_socket, &QLocalSocket::readyRead, this, &SDKConnection::readyRead);
 }
 
-ScreenPlay::SDKConnection::~SDKConnection()
-{
-
-    // We need to call this manually because
-    // sometimes it wont close the connection in
-    // the descructor
-    m_socket->disconnect();
-    m_socket->disconnectFromServer();
-    m_socket->close();
-}
-
 void ScreenPlay::SDKConnection::readyRead()
 {
 
