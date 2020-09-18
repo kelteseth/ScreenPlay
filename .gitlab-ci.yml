@@ -29,7 +29,8 @@ build:windows:
         - git submodule update --init
         - git submodule update --recursive
         - cd Common
-        - git clone https://github.com/microsoft/vcpkg.git
+        # git directory can already exist. In powershell this is an hard error, but not in CMD.
+        - cmd /C git clone https://github.com/microsoft/vcpkg.git
         - cd vcpkg
         - git pull
         - git checkout  18ab4b72a26284f0df28295ce7bf9b21c96f20f4
