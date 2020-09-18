@@ -4,7 +4,7 @@
 ``` bash
 git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
 ```
-3. Download the latest [__Qt 5.14__](https://www.qt.io/download-qt-installer). Earlier versions are not supported!
+3. Download the latest [__Qt 5.15__](https://www.qt.io/download-qt-installer). Earlier versions are not supported!
 4. Start install-dependencies.bat to download dependencies into the Common/ folder
 ``` bash
 //Windows
@@ -16,15 +16,11 @@ chmod +x install-dependencies.sh
 .\install-dependencies.sh
 ```
    * This will install these dependencies via __vcpkg__
-      * libzippp
-      * nlohmann-json
       * openSSL 1.1.1d
-      * zlib& libzip
-      * breakpad 
+      * sentry-native
    * Download these dependencies via __git submodules__
-      * stomt-qt-sdk
       * qt-google-analytics
-      * qt-breakpad
+   * Download ffmpeg binaries
 5. **Follow the steps below for your OS**. 
 6. Open the CMakeLists.txt via QtCreator. **This can take some time until QtCreator parses all files!**
 
@@ -52,7 +48,7 @@ chmod +x install-dependencies.sh
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.14.2
+        - Qt 5.15.2
             - MSVC 2017 64-bit
             - Qt WebEngine
         - Developer and Designer Tools
@@ -75,14 +71,14 @@ sudo zypper install -t pattern devel_basis
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.14.2
+        - Qt 5.15.2
             - GCC
             - Qt WebEngine
 ### OSX
 1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.14.2
+        - Qt 5.15.2
             - Qt WebEngine
         - Developer and Designer Tools
             - OpenSSL 1.1.1.c Toolkit
