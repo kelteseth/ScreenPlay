@@ -3,12 +3,10 @@ import QtQuick.Controls 2.12
 
 ShaderEffect {
     id: root
-
     property real speed: 1
 
     readonly property vector3d defaultResolution: Qt.vector3d(
-                                                      root.width,
-                                                      root.height,
+                                                      root.width, root.height,
                                                       root.width / root.height)
     function calcResolution(channel) {
         if (channel) {
@@ -19,7 +17,7 @@ ShaderEffect {
         }
     }
 
-    // based on shadertoy default vartiables
+    // based on shadertoy default variables
     readonly property vector3d iResolution: defaultResolution
     property real iTime: 0
     property real iTimeDelta: 100
@@ -119,7 +117,8 @@ out vec4 fragColor;"
 #version 110
 #define texture texture2D"
 
-    property string versionString: GraphicsInfo.majorVersion === 3 ? "gl3Ver" : "gl2Ver"
+    property string versionString: (GraphicsInfo.majorVersion === 3
+                                    || GraphicsInfo.majorVersion === 4) ? gl3Ver : gl2Ver
 
     vertexShader: "
 uniform mat4 qt_Matrix;
@@ -165,6 +164,6 @@ fragColor = vec4(fragCoord, fragCoord.x, fragCoord.y);
 }"
 
     property bool runShader: true
-    property string pixelShader: ""
-    fragmentShader: forwardString + (pixelShader ? pixelShader : defaultPixelShader) + startCode
+    property string pixelShader
+    onPixelShaderChanged: root.fragmentShader = forwardString + pixelShader + startCode
 }

@@ -4,9 +4,12 @@
         <file>lightning.vert</file>
         <file>water.frag</file>
         <file>water.vert</file>
+        <file>assets/Shadertoy_Bayer.png</file>
+        <file>assets/Shadertoy_Gray_Noise_Medium.png</file>
+        <file>assets/Shadertoy_Lichen.jpg</file>
+        <file>Noise_Watery.frag</file>
     </qresource>
     <qresource prefix="/ShaderWrapper">
-        <file>ScreenPlayShader.qml</file>
-        <file>Testyyy.qml</file>
+        <file>ShadertoyShader.qml</file>
     </qresource>
 </RCC>
