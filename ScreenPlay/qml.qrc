@@ -7,7 +7,6 @@
         <file>qml/Create/CreateContentButton.qml</file>
         <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml</file>
         <file>qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml</file>
-        <file>qml/Create/FFMPEGPopup.qml</file>
         <file>qml/Create/Wizard.qml</file>
         <file>qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml</file>
         <file>qml/Create/Footer.qml</file>

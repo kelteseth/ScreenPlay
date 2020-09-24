@@ -82,7 +82,7 @@ Item {
     Button {
         id: btnWorkshop
         text: qsTr("Browse the Steam Workshop")
-        Material.background: Material.Blue
+        Material.background: Material.color(Material.Green)
         Material.foreground: "white"
         smooth: true
         font.pointSize: 18

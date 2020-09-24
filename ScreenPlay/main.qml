@@ -28,7 +28,7 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 788
-    title: "ScreenPlay Alpha - V0.12.0"
+    title: "ScreenPlay Alpha - V0.12.1"
     minimumHeight: 450
     minimumWidth: 1050
     onVisibilityChanged: {
@@ -96,7 +96,6 @@ ApplicationWindow {
             pageLoaderCreate.visible = true
             pageLoaderWorkshop.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
-            pageLoaderCreate.item.checkFFMPEG()
         } else if (name === "Workshop") {
             if (ScreenPlay.settings.steamVersion) {
 
