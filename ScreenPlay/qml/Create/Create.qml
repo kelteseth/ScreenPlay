@@ -20,22 +20,6 @@ Item {
 
     Component.onCompleted: {
         root.state = "in"
-        checkFFMPEG()
-    }
-
-    function checkFFMPEG() {
-        if (!ScreenPlay.util.ffmpegAvailable) {
-            ffmpegPopup.open()
-        }
-    }
-
-    FFMPEGPopup {
-        id: ffmpegPopup
-        anchors.centerIn: root
-        closePolicy: Popup.NoAutoClose
-        focus: true
-        modal: true
-        parent: root
     }
 
     BackgroundParticleSystem {
@@ -50,169 +34,220 @@ Item {
 
     RowLayout {
         id: wrapper
-        height: parent.height - (footer.height + 80)
+        spacing: 0
+        height: parent.height - footer.height
         anchors {
             top: parent.top
             right: parent.right
             left: parent.left
-            margins: 40
-        }
-        spacing: 40
-
-        ListView {
-            id: listView
-            Layout.fillHeight: true
-            Layout.preferredWidth: parent.width * 0.25
-            currentIndex: 0
-            spacing: 10
-            model: ListModel {
-
-                ListElement {
-                    headline: "Empty Html Wallpaper"
-                    source: "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml"
-                    category: "create"
-                }
-
-                ListElement {
-                    headline: "Empty Widget"
-                    source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                    category: "create"
-                }
-
-                ListElement {
-                    headline: "Create3"
-                    source: ""
-                    category: "create"
-                }
-
-                ListElement {
-                    headline: "1"
-                    source: ""
-                    category: "import"
-                }
-
-                ListElement {
-                    headline: "2"
-                    source: ""
-                    category: "import"
-                }
-
-                ListElement {
-                    headline: "Create3"
-                    source: ""
-                    category: "create"
-                }
-
-                ListElement {
-                    headline: "1"
-                    source: ""
-                    category: "import"
-                }
-
-                ListElement {
-                    headline: "2"
-                    source: ""
-                    category: "import"
-                }
-                ListElement {
-                    headline: "Create3"
-                    source: ""
-                    category: "create"
-                }
-
-                ListElement {
-                    headline: "1"
-                    source: ""
-                    category: "import"
-                }
-
-                ListElement {
-                    headline: "2"
-                    source: ""
-                    category: "import"
-                }
-            }
-
-            ScrollBar.vertical: ScrollBar {
-                snapMode: ScrollBar.SnapOnRelease
-                policy: ScrollBar.AlwaysOn
-            }
-            snapMode: ListView.SnapToItem
-            section.property: "category"
-            section.delegate: Item {
-                height: 80
-                Text {
-                    verticalAlignment: Qt.AlignVCenter
-                    anchors {
-                        top: parent.top
-                        bottom: parent.bottom
-                        left: parent.left
-                        leftMargin: 20
-                    }
-                    font.pointSize: 16
-
-                    color: Material.primaryTextColor
-                    text: section
-                }
-            }
-
-            delegate: ItemDelegate {
-                id: listItem
-                width: listView.width - 40
-                height: 45
-                highlighted: ListView.isCurrentItem
-                onClicked: {
-                    listView.currentIndex = index
-                    print(source)
-                    loader.source = source
-                }
-               // required property string source
-                background: Rectangle {
-                    radius: 4
-                    layer.enabled: true
-                    layer.effect: ElevationEffect {
-                        elevation: 6
-                    }
-                    color: {
-                        if (Material.theme === Material.Light) {
-                            return listItem.highlighted ? Material.accentColor : "white"
-                        } else {
-                            return listItem.highlighted ? Material.accentColor : Material.background
-                        }
-                    }
-                }
-
-                Text {
-                    verticalAlignment: Qt.AlignVCenter
-                    color: Material.secondaryTextColor
-                    text: headline
-                    anchors {
-                        top: parent.top
-                        bottom: parent.bottom
-                        left: parent.left
-                        leftMargin: 20
-                    }
-                    font.pointSize: 14
-                }
-            }
         }
 
         Rectangle {
             Layout.fillHeight: true
-            Layout.preferredWidth: parent.width * 0.75 - parent.spacing
-            radius: 4
-            layer.enabled: true
-            layer.effect: ElevationEffect {
-                elevation: 6
-            }
-            color: Material.theme === Material.Light ? "white" : Material.background
+            Layout.preferredWidth: parent.width * 0.25
+            color: Material.theme === Material.Dark ? Qt.darker(
+                                                          Material.background) : Material.background
 
-            Loader {
-                id: loader
+            ListView {
+                id: listView
+                anchors.fill: parent
+                anchors.margins: 20
+                spacing: 20
+                model: ListModel {
+
+                    ListElement {
+                        headline: "Video import & convert (all types)"
+                        source: ""
+                        category: "Video Import"
+                    }
+
+                    ListElement {
+                        headline: "Video Import native video (.webm)"
+                        source: ""
+                        category: "Video Import"
+                    }
+
+                    ListElement {
+                        headline: "GIF Import"
+                        source: ""
+                        category: "Video Import"
+                    }
+
+                    ListElement {
+                        headline: "Html Wallpaper"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml"
+                        category: "Create Wallpaper"
+                    }
+
+                    ListElement {
+                        headline: "QML Wallpaper"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml"
+                        category: "Create Wallpaper"
+                    }
+
+                    ListElement {
+                        headline: "QML Widget"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
+                        category: "Create Widget"
+                    }
+
+                    ListElement {
+                        headline: "HTML Widget"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
+                        category: "Create Widget"
+                    }
+
+                    ListElement {
+                        headline: "QML Particle Wallpaper"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml"
+                        category: "Example Wallpaper"
+                    }
+
+                    ListElement {
+                        headline: "QML Water Shader Wallpaper"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml"
+                        category: "Example Wallpaper"
+                    }
+
+                    ListElement {
+                        headline: "QML Shadertoy Shader Wallpaper"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml"
+                        category: "Example Wallpaper"
+                    }
+
+                    ListElement {
+                        headline: "QML Lightning Shader Wallpaper"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml"
+                        category: "Example Wallpaper"
+                    }
+
+                    ListElement {
+                        headline: "HTML IFrame Wallpaper"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml"
+                        category: "Example Wallpaper"
+                    }
+
+                    ListElement {
+                        headline: "Clock Widget"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
+                        category: "Example Widget"
+                    }
+
+                    ListElement {
+                        headline: "CPU Widget"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
+                        category: "Example Widget"
+                    }
+
+                    ListElement {
+                        headline: "Storage Widget"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
+                        category: "Example Widget"
+                    }
+
+                    ListElement {
+                        headline: "RAM Widget"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
+                        category: "Example Widget"
+                    }
+
+                    ListElement {
+                        headline: "XKCD Widget"
+                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
+                        category: "Example Widget"
+                    }
+                }
+
+                ScrollBar.vertical: ScrollBar {
+                    snapMode: ScrollBar.SnapOnRelease
+                    policy: ScrollBar.AlwaysOn
+                }
+                // snapMode: ListView.SnapToItem
+                section.property: "category"
+                section.delegate: Item {
+                    height: 60
+                    Text {
+                        verticalAlignment: Qt.AlignVCenter
+                        anchors {
+                            top: parent.top
+                            bottom: parent.bottom
+                            left: parent.left
+                            leftMargin: 20
+                        }
+                        font.pointSize: 18
+
+                        color: Material.primaryTextColor
+                        text: section
+                    }
+                }
+
+                delegate: ItemDelegate {
+                    id: listItem
+                    width: listView.width - 40
+                    height: 45
+                    highlighted: ListView.isCurrentItem
+                    onClicked: {
+                        listView.currentIndex = index
+                        loader.source = source
+                    }
+                    background: Rectangle {
+                        radius: 3
+                        layer.enabled: true
+                        layer.effect: ElevationEffect {
+                            elevation: listItem.highlighted ? 6 : 1
+                        }
+                        color: {
+                            if (Material.theme === Material.Light) {
+                                return listItem.highlighted ? Material.accentColor : "white"
+                            } else {
+                                return listItem.highlighted ? Material.accentColor : Material.background
+                            }
+                        }
+                        Behavior on color {
+                            PropertyAnimation {
+                                property: "color"
+                                duration: 200
+                                easing.type: Easing.InOutQuart
+                            }
+                        }
+                    }
+
+                    Text {
+                        verticalAlignment: Qt.AlignVCenter
+                        color: Material.primaryTextColor
+                        text: headline
+                        anchors {
+                            top: parent.top
+                            bottom: parent.bottom
+                            left: parent.left
+                            leftMargin: 20
+                        }
+                        font.pointSize: 11
+                    }
+                }
+            }
+        }
+        Item {
+            Layout.fillHeight: true
+
+            Layout.preferredWidth: parent.width * 0.75
+
+            Rectangle {
+                radius: 4
+                layer.enabled: true
+                layer.effect: ElevationEffect {
+                    elevation: 6
+                }
+                color: Material.theme === Material.Light ? "white" : Material.background
                 anchors {
                     fill: parent
                     margins: 20
                 }
+            }
+
+            Loader {
+                id: loader
+                anchors.fill: parent
             }
         }
     }
