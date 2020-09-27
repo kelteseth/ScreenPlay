@@ -34,9 +34,9 @@ build:windows:
         - git remote set-url  origin https://github.com/microsoft/vcpkg.git
         - git pull origin master
         - git checkout  18ab4b72a26284f0df28295ce7bf9b21c96f20f4
-        - ls
         - cmd /c bootstrap-vcpkg.bat
-        - vcpkg.exe install openssl  --triplet x64-windows --recurse
+        - ls
+        - cmd /c vcpkg.exe install openssl  --triplet x64-windows --recurse
         - cd ..
         - cd ..
         - mkdir BUILD_WINDOWS
