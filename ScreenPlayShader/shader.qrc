@@ -7,7 +7,6 @@
         <file>assets/Shadertoy_Bayer.png</file>
         <file>assets/Shadertoy_Gray_Noise_Medium.png</file>
         <file>assets/Shadertoy_Lichen.jpg</file>
-        <file>Noise_Watery.frag</file>
     </qresource>
     <qresource prefix="/ShaderWrapper">
         <file>ShadertoyShader.qml</file>

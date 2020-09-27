@@ -3,27 +3,16 @@ import QtQuick.Controls 2.12
 
 ShaderEffect {
     id: root
-    property real speed: 1
-
-    readonly property vector3d defaultResolution: Qt.vector3d(
-                                                      root.width, root.height,
-                                                      root.width / root.height)
-    function calcResolution(channel) {
-        if (channel) {
-            return Qt.vector3d(channel.width, channel.height,
-                               channel.width / channel.height)
-        } else {
-            return defaultResolution
-        }
-    }
 
     // based on shadertoy default variables
     readonly property vector3d iResolution: defaultResolution
+    readonly property vector3d defaultResolution: Qt.vector3d(
+                                                      root.width, root.height,
+                                                      root.width / root.height)
     property real iTime: 0
     property real iTimeDelta: 100
     property int iFrame: 10
     property real iFrameRate
-    property double shaderSpeed: 1.0
     property vector4d iMouse
 
     //only Image or ShaderEffectSource
@@ -37,6 +26,24 @@ ShaderEffect {
             iChannel1), calcResolution(iChannel2), calcResolution(iChannel3)]
     property vector4d iDate
     property real iSampleRate: 44100
+
+    property bool hoverEnabled: false
+    property bool running: true
+
+    function restart() {
+        root.iTime = 0
+        running = true
+        timer1.restart()
+    }
+
+    function calcResolution(channel) {
+        if (channel) {
+            return Qt.vector3d(channel.width, channel.height,
+                               channel.width / channel.height)
+        } else {
+            return defaultResolution
+        }
+    }
 
     Image {
         id: ich0
@@ -55,13 +62,6 @@ ShaderEffect {
         visible: false
     }
 
-    property bool hoverEnabled: false
-    property bool running: true
-    function restart() {
-        root.iTime = 0
-        running = true
-        timer1.restart()
-    }
     Timer {
         id: timer1
         running: root.running
@@ -69,9 +69,10 @@ ShaderEffect {
         interval: 16
         repeat: true
         onTriggered: {
-            root.iTime += 0.016 * speed
+            root.iTime += 0.016
         }
     }
+
     Timer {
         running: root.running
         interval: 1000
@@ -155,12 +156,6 @@ uniform sampler2D   iChannel3;"
 void main(void)
 {
 mainImage(gl_FragColor, vec2(vertex.x, iResolution.y - vertex.y));
-}"
-
-    readonly property string defaultPixelShader: "
-void mainImage(out vec4 fragColor, in vec2 fragCoord)
-{
-fragColor = vec4(fragCoord, fragCoord.x, fragCoord.y);
 }"
 
     property bool runShader: true

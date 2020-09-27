@@ -27,6 +27,7 @@ public:
     {
         return m_fragment;
     }
+
 public slots:
     void setVertex(QString vertex)
     {
