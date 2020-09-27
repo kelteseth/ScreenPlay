@@ -9,6 +9,9 @@ import Qt.labs.platform 1.0
 import ScreenPlay 1.0
 import Settings 1.0
 
+import ScreenPlay.Shader 1.0
+import "ShaderWrapper" as ShaderWrapper
+
 import "qml/"
 import "qml/Monitors" as Monitors
 import "qml/Common" as Common
@@ -33,6 +36,8 @@ ApplicationWindow {
             switchPage("Installed")
         }
     }
+
+
 
     // Partial workaround for
     // https://bugreports.qt.io/browse/QTBUG-86047

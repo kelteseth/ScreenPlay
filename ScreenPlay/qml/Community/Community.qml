@@ -57,7 +57,6 @@ Item {
                 icon.source: "qrc:/assets/icons/icon_supervisor_account.svg"
             }
             CommunityNavItem {
-                enabled: false
                 text: qsTr("Steam Workshop")
                 openLink: "steam://url/GameHub/672870"
                 icon.source: "qrc:/assets/icons/icon_steam.svg"

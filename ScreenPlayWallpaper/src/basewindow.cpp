@@ -28,8 +28,7 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
 
-    if (projectFilePath.contains("file:\\\\\\"))
-        projectFilePath = projectFilePath.remove("file:\\\\\\");
+
 
     projectFile.setFileName(projectFilePath + "/project.json");
     projectFile.open(QIODevice::ReadOnly | QIODevice::Text);
@@ -64,7 +63,7 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
         qFatal("No type was specified inside the json object!");
     }
 
-    setBasePath(projectFilePath);
+    setBasePath(QUrl::fromUserInput(projectFilePath).toLocalFile());
     setFullContentPath("file:///" + projectFilePath + "/" + projectObject.value("file").toString());
 
     auto reloadQMLLambda = [this]() { emit reloadQML(type()); };
@@ -166,9 +165,11 @@ QString BaseWindow::loadFromFile(const QString& filename)
 {
     QFile file;
     file.setFileName(basePath() + "/" + filename);
+    qWarning() << "  loadFromFile: " << file.fileName() << file.readAll();
     if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
         return file.readAll();
     }
+    qWarning() << "Could not loadFromFile: " << file.fileName();
     return "";
 }
 
