@@ -41,6 +41,7 @@ build:windows:
         - cd ..
         - curl.exe -L https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.3.1-2020-09-16-full_build.zip --output ffmpeg.zip
         - tar -xvf ffmpeg.zip  --strip-components 2  ffmpeg-4.3.1-full_build/bin
+        - if (!(Test-Path "Common/ffmpeg")){ mkdir Common/ffmpeg }
         - cmd /c DEL  ffplay.exe
         - cmd /c move /Y ffmpeg.exe  Common/ffmpeg
         - cmd /c move /Y ffprobe.exe  Common/ffmpeg
