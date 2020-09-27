@@ -26,7 +26,25 @@ build:windows:
         paths:
             - Common\vcpkg\
     script:
-        - .\install_dependencies_windows.bat
+        - git submodule update --init
+        - git submodule update --recursive
+        - cd Common
+        - if (!(Test-Path "vcpkg")){git clone https://github.com/microsoft/vcpkg.git}
+        - cd vcpkg
+        - git remote set-url  origin https://github.com/microsoft/vcpkg.git
+        - git pull origin master
+        - git checkout  18ab4b72a26284f0df28295ce7bf9b21c96f20f4
+        - cmd /c bootstrap-vcpkg.bat
+        - ls
+        - cmd /c vcpkg.exe install openssl  --triplet x64-windows --recurse
+        - cd ..
+        - cd ..
+        - curl.exe -L https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.3.1-2020-09-16-full_build.zip --output ffmpeg.zip
+        - tar -xvf ffmpeg.zip  --strip-components 2  ffmpeg-4.3.1-full_build/bin
+        - if (!(Test-Path "Common/ffmpeg")){ mkdir Common/ffmpeg }
+        - cmd /c DEL  ffplay.exe
+        - cmd /c move /Y ffmpeg.exe  Common/ffmpeg
+        - cmd /c move /Y ffprobe.exe  Common/ffmpeg
         - mkdir BUILD_WINDOWS
         - cd BUILD_WINDOWS
         - cmake.exe ../  -DCMAKE_PREFIX_PATH=c:/Qt/5.15.1/msvc2019 -DCMAKE_IGNORE_PATH=C:/Strawberry/c/bin -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE="$(Get-Location)/../Common/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows "-GCodeBlocks - Ninja" -B.

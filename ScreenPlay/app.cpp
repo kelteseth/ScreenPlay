@@ -47,12 +47,8 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.12.0");
+    QGuiApplication::setApplicationVersion("0.12.1");
     QGuiApplication::setQuitOnLastWindowClosed(false);
-
-#ifdef Q_OS_WINDOWS
-    QtBreakpad::init(QDir::current().absolutePath());
-#endif
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
 
@@ -137,9 +133,8 @@ void App::init()
     using std::make_shared, std::make_unique;
 
     // Util should be created as first so we redirect qDebugs etc. into the log
+    m_util = std::make_unique<Util>(&m_networkAccessManager);
     m_globalVariables = make_shared<GlobalVariables>();
-    auto* nam = new QNetworkAccessManager(this);
-    m_util = make_unique<Util>(nam);
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables);
     m_installedListFilter = make_shared<InstalledListFilter>(m_installedListModel);
     m_monitorListModel = make_shared<MonitorListModel>();
@@ -151,10 +146,25 @@ void App::init()
     // Only create tracker if user did not disallow!
     if (m_settings->anonymousTelemetry()) {
         m_telemetry = make_shared<GAnalytics>("UA-152830367-3");
-        m_telemetry->setNetworkAccessManager(nam);
+        m_telemetry->setNetworkAccessManager(&m_networkAccessManager);
         m_telemetry->setSendInterval(1000);
         m_telemetry->startSession();
         m_telemetry->sendEvent("version", QApplication::applicationVersion());
+
+        sentry_options_t* options = sentry_options_new();
+        sentry_options_set_dsn(options, "https://425ea0b77def4f91a5a9decc01b36ff4@o428218.ingest.sentry.io/5373419");
+
+        QString executableSuffix;
+#ifdef Q_OS_WIN
+        executableSuffix = ".exe";
+#endif
+        const QString appPath = QGuiApplication::applicationDirPath();
+        sentry_options_set_handler_path(options, QString(appPath + "/crashpad_handler" + executableSuffix).toStdString().c_str());
+        sentry_options_set_database_path(options, appPath.toStdString().c_str());
+        const int sentryInitStatus = sentry_init(options);
+        if (sentryInitStatus != 0) {
+            qWarning() << "Unable to inti sentry crashhandler with statuscode: " << sentryInitStatus;
+        }
     }
 
     m_create = make_unique<Create>(m_globalVariables);
@@ -180,6 +190,7 @@ void App::init()
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
     loadSteamPlugin();
+
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
 }
 

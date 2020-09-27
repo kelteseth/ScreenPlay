@@ -9,6 +9,9 @@ import Qt.labs.platform 1.0
 import ScreenPlay 1.0
 import Settings 1.0
 
+import ScreenPlay.Shader 1.0
+import "ShaderWrapper" as ShaderWrapper
+
 import "qml/"
 import "qml/Monitors" as Monitors
 import "qml/Common" as Common
@@ -25,7 +28,7 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 788
-    title: "ScreenPlay Alpha - V0.12.0"
+    title: "ScreenPlay Alpha - V0.12.1"
     minimumHeight: 450
     minimumWidth: 1050
     onVisibilityChanged: {
@@ -33,6 +36,8 @@ ApplicationWindow {
             switchPage("Installed")
         }
     }
+
+
 
     // Partial workaround for
     // https://bugreports.qt.io/browse/QTBUG-86047
@@ -91,7 +96,6 @@ ApplicationWindow {
             pageLoaderCreate.visible = true
             pageLoaderWorkshop.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
-            pageLoaderCreate.item.checkFFMPEG()
         } else if (name === "Workshop") {
             if (ScreenPlay.settings.steamVersion) {
 

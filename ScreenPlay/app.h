@@ -49,10 +49,6 @@
 
 #include <memory>
 
-#include "ganalytics.h"
-#ifdef Q_OS_WINDOWS
-#include "qt_breakpad.h"
-#endif
 #include "src/create.h"
 #include "src/globalvariables.h"
 #include "src/installedlistfilter.h"
@@ -62,6 +58,9 @@
 #include "src/screenplaymanager.h"
 #include "src/settings.h"
 #include "src/util.h"
+
+#include "ganalytics.h"
+#include <sentry.h>
 
 class ScreenPlayWorkshopPlugin;
 
@@ -253,6 +252,7 @@ private:
 
 private:
     QPluginLoader m_workshopPlugin;
+    QNetworkAccessManager m_networkAccessManager;
     std::unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
 
     std::unique_ptr<Create> m_create;

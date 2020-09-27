@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.17 )
 
-project(ScreenPlaySysInfo  LANGUAGES CXX)
+project(ScreenPlayShader  LANGUAGES CXX)
 
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
@@ -11,29 +11,35 @@ find_package(
              Core
   REQUIRED)
 
+set(src
+    screenplayshader_plugin.cpp
+    shaderlibrary.cpp
+    )
 
-set(src screenplaysysinfo_plugin.cpp
-	sysinfo.cpp
-	cpu.cpp
-	ram.cpp
-	storage.cpp)
-set(headers screenplaysysinfo_plugin.h
-	sysinfo.h
-	cpu.h
-	ram.h
-	mathhelper.h
-	storage.h)
+set(headers
+    screenplayshader_plugin.h
+    shaderlibrary.h
+    )
 
-add_library(${PROJECT_NAME}  SHARED  ${src} ${headers})
+set(shader shader.qrc)
+
+add_library(${PROJECT_NAME}  SHARED  ${src} ${headers} ${shader})
 
 target_link_libraries(${PROJECT_NAME}
     PRIVATE
     Qt5::Core
-    Qt5::Quick)
+    Qt5::Quick
+    Qt5::Gui)
+
+target_include_directories(
+    ${PROJECT_NAME}
+    PUBLIC  inc
+    )
+
 
 
 # QML module deployment
-set(URI "ScreenPlay/Sysinfo")
+set(URI "ScreenPlay/Shader")
 string(REPLACE "." "/" TARGETPATH ${URI})
 if (NOT DEFINED QT_QMAKE_EXECUTABLE)
     get_target_property (QT_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
@@ -52,9 +58,9 @@ file(MAKE_DIRECTORY ${DESTDIR})
 configure_file(qmldir ${DESTDIR} COPYONLY)
 
 
-# Copies ScreenPlaySysInfo.* into qt qml plugins folder
+# Copies ScreenPlayShader.* into qt qml plugins folder
 add_custom_command(
   TARGET ${PROJECT_NAME}
   POST_BUILD
-  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ScreenPlaySysInfo>
-          ${DESTDIR}/$<TARGET_FILE_NAME:ScreenPlaySysInfo>)
+  COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ScreenPlayShader>
+          ${DESTDIR}/$<TARGET_FILE_NAME:ScreenPlayShader>)
