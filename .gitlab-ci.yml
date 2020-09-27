@@ -32,7 +32,7 @@ build:windows:
         - if (!(Test-Path "vcpkg")){git clone https://github.com/microsoft/vcpkg.git}
         - cd vcpkg
         - git remote set-url  origin https://github.com/microsoft/vcpkg.git
-        - git pull origin/master
+        - git pull origin master
         - git checkout  18ab4b72a26284f0df28295ce7bf9b21c96f20f4
         - call bootstrap-vcpkg.bat
         - vcpkg.exe install openssl  --triplet x64-windows --recurse
