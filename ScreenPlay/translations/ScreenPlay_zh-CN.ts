@@ -6,32 +6,32 @@
     <message>
         <location filename="../qml/Community/Community.qml" line="61"/>
         <source>We use Stomt because it provides quick and easy feedback via I like/I wish. So you can easily give us feedback and speak your mind. We will read these wishes on a daily basis!</source>
-        <translation></translation>
+        <translation type="unfinished">我们使用Stomt，因为它以“我喜欢/我希望”提供快速简单的反馈。您可以简单的给我们反馈，说出您的想法。我们每天都会查看这些愿望！</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="105"/>
         <source>Open ScreenPlay Stomt page</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">打开ScreenPlay Stomt页</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="195"/>
         <source>Forums</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">论坛</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="206"/>
         <source>Blog</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">博客</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="217"/>
         <source>Source Code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">源码</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="229"/>
         <source>Workshop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">创意工坊</translation>
     </message>
 </context>
 <context>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../qml/Create/Create.qml" line="116"/>
         <source>Create wallpapers and widgets for local usage or the steam workshop!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">为本地使用创建壁纸，或者发布到steam创意工坊！</translation>
     </message>
 </context>
 <context>
@@ -47,22 +47,22 @@
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="15"/>
         <source>Create Widgets and Scenes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">创建部件和场景</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="30"/>
         <source>Create Empty Widget</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">创建空部件</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="43"/>
         <source>Example Widgets and Scenes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">样例部件和场景</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="67"/>
         <source>Simple clock widget</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">简易时钟部件</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="78"/>
@@ -72,7 +72,7 @@
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="89"/>
         <source>Changing scene wallpaper via unsplash.com</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">通过unsplash.com获取场景壁纸</translation>
     </message>
 </context>
 <context>
@@ -80,7 +80,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="16"/>
         <source>Create an empty widget</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">创建空部件</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="73"/>
@@ -90,42 +90,42 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="80"/>
         <source>Widget name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">部件名</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="92"/>
         <source>Copyright owner</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">版权所有者</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="95"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">类型</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="122"/>
         <source>License</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">许可证</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="143"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">标签</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="166"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="192"/>
         <source>Abort</source>
-        <translation type="unfinished">Cancel</translation>
+        <translation type="unfinished">取消</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="218"/>
         <source>Create Widget...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">创建部件...</translation>
     </message>
 </context>
 <context>
@@ -133,7 +133,7 @@
     <message>
         <location filename="../qml/Create/CreateImport.qml" line="137"/>
         <source>Import a Creation</source>
-        <translation>Import a Creation</translation>
+        <translation>导入作品</translation>
     </message>
 </context>
 <context>
@@ -141,7 +141,7 @@
     <message>
         <location filename="../qml/Create/CreateUpload.qml" line="219"/>
         <source>Upload a Creation</source>
-        <translation>Upload a Creation</translation>
+        <translation>上传作品</translation>
     </message>
 </context>
 <context>
@@ -149,17 +149,17 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="18"/>
         <source>An error occurred!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">发生错误！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="76"/>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">将文本复制到剪贴板</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="86"/>
         <source>Back to create and send an error report!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">返回并发送错误报告</translation>
     </message>
 </context>
 <context>
@@ -167,42 +167,42 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="54"/>
         <source>Generating preview image...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">生成预览图...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="57"/>
         <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">生成预览缩略图...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="64"/>
         <source>Generating 5 second preview video...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">生成5秒预览视频...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="67"/>
         <source>Generating preview gif...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">生成预览GIF...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="76"/>
         <source>Converting Audio...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">转换音频...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="79"/>
         <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">转换视频... 这可能需要一些时间！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="83"/>
         <source>Converting Video ERROR!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">转换视频错误！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="107"/>
         <source>Convert a video to a wallpaper</source>
-        <translation type="unfinished">Convert a video to a background live wallpaper</translation>
+        <translation type="unfinished">转换视频到壁纸</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="164"/>
@@ -212,42 +212,42 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="199"/>
         <source>Generating preview video...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">生成预览视频...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="210"/>
         <source>You can set your own preview image here!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">你可以在这里设置预览图！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="246"/>
         <source>Name (required!)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">名称（必填）</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="260"/>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">简介</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="268"/>
         <source>Youtube URL</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Youtube链接</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="293"/>
         <source>Abort</source>
-        <translation type="unfinished">Cancel</translation>
+        <translation type="unfinished">取消</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="305"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="341"/>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存壁纸...</translation>
     </message>
 </context>
 <context>
@@ -255,22 +255,22 @@
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="26"/>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">音量</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="32"/>
         <source>Playback rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">播放速度</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="38"/>
         <source>Current Video Time</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">当前视频时间</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="51"/>
         <source>Fill Mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">填充</translation>
     </message>
 </context>
 <context>
@@ -278,78 +278,78 @@
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="31"/>
         <source>Begin downloading FFMPEG</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">开始下载FFMPEG</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="35"/>
         <source>FFMPEG download failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">FFMPEG下载失败</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="39"/>
         <source>FFMPEG download successful</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">FFMPEG下载成功</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="42"/>
         <source>Extracting FFMPEG</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">提取FFMPEG</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="46"/>
         <source>ERROR extracting ffmpeg from RAM</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">从主存提取ffmpeg出错</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="51"/>
         <source>ERROR extracing ffmpeg</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">提取ffmpeg出错</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="56"/>
         <source>ERROR saving FFMPEG to disk</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存FFMPEG到硬盘出错</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="61"/>
         <source>ERROR extracing FFPROBE</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">提取FFPROBE出错</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="66"/>
         <source>ERROR saving FFPROBE to disk</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">保存FFPROBE出错</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="70"/>
         <source>Extraction successful</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">提取成功</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="73"/>
         <source>All done and ready to go!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">准备就绪！</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="88"/>
         <source>You cannot create Wallpaper without FFMPEG installed!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">您不能在没有FFMPEG时创建壁纸！</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="109"/>
         <source>Abort</source>
-        <translation type="unfinished">Cancel</translation>
+        <translation type="unfinished">取消</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="119"/>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="287"/>
         <source>Download FFMPEG</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">下载FFMPEG</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="141"/>
         <source>Before we can start creating content you need to download FFMPEG</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">在我们开始创建内容之前，您需要下载FFMPEG。</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="241"/>
@@ -383,7 +383,35 @@ if you installed ScreenPlay via Steam!
 &lt;br&gt;
 &lt;br&gt;
 &lt;b&gt;~ Kelteseth | Elias Steurer&lt;/b&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;b&gt;为什么我们要麻烦您呢？&lt;/b&gt;
+&lt;br&gt;&lt;br&gt; 这是因为&lt;b&gt;版权&lt;/b&gt;和许多许多&lt;b&gt;专利&lt;/b&gt;。
+文件如.mp4或.webm是视频和音频的容器。每个音频
+和视频文件都以特定的编解码器编码。这可能是自由
+开源软件如 &lt;a href=&apos;https://wikipedia.org/wiki/VP8&apos;&gt;VP8&lt;/a&gt; 和更新的 &lt;a href=&apos;https://wikipedia.org/wiki/VP9&apos;&gt;VP9&lt;/a&gt; （Youtube在他们的Web媒体服务所使用的）
+但也有一些专有的如 &lt;a href=&apos;https://wikipedia.org/wiki/H.264/MPEG-4_AVC&apos;&gt;h264&lt;/a&gt; 及后继的 &lt;a href=&apos;https://wikipedia.org/wiki/High_Efficiency_Video_Coding&apos;&gt;h265&lt;/a&gt;.
+&lt;br&gt;
+&lt;br&gt;
+
+
+作为软件开发者，我们现在需要在一个我们没有任何专业知识的领域处理这样的事情。我们可以简单地决定只使用自由的编解码器来制作内容，但我们仍然需要提供一种方法，让我们的用户可以轻松地导入壁纸。 我们没有提供 &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; 以在ScreenPlay内转换视频和音频，因为我们不被允许。我们让用户自己下载 &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; ，这个很棒的选择！
+&lt;br&gt;
+抱歉给您带来不便 :)
+&lt;br&gt;
+&lt;br&gt;
+&lt;center&gt;
+&lt;b&gt;
+如果您没有网络连接，您可以将ffmpeg与ffprobe的可执行文件简单的放在ScreenPlay的目录！
+&lt;/b&gt;
+&lt;br&gt;
+&lt;br&gt;
+它通常是
+&lt;br&gt; C:Program Files (x86)SteamsteamappscommonScreenPlay
+&lt;br&gt;
+如果您通过Steam安装ScreenPlay！
+&lt;/center&gt;
+&lt;br&gt;
+&lt;br&gt;
+&lt;b&gt;~ Kelteseth | Elias Steurer&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../qml/Create/FFMPEGPopup.qml" line="294"/>
