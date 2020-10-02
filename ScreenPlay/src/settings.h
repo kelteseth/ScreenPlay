@@ -103,7 +103,8 @@ public:
         Fr,
         Es,
         Ko,
-        Vi
+        Vi,
+        Zh_CN,
     };
     Q_ENUM(Language)
 
