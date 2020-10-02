@@ -15,7 +15,7 @@ cd ..
 cd ..
 
 rem Donwload ffmpeg
-curl.exe -L https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.3.1-2020-09-16-full_build.zip --output ffmpeg.zip
+curl.exe -L --ssl-no-revoke https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.3.1-2020-09-16-full_build.zip --output ffmpeg.zip
 
 rem Extract ffmpeg. Needs Windows 10 build 17063 or higher!
 rem We only need the content of the bin folder
