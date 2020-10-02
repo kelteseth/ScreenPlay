@@ -14,6 +14,7 @@ ScreenPlay_fr.ts ^
 ScreenPlay_ko.ts ^
 ScreenPlay_vi.ts ^
 ScreenPlay_es.ts ^
+ScreenPlay_zh-cn.ts ^
  
 pause
 
