@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.17 )
-
 project(ScreenPlay  LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
@@ -19,7 +17,9 @@ find_package(
   REQUIRED)
 
 find_package(OpenSSL REQUIRED)
+if(WIN32)
 find_package(sentry CONFIG REQUIRED)
+endif()
 
 set(src main.cpp
         app.cpp
@@ -101,9 +101,12 @@ target_link_libraries(${PROJECT_NAME}
     Qt5::Widgets
     Qt5::Core
     Qt5::WebEngine
-    sentry::sentry
     ScreenPlaySDK
     )
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE sentry::sentry)
+endif()
 
 target_include_directories(${PROJECT_NAME}
     PRIVATE
@@ -117,7 +120,7 @@ configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/as
 if(WIN32)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffmpeg.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-else()
+elseif(APPLE)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffmpeg ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 endif()
