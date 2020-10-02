@@ -151,13 +151,12 @@ void App::init()
         m_telemetry->startSession();
         m_telemetry->sendEvent("version", QApplication::applicationVersion());
 
+#ifdef Q_OS_WIN
         sentry_options_t* options = sentry_options_new();
         sentry_options_set_dsn(options, "https://425ea0b77def4f91a5a9decc01b36ff4@o428218.ingest.sentry.io/5373419");
 
         QString executableSuffix;
-#ifdef Q_OS_WIN
         executableSuffix = ".exe";
-#endif
         const QString appPath = QGuiApplication::applicationDirPath();
         sentry_options_set_handler_path(options, QString(appPath + "/crashpad_handler" + executableSuffix).toStdString().c_str());
         sentry_options_set_database_path(options, appPath.toStdString().c_str());
@@ -165,6 +164,7 @@ void App::init()
         if (sentryInitStatus != 0) {
             qWarning() << "Unable to inti sentry crashhandler with statuscode: " << sentryInitStatus;
         }
+#endif
     }
 
     m_create = make_unique<Create>(m_globalVariables);
