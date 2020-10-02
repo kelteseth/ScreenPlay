@@ -43,13 +43,13 @@ chmod +x install-dependencies.sh
 10. Press build (the big green play button). This will compile the project and copy all necessary files into your Qt installation.
 
 ### Windows
-1. [Download and install MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)
+1. [Download and install the most recent MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)
     - Select "Desktop development with C++"
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.15.2
-            - MSVC 2017 64-bit
+        - Qt 5.15.1
+            - MSVC 2019 64-bit
             - Qt WebEngine
         - Developer and Designer Tools
             - Cmake
@@ -71,14 +71,14 @@ sudo zypper install -t pattern devel_basis
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.15.2
+        - Qt 5.15.1
             - GCC
             - Qt WebEngine
 ### OSX
 1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.15.2
+        - Qt 5.15.1
             - Qt WebEngine
         - Developer and Designer Tools
             - OpenSSL 1.1.1.c Toolkit
