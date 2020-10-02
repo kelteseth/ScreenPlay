@@ -213,20 +213,6 @@
     </message>
 </context>
 <context>
-    <name>CreateImport</name>
-    <message>
-        <source>Import a Creation</source>
-        <translation type="vanished">导入创作</translation>
-    </message>
-</context>
-<context>
-    <name>CreateUpload</name>
-    <message>
-        <source>Upload a Creation</source>
-        <translation type="vanished">上传创作</translation>
-    </message>
-</context>
-<context>
     <name>CreateWallpaperCodec</name>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="52"/>
