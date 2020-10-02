@@ -96,7 +96,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="54"/>
         <source>This wizard lets you create a empty html based wallpaper. You can put anything you can imagine into this html file. For example this can be a three.js scene or a utility application written in javascript.</source>
-        <translation>这个向导可以让你创建一个空的基于html的壁纸。你可以在这个html文件中放入任何你能想象到的东西。例如，这可以是一个three.js场景或一个用javascript编写的实用程序。</translation>
+        <translation>这个向导可以让您创建一个空的基于html的壁纸。您可以在这个html文件中放入任何您能想象到的东西。例如，这可以是一个three.js场景或一个用javascript编写的实用程序。</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="68"/>
@@ -141,7 +141,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="191"/>
         <source>You can set your own preview image here!</source>
-        <translation>你可以在这里设置自己的预览图！</translation>
+        <translation>您可以在这里设置自己的预览图！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="216"/>
@@ -236,7 +236,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="62"/>
         <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper!</source>
-        <translation>最好依据你的计算机硬件，转换视频壁纸为特定格式。如果性能都不好你还可以尝试QML壁纸！</translation>
+        <translation>最好依据您的计算机硬件，转换视频壁纸为特定格式。如果性能都不好您还可以尝试QML壁纸！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="76"/>
@@ -327,7 +327,7 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="224"/>
         <source>You can set your own preview image here!</source>
-        <translation>你可以在这里设置自己的预览图！</translation>
+        <translation>您可以在这里设置自己的预览图！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="258"/>
@@ -797,72 +797,72 @@
     <message>
         <location filename="../qml/Settings/Settings.qml" line="249"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation type="unfinished"></translation>
+        <translation>设置此属性可定义视频的缩放方式以适应目标区域。</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="261"/>
         <source>Stretch</source>
-        <translation type="unfinished"></translation>
+        <translation>拉伸</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="264"/>
         <source>Fill</source>
-        <translation type="unfinished"></translation>
+        <translation>填充</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="267"/>
         <source>Contain</source>
-        <translation type="unfinished"></translation>
+        <translation>适应</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="270"/>
         <source>Cover</source>
-        <translation type="unfinished"></translation>
+        <translation>平铺</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="273"/>
         <source>Scale-Down</source>
-        <translation type="unfinished"></translation>
+        <translation>裁剪</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="283"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>关于</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="311"/>
         <source>Thank you for using ScreenPlay</source>
-        <translation type="unfinished"></translation>
+        <translation>感谢您的使用</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="326"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation type="unfinished"></translation>
+        <translation>您好，我是Elias Steurer，也叫Kelteseth，我是ScreenPlay的开发者。感谢您使用我的软件。您可以在这里关注我，接收ScreenPlay的更新。</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="415"/>
         <source>Version</source>
-        <translation type="unfinished"></translation>
+        <translation>版本</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="416"/>
         <source>ScreenPlay Build Version </source>
-        <translation type="unfinished"></translation>
+        <translation>ScreenPlay编译版本</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="418"/>
         <source>Open Changelog</source>
-        <translation type="unfinished"></translation>
+        <translation>打开更改日志。</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="425"/>
         <source>Third Party Software</source>
-        <translation type="unfinished"></translation>
+        <translation>第三方软件</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="426"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation type="unfinished"></translation>
+        <translation>ScreenPlay的诞生离不开一些人的帮助。非常感谢您们：</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="427"/>
@@ -873,27 +873,27 @@
         <location filename="../qml/Settings/Settings.qml" line="445"/>
         <location filename="../qml/Settings/Settings.qml" line="447"/>
         <source>Debug Messages</source>
-        <translation type="unfinished"></translation>
+        <translation>调试信息</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="446"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation type="unfinished"></translation>
+        <translation>如果您的ScreenPlay出错，这是个很好的查错方式。它显示所有的日志和运行时警告。</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="458"/>
         <source>Data Protection</source>
-        <translation type="unfinished"></translation>
+        <translation>数据保护</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="459"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation type="unfinished"></translation>
+        <translation>我们使用您的数据提升ScreenPlay的体验。我们承诺不出售或分享这些匿名信息！</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="460"/>
         <source>Privacy</source>
-        <translation type="unfinished"></translation>
+        <translation>隐私</translation>
     </message>
 </context>
 <context>
@@ -901,7 +901,7 @@
     <message>
         <location filename="../qml/Settings/SettingsExpander.qml" line="51"/>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>复制文本至剪贴板</translation>
     </message>
 </context>
 <context>
@@ -909,7 +909,7 @@
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="99"/>
         <source>Set Widget</source>
-        <translation type="unfinished"></translation>
+        <translation>设置物件</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="208"/>
@@ -919,12 +919,12 @@
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="259"/>
         <source>Select a Monitor to display the content</source>
-        <translation type="unfinished"></translation>
+        <translation>选择显示此内容的显示器</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="294"/>
         <source>Set Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>设置音量</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="304"/>
@@ -934,57 +934,57 @@
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="327"/>
         <source>Stretch</source>
-        <translation type="unfinished"></translation>
+        <translation>拉伸</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="330"/>
         <source>Fill</source>
-        <translation type="unfinished"></translation>
+        <translation>填充</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="333"/>
         <source>Contain</source>
-        <translation type="unfinished"></translation>
+        <translation>适应</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="336"/>
         <source>Cover</source>
-        <translation type="unfinished"></translation>
+        <translation>平铺</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="339"/>
         <source>Scale-Down</source>
-        <translation type="unfinished"></translation>
+        <translation>裁剪</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="96"/>
         <source>Set Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>设置壁纸</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="89"/>
         <source>Project size: </source>
-        <translation type="unfinished"></translation>
+        <translation>项目大小：</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="89"/>
         <source> MB</source>
-        <translation type="unfinished"></translation>
+        <translation> 兆字节</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="95"/>
         <source>No description...</source>
-        <translation type="unfinished"></translation>
+        <translation>没有简介...</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="237"/>
         <source>Click here if you like the content</source>
-        <translation type="unfinished"></translation>
+        <translation>如果您喜欢它，点这里！</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="251"/>
         <source>Click here if you do not like the content</source>
-        <translation type="unfinished"></translation>
+        <translation>如果您不喜欢它，点这里</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="286"/>
@@ -994,22 +994,22 @@
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="311"/>
         <source>Subscribtions: </source>
-        <translation type="unfinished"></translation>
+        <translation>订阅：</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="317"/>
         <source>Open In Steam</source>
-        <translation type="unfinished"></translation>
+        <translation>在Steam打开</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="360"/>
         <source>Subscribed!</source>
-        <translation type="unfinished"></translation>
+        <translation>已订阅！</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="360"/>
         <source>Subscribe</source>
-        <translation type="unfinished"></translation>
+        <translation>订阅</translation>
     </message>
 </context>
 <context>
@@ -1022,17 +1022,17 @@
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="15"/>
         <source>Add tag</source>
-        <translation type="unfinished"></translation>
+        <translation>添加标签</translation>
     </message>
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="109"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="128"/>
         <source>Add Tag</source>
-        <translation type="unfinished"></translation>
+        <translation>添加标签</translation>
     </message>
 </context>
 <context>
@@ -1040,39 +1040,39 @@
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="9"/>
         <source>ScreenPlay - Double click to change you settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>ScreenPlay - 双击以改变设置</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="28"/>
         <source>Open ScreenPlay</source>
-        <translation type="unfinished"></translation>
+        <translation>打开ScreenPlay</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="36"/>
         <location filename="../qml/Common/TrayIcon.qml" line="40"/>
         <source>Mute all</source>
-        <translation type="unfinished"></translation>
+        <translation>关闭全部提醒</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="45"/>
         <source>Unmute all</source>
-        <translation type="unfinished"></translation>
+        <translation>开启全部提醒</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="54"/>
         <location filename="../qml/Common/TrayIcon.qml" line="58"/>
         <source>Pause all</source>
-        <translation type="unfinished"></translation>
+        <translation>暂停全部</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="63"/>
         <source>Play all</source>
-        <translation type="unfinished"></translation>
+        <translation>播放全部</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="70"/>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>退出</translation>
     </message>
 </context>
 <context>
@@ -1080,7 +1080,7 @@
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="63"/>
         <source>Upload Wallpaper/Widgets to Steam</source>
-        <translation type="unfinished"></translation>
+        <translation>上传 壁纸/物件 到Steam</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="137"/>
@@ -1090,12 +1090,12 @@
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="152"/>
         <source>Upload Projects</source>
-        <translation type="unfinished"></translation>
+        <translation>上传项目</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="212"/>
         <source>Finish</source>
-        <translation type="unfinished"></translation>
+        <translation>结束</translation>
     </message>
 </context>
 <context>
@@ -1103,17 +1103,17 @@
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="114"/>
         <source>Type: </source>
-        <translation type="unfinished"></translation>
+        <translation>类型：</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="121"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>打开文件夹</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="141"/>
         <source>Invalid Project!</source>
-        <translation type="unfinished"></translation>
+        <translation>无效的项目！</translation>
     </message>
 </context>
 <context>
@@ -1121,27 +1121,27 @@
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="43"/>
         <source>Fail</source>
-        <translation type="unfinished"></translation>
+        <translation>失败</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="46"/>
         <source>No Connection</source>
-        <translation type="unfinished"></translation>
+        <translation>没有连接</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="49"/>
         <source>Invalid Password</source>
-        <translation type="unfinished"></translation>
+        <translation>密码错误</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="52"/>
         <source>Logged In Elsewhere</source>
-        <translation type="unfinished"></translation>
+        <translation>在其他地方登录了</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="55"/>
         <source>Invalid Protocol Version</source>
-        <translation type="unfinished"></translation>
+        <translation>无效协议版本</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="58"/>
