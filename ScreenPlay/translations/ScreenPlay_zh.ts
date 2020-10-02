@@ -6,32 +6,32 @@
     <message>
         <location filename="../qml/Community/Community.qml" line="34"/>
         <source>Wiki</source>
-        <translation type="unfinished">维基</translation>
+        <translation>维基</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="40"/>
         <source>Forum</source>
-        <translation type="unfinished">论坛</translation>
+        <translation>论坛</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="45"/>
         <source>Issue List</source>
-        <translation type="unfinished">问题列表</translation>
+        <translation>问题列表</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="50"/>
         <source>Release Notes</source>
-        <translation type="unfinished">发布日志</translation>
+        <translation>发布日志</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="55"/>
         <source>Contribution Guide</source>
-        <translation type="unfinished">怎么贡献</translation>
+        <translation>怎么贡献</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="60"/>
         <source>Steam Workshop</source>
-        <translation type="unfinished">创意工坊</translation>
+        <translation>创意工坊</translation>
     </message>
 </context>
 <context>
@@ -39,7 +39,7 @@
     <message>
         <location filename="../qml/Community/CommunityNavItem.qml" line="59"/>
         <source>Open in browser</source>
-        <translation type="unfinished">在浏览器打开</translation>
+        <translation>在浏览器打开</translation>
     </message>
 </context>
 <context>
@@ -47,7 +47,7 @@
     <message>
         <location filename="../qml/Create/Create.qml" line="101"/>
         <source>Create wallpapers and widgets for local usage or the steam workshop!</source>
-        <translation type="unfinished">创建壁纸自己用，或者发布到创意工坊！</translation>
+        <translation>创建壁纸自己用，或者发布到创意工坊！</translation>
     </message>
 </context>
 <context>
@@ -55,32 +55,32 @@
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="15"/>
         <source>Create Widgets and Scenes</source>
-        <translation type="unfinished">创建部件和场景</translation>
+        <translation>创建部件和场景</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="29"/>
         <source>Create Empty Widget</source>
-        <translation type="unfinished">创建空部件</translation>
+        <translation>创建空部件</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="42"/>
         <source>Example Widgets and Scenes</source>
-        <translation type="unfinished">样例部件和场景</translation>
+        <translation>样例部件和场景</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="65"/>
         <source>Empty HTML Wallpaper</source>
-        <translation type="unfinished">样例HTML壁纸</translation>
+        <translation>样例HTML壁纸</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="75"/>
         <source>Musik scene wallpaper visualizer</source>
-        <translation type="unfinished">音乐场景壁纸可视化器</translation>
+        <translation>音乐场景壁纸可视化器</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="86"/>
         <source>Changing scene wallpaper via unsplash.com</source>
-        <translation type="unfinished">从unsplash.com获取场景壁纸</translation>
+        <translation>从unsplash.com获取场景壁纸</translation>
     </message>
 </context>
 <context>
@@ -88,7 +88,7 @@
     <message>
         <location filename="../qml/Create/CreateContentButton.qml" line="114"/>
         <source>Not yet implemented. Stay tuned!</source>
-        <translation type="unfinished">暂未实现。敬请关注！</translation>
+        <translation>暂未实现。敬请关注！</translation>
     </message>
 </context>
 <context>
@@ -96,67 +96,67 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="54"/>
         <source>This wizard lets you create a empty html based wallpaper. You can put anything you can imagine into this html file. For example this can be a three.js scene or a utility application written in javascript.</source>
-        <translation type="unfinished">这个向导可以让你创建一个空的基于html的壁纸。你可以在这个html文件中放入任何你能想象到的东西。例如，这可以是一个three.js场景或一个用javascript编写的实用程序。</translation>
+        <translation>这个向导可以让你创建一个空的基于html的壁纸。你可以在这个html文件中放入任何你能想象到的东西。例如，这可以是一个three.js场景或一个用javascript编写的实用程序。</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="68"/>
         <source>Next</source>
-        <translation type="unfinished">下一步</translation>
+        <translation>下一步</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="119"/>
         <source>Create a html Wallpaper</source>
-        <translation type="unfinished">创建html壁纸</translation>
+        <translation>创建html壁纸</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="123"/>
         <source>General</source>
-        <translation type="unfinished">常规</translation>
+        <translation>常规</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="131"/>
         <source>Wallpaper name</source>
-        <translation type="unfinished">壁纸名</translation>
+        <translation>壁纸名</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="145"/>
         <source>Copyright owner</source>
-        <translation type="unfinished">版权所有者</translation>
+        <translation>版权所有者</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="149"/>
         <source>License</source>
-        <translation type="unfinished">许可证</translation>
+        <translation>许可证</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="172"/>
         <source>Tags</source>
-        <translation type="unfinished">标签</translation>
+        <translation>标签</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="184"/>
         <source>Preview Image</source>
-        <translation type="unfinished">预览图</translation>
+        <translation>预览图</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="191"/>
         <source>You can set your own preview image here!</source>
-        <translation type="unfinished">你可以在这里设置自己的预览图！</translation>
+        <translation>你可以在这里设置自己的预览图！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="216"/>
         <source>Abort</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="228"/>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="263"/>
         <source>Create Html Wallpaper...</source>
-        <translation type="unfinished">正在创建html壁纸...</translation>
+        <translation>正在创建html壁纸...</translation>
     </message>
 </context>
 <context>
@@ -164,52 +164,52 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="17"/>
         <source>Create an empty widget</source>
-        <translation type="unfinished">创建一个空部件</translation>
+        <translation>创建一个空部件</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="77"/>
         <source>General</source>
-        <translation type="unfinished">常规</translation>
+        <translation>常规</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="85"/>
         <source>Widget name</source>
-        <translation type="unfinished">部件名</translation>
+        <translation>部件名</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="98"/>
         <source>Copyright owner</source>
-        <translation type="unfinished">版权所有者</translation>
+        <translation>版权所有者</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="102"/>
         <source>Type</source>
-        <translation type="unfinished">类型</translation>
+        <translation>类型</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="131"/>
         <source>License</source>
-        <translation type="unfinished">许可证</translation>
+        <translation>许可证</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="154"/>
         <source>Tags</source>
-        <translation type="unfinished">标签</translation>
+        <translation>标签</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="178"/>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="205"/>
         <source>Abort</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="233"/>
         <source>Create Widget...</source>
-        <translation type="unfinished">创建部件...</translation>
+        <translation>创建部件...</translation>
     </message>
 </context>
 <context>
@@ -231,27 +231,27 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="52"/>
         <source>Import a video</source>
-        <translation type="unfinished">导入视频</translation>
+        <translation>导入视频</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="62"/>
         <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper!</source>
-        <translation type="unfinished">最好依据你的计算机硬件，转换视频壁纸为特定格式。如果性能都不好你还可以尝试QML壁纸！</translation>
+        <translation>最好依据你的计算机硬件，转换视频壁纸为特定格式。如果性能都不好你还可以尝试QML壁纸！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="76"/>
         <source>Set your preffered video codec:</source>
-        <translation type="unfinished">设置您首选的视频编解码器：</translation>
+        <translation>设置您首选的视频编解码器：</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="108"/>
         <source>Open Documentation</source>
-        <translation type="unfinished">打开文档</translation>
+        <translation>打开文档</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="125"/>
         <source>Next</source>
-        <translation type="unfinished">下一步</translation>
+        <translation>下一步</translation>
     </message>
 </context>
 <context>
@@ -259,17 +259,17 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="18"/>
         <source>An error occurred!</source>
-        <translation type="unfinished">发生错误！</translation>
+        <translation>发生错误！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="78"/>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished">复制文本至剪贴板</translation>
+        <translation>复制文本至剪贴板</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="88"/>
         <source>Back to create and send an error report!</source>
-        <translation type="unfinished">返回以创建并发送错误报告！</translation>
+        <translation>返回以创建并发送错误报告！</translation>
     </message>
 </context>
 <context>
@@ -277,87 +277,87 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="54"/>
         <source>Generating preview image...</source>
-        <translation type="unfinished">正在生成预览图...</translation>
+        <translation>正在生成预览图...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="57"/>
         <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished">正在生成预览缩略图...</translation>
+        <translation>正在生成预览缩略图...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="64"/>
         <source>Generating 5 second preview video...</source>
-        <translation type="unfinished">正在生成五秒预览视频...</translation>
+        <translation>正在生成五秒预览视频...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="67"/>
         <source>Generating preview gif...</source>
-        <translation type="unfinished">正在生成预览gif...</translation>
+        <translation>正在生成预览gif...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="76"/>
         <source>Converting Audio...</source>
-        <translation type="unfinished">正在转换音频...</translation>
+        <translation>正在转换音频...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="79"/>
         <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished">正在转换视频... 这可能需要一些时间！</translation>
+        <translation>正在转换视频... 这可能需要一些时间！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="83"/>
         <source>Converting Video ERROR!</source>
-        <translation type="unfinished">转换视频错误！</translation>
+        <translation>转换视频错误！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="86"/>
         <source>Analyse Video ERROR!</source>
-        <translation type="unfinished">解析视频出错！</translation>
+        <translation>解析视频出错！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="114"/>
         <source>Convert a video to a wallpaper</source>
-        <translation type="unfinished">转换视频为壁纸</translation>
+        <translation>转换视频为壁纸</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="211"/>
         <source>Generating preview video...</source>
-        <translation type="unfinished">正在生成预览视频...</translation>
+        <translation>正在生成预览视频...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="224"/>
         <source>You can set your own preview image here!</source>
-        <translation type="unfinished">你可以在这里设置自己的预览图！</translation>
+        <translation>你可以在这里设置自己的预览图！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="258"/>
         <source>Name (required!)</source>
-        <translation type="unfinished">名称（必选）</translation>
+        <translation>名称（必选）</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="273"/>
         <source>Description</source>
-        <translation type="unfinished">简介</translation>
+        <translation>简介</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="281"/>
         <source>Youtube URL</source>
-        <translation type="unfinished">Youtube链接</translation>
+        <translation>Youtube链接</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="309"/>
         <source>Abort</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="322"/>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="359"/>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished">正在保存壁纸...</translation>
+        <translation>正在保存壁纸...</translation>
     </message>
 </context>
 <context>
@@ -365,47 +365,47 @@
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="41"/>
         <source>Volume</source>
-        <translation type="unfinished">音量</translation>
+        <translation>音量</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="55"/>
         <source>Playback rate</source>
-        <translation type="unfinished">播放速度</translation>
+        <translation>播放速度</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="67"/>
         <source>Current Video Time</source>
-        <translation type="unfinished">当前视频时间</translation>
+        <translation>当前视频时间</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="85"/>
         <source>Fill Mode</source>
-        <translation type="unfinished">填充模式</translation>
+        <translation>填充模式</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="110"/>
         <source>Stretch</source>
-        <translation type="unfinished">拉伸</translation>
+        <translation>拉伸</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="113"/>
         <source>Fill</source>
-        <translation type="unfinished">填充</translation>
+        <translation>填充</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="116"/>
         <source>Contain</source>
-        <translation type="unfinished">适应</translation>
+        <translation>适应</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="119"/>
         <source>Cover</source>
-        <translation type="unfinished">平铺</translation>
+        <translation>平铺</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="122"/>
         <source>Scale_Down</source>
-        <translation type="unfinished">裁剪</translation>
+        <translation>裁剪</translation>
     </message>
 </context>
 <context>
@@ -413,22 +413,22 @@
     <message>
         <location filename="../qml/Create/Footer.qml" line="23"/>
         <source>QML Quickstart Guide</source>
-        <translation type="unfinished">QML 快速引导</translation>
+        <translation>QML 快速引导</translation>
     </message>
     <message>
         <location filename="../qml/Create/Footer.qml" line="34"/>
         <source>Documentation</source>
-        <translation type="unfinished">文档</translation>
+        <translation>文档</translation>
     </message>
     <message>
         <location filename="../qml/Create/Footer.qml" line="45"/>
         <source>Forums</source>
-        <translation type="unfinished">论坛</translation>
+        <translation>论坛</translation>
     </message>
     <message>
         <location filename="../qml/Create/Footer.qml" line="56"/>
         <source>Workshop</source>
-        <translation type="unfinished">创意工坊</translation>
+        <translation>创意工坊</translation>
     </message>
 </context>
 <context>
@@ -436,7 +436,7 @@
     <message>
         <location filename="../qml/Common/Headline.qml" line="16"/>
         <source>Headline</source>
-        <translation type="unfinished">标题</translation>
+        <translation>标题</translation>
     </message>
 </context>
 <context>
@@ -444,12 +444,12 @@
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="142"/>
         <source>Clear</source>
-        <translation type="unfinished">清空</translation>
+        <translation>清空</translation>
     </message>
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="160"/>
         <source>Select Preview Image</source>
-        <translation type="unfinished">选择预览图</translation>
+        <translation>选择预览图</translation>
     </message>
 </context>
 <context>
@@ -457,17 +457,17 @@
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="22"/>
         <source>Import Content</source>
-        <translation type="unfinished">导入内容</translation>
+        <translation>导入内容</translation>
     </message>
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="75"/>
         <source>Import video</source>
-        <translation type="unfinished">导入视频</translation>
+        <translation>导入视频</translation>
     </message>
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="161"/>
         <source>Upload Exsisting Project to Steam</source>
-        <translation type="unfinished">上传项目到Steam</translation>
+        <translation>上传项目到Steam</translation>
     </message>
 </context>
 <context>
@@ -475,33 +475,33 @@
     <message>
         <location filename="../qml/Installed/Installed.qml" line="99"/>
         <source>Refreshing!</source>
-        <translation type="unfinished">刷新中！</translation>
+        <translation>刷新中！</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="102"/>
         <location filename="../qml/Installed/Installed.qml" line="124"/>
         <source>Pull to refresh!</source>
-        <translation type="unfinished">下拉以刷新！</translation>
+        <translation>下拉以刷新！</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="141"/>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation type="unfinished">从创意工坊获取更多壁纸和物件！</translation>
+        <translation>从创意工坊获取更多壁纸和物件！</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="210"/>
         <source>Open containing folder</source>
-        <translation type="unfinished">打开文件夹</translation>
+        <translation>打开文件夹</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="218"/>
         <source>Deinstall Item</source>
-        <translation type="unfinished">卸载</translation>
+        <translation>卸载</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="227"/>
         <source>Open workshop Page</source>
-        <translation type="unfinished">打开创意工坊页面</translation>
+        <translation>打开创意工坊页面</translation>
     </message>
 </context>
 <context>
@@ -509,12 +509,12 @@
     <message>
         <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="54"/>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-        <translation type="unfinished">从创意工坊免费获取物件和壁纸</translation>
+        <translation>从创意工坊免费获取物件和壁纸</translation>
     </message>
     <message>
         <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="84"/>
         <source>Browse the Steam Workshop</source>
-        <translation type="unfinished">浏览创意工坊</translation>
+        <translation>浏览创意工坊</translation>
     </message>
 </context>
 <context>
@@ -522,28 +522,28 @@
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="67"/>
         <source>Wallpaper Configuration</source>
-        <translation type="unfinished">壁纸配置</translation>
+        <translation>壁纸配置</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="132"/>
         <source>Remove selected</source>
-        <translation type="unfinished">移除已选择</translation>
+        <translation>移除已选择</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="144"/>
         <location filename="../qml/Monitors/Monitors.qml" line="158"/>
         <source>Remove </source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="145"/>
         <source>Wallpapers</source>
-        <translation type="unfinished">壁纸</translation>
+        <translation>壁纸</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="159"/>
         <source>Widgets</source>
-        <translation type="unfinished">物件</translation>
+        <translation>物件</translation>
     </message>
 </context>
 <context>
@@ -551,12 +551,12 @@
     <message>
         <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="132"/>
         <source>Set color</source>
-        <translation type="unfinished">设置颜色</translation>
+        <translation>设置颜色</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="155"/>
         <source>Please choose a color</source>
-        <translation type="unfinished">请选择颜色</translation>
+        <translation>请选择颜色</translation>
     </message>
 </context>
 <context>
@@ -564,32 +564,32 @@
     <message>
         <location filename="../qml/Installed/Navigation.qml" line="57"/>
         <source>All</source>
-        <translation type="unfinished">全部</translation>
+        <translation>全部</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Navigation.qml" line="73"/>
         <source>Scenes</source>
-        <translation type="unfinished">场景</translation>
+        <translation>场景</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Navigation.qml" line="89"/>
         <source>Videos</source>
-        <translation type="unfinished">视频</translation>
+        <translation>视频</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Navigation.qml" line="105"/>
         <source>Widgets</source>
-        <translation type="unfinished">物件</translation>
+        <translation>物件</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Navigation.qml" line="46"/>
         <source> Subscribed items: </source>
-        <translation type="unfinished">已订阅：</translation>
+        <translation>已订阅：</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Navigation.qml" line="87"/>
         <source>Upload to the Steam Workshop</source>
-        <translation type="unfinished">上传到创意工坊</translation>
+        <translation>上传到创意工坊</translation>
     </message>
 </context>
 <context>
@@ -597,12 +597,12 @@
     <message>
         <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="70"/>
         <source>Configurate active Wallpaper or Widgets</source>
-        <translation type="unfinished">设置活动壁纸或物件</translation>
+        <translation>设置活动壁纸或物件</translation>
     </message>
     <message>
         <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="72"/>
         <source>No active Wallpaper or Widgets</source>
-        <translation type="unfinished">没有活动壁纸或物件</translation>
+        <translation>没有活动壁纸或物件</translation>
     </message>
 </context>
 <context>
@@ -610,12 +610,12 @@
     <message>
         <location filename="../qml/Workshop/PopupOffline.qml" line="28"/>
         <source>You need to run Steam for this :)</source>
-        <translation type="unfinished">使用此功能需运行Steam :)</translation>
+        <translation>使用此功能需运行Steam :)</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/PopupOffline.qml" line="37"/>
         <source>Back</source>
-        <translation type="unfinished">返回</translation>
+        <translation>返回</translation>
     </message>
 </context>
 <context>
@@ -623,12 +623,12 @@
     <message>
         <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="22"/>
         <source>Abort Upload.</source>
-        <translation type="unfinished">取消上传</translation>
+        <translation>取消上传</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="30"/>
         <source>I Agree to the Steam Workshop Agreement</source>
-        <translation type="unfinished">我同意创意工坊的协议</translation>
+        <translation>我同意创意工坊的协议</translation>
     </message>
 </context>
 <context>
@@ -636,7 +636,7 @@
     <message>
         <location filename="../qml/Monitors/SaveNotification.qml" line="40"/>
         <source>Profile saved successfully!</source>
-        <translation type="unfinished">配置保存成功！</translation>
+        <translation>配置保存成功！</translation>
     </message>
 </context>
 <context>
@@ -644,7 +644,7 @@
     <message>
         <location filename="../qml/Common/Search.qml" line="45"/>
         <source>Search for Wallpaper &amp; Widgets</source>
-        <translation type="unfinished">搜索壁纸和物件...</translation>
+        <translation>搜索壁纸和物件...</translation>
     </message>
 </context>
 <context>
@@ -652,147 +652,147 @@
     <message>
         <location filename="../qml/Settings/Settings.qml" line="59"/>
         <source>General</source>
-        <translation type="unfinished">常规</translation>
+        <translation>常规</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="74"/>
         <source>Autostart</source>
-        <translation type="unfinished">自启动</translation>
+        <translation>自启动</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="83"/>
         <source>High priority Autostart</source>
-        <translation type="unfinished">高优先级自启动</translation>
+        <translation>高优先级自启动</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="86"/>
         <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-        <translation type="unfinished">这个选项赋予ScreenPlay比其他应用程序更高的自启动优先级。</translation>
+        <translation>这个选项赋予ScreenPlay比其他应用程序更高的自启动优先级。</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="95"/>
         <source>Send anonymous crash reports and statistics</source>
-        <translation type="unfinished">发送匿名崩溃报告和统计数据</translation>
+        <translation>发送匿名崩溃报告和统计数据</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="96"/>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!</source>
-        <translation type="unfinished">帮助我们，让ScreenPlay更快更稳定。所有被收集的数据完全匿名，且只用于开发。</translation>
+        <translation>帮助我们，让ScreenPlay更快更稳定。所有被收集的数据完全匿名，且只用于开发。</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="105"/>
         <source>Set save location</source>
-        <translation type="unfinished">设置保存位置</translation>
+        <translation>设置保存位置</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="116"/>
         <source>Set location</source>
-        <translation type="unfinished">选择位置</translation>
+        <translation>选择位置</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="131"/>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation type="unfinished">注意：修改此目录并不影响创意工坊的下载路径。ScreenPlay仅支持单个内容文件夹！</translation>
+        <translation>注意：修改此目录并不影响创意工坊的下载路径。ScreenPlay仅支持单个内容文件夹！</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="149"/>
         <source>Language</source>
-        <translation type="unfinished">语言</translation>
+        <translation>语言</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="150"/>
         <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished">设置ScreenPlay界面语言</translation>
+        <translation>设置ScreenPlay界面语言</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="222"/>
         <source>Performance</source>
-        <translation type="unfinished">性能</translation>
+        <translation>性能</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="75"/>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation type="unfinished">ScreenPlay将在操作系统启动时启动，并会设置您的桌面。</translation>
+        <translation>ScreenPlay将在操作系统启动时启动，并会设置您的桌面。</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="110"/>
         <source>Your storage path is empty!</source>
-        <translation type="unfinished">您的存储路径是空的！</translation>
+        <translation>您的存储路径是空的！</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="165"/>
         <source>English</source>
-        <translation type="unfinished">英语</translation>
+        <translation>英语</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="168"/>
         <source>German</source>
-        <translation type="unfinished">德语</translation>
+        <translation>德语</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="171"/>
         <source>Russian</source>
-        <translation type="unfinished">俄语</translation>
+        <translation>俄语</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="174"/>
         <source>French</source>
-        <translation type="unfinished">法语</translation>
+        <translation>法语</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="177"/>
         <source>Spanish</source>
-        <translation type="unfinished">西班牙语</translation>
+        <translation>西班牙语</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="180"/>
         <source>Korean</source>
-        <translation type="unfinished">韩语</translation>
+        <translation>韩语</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="183"/>
         <source>Vietnamese</source>
-        <translation type="unfinished">越南语</translation>
+        <translation>越南语</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="191"/>
         <source>Theme</source>
-        <translation type="unfinished">主题</translation>
+        <translation>主题</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="192"/>
         <source>Switch dark/light theme</source>
-        <translation type="unfinished">切换到暗/亮主题</translation>
+        <translation>切换到暗/亮主题</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="206"/>
         <source>System Default</source>
-        <translation type="unfinished">跟随系统</translation>
+        <translation>跟随系统</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="209"/>
         <source>Dark</source>
-        <translation type="unfinished">暗</translation>
+        <translation>暗</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="212"/>
         <source>Light</source>
-        <translation type="unfinished">亮</translation>
+        <translation>亮</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="237"/>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
-        <translation type="unfinished">当其他应用程序在前台时，暂停壁纸视频渲染</translation>
+        <translation>当其他应用程序在前台时，暂停壁纸视频渲染</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="238"/>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-        <translation type="unfinished">我们禁用视频渲染（不是音频）以获得最佳性能。如果您有问题，可以在此处禁用此行为。 需要重启壁纸！</translation>
+        <translation>我们禁用视频渲染（不是音频）以获得最佳性能。如果您有问题，可以在此处禁用此行为。 需要重启壁纸！</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="248"/>
         <source>Default Fill Mode</source>
-        <translation type="unfinished">默认填充模式</translation>
+        <translation>默认填充模式</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="249"/>
@@ -867,7 +867,7 @@
     <message>
         <location filename="../qml/Settings/Settings.qml" line="427"/>
         <source>Licenses</source>
-        <translation type="unfinished">许可证</translation>
+        <translation>许可证</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="445"/>
@@ -914,7 +914,7 @@
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="208"/>
         <source>Headline</source>
-        <translation type="unfinished">标题</translation>
+        <translation>标题</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="259"/>
@@ -929,7 +929,7 @@
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="304"/>
         <source>Fill Mode</source>
-        <translation type="unfinished">填充模式</translation>
+        <translation>填充模式</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="327"/>
@@ -989,7 +989,7 @@
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="286"/>
         <source>Tags: </source>
-        <translation type="unfinished">标签：</translation>
+        <translation>标签：</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="311"/>
@@ -1017,7 +1017,7 @@
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="12"/>
         <source>Save</source>
-        <translation type="unfinished">保存</translation>
+        <translation>保存</translation>
     </message>
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="15"/>
@@ -1085,7 +1085,7 @@
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="137"/>
         <source>Abort</source>
-        <translation type="unfinished">取消</translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="152"/>
