@@ -47,6 +47,14 @@ execute_process(COMMAND
 
 add_compile_definitions(COMPILE_INFO="${BUILD_DATE} + ${GIT_COMMIT_HASH}")
 
+
+
+if(UNIX)
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fuse-ld=gold")
+endif()
+
+
 project(ScreenPlay)
 
 add_subdirectory(ScreenPlay)
@@ -54,4 +62,7 @@ add_subdirectory(ScreenPlaySDK)
 add_subdirectory(ScreenPlayShader)
 add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
+
+if(WIN32)
 add_subdirectory(ScreenPlaySysInfo)
+endif()

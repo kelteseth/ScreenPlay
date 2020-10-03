@@ -69,7 +69,7 @@ struct SettingsItem {
     QString m_type;
 
 public:
-    void SettingsItem::setValue(const QJsonObject& value)
+    void setValue(const QJsonObject& value)
     {
         m_value = value;
     }

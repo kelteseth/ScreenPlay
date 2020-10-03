@@ -35,8 +35,9 @@
 #include "app.h"
 #include <QApplication>
 #include <QDebug>
+#ifdef Q_OS_WIN
 #include <sentry.h>
-
+#endif
 int main(int argc, char* argv[])
 {
 
@@ -59,7 +60,9 @@ int main(int argc, char* argv[])
 
         app.init();
         const int status = qtGuiApp.exec();
+#ifdef Q_OS_WIN
         sentry_shutdown();
+#endif
         return status;
     }
 }
