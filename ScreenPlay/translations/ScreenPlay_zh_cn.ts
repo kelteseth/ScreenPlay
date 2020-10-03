@@ -1755,7 +1755,7 @@
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="317"/>
         <source>Total VotesAsc</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">按总票数升序</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="320"/>
