@@ -167,6 +167,9 @@ Item {
                                     "value": Settings.De,
                                     "text": qsTr("German")
                                 }, {
+                                    "value": Settings.Zh_CN,
+                                    "text": qsTr("Chinese - Simplified")
+                                }, {
                                     "value": Settings.Ru,
                                     "text": qsTr("Russian")
                                 }, {

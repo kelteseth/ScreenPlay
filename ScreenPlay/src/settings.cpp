@@ -241,6 +241,7 @@ bool Settings::retranslateUI()
         }
         return true;
     }
+    qWarning() << tsFile.fileName() << ", cannot be loaded width langCode " << langCode;
     return false;
 }
 }

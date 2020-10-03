@@ -14,8 +14,19 @@ ScreenPlay_fr.ts ^
 ScreenPlay_ko.ts ^
 ScreenPlay_vi.ts ^
 ScreenPlay_es.ts ^
-ScreenPlay_zh-cn.ts ^
- 
+ScreenPlay_zh_cn.ts 
+
+
+lrelease.exe ^
+ScreenPlay_ru.ts ^
+ScreenPlay_de.ts ^
+ScreenPlay_en.ts ^
+ScreenPlay_fr.ts ^
+ScreenPlay_ko.ts ^
+ScreenPlay_vi.ts ^
+ScreenPlay_es.ts ^
+ScreenPlay_zh_cn.ts 
+
 pause
 
 
