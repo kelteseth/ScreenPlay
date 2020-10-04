@@ -15,20 +15,23 @@ cd ..
 cd ..
 
 rem Donwload ffmpeg
-curl.exe -L --ssl-no-revoke https://www.gyan.dev/ffmpeg/builds/packages/ffmpeg-4.3.1-2020-09-16-full_build.zip --output ffmpeg.zip
+curl.exe -L https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full-shared.zip --ssl-no-revoke --output ffmpeg.zip
 
 rem Extract ffmpeg. Needs Windows 10 build 17063 or higher!
 rem We only need the content of the bin folder
-rem --strip-components 2 removes folder
-tar -xvf ffmpeg.zip  --strip-components 2  ffmpeg-4.3.1-full_build/bin
+mkdir ffmpeg_tmp
+tar -xvf ffmpeg.zip -C ffmpeg_tmp
+
+timeout 3 > NUL
+rem Copy to Common folder
+mkdir Common\ffmpeg
+move "ffmpeg_tmp\ffmpeg-*" "ffmpeg_tmp\ffmpeg"
+robocopy ffmpeg_tmp\ffmpeg\bin Common\ffmpeg /E
 
 rem Remove not used ffplay
-DEL  ffplay.exe
+DEL Common\ffmpeg\ffplay.exe
 
-rem Move ffmpeg into folder
-move /Y ffmpeg.exe  Common/ffmpeg
-move /Y ffprobe.exe  Common/ffmpeg
-
+rem Deleting FFmpeg temp
 DEL ffmpeg.zip
-
+rmdir ffmpeg_tmp /s /q
 pause

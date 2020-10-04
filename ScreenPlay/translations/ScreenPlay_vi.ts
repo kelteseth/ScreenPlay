@@ -1,61 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="vi">
+<TS version="2.1" language="vi_VN">
 <context>
     <name>Community</name>
     <message>
-        <source>We use Stomt because it provides quick and easy feedback via I like/I wish. So you can easily give us feedback and speak your mind. We will read these wishes on a daily basis!</source>
-        <translation type="obsolete">Chúng tôi sử dụng Stomt vì nó cung cấp những phản hồi dễ dàng và nhanh chóng như Tôi muốn/Tôi ước. Vì vậy bạn có thể gửi phản hòi cho chúng tôi một cách dễ dàng và nói lên suy nghĩ của bạn. Chúng tôi sẽ đọc những mong muốn này hàng ngày!</translation>
-    </message>
-    <message>
-        <source>Open ScreenPlay Stomt page</source>
-        <translation type="obsolete">Trang Stomt của ScreenPlayScreenPlay</translation>
-    </message>
-    <message>
-        <source>Forums</source>
-        <translation type="obsolete">Diễn đàn</translation>
-    </message>
-    <message>
-        <source>Blog</source>
-        <translation type="obsolete">Blog</translation>
-    </message>
-    <message>
-        <source>Source Code</source>
-        <translation type="obsolete">Mã nguồn</translation>
-    </message>
-    <message>
-        <source>Workshop</source>
-        <translation type="obsolete">Workshop</translation>
-    </message>
-    <message>
         <location filename="../qml/Community/Community.qml" line="34"/>
         <source>Wiki</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiki</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="40"/>
         <source>Forum</source>
-        <translation type="unfinished"></translation>
+        <translation>Diễn đàn</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="45"/>
         <source>Issue List</source>
-        <translation type="unfinished"></translation>
+        <translation>D.Sách Lỗi</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="50"/>
         <source>Release Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ghi chú bản phát hành</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="55"/>
         <source>Contribution Guide</source>
-        <translation type="unfinished"></translation>
+        <translation>Hướng dẫn đóng góp</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="60"/>
         <source>Steam Workshop</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Still workshop.</translatorcomment>
+        <translation>Steam Workshop</translation>
     </message>
 </context>
 <context>
@@ -63,7 +40,7 @@
     <message>
         <location filename="../qml/Community/CommunityNavItem.qml" line="59"/>
         <source>Open in browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Mở trong trình duyệt</translation>
     </message>
 </context>
 <context>
@@ -71,7 +48,8 @@
     <message>
         <location filename="../qml/Create/Create.qml" line="101"/>
         <source>Create wallpapers and widgets for local usage or the steam workshop!</source>
-        <translation type="unfinished">Tạo hình nền động và tiện ích để sử dụng riêng hoặc để cho Steam Workshop</translation>
+        <translatorcomment>&quot;Steam&quot; is uneeded</translatorcomment>
+        <translation>Tạo những hình nền và các tiện ích nhỏ để sử dụng riêng hoặc tải lên Workshop!</translation>
     </message>
 </context>
 <context>
@@ -79,44 +57,32 @@
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="15"/>
         <source>Create Widgets and Scenes</source>
-        <translation type="unfinished">Tạo tiện ích và các cảnh</translation>
-    </message>
-    <message>
-        <source>Create Emtpy Widget</source>
-        <translation type="obsolete">Tạo một tiện ích trống</translation>
-    </message>
-    <message>
-        <source>Examples Widgets and Scenes</source>
-        <translation type="obsolete">Ví dụ của tiện ích và cảnh</translation>
+        <translation>Tạo tiện ích con và cảnh</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="29"/>
         <source>Create Empty Widget</source>
-        <translation type="unfinished">Tạo một tiện ích trống</translation>
+        <translation>Tạo tiện ích con trống</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="42"/>
         <source>Example Widgets and Scenes</source>
-        <translation type="unfinished">Ví dụ của tiện ích và cảnh</translation>
+        <translation>Tiện ích con và cảnh mẫu</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="65"/>
         <source>Empty HTML Wallpaper</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Simple clock widget</source>
-        <translation type="obsolete">Tiện ích đồng hồ đơn giản</translation>
+        <translation>Hình nền HTML trống</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="75"/>
         <source>Musik scene wallpaper visualizer</source>
-        <translation type="unfinished">Cảnh hiệu ứng âm thanh</translation>
+        <translation>Hình nền phản hồi với nhạc</translation>
     </message>
     <message>
         <location filename="../qml/Create/CreateContent.qml" line="86"/>
         <source>Changing scene wallpaper via unsplash.com</source>
-        <translation type="unfinished">Đổi cảnh thồng qua unsplash.comcom</translation>
+        <translation>Thay đổi hình nền cảnh nhờ unsplash.com</translation>
     </message>
 </context>
 <context>
@@ -124,7 +90,7 @@
     <message>
         <location filename="../qml/Create/CreateContentButton.qml" line="114"/>
         <source>Not yet implemented. Stay tuned!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tui chưa được làm xong, bạn hãy chờ nhé!</translation>
     </message>
 </context>
 <context>
@@ -132,67 +98,68 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="54"/>
         <source>This wizard lets you create a empty html based wallpaper. You can put anything you can imagine into this html file. For example this can be a three.js scene or a utility application written in javascript.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>JavaScript = JS </translatorcomment>
+        <translation>Trình cài đặt này giúp bạn tạo một hình nền kiểu HTML trống. Bạn có thể cho những gì bạn có thể tưởng tượng vào trong tệp HTML này. Ví dụ có thể là một cảnh three.js hoặc là một ứng dụng được viết trên JS.</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="68"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiếp</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="119"/>
         <source>Create a html Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>Tạo một hình nền HTML</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="123"/>
         <source>General</source>
-        <translation type="unfinished">Chung</translation>
+        <translation>Chung</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="131"/>
         <source>Wallpaper name</source>
-        <translation type="unfinished"></translation>
+        <translation>Tên hình nền</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="145"/>
         <source>Copyright owner</source>
-        <translation type="unfinished">Bản quyền của người sở hữu</translation>
+        <translation>Chủ sở hữu bản quyền</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="149"/>
         <source>License</source>
-        <translation type="unfinished">Bản quyền</translation>
+        <translation>Giấy phép</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="172"/>
         <source>Tags</source>
-        <translation type="unfinished">Từ khóa</translation>
+        <translation>Từ khóa</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="184"/>
         <source>Preview Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Ảnh minh họa</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="191"/>
         <source>You can set your own preview image here!</source>
-        <translation type="unfinished">Đặt ảnh minh họa tùy chỉnh tại đây!</translation>
+        <translation>Bạn có thể đặt ảnh minh họa tự chọn tại đây</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="216"/>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation>Hủy</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="228"/>
         <source>Save</source>
-        <translation type="unfinished">Lưu</translation>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml" line="263"/>
         <source>Create Html Wallpaper...</source>
-        <translation type="unfinished"></translation>
+        <translation>Tạo hình nền HTML...</translation>
     </message>
 </context>
 <context>
@@ -200,68 +167,66 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="17"/>
         <source>Create an empty widget</source>
-        <translation type="unfinished">Tạo một tiện ích trống</translation>
+        <translation>Tạo một tiện ích con trống</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="77"/>
         <source>General</source>
-        <translation type="unfinished">Chung</translation>
+        <translation>Chung</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="85"/>
         <source>Widget name</source>
-        <translation type="unfinished">Tên tiện ích</translation>
+        <translation>Tên tiện ích con</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="98"/>
         <source>Copyright owner</source>
-        <translation type="unfinished">Bản quyền của người sở hữu</translation>
+        <translation>Chủ sở hữu bản quyền</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="102"/>
         <source>Type</source>
-        <translation type="unfinished">Loại</translation>
+        <translation>Loại</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="131"/>
         <source>License</source>
-        <translation type="unfinished">Bản quyền</translation>
+        <translation>Giấy phép</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="154"/>
         <source>Tags</source>
-        <translation type="unfinished">Từ khóa</translation>
+        <translation>Từ khóa</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="178"/>
         <source>Save</source>
-        <translation type="unfinished">Lưu</translation>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="205"/>
         <source>Abort</source>
-        <translation type="unfinished">Hủy bỏbỏ</translation>
+        <translation>Hủy</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml" line="233"/>
         <source>Create Widget...</source>
-        <translation type="unfinished">Tạo một tiện ích...</translation>
+        <translation>Tạo tiện ích con...</translation>
     </message>
 </context>
 <context>
     <name>CreateImport</name>
     <message>
-        <location filename="../qml/Create/CreateImport.qml" line="137"/>
-        <source></source>
-        <translation></translation>
+        <source>Import a Creation</source>
+        <translation type="vanished">Import a Creation</translation>
     </message>
 </context>
 <context>
     <name>CreateUpload</name>
     <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="219"/>
-        <source></source>
-        <translation></translation>
+        <source>Upload a Creation</source>
+        <translation type="vanished">Upload a Creation</translation>
     </message>
 </context>
 <context>
@@ -269,27 +234,27 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="52"/>
         <source>Import a video</source>
-        <translation type="unfinished"></translation>
+        <translation>Nhập một video</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="62"/>
         <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tùy thuộc vào máy tính của bạn nên việc chuyển đổi hình nền của ban sang một loại video khác sẽ là tốt hơn. Nếu cả 2 đều có hiệu năng kém thì bạn có thể thử dùng một hình nền QML!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="76"/>
         <source>Set your preffered video codec:</source>
-        <translation type="unfinished"></translation>
+        <translation>Chọn bộ mã hóa video:</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="108"/>
         <source>Open Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation>Mở Tài Liệu</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperCodec.qml" line="125"/>
         <source>Next</source>
-        <translation type="unfinished"></translation>
+        <translation>Tiếp</translation>
     </message>
 </context>
 <context>
@@ -297,17 +262,17 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="18"/>
         <source>An error occurred!</source>
-        <translation type="unfinished">Đã có lỗi xảy ra T.T!</translation>
+        <translation>Đã có lỗi xảy ra :(</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="78"/>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished">Sao chép chữ vào khay nhớ tạm</translation>
+        <translation>Sao chép vào khay nhớ tạm</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperResult.qml" line="88"/>
         <source>Back to create and send an error report!</source>
-        <translation type="unfinished">Quay trở lại để tạo và gửi báo cáo lỗi!</translation>
+        <translation>Trở lại việc tạo và gửi một báo cáo lỗi</translation>
     </message>
 </context>
 <context>
@@ -315,47 +280,47 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="54"/>
         <source>Generating preview image...</source>
-        <translation type="unfinished">Generación de la imagen de previsualización...</translation>
+        <translation>Đang tạo ra ảnh minh họa...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="57"/>
         <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished">Đang tạo ảnh minh họa...</translation>
+        <translation>Đang tạo ra ảnh minh họa...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="64"/>
         <source>Generating 5 second preview video...</source>
-        <translation type="unfinished">Đang tạo video 5s minh họa...</translation>
+        <translation>Đang tạo ra video minh họa dài 5s...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="67"/>
         <source>Generating preview gif...</source>
-        <translation type="unfinished">Đang tạo ảnh động minh họa...</translation>
+        <translation>Đang tạo ra Gif minh họa...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="76"/>
         <source>Converting Audio...</source>
-        <translation type="unfinished">Đang chuyển đổi định dạng âm thanh...</translation>
+        <translation>Đang chuyển đổi âm thanh...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="79"/>
         <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished">Đang chuyển đổi định dạng video... Quá trình này có thể tốn một lúc!</translation>
+        <translation>Đang chuyển đổi âm thanh... Việc này có thể tốn một chút thời gian!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="83"/>
         <source>Converting Video ERROR!</source>
-        <translation type="unfinished">Chuyển đổi định dạng video thất bại!</translation>
+        <translation>Đã gặp lỗi khi chuyển đổi video!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="86"/>
         <source>Analyse Video ERROR!</source>
-        <translation type="unfinished"></translation>
+        <translation>Đã gặp lỗi khi phân tích video!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="114"/>
         <source>Convert a video to a wallpaper</source>
-        <translation type="unfinished">Chuyển đổi một video thành môt ảnh nền độngđộng</translation>
+        <translation>Chuyển đổi video thành một hình nền</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="164"/>
@@ -365,42 +330,42 @@
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="211"/>
         <source>Generating preview video...</source>
-        <translation type="unfinished">Đang tạo video minh họa...</translation>
+        <translation>Đang tạo ra video minh họa...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="224"/>
         <source>You can set your own preview image here!</source>
-        <translation type="unfinished">Đặt ảnh minh họa tùy chỉnh tại đây!</translation>
+        <translation>Bạn có thể đặt ảnh minh họa tự chọn tại đây</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="258"/>
         <source>Name (required!)</source>
-        <translation type="unfinished">Tên (bắt buộc!)</translation>
+        <translation>Tên (cần thiết!)</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="273"/>
         <source>Description</source>
-        <translation type="unfinished">Mô tả</translation>
+        <translation>Mô tả</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="281"/>
         <source>Youtube URL</source>
-        <translation type="unfinished">Link YouTube</translation>
+        <translation>Link YouTube</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="309"/>
         <source>Abort</source>
-        <translation type="unfinished">Hủy bỏ</translation>
+        <translation>Hủy</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="322"/>
         <source>Save</source>
-        <translation type="unfinished">Lưu</translation>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="359"/>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished">Lưu ảnh nền</translation>
+        <translation>Lưu hình nền...</translation>
     </message>
 </context>
 <context>
@@ -408,250 +373,54 @@
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="41"/>
         <source>Volume</source>
-        <translation type="unfinished">Âm lượng</translation>
+        <translation>Âm lượng</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="55"/>
         <source>Playback rate</source>
-        <translation type="unfinished">Tốc độ phát video</translation>
+        <translation>Tốc độ phát</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="67"/>
         <source>Current Video Time</source>
-        <translation type="unfinished">Thời gian hiện tại của video</translation>
+        <translation>Thời gian hiện tại ở video</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="85"/>
         <source>Fill Mode</source>
-        <translation type="unfinished">Chế độ phủ</translation>
+        <translation>Chế độ phủ</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="110"/>
         <source>Stretch</source>
-        <translation type="unfinished"></translation>
+        <translation>Kéo dãn</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="113"/>
         <source>Fill</source>
-        <translation type="unfinished"></translation>
+        <translation>Lấp đầy</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="116"/>
         <source>Contain</source>
-        <translation type="unfinished"></translation>
+        <translation>Bên trong</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="119"/>
         <source>Cover</source>
-        <translation type="unfinished"></translation>
+        <translation>Bọc</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="122"/>
         <source>Scale_Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Giảm độ phân giải</translation>
     </message>
 </context>
 <context>
     <name>FFMPEGPopup</name>
     <message>
-        <source>Begin downloading FFMPEG</source>
-        <translation type="obsolete">Bắt đầu tải FFMPEG</translation>
-    </message>
-    <message>
-        <source>FFMPEG download failed</source>
-        <translation type="obsolete">Tải FFMPEG Thất bại!</translation>
-    </message>
-    <message>
-        <source>FFMPEG download successful</source>
-        <translation type="obsolete">Tải thành công FFMPEG</translation>
-    </message>
-    <message>
-        <source>Extracting FFMPEG</source>
-        <translation type="obsolete">Đang giải nén FFMPEG</translation>
-    </message>
-    <message>
-        <source>ERROR extracting ffmpeg from RAM</source>
-        <translation type="obsolete">Giải nén FFMPEG từ RAM thất bại</translation>
-    </message>
-    <message>
-        <source>ERROR extracing ffmpeg</source>
-        <translation type="obsolete">Giải nén FFMPEG thất bại</translation>
-    </message>
-    <message>
-        <source>ERROR saving FFMPEG to disk</source>
-        <translation type="obsolete">Không thể lưu FFMPEG vào ổ cứng</translation>
-    </message>
-    <message>
-        <source>ERROR extracing FFPROBE</source>
-        <translation type="obsolete">Giải nén FFPROBE thất bại</translation>
-    </message>
-    <message>
-        <source>ERROR saving FFPROBE to disk</source>
-        <translation type="obsolete">Không thể lưu FFPROBE vào ổ cứng</translation>
-    </message>
-    <message>
-        <source>Extraction successful</source>
-        <translation type="obsolete">Giải nén thành công</translation>
-    </message>
-    <message>
-        <source>All done and ready to go!</source>
-        <translation type="obsolete">Mọi việc đã hoàn tất và sẵn sàng!</translation>
-    </message>
-    <message>
-        <source>You cannot create Wallaper without FFMPEG installed!</source>
-        <translation type="obsolete">Bạn không thể tạo ảnh nền khi chưa cài FFMPEG!</translation>
-    </message>
-    <message>
         <source>Abort</source>
-        <translation type="obsolete">Hủy bỏ</translation>
-    </message>
-    <message>
-        <source>Download FFMPEG</source>
-        <translation type="obsolete">Tải FFMPEG</translation>
-    </message>
-    <message>
-        <source>Before we can start creating content you need to download FFMPEG</source>
-        <translation type="obsolete">Trước khi bắt đầu tạo các thứ bạn cần tải FFMPEG</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Why do we bother you with this?&lt;/b&gt;
-&lt;br&gt;&lt;br&gt; Well its because of &lt;b&gt;copyright&lt;/b&gt; and many many &lt;b&gt;patents&lt;/b&gt;.
-Files like .mp4 or .webm are containers for video and audio. Every audio
-and video file is encoded with a certain codec. These can be open source
-ceand free to use like &lt;a href=&apos;https://wikipedia.org/wiki/VP8&apos;&gt;VP8&lt;/a&gt; and the newer  &lt;a href=&apos;https://wikipedia.org/wiki/VP9&apos;&gt;VP9&lt;/a&gt; (the one YouTube uses for their web
-ms)but there are also some proprietary ones like  &lt;a href=&apos;https://wikipedia.org/wiki/H.264/MPEG-4_AVC&apos;&gt;h264&lt;/a&gt; and the successor &lt;a href=&apos;https://wikipedia.org/wiki/High_Efficiency_Video_Coding&apos;&gt;h265&lt;/a&gt;.
-&lt;br&gt;
-&lt;br&gt;
-
-
- We as software developer now need to deal with stuff like this in a field wedo not have any expertise in. The desicion to enable only free codecs for content wasan easy one but we still need to provide a way for our user to import wallpaper without a hassle. We do not provide  &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; for converting video and audio with ScreenPlay because we are not allowed to. We let the user download &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; wich is perfectly fine!
-&lt;br&gt;
-Sorry for this little inconvenience :)
-&lt;br&gt;
-&lt;br&gt;
-&lt;center&gt;
-&lt;b&gt;
-IF YOU DO NOT HAVE A INTERNET CONNECT YOU CAN SIMPLY PUT FFMPEG AND FFPROBE
-IN THE SAME FOLDER AS YOUR SCREENPLAY EXECUTABLE!
-&lt;/b&gt;
-&lt;br&gt;
-&lt;br&gt;
-This is usually:
-&lt;br&gt; C:Program Files (x86)SteamsteamappscommonScreenPlay
-&lt;br&gt;
-if you installed ScreenPlay via Steam!
-&lt;/center&gt;
-&lt;br&gt;
-&lt;br&gt;
-&lt;b&gt;~ Kelteseth | Elias Steurer&lt;/b&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Tại sao chúng tôi lại làm phiền bạn với cái này?&lt;/b&gt;
-&lt;Đó là bởi vì bản quyền và rất rất nhiều bằng sáng chế
-Các tệp như .mp4 và .webm là tệp chứa video và âm thanh. Mọi âm thanh
-và tập tin video được mã hóa với một codec nhất định. Đấy có thể là mã nguồn mở
-miễn phí sử dụng như &lt;a href=&apos;https://wikipedia.org/wiki/VP8&apos;&gt;VP8&lt;/a&gt; và cái mới hơn &lt;a href=&apos;https://wikipedia.org/wiki/VP9&apos;&gt;VP9&lt;/a&gt; (Là cái mà YouTube dùng cho trang web của họ
-ms)nhưng cũng có một số cái là độc quyền như &lt;a href=&apos;https://wikipedia.org/wiki/H.264/MPEG-4_AVC&apos;&gt;h264&lt;/a&gt; và codec kế vị &lt;a href=&apos;https://wikipedia.org/wiki/High_Efficiency_Video_Coding&apos;&gt;h265&lt;/a&gt;.
-&lt;br&gt;
-&lt;br&gt;
-
-
- Chúng tôi là nhà phát triển ư.dụng cần phải xử lý những thứ như thế này trong lĩnh vực mà chúng tôi không có chuyên môn. Việc mong muốn chỉ kích hoạt codec miễn phí cho nội dung là một cách dễ dàng nhưng chúng tôi vẫn cần cung cấp cách để Ng. dùng dùng ảnh nền động mà không rắc rối. Chúng tôi không cung cấp  &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; để chuyển đổi video và âm thanh kèm với ScreenPlay bởi vì chúng tôi không được phép. Chúng tôi cho ng. dùng tải &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; là một điều rất bình thường!
-&lt;br&gt;
-Xin lỗi vì sự cố bất tiện này :)
-&lt;br&gt;
-&lt;br&gt;
-&lt;centro&gt;
-&lt;b&gt;
-NẾU BẠN KO CÓ MẠNG THÌ BẠN CHỈ CẦN ĐỂ FFMPEG VÀ FFPROBE
-VÀO CHUNG VỚI THƯ MỤC CHƯA CÁC TỆP CỦA SCREENPLAY!
-&lt;/b&gt;
-&lt;br&gt;
-&lt;br&gt;
-Esto suele ser así:
-&lt;br&gt; C:\Program Files (x86)\Steam\steamapps\common\ScreenPlay (hoặc C:\Tệp chương trình (x86)\Steam\steamapps\common\ScreenPlay) (Nếu máy bạn là 32-bit thì là Program Files hoặc là Tệp Chương Trình ko có x86 nhé)
-&lt;br&gt;
-Nếu bạn cài ScreenPlay qua Steam!
-&lt;/centro&gt;
-&lt;br&gt;
-&lt;br&gt;
-&lt;b&gt;~ Kelteseth | Elias Steurer&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;Why do we bother you with this?&lt;/b&gt;
-&lt;br&gt;&lt;br&gt; Well its because of &lt;b&gt;copyright&lt;/b&gt; and many many &lt;b&gt;patents&lt;/b&gt;.
-Files like .mp4 or .webm are containers for video and audio. Every audio
-and video file is encoded with a certain codec. These can be open sour
-ceand free to use like &lt;a href=&apos;https://wikipedia.org/wiki/VP8&apos;&gt;VP8&lt;/a&gt; and the newer  &lt;a href=&apos;https://wikipedia.org/wiki/VP9&apos;&gt;VP9&lt;/a&gt; (the one YouTube uses for their web
-ms)but there are also some proproatary ones like  &lt;a href=&apos;https://wikipedia.org/wiki/H.264/MPEG-4_AVC&apos;&gt;h264&lt;/a&gt; and the successor &lt;a href=&apos;https://wikipedia.org/wiki/High_Efficiency_Video_Coding&apos;&gt;h265&lt;/a&gt;.
-&lt;br&gt;
-&lt;br&gt;
-
-
- We as software developer now need to deal with stuff like this in a field we
-are do not have any expertise in. The desicion to enable only free codecs for content was
-an easy one but we still need to provide a way for our user to import wallpape
-r without a hassle. We do not provide  &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; f
-or converting video and audio with ScreenPlay because we are not allowed to. We let the user download &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; wich is perfectly fine!
-&lt;br&gt;
-Sorry for this little inconvenience :)
-&lt;br&gt;
-&lt;br&gt;
-&lt;center&gt;
-&lt;b&gt;
-IF YOU DO NOT HAVE A INTERNET CONNECT YOU CAN SIMPLY PUT FFMPEG AND FFPROBE
-IN THE SAME FOLDER AS YOUR SCREENPLAY EXECUTABLE!
-&lt;/b&gt;
-&lt;br&gt;
-&lt;br&gt;
-This is usually:
-&lt;br&gt; C:Program Files (x86)SteamsteamappscommonScreenPlay
-&lt;br&gt;
-if you installed ScreenPlay via Steam!
-&lt;/center&gt;
-&lt;br&gt;
-&lt;br&gt;
-&lt;b&gt;~ Kelteseth | Elias Steurer&lt;/b&gt;</source>
-        <translation type="obsolete">&lt;b&gt;Tại sao chúng tôi lại làm phiền bạn với cái này?&lt;/b&gt;
-        &lt;Đó là bởi vì bản quyền và rất rất nhiều bằng sáng chế
-        Các tệp như .mp4 và .webm là tệp chứa video và âm thanh. Mọi âm thanh
-        và tập tin video được mã hóa với một codec nhất định. Đấy có thể là mã nguồn mở
-        miễn phí sử dụng như &lt;a href=&apos;https://wikipedia.org/wiki/VP8&apos;&gt;VP8&lt;/a&gt; và cái mới hơn &lt;a href=&apos;https://wikipedia.org/wiki/VP9&apos;&gt;VP9&lt;/a&gt; (Là cái mà YouTube dùng cho trang web của họ
-        ms)nhưng cũng có một số cái là độc quyền như &lt;a href=&apos;https://wikipedia.org/wiki/H.264/MPEG-4_AVC&apos;&gt;h264&lt;/a&gt; và codec kế vị &lt;a href=&apos;https://wikipedia.org/wiki/High_Efficiency_Video_Coding&apos;&gt;h265&lt;/a&gt;.
-        &lt;br&gt;
-        &lt;br&gt;
-        
-        
-         Chúng tôi là nhà phát triển ư.dụng cần phải xử lý những thứ như thế này trong lĩnh vực mà chúng tôi không có chuyên môn. Việc mong muốn chỉ kích hoạt codec miễn phí cho nội dung là một cách dễ dàng nhưng chúng tôi vẫn cần cung cấp cách để Ng. dùng dùng ảnh nền động mà không rắc rối. Chúng tôi không cung cấp  &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; để chuyển đổi video và âm thanh kèm với ScreenPlay bởi vì chúng tôi không được phép. Chúng tôi cho ng. dùng tải &lt;a href=&apos;https://ffmpeg.org/&apos;&gt;FFMPEG&lt;/a&gt; là một điều rất bình thường!
-        &lt;br&gt;
-        Xin lỗi vì sự cố bất tiện này :)
-        &lt;br&gt;
-        &lt;br&gt;
-        &lt;centro&gt;
-        &lt;b&gt;
-        NẾU BẠN KO CÓ MẠNG THÌ BẠN CHỈ CẦN ĐỂ FFMPEG VÀ FFPROBE
-        VÀO CHUNG VỚI THƯ MỤC CHƯA CÁC TỆP CỦA SCREENPLAY!
-        &lt;/b&gt;
-        &lt;br&gt;
-        &lt;br&gt;
-        Esto suele ser así:
-        &lt;br&gt; C:\Program Files (x86)\Steam\steamapps\common\ScreenPlay (hoặc C:\Tệp chương trình (x86)\Steam\steamapps\common\ScreenPlay) (Nếu máy bạn là 32-bit thì là Program Files hoặc là Tệp Chương Trình ko có x86 nhé)
-        &lt;br&gt;
-        Nếu bạn cài ScreenPlay qua Steam!
-        &lt;/centro&gt;
-        &lt;br&gt;
-        &lt;br&gt;
-        &lt;b&gt;~ Kelteseth | Elias Steurer&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>Not now!</source>
-        <translation type="obsolete">Ko phải bây giờ!</translation>
-    </message>
-    <message>
-        <source>You can now start creating content!</source>
-        <translation type="obsolete">Bạn đã sẵn sàng có thể tạo các thứ!</translation>
-    </message>
-    <message>
-        <source>Start!</source>
-        <translation type="obsolete">Bắt đầu!</translation>
+        <translation type="obsolete">Cancel</translation>
     </message>
 </context>
 <context>
@@ -659,22 +428,22 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Create/Footer.qml" line="23"/>
         <source>QML Quickstart Guide</source>
-        <translation type="unfinished">Hướng dẫn nhanh về QML</translation>
+        <translation>Hướng dẫn bắt đầu nhanh QML</translation>
     </message>
     <message>
         <location filename="../qml/Create/Footer.qml" line="34"/>
         <source>Documentation</source>
-        <translation type="unfinished">Tài liệu</translation>
+        <translation>Tài liệu</translation>
     </message>
     <message>
         <location filename="../qml/Create/Footer.qml" line="45"/>
         <source>Forums</source>
-        <translation type="unfinished">Diễn đàn</translation>
+        <translation>Diễn đàn</translation>
     </message>
     <message>
         <location filename="../qml/Create/Footer.qml" line="56"/>
         <source>Workshop</source>
-        <translation type="unfinished">Workshop</translation>
+        <translation>Workshop</translation>
     </message>
 </context>
 <context>
@@ -682,7 +451,7 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Common/Headline.qml" line="16"/>
         <source>Headline</source>
-        <translation type="unfinished">Tiêu đề</translation>
+        <translation>Tiêu đề</translation>
     </message>
 </context>
 <context>
@@ -690,12 +459,12 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="142"/>
         <source>Clear</source>
-        <translation type="unfinished">Xóa</translation>
+        <translation>Xóa</translation>
     </message>
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="160"/>
         <source>Select Preview Image</source>
-        <translation type="unfinished">Chọn ảnh minh họa</translation>
+        <translation>Chọn ảnh minh họa</translation>
     </message>
 </context>
 <context>
@@ -703,25 +472,17 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="22"/>
         <source>Import Content</source>
-        <translation type="unfinished">Nhập nội dung</translation>
+        <translation>Nhập nội dung</translation>
     </message>
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="75"/>
         <source>Import video</source>
-        <translation type="unfinished">Nhập video</translation>
-    </message>
-    <message>
-        <source>FFMPEG Needed for import</source>
-        <translation type="obsolete">FFMPEG là cần thiết để nhập</translation>
-    </message>
-    <message>
-        <source>Import ThreeJs Scene</source>
-        <translation type="obsolete">Nhập cảnh ThreeJs</translation>
+        <translation>Nhập video</translation>
     </message>
     <message>
         <location filename="../qml/Create/ImportContent.qml" line="161"/>
         <source>Upload Exsisting Project to Steam</source>
-        <translation type="unfinished">Upload dự án có sẵn lên Steam</translation>
+        <translation>Tải hình nền sẵn có lên Steam</translation>
     </message>
 </context>
 <context>
@@ -729,58 +490,38 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Installed/Installed.qml" line="99"/>
         <source>Refreshing!</source>
-        <translation type="unfinished">Đang làm mới!</translation>
+        <translation>Đang làm mới!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="102"/>
         <location filename="../qml/Installed/Installed.qml" line="124"/>
         <source>Pull to refresh!</source>
-        <translation type="unfinished">Kéo để làm mới!</translation>
+        <translation>Đẩy xuống để làm mới!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="141"/>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation type="unfinished">Lấy thêm ảnh nền &amp; tiện ích từ Steam Workshop!</translation>
+        <translation>Lấy thêm hình nền &amp; tiện ích con thông qua Steam Workshop!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="210"/>
         <source>Open containing folder</source>
-        <translation type="unfinished">Mở thư mục chứa file</translation>
+        <translation>Mở thư mục chứa.</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="218"/>
         <source>Deinstall Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Gỡ bỏ</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="227"/>
         <source>Open workshop Page</source>
-        <translation type="unfinished">Mở trang Steam Workshop của file</translation>
-    </message>
-    <message>
-        <source>All</source>
-        <translation type="obsolete">Tất cả</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation type="obsolete">Videos</translation>
-    </message>
-    <message>
-        <source>Scenes</source>
-        <translation type="obsolete">Cảnh</translation>
-    </message>
-    <message>
-        <source>Widgets</source>
-        <translation type="obsolete">Tiện ích</translation>
+        <translation>Mở trang Workshop</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="329"/>
         <source></source>
         <translation></translation>
-    </message>
-    <message>
-        <source>Search for Wallpaper &amp; Widgets</source>
-        <translation type="obsolete">Tìm ảnh nền</translation>
     </message>
 </context>
 <context>
@@ -788,12 +529,12 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="54"/>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-        <translation type="unfinished">Lấy tiện ích và ảnh nền miễn phí ở Steam Workshop</translation>
+        <translation>Lấy hình nền và tiện ích con miễn phí thông qua Steam Workshop</translation>
     </message>
     <message>
         <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="84"/>
         <source>Browse the Steam Workshop</source>
-        <translation type="unfinished">Duyệt Steam Workshop</translation>
+        <translation>Xem Steam Workshop</translation>
     </message>
 </context>
 <context>
@@ -801,36 +542,28 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="67"/>
         <source>Wallpaper Configuration</source>
-        <translation type="unfinished">Thiết lập ảnh nền</translation>
+        <translation>Thiết lập hình nền</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="132"/>
         <source>Remove selected</source>
-        <translation type="unfinished">Loại bỏ những cái đã chọn</translation>
+        <translation>Loại bỏ cái đã chọn</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="144"/>
         <location filename="../qml/Monitors/Monitors.qml" line="158"/>
         <source>Remove </source>
-        <translation type="unfinished"></translation>
+        <translation>Loại bỏ</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="145"/>
         <source>Wallpapers</source>
-        <translation type="unfinished"></translation>
+        <translation>Hình nền</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="159"/>
         <source>Widgets</source>
-        <translation type="unfinished">Tiện ích</translation>
-    </message>
-    <message>
-        <source>Remove all Wallpapers</source>
-        <translation type="obsolete">Loại bỏ tất cả ảnh nền</translation>
-    </message>
-    <message>
-        <source>Remove all Widgets</source>
-        <translation type="obsolete">Loại bỏ tất cả tiện ích</translation>
+        <translation>Tiện ích con</translation>
     </message>
 </context>
 <context>
@@ -838,12 +571,12 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="132"/>
         <source>Set color</source>
-        <translation type="unfinished"></translation>
+        <translation>Chọn màu</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="155"/>
         <source>Please choose a color</source>
-        <translation type="unfinished"></translation>
+        <translation>Xin hãy chọn một màu</translation>
     </message>
 </context>
 <context>
@@ -851,32 +584,32 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Installed/Navigation.qml" line="57"/>
         <source>All</source>
-        <translation type="unfinished">Tất cả</translation>
+        <translation>Tất cả</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Navigation.qml" line="73"/>
         <source>Scenes</source>
-        <translation type="unfinished">Cảnh</translation>
+        <translation>Cảnh</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Navigation.qml" line="89"/>
         <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
+        <translation>Videos</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Navigation.qml" line="105"/>
         <source>Widgets</source>
-        <translation type="unfinished">Tiện ích</translation>
+        <translation>Tiện ích con</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Navigation.qml" line="46"/>
         <source> Subscribed items: </source>
-        <translation type="unfinished"></translation>
+        <translation>Các mục đã đăng ký: </translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Navigation.qml" line="87"/>
         <source>Upload to the Steam Workshop</source>
-        <translation type="unfinished"></translation>
+        <translation>Tải lên Steam Workshop</translation>
     </message>
 </context>
 <context>
@@ -884,12 +617,12 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="70"/>
         <source>Configurate active Wallpaper or Widgets</source>
-        <translation type="unfinished">Thiết lập ảnh nền hoặc tiện ích đang hoạt động</translation>
+        <translation>Thiết lập những hình nền hoặc tiện ích con đang hoạt động</translation>
     </message>
     <message>
         <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="72"/>
         <source>No active Wallpaper or Widgets</source>
-        <translation type="unfinished">Ko có ảnh nền hoặc tiện ích nào đang hoạt đông</translation>
+        <translation>Không có hình nền và tiện ích con nào đang hoạt động</translation>
     </message>
 </context>
 <context>
@@ -897,12 +630,12 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Workshop/PopupOffline.qml" line="28"/>
         <source>You need to run Steam for this :)</source>
-        <translation type="unfinished"></translation>
+        <translation>Bạn cần chạy Steam cho cái này :)</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/PopupOffline.qml" line="37"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation>Quay lại</translation>
     </message>
 </context>
 <context>
@@ -910,12 +643,12 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="22"/>
         <source>Abort Upload.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hủy tải lên</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="30"/>
         <source>I Agree to the Steam Workshop Agreement</source>
-        <translation type="unfinished"></translation>
+        <translation>Tôi đồng ý với thỏa thuận của Steam Workshop</translation>
     </message>
 </context>
 <context>
@@ -923,18 +656,7 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Monitors/SaveNotification.qml" line="40"/>
         <source>Profile saved successfully!</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>ScreenPlayItem</name>
-    <message>
-        <source>Open containing folder</source>
-        <translation type="obsolete">Mở thư mục chứa file</translation>
-    </message>
-    <message>
-        <source>Open workshop Page</source>
-        <translation type="obsolete">Mở trang Steam Workshop của file</translation>
+        <translation>Hồ sơ đã được lưu!</translation>
     </message>
 </context>
 <context>
@@ -942,7 +664,7 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Common/Search.qml" line="45"/>
         <source>Search for Wallpaper &amp; Widgets</source>
-        <translation type="unfinished">Tìm ảnh nền</translation>
+        <translation>Tìm hình nền &amp; cảnh</translation>
     </message>
 </context>
 <context>
@@ -950,256 +672,248 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="59"/>
         <source>General</source>
-        <translation type="unfinished">Chung</translation>
+        <translation>Chung</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="74"/>
         <source>Autostart</source>
-        <translation type="unfinished">Tự động mở</translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="75"/>
-        <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation type="unfinished">ScreenPlay sẽ tự bật với Windows và sẽ tự thiết lập bàn làm việc cho bạn.</translation>
+        <translation>Tự động bật</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="83"/>
         <source>High priority Autostart</source>
-        <translation type="unfinished">Tự đong bật ưu tiên cao</translation>
+        <translation>Tự động bật (ưu tiên cao)</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="86"/>
         <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-        <translation type="unfinished">Tùy chọn này làm ScreenPlay tự bật nhanh hơn các ư.d khác.</translation>
+        <translation>Lựa chọn này cho ScreenPlay khởi động nhanh hơn so với các ư.dụng khác.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="95"/>
         <source>Send anonymous crash reports and statistics</source>
-        <translation type="unfinished">Gửi báo cáo và thống kê sự cố ẩn danh</translation>
+        <translation>Gửi báo cáo lỗi ẩn danh và số liệu thống kê</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="96"/>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!</source>
-        <translation type="unfinished">Giúp chúng tôi làm ScreenPlay nhanh hơn và ổn định hơn. Mọi dữ liệu thu thập được là ẩn danh và chỉ dùng cho mục đích lập trình!</translation>
+        <translation>Giúp chúng tôi làm ScreenPlay nhanh hơn và ổn định hơn. Tất cả các dữ liệu thu thập được đều được ẩn danh tuyệt đối và chỉ sử dụng cho mục đích lập trình ư.d!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="105"/>
         <source>Set save location</source>
-        <translation type="unfinished">Đặt chỗ lưu</translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="110"/>
-        <source>Your storage path is empty!</source>
-        <translation type="unfinished"></translation>
+        <translation>Chọn chỗ lưu</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="116"/>
         <source>Set location</source>
-        <translation type="unfinished">Đặt</translation>
+        <translation>Chọn chỗ lưu</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="131"/>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation type="unfinished">Quan trọng: Thay đổi thư mục lưu ko có tác dụng với thư mục download của Workshop. ScreenPlay chỉ hỗ trợ có 1 nội dung 1 thư mục!</translation>
+        <translation>Quan trọng: Chỉnh cái này sẽ không làm thay đổi thư mục Workshop của steam. ScreenPlay chỉ hỗ trợ có một thư mục chứa nội dung!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="149"/>
         <source>Language</source>
-        <translation type="unfinished">Ngôn ngữ</translation>
+        <translation>Ngôn ngữ</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="150"/>
         <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished">Thay đổi ngôn ngữ của ScreenPlay</translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="165"/>
-        <source>English</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="168"/>
-        <source>German</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="171"/>
-        <source>Russian</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="174"/>
-        <source>French</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="177"/>
-        <source>Spanish</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="180"/>
-        <source>Korean</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="183"/>
-        <source>Vietnamese</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="191"/>
-        <source>Theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="192"/>
-        <source>Switch dark/light theme</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="206"/>
-        <source>System Default</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="209"/>
-        <source>Dark</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="212"/>
-        <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation>Chọn ngôn ngữ cho ScreenPlay</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="222"/>
         <source>Performance</source>
-        <translation type="unfinished">Hiệu suất</translation>
+        <translation>Hiệu năng</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="75"/>
+        <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
+        <translation>ScreenPlay sẽ tự động bật và tự thiết lập màn hình cho bạn.</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="110"/>
+        <source>Your storage path is empty!</source>
+        <translation>Đường dẫn lưu trữ trống!</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="165"/>
+        <source>English</source>
+        <translation>Tiếng Anh</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="168"/>
+        <source>German</source>
+        <translation>Tiếng Đức</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="171"/>
+        <source>Russian</source>
+        <translation>Tiếng Nga</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="174"/>
+        <source>French</source>
+        <translation>Tiếng Pháp</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="177"/>
+        <source>Spanish</source>
+        <translation>Tiếng Tây Ban Nha</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="180"/>
+        <source>Korean</source>
+        <translation>Tiếng Hàn Quốc</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="183"/>
+        <source>Vietnamese</source>
+        <translation>Tiếng Việt</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="191"/>
+        <source>Theme</source>
+        <translation>Chủ đề</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="192"/>
+        <source>Switch dark/light theme</source>
+        <translation>Chuyển giữa chủ đề tối/sáng</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="206"/>
+        <source>System Default</source>
+        <translation>Mặc định theo hệ thống</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="209"/>
+        <source>Dark</source>
+        <translation>Tối</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="212"/>
+        <source>Light</source>
+        <translation>Sáng</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="237"/>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Tạm dừng hiện video khi mà những ứng dụng khác đang toàn màn hình</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="238"/>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Pause wallpaper while ingame</source>
-        <translation type="obsolete">Tạm dừng ảnh nền khi đang trong game</translation>
-    </message>
-    <message>
-        <source>To maximise your framerates ingame, you can enable this setting to pause all active wallpapers!</source>
-        <translation type="obsolete">Để chơi game mượt mà hơn, bạn có thể bật tùy chọn này để tạm dừng mọi ảnh nền đang hoạt động!</translation>
+        <translation>Chúng tôi không hiện video (vẫn có âm thanh!) cho một hiệu năng tốt nhất. Nếu bạn gặp sự cố bạn có thể tắt tùy chọn này. Cần khởi động lại hình nền!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="248"/>
         <source>Default Fill Mode</source>
-        <translation type="unfinished">Chế độ để video mặc định</translation>
+        <translation>Chế độ phủ mặc định</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="249"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation type="unfinished">Đặt cái này để có thể biết được làm thế nào để video có tỉ lệ vừa với mục tiêu.</translation>
+        <translation>Đặt thuộc tính này để xác định cách chia tỷ lệ video để phù hợp với màn hình.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="261"/>
         <source>Stretch</source>
-        <translation type="unfinished"></translation>
+        <translation>Kéo dãn</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="264"/>
         <source>Fill</source>
-        <translation type="unfinished"></translation>
+        <translation>Lấp đầy</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="267"/>
         <source>Contain</source>
-        <translation type="unfinished"></translation>
+        <translation>Bên trong</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="270"/>
         <source>Cover</source>
-        <translation type="unfinished"></translation>
+        <translation>Bọc</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="273"/>
         <source>Scale-Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Giảm độ phân giải</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="283"/>
         <source>About</source>
-        <translation type="unfinished">Về ứng dụng</translation>
+        <translation>Về ứng dụng</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="311"/>
         <source>Thank you for using ScreenPlay</source>
-        <translation type="unfinished">Cảm ơn vì đã dùng ScreenPlay</translation>
+        <translation>Cảm ơn bạn đã sử dụng ScreenPlay</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="326"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation type="unfinished">Chào, tôi là Elias Steurer hay được biết đến là Kelteseth và tôi là người lập trình ư.d ScreenPlay. Cảm ơn bạn vì đã dùng ứng dụng của tôi. Bạn có thể theo dõi tôi để nhận những cập nhật về ScreenPlay tại đây</translation>
+        <translation>Chào, tôi là Elias Steurer (hay còn được biết đến là Kelteseth) và tôi là nhà phát triển của ScreenPlay. Cảm ơn ban đã sử dụng ứng dụng của tôi. Bạn có thể theo dõi tôi ở đây để nhận tin tức về ScreenPlay:</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="415"/>
         <source>Version</source>
-        <translation type="unfinished">Phiên bản</translation>
+        <translation>Phiên bản</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="416"/>
         <source>ScreenPlay Build Version </source>
-        <translation type="unfinished">Bản dựng của ScreenPlay </translation>
+        <translation>Bản dựng của ScreenPlay </translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="418"/>
         <source>Open Changelog</source>
-        <translation type="unfinished">Mở lịch sử thay đổi</translation>
+        <translation>Mở changelog</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="425"/>
         <source>Third Party Software</source>
-        <translation type="unfinished">Phần mềm của bên thứ ba</translation>
+        <translation>Những ứng dụng của bên thứ ba</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="426"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation type="unfinished">ScreenPlay sẽ ko thể thực hiện được nếu không có thành quả của người khác. Xin chân thành cảm ơn:[delete this] deleted user bc waifus are great</translation>
+        <translation>ScreenPlay sẽ không thể có được néu như không có việc làm của những người khác. Một sự cảm ơn to lớn cho: </translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="427"/>
         <source>Licenses</source>
-        <translation type="unfinished">Bản quyền</translation>
+        <translation>Giấy phép</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="445"/>
         <location filename="../qml/Settings/Settings.qml" line="447"/>
         <source>Debug Messages</source>
-        <translation type="unfinished">Tin nhắn gỡ lối</translation>
+        <translation>Các ghi chú gỡ lỗi</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="446"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation type="unfinished">Nếu ScreenPlay của bạn bị lỗi thì đây là một cách tốt để tìm câu trả lời. Ở đây xuất hiện tất cả các bản ghi và cảnh báo trong thời gian chạy.</translation>
+        <translation>Nếu ScreenPlay của bạn không hoạt động bình thường thì đây là cách tốt để tìm ra câu trả lời. Cái này sẽ hiện tất cả các ghi chú và cảnh báo trong lúc ứng dụng chạy.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="458"/>
         <source>Data Protection</source>
-        <translation type="unfinished">Bảo vệ dữ liệuliệu</translation>
+        <translation>Bảo vệ dữ liệu</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="459"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation type="unfinished">Chúng tôi dùng dữ liệu của bạn rất cẩn thận để cải tiến ScreenPlay. Chúng tôi ko bán hay chia sẻ đữ liệu (ẩn danh) với bên thứ 3</translation>
+        <translation>Chúng tôi dùng dữ liệu của bạn rất cẩn thận để cải thiện ScreenPlay. Chúng tôi không bán thông tin của bạn với người khác!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="460"/>
         <source>Privacy</source>
-        <translation type="unfinished">Quyền rieng tư</translation>
+        <translation>Quyền riêng tư</translation>
     </message>
 </context>
 <context>
@@ -1207,7 +921,7 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Settings/SettingsExpander.qml" line="51"/>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished">Sao chép chữ vào khay nhớ tạm</translation>
+        <translation>Sao chép vào khay nhớ tạm</translation>
     </message>
 </context>
 <context>
@@ -1215,119 +929,107 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="99"/>
         <source>Set Widget</source>
-        <translation type="unfinished"></translation>
+        <translation>Đặt tiện ích con</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="208"/>
         <source>Headline</source>
-        <translation type="unfinished">Tiêu đề</translation>
+        <translation>Tiêu đề</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="259"/>
         <source>Select a Monitor to display the content</source>
-        <translation type="unfinished">Chọn 1 cái màn hình để hiển thị nội dung</translation>
+        <translation>Chọn màn hình để hiển thị hình nền</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="294"/>
         <source>Set Volume</source>
-        <translation type="unfinished">Chỉnh âm lượng</translation>
+        <translation>Chỉnh âm lượng</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="304"/>
         <source>Fill Mode</source>
-        <translation type="unfinished">Chế độ tỉ lệ video</translation>
+        <translation>Chế độ phủ</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="327"/>
         <source>Stretch</source>
-        <translation type="unfinished"></translation>
+        <translation>Kéo dãn</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="330"/>
         <source>Fill</source>
-        <translation type="unfinished"></translation>
+        <translation>Lấp đầy</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="333"/>
         <source>Contain</source>
-        <translation type="unfinished"></translation>
+        <translation>Bên trong</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="336"/>
         <source>Cover</source>
-        <translation type="unfinished"></translation>
+        <translation>Bọc</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="339"/>
         <source>Scale-Down</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set wallpaper</source>
-        <translation type="obsolete">Dùng ảnh nền</translation>
+        <translation>Giảm độ phân giải</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="96"/>
         <source>Set Wallpaper</source>
-        <translation type="unfinished">Dùng ảnh nền</translation>
-    </message>
-    <message>
-        <source>Create Widget</source>
-        <translation type="obsolete">Tạo tiện ích</translation>
-    </message>
-    <message>
-        <source>Create Wallpaper</source>
-        <translation type="obsolete">Tạo ảnh nền</translation>
+        <translation>Chọn hình nền</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="89"/>
         <source>Project size: </source>
-        <translation type="unfinished"></translation>
+        <translation>Kích thước dự án: </translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="89"/>
         <source> MB</source>
-        <translation type="unfinished"></translation>
+        <translation>MB</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="95"/>
         <source>No description...</source>
-        <translation type="unfinished"></translation>
+        <translation>Không có mô tả...</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="237"/>
         <source>Click here if you like the content</source>
-        <translation type="unfinished"></translation>
+        <translation>Bấm vào đây nếu bạn thích nội dung này</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="251"/>
         <source>Click here if you do not like the content</source>
-        <translation type="unfinished"></translation>
+        <translation>Bấm vào đây nếu bạn không thích nội dung này</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="286"/>
         <source>Tags: </source>
-        <translation type="unfinished"></translation>
+        <translation>Từ khóa:</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="311"/>
         <source>Subscribtions: </source>
-        <translation type="unfinished"></translation>
+        <translation>Đăng ký: </translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="317"/>
         <source>Open In Steam</source>
-        <translation type="unfinished"></translation>
+        <translation>Mở trên Steam</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="360"/>
         <source>Subscribed!</source>
-        <translation type="unfinished"></translation>
+        <translation>Đã đăng ký!</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="360"/>
         <source>Subscribe</source>
-        <translation type="unfinished"></translation>
+        <translation>Đăng ký</translation>
     </message>
 </context>
 <context>
@@ -1335,22 +1037,22 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="12"/>
         <source>Save</source>
-        <translation type="unfinished">Lưu</translation>
+        <translation>Lưu</translation>
     </message>
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="15"/>
         <source>Add tag</source>
-        <translation type="unfinished">Thêm từ khóa</translation>
+        <translation>Thêm từ khóa</translation>
     </message>
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="109"/>
         <source>Cancel</source>
-        <translation type="unfinished">Hủy</translation>
+        <translation>Hủy</translation>
     </message>
     <message>
         <location filename="../qml/Common/TagSelector.qml" line="128"/>
         <source>Add Tag</source>
-        <translation type="unfinished">Thêm từ khóa</translation>
+        <translation>Thêm từ khóa</translation>
     </message>
 </context>
 <context>
@@ -1358,39 +1060,39 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="9"/>
         <source>ScreenPlay - Double click to change you settings.</source>
-        <translation type="unfinished">ScreenPlay - Bấm đúp chuột để thay đổi cài đặt.</translation>
+        <translation>ScreenPlay - Nhấn đúp để thay đổi cài đặt.</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="28"/>
         <source>Open ScreenPlay</source>
-        <translation type="unfinished">Mở ScreenPlay</translation>
+        <translation>Mở ScreenPlay</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="36"/>
         <location filename="../qml/Common/TrayIcon.qml" line="40"/>
         <source>Mute all</source>
-        <translation type="unfinished">Tắt tiếng tất cả</translation>
+        <translation>Tắt tiếng</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="45"/>
         <source>Unmute all</source>
-        <translation type="unfinished">Bặt tiếng tất cả</translation>
+        <translation>Bỏ tắt tiếng</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="54"/>
         <location filename="../qml/Common/TrayIcon.qml" line="58"/>
         <source>Pause all</source>
-        <translation type="unfinished">Tạm dừng tất cả</translation>
+        <translation>Tạm dừng</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="63"/>
         <source>Play all</source>
-        <translation type="unfinished">Chạy tất cả</translation>
+        <translation>Phát</translation>
     </message>
     <message>
         <location filename="../qml/Common/TrayIcon.qml" line="70"/>
         <source>Quit</source>
-        <translation type="unfinished">Thoát</translation>
+        <translation>Thoát</translation>
     </message>
 </context>
 <context>
@@ -1398,22 +1100,22 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="63"/>
         <source>Upload Wallpaper/Widgets to Steam</source>
-        <translation type="unfinished"></translation>
+        <translation>Tải hình nền/tiện ích con lên Steam</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="137"/>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation>Hủy</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="152"/>
         <source>Upload Projects</source>
-        <translation type="unfinished"></translation>
+        <translation>Tải dự án lên.</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="212"/>
         <source>Finish</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoàn thành</translation>
     </message>
 </context>
 <context>
@@ -1421,17 +1123,17 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="114"/>
         <source>Type: </source>
-        <translation type="unfinished"></translation>
+        <translation>Loại:</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="121"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Mở thư mục</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="141"/>
         <source>Invalid Project!</source>
-        <translation type="unfinished"></translation>
+        <translation>Loại dự án không hợp lệ!</translation>
     </message>
 </context>
 <context>
@@ -2022,82 +1724,84 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="151"/>
         <source>Loading</source>
-        <translation type="unfinished"></translation>
+        <translation>Đang tải</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="162"/>
         <source>Download now!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tải xuống ngay!</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="167"/>
         <source>Downloading...</source>
-        <translation type="unfinished"></translation>
+        <translation>Đang tải xuống...</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="174"/>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Chi tiết</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="198"/>
         <source>Open In Steam</source>
-        <translation type="unfinished"></translation>
+        <translation>Mở trên Steam</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="260"/>
         <source>Search for Wallpaper and Widgets...</source>
-        <translation type="unfinished"></translation>
+        <translation>Tìm hình nền &amp; cảnh...</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="296"/>
         <source>Ranked By Vote</source>
-        <translation type="unfinished"></translation>
+        <translation>Xếp hạng bởi số phiếu.</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="299"/>
         <source>Publication Date</source>
-        <translation type="unfinished"></translation>
+        <translation>Ngày tải lên</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="302"/>
         <source>Ranked By Trend</source>
-        <translation type="unfinished"></translation>
+        <translation>Xếp hạng bởi trend</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="305"/>
         <source>Favorited By Friends</source>
-        <translation type="unfinished"></translation>
+        <translation>Được yêu thích bởi bạn bè</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="308"/>
         <source>Created By Friends</source>
-        <translation type="unfinished"></translation>
+        <translation>Tạo bởi bạn bè</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="311"/>
         <source>Created By Followed Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Tạo bởi người đã theo dỗi</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="314"/>
         <source>Not Yet Rated</source>
-        <translation type="unfinished"></translation>
+        <translation>Chưa được xếp hạng</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="317"/>
         <source>Total VotesAsc</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>????</translatorcomment>
+        <translation></translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="320"/>
         <source>Votes Up</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>?????</translatorcomment>
+        <translation>Số phiếu đang lên cao</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="323"/>
         <source>Total Unique Subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Tổng số đăng ký duy nhất</translation>
     </message>
 </context>
 <context>
@@ -2105,17 +1809,17 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="185"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation>Tải xuống</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="303"/>
         <source>Successfully subscribed to Workshop Item!</source>
-        <translation type="unfinished"></translation>
+        <translation>Đăng ký thành công mục Workshop!</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="413"/>
         <source>Download complete!</source>
-        <translation type="unfinished"></translation>
+        <translation>Tải xuống thành công!</translation>
     </message>
 </context>
 <context>
@@ -2123,38 +1827,7 @@ if you installed ScreenPlay via Steam!
     <message>
         <location filename="../qml/Community/XMLNewsfeed.qml" line="53"/>
         <source>News &amp; Patchnotes</source>
-        <translation type="unfinished">Tin và ghi chú của bản vá</translation>
-    </message>
-</context>
-<context>
-    <name>main</name>
-    <message>
-        <source>ScreenPlay - Double click to change you settings.</source>
-        <translation type="obsolete">ScreenPlay - Bấm đúp chuột để thay đổi cài đặt.</translation>
-    </message>
-    <message>
-        <source>Open ScreenPlay</source>
-        <translation type="obsolete">Mở ScreenPlay</translation>
-    </message>
-    <message>
-        <source>Mute all</source>
-        <translation type="obsolete">Tắt tiếng tất cả</translation>
-    </message>
-    <message>
-        <source>Unmute all</source>
-        <translation type="obsolete">Bặt tiếng tất cả</translation>
-    </message>
-    <message>
-        <source>Pause all</source>
-        <translation type="obsolete">Tạm dừng tất cả</translation>
-    </message>
-    <message>
-        <source>Play all</source>
-        <translation type="obsolete">Chạy tất cả</translation>
-    </message>
-    <message>
-        <source>Quit</source>
-        <translation type="obsolete">Thoát</translation>
+        <translation>Tin tức &amp; Ghi chú</translation>
     </message>
 </context>
 </TS>

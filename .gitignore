@@ -73,6 +73,7 @@ Common/vcpkg/**
 *_qmlcache.qrc
 *.DS_Store
 /Common/vcpkg/
+Common/ffmpeg
 /Docs/html/screemplay.index
 
 #CMake
