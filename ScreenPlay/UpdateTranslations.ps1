@@ -26,7 +26,7 @@ foreach ($f in $files){
     echo "Processing $f (1/2)"
     Execute-Command -commandTitle "Update translation file: $f" -commandPath "$MSVCPATH\lupdate.exe" -commandArguments "-extensions qml ..\qml -ts $f" -commandWorkDir "translations"
     echo "Processing $f (2/2)"
-    Execute-Command -commandTitle "Process translation file: $f" -commandPath "$MSVCPATH\lrelease.exe" -commandArguments "$f" -commandWorkDir "translations"
+    Execute-Command -commandTitle "Compile translation file: $f" -commandPath "$MSVCPATH\lrelease.exe" -commandArguments "$f" -commandWorkDir "translations"
     echo "Done"
 }
 echo "Updated translations."
