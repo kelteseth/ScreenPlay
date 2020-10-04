@@ -70,6 +70,12 @@ Item {
                     }
 
                     ListElement {
+                        headline: "Website Wallpaper"
+                        source: "qrc:/qml/Create/Wizards/CreateHTMLWallpaper.qml"
+                        category: "Create Wallpaper"
+                    }
+
+                    ListElement {
                         headline: "QML Wallpaper"
                         source: "qrc:/qml/Create/Wizards/CreateQMLWallpaper.qml"
                         category: "Create Wallpaper"
@@ -107,12 +113,6 @@ Item {
 
                     ListElement {
                         headline: "QML Lightning Shader Wallpaper"
-                        source: ""
-                        category: "Example Wallpaper"
-                    }
-
-                    ListElement {
-                        headline: "HTML IFrame Wallpaper"
                         source: ""
                         category: "Example Wallpaper"
                     }
