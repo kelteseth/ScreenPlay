@@ -119,7 +119,8 @@ configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/as
 # install_dependencies_XXX for your system!
 if(WIN32)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffmpeg.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffmpeg.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/vcpkg/installed/x64-windows/tools/sentry-native/crashpad_handler.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 elseif(APPLE)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffmpeg ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
