@@ -1,5 +1,5 @@
 echo "Updating translations..."
-$MSVCPATH = Read-Host 'Type your ABSOLUTE MSVC "bin" directory (ex: F:\Qt\5.15.1\msvc2019_64\bin)'
+$MSVCPATH = Read-Host 'Type your ABSOLUTE Qt "bin" directory (ex: F:\Qt\5.15.1\msvc2019_64\bin)'
 echo "Begin update translations..."
 $files = Get-ChildItem ".\translations"
 foreach ($f in $files){
