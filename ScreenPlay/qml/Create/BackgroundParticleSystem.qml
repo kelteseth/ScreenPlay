@@ -8,7 +8,6 @@ import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
 
-import "Wizards/CreateWallpaper"
 
 Item {
     id: particleSystemWrapper
