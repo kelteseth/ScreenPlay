@@ -1,3 +1,0 @@
-Set your PowerShell execution policy using: Set-ExecutionPolicy Bypass (Run in Administrator)
-To get your current Execution Policy use: Get-ExecutionPolicy
-After that execute ./UpdateTranslations.ps1 in PowerShell and follow the tutorial.
