@@ -725,7 +725,7 @@
         <translation>Chọn ngôn ngữ cho ScreenPlay</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="222"/>
+        <location filename="../qml/Settings/Settings.qml" line="225"/>
         <source>Performance</source>
         <translation>Hiệu năng</translation>
     </message>
@@ -797,16 +797,7 @@
     <message>
         <location filename="../qml/Settings/Settings.qml" line="215"/>
         <source>Light</source>
-<<<<<<< HEAD
-        <translation>Sáng</translation>
-=======
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Settings/Settings.qml" line="225"/>
-        <source>Performance</source>
-        <translation type="unfinished">Hiệu suất</translation>
->>>>>>> 3f4538e5af4aa747ec93387b1335aba2613cd473
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="240"/>
