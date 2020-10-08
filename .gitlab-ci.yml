@@ -26,7 +26,7 @@ build:windows:
         paths:
             - Common\vcpkg\
     script:
-        - call install_dependencies_windows.bat
+        - cmd /c install_dependencies_windows.bat
         - mkdir BUILD_WINDOWS
         - cd BUILD_WINDOWS
         - cmake.exe ../  -DCMAKE_PREFIX_PATH=c:/Qt/5.15.1/msvc2019 -DCMAKE_IGNORE_PATH=C:/Strawberry/c/bin -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE="$(Get-Location)/../Common/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows "-GCodeBlocks - Ninja" -B.
