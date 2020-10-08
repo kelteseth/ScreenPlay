@@ -14,24 +14,21 @@ vcpkg.exe install openssl  sentry-native  --triplet x64-windows --recurse
 cd ..
 cd ..
 
+rem Download 7-zip
+curl.exe -L https://www.7-zip.org/a/7z1900.msi --ssl-no-revoke --output 7z.msi
+rem Extract 7z
+msiexec /a 7z.msi /qb TARGETDIR="%cd%\7z"
+
 rem Donwload ffmpeg
-curl.exe -L https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full-shared.zip --ssl-no-revoke --output ffmpeg.zip
-
-rem Extract ffmpeg. Needs Windows 10 build 17063 or higher!
-rem We only need the content of the bin folder
-mkdir ffmpeg_tmp
-tar -xvf ffmpeg.zip -C ffmpeg_tmp
-
-timeout 3 > NUL
-rem Copy to Common folder
-mkdir Common\ffmpeg
-move "ffmpeg_tmp\ffmpeg-*" "ffmpeg_tmp\ffmpeg"
-robocopy ffmpeg_tmp\ffmpeg\bin Common\ffmpeg /E
+curl.exe -L https://www.gyan.dev/ffmpeg/builds/ffmpeg-release-full-shared.7z --ssl-no-revoke --output ffmpeg.7z
+rem Extract ffmpeg
+"%cd%\7z\Files\7-Zip\7z.exe" e -y ffmpeg.7z -o"%cd%\Common\ffmpeg" *.exe *.dll -r
 
 rem Remove not used ffplay
 DEL Common\ffmpeg\ffplay.exe
 
 rem Deleting FFmpeg temp
-DEL ffmpeg.zip
-rmdir ffmpeg_tmp /s /q
+DEL ffmpeg.7z
+DEL 7z.msi
+rmdir 7z /s /q
 pause
