@@ -12,12 +12,27 @@ Item {
     id: root
     anchors.fill: parent
 
+    Text {
+        color: Material.primaryTextColor
+        anchors {
+            top: parent.top
+            right: parent.right
+            bottom: footer.top
+            left: parent.left
+            margins: 20
+        }
+        font.pointSize: 14
+        font.family: ScreenPlay.settings.font
+        text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
+                Aenean massa. \n\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. "
+    }
+
     Row {
+        id: footer
         height: 50
         anchors {
-            right: parent.right
+            horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
-            left: parent.left
         }
 
         spacing: 20

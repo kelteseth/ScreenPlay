@@ -31,12 +31,16 @@ Item {
 
     Item {
         id: wizardContentWrapper
+        state: ""
+        Component.onCompleted: wizardContentWrapper.state = "in"
+        width: parent.width - (sidebar.width + (anchors.margins * 2))
+        height: parent.height - (anchors.margins * 2)
+        opacity: 0
         anchors {
             margins: 20
             top: parent.top
             right: parent.right
-            bottom: parent.bottom
-            left: sidebar.right
+            topMargin: 200
         }
 
         Rectangle {
@@ -70,9 +74,38 @@ Item {
                     }
                 }
             }
-
-
         }
+
+        states: [
+            State {
+                name: "in"
+                PropertyChanges {
+                    target: wizardContentWrapper
+                    anchors.topMargin: wizardContentWrapper.anchors.margins
+                    opacity: 1
+                }
+            }
+        ]
+        transitions: [
+            Transition {
+                from: ""
+                to: "in"
+                reversible: true
+                SequentialAnimation {
+
+                    PropertyAnimation {
+                        target: wizardContentWrapper
+                        duration: 400
+                        easing.type: Easing.InOutQuart
+                        properties: "anchors.topMargin, opacity"
+                    }
+
+                    ScriptAction {
+                        script: wizardContentWrapper.anchors.left = sidebar.right
+                    }
+                }
+            }
+        ]
     }
 }
 
