@@ -3,17 +3,23 @@ import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
-
+import QtQuick.Controls.Material.impl 2.12
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
 
 Item {
-    id: footer
-    height: 60
+    id: root
+    anchors.fill: parent
 
     Row {
-        anchors.centerIn: parent
+        height: 50
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+            left: parent.left
+        }
+
         spacing: 20
         Button {
             text: qsTr("QML Quickstart Guide")
@@ -45,14 +51,13 @@ Item {
             icon.color: "white"
             icon.width: 16
             icon.height: 16
-            onClicked: Qt.openUrlExternally(
-                           "https://forum.screen-play.app/")
+            onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
         }
         Button {
             text: qsTr("Workshop")
             Material.background: Material.Red
             Material.foreground: "white"
-            
+
             icon.source: "qrc:/assets/icons/icon_steam.svg"
             icon.color: "white"
             icon.width: 16

@@ -13,6 +13,9 @@ import "../../Common"
 Item {
     id: root
 
+    signal wizardStarted
+    signal wizardExited
+
     SwipeView {
         id: swipeView
         anchors.fill: parent
@@ -72,7 +75,10 @@ Item {
                     margins: 20
                 }
                 font.family: ScreenPlay.settings.font
-                onClicked: swipeView.incrementCurrentIndex()
+                onClicked: {
+                    root.wizardStarted()
+                    swipeView.incrementCurrentIndex()
+                }
             }
         }
         Item {
@@ -217,8 +223,8 @@ Item {
                     Material.foreground: "white"
                     font.family: ScreenPlay.settings.font
                     onClicked: {
-                        ScreenPlay.util.setNavigationActive(true)
-                        ScreenPlay.util.setNavigation("Create")
+                        swipeView.decrementCurrentIndex()
+                        root.wizardExited()
                     }
                 }
 
@@ -269,8 +275,7 @@ Item {
             interval: 1000 + Math.random() * 1000
             onTriggered: {
                 savePopup.close()
-                ScreenPlay.util.setNavigationActive(true)
-                ScreenPlay.util.setNavigation("Installed")
+                root.wizardExited()
             }
         }
     }

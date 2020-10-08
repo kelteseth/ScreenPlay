@@ -19,9 +19,13 @@ Rectangle {
     layer.effect: ElevationEffect {
         elevation: 6
     }
-    property bool expanded: true
+    property bool expanded: false
+    Component.onCompleted: expanded = true
     color: Material.theme === Material.Dark ? Qt.darker(
                                                   Material.background) : Material.background
+
+    property alias listView: listView
+    property alias model: listView.model
 
     ListView {
         id: listView
@@ -49,13 +53,13 @@ Rectangle {
             }
 
             ListElement {
-                headline: "Html Wallpaper"
+                headline: "HTML5 Wallpaper"
                 source: "qrc:/qml/Create/Wizards/CreateHTMLWallpaper.qml"
                 category: "Create Wallpaper"
             }
 
             ListElement {
-                headline: "Website Wallpaper"
+                headline: "Embedded Website Wallpaper"
                 source: "qrc:/qml/Create/Wizards/CreateHTMLWallpaper.qml"
                 category: "Create Wallpaper"
             }

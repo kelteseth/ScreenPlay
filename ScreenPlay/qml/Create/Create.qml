@@ -54,35 +54,24 @@ Item {
             Loader {
                 id: loader
                 onLoaded: loaderConnections.target = loader.item
+                source: "qrc:/qml/Create/StartInfo.qml"
                 anchors {
-                    top: parent.top
-                    bottom: footer.top
-                    left: parent.left
-                    right: parent.right
+                    fill: parent
                     margins: 20
                 }
                 Connections {
-                    id:loaderConnections
+                    id: loaderConnections
                     ignoreUnknownSignals: true
-                    function onWizardStarted(){
+                    function onWizardStarted() {
                         sidebar.expanded = false
                     }
-                    function onWizardExited(){
+                    function onWizardExited() {
                         sidebar.expanded = true
-                        loader.source = ""
-
                     }
                 }
             }
 
-            Footer {
-                id: footer
-                anchors {
-                    left: parent.left
-                    right: parent.right
-                    bottom: parent.bottom
-                }
-            }
+
         }
     }
 }

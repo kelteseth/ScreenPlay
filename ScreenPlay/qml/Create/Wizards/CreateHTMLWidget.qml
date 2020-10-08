@@ -12,6 +12,9 @@ Item {
     id: root
     function cleanup() {}
 
+    signal wizardStarted
+    signal wizardExited
+
     Text {
         id: txtHeadline
         text: qsTr("Create an empty widget")
@@ -207,8 +210,7 @@ Item {
                     Material.background: Material.Red
                     Material.foreground: "white"
                     onClicked: {
-                        ScreenPlay.util.setNavigationActive(true)
-                        ScreenPlay.util.setNavigation("Create")
+                        root.wizardExited()
                     }
                 }
             }
@@ -241,8 +243,7 @@ Item {
             interval: 1000 + Math.random() * 1000
             onTriggered: {
                 savePopup.close()
-                ScreenPlay.util.setNavigationActive(true)
-                ScreenPlay.util.setNavigation("Installed")
+                root.wizardExited()
             }
         }
     }

@@ -3,7 +3,7 @@
         <file>main.qml</file>
         <file>qml/Create/Create.qml</file>
         <file>qml/Create/Wizard.qml</file>
-        <file>qml/Create/Footer.qml</file>
+        <file>qml/Create/StartInfo.qml</file>
         <file>qml/Create/BackgroundParticleSystem.qml</file>
         <file>qml/Installed/Installed.qml</file>
         <file>qml/Installed/ScreenPlayItem.qml</file>
