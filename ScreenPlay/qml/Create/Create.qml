@@ -20,237 +20,69 @@ Item {
         anchors.fill: parent
     }
 
-    RowLayout {
-        id: wrapper
-        spacing: 0
-        height: parent.height
+    Sidebar {
+        id: sidebar
         anchors {
             top: parent.top
-            right: parent.right
             left: parent.left
             bottom: parent.bottom
         }
+    }
+
+    Item {
+        id: wizardContentWrapper
+        anchors {
+            margins: 20
+            top: parent.top
+            right: parent.right
+            bottom: parent.bottom
+            left: sidebar.right
+        }
 
         Rectangle {
-            id: wizardListWrapper
-            Layout.fillHeight: true
-            Layout.preferredWidth: parent.width * 0.25
-            color: Material.theme === Material.Dark ? Qt.darker(
-                                                          Material.background) : Material.background
-
-            ListView {
-                id: listView
-                anchors.fill: parent
-                anchors.margins: 20
-                spacing: 20
-                model: ListModel {
-
-                    ListElement {
-                        headline: "Video import & convert (all types)"
-                        source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
-                        category: "Video Import"
-                    }
-
-                    ListElement {
-                        headline: "Video Import native video (.webm)"
-                        source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
-                        category: "Video Import"
-                    }
-
-                    ListElement {
-                        headline: "GIF Import"
-                        source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
-                        category: "Video Import"
-                    }
-
-                    ListElement {
-                        headline: "Html Wallpaper"
-                        source: "qrc:/qml/Create/Wizards/CreateHTMLWallpaper.qml"
-                        category: "Create Wallpaper"
-                    }
-
-                    ListElement {
-                        headline: "Website Wallpaper"
-                        source: "qrc:/qml/Create/Wizards/CreateHTMLWallpaper.qml"
-                        category: "Create Wallpaper"
-                    }
-
-                    ListElement {
-                        headline: "QML Wallpaper"
-                        source: "qrc:/qml/Create/Wizards/CreateQMLWallpaper.qml"
-                        category: "Create Wallpaper"
-                    }
-
-                    ListElement {
-                        headline: "QML Widget"
-                        source: "qrc:/qml/Create/Wizards/CreateQMLWidget.qml"
-                        category: "Create Widget"
-                    }
-
-                    ListElement {
-                        headline: "HTML Widget"
-                        source: "qrc:/qml/Create/Wizards/CreateHTMLWidget.qml"
-                        category: "Create Widget"
-                    }
-
-                    ListElement {
-                        headline: "QML Particle Wallpaper"
-                        source: ""
-                        category: "Example Wallpaper"
-                    }
-
-                    ListElement {
-                        headline: "QML Water Shader Wallpaper"
-                        source: ""
-                        category: "Example Wallpaper"
-                    }
-
-                    ListElement {
-                        headline: "QML Shadertoy Shader Wallpaper"
-                        source: ""
-                        category: "Example Wallpaper"
-                    }
-
-                    ListElement {
-                        headline: "QML Lightning Shader Wallpaper"
-                        source: ""
-                        category: "Example Wallpaper"
-                    }
-
-                    ListElement {
-                        headline: "Clock Widget"
-                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                        category: "Example Widget"
-                    }
-
-                    ListElement {
-                        headline: "CPU Widget"
-                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                        category: "Example Widget"
-                    }
-
-                    ListElement {
-                        headline: "Storage Widget"
-                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                        category: "Example Widget"
-                    }
-
-                    ListElement {
-                        headline: "RAM Widget"
-                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                        category: "Example Widget"
-                    }
-
-                    ListElement {
-                        headline: "XKCD Widget"
-                        source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                        category: "Example Widget"
-                    }
-                }
-
-                ScrollBar.vertical: ScrollBar {
-                    snapMode: ScrollBar.SnapOnRelease
-                    policy: ScrollBar.AlwaysOn
-                }
-                // snapMode: ListView.SnapToItem
-                section.property: "category"
-                section.delegate: Item {
-                    height: 60
-                    Text {
-                        verticalAlignment: Qt.AlignVCenter
-                        anchors {
-                            top: parent.top
-                            bottom: parent.bottom
-                            left: parent.left
-                            leftMargin: 20
-                        }
-                        font.pointSize: 18
-
-                        color: Material.primaryTextColor
-                        text: section
-                    }
-                }
-
-                delegate: ItemDelegate {
-                    id: listItem
-                    width: listView.width - 40
-                    height: 45
-                    highlighted: ListView.isCurrentItem
-                    onClicked: {
-                        listView.currentIndex = index
-                        loader.source = source
-                    }
-                    background: Rectangle {
-                        radius: 3
-                        layer.enabled: true
-                        layer.effect: ElevationEffect {
-                            elevation: listItem.highlighted ? 6 : 1
-                        }
-                        color: {
-                            if (Material.theme === Material.Light) {
-                                return listItem.highlighted ? Material.accentColor : "white"
-                            } else {
-                                return listItem.highlighted ? Material.accentColor : Material.background
-                            }
-                        }
-                        Behavior on color {
-                            PropertyAnimation {
-                                property: "color"
-                                duration: 200
-                                easing.type: Easing.InOutQuart
-                            }
-                        }
-                    }
-
-                    Text {
-                        verticalAlignment: Qt.AlignVCenter
-                        color: Material.primaryTextColor
-                        text: headline
-                        anchors {
-                            top: parent.top
-                            bottom: parent.bottom
-                            left: parent.left
-                            leftMargin: 20
-                        }
-                        font.pointSize: 11
-                    }
-                }
+            radius: 4
+            layer.enabled: true
+            layer.effect: ElevationEffect {
+                elevation: 6
             }
-        }
-        Item {
-            id: wizardContentWrapper
-            Layout.fillHeight: true
-            Layout.preferredWidth: parent.width * 0.75
+            color: Material.theme === Material.Light ? "white" : Material.background
+            anchors {
+                fill: parent
+                margins: 20
+            }
 
-            Rectangle {
-                radius: 4
-                layer.enabled: true
-                layer.effect: ElevationEffect {
-                    elevation: 6
-                }
-                color: Material.theme === Material.Light ? "white" : Material.background
+            Loader {
+                id: loader
+                onLoaded: loaderConnections.target = loader.item
                 anchors {
-                    fill: parent
+                    top: parent.top
+                    bottom: footer.top
+                    left: parent.left
+                    right: parent.right
                     margins: 20
                 }
-                Loader {
-                    id: loader
-                    anchors.top: parent.top
-                    anchors.bottom: footer.top
-                    anchors.left: parent.left
-                    anchors.right: parent.right
-                    anchors.margins: 20
-                }
+                Connections {
+                    id:loaderConnections
+                    ignoreUnknownSignals: true
+                    function onWizardStarted(){
+                        sidebar.expanded = false
+                    }
+                    function onWizardExited(){
+                        sidebar.expanded = true
+                        loader.source = ""
 
-                Footer {
-                    id: footer
-                    anchors.bottom: parent.bottom
-                    anchors.left: parent.left
-                    anchors.right: parent.right
+                    }
                 }
             }
 
-
+            Footer {
+                id: footer
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    bottom: parent.bottom
+                }
+            }
         }
     }
 }

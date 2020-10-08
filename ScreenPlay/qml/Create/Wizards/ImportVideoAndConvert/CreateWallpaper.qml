@@ -14,6 +14,8 @@ Item {
     id: root
     property string filePath
 
+    signal wizardStarted
+    signal wizardExited
     signal next
 
     SwipeView {
@@ -24,14 +26,18 @@ Item {
 
         CreateWallpaperCodec {
             onNext: {
+                root.wizardStarted()
                 swipeView.currentIndex = 1
                 ScreenPlay.create.createWallpaperStart(filePath,codec)
             }
             onCodecChanged:createWallpaperVideoImportConvert.codec = codec
+            onVideoImportConvertFileSelected: root.filePath = projectFile
         }
         CreateWallpaperVideoImportConvert {
             id:createWallpaperVideoImportConvert
             filePath: root.filePath
+            onAbort:root.wizardExited()
+
         }
         CreateWallpaperResult {}
     }

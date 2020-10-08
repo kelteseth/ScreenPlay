@@ -8,11 +8,9 @@ import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
 
-Rectangle {
+Item {
     id: footer
     height: 60
-    z: 100
-    color: Material.background
 
     Row {
         anchors.centerIn: parent

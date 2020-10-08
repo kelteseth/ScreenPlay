@@ -4,7 +4,7 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
 import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.12
-import QtWebEngine 1.8
+import QtQuick.Dialogs 1.3
 
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
@@ -16,33 +16,17 @@ Item {
 
     property var codec: Create.VP8
 
+    signal videoImportConvertFileSelected(var videoFile)
+
+
     signal next
-
-    Timer {
-        running: true
-        interval: 1000
-        onTriggered: webView.url
-                     = "https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance"
-    }
-
-    WebEngineView {
-        id: webView
-        backgroundColor: "gray"
-        width: parent.width * .66
-        anchors {
-            margins: 20
-            top: parent.top
-            left: parent.left
-            bottom: parent.bottom
-        }
-    }
 
     Column {
         spacing: 10
 
         anchors {
             top: parent.top
-            left: webView.right
+            left: parent.left
             bottom: parent.bottom
             right: parent.right
             margins: 40
@@ -116,7 +100,6 @@ Item {
         onClicked: Qt.openUrlExternally(
                        "https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
         anchors {
-            left: webView.right
             bottom: parent.bottom
             margins: 20
         }
@@ -126,7 +109,19 @@ Item {
         highlighted: true
         font.family: ScreenPlay.settings.font
         onClicked: {
-            root.next()
+            fileDialogImportVideo.open()
+        }
+
+
+        FileDialog {
+            id: fileDialogImportVideo
+            nameFilters: ["Video files (*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv)"]
+
+            onAccepted: {
+                videoImportConvertFileSelected(
+                            fileDialogImportVideo.currentFile)
+                root.next()
+            }
         }
 
         anchors {
@@ -135,6 +130,8 @@ Item {
             margins: 20
         }
     }
+
+
 }
 
 /*##^##

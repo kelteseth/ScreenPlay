@@ -11,12 +11,13 @@ import ScreenPlay.Create 1.0
 import "../../../Common"
 
 Item {
-    id: wrapperContent
+    id: root
 
     property bool conversionFinishedSuccessful: false
     property bool canSave: false
     property var codec: Create.VP8
     property string filePath
+    signal abort
 
     onFilePathChanged: {
         textFieldName.text = basename(filePath)
@@ -32,7 +33,7 @@ Item {
         return filename
     }
 
-    onCanSaveChanged: wrapperContent.checkCanSave()
+    onCanSaveChanged: root.checkCanSave()
     signal save
 
     function checkCanSave() {
@@ -89,7 +90,7 @@ Item {
                 txtConvert.text = ""
                 conversionFinishedSuccessful = true
                 busyIndicator.running = false
-                wrapperContent.checkCanSave()
+                root.checkCanSave()
 
                 ScreenPlay.setTrackerSendEvent("createWallpaperSuccessful", "")
                 break
@@ -128,7 +129,7 @@ Item {
 
     Item {
         id: wrapperLeft
-        width: parent.width * .5
+        width: parent.width * .66
         anchors {
             left: parent.left
             top: txtHeadline.bottom
@@ -232,7 +233,7 @@ Item {
     }
     Item {
         id: wrapperRight
-        width: parent.width * .5
+        width: parent.width * .33
         anchors {
             top: txtHeadline.bottom
             topMargin: 30
@@ -311,9 +312,8 @@ Item {
                 Material.foreground: "white"
                 font.family: ScreenPlay.settings.font
                 onClicked: {
+                    root.abort()
                     ScreenPlay.create.abortAndCleanup()
-                    ScreenPlay.util.setNavigationActive(true)
-                    ScreenPlay.util.setNavigation("Create")
                 }
             }
 
@@ -331,7 +331,7 @@ Item {
                         ScreenPlay.create.saveWallpaper(
                                     textFieldName.text,
                                     textFieldDescription.text,
-                                    wrapperContent.filePath,
+                                    root.filePath,
                                     previewSelector.imageSource,
                                     textFieldYoutubeURL.text, codec,
                                     textFieldTags.getTags())

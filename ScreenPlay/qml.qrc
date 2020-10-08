@@ -71,5 +71,6 @@
         <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperCodec.qml</file>
         <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml</file>
         <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml</file>
+        <file>qml/Create/Sidebar.qml</file>
     </qresource>
 </RCC>
