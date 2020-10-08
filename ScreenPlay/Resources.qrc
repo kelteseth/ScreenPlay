@@ -82,13 +82,6 @@
         <file>assets/wizards/example_html.png</file>
         <file>assets/wizards/example_qml.png</file>
         <file>assets/images/undraw_static_website_0107.svg</file>
-        <file>translations/ScreenPlay_de.qm</file>
-        <file>translations/ScreenPlay_en.qm</file>
-        <file>translations/ScreenPlay_es.qm</file>
-        <file>translations/ScreenPlay_fr.qm</file>
-        <file>translations/ScreenPlay_ru.qm</file>
-        <file>translations/ScreenPlay_ko.qm</file>
-        <file>translations/ScreenPlay_vi.qm</file>
         <file>assets/licenses/Apache2.txt</file>
         <file>assets/licenses/OFL.txt</file>
         <file>legal/DataProtection.txt</file>
@@ -115,5 +108,13 @@
         <file>assets/images/mask_workshop.png</file>
         <file>assets/images/Untitled.png</file>
         <file>assets/images/window.svg</file>
+        <file>translations/ScreenPlay_zh_cn.qm</file>
+        <file>translations/ScreenPlay_de.qm</file>
+        <file>translations/ScreenPlay_en.qm</file>
+        <file>translations/ScreenPlay_es.qm</file>
+        <file>translations/ScreenPlay_fr.qm</file>
+        <file>translations/ScreenPlay_ko.qm</file>
+        <file>translations/ScreenPlay_ru.qm</file>
+        <file>translations/ScreenPlay_vi.qm</file>
     </qresource>
 </RCC>

@@ -60,8 +60,9 @@
 #include "src/util.h"
 
 #include "ganalytics.h"
+#ifdef Q_OS_WIN
 #include <sentry.h>
-
+#endif
 class ScreenPlayWorkshopPlugin;
 
 namespace ScreenPlay {

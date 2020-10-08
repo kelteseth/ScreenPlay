@@ -750,168 +750,182 @@
         <translation>Tiếng Đức</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="171"/>
+        <location filename="../qml/Settings/Settings.qml" line="174"/>
         <source>Russian</source>
         <translation>Tiếng Nga</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="174"/>
+        <location filename="../qml/Settings/Settings.qml" line="177"/>
         <source>French</source>
         <translation>Tiếng Pháp</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="177"/>
+        <location filename="../qml/Settings/Settings.qml" line="180"/>
         <source>Spanish</source>
         <translation>Tiếng Tây Ban Nha</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="180"/>
+        <location filename="../qml/Settings/Settings.qml" line="183"/>
         <source>Korean</source>
         <translation>Tiếng Hàn Quốc</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="183"/>
+        <location filename="../qml/Settings/Settings.qml" line="186"/>
         <source>Vietnamese</source>
         <translation>Tiếng Việt</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="191"/>
+        <location filename="../qml/Settings/Settings.qml" line="194"/>
         <source>Theme</source>
         <translation>Chủ đề</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="192"/>
+        <location filename="../qml/Settings/Settings.qml" line="195"/>
         <source>Switch dark/light theme</source>
         <translation>Chuyển giữa chủ đề tối/sáng</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="206"/>
+        <location filename="../qml/Settings/Settings.qml" line="209"/>
         <source>System Default</source>
         <translation>Mặc định theo hệ thống</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="209"/>
+        <location filename="../qml/Settings/Settings.qml" line="212"/>
         <source>Dark</source>
         <translation>Tối</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="212"/>
+        <location filename="../qml/Settings/Settings.qml" line="215"/>
         <source>Light</source>
+<<<<<<< HEAD
         <translation>Sáng</translation>
+=======
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="237"/>
+        <location filename="../qml/Settings/Settings.qml" line="225"/>
+        <source>Performance</source>
+        <translation type="unfinished">Hiệu suất</translation>
+>>>>>>> 3f4538e5af4aa747ec93387b1335aba2613cd473
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="240"/>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
         <translation>Tạm dừng hiện video khi mà những ứng dụng khác đang toàn màn hình</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="238"/>
+        <location filename="../qml/Settings/Settings.qml" line="241"/>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
         <translation>Chúng tôi không hiện video (vẫn có âm thanh!) cho một hiệu năng tốt nhất. Nếu bạn gặp sự cố bạn có thể tắt tùy chọn này. Cần khởi động lại hình nền!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="248"/>
+        <location filename="../qml/Settings/Settings.qml" line="171"/>
+        <source>Chinese - Simplified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="251"/>
         <source>Default Fill Mode</source>
         <translation>Chế độ phủ mặc định</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="249"/>
+        <location filename="../qml/Settings/Settings.qml" line="252"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
         <translation>Đặt thuộc tính này để xác định cách chia tỷ lệ video để phù hợp với màn hình.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="261"/>
+        <location filename="../qml/Settings/Settings.qml" line="264"/>
         <source>Stretch</source>
         <translation>Kéo dãn</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="264"/>
+        <location filename="../qml/Settings/Settings.qml" line="267"/>
         <source>Fill</source>
         <translation>Lấp đầy</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="267"/>
+        <location filename="../qml/Settings/Settings.qml" line="270"/>
         <source>Contain</source>
         <translation>Bên trong</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="270"/>
+        <location filename="../qml/Settings/Settings.qml" line="273"/>
         <source>Cover</source>
         <translation>Bọc</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="273"/>
+        <location filename="../qml/Settings/Settings.qml" line="276"/>
         <source>Scale-Down</source>
         <translation>Giảm độ phân giải</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="283"/>
+        <location filename="../qml/Settings/Settings.qml" line="286"/>
         <source>About</source>
         <translation>Về ứng dụng</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="311"/>
+        <location filename="../qml/Settings/Settings.qml" line="314"/>
         <source>Thank you for using ScreenPlay</source>
         <translation>Cảm ơn bạn đã sử dụng ScreenPlay</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="326"/>
+        <location filename="../qml/Settings/Settings.qml" line="329"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
         <translation>Chào, tôi là Elias Steurer (hay còn được biết đến là Kelteseth) và tôi là nhà phát triển của ScreenPlay. Cảm ơn ban đã sử dụng ứng dụng của tôi. Bạn có thể theo dõi tôi ở đây để nhận tin tức về ScreenPlay:</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="415"/>
+        <location filename="../qml/Settings/Settings.qml" line="418"/>
         <source>Version</source>
         <translation>Phiên bản</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="416"/>
+        <location filename="../qml/Settings/Settings.qml" line="419"/>
         <source>ScreenPlay Build Version </source>
         <translation>Bản dựng của ScreenPlay </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="418"/>
+        <location filename="../qml/Settings/Settings.qml" line="421"/>
         <source>Open Changelog</source>
         <translation>Mở changelog</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="425"/>
+        <location filename="../qml/Settings/Settings.qml" line="428"/>
         <source>Third Party Software</source>
         <translation>Những ứng dụng của bên thứ ba</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="426"/>
+        <location filename="../qml/Settings/Settings.qml" line="429"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation>ScreenPlay sẽ không thể có được néu như không có việc làm của những người khác. Một sự cảm ơn to lớn cho: </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="427"/>
+        <location filename="../qml/Settings/Settings.qml" line="430"/>
         <source>Licenses</source>
         <translation>Giấy phép</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="445"/>
-        <location filename="../qml/Settings/Settings.qml" line="447"/>
+        <location filename="../qml/Settings/Settings.qml" line="448"/>
+        <location filename="../qml/Settings/Settings.qml" line="450"/>
         <source>Debug Messages</source>
         <translation>Các ghi chú gỡ lỗi</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="446"/>
+        <location filename="../qml/Settings/Settings.qml" line="449"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation>Nếu ScreenPlay của bạn không hoạt động bình thường thì đây là cách tốt để tìm ra câu trả lời. Cái này sẽ hiện tất cả các ghi chú và cảnh báo trong lúc ứng dụng chạy.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="458"/>
+        <location filename="../qml/Settings/Settings.qml" line="461"/>
         <source>Data Protection</source>
         <translation>Bảo vệ dữ liệu</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="459"/>
+        <location filename="../qml/Settings/Settings.qml" line="462"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation>Chúng tôi dùng dữ liệu của bạn rất cẩn thận để cải thiện ScreenPlay. Chúng tôi không bán thông tin của bạn với người khác!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="460"/>
+        <location filename="../qml/Settings/Settings.qml" line="463"/>
         <source>Privacy</source>
         <translation>Quyền riêng tư</translation>
     </message>
