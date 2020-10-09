@@ -4,13 +4,9 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
-import Qt.labs.platform 1.0
 
 import ScreenPlay 1.0
 import Settings 1.0
-
-import ScreenPlay.Shader 1.0
-import "ShaderWrapper" as ShaderWrapper
 
 import "qml/"
 import "qml/Monitors" as Monitors
