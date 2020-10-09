@@ -15,13 +15,9 @@ Item {
     id: root
     anchors.fill: parent
 
-    BackgroundParticleSystem {
-        id: particleSystemWrapper
-        anchors.fill: parent
-    }
-
     Sidebar {
         id: sidebar
+        stackView: stackView
         anchors {
             top: parent.top
             left: parent.left
@@ -37,7 +33,7 @@ Item {
         height: parent.height - (anchors.margins * 2)
         opacity: 0
         anchors {
-            margins: 20
+            margins: 10
             top: parent.top
             right: parent.right
             topMargin: 200
@@ -52,26 +48,57 @@ Item {
             color: Material.theme === Material.Light ? "white" : Material.background
             anchors {
                 fill: parent
-                margins: 20
+                margins: 10
             }
 
-            Loader {
-                id: loader
-                onLoaded: loaderConnections.target = loader.item
-                source: "qrc:/qml/Create/StartInfo.qml"
+            StackView {
+                id: stackView
+                pushEnter: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 300
+                    }
+                    PropertyAnimation {
+                        property: "scale"
+                        from: 0.3
+                        to: 1
+                        duration: 300
+                    }
+                    XAnimator {
+                        from: (stackView.mirrored ? -1 : 1) * -stackView.width
+                        to: 0
+                        duration: 400
+                        easing.type: Easing.OutCubic
+                    }
+                }
+
+                pushExit: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 1
+                        to: 0
+                        duration: 250
+                    }
+                    XAnimator {
+                        from: 0
+                        to: (stackView.mirrored ? -1 : 1)
+                        duration: 400
+                        easing.type: Easing.OutCubic
+                    }
+
+                    PropertyAnimation {
+                        property: "scale"
+                        from: 1
+                        to: .3
+                        duration: 300
+                    }
+                }
+
                 anchors {
                     fill: parent
                     margins: 20
-                }
-                Connections {
-                    id: loaderConnections
-                    ignoreUnknownSignals: true
-                    function onWizardStarted() {
-                        sidebar.expanded = false
-                    }
-                    function onWizardExited() {
-                        sidebar.expanded = true
-                    }
                 }
             }
         }
@@ -96,12 +123,15 @@ Item {
                     PropertyAnimation {
                         target: wizardContentWrapper
                         duration: 400
-                        easing.type: Easing.InOutQuart
+                        easing.type: Easing.OutCubic
                         properties: "anchors.topMargin, opacity"
                     }
 
                     ScriptAction {
-                        script: wizardContentWrapper.anchors.left = sidebar.right
+                        script: {
+                            wizardContentWrapper.anchors.left = sidebar.right
+                            stackView.push("qrc:/qml/Create/StartInfo.qml")
+                        }
                     }
                 }
             }

@@ -21,17 +21,17 @@ Rectangle {
     }
     property bool expanded: false
     Component.onCompleted: expanded = true
-    color: Material.theme === Material.Dark ? Qt.darker(
-                                                  Material.background) : Material.background
+    color: Material.background
 
     property alias listView: listView
     property alias model: listView.model
+    property StackView stackView
 
     ListView {
         id: listView
         anchors.fill: parent
         anchors.margins: 20
-        spacing: 20
+        spacing: 5
         model: ListModel {
 
             ListElement {
@@ -160,49 +160,33 @@ Rectangle {
             }
         }
 
-        delegate: ItemDelegate {
+        Connections {
+            id: loaderConnections
+            ignoreUnknownSignals: true
+            function onWizardStarted() {
+                root.expanded = false
+            }
+            function onWizardExited() {
+                root.expanded = true
+
+                stackView.clear(StackView.PushTransition)
+                stackView.push("qrc:/qml/Create/StartInfo.qml")
+
+            }
+        }
+
+        delegate: Button {
             id: listItem
             width: listView.width - 40
             height: 45
             highlighted: ListView.isCurrentItem
             onClicked: {
                 listView.currentIndex = index
-                loader.source = source
-            }
-            background: Rectangle {
-                radius: 3
-                layer.enabled: true
-                layer.effect: ElevationEffect {
-                    elevation: listItem.highlighted ? 6 : 1
-                }
-                color: {
-                    if (Material.theme === Material.Light) {
-                        return listItem.highlighted ? Material.accentColor : "white"
-                    } else {
-                        return listItem.highlighted ? Material.accentColor : Material.background
-                    }
-                }
-                Behavior on color {
-                    PropertyAnimation {
-                        property: "color"
-                        duration: 200
-                        easing.type: Easing.InOutQuart
-                    }
-                }
-            }
+                const item = stackView.push(source)
+                loaderConnections.target = item
 
-            Text {
-                verticalAlignment: Qt.AlignVCenter
-                color: Material.primaryTextColor
-                text: headline
-                anchors {
-                    top: parent.top
-                    bottom: parent.bottom
-                    left: parent.left
-                    leftMargin: 20
-                }
-                font.pointSize: 11
             }
+            text: headline
         }
     }
 
@@ -211,13 +195,15 @@ Rectangle {
             name: ""
             PropertyChanges {
                 target: root
-                anchors.leftMargin:0
+                anchors.leftMargin: 0
+                opacity: 1
             }
         },
         State {
             name: "inactive"
             PropertyChanges {
                 target: root
+                opacity: 0
                 anchors.leftMargin: -root.width
             }
         }
@@ -227,9 +213,16 @@ Rectangle {
             from: ""
             to: "inactive"
             reversible: true
-            PropertyAnimation {
-                property: "anchors.leftMargin"
-                duration: 250
+            SequentialAnimation {
+
+                PauseAnimation {
+                    duration: 100
+                }
+                PropertyAnimation {
+                    properties: "anchors.leftMargin,opacity"
+                    duration: 300
+                    easing.type: Easing.OutCubic
+                }
             }
         }
     ]

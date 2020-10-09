@@ -4,7 +4,6 @@
         <file>qml/Create/Create.qml</file>
         <file>qml/Create/Wizard.qml</file>
         <file>qml/Create/StartInfo.qml</file>
-        <file>qml/Create/BackgroundParticleSystem.qml</file>
         <file>qml/Installed/Installed.qml</file>
         <file>qml/Installed/ScreenPlayItem.qml</file>
         <file>qml/Installed/ScreenPlayItemImage.qml</file>
@@ -32,7 +31,6 @@
         <file>qml/Common/Tag.qml</file>
         <file>qml/Common/ImageSelector.qml</file>
         <file>qml/Common/Slider.qml</file>
-        <file>qml/Common/Background.qml</file>
         <file>qml/Common/RippleEffect.qml</file>
         <file>qml/Common/Shake.qml</file>
         <file>qml/Common/Grow.qml</file>
@@ -68,7 +66,7 @@
         <file>qml/Create/Wizards/CreateQMLWidget.qml</file>
         <file>qml/Create/Wizards/CreateQMLWallpaper.qml</file>
         <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml</file>
-        <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperCodec.qml</file>
+        <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml</file>
         <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml</file>
         <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml</file>
         <file>qml/Create/Sidebar.qml</file>

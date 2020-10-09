@@ -37,8 +37,6 @@ ApplicationWindow {
         }
     }
 
-
-
     // Partial workaround for
     // https://bugreports.qt.io/browse/QTBUG-86047
     Material.accent: Material.color(Material.Orange)
@@ -91,28 +89,23 @@ ApplicationWindow {
 
     function switchPage(name) {
         if (name === "Create") {
-            bg.state = "create"
             pageLoader.visible = false
             pageLoaderCreate.visible = true
             pageLoaderWorkshop.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
         } else if (name === "Workshop") {
             if (ScreenPlay.settings.steamVersion) {
-
-                bg.state = "init"
                 pageLoader.visible = false
                 pageLoaderCreate.visible = false
                 pageLoaderWorkshop.visible = true
                 pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
             }
         } else if (name === "Community") {
-            bg.state = "community"
             pageLoader.visible = true
             pageLoaderCreate.visible = false
             pageLoaderWorkshop.visible = false
             pageLoader.setSource("qrc:/qml/Community/Community.qml")
         } else {
-            bg.state = "init"
             pageLoader.visible = true
             pageLoaderCreate.visible = false
             pageLoaderWorkshop.visible = false
@@ -123,12 +116,6 @@ ApplicationWindow {
     }
 
     Common.TrayIcon {}
-
-    Common.Background {
-        id: bg
-        anchors.fill: parent
-    }
-
 
     Loader {
         id: pageLoader

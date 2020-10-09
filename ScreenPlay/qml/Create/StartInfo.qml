@@ -10,7 +10,6 @@ import ScreenPlay.QMLUtilities 1.0
 
 Item {
     id: root
-    anchors.fill: parent
 
     Text {
         color: Material.primaryTextColor

@@ -77,7 +77,8 @@ public:
 
     enum class VideoCodec {
         VP8,
-        VP9
+        VP9,
+        AV1
     };
     Q_ENUM(VideoCodec)
 

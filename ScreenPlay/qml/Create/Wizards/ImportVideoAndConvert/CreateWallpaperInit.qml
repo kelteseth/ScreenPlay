@@ -13,49 +13,34 @@ import "../../../Common"
 
 Item {
     id: root
+    signal next(var filePath, var codec)
 
-    property var codec: Create.VP8
-
-    signal videoImportConvertFileSelected(var videoFile)
-
-
-    signal next
-
-    Column {
-        spacing: 10
+    ColumnLayout {
+        spacing: 40
 
         anchors {
             top: parent.top
             left: parent.left
-            bottom: parent.bottom
             right: parent.right
-            margins: 40
+            margins: 20
         }
 
         Headline {
             Layout.alignment: Qt.AlignTop
+            Layout.fillWidth: true
             text.text: qsTr("Import a video")
-        }
-
-        Item {
-            width: parent.width
-            height: 5
         }
 
         Text {
             id: txtDescription
-            text: qsTr("Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper!")
+            text: qsTr("Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: \n
+*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv")
             color: Material.primaryTextColor
-            width: parent.width
+            Layout.fillWidth: true
             font.pointSize: 13
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.family: ScreenPlay.settings.font
         }
-        Item {
-            width: parent.width
-            height: 50
-        }
-
         Text {
             id: txtComboboxHeadline
             text: qsTr("Set your preffered video codec:")
@@ -66,23 +51,24 @@ Item {
         }
         ComboBox {
             id: comboBoxCodec
-            width: parent.width
+            Layout.preferredWidth: 400
             textRole: "text"
             valueRole: "value"
+            currentIndex: 1
             font.family: ScreenPlay.settings.font
-            onCurrentIndexChanged: {
-                root.codec = model.get(comboBoxCodec.currentIndex).value
-            }
-
             model: ListModel {
                 id: model
                 ListElement {
                     text: "VP8 (Better for older hardware)"
-                    value: Create.VP8
+                    value: Create.VP9
                 }
                 ListElement {
                     text: "VP9 (Better for newer hardware 2018+)"
-                    value: Create.VP9
+                    value: Create.VP8
+                }
+                ListElement {
+                    text: "AV1 (ONLY for NVidia 3000 or AMD 6000)"
+                    value: Create.AV1
                 }
             }
         }
@@ -105,22 +91,20 @@ Item {
         }
     }
     Button {
-        text: qsTr("Next")
+        text: qsTr("Select file")
         highlighted: true
         font.family: ScreenPlay.settings.font
         onClicked: {
             fileDialogImportVideo.open()
         }
 
-
         FileDialog {
             id: fileDialogImportVideo
             nameFilters: ["Video files (*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv)"]
 
             onAccepted: {
-                videoImportConvertFileSelected(
-                            fileDialogImportVideo.currentFile)
-                root.next()
+                root.next(fileDialogImportVideo.fileUrl,
+                          model.get(comboBoxCodec.currentIndex).value)
             }
         }
 
@@ -130,8 +114,6 @@ Item {
             margins: 20
         }
     }
-
-
 }
 
 /*##^##

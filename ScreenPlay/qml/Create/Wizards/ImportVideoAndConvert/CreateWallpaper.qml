@@ -12,7 +12,6 @@ import "../../../Common"
 
 Item {
     id: root
-    property string filePath
 
     signal wizardStarted
     signal wizardExited
@@ -24,20 +23,18 @@ Item {
         interactive: false
         clip: true
 
-        CreateWallpaperCodec {
-            onNext: {
+        CreateWallpaperInit {
+           onNext: {
                 root.wizardStarted()
                 swipeView.currentIndex = 1
+                createWallpaperVideoImportConvert.codec = codec
+                createWallpaperVideoImportConvert.filePath = filePath
                 ScreenPlay.create.createWallpaperStart(filePath,codec)
             }
-            onCodecChanged:createWallpaperVideoImportConvert.codec = codec
-            onVideoImportConvertFileSelected: root.filePath = projectFile
         }
         CreateWallpaperVideoImportConvert {
             id:createWallpaperVideoImportConvert
-            filePath: root.filePath
             onAbort:root.wizardExited()
-
         }
         CreateWallpaperResult {}
     }

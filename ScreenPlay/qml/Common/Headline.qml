@@ -4,7 +4,6 @@ import ScreenPlay 1.0
 
 Item {
     id:root
-    width: parent.width
     height: 40
 
     property alias text: txtHeadline

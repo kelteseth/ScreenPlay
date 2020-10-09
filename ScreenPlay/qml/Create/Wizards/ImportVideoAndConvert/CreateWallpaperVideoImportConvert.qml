@@ -47,8 +47,6 @@ Item {
     Connections {
         target: ScreenPlay.create
 
-
-
         function onCreateWallpaperStateChanged(state) {
             switch (state) {
             case CreateImportVideo.ConvertingPreviewImage:
@@ -102,7 +100,7 @@ Item {
             if (percentage > 100 || progress > 0.95)
                 percentage = 100
 
-            if(percentage === NaN) {
+            if (percentage === NaN) {
                 print(progress, percentage)
             }
 
@@ -330,8 +328,7 @@ Item {
                         btnSave.enabled = false
                         ScreenPlay.create.saveWallpaper(
                                     textFieldName.text,
-                                    textFieldDescription.text,
-                                    root.filePath,
+                                    textFieldDescription.text, root.filePath,
                                     previewSelector.imageSource,
                                     textFieldYoutubeURL.text, codec,
                                     textFieldTags.getTags())
