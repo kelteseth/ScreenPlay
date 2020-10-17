@@ -70,5 +70,8 @@
         <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml</file>
         <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml</file>
         <file>qml/Create/Sidebar.qml</file>
+        <file>qml/Create/Wizards/ImportWebm/ImportWebm.qml</file>
+        <file>qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml</file>
+        <file>qml/Create/Wizards/ImportWebm/ImportWebmInit.qml</file>
     </qresource>
 </RCC>

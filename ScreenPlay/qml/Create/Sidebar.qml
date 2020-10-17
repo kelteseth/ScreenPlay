@@ -42,7 +42,7 @@ Rectangle {
 
             ListElement {
                 headline: "Video Import native video (.webm)"
-                source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
+                source: "qrc:/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
                 category: "Video Import"
             }
 
@@ -141,7 +141,6 @@ Rectangle {
             snapMode: ScrollBar.SnapOnRelease
             policy: ScrollBar.AlwaysOn
         }
-        // snapMode: ListView.SnapToItem
         section.property: "category"
         section.delegate: Item {
             height: 60

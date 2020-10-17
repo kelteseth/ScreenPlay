@@ -120,7 +120,7 @@ Item {
                     }
 
                     Headline {
-                        text.text: qsTr("Create a html Wallpaper")
+                        text: qsTr("Create a html Wallpaper")
                     }
 
                     Text {

@@ -12,7 +12,7 @@ import "../../../Common"
 
 Item {
     id: root
-    signal next(var filePath, var codec)
+    signal next(var filePath)
 
     ColumnLayout {
         spacing: 40
@@ -32,45 +32,14 @@ Item {
 
         Text {
             id: txtDescription
-            text: qsTr("Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: \n
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv")
+            text: qsTr("When importing webm we can skip the long conversion.")
             color: Material.primaryTextColor
             Layout.fillWidth: true
             font.pointSize: 13
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.family: ScreenPlay.settings.font
         }
-        Text {
-            id: txtComboboxHeadline
-            text: qsTr("Set your preffered video codec:")
-            color: Material.secondaryTextColor
-            width: parent.width
-            font.pointSize: 14
-            font.family: ScreenPlay.settings.font
-        }
-        ComboBox {
-            id: comboBoxCodec
-            Layout.preferredWidth: 400
-            textRole: "text"
-            valueRole: "value"
-            currentIndex: 1
-            font.family: ScreenPlay.settings.font
-            model: ListModel {
-                id: model
-                ListElement {
-                    text: "VP8 (Better for older hardware)"
-                    value: Create.VP9
-                }
-                ListElement {
-                    text: "VP9 (Better for newer hardware 2018+)"
-                    value: Create.VP8
-                }
-                ListElement {
-                    text: "AV1 (ONLY for NVidia 3000 or AMD 6000)"
-                    value: Create.AV1
-                }
-            }
-        }
+
     }
 
     Button {
@@ -99,11 +68,10 @@ Item {
 
         FileDialog {
             id: fileDialogImportVideo
-            nameFilters: ["Video files (*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv)"]
+            nameFilters: ["Video files (*.webm)"]
 
             onAccepted: {
-                root.next(fileDialogImportVideo.fileUrl,
-                          model.get(comboBoxCodec.currentIndex).value)
+                root.next(fileDialogImportVideo.fileUrl)
             }
         }
 

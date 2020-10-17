@@ -6,7 +6,7 @@ Item {
     id:root
     height: 40
 
-    property alias text: txtHeadline
+    property alias text: txtHeadline.text
 
     Text {
         id: txtHeadline

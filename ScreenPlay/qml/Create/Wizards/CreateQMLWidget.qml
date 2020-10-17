@@ -15,20 +15,13 @@ Item {
     signal wizardStarted
     signal wizardExited
 
-    Text {
+    Headline {
         id: txtHeadline
-        text: qsTr("Create an empty widget")
-        height: 40
-        font.family: ScreenPlay.settings.font
-        font.weight: Font.Light
-        color: "#757575"
-
-        font.pointSize: 23
+        text: qsTr("Create an empty QML widget")
         anchors {
             top: parent.top
             left: parent.left
-            margins: 40
-            bottomMargin: 0
+            margins: 20
         }
     }
     RowLayout {
@@ -41,7 +34,7 @@ Item {
         }
 
         ColumnLayout {
-            Layout.fillHeight: true
+            Layout.preferredHeight: parent.width * .5
             Layout.preferredWidth: parent.width * .5
 
             Rectangle {
@@ -101,34 +94,7 @@ Item {
                 placeholderText: qsTr("Copyright owner")
                 font.family: ScreenPlay.settings.font
             }
-            Text {
-                text: qsTr("Type")
-                font.pointSize: 14
-                color: "#757575"
-                font.family: ScreenPlay.settings.font
-            }
-            ComboBox {
-                id: cbType
-                Layout.fillWidth: true
-                font.family: ScreenPlay.settings.font
-                model: ListModel {
-                    id: model
-                    ListElement {
-                        text: "QML"
-                    }
-                    ListElement {
-                        text: "HTML"
-                    }
-                }
 
-                onActivated: {
-                    if ( index == 0) {
-                        imgPreview.source = "qrc:/assets/wizards/example_qml.png"
-                    } else {
-                        imgPreview.source = "qrc:/assets/wizards/example_html.png"
-                    }
-                }
-            }
 
             Text {
                 text: qsTr("License")
