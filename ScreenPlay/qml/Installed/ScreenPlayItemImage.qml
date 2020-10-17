@@ -27,9 +27,13 @@ Item {
         asynchronous: true
         cache: true
         fillMode: Image.PreserveAspectCrop
-        source: root.screenPreview
-                === "" ? "qrc:/assets/images/missingPreview.png" : Qt.resolvedUrl(
-                             absoluteStoragePath + "/" + root.sourceImage)
+        source: {
+            if (root.sourceImage === "")
+                return "qrc:/assets/images/missingPreview.png"
+
+            return root.screenPreview === "" ? "qrc:/assets/images/missingPreview.png" : Qt.resolvedUrl(
+                                            absoluteStoragePath + "/" + root.sourceImage)
+        }
 
         onStatusChanged: {
             if (image.status === Image.Ready) {
@@ -59,42 +63,28 @@ Item {
         opacity: 0
     }
 
-    states: [
-        State {
-            name: "loading"
-
-            PropertyChanges {
-                target: image
-                opacity: 0
-            }
-        },
-        State {
-            name: "loaded"
-
-            PropertyChanges {
-                target: image
-                opacity: 1
-            }
-        },
-        State {
-            name: "hover"
-
-            PropertyChanges {
-                target: loader_imgGIFPreview
-                opacity: 1
-            }
-        }
-    ]
-
     transitions: [
         Transition {
             from: "loading"
             to: "loaded"
 
-            NumberAnimation {
+            OpacityAnimator {
                 target: image
-                property: "opacity"
                 duration: 300
+                from: 0
+                to: 1
+                easing.type: Easing.OutQuart
+            }
+        },
+        Transition {
+            from: "hover"
+            to: "loaded"
+
+            OpacityAnimator {
+                target: loader_imgGIFPreview
+                duration: 300
+                from: 1
+                to: 0
                 easing.type: Easing.OutQuart
             }
         },
@@ -103,10 +93,11 @@ Item {
             to: "hover"
             reversible: true
 
-            PropertyAnimation {
+            OpacityAnimator {
                 target: loader_imgGIFPreview
-                property: "opacity"
                 duration: 400
+                from: 0
+                to: 1
                 easing.type: Easing.OutQuart
             }
         }
