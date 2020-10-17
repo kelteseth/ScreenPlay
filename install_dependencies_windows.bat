@@ -31,4 +31,4 @@ rem Deleting FFmpeg temp
 DEL ffmpeg.7z
 DEL 7z.msi
 rmdir 7z /s /q
-pause
+timeout 5 > NUL
