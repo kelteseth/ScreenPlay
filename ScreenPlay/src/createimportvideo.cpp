@@ -222,7 +222,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     emit processOutput("ffmpeg " + Util::toString(args));
 
     connect(this, &CreateImportVideo::ffmpegOutput, this, [&](QString tmpOut) {
-        auto tmpList = tmpOut.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+        auto tmpList = tmpOut.split(QRegExp("\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
 
         if (tmpList.length() > 2) {
             bool ok = false;
@@ -427,7 +427,7 @@ bool CreateImportVideo::createWallpaperVideo(const QString& codec)
         if (tmpOut.contains("Conversion failed!")) {
             emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
         }
-        auto tmpList = tmpOut.split(QRegExp("\\s+"), QString::SkipEmptyParts);
+        auto tmpList = tmpOut.split(QRegExp("\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
 
         if (tmpList.length() > 2) {
             bool ok = false;
@@ -722,7 +722,7 @@ bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
     // so we need no calc the value by dividing the two numbers
     QString avgFrameRate = tmpObjStreams.value("avg_frame_rate").toVariant().toString();
 
-    QStringList avgFrameRateList = avgFrameRate.split('/', QString::SkipEmptyParts);
+    QStringList avgFrameRateList = avgFrameRate.split('/', Qt::SplitBehaviorFlags::SkipEmptyParts);
     if (avgFrameRateList.length() != 2) {
         qDebug() << "Error could not parse streams with length: " << avgFrameRateList.length();
         emit processOutput("Error could not parse streams with length: " + QString::number(avgFrameRateList.length()));
