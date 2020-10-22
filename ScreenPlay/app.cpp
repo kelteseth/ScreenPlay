@@ -187,7 +187,6 @@ void App::init()
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
-    loadSteamPlugin();
 
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
 }
@@ -208,7 +207,7 @@ void App::exit()
     }
 }
 
-void App::loadSteamPlugin()
+bool App::loadSteamPlugin()
 {
 #ifdef Q_OS_MACOS
     const QString fileSuffix = ".dylib";
@@ -228,9 +227,12 @@ void App::loadSteamPlugin()
     if (!m_workshopPlugin.load()) {
         qWarning() << "Steam plugin not provided!";
         qWarning() << m_workshopPlugin.fileName() << " - With error: " << m_workshopPlugin.errorString();
+        return false;
     }
 
     const ScreenPlayWorkshopPlugin* workshopPlugin = reinterpret_cast<ScreenPlayWorkshopPlugin*>(m_workshopPlugin.instance());
+    Q_UNUSED(workshopPlugin)
     settings()->setSteamVersion(true);
+    return true;
 }
 }

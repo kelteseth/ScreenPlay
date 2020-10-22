@@ -153,6 +153,7 @@ signals:
 public slots:
 
     void exit();
+    bool loadSteamPlugin();
     void setTrackerSendEvent(const QString& category, const QString& page)
     {
         if (m_telemetry) {
@@ -247,9 +248,6 @@ public slots:
         m_mainWindowEngine.reset(mainWindowEngine);
         emit mainWindowEngineChanged(m_mainWindowEngine.get());
     }
-
-private:
-    void loadSteamPlugin();
 
 private:
     QPluginLoader m_workshopPlugin;

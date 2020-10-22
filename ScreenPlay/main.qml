@@ -4,7 +4,6 @@ import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
-import Qt.labs.platform 1.0
 
 import ScreenPlay 1.0
 import Settings 1.0
@@ -36,8 +35,6 @@ ApplicationWindow {
             switchPage("Installed")
         }
     }
-
-
 
     // Partial workaround for
     // https://bugreports.qt.io/browse/QTBUG-86047
@@ -97,14 +94,19 @@ ApplicationWindow {
             pageLoaderWorkshop.visible = false
             pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
         } else if (name === "Workshop") {
-            if (ScreenPlay.settings.steamVersion) {
-
-                bg.state = "init"
-                pageLoader.visible = false
-                pageLoaderCreate.visible = false
-                pageLoaderWorkshop.visible = true
-                pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
+            if (!ScreenPlay.settings.steamVersion) {
+                const steamAvialable = ScreenPlay.loadSteamPlugin()
+                if (!steamAvialable) {
+                    dialogSteam.open()
+                    switchPage("Installed")
+                    return
+                }
             }
+            bg.state = "init"
+            pageLoader.visible = false
+            pageLoaderCreate.visible = false
+            pageLoaderWorkshop.visible = true
+            pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
         } else if (name === "Community") {
             bg.state = "community"
             pageLoader.visible = true
@@ -122,13 +124,20 @@ ApplicationWindow {
         sidebar.state = "inactive"
     }
 
+    Dialog {
+        id: dialogSteam
+        modal: true
+        anchors.centerIn: Overlay.overlay
+        standardButtons: Dialog.Ok
+        title: qsTr("Could not load steam integration!")
+    }
+
     Common.TrayIcon {}
 
     Common.Background {
         id: bg
         anchors.fill: parent
     }
-
 
     Loader {
         id: pageLoader

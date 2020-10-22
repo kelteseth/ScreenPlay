@@ -85,7 +85,6 @@ Rectangle {
             id: navWorkshop
             state: "inactive"
             name: "Workshop"
-            enabled: ScreenPlay.settings.steamVersion
             iconSource: "qrc:/assets/icons/icon_steam.svg"
             onPageClicked: navigation.onPageChanged(name)
         }
