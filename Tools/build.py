@@ -19,10 +19,15 @@ def vs_env_dict():
     return dict((e[0].upper(), e[1]) for e in [p.rstrip().split("=", 1) for p in output] if len(e) == 2)
 
 
+
 # MAIN
 parser = argparse.ArgumentParser(description='Build and Package ScreenPlay')
 parser.add_argument('-t', action="store", dest="build_type")
 args = parser.parse_args()
+
+if not args.build_type:
+    print("Build type argument is missing (release,debug). Example: python build.py -t release")
+    sys.exit(1)
 
 qt_version = "5.15.1"
 print("Starting build with type %s. Qt Version: %s" %
@@ -59,7 +64,7 @@ elif platform == "linux":
 cwd = os.getcwd()
 root_path = os.path.abspath((cwd+"/../"))
 os.chdir(root_path)
-cmake_toolchain_file = ("'{root_path}/Common/vcpkg/scripts/buildsystems/vcpkg.cmake'").format(root_path=root_path)
+cmake_toolchain_file = ("'{root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake'").format(root_path=root_path)
 print("cmake_toolchain_file: %s " % cmake_toolchain_file)
 
 build_folder = "build-" + cmake_target_triplet + "-" + args.build_type
