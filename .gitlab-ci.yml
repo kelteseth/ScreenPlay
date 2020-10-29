@@ -45,8 +45,9 @@ build:windows_release:
 
 build:linux_debug:
     stage: build
+    image:  darkmattercoder/qt-build:latest
     tags:
-        - gitlab-org 
+        - gitlab-org-docker 
     needs:
         - check
     script:
@@ -59,8 +60,9 @@ build:linux_debug:
 
 build:linux_release:
     stage: build
+    image:  darkmattercoder/qt-build:latest
     tags:
-        - gitlab-org 
+        - gitlab-org-docker 
     needs:
         - check
     script:
