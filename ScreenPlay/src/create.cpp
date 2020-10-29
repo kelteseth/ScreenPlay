@@ -234,7 +234,7 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
         codecs.append("vp9");
     }
 
-    m_createImportVideoThread = new QThread();
+    m_createImportVideoThread = new QThread(this);
     m_createImportVideo = new CreateImportVideo(videoPath, workingDir(), codecs);
     connect(m_createImportVideo, &CreateImportVideo::processOutput, this, [this](QString text) {
         appendFfmpegOutput(text + "\n");
@@ -328,7 +328,7 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     obj.insert("type", "videoWallpaper");
 
     QJsonArray tagsJsonArray;
-    for (const QString &tmp : tags) {
+    for (const QString& tmp : tags) {
         tagsJsonArray.append(tmp);
     }
     obj.insert("tags", tagsJsonArray);

@@ -37,7 +37,6 @@
 #include <QString>
 #include <QUrl>
 
-
 namespace ScreenPlay {
 
 /*!
@@ -49,7 +48,7 @@ namespace ScreenPlay {
 */
 struct Profile {
 
-    Profile() {}
+    Profile() { }
     Profile(const QUrl& absolutePath,
         const QString& id,
         const QString& version,

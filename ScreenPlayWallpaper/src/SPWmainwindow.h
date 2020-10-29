@@ -45,9 +45,9 @@
 #include <QQmlEngine>
 #include <QScreen>
 #include <QSharedPointer>
+#include <QTimer>
 #include <QWindow>
 #include <QtGlobal>
-#include <QTimer>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
 

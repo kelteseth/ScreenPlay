@@ -63,7 +63,6 @@ public:
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
 
-
 public slots:
     void refresh();
     void reset();
@@ -71,6 +70,7 @@ signals:
 
 private:
     void loadStorageDevices();
+
 private:
     QVector<QStorageInfo> m_storageInfoList;
 };

@@ -34,10 +34,10 @@
 
 #pragma once
 
-#include <QObject>
 #include <QDebug>
-#include <QTimer>
+#include <QObject>
 #include <QString>
+#include <QTimer>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
@@ -50,10 +50,8 @@ class CPU : public QObject {
     Q_PROPERTY(float usage READ usage NOTIFY usageChanged)
     Q_PROPERTY(int tickRate READ tickRate WRITE setTickRate NOTIFY tickRateChanged)
 
-
 public:
     explicit CPU(QObject* parent = nullptr);
-
 
     float usage() const
     {
@@ -70,7 +68,6 @@ signals:
     void usageChanged(float usage);
 
     void tickRateChanged(int tickRate);
-
 
 public slots:
     void update();
@@ -94,8 +91,6 @@ public slots:
         m_tickRate = tickRate;
         emit tickRateChanged(m_tickRate);
     }
-
-
 
 private:
     float m_usage = 0.0f;

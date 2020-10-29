@@ -19,4 +19,3 @@ ShaderLibrary::ShaderLibrary(QQuickItem* parent)
 ShaderLibrary::~ShaderLibrary()
 {
 }
-

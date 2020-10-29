@@ -59,7 +59,6 @@
 
 #include "globalvariables.h"
 
-
 namespace ScreenPlay {
 
 template <typename T>
@@ -143,7 +142,6 @@ public slots:
         m_debugMessages += debugMessages;
         emit debugMessagesChanged(m_debugMessages);
     }
-
 
 private:
     QNetworkAccessManager* m_networkAccessManager { nullptr };

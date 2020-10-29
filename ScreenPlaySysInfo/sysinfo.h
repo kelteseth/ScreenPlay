@@ -67,7 +67,6 @@ public:
         return m_storage.get();
     }
 
-
 signals:
     void ramChanged(RAM* ram);
     void cpuChanged(CPU* cpu);

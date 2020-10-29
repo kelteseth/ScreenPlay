@@ -15,5 +15,4 @@ void ScreenPlaySysInfoPlugin::registerTypes(const char* uri)
 {
     // @uri ScreenPlay.Sysinfo
     qmlRegisterSingletonType<SysInfo>(uri, 1, 0, "SysInfo", ScreenPlaySysInfoSingleton);
-
 }
