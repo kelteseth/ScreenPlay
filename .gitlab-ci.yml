@@ -53,6 +53,7 @@ build:linux_debug:
     needs:
         - check
     script:
+        - sudo apt-get update -y
         - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake
         - cd Tools
         - python build.py -t debug
@@ -71,6 +72,7 @@ build:linux_release:
     needs:
         - check
     script:
+        - sudo apt-get update -y
         - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake
         - cd Tools
         - python build.py -t release
