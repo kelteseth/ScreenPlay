@@ -45,12 +45,14 @@ build:windows_release:
 
 build:linux_debug:
     stage: build
-    image:  darkmattercoder/qt-build:latest
+    image:  darkmattercoder/qt-build:5.15.1
+    entrypoint: [""]
     tags:
         - gitlab-org-docker 
     needs:
         - check
     script:
+        - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake
         - cd Tools
         - python build.py -t debug
     artifacts:
@@ -60,12 +62,14 @@ build:linux_debug:
 
 build:linux_release:
     stage: build
-    image:  darkmattercoder/qt-build:latest
+    image:  darkmattercoder/qt-build:5.15.1
+    entrypoint: [""]
     tags:
         - gitlab-org-docker 
     needs:
         - check
     script:
+        - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake
         - cd Tools
         - python build.py -t release
     artifacts:
