@@ -54,7 +54,8 @@ build:linux_debug:
         - check
     script:
         - sudo apt-get update -y
-        - sudo apt-get install software-properties-common -y
+        - sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common -y
+        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
         - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic-rc main' -y
         - sudo apt-get update -y
         - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake -y
@@ -76,7 +77,8 @@ build:linux_release:
         - check
     script:
         - sudo apt-get update -y
-        - sudo apt-get install software-properties-common -y
+        - sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common -y
+        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
         - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic-rc main' -y
         - sudo apt-get update -y
         - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake -y
