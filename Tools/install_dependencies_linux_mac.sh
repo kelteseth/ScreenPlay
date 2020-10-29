@@ -1,5 +1,6 @@
 git submodule update --init
 git submodule update --recursive
+cd ..
 cd Common
 git clone https://github.com/microsoft/vcpkg.git
 cd vcpkg

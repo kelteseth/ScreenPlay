@@ -8,12 +8,12 @@ git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
 4. Start install-dependencies.bat to download dependencies into the Common/ folder
 ``` bash
 //Windows
-.\install-dependencies.bat
+.\Tools\install-dependencies.bat
 
 //Linux
 sudo apt install git gcc cmake build-essential libgl1-mesa-dev
 chmod +x install-dependencies.sh
-.\install-dependencies.sh
+.\Tools\install-dependencies.sh
 ```
    * This will install these dependencies via __vcpkg__
       * openSSL 1.1.1d
