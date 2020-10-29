@@ -45,8 +45,9 @@ build:windows_release:
 
 build:linux_debug:
     stage: build
-    image:  darkmattercoder/qt-build:5.15.1
-    entrypoint: [""]
+    image:  
+        name: darkmattercoder/qt-build:5.15.1
+        entrypoint: [""]
     tags:
         - gitlab-org-docker 
     needs:
@@ -62,8 +63,9 @@ build:linux_debug:
 
 build:linux_release:
     stage: build
-    image:  darkmattercoder/qt-build:5.15.1
-    entrypoint: [""]
+    image:  
+        name: darkmattercoder/qt-build:5.15.1
+        entrypoint: [""]
     tags:
         - gitlab-org-docker 
     needs:
