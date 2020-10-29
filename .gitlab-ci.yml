@@ -53,6 +53,8 @@ build:linux_debug:
     needs:
         - check
     script:
+        - sudo apt-get update -y
+        - sudo apt-get install software-properties-common -y
         - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic-rc main' -y
         - sudo apt-get update -y
         - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake -y
@@ -73,6 +75,8 @@ build:linux_release:
     needs:
         - check
     script:
+        - sudo apt-get update -y
+        - sudo apt-get install software-properties-common -y
         - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic-rc main' -y
         - sudo apt-get update -y
         - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake -y
