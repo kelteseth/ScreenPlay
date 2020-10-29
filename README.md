@@ -16,7 +16,7 @@ ScreenPlay is an open source cross platform app for displaying Video Wallpaper, 
 <!--<h4><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h4>-->
 <br>
 
-![Preview](.gitlab/media/preview.mp4)
+![Preview](.gitlab/media/preview.gif)
 
 <br> <h4><a href="https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/">Wallpaper </a>  and  <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/widgets/">  Widgets </a>Guide</h4>
 </div>
