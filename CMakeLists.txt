@@ -17,8 +17,8 @@ elseif(APPLE)
     set(VCPKG_ARCH "x64-osx")
 endif()
 
-set(VCPKG_INCLUDE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Common/vcpkg/installed/${VCPKG_ARCH}/include/)
-set(VCPKG_TOOLS_PATH ${CMAKE_CURRENT_SOURCE_DIR}/Common/vcpkg/installed/${VCPKG_ARCH}/tools/)
+set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlay-vcpkg")
+set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
 set(QT_TELEMTRY_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/Common/qt-google-analytics/)
 
 find_package(Git REQUIRED)
