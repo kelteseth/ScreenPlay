@@ -3,19 +3,15 @@ import os
 import sys
 import subprocess
 
-executable = "cmake-format"
-if os.name == 'nt':
-    executable += ".exe"
-
-for root, dirnames, filenames in os.walk('../'):
+for root, dirnames, filenames in os.walk('..'):
     for filename in fnmatch.filter(filenames, 'CMakeLists.txt'):
-        print(executable, root+"/"+filename)
-        os.system(" %s -c ../.cmake-format.py -i %s" % (executable, (root + "/" + filename)))
+        print("cmake-format  -c ../.cmake-format.py -i " + root + "/" + filename)
+        os.system("cmake-format -c ../.cmake-format.py -i %s" % ((root + "/" + filename)))
 
 # Check if all files are formatter
 output = subprocess.check_output("git diff", shell=True)
 
 if output:
-    print("Git diff is not empty. This means your CMakeLists.txt file was not formatted via %s!" % executable)
-    print(output)
+    print("Git diff is not empty. This means your CMakeLists.txt file was not formatted!")
+    #print(output)
     sys.exit(1)
