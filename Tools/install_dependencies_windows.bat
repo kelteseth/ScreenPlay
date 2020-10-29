@@ -1,9 +1,9 @@
 git submodule update --init
 git submodule update --recursive
 cd ..
-cd Common
-git clone https://github.com/microsoft/vcpkg.git
-cd vcpkg
+cd ..
+git clone https://github.com/microsoft/vcpkg.git ScreenPlay-vcpkg
+cd ScreenPlay-vcpkg
 git pull
 rem  master 10.09.2020 - 18ab4b72a26284f0df28295ce7bf9b21c96f20f4
 git checkout  18ab4b72a26284f0df28295ce7bf9b21c96f20f4
@@ -13,7 +13,7 @@ rem Install vcpkg dependencies
 vcpkg.exe install openssl  sentry-native  --triplet x64-windows --recurse
 
 cd ..
-cd ..
+cd ScreenPlay
 
 rem Download 7-zip
 curl.exe -L https://www.7-zip.org/a/7z1900.msi --ssl-no-revoke --output 7z.msi
