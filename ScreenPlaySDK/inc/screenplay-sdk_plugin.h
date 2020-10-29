@@ -36,11 +36,10 @@
 
 #include <QQmlExtensionPlugin>
 
-class ScreenPlay_SDKPlugin : public QQmlExtensionPlugin
-{
+class ScreenPlay_SDKPlugin : public QQmlExtensionPlugin {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID QQmlExtensionInterface_iid)
 
 public:
-    void registerTypes(const char *uri);
+    void registerTypes(const char* uri);
 };

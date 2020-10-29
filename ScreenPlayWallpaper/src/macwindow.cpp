@@ -1,11 +1,11 @@
 #include "macwindow.h"
 
 MacWindow::MacWindow(
-        const QVector<int> &activeScreensList,
-        const QString &projectPath,
-        const QString &id,
-        const QString &volume,
-        const QString &fillmode)
+    const QVector<int>& activeScreensList,
+    const QString& projectPath,
+    const QString& id,
+    const QString& volume,
+    const QString& fillmode)
     : BaseWindow(projectPath, activeScreensList, false)
 {
     setAppID(id);
@@ -28,8 +28,6 @@ MacWindow::MacWindow(
         //setupWallpaperForMultipleScreens(activeScreensList);
     }
 
-
-
     // WARNING: Setting Window flags must be called *here*!
     Qt::WindowFlags flags = m_window.flags();
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::Desktop);
@@ -44,7 +42,6 @@ MacWindow::MacWindow(
 
     MacIntegration* macIntegration = new MacIntegration(this);
     macIntegration->SetBackgroundLevel(&m_window);
-
 }
 
 void MacWindow::setVisible(bool show)

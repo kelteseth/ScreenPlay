@@ -34,8 +34,8 @@
 
 #pragma once
 
-#include <QObject>
 #include <QDebug>
+#include <QObject>
 #include <QTimer>
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
@@ -113,7 +113,6 @@ signals:
 
     void usedPagingMemoryChanged(DWORDLONG usedPagingMemory);
 
-
     void totalPhysicalMemoryChanged(DWORDLONG totalPhysicalMemory);
 
     void totalVirtualMemoryChanged(DWORDLONG totalVirtualMemory);
@@ -134,7 +133,7 @@ private slots:
 
     void setUsedPhysicalMemory(DWORDLONG usedPhysicalMemory)
     {
-        if(usedPhysicalMemory == m_usedPhysicalMemory)
+        if (usedPhysicalMemory == m_usedPhysicalMemory)
             return;
 
         m_usedPhysicalMemory = usedPhysicalMemory;
@@ -143,7 +142,7 @@ private slots:
 
     void setTotalPhysicalMemory(DWORDLONG totalPhysicalMemory)
     {
-        if(totalPhysicalMemory == m_totalPhysicalMemory)
+        if (totalPhysicalMemory == m_totalPhysicalMemory)
             return;
 
         m_totalPhysicalMemory = totalPhysicalMemory;
@@ -152,7 +151,7 @@ private slots:
 
     void setUsedVirtualMemory(DWORDLONG usedVirtualMemory)
     {
-        if(usedVirtualMemory == m_usedVirtualMemory)
+        if (usedVirtualMemory == m_usedVirtualMemory)
             return;
 
         m_usedVirtualMemory = usedVirtualMemory;
@@ -161,7 +160,7 @@ private slots:
 
     void setTotalVirtualMemory(DWORDLONG totalVirtualMemory)
     {
-        if(totalVirtualMemory == m_totalVirtualMemory)
+        if (totalVirtualMemory == m_totalVirtualMemory)
             return;
 
         m_totalVirtualMemory = totalVirtualMemory;
@@ -170,7 +169,7 @@ private slots:
 
     void setUsedPagingMemory(DWORDLONG usedPagingMemory)
     {
-        if(usedPagingMemory == m_usedPagingMemory)
+        if (usedPagingMemory == m_usedPagingMemory)
             return;
 
         m_usedPagingMemory = usedPagingMemory;
@@ -179,7 +178,7 @@ private slots:
 
     void setTotalPagingMemory(DWORDLONG totalPagingMemory)
     {
-        if(totalPagingMemory == m_totalPagingMemory)
+        if (totalPagingMemory == m_totalPagingMemory)
             return;
 
         m_totalPagingMemory = totalPagingMemory;
@@ -197,6 +196,4 @@ private:
 
     QTimer m_updateTimer;
     int m_tickRate = 1000;
-
 };
-

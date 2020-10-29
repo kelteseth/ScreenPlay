@@ -1,12 +1,12 @@
 #include "ram.h"
+#include "sysinfoapi.h"
 #include <QtQml/qqml.h>
 #include <qmetatype.h>
-#include "sysinfoapi.h"
 
 RAM::RAM(QObject* parent)
     : QObject(parent)
 {
-    connect(&m_updateTimer,&QTimer::timeout,this,&RAM::update);
+    connect(&m_updateTimer, &QTimer::timeout, this, &RAM::update);
     m_updateTimer.start(m_tickRate);
 }
 
@@ -16,7 +16,7 @@ void RAM::update()
     MEMORYSTATUSEX memoryStatus;
     memoryStatus.dwLength = sizeof(MEMORYSTATUSEX); //needed for internal api
     bool success = GlobalMemoryStatusEx(&memoryStatus);
-    if(!success)
+    if (!success)
         return;
 
     //Apply total values

@@ -28,8 +28,6 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
 
-
-
     projectFile.setFileName(projectFilePath + "/project.json");
     projectFile.open(QIODevice::ReadOnly | QIODevice::Text);
     QString projectConfig = projectFile.readAll();

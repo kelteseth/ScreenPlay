@@ -280,7 +280,7 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
     return false;
 }
 
-bool ScreenPlayManager::removeApp(const QString &appID)
+bool ScreenPlayManager::removeApp(const QString& appID)
 {
     emit requestSaveProfiles();
 

@@ -2,18 +2,18 @@
 1. Install latest [git + git-lfs](https://git-scm.com/)
 2. Clone ScreenPlay
 ``` bash
-git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git
+git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git ScreenPlay
 ```
 3. Download the latest [__Qt 5.15__](https://www.qt.io/download-qt-installer). Earlier versions are not supported!
-4. Start install-dependencies.bat to download dependencies into the Common/ folder
+4. Start install-dependencies.bat to download dependencies. ATTENTION: This will create a ScreenPlay-vcpkg folder in the same directory as your ScreenPlay source folder. 
 ``` bash
 //Windows
-.\install-dependencies.bat
+.\Tools\install-dependencies.bat
 
 //Linux
 sudo apt install git gcc cmake build-essential libgl1-mesa-dev
 chmod +x install-dependencies.sh
-.\install-dependencies.sh
+.\Tools\install-dependencies.sh
 ```
    * This will install these dependencies via __vcpkg__
       * openSSL 1.1.1d
@@ -27,7 +27,7 @@ chmod +x install-dependencies.sh
 7. Add CMake variables
     * Add CMAKE_TOOLCHAIN_FILE and VCPKG_TARGET_TRIPLET
        * Extras -> Tools -> Kits -> <Your Kit> -> CMake Configuration -> Append this:
-       * CMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/Common/vcpkg/scripts/buildsystems/vcpkg.cmake
+       * CMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/../ScreenPlay-vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake
        * VCPKG_TARGET_TRIPLET:STRING=x64-windows
        * or  Linux: x64-linux MacOSX: x64-osx
 

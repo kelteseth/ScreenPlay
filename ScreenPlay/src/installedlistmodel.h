@@ -96,7 +96,7 @@ public:
     }
 
 public slots:
-    QVariantMap get(const QString &folderId) const;
+    QVariantMap get(const QString& folderId) const;
 
     void loadInstalledContent();
     void append(const QJsonObject&, const QString&);

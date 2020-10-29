@@ -13,7 +13,6 @@ int main(int argc, char* argv[])
 
     QStringList argumentList = app.arguments();
 
-
     // If we start with only one argument (path, appID, type),
     // it means we want to test a single widget
     if (argumentList.length() == 1) {
