@@ -18,4 +18,5 @@ output = subprocess.check_output("git diff", shell=True)
 
 if output:
     print("Git diff is not empty. This means your code was not formatted via %s!" % executable)
+    print(output)
     sys.exit(1)
