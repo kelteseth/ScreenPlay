@@ -45,8 +45,7 @@ build:windows_release:
 
 build:linux_debug:
     stage: build
-    rules:
-        allow_failure: true
+    allow_failure: true
     image:  
         name: darkmattercoder/qt-build:5.15.1
         entrypoint: [""]
@@ -70,8 +69,7 @@ build:linux_debug:
 
 build:linux_release:
     stage: build
-    rules:
-        allow_failure: true
+    allow_failure: true
     image:  
         name: darkmattercoder/qt-build:5.15.1
         entrypoint: [""]
