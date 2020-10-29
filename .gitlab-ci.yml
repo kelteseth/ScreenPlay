@@ -46,7 +46,7 @@ build:windows_release:
 build:linux_debug:
     stage: build
     tags:
-        - gcc
+        - gitlab-org 
     needs:
         - check
     script:
@@ -60,7 +60,7 @@ build:linux_debug:
 build:linux_release:
     stage: build
     tags:
-        - gcc
+        - gitlab-org 
     needs:
         - check
     script:
