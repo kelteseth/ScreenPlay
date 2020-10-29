@@ -1,4 +1,3 @@
-
 project(ScreenPlayShader LANGUAGES CXX)
 
 set(CMAKE_AUTORCC ON)

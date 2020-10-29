@@ -1,4 +1,3 @@
-
 project(ScreenPlayWidget LANGUAGES CXX)
 
 set(CMAKE_AUTORCC ON)
