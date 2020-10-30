@@ -1,5 +1,6 @@
 #include "screenplaymanager.h"
 #include <QScopeGuard>
+#include <doctest/doctest.h>
 
 namespace ScreenPlay {
 
@@ -18,7 +19,6 @@ namespace ScreenPlay {
 ScreenPlayManager::ScreenPlayManager(
     QObject* parent)
     : QObject { parent }
-
     , m_server { std::make_unique<QLocalServer>() }
 {
 
@@ -591,6 +591,12 @@ void ScreenPlayManager::loadProfiles()
             createWidget(type, position, absolutePath, previewImage, properties, false);
         }
     }
+}
+
+TEST_CASE("Loads profiles.json")
+{
+    GlobalVariables globalVariables;
+    ScreenPlayManager manager;
 }
 
 }

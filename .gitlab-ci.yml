@@ -91,6 +91,41 @@ build:linux_release:
         paths:
             - build-x64-linux-release/bin/
 
+test:windows_debug:
+    stage: test
+    tags:
+        - windows10
+        - vs2019
+    dependencies:
+        - build:windows_debug
+    needs:
+        - build:windows_debug
+    script:
+        - ./build-x64-window-debug/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
+    artifacts:
+        expire_in: '4 weeks'
+        when: always
+        reports:
+            junit: test-report-junit.xml
+
+test:windows_release:
+    stage: test
+    tags:
+        - windows10
+        - vs2019
+    dependencies:
+        - build:windows_release
+    needs:
+        - build:windows_release
+    script:
+        - ./build-x64-window-release/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
+    artifacts:
+        expire_in: '4 weeks'
+        when: always
+        reports:
+        junit: test-report-junit.xml
+            
+
 
 build_docs:
   stage: .post 

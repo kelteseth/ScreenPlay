@@ -10,7 +10,7 @@ git checkout  18ab4b72a26284f0df28295ce7bf9b21c96f20f4
 call bootstrap-vcpkg.bat
 
 rem Install vcpkg dependencies
-vcpkg.exe install openssl  sentry-native  --triplet x64-windows --recurse
+vcpkg.exe install openssl  sentry-native  doctest benchmark  --triplet x64-windows --recurse
 
 cd ..
 cd ScreenPlay

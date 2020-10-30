@@ -11,6 +11,9 @@ find_package(
     REQUIRED)
 
 find_package(OpenSSL REQUIRED)
+find_package(benchmark CONFIG REQUIRED)
+find_package(doctest CONFIG REQUIRED)
+
 if(WIN32)
     find_package(sentry CONFIG REQUIRED)
 endif()
@@ -86,7 +89,17 @@ endif()
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE "GIT_VERSION=${GIT_VERSION}")
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core Qt5::WebEngine ScreenPlaySDK)
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE Qt5::Quick
+            Qt5::Gui
+            Qt5::Widgets
+            Qt5::Core
+            Qt5::WebEngine
+            ScreenPlaySDK
+            benchmark::benchmark
+            benchmark::benchmark_main
+            doctest::doctest)
 
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE sentry::sentry)

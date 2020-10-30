@@ -12,7 +12,7 @@ chmod +x bootstrap-vcpkg.sh
 chmod +x vcpkg
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
-./vcpkg install  openssl-unix  sentry-native --triplet x64-osx --recurse
+./vcpkg install  openssl-unix  sentry-native doctest benchmark --triplet x64-osx --recurse
 else
-./vcpkg install  openssl-unix  sentry-native --triplet x64-linux --recurse
+./vcpkg install  openssl-unix  sentry-native doctest benchmark  --triplet x64-linux --recurse
 fi
