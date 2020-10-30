@@ -34,10 +34,15 @@
 
 #include "app.h"
 #include <QApplication>
+#include <QCommandLineParser>
 #include <QDebug>
 #ifdef Q_OS_WIN
 #include <sentry.h>
 #endif
+#define DOCTEST_CONFIG_IMPLEMENT
+#define DOCTEST_CONFIG_SUPER_FAST_ASSERTS
+#include <doctest/doctest.h>
+
 int main(int argc, char* argv[])
 {
 
@@ -51,6 +56,12 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication qtGuiApp(argc, argv);
+
+    if (QGuiApplication::arguments().contains("--benchmark")) {
+        QFile metricsFile { QGuiApplication::applicationDirPath() + "/metrics.txt" };
+        if (metricsFile.exists())
+            qInfo() << "Removing old Continuous Integration Metrics Timer: " << metricsFile.remove();
+    }
 
     ScreenPlay::App app;
 

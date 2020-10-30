@@ -2,6 +2,7 @@ stages:
     - check
     - build
     - test
+    - benchmark
 
 check:
     stage: check
@@ -125,6 +126,24 @@ test:windows_release:
         when: always
         reports:
             junit: test-report-junit.xml
+
+
+benchmark:windows_release:
+    stage: benchmark
+    tags:
+        - windows10
+        - vs2019
+    dependencies:
+        - build:windows_release
+    needs:
+        - build:windows_release
+    script:
+        - ./build-x64-window-release/bin/ScreenPlay.exe --benchmark
+    artifacts:
+        expire_in: '4 weeks'
+        when: always
+        reports:
+            metrics: metrics.txt
             
 
 build_docs:

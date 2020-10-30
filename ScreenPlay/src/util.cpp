@@ -168,13 +168,34 @@ QString Util::toString(const QStringList& list)
     return out;
 }
 
+void Util::appendToMetricsFile(const QString& key, const QVariant& value)
+{
+    if (!QGuiApplication::arguments().contains("--benchmark"))
+        return;
+
+    const QString appDir = QGuiApplication::applicationDirPath();
+    QFile metricsFile { appDir + "/metrics.txt" };
+
+    if (!metricsFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append)) {
+        qWarning() << "Cannot open metrix file:" << appDir << metricsFile.fileName();
+        return;
+    }
+
+    QString text = key + "\t" + value.toString() + "\n";
+    QTextStream out(&metricsFile);
+    out << text;
+
+    metricsFile.flush();
+    metricsFile.close();
+}
+
 /*!
   \brief Parses a QByteArray to a QJsonObject. If returns and std::nullopt on failure.
 */
 std::optional<QJsonObject> Util::parseQByteArrayToQJsonObject(const QByteArray& byteArray)
 {
     QJsonObject obj;
-    QJsonParseError err;
+    QJsonParseError err {};
     QJsonDocument doc = QJsonDocument::fromJson(byteArray, &err);
 
     if (err.error == QJsonParseError::NoError) {
