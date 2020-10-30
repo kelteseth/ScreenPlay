@@ -57,11 +57,23 @@ int main(int argc, char* argv[])
 
     QApplication qtGuiApp(argc, argv);
 
+    // Benchmarks
     if (QGuiApplication::arguments().contains("--benchmark")) {
         QFile metricsFile { QGuiApplication::applicationDirPath() + "/metrics.txt" };
         if (metricsFile.exists())
             qInfo() << "Removing old Continuous Integration Metrics Timer: " << metricsFile.remove();
     }
+
+    // Unit tests
+    doctest::Context context;
+    context.setOption("abort-after", 5); // stop test execution after 5 failed assertions
+    context.setOption("order-by", "name"); // sort the test cases by their name
+    context.setOption("no-breaks", true); // don't break in the debugger when assertions fail
+    context.setOption("no-run", true); // No tests are executed by default
+    context.applyCommandLine(argc, argv); // Every setOption call after applyCommandLine overrides the command line arguments
+    const int testResult = context.run();
+    if (context.shouldExit())
+        return testResult;
 
     ScreenPlay::App app;
 
