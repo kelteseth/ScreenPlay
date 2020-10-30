@@ -10,6 +10,7 @@ check:
         - vs2019
         - windows10
     script:
+        - git clean -xdf
         - cd Tools
         - pip install cmakelang
         - python format-cmake.py
