@@ -62,6 +62,11 @@ int main(int argc, char* argv[])
         QFile metricsFile { QGuiApplication::applicationDirPath() + "/metrics.txt" };
         if (metricsFile.exists())
             qInfo() << "Removing old Continuous Integration Metrics Timer: " << metricsFile.remove();
+
+        QTimer::singleShot(10000, []() {
+            qInfo() << "Exit ScreenPlay benchmark mode!";
+            QGuiApplication::quit();
+        });
     }
 
     // Unit tests
