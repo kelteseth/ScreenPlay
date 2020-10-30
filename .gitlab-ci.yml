@@ -43,7 +43,7 @@ build:windows_release:
     artifacts:
         expire_in: '4 weeks'
         paths:
-            - build-x64-window-release/bin/
+            - build-x64-windows-release/bin/
 
 build:linux_debug:
     stage: build
@@ -120,7 +120,7 @@ test:windows_release:
     needs:
         - build:windows_release
     script:
-        - ./build-x64-window-release/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
+        - ./build-x64-windows-release/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
     artifacts:
         expire_in: '4 weeks'
         when: always
@@ -138,7 +138,7 @@ benchmark:windows_release:
     needs:
         - build:windows_release
     script:
-        - ./build-x64-window-release/bin/ScreenPlay.exe --benchmark
+        - ./build-x64-windows-release/bin/ScreenPlay.exe --benchmark
     artifacts:
         expire_in: '4 weeks'
         when: always
