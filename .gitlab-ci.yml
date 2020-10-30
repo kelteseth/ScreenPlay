@@ -1,6 +1,7 @@
 stages:
     - check
     - build
+    - test
 
 check:
     stage: check
@@ -123,9 +124,8 @@ test:windows_release:
         expire_in: '4 weeks'
         when: always
         reports:
-        junit: test-report-junit.xml
+            junit: test-report-junit.xml
             
-
 
 build_docs:
   stage: .post 
