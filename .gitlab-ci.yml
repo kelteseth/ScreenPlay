@@ -28,7 +28,7 @@ build:windows_debug:
     artifacts:
         expire_in: '4 weeks'
         paths:
-            - build-x64-window-debug/bin/
+            - build-x64-windows-debug/bin/
 
 build:windows_release:
     stage: build
@@ -103,7 +103,7 @@ test:windows_debug:
     needs:
         - build:windows_debug
     script:
-        - ./build-x64-window-debug/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
+        - ./build-x64-windows-debug/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
     artifacts:
         expire_in: '4 weeks'
         when: always
