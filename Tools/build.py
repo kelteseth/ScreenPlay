@@ -97,7 +97,7 @@ cmake_configure_command = """cmake ../
 
 print("cmake_configure_command: %s" % cmake_configure_command)
 
-process = subprocess.run(cmake_configure_command,  capture_output=True)
+process = subprocess.run(cmake_configure_command,  capture_output=True,shell=True)
 
 if process.returncode != 0:
     sys.exit(process.returncode)
