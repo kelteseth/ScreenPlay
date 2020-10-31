@@ -61,7 +61,7 @@ build:osx_debug:
         paths:
             - build-x64-osx-debug/bin/
 
-build:osx_debug:
+build:osx_release:
     stage: build
     allow_failure: true
     tags:

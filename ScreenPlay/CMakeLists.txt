@@ -71,9 +71,9 @@ set_source_files_properties(${l10n} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_
 qt5_add_translation(qmFiles ${l10n})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-    qt5_add_resources(qml qml.qrc resources.qrc)
+    qt5_add_resources(qml qml.qrc Resources.qrc)
 else()
-    qtquick_compiler_add_resources(qml qml.qrc resources.qrc)
+    qtquick_compiler_add_resources(qml qml.qrc Resources.qrc)
 endif()
 
 add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml})
