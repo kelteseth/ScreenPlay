@@ -144,7 +144,7 @@ benchmark:windows_release:
         expire_in: '4 weeks'
         when: always
         reports:
-            metrics: metrics.txt
+            metrics: /build-x64-windows-release/bin/metrics.txt
             
 
 build_docs:
