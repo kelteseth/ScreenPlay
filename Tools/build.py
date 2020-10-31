@@ -51,7 +51,7 @@ if platform == "win32":
     cmake_target_triplet = "x64-windows"
     os.system("install_dependencies_windows.bat")
 elif platform == "darwin":
-    cmake_prefix_path = "~/Qt/" + qt_version "/clang_64"
+    cmake_prefix_path = "~/Qt/" + qt_version + "/clang_64"
     deploy_executable = "macdeployqt"
     cmake_target_triplet = "x64-osx"
     print("Executing install_dependencies_linux_mac.sh")
