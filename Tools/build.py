@@ -54,11 +54,15 @@ elif platform == "darwin":
     cmake_prefix_path = "~/Qt/"
     deploy_executable = "macdeployqt"
     cmake_target_triplet = "x64-osx"
+    os.system("chmod +x install_dependencies_linux_mac.sh")
+    os.system("install_dependencies_linux_mac.sh")
 elif platform == "linux":
     # Windows...
     deploy_executable = "linuxdeployqt"
     cmake_prefix_path = "~/Qt/"
     cmake_target_triplet = "x64-linux"
+    os.system("chmod +x install_dependencies_linux_mac.sh")
+    os.system("install_dependencies_linux_mac.sh")
 
 # REMOVE OLD BUILD FOLDER
 cwd = os.getcwd()
