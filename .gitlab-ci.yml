@@ -2,6 +2,7 @@ stages:
     - check
     - build
     - test
+    - benchmark
 
 check:
     stage: check
@@ -9,6 +10,7 @@ check:
         - vs2019
         - windows10
     script:
+        - git clean -xdf
         - cd Tools
         - pip install cmakelang
         - python format-cmake.py
@@ -27,7 +29,7 @@ build:windows_debug:
     artifacts:
         expire_in: '4 weeks'
         paths:
-            - build-x64-window-debug/bin/
+            - build-x64-windows-debug/bin/
 
 build:windows_release:
     stage: build
@@ -42,7 +44,7 @@ build:windows_release:
     artifacts:
         expire_in: '4 weeks'
         paths:
-            - build-x64-window-release/bin/
+            - build-x64-windows-release/bin/
 
 build:linux_debug:
     stage: build
@@ -102,7 +104,7 @@ test:windows_debug:
     needs:
         - build:windows_debug
     script:
-        - ./build-x64-window-debug/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
+        - ./build-x64-windows-debug/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
     artifacts:
         expire_in: '4 weeks'
         when: always
@@ -119,12 +121,30 @@ test:windows_release:
     needs:
         - build:windows_release
     script:
-        - ./build-x64-window-release/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
+        - ./build-x64-windows-release/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
     artifacts:
         expire_in: '4 weeks'
         when: always
         reports:
             junit: test-report-junit.xml
+
+
+benchmark:windows_release:
+    stage: benchmark
+    tags:
+        - windows10
+        - vs2019
+    dependencies:
+        - build:windows_release
+    needs:
+        - build:windows_release
+    script:
+        - ./build-x64-windows-release/bin/ScreenPlay.exe --benchmark
+    artifacts:
+        expire_in: '4 weeks'
+        when: always
+        reports:
+            metrics: metrics.txt
             
 
 build_docs:

@@ -43,6 +43,9 @@ namespace ScreenPlay {
 App::App()
     : QObject(nullptr)
 {
+
+    m_continuousIntegrationMetricsTimer.start();
+
     QGuiApplication::setWindowIcon(QIcon(":/assets/icons/app.ico"));
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
@@ -120,6 +123,7 @@ App::App()
     // ScreenPlayManager first to check if another ScreenPlay Instace is running
     m_screenPlayManager = std::make_unique<ScreenPlayManager>();
     m_isAnotherScreenPlayInstanceRunning = m_screenPlayManager->isAnotherScreenPlayInstanceRunning();
+    Util::appendToMetricsFile("screenplay_app_constructor", m_continuousIntegrationMetricsTimer.msecsSinceReference());
 }
 
 /*!
@@ -130,6 +134,9 @@ App::App()
 */
 void App::init()
 {
+
+    Util::appendToMetricsFile("screenplay_app_init", m_continuousIntegrationMetricsTimer.msecsSinceReference());
+
     using std::make_shared, std::make_unique;
 
     // Util should be created as first so we redirect qDebugs etc. into the log
@@ -187,8 +194,9 @@ void App::init()
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
-
+    Util::appendToMetricsFile("Screenplay_app_qqmlapplicationengine_load_begin", m_continuousIntegrationMetricsTimer.msecsSinceReference());
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
+    Util::appendToMetricsFile("Screenplay_app_qqmlapplicationengine_load_end", m_continuousIntegrationMetricsTimer.msecsSinceReference());
 }
 
 /*!
