@@ -55,7 +55,7 @@ build:osx_debug:
         - check
     script:
         - cd Tools
-        - python build.py -t debug
+        - python3 build.py -t debug
     artifacts:
         expire_in: '4 weeks'
         paths:
@@ -70,7 +70,7 @@ build:osx_release:
         - check
     script:
         - cd Tools
-        - python build.py -t release
+        - python3 build.py -t release
     artifacts:
         expire_in: '4 weeks'
         paths:

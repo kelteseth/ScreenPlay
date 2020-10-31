@@ -13,7 +13,7 @@ if(WIN32)
     set(headers_plattform src/windowsdesktopproperties.h src/winwindow.h)
 elseif(APPLE)
     set(src_plattform src/macintegration.cpp src/macwindow.cpp)
-    set(headers_plattform src/macintegration.h src/macbridge.h src/macwindow.h)
+    set(headers_plattform src/macintegration.h src/macbridge.h src/macwindow.h src/MacBridge.mm)
 elseif(UNIX)
     set(src_plattform main.cpp src/linuxwindow.cpp)
     set(headers_plattform src/linuxwindow.h)
@@ -35,3 +35,7 @@ add_executable(${PROJECT_NAME} ${src} ${headers} ${src_plattform} ${headers_plat
 set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core Qt5::WebEngine ScreenPlaySDK)
+
+if(APPLE)
+    target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")
+endif()

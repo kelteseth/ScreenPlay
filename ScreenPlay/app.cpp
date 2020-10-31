@@ -217,16 +217,20 @@ void App::exit()
 
 bool App::loadSteamPlugin()
 {
+
 #ifdef Q_OS_MACOS
     const QString fileSuffix = ".dylib";
 #endif
+
 #ifdef Q_OS_WIN
 #ifdef QT_NO_DEBUG
     const QString fileSuffix = ".dll";
 #else
     const QString fileSuffix = "d.dll";
 #endif
-#else
+#endif
+
+#ifdef Q_OS_LINUX
     const QString fileSuffix = ".so";
 #endif
 
