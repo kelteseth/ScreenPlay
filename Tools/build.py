@@ -49,20 +49,21 @@ if platform == "win32":
     os.environ.update(dict)
     cmake_prefix_path = "c:/Qt/" + qt_version + "/" + windows_msvc
     cmake_target_triplet = "x64-windows"
-    os.system("install_dependencies_windows.bat")
+    os.system("Tools/install_dependencies_windows.bat")
 elif platform == "darwin":
-    cmake_prefix_path = "~/Qt/"
+    cmake_prefix_path = "~/Qt/" + qt_version "/clang_64"
     deploy_executable = "macdeployqt"
     cmake_target_triplet = "x64-osx"
-    os.system("chmod +x install_dependencies_linux_mac.sh")
-    os.system("install_dependencies_linux_mac.sh")
+    print("Executing install_dependencies_linux_mac.sh")
+    os.system("chmod +x Tools/install_dependencies_linux_mac.sh")
+    os.system("Tools/install_dependencies_linux_mac.sh")
 elif platform == "linux":
-    # Windows...
     deploy_executable = "linuxdeployqt"
     cmake_prefix_path = "~/Qt/"
     cmake_target_triplet = "x64-linux"
-    os.system("chmod +x install_dependencies_linux_mac.sh")
-    os.system("install_dependencies_linux_mac.sh")
+    print("Executing install_dependencies_linux_mac.sh")
+    os.system("chmod +x Tools/install_dependencies_linux_mac.sh")
+    os.system("Tools/install_dependencies_linux_mac.sh")
 
 # REMOVE OLD BUILD FOLDER
 cwd = os.getcwd()
@@ -96,7 +97,11 @@ cmake_configure_command = """cmake ../
 
 print("cmake_configure_command: %s" % cmake_configure_command)
 
-os.system(cmake_configure_command)
+process = subprocess.run(cmake_configure_command,  capture_output=True)
+
+if process.returncode != 0:
+    sys.exit(process.returncode)
+
 os.system("cmake --build . --target all")
 os.chdir("bin")
 
