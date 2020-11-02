@@ -497,7 +497,7 @@
     <message>
         <location filename="../qml/Installed/Installed.qml" line="245"/>
         <source>Are you sure you want to delete this item?</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要删除此物品？</translation>
     </message>
 </context>
 <context>
