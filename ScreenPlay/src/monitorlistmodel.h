@@ -117,13 +117,11 @@ public slots:
 
     void screenAdded(QScreen* screen)
     {
-        qDebug() << "screenAdded" << screen->geometry() << m_monitorList.size();
         emit monitorConfigurationChanged();
         reset();
     }
     void screenRemoved(QScreen* screen)
     {
-        qDebug() << "screenRemoved" << screen->geometry() << m_monitorList.size();
         emit monitorConfigurationChanged();
         reset();
     }

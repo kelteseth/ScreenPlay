@@ -390,6 +390,7 @@ void ScreenPlayManager::newConnection()
 void ScreenPlayManager::closeAllWallpapers()
 {
     closeConntectionByType(GlobalVariables::getAvailableWallpaper());
+    setActiveWallpaperCounter(0);
 }
 
 /*!

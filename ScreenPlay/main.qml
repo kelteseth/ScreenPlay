@@ -132,6 +132,20 @@ ApplicationWindow {
         title: qsTr("Could not load steam integration!")
     }
 
+    Dialog {
+        id: dialogMonitorConfigurationChanged
+        modal: true
+        anchors.centerIn: Overlay.overlay
+        standardButtons: Dialog.Ok
+        title: qsTr("Your monitor setup changed. Please configure your setup!")
+        Connections {
+            target: ScreenPlay.monitorListModel
+            function onMonitorConfigurationChanged() {
+                dialogMonitorConfigurationChanged.open()
+            }
+        }
+    }
+
     Common.TrayIcon {}
 
     Common.Background {
