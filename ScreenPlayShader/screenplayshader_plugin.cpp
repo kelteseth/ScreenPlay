@@ -13,6 +13,6 @@ QObject* ScreenPlayShaderLibrarySingleton(QQmlEngine* engine, QJSEngine* scriptE
 void ScreenPlayShaderPlugin::registerTypes(const char* uri)
 {
 
-    qmlRegisterType(QUrl("qrc:/ShaderWrapper/ShadertoyShader.qml"), "ScreenPlay.ShadertoyShader", 1,0, "ShadertoyShader");
+    qmlRegisterType(QUrl("qrc:/ShaderWrapper/ShadertoyShader.qml"), "ScreenPlay.ShadertoyShader", 1, 0, "ShadertoyShader");
     qmlRegisterSingletonType<ShaderLibrary>(uri, 1, 0, "ShaderLibrary", ScreenPlayShaderLibrarySingleton);
 }

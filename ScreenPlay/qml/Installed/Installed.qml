@@ -10,7 +10,7 @@ import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlay.Enums.SearchType 1.0
 
 Item {
-    id: pageInstalled
+    id: root
 
     signal setNavigationItem(var pos)
     signal setSidebarActive(var active)
@@ -81,7 +81,7 @@ Item {
         cellWidth: 340
         cellHeight: 200
         cacheBuffer: 160
-        interactive: pageInstalled.enabled
+        interactive: root.enabled
         snapMode: GridView.SnapToRow
         anchors {
             topMargin: 0
@@ -191,8 +191,14 @@ Item {
                 contextMenu.workshopID = delegate.workshopID
                 contextMenu.absoluteStoragePath = delegate.absoluteStoragePath
 
-                const pos = delegate.mapToItem(pageInstalled, position.x,
-                                               position.y)
+                deleteDialog.currentItemIndex = itemIndex
+
+                const pos = delegate.mapToItem(root, position.x, position.y)
+
+                // Disable duplicate opening. The can happen if we
+                // call popup when we are in the closing animtion.
+                if (contextMenu.visible || contextMenu.opened)
+                    return
 
                 contextMenu.popup(pos.x, pos.y)
             }
@@ -206,6 +212,7 @@ Item {
         id: contextMenu
         property int workshopID: 0
         property url absoluteStoragePath
+
         MenuItem {
             text: qsTr("Open containing folder")
             icon.source: "qrc:/assets/icons/icon_folder_open.svg"
@@ -235,14 +242,15 @@ Item {
     }
     Dialog {
         id: deleteDialog
-        title: "Are you sure you want to delete this item?"
+        title: qsTr("Are you sure you want to delete this item?")
         standardButtons: Dialog.Ok | Dialog.Cancel
         modal: true
         dim: true
         anchors.centerIn: Overlay.overlay
+        property int currentItemIndex: 0
 
         onAccepted: ScreenPlay.installedListModel.deinstallItemAt(
-                        screenPlayItem.itemIndex)
+                        currentItemIndex)
     }
 
     Navigation {

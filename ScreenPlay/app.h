@@ -35,6 +35,7 @@
 #pragma once
 
 #include <QDir>
+#include <QElapsedTimer>
 #include <QIcon>
 #include <QObject>
 #include <QQmlApplicationEngine>
@@ -153,6 +154,7 @@ signals:
 public slots:
 
     void exit();
+    bool loadSteamPlugin();
     void setTrackerSendEvent(const QString& category, const QString& page)
     {
         if (m_telemetry) {
@@ -249,11 +251,9 @@ public slots:
     }
 
 private:
-    void loadSteamPlugin();
-
-private:
     QPluginLoader m_workshopPlugin;
     QNetworkAccessManager m_networkAccessManager;
+    QElapsedTimer m_continuousIntegrationMetricsTimer;
     std::unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
 
     std::unique_ptr<Create> m_create;

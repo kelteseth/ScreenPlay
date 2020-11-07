@@ -34,10 +34,15 @@
 
 #include "app.h"
 #include <QApplication>
+#include <QCommandLineParser>
 #include <QDebug>
 #ifdef Q_OS_WIN
 #include <sentry.h>
 #endif
+#define DOCTEST_CONFIG_IMPLEMENT
+#define DOCTEST_CONFIG_SUPER_FAST_ASSERTS
+#include <doctest/doctest.h>
+
 int main(int argc, char* argv[])
 {
 
@@ -51,6 +56,29 @@ int main(int argc, char* argv[])
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication qtGuiApp(argc, argv);
+
+    // Benchmarks
+    if (QGuiApplication::arguments().contains("--benchmark")) {
+        QFile metricsFile { QGuiApplication::applicationDirPath() + "/metrics.txt" };
+        if (metricsFile.exists())
+            qInfo() << "Removing old Continuous Integration Metrics Timer: " << metricsFile.remove();
+
+        QTimer::singleShot(10000, []() {
+            qInfo() << "Exit ScreenPlay benchmark mode!";
+            QGuiApplication::quit();
+        });
+    }
+
+    // Unit tests
+    doctest::Context context;
+    context.setOption("abort-after", 5); // stop test execution after 5 failed assertions
+    context.setOption("order-by", "name"); // sort the test cases by their name
+    context.setOption("no-breaks", true); // don't break in the debugger when assertions fail
+    context.setOption("no-run", true); // No tests are executed by default
+    context.applyCommandLine(argc, argv); // Every setOption call after applyCommandLine overrides the command line arguments
+    const int testResult = context.run();
+    if (context.shouldExit())
+        return testResult;
 
     ScreenPlay::App app;
 

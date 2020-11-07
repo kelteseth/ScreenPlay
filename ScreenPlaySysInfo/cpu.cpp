@@ -1,16 +1,16 @@
 #include "cpu.h"
-#include <QtQml/qqml.h>
 #include "mathhelper.h"
+#include <QtQml/qqml.h>
 
-#define STATUS_SUCCESS					0
-#define STATUS_INFO_LENGTH_MISMATCH	0xC0000004
+#define STATUS_SUCCESS 0
+#define STATUS_INFO_LENGTH_MISMATCH 0xC0000004
 
-CPU::CPU(QObject *parent) : QObject(parent)
+CPU::CPU(QObject* parent)
+    : QObject(parent)
 {
-    connect(&m_updateTimer,&QTimer::timeout,this,&CPU::update);
+    connect(&m_updateTimer, &QTimer::timeout, this, &CPU::update);
     m_updateTimer.start(m_tickRate);
 }
-
 
 void CPU::update()
 {
@@ -19,7 +19,8 @@ void CPU::update()
 
     // get new CPU's idle/kernel/user time
     status = GetSystemTimes(&ftIdleTime, &ftKernelTime, &ftUserTime);
-    if (status == 0) return;
+    if (status == 0)
+        return;
 
     //convert times to uint by appending low and high bits
     uint64_t newIdleTime = FileTimeToInt64(ftIdleTime);

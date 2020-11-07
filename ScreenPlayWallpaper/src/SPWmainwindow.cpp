@@ -120,8 +120,8 @@ MainWindow::MainWindow(int screenAt, QString projectPath, QString id, QString de
     UpdateWindow(m_hwnd);
     UpdateWindow(m_worker_hwnd);
     SetWindowLongPtr(m_hwnd, GWL_STYLE, WS_CHILDWINDOW);
-    SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE );
-   // ShowWindow(m_hwnd, SW_SHOW);
+    SetWindowLongPtr(m_hwnd, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE);
+    // ShowWindow(m_hwnd, SW_SHOW);
     //MoveWindow(m_hwnd, screen->geometry().x(), screen->geometry().y() , screen->size().width(), screen->size().height(), true);
 
     qDebug() << "Create window: " << screenAt << ", x: " << screen->geometry().x() << "y: " << screen->geometry().y() << screen->size().width() << screen->size().height();
@@ -158,7 +158,7 @@ MainWindow::MainWindow(int screenAt, QString projectPath, QString id, QString de
         }
     });
 
-    QTimer::singleShot(3000,[=](){
+    QTimer::singleShot(3000, [=]() {
         ShowWindow(m_hwnd, SW_SHOWNOACTIVATE);
     });
 
@@ -176,7 +176,7 @@ void MainWindow::init()
     // This needs to be set in this order or
     // the window will be opened as fullscreen!
 
-   //ShowWindow(m_hwnd, SW_SHOWDEFAULT);
+    //ShowWindow(m_hwnd, SW_SHOWDEFAULT);
 #endif
 }
 void MainWindow::destroyThis()

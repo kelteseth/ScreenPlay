@@ -1,45 +1,181 @@
 stages:
+    - check
     - build
+    - test
+    - benchmark
 
-build:windows:
+check:
+    stage: check
+    tags:
+        - vs2019
+        - windows10
+    script:
+        - cd Tools
+        - pip install cmakelang
+        - python format-cmake.py
+        - python format-cpp.py
+
+build:windows_debug:
     stage: build
     tags:
-        - vs2017
-        - windows
-    before_script:
-        - git clean -xdf
-        - git submodule sync --recursive
-        - git submodule update --init --recursive
-        # Needs MSVC 2019 installed!
-        # Setup vcvars32.bat manually because this is powershell and MS does not have something simmilar for PS. Wtf?
-        # https://gist.github.com/justinian/81a2e55c89e8301a8a96
-        # https://stackoverflow.com/questions/2124753/how-can-i-use-powershell-with-the-visual-studio-command-prompt
-        - $tempFile = [IO.Path]::GetTempFileName()  
-        - cmd /c " `"C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat`" && set > `"$tempFile`" " 
-        - Get-Content $tempFile | Foreach-Object {if($_ -match "^(.*?)=(.*)$"){Set-Content "env:\$($matches[1])" $matches[2]}}
-        - Remove-Item $tempFile
-        - $Env:Path += ';C:\Qt\5.15.1\msvc2019_64\bin'
-        - $Env:Path += ';C:\Qt\Tools\QtCreator\bin'
-        - $env:path -split ";"
-    cache:
-        key: ${CI_RUNNER_DESCRIPTION}
-        paths:
-            - Common\vcpkg\
+        - vs2019
+        - windows10
+    needs:
+        - check
     script:
-        - cmd /c install_dependencies_windows.bat
-        - mkdir BUILD_WINDOWS
-        - cd BUILD_WINDOWS
-        - cmake.exe ../  -DCMAKE_PREFIX_PATH=c:/Qt/5.15.1/msvc2019 -DCMAKE_IGNORE_PATH=C:/Strawberry/c/bin -DCMAKE_BUILD_TYPE=MinSizeRel -DCMAKE_TOOLCHAIN_FILE="$(Get-Location)/../Common/vcpkg/scripts/buildsystems/vcpkg.cmake" -DVCPKG_TARGET_TRIPLET=x64-windows "-GCodeBlocks - Ninja" -B.
-        - cmake.exe --build . --target all
-        - cd bin
-        - windeployqt.exe  --release  --qmldir ../../ScreenPlay/qml ScreenPlay.exe
-        - windeployqt.exe  --release  --qmldir ../../ScreenPlayWidget ScreenPlayWidget.exe
-        - windeployqt.exe  --release  --qmldir ../../ScreenPlayWallpaper ScreenPlayWallpaper.exe
-        - del *.cpp,*.moc,*.h,*.obj,*.res,*.exp,*.lib,*.lik,*.pch, *.ninja, *.exe.manifest, *.cbp, *.cmake, *.ninja_log, *.ninja_deps, *.manifest
+        - cd Tools
+        - python build.py -t debug
     artifacts:
-        expire_in: '12 weeks'
+        expire_in: '4 weeks'
         paths:
-            - BUILD_WINDOWS/bin/
+            - build-x64-windows-debug/bin/
+
+build:windows_release:
+    stage: build
+    tags:
+        - vs2019
+        - windows10
+    needs:
+        - check
+    script:
+        - cd Tools
+        - python build.py -t release
+    artifacts:
+        expire_in: '4 weeks'
+        paths:
+            - build-x64-windows-release/bin/
+
+
+build:osx_debug:
+    stage: build
+    allow_failure: true
+    tags:
+        - osx
+    needs:
+        - check
+    script:
+        - cd Tools
+        - python3 build.py -t debug
+    artifacts:
+        expire_in: '4 weeks'
+        paths:
+            - build-x64-osx-debug/bin/
+
+build:osx_release:
+    stage: build
+    allow_failure: true
+    tags:
+        - osx
+    needs:
+        - check
+    script:
+        - cd Tools
+        - python3 build.py -t release
+    artifacts:
+        expire_in: '4 weeks'
+        paths:
+            - build-x64-osx-release/bin/
+
+build:linux_debug:
+    stage: build
+    allow_failure: true
+    image:  
+        name: darkmattercoder/qt-build:5.15.1
+        entrypoint: [""]
+    tags:
+        - gitlab-org-docker 
+    needs:
+        - check
+    script:
+        - sudo apt-get update -y
+        - sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common -y
+        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
+        - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic-rc main' -y
+        - sudo apt-get update -y
+        - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - cd Tools
+        - python build.py -t debug
+    artifacts:
+        expire_in: '4 weeks'
+        paths:
+            - build-x64-linux-debug/bin/
+
+build:linux_release:
+    stage: build
+    allow_failure: true
+    image:  
+        name: darkmattercoder/qt-build:5.15.1
+        entrypoint: [""]
+    tags:
+        - gitlab-org-docker 
+    needs:
+        - check
+    script:
+        - sudo apt-get update -y
+        - sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common -y
+        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
+        - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic-rc main' -y
+        - sudo apt-get update -y
+        - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - cd Tools
+        - python build.py -t release
+    artifacts:
+        expire_in: '4 weeks'
+        paths:
+            - build-x64-linux-release/bin/
+
+test:windows_debug:
+    stage: test
+    tags:
+        - windows10
+        - vs2019
+    dependencies:
+        - build:windows_debug
+    needs:
+        - build:windows_debug
+    script:
+        - ./build-x64-windows-debug/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
+    artifacts:
+        expire_in: '4 weeks'
+        when: always
+        reports:
+            junit: test-report-junit.xml
+
+test:windows_release:
+    stage: test
+    tags:
+        - windows10
+        - vs2019
+    dependencies:
+        - build:windows_release
+    needs:
+        - build:windows_release
+    script:
+        - ./build-x64-windows-release/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
+    artifacts:
+        expire_in: '4 weeks'
+        when: always
+        reports:
+            junit: test-report-junit.xml
+
+
+benchmark:windows_release:
+    stage: benchmark
+    tags:
+        - windows10
+        - vs2019
+    dependencies:
+        - build:windows_release
+    needs:
+        - build:windows_release
+    script:
+        - ./build-x64-windows-release/bin/ScreenPlay.exe --benchmark
+    artifacts:
+        expire_in: '4 weeks'
+        when: always
+        reports:
+            metrics: build-x64-windows-release/bin/metrics.txt
+            
 
 build_docs:
   stage: .post 

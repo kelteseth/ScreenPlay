@@ -28,8 +28,6 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
 
-
-
     projectFile.setFileName(projectFilePath + "/project.json");
     projectFile.open(QIODevice::ReadOnly | QIODevice::Text);
     QString projectConfig = projectFile.readAll();
@@ -166,9 +164,12 @@ QString BaseWindow::loadFromFile(const QString& filename)
     QFile file;
     file.setFileName(basePath() + "/" + filename);
     qWarning() << "  loadFromFile: " << file.fileName() << file.readAll();
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        return file.readAll();
+    if (file.open(QIODevice::ReadOnly)) {
+        const QString content = file.readAll();
+        file.close();
+        return content;
     }
+    file.close();
     qWarning() << "Could not loadFromFile: " << file.fileName();
     return "";
 }

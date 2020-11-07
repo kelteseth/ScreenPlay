@@ -59,7 +59,6 @@
 
 #include "globalvariables.h"
 
-
 namespace ScreenPlay {
 
 template <typename T>
@@ -114,6 +113,7 @@ public slots:
     static std::optional<QVersionNumber> getVersionNumberFromString(const QString& str);
     static bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
     static QString toString(const QStringList& list);
+    static void appendToMetricsFile(const QString& key, const QVariant& value);
 
     static void logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg);
     static QString generateRandomString(quint32 length = 32);
@@ -143,7 +143,6 @@ public slots:
         m_debugMessages += debugMessages;
         emit debugMessagesChanged(m_debugMessages);
     }
-
 
 private:
     QNetworkAccessManager* m_networkAccessManager { nullptr };

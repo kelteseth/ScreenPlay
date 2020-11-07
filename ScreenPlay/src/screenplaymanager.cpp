@@ -1,5 +1,6 @@
 #include "screenplaymanager.h"
 #include <QScopeGuard>
+#include <doctest/doctest.h>
 
 namespace ScreenPlay {
 
@@ -18,7 +19,6 @@ namespace ScreenPlay {
 ScreenPlayManager::ScreenPlayManager(
     QObject* parent)
     : QObject { parent }
-
     , m_server { std::make_unique<QLocalServer>() }
 {
 
@@ -280,14 +280,13 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
     return false;
 }
 
-bool ScreenPlayManager::removeApp(const QString &appID)
+bool ScreenPlayManager::removeApp(const QString& appID)
 {
-    emit requestSaveProfiles();
-
     if (!closeConnection(appID)) {
         qWarning() << "Could not  close socket. Abort!";
         return false;
     }
+
     m_monitorListModel->closeWallpaper(appID);
 
     const QString appIDCopy = appID;
@@ -389,7 +388,11 @@ void ScreenPlayManager::newConnection()
 */
 void ScreenPlayManager::closeAllWallpapers()
 {
+    if(m_screenPlayWallpapers.empty() && m_activeWallpaperCounter == 0)
+        return;
+
     closeConntectionByType(GlobalVariables::getAvailableWallpaper());
+    setActiveWallpaperCounter(0);
 }
 
 /*!
@@ -402,20 +405,29 @@ void ScreenPlayManager::closeAllWallpapers()
 */
 void ScreenPlayManager::closeAllWidgets()
 {
+    if(m_screenPlayWidgets.empty() && m_activeWidgetsCounter == 0)
+        return;
+
     closeConntectionByType(GlobalVariables::getAvailableWidgets());
+    setActiveWidgetsCounter(0);
 }
 
 /*!
   \brief Closes a connection by type. Used only by closeAllWidgets() and closeAllWallpapers()
 */
-void ScreenPlayManager::closeConntectionByType(const QStringList& types)
+bool ScreenPlayManager::closeConntectionByType(const QStringList& types)
 {
+    if (m_clients.isEmpty())
+        return true;
+
     for (auto& client : m_clients) {
         if (types.contains(client->type(), Qt::CaseInsensitive)) {
             client->close();
-            m_clients.removeOne(client);
+            return m_clients.removeOne(client);
         }
     }
+
+    return false;
 }
 
 /*!
@@ -423,6 +435,9 @@ void ScreenPlayManager::closeConntectionByType(const QStringList& types)
 */
 bool ScreenPlayManager::closeConnection(const QString& appID)
 {
+    if (m_clients.isEmpty())
+        return true;
+
     for (auto& client : m_clients) {
         if (client->appID() == appID) {
             client->close();
@@ -502,7 +517,6 @@ bool ScreenPlayManager::removeWallpaperByAppID(const QString& appID)
 */
 void ScreenPlayManager::loadProfiles()
 {
-
     auto configObj = Util::openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
 
     if (!configObj) {
@@ -591,6 +605,12 @@ void ScreenPlayManager::loadProfiles()
             createWidget(type, position, absolutePath, previewImage, properties, false);
         }
     }
+}
+
+TEST_CASE("Loads profiles.json")
+{
+    GlobalVariables globalVariables;
+    ScreenPlayManager manager;
 }
 
 }

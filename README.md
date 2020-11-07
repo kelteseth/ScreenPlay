@@ -7,7 +7,12 @@
 <br>
 
 ScreenPlay [![pipeline status](https://gitlab.com/kelteseth/ScreenPlay/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlay/-/commits/master) <br>
-Dev. Docs   [![pipeline status](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/-/commits/master) 
+Dev. Docs   [![pipeline status](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/-/commits/master) <br><br>
+<a href="https://twitter.com/kelteseth">![Twitter Follow](https://img.shields.io/twitter/follow/kelteseth?style=for-the-badge)</a>
+<a href="https://www.reddit.com/r/ScreenPlayApp/">![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/screenplayapp?style=for-the-badge)</a>
+<a href="https://discord.com/invite/rUvjNSV?utm_source=Discord%20Widget&utm_medium=Connect">![Discord](https://img.shields.io/discord/516635043435773970?style=for-the-badge)</a>
+
+
 
 <br>
 ScreenPlay is an open source cross platform app for displaying Video Wallpaper, Widgets and AppDrawer. It is written in modern C++20/Qt5/QML. Binaries with workshop support are available for Windows and soon Linux & MacOSX via <a href="https://store.steampowered.com/about/">Steam</a>.  Join our community: 
@@ -16,7 +21,7 @@ ScreenPlay is an open source cross platform app for displaying Video Wallpaper, 
 <!--<h4><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h4>-->
 <br>
 
-![Preview](.gitlab/media/preview.mp4)
+![Preview](.gitlab/media/preview.gif)
 
 <br> <h4><a href="https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/">Wallpaper </a>  and  <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/widgets/">  Widgets </a>Guide</h4>
 </div>

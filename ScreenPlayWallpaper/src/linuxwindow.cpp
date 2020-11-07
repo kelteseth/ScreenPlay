@@ -1,6 +1,5 @@
 #include "linuxwindow.h"
 
-
 LinuxWindow::LinuxWindow(QVector<int> activeScreensList, QString projectPath, QString id, QString volume, const QString fillmode, const bool checkWallpaperVisible, QObject* parent)
     : BaseWindow(projectPath, activeScreensList, checkWallpaperVisible)
 {
@@ -41,8 +40,6 @@ LinuxWindow::LinuxWindow(QVector<int> activeScreensList, QString projectPath, QS
 
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setSource(QUrl("qrc:/mainWindow.qml"));
-
-
 
     // WARNING: Setting Window flags must be called *here*!
     Qt::WindowFlags flags = m_window.flags();

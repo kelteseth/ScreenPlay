@@ -248,6 +248,30 @@ public slots:
 
         setqSetting("HighPriorityStart", highPriorityStart);
 
+        const QString app = "'" + QGuiApplication::applicationDirPath() + "/WindowsServiceHelper.exe" + "'";
+        QStringList args { "-Command", QString("Start-Process %1 -Verb runAs").arg(app), "-ArgumentList" };
+
+        // Because we must use powershell, we need to add an extra 'var' and ,
+        auto appendAsString = [&](const QString& string, const bool isLast = false) {
+            QString arg = "'" + string + "'";
+            if (!isLast)
+                arg += ",";
+            args.append(arg);
+        };
+
+        appendAsString("--t");
+        appendAsString("create");
+        appendAsString("--sn");
+        appendAsString("ScreenPlayService");
+        appendAsString("--dn");
+        appendAsString("ScreenPlayService");
+        appendAsString("--a");
+        appendAsString(QVariant(highPriorityStart).toString(), true);
+
+        QProcess process;
+        process.start(QStringLiteral("powershell"), args);
+        process.waitForFinished(5000);
+
         m_highPriorityStart = highPriorityStart;
         emit highPriorityStartChanged(m_highPriorityStart);
     }
@@ -383,7 +407,7 @@ private:
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
 
     bool m_autostart { true };
-    bool m_highPriorityStart { true };
+    bool m_highPriorityStart { false };
     bool m_offlineMode { true };
     bool m_checkWallpaperVisible { false };
     bool m_silentStart { false };

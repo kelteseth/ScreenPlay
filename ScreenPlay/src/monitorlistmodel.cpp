@@ -148,7 +148,7 @@ void MonitorListModel::loadMonitors()
         }
     }
 
-    beginInsertRows(QModelIndex(), 0, rowCount());
+    QModelIndex index;
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
 
@@ -161,9 +161,11 @@ void MonitorListModel::loadMonitors()
             screen->geometry().y() + offsetY,
             screen->geometry().width(),
             screen->geometry().height());
+
+        beginInsertRows(index, m_monitorList.size(), m_monitorList.size());
         m_monitorList.append(Monitor { i, availableVirtualGeometry, screen });
+        endInsertRows();
     }
-    endInsertRows();
 
     emit monitorReloadCompleted();
 }
@@ -216,7 +218,7 @@ void MonitorListModel::closeWallpaper(const QString& appID)
  */
 QRect MonitorListModel::getAbsoluteDesktopSize() const
 {
-    auto* app = static_cast<QApplication*>(QApplication::instance());
+    auto* app = static_cast<QApplication*>(QGuiApplication::instance());
     return app->screens().at(0)->availableVirtualGeometry();
 }
 

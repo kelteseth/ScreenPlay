@@ -43,6 +43,9 @@ namespace ScreenPlay {
 App::App()
     : QObject(nullptr)
 {
+
+    m_continuousIntegrationMetricsTimer.start();
+
     QGuiApplication::setWindowIcon(QIcon(":/assets/icons/app.ico"));
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
@@ -120,6 +123,7 @@ App::App()
     // ScreenPlayManager first to check if another ScreenPlay Instace is running
     m_screenPlayManager = std::make_unique<ScreenPlayManager>();
     m_isAnotherScreenPlayInstanceRunning = m_screenPlayManager->isAnotherScreenPlayInstanceRunning();
+    Util::appendToMetricsFile("screenplay_app_constructor", m_continuousIntegrationMetricsTimer.msecsSinceReference());
 }
 
 /*!
@@ -130,6 +134,9 @@ App::App()
 */
 void App::init()
 {
+
+    Util::appendToMetricsFile("screenplay_app_init", m_continuousIntegrationMetricsTimer.msecsSinceReference());
+
     using std::make_shared, std::make_unique;
 
     // Util should be created as first so we redirect qDebugs etc. into the log
@@ -173,7 +180,7 @@ void App::init()
     m_settings->setupLanguage();
 
     QObject::connect(m_globalVariables.get(), &GlobalVariables::localStoragePathChanged, this, [this](QUrl localStoragePath) {
-        m_settings->resetInstalledListmodel();
+        emit m_settings->resetInstalledListmodel();
         m_settings->setqSetting("ScreenPlayContentPath", localStoragePath.toString());
     });
     QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_screenPlayManager.get(), &ScreenPlayManager::closeAllWallpapers);
@@ -187,9 +194,9 @@ void App::init()
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
-    loadSteamPlugin();
-
+    Util::appendToMetricsFile("Screenplay_app_qqmlapplicationengine_load_begin", m_continuousIntegrationMetricsTimer.msecsSinceReference());
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
+    Util::appendToMetricsFile("Screenplay_app_qqmlapplicationengine_load_end", m_continuousIntegrationMetricsTimer.msecsSinceReference());
 }
 
 /*!
@@ -208,18 +215,22 @@ void App::exit()
     }
 }
 
-void App::loadSteamPlugin()
+bool App::loadSteamPlugin()
 {
+
 #ifdef Q_OS_MACOS
     const QString fileSuffix = ".dylib";
 #endif
+
 #ifdef Q_OS_WIN
 #ifdef QT_NO_DEBUG
     const QString fileSuffix = ".dll";
 #else
     const QString fileSuffix = "d.dll";
 #endif
-#else
+#endif
+
+#ifdef Q_OS_LINUX
     const QString fileSuffix = ".so";
 #endif
 
@@ -228,9 +239,12 @@ void App::loadSteamPlugin()
     if (!m_workshopPlugin.load()) {
         qWarning() << "Steam plugin not provided!";
         qWarning() << m_workshopPlugin.fileName() << " - With error: " << m_workshopPlugin.errorString();
+        return false;
     }
 
     const ScreenPlayWorkshopPlugin* workshopPlugin = reinterpret_cast<ScreenPlayWorkshopPlugin*>(m_workshopPlugin.instance());
+    Q_UNUSED(workshopPlugin)
     settings()->setSteamVersion(true);
+    return true;
 }
 }

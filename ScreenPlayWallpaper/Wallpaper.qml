@@ -4,7 +4,6 @@ import ScreenPlayWallpaper 1.0
 import ScreenPlay.Shader 1.0
 import "ShaderWrapper" as ShaderWrapper
 
-
 Rectangle {
     id: root
     anchors.fill: parent
@@ -46,8 +45,7 @@ Rectangle {
 
             loader.sourceComponent = undefined
             loader.source = ""
-            if (oldType === Wallpaper.WallpaperType.QML)
-                Wallpaper.clearComponentCache()
+            Wallpaper.clearComponentCache()
 
             loader.source = Qt.resolvedUrl(Wallpaper.fullContentPath)
         }
@@ -221,5 +219,4 @@ Rectangle {
             }
         }
     }
-
 }

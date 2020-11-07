@@ -60,10 +60,6 @@ class CreateImportVideo : public QObject {
 
 public:
     CreateImportVideo() { }
-    ~CreateImportVideo()
-    {
-        qDebug() << "CreateImportVideo";
-    }
     CreateImportVideo(QObject* parent = nullptr);
     explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, const QStringList& codecs, QObject* parent = nullptr);
 

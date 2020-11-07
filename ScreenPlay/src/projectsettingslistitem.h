@@ -60,7 +60,7 @@ public:
     QVariant m_value;
     virtual QJsonObject getItemSettings() = 0;
 public slots:
-    virtual void setData(const QJsonObject& obj){}
+    virtual void setData(const QJsonObject& obj) { }
 };
 
 struct SliderItem : public IListItem {
