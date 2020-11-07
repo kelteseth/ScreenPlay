@@ -1,0 +1,19 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=ScreenPlay
+Keywords=ScreenPlay
+Icon=preferences-desktop-wallpaper
+
+Type=Service
+
+X-KDE-ServiceTypes=Plasma/Wallpaper
+X-KDE-ParentApp=
+X-KDE-PluginInfo-Name=ScreenPlay
+X-KDE-PluginInfo-EnabledByDefault=true
+X-KDE-PluginInfo-Version=3
+X-KDE-PluginInfo-Website=https://gitlab.com/kelteseth/screenplay
+
+X-Plasma-MainScript=ui/main.qml
+
+MimeType=image/gif;image/png;image/svg+xml;image/svg+xml-compressed;video/x-mng;
+X-Plasma-DropMimeTypes=image/gif,image/png,image/svg+xml,image/svg+xml-compressed,video/x-mng
