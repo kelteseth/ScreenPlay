@@ -46,7 +46,7 @@ WidgetWindow::WidgetWindow(
     } else {
         QFile configTmp;
         QJsonDocument configJsonDocument;
-        QJsonParseError parseError;
+        QJsonParseError parseError{};
 
         configTmp.setFileName(projectPath + "/project.json");
         configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
