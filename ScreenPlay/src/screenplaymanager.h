@@ -95,6 +95,8 @@ signals:
     void requestRaise();
     void profilesSaved();
 
+    void monitorConfigurationChanged();
+
 private slots:
     void saveProfiles();
 
@@ -133,7 +135,7 @@ public slots:
     void newConnection();
     void closeAllWallpapers();
     void closeAllWidgets();
-    void closeConntectionByType(const QStringList& types);
+    bool closeConntectionByType(const QStringList& types);
     bool closeConnection(const QString& appID);
     void setWallpaperValue(const QString& appID, const QString& key, const QString& value);
 
