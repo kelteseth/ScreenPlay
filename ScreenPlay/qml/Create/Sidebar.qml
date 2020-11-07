@@ -53,6 +53,12 @@ Rectangle {
             }
 
             ListElement {
+                headline: "QML Wallpaper"
+                source: "qrc:/qml/Create/Wizards/CreateQMLWallpaper.qml"
+                category: "Create Wallpaper"
+            }
+
+            ListElement {
                 headline: "HTML5 Wallpaper"
                 source: "qrc:/qml/Create/Wizards/CreateHTMLWallpaper.qml"
                 category: "Create Wallpaper"
@@ -63,13 +69,6 @@ Rectangle {
                 source: "qrc:/qml/Create/Wizards/CreateHTMLWallpaper.qml"
                 category: "Create Wallpaper"
             }
-
-            ListElement {
-                headline: "QML Wallpaper"
-                source: "qrc:/qml/Create/Wizards/CreateQMLWallpaper.qml"
-                category: "Create Wallpaper"
-            }
-
             ListElement {
                 headline: "QML Widget"
                 source: "qrc:/qml/Create/Wizards/CreateQMLWidget.qml"
@@ -84,6 +83,12 @@ Rectangle {
 
             ListElement {
                 headline: "QML Particle Wallpaper"
+                source: ""
+                category: "Example Wallpaper"
+            }
+
+            ListElement {
+                headline: "Countdown Clock Wallpaper"
                 source: ""
                 category: "Example Wallpaper"
             }
@@ -170,7 +175,6 @@ Rectangle {
 
                 stackView.clear(StackView.PushTransition)
                 stackView.push("qrc:/qml/Create/StartInfo.qml")
-
             }
         }
 
@@ -183,7 +187,6 @@ Rectangle {
                 listView.currentIndex = index
                 const item = stackView.push(source)
                 loaderConnections.target = item
-
             }
             text: headline
         }
