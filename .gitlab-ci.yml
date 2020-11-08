@@ -89,6 +89,7 @@ build:linux_debug:
     script:
         - sudo apt-get update -y
         - sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common snapd -y
+        - systemctl start snapd.service 
         - sudo snap install cqtdeployer
         - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
         - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic-rc main' -y
@@ -114,6 +115,7 @@ build:linux_release:
     script:
         - sudo apt-get update -y
         - sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common snapd -y
+        - systemctl start snapd.service 
         - sudo snap install cqtdeployer
         - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
         - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic-rc main' -y
