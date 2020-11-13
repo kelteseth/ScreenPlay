@@ -20,7 +20,7 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
 
     if (projectFilePath == "test") {
         setType(BaseWindow::WallpaperType::Qml);
-        setFullContentPath("qrc:/test.qml");
+        setFullContentPath("qrc:/Test.qml");
         return;
     }
 

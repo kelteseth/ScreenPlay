@@ -36,14 +36,16 @@ print("Starting build with type %s. Qt Version: %s" %
 
 cmake_prefix_path = ""
 cmake_target_triplet = ""
+cmake_build_type = ""
 executable_file_ending = ""
-deploy_executable = ""
+deploy_command = ""
 
 if platform == "win32":
     print("Loading MSVC env variables via vsvars32.bat")
+    cmake_build_type = args.build_type
     windows_msvc =  "msvc2019_64"
     executable_file_ending = ".exe"
-    deploy_executable = "windeployqt.exe"
+    deploy_command = "windeployqt.exe --{type}  --qmldir ../../{app}/qml {app}{executable_file_ending}"
     dict = vs_env_dict()
     dict["PATH"] = dict["PATH"] + ";C:\\Qt\\" + qt_version + "\\" + windows_msvc + "\\bin;C:\\Qt\\Tools\\QtCreator\\bin"
     os.environ.update(dict)
@@ -52,18 +54,18 @@ if platform == "win32":
     os.system("install_dependencies_windows.bat")
 elif platform == "darwin":
     cmake_prefix_path = "~/Qt/" + qt_version + "/clang_64"
-    deploy_executable = "macdeployqt"
+    deploy_command = "macdeployqt --{type}  --qmldir ../../{app}/qml {app}"
     cmake_target_triplet = "x64-osx"
     print("Executing install_dependencies_linux_mac.sh")
     os.system("chmod +x install_dependencies_linux_mac.sh")
     os.system("./install_dependencies_linux_mac.sh")
 elif platform == "linux":
-    deploy_executable = "linuxdeployqt"
-    cmake_prefix_path = "~/Qt/"
+    deploy_command = "cqtdeployer -qmldir ../../{app}/qml -bin {app}"
+    cmake_prefix_path = "~/Qt/" + qt_version + "/gcc_64"
     cmake_target_triplet = "x64-linux"
     print("Executing install_dependencies_linux_mac.sh")
     os.system("chmod +x install_dependencies_linux_mac.sh")
-    os.system("./install_dependencies_linux_mac.sh")
+    #os.system("./install_dependencies_linux_mac.sh")
 
 # REMOVE OLD BUILD FOLDER
 cwd = os.getcwd()
@@ -105,20 +107,21 @@ if process.returncode != 0:
 os.system("cmake --build . --target all")
 os.chdir("bin")
 
-os.system(("{deploy_executable} --{type}  --qmldir ../../ScreenPlay/qml ScreenPlay{executable_file_ending}").format(
-  type=args.build_type,
-  executable_file_ending=executable_file_ending,
-  deploy_executable=deploy_executable))
+os.system((deploy_command).format(
+  type=cmake_build_type,
+  app="ScreenPlay",
+  executable_file_ending=executable_file_ending))
 
-os.system(("{deploy_executable} --{type}  --qmldir ../../ScreenPlayWidget ScreenPlayWidget{executable_file_ending}").format(  
-  type=args.build_type,
-  executable_file_ending=executable_file_ending,
-  deploy_executable=deploy_executable))
+os.system((deploy_command).format(
+  type=cmake_build_type,
+  app="ScreenPlayWidget",
+  executable_file_ending=executable_file_ending))
 
-os.system(("{deploy_executable} --{type}  --qmldir ../../ScreenPlayWallpaper ScreenPlayWallpaper{executable_file_ending}").format(  
-  type=args.build_type,
-  executable_file_ending=executable_file_ending,
-  deploy_executable=deploy_executable))
+os.system((deploy_command).format(
+  type=cmake_build_type,
+  app="ScreenPlayWallpaper",
+  executable_file_ending=executable_file_ending))
+
 
 
 file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".exp",

@@ -38,6 +38,7 @@
 #include <QObject>
 #include <QPoint>
 #include <QProcess>
+#include <QtWebSockets/QWebSocket>
 
 #include "ganalytics.h"
 #include "globalvariables.h"
@@ -199,6 +200,7 @@ private:
     std::shared_ptr<GAnalytics> m_telemetry;
     std::shared_ptr<Settings> m_settings;
     std::unique_ptr<QLocalServer> m_server;
+    std::unique_ptr<QWebSocketServer> m_websocketServer;
 
     QVector<std::shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
     QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
@@ -208,6 +210,8 @@ private:
 
     bool m_isAnotherScreenPlayInstanceRunning = false;
     QTimer m_saveLimiter;
+
+    const quint16 m_webSocketPort = 16395;
 };
 
 }

@@ -7,7 +7,13 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(
     Qt5
-    COMPONENTS Quick QuickCompiler Widgets Gui WebEngine LinguistTools
+    COMPONENTS Quick
+               QuickCompiler
+               Widgets
+               Gui
+               WebEngine
+               LinguistTools
+               WebSockets
     REQUIRED)
 
 find_package(OpenSSL REQUIRED)
@@ -96,6 +102,7 @@ target_link_libraries(
             Qt5::Widgets
             Qt5::Core
             Qt5::WebEngine
+            Qt5::WebSockets
             ScreenPlaySDK
             benchmark::benchmark
             benchmark::benchmark_main

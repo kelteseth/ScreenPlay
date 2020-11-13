@@ -50,6 +50,7 @@
 #include <QSettings>
 #include <QStandardPaths>
 #include <QString>
+#include <QSysInfo>
 #include <QTextStream>
 #include <QThread>
 #include <QUrl>
@@ -84,6 +85,7 @@ class Settings : public QObject {
     Q_PROPERTY(bool steamVersion READ steamVersion WRITE setSteamVersion NOTIFY steamVersionChanged)
 
     Q_PROPERTY(ScreenPlay::FillMode::FillMode videoFillMode READ videoFillMode WRITE setVideoFillMode NOTIFY videoFillModeChanged)
+    Q_PROPERTY(DesktopEnvironment desktopEnvironment READ desktopEnvironment WRITE setDesktopEnvironment NOTIFY desktopEnvironmentChanged)
     Q_PROPERTY(Language language READ language WRITE setLanguage NOTIFY languageChanged)
     Q_PROPERTY(Theme theme READ theme WRITE setTheme NOTIFY themeChanged)
 
@@ -95,6 +97,21 @@ public:
     explicit Settings(
         const std::shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
+
+    enum class DesktopEnvironment {
+        Unknown,
+        OSX,
+        Windows,
+        Cinnamon,
+        Enlightenment,
+        Gnome,
+        KDE,
+        Lxde,
+        Lxqt,
+        Mate,
+        Unity,
+        XFCE,
+    };
 
     enum class Language {
         En,
@@ -188,6 +205,11 @@ public:
         return m_steamVersion;
     }
 
+    DesktopEnvironment desktopEnvironment() const
+    {
+        return m_desktopEnvironment;
+    }
+
 signals:
     void requestRetranslation();
     void resetInstalledListmodel();
@@ -206,8 +228,8 @@ signals:
     void languageChanged(ScreenPlay::Settings::Language language);
     void fontChanged(QString font);
     void themeChanged(ScreenPlay::Settings::Theme theme);
-
     void steamVersionChanged(bool steamVersion);
+    void desktopEnvironmentChanged(DesktopEnvironment desktopEnvironment);
 
 public slots:
     void writeJsonFileFromResource(const QString& filename);
@@ -397,6 +419,15 @@ public slots:
         emit steamVersionChanged(m_steamVersion);
     }
 
+    void setDesktopEnvironment(DesktopEnvironment desktopEnvironment)
+    {
+        if (m_desktopEnvironment == desktopEnvironment)
+            return;
+
+        m_desktopEnvironment = desktopEnvironment;
+        emit desktopEnvironmentChanged(m_desktopEnvironment);
+    }
+
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
 
@@ -420,5 +451,6 @@ private:
     Theme m_theme { Theme::System };
     QString m_font { "Roboto" };
     bool m_steamVersion { false };
+    DesktopEnvironment m_desktopEnvironment = DesktopEnvironment::Unknown;
 };
 }
