@@ -1,7 +1,7 @@
 <RCC>
     <qresource prefix="/">
         <file>Wallpaper.qml</file>
-        <file>test.qml</file>
+        <file>Test.qml</file>
         <file>dot.png</file>
         <file>qtquickcontrols2.conf</file>
         <file>WebView.qml</file>
