@@ -19,13 +19,14 @@ namespace ScreenPlay {
 ScreenPlayManager::ScreenPlayManager(
     QObject* parent)
     : QObject { parent }
-    , m_server { std::make_unique<QLocalServer>() }
 {
 
     if (checkIsAnotherScreenPlayInstanceRunning()) {
         m_isAnotherScreenPlayInstanceRunning = true;
         return;
     }
+
+    m_server = std::make_unique<QLocalServer>();
 
     QObject::connect(m_server.get(), &QLocalServer::newConnection, this, &ScreenPlayManager::newConnection);
     m_server->setSocketOptions(QLocalServer::WorldAccessOption);
@@ -76,6 +77,16 @@ void ScreenPlayManager::init(
     m_monitorListModel = mlm;
     m_telemetry = telemetry;
     m_settings = settings;
+
+    if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
+        m_websocketServer = std::make_unique<QWebSocketServer>(QStringLiteral("ScreenPlayWebSocket"), QWebSocketServer::SslMode::NonSecureMode);
+        m_websocketServer->listen(QHostAddress::Any, m_webSocketPort);
+        QObject::connect(m_websocketServer.get(), &QWebSocketServer::newConnection, this, [this]() {
+            qInfo() << "New Websocket Connection";
+            auto* socket = m_websocketServer->nextPendingConnection();
+        });
+    }
+
     loadProfiles();
 }
 
@@ -388,7 +399,7 @@ void ScreenPlayManager::newConnection()
 */
 void ScreenPlayManager::closeAllWallpapers()
 {
-    if(m_screenPlayWallpapers.empty() && m_activeWallpaperCounter == 0)
+    if (m_screenPlayWallpapers.empty() && m_activeWallpaperCounter == 0)
         return;
 
     closeConntectionByType(GlobalVariables::getAvailableWallpaper());
@@ -405,7 +416,7 @@ void ScreenPlayManager::closeAllWallpapers()
 */
 void ScreenPlayManager::closeAllWidgets()
 {
-    if(m_screenPlayWidgets.empty() && m_activeWidgetsCounter == 0)
+    if (m_screenPlayWidgets.empty() && m_activeWidgetsCounter == 0)
         return;
 
     closeConntectionByType(GlobalVariables::getAvailableWidgets());

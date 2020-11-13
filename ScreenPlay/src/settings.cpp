@@ -40,6 +40,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     qRegisterMetaType<Settings::Language>("Settings::Language");
     qRegisterMetaType<Settings::Theme>("Settings::Theme");
+    qRegisterMetaType<Settings::DesktopEnvironment>("Settings::DesktopEnvironment");
 
     qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
 
@@ -119,6 +120,19 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     setupWidgetAndWindowPaths();
     setGitBuildHash(COMPILE_INFO);
+
+#ifdef Q_OS_WIN
+    setDesktopEnvironment(DesktopEnvironment::Windows);
+#endif
+
+#ifdef Q_OS_OSX
+    setDesktopEnvironment(DesktopEnvironment::OSX);
+#endif
+
+#ifdef Q_OS_LINUX
+    // We only support KDE for now
+    setDesktopEnvironment(DesktopEnvironment::KDE);
+#endif
 }
 
 /*!
