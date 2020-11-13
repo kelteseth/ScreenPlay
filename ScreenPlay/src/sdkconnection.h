@@ -44,6 +44,7 @@
 #include <QString>
 #include <QTimer>
 #include <QVector>
+#include <QWebSocketServer>
 
 #include <memory>
 
