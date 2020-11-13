@@ -7,7 +7,13 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(
     Qt5
-    COMPONENTS Quick QuickCompiler Widgets Gui WebEngine LinguistTools WebSockets
+    COMPONENTS Quick
+               QuickCompiler
+               Widgets
+               Gui
+               WebEngine
+               LinguistTools
+               WebSockets
     REQUIRED)
 
 find_package(OpenSSL REQUIRED)
