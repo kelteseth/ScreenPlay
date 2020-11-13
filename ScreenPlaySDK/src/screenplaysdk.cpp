@@ -78,7 +78,7 @@ void ScreenPlaySDK::disconnected()
 void ScreenPlaySDK::readyRead()
 {
     QString tmp = m_socket.readAll();
-    QJsonParseError err;
+    QJsonParseError err{};
     auto doc = QJsonDocument::fromJson(QByteArray::fromStdString(tmp.toStdString()), &err);
 
     if (!(err.error == QJsonParseError::NoError)) {
