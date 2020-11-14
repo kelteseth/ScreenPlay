@@ -34,22 +34,19 @@
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#Util">Util</a></b>(QNetworkAccessManager *<i>networkAccessManager</i>, QObject *<i>parent</i> = nullptr)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Util::AquireFFMPEGStatus </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#aquireFFMPEGStatus-prop">aquireFFMPEGStatus</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#debugMessages-prop">debugMessages</a></b>() const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#ffmpegAvailable-prop">ffmpegAvailable</a></b>() const</td></tr>
 </table></div>
 <a name="public-slots"></a>
 <h2 id="public-slots">Public Slots</h2>
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#copyToClipboard">copyToClipboard</a></b>(const QString &amp;<i>text</i>) const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#downloadFFMPEG">downloadFFMPEG</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#generateRandomString">generateRandomString</a></b>(quint32 <i>length</i> = 32)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#getVersionNumberFromString">getVersionNumberFromString</a></b>(<i>const QString &amp;</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;QVersionNumber&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#getVersionNumberFromString">getVersionNumberFromString</a></b>(const QString &amp;<i>str</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#logToGui">logToGui</a></b>(QtMsgType <i>type</i>, const QMessageLogContext &amp;<i>context</i>, const QString &amp;<i>msg</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openFolderInExplorer">openFolderInExplorer</a></b>(const QString &amp;<i>url</i>) const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openJsonFileToObject">openJsonFileToObject</a></b>(<i>const QString &amp;</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openJsonFileToString">openJsonFileToString</a></b>(<i>const QString &amp;</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#parseQByteArrayToQJsonObject">parseQByteArrayToQJsonObject</a></b>(<i>const QByteArray &amp;</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;QJsonObject&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openJsonFileToObject">openJsonFileToObject</a></b>(const QString &amp;<i>path</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;QString&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openJsonFileToString">openJsonFileToString</a></b>(const QString &amp;<i>path</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;QJsonObject&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#parseQByteArrayToQJsonObject">parseQByteArrayToQJsonObject</a></b>(const QByteArray &amp;<i>byteArray</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#requestAllLicenses">requestAllLicenses</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#requestDataProtection">requestDataProtection</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#toString">toString</a></b>(const QStringList &amp;<i>list</i>)</td></tr>
@@ -58,9 +55,7 @@
 <a name="signals"></a>
 <h2 id="signals">Signals</h2>
 <div class="table"><table class="alignedsummary">
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#aquireFFMPEGStatus-prop">aquireFFMPEGStatusChanged</a></b>(ScreenPlay::Util::AquireFFMPEGStatus <i>aquireFFMPEGStatus</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#debugMessages-prop">debugMessagesChanged</a></b>(QString <i>debugMessages</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#ffmpegAvailable-prop">ffmpegAvailableChanged</a></b>(bool <i>ffmpegAvailable</i>)</td></tr>
 </table></div>
 <a name="details"></a>
 <!-- $$$Util-description -->
@@ -78,10 +73,6 @@
 <h3 class="fn" id="copyToClipboard"><a name="copyToClipboard"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">copyToClipboard</span>(const <span class="type">QString</span> &amp;<i>text</i>) const</h3>
 <p>Copies the given string to the clipboard.</p>
 <!-- @@@copyToClipboard -->
-<!-- $$$downloadFFMPEG[overload1]$$$downloadFFMPEG -->
-<h3 class="fn" id="downloadFFMPEG"><a name="downloadFFMPEG"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">downloadFFMPEG</span>()</h3>
-<p>Downloads and extracts ffmpeg static version from https://ffmpeg.zeranoe.com The progress is tracked via setAquireFFMPEGStatus(AquireFFMPEGStatus);</p>
-<!-- @@@downloadFFMPEG -->
 <!-- $$$generateRandomString[overload1]$$$generateRandomStringquint32 -->
 <h3 class="fn" id="generateRandomString"><a name="generateRandomString"></a><code>[static slot] </code><span class="type">QString</span> Util::<span class="name">generateRandomString</span>(<span class="type">quint32</span> <i>length</i> = 32)</h3>
 <p>Generates a (non secure) random string with the default length of 32. Can contain:</p>
@@ -92,11 +83,11 @@
 </ul>
 <!-- @@@generateRandomString -->
 <!-- $$$getVersionNumberFromString[overload1]$$$getVersionNumberFromStringconstQString& -->
-<h3 class="fn" id="getVersionNumberFromString"><a name="getVersionNumberFromString"></a><code>[static slot] </code><span class="type">int</span> Util::<span class="name">getVersionNumberFromString</span>(<i>const QString &amp;</i>)</h3>
+<h3 class="fn" id="getVersionNumberFromString"><a name="getVersionNumberFromString"></a><code>[static slot] </code><span class="type">std::optional</span>&lt;<span class="type">QVersionNumber</span>&gt; Util::<span class="name">getVersionNumberFromString</span>(const <span class="type">QString</span> &amp;<i>str</i>)</h3>
 <p>Parses a version from a given QString. The QString must be looke like this: 1.0&#x2e;0 - Major.Minor.Patch. A fixed position is used for parsing (at 0,2,4). Return std::nullopt when not successful.</p>
 <!-- @@@getVersionNumberFromString -->
 <!-- $$$logToGui[overload1]$$$logToGuiQtMsgTypeconstQMessageLogContext&constQString& -->
-<h3 class="fn" id="logToGui"><a name="logToGui"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">logToGui</span>(<span class="type">QtMsgType</span> <i>type</i>, const <span class="type">QMessageLogContext</span> &amp;<i>context</i>, const <span class="type">QString</span> &amp;<i>msg</i>)</h3>
+<h3 class="fn" id="logToGui"><a name="logToGui"></a><code>[static slot] </code><span class="type">void</span> Util::<span class="name">logToGui</span>(<span class="type">QtMsgType</span> <i>type</i>, const <span class="type">QMessageLogContext</span> &amp;<i>context</i>, const <span class="type">QString</span> &amp;<i>msg</i>)</h3>
 <p>Basic logging to the GUI. No logging is done to a log file for now. This string can be copied in the settings tab in the UI.</p>
 <!-- @@@logToGui -->
 <!-- $$$openFolderInExplorer[overload1]$$$openFolderInExplorerconstQString& -->
@@ -104,15 +95,15 @@
 <p>Opens a native folder window on the given path. Windows and Mac only for now!</p>
 <!-- @@@openFolderInExplorer -->
 <!-- $$$openJsonFileToObject[overload1]$$$openJsonFileToObjectconstQString& -->
-<h3 class="fn" id="openJsonFileToObject"><a name="openJsonFileToObject"></a><code>[static slot] </code><span class="type">int</span> Util::<span class="name">openJsonFileToObject</span>(<i>const QString &amp;</i>)</h3>
+<h3 class="fn" id="openJsonFileToObject"><a name="openJsonFileToObject"></a><code>[static slot] </code><span class="type">std::optional</span>&lt;<span class="type">QJsonObject</span>&gt; Util::<span class="name">openJsonFileToObject</span>(const <span class="type">QString</span> &amp;<i>path</i>)</h3>
 <p>Opens a json file (absolute path) and tries to convert it to a QJsonObject. Returns std::nullopt when not successful.</p>
 <!-- @@@openJsonFileToObject -->
 <!-- $$$openJsonFileToString[overload1]$$$openJsonFileToStringconstQString& -->
-<h3 class="fn" id="openJsonFileToString"><a name="openJsonFileToString"></a><code>[static slot] </code><span class="type">int</span> Util::<span class="name">openJsonFileToString</span>(<i>const QString &amp;</i>)</h3>
+<h3 class="fn" id="openJsonFileToString"><a name="openJsonFileToString"></a><code>[static slot] </code><span class="type">std::optional</span>&lt;<span class="type">QString</span>&gt; Util::<span class="name">openJsonFileToString</span>(const <span class="type">QString</span> &amp;<i>path</i>)</h3>
 <p>Opens a json file (absolute path) and tries to convert it to a QString. Returns std::nullopt when not successful.</p>
 <!-- @@@openJsonFileToString -->
 <!-- $$$parseQByteArrayToQJsonObject[overload1]$$$parseQByteArrayToQJsonObjectconstQByteArray& -->
-<h3 class="fn" id="parseQByteArrayToQJsonObject"><a name="parseQByteArrayToQJsonObject"></a><code>[static slot] </code><span class="type">int</span> Util::<span class="name">parseQByteArrayToQJsonObject</span>(<i>const QByteArray &amp;</i>)</h3>
+<h3 class="fn" id="parseQByteArrayToQJsonObject"><a name="parseQByteArrayToQJsonObject"></a><code>[static slot] </code><span class="type">std::optional</span>&lt;<span class="type">QJsonObject</span>&gt; Util::<span class="name">parseQByteArrayToQJsonObject</span>(const <span class="type">QByteArray</span> &amp;<i>byteArray</i>)</h3>
 <p>Parses a QByteArray to a QJsonObject. If returns and std::nullopt on failure.</p>
 <!-- @@@parseQByteArrayToQJsonObject -->
 <!-- $$$requestAllLicenses[overload1]$$$requestAllLicenses -->

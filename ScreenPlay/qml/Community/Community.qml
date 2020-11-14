@@ -7,8 +7,7 @@ import ScreenPlay 1.0
 import QtWebEngine 1.8
 
 Item {
-    id: community
-    anchors.fill: parent
+    id: root
 
     Rectangle {
         id: navWrapper
@@ -22,6 +21,7 @@ Item {
         TabBar {
             id: nav
             height: parent.height
+            currentIndex: 0
             background: Item {}
             anchors {
                 top: parent.top
@@ -32,28 +32,28 @@ Item {
 
             CommunityNavItem {
                 text: qsTr("Wiki")
-                openLink: swipeView.itemAt(0).url
+                openLink: webModel.get(0).url
                 icon.source: "qrc:/assets/icons/icon_help_center.svg"
             }
 
             CommunityNavItem {
                 text: qsTr("Forum")
-                openLink: swipeView.itemAt(1).url
+                openLink: webModel.get(1).url
                 icon.source: "qrc:/assets/icons/icon_forum.svg"
             }
             CommunityNavItem {
                 text: qsTr("Issue List")
-                openLink: swipeView.itemAt(2).url
+                openLink: webModel.get(2).url
                 icon.source: "qrc:/assets/icons/icon_report_problem.svg"
             }
             CommunityNavItem {
                 text: qsTr("Release Notes")
-                openLink: swipeView.itemAt(3).url
+                openLink: webModel.get(3).url
                 icon.source: "qrc:/assets/icons/icon_new_releases.svg"
             }
             CommunityNavItem {
                 text: qsTr("Contribution Guide")
-                openLink: swipeView.itemAt(4).url
+                openLink: webModel.get(4).url
                 icon.source: "qrc:/assets/icons/icon_supervisor_account.svg"
             }
             CommunityNavItem {
@@ -96,29 +96,52 @@ Item {
             bottom: parent.bottom
             left: parent.left
         }
+        Repeater {
+            id: repeater
+            model: ListModel {
+                id: webModel
 
-        WebEngineView {
-            url: "https://kelteseth.gitlab.io/ScreenPlayDocs/"
-        }
+                ListElement {
+                    url: "https://kelteseth.gitlab.io/ScreenPlayDocs/"
+                }
+                ListElement {
+                    url: "https://forum.screen-play.app/"
+                }
 
-        WebEngineView {
-            url: "https://forum.screen-play.app/"
-        }
+                ListElement {
+                    url: "https://gitlab.com/kelteseth/ScreenPlay/-/issues"
+                }
 
-        WebEngineView {
-            url: "https://gitlab.com/kelteseth/ScreenPlay/-/issues"
-        }
+                ListElement {
+                    url: "https://gitlab.com/kelteseth/ScreenPlay/-/releases"
+                }
 
-        WebEngineView {
-            url: "https://gitlab.com/kelteseth/ScreenPlay/-/releases"
-        }
+                ListElement {
+                    url: "https://gitlab.com/kelteseth/ScreenPlay#contributing-for-none-programmer"
+                }
 
-        WebEngineView {
-            url: "https://gitlab.com/kelteseth/ScreenPlay#contributing-for-none-programmer"
-        }
+                ListElement {
+                    url: "https://steamcommunity.com/app/672870/workshop/"
+                }
+            }
 
-        WebEngineView {
-            url: "https://steamcommunity.com/app/672870/workshop/"
+            Loader {
+                active: SwipeView.isCurrentItem || SwipeView.isNextItem
+                        || SwipeView.isPreviousItem
+                sourceComponent: Item {
+                    Component.onCompleted: timer.start()
+                    Timer {
+                        id: timer
+                        interval: 200
+                        onTriggered: webView.url = webModel.get(index).url
+                    }
+
+                    WebEngineView {
+                        id: webView
+                        anchors.fill: parent
+                    }
+                }
+            }
         }
     }
 }

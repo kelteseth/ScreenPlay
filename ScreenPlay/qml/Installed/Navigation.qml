@@ -14,7 +14,6 @@ import "../Common" as Common
 
 Item {
     id: navWrapper
-
     state: "out"
 
     Rectangle {

@@ -69,7 +69,6 @@ Item {
             font.family: ScreenPlay.settings.font
             font.weight: Font.Normal
             text: ""
-
         }
 
         Text {

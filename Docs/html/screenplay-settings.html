@@ -38,6 +38,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#autostart-prop">autostart</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#checkWallpaperVisible-prop">checkWallpaperVisible</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#decoder-prop">decoder</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Settings::DesktopEnvironment </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#desktopEnvironment-prop">desktopEnvironment</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#font-prop">font</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#gitBuildHash-prop">gitBuildHash</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#highPriorityStart-prop">highPriorityStart</a></b>() const</td></tr>
@@ -45,6 +46,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#offlineMode-prop">offlineMode</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#setupLanguage">setupLanguage</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">silentStart</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#steamVersion-prop">steamVersion</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Settings::Theme </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#theme-prop">theme</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::FillMode::FillMode </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">videoFillMode</a></b>() const</td></tr>
 </table></div>
@@ -56,12 +58,14 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#autostart-prop">setAutostart</a></b>(bool <i>autostart</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#checkWallpaperVisible-prop">setCheckWallpaperVisible</a></b>(bool <i>checkWallpaperVisible</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#decoder-prop">setDecoder</a></b>(QString <i>decoder</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#desktopEnvironment-prop">setDesktopEnvironment</a></b>(ScreenPlay::Settings::DesktopEnvironment <i>desktopEnvironment</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#font-prop">setFont</a></b>(QString <i>font</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#gitBuildHash-prop">setGitBuildHash</a></b>(QString <i>gitBuildHash</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#highPriorityStart-prop">setHighPriorityStart</a></b>(bool <i>highPriorityStart</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#language-prop">setLanguage</a></b>(ScreenPlay::Settings::Language <i>language</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#offlineMode-prop">setOfflineMode</a></b>(bool <i>offlineMode</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">setSilentStart</a></b>(bool <i>silentStart</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#steamVersion-prop">setSteamVersion</a></b>(bool <i>steamVersion</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#theme-prop">setTheme</a></b>(ScreenPlay::Settings::Theme <i>theme</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">setVideoFillMode</a></b>(ScreenPlay::FillMode::FillMode <i>videoFillMode</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#setupWidgetAndWindowPaths">setupWidgetAndWindowPaths</a></b>()</td></tr>
@@ -74,12 +78,14 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#autostart-prop">autostartChanged</a></b>(bool <i>autostart</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#checkWallpaperVisible-prop">checkWallpaperVisibleChanged</a></b>(bool <i>checkWallpaperVisible</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#decoder-prop">decoderChanged</a></b>(QString <i>decoder</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#desktopEnvironment-prop">desktopEnvironmentChanged</a></b>(ScreenPlay::Settings::DesktopEnvironment <i>desktopEnvironment</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#font-prop">fontChanged</a></b>(QString <i>font</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#gitBuildHash-prop">gitBuildHashChanged</a></b>(QString <i>gitBuildHash</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#highPriorityStart-prop">highPriorityStartChanged</a></b>(bool <i>highPriorityStart</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#language-prop">languageChanged</a></b>(ScreenPlay::Settings::Language <i>language</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#offlineMode-prop">offlineModeChanged</a></b>(bool <i>offlineMode</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">silentStartChanged</a></b>(bool <i>silentStart</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#steamVersion-prop">steamVersionChanged</a></b>(bool <i>steamVersion</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#theme-prop">themeChanged</a></b>(ScreenPlay::Settings::Theme <i>theme</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">videoFillModeChanged</a></b>(ScreenPlay::FillMode::FillMode <i>videoFillMode</i>)</td></tr>
 </table></div>

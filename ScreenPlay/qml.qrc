@@ -73,5 +73,7 @@
         <file>qml/Create/Wizards/ImportWebm/ImportWebm.qml</file>
         <file>qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml</file>
         <file>qml/Create/Wizards/ImportWebm/ImportWebmInit.qml</file>
+        <file>qml/Common/Dialogs/MonitorConfiguration.qml</file>
+        <file>qml/Common/Dialogs/SteamNotAvailable.qml</file>
     </qresource>
 </RCC>

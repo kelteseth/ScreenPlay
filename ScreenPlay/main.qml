@@ -8,9 +8,9 @@ import QtGraphicalEffects 1.0
 import ScreenPlay 1.0
 import Settings 1.0
 
-import "qml/"
 import "qml/Monitors" as Monitors
 import "qml/Common" as Common
+import "qml/Common/Dialogs" as Dialogs
 import "qml/Installed" as Installed
 import "qml/Navigation" as Navigation
 import "qml/Workshop" as Workshop
@@ -24,7 +24,7 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 788
-    title: "ScreenPlay Alpha - V0.13.0"
+    title: "ScreenPlay Alpha - V0.12.1"
     minimumHeight: 450
     minimumWidth: 1050
     onVisibilityChanged: {
@@ -84,12 +84,7 @@ ApplicationWindow {
     }
 
     function switchPage(name) {
-        if (name === "Create") {
-            pageLoader.visible = false
-            pageLoaderCreate.visible = true
-            pageLoaderWorkshop.visible = false
-            pageLoaderCreate.setSource("qrc:/qml/Create/Create.qml")
-        } else if (name === "Workshop") {
+        if (name === "Workshop") {
             if (!ScreenPlay.settings.steamVersion) {
                 const steamAvialable = ScreenPlay.loadSteamPlugin()
                 if (!steamAvialable) {
@@ -98,130 +93,67 @@ ApplicationWindow {
                     return
                 }
             }
-            pageLoader.visible = false
-            pageLoaderCreate.visible = false
-            pageLoaderWorkshop.visible = true
-            pageLoaderWorkshop.setSource("qrc:/qml/Workshop/Workshop.qml")
-        } else if (name === "Community") {
-            pageLoader.visible = true
-            pageLoaderCreate.visible = false
-            pageLoaderWorkshop.visible = false
-            pageLoader.setSource("qrc:/qml/Community/Community.qml")
-        } else {
-            pageLoader.visible = true
-            pageLoaderCreate.visible = false
-            pageLoaderWorkshop.visible = false
-            pageLoader.setSource("qrc:/qml/" + name + "/" + name + ".qml")
         }
+
+        stackView.replace("qrc:/qml/" + name + "/" + name + ".qml")
 
         sidebar.state = "inactive"
     }
 
-    Dialog {
+    Dialogs.SteamNotAvailable {
         id: dialogSteam
-        modal: true
-        anchors.centerIn: Overlay.overlay
-        standardButtons: Dialog.Ok
-        title: qsTr("Could not load steam integration!")
     }
 
-    Dialog {
+    Dialogs.MonitorConfiguration {
         id: dialogMonitorConfigurationChanged
-        modal: true
-        anchors.centerIn: Overlay.overlay
-        standardButtons: Dialog.Ok
-        contentHeight: 250
-
-        contentItem: Item {
-            ColumnLayout {
-
-                anchors.margins: 20
-                anchors.fill: parent
-                spacing: 20
-
-                Image {
-                    Layout.alignment: Qt.AlignHCenter
-                    Layout.preferredWidth: 150
-                    Layout.preferredHeight: 150
-                    source: "qrc:/assets/icons/monitor_setup.svg"
-                    fillMode: Image.PreserveAspectFit
-                }
-
-                Text {
-                    text: qsTr("Your monitor setup changed!\n Please configure your wallpaper again.")
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    horizontalAlignment: Text.AlignHCenter
-                    font.family: ScreenPlay.settings.font
-                    font.pointSize: 16
-                    color: Material.primaryTextColor
-                }
-            }
-        }
-        Connections {
-            target: ScreenPlay.monitorListModel
-            function onMonitorConfigurationChanged() {
-                dialogMonitorConfigurationChanged.open()
-            }
-        }
     }
 
     Common.TrayIcon {}
 
 
-    Loader {
-        id: pageLoader
-        asynchronous: true
-        source: "qrc:/qml/Installed/Installed.qml"
+    StackView {
+        id: stackView
         anchors {
             top: nav.bottom
             right: parent.right
             bottom: parent.bottom
             left: parent.left
         }
-        onStatusChanged: {
-            if (status == Loader.Ready) {
-                if (pageLoaderCreate.source != "qrc:/qml/Create/Create.qml")
-                    timerLoader.start()
+
+        property int duration: 300
+
+        replaceEnter: Transition {
+            OpacityAnimator {
+                from: 0
+                to: 1
+                duration: stackView.duration
+                easing.type: Easing.InOutQuart
+            }
+            ScaleAnimator {
+                from: 0.8
+                to: 1
+                duration: stackView.duration
+                easing.type: Easing.InOutQuart
+            }
+        }
+        replaceExit: Transition {
+            OpacityAnimator {
+                from: 1
+                to: 0
+                duration: stackView.duration
+                easing.type: Easing.InOutQuart
+            }
+            ScaleAnimator {
+                from: 1
+                to: 0.8
+                duration: stackView.duration
+                easing.type: Easing.InOutQuart
             }
         }
     }
 
-    Timer {
-        id: timerLoader
-        interval: 500
-        onTriggered: {
-            pageLoaderCreate.source = "qrc:/qml/Create/Create.qml"
-        }
-    }
-
-    Loader {
-        id: pageLoaderCreate
-        visible: false
-        anchors {
-            top: nav.bottom
-            right: parent.right
-            bottom: parent.bottom
-            left: parent.left
-        }
-    }
-
-    Loader {
-        id: pageLoaderWorkshop
-        visible: false
-        enabled: ScreenPlay.settings.steamVersion
-        asynchronous: true
-        anchors {
-            top: nav.bottom
-            right: parent.right
-            bottom: parent.bottom
-            left: parent.left
-        }
-    }
-
     Connections {
-        target: pageLoader.item
+        target: stackView.currentItem
         ignoreUnknownSignals: true
 
         function onSetSidebarActive(active) {
