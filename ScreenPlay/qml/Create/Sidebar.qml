@@ -35,21 +35,27 @@ Rectangle {
         model: ListModel {
 
             ListElement {
-                headline: "Video import & convert (all types)"
-                source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
-                category: "Video Import"
+                headline: "Home"
+                source: "qrc:/qml/Create/StartInfo.qml"
+                category: "Home"
             }
 
             ListElement {
-                headline: "Video Import native video (.webm)"
+                headline: "Video import and convert (all types)"
+                source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
+                category: "Import Video"
+            }
+
+            ListElement {
+                headline: "Video Import (.webm)"
                 source: "qrc:/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
-                category: "Video Import"
+                category: "Import Video"
             }
 
             ListElement {
                 headline: "GIF Import"
                 source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
-                category: "Video Import"
+                category: "Import Video"
             }
 
             ListElement {
@@ -150,12 +156,11 @@ Rectangle {
         section.delegate: Item {
             height: 60
             Text {
-                verticalAlignment: Qt.AlignVCenter
+                //verticalAlignment: Qt.AlignVCenter
                 anchors {
-                    top: parent.top
                     bottom: parent.bottom
                     left: parent.left
-                    leftMargin: 20
+                    bottomMargin: 10
                 }
                 font.pointSize: 18
 
