@@ -42,8 +42,8 @@
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#closeAllWallpapers">closeAllWallpapers</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#closeAllWidgets">closeAllWidgets</a></b>()</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#closeConntectionByType">closeConntectionByType</a></b>(const QStringList &amp;<i>list</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#closeWallpaper">closeWallpaper</a></b>(const QString &amp;<i>appID</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#closeConnection">closeConnection</a></b>(const QString &amp;<i>appID</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#closeConntectionByType">closeConntectionByType</a></b>(const QStringList &amp;<i>types</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#createWallpaper">createWallpaper</a></b>(const ScreenPlay::InstalledType::InstalledType <i>type</i>, const ScreenPlay::FillMode::FillMode <i>fillMode</i>, const QString &amp;<i>absoluteStoragePath</i>, const QString &amp;<i>previewImage</i>, const QString &amp;<i>file</i>, const QVector&lt;int&gt; &amp;<i>monitorIndex</i>, const float <i>volume</i>, const float <i>playbackRate</i>, const QJsonObject &amp;<i>properties</i>, const bool <i>saveToProfilesConfigFile</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#createWidget">createWidget</a></b>(const ScreenPlay::InstalledType::InstalledType <i>type</i>, const QPoint &amp;<i>position</i>, const QString &amp;<i>absoluteStoragePath</i>, const QString &amp;<i>previewImage</i>, const QJsonObject &amp;<i>properties</i>, const bool <i>saveToProfilesConfigFile</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::ScreenPlayWallpaper *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#getWallpaperByAppID">getWallpaperByAppID</a></b>(const QString &amp;<i>appID</i>) const</td></tr>
@@ -54,7 +54,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#activeWallpaperCounter-prop">setActiveWallpaperCounter</a></b>(int <i>activeWallpaperCounter</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#activeWidgetsCounter-prop">setActiveWidgetsCounter</a></b>(int <i>activeWidgetsCounter</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#setAllWallpaperValue">setAllWallpaperValue</a></b>(const QString &amp;<i>key</i>, const QString &amp;<i>value</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#setWallpaperValue">setWallpaperValue</a></b>(const QString &amp;<i>appID</i>, const QString &amp;<i>key</i>, const QVariant &amp;<i>value</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#setWallpaperValue">setWallpaperValue</a></b>(const QString &amp;<i>appID</i>, const QString &amp;<i>key</i>, const QString &amp;<i>value</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#setWallpaperValueAtMonitorIndex">setWallpaperValueAtMonitorIndex</a></b>(const int <i>index</i>, const QString &amp;<i>key</i>, const QString &amp;<i>value</i>)</td></tr>
 </table></div>
 <a name="signals"></a>
@@ -95,14 +95,14 @@
 <li>standaloneWidget</li>
 </ul>
 <!-- @@@closeAllWidgets -->
+<!-- $$$closeConnection[overload1]$$$closeConnectionconstQString& -->
+<h3 class="fn" id="closeConnection"><a name="closeConnection"></a><code>[slot] </code><span class="type">bool</span> ScreenPlayManager::<span class="name">closeConnection</span>(const <span class="type">QString</span> &amp;<i>appID</i>)</h3>
+<p>Closes a Wallpaper or Widget connection by the given <i>appID</i>.</p>
+<!-- @@@closeConnection -->
 <!-- $$$closeConntectionByType[overload1]$$$closeConntectionByTypeconstQStringList& -->
-<h3 class="fn" id="closeConntectionByType"><a name="closeConntectionByType"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">closeConntectionByType</span>(const <span class="type">QStringList</span> &amp;<i>list</i>)</h3>
+<h3 class="fn" id="closeConntectionByType"><a name="closeConntectionByType"></a><code>[slot] </code><span class="type">bool</span> ScreenPlayManager::<span class="name">closeConntectionByType</span>(const <span class="type">QStringList</span> &amp;<i>types</i>)</h3>
 <p>Closes a connection by type. Used only by <a href="screenplay-screenplaymanager.html#closeAllWidgets">closeAllWidgets</a>() and <a href="screenplay-screenplaymanager.html#closeAllWallpapers">closeAllWallpapers</a>()</p>
 <!-- @@@closeConntectionByType -->
-<!-- $$$closeWallpaper[overload1]$$$closeWallpaperconstQString& -->
-<h3 class="fn" id="closeWallpaper"><a name="closeWallpaper"></a><code>[slot] </code><span class="type">bool</span> ScreenPlayManager::<span class="name">closeWallpaper</span>(const <span class="type">QString</span> &amp;<i>appID</i>)</h3>
-<p>Closes a wallpaper by the given <i>appID</i>.</p>
-<!-- @@@closeWallpaper -->
 <!-- $$$createWallpaper[overload1]$$$createWallpaperconstScreenPlay::InstalledType::InstalledTypeconstScreenPlay::FillMode::FillModeconstQString&constQString&constQString&constQVector<int>&constfloatconstfloatconstQJsonObject&constbool -->
 <h3 class="fn" id="createWallpaper"><a name="createWallpaper"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">createWallpaper</span>(const <span class="type">ScreenPlay::InstalledType::InstalledType</span> <i>type</i>, const <span class="type">ScreenPlay::FillMode::FillMode</span> <i>fillMode</i>, const <span class="type">QString</span> &amp;<i>absoluteStoragePath</i>, const <span class="type">QString</span> &amp;<i>previewImage</i>, const <span class="type">QString</span> &amp;<i>file</i>, const <span class="type">QVector</span>&lt;<span class="type">int</span>&gt; &amp;<i>monitorIndex</i>, const <span class="type">float</span> <i>volume</i>, const <span class="type">float</span> <i>playbackRate</i>, const <span class="type">QJsonObject</span> &amp;<i>properties</i>, const <span class="type">bool</span> <i>saveToProfilesConfigFile</i>)</h3>
 <p>Creates a wallpaper with a given <i>monitorIndex</i> list, <i>a</i> absoluteStoragePath folder, a <i>previewImage</i> (relative path to the absoluteStoragePath), a default <i>volume</i>, a <i>fillMode</i>, a <i>type</i> (htmlWallpaper, qmlWallpaper etc.), a <i>saveToProfilesConfigFile</i> bool only set to flase if we call the method when using via the settings on startup to skip a unnecessary save.</p>
@@ -135,8 +135,8 @@
 <h3 class="fn" id="setAllWallpaperValue"><a name="setAllWallpaperValue"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">setAllWallpaperValue</span>(const <span class="type">QString</span> &amp;<i>key</i>, const <span class="type">QString</span> &amp;<i>value</i>)</h3>
 <p>Convenient function to set a <i>value</i> at a given <i>index</i> and <i>key</i> for all wallaper. For exmaple used to mute all wallpaper.</p>
 <!-- @@@setAllWallpaperValue -->
-<!-- $$$setWallpaperValue[overload1]$$$setWallpaperValueconstQString&constQString&constQVariant& -->
-<h3 class="fn" id="setWallpaperValue"><a name="setWallpaperValue"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">setWallpaperValue</span>(const <span class="type">QString</span> &amp;<i>appID</i>, const <span class="type">QString</span> &amp;<i>key</i>, const <span class="type">QVariant</span> &amp;<i>value</i>)</h3>
+<!-- $$$setWallpaperValue[overload1]$$$setWallpaperValueconstQString&constQString&constQString& -->
+<h3 class="fn" id="setWallpaperValue"><a name="setWallpaperValue"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">setWallpaperValue</span>(const <span class="type">QString</span> &amp;<i>appID</i>, const <span class="type">QString</span> &amp;<i>key</i>, const <span class="type">QString</span> &amp;<i>value</i>)</h3>
 <p>Sets a given <i>value</i> to a given <i>key</i>. The <i>appID</i> is used to identify the receiver socket.</p>
 <!-- @@@setWallpaperValue -->
 <!-- $$$setWallpaperValueAtMonitorIndex[overload1]$$$setWallpaperValueAtMonitorIndexconstintconstQString&constQString& -->

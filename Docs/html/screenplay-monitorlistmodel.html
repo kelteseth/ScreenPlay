@@ -34,7 +34,7 @@
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#MonitorListModel">MonitorListModel</a></b>(QObject *<i>parent</i> = nullptr)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#getAppIDByMonitorIndex">getAppIDByMonitorIndex</a></b>(<i>const int</i>) const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;QString&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#getAppIDByMonitorIndex">getAppIDByMonitorIndex</a></b>(const int <i>index</i>) const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#setWallpaperActiveMonitor">setWallpaperActiveMonitor</a></b>(const std::shared_ptr&lt;ScreenPlayWallpaper&gt; &amp;<i>wallpaper</i>, const QVector&lt;int&gt; <i>monitors</i>)</td></tr>
 </table></div>
 <a name="reimplemented-public-functions"></a>
@@ -92,7 +92,7 @@
 <p>Retruns the data member of the Monitor.</p>
 <!-- @@@data -->
 <!-- $$$getAppIDByMonitorIndex[overload1]$$$getAppIDByMonitorIndexconstint -->
-<h3 class="fn" id="getAppIDByMonitorIndex"><a name="getAppIDByMonitorIndex"></a><span class="type">int</span> MonitorListModel::<span class="name">getAppIDByMonitorIndex</span>(<i>const int</i>) const</h3>
+<h3 class="fn" id="getAppIDByMonitorIndex"><a name="getAppIDByMonitorIndex"></a><span class="type">std::optional</span>&lt;<span class="type">QString</span>&gt; MonitorListModel::<span class="name">getAppIDByMonitorIndex</span>(const <span class="type">int</span> <i>index</i>) const</h3>
 <p>If successful this function returns an AppID. Otherwhise std::nullopt.</p>
 <!-- @@@getAppIDByMonitorIndex -->
 <!-- $$$roleNames[overload1]$$$roleNames -->
