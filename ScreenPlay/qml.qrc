@@ -72,5 +72,7 @@
         <file>qml/Installed/Navigation.qml</file>
         <file>qml/Common/Search.qml</file>
         <file>qml/Common/MouseHoverBlocker.qml</file>
+        <file>qml/Common/Dialogs/MonitorConfiguration.qml</file>
+        <file>qml/Common/Dialogs/SteamNotAvailable.qml</file>
     </qresource>
 </RCC>

@@ -240,6 +240,7 @@ Item {
             }
         }
     }
+
     Dialog {
         id: deleteDialog
         title: qsTr("Are you sure you want to delete this item?")
@@ -256,7 +257,6 @@ Item {
     Navigation {
         id: navWrapper
         height: 115
-        width: parent.width
         anchors {
             top: parent.top
             right: parent.right

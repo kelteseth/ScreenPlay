@@ -12,7 +12,6 @@ import "Wizards/CreateWallpaper"
 
 Item {
     id: create
-    anchors.fill: parent
     state: "out"
 
     Component.onCompleted: {

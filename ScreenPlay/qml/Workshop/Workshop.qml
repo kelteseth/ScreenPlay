@@ -13,7 +13,6 @@ import "upload/"
 Item {
     id: workshop
     state: "base"
-    anchors.fill: parent
     onVisibleChanged: {
         if (!visible)
             sidebar.close()

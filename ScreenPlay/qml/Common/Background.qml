@@ -6,7 +6,8 @@ import QtQuick.Particles 2.0
 Rectangle {
     id: element
     anchors.fill: parent
-    color: Material.theme === Material.Light ? "white" :  Qt.darker( Material.background)
+    color: Material.theme === Material.Light ? "white" : Qt.darker(
+                                                   Material.background)
     state: "init"
     onStateChanged: {
         if (state === "init") {
@@ -110,7 +111,6 @@ Rectangle {
     ]
 
     transitions: [
-
 
         Transition {
             from: "*"

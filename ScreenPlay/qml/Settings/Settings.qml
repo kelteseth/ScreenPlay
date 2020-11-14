@@ -14,7 +14,6 @@ import "../Common"
 
 Item {
     id: root
-    anchors.fill: parent
 
     function indexOfValue(model, value) {
 
