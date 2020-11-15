@@ -1,6 +1,6 @@
-include(../QtInstall/5.15.0/gcc_64/doc/global/qt-cpp-defines.qdocconf)
-include(../QtInstall/5.15.0/gcc_64/doc/global/compat.qdocconf)
-include(../QtInstall/5.15.0/gcc_64/doc/global/fileextensions.qdocconf)
+include(../QtInstall/6.0.0/gcc_64/doc/global/qt-cpp-defines.qdocconf)
+include(../QtInstall/6.0.0/gcc_64/doc/global/compat.qdocconf)
+include(../QtInstall/6.0.0/gcc_64/doc/global/fileextensions.qdocconf)
 
 descripton  = ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. 
 language    = Cpp
@@ -37,14 +37,14 @@ includepaths += ../ScreenPlayWidget/src/
 includepaths += ../ScreenPlayWidget/
 
 # qt
-includepaths += ../QtInstall/5.15.0/gcc_64/bin/
-includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtCore/
-includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtGui/
-includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtQml/
-includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtWebEngine/
-includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtNetwork/
-includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtQuick/
-includepaths += ../QtInstall/5.15.0/gcc_64/bin/QtQuickControls2/
+includepaths += ../QtInstall/6.0.0/gcc_64/bin/
+includepaths += ../QtInstall/6.0.0/gcc_64/bin/QtCore/
+includepaths += ../QtInstall/6.0.0/gcc_64/bin/QtGui/
+includepaths += ../QtInstall/6.0.0/gcc_64/bin/QtQml/
+includepaths += ../QtInstall/6.0.0/gcc_64/bin/QtWebEngine/
+includepaths += ../QtInstall/6.0.0/gcc_64/bin/QtNetwork/
+includepaths += ../QtInstall/6.0.0/gcc_64/bin/QtQuick/
+includepaths += ../QtInstall/6.0.0/gcc_64/bin/QtQuickControls2/
 
 # Images
 imagedirs = ./images
