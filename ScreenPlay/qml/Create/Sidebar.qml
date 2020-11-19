@@ -35,7 +35,7 @@ Rectangle {
         model: ListModel {
 
             ListElement {
-                headline: "Home"
+                headline: qsTr("Tools Overview")
                 source: "qrc:/qml/Create/StartInfo.qml"
                 category: "Home"
             }
@@ -47,102 +47,102 @@ Rectangle {
             }
 
             ListElement {
-                headline: "Video Import (.webm)"
+                headline: qsTr("Video Import (.webm)")
                 source: "qrc:/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
                 category: "Import Video"
             }
 
             ListElement {
-                headline: "GIF Import"
+                headline: qsTr("GIF Import")
                 source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
                 category: "Import Video"
             }
 
             ListElement {
-                headline: "QML Wallpaper"
+                headline: qsTr("QML Wallpaper")
                 source: "qrc:/qml/Create/Wizards/CreateQMLWallpaper.qml"
                 category: "Create Wallpaper"
             }
 
             ListElement {
-                headline: "HTML5 Wallpaper"
+                headline: qsTr("HTML5 Wallpaper")
                 source: "qrc:/qml/Create/Wizards/CreateHTMLWallpaper.qml"
                 category: "Create Wallpaper"
             }
 
             ListElement {
-                headline: "Embedded Website Wallpaper"
+                headline: qsTr("Embedded Website Wallpaper")
                 source: "qrc:/qml/Create/Wizards/CreateHTMLWallpaper.qml"
                 category: "Create Wallpaper"
             }
             ListElement {
-                headline: "QML Widget"
+                headline: qsTr("QML Widget")
                 source: "qrc:/qml/Create/Wizards/CreateQMLWidget.qml"
                 category: "Create Widget"
             }
 
             ListElement {
-                headline: "HTML Widget"
+                headline: qsTr("HTML Widget")
                 source: "qrc:/qml/Create/Wizards/CreateHTMLWidget.qml"
                 category: "Create Widget"
             }
 
             ListElement {
-                headline: "QML Particle Wallpaper"
+                headline: qsTr("QML Particle Wallpaper")
                 source: ""
                 category: "Example Wallpaper"
             }
 
             ListElement {
-                headline: "Countdown Clock Wallpaper"
+                headline: qsTr("Countdown Clock Wallpaper")
                 source: ""
                 category: "Example Wallpaper"
             }
 
             ListElement {
-                headline: "QML Water Shader Wallpaper"
+                headline: qsTr("QML Water Shader Wallpaper")
                 source: ""
                 category: "Example Wallpaper"
             }
 
             ListElement {
-                headline: "QML Shadertoy Shader Wallpaper"
+                headline: qsTr("QML Shadertoy Shader Wallpaper")
                 source: ""
                 category: "Example Wallpaper"
             }
 
             ListElement {
-                headline: "QML Lightning Shader Wallpaper"
+                headline: qsTr("QML Lightning Shader Wallpaper")
                 source: ""
                 category: "Example Wallpaper"
             }
 
             ListElement {
-                headline: "Clock Widget"
+                headline: qsTr("Clock Widget")
                 source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
                 category: "Example Widget"
             }
 
             ListElement {
-                headline: "CPU Widget"
+                headline: qsTr("CPU Widget")
                 source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
                 category: "Example Widget"
             }
 
             ListElement {
-                headline: "Storage Widget"
+                headline: qsTr("Storage Widget")
                 source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
                 category: "Example Widget"
             }
 
             ListElement {
-                headline: "RAM Widget"
+                headline: qsTr("RAM Widget")
                 source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
                 category: "Example Widget"
             }
 
             ListElement {
-                headline: "XKCD Widget"
+                headline: qsTr("XKCD Widget")
                 source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
                 category: "Example Widget"
             }

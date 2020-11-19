@@ -10,22 +10,34 @@ import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
 
+import "../Common" as Common
+
 Item {
     id: root
 
-    Text {
-        id: introText
-        color: Material.primaryTextColor
+    Common.Headline {
+        id: headline
+        text: qsTr("Free Tools to create wallpaper")
         anchors {
             top: parent.top
             right: parent.right
             left: parent.left
             margins: 20
         }
-        font.pointSize: 14
+    }
+
+    Text {
+        id: introText
+        color: Material.primaryTextColor
+        anchors {
+            top: headline.bottom
+            right: parent.right
+            left: parent.left
+            margins: 20
+        }
+        font.pointSize: 12
         font.family: ScreenPlay.settings.font
-        text: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-Aenean massa. \n\n\nCum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. "
+        text: qsTr("Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!")
     }
 
     GridView {
@@ -43,126 +55,126 @@ Aenean massa. \n\n\nCum sociis natoque penatibus et magnis dis parturient montes
         model: ListModel {
             ListElement {
                 text: "Subreddit"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/reddit.png"
                 link: "https://www.reddit.com/r/ScreenPlayApp/"
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Community"
             }
             ListElement {
                 text: "Forums"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/forums.png"
                 link: "https://forum.screen-play.app/"
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Community"
             }
             ListElement {
                 text: "QML Online Editor"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/qml_online.png"
                 link: "https://qmlonline.kde.org/"
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Tools"
             }
             ListElement {
                 text: "Handbreak"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/handbreak.png"
                 link: "https://handbrake.fr/"
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes,"
                 category: "Tools"
             }
             ListElement {
                 text: "Blender"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/blender.png"
                 link: "https://www.blender.org/"
                 description: ""
                 category: "Tools"
             }
             ListElement {
                 text: "OBS Studio"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/obs.png"
                 link: "https://obsproject.com/"
                 description: ""
                 category: "Tools"
             }
             ListElement {
                 text: "Krita"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/krita.png"
                 link: "https://krita.org/"
                 description: ""
                 category: "Tools"
             }
             ListElement {
                 text: "Inscape"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/inkscape.png"
                 link: "https://inkscape.org/"
                 description: ""
                 category: "Tools"
             }
             ListElement {
                 text: "Kdenlive"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/kdeenlive.png"
                 link: "https://kdenlive.org/"
                 description: ""
                 category: "Tools"
             }
             ListElement {
                 text: "ShareX"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/sharex.png"
                 link: "https://getsharex.com/"
                 description: ""
                 category: "Tools"
             }
             ListElement {
                 text: "GitLab"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/gitlab.png"
                 link: "https://about.gitlab.com/"
                 description: ""
                 category: "Tools"
             }
             ListElement {
                 text: "Git Extensions - Git UI for Windows"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/git_extentions.png"
                 link: "https://gitextensions.github.io/"
                 description: ""
                 category: "Tools"
             }
             ListElement {
                 text: "Visual Studio Code"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/vscode.png"
                 link: "https://code.visualstudio.com/"
                 description: ""
                 category: "Tools"
             }
             ListElement {
                 text: "Shadertoy"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/shadertoy.png"
                 link: "https://www.shadertoy.com/"
                 description: ""
                 category: "Resources"
             }
             ListElement {
                 text: "Flaticon"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/flaticon.png"
                 link: "https://www.flaticon.com/"
                 description: ""
                 category: "Resources"
             }
             ListElement {
                 text: "Unsplash"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/unsplash.png"
                 link: "https://unsplash.com/"
                 description: ""
                 category: "Resources"
             }
             ListElement {
                 text: "FreeSound"
-                image: "qrc:/qml/Create/StartInfo.qml"
+                image: "qrc:/assets/startinfo/freesound.png"
                 link: "https://freesound.org/"
                 description: ""
                 category: "Resources"
             }
         }
 
-        delegate: ItemDelegate {
+        delegate: Item {
             width: gridView.cellWidth
             height: gridView.cellHeight
 
@@ -170,62 +182,60 @@ Aenean massa. \n\n\nCum sociis natoque penatibus et magnis dis parturient montes
                 id: img
                 anchors.fill: parent
                 anchors.margins: 5
-                radius: 3
                 clip: true
                 layer.enabled: true
                 layer.effect: ElevationEffect {
                     elevation: 4
                 }
 
-                Rectangle {
-                    color: "orange"
-                    height: 180
-                    radius: 3
-                    clip: true
+                Image {
+                    anchors.fill: parent
+                    fillMode: Image.PreserveAspectCrop
+                    source: model.image
+                }
+
+                LinearGradient {
+                    anchors.fill: parent
+                    end: Qt.point(0, 0)
+                    start: Qt.point(0, parent.height * .66)
+                    gradient: Gradient {
+                        GradientStop {
+                            position: 0.0
+                            color: "#DD000000"
+                        }
+                        GradientStop {
+                            position: 1.0
+                            color: "#00000000"
+                        }
+                    }
+                }
+                Text {
+                    id: txtCategory
+                    text: model.category + ":"
+                    font.pointSize: 10
+                    font.family: ScreenPlay.settings.font
+                    color: "white"
                     anchors {
-                        top: parent.top
-                        right: parent.right
                         left: parent.left
+                        right: parent.right
+                        bottom: txtText.top
+                        margins: 15
+                        bottomMargin: 5
                     }
+                }
+                Text {
+                    id: txtText
+                    text: model.text
+                    font.pointSize: 16
+                    font.family: ScreenPlay.settings.font
+                    color: "white"
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
-                    LinearGradient {
-                        anchors.fill: parent
-                        end: Qt.point(0, 0)
-                        start: Qt.point(0, parent.height * .66)
-                        gradient: Gradient {
-                            GradientStop {
-                                position: 0.0
-                                color: "#AA000000"
-                            }
-                            GradientStop {
-                                position: 1.0
-                                color: "#00000000"
-                            }
-                        }
-                    }
-
-                    Text {
-                        text: model.text
-                        font.pointSize: 14
-                        font.family: ScreenPlay.settings.font
-                        color: "white"
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                            bottom: parent.bottom
-                            margins: 5
-                        }
-                    }
-                    Text {
-                        text: model.category
-                        font.pointSize: 11
-                        font.family: ScreenPlay.settings.font
-                        color: "white"
-                        anchors {
-                            left: parent.left
-                            right: parent.right
-                            margins: 5
-                        }
+                    anchors {
+                        left: parent.left
+                        right: parent.right
+                        bottom: parent.bottom
+                        margins: 15
                     }
                 }
 

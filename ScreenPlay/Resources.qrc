@@ -116,5 +116,22 @@
         <file>translations/ScreenPlay_ru.qm</file>
         <file>translations/ScreenPlay_vi.qm</file>
         <file>assets/icons/monitor_setup.svg</file>
+        <file>assets/startinfo/forums.png</file>
+        <file>assets/startinfo/gitlab.png</file>
+        <file>assets/startinfo/handbreak.png</file>
+        <file>assets/startinfo/qml_online.png</file>
+        <file>assets/startinfo/reddit.png</file>
+        <file>assets/startinfo/blender.png</file>
+        <file>assets/startinfo/flaticon.png</file>
+        <file>assets/startinfo/freesound.png</file>
+        <file>assets/startinfo/git_extentions.png</file>
+        <file>assets/startinfo/inkscape.png</file>
+        <file>assets/startinfo/kdeenlive.png</file>
+        <file>assets/startinfo/krita.png</file>
+        <file>assets/startinfo/obs.png</file>
+        <file>assets/startinfo/shadertoy.png</file>
+        <file>assets/startinfo/sharex.png</file>
+        <file>assets/startinfo/unsplash.png</file>
+        <file>assets/startinfo/vscode.png</file>
     </qresource>
 </RCC>
