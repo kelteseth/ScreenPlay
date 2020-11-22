@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
 </head>
 <body>
-<div class="container-fullwidth nav"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
+<div class="container-fullwidth nav sticky-top"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
 <li>Create</li>
 <div class="sidebar">
 <div class="toc">
@@ -45,6 +45,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#abortAndCleanup">abortAndCleanup</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#ffmpegOutput-prop">appendFfmpegOutput</a></b>(QString <i>ffmpegOutput</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#createHTMLWallpaper">createHTMLWallpaper</a></b>(const QString &amp;<i>localStoragePath</i>, const QString &amp;<i>title</i>, const QString &amp;<i>previewThumbnail</i>, const QString &amp;<i>license</i>, const QVector&lt;QString&gt; &amp;<i>tags</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#createQMLWallpaper">createQMLWallpaper</a></b>(const QString &amp;<i>localStoragePath</i>, const QString &amp;<i>title</i>, const QString &amp;<i>previewThumbnail</i>, const QString &amp;<i>license</i>, const QVector&lt;QString&gt; &amp;<i>tags</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#createWallpaperStart">createWallpaperStart</a></b>(QString <i>videoPath</i>, Create::VideoCodec <i>codec</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#createWidget">createWidget</a></b>(const QString &amp;<i>localStoragePath</i>, const QString &amp;<i>title</i>, const QString &amp;<i>previewThumbnail</i>, const QString &amp;<i>createdBy</i>, const QString &amp;<i>license</i>, const QString &amp;<i>type</i>, const QVector&lt;QString&gt; &amp;<i>tags</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#saveWallpaper">saveWallpaper</a></b>(QString <i>title</i>, QString <i>description</i>, QString <i>filePath</i>, QString <i>previewImagePath</i>, QString <i>youtube</i>, ScreenPlay::Create::VideoCodec <i>codec</i>, QVector&lt;QString&gt; <i>tags</i>)</td></tr>
@@ -72,7 +73,7 @@
 <p>Constructor for the QMLEngine.</p>
 <!-- @@@Create -->
 <!-- $$$Create[overload1]$$$Createconststd::shared_ptr<GlobalVariables>&QObject* -->
-<h3 class="fn" id="Create"><a name="Create"></a>Create::<span class="name">Create</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type">GlobalVariables</span>&gt; &amp;<i>globalVariables</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<h3 class="fn" id="Create"><a name="Create"></a>Create::<span class="name">Create</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-globalvariables.html">GlobalVariables</a></span>&gt; &amp;<i>globalVariables</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
 <p>Constructor.</p>
 <!-- @@@Create -->
 <!-- $$$abortAndCleanup[overload1]$$$abortAndCleanup -->
@@ -83,6 +84,10 @@
 <h3 class="fn" id="createHTMLWallpaper"><a name="createHTMLWallpaper"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">createHTMLWallpaper</span>(const <span class="type">QString</span> &amp;<i>localStoragePath</i>, const <span class="type">QString</span> &amp;<i>title</i>, const <span class="type">QString</span> &amp;<i>previewThumbnail</i>, const <span class="type">QString</span> &amp;<i>license</i>, const <span class="type">QVector</span>&lt;<span class="type">QString</span>&gt; &amp;<i>tags</i>)</h3>
 <p>Creates a HTML wallpaper.</p>
 <!-- @@@createHTMLWallpaper -->
+<!-- $$$createQMLWallpaper[overload1]$$$createQMLWallpaperconstQString&constQString&constQString&constQString&constQVector<QString>& -->
+<h3 class="fn" id="createQMLWallpaper"><a name="createQMLWallpaper"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">createQMLWallpaper</span>(const <span class="type">QString</span> &amp;<i>localStoragePath</i>, const <span class="type">QString</span> &amp;<i>title</i>, const <span class="type">QString</span> &amp;<i>previewThumbnail</i>, const <span class="type">QString</span> &amp;<i>license</i>, const <span class="type">QVector</span>&lt;<span class="type">QString</span>&gt; &amp;<i>tags</i>)</h3>
+<p>.</p>
+<!-- @@@createQMLWallpaper -->
 <!-- $$$createWallpaperStart[overload1]$$$createWallpaperStartQStringCreate::VideoCodec -->
 <h3 class="fn" id="createWallpaperStart"><a name="createWallpaperStart"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">createWallpaperStart</span>(<span class="type">QString</span> <i>videoPath</i>, <span class="type">Create::VideoCodec</span> <i>codec</i>)</h3>
 <p>Starts the process.</p>
@@ -96,5 +101,5 @@
 <p>When converting of the wallpaper steps where successful.</p>
 <!-- @@@saveWallpaper -->
 </div>
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

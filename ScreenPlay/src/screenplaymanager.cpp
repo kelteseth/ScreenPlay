@@ -67,6 +67,9 @@ bool ScreenPlayManager::checkIsAnotherScreenPlayInstanceRunning()
     return true;
 }
 
+/*!
+    \brief .
+*/
 void ScreenPlayManager::init(
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const std::shared_ptr<MonitorListModel>& mlm,
@@ -212,6 +215,9 @@ void ScreenPlayManager::createWidget(
     m_screenPlayWidgets.append(widget);
 }
 
+/*!
+    \brief .
+*/
 void ScreenPlayManager::appConnected(const std::shared_ptr<SDKConnection>& connection)
 {
     for (const auto& item : qAsConst(m_screenPlayWidgets)) {
@@ -291,6 +297,9 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
     return false;
 }
 
+/*!
+    \brief .
+*/
 bool ScreenPlayManager::removeApp(const QString& appID)
 {
     if (!closeConnection(appID)) {
@@ -505,6 +514,9 @@ void ScreenPlayManager::saveProfiles()
         emit profilesSaved();
 }
 
+/*!
+    \brief .
+*/
 bool ScreenPlayManager::removeWallpaperByAppID(const QString& appID)
 {
     for (auto& wallpaper : m_screenPlayWallpapers) {

@@ -65,6 +65,9 @@ ScreenPlayWidget::ScreenPlayWidget(
     m_process.startDetached();
 }
 
+/*!
+    \brief .
+*/
 void ScreenPlayWidget::setSDKConnection(const std::shared_ptr<SDKConnection>& connection)
 {
     m_connection = connection;
@@ -89,6 +92,9 @@ void ScreenPlayWidget::setSDKConnection(const std::shared_ptr<SDKConnection>& co
     m_pingAliveTimer.start(16000);
 }
 
+/*!
+    \brief .
+*/
 QJsonObject ScreenPlayWidget::getActiveSettingsJson()
 {
     QJsonObject obj;

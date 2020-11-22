@@ -46,6 +46,9 @@ void InstalledListModel::init()
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, reloadLambda);
 }
 
+/*!
+    \brief .
+*/
 bool InstalledListModel::deinstallItemAt(const int index)
 {
     if (index < 0 || index >= m_screenPlayFiles.count()) {
@@ -141,7 +144,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
 }
 
 /*!
-
+    \brief .
 */
 void InstalledListModel::append(const QJsonObject& obj, const QString& folderName)
 {
@@ -151,7 +154,7 @@ void InstalledListModel::append(const QJsonObject& obj, const QString& folderNam
 }
 
 /*!
-
+    \brief .
 */
 void InstalledListModel::loadInstalledContent()
 {
@@ -184,6 +187,9 @@ void InstalledListModel::loadInstalledContent()
     });
 }
 
+/*!
+    \brief .
+*/
 QVariantMap InstalledListModel::get(const QString& folderId) const
 {
 
@@ -208,6 +214,9 @@ QVariantMap InstalledListModel::get(const QString& folderId) const
     return {};
 }
 
+/*!
+    \brief .
+*/
 void InstalledListModel::reset()
 {
     beginResetModel();

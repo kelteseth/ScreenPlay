@@ -13,7 +13,6 @@ namespace ScreenPlay {
 /*!
     \brief  Constructor for video Wallpaper.
 */
-
 ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const QString& appID,
@@ -96,6 +95,9 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     m_process.startDetached();
 }
 
+/*!
+    \brief .
+*/
 QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 {
     QJsonArray screenNumber;
@@ -162,6 +164,9 @@ void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
         emit requestSave();
 }
 
+/*!
+    \brief .
+*/
 void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>& connection)
 {
     m_connection = connection;
@@ -184,6 +189,9 @@ void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>&
     m_pingAliveTimer.start(16000);
 }
 
+/*!
+    \brief .
+*/
 void ScreenPlayWallpaper::replace(
     const QString& absolutePath,
     const QString& previewImage,

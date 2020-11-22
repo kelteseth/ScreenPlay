@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
 </head>
 <body>
-<div class="container-fullwidth nav"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
+<div class="container-fullwidth nav sticky-top"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
 <li>InstalledListModel</li>
 <div class="sidebar">
 <div class="toc">
@@ -48,8 +48,11 @@
 <h2 id="public-slots">Public Slots</h2>
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#append">append</a></b>(const QJsonObject &amp;<i>obj</i>, const QString &amp;<i>folderName</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#deinstallItemAt">deinstallItemAt</a></b>(const int <i>index</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QVariantMap </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#get">get</a></b>(const QString &amp;<i>folderId</i>) const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#init">init</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#loadInstalledContent">loadInstalledContent</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#reset">reset</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistmodel.html#count-prop">setCount</a></b>(int <i>count</i>)</td></tr>
 </table></div>
 <a name="signals"></a>
@@ -67,19 +70,33 @@
 <div class="func">
 <h2>Member Function Documentation</h2>
 <!-- $$$InstalledListModel[overload1]$$$InstalledListModelconststd::shared_ptr<GlobalVariables>&QObject* -->
-<h3 class="fn" id="InstalledListModel"><a name="InstalledListModel"></a>InstalledListModel::<span class="name">InstalledListModel</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type">GlobalVariables</span>&gt; &amp;<i>globalVariables</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<h3 class="fn" id="InstalledListModel"><a name="InstalledListModel"></a>InstalledListModel::<span class="name">InstalledListModel</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-globalvariables.html">GlobalVariables</a></span>&gt; &amp;<i>globalVariables</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
 <p>Constructor.</p>
 <!-- @@@InstalledListModel -->
 <!-- $$$append[overload1]$$$appendconstQJsonObject&constQString& -->
 <h3 class="fn" id="append"><a name="append"></a><code>[slot] </code><span class="type">void</span> InstalledListModel::<span class="name">append</span>(const <span class="type">QJsonObject</span> &amp;<i>obj</i>, const <span class="type">QString</span> &amp;<i>folderName</i>)</h3>
+<p>.</p>
 <!-- @@@append -->
+<!-- $$$deinstallItemAt[overload1]$$$deinstallItemAtconstint -->
+<h3 class="fn" id="deinstallItemAt"><a name="deinstallItemAt"></a><code>[slot] </code><span class="type">bool</span> InstalledListModel::<span class="name">deinstallItemAt</span>(const <span class="type">int</span> <i>index</i>)</h3>
+<p>.</p>
+<!-- @@@deinstallItemAt -->
+<!-- $$$get[overload1]$$$getconstQString& -->
+<h3 class="fn" id="get"><a name="get"></a><code>[slot] </code><span class="type">QVariantMap</span> InstalledListModel::<span class="name">get</span>(const <span class="type">QString</span> &amp;<i>folderId</i>) const</h3>
+<p>.</p>
+<!-- @@@get -->
 <!-- $$$init[overload1]$$$init -->
 <h3 class="fn" id="init"><a name="init"></a><code>[slot] </code><span class="type">void</span> InstalledListModel::<span class="name">init</span>()</h3>
-<p>Init function that needs to be called after the constructor because we need the GlobalVariables to finish loading.</p>
+<p>Init function that needs to be called after the constructor because we need the <a href="screenplay-globalvariables.html">GlobalVariables</a> to finish loading.</p>
 <!-- @@@init -->
 <!-- $$$loadInstalledContent[overload1]$$$loadInstalledContent -->
 <h3 class="fn" id="loadInstalledContent"><a name="loadInstalledContent"></a><code>[slot] </code><span class="type">void</span> InstalledListModel::<span class="name">loadInstalledContent</span>()</h3>
+<p>.</p>
 <!-- @@@loadInstalledContent -->
+<!-- $$$reset[overload1]$$$reset -->
+<h3 class="fn" id="reset"><a name="reset"></a><code>[slot] </code><span class="type">void</span> InstalledListModel::<span class="name">reset</span>()</h3>
+<p>.</p>
+<!-- @@@reset -->
 <!-- $$$data[overload1]$$$dataconstQModelIndex&int -->
 <h3 class="fn" id="data"><a name="data"></a><code>[override virtual] </code><span class="type">QVariant</span> InstalledListModel::<span class="name">data</span>(const <span class="type">QModelIndex</span> &amp;<i>index</i>, <span class="type">int</span> <i>role</i> = Qt::DisplayRole) const</h3>
 <p>Retruns the data member of the ProjectFile.</p>
@@ -93,5 +110,5 @@
 <p>Returns the length of the installed items.</p>
 <!-- @@@rowCount -->
 </div>
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

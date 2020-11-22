@@ -215,6 +215,9 @@ void App::exit()
     }
 }
 
+/*!
+    \brief .
+*/
 bool App::loadSteamPlugin()
 {
 

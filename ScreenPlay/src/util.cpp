@@ -318,6 +318,9 @@ SearchType::SearchType Util::getSearchTypeFromInstalledType(const InstalledType:
     }
 }
 
+/*!
+    \brief .
+*/
 std::optional<InstalledType::InstalledType> Util::getInstalledTypeFromString(const QString& type)
 {
     if (type.endsWith("Wallpaper")) {

@@ -26,6 +26,9 @@ ProfileListModel::ProfileListModel(const std::shared_ptr<GlobalVariables>& globa
 {
 }
 
+/*!
+    \brief .
+*/
 int ProfileListModel::rowCount(const QModelIndex& parent) const
 {
     // For list models only the root node (an invalid parent) should return the list's size. For all
@@ -36,6 +39,9 @@ int ProfileListModel::rowCount(const QModelIndex& parent) const
     return m_profileList.count();
 }
 
+/*!
+    \brief .
+*/
 QVariant ProfileListModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
@@ -57,12 +63,18 @@ QVariant ProfileListModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
+/*!
+    \brief .
+*/
 QHash<int, QByteArray> ProfileListModel::roleNames() const
 {
     QHash<int, QByteArray> m_roleNames;
     return m_roleNames;
 }
 
+/*!
+    \brief .
+*/
 bool ProfileListModel::getProfileByName(QString id, Profile* profile)
 {
     for (int i = 0; i < m_profileList.size(); i++) {
@@ -74,6 +86,9 @@ bool ProfileListModel::getProfileByName(QString id, Profile* profile)
     return false;
 }
 
+/*!
+    \brief .
+*/
 void ProfileListModel::append(const Profile& profile)
 {
 }

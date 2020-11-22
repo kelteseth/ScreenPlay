@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
 </head>
 <body>
-<div class="container-fullwidth nav"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
+<div class="container-fullwidth nav sticky-top"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
 <li>Util</li>
 <div class="sidebar">
 <div class="toc">
@@ -41,6 +41,7 @@
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#copyToClipboard">copyToClipboard</a></b>(const QString &amp;<i>text</i>) const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#generateRandomString">generateRandomString</a></b>(quint32 <i>length</i> = 32)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;InstalledType::InstalledType&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#getInstalledTypeFromString">getInstalledTypeFromString</a></b>(const QString &amp;<i>type</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;QVersionNumber&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#getVersionNumberFromString">getVersionNumberFromString</a></b>(const QString &amp;<i>str</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#logToGui">logToGui</a></b>(QtMsgType <i>type</i>, const QMessageLogContext &amp;<i>context</i>, const QString &amp;<i>msg</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openFolderInExplorer">openFolderInExplorer</a></b>(const QString &amp;<i>url</i>) const</td></tr>
@@ -82,6 +83,10 @@
 <li>0-9</li>
 </ul>
 <!-- @@@generateRandomString -->
+<!-- $$$getInstalledTypeFromString[overload1]$$$getInstalledTypeFromStringconstQString& -->
+<h3 class="fn" id="getInstalledTypeFromString"><a name="getInstalledTypeFromString"></a><code>[static slot] </code><span class="type">std::optional</span>&lt;<span class="type">InstalledType::InstalledType</span>&gt; Util::<span class="name">getInstalledTypeFromString</span>(const <span class="type">QString</span> &amp;<i>type</i>)</h3>
+<p>.</p>
+<!-- @@@getInstalledTypeFromString -->
 <!-- $$$getVersionNumberFromString[overload1]$$$getVersionNumberFromStringconstQString& -->
 <h3 class="fn" id="getVersionNumberFromString"><a name="getVersionNumberFromString"></a><code>[static slot] </code><span class="type">std::optional</span>&lt;<span class="type">QVersionNumber</span>&gt; Util::<span class="name">getVersionNumberFromString</span>(const <span class="type">QString</span> &amp;<i>str</i>)</h3>
 <p>Parses a version from a given QString. The QString must be looke like this: 1.0&#x2e;0 - Major.Minor.Patch. A fixed position is used for parsing (at 0,2,4). Return std::nullopt when not successful.</p>
@@ -123,5 +128,5 @@
 <p>Writes a given QJsonObject to a file. The path must be absolute. When truncate is set to true the exsisting json file will be overriten.</p>
 <!-- @@@writeJsonObjectToFile -->
 </div>
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

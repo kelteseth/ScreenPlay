@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
 </head>
 <body>
-<div class="container-fullwidth nav"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
+<div class="container-fullwidth nav sticky-top"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
 <li>App</li>
 <div class="sidebar">
 <div class="toc">
@@ -49,6 +49,7 @@
 <h2 id="public-slots">Public Slots</h2>
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#exit">exit</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#loadSteamPlugin">loadSteamPlugin</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#create-prop">setCreate</a></b>(ScreenPlay::Create *<i>create</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#globalVariables-prop">setGlobalVariables</a></b>(ScreenPlay::GlobalVariables *<i>globalVariables</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#installedListFilter-prop">setInstalledListFilter</a></b>(ScreenPlay::InstalledListFilter *<i>installedListFilter</i>)</td></tr>
@@ -108,10 +109,14 @@
 <h3 class="fn" id="exit"><a name="exit"></a><code>[slot] </code><span class="type">void</span> App::<span class="name">exit</span>()</h3>
 <p>Tries to send the telemetry quit event before we call quit ourself.</p>
 <!-- @@@exit -->
+<!-- $$$loadSteamPlugin[overload1]$$$loadSteamPlugin -->
+<h3 class="fn" id="loadSteamPlugin"><a name="loadSteamPlugin"></a><code>[slot] </code><span class="type">bool</span> App::<span class="name">loadSteamPlugin</span>()</h3>
+<p>.</p>
+<!-- @@@loadSteamPlugin -->
 <!-- $$$init[overload1]$$$init -->
 <h3 class="fn" id="init"><a name="init"></a><span class="type">void</span> App::<span class="name">init</span>()</h3>
 <p>Used for initialization after the constructor. The sole purpose is to check if another <a href="screenplay.html">ScreenPlay</a> instance is running and then quit early. This is also because we cannot call QApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event loop ) has started.</p>
 <!-- @@@init -->
 </div>
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

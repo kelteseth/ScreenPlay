@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- sdkconnection.cpp -->
+  <title>SDKConnection Class | ScreenPlay</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container-fullwidth nav sticky-top"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
+<li>SDKConnection</li>
+<div class="sidebar">
+<div class="toc">
+<h3><a name="toc">Contents</a></h3>
+<ul>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#public-slots">Public Slots</a></li>
+<li class="level1"><a href="#signals">Signals</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title">SDKConnection Class</h1>
+<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::SDKConnection</span>
+<!-- $$$SDKConnection-brief -->
+<p>Contains all connections to Wallpaper and Widgets. <a href="#details">More...</a></p>
+<!-- @@@SDKConnection -->
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;SDKConnection&gt;</span>
+</td></tr></table></div><ul>
+<li><a href="screenplay-sdkconnection-members.html">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#SDKConnection">SDKConnection</a></b>(QLocalSocket *<i>socket</i>, QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#appID-prop">appID</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QVector&lt;int&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#monitor-prop">monitor</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#type-prop">type</a></b>() const</td></tr>
+</table></div>
+<a name="public-slots"></a>
+<h2 id="public-slots">Public Slots</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#close">close</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#readyRead">readyRead</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#sendMessage">sendMessage</a></b>(const QByteArray &amp;<i>message</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#appID-prop">setAppID</a></b>(QString <i>appID</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#monitor-prop">setMonitor</a></b>(QVector&lt;int&gt; <i>monitor</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#type-prop">setType</a></b>(QString <i>type</i>)</td></tr>
+</table></div>
+<a name="signals"></a>
+<h2 id="signals">Signals</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#appID-prop">appIDChanged</a></b>(QString <i>appID</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#monitor-prop">monitorChanged</a></b>(QVector&lt;int&gt; <i>monitor</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#type-prop">typeChanged</a></b>(QString <i>type</i>)</td></tr>
+</table></div>
+<a name="details"></a>
+<!-- $$$SDKConnection-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+</div>
+<!-- @@@SDKConnection -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$SDKConnection[overload1]$$$SDKConnectionQLocalSocket*QObject* -->
+<h3 class="fn" id="SDKConnection"><a name="SDKConnection"></a>SDKConnection::<span class="name">SDKConnection</span>(<span class="type">QLocalSocket</span> *<i>socket</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<p>.</p>
+<!-- @@@SDKConnection -->
+<!-- $$$close[overload1]$$$close -->
+<h3 class="fn" id="close"><a name="close"></a><code>[slot] </code><span class="type">void</span> SDKConnection::<span class="name">close</span>()</h3>
+<p>.</p>
+<!-- @@@close -->
+<!-- $$$readyRead[overload1]$$$readyRead -->
+<h3 class="fn" id="readyRead"><a name="readyRead"></a><code>[slot] </code><span class="type">void</span> SDKConnection::<span class="name">readyRead</span>()</h3>
+<p>.</p>
+<!-- @@@readyRead -->
+<!-- $$$sendMessage[overload1]$$$sendMessageconstQByteArray& -->
+<h3 class="fn" id="sendMessage"><a name="sendMessage"></a><code>[slot] </code><span class="type">void</span> SDKConnection::<span class="name">sendMessage</span>(const <span class="type">QByteArray</span> &amp;<i>message</i>)</h3>
+<p>.</p>
+<!-- @@@sendMessage -->
+</div>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
+</html>

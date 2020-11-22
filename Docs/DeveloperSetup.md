@@ -88,3 +88,13 @@ sudo zypper install -t pattern devel_basis
 2. Install [homebrew](https://brew.sh/)
      - Open a terminal and install clang -> brew install llvm cmake ninja
 3. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.13.0) -> Change c and c++ Compiler to Apple Clang (x86_64)
+
+
+# Developer docs 
+We use qdoc to generate documentation. Qt6 is the minimum version qdoc, because of vastly improved c++ parsing support. 
+* qdoc.exe configWindows.qdocconf
+If you have installed Qt in a different directory, change the path to your Qt location.
+
+Some useful links:
+* [Introduction to QDoc](https://doc.qt.io/qt-5/01-qdoc-manual.html)
+* [Writing qdoc comments](https://doc.qt.io/qt-5/qdoc-guide-writing.html)

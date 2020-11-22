@@ -606,6 +606,9 @@ QString CreateImportVideo::waitForFinished(
     return processOutput;
 }
 
+/*!
+    \brief .
+*/
 bool CreateImportVideo::analyzeWebmReadFrames(const QJsonObject& obj)
 {
     // Get video info
@@ -647,6 +650,9 @@ bool CreateImportVideo::analyzeWebmReadFrames(const QJsonObject& obj)
     return false;
 }
 
+/*!
+    \brief .
+*/
 bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
 {
     // Check for audio and video streams
