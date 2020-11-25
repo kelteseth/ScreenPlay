@@ -17,8 +17,7 @@ Dev. Docs   [![pipeline status](https://gitlab.com/kelteseth/ScreenPlayDeveloper
 <br>
 ScreenPlay is an open source cross platform app for displaying Video Wallpaper, Widgets and AppDrawer. It is written in modern C++20/Qt5/QML. Binaries with workshop support are available for Windows and soon Linux & MacOSX via <a href="https://store.steampowered.com/about/">Steam</a>.  Join our community: 
 
-<h3><a href="https://screen-play.app/">Homepage</a> - <a href="https://forum.screen-play.app/">Forum</a> - <a href="https://discord.gg/3RygPHZ">🎉 Discord (Free Steam Key Here!)</a>  -  <a href="https://www.reddit.com/r/ScreenPlayApp/">Reddit</a></h3>
-<!--<h4><a href="https://steamcommunity.com/app/672870/">Download ScreenPlay!</a></h4>-->
+<h3><a href="https://screen-play.app/">Homepage</a> - <a href="https://forum.screen-play.app/">Forum</a> - <a href="https://discord.gg/3RygPHZ">🎉 Discord (Free Steam Key Here!)</a>  -  <a href="https://www.reddit.com/r/ScreenPlayApp/">Reddit</a> - <a href="https://steamcommunity.com/app/672870/">Steam</a></h3>
 <br>
 
 ![Preview](.gitlab/media/preview.gif)
