@@ -11,21 +11,21 @@ import ScreenPlay 1.0
 
    Test
 
-   \image ImageSelectorPreview.png
+   \image rootPreview.png
 
    \section1 Setting default text and capitalization
 
    Test
 
    \qml
-        ImageSelector {
+        root {
 
         }
    \endqml
 
 */
 Item {
-    id: imageSelector
+    id: root
     height: 70
     width: parent.width
     state: "nothingSelected"
@@ -37,10 +37,10 @@ Item {
         if (imageSource === "") {
             img.source = ""
             txtName.text = ""
-            imageSelector.state = "nothingSelected"
+            root.state = "nothingSelected"
         } else {
             img.source = imageSource
-            imageSelector.state = "imageSelected"
+            root.state = "imageSelected"
         }
     }
 
@@ -105,6 +105,7 @@ Item {
             id: txtPlaceholder
             clip: true
             font.pointSize: 12
+            text: qsTr("You can set your own preview image here.")
             font.family: ScreenPlay.settings.font
             wrapMode: Text.WordWrap
             color: Material.secondaryTextColor

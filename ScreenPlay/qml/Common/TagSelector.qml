@@ -2,13 +2,15 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.12
+
 import ScreenPlay 1.0
 
 Item {
-    id: tagSelector
+    id: root
     height: 70
+    implicitWidth: 200
     onStateChanged: {
-        if (tagSelector.state === "add") {
+        if (root.state === "add") {
             btnAdd.text = qsTr("Save")
             textField.focus = true
         } else {
@@ -16,9 +18,9 @@ Item {
         }
     }
 
-    function getTags(){
-        var array = [];
-        for(var i = 0; i < listModel.count; i++) {
+    function getTags() {
+        var array = []
+        for (var i = 0; i < listModel.count; i++) {
             array.push(listModel.get(i)._name)
         }
         return array
@@ -26,7 +28,8 @@ Item {
 
     Rectangle {
         id: rectangle
-        color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
+        color: Material.theme === Material.Light ? Material.background : Qt.darker(
+                                                       Material.background)
         radius: 3
         clip: true
         anchors {
@@ -72,7 +75,10 @@ Item {
             radius: 3
             height: parent.height - 20
             width: 200
-            color: Material.theme === Material.Light ? Qt.lighter(Material.background) : Material.background
+            color: Material.theme
+                   === Material.Light ? Qt.lighter(
+                                            Material.background) : Material.background
+
             anchors {
                 top: parent.top
                 topMargin: -80
@@ -92,12 +98,16 @@ Item {
 
             TextField {
                 id: textField
-                anchors.fill: parent
-                anchors.rightMargin: 15
                 font.family: ScreenPlay.settings.font
-                anchors.leftMargin: 15
+                color: Material.primaryTextColor
+                anchors {
+                    fill: parent
+                    rightMargin: 15
+                    leftMargin: 15
+                }
+
                 onTextChanged: {
-                    if(textField.length >= 10){
+                    if (textField.length >= 10) {
                         textField.text = textField.text
                     }
                 }
@@ -108,6 +118,7 @@ Item {
             id: btnCancel
             text: qsTr("Cancel")
             opacity: 0
+            height: parent.height - 20
             enabled: false
             Material.background: Material.Red
             Material.foreground: "white"
@@ -119,13 +130,14 @@ Item {
             }
 
             onClicked: {
-                tagSelector.state = ""
+                root.state = ""
                 textField.clear()
             }
         }
         Button {
             id: btnAdd
             text: qsTr("Add Tag")
+            height: parent.height - 20
             Material.background: Material.LightGreen
             Material.foreground: "white"
             font.family: ScreenPlay.settings.font
@@ -136,14 +148,14 @@ Item {
             }
 
             onClicked: {
-                if (tagSelector.state === "add") {
+                if (root.state === "add") {
                     listModel.append({
                                          "_name": textField.text
                                      })
                     textField.clear()
-                    tagSelector.state = ""
+                    root.state = ""
                 } else {
-                    tagSelector.state = "add"
+                    root.state = "add"
                 }
             }
         }
@@ -156,7 +168,6 @@ Item {
 
             PropertyChanges {
                 target: textFieldWrapper
-                color: "#ccffffff"
                 anchors.topMargin: 10
                 opacity: 1
                 enabled: true

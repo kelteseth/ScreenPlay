@@ -9,7 +9,7 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.12
 
 Item {
-    id: control
+    id: root
     anchors.fill: parent
 
     property alias radius: mask.radius
@@ -19,11 +19,11 @@ Item {
 
     function trigger() {
         var wave = ripple.createObject(container, {
-                                           "startX": control.width * .5,
-                                           "startY": control.height * .5,
+                                           "startX": root.width * .5,
+                                           "startY": root.height * .5,
                                            "maxRadius": furthestDistance(
-                                                            control.width * .5,
-                                                            control.height * .5)
+                                                            root.width * .5,
+                                                            root.height * .5)
                                        })
     }
 
@@ -53,7 +53,7 @@ Item {
             id: ink
             radius: 0
             opacity: 0.25
-            color: control.color
+            color: root.color
             property int startX
             property int startY
             property int maxRadius: 150
@@ -80,7 +80,7 @@ Item {
                     property: "opacity"
                     from: 0.8
                     to: 0
-                    duration: control.duration
+                    duration: root.duration
                 }
                 ScriptAction {
                     script: ink.destroy()

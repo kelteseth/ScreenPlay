@@ -17,20 +17,18 @@ Item {
         anchors.fill: parent
         radius: 3
         color: Material.theme === Material.Light ? Qt.lighter(
-                                                       Material.background) :  Material.background
+                                                       Material.background) : Material.background
 
         Text {
             id: txt
             text: _name
-            color: Material.theme === Material.Light ? Qt.lighter(
-                                                           Material.foreground) : Qt.darker(
-                                                           Material.foreground)
-
+            color: Material.primaryTextColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
             font.family: ScreenPlay.settings.font
         }
+
         TextField {
             id: textField
             enabled: false

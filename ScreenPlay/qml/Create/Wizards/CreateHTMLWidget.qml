@@ -5,15 +5,12 @@ import QtQuick.Layouts 1.14
 import QtQuick.Dialogs 1.2
 import ScreenPlay 1.0
 
-import "../../Common"
+import "../../Common"  as Common
 
-Item {
+WizardPage {
     id: root
-    function cleanup() {}
 
-    signal wizardStarted
-    signal wizardExited
-    Headline {
+    Common.Headline {
         id: txtHeadline
         text: qsTr("Create an empty HTML widget")
         anchors {
@@ -50,7 +47,7 @@ Item {
                 }
             }
 
-            ImageSelector {
+            Common.ImageSelector {
                 id: imageSelector
                 Layout.fillWidth: true
             }
@@ -72,11 +69,10 @@ Item {
                 color: "#757575"
                 font.family: ScreenPlay.settings.font
             }
-            TextField {
+            Common.TextField {
                 id: tfTitle
                 Layout.fillWidth: true
                 placeholderText: qsTr("Widget name")
-                font.family: ScreenPlay.settings.font
                 onTextChanged: {
                     if (text.length >= 3) {
                         btnSave.enabled = true
@@ -85,11 +81,10 @@ Item {
                     }
                 }
             }
-            TextField {
+            Common.TextField {
                 id: tfCreatedBy
                 Layout.fillWidth: true
                 placeholderText: qsTr("Copyright owner")
-                font.family: ScreenPlay.settings.font
             }
 
             Text {
@@ -122,7 +117,7 @@ Item {
                 font.family: ScreenPlay.settings.font
             }
 
-            TagSelector {
+            Common.TagSelector {
                 id: tagSelector
                 Layout.fillWidth: true
             }

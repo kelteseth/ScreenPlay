@@ -7,291 +7,174 @@ import QtQuick.Layouts 1.12
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 
-import "../../Common"
+import "../../Common" as Common
 
-Item {
+WizardPage {
     id: root
-
-    signal wizardStarted
-    signal wizardExited
-
-    SwipeView {
-        id: swipeView
-        anchors.fill: parent
-        interactive: false
-        clip: true
+    sourceComponent: Item {
 
         Item {
-            Item {
-                width: parent.width * .66
+            width: parent.width * .5
+            anchors {
+                top: parent.top
+                left: parent.left
+                bottom: parent.bottom
+                margins: 20
+            }
+            Image {
+                source: "qrc:/assets/images/undraw_static_website_0107.svg"
                 anchors {
-                    top: parent.top
+                    verticalCenter: parent.verticalCenter
                     left: parent.left
-                    bottom: parent.bottom
-                    margins: 20
                 }
-                Image {
-                    source: "qrc:/assets/images/undraw_static_website_0107.svg"
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: parent.left
-                    }
-                    width: parent.width
-                    height: 300
-                    fillMode: Image.PreserveAspectFit
-                }
+                width: parent.width
+                height: 400
+                fillMode: Image.PreserveAspectFit
+            }
+        }
+        Item {
+            width: parent.width * .5
+            anchors {
+                top: parent.top
+                right: parent.right
+                bottom: parent.bottom
+                margins: 20
             }
 
-            Item {
-                width: parent.width * .33
+            ColumnLayout {
+                id: rightWrapper
+                spacing: 8
                 anchors {
                     top: parent.top
                     right: parent.right
-                    bottom: parent.bottom
-                    margins: 20
+                    left: parent.left
+                }
+
+                Common.Headline {
+                    text: qsTr("Create a html Wallpaper")
                 }
 
                 Text {
-                    id: txtDescription
-                    text: qsTr("This wizard lets you create a empty html based wallpaper. You can put anything you can imagine into this html file. For example this can be a three.js scene or a utility application written in javascript.")
-                    color: "gray"
-                    width: parent.width - 40
-                    font.pointSize: 13
+                    text: qsTr("General")
+                    font.pointSize: 14
+                    color: "#757575"
                     font.family: ScreenPlay.settings.font
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    anchors {
-                        centerIn: parent
+                }
+                Common.TextField {
+                    id: tfTitle
+                    Layout.fillWidth: true
+                    placeholderText: qsTr("Wallpaper name")
+                    onTextChanged: {
+                        if (text.length >= 3) {
+                            btnSave.enabled = true
+                        } else {
+                            btnSave.enabled = false
+                        }
                     }
+                }
+                Common.TextField {
+                    id: tfCreatedBy
+                    Layout.fillWidth: true
+                    placeholderText: qsTr("Copyright owner")
+                }
+
+                Text {
+                    text: qsTr("License")
+                    font.pointSize: 14
+                    color: "#757575"
+                    font.family: ScreenPlay.settings.font
+                }
+                ComboBox {
+                    id: cbLicense
+                    Layout.fillWidth: true
+                    font.family: ScreenPlay.settings.font
+                    model: ListModel {
+                        id: modelLicense
+                        ListElement {
+                            text: "All rights "
+                        }
+                        ListElement {
+                            text: "Open Source - GPLv3"
+                        }
+                        ListElement {
+                            text: "Open Source - MIT/Apache2"
+                        }
+                    }
+                }
+                Text {
+                    text: qsTr("Tags")
+                    font.pointSize: 14
+                    color: "#757575"
+                    font.family: ScreenPlay.settings.font
+                }
+
+                Common.TagSelector {
+                    id: tagSelector
+                    Layout.fillWidth: true
+                }
+                Text {
+                    text: qsTr("Preview Image")
+                    font.pointSize: 14
+                    color: "#757575"
+                    font.family: ScreenPlay.settings.font
+                }
+                Common.ImageSelector {
+                    id: previewSelector
+                    placeHolderText: qsTr("You can set your own preview image here!")
+                    Layout.fillWidth: true
+                }
+            }
+        }
+        Row {
+            height: 80
+
+            anchors {
+                right: parent.right
+                bottom: parent.bottom
+                rightMargin: 20
+            }
+
+            spacing: 10
+
+            Connections {
+                target: ScreenPlay.create
+                function onHtmlWallpaperCreatedSuccessful(path) {
+                    ScreenPlay.util.openFolderInExplorer(path)
                 }
             }
 
             Button {
-                text: qsTr("Next")
-                highlighted: true
-                anchors {
-                    right: parent.right
-                    bottom: parent.bottom
-                    margins: 20
-                }
+                id: btnExit
+                text: qsTr("Abort")
+                Material.background: Material.Red
+                Material.foreground: "white"
                 font.family: ScreenPlay.settings.font
                 onClicked: {
-                    root.wizardStarted()
-                    swipeView.incrementCurrentIndex()
+                    root.decrementCurrentIndex()
+                    root.wizardExited()
                 }
             }
-        }
-        Item {
 
-            Item {
-                width: parent.width * .5
-                anchors {
-                    top: parent.top
-                    left: parent.left
-                    bottom: parent.bottom
-                    margins: 20
-                }
-                Image {
-                    source: "qrc:/assets/images/undraw_static_website_0107.svg"
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: parent.left
-                    }
-                    width: parent.width
-                    height: 400
-                    fillMode: Image.PreserveAspectFit
+            Button {
+                id: btnSave
+                text: qsTr("Save")
+                enabled: false
+                Material.background: Material.accent
+                Material.foreground: "white"
+                font.family: ScreenPlay.settings.font
+                onClicked: {
+                    btnSave.enabled = false
+                    savePopup.open()
+                    var tags = tagSelector.getTags()
+                    ScreenPlay.create.createHTMLWallpaper(
+                                ScreenPlay.globalVariables.localStoragePath,
+                                tfTitle.text, previewSelector.imageSource,
+                                cbLicense.currentText, tags)
                 }
             }
-            Item {
-                width: parent.width * .5
-                anchors {
-                    top: parent.top
-                    right: parent.right
-                    bottom: parent.bottom
-                    margins: 20
-                }
-
-                ColumnLayout {
-                    id: rightWrapper
-                    spacing: 8
-                    anchors {
-                        top: parent.top
-                        right: parent.right
-                        left: parent.left
-                    }
-
-                    Headline {
-                        text: qsTr("Create a html Wallpaper")
-                    }
-
-                    Text {
-                        text: qsTr("General")
-                        font.pointSize: 14
-                        color: "#757575"
-                        font.family: ScreenPlay.settings.font
-                    }
-                    TextField {
-                        id: tfTitle
-                        Layout.fillWidth: true
-                        placeholderText: qsTr("Wallpaper name")
-                        font.family: ScreenPlay.settings.font
-                        onTextChanged: {
-                            if (text.length >= 3) {
-                                btnSave.enabled = true
-                            } else {
-                                btnSave.enabled = false
-                            }
-                        }
-                    }
-                    TextField {
-                        id: tfCreatedBy
-                        font.family: ScreenPlay.settings.font
-                        Layout.fillWidth: true
-                        placeholderText: qsTr("Copyright owner")
-                    }
-
-                    Text {
-                        text: qsTr("License")
-                        font.pointSize: 14
-                        color: "#757575"
-                        font.family: ScreenPlay.settings.font
-                    }
-                    ComboBox {
-                        id: cbLicense
-                        Layout.fillWidth: true
-                        font.family: ScreenPlay.settings.font
-                        model: ListModel {
-                            id: modelLicense
-                            ListElement {
-                                text: "All rights "
-                            }
-                            ListElement {
-                                text: "Open Source - GPLv3"
-                            }
-                            ListElement {
-                                text: "Open Source - MIT/Apache2"
-                            }
-                        }
-                    }
-                    Text {
-                        text: qsTr("Tags")
-                        font.pointSize: 14
-                        color: "#757575"
-                        font.family: ScreenPlay.settings.font
-                    }
-
-                    TagSelector {
-                        id: tagSelector
-
-                        Layout.fillWidth: true
-                    }
-                    Text {
-                        text: qsTr("Preview Image")
-                        font.pointSize: 14
-                        color: "#757575"
-                        font.family: ScreenPlay.settings.font
-                    }
-                    ImageSelector {
-                        id: previewSelector
-                        placeHolderText: qsTr("You can set your own preview image here!")
-                        Layout.fillWidth: true
-                    }
-                }
-            }
-            Row {
-                height: 80
-
-                anchors {
-                    right: parent.right
-                    bottom: parent.bottom
-                    rightMargin: 20
-                }
-
-                spacing: 10
-
-                Connections {
-                    target: ScreenPlay.create
-                    function onHtmlWallpaperCreatedSuccessful(path) {
-                        ScreenPlay.util.openFolderInExplorer(path)
-                    }
-                }
-
-                Button {
-                    id: btnExit
-                    text: qsTr("Abort")
-                    Material.background: Material.Red
-                    Material.foreground: "white"
-                    font.family: ScreenPlay.settings.font
-                    onClicked: {
-                        swipeView.decrementCurrentIndex()
-                        root.wizardExited()
-                    }
-                }
-
-                Button {
-                    id: btnSave
-                    text: qsTr("Save")
-                    enabled: false
-                    Material.background: Material.accent
-                    Material.foreground: "white"
-                    font.family: ScreenPlay.settings.font
-                    onClicked: {
-                        btnSave.enabled = false
-                        savePopup.open()
-                        var tags = tagSelector.getTags()
-                        ScreenPlay.create.createHTMLWallpaper(
-                                    ScreenPlay.globalVariables.localStoragePath,
-                                    tfTitle.text, previewSelector.imageSource,
-                                    cbLicense.currentText, tags)
-                    }
-                }
-            }
-        }
-    }
-
-    Popup {
-        id: savePopup
-        modal: true
-        focus: true
-        width: 250
-        anchors.centerIn: parent
-        height: 200
-        onOpened: timerSave.start()
-
-        BusyIndicator {
-            anchors.centerIn: parent
-            running: true
-        }
-        Text {
-            text: qsTr("Create Html Wallpaper...")
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 30
-            font.family: ScreenPlay.settings.font
-        }
-
-        Timer {
-            id: timerSave
-            interval: 1000 + Math.random() * 1000
-            onTriggered: {
-                savePopup.close()
-                root.wizardExited()
-            }
-        }
-    }
-    PageIndicator {
-        id: indicator
-
-        count: swipeView.count
-        currentIndex: swipeView.currentIndex
-
-        anchors {
-            bottom: swipeView.bottom
-            bottomMargin: 20
-            horizontalCenter: parent.horizontalCenter
         }
     }
 }
-
 /*##^##
 Designer {
     D{i:0;autoSize:true;height:480;width:640}

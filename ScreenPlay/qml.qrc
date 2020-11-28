@@ -75,6 +75,10 @@
         <file>qml/Create/Wizards/ImportWebm/ImportWebmInit.qml</file>
         <file>qml/Common/Dialogs/MonitorConfiguration.qml</file>
         <file>qml/Common/Dialogs/SteamNotAvailable.qml</file>
+        <file>qml/Create/Wizards/WizardPage.qml</file>
+        <file>qml/Create/Wizards/CreateGifWallpaper.qml</file>
         <file>assets/startinfo/gimp.png</file>
+        <file>qml/Common/TextField.qml</file>
+        <file>qml/Common/HeadlineSection.qml</file>
     </qresource>
 </RCC>

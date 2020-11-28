@@ -12,7 +12,7 @@ WizardPage {
 
     Common.Headline {
         id: txtHeadline
-        text: qsTr("Create an empty QML widget")
+        text: qsTr("Create an Gif Wallpaper")
         anchors {
             top: parent.top
             left: parent.left
@@ -41,7 +41,7 @@ WizardPage {
 
                 Image {
                     id: imgPreview
-                    source: "qrc:/assets/wizards/example_qml.png"
+                    source: "qrc:/assets/wizards/example_html.png"
                     width: parent.width
                     fillMode: Image.PreserveAspectCrop
                 }
@@ -57,6 +57,7 @@ WizardPage {
             Layout.fillHeight: true
             Layout.preferredWidth: 20
         }
+
         ColumnLayout {
             id: rightWrapper
             spacing: 8
@@ -72,7 +73,7 @@ WizardPage {
             Common.TextField {
                 id: tfTitle
                 Layout.fillWidth: true
-                placeholderText: qsTr("Widget name")
+                placeholderText: qsTr("Wallpaper name")
                 onTextChanged: {
                     if (text.length >= 3) {
                         btnSave.enabled = true
@@ -81,35 +82,7 @@ WizardPage {
                     }
                 }
             }
-            Common.TextField {
-                id: tfCreatedBy
-                Layout.fillWidth: true
-                placeholderText: qsTr("Copyright owner")
-            }
 
-            Text {
-                text: qsTr("License")
-                font.pointSize: 14
-                color: "#757575"
-                font.family: ScreenPlay.settings.font
-            }
-            ComboBox {
-                id: cbLicense
-                Layout.fillWidth: true
-                font.family: ScreenPlay.settings.font
-                model: ListModel {
-                    id: modelLicense
-                    ListElement {
-                        text: "All rights "
-                    }
-                    ListElement {
-                        text: "Open Source - GPLv3"
-                    }
-                    ListElement {
-                        text: "Open Source - MIT/Apache2"
-                    }
-                }
-            }
             Text {
                 text: qsTr("Tags")
                 font.pointSize: 14

@@ -7,7 +7,7 @@ import QtQuick.Layouts 1.12
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 
-import "../../../Common"
+import "../../../Common"  as Common
 
 Item {
     id: root
@@ -216,10 +216,9 @@ Item {
                 }
             }
         }
-        ImageSelector {
+        Common.ImageSelector {
             id: previewSelector
             height: 80
-            placeHolderText: qsTr("You can set your own preview image here!")
             anchors {
                 right: parent.right
                 rightMargin: 20
@@ -251,11 +250,10 @@ Item {
                 bottomMargin: 50
             }
 
-            TextField {
+            Common.TextField {
                 id: textFieldName
                 placeholderText: qsTr("Name (required!)")
                 width: parent.width
-                font.family: ScreenPlay.settings.font
                 Layout.fillWidth: true
                 onTextChanged: {
                     if (textFieldName.text.length >= 3) {
@@ -266,26 +264,23 @@ Item {
                 }
             }
 
-            TextField {
+            Common.TextField {
                 id: textFieldDescription
                 placeholderText: qsTr("Description")
-                font.family: ScreenPlay.settings.font
                 width: parent.width
                 Layout.fillWidth: true
             }
 
-            TextField {
+            Common.TextField {
                 id: textFieldYoutubeURL
                 placeholderText: qsTr("Youtube URL")
-                font.family: ScreenPlay.settings.font
                 width: parent.width
                 Layout.fillWidth: true
             }
 
-            TagSelector {
+            Common.TagSelector {
                 id: textFieldTags
                 width: parent.width
-
                 Layout.fillWidth: true
             }
         }

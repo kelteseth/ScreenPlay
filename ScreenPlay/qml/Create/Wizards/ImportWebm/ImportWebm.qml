@@ -7,8 +7,6 @@ import QtQuick.Layouts 1.12
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 
-import "../../../Common"
-
 Item {
     id: root
 

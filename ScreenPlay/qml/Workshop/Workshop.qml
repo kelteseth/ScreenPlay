@@ -10,6 +10,8 @@ import ScreenPlay 1.0
 
 import "upload/"
 
+import "../Common" as Common
+
 Item {
     id: workshop
     state: "base"
@@ -246,7 +248,7 @@ Item {
                             radius: 3
                         }
 
-                        TextField {
+                        Common.TextField {
                             id: tiSearch
                             anchors {
                                 top: parent.top
@@ -257,10 +259,6 @@ Item {
                                 leftMargin: 10
                             }
                             placeholderText: qsTr("Search for Wallpaper and Widgets...")
-                            placeholderTextColor: "#666666"
-                            font.pointSize: 10
-                            font.family: ScreenPlay.settings.font
-                            color: "white"
                             onTextChanged: timerSearch.restart()
                             Timer {
                                 id: timerSearch
@@ -334,9 +332,9 @@ Item {
                     subscriptionCount: m_subscriptionCount
                     itemIndex: index
                     onClicked: {
-                        sidebar.setWorkshopItem(
-                                    workshopID, imgUrl, additionalPreviewUrl,
-                                    subscriptionCount)
+                        sidebar.setWorkshopItem(workshopID, imgUrl,
+                                                additionalPreviewUrl,
+                                                subscriptionCount)
                     }
                 }
 

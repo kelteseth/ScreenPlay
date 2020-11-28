@@ -3,7 +3,7 @@ import Qt.labs.platform 1.0
 import ScreenPlay 1.0
 
 SystemTrayIcon {
-    id: sti
+    id: root
     visible: true
     iconSource: "qrc:/assets/icons/app.ico"
     tooltip: qsTr("ScreenPlay - Double click to change you settings.")

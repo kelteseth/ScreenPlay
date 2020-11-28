@@ -8,7 +8,7 @@ import QtQuick.Dialogs 1.3
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 
-import "../../../Common"
+import "../../../Common" as Common
 
 Item {
     id: root
@@ -24,7 +24,7 @@ Item {
             margins: 20
         }
 
-        Headline {
+        Common.Headline {
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
             text: qsTr("Import a video")
