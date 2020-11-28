@@ -30,6 +30,7 @@ ApplicationWindow {
     onVisibilityChanged: {
         if (window.visibility === 2) {
             switchPage("Installed")
+            nav.setNavigation("Installed")
         }
     }
 

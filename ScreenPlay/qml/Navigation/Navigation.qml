@@ -46,15 +46,7 @@ Rectangle {
         }
     }
 
-    function onPageChanged(name) {
-
-        ScreenPlay.setTrackerSendEvent("navigation", name)
-
-        if (!navActive)
-            return
-
-        navigation.changePage(name)
-
+    function setNavigation(name){
         var i = 0
         for (; i < navArray.length; i++) {
             if (navArray[i].name === name)
@@ -63,6 +55,17 @@ Rectangle {
                 navArray[i].state = "inactive"
             }
         }
+    }
+
+    function onPageChanged(name) {
+
+        ScreenPlay.setTrackerSendEvent("navigation", name)
+
+        if (!navActive)
+            return
+
+        navigation.changePage(name)
+        setNavigation(name)
     }
 
     Row {
