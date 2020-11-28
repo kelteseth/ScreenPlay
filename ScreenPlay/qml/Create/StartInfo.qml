@@ -49,9 +49,15 @@ Item {
             left: parent.left
             margins: 20
         }
+        boundsBehavior: Flickable.DragOverBounds
+        maximumFlickVelocity: 2500
+        flickDeceleration: 500
         clip: true
         cellWidth: 186
         cellHeight: 280
+        ScrollBar.vertical: ScrollBar {
+            snapMode: ScrollBar.SnapOnRelease
+        }
         model: ListModel {
             ListElement {
                 text: "Subreddit"
@@ -99,6 +105,13 @@ Item {
                 text: "Krita"
                 image: "qrc:/assets/startinfo/krita.png"
                 link: "https://krita.org/"
+                description: ""
+                category: "Tools"
+            }
+            ListElement {
+                text: "Gimp"
+                image: "qrc:/assets/startinfo/gimp.png"
+                link: "https://gimp.org/"
                 description: ""
                 category: "Tools"
             }
@@ -175,6 +188,7 @@ Item {
         }
 
         delegate: Item {
+            id:delegate
             width: gridView.cellWidth
             height: gridView.cellHeight
 
@@ -189,6 +203,7 @@ Item {
                 }
 
                 Image {
+                    id:image
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectCrop
                     source: model.image
@@ -265,8 +280,39 @@ Item {
                     cursorShape: Qt.PointingHandCursor
                     hoverEnabled: true
                     onClicked: Qt.openUrlExternally(model.link)
+                    onEntered: {
+                        delegate.state = "hover"
+                    }
+                    onExited: {
+                        delegate.state = ""
+                    }
                 }
             }
+
+            transitions: [
+                Transition {
+                    from: ""
+                    to: "hover"
+
+                    ScaleAnimator {
+                        target: image
+                        duration: 80
+                        from: 1
+                        to: 1.05
+                    }
+                },
+                Transition {
+                    from: "hover"
+                    to: ""
+
+                    ScaleAnimator {
+                        target: image
+                        duration: 80
+                        from: 1.05
+                        to: 1
+                    }
+                }
+            ]
         }
     }
 }

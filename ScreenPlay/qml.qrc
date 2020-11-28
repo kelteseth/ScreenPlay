@@ -75,5 +75,6 @@
         <file>qml/Create/Wizards/ImportWebm/ImportWebmInit.qml</file>
         <file>qml/Common/Dialogs/MonitorConfiguration.qml</file>
         <file>qml/Common/Dialogs/SteamNotAvailable.qml</file>
+        <file>assets/startinfo/gimp.png</file>
     </qresource>
 </RCC>
