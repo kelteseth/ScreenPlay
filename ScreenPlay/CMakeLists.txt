@@ -41,7 +41,8 @@ set(src
     src/screenplaymanager.cpp
     src/sdkconnection.cpp
     src/util.cpp
-    src/create.cpp)
+    src/create.cpp
+    src/wizards.cpp)
 
 set(headers
     app.h
@@ -61,7 +62,8 @@ set(headers
     src/screenplaymanager.h
     src/sdkconnection.h
     src/util.h
-    src/create.h)
+    src/create.h
+    src/wizards.h)
 
 set(l10n
     translations/ScreenPlay_de.ts

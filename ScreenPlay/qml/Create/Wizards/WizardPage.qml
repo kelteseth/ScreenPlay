@@ -1,8 +1,9 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.15
 import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.12
+import QtQuick.Window 2.12
 
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
@@ -12,17 +13,21 @@ FocusScope {
 
     signal wizardStarted
     signal wizardExited
+    signal saveClicked
+    signal saveFinished
+    signal cancelClicked
 
     property Component sourceComponent
     property alias savePopup: savePopup
+    property bool ready: false
 
     ScrollView {
         anchors {
-            topMargin: 20
-            top:parent.top
-            right:parent.right
-            bottom: parent.bottom
-            left:parent.left
+            margins: 20
+            top: parent.top
+            right: parent.right
+            bottom: footer.top
+            left: parent.left
         }
 
         contentWidth: width
@@ -30,13 +35,43 @@ FocusScope {
 
         Loader {
             id: loader
-            width: Math.min(parent.width, 800)
-            height: item.childrenRect.height
+            width: parent.width
+            Component.onCompleted: height = item.childrenRect.height
             clip: true
             sourceComponent: root.sourceComponent
             anchors {
                 top: parent.top
                 horizontalCenter: parent.horizontalCenter
+            }
+        }
+    }
+
+    RowLayout {
+        id: footer
+        anchors {
+            right: parent.right
+            bottom: parent.bottom
+            left: parent.left
+            margins: 20
+        }
+
+        Item {
+            Layout.fillWidth: true
+        }
+
+        Button {
+            id: btnSave
+            text: qsTr("Save")
+            enabled: root.ready
+            Material.background: Material.accent
+            Material.foreground: "white"
+            Layout.alignment: Qt.AlignRight
+            font.family: ScreenPlay.settings.font
+            onClicked: {
+                btnSave.enabled = false
+                root.saveClicked()
+                loader.item.create()
+                savePopup.open()
             }
         }
     }
@@ -47,7 +82,7 @@ FocusScope {
         focus: true
         width: 250
         height: 200
-        anchors.centerIn: parent
+        anchors.centerIn: Overlay.overlay
         onOpened: timerSave.start()
 
         BusyIndicator {
@@ -57,6 +92,7 @@ FocusScope {
 
         Text {
             text: qsTr("Saving...")
+            color: Material.primaryHighlightedTextColor
             font.family: ScreenPlay.settings.font
             anchors {
                 horizontalCenter: parent.horizontalCenter

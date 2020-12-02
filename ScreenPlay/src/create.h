@@ -73,6 +73,7 @@ public:
     explicit Create(
         const std::shared_ptr<GlobalVariables>& globalVariables,
         QObject* parent = nullptr);
+
     Create();
 
     enum class VideoCodec {
@@ -107,23 +108,8 @@ signals:
     void htmlWallpaperCreatedSuccessful(QString path);
 
 public slots:
+
     void createWallpaperStart(QString videoPath, Create::VideoCodec codec);
-
-    void createWidget(
-        const QString& localStoragePath,
-        const QString& title,
-        const QString& previewThumbnail,
-        const QString& createdBy,
-        const QString& license,
-        const QString& type,
-        const QVector<QString>& tags);
-
-    void createHTMLWallpaper(
-        const QString& localStoragePath,
-        const QString& title,
-        const QString& previewThumbnail,
-        const QString& license,
-        const QVector<QString>& tags);
 
     void saveWallpaper(
         QString title,

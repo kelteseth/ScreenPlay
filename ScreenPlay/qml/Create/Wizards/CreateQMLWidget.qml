@@ -84,7 +84,7 @@ WizardPage {
             Common.TextField {
                 id: tfCreatedBy
                 Layout.fillWidth: true
-                placeholderText: qsTr("Copyright owner")
+                placeholderText: qsTr("Created by")
             }
 
             Text {

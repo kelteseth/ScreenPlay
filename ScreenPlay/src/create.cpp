@@ -43,171 +43,6 @@ Create::Create()
 }
 
 /*!
-  \brief Creates a new widget.
-*/
-void Create::createWidget(const QString& localStoragePath, const QString& title, const QString& previewThumbnail, const QString& createdBy, const QString& license, const QString& type, const QVector<QString>& tags)
-{
-    QtConcurrent::run([=]() {
-        QUrl localStoragePathUrl { localStoragePath };
-        QDir dir;
-        dir.cd(localStoragePathUrl.toLocalFile());
-        // Create a temp dir so we can later alter it to the workshop id
-        auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
-        QString workingPath = dir.path() + "/" + folderName;
-
-        if (!dir.mkdir(folderName)) {
-            qDebug() << "Could create folder: " << folderName;
-            return;
-        }
-
-        QJsonObject obj;
-        obj.insert("license", license);
-        obj.insert("title", title);
-        obj.insert("createdBy", createdBy);
-
-        if (type == "QML") {
-            obj.insert("type", "qmlWidget");
-            obj.insert("file", "main.qml");
-
-            QFile fileMainQML(workingPath + "/main.qml");
-            if (!fileMainQML.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                qDebug() << "Could not open /main.qml";
-                return;
-            }
-
-            QTextStream outMainQML(&fileMainQML);
-            outMainQML.setCodec("UTF-8");
-            outMainQML << "import QtQuick 2.14 \n\n Item {\n id:root \n}";
-            fileMainQML.close();
-
-        } else {
-            obj.insert("type", "htmlWidget");
-            obj.insert("file", "index.html");
-
-            QFile fileMainHTML(workingPath + "/index.html");
-            if (!fileMainHTML.open(QIODevice::WriteOnly | QIODevice::Text)) {
-                qDebug() << "Could not open /index.html";
-                return;
-            }
-
-            QTextStream outMainHTML(&fileMainHTML);
-            outMainHTML.setCodec("UTF-8");
-            outMainHTML << "<html>\n<head></head>\n<body></body>\n</html>";
-            fileMainHTML.close();
-        }
-
-        QJsonArray tagsJsonArray;
-        for (const QString& tmp : tags) {
-            tagsJsonArray.append(tmp);
-        }
-        obj.insert("tags", tagsJsonArray);
-
-        QFile file(workingPath + "/project.json");
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            qDebug() << "Could not open /project.json";
-            return;
-        }
-
-        QUrl previewThumbnailUrl { previewThumbnail };
-        QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
-
-        if (!previewThumbnail.isEmpty()) {
-            obj.insert("previewThumbnail", previewImageFile.fileName());
-            obj.insert("preview", previewImageFile.fileName());
-            if (!QFile::copy(previewThumbnailUrl.toLocalFile(), workingPath + "/" + previewImageFile.fileName())) {
-                qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << workingPath + "/" + previewImageFile.fileName();
-                return;
-            }
-        }
-
-        QTextStream out(&file);
-        out.setCodec("UTF-8");
-        QJsonDocument doc(obj);
-        out << doc.toJson();
-        file.close();
-
-        emit widgetCreatedSuccessful(workingPath);
-    });
-}
-
-/*!
-  \brief Creates a HTML wallpaper.
-*/
-void Create::createHTMLWallpaper(
-    const QString& localStoragePath,
-    const QString& title,
-    const QString& previewThumbnail,
-    const QString& license,
-    const QVector<QString>& tags)
-{
-    QtConcurrent::run([=]() {
-        QUrl localStoragePathUrl { localStoragePath };
-        QDir dir;
-        dir.cd(localStoragePathUrl.toLocalFile());
-        // Create a temp dir so we can later alter it to the workshop id
-        auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
-        QString workingPath = dir.path() + "/" + folderName;
-
-        if (!dir.mkdir(folderName)) {
-            qDebug() << "Could create folder: " << folderName;
-            return;
-        }
-
-        QJsonObject obj;
-        obj.insert("license", license);
-        obj.insert("title", title);
-
-        obj.insert("type", "htmlWallpaper");
-        obj.insert("file", "index.html");
-
-        QFile fileMainHTML(workingPath + "/index.html");
-        if (!fileMainHTML.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            qDebug() << "Could not open /index.html";
-            return;
-        }
-
-        QTextStream outMainHTML(&fileMainHTML);
-        outMainHTML.setCodec("UTF-8");
-        outMainHTML << "<html>\n<head></head>\n"
-                       "<h1>This is an empty html Wallpaper!</h1>"
-                       "<body></body>\n</html>";
-        fileMainHTML.close();
-
-        QJsonArray tagsJsonArray;
-        for (const QString& tmp : tags) {
-            tagsJsonArray.append(tmp);
-        }
-        obj.insert("tags", tagsJsonArray);
-
-        QFile file(workingPath + "/project.json");
-        if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-            qDebug() << "Could not open /project.json";
-            return;
-        }
-
-        QUrl previewThumbnailUrl { previewThumbnail };
-        QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
-
-        if (!previewThumbnail.isEmpty()) {
-            obj.insert("previewThumbnail", previewImageFile.fileName());
-            obj.insert("preview", previewImageFile.fileName());
-            if (!QFile::copy(previewThumbnailUrl.toLocalFile(), workingPath + "/" + previewImageFile.fileName())) {
-                qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << workingPath + "/" + previewImageFile.fileName();
-                return;
-            }
-        }
-
-        QTextStream out(&file);
-        out.setCodec("UTF-8");
-        QJsonDocument doc(obj);
-        out << doc.toJson();
-        file.close();
-
-        emit widgetCreatedSuccessful(workingPath);
-    });
-}
-
-/*!
     \brief Starts the process.
 */
 void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
@@ -228,11 +63,7 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
     }
     setWorkingDir(dir.path() + "/" + folderName);
     QStringList codecs;
-    if (codec == Create::VideoCodec::VP8) {
-        codecs.append("vp8");
-    } else {
-        codecs.append("vp9");
-    }
+    codecs.append(codec == Create::VideoCodec::VP8 ? "vp8" : "vp9");
 
     m_createImportVideoThread = new QThread(this);
     m_createImportVideo = new CreateImportVideo(videoPath, workingDir(), codecs);
@@ -293,17 +124,19 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     }
     emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFilesFinished);
     emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CreateProjectFile);
-    QFile file(m_workingDir + "/project.json");
 
     QJsonObject obj;
     obj.insert("description", description);
     obj.insert("title", title);
     obj.insert("youtube", youtube);
-    if (codec == Create::VideoCodec::VP8) {
-        obj.insert("videoCodec", "vp8");
-    } else {
-        obj.insert("videoCodec", "vp9");
-    }
+    obj.insert("videoCodec", codec == Create::VideoCodec::VP8 ? "vp8" : "vp9");
+    obj.insert("file", filePathFile.baseName() + ".webm");
+    obj.insert("previewGIF", "preview.gif");
+    obj.insert("previewWEBM", "preview.webm");
+    obj.insert("preview", previewImageFile.exists() ? previewImageFile.fileName() : "preview.jpg");
+    obj.insert("previewThumbnail", "previewThumbnail.jpg");
+    obj.insert("type", "videoWallpaper");
+    obj.insert("tags", Util::fillArray(tags));
 
     QFile audioFile { m_workingDir + "/audio.mp3" };
     if (audioFile.exists() && audioFile.size() > 0) {
@@ -311,43 +144,14 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
         obj.insert("audioCodec", "mp3");
     }
 
-    // If the input file is a webm we don't need to convert it
-    if (filePath.endsWith(".webm")) {
-        obj.insert("file", filePathFile.fileName());
-    } else {
-        obj.insert("file", filePathFile.baseName() + ".webm");
-    }
-    obj.insert("previewGIF", "preview.gif");
-    obj.insert("previewWEBM", "preview.webm");
-    if (previewImageFile.exists()) {
-        obj.insert("preview", previewImageFile.fileName());
-    } else {
-        obj.insert("preview", "preview.jpg");
-    }
-    obj.insert("previewThumbnail", "previewThumbnail.jpg");
-    obj.insert("type", "videoWallpaper");
-
-    QJsonArray tagsJsonArray;
-    for (const QString& tmp : tags) {
-        tagsJsonArray.append(tmp);
-    }
-    obj.insert("tags", tagsJsonArray);
-
-    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Could not open /project.json";
+    if (!Util::writeSettings(std::move(obj), m_workingDir + "/project.json")) {
         emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CreateProjectFileError);
         return;
     }
 
-    QTextStream out(&file);
-    out.setCodec("UTF-8");
-    QJsonDocument doc(obj);
-
-    out << doc.toJson();
-
-    file.close();
     emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CreateProjectFileFinished);
 }
+
 /*!
   \brief .
 */
@@ -384,4 +188,6 @@ void Create::abortAndCleanup()
     });
     m_createImportVideoThread->requestInterruption();
 }
+
+
 }
