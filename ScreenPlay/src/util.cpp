@@ -297,6 +297,15 @@ void Util::Util::requestDataProtection()
     });
 }
 
+QJsonArray Util::fillArray(const QVector<QString>& items)
+{
+    QJsonArray array;
+    for (const QString& item : items) {
+        array.append(item);
+    }
+    return array;
+}
+
 SearchType::SearchType Util::getSearchTypeFromInstalledType(const InstalledType::InstalledType type)
 {
     using InstalledType::InstalledType;
@@ -385,6 +394,79 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
 
     if (utilPointer != nullptr)
         utilPointer->appendDebugMessages(log);
+}
+
+/*!
+  \brief Takes ownership of \a obj and \a name. Tries to save into a text file
+    with of name.
+*/
+bool Util::writeSettings(const QJsonObject& obj, const QString& name)
+{
+    QFile file { name };
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open" << name;
+        return false;
+    }
+
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+    QJsonDocument doc(obj);
+
+    out << doc.toJson();
+
+    file.close();
+    return true;
+}
+
+/*!
+  \brief Takes ownership of \a obj and \a name. Tries to save into a text file
+    with of name.
+*/
+bool Util::writeFile(const QString& text, const QString& name)
+{
+    QFile file { name };
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open" << name;
+        return false;
+    }
+
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+
+    out << text;
+
+    file.close();
+    return true;
+}
+
+/*!
+  \brief Takes reference to \a obj. If the copy of the thumbnail is successful,
+  it adds the corresponding settings entry to the json object reference.
+*/
+bool Util::copyPreviewThumbnail(QJsonObject& obj, const QString& name, const QString& destination)
+{
+    QUrl previewThumbnailUrl { name };
+    QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
+
+    if (!name.isEmpty()) {
+        if (!QFile::copy(previewThumbnailUrl.toLocalFile(), destination)) {
+            qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << name;
+            return false;
+        }
+    }
+
+    obj.insert("previewThumbnail", previewImageFile.fileName());
+    obj.insert("preview", previewImageFile.fileName());
+
+    return true;
+}
+
+/*!
+    \brief Converts the given \a url string to a local file path.
+*/
+QString Util::toLocal(const QString& url)
+{
+    return QUrl(url).toLocalFile();
 }
 
 }
