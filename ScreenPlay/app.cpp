@@ -151,7 +151,6 @@ void App::init()
     m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
     m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_telemetry, m_settings);
 
-
     // Only create tracker if user did not disallow!
     if (m_settings->anonymousTelemetry()) {
         m_telemetry = make_shared<GAnalytics>("UA-152830367-3");
@@ -175,13 +174,7 @@ void App::init()
     }
 
     m_create = make_unique<Create>(m_globalVariables);
-    m_threadPool.setMaxThreadCount(5);
-    m_threadPool.reserveThread();
     m_wizards = make_unique<Wizards>(m_globalVariables);
-    m_wizards->moveToThread(m_threadPool.thread());
-    qInfo() << m_installedListModel->thread() << m_threadPool.thread();
-    m_installedListModel->moveToThread(m_threadPool.thread());
-    qInfo() << m_installedListModel->thread();
 
     // When the installed storage path changed
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);
