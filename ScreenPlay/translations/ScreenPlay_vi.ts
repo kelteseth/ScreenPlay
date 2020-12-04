@@ -992,52 +992,52 @@
         <translation>Chọn hình nền</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="91"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="89"/>
         <source>Project size: </source>
         <translation>Kích thước dự án: </translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="91"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="89"/>
         <source> MB</source>
         <translation>MB</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="97"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="95"/>
         <source>No description...</source>
         <translation>Không có mô tả...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="239"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="237"/>
         <source>Click here if you like the content</source>
         <translation>Bấm vào đây nếu bạn thích nội dung này</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="253"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="251"/>
         <source>Click here if you do not like the content</source>
         <translation>Bấm vào đây nếu bạn không thích nội dung này</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="288"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="286"/>
         <source>Tags: </source>
         <translation>Từ khóa:</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="313"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="311"/>
         <source>Subscribtions: </source>
         <translation>Đăng ký: </translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="319"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="317"/>
         <source>Open In Steam</source>
         <translation>Mở trên Steam</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="362"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="360"/>
         <source>Subscribed!</source>
         <translation>Đã đăng ký!</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="362"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="360"/>
         <source>Subscribe</source>
         <translation>Đăng ký</translation>
     </message>
@@ -1732,84 +1732,84 @@
 <context>
     <name>Workshop</name>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="133"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="151"/>
         <source>Loading</source>
         <translation>Đang tải</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="144"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="162"/>
         <source>Download now!</source>
         <translation>Tải xuống ngay!</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="149"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="167"/>
         <source>Downloading...</source>
         <translation>Đang tải xuống...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="156"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="174"/>
         <source>Details</source>
         <translation>Chi tiết</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="178"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="198"/>
         <source>Open In Steam</source>
         <translation>Mở trên Steam</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="252"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="260"/>
         <source>Search for Wallpaper and Widgets...</source>
         <translation>Tìm hình nền &amp; cảnh...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="288"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="296"/>
         <source>Ranked By Vote</source>
         <translation>Xếp hạng bởi số phiếu.</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="291"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="299"/>
         <source>Publication Date</source>
         <translation>Ngày tải lên</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="294"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="302"/>
         <source>Ranked By Trend</source>
         <translation>Xếp hạng bởi trend</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="297"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="305"/>
         <source>Favorited By Friends</source>
         <translation>Được yêu thích bởi bạn bè</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="300"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="308"/>
         <source>Created By Friends</source>
         <translation>Tạo bởi bạn bè</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="303"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="311"/>
         <source>Created By Followed Users</source>
         <translation>Tạo bởi người đã theo dỗi</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="306"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="314"/>
         <source>Not Yet Rated</source>
         <translation>Chưa được xếp hạng</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="309"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="317"/>
         <source>Total VotesAsc</source>
         <translatorcomment>????</translatorcomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="312"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="320"/>
         <source>Votes Up</source>
         <translatorcomment>?????</translatorcomment>
         <translation>Số phiếu đang lên cao</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="315"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="323"/>
         <source>Total Unique Subscriptions</source>
         <translation>Tổng số đăng ký duy nhất</translation>
     </message>
@@ -1817,17 +1817,17 @@
 <context>
     <name>WorkshopItem</name>
     <message>
-        <location filename="../qml/Workshop/WorkshopItem.qml" line="184"/>
+        <location filename="../qml/Workshop/WorkshopItem.qml" line="185"/>
         <source>Download</source>
         <translation>Tải xuống</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/WorkshopItem.qml" line="302"/>
+        <location filename="../qml/Workshop/WorkshopItem.qml" line="303"/>
         <source>Successfully subscribed to Workshop Item!</source>
         <translation>Đăng ký thành công mục Workshop!</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/WorkshopItem.qml" line="412"/>
+        <location filename="../qml/Workshop/WorkshopItem.qml" line="413"/>
         <source>Download complete!</source>
         <translation>Tải xuống thành công!</translation>
     </message>
