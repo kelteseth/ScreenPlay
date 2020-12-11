@@ -105,7 +105,10 @@ Item {
                 bottom: parent.bottom
                 margins: 5
             }
-            onClicked: root.file = ""
+            onClicked: {
+                root.file = ""
+                fileDialog.file = ""
+            }
         }
 
         Button {

@@ -49,10 +49,18 @@ WizardPage {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
 
+                    Text {
+                        color: Material.secondaryTextColor
+                        font.family: ScreenPlay.settings.font
+                        text: qsTr("Select a gif below.")
+                        anchors.centerIn: parent
+                    }
+
                     AnimatedImage {
                         id: imgPreview
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectCrop
+                        source: fileSelector.fileDialog.file
                     }
                 }
 
@@ -63,13 +71,9 @@ WizardPage {
 
                 Common.FileSelector {
                     id: fileSelector
+                    Layout.fillWidth: true
                     placeHolderText: qsTr("Select your gif")
                     fileDialog.nameFilters: ["Gif (*.gif)"]
-                    fileDialog.onAccepted: {
-                        imgPreview.source = fileSelector.fileDialog.file
-                    }
-
-                    Layout.fillWidth: true
                 }
             }
 
