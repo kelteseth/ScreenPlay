@@ -22,7 +22,7 @@ WizardPage {
 
         Common.Headline {
             id: txtHeadline
-            text: qsTr("Create an empty QML widget")
+            text: qsTr("Create a QML widget")
             Layout.fillWidth: true
         }
 

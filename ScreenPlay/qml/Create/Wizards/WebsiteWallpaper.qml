@@ -30,7 +30,7 @@ WizardPage {
         onReadyChanged: root.ready = ready
 
         Common.Headline {
-            text: qsTr("Create an Website Wallpaper")
+            text: qsTr("Create a Website Wallpaper")
         }
 
         Common.HeadlineSection {

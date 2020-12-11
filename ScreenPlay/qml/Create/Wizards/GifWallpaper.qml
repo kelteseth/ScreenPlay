@@ -24,7 +24,7 @@ WizardPage {
 
         Common.Headline {
             id: txtHeadline
-            text: qsTr("Create an Gif Wallpaper")
+            text: qsTr("Create a Gif Wallpaper")
             Layout.fillWidth: true
         }
 
@@ -113,6 +113,7 @@ WizardPage {
                     id: tagSelector
                     Layout.fillWidth: true
                 }
+
                 Item {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
