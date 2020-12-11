@@ -97,8 +97,7 @@ Rectangle {
         property string webViewUrl
         onStatusChanged: {
             if (loader.status === Loader.Ready) {
-                if (Wallpaper.type === Wallpaper.WallpaperType.Html
-                        || Wallpaper.type === Wallpaper.WallpaperType.ThreeJSScene) {
+                if (Wallpaper.type === Wallpaper.WallpaperType.Html) {
                     loader.item.url = loader.webViewUrl
                     print(loader.item.url, " --- ", loader.webViewUrl)
                 }
@@ -118,6 +117,7 @@ Rectangle {
         id: imgCover
         anchors {
             top: parent.top
+            topMargin: -3 // To fix the offset from setupWallpaperForOneScreen
             left: parent.left
             right: parent.right
         }
