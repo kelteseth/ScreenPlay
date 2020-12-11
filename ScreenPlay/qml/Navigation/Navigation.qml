@@ -10,7 +10,7 @@ import "../Workshop"
 import "../Common"
 
 Rectangle {
-    id: navigation
+    id: root
     height: 60
     clip: true
     width: 1366
@@ -24,6 +24,7 @@ Rectangle {
 
     signal changePage(string name)
 
+    property string currentNavigationName: ""
     property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity]
     property bool navActive: true
 
@@ -40,18 +41,19 @@ Rectangle {
     function setActive(active) {
         navActive = active
         if (active) {
-            navigation.state = "enabled"
+            root.state = "enabled"
         } else {
-            navigation.state = "disabled"
+            root.state = "disabled"
         }
     }
 
-    function setNavigation(name){
+    function setNavigation(name) {
         var i = 0
         for (; i < navArray.length; i++) {
-            if (navArray[i].name === name)
+            if (navArray[i].name === name) {
                 navArray[i].state = "active"
-            else {
+                root.currentNavigationName = name
+            } else {
                 navArray[i].state = "inactive"
             }
         }
@@ -64,7 +66,7 @@ Rectangle {
         if (!navActive)
             return
 
-        navigation.changePage(name)
+        root.changePage(name)
         setNavigation(name)
     }
 
@@ -81,7 +83,7 @@ Rectangle {
             name: "Create"
 
             iconSource: "qrc:/assets/icons/icon_plus.svg"
-            onPageClicked: navigation.onPageChanged(name)
+            onPageClicked: root.onPageChanged(name)
         }
 
         NavigationItem {
@@ -89,7 +91,7 @@ Rectangle {
             state: "inactive"
             name: "Workshop"
             iconSource: "qrc:/assets/icons/icon_steam.svg"
-            onPageClicked: navigation.onPageChanged(name)
+            onPageClicked: root.onPageChanged(name)
         }
 
         NavigationItem {
@@ -98,7 +100,7 @@ Rectangle {
             name: "Installed"
             amount: ScreenPlay.installedListModel.count
             iconSource: "qrc:/assets/icons/icon_installed.svg"
-            onPageClicked: navigation.onPageChanged(name)
+            onPageClicked: root.onPageChanged(name)
         }
 
         NavigationItem {
@@ -106,18 +108,19 @@ Rectangle {
             state: "inactive"
             name: "Community"
             iconSource: "qrc:/assets/icons/icon_community.svg"
-            onPageClicked: navigation.onPageChanged(name)
+            onPageClicked: root.onPageChanged(name)
         }
         NavigationItem {
             id: navSettings
             state: "inactive"
             name: "Settings"
             iconSource: "qrc:/assets/icons/icon_settings.svg"
-            onPageClicked: navigation.onPageChanged(name)
+            onPageClicked: root.onPageChanged(name)
         }
     }
 
     NavigationWallpaperConfiguration {}
+
     states: [
         State {
             name: "enabled"

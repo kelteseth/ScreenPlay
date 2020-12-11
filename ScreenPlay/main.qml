@@ -24,15 +24,9 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 788
-    title: "ScreenPlay Alpha - V0.13.0"
+    title: "ScreenPlay Alpha - 0.13.0"
     minimumHeight: 450
     minimumWidth: 1050
-    onVisibilityChanged: {
-        if (window.visibility === 2) {
-            switchPage("Installed")
-            nav.setNavigation("Installed")
-        }
-    }
 
     // Partial workaround for
     // https://bugreports.qt.io/browse/QTBUG-86047
@@ -40,6 +34,7 @@ ApplicationWindow {
 
     Component.onCompleted: {
         setTheme(ScreenPlay.settings.theme)
+        switchPage("Installed")
 
         if (!ScreenPlay.settings.silentStart) {
             window.show()
@@ -85,6 +80,9 @@ ApplicationWindow {
     }
 
     function switchPage(name) {
+        if (nav.currentNavigationName === name)
+            return
+
         if (name === "Workshop") {
             if (!ScreenPlay.settings.steamVersion) {
                 const steamAvialable = ScreenPlay.loadSteamPlugin()
@@ -110,7 +108,6 @@ ApplicationWindow {
     }
 
     Common.TrayIcon {}
-
 
     StackView {
         id: stackView
