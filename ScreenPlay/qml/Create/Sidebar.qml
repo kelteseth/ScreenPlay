@@ -54,39 +54,39 @@ Rectangle {
 
             ListElement {
                 headline: qsTr("GIF Import")
-                source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
+                source: "qrc:/qml/Create/Wizards/GifWallpaper.qml"
                 category: "Import Video"
             }
 
             ListElement {
                 headline: qsTr("QML Wallpaper")
-                source: "qrc:/qml/Create/Wizards/CreateQMLWallpaper.qml"
+                source: "qrc:/qml/Create/Wizards/QMLWallpaper.qml"
                 category: "Create Wallpaper"
             }
 
             ListElement {
                 headline: qsTr("HTML5 Wallpaper")
-                source: "qrc:/qml/Create/Wizards/CreateHTMLWallpaper.qml"
+                source: "qrc:/qml/Create/Wizards/HTMLWallpaper.qml"
                 category: "Create Wallpaper"
             }
 
             ListElement {
-                headline: qsTr("Embedded Website Wallpaper")
-                source: "qrc:/qml/Create/Wizards/CreateHTMLWallpaper.qml"
+                headline: qsTr("Website Wallpaper")
+                source: "qrc:/qml/Create/Wizards/WebsiteWallpaper.qml"
                 category: "Create Wallpaper"
             }
             ListElement {
                 headline: qsTr("QML Widget")
-                source: "qrc:/qml/Create/Wizards/CreateQMLWidget.qml"
+                source: "qrc:/qml/Create/Wizards/QMLWidget.qml"
                 category: "Create Widget"
             }
 
             ListElement {
                 headline: qsTr("HTML Widget")
-                source: "qrc:/qml/Create/Wizards/CreateHTMLWidget.qml"
+                source: "qrc:/qml/Create/Wizards/HTMLWidget.qml"
                 category: "Create Widget"
             }
-
+            /*
             ListElement {
                 headline: qsTr("QML Particle Wallpaper")
                 source: ""
@@ -146,11 +146,12 @@ Rectangle {
                 source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
                 category: "Example Widget"
             }
+            */
         }
 
         ScrollBar.vertical: ScrollBar {
             snapMode: ScrollBar.SnapOnRelease
-            policy: ScrollBar.AlwaysOn
+            policy: ScrollBar.AsNeeded
         }
         section.property: "category"
         section.delegate: Item {
