@@ -4,8 +4,6 @@ import QtQuick.Controls.Material 2.0
 
 import ScreenPlay 1.0
 
-import "../Common" as Common
-
 Item {
     id:root
     width: 300
@@ -23,7 +21,7 @@ Item {
             verticalCenter: parent.verticalCenter
         }
     }
-    Common.TextField {
+    TextField {
         id: txtSearch
         width: 250
         height: 40
