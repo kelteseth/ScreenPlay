@@ -43,49 +43,52 @@ Rectangle {
             ListElement {
                 headline: "Video import and convert (all types)"
                 source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
-                category: "Import Video"
+                category: "Video Wallpaper"
             }
 
             ListElement {
                 headline: qsTr("Video Import (.webm)")
                 source: "qrc:/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
-                category: "Import Video"
+                category: "Video Wallpaper"
             }
 
             ListElement {
-                headline: qsTr("GIF Import")
+                headline: qsTr("GIF Wallpaper")
                 source: "qrc:/qml/Create/Wizards/GifWallpaper.qml"
-                category: "Import Video"
+                category: "Video Wallpaper"
             }
 
             ListElement {
                 headline: qsTr("QML Wallpaper")
                 source: "qrc:/qml/Create/Wizards/QMLWallpaper.qml"
-                category: "Create Wallpaper"
+                category: "Code Wallpaper"
             }
 
             ListElement {
                 headline: qsTr("HTML5 Wallpaper")
                 source: "qrc:/qml/Create/Wizards/HTMLWallpaper.qml"
-                category: "Create Wallpaper"
+                category: "Code Wallpaper"
             }
 
             ListElement {
                 headline: qsTr("Website Wallpaper")
                 source: "qrc:/qml/Create/Wizards/WebsiteWallpaper.qml"
-                category: "Create Wallpaper"
+                category: "Code Wallpaper"
             }
+
             ListElement {
                 headline: qsTr("QML Widget")
                 source: "qrc:/qml/Create/Wizards/QMLWidget.qml"
-                category: "Create Widget"
+                category: "Code Widgets"
             }
 
             ListElement {
                 headline: qsTr("HTML Widget")
                 source: "qrc:/qml/Create/Wizards/HTMLWidget.qml"
-                category: "Create Widget"
+                category: "Code Widgets"
             }
+
+
             /*
             ListElement {
                 headline: qsTr("QML Particle Wallpaper")
