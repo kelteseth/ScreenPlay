@@ -22,10 +22,10 @@ Wizards::Wizards(const std::shared_ptr<GlobalVariables>& globalVariables, QObjec
 /*!
   \brief Creates a new widget.
 */
-void Wizards::createQMLWidget(const QString& localStoragePath, const QString& title, const QString& previewThumbnail, const QString& createdBy, const QString& license, const QVector<QString>& tags)
+void Wizards::createQMLWidget(const QString& title, const QString& previewThumbnail, const QString& createdBy, const QString& license, const QVector<QString>& tags)
 {
     QtConcurrent::run([=]() {
-        QUrl localStoragePathUrl { localStoragePath };
+        QUrl localStoragePathUrl { m_globalVariables->localStoragePath() };
         QDir dir;
         dir.cd(localStoragePathUrl.toLocalFile());
         // Create a temp dir so we can later alter it to the workshop id
@@ -88,10 +88,10 @@ void Wizards::createQMLWidget(const QString& localStoragePath, const QString& ti
 /*!
   \brief Creates a new widget.
 */
-void Wizards::createHTMLWidget(const QString& localStoragePath, const QString& title, const QString& previewThumbnail, const QString& createdBy, const QString& license, const QVector<QString>& tags)
+void Wizards::createHTMLWidget(const QString& title, const QString& previewThumbnail, const QString& createdBy, const QString& license, const QVector<QString>& tags)
 {
     QtConcurrent::run([=]() {
-        QUrl localStoragePathUrl { localStoragePath };
+        QUrl localStoragePathUrl { m_globalVariables->localStoragePath() };
         QDir dir;
         dir.cd(localStoragePathUrl.toLocalFile());
         // Create a temp dir so we can later alter it to the workshop id
@@ -154,15 +154,13 @@ void Wizards::createHTMLWidget(const QString& localStoragePath, const QString& t
 /*!
   \brief Creates a HTML wallpaper.
 */
-void Wizards::createHTMLWallpaper(
-    const QString& localStoragePath,
-    const QString& title,
+void Wizards::createHTMLWallpaper(const QString& title,
     const QString& previewThumbnail,
     const QString& license,
     const QVector<QString>& tags)
 {
     QtConcurrent::run([=]() {
-        QUrl localStoragePathUrl { localStoragePath };
+        QUrl localStoragePathUrl { m_globalVariables->localStoragePath() };
         QDir dir;
         dir.cd(localStoragePathUrl.toLocalFile());
         // Create a temp dir so we can later alter it to the workshop id
@@ -220,6 +218,84 @@ void Wizards::createHTMLWallpaper(
     \brief .
 */
 void Wizards::createQMLWallpaper(const QString& title, const QString& previewThumbnail, const QString& license, const QVector<QString>& tags)
+{
+    QtConcurrent::run([=]() {
+        std::optional<QString> folderName = createTemporaryFolder();
+
+        if (!folderName.has_value()) {
+            emit widgetCreationFinished(WizardResult::CreateProjectFolderError);
+            return;
+        }
+
+        const QString workingPath = Util::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+
+        QJsonObject obj;
+        obj.insert("license", license);
+        obj.insert("title", title);
+        obj.insert("tags", Util::fillArray(tags));
+        obj.insert("type", "qmlWallpaper");
+        obj.insert("file", "main.qml");
+
+        if (!previewThumbnail.isEmpty()) {
+            QUrl previewThumbnailUrl { previewThumbnail };
+            if (!Util::copyPreviewThumbnail(obj, workingPath + "/" + previewThumbnailUrl.fileName(), workingPath)) {
+                emit widgetCreationFinished(WizardResult::CopyPreviewThumbnailError);
+                return;
+            }
+        }
+
+        if (!Util::writeSettings(obj, workingPath + "/project.json")) {
+            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
+            return;
+        }
+
+        if (!Util::writeFile("import QtQuick 2.14 \n\nItem {\n id:root \n}", workingPath + "/main.qml")) {
+            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
+            return;
+        }
+
+        emit widgetCreationFinished(WizardResult::Ok, workingPath);
+    });
+}
+
+void Wizards::createGifWallpaper(const QString& title, const QString& license, const QString& creator, const QString& file, const QVector<QString>& tags)
+{
+    QtConcurrent::run([=]() {
+        std::optional<QString> folderName = createTemporaryFolder();
+
+        if (!folderName.has_value()) {
+            emit widgetCreationFinished(WizardResult::CreateProjectFolderError);
+            return;
+        }
+
+        const QString workingPath = Util::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+
+        QJsonObject obj;
+        obj.insert("license", license);
+        obj.insert("creator", creator);
+        obj.insert("title", title);
+        obj.insert("tags", Util::fillArray(tags));
+        obj.insert("type", "gifWallpaper");
+        obj.insert("file", "main.qml");
+
+        if (!Util::writeFileFromQrc(":/qml/Create/WizardsFiles/GifWallpaperMain.qml", workingPath + "/main.qml")) {
+            qDebug() << "Could not write GifWallpaperMain.qml";
+            return;
+        }
+
+        if (!Util::writeSettings(obj, workingPath + "/project.json")) {
+            emit widgetCreationFinished(WizardResult::WriteProjectFileError);
+            return;
+        }
+
+        emit widgetCreationFinished(WizardResult::Ok, workingPath);
+    });
+}
+
+/*!
+    \brief .
+*/
+void Wizards::createWebsiteWallpaper(const QString& title, const QString& previewThumbnail, const QString& license, const QUrl& url, const QVector<QString>& tags)
 {
     QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();

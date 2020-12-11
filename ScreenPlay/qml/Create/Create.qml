@@ -14,6 +14,11 @@ import ScreenPlay.QMLUtilities 1.0
 Item {
     id: root
 
+    Component.onCompleted: {
+        wizardContentWrapper.state = "in"
+        stackView.push("qrc:/qml/Create/StartInfo.qml")
+    }
+
     Sidebar {
         id: sidebar
         stackView: stackView
@@ -26,8 +31,6 @@ Item {
 
     Item {
         id: wizardContentWrapper
-        state: ""
-        Component.onCompleted: wizardContentWrapper.state = "in"
         width: parent.width - (sidebar.width + (anchors.margins * 2))
         height: parent.height - (anchors.margins * 2)
         opacity: 0
@@ -57,19 +60,15 @@ Item {
                         property: "opacity"
                         from: 0
                         to: 1
-                        duration: 300
+                        duration: 400
+                        easing.type: Easing.InOutQuart
                     }
                     PropertyAnimation {
                         property: "scale"
-                        from: 0.3
+                        from: 0.8
                         to: 1
-                        duration: 300
-                    }
-                    XAnimator {
-                        from: (stackView.mirrored ? -1 : 1) * -stackView.width
-                        to: 0
                         duration: 400
-                        easing.type: Easing.OutCubic
+                        easing.type: Easing.InOutQuart
                     }
                 }
 
@@ -78,20 +77,16 @@ Item {
                         property: "opacity"
                         from: 1
                         to: 0
-                        duration: 250
-                    }
-                    XAnimator {
-                        from: 0
-                        to: (stackView.mirrored ? -1 : 1)
-                        duration: 400
-                        easing.type: Easing.OutCubic
+                        duration: 200
+                        easing.type: Easing.InOutQuart
                     }
 
                     PropertyAnimation {
                         property: "scale"
                         from: 1
-                        to: .3
-                        duration: 300
+                        to: .8
+                        duration: 400
+                        easing.type: Easing.InOutQuart
                     }
                 }
 
@@ -129,7 +124,6 @@ Item {
                     ScriptAction {
                         script: {
                             wizardContentWrapper.anchors.left = sidebar.right
-                            stackView.push("qrc:/qml/Create/StartInfo.qml")
                         }
                     }
                 }

@@ -115,8 +115,9 @@ public slots:
     static void appendToMetricsFile(const QString& key, const QVariant& value);
     static void logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg);
     static bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
-    static bool writeSettings(const QJsonObject& obj, const QString& name);
-    static bool writeFile(const QString& text, const QString& name);
+    static bool writeSettings(const QJsonObject& obj, const QString& absolutePath);
+    static bool writeFile(const QString& text, const QString& absolutePath);
+    static bool writeFileFromQrc(const QString& qrcPath, const QString& absolutePath);
     static bool copyPreviewThumbnail(QJsonObject& obj, const QString& name, const QString& destination);
     static QString toString(const QStringList& list);
     static QString toLocal(const QString& url);

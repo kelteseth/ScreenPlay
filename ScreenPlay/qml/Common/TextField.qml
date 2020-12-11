@@ -20,7 +20,12 @@ Item {
     }
 
     signal editingFinished
+    onEditingFinished: {
+        if (!root.required)
+            return
+    }
 
+    property bool required: false
     property bool dirty: false
     property alias text: textField.text
     property alias placeholderText: txtPlaceholder.text
@@ -82,6 +87,18 @@ Item {
         }
     }
 
+    Text {
+        id: requiredText
+        text: qsTr("*Required")
+        visible: root.required
+        font.family: ScreenPlay.settings.font
+        color: Material.secondaryTextColor
+        anchors {
+            top: textField.bottom
+            right: textField.right
+        }
+    }
+
     states: [
         State {
             name: ""
@@ -117,7 +134,6 @@ Item {
                 anchors.topMargin: 0
                 anchors.leftMargin: 0
             }
-
         }
     ]
     transitions: [

@@ -62,6 +62,8 @@ namespace InstalledType {
         QMLWallpaper,
         HTMLWallpaper,
         GodotWallpaper,
+        GifWallpaper,
+        WebsiteWallpaper,
 
         QMLWidget,
         HTMLWidget,
@@ -70,7 +72,12 @@ namespace InstalledType {
 
     static bool isWallpaper(const InstalledType type)
     {
-        return (type == InstalledType::VideoWallpaper || type == InstalledType::QMLWallpaper || type == InstalledType::HTMLWallpaper || type == InstalledType::GodotWallpaper);
+        return (type == InstalledType::VideoWallpaper
+            || type == InstalledType::QMLWallpaper
+            || type == InstalledType::HTMLWallpaper
+            || type == InstalledType::GifWallpaper
+            || type == InstalledType::WebsiteWallpaper
+            || type == InstalledType::GodotWallpaper);
     }
 
     static bool isWidget(const InstalledType type)
@@ -85,7 +92,7 @@ namespace SearchType {
     enum class SearchType {
         All,
         Text,
-        Scene, //QML, HTML, Godot wallpaper
+        Scene, //QML, HTML, Godot, Gif, Website wallpaper
         Wallpaper,
         Widget,
     };

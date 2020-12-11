@@ -315,6 +315,8 @@ SearchType::SearchType Util::getSearchTypeFromInstalledType(const InstalledType:
     case InstalledType::GodotWallpaper:
     case InstalledType::HTMLWallpaper:
     case InstalledType::QMLWallpaper:
+    case InstalledType::GifWallpaper:
+    case InstalledType::WebsiteWallpaper:
         return SearchType::Scene;
     case InstalledType::VideoWallpaper:
         return SearchType::Wallpaper;
@@ -344,6 +346,12 @@ std::optional<InstalledType::InstalledType> Util::getInstalledTypeFromString(con
         }
         if (type.startsWith("godot", Qt::CaseInsensitive)) {
             return InstalledType::InstalledType::GodotWallpaper;
+        }
+        if (type.startsWith("website", Qt::CaseInsensitive)) {
+            return InstalledType::InstalledType::WebsiteWallpaper;
+        }
+        if (type.startsWith("gif", Qt::CaseInsensitive)) {
+            return InstalledType::InstalledType::GifWallpaper;
         }
     }
 
@@ -400,11 +408,11 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
   \brief Takes ownership of \a obj and \a name. Tries to save into a text file
     with of name.
 */
-bool Util::writeSettings(const QJsonObject& obj, const QString& name)
+bool Util::writeSettings(const QJsonObject& obj, const QString& absolutePath)
 {
-    QFile file { name };
+    QFile file { absolutePath };
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Could not open" << name;
+        qDebug() << "Could not open" << absolutePath;
         return false;
     }
 
@@ -419,14 +427,13 @@ bool Util::writeSettings(const QJsonObject& obj, const QString& name)
 }
 
 /*!
-  \brief Takes ownership of \a obj and \a name. Tries to save into a text file
-    with of name.
+  \brief Tries to save into a text file with absolute path.
 */
-bool Util::writeFile(const QString& text, const QString& name)
+bool Util::writeFile(const QString& text, const QString& absolutePath)
 {
-    QFile file { name };
+    QFile file { absolutePath };
     if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
-        qDebug() << "Could not open" << name;
+        qDebug() << "Could not open" << absolutePath;
         return false;
     }
 
@@ -435,6 +442,30 @@ bool Util::writeFile(const QString& text, const QString& name)
 
     out << text;
 
+    file.close();
+    return true;
+}
+
+/*!
+  \brief Tries to save into a text file with absolute path.
+*/
+bool Util::writeFileFromQrc(const QString& qrcPath, const QString& absolutePath)
+{
+
+    QFile file { absolutePath };
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open" << absolutePath;
+        return false;
+    }
+
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+
+    QFile qrc(qrcPath);
+    qrc.open(QIODevice::ReadOnly);
+    out << qrc.readAll();
+
+    qrc.close();
     file.close();
     return true;
 }

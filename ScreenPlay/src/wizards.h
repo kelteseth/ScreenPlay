@@ -82,7 +82,6 @@ public:
 
 public slots:
     void createQMLWidget(
-        const QString& localStoragePath,
         const QString& title,
         const QString& previewThumbnail,
         const QString& createdBy,
@@ -90,7 +89,6 @@ public slots:
         const QVector<QString>& tags);
 
     void createHTMLWidget(
-        const QString& localStoragePath,
         const QString& title,
         const QString& previewThumbnail,
         const QString& createdBy,
@@ -98,7 +96,6 @@ public slots:
         const QVector<QString>& tags);
 
     void createHTMLWallpaper(
-        const QString& localStoragePath,
         const QString& title,
         const QString& previewThumbnail,
         const QString& license,
@@ -108,6 +105,20 @@ public slots:
         const QString& title,
         const QString& previewThumbnail,
         const QString& license,
+        const QVector<QString>& tags);
+
+    void createGifWallpaper(
+        const QString& title,
+        const QString& license,
+        const QString& creator,
+        const QString& file,
+        const QVector<QString>& tags);
+
+    void createWebsiteWallpaper(
+        const QString& title,
+        const QString& previewThumbnail,
+        const QString& license,
+        const QUrl& url,
         const QVector<QString>& tags);
 
 signals:

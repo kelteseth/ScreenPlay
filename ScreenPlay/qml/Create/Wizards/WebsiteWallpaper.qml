@@ -13,7 +13,6 @@ WizardPage {
     id: root
 
     sourceComponent: ColumnLayout {
-        id: rightWrapper
         spacing: 10
         anchors {
             top: parent.top
@@ -22,18 +21,22 @@ WizardPage {
         }
 
         function create() {
-            ScreenPlay.wizards.createQMLWallpaper(
-                        tfTitle.text, previewSelector.imageSource,
-                        cbLicense.currentText, tagSelector.getTags())
+            ScreenPlay.wizards.createWebsiteWallpaper(
+                        tfTitle.text, previewSelector.imageSource, tfUrl.text,
+                        tagSelector.getTags())
         }
 
+        property bool ready: tfTitle.text.length >= 1 && tfUrl.text.length > 1
+        onReadyChanged: root.ready = ready
+
         Common.Headline {
-            text: qsTr("Create a QML Wallpaper")
+            text: qsTr("Create an Website Wallpaper")
         }
 
         Common.HeadlineSection {
             text: qsTr("General")
         }
+
         RowLayout {
             spacing: 20
 
@@ -41,12 +44,13 @@ WizardPage {
                 id: tfTitle
                 Layout.fillWidth: true
                 placeholderText: qsTr("Wallpaper name")
+                required: true
                 onTextChanged: root.ready = text.length >= 1
             }
             Common.TextField {
                 id: tfCreatedBy
                 Layout.fillWidth: true
-                placeholderText: qsTr("Copyright owner")
+                placeholderText: qsTr("Created By")
             }
         }
         Common.TextField {
@@ -55,43 +59,28 @@ WizardPage {
             placeholderText: qsTr("Description")
         }
 
+        Common.TextField {
+            id: tfUrl
+            Layout.fillWidth: true
+            required: true
+            placeholderText: qsTr("Website URL")
+        }
+
         Item {
-            height: 30
+            height: 10
         }
 
         Common.HeadlineSection {
-            text: qsTr("License & Tags")
+            text: qsTr("Tags")
         }
 
-        RowLayout {
-            spacing: 20
-
-            ComboBox {
-                id: cbLicense
-                Layout.fillWidth: true
-                font.family: ScreenPlay.settings.font
-                model: ListModel {
-                    id: modelLicense
-                    ListElement {
-                        text: "Copyright by me"
-                    }
-                    ListElement {
-                        text: "Open Source - GPLv3"
-                    }
-                    ListElement {
-                        text: "Open Source - MIT/Apache2"
-                    }
-                }
-            }
-
-            Common.TagSelector {
-                id: tagSelector
-                Layout.fillWidth: true
-            }
+        Common.TagSelector {
+            id: tagSelector
+            Layout.fillWidth: true
         }
 
         Item {
-            height: 30
+            height: 10
         }
 
         Common.HeadlineSection {
@@ -101,10 +90,6 @@ WizardPage {
         Common.ImageSelector {
             id: previewSelector
             Layout.fillWidth: true
-        }
-
-        Item {
-            height: 30
         }
     }
 }

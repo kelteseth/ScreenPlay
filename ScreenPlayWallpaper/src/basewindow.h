@@ -83,6 +83,8 @@ public:
         Html,
         Godot,
         Qml,
+        Gif,
+        Website
     };
     Q_ENUM(WallpaperType)
 

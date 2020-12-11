@@ -61,10 +61,10 @@
         <file>qml/Installed/Navigation.qml</file>
         <file>qml/Common/Search.qml</file>
         <file>qml/Common/MouseHoverBlocker.qml</file>
-        <file>qml/Create/Wizards/CreateHTMLWallpaper.qml</file>
-        <file>qml/Create/Wizards/CreateHTMLWidget.qml</file>
-        <file>qml/Create/Wizards/CreateQMLWidget.qml</file>
-        <file>qml/Create/Wizards/CreateQMLWallpaper.qml</file>
+        <file>qml/Create/Wizards/HTMLWallpaper.qml</file>
+        <file>qml/Create/Wizards/HTMLWidget.qml</file>
+        <file>qml/Create/Wizards/QMLWidget.qml</file>
+        <file>qml/Create/Wizards/QMLWallpaper.qml</file>
         <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml</file>
         <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml</file>
         <file>qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml</file>
@@ -76,9 +76,17 @@
         <file>qml/Common/Dialogs/MonitorConfiguration.qml</file>
         <file>qml/Common/Dialogs/SteamNotAvailable.qml</file>
         <file>qml/Create/Wizards/WizardPage.qml</file>
-        <file>qml/Create/Wizards/CreateGifWallpaper.qml</file>
+        <file>qml/Create/Wizards/GifWallpaper.qml</file>
         <file>assets/startinfo/gimp.png</file>
         <file>qml/Common/TextField.qml</file>
         <file>qml/Common/HeadlineSection.qml</file>
+        <file>qml/Create/Wizards/WebsiteWallpaper.qml</file>
+        <file>qml/Common/FileSelector.qml</file>
+        <file>qml/Create/WizardsFiles/QMLWidgetMain.qml</file>
+        <file>qml/Create/WizardsFiles/QMLWallpaperMain.qml</file>
+        <file>qml/Create/WizardsFiles/HTMLWallpaperMain.html</file>
+        <file>qml/Create/WizardsFiles/HTMLWidgetMain.html</file>
+        <file>qml/Common/LicenseSelector.qml</file>
+        <file>qml/Create/WizardsFiles/GifWallpaperMain.qml</file>
     </qresource>
 </RCC>
