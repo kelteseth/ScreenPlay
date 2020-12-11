@@ -22,9 +22,10 @@ WizardPage {
         }
 
         function create() {
-            ScreenPlay.wizards.createHTMLWallpaper(
-                        tfTitle.text, previewSelector.imageSource,
-                        cbLicense.currentText, tagSelector.getTags())
+            ScreenPlay.wizards.createHTMLWallpaper(tfTitle.text,
+                                                   previewSelector.imageSource,
+                                                   cbLicense.currentText,
+                                                   tagSelector.getTags())
         }
 
         Common.Headline {
@@ -67,22 +68,8 @@ WizardPage {
         RowLayout {
             spacing: 20
 
-            ComboBox {
+            Common.LicenseSelector {
                 id: cbLicense
-                Layout.fillWidth: true
-                font.family: ScreenPlay.settings.font
-                model: ListModel {
-                    id: modelLicense
-                    ListElement {
-                        text: "Copyright by me"
-                    }
-                    ListElement {
-                        text: "Open Source - GPLv3"
-                    }
-                    ListElement {
-                        text: "Open Source - MIT/Apache2"
-                    }
-                }
             }
 
             Common.TagSelector {
@@ -103,7 +90,6 @@ WizardPage {
             id: previewSelector
             Layout.fillWidth: true
         }
-
     }
 }
 

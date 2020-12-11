@@ -94,22 +94,9 @@ WizardPage {
                 Common.HeadlineSection {
                     text: qsTr("License")
                 }
-                ComboBox {
+
+                Common.LicenseSelector {
                     id: cbLicense
-                    Layout.fillWidth: true
-                    font.family: ScreenPlay.settings.font
-                    model: ListModel {
-                        id: modelLicense
-                        ListElement {
-                            text: "All rights "
-                        }
-                        ListElement {
-                            text: "Open Source - GPLv3"
-                        }
-                        ListElement {
-                            text: "Open Source - MIT/Apache2"
-                        }
-                    }
                 }
                 Common.HeadlineSection {
                     text: qsTr("Tags")

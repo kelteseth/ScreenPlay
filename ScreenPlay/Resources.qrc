@@ -133,5 +133,11 @@
         <file>assets/startinfo/sharex.png</file>
         <file>assets/startinfo/unsplash.png</file>
         <file>assets/startinfo/vscode.png</file>
+        <file>assets/wizards/License_Apache_2.0.txt</file>
+        <file>assets/wizards/License_CC_Attribution_4.0.txt</file>
+        <file>assets/wizards/License_CC_Attribution-NonCommercial-ShareAlike_4.0.txt</file>
+        <file>assets/wizards/License_CC_Attribution-ShareAlike_4.0.txt</file>
+        <file>assets/wizards/License_GPL_3.0.txt</file>
+        <file>assets/wizards/License_CC0_1.0.txt</file>
     </qresource>
 </RCC>
