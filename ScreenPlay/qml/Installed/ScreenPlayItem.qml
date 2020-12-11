@@ -27,6 +27,8 @@ Item {
         case InstalledType.QMLWallpaper:
         case InstalledType.HTMLWallpaper:
         case InstalledType.GodotWallpaper:
+        case InstalledType.GifWallpaper:
+        case InstalledType.WebsiteWallpaper:
             icnType.source = "qrc:/assets/icons/icon_widgets.svg"
             return
         case InstalledType.QMLWidget:

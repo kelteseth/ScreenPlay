@@ -3,6 +3,7 @@ import QtQuick.Controls.Material 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Layouts 1.14
 import QtQuick.Dialogs 1.2
+
 import ScreenPlay 1.0
 
 import "../../Common" as Common
@@ -12,9 +13,10 @@ WizardPage {
     sourceComponent: ColumnLayout {
 
         function create() {
-            ScreenPlay.wizards.createGifWallpaper(tfTitle.text,
-                                                  cbLicense.currentText,
+            ScreenPlay.wizards.createGifWallpaper(tfTitle.text, cbLicense.name,
+                                                  cbLicense.licenseFile,
                                                   tfCreatedBy.text,
+                                                  fileSelector.file,
                                                   tagSelector.getTags())
         }
 
@@ -95,7 +97,7 @@ WizardPage {
                 }
 
                 Common.TextField {
-                    id: tfLicense
+                    id: tfCreatedBy
                     Layout.fillWidth: true
                     placeholderText: qsTr("Created By")
                 }

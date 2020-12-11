@@ -77,6 +77,7 @@ public:
         WriteProjectFileError,
         CreateProjectFolderError,
         CopyPreviewThumbnailError,
+        CopyFileError,
     };
     Q_ENUM(WizardResult)
 
@@ -109,7 +110,8 @@ public slots:
 
     void createGifWallpaper(
         const QString& title,
-        const QString& license,
+        const QString& licenseName,
+        const QString& licenseFile,
         const QString& creator,
         const QString& file,
         const QVector<QString>& tags);
