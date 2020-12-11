@@ -67,7 +67,7 @@ ColumnLayout {
                 ListElement {
                     name: "All rights reserved"
                     description: qsTr("You do not share any rights and nobody is allowed to use remix it (Not recommended). Can also used to credit work others.")
-                    tldrlegal: ""
+                    tldrlegal: ":/assets/wizards/License_All_Rights_Reserved_1.0.txt"
                 }
             }
         }

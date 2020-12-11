@@ -139,5 +139,6 @@
         <file>assets/wizards/License_CC_Attribution-ShareAlike_4.0.txt</file>
         <file>assets/wizards/License_GPL_3.0.txt</file>
         <file>assets/wizards/License_CC0_1.0.txt</file>
+        <file>assets/wizards/License_All_Rights_Reserved_1.0.txt</file>
     </qresource>
 </RCC>
