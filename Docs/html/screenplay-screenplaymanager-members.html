@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
 </head>
 <body>
-<div class="container-fullwidth nav"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
+<div class="container-fullwidth nav sticky-top"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
 <li>ScreenPlayManager</li>
 <div class="sidebar"><div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">List of All Members for ScreenPlayManager</h1>
@@ -25,9 +25,10 @@
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#createWidget">createWidget</a></b></span>(const ScreenPlay::InstalledType::InstalledType, const QPoint &amp;, const QString &amp;, const QString &amp;, const QJsonObject &amp;, const bool)</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#getWallpaperByAppID">getWallpaperByAppID</a></b></span>(const QString &amp;) const : ScreenPlay::ScreenPlayWallpaper *</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#newConnection">newConnection</a></b></span>()</li>
-</ul></td><td class="topAlign"><ul>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#removeAllWallpapers">removeAllWallpapers</a></b></span>()</li>
+</ul></td><td class="topAlign"><ul>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#removeAllWidgets">removeAllWidgets</a></b></span>()</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#removeApp">removeApp</a></b></span>(const QString &amp;) : bool</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#requestProjectSettingsAtMonitorIndex">requestProjectSettingsAtMonitorIndex</a></b></span>(const int)</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#activeWallpaperCounter-prop">setActiveWallpaperCounter</a></b></span>(int)</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#activeWidgetsCounter-prop">setActiveWidgetsCounter</a></b></span>(int)</li>
@@ -36,8 +37,9 @@
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#setWallpaperValueAtMonitorIndex">setWallpaperValueAtMonitorIndex</a></b></span>(const int, const QString &amp;, const QString &amp;)</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#activeWallpaperCounter-prop">activeWallpaperCounter</a></b></span>() const : int</li>
 <li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#activeWidgetsCounter-prop">activeWidgetsCounter</a></b></span>() const : int</li>
+<li class="fn"><span class="name"><b><a href="screenplay-screenplaymanager.html#init">init</a></b></span>(const std::shared_ptr&lt;GlobalVariables&gt; &amp;, const std::shared_ptr&lt;MonitorListModel&gt; &amp;, const int &amp;, const std::shared_ptr&lt;Settings&gt; &amp;)</li>
 </ul>
 </td></tr>
 </table></div>
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

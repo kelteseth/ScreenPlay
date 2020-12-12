@@ -1,5 +1,18 @@
 #include "sdkconnection.h"
 
+namespace ScreenPlay {
+
+/*!
+    \class ScreenPlay::SDKConnection
+    \inmodule ScreenPlay
+    \brief  Contains all connections to Wallpaper and Widgets.
+
+
+*/
+
+/*!
+    \brief .
+*/
 ScreenPlay::SDKConnection::SDKConnection(QLocalSocket* socket, QObject* parent)
     : QObject(parent)
 {
@@ -7,7 +20,9 @@ ScreenPlay::SDKConnection::SDKConnection(QLocalSocket* socket, QObject* parent)
     m_socket = socket;
     connect(m_socket, &QLocalSocket::readyRead, this, &SDKConnection::readyRead);
 }
-
+/*!
+    \brief .
+*/
 void ScreenPlay::SDKConnection::readyRead()
 {
 
@@ -61,12 +76,18 @@ void ScreenPlay::SDKConnection::readyRead()
     }
 }
 
+/*!
+    \brief .
+*/
 void ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 {
     m_socket->write(message);
     m_socket->waitForBytesWritten();
 }
 
+/*!
+    \brief .
+*/
 void ScreenPlay::SDKConnection::close()
 {
 
@@ -89,4 +110,5 @@ void ScreenPlay::SDKConnection::close()
     if (m_type.contains("widget", Qt::CaseInsensitive)) {
         emit requestDecreaseWidgetCount();
     }
+}
 }

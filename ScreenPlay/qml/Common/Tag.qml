@@ -6,7 +6,7 @@ import ScreenPlay 1.0
 Item {
     id: tag
     width: textMetrics.width + 20
-    height: parent.height
+    height: 45
 
     property int itemIndex
     property alias text: txt.text
@@ -14,23 +14,21 @@ Item {
 
     Rectangle {
         id: rectangle
+        anchors.fill: parent
         radius: 3
         color: Material.theme === Material.Light ? Qt.lighter(
-                                                       Material.background) : Qt.darker(
-                                                       Material.background)
+                                                       Material.background) : Material.background
 
         Text {
             id: txt
             text: _name
-            color: Material.theme === Material.Light ? Qt.lighter(
-                                                           Material.foreground) : Qt.darker(
-                                                           Material.foreground)
-
+            color: Material.primaryTextColor
             verticalAlignment: Text.AlignVCenter
             horizontalAlignment: Text.AlignHCenter
             anchors.fill: parent
             font.family: ScreenPlay.settings.font
         }
+
         TextField {
             id: textField
             enabled: false
@@ -87,8 +85,9 @@ Item {
     ]
 }
 
-/*##^## Designer {
+/*##^##
+Designer {
     D{i:0;height:50;width:100}
 }
- ##^##*/
+##^##*/
 

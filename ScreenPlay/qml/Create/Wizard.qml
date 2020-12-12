@@ -2,7 +2,6 @@
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
-import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.3
 
 import ScreenPlay 1.0

@@ -1,225 +1,135 @@
 import QtQuick 2.12
-import QtQuick.Controls 2.12
+import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
+
+import QtQuick.Controls.Material.impl 2.12
 
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
 
-import "Wizards/CreateWallpaper"
-
 Item {
-    id: create
-    state: "out"
+    id: root
 
     Component.onCompleted: {
-        create.state = "in"
+        wizardContentWrapper.state = "in"
+        stackView.push("qrc:/qml/Create/StartInfo.qml")
     }
 
-
-    BackgroundParticleSystem {
-        id: particleSystemWrapper
-        anchors.fill: parent
-    }
-
-    Wizard {
-        id: wizard
-        anchors.fill: parent
-    }
-
-    CreateContent {
-        id: createContent
-        width: 500
-        height: 400
+    Sidebar {
+        id: sidebar
+        stackView: stackView
         anchors {
             top: parent.top
-            topMargin: 80
-            right: verticalSeperator.left
-            rightMargin: 50
-        }
-        onCreateContent: {
-            create.state = "wizard"
-            ScreenPlay.util.setNavigationActive(false)
-            if (type === "emptyHtmlWallpaper") {
-                wizard.setSource(
-                            "qrc:/qml/Create/Wizards/CreateEmptyHtmlWallpaper/CreateEmptyHtmlWallpaper.qml",
-                            {})
-            } else if (type === "emptyWidget") {
-                wizard.setSource(
-                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
-                            {})
-            } else if (type === "musicVisualizer") {
-                wizard.setSource(
-                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
-                            {})
-            } else if (type === "unsplashSlideshow") {
-                wizard.setSource(
-                            "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml",
-                            {})
-            }
+            left: parent.left
+            bottom: parent.bottom
         }
     }
 
-    Rectangle {
-        id: verticalSeperator
-        width: 2
-        height: 400
-        opacity: .4
+    Item {
+        id: wizardContentWrapper
+        width: parent.width - (sidebar.width + (anchors.margins * 2))
+        height: parent.height - (anchors.margins * 2)
+        opacity: 0
         anchors {
+            margins: 10
             top: parent.top
-            topMargin: 100
-            horizontalCenter: parent.horizontalCenter
+            right: parent.right
+            topMargin: 200
         }
-    }
 
-    ImportContent {
-        id: importContent
-        width: 500
-        height: 400
-        anchors {
-            top: parent.top
-            topMargin: 84
-            left: verticalSeperator.right
-            leftMargin: 50
-        }
-        onVideoImportConvertFileSelected: {
-            create.state = "wizard"
-            ScreenPlay.util.setNavigationActive(false)
-            wizard.setSource(
-                        "qrc:/qml/Create/Wizards/CreateWallpaper/CreateWallpaper.qml",
-                        {
-                            "filePath": videoFile
-                        })
-        }
-    }
-
-    Text {
-        id: txtDescriptionBottom
-        text: qsTr("Create wallpapers and widgets for local usage or the steam workshop!")
-        font.family: ScreenPlay.settings.font
-
-        font.pointSize: 10
-        color: "white"
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            bottom: footer.top
-            bottomMargin: 20
-        }
-    }
-
-    Footer {
-        id: footer
-        anchors.bottom: parent.bottom
-        anchors.left: parent.left
-        anchors.right: parent.right
-    }
-
-    states: [
-        State {
-            name: "out"
-            PropertyChanges {
-                target: verticalSeperator
-                opacity: 0
+        Rectangle {
+            radius: 4
+            layer.enabled: true
+            layer.effect: ElevationEffect {
+                elevation: 6
+            }
+            color: Material.theme === Material.Light ? "white" : Material.background
+            anchors {
+                fill: parent
+                margins: 10
             }
 
-            PropertyChanges {
-                target: footer
-                anchors.bottomMargin: -80
-            }
-        },
-        State {
-            name: "in"
-            PropertyChanges {
-                target: verticalSeperator
-                opacity: .4
-            }
-            PropertyChanges {
-                target: footer
-                anchors.bottomMargin: 0
-            }
-        },
-        State {
-            name: "wizard"
-
-            PropertyChanges {
-                target: footer
-                anchors.bottomMargin: -80
-            }
-            PropertyChanges {
-                target: importContent
-                state: "out"
-                 enabled:false
-            }
-            PropertyChanges {
-                target: createContent
-                state: "out"
-                 enabled:false
-            }
-            PropertyChanges {
-                target: verticalSeperator
-                opacity: 0
-                enabled:false
-            }
-            PropertyChanges {
-                target: txtDescriptionBottom
-                opacity: 0
-                 enabled:false
-            }
-            PropertyChanges {
-                target: wizard
-                z: 99
-            }
-        }
-    ]
-
-    transitions: [
-        Transition {
-            from: "out"
-            to: "in"
-            reversible: true
-
-            NumberAnimation {
-                targets: [txtDescriptionBottom, footer]
-                property: "opacity"
-                duration: 400
-                easing.type: Easing.InOutQuart
-            }
-            SequentialAnimation {
-
-                PauseAnimation {
-                    duration: 300
+            StackView {
+                id: stackView
+                pushEnter: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 0
+                        to: 1
+                        duration: 400
+                        easing.type: Easing.InOutQuart
+                    }
+                    PropertyAnimation {
+                        property: "scale"
+                        from: 0.8
+                        to: 1
+                        duration: 400
+                        easing.type: Easing.InOutQuart
+                    }
                 }
 
-                NumberAnimation {
-                    target: verticalSeperator
-                    property: "opacity"
-                    duration: 250
-                    easing.type: Easing.InOutQuart
+                pushExit: Transition {
+                    PropertyAnimation {
+                        property: "opacity"
+                        from: 1
+                        to: 0
+                        duration: 200
+                        easing.type: Easing.InOutQuart
+                    }
+
+                    PropertyAnimation {
+                        property: "scale"
+                        from: 1
+                        to: .8
+                        duration: 400
+                        easing.type: Easing.InOutQuart
+                    }
+                }
+
+                anchors {
+                    fill: parent
+                    margins: 20
                 }
             }
-
-            PropertyAnimation {
-                target: footer
-                property: "anchors.bottomMargin"
-                duration: 400
-                easing.type: Easing.InOutQuart
-            }
-        },
-        Transition {
-            from: "in"
-            to: "wizard"
-            reversible: true
-
-            PropertyAnimation {
-                target: footer
-                property: "anchors.bottomMargin"
-                duration: 400
-                easing.type: Easing.InOutQuart
-            }
         }
-    ]
+
+        states: [
+            State {
+                name: "in"
+                PropertyChanges {
+                    target: wizardContentWrapper
+                    anchors.topMargin: wizardContentWrapper.anchors.margins
+                    opacity: 1
+                }
+            }
+        ]
+        transitions: [
+            Transition {
+                from: ""
+                to: "in"
+                reversible: true
+                SequentialAnimation {
+
+                    PropertyAnimation {
+                        target: wizardContentWrapper
+                        duration: 400
+                        easing.type: Easing.OutCubic
+                        properties: "anchors.topMargin, opacity"
+                    }
+
+                    ScriptAction {
+                        script: {
+                            wizardContentWrapper.anchors.left = sidebar.right
+                        }
+                    }
+                }
+            }
+        ]
+    }
 }
 
 /*##^## Designer {

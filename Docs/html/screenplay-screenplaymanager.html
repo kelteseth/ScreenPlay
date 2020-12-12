@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
 </head>
 <body>
-<div class="container-fullwidth nav"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
+<div class="container-fullwidth nav sticky-top"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
 <li>ScreenPlayManager</li>
 <div class="sidebar">
 <div class="toc">
@@ -36,6 +36,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#ScreenPlayManager">ScreenPlayManager</a></b>(QObject *<i>parent</i> = nullptr)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#activeWallpaperCounter-prop">activeWallpaperCounter</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#activeWidgetsCounter-prop">activeWidgetsCounter</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#init">init</a></b>(const std::shared_ptr&lt;GlobalVariables&gt; &amp;<i>globalVariables</i>, const std::shared_ptr&lt;MonitorListModel&gt; &amp;<i>mlm</i>, const int &amp;<i>telemetry</i>, const std::shared_ptr&lt;Settings&gt; &amp;<i>settings</i>)</td></tr>
 </table></div>
 <a name="public-slots"></a>
 <h2 id="public-slots">Public Slots</h2>
@@ -50,6 +51,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#newConnection">newConnection</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#removeAllWallpapers">removeAllWallpapers</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#removeAllWidgets">removeAllWidgets</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#removeApp">removeApp</a></b>(const QString &amp;<i>appID</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#requestProjectSettingsAtMonitorIndex">requestProjectSettingsAtMonitorIndex</a></b>(const int <i>index</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#activeWallpaperCounter-prop">setActiveWallpaperCounter</a></b>(int <i>activeWallpaperCounter</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaymanager.html#activeWidgetsCounter-prop">setActiveWidgetsCounter</a></b>(int <i>activeWidgetsCounter</i>)</td></tr>
@@ -117,7 +119,7 @@
 <!-- @@@getWallpaperByAppID -->
 <!-- $$$newConnection[overload1]$$$newConnection -->
 <h3 class="fn" id="newConnection"><a name="newConnection"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">newConnection</span>()</h3>
-<p>Appends a new SDKConnection object shared_ptr to the m_clients list.</p>
+<p>Appends a new <a href="screenplay-sdkconnection.html">SDKConnection</a> object shared_ptr to the m_clients list.</p>
 <!-- @@@newConnection -->
 <!-- $$$removeAllWallpapers[overload1]$$$removeAllWallpapers -->
 <h3 class="fn" id="removeAllWallpapers"><a name="removeAllWallpapers"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">removeAllWallpapers</span>()</h3>
@@ -127,6 +129,10 @@
 <h3 class="fn" id="removeAllWidgets"><a name="removeAllWidgets"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">removeAllWidgets</span>()</h3>
 <p>Removes all widgets and resets the activeWidgetCounter to 0.</p>
 <!-- @@@removeAllWidgets -->
+<!-- $$$removeApp[overload1]$$$removeAppconstQString& -->
+<h3 class="fn" id="removeApp"><a name="removeApp"></a><code>[slot] </code><span class="type">bool</span> ScreenPlayManager::<span class="name">removeApp</span>(const <span class="type">QString</span> &amp;<i>appID</i>)</h3>
+<p>.</p>
+<!-- @@@removeApp -->
 <!-- $$$requestProjectSettingsAtMonitorIndex[overload1]$$$requestProjectSettingsAtMonitorIndexconstint -->
 <h3 class="fn" id="requestProjectSettingsAtMonitorIndex"><a name="requestProjectSettingsAtMonitorIndex"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">requestProjectSettingsAtMonitorIndex</span>(const <span class="type">int</span> <i>index</i>)</h3>
 <p>Request a spesific json profile to display in the active wallpaper popup on the right.</p>
@@ -143,6 +149,10 @@
 <h3 class="fn" id="setWallpaperValueAtMonitorIndex"><a name="setWallpaperValueAtMonitorIndex"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">setWallpaperValueAtMonitorIndex</span>(const <span class="type">int</span> <i>index</i>, const <span class="type">QString</span> &amp;<i>key</i>, const <span class="type">QString</span> &amp;<i>value</i>)</h3>
 <p>Set a wallpaper <i>value</i> at a given <i>index</i> and <i>key</i>.</p>
 <!-- @@@setWallpaperValueAtMonitorIndex -->
+<!-- $$$init[overload1]$$$initconststd::shared_ptr<GlobalVariables>&conststd::shared_ptr<MonitorListModel>&constint&conststd::shared_ptr<Settings>& -->
+<h3 class="fn" id="init"><a name="init"></a><span class="type">void</span> ScreenPlayManager::<span class="name">init</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-globalvariables.html">GlobalVariables</a></span>&gt; &amp;<i>globalVariables</i>, const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-monitorlistmodel.html">MonitorListModel</a></span>&gt; &amp;<i>mlm</i>, const <span class="type">int</span> &amp;<i>telemetry</i>, const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-settings.html">Settings</a></span>&gt; &amp;<i>settings</i>)</h3>
+<p>.</p>
+<!-- @@@init -->
 </div>
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

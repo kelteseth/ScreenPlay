@@ -2,7 +2,6 @@ import QtQuick 2.14
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.3
 
-
 /*!
    \qmltype Close Icon
    \brief A image selector with popup preview.

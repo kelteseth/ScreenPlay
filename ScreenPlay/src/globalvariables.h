@@ -52,31 +52,13 @@ namespace ScreenPlay {
 
 */
 
-namespace InstalledType {
-    Q_NAMESPACE
-
-    enum class InstalledType {
-        Unknown,
-
-        VideoWallpaper,
-        QMLWallpaper,
-        HTMLWallpaper,
-        GodotWallpaper,
-
-        QMLWidget,
-        HTMLWidget,
-    };
-    Q_ENUM_NS(InstalledType)
-
-}
-
 namespace SearchType {
     Q_NAMESPACE
 
     enum class SearchType {
         All,
         Text,
-        Scene, //QML, HTML, Godot wallpaper
+        Scene, //QML, HTML, Godot, Gif, Website wallpaper
         Wallpaper,
         Widget,
     };
@@ -98,6 +80,45 @@ namespace FillMode {
 
 }
 
+namespace InstalledType {
+    Q_NAMESPACE
+
+    // When changing the enum, one also needs to change:
+    // GlobalVariables::getAvailableWallpaper
+    // GlobalVariables::getAvailableWidgets
+    // Common/Util.js isWallpaper() and isWidget()
+    // ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
+    enum class InstalledType {
+        Unknown,
+        //Wallpaper
+        VideoWallpaper,
+        QMLWallpaper,
+        HTMLWallpaper,
+        GodotWallpaper,
+        GifWallpaper,
+        WebsiteWallpaper,
+        //Widgets
+        QMLWidget,
+        HTMLWidget,
+    };
+    Q_ENUM_NS(InstalledType)
+
+    static bool isWallpaper(const InstalledType type)
+    {
+        return (type == InstalledType::VideoWallpaper
+            || type == InstalledType::QMLWallpaper
+            || type == InstalledType::HTMLWallpaper
+            || type == InstalledType::GifWallpaper
+            || type == InstalledType::WebsiteWallpaper
+            || type == InstalledType::GodotWallpaper);
+    }
+
+    static bool isWidget(const InstalledType type)
+    {
+        return (type == InstalledType::QMLWidget || type == InstalledType::HTMLWidget);
+    }
+}
+
 class GlobalVariables : public QObject {
     Q_OBJECT
 
@@ -109,6 +130,30 @@ class GlobalVariables : public QObject {
 
 public:
     explicit GlobalVariables(QObject* parent = nullptr);
+
+    static QStringList getAvailableWallpaper()
+    {
+        return {
+            "qmlWallpaper",
+            "htmlWallpaper",
+            "videoWallpaper",
+            "godotWallpaper",
+            "gifWallpaper",
+            "websiteWallpaper"
+        };
+    }
+    static QStringList getAvailableWidgets()
+    {
+        return {
+            "qmlWidget",
+            "htmlWidget",
+        };
+    }
+
+    static QStringList getAvailableTypes()
+    {
+        return { getAvailableWallpaper() + getAvailableWidgets() };
+    }
 
     /*!
         \property GlobalVariables::localStoragePath
@@ -149,28 +194,6 @@ public:
     QVersionNumber version() const
     {
         return m_version;
-    }
-
-    static QStringList getAvailableWallpaper()
-    {
-        return {
-            "qmlWallpaper",
-            "htmlWallpaper",
-            "videoWallpaper",
-            "godotWallpaper",
-        };
-    }
-    static QStringList getAvailableWidgets()
-    {
-        return {
-            "qmlWidget",
-            "htmlWidget",
-        };
-    }
-
-    static QStringList getAvailableTypes()
-    {
-        return { getAvailableWallpaper() + getAvailableWidgets() };
     }
 
 signals:

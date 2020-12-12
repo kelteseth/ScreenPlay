@@ -114,6 +114,9 @@ QJsonObject ProjectSettingsListModel::getActiveSettingsJson()
     return ret;
 }
 
+/*!
+    \brief .
+*/
 void ProjectSettingsListModel::append(const SettingsItem&& item)
 {
     beginInsertRows(QModelIndex(), m_projectSettings.size(), m_projectSettings.size());
@@ -121,6 +124,9 @@ void ProjectSettingsListModel::append(const SettingsItem&& item)
     endInsertRows();
 }
 
+/*!
+    \brief .
+*/
 void ProjectSettingsListModel::setValueAtIndex(const int row, const QString& key, const QJsonObject& value)
 {
     if (row >= m_projectSettings.size() || row < 0) {
@@ -145,6 +151,9 @@ void ProjectSettingsListModel::setValueAtIndex(const int row, const QString& key
     emit dataChanged(index(row, 0), index(row, 0), roles);
 }
 
+/*!
+    \brief .
+*/
 int ProjectSettingsListModel::rowCount(const QModelIndex& parent) const
 {
     // For list models only the root node (an invalid parent) should return the list's size. For all
@@ -155,6 +164,9 @@ int ProjectSettingsListModel::rowCount(const QModelIndex& parent) const
     return m_projectSettings.count();
 }
 
+/*!
+    \brief .
+*/
 QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) const
 {
     if (!index.isValid())
@@ -178,6 +190,9 @@ QVariant ProjectSettingsListModel::data(const QModelIndex& index, int role) cons
     return QVariant();
 }
 
+/*!
+    \brief .
+*/
 QHash<int, QByteArray> ProjectSettingsListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles {

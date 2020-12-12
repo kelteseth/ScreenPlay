@@ -7,13 +7,14 @@
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
 </head>
 <body>
-<div class="container-fullwidth nav"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
+<div class="container-fullwidth nav sticky-top"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
 <li>ProfileListModel</li>
 <div class="sidebar">
 <div class="toc">
 <h3><a name="toc">Contents</a></h3>
 <ul>
 <li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#reimplemented-public-functions">Reimplemented Public Functions</a></li>
 <li class="level1"><a href="#details">Detailed Description</a></li>
 </ul>
 </div>
@@ -32,6 +33,15 @@
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-profilelistmodel.html#ProfileListModel">ProfileListModel</a></b>(const std::shared_ptr&lt;GlobalVariables&gt; &amp;<i>globalVariables</i>, QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-profilelistmodel.html#append">append</a></b>(const ScreenPlay::Profile &amp;<i>profile</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-profilelistmodel.html#getProfileByName">getProfileByName</a></b>(QString <i>id</i>, ScreenPlay::Profile *<i>profile</i>)</td></tr>
+</table></div>
+<a name="reimplemented-public-functions"></a>
+<h2 id="reimplemented-public-functions">Reimplemented Public Functions</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QVariant </td><td class="memItemRight bottomAlign"><b><a href="screenplay-profilelistmodel.html#data">data</a></b>(const QModelIndex &amp;<i>index</i>, int <i>role</i> = Qt::DisplayRole) const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QHash&lt;int, QByteArray&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-profilelistmodel.html#roleNames">roleNames</a></b>() const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-profilelistmodel.html#rowCount">rowCount</a></b>(const QModelIndex &amp;<i>parent</i> = QModelIndex()) const override</td></tr>
 </table></div>
 <a name="details"></a>
 <!-- $$$ProfileListModel-description -->
@@ -43,9 +53,29 @@
 <div class="func">
 <h2>Member Function Documentation</h2>
 <!-- $$$ProfileListModel[overload1]$$$ProfileListModelconststd::shared_ptr<GlobalVariables>&QObject* -->
-<h3 class="fn" id="ProfileListModel"><a name="ProfileListModel"></a>ProfileListModel::<span class="name">ProfileListModel</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type">GlobalVariables</span>&gt; &amp;<i>globalVariables</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<h3 class="fn" id="ProfileListModel"><a name="ProfileListModel"></a>ProfileListModel::<span class="name">ProfileListModel</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-globalvariables.html">GlobalVariables</a></span>&gt; &amp;<i>globalVariables</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
 <p>Constructor</p>
 <!-- @@@ProfileListModel -->
+<!-- $$$append[overload1]$$$appendconstScreenPlay::Profile& -->
+<h3 class="fn" id="append"><a name="append"></a><span class="type">void</span> ProfileListModel::<span class="name">append</span>(const <span class="type">ScreenPlay::Profile</span> &amp;<i>profile</i>)</h3>
+<p>.</p>
+<!-- @@@append -->
+<!-- $$$data[overload1]$$$dataconstQModelIndex&int -->
+<h3 class="fn" id="data"><a name="data"></a><code>[override virtual] </code><span class="type">QVariant</span> ProfileListModel::<span class="name">data</span>(const <span class="type">QModelIndex</span> &amp;<i>index</i>, <span class="type">int</span> <i>role</i> = Qt::DisplayRole) const</h3>
+<p>.</p>
+<!-- @@@data -->
+<!-- $$$getProfileByName[overload1]$$$getProfileByNameQStringScreenPlay::Profile* -->
+<h3 class="fn" id="getProfileByName"><a name="getProfileByName"></a><span class="type">bool</span> ProfileListModel::<span class="name">getProfileByName</span>(<span class="type">QString</span> <i>id</i>, <span class="type">ScreenPlay::Profile</span> *<i>profile</i>)</h3>
+<p>.</p>
+<!-- @@@getProfileByName -->
+<!-- $$$roleNames[overload1]$$$roleNames -->
+<h3 class="fn" id="roleNames"><a name="roleNames"></a><code>[override virtual] </code><span class="type">QHash</span>&lt;<span class="type">int</span>, <span class="type">QByteArray</span>&gt; ProfileListModel::<span class="name">roleNames</span>() const</h3>
+<p>.</p>
+<!-- @@@roleNames -->
+<!-- $$$rowCount[overload1]$$$rowCountconstQModelIndex& -->
+<h3 class="fn" id="rowCount"><a name="rowCount"></a><code>[override virtual] </code><span class="type">int</span> ProfileListModel::<span class="name">rowCount</span>(const <span class="type">QModelIndex</span> &amp;<i>parent</i> = QModelIndex()) const</h3>
+<p>.</p>
+<!-- @@@rowCount -->
 </div>
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

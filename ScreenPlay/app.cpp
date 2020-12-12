@@ -50,7 +50,7 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.12.1");
+    QGuiApplication::setApplicationVersion("0.13.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
@@ -118,6 +118,7 @@ App::App()
     qmlRegisterAnonymousType<ScreenPlayManager>("ScreenPlay", 1);
     qmlRegisterAnonymousType<Util>("ScreenPlay", 1);
     qmlRegisterAnonymousType<Create>("ScreenPlay", 1);
+    qmlRegisterAnonymousType<Wizards>("ScreenPlay", 1);
     qmlRegisterAnonymousType<Settings>("ScreenPlay", 1);
 
     // ScreenPlayManager first to check if another ScreenPlay Instace is running
@@ -173,6 +174,7 @@ void App::init()
     }
 
     m_create = make_unique<Create>(m_globalVariables);
+    m_wizards = make_unique<Wizards>(m_globalVariables);
 
     // When the installed storage path changed
     QObject::connect(m_settings.get(), &Settings::resetInstalledListmodel, m_installedListModel.get(), &InstalledListModel::reset);
@@ -215,6 +217,9 @@ void App::exit()
     }
 }
 
+/*!
+    \brief .
+*/
 bool App::loadSteamPlugin()
 {
 

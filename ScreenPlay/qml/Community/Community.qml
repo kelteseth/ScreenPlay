@@ -128,6 +128,7 @@ Item {
             Loader {
                 active: SwipeView.isCurrentItem || SwipeView.isNextItem
                         || SwipeView.isPreviousItem
+                asynchronous: true
                 sourceComponent: Item {
                     Component.onCompleted: timer.start()
                     Timer {

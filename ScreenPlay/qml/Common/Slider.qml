@@ -5,7 +5,7 @@ import QtQuick.Controls 2.2 as QQC
 import ScreenPlay 1.0
 
 Item {
-    id: sliderVolumeWrapperBottom
+    id: root
     height: 70
 
     property string headline: "dummyHeandline"

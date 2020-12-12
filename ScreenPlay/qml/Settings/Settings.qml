@@ -1,10 +1,10 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.12
-import QtQuick.Dialogs 1.2
+import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
-import Qt.labs.platform 1.0
+
 
 import ScreenPlay 1.0
 import ScreenPlay.Enums.FillMode 1.0
@@ -116,9 +116,9 @@ Item {
                         onButtonPressed: {
                             folderDialogSaveLocation.open()
                         }
-                        FolderDialog {
+                        FileDialog {
                             id: folderDialogSaveLocation
-                            currentFolder: ScreenPlay.globalVariables.localStoragePath
+                            selectFolder: true
                             onAccepted: {
                                 ScreenPlay.settings.setLocalStoragePath(
                                             folderDialogSaveLocation.currentFolder)
@@ -444,7 +444,7 @@ Item {
                     }
                     SettingsHorizontalSeperator {}
                     SettingsButton {
-                        headline: qsTr("Debug Messages")
+                        headline: qsTr("Logs")
                         description: qsTr("If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.")
                         buttonText: qsTr("Debug Messages")
                         onButtonPressed: {

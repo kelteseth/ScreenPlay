@@ -1,0 +1,113 @@
+import QtQuick 2.14
+import QtQuick.Controls.Material 2.14
+import QtQuick.Controls 2.14
+import QtQuick.Layouts 1.14
+import QtQuick.Dialogs 1.2
+import ScreenPlay 1.0
+
+import "../../Common" as Common
+
+WizardPage {
+    id: root
+
+    sourceComponent: ColumnLayout {
+
+        function create() {
+            ScreenPlay.wizards.createQMLWidget(tfTitle.text, cbLicense.name,
+                                               cbLicense.licenseFile,
+                                               previewSelector.imageSource,
+                                               tfCreatedBy.text,
+                                               tagSelector.getTags())
+        }
+
+        Common.Headline {
+            id: txtHeadline
+            text: qsTr("Create a QML widget")
+            Layout.fillWidth: true
+        }
+
+        Item {
+            Layout.preferredHeight: 20
+            Layout.fillWidth: true
+        }
+
+        RowLayout {
+            spacing: 20
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+
+            ColumnLayout {
+                Layout.preferredHeight: root.width * .5
+                Layout.preferredWidth: root.width * .5
+                spacing: 20
+
+                Rectangle {
+                    id: leftWrapper
+                    color: "#333333"
+                    radius: 3
+                    Layout.fillHeight: true
+                    Layout.fillWidth: true
+
+                    Image {
+                        id: imgPreview
+                        source: "qrc:/assets/wizards/example_qml.png"
+                        anchors.fill: parent
+                        fillMode: Image.PreserveAspectCrop
+                    }
+                }
+
+                Common.ImageSelector {
+                    id: previewSelector
+                    Layout.fillWidth: true
+                }
+            }
+
+            ColumnLayout {
+                id: rightWrapper
+                spacing: 20
+                Layout.fillHeight: true
+                Layout.preferredWidth: root.width * .5
+                Layout.alignment: Qt.AlignTop
+
+                Common.HeadlineSection {
+                    text: qsTr("General")
+                }
+                Common.TextField {
+                    id: tfTitle
+                    Layout.fillWidth: true
+                    required: true
+                    placeholderText: qsTr("Widget name")
+                    onTextChanged: root.ready = text.length >= 1
+                }
+                Common.TextField {
+                    id: tfCreatedBy
+                    Layout.fillWidth: true
+                    placeholderText: qsTr("Created by")
+                }
+
+                Common.HeadlineSection {
+                    text: qsTr("License")
+                }
+
+                Common.LicenseSelector {
+                    id: cbLicense
+                }
+                Common.HeadlineSection {
+                    text: qsTr("Tags")
+                }
+
+                Common.TagSelector {
+                    id: tagSelector
+                    Layout.fillWidth: true
+                }
+            }
+        }
+    }
+}
+
+/*##^##
+Designer {
+    D{i:0;autoSize:true;height:580;width:1200}
+}
+##^##*/
+

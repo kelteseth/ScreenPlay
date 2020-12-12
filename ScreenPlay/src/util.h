@@ -105,17 +105,22 @@ public slots:
     void requestAllLicenses();
     void requestDataProtection();
 
+    static QJsonArray fillArray(const QVector<QString>& items);
     static SearchType::SearchType getSearchTypeFromInstalledType(const InstalledType::InstalledType type);
     static std::optional<InstalledType::InstalledType> getInstalledTypeFromString(const QString& type);
     static std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteArray);
     static std::optional<QJsonObject> openJsonFileToObject(const QString& path);
     static std::optional<QString> openJsonFileToString(const QString& path);
     static std::optional<QVersionNumber> getVersionNumberFromString(const QString& str);
-    static bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
-    static QString toString(const QStringList& list);
     static void appendToMetricsFile(const QString& key, const QVariant& value);
-
     static void logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg);
+    static bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
+    static bool writeSettings(const QJsonObject& obj, const QString& absolutePath);
+    static bool writeFile(const QString& text, const QString& absolutePath);
+    static bool writeFileFromQrc(const QString& qrcPath, const QString& absolutePath);
+    static bool copyPreviewThumbnail(QJsonObject& obj, const QString& name, const QString& destination);
+    static QString toString(const QStringList& list);
+    static QString toLocal(const QString& url);
     static QString generateRandomString(quint32 length = 32);
 
     void setNavigation(QString nav)

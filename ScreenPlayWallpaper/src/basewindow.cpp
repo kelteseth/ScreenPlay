@@ -193,6 +193,14 @@ BaseWindow::WallpaperType BaseWindow::parseWallpaperType(const QString& type)
         return (BaseWindow::WallpaperType::Godot);
     }
 
+    if (type.contains("GifWallpaper", Qt::CaseInsensitive)) {
+        return (BaseWindow::WallpaperType::Gif);
+    }
+
+    if (type.contains("WebsiteWallpaper", Qt::CaseInsensitive)) {
+        return (BaseWindow::WallpaperType::Website);
+    }
+
     qWarning() << "Could not parse Wallpaper type from value: " << type;
 
     return BaseWindow::WallpaperType::Video;

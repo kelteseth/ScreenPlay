@@ -11,7 +11,7 @@ h3 {
 }
 h2 {
     margin-top:3rem !important;
-    border-left: 3px solid orange;
+    border-left: 3px solid #ff6e42;
     padding-left: 10px;
 
 }
@@ -59,7 +59,7 @@ p {
 
 .nav {
     height: 50px;
-    background:#ffa000;
+    background:#ff6e42;
     color: white;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14);
 }

@@ -4,16 +4,16 @@ import ScreenPlay 1.0
 
 Item {
     id:root
-    width: parent.width
     height: 40
 
-    property alias text: txtHeadline
+    property alias text: txtHeadline.text
 
     Text {
         id: txtHeadline
         font.pointSize: 18
         color: Material.primaryTextColor
         text: qsTr("Headline")
+        font.capitalization: Font.Capitalize
         font.family: ScreenPlay.settings.font
     }
 

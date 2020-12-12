@@ -297,6 +297,15 @@ void Util::Util::requestDataProtection()
     });
 }
 
+QJsonArray Util::fillArray(const QVector<QString>& items)
+{
+    QJsonArray array;
+    for (const QString& item : items) {
+        array.append(item);
+    }
+    return array;
+}
+
 SearchType::SearchType Util::getSearchTypeFromInstalledType(const InstalledType::InstalledType type)
 {
     using InstalledType::InstalledType;
@@ -306,6 +315,8 @@ SearchType::SearchType Util::getSearchTypeFromInstalledType(const InstalledType:
     case InstalledType::GodotWallpaper:
     case InstalledType::HTMLWallpaper:
     case InstalledType::QMLWallpaper:
+    case InstalledType::GifWallpaper:
+    case InstalledType::WebsiteWallpaper:
         return SearchType::Scene;
     case InstalledType::VideoWallpaper:
         return SearchType::Wallpaper;
@@ -318,6 +329,9 @@ SearchType::SearchType Util::getSearchTypeFromInstalledType(const InstalledType:
     }
 }
 
+/*!
+    \brief .
+*/
 std::optional<InstalledType::InstalledType> Util::getInstalledTypeFromString(const QString& type)
 {
     if (type.endsWith("Wallpaper")) {
@@ -332,6 +346,12 @@ std::optional<InstalledType::InstalledType> Util::getInstalledTypeFromString(con
         }
         if (type.startsWith("godot", Qt::CaseInsensitive)) {
             return InstalledType::InstalledType::GodotWallpaper;
+        }
+        if (type.startsWith("website", Qt::CaseInsensitive)) {
+            return InstalledType::InstalledType::WebsiteWallpaper;
+        }
+        if (type.startsWith("gif", Qt::CaseInsensitive)) {
+            return InstalledType::InstalledType::GifWallpaper;
         }
     }
 
@@ -382,6 +402,102 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
 
     if (utilPointer != nullptr)
         utilPointer->appendDebugMessages(log);
+}
+
+/*!
+  \brief Takes ownership of \a obj and \a name. Tries to save into a text file
+    with of name.
+*/
+bool Util::writeSettings(const QJsonObject& obj, const QString& absolutePath)
+{
+    QFile file { absolutePath };
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open" << absolutePath;
+        return false;
+    }
+
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+    QJsonDocument doc(obj);
+
+    out << doc.toJson();
+
+    file.close();
+    return true;
+}
+
+/*!
+  \brief Tries to save into a text file with absolute path.
+*/
+bool Util::writeFile(const QString& text, const QString& absolutePath)
+{
+    QFile file { absolutePath };
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open" << absolutePath;
+        return false;
+    }
+
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+
+    out << text;
+
+    file.close();
+    return true;
+}
+
+/*!
+  \brief Tries to save into a text file with absolute path.
+*/
+bool Util::writeFileFromQrc(const QString& qrcPath, const QString& absolutePath)
+{
+
+    QFile file { absolutePath };
+    if (!file.open(QIODevice::WriteOnly | QIODevice::Text)) {
+        qDebug() << "Could not open" << absolutePath;
+        return false;
+    }
+
+    QTextStream out(&file);
+    out.setCodec("UTF-8");
+
+    QFile qrc(qrcPath);
+    qrc.open(QIODevice::ReadOnly);
+    out << qrc.readAll();
+
+    qrc.close();
+    file.close();
+    return true;
+}
+
+/*!
+  \brief Takes reference to \a obj. If the copy of the thumbnail is successful,
+  it adds the corresponding settings entry to the json object reference.
+*/
+bool Util::copyPreviewThumbnail(QJsonObject& obj, const QString& name, const QString& destination)
+{
+    QUrl previewThumbnailUrl { name };
+    QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
+
+    if (!name.isEmpty()) {
+        if (!QFile::copy(previewThumbnailUrl.toLocalFile(), destination)) {
+            qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << name;
+            return false;
+        }
+    }
+
+    obj.insert("previewThumbnail", previewImageFile.fileName());
+    obj.insert("preview", previewImageFile.fileName());
+
+    return true;
+}
+
+/*!
+    \brief Converts the given \a url string to a local file path.
+*/
+QString Util::toLocal(const QString& url)
+{
+    return QUrl(url).toLocalFile();
 }
 
 }

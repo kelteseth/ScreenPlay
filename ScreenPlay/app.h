@@ -59,11 +59,13 @@
 #include "src/screenplaymanager.h"
 #include "src/settings.h"
 #include "src/util.h"
+#include "src/wizards.h"
 
 #include "ganalytics.h"
 #ifdef Q_OS_WIN
 #include <sentry.h>
 #endif
+
 class ScreenPlayWorkshopPlugin;
 
 namespace ScreenPlay {
@@ -75,6 +77,7 @@ class App : public QObject {
     Q_PROPERTY(GlobalVariables* globalVariables READ globalVariables WRITE setGlobalVariables NOTIFY globalVariablesChanged)
     Q_PROPERTY(ScreenPlayManager* screenPlayManager READ screenPlayManager WRITE setScreenPlayManager NOTIFY screenPlayManagerChanged)
     Q_PROPERTY(Create* create READ create WRITE setCreate NOTIFY createChanged)
+    Q_PROPERTY(Wizards* wizards READ wizards WRITE setWizards NOTIFY wizardsChanged)
     Q_PROPERTY(Util* util READ util WRITE setUtil NOTIFY utilChanged)
     Q_PROPERTY(Settings* settings READ settings WRITE setSettings NOTIFY settingsChanged)
 
@@ -139,6 +142,11 @@ public:
         return m_mainWindowEngine.get();
     }
 
+    Wizards* wizards() const
+    {
+        return m_wizards.get();
+    }
+
 signals:
     void globalVariablesChanged(GlobalVariables* globalVariables);
     void screenPlayManagerChanged(ScreenPlayManager* screenPlayManager);
@@ -150,6 +158,7 @@ signals:
     void profileListModelChanged(ProfileListModel* profileListModel);
     void installedListFilterChanged(InstalledListFilter* installedListFilter);
     void mainWindowEngineChanged(QQmlApplicationEngine* mainWindowEngine);
+    void wizardsChanged(Wizards* wizards);
 
 public slots:
 
@@ -250,6 +259,15 @@ public slots:
         emit mainWindowEngineChanged(m_mainWindowEngine.get());
     }
 
+    void setWizards(Wizards* wizards)
+    {
+        if (m_wizards.get() == wizards)
+            return;
+
+        m_wizards.reset(wizards);
+        emit wizardsChanged(m_wizards.get());
+    }
+
 private:
     QPluginLoader m_workshopPlugin;
     QNetworkAccessManager m_networkAccessManager;
@@ -257,6 +275,7 @@ private:
     std::unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;
 
     std::unique_ptr<Create> m_create;
+    std::unique_ptr<Wizards> m_wizards;
     std::unique_ptr<ScreenPlayManager> m_screenPlayManager;
     std::unique_ptr<Util> m_util;
 

@@ -7,13 +7,15 @@
 <link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
 </head>
 <body>
-<div class="container-fullwidth nav"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
+<div class="container-fullwidth nav sticky-top"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
 <li>ProjectSettingsListModel</li>
 <div class="sidebar">
 <div class="toc">
 <h3><a name="toc">Contents</a></h3>
 <ul>
 <li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#reimplemented-public-functions">Reimplemented Public Functions</a></li>
+<li class="level1"><a href="#public-slots">Public Slots</a></li>
 <li class="level1"><a href="#details">Detailed Description</a></li>
 </ul>
 </div>
@@ -31,8 +33,21 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#append">append</a></b>(const ScreenPlay::SettingsItem &amp;&amp;<i>item</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QJsonObject </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#getActiveSettingsJson">getActiveSettingsJson</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#init">init</a></b>(const InstalledType::InstalledType &amp;<i>type</i>, const QJsonObject &amp;<i>properties</i>)</td></tr>
+</table></div>
+<a name="reimplemented-public-functions"></a>
+<h2 id="reimplemented-public-functions">Reimplemented Public Functions</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QVariant </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#data">data</a></b>(const QModelIndex &amp;<i>index</i>, int <i>role</i> = Qt::DisplayRole) const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual QHash&lt;int, QByteArray&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#roleNames">roleNames</a></b>() const override</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#rowCount">rowCount</a></b>(const QModelIndex &amp;<i>parent</i> = QModelIndex()) const override</td></tr>
+</table></div>
+<a name="public-slots"></a>
+<h2 id="public-slots">Public Slots</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#setValueAtIndex">setValueAtIndex</a></b>(const int <i>row</i>, const QString &amp;<i>key</i>, const QJsonObject &amp;<i>value</i>)</td></tr>
 </table></div>
 <a name="details"></a>
 <!-- $$$ProjectSettingsListModel-description -->
@@ -64,6 +79,18 @@
 <!-- @@@ProjectSettingsListModel -->
 <div class="func">
 <h2>Member Function Documentation</h2>
+<!-- $$$setValueAtIndex[overload1]$$$setValueAtIndexconstintconstQString&constQJsonObject& -->
+<h3 class="fn" id="setValueAtIndex"><a name="setValueAtIndex"></a><code>[slot] </code><span class="type">void</span> ProjectSettingsListModel::<span class="name">setValueAtIndex</span>(const <span class="type">int</span> <i>row</i>, const <span class="type">QString</span> &amp;<i>key</i>, const <span class="type">QJsonObject</span> &amp;<i>value</i>)</h3>
+<p>.</p>
+<!-- @@@setValueAtIndex -->
+<!-- $$$append[overload1]$$$appendconstScreenPlay::SettingsItem&& -->
+<h3 class="fn" id="append"><a name="append"></a><span class="type">void</span> ProjectSettingsListModel::<span class="name">append</span>(const <span class="type">ScreenPlay::SettingsItem</span> &amp;&amp;<i>item</i>)</h3>
+<p>.</p>
+<!-- @@@append -->
+<!-- $$$data[overload1]$$$dataconstQModelIndex&int -->
+<h3 class="fn" id="data"><a name="data"></a><code>[override virtual] </code><span class="type">QVariant</span> ProjectSettingsListModel::<span class="name">data</span>(const <span class="type">QModelIndex</span> &amp;<i>index</i>, <span class="type">int</span> <i>role</i> = Qt::DisplayRole) const</h3>
+<p>.</p>
+<!-- @@@data -->
 <!-- $$$getActiveSettingsJson[overload1]$$$getActiveSettingsJson -->
 <h3 class="fn" id="getActiveSettingsJson"><a name="getActiveSettingsJson"></a><span class="type">QJsonObject</span> ProjectSettingsListModel::<span class="name">getActiveSettingsJson</span>()</h3>
 <p>ProjectSettingsListModel::getActiveSettingsJson <b class="redFont"><code>\return</code></b></p>
@@ -73,6 +100,14 @@
 <p>Constructor when loading properties from settings.json We need to _flatten_ the json to make it work with a flat list model! See</p>
 <p><b>See also </b><a href="screenplay-projectsettingslistmodel.html#getActiveSettingsJson">getActiveSettingsJson</a>, to</a>, make</a>, the</a>, flat</a>, list</a>, to</a>, a</a>, hierarchical</a>, json</a>, and object</a>.</p>
 <!-- @@@init -->
+<!-- $$$roleNames[overload1]$$$roleNames -->
+<h3 class="fn" id="roleNames"><a name="roleNames"></a><code>[override virtual] </code><span class="type">QHash</span>&lt;<span class="type">int</span>, <span class="type">QByteArray</span>&gt; ProjectSettingsListModel::<span class="name">roleNames</span>() const</h3>
+<p>.</p>
+<!-- @@@roleNames -->
+<!-- $$$rowCount[overload1]$$$rowCountconstQModelIndex& -->
+<h3 class="fn" id="rowCount"><a name="rowCount"></a><code>[override virtual] </code><span class="type">int</span> ProjectSettingsListModel::<span class="name">rowCount</span>(const <span class="type">QModelIndex</span> &amp;<i>parent</i> = QModelIndex()) const</h3>
+<p>.</p>
+<!-- @@@rowCount -->
 </div>
-<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

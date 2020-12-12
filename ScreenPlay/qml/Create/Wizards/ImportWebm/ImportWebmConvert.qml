@@ -2,28 +2,23 @@ import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
-import Qt.labs.platform 1.0
 import QtQuick.Layouts 1.12
 
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 
-import "../../../Common"
+import "../../../Common" as Common
 
 Item {
-    id: wrapperContent
+    id: root
 
     property bool conversionFinishedSuccessful: false
     property bool canSave: false
-    property var codec: Create.VP8
     property string filePath
+    signal exit
 
     onFilePathChanged: {
         textFieldName.text = basename(filePath)
-    }
-
-    function cleanup() {
-        ScreenPlay.create.abortAndCleanup()
     }
 
     function basename(str) {
@@ -32,7 +27,7 @@ Item {
         return filename
     }
 
-    onCanSaveChanged: wrapperContent.checkCanSave()
+    onCanSaveChanged: root.checkCanSave()
     signal save
 
     function checkCanSave() {
@@ -46,10 +41,11 @@ Item {
     Connections {
         target: ScreenPlay.create
 
-
-
         function onCreateWallpaperStateChanged(state) {
             switch (state) {
+            case CreateImportVideo.AnalyseVideo:
+                txtConvert.text = qsTr("AnalyseVideo...")
+                break
             case CreateImportVideo.ConvertingPreviewImage:
                 txtConvert.text = qsTr("Generating preview image...")
                 break
@@ -89,7 +85,7 @@ Item {
                 txtConvert.text = ""
                 conversionFinishedSuccessful = true
                 busyIndicator.running = false
-                wrapperContent.checkCanSave()
+                root.checkCanSave()
 
                 ScreenPlay.setTrackerSendEvent("createWallpaperSuccessful", "")
                 break
@@ -101,7 +97,7 @@ Item {
             if (percentage > 100 || progress > 0.95)
                 percentage = 100
 
-            if(percentage === NaN) {
+            if (percentage === NaN) {
                 print(progress, percentage)
             }
 
@@ -109,15 +105,9 @@ Item {
         }
     }
 
-    Text {
+    Common.Headline {
         id: txtHeadline
         text: qsTr("Convert a video to a wallpaper")
-        height: 40
-        font.family: ScreenPlay.settings.font
-        font.weight: Font.Light
-        color: Material.primaryTextColor
-
-        font.pointSize: 23
         anchors {
             top: parent.top
             left: parent.left
@@ -128,7 +118,7 @@ Item {
 
     Item {
         id: wrapperLeft
-        width: parent.width * .5
+        width: parent.width * .66
         anchors {
             left: parent.left
             top: txtHeadline.bottom
@@ -218,10 +208,9 @@ Item {
                 }
             }
         }
-        ImageSelector {
+        Common.ImageSelector {
             id: previewSelector
             height: 80
-            placeHolderText: qsTr("You can set your own preview image here!")
             anchors {
                 right: parent.right
                 rightMargin: 20
@@ -232,7 +221,7 @@ Item {
     }
     Item {
         id: wrapperRight
-        width: parent.width * .5
+        width: parent.width * .33
         anchors {
             top: txtHeadline.bottom
             topMargin: 30
@@ -253,11 +242,10 @@ Item {
                 bottomMargin: 50
             }
 
-            TextField {
+            Common.TextField {
                 id: textFieldName
                 placeholderText: qsTr("Name (required!)")
                 width: parent.width
-                font.family: ScreenPlay.settings.font
                 Layout.fillWidth: true
                 onTextChanged: {
                     if (textFieldName.text.length >= 3) {
@@ -268,26 +256,23 @@ Item {
                 }
             }
 
-            TextField {
+            Common.TextField {
                 id: textFieldDescription
                 placeholderText: qsTr("Description")
-                font.family: ScreenPlay.settings.font
                 width: parent.width
                 Layout.fillWidth: true
             }
 
-            TextField {
+            Common.TextField {
                 id: textFieldYoutubeURL
                 placeholderText: qsTr("Youtube URL")
-                font.family: ScreenPlay.settings.font
                 width: parent.width
                 Layout.fillWidth: true
             }
 
-            TagSelector {
+            Common.TagSelector {
                 id: textFieldTags
                 width: parent.width
-
                 Layout.fillWidth: true
             }
         }
@@ -311,9 +296,8 @@ Item {
                 Material.foreground: "white"
                 font.family: ScreenPlay.settings.font
                 onClicked: {
+                    root.exit()
                     ScreenPlay.create.abortAndCleanup()
-                    ScreenPlay.util.setNavigationActive(true)
-                    ScreenPlay.util.setNavigation("Create")
                 }
             }
 
@@ -330,8 +314,7 @@ Item {
                         btnSave.enabled = false
                         ScreenPlay.create.saveWallpaper(
                                     textFieldName.text,
-                                    textFieldDescription.text,
-                                    wrapperContent.filePath,
+                                    textFieldDescription.text, root.filePath,
                                     previewSelector.imageSource,
                                     textFieldYoutubeURL.text, codec,
                                     textFieldTags.getTags())
@@ -370,7 +353,7 @@ Item {
             onTriggered: {
                 savePopup.close()
                 ScreenPlay.util.setNavigationActive(true)
-                ScreenPlay.util.setNavigation("Installed")
+                root.exit()
             }
         }
     }

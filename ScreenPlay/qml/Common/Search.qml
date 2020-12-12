@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.0
 import ScreenPlay 1.0
 
 Item {
+    id:root
     width: 300
 
     ToolButton {
@@ -24,9 +25,6 @@ Item {
         id: txtSearch
         width: 250
         height: 40
-        font.family: ScreenPlay.settings.font
-        leftPadding: 10
-        color: Material.secondaryTextColor
         anchors {
             right: icnSearch.left
             rightMargin: 10
@@ -40,8 +38,6 @@ Item {
                 ScreenPlay.installedListFilter.sortByName(txtSearch.text)
             }
         }
-
-        selectByMouse: true
         placeholderText: qsTr("Search for Wallpaper & Widgets")
     }
 }

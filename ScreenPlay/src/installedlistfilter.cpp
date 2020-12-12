@@ -34,6 +34,9 @@ void InstalledListFilter::sortByName(const QString& name)
     sort(0);
 }
 
+/*!
+    \brief .
+*/
 void InstalledListFilter::sortBySearchType(const ScreenPlay::SearchType::SearchType searchType)
 {
     if (searchType == SearchType::SearchType::All) {

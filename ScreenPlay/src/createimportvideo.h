@@ -111,7 +111,7 @@ public:
     bool m_smallVideo { false };
 
     // We do not get many infos with this
-    bool m_isMatroska { false };
+    bool m_isWebm { false };
 
     float m_progress { 0.0F };
 
@@ -124,12 +124,18 @@ public:
     int m_length { 0 };
     int m_framerate { 0 };
 
+    enum class Executable {
+        FFMPEG,
+        FFPROBE
+    };
+
 signals:
     void createWallpaperStateChanged(CreateImportVideo::ImportVideoState state);
     void processOutput(QString text);
     void finished();
     void abortAndCleanup();
     void progressChanged(float progress);
+    void ffmpegOutput(QString text);
 
 public slots:
     void process();
@@ -155,7 +161,13 @@ public slots:
     }
 
 private:
-    void waitForFinished(std::shared_ptr<QProcess>& process);
+    QString waitForFinished(
+            const QStringList& args,
+            const QProcess::ProcessChannelMode processChannelMode = QProcess::ProcessChannelMode::SeparateChannels,
+            const Executable executable = Executable::FFMPEG);
+
+    bool analyzeWebmReadFrames(const QJsonObject& obj);
+    bool analyzeVideo(const QJsonObject& obj);
 
     QString m_ffprobeExecutable;
     QString m_ffmpegExecutable;

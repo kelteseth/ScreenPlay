@@ -12,6 +12,7 @@ import ScreenPlay.Enums.InstalledType 1.0
 
 import "../Monitors"
 import "../Common" as Common
+import "../Common/Util.js" as JSUtil
 
 Item {
     id: root
@@ -43,23 +44,13 @@ Item {
             image.playing = true
         }
 
-        if (isWidget() || (monitorSelection.activeMonitors.length > 0)) {
+        if (JSUtil.isWidget(root.type)
+                || (monitorSelection.activeMonitors.length > 0)) {
             btnSetWallpaper.enabled = true
             return
         }
 
         btnSetWallpaper.enabled = false
-    }
-
-    function isWallpaper() {
-        return type === InstalledType.VideoWallpaper
-                || type === InstalledType.HTMLWallpaper
-                || type === InstalledType.QMLWallpaper
-    }
-
-    function isWidget() {
-        return type === InstalledType.HTMLWidget
-                || type === InstalledType.QMLWidget
     }
 
     function indexOfValue(model, value) {
@@ -87,7 +78,7 @@ Item {
             root.contentFolderName = folderName
             root.type = type
 
-            if (root.isWallpaper()) {
+            if (JSUtil.isWallpaper(root.type)) {
                 if (type === InstalledType.VideoWallpaper) {
                     root.state = "activeWallpaper"
                 } else {
@@ -116,7 +107,6 @@ Item {
     Item {
         id: sidebarWrapper
         anchors.fill: parent
-
 
         Item {
             id: navBackground
@@ -271,7 +261,7 @@ Item {
                         availableHeight: height
                         fontSize: 11
                         onActiveMonitorsChanged: {
-                            if (isWidget()) {
+                            if (JSUtil.isWidget(root.type)) {
                                 btnSetWallpaper.enabled = true
                                 return
                             }
@@ -363,7 +353,7 @@ Item {
                                               + "/" + root.contentFolderName
                     const previewImage = ScreenPlay.installedListModel.get(
                                            root.contentFolderName).m_preview
-                    if (root.isWallpaper()) {
+                    if (JSUtil.isWallpaper(root.type)) {
                         let activeMonitors = monitorSelection.getActiveMonitors(
                                 )
 
@@ -374,7 +364,8 @@ Item {
                         // We only have sliderVolume if it is a VideoWallpaper
                         let volume = 0.0
                         if (type === InstalledType.VideoWallpaper) {
-                            volume = Math.round(sliderVolume.slider.value * 100) / 100
+                            volume = Math.round(
+                                        sliderVolume.slider.value * 100) / 100
                         }
 
                         const screenFile = ScreenPlay.installedListModel.get(
@@ -387,7 +378,7 @@ Item {
                                     1.0, {}, true)
                     }
 
-                    if (root.isWidget()) {
+                    if (JSUtil.isWidget(root.type)) {
                         ScreenPlay.screenPlayManager.createWidget(
                                     type, Qt.point(0, 0), absoluteStoragePath,
                                     previewImage, {}, true)
@@ -403,7 +394,6 @@ Item {
     states: [
         State {
             name: "inactive"
-
 
             PropertyChanges {
                 target: root
@@ -441,7 +431,6 @@ Item {
         },
         State {
             name: "activeWallpaper"
-
 
             PropertyChanges {
                 target: image

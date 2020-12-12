@@ -9,6 +9,7 @@ Item {
     property string absoluteStoragePath
     property string sourceImage
     property string sourceImageGIF
+    property var type: InstalledType.Unknown
 
     function enter() {
         if (root.sourceImageGIF != "") {
