@@ -333,7 +333,7 @@ void Wizards::createWebsiteWallpaper(
         obj.insert("title", title);
         obj.insert("tags", Util::fillArray(tags));
         obj.insert("type", "websiteWallpaper");
-        obj.insert("source", url.toString());
+        obj.insert("url", url.toString());
 
         if (!previewThumbnail.isEmpty()) {
             QUrl previewThumbnailUrl { previewThumbnail };
