@@ -87,5 +87,6 @@
         <file>qml/Create/WizardsFiles/HTMLWallpaperMain.html</file>
         <file>qml/Create/WizardsFiles/HTMLWidgetMain.html</file>
         <file>qml/Common/LicenseSelector.qml</file>
+        <file>qml/Common/Util.js</file>
     </qresource>
 </RCC>

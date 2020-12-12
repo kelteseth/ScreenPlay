@@ -5,36 +5,27 @@ import QtQuick.Controls.Styles 1.4
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 
+import "../Common/Util.js" as JSUtil
+
 Item {
     id: root
     width: 320
     height: 180
 
-    property string customTitle: "name here"
+    property string customTitle
+    property string screenId
     property url absoluteStoragePath
-    property var type
+    property var type: InstalledType.Unknown
     property int workshopID: 0
     property int itemIndex
-    property string screenId: ""
 
     signal openContextMenu(point position)
 
     onTypeChanged: {
-        switch (type) {
-        case InstalledType.Unknown:
-            return
-        case InstalledType.VideoWallpaper:
-        case InstalledType.QMLWallpaper:
-        case InstalledType.HTMLWallpaper:
-        case InstalledType.GodotWallpaper:
-        case InstalledType.GifWallpaper:
-        case InstalledType.WebsiteWallpaper:
+        if (JSUtil.isWallpaper()) {
             icnType.source = "qrc:/assets/icons/icon_widgets.svg"
-            return
-        case InstalledType.QMLWidget:
-        case InstalledType.HTMLWidget:
+        } else {
             icnType.source = "qrc:/assets/icons/icon_movie.svg"
-            return
         }
     }
 
@@ -92,7 +83,6 @@ Item {
         spread: 0.2
         color: "black"
         opacity: 0.4
-
         cornerRadius: 15
     }
 
@@ -121,6 +111,7 @@ Item {
                 anchors.fill: parent
                 sourceImage: m_preview
                 sourceImageGIF: m_previewGIF
+                type: root.type
                 absoluteStoragePath: m_absoluteStoragePath
             }
 
