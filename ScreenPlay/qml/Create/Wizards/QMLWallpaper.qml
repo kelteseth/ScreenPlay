@@ -22,9 +22,12 @@ WizardPage {
         }
 
         function create() {
-            ScreenPlay.wizards.createQMLWallpaper(
-                        tfTitle.text, previewSelector.imageSource,
-                        cbLicense.currentText, tagSelector.getTags())
+            ScreenPlay.wizards.createQMLWallpaper(tfTitle.text,
+                                                  cbLicense.name,
+                                                  cbLicense.licenseFile,
+                                                  previewSelector.imageSource,
+                                                  tfCreatedBy.text,
+                                                  tagSelector.getTags())
         }
 
         Common.Headline {

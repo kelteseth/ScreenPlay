@@ -1,5 +1,5 @@
-import QtQuick 2.0
+import QtQuick 2.14
 
 Item {
-
+    id: root
 }

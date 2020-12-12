@@ -23,8 +23,10 @@ WizardPage {
 
         function create() {
             ScreenPlay.wizards.createHTMLWallpaper(tfTitle.text,
+                                                   cbLicense.name,
+                                                   cbLicense.licenseFile,
                                                    previewSelector.imageSource,
-                                                   cbLicense.currentText,
+                                                   tfCreatedBy.text,
                                                    tagSelector.getTags())
         }
 

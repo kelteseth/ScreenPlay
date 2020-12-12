@@ -14,9 +14,10 @@ WizardPage {
 
         function create() {
             ScreenPlay.wizards.createHTMLWidget(tfTitle.text,
+                                                cbLicense.name,
+                                                cbLicense.licenseFile,
                                                 previewSelector.imageSource,
                                                 tfCreatedBy.text,
-                                                cbLicense.currentText,
                                                 tagSelector.getTags())
         }
 
@@ -57,7 +58,7 @@ WizardPage {
                 }
 
                 Common.ImageSelector {
-                    id: imageSelector
+                    id: previewSelector
                     Layout.fillWidth: true
                 }
             }
@@ -77,13 +78,7 @@ WizardPage {
                     Layout.fillWidth: true
                     required: true
                     placeholderText: qsTr("Widget name")
-                    onTextChanged: {
-                        if (text.length >= 3) {
-                            btnSave.enabled = true
-                        } else {
-                            btnSave.enabled = false
-                        }
-                    }
+                    onTextChanged: root.ready = text.length >= 1
                 }
                 Common.TextField {
                     id: tfCreatedBy

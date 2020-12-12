@@ -84,28 +84,32 @@ public:
 public slots:
     void createQMLWidget(
         const QString& title,
+        const QString& licenseName,
+        const QString& licenseFile,
         const QString& previewThumbnail,
         const QString& createdBy,
-        const QString& license,
         const QVector<QString>& tags);
 
     void createHTMLWidget(
         const QString& title,
+        const QString& licenseName,
+        const QString& licenseFile,
         const QString& previewThumbnail,
         const QString& createdBy,
-        const QString& license,
         const QVector<QString>& tags);
 
-    void createHTMLWallpaper(
-        const QString& title,
+    void createHTMLWallpaper(const QString& title,
+        const QString& licenseName,
+        const QString& licenseFile,
+        const QString& createdBy,
         const QString& previewThumbnail,
-        const QString& license,
         const QVector<QString>& tags);
 
-    void createQMLWallpaper(
-        const QString& title,
+    void createQMLWallpaper(const QString& title,
+        const QString& licenseName,
+        const QString& licenseFile,
+        const QString& createdBy,
         const QString& previewThumbnail,
-        const QString& license,
         const QVector<QString>& tags);
 
     void createGifWallpaper(
@@ -119,7 +123,6 @@ public slots:
     void createWebsiteWallpaper(
         const QString& title,
         const QString& previewThumbnail,
-        const QString& license,
         const QUrl& url,
         const QVector<QString>& tags);
 
