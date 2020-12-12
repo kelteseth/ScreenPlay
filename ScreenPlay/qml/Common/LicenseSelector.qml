@@ -29,25 +29,25 @@ ColumnLayout {
             model: ListModel {
                 id: licenseModel
                 ListElement {
-                    name: "Create Commons - Attribution-ShareAlike 4.0"
+                    name: "Creative Commons - Attribution-ShareAlike 4.0"
                     description: qsTr("Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.")
                     tldrlegal: "https://tldrlegal.com/license/creative-commons-attribution-sharealike-4.0-international-(cc-by-sa-4.0)"
                     licenseFile: "License_CC_Attribution-ShareAlike_4.0.txt"
                 }
                 ListElement {
-                    name: "Create Commons - Attribution 4.0"
+                    name: "Creative Commons - Attribution 4.0"
                     description: qsTr("You grant other to remix your work and change the license to their linking.")
                     tldrlegal: "https://tldrlegal.com/license/creative-commons-attribution-4.0-international-(cc-by-4)"
                     licenseFile: "License_CC_Attribution_4.0.txt"
                 }
                 ListElement {
-                    name: "Create Commons - Attribution-NonCommercial-ShareAlike 4.0"
+                    name: "Creative Commons - Attribution-NonCommercial-ShareAlike 4.0"
                     description: qsTr("Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! ")
                     tldrlegal: "https://tldrlegal.com/license/creative-commons-attribution-noncommercial-sharealike-4.0-international-(cc-by-nc-sa-4.0)"
                     licenseFile: "License_CC_Attribution-NonCommercial-ShareAlike_4.0.txt"
                 }
                 ListElement {
-                    name: "Create Commons - CC0 1.0 Universal Public Domain"
+                    name: "Creative Commons - CC0 1.0 Universal Public Domain"
                     description: qsTr("You allow everyone do do anything with your work.")
                     tldrlegal: "https://tldrlegal.com/license/creative-commons-cc0-1.0-universal"
                     licenseFile: "License_CC0_1.0.txt"
