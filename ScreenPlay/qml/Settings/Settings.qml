@@ -444,7 +444,7 @@ Item {
                     }
                     SettingsHorizontalSeperator {}
                     SettingsButton {
-                        headline: qsTr("Debug Messages")
+                        headline: qsTr("Logs")
                         description: qsTr("If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.")
                         buttonText: qsTr("Debug Messages")
                         onButtonPressed: {
