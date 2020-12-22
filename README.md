@@ -38,10 +38,10 @@ Here are some ways you can contribute:
 * by using prerelease versions / master branch or the Steam nightly builds
 * by [adding/fixing translation](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/translations/)
 * by [designing UI/UX](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/contribute/#design)
-* by [creating example HTML/QML/Javascript Wallpaper/Widgets](https://kelteseth.gitlab.io/ScreenPlayDocs/)
+* by [creating example HTML/QML/Javascript content](https://kelteseth.gitlab.io/ScreenPlayDocs/)
 * by [reporting bugs](https://gitlab.com/kelteseth/ScreenPlay/-/issues)
-* by [writing or editing user documentation](https://gitlab.com/kelteseth/ScreenPlayDocs)
-* by [writing needed](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Feature)
+* by [writing user documentation](https://gitlab.com/kelteseth/ScreenPlayDocs)
+* by [coding needed features](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Feature)
 * by [refactoring code](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Code+Quality)
 * by [reviewing merge requests](https://gitlab.com/kelteseth/ScreenPlay/-/merge_requests)
 * by [verifying issues](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Unverified)
