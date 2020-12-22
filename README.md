@@ -72,11 +72,11 @@ Here are some ways you can contribute:
 | __Steam Binaries__            | ✔       	    | ❌     	        | ❌     	|
 | __Wallpaper__                 | ✔       	    | ❓ Help Needed for Gnome/KDE/etc!               | ✔    |
 | __Widgets__                   | ✔       	    | ✔   	| ✔    	|
-| __Multilanguage (EN,DE,RU,FR,ES,KO🆕,VI🆕)__              | ✔            	| ✔     	        |  ✔     	|
+| __Multilanguage (EN,DE,RU,FR,ES,KO,VI,CH🆕)__              | ✔            	| ✔     	        |  ✔     	|
 
 </div>
 
-Because every operating system has his own version of desktop environment we need to adapt the ScreenPlayWindow for every platform seperate. The most feature complete for now is Windows 10. Windows 7 works but the wallpaper have the [worng coordinates](https://gitlab.com/kelteseth/ScreenPlay/issues/34). MacOS has some basic wallpaper functionality but no maintainer. For Linux we sadly have no support for any desktops environments at the moment.
+Because every operating system has his own version of desktop environment we need to adapt the ScreenPlayWindow for every platform seperate. The most feature complete for now is Windows 10. Windows 7 works but the wallpaper have the [wrong coordinates](https://gitlab.com/kelteseth/ScreenPlay/issues/34). MacOS has some basic wallpaper functionality but no maintainer. For Linux we sadly have no support for any desktops environments at the moment, except basic KDE support.
 
 __If you want to help and add new desktop environments look at ScreenPlayWallpaper/src folder__
 
