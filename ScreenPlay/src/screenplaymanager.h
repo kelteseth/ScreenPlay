@@ -190,7 +190,7 @@ public slots:
 
 private:
     void loadProfiles();
-    void appConnected(const std::shared_ptr<SDKConnection>& connection);
+    bool appConnected(const std::shared_ptr<SDKConnection>& connection);
     bool checkIsAnotherScreenPlayInstanceRunning();
     [[nodiscard]] bool removeWallpaperByAppID(const QString& appID);
 

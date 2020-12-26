@@ -221,21 +221,25 @@ void ScreenPlayManager::createWidget(
     \brief Iterates all Wallpaper and Widgets for the matching appID. Returns true if a matching appID
             was successful set.
 */
-void ScreenPlayManager::appConnected(const std::shared_ptr<SDKConnection>& connection)
+bool ScreenPlayManager::appConnected(const std::shared_ptr<SDKConnection>& connection)
 {
     for (const auto& item : qAsConst(m_screenPlayWidgets)) {
         if (item->appID() == connection->appID()) {
             item->setSDKConnection(connection);
-            return;
+            return true;
         }
     }
 
     for (const auto& item : qAsConst(m_screenPlayWallpapers)) {
         if (item->appID() == connection->appID()) {
             item->setSDKConnection(connection);
-            return;
+            return true;
         }
     }
+
+    qWarning() << "No matching appID for id" << connection->appID() << " was found!";
+
+    return false;
 }
 
 /*!
