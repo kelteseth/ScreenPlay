@@ -27,6 +27,11 @@ ApplicationWindow {
     title: "ScreenPlay Alpha - 0.13.0"
     minimumHeight: 450
     minimumWidth: 1050
+    onVisibilityChanged: {
+        if (window.visibility === 2) {
+            ScreenPlay.installedListModel.reset()
+        }
+    }
 
     // Partial workaround for
     // https://bugreports.qt.io/browse/QTBUG-86047
@@ -80,8 +85,11 @@ ApplicationWindow {
     }
 
     function switchPage(name) {
-        if (nav.currentNavigationName === name)
+        if (nav.currentNavigationName === name){
+            if(name === "Installed")
+                 ScreenPlay.installedListModel.reset()
             return
+        }
 
         if (name === "Workshop") {
             if (!ScreenPlay.settings.steamVersion) {
