@@ -90,3 +90,4 @@ CTestTestfile.cmake
 _deps
 .cmake/**
 /Common/ffmpeg/*
+/Docs/html/screenplay.index

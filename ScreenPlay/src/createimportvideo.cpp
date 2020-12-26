@@ -156,7 +156,7 @@ bool CreateImportVideo::createWallpaperInfo()
     auto obj = Util::parseQByteArrayToQJsonObject(QByteArray::fromStdString(ffmpegOut.toStdString()));
     if (!obj) {
         QString error = ffmpegOut;
-        qDebug() << "Error parsing FFPROBE json output:" << error << "\n Args: " << args;
+        qWarning() << "Error parsing FFPROBE json output:" << error << "\n Args: " << args;
 
         emit processOutput(ffmpegOut);
         emit processOutput("Error parsing FFPROBE json output");
@@ -165,7 +165,7 @@ bool CreateImportVideo::createWallpaperInfo()
     }
 
     if (obj->empty()) {
-        qDebug() << "Error! File could not be parsed.";
+        qWarning() << "Error! File could not be parsed.";
         emit processOutput("Error! File could not be parsed.");
         emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
 

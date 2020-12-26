@@ -76,7 +76,7 @@
 <h2>Member Function Documentation</h2>
 <!-- $$$ScreenPlayManager[overload1]$$$ScreenPlayManagerQObject* -->
 <h3 class="fn" id="ScreenPlayManager"><a name="ScreenPlayManager"></a>ScreenPlayManager::<span class="name">ScreenPlayManager</span>(<span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
-<p>Constructor-.</p>
+<p>Constructor that checks if another <a href="screenplay.html">ScreenPlay</a> instance is running via a localsocket. Starts a save timer to limit the amount of times to save. This is used for limiting slider small value save spam.</p>
 <!-- @@@ScreenPlayManager -->
 <!-- $$$closeAllWallpapers[overload1]$$$closeAllWallpapers -->
 <h3 class="fn" id="closeAllWallpapers"><a name="closeAllWallpapers"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">closeAllWallpapers</span>()</h3>
@@ -131,7 +131,7 @@
 <!-- @@@removeAllWidgets -->
 <!-- $$$removeApp[overload1]$$$removeAppconstQString& -->
 <h3 class="fn" id="removeApp"><a name="removeApp"></a><code>[slot] </code><span class="type">bool</span> ScreenPlayManager::<span class="name">removeApp</span>(const <span class="type">QString</span> &amp;<i>appID</i>)</h3>
-<p>.</p>
+<p>Disconnects the connection, remove</p>
 <!-- @@@removeApp -->
 <!-- $$$requestProjectSettingsAtMonitorIndex[overload1]$$$requestProjectSettingsAtMonitorIndexconstint -->
 <h3 class="fn" id="requestProjectSettingsAtMonitorIndex"><a name="requestProjectSettingsAtMonitorIndex"></a><code>[slot] </code><span class="type">void</span> ScreenPlayManager::<span class="name">requestProjectSettingsAtMonitorIndex</span>(const <span class="type">int</span> <i>index</i>)</h3>
@@ -151,7 +151,7 @@
 <!-- @@@setWallpaperValueAtMonitorIndex -->
 <!-- $$$init[overload1]$$$initconststd::shared_ptr<GlobalVariables>&conststd::shared_ptr<MonitorListModel>&constint&conststd::shared_ptr<Settings>& -->
 <h3 class="fn" id="init"><a name="init"></a><span class="type">void</span> ScreenPlayManager::<span class="name">init</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-globalvariables.html">GlobalVariables</a></span>&gt; &amp;<i>globalVariables</i>, const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-monitorlistmodel.html">MonitorListModel</a></span>&gt; &amp;<i>mlm</i>, const <span class="type">int</span> &amp;<i>telemetry</i>, const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-settings.html">Settings</a></span>&gt; &amp;<i>settings</i>)</h3>
-<p>.</p>
+<p>Inits this class instead of init in the constructor. This is because we need to check first if another <a href="screenplay.html">ScreenPlay</a> instance is running. If it is not the case we call this function.</p>
 <!-- @@@init -->
 </div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>

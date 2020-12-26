@@ -65,19 +65,24 @@
 <h2>Member Function Documentation</h2>
 <!-- $$$SDKConnection[overload1]$$$SDKConnectionQLocalSocket*QObject* -->
 <h3 class="fn" id="SDKConnection"><a name="SDKConnection"></a>SDKConnection::<span class="name">SDKConnection</span>(<span class="type">QLocalSocket</span> *<i>socket</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
-<p>.</p>
+<p>Constructor.</p>
 <!-- @@@SDKConnection -->
 <!-- $$$close[overload1]$$$close -->
 <h3 class="fn" id="close"><a name="close"></a><code>[slot] </code><span class="type">void</span> SDKConnection::<span class="name">close</span>()</h3>
-<p>.</p>
+<p>Closes the socket connection. Before it explicitly sends a quit command to make sure the wallpaper closes (fast). This also requestDecreaseWidgetCount() because Widgets.</p>
 <!-- @@@close -->
 <!-- $$$readyRead[overload1]$$$readyRead -->
 <h3 class="fn" id="readyRead"><a name="readyRead"></a><code>[slot] </code><span class="type">void</span> SDKConnection::<span class="name">readyRead</span>()</h3>
-<p>.</p>
+<p>Read incomming messages. Checks for types like:</p>
+<ol class="1" type="1"><li>ping: Used to check if wallpaper is still alive</li>
+<li><a href="screenplay-sdkconnection.html#appID-prop">appID</a>: First message of an app must contain the ID to match it to our list of running apps</li>
+<li>command: Used mainly for requestRaise. This will get fired if the user tries to open a second <a href="screenplay.html">ScreenPlay</a> instance</li>
+<li>general Json object</li>
+</ol>
 <!-- @@@readyRead -->
 <!-- $$$sendMessage[overload1]$$$sendMessageconstQByteArray& -->
 <h3 class="fn" id="sendMessage"><a name="sendMessage"></a><code>[slot] </code><span class="type">void</span> SDKConnection::<span class="name">sendMessage</span>(const <span class="type">QByteArray</span> &amp;<i>message</i>)</h3>
-<p>.</p>
+<p>Sends a message to the connected socket.</p>
 <!-- @@@sendMessage -->
 </div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>

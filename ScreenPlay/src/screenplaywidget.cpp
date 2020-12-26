@@ -11,7 +11,7 @@ namespace ScreenPlay {
 */
 
 /*!
-  \brief Constructor.
+  \brief Constructs a ScreenPlayWidget
 */
 ScreenPlayWidget::ScreenPlayWidget(
     const QString& appID,
@@ -66,7 +66,7 @@ ScreenPlayWidget::ScreenPlayWidget(
 }
 
 /*!
-    \brief .
+    \brief Connects to ScreenPlay. Start a alive ping check for every 16 seconds.
 */
 void ScreenPlayWidget::setSDKConnection(const std::shared_ptr<SDKConnection>& connection)
 {
@@ -93,7 +93,7 @@ void ScreenPlayWidget::setSDKConnection(const std::shared_ptr<SDKConnection>& co
 }
 
 /*!
-    \brief .
+    \brief Loads the project.json content.
 */
 QJsonObject ScreenPlayWidget::getActiveSettingsJson()
 {

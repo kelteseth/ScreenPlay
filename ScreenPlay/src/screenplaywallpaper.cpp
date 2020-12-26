@@ -11,7 +11,7 @@ namespace ScreenPlay {
 */
 
 /*!
-    \brief  Constructor for video Wallpaper.
+    \brief  Constructor for ScreenPlayWallpaper.
 */
 ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const std::shared_ptr<GlobalVariables>& globalVariables,
@@ -96,7 +96,8 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
 }
 
 /*!
-    \brief .
+    \brief Loads the project.json that contains all settings to display
+            the wallpaper.
 */
 QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 {
@@ -132,7 +133,7 @@ void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitSta
 {
     Q_UNUSED(exitStatus)
     if (exitCode != 0)
-        qDebug() << "WARNING EXIT CODE: " << exitCode;
+        qWarning() << "WARNING EXIT CODE: " << exitCode;
 }
 
 /*!
@@ -140,9 +141,14 @@ void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitSta
 */
 void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
 {
-    qDebug() << "EX: " << error;
+    qWarning() << "EX: " << error;
 }
 
+/*!
+    \brief Sets a wallpaper value. We directly set the property if it is either volume,
+        playbackRate or fillMode. Otherwise it is a simple key, value json pair.
+
+*/
 void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value, const bool save)
 {
     QJsonObject obj;
@@ -165,7 +171,7 @@ void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
 }
 
 /*!
-    \brief .
+    \brief  Connects to ScreenPlay. Start a alive ping check for every 16 seconds.
 */
 void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>& connection)
 {
@@ -190,7 +196,7 @@ void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>&
 }
 
 /*!
-    \brief .
+    \brief Replaces the current wallpaper with the given one.
 */
 void ScreenPlayWallpaper::replace(
     const QString& absolutePath,

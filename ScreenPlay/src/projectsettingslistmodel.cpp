@@ -35,11 +35,10 @@ namespace ScreenPlay {
 */
 
 /*!
-  Constructor when loading properties from settings.json
+  \brief Constructor when loading properties from settings.json
   We need to _flatten_ the json to make it work with a flat list model!
   See \sa getActiveSettingsJson to make the flat list to a hierarchical json object
 */
-
 void ProjectSettingsListModel::init(const InstalledType::InstalledType& type, const QJsonObject& properties)
 {
 
@@ -59,9 +58,8 @@ void ProjectSettingsListModel::init(const InstalledType::InstalledType& type, co
 }
 
 /*!
- * \brief ProjectSettingsListModel::getActiveSettingsJson
- * \return
- */
+  \brief ProjectSettingsListModel::getActiveSettingsJson
+*/
 QJsonObject ProjectSettingsListModel::getActiveSettingsJson()
 {
     if (m_projectSettings.isEmpty()) {
@@ -115,7 +113,7 @@ QJsonObject ProjectSettingsListModel::getActiveSettingsJson()
 }
 
 /*!
-    \brief .
+    \brief appends an SettingsItem.
 */
 void ProjectSettingsListModel::append(const SettingsItem&& item)
 {

@@ -11,7 +11,7 @@ namespace ScreenPlay {
 */
 
 /*!
-    \brief .
+    \brief Constructor.
 */
 ScreenPlay::SDKConnection::SDKConnection(QLocalSocket* socket, QObject* parent)
     : QObject(parent)
@@ -20,8 +20,15 @@ ScreenPlay::SDKConnection::SDKConnection(QLocalSocket* socket, QObject* parent)
     m_socket = socket;
     connect(m_socket, &QLocalSocket::readyRead, this, &SDKConnection::readyRead);
 }
+
 /*!
-    \brief .
+    \brief Read incomming messages. Checks for types like:
+    \list 1
+        \li ping: Used to check if wallpaper is still alive
+        \li appID: First message of an app must contain the ID to match it to our list of running apps
+        \li command: Used mainly for requestRaise. This will get fired if the user tries to open a second ScreenPlay instance
+        \li general Json object
+    \endlist
 */
 void ScreenPlay::SDKConnection::readyRead()
 {
@@ -77,7 +84,7 @@ void ScreenPlay::SDKConnection::readyRead()
 }
 
 /*!
-    \brief .
+    \brief Sends a message to the connected socket.
 */
 void ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 {
@@ -86,7 +93,8 @@ void ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 }
 
 /*!
-    \brief .
+    \brief Closes the socket connection. Before it explicitly sends a quit command to make sure
+           the wallpaper closes (fast). This also requestDecreaseWidgetCount() because Widgets.
 */
 void ScreenPlay::SDKConnection::close()
 {

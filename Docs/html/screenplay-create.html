@@ -44,10 +44,7 @@
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#abortAndCleanup">abortAndCleanup</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#ffmpegOutput-prop">appendFfmpegOutput</a></b>(QString <i>ffmpegOutput</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#createHTMLWallpaper">createHTMLWallpaper</a></b>(const QString &amp;<i>localStoragePath</i>, const QString &amp;<i>title</i>, const QString &amp;<i>previewThumbnail</i>, const QString &amp;<i>license</i>, const QVector&lt;QString&gt; &amp;<i>tags</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#createQMLWallpaper">createQMLWallpaper</a></b>(const QString &amp;<i>localStoragePath</i>, const QString &amp;<i>title</i>, const QString &amp;<i>previewThumbnail</i>, const QString &amp;<i>license</i>, const QVector&lt;QString&gt; &amp;<i>tags</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#createWallpaperStart">createWallpaperStart</a></b>(QString <i>videoPath</i>, Create::VideoCodec <i>codec</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#createWidget">createWidget</a></b>(const QString &amp;<i>localStoragePath</i>, const QString &amp;<i>title</i>, const QString &amp;<i>previewThumbnail</i>, const QString &amp;<i>createdBy</i>, const QString &amp;<i>license</i>, const QString &amp;<i>type</i>, const QVector&lt;QString&gt; &amp;<i>tags</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#saveWallpaper">saveWallpaper</a></b>(QString <i>title</i>, QString <i>description</i>, QString <i>filePath</i>, QString <i>previewImagePath</i>, QString <i>youtube</i>, ScreenPlay::Create::VideoCodec <i>codec</i>, QVector&lt;QString&gt; <i>tags</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#progress-prop">setProgress</a></b>(float <i>progress</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#workingDir-prop">setWorkingDir</a></b>(const QString &amp;<i>workingDir</i>)</td></tr>
@@ -78,24 +75,12 @@
 <!-- @@@Create -->
 <!-- $$$abortAndCleanup[overload1]$$$abortAndCleanup -->
 <h3 class="fn" id="abortAndCleanup"><a name="abortAndCleanup"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">abortAndCleanup</span>()</h3>
-<p>.</p>
+<p>This method is called when the user manually aborts the wallpaper import.</p>
 <!-- @@@abortAndCleanup -->
-<!-- $$$createHTMLWallpaper[overload1]$$$createHTMLWallpaperconstQString&constQString&constQString&constQString&constQVector<QString>& -->
-<h3 class="fn" id="createHTMLWallpaper"><a name="createHTMLWallpaper"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">createHTMLWallpaper</span>(const <span class="type">QString</span> &amp;<i>localStoragePath</i>, const <span class="type">QString</span> &amp;<i>title</i>, const <span class="type">QString</span> &amp;<i>previewThumbnail</i>, const <span class="type">QString</span> &amp;<i>license</i>, const <span class="type">QVector</span>&lt;<span class="type">QString</span>&gt; &amp;<i>tags</i>)</h3>
-<p>Creates a HTML wallpaper.</p>
-<!-- @@@createHTMLWallpaper -->
-<!-- $$$createQMLWallpaper[overload1]$$$createQMLWallpaperconstQString&constQString&constQString&constQString&constQVector<QString>& -->
-<h3 class="fn" id="createQMLWallpaper"><a name="createQMLWallpaper"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">createQMLWallpaper</span>(const <span class="type">QString</span> &amp;<i>localStoragePath</i>, const <span class="type">QString</span> &amp;<i>title</i>, const <span class="type">QString</span> &amp;<i>previewThumbnail</i>, const <span class="type">QString</span> &amp;<i>license</i>, const <span class="type">QVector</span>&lt;<span class="type">QString</span>&gt; &amp;<i>tags</i>)</h3>
-<p>.</p>
-<!-- @@@createQMLWallpaper -->
 <!-- $$$createWallpaperStart[overload1]$$$createWallpaperStartQStringCreate::VideoCodec -->
 <h3 class="fn" id="createWallpaperStart"><a name="createWallpaperStart"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">createWallpaperStart</span>(<span class="type">QString</span> <i>videoPath</i>, <span class="type">Create::VideoCodec</span> <i>codec</i>)</h3>
 <p>Starts the process.</p>
 <!-- @@@createWallpaperStart -->
-<!-- $$$createWidget[overload1]$$$createWidgetconstQString&constQString&constQString&constQString&constQString&constQString&constQVector<QString>& -->
-<h3 class="fn" id="createWidget"><a name="createWidget"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">createWidget</span>(const <span class="type">QString</span> &amp;<i>localStoragePath</i>, const <span class="type">QString</span> &amp;<i>title</i>, const <span class="type">QString</span> &amp;<i>previewThumbnail</i>, const <span class="type">QString</span> &amp;<i>createdBy</i>, const <span class="type">QString</span> &amp;<i>license</i>, const <span class="type">QString</span> &amp;<i>type</i>, const <span class="type">QVector</span>&lt;<span class="type">QString</span>&gt; &amp;<i>tags</i>)</h3>
-<p>Creates a new widget.</p>
-<!-- @@@createWidget -->
 <!-- $$$saveWallpaper[overload1]$$$saveWallpaperQStringQStringQStringQStringQStringScreenPlay::Create::VideoCodecQVector<QString> -->
 <h3 class="fn" id="saveWallpaper"><a name="saveWallpaper"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">saveWallpaper</span>(<span class="type">QString</span> <i>title</i>, <span class="type">QString</span> <i>description</i>, <span class="type">QString</span> <i>filePath</i>, <span class="type">QString</span> <i>previewImagePath</i>, <span class="type">QString</span> <i>youtube</i>, <span class="type">ScreenPlay::Create::VideoCodec</span> <i>codec</i>, <span class="type">QVector</span>&lt;<span class="type">QString</span>&gt; <i>tags</i>)</h3>
 <p>When converting of the wallpaper steps where successful.</p>

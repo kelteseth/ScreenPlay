@@ -14,7 +14,8 @@ namespace ScreenPlay {
 */
 
 /*!
-  \brief Constructor-.
+  \brief Constructor that checks if another ScreenPlay instance is running via a localsocket. Starts a save timer
+         to limit the amount of times to save. This is used for limiting slider small value save spam.
 */
 ScreenPlayManager::ScreenPlayManager(
     QObject* parent)
@@ -68,7 +69,8 @@ bool ScreenPlayManager::checkIsAnotherScreenPlayInstanceRunning()
 }
 
 /*!
-    \brief .
+    \brief Inits this class instead of init in the constructor. This is because we need to check
+           first if another ScreenPlay instance is running. If it is not the case we call this function.
 */
 void ScreenPlayManager::init(
     const std::shared_ptr<GlobalVariables>& globalVariables,
@@ -216,7 +218,8 @@ void ScreenPlayManager::createWidget(
 }
 
 /*!
-    \brief .
+    \brief Iterates all Wallpaper and Widgets for the matching appID. Returns true if a matching appID
+            was successful set.
 */
 void ScreenPlayManager::appConnected(const std::shared_ptr<SDKConnection>& connection)
 {
@@ -298,7 +301,7 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
 }
 
 /*!
-    \brief .
+    \brief Disconnects the connection, remove
 */
 bool ScreenPlayManager::removeApp(const QString& appID)
 {
@@ -515,7 +518,7 @@ void ScreenPlayManager::saveProfiles()
 }
 
 /*!
-    \brief .
+    \brief Removes a wallpaper from the given appID. Returns true on success.
 */
 bool ScreenPlayManager::removeWallpaperByAppID(const QString& appID)
 {

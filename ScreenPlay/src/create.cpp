@@ -153,7 +153,7 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
 }
 
 /*!
-  \brief .
+  \brief This method is called when the user manually aborts the wallpaper import.
 */
 void Create::abortAndCleanup()
 {

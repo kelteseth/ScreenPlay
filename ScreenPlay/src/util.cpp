@@ -297,6 +297,10 @@ void Util::Util::requestDataProtection()
     });
 }
 
+/*!
+  \brief Util function that converts a QVector of Strings into a QJsonArray.
+
+*/
 QJsonArray Util::fillArray(const QVector<QString>& items)
 {
     QJsonArray array;
@@ -306,6 +310,11 @@ QJsonArray Util::fillArray(const QVector<QString>& items)
     return array;
 }
 
+/*!
+  \brief Maps the Search type to an installed type. Used for filtering the installed
+         content.
+
+*/
 SearchType::SearchType Util::getSearchTypeFromInstalledType(const InstalledType::InstalledType type)
 {
     using InstalledType::InstalledType;
@@ -330,7 +339,7 @@ SearchType::SearchType Util::getSearchTypeFromInstalledType(const InstalledType:
 }
 
 /*!
-    \brief .
+    \brief Maps the installed type from a QString to an enum. Used for parsing the project.json.
 */
 std::optional<InstalledType::InstalledType> Util::getInstalledTypeFromString(const QString& type)
 {

@@ -40,6 +40,10 @@ namespace ScreenPlay {
   \endraw
 */
 
+/*!
+    \brief Constructor creates and holds all classes used by ScreenPlay via unique_ptr or
+           shared_ptr.
+*/
 App::App()
     : QObject(nullptr)
 {
@@ -48,7 +52,7 @@ App::App()
 
     QGuiApplication::setWindowIcon(QIcon(":/assets/icons/app.ico"));
     QGuiApplication::setOrganizationName("ScreenPlay");
-    QGuiApplication::setOrganizationDomain("screen-play.app");
+    QGuiApplication::setOrganizationDomain("https://screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion("0.13.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
@@ -218,7 +222,8 @@ void App::exit()
 }
 
 /*!
-    \brief .
+    \brief Loads the Steam plugin when needed. This enables to start ScreenPlay
+           via OS autostart without waiting for Steam first.
 */
 bool App::loadSteamPlugin()
 {

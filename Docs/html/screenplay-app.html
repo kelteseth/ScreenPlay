@@ -33,6 +33,7 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#App">App</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Create *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#create-prop">create</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::GlobalVariables *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#globalVariables-prop">globalVariables</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#init">init</a></b>()</td></tr>
@@ -44,6 +45,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::ScreenPlayManager *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#screenPlayManager-prop">screenPlayManager</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Settings *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#settings-prop">settings</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Util *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#util-prop">util</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Wizards *</td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#wizards-prop">wizards</a></b>() const</td></tr>
 </table></div>
 <a name="public-slots"></a>
 <h2 id="public-slots">Public Slots</h2>
@@ -60,6 +62,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#screenPlayManager-prop">setScreenPlayManager</a></b>(ScreenPlay::ScreenPlayManager *<i>screenPlayManager</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#settings-prop">setSettings</a></b>(ScreenPlay::Settings *<i>settings</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#util-prop">setUtil</a></b>(ScreenPlay::Util *<i>util</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#wizards-prop">setWizards</a></b>(ScreenPlay::Wizards *<i>wizards</i>)</td></tr>
 </table></div>
 <a name="signals"></a>
 <h2 id="signals">Signals</h2>
@@ -74,6 +77,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#screenPlayManager-prop">screenPlayManagerChanged</a></b>(ScreenPlay::ScreenPlayManager *<i>screenPlayManager</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#settings-prop">settingsChanged</a></b>(ScreenPlay::Settings *<i>settings</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#util-prop">utilChanged</a></b>(ScreenPlay::Util *<i>util</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-app.html#wizards-prop">wizardsChanged</a></b>(ScreenPlay::Wizards *<i>wizards</i>)</td></tr>
 </table></div>
 <a name="details"></a>
 <!-- $$$App-description -->
@@ -105,13 +109,17 @@
 <!-- @@@App -->
 <div class="func">
 <h2>Member Function Documentation</h2>
+<!-- $$$App[overload1]$$$App -->
+<h3 class="fn" id="App"><a name="App"></a>App::<span class="name">App</span>()</h3>
+<p>Constructor creates and holds all classes used by <a href="screenplay.html">ScreenPlay</a> via unique_ptr or shared_ptr.</p>
+<!-- @@@App -->
 <!-- $$$exit[overload1]$$$exit -->
 <h3 class="fn" id="exit"><a name="exit"></a><code>[slot] </code><span class="type">void</span> App::<span class="name">exit</span>()</h3>
 <p>Tries to send the telemetry quit event before we call quit ourself.</p>
 <!-- @@@exit -->
 <!-- $$$loadSteamPlugin[overload1]$$$loadSteamPlugin -->
 <h3 class="fn" id="loadSteamPlugin"><a name="loadSteamPlugin"></a><code>[slot] </code><span class="type">bool</span> App::<span class="name">loadSteamPlugin</span>()</h3>
-<p>.</p>
+<p>Loads the Steam plugin when needed. This enables to start <a href="screenplay.html">ScreenPlay</a> via OS autostart without waiting for Steam first.</p>
 <!-- @@@loadSteamPlugin -->
 <!-- $$$init[overload1]$$$init -->
 <h3 class="fn" id="init"><a name="init"></a><span class="type">void</span> App::<span class="name">init</span>()</h3>
