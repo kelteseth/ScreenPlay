@@ -34,6 +34,7 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
     m_videoPath = videoPath;
     m_exportPath = exportPath;
     m_codecs = codecs;
+    m_process = std::make_unique<QProcess>(this);
 
 #ifdef Q_OS_WIN
     const QString fileEnding = ".exe";
@@ -60,26 +61,31 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 void CreateImportVideo::process()
 {
 
+    qInfo() << "createWallpaperInfo()";
     if (!createWallpaperInfo() || QThread::currentThread()->isInterruptionRequested()) {
         emit abortAndCleanup();
         return;
     }
 
+    qInfo() << "createWallpaperImageThumbnailPreview()";
     if (!createWallpaperImageThumbnailPreview() || QThread::currentThread()->isInterruptionRequested()) {
         emit abortAndCleanup();
         return;
     }
 
+    qInfo() << "createWallpaperImagePreview()";
     if (!createWallpaperImagePreview() || QThread::currentThread()->isInterruptionRequested()) {
         emit abortAndCleanup();
         return;
     }
 
+    qInfo() << "createWallpaperVideoPreview()";
     if (!createWallpaperVideoPreview() || QThread::currentThread()->isInterruptionRequested()) {
         emit abortAndCleanup();
         return;
     }
 
+    qInfo() << "createWallpaperGifPreview()";
     if (!createWallpaperGifPreview() || QThread::currentThread()->isInterruptionRequested()) {
         emit abortAndCleanup();
         return;
@@ -87,6 +93,7 @@ void CreateImportVideo::process()
 
     // If the video has no audio we can skip the extraction
     if (!m_skipAudio) {
+        qInfo() << "extractWallpaperAudio()";
         if (!extractWallpaperAudio() || QThread::currentThread()->isInterruptionRequested()) {
             emit abortAndCleanup();
             return;
@@ -99,6 +106,7 @@ void CreateImportVideo::process()
     }
 
     for (const auto& codec : qAsConst(m_codecs)) {
+        qInfo() << "createWallpaperVideo()";
         if (!createWallpaperVideo(codec) || QThread::currentThread()->isInterruptionRequested()) {
             emit abortAndCleanup();
             return;
@@ -109,7 +117,10 @@ void CreateImportVideo::process()
 }
 
 /*!
-  \brief Starts ffprobe and tries to parse the resulting json.
+  \brief Starts ffprobe and tries to parse the resulting json. If the video
+         is a container that not contains the video length like webm or mkv
+         we need to count the frames ourself. We then call analyzeWebmReadFrames
+         or analyzeVideo to parse the output.
   Returns \c false if :
   \list
     \li Parsing the output json of ffprobe fails.
@@ -136,7 +147,7 @@ bool CreateImportVideo::createWallpaperInfo()
         args.append("-select_streams");
         args.append("v:0");
         args.append("-show_entries");
-        args.append("stream=nb_read_frames");
+        args.append("stream=nb_read_frames,r_frame_rate");
     } else {
         args.append("-show_format");
         args.append("-show_streams");
@@ -154,6 +165,7 @@ bool CreateImportVideo::createWallpaperInfo()
     emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoFinished);
 
     auto obj = Util::parseQByteArrayToQJsonObject(QByteArray::fromStdString(ffmpegOut.toStdString()));
+
     if (!obj) {
         QString error = ffmpegOut;
         qWarning() << "Error parsing FFPROBE json output:" << error << "\n Args: " << args;
@@ -177,6 +189,148 @@ bool CreateImportVideo::createWallpaperInfo()
     } else {
         return analyzeVideo(obj.value());
     }
+}
+
+/*!
+    \brief .
+    {"programs":[],"streams":[{"nb_read_frames":"480"}]}
+*/
+bool CreateImportVideo::analyzeWebmReadFrames(const QJsonObject& obj)
+{
+
+    emit createWallpaperStateChanged(ImportVideoState::AnalyseVideo);
+
+    // Number of frames is a string for some reason...
+    if (!obj.value("streams").isArray()) {
+        qWarning() << "Error not valid json strucutre!" << obj;
+        return false;
+    }
+
+    const QJsonArray streams = obj.value("streams").toArray();
+    const QJsonObject firstStream = streams.first().toObject();
+    qInfo() << "streams:" << streams;
+
+    bool okParseNumberOfFrames { false };
+    int numberOfFrames = firstStream.value("nb_read_frames").toString().toInt(&okParseNumberOfFrames);
+    if (!okParseNumberOfFrames) {
+        qWarning() << "Error could not parse nb_read_frames";
+        return false;
+    }
+    m_numberOfFrames = numberOfFrames;
+
+    // "r_frame_rate": "25/1"
+    QString frameRate = firstStream.value("r_frame_rate").toString();
+    QStringList frameRateList = frameRate.split('/', Qt::SplitBehaviorFlags::SkipEmptyParts);
+    if (frameRateList.length() != 2) {
+        qWarning() << "Error could not parse streams with length: " << frameRateList.length();
+        emit processOutput("Error could not parse streams with length: " + QString::number(frameRateList.length()));
+        return false;
+    }
+
+    const double first = frameRateList.at(0).toDouble();
+    const double second = frameRateList.at(1).toDouble();
+
+    m_framerate = std::ceil(first / second);
+
+    // If the video is to short
+    m_smallVideo = m_numberOfFrames < (m_framerate * 5);
+    qInfo() << m_numberOfFrames << m_framerate << m_smallVideo;
+    return true;
+}
+
+/*!
+    \brief .
+*/
+bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
+{
+    // Check for audio and video streams
+    const QJsonArray arrayStream = obj.value("streams").toArray();
+
+    bool hasAudioStream { false };
+    bool hasVideoStream { false };
+
+    QJsonObject videoStream;
+
+    for (const auto stream : arrayStream) {
+        QString codec_type = stream.toObject().value("codec_type").toString();
+        if (codec_type == "video") {
+            videoStream = stream.toObject();
+            hasVideoStream = true;
+        } else if (codec_type == "audio") {
+            hasAudioStream = true;
+        }
+    }
+
+    // Display error if wallpaper has no video
+    if (!hasVideoStream) {
+        qDebug() << "Error! File has no video Stream!";
+        emit processOutput("Error! File has no video Stream!");
+        emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoHasNoVideoStreamError);
+        return false;
+    }
+
+    if (!hasAudioStream)
+        m_skipAudio = true;
+
+    // Number of frames is a string for some reason...
+    bool okParseNumberOfFrames { false };
+    m_numberOfFrames = videoStream.value("nb_frames").toString().toInt(&okParseNumberOfFrames);
+
+    if (!okParseNumberOfFrames) {
+        qDebug() << "Error parsing number of frames. Is this really a valid video File?";
+        emit processOutput("Error parsing number of frames. Is this really a valid video File?");
+        QJsonDocument tmpVideoStreamDoc(videoStream);
+        emit processOutput(tmpVideoStreamDoc.toJson());
+        emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
+        return false;
+    }
+
+    QJsonObject objFormat = obj.value("format").toObject();
+
+    // Get video length
+    bool okParseDuration = false;
+    const float tmpLength = objFormat.value("duration").toVariant().toFloat(&okParseDuration);
+
+    if (!okParseDuration) {
+        qDebug() << "Error parsing video length. Is this really a valid video File?";
+        emit processOutput("Error parsing video length. Is this really a valid video File?");
+        emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
+        return false;
+    }
+
+    m_length = static_cast<int>(tmpLength);
+
+    // Get framerate
+    const QJsonArray streams = obj.value("streams").toArray();
+    if (streams.empty()) {
+        qDebug() << "Error container does not have any video streams";
+        emit processOutput("Error container does not have any video streams");
+        return false;
+    }
+
+    const QJsonObject firstStream = streams.first().toObject();
+
+    // The paramter gets us the exact framerate
+    // "avg_frame_rate":"47850000/797509"
+    // so we need no calc the value by dividing the two numbers
+    const QString avgFrameRate = firstStream.value("avg_frame_rate").toVariant().toString();
+
+    const QStringList avgFrameRateList = avgFrameRate.split('/', Qt::SplitBehaviorFlags::SkipEmptyParts);
+    if (avgFrameRateList.length() != 2) {
+        qDebug() << "Error could not parse streams with length: " << avgFrameRateList.length();
+        emit processOutput("Error could not parse streams with length: " + QString::number(avgFrameRateList.length()));
+        return false;
+    }
+
+    const double first = avgFrameRateList.at(0).toDouble();
+    const double second = avgFrameRateList.at(1).toDouble();
+
+    m_framerate = std::ceil(first / second);
+
+    // If the video is to short
+    m_smallVideo = m_numberOfFrames < (m_framerate * 5);
+
+    return true;
 }
 
 /*!
@@ -209,7 +363,8 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     args.append("-i");
     args.append(m_videoPath);
     // If the video is shorter than 5 seconds we simply convert the original to webm
-    if (!m_smallVideo) {
+    if (m_smallVideo) {
+        qInfo() << "Small video detected!";
         args.append("-vf");
         // We allways want to have a 5 second clip via 24fps -> 120 frames
         // Divided by the number of frames we can skip (timeInSeconds * Framrate)
@@ -221,17 +376,18 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     args.append(m_exportPath + "/preview.webm");
     emit processOutput("ffmpeg " + Util::toString(args));
 
-    connect(this, &CreateImportVideo::ffmpegOutput, this, [&](QString tmpOut) {
-        auto tmpList = tmpOut.split(QRegExp("\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
+    connect(m_process.get(), &QProcess::readyReadStandardOutput, this, [&]() {
+        QString tmpOut = m_process->readAllStandardOutput();
+        const auto tmpList = tmpOut.split(QRegExp("\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
 
         if (tmpList.length() > 2) {
             bool ok = false;
-            float currentFrame = QString(tmpList.at(1)).toFloat(&ok);
+            const float currentFrame = QString(tmpList.at(1)).toFloat(&ok);
 
             if (!ok)
                 return;
 
-            float progress = currentFrame / static_cast<float>((m_framerate * 5));
+            const float progress = currentFrame / static_cast<float>((m_framerate * 5));
 
             this->setProgress(progress);
         }
@@ -239,7 +395,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     });
 
     const QString ffmpegOut = waitForFinished(args);
-    QFile previewVideo(m_exportPath + "/preview.webm");
+    const QFile previewVideo(m_exportPath + "/preview.webm");
     if (!previewVideo.exists() || !(previewVideo.size() > 0)) {
         emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewVideoError);
         return false;
@@ -284,7 +440,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
     const QString ffmpegOut = waitForFinished(args);
 
     if (!ffmpegOut.isEmpty()) {
-        QFile previewGif(m_exportPath + "/preview.gif");
+        const QFile previewGif(m_exportPath + "/preview.gif");
         if (!previewGif.exists() || !(previewGif.size() > 0)) {
             emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewGifError);
             return false;
@@ -342,7 +498,7 @@ bool CreateImportVideo::createWallpaperImageThumbnailPreview()
 
     const QString ffmpegOut = waitForFinished(args);
     if (!ffmpegOut.isEmpty()) {
-        QFile previewImg(m_exportPath + "/previewThumbnail.jpg");
+        const QFile previewImg(m_exportPath + "/previewThumbnail.jpg");
         if (!previewImg.exists() || !(previewImg.size() > 0)) {
             emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageThumbnailError);
             return false;
@@ -386,7 +542,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
     emit processOutput("ffmpeg " + Util::toString(args));
     const QString ffmpegOut = waitForFinished(args);
     if (!ffmpegOut.isEmpty()) {
-        QFile previewImg(m_exportPath + "/preview.jpg");
+        const QFile previewImg(m_exportPath + "/preview.jpg");
         if (!previewImg.exists() || !(previewImg.size() > 0)) {
             emit createWallpaperStateChanged(ImportVideoState::ConvertingPreviewImageError);
             return false;
@@ -422,21 +578,22 @@ bool CreateImportVideo::createWallpaperVideo(const QString& codec)
 {
     emit createWallpaperStateChanged(ImportVideoState::ConvertingVideo);
 
-    //
-    connect(this, &CreateImportVideo::ffmpegOutput, this, [&](QString tmpOut) {
+    connect(m_process.get(), &QProcess::readyReadStandardOutput, this, [&]() {
+        QString tmpOut = m_process->readAllStandardOutput();
+        qInfo() << tmpOut;
         if (tmpOut.contains("Conversion failed!")) {
             emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
         }
-        auto tmpList = tmpOut.split(QRegExp("\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
+        const auto tmpList = tmpOut.split(QRegExp("\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
 
         if (tmpList.length() > 2) {
             bool ok = false;
-            float currentFrame = QString(tmpList.at(1)).toFloat(&ok);
+            const float currentFrame = QString(tmpList.at(1)).toFloat(&ok);
 
             if (!ok)
                 return;
 
-            float progress = (currentFrame / m_numberOfFrames);
+            const float progress = (currentFrame / m_numberOfFrames);
 
             this->setProgress(progress);
         }
@@ -484,20 +641,20 @@ bool CreateImportVideo::createWallpaperVideo(const QString& codec)
     args.append("-i");
     args.append(m_videoPath);
     args.append("-c:v");
-    if (codec == "vp8") {
+    if (codec == "vp8")
         args.append("libvpx");
-    }
-    if (codec == "vp9") {
+    if (codec == "vp9")
         args.append("libvpx-vp9");
-    }
+    if (codec == "av1")
+        args.append("libaom-av1");
     args.append("-b:v");
     args.append("0");
     args.append("-crf");
     args.append("10");
     args.append("-pass");
     args.append("2");
-    QFileInfo file(m_videoPath);
-    QString convertedFileAbsolutePath { m_exportPath + "/" + file.baseName() + ".webm" };
+    const QFileInfo file(m_videoPath);
+    const QString convertedFileAbsolutePath { m_exportPath + "/" + file.baseName() + ".webm" };
     args.append(convertedFileAbsolutePath);
 
     const QString ffmpegOutput = waitForFinished(args);
@@ -549,7 +706,7 @@ bool CreateImportVideo::extractWallpaperAudio()
     const QString tmpErrImg = waitForFinished(args);
 
     if (!tmpErrImg.isEmpty()) {
-        QFile previewImg(m_exportPath + "/audio.mp3");
+        const QFile previewImg(m_exportPath + "/audio.mp3");
         if (!previewImg.exists() || !(previewImg.size() > 0)) {
             qDebug() << args;
             qDebug() << tmpErrImg;
@@ -565,7 +722,8 @@ bool CreateImportVideo::extractWallpaperAudio()
 }
 
 /*!
-  \brief .
+  \brief Function to start an external ffmpeg/ffprobe executable and wait (blocking) until it is finished.
+
 */
 QString CreateImportVideo::waitForFinished(
     const QStringList& args,
@@ -573,23 +731,22 @@ QString CreateImportVideo::waitForFinished(
     const Executable executable)
 {
 
-    QProcess process;
     if (executable == Executable::FFMPEG) {
-        process.setProgram(m_ffmpegExecutable);
+        m_process->setProgram(m_ffmpegExecutable);
     } else {
-        process.setProgram(m_ffprobeExecutable);
+        m_process->setProgram(m_ffprobeExecutable);
     }
-    process.setProcessChannelMode(processChannelMode);
-    process.setArguments(args);
-    process.start();
+    m_process->setProcessChannelMode(processChannelMode);
+    m_process->setArguments(args);
+    m_process->start();
 
-    while (!process.waitForFinished(10)) //Wake up every 10ms and check if we must exit
+    while (!m_process->waitForFinished(100)) //Wake up every 10ms and check if we must exit
     {
         if (QThread::currentThread()->isInterruptionRequested()) {
             qDebug() << "Interrupt thread";
-            process.terminate();
-            if (!process.waitForFinished(1000)) {
-                process.kill();
+            m_process->terminate();
+            if (!m_process->waitForFinished(1000)) {
+                m_process->kill();
             }
             break;
         }
@@ -597,153 +754,14 @@ QString CreateImportVideo::waitForFinished(
     }
     QString processOutput;
     if (processChannelMode == QProcess::SeparateChannels) {
-        processOutput = process.readAllStandardOutput();
+        processOutput = m_process->readAllStandardOutput();
     } else {
-        processOutput = process.readAll();
+        processOutput = m_process->readAll();
     }
-    process.close();
+    qInfo() << "ProcessOutput:" << processOutput;
+    m_process->close();
 
     return processOutput;
-}
-
-/*!
-    \brief .
-*/
-bool CreateImportVideo::analyzeWebmReadFrames(const QJsonObject& obj)
-{
-    // Get video info
-    QStringList args;
-    args.append("-print_format");
-    args.append("json");
-
-    // MKV/Webm a simple container query will result in N/A nb_frames
-    // https://stackoverflow.com/questions/2017843/fetch-frame-count-with-ffmpeg
-    args.append("-count_frames");
-    args.append("-select_streams");
-    args.append("v:0");
-    args.append("-show_entries");
-    args.append("stream=nb_read_frames");
-    args.append(m_videoPath);
-
-    emit processOutput("ffprobe " + Util::toString(args));
-
-    emit createWallpaperStateChanged(ImportVideoState::AnalyseVideo);
-
-    const QString ffmpegOut = waitForFinished(args, QProcess::SeparateChannels, Executable::FFPROBE);
-    qInfo() << ffmpegOut;
-    qInfo() << obj << obj.value("streams");
-    // Number of frames is a string for some reason...
-    bool okParseNumberOfFrames { false };
-    if (!obj.value("streams").isArray()) {
-        qWarning() << "Wrong json strucutre!";
-        return false;
-    }
-
-    QJsonArray streams = obj.value("streams").toArray();
-    int numberOfFrames = streams.first().toObject().value("nb_read_frames").toString().toInt(&okParseNumberOfFrames);
-    if (okParseNumberOfFrames)
-        m_numberOfFrames = numberOfFrames;
-    else
-        return false;
-
-    qInfo() << m_numberOfFrames;
-    return false;
-}
-
-/*!
-    \brief .
-*/
-bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
-{
-    // Check for audio and video streams
-    QJsonArray arrayStream = obj.value("streams").toArray();
-
-    bool hasAudioStream { false };
-    bool hasVideoStream { false };
-
-    QJsonObject videoStream;
-
-    for (const auto stream : arrayStream) {
-        QString codec_type = stream.toObject().value("codec_type").toString();
-        if (codec_type == "video") {
-            videoStream = stream.toObject();
-            hasVideoStream = true;
-        } else if (codec_type == "audio") {
-            hasAudioStream = true;
-        }
-    }
-
-    // Display error if wallpaper has no video
-    if (!hasVideoStream) {
-        qDebug() << "Error! File has no video Stream!";
-        emit processOutput("Error! File has no video Stream!");
-        emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoHasNoVideoStreamError);
-        return false;
-    }
-
-    if (!hasAudioStream)
-        m_skipAudio = true;
-
-    // Number of frames is a string for some reason...
-    bool okParseNumberOfFrames { false };
-    m_numberOfFrames = videoStream.value("nb_frames").toString().toInt(&okParseNumberOfFrames);
-
-    if (!okParseNumberOfFrames) {
-        qDebug() << "Error parsing number of frames. Is this really a valid video File?";
-        emit processOutput("Error parsing number of frames. Is this really a valid video File?");
-        QJsonDocument tmpVideoStreamDoc(videoStream);
-        emit processOutput(tmpVideoStreamDoc.toJson());
-        emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
-        return false;
-    }
-
-    QJsonObject objFormat = obj.value("format").toObject();
-
-    // Get video length
-    bool okParseDuration = false;
-    float tmpLength = objFormat.value("duration").toVariant().toFloat(&okParseDuration);
-
-    if (!okParseDuration) {
-        qDebug() << "Error parsing video length. Is this really a valid video File?";
-        emit processOutput("Error parsing video length. Is this really a valid video File?");
-        emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
-        return false;
-    }
-
-    int length = static_cast<int>(tmpLength);
-    m_length = length;
-
-    // Get framerate
-    QJsonArray arrSteams = obj.value("streams").toArray();
-    if (arrSteams.empty()) {
-        qDebug() << "Error container does not have any video streams";
-        emit processOutput("Error container does not have any video streams");
-        return false;
-    }
-
-    QJsonObject tmpObjStreams = arrSteams.at(0).toObject();
-
-    // The paramter gets us the exact framerate
-    // "avg_frame_rate":"47850000/797509"
-    // so we need no calc the value by dividing the two numbers
-    QString avgFrameRate = tmpObjStreams.value("avg_frame_rate").toVariant().toString();
-
-    QStringList avgFrameRateList = avgFrameRate.split('/', Qt::SplitBehaviorFlags::SkipEmptyParts);
-    if (avgFrameRateList.length() != 2) {
-        qDebug() << "Error could not parse streams with length: " << avgFrameRateList.length();
-        emit processOutput("Error could not parse streams with length: " + QString::number(avgFrameRateList.length()));
-        return false;
-    }
-
-    const double value1 = avgFrameRateList.at(0).toDouble();
-    const double value2 = avgFrameRateList.at(1).toDouble();
-
-    m_framerate = qCeil(value1 / value2);
-
-    // If the video is to short
-    m_smallVideo = m_numberOfFrames < (m_framerate * 5);
-
-    return true;
 }
 
 }

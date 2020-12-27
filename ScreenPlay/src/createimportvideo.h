@@ -135,7 +135,6 @@ signals:
     void finished();
     void abortAndCleanup();
     void progressChanged(float progress);
-    void ffmpegOutput(QString text);
 
 public slots:
     void process();
@@ -171,6 +170,7 @@ private:
 
     QString m_ffprobeExecutable;
     QString m_ffmpegExecutable;
+    std::unique_ptr<QProcess> m_process;
 };
 }
 Q_DECLARE_METATYPE(ScreenPlay::CreateImportVideo::ImportVideoState)

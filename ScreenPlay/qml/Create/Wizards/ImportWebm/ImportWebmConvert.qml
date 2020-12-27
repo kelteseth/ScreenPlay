@@ -107,7 +107,7 @@ Item {
 
     Common.Headline {
         id: txtHeadline
-        text: qsTr("Convert a video to a wallpaper")
+        text: qsTr("Import a video to a wallpaper")
         anchors {
             top: parent.top
             left: parent.left
@@ -316,7 +316,7 @@ Item {
                                     textFieldName.text,
                                     textFieldDescription.text, root.filePath,
                                     previewSelector.imageSource,
-                                    textFieldYoutubeURL.text, codec,
+                                    textFieldYoutubeURL.text, Create.VP9,
                                     textFieldTags.getTags())
                         savePopup.open()
                         ScreenPlay.installedListModel.reset()

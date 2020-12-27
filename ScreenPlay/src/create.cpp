@@ -189,5 +189,4 @@ void Create::abortAndCleanup()
     m_createImportVideoThread->requestInterruption();
 }
 
-
 }
