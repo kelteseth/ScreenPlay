@@ -6,5 +6,7 @@
         <file>qtquickcontrols2.conf</file>
         <file>WebView.qml</file>
         <file>index.html</file>
+        <file>GifWallpaper.qml</file>
+        <file>WebsiteWallpaper.qml</file>
     </qresource>
 </RCC>

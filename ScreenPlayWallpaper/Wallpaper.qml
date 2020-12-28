@@ -79,6 +79,20 @@ Rectangle {
             imgCover.state = "out"
             fadeIn()
             break
+        case Wallpaper.WallpaperType.Website:
+            loader.setSource("qrc:/WebsiteWallpaper.qml", {
+                                 "source": Qt.resolvedUrl(
+                                               Wallpaper.fullContentPath)
+                             })
+            fadeIn()
+            break
+        case Wallpaper.WallpaperType.Gif:
+            loader.setSource("qrc:/GifWallpaper.qml", {
+                                 "source": Qt.resolvedUrl(
+                                               Wallpaper.fullContentPath)
+                             })
+            fadeIn()
+            break
         }
     }
 

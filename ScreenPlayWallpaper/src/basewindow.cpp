@@ -42,6 +42,7 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
     *    "previewGIF": "preview.gif",
     *    "previewWEBM": "preview.webm",
     *    "type": "videoWallpaper"
+    *    "url": "https://www.golem.de/" //websiteWallpaper only
     *}
     */
 
@@ -51,27 +52,36 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
         qFatal("Settings Json Parse Error. Exiting now!");
     }
 
-    QJsonObject projectObject = configJsonDocument.object();
+    const QJsonObject projectObject = configJsonDocument.object();
+
+    if (!projectObject.contains("type")) {
+        qFatal("No type was specified inside the json object!");
+        QApplication::exit(-3);
+    }
+
+    setType(parseWallpaperType(projectObject.value("type").toString().toLower()));
 
     if (!projectObject.contains("file")) {
         qFatal("No file was specified inside the json object!");
     }
 
-    if (!projectObject.contains("type")) {
-        qFatal("No type was specified inside the json object!");
-    }
-
     setBasePath(QUrl::fromUserInput(projectFilePath).toLocalFile());
-    setFullContentPath("file:///" + projectFilePath + "/" + projectObject.value("file").toString());
+
+    if (m_type == WallpaperType::Website) {
+        if (!projectObject.contains("url")) {
+            qFatal("No url was specified for a websiteWallpaper!");
+            QApplication::exit(-4);
+        }
+        setFullContentPath(projectObject.value("url").toString());
+        qInfo() << fullContentPath();
+    } else {
+        setFullContentPath("file:///" + projectFilePath + "/" + projectObject.value("file").toString());
+    }
 
     auto reloadQMLLambda = [this]() { emit reloadQML(type()); };
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, reloadQMLLambda);
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, reloadQMLLambda);
     m_fileSystemWatcher.addPaths({ projectFilePath, projectFilePath + "/" + projectObject.value("file").toString() });
-
-    QString type = projectObject.value("type").toString().toLower();
-
-    setType(parseWallpaperType(type));
 }
 
 void BaseWindow::messageReceived(QString key, QString value)
