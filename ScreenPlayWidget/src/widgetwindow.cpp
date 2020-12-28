@@ -19,8 +19,8 @@ WidgetWindow::WidgetWindow(
     QObject::connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &WidgetWindow::messageReceived);
 
     QStringList availableTypes {
-        "QMLWidget",
-        "HTMLWidget"
+        "qmlWidget",
+        "htmlWidget"
     };
 
     if (!availableTypes.contains(m_type, Qt::CaseSensitivity::CaseInsensitive)) {
@@ -46,7 +46,7 @@ WidgetWindow::WidgetWindow(
     } else {
         QFile configTmp;
         QJsonDocument configJsonDocument;
-        QJsonParseError parseError{};
+        QJsonParseError parseError {};
 
         configTmp.setFileName(projectPath + "/project.json");
         configTmp.open(QIODevice::ReadOnly | QIODevice::Text);

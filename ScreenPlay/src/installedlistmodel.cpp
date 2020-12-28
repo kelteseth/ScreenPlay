@@ -171,7 +171,7 @@ void InstalledListModel::loadInstalledContent()
                 if (obj->isEmpty())
                     continue;
 
-                if (!obj->contains("file") || !obj->contains("type"))
+                if (!obj->contains("type"))
                     continue;
 
                 if (GlobalVariables::getAvailableTypes().contains(obj->value("type").toString())) {

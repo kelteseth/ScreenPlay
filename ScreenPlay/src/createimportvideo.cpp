@@ -36,14 +36,8 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
     m_codecs = codecs;
     m_process = std::make_unique<QProcess>(this);
 
-#ifdef Q_OS_WIN
-    const QString fileEnding = ".exe";
-#else
-    const QString fileEnding = "";
-#endif
-
-    m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe" + fileEnding;
-    m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg" + fileEnding;
+    m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe" + Util::executableEnding();
+    m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg" + Util::executableEnding();
 }
 
 /*!

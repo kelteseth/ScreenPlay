@@ -107,6 +107,18 @@ QString Util::generateRandomString(quint32 length)
 }
 
 /*!
+  \brief Return .exe in windows otherwise empty string.
+*/
+QString Util::executableEnding()
+{
+#ifdef Q_OS_WIN
+    return ".exe";
+#else
+    return "";
+#endif
+}
+
+/*!
   \brief Parses a version from a given QString. The QString must be looke like this:
   1.0.0 - Major.Minor.Patch. A fixed position is used for parsing (at 0,2,4).
   Return std::nullopt when not successful.

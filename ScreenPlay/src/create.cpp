@@ -48,13 +48,12 @@ Create::Create()
 void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
 {
     clearFfmpegOutput();
-    videoPath.remove("file:///");
+    videoPath = Util::toLocal(videoPath);
 
-    QDir dir;
-    dir.cd(m_globalVariables->localStoragePath().toLocalFile());
+    const QDir dir(m_globalVariables->localStoragePath().toLocalFile());
 
     // Create a temp dir so we can later alter it to the workshop id
-    auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
+    const auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
 
     if (!dir.mkdir(folderName)) {
         emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CreateTmpFolderError);
@@ -89,8 +88,8 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
 */
 void Create::saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, Create::VideoCodec codec, QVector<QString> tags)
 {
-    filePath.remove("file:///");
-    previewImagePath.remove("file:///");
+    filePath = Util::toLocal(filePath);
+    previewImagePath = Util::toLocal(previewImagePath);
 
     emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFiles);
 

@@ -122,6 +122,7 @@ public slots:
     static QString toString(const QStringList& list);
     static QString toLocal(const QString& url);
     static QString generateRandomString(quint32 length = 32);
+    static QString executableEnding();
 
     void setNavigation(QString nav)
     {
