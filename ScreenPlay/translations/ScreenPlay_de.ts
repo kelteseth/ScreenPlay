@@ -1294,52 +1294,52 @@ wenn Sie ScreenPlay über Steam! installiert haben
         <translation type="obsolete">Wallpaper erstellen</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="91"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="89"/>
         <source>Project size: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="91"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="89"/>
         <source> MB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="97"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="95"/>
         <source>No description...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="239"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="237"/>
         <source>Click here if you like the content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="253"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="251"/>
         <source>Click here if you do not like the content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="288"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="286"/>
         <source>Tags: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="313"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="311"/>
         <source>Subscribtions: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="319"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="317"/>
         <source>Open In Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="362"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="360"/>
         <source>Subscribed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="362"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="360"/>
         <source>Subscribe</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2034,82 +2034,82 @@ wenn Sie ScreenPlay über Steam! installiert haben
 <context>
     <name>Workshop</name>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="133"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="151"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="144"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="162"/>
         <source>Download now!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="149"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="167"/>
         <source>Downloading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="156"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="174"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="178"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="198"/>
         <source>Open In Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="252"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="260"/>
         <source>Search for Wallpaper and Widgets...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="288"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="296"/>
         <source>Ranked By Vote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="291"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="299"/>
         <source>Publication Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="294"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="302"/>
         <source>Ranked By Trend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="297"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="305"/>
         <source>Favorited By Friends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="300"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="308"/>
         <source>Created By Friends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="303"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="311"/>
         <source>Created By Followed Users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="306"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="314"/>
         <source>Not Yet Rated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="309"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="317"/>
         <source>Total VotesAsc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="312"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="320"/>
         <source>Votes Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="315"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="323"/>
         <source>Total Unique Subscriptions</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2117,17 +2117,17 @@ wenn Sie ScreenPlay über Steam! installiert haben
 <context>
     <name>WorkshopItem</name>
     <message>
-        <location filename="../qml/Workshop/WorkshopItem.qml" line="184"/>
+        <location filename="../qml/Workshop/WorkshopItem.qml" line="185"/>
         <source>Download</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/WorkshopItem.qml" line="302"/>
+        <location filename="../qml/Workshop/WorkshopItem.qml" line="303"/>
         <source>Successfully subscribed to Workshop Item!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/WorkshopItem.qml" line="412"/>
+        <location filename="../qml/Workshop/WorkshopItem.qml" line="413"/>
         <source>Download complete!</source>
         <translation type="unfinished"></translation>
     </message>
