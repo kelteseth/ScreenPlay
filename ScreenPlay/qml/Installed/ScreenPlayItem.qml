@@ -30,7 +30,6 @@ Item {
     }
 
     Timer {
-        id: timerAnim
         interval: {
             var itemIndexMax = itemIndex
             if (itemIndex > 30)
@@ -43,28 +42,38 @@ Item {
         onTriggered: showAnim.start()
     }
 
-    ParallelAnimation {
+    SequentialAnimation {
         id: showAnim
         running: false
+        ParallelAnimation {
+            OpacityAnimator {
+                target: screenPlayItemWrapper
+                from: 0
+                to: 1
+                duration: 600
+                easing.type: Easing.OutCirc
+            }
+            YAnimator {
+                target: screenPlayItemWrapper
+                from: 80
+                to: 0
+                duration: 500
+                easing.type: Easing.OutCirc
+            }
+            ScaleAnimator {
+                target: screenPlayItemWrapper
+                from: .5
+                to: 1
+                duration: 200
+                easing.type: Easing.OutCirc
+            }
+        }
+
         OpacityAnimator {
-            target: screenPlayItemWrapper
+            target: effect
             from: 0
-            to: 1
+            to: 0.4
             duration: 800
-            easing.type: Easing.OutCirc
-        }
-        YAnimator {
-            target: screenPlayItemWrapper
-            from: 80
-            to: 0
-            duration: 500
-            easing.type: Easing.OutCirc
-        }
-        ScaleAnimator {
-            target: screenPlayItemWrapper
-            from: .5
-            to: 1
-            duration: 200
             easing.type: Easing.OutCirc
         }
     }
@@ -82,7 +91,7 @@ Item {
         glowRadius: 3
         spread: 0.2
         color: "black"
-        opacity: 0.4
+        opacity: 0
         cornerRadius: 15
     }
 
