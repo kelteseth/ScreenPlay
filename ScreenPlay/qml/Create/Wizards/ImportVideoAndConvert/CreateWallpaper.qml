@@ -21,21 +21,18 @@ Item {
         clip: true
 
         CreateWallpaperInit {
-           onNext: {
+            onNext: {
                 root.wizardStarted()
                 swipeView.currentIndex = 1
                 createWallpaperVideoImportConvert.codec = codec
                 createWallpaperVideoImportConvert.filePath = filePath
-                ScreenPlay.create.createWallpaperStart(filePath,codec)
+                ScreenPlay.create.createWallpaperStart(filePath, codec, quality)
             }
         }
         CreateWallpaperVideoImportConvert {
-            id:createWallpaperVideoImportConvert
-            onAbort:root.wizardExited()
+            id: createWallpaperVideoImportConvert
+            onAbort: root.wizardExited()
         }
         CreateWallpaperResult {}
     }
-
-
-
 }

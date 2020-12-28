@@ -45,7 +45,7 @@ Create::Create()
 /*!
     \brief Starts the process.
 */
-void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
+void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, const int quality)
 {
     clearFfmpegOutput();
     videoPath = Util::toLocal(videoPath);
@@ -61,11 +61,22 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec)
         return;
     }
     setWorkingDir(dir.path() + "/" + folderName);
-    QStringList codecs;
-    codecs.append(codec == Create::VideoCodec::VP8 ? "vp8" : "vp9");
+
+    QString target_codec;
+    switch (codec) {
+    case Create::VideoCodec::VP8:
+        target_codec = "vp8";
+        break;
+    case Create::VideoCodec::VP9:
+        target_codec = "vp9";
+        break;
+    case Create::VideoCodec::AV1:
+        target_codec = "av1";
+        break;
+    }
 
     m_createImportVideoThread = new QThread(this);
-    m_createImportVideo = new CreateImportVideo(videoPath, workingDir(), codecs);
+    m_createImportVideo = new CreateImportVideo(videoPath, workingDir(), target_codec, quality);
     connect(m_createImportVideo, &CreateImportVideo::processOutput, this, [this](QString text) {
         appendFfmpegOutput(text + "\n");
     });

@@ -28,12 +28,14 @@ CreateImportVideo::CreateImportVideo(QObject* parent)
   \brief Creates a CreateImportVideo object to be used in a different thread. A \a videoPath and a \a exportPath are
   needed for convertion.
 */
-CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& exportPath, const QStringList& codecs, QObject* parent)
+CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& exportPath, const QString& codec, const int quality, QObject* parent)
     : QObject(parent)
+    , m_quality(quality)
 {
+
     m_videoPath = videoPath;
     m_exportPath = exportPath;
-    m_codecs = codecs;
+    m_codec = codec;
     m_process = std::make_unique<QProcess>(this);
 
     m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe" + Util::executableEnding();
@@ -99,14 +101,28 @@ void CreateImportVideo::process()
         return;
     }
 
-    for (const auto& codec : qAsConst(m_codecs)) {
-        qInfo() << "createWallpaperVideo()";
-        if (!createWallpaperVideo(codec) || QThread::currentThread()->isInterruptionRequested()) {
-            emit abortAndCleanup();
-            return;
-        }
+    qInfo() << "createWallpaperVideo()";
+    if (!createWallpaperVideo() || QThread::currentThread()->isInterruptionRequested()) {
+        emit abortAndCleanup();
+        return;
     }
 
+    emit createWallpaperStateChanged(ImportVideoState::Finished);
+}
+
+void CreateImportVideo::processGif()
+{
+    qInfo() << "createWallpaperImageThumbnailPreview()";
+    if (!createWallpaperImageThumbnailPreview() || QThread::currentThread()->isInterruptionRequested()) {
+        emit abortAndCleanup();
+        return;
+    }
+
+    qInfo() << "createWallpaperImagePreview()";
+    if (!createWallpaperImagePreview() || QThread::currentThread()->isInterruptionRequested()) {
+        emit abortAndCleanup();
+        return;
+    }
     emit createWallpaperStateChanged(ImportVideoState::Finished);
 }
 
@@ -568,7 +584,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
     \li Generally broken.
    \endlist
  */
-bool CreateImportVideo::createWallpaperVideo(const QString& codec)
+bool CreateImportVideo::createWallpaperVideo()
 {
     emit createWallpaperStateChanged(ImportVideoState::ConvertingVideo);
 
@@ -601,16 +617,16 @@ bool CreateImportVideo::createWallpaperVideo(const QString& codec)
     args.append("-i");
     args.append(m_videoPath);
     args.append("-c:v");
-    if (codec == "vp8") {
+    if (m_codec == "vp8")
         args.append("libvpx");
-    }
-    if (codec == "vp9") {
+    if (m_codec == "vp9")
         args.append("libvpx-vp9");
-    }
+    if (m_codec == "av1")
+        args.append("libaom-av1");
     args.append("-b:v");
     args.append("0");
     args.append("-crf");
-    args.append("10");
+    args.append(QString::number(m_quality));
     args.append("-pass");
     args.append("1");
 
@@ -635,16 +651,16 @@ bool CreateImportVideo::createWallpaperVideo(const QString& codec)
     args.append("-i");
     args.append(m_videoPath);
     args.append("-c:v");
-    if (codec == "vp8")
+    if (m_codec == "vp8")
         args.append("libvpx");
-    if (codec == "vp9")
+    if (m_codec == "vp9")
         args.append("libvpx-vp9");
-    if (codec == "av1")
+    if (m_codec == "av1")
         args.append("libaom-av1");
     args.append("-b:v");
     args.append("0");
     args.append("-crf");
-    args.append("10");
+    args.append(QString::number(m_quality));
     args.append("-pass");
     args.append("2");
     const QFileInfo file(m_videoPath);

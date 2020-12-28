@@ -61,7 +61,7 @@ class CreateImportVideo : public QObject {
 public:
     CreateImportVideo() { }
     CreateImportVideo(QObject* parent = nullptr);
-    explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, const QStringList& codecs, QObject* parent = nullptr);
+    explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, const QString& codec, const int quality, QObject* parent = nullptr);
 
     enum class ImportVideoState {
         Idle,
@@ -118,8 +118,9 @@ public:
     QString m_videoPath;
     QString m_exportPath;
     QString m_format;
-    QStringList m_codecs;
+    QString m_codec;
 
+    const int m_quality = 50;
     int m_numberOfFrames { 0 };
     int m_length { 0 };
     int m_framerate { 0 };
@@ -138,12 +139,13 @@ signals:
 
 public slots:
     void process();
+    void processGif();
 
     bool createWallpaperInfo();
     bool createWallpaperVideoPreview();
     bool createWallpaperGifPreview();
     bool createWallpaperImagePreview();
-    bool createWallpaperVideo(const QString& codec);
+    bool createWallpaperVideo();
     bool extractWallpaperAudio();
     bool createWallpaperImageThumbnailPreview();
 
@@ -161,9 +163,9 @@ public slots:
 
 private:
     QString waitForFinished(
-            const QStringList& args,
-            const QProcess::ProcessChannelMode processChannelMode = QProcess::ProcessChannelMode::SeparateChannels,
-            const Executable executable = Executable::FFMPEG);
+        const QStringList& args,
+        const QProcess::ProcessChannelMode processChannelMode = QProcess::ProcessChannelMode::SeparateChannels,
+        const Executable executable = Executable::FFMPEG);
 
     bool analyzeWebmReadFrames(const QJsonObject& obj);
     bool analyzeVideo(const QJsonObject& obj);

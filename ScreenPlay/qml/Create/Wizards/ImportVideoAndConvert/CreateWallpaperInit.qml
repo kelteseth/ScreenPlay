@@ -14,6 +14,7 @@ Item {
     id: root
     signal next(var filePath, var codec)
 
+    property int quality: sliderQuality.slider.value
     ColumnLayout {
         spacing: 40
 
@@ -71,6 +72,19 @@ Item {
                 }
             }
         }
+        Common.Slider {
+            id: sliderQuality
+            iconSource: "qrc:/assets/icons/icon_settings.svg"
+            headline: qsTr(
+                          "Quality slider. Greater value means better quality.")
+            slider {
+                from: 4
+                value: 50
+                to: 63
+                stepSize: 1
+            }
+            Layout.preferredWidth: 400
+        }
     }
 
     Button {
@@ -89,6 +103,7 @@ Item {
             margins: 20
         }
     }
+
     Button {
         text: qsTr("Select file")
         highlighted: true

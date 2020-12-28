@@ -109,7 +109,7 @@ signals:
 
 public slots:
 
-    void createWallpaperStart(QString videoPath, Create::VideoCodec codec);
+    void createWallpaperStart(QString videoPath, Create::VideoCodec codec, const int quality);
 
     void saveWallpaper(
         QString title,
