@@ -121,7 +121,7 @@ Item {
                             selectFolder: true
                             onAccepted: {
                                 ScreenPlay.settings.setLocalStoragePath(
-                                            folderDialogSaveLocation.currentFolder)
+                                            folderDialogSaveLocation.fileUrls[0])
                             }
                         }
                     }
