@@ -51,9 +51,8 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
                 if (!obj)
                     return;
 
-                if (!obj->contains("properties"))
-                    return;
-                projectSettingsListModelProperties = obj->value("properties").toObject();
+                if (obj->contains("properties"))
+                    projectSettingsListModelProperties = obj->value("properties").toObject();
             } else {
                 projectSettingsListModelProperties = properties;
             }
