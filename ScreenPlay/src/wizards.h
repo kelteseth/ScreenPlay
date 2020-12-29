@@ -86,26 +86,28 @@ public slots:
         const QString& title,
         const QString& licenseName,
         const QString& licenseFile,
-        const QString& previewThumbnail,
         const QString& createdBy,
+        const QString& previewThumbnail,
         const QVector<QString>& tags);
 
     void createHTMLWidget(
         const QString& title,
         const QString& licenseName,
         const QString& licenseFile,
-        const QString& previewThumbnail,
         const QString& createdBy,
+        const QString& previewThumbnail,
         const QVector<QString>& tags);
 
-    void createHTMLWallpaper(const QString& title,
+    void createHTMLWallpaper(
+        const QString& title,
         const QString& licenseName,
         const QString& licenseFile,
         const QString& createdBy,
         const QString& previewThumbnail,
         const QVector<QString>& tags);
 
-    void createQMLWallpaper(const QString& title,
+    void createQMLWallpaper(
+        const QString& title,
         const QString& licenseName,
         const QString& licenseFile,
         const QString& createdBy,

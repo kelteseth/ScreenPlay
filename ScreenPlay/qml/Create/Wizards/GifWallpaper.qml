@@ -13,7 +13,8 @@ WizardPage {
     sourceComponent: ColumnLayout {
 
         function create() {
-            ScreenPlay.wizards.createGifWallpaper(tfTitle.text, cbLicense.name,
+            ScreenPlay.wizards.createGifWallpaper(tfTitle.text,
+                                                  cbLicense.name,
                                                   cbLicense.licenseFile,
                                                   tfCreatedBy.text,
                                                   fileSelector.file,

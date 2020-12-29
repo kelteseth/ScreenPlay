@@ -25,8 +25,8 @@ WizardPage {
             ScreenPlay.wizards.createHTMLWallpaper(tfTitle.text,
                                                    cbLicense.name,
                                                    cbLicense.licenseFile,
-                                                   previewSelector.imageSource,
                                                    tfCreatedBy.text,
+                                                   previewSelector.imageSource,
                                                    tagSelector.getTags())
         }
 

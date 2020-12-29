@@ -22,12 +22,11 @@ Wizards::Wizards(const std::shared_ptr<GlobalVariables>& globalVariables, QObjec
 /*!
   \brief Creates a new widget.
 */
-void Wizards::createQMLWidget(
-    const QString& title,
+void Wizards::createQMLWidget(const QString& title,
     const QString& licenseName,
     const QString& licenseFile,
-    const QString& previewThumbnail,
     const QString& createdBy,
+    const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
     QtConcurrent::run([=]() {
@@ -82,12 +81,11 @@ void Wizards::createQMLWidget(
 /*!
   \brief Creates a new widget.
 */
-void Wizards::createHTMLWidget(
-    const QString& title,
+void Wizards::createHTMLWidget(const QString& title,
     const QString& licenseName,
     const QString& licenseFile,
-    const QString& previewThumbnail,
     const QString& createdBy,
+    const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
     QtConcurrent::run([=]() {

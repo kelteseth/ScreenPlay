@@ -16,8 +16,8 @@ WizardPage {
             ScreenPlay.wizards.createHTMLWidget(tfTitle.text,
                                                 cbLicense.name,
                                                 cbLicense.licenseFile,
-                                                previewSelector.imageSource,
                                                 tfCreatedBy.text,
+                                                previewSelector.imageSource,
                                                 tagSelector.getTags())
         }
 

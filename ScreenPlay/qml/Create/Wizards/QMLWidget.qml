@@ -13,10 +13,11 @@ WizardPage {
     sourceComponent: ColumnLayout {
 
         function create() {
-            ScreenPlay.wizards.createQMLWidget(tfTitle.text, cbLicense.name,
+            ScreenPlay.wizards.createQMLWidget(tfTitle.text,
+                                               cbLicense.name,
                                                cbLicense.licenseFile,
-                                               previewSelector.imageSource,
                                                tfCreatedBy.text,
+                                               previewSelector.imageSource,
                                                tagSelector.getTags())
         }
 
