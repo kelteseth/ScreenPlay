@@ -5,7 +5,10 @@ BaseWindow::BaseWindow(QObject* parent)
 {
 }
 
-BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreensList, const bool checkWallpaperVisible)
+BaseWindow::BaseWindow(
+    const QString& projectFilePath,
+    const QVector<int> activeScreensList,
+    const bool checkWallpaperVisible)
     : QObject(nullptr)
     , m_checkWallpaperVisible(checkWallpaperVisible)
     , m_activeScreensList(activeScreensList)
@@ -21,19 +24,21 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
     if (projectFilePath == "test") {
         setType(BaseWindow::WallpaperType::Qml);
         setFullContentPath("qrc:/Test.qml");
+        setupLiveReloading();
         return;
     }
 
-    QFile projectFile;
+    QFile projectFile { projectFilePath + "/project.json" };
     QJsonDocument configJsonDocument;
     QJsonParseError parseError;
 
-    projectFile.setFileName(projectFilePath + "/project.json");
     projectFile.open(QIODevice::ReadOnly | QIODevice::Text);
-    QString projectConfig = projectFile.readAll();
+    const QString projectConfig = projectFile.readAll();
+    projectFile.close();
     configJsonDocument = QJsonDocument::fromJson(projectConfig.toUtf8(), &parseError);
 
     /* project.json example:
+    *  https://kelteseth.gitlab.io/ScreenPlayDocs/project/project/
     *{
     *    "title": "example title",
     *    "description": "",
@@ -47,41 +52,38 @@ BaseWindow::BaseWindow(QString projectFilePath, const QVector<int> activeScreens
     */
 
     if (!(parseError.error == QJsonParseError::NoError)) {
-        qDebug() << projectConfig << "\n"
-                 << parseError.errorString();
+        qInfo() << projectFile.fileName()
+                << projectConfig
+                << parseError.errorString();
         qFatal("Settings Json Parse Error. Exiting now!");
     }
 
-    const QJsonObject projectObject = configJsonDocument.object();
+    const QJsonObject project = configJsonDocument.object();
 
-    if (!projectObject.contains("type")) {
+    if (!project.contains("type")) {
         qFatal("No type was specified inside the json object!");
         QApplication::exit(-3);
     }
 
-    setType(parseWallpaperType(projectObject.value("type").toString().toLower()));
-
-    if (!projectObject.contains("file")) {
+    if (!project.contains("file")) {
         qFatal("No file was specified inside the json object!");
+        QApplication::exit(-4);
     }
 
+    setType(parseWallpaperType(project.value("type").toString().toLower()));
     setBasePath(QUrl::fromUserInput(projectFilePath).toLocalFile());
 
     if (m_type == WallpaperType::Website) {
-        if (!projectObject.contains("url")) {
+        if (!project.contains("url")) {
             qFatal("No url was specified for a websiteWallpaper!");
-            QApplication::exit(-4);
+            QApplication::exit(-5);
         }
-        setFullContentPath(projectObject.value("url").toString());
-        qInfo() << fullContentPath();
+        setFullContentPath(project.value("url").toString());
     } else {
-        setFullContentPath("file:///" + projectFilePath + "/" + projectObject.value("file").toString());
+        setFullContentPath("file:///" + projectFilePath + "/" + project.value("file").toString());
     }
 
-    auto reloadQMLLambda = [this]() { emit reloadQML(type()); };
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, reloadQMLLambda);
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, reloadQMLLambda);
-    m_fileSystemWatcher.addPaths({ projectFilePath, projectFilePath + "/" + projectObject.value("file").toString() });
+    setupLiveReloading();
 }
 
 void BaseWindow::messageReceived(QString key, QString value)
@@ -214,4 +216,13 @@ BaseWindow::WallpaperType BaseWindow::parseWallpaperType(const QString& type)
     qWarning() << "Could not parse Wallpaper type from value: " << type;
 
     return BaseWindow::WallpaperType::Video;
+}
+
+void BaseWindow::setupLiveReloading()
+{
+    auto reloadQMLLambda = [this]() { emit reloadQML(type()); };
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, reloadQMLLambda);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, reloadQMLLambda);
+    const QFileInfo file { m_fullContentPath };
+    m_fileSystemWatcher.addPaths({ file.path(), m_fullContentPath });
 }

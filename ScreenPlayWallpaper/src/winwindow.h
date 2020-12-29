@@ -58,7 +58,13 @@ class WinWindow : public BaseWindow {
     Q_PROPERTY(WindowsDesktopProperties* windowsDesktopProperties READ windowsDesktopProperties WRITE setWindowsDesktopProperties NOTIFY windowsDesktopPropertiesChanged)
 
 public:
-    explicit WinWindow(const QVector<int>& activeScreensList, const QString& projectPath, const QString& id, const QString& volume, const QString& fillmode, const bool checkWallpaperVisible);
+    explicit WinWindow(
+        const QVector<int>& activeScreensList,
+        const QString& projectPath,
+        const QString& id,
+        const QString& volume,
+        const QString& fillmode,
+        const bool checkWallpaperVisible);
 
     WindowsDesktopProperties* windowsDesktopProperties() const
     {

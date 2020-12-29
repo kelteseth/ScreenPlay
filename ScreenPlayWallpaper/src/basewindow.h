@@ -51,7 +51,7 @@ class BaseWindow : public QObject {
 
 public:
     BaseWindow(QObject* parent = nullptr);
-    BaseWindow(QString projectFilePath, const QVector<int> activeScreensList, const bool checkWallpaperVisible);
+    BaseWindow(const QString& projectFilePath, const QVector<int> activeScreensList, const bool checkWallpaperVisible);
 
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
@@ -407,6 +407,8 @@ public slots:
 
 private:
     BaseWindow::WallpaperType parseWallpaperType(const QString& type);
+
+    void setupLiveReloading();
 
 private:
     bool m_checkWallpaperVisible { false };
