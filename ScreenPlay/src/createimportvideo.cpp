@@ -373,15 +373,15 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     args.append("-i");
     args.append(m_videoPath);
     // If the video is shorter than 5 seconds we simply convert the original to webm
-    if (m_smallVideo) {
-        qInfo() << "Small video detected!";
+    if (!m_smallVideo) {
+        qInfo() << "Regular video length detected!";
         args.append("-vf");
         // We allways want to have a 5 second clip via 24fps -> 120 frames
         // Divided by the number of frames we can skip (timeInSeconds * Framrate)
         // scale & crop parameter: https://unix.stackexchange.com/a/284731
         args.append("select='not(mod(n," + QString::number((m_length / 5)) + "))',setpts=N/FRAME_RATE/TB,crop=in_h*16/9:in_h,scale=-2:400");
-        // Disable audio
     }
+    // Disable audio
     args.append("-an");
     args.append(m_exportPath + "/preview.webm");
     emit processOutput("ffmpeg " + Util::toString(args));
