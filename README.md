@@ -32,7 +32,7 @@ ScreenPlay is an open source cross platform app for displaying Video Wallpaper, 
 
 # Contributing
 
-Everyone can contribute with code, design, documentation or translation. Visit our [contributing guide](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/contribute) for more informations. Also check our [Collaboration Guidelines](Docs/CodeOfConduct.md).
+Everyone can contribute with code, design, documentation or translation. Visit our [contributing guide](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/contribute) for more information. Also checkout our [Collaboration Guidelines](Docs/CodeOfConduct.md).
 
 Here are some ways you can contribute:
 * by using prerelease versions / master branch or the Steam nightly builds
@@ -62,7 +62,7 @@ Here are some ways you can contribute:
 # Platform support
 
 * ❌ Not working/Not implemented
-* ❓ Only partical implemented/Not tested, help needed
+* ❓ Only partially implemented/Not tested, help needed
 
 <div align="center">
 
@@ -76,7 +76,8 @@ Here are some ways you can contribute:
 
 </div>
 
-Because every operating system has his own version of desktop environment we need to adapt the ScreenPlayWindow for every platform seperate. The most feature complete for now is Windows 10. Windows 7 works but the wallpaper have the [wrong coordinates](https://gitlab.com/kelteseth/ScreenPlay/issues/34). MacOS has some basic wallpaper functionality but no maintainer. For Linux we sadly have no support for any desktops environments at the moment, except basic KDE support.
+Because every operating system has its own version of desktop environment we need to adapt the ScreenPlayWindow for every platform 
+separately. The most feature complete for now is Windows 10. Windows 7 works but the wallpaper have the [wrong coordinates](https://gitlab.com/kelteseth/ScreenPlay/issues/34). MacOS has some basic wallpaper functionality but no maintainer. For Linux we sadly have no support for any desktop environments at the moment, except basic KDE support.
 
 __If you want to help and add new desktop environments look at ScreenPlayWallpaper/src folder__
 
