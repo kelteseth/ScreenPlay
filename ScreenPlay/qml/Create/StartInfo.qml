@@ -81,6 +81,13 @@ Item {
                 category: "Tools"
             }
             ListElement {
+                text: "Godot"
+                image: "qrc:/assets/startinfo/godot.png"
+                link: "https://godotengine.org/"
+                description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
+                category: "Tools"
+            }
+            ListElement {
                 text: "Handbreak"
                 image: "qrc:/assets/startinfo/handbreak.png"
                 link: "https://handbrake.fr/"

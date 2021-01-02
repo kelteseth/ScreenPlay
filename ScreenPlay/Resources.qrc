@@ -140,5 +140,7 @@
         <file>assets/wizards/License_GPL_3.0.txt</file>
         <file>assets/wizards/License_CC0_1.0.txt</file>
         <file>assets/wizards/License_All_Rights_Reserved_1.0.txt</file>
+        <file>assets/startinfo/gimp.png</file>
+        <file>assets/startinfo/godot.png</file>
     </qresource>
 </RCC>

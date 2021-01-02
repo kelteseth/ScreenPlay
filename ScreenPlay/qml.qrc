@@ -77,7 +77,6 @@
         <file>qml/Common/Dialogs/SteamNotAvailable.qml</file>
         <file>qml/Create/Wizards/WizardPage.qml</file>
         <file>qml/Create/Wizards/GifWallpaper.qml</file>
-        <file>assets/startinfo/gimp.png</file>
         <file>qml/Common/TextField.qml</file>
         <file>qml/Common/HeadlineSection.qml</file>
         <file>qml/Create/Wizards/WebsiteWallpaper.qml</file>
