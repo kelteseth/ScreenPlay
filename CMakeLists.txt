@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.16.0)
 
-project(ScreenPlay)
+project(ScreenPlay LANGUAGES CXX)
 
 # This sets cmake to compile all dlls into the main directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
