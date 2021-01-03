@@ -90,7 +90,7 @@ __If you want to help and add new desktop environments look at ScreenPlayWallpap
 
 | Plattform                	     | Windows 10  |   Gnome	         | KDE 	           	        | MacOS  	|
 |------------------------	     |-------	   |---------	     |-------	                | -------	|
-| __Wallpaper__                  | ✔           |❌ Help Needed!  | ❓ [Basic implementation](https://gitlab.com/kelteseth/ScreenPlay/-/tree/master/ScreenPlayWallpaper/kde/ScreenPlay)   | ❓ (Basic implementation)      	|
+| __Wallpaper__                  | ✔           |❌ Help Needed!  | ❓ [Basic implementation](https://gitlab.com/kelteseth/ScreenPlay/-/tree/master/ScreenPlayWallpaper/kde/ScreenPlay)   | ❓ [Basic implementation](https://gitlab.com/kelteseth/ScreenPlay/-/blob/master/ScreenPlayWallpaper/src/MacBridge.mm)     	|
 
 
 </div>
