@@ -95,8 +95,8 @@ signals:
     void requestSaveProfiles();
     void requestRaise();
     void profilesSaved();
-
     void monitorConfigurationChanged();
+    void displayErrorPopup(const QString& msg);
 
 private slots:
     void saveProfiles();

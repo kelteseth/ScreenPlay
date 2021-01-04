@@ -5,7 +5,6 @@ import QtQuick.Dialogs 1.3
 import QtQuick.Layouts 1.3
 import QtGraphicalEffects 1.0
 
-
 import ScreenPlay 1.0
 import ScreenPlay.Enums.FillMode 1.0
 import Settings 1.0
@@ -446,7 +445,7 @@ Item {
                     SettingsButton {
                         headline: qsTr("Logs")
                         description: qsTr("If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.")
-                        buttonText: qsTr("Debug Messages")
+                        buttonText: qsTr("Show Logs")
                         onButtonPressed: {
                             expanderDebug.toggle()
                         }

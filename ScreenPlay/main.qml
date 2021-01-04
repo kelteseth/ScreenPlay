@@ -85,9 +85,9 @@ ApplicationWindow {
     }
 
     function switchPage(name) {
-        if (nav.currentNavigationName === name){
-            if(name === "Installed")
-                 ScreenPlay.installedListModel.reset()
+        if (nav.currentNavigationName === name) {
+            if (name === "Installed")
+                ScreenPlay.installedListModel.reset()
             return
         }
 
@@ -111,8 +111,10 @@ ApplicationWindow {
         id: dialogSteam
     }
 
-    Dialogs.MonitorConfiguration {
-        id: dialogMonitorConfigurationChanged
+    Dialogs.MonitorConfiguration {}
+
+    Dialogs.CriticalError {
+        mainWindow: window
     }
 
     Common.TrayIcon {}

@@ -91,7 +91,13 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
 
     m_process.setArguments(proArgs);
     m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
-    m_process.startDetached();
+    const bool success = m_process.startDetached();
+    qInfo() << "Starting ScreenPlayWallpaper detached: " << (success ? "success" : "failed!");
+    if (!success) {
+        qInfo() << m_process.errorString();
+        emit requestClose(m_appID);
+        emit error(QString("Could not start Wallpaper: " + m_process.errorString()));
+    }
 }
 
 /*!

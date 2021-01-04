@@ -153,7 +153,6 @@ void App::init()
     m_profileListModel = make_shared<ProfileListModel>(m_globalVariables);
     m_settings = make_shared<Settings>(m_globalVariables);
     m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
-    m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_telemetry, m_settings);
 
     // Only create tracker if user did not disallow!
     if (m_settings->anonymousTelemetry()) {
@@ -189,13 +188,13 @@ void App::init()
         emit m_settings->resetInstalledListmodel();
         m_settings->setqSetting("ScreenPlayContentPath", localStoragePath.toString());
     });
-    QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_screenPlayManager.get(), &ScreenPlayManager::closeAllWallpapers);
 
     // Init after we have the paths from settings
     m_installedListModel->init();
 
     // Set visible if the -silent parameter was not set
     if (QApplication::instance()->arguments().contains("-silent")) {
+        qInfo() << "Starting in silent mode.";
         settings()->setSilentStart(true);
     }
 
@@ -203,6 +202,10 @@ void App::init()
     Util::appendToMetricsFile("Screenplay_app_qqmlapplicationengine_load_begin", m_continuousIntegrationMetricsTimer.msecsSinceReference());
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
     Util::appendToMetricsFile("Screenplay_app_qqmlapplicationengine_load_end", m_continuousIntegrationMetricsTimer.msecsSinceReference());
+
+    // Must be called last to display a error message on startup by the qml engine
+    m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_telemetry, m_settings);
+    QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_screenPlayManager.get(), &ScreenPlayManager::closeAllWallpapers);
 }
 
 /*!

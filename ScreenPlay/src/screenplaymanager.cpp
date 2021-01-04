@@ -171,6 +171,7 @@ void ScreenPlayManager::createWallpaper(
 
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestClose, this, &ScreenPlayManager::removeApp);
+    QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::error, this, &ScreenPlayManager::displayErrorPopup);
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
     increaseActiveWallpaperCounter();
@@ -213,6 +214,7 @@ void ScreenPlayManager::createWidget(
 
     QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(widget.get(), &ScreenPlayWidget::requestClose, this, &ScreenPlayManager::removeApp);
+    QObject::connect(widget.get(), &ScreenPlayWidget::error, this, &ScreenPlayManager::displayErrorPopup);
     increaseActiveWidgetsCounter();
     m_screenPlayWidgets.append(widget);
 }
@@ -568,6 +570,8 @@ void ScreenPlayManager::loadProfiles()
         return;
     }
 
+    qInfo() << "Loading profiles " << activeProfilesTmp.size();
+
     for (const QJsonValueRef wallpaper : activeProfilesTmp) {
 
         // TODO right now we limit ourself to one default profile
@@ -613,8 +617,8 @@ void ScreenPlayManager::loadProfiles()
             const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::VideoWallpaper);
             const auto fillMode = QStringToEnum<FillMode::FillMode>(fillModeString, FillMode::FillMode::Cover);
 
+            qInfo() << "Start wallpaper from profile:" << type << fillMode << monitors << absolutePath;
             createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, playbackRate, properties, false);
-            monitors.clear();
         }
 
         for (const QJsonValueRef widget : wallpaper.toObject().value("widgets").toArray()) {
@@ -632,6 +636,7 @@ void ScreenPlayManager::loadProfiles()
             const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::QMLWidget);
             const QJsonObject properties = widgetObj.value("properties").toObject();
 
+            qInfo() << "Start widget from profile:" << type << position << absolutePath;
             createWidget(type, position, absolutePath, previewImage, properties, false);
         }
     }

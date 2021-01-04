@@ -165,6 +165,7 @@ signals:
 
     void requestSave();
     void requestClose(const QString& appID);
+    void error(const QString& msg);
 
 public slots:
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);

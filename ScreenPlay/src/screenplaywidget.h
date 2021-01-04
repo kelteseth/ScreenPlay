@@ -158,6 +158,7 @@ signals:
 
     void requestSave();
     void requestClose(const QString& appID);
+    void error(const QString& msg);
 
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;

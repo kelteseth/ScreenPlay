@@ -62,7 +62,13 @@ ScreenPlayWidget::ScreenPlayWidget(
     QObject::connect(&m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
         qDebug() << "error: " << error;
     });
-    m_process.startDetached();
+    const bool success = m_process.startDetached();
+    qInfo() << "Starting ScreenPlayWWidget detached: " << (success ? "success" : "failed!");
+    if (!success) {
+        qInfo() << m_process.errorString();
+        emit requestClose(m_appID);
+        emit error(QString("Could not start Widget: " + m_process.errorString()));
+    }
 }
 
 /*!
