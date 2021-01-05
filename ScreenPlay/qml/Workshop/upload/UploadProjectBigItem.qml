@@ -128,13 +128,6 @@ Item {
                 }
             }
 
-            Rectangle {
-                id: rctInvalid
-                anchors.fill: parent
-                color: screenPlayItemWrapper.color
-                opacity: 0
-                visible: false
-            }
 
             Text {
                 id: txtInvalidError
@@ -193,11 +186,6 @@ Item {
                 opacity: 1
             }
 
-            PropertyChanges {
-                target: rctInvalid
-                opacity: .8
-                visible: true
-            }
         }
     ]
     transitions: [

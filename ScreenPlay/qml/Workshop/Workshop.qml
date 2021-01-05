@@ -278,6 +278,37 @@ Item {
                         }
                     }
 
+                    Row {
+                        spacing: 20
+                        anchors {
+                            left: searchWrapper.right
+                            leftMargin: 20
+                            right: cbQuerySort.left
+                            rightMargin: 20
+                            verticalCenter: parent.verticalCenter
+                        }
+                        Button {
+                            text: qsTr("Open Workshop in Steam")
+                            font.capitalization: Font.Capitalize
+                            font.family: ScreenPlay.settings.font
+                            onClicked: Qt.openUrlExternally(
+                                           "steam://url/SteamWorkshopPage/672870")
+                            icon.source: "qrc:/assets/icons/icon_steam.svg"
+                            icon.width: 18
+                            icon.height: 18
+                        }
+                        Button {
+                            text: qsTr("Open GameHub in Steam")
+                            font.capitalization: Font.Capitalize
+                            font.family: ScreenPlay.settings.font
+                            onClicked: Qt.openUrlExternally(
+                                           "steam://url/GameHub/672870")
+                            icon.source: "qrc:/assets/icons/icon_steam.svg"
+                            icon.width: 18
+                            icon.height: 18
+                        }
+                    }
+
                     ComboBox {
                         id: cbQuerySort
                         width: 250

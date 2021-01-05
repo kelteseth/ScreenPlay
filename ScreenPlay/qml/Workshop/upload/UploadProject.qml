@@ -8,10 +8,11 @@ import ScreenPlay 1.0
 
 Popup {
     id: root
-    width: 1100
-    height: 600
+    width: 1200
+    height: 700
     modal: true
     dim: true
+    anchors.centerIn: Overlay.overlay
     closePolicy: Popup.NoAutoClose
     onAboutToShow: uploadLoader.sourceComponent = com
     onAboutToHide: uploadLoader.sourceComponent = undefined
@@ -123,7 +124,7 @@ Popup {
                         }
                     }
                     Button {
-                        id:btnAbort
+                        id: btnAbort
                         text: qsTr("Abort")
                         onClicked: {
                             SP.Workshop.steamWorkshop.uploadListModel.clear()
@@ -139,7 +140,7 @@ Popup {
 
                     Button {
                         id: btnUploadProjects
-                        text: qsTr("Upload Projects")
+                        text: qsTr("Upload Selected Projects")
                         highlighted: true
                         enabled: false
                         anchors {
@@ -219,8 +220,6 @@ Popup {
                         }
                     }
                 }
-
-
             }
 
             PageIndicator {
