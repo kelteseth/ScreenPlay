@@ -31,16 +31,6 @@ Popup {
         }
     }
 
-    Connections {
-        target: SP.Workshop.steamWorkshop.uploadListModel
-        function onUserNeedsToAcceptWorkshopLegalAgreement() {
-            popupSteamWorkshopAgreement.open()
-        }
-    }
-
-    PopupSteamWorkshopAgreement {
-        id: popupSteamWorkshopAgreement
-    }
 
     Component {
         id: com

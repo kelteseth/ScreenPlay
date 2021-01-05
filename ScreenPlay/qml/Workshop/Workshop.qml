@@ -51,7 +51,17 @@ Item {
 
     UploadProject {
         id: popupUploadProject
-        anchors.centerIn: Overlay.overlay
+    }
+
+    PopupSteamWorkshopAgreement {
+        id: popupSteamWorkshopAgreement
+    }
+
+    Connections {
+        target: Workshop.steamWorkshop.uploadListModel
+        function onUserNeedsToAcceptWorkshopLegalAgreement() {
+            popupSteamWorkshopAgreement.open()
+        }
     }
 
     Flickable {
@@ -233,10 +243,9 @@ Item {
                         id: searchWrapper
 
                         width: 400
-                        height: 45
-
+                        height: 50
                         anchors {
-                            top: parent.top
+                            verticalCenter: parent.verticalCenter
                             left: parent.left
                         }
 
