@@ -105,7 +105,8 @@ Item {
             id: txtPlaceholder
             clip: true
             font.pointSize: 12
-            text: qsTr("You can set your own preview image here.")
+            font.capitalization: Font.Capitalize
+            text: qsTr("Set your own preview image")
             font.family: ScreenPlay.settings.font
             wrapMode: Text.WordWrap
             color: Material.secondaryTextColor

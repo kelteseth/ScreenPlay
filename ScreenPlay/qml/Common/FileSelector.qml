@@ -58,6 +58,7 @@ Item {
             id: txtPlaceholder
             clip: true
             font.pointSize: 12
+            font.capitalization: Font.Capitalize
             font.family: ScreenPlay.settings.font
             wrapMode: Text.WordWrap
             color: Material.secondaryTextColor
