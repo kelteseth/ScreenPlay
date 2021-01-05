@@ -118,7 +118,7 @@ public slots:
     static bool writeSettings(const QJsonObject& obj, const QString& absolutePath);
     static bool writeFile(const QString& text, const QString& absolutePath);
     static bool writeFileFromQrc(const QString& qrcPath, const QString& absolutePath);
-    static bool copyPreviewThumbnail(QJsonObject& obj, const QString& name, const QString& destination);
+    static bool copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnail, const QString& destination);
     static QString toString(const QStringList& list);
     static QString toLocal(const QString& url);
     static QString generateRandomString(quint32 length = 32);

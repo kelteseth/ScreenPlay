@@ -495,14 +495,15 @@ bool Util::writeFileFromQrc(const QString& qrcPath, const QString& absolutePath)
   \brief Takes reference to \a obj. If the copy of the thumbnail is successful,
   it adds the corresponding settings entry to the json object reference.
 */
-bool Util::copyPreviewThumbnail(QJsonObject& obj, const QString& name, const QString& destination)
+bool Util::copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnail, const QString& destination)
 {
-    QUrl previewThumbnailUrl { name };
-    QFileInfo previewImageFile(previewThumbnailUrl.toLocalFile());
+    const QUrl previewThumbnailUrl { previewThumbnail };
+    const QFileInfo previewImageFile(previewThumbnailUrl.toString());
+    const QString destinationFilePath = destination + "/" + previewImageFile.fileName();
 
-    if (!name.isEmpty()) {
-        if (!QFile::copy(previewThumbnailUrl.toLocalFile(), destination)) {
-            qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << name;
+    if (!previewThumbnail.isEmpty()) {
+        if (!QFile::copy(previewThumbnailUrl.toLocalFile(), destinationFilePath)) {
+            qDebug() << "Could not copy" << previewThumbnailUrl.toLocalFile() << " to " << destinationFilePath;
             return false;
         }
     }

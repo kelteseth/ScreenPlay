@@ -75,6 +75,7 @@ public:
         Ok,
         CopyError,
         WriteProjectFileError,
+        WriteLicenseFileError,
         CreateProjectFolderError,
         CopyPreviewThumbnailError,
         CopyFileError,
