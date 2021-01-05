@@ -74,25 +74,15 @@
         <file>assets/icons/icon_widgets.svg</file>
         <file>assets/icons/icon_window.svg</file>
         <file>assets/icons/monitor_setup.svg</file>
-        <file>assets/images/FFmpeg_Logo_new.svg</file>
         <file>assets/images/Intro.png</file>
         <file>assets/images/Intro_PC.png</file>
-        <file>assets/images/Intro_PC.svg</file>
         <file>assets/images/Intro_shine.png</file>
-        <file>assets/images/ScreenPlayIconStomt.png</file>
-        <file>assets/images/Stomt_Logo+Wordmark_Mono_BLK.svg</file>
-        <file>assets/images/Untitled.png</file>
         <file>assets/images/Window.svg</file>
-        <file>assets/images/ava.png</file>
-        <file>assets/images/hand_give.png</file>
-        <file>assets/images/mask.svg</file>
         <file>assets/images/mask_round.svg</file>
         <file>assets/images/mask_workshop.png</file>
         <file>assets/images/missingPreview.png</file>
-        <file>assets/images/noisy-texture-2.png</file>
         <file>assets/images/noisy-texture-3.png</file>
         <file>assets/images/noisy-texture.png</file>
-        <file>assets/images/undraw_static_website_0107.svg</file>
         <file>assets/licenses/Apache2.txt</file>
         <file>assets/licenses/OFL.txt</file>
         <file>assets/particle/backgroundGlow.png</file>
@@ -143,5 +133,6 @@
         <file>translations/ScreenPlay_ru.qm</file>
         <file>translations/ScreenPlay_vi.qm</file>
         <file>translations/ScreenPlay_zh_cn.qm</file>
+        <file>assets/images/Early_Access.png</file>
     </qresource>
 </RCC>

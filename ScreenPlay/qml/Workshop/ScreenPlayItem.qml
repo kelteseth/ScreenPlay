@@ -125,7 +125,7 @@ Item {
 
         Image {
             id: mask
-            source: "qrc:/assets/img/window.svg"
+            source: "qrc:/assets/images/window.svg"
             sourceSize: Qt.size(screenPlayItem.width, screenPlayItem.height)
             visible: false
             smooth: true
