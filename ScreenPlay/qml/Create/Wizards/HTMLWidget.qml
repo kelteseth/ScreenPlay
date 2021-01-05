@@ -13,8 +13,7 @@ WizardPage {
     sourceComponent: ColumnLayout {
 
         function create() {
-            ScreenPlay.wizards.createHTMLWidget(tfTitle.text,
-                                                cbLicense.name,
+            ScreenPlay.wizards.createHTMLWidget(tfTitle.text, cbLicense.name,
                                                 cbLicense.licenseFile,
                                                 tfCreatedBy.text,
                                                 previewSelector.imageSource,
@@ -84,10 +83,6 @@ WizardPage {
                     id: tfCreatedBy
                     Layout.fillWidth: true
                     placeholderText: qsTr("Created by")
-                }
-
-                Common.HeadlineSection {
-                    text: qsTr("License")
                 }
 
                 Common.LicenseSelector {
