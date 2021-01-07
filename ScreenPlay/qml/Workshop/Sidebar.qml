@@ -285,7 +285,6 @@ Drawer {
                     Layout.alignment: Qt.AlignLeft
                     text: qsTr("Tags: ") + tags
                     font.pointSize: 11
-                    opacity: tags !== "" ? 1 : 0
                     Behavior on opacity {
                         NumberAnimation {
                             duration: 200
@@ -311,11 +310,13 @@ Drawer {
                     text: qsTr("Subscribtions: ") + root.subscriptionCount
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
+                Item {
+                    Layout.fillWidth: true
+                }
 
                 ToolButton {
                     icon.source: "qrc:/assets/icons/icon_open_in_new.svg"
                     text: qsTr("Open In Steam")
-                    //Material.color: Material.secondaryTextColor
                     onClicked: Qt.openUrlExternally(
                                    "steam://url/CommunityFilePage/" + root.workshopID)
                 }
