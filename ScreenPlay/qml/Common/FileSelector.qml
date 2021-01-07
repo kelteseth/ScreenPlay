@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
-import Qt.labs.platform 1.1
+import QtQuick.Dialogs 1.2
 import ScreenPlay 1.0
 
 
@@ -130,11 +130,9 @@ Item {
         FileDialog {
             id: fileDialog
             title: qsTr("Please choose a file")
-            fileMode: FileDialog.OpenFile
             onAccepted: {
                 root.file = fileDialog.file
-                txtName.text = fileDialog.file.toString().replace(/^.*[\\\/]/,
-                                                                  '')
+                txtName.text = fileDialog.file.toString()
             }
         }
     }
