@@ -244,7 +244,8 @@ bool CreateImportVideo::analyzeWebmReadFrames(const QJsonObject& obj)
 
     // If the video is to short
     m_smallVideo = m_numberOfFrames < (m_framerate * 5);
-    qInfo() << m_numberOfFrames << m_framerate << m_smallVideo;
+    m_length = std::ceil(m_numberOfFrames / m_framerate);   ;
+    qInfo() << m_numberOfFrames << m_framerate << m_smallVideo << m_length;
     return true;
 }
 
@@ -385,24 +386,6 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     args.append("-an");
     args.append(m_exportPath + "/preview.webm");
     emit processOutput("ffmpeg " + Util::toString(args));
-
-    connect(m_process.get(), &QProcess::readyReadStandardOutput, this, [&]() {
-        QString tmpOut = m_process->readAllStandardOutput();
-        const auto tmpList = tmpOut.split(QRegExp("\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
-
-        if (tmpList.length() > 2) {
-            bool ok = false;
-            const float currentFrame = QString(tmpList.at(1)).toFloat(&ok);
-
-            if (!ok)
-                return;
-
-            const float progress = currentFrame / static_cast<float>((m_framerate * 5));
-
-            this->setProgress(progress);
-        }
-        emit processOutput(tmpOut);
-    });
 
     const QString ffmpegOut = waitForFinished(args);
     const QFile previewVideo(m_exportPath + "/preview.webm");
