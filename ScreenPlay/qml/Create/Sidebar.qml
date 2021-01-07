@@ -160,7 +160,6 @@ Rectangle {
         section.delegate: Item {
             height: 60
             Text {
-                //verticalAlignment: Qt.AlignVCenter
                 anchors {
                     bottom: parent.bottom
                     left: parent.left
@@ -184,6 +183,9 @@ Rectangle {
 
                 stackView.clear(StackView.PushTransition)
                 stackView.push("qrc:/qml/Create/StartInfo.qml")
+                listView.currentIndex = 0
+
+                ScreenPlay.util.setNavigationActive(true)
             }
         }
 
