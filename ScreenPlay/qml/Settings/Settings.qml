@@ -118,6 +118,7 @@ Item {
                         FileDialog {
                             id: folderDialogSaveLocation
                             selectFolder: true
+                            folder: ScreenPlay.globalVariables.localStoragePath
                             onAccepted: {
                                 ScreenPlay.settings.setLocalStoragePath(
                                             folderDialogSaveLocation.fileUrls[0])
