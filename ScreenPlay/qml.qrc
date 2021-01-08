@@ -88,5 +88,6 @@
         <file>qml/Common/LicenseSelector.qml</file>
         <file>qml/Common/Util.js</file>
         <file>qml/Common/Dialogs/CriticalError.qml</file>
+        <file>qml/Common/ColorPicker.qml</file>
     </qresource>
 </RCC>
