@@ -63,7 +63,7 @@ WizardPage {
                         id: imgPreview
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectCrop
-                        source: fileSelector.fileDialog.file
+                        source: fileSelector.fileDialog.fileUrl
                     }
                 }
 
