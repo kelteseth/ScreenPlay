@@ -32,6 +32,7 @@ WizardPage {
 
         Common.Headline {
             text: qsTr("Create a HTML Wallpaper")
+            Layout.fillWidth: true
         }
 
         Common.HeadlineSection {

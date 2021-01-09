@@ -10,24 +10,23 @@ import "../../Common" as Common
 
 WizardPage {
     id: root
+
+    property url file
     sourceComponent: ColumnLayout {
 
         function create() {
-            ScreenPlay.wizards.createGifWallpaper(tfTitle.text,
-                                                  cbLicense.name,
+            ScreenPlay.wizards.createGifWallpaper(tfTitle.text, cbLicense.name,
                                                   cbLicense.licenseFile,
-                                                  tfCreatedBy.text,
-                                                  fileSelector.file,
+                                                  tfCreatedBy.text, root.file,
                                                   tagSelector.getTags())
         }
 
-        property bool ready: tfTitle.text.length >= 1
-                             && fileSelector.file.length > 1
+        property bool ready: tfTitle.text.length >= 1 && root.file.length !== ""
         onReadyChanged: root.ready = ready
 
         Common.Headline {
             id: txtHeadline
-            text: qsTr("Create a Gif Wallpaper")
+            text: qsTr("Import a Gif Wallpaper")
             Layout.fillWidth: true
         }
 
@@ -47,15 +46,44 @@ WizardPage {
 
                 Rectangle {
                     id: leftWrapper
-                    color: "#333333"
+                    color: Qt.darker(Material.backgroundColor)
                     radius: 3
                     Layout.fillHeight: true
                     Layout.fillWidth: true
+                    DropArea {
+                        id: dropArea
+                        anchors.fill: parent
+                        onDropped: {
+                            root.file = drop.urls[0]
+                            leftWrapper.color = Qt.darker(
+                                        Qt.darker(Material.backgroundColor))
+                        }
+
+                        onExited: {
+                            leftWrapper.color = Qt.darker(
+                                        Material.backgroundColor)
+                        }
+
+                        onEntered: {
+                            leftWrapper.color = Qt.darker(
+                                        Qt.darker(Material.backgroundColor))
+                            drag.accept(Qt.LinkAction)
+                        }
+                    }
+
+                    Image {
+                        id: bgPattern
+                        anchors.fill: parent
+                        fillMode: Image.Tile
+                        opacity: .2
+                        source: "qrc:/assets/images/noisy-texture-3.png"
+                    }
 
                     Text {
-                        color: Material.secondaryTextColor
+                        color: Material.primaryTextColor
                         font.family: ScreenPlay.settings.font
-                        text: qsTr("Select a gif below.")
+                        font.pointSize: 13
+                        text: qsTr("Drop a *.gif file here or use 'Select file' below.")
                         anchors.centerIn: parent
                     }
 
@@ -63,7 +91,7 @@ WizardPage {
                         id: imgPreview
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectCrop
-                        source: fileSelector.fileDialog.fileUrl
+                        source: root.file
                     }
                 }
 
@@ -77,6 +105,7 @@ WizardPage {
                     Layout.fillWidth: true
                     placeHolderText: qsTr("Select your gif")
                     fileDialog.nameFilters: ["Gif (*.gif)"]
+                    onFileChanged: root.file = file
                 }
             }
 

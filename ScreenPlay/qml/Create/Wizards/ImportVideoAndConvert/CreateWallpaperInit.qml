@@ -28,7 +28,7 @@ Item {
         Common.Headline {
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
-            text: qsTr("Import a video")
+            text: qsTr("Import any video type")
         }
 
         Text {

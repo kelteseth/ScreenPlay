@@ -17,6 +17,7 @@ FocusScope {
     signal saveFinished
     signal cancelClicked
 
+
     property Component sourceComponent
     property alias savePopup: savePopup
     property bool ready: false

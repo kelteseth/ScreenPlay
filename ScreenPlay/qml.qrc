@@ -89,5 +89,6 @@
         <file>qml/Common/Util.js</file>
         <file>qml/Common/Dialogs/CriticalError.qml</file>
         <file>qml/Common/ColorPicker.qml</file>
+        <file>qml/Create/StartInfoLinkImage.qml</file>
     </qresource>
 </RCC>
