@@ -86,6 +86,10 @@ endif()
 
 add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml})
 
+if(APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
+endif()
+
 if(WIN32)
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)

@@ -19,6 +19,8 @@ elseif(UNIX)
     set(headers_plattform src/linuxwindow.h)
 endif()
 
+
+
 set(src main.cpp src/basewindow.cpp)
 set(headers src/basewindow.h)
 
@@ -30,9 +32,15 @@ endif()
 
 add_executable(${PROJECT_NAME} ${src} ${headers} ${src_plattform} ${headers_plattform} ${resources})
 
+if(WIN32)
 # Disable console window on Windows
 # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
 set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
+endif()
+
+if(APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
+endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core Qt5::WebEngine ScreenPlaySDK)
 

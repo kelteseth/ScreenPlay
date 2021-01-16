@@ -54,7 +54,7 @@ if platform == "win32":
     os.system("install_dependencies_windows.bat")
 elif platform == "darwin":
     cmake_prefix_path = "~/Qt/" + qt_version + "/clang_64"
-    deploy_command = "macdeployqt --{type}  --qmldir ../../{app}/qml {app}"
+    deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml "
     cmake_target_triplet = "x64-osx"
     print("Executing install_dependencies_linux_mac.sh")
     os.system("chmod +x install_dependencies_linux_mac.sh")
@@ -98,6 +98,7 @@ cmake_configure_command = """cmake ../
     toolchain=cmake_toolchain_file).replace("\n", "")
 
 print("cmake_configure_command: %s" % cmake_configure_command)
+print("deploy_command: %s" % deploy_command)
 
 process = subprocess.run(cmake_configure_command,  capture_output=True,shell=True)
 
@@ -109,16 +110,19 @@ os.chdir("bin")
 
 os.system((deploy_command).format(
   type=cmake_build_type,
+  prefix_path=cmake_prefix_path,
   app="ScreenPlay",
   executable_file_ending=executable_file_ending))
 
 os.system((deploy_command).format(
   type=cmake_build_type,
+  prefix_path=cmake_prefix_path,
   app="ScreenPlayWidget",
   executable_file_ending=executable_file_ending))
 
 os.system((deploy_command).format(
   type=cmake_build_type,
+  prefix_path=cmake_prefix_path,
   app="ScreenPlayWallpaper",
   executable_file_ending=executable_file_ending))
 
