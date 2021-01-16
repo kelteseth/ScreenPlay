@@ -244,7 +244,8 @@ bool CreateImportVideo::analyzeWebmReadFrames(const QJsonObject& obj)
 
     // If the video is to short
     m_smallVideo = m_numberOfFrames < (m_framerate * 5);
-    m_length = std::ceil(m_numberOfFrames / m_framerate);   ;
+    m_length = std::ceil(m_numberOfFrames / m_framerate);
+
     qInfo() << m_numberOfFrames << m_framerate << m_smallVideo << m_length;
     return true;
 }
