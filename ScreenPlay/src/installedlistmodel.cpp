@@ -175,14 +175,14 @@ void InstalledListModel::loadInstalledContent()
                     continue;
 
                 if (GlobalVariables::getAvailableTypes().contains(obj->value("type").toString())) {
-                if (GlobalVariables::getAvailableTypes().contains(obj->value("type").toString(), Qt::CaseInsensitive)) {
-                    emit addInstalledItem(*obj, item.baseName());
-                }
+                    if (GlobalVariables::getAvailableTypes().contains(obj->value("type").toString(), Qt::CaseInsensitive)) {
+                        emit addInstalledItem(*obj, item.baseName());
+                    }
 
-                counter += 1;
+                    counter += 1;
+                }
             }
         }
-
         setCount(counter);
         emit installedLoadingFinished();
     });
