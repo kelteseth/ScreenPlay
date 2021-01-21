@@ -34,7 +34,7 @@ Item {
         function onWorkshopSearched() {
             bannerTxt.text = Workshop.steamWorkshop.workshopListModel.getBannerText()
             background.backgroundImage = Workshop.steamWorkshop.workshopListModel.getBannerUrl()
-            banner.bannerWorkshopID = Workshop.steamWorkshop.workshopListModel.getBannerID()
+            banner.bannerPublishedFileID = Workshop.steamWorkshop.workshopListModel.getBannerID()
             bannerTxtUnderline.numberSubscriber
                     = Workshop.steamWorkshop.workshopListModel.getBannerAmountSubscriber()
         }
@@ -117,7 +117,7 @@ Item {
                     id: banner
                     height: 350
                     z: 5
-                    property int bannerWorkshopID
+                    property var bannerPublishedFileID
                     anchors {
                         top: parent.top
                         right: parent.right
@@ -189,7 +189,7 @@ Item {
                                 visible: false
                                 onClicked: {
                                     sidebar.setWorkshopItem(
-                                                workshopID, imgUrl,
+                                                publishedFileID, imgUrl,
                                                 additionalPreviewUrl,
                                                 subscriptionCount)
                                 }
@@ -199,7 +199,7 @@ Item {
                         MouseArea {
                             onClicked: Qt.openUrlExternally(
                                            "steam://url/CommunityFilePage/"
-                                           + banner.bannerWorkshopID)
+                                           + banner.bannerPublishedFileID)
                             height: 30
                             width: bannerTxtOpenInSteam.paintedWidth
                             cursorShape: Qt.PointingHandCursor

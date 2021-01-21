@@ -17,7 +17,7 @@ Item {
     property string absoluteStoragePath
     property string type
     property bool hasMenuOpen: false
-    property int workshopID: 0
+    property var publishedFileID: 0
     property int itemIndex
     property string screenId: ""
     signal itemClicked(var screenId, var type, var isActive)

@@ -188,7 +188,7 @@ Item {
             itemIndex: index
             onOpenContextMenu: {
                 // Set the menu to the current item informations
-                contextMenu.workshopID = delegate.workshopID
+                contextMenu.publishedFileID = delegate.publishedFileID
                 contextMenu.absoluteStoragePath = delegate.absoluteStoragePath
 
                 deleteDialog.currentItemIndex = itemIndex
@@ -210,7 +210,7 @@ Item {
 
     Menu {
         id: contextMenu
-        property int workshopID: 0
+        property var publishedFileID: 0
         property url absoluteStoragePath
 
         MenuItem {
@@ -224,7 +224,7 @@ Item {
         MenuItem {
             text: qsTr("Deinstall Item")
             icon.source: "qrc:/assets/icons/icon_delete.svg"
-            enabled: contextMenu.workshopID === 0
+            enabled: contextMenu.publishedFileID === 0
             onClicked: {
                 deleteDialog.open()
             }
@@ -232,11 +232,11 @@ Item {
         MenuItem {
             id: miWorkshop
             text: qsTr("Open workshop Page")
-            enabled: contextMenu.workshopID !== 0
+            enabled: contextMenu.publishedFileID !== 0
             icon.source: "qrc:/assets/icons/icon_steam.svg"
             onClicked: {
                 Qt.openUrlExternally(
-                            "steam://url/CommunityFilePage/" + workshopID)
+                            "steam://url/CommunityFilePage/" + publishedFileID)
             }
         }
     }
