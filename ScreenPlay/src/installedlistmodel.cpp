@@ -110,8 +110,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(row).m_file;
         case static_cast<int>(ScreenPlayItem::AbsoluteStoragePath):
             return m_screenPlayFiles.at(row).m_absoluteStoragePath;
-        case static_cast<int>(ScreenPlayItem::WorkshopID):
-            return m_screenPlayFiles.at(row).m_workshopID;
+        case static_cast<int>(ScreenPlayItem::PublishedFileID):
+            return m_screenPlayFiles.at(row).m_publishedFileID;
         case static_cast<int>(ScreenPlayItem::Tags):
             return m_screenPlayFiles.at(row).m_tags;
         case static_cast<int>(ScreenPlayItem::SearchType):
@@ -136,7 +136,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { static_cast<int>(ScreenPlayItem::FolderId), "m_folderId" },
         { static_cast<int>(ScreenPlayItem::FileId), "m_file" },
         { static_cast<int>(ScreenPlayItem::AbsoluteStoragePath), "m_absoluteStoragePath" },
-        { static_cast<int>(ScreenPlayItem::WorkshopID), "m_workshopID" },
+        { static_cast<int>(ScreenPlayItem::PublishedFileID), "m_publishedFileID" },
         { static_cast<int>(ScreenPlayItem::Tags), "m_tags" },
         { static_cast<int>(ScreenPlayItem::SearchType), "m_searchType" },
     };
@@ -206,7 +206,7 @@ QVariantMap InstalledListModel::get(const QString& folderId) const
             map.insert("m_file", m_screenPlayFiles[i].m_file);
             map.insert("m_type", QVariant::fromValue(m_screenPlayFiles[i].m_type));
             map.insert("m_absoluteStoragePath", m_screenPlayFiles[i].m_absoluteStoragePath);
-            map.insert("m_workshopID", m_screenPlayFiles[i].m_workshopID);
+            map.insert("m_publishedFileID", m_screenPlayFiles[i].m_publishedFileID);
             return map;
         }
     }

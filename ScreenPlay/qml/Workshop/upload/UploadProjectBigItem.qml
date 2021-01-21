@@ -23,7 +23,7 @@ Item {
     property string preview: ""
     property string type: ""
     property bool hasMenuOpen: false
-    property int workshopID: 0
+    property var publishedFileID: 0
     property int itemIndex
     signal itemClicked(var screenId, var type, var isActive)
 

@@ -184,7 +184,7 @@ Item {
             type: m_type
             screenId: m_folderId
             absoluteStoragePath: m_absoluteStoragePath
-            workshopID: m_workshopID
+            publishedFileID: m_publishedFileID
             itemIndex: index
             onOpenContextMenu: {
                 // Set the menu to the current item informations

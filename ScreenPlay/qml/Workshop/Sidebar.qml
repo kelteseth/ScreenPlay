@@ -47,14 +47,14 @@ Drawer {
     property url videoPreview
     property alias imgUrl: img.source
     property string name
-    property int workshopID
+    property var publishedFileID
     property int itemIndex
     property int subscriptionCount
     property bool subscribed: false
 
-    function setWorkshopItem(id, imgUrl, videoPreview, subscriptionCount) {
+    function setWorkshopItem(publishedFileID, imgUrl, videoPreview, subscriptionCount) {
 
-        if (root.workshopID === id) {
+        if (root.publishedFileID === publishedFileID) {
             if (!root.visible) {
                 root.open()
             } else {
@@ -63,7 +63,7 @@ Drawer {
             return
         }
         webView.opacity = 0
-        root.workshopID = id
+        root.publishedFileID = publishedFileID
         root.imgUrl = imgUrl
         root.subscriptionCount = subscriptionCount
         root.videoPreview = videoPreview
@@ -74,7 +74,8 @@ Drawer {
         if (!root.visible) {
             root.open()
         }
-        SP.Workshop.steamWorkshop.requestWorkshopItemDetails(workshopID)
+
+        SP.Workshop.steamWorkshop.requestWorkshopItemDetails(publishedFileID)
 
         webView.setVideo()
     }
@@ -236,7 +237,7 @@ Drawer {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you like the content")
                         onClicked: {
-                            SP.Workshop.steamWorkshop.vote(root.workshopID,
+                            SP.Workshop.steamWorkshop.vote(root.publishedFileID,
                                                            true)
                             txtVotesUp.highlighted = true
                             txtVotesDown.highlighted = false
@@ -250,7 +251,7 @@ Drawer {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you do not like the content")
                         onClicked: {
-                            SP.Workshop.steamWorkshop.vote(root.workshopID,
+                            SP.Workshop.steamWorkshop.vote(root.publishedFileID,
                                                            false)
                             txtVotesUp.highlighted = false
                             txtVotesDown.highlighted = true
@@ -318,7 +319,7 @@ Drawer {
                     icon.source: "qrc:/assets/icons/icon_open_in_new.svg"
                     text: qsTr("Open In Steam")
                     onClicked: Qt.openUrlExternally(
-                                   "steam://url/CommunityFilePage/" + root.workshopID)
+                                   "steam://url/CommunityFilePage/" + root.publishedFileID)
                 }
             }
 
@@ -361,7 +362,7 @@ Drawer {
         text: root.subscribed ? qsTr("Subscribed!") : qsTr("Subscribe")
         onClicked: {
             root.subscribed = true
-            SP.Workshop.steamWorkshop.subscribeItem(root.workshopID)
+            SP.Workshop.steamWorkshop.subscribeItem(root.publishedFileID)
         }
     }
 }

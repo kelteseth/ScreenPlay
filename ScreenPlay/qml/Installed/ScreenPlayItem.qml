@@ -16,7 +16,7 @@ Item {
     property string screenId
     property url absoluteStoragePath
     property var type: InstalledType.Unknown
-    property int workshopID: 0
+    property var publishedFileID: 0
     property int itemIndex
 
     signal openContextMenu(point position)

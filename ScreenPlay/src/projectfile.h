@@ -82,7 +82,7 @@ struct ProjectFile {
             m_title = obj.value("title").toString();
 
         if (obj.contains("workshopid")) {
-            m_workshopID = obj.value("workshopid").toInt(0);
+            m_publishedFileID = obj.value("workshopid").toInt(0);
         }
 
         if (obj.contains("tags")) {
@@ -126,7 +126,7 @@ struct ProjectFile {
     //Folder name
     QString m_folderId;
 
-    int m_workshopID { 0 };
+    QVariant m_publishedFileID { 0 };
     QStringList m_tags;
 
     InstalledType::InstalledType m_type = InstalledType::InstalledType::Unknown;

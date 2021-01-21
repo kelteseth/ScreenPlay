@@ -14,13 +14,13 @@ Item {
     property url imgUrl
     property url additionalPreviewUrl
     property string name
-    property int workshopID
+    property var publishedFileID: 0
     property int itemIndex
     property int subscriptionCount
 
     property bool isDownloading: false
 
-    signal clicked(int workshopID, url imgUrl)
+    signal clicked(var publishedFileID, url imgUrl)
 
     RectangularGlow {
         id: effect
@@ -234,7 +234,7 @@ Item {
                     }
                 }
                 onClicked: {
-                    root.clicked(root.workshopID, root.imgUrl)
+                    root.clicked(root.publishedFileID, root.imgUrl)
                 }
             }
             MouseArea {
@@ -249,15 +249,16 @@ Item {
                 onClicked: {
                     isDownloading = true
                     root.state = "downloading"
-                    SP.Workshop.steamWorkshop.subscribeItem(root.workshopID)
+                    SP.Workshop.steamWorkshop.subscribeItem(root.publishedFileID)
                     ScreenPlay.setTrackerSendEvent("subscribeItem",
-                                                   root.workshopID)
+                                                   root.publishedFileID)
                 }
 
                 Connections {
                     target: SP.Workshop.steamWorkshop
-                    function onWorkshopItemInstalled(appID, publishedFile) {
-                        if (appID === SP.Workshop.steamWorkshop.appID) {
+                    function onWorkshopItemInstalled(appID, publishedFileID) {
+                        if (appID === SP.Workshop.steamWorkshop.appID
+                                && publishedFileID === root.publishedFileID) {
                             root.state = "installed"
                         }
                     }
@@ -275,7 +276,7 @@ Item {
                 }
                 onClicked: {
                     Qt.openUrlExternally(
-                                "steam://url/CommunityFilePage/" + root.workshopID)
+                                "steam://url/CommunityFilePage/" + root.publishedFileID)
                 }
             }
         }

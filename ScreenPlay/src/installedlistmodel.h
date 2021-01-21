@@ -84,7 +84,7 @@ public:
         FolderId,
         FileId,
         AbsoluteStoragePath,
-        WorkshopID,
+        PublishedFileID,
         Tags,
         SearchType,
     };

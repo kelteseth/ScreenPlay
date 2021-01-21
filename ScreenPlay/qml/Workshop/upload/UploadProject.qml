@@ -104,7 +104,7 @@ Popup {
                             type: screenType
                             screenId: screenFolderId
                             absoluteStoragePath: screenAbsoluteStoragePath
-                            workshopID: screenWorkshopID
+                            publishedFileID: screenPublishedFileID
                             preview: screenPreview
                             itemIndex: index
                             onItemClicked: {

@@ -325,8 +325,7 @@ Item {
                         Layout.preferredHeight: searchWrapper.height
                         font.family: ScreenPlay.settings.font
                         onActivated: {
-                            Workshop.steamWorkshop.workshopListModel.searchWorkshop(
-                                        cbQuerySort.currentValue)
+                            Workshop.steamWorkshop.workshopListModel.searchWorkshop( cbQuerySort.currentValue, 1)
                         }
                         model: [{
                                 "value": SteamEnums.k_EUGCQuery_RankedByVote,
@@ -367,12 +366,12 @@ Item {
                 delegate: WorkshopItem {
                     imgUrl: m_workshopPreview
                     name: m_workshopTitle
-                    workshopID: m_workshopID
+                    publishedFileID: m_publishedFileID
                     additionalPreviewUrl: m_additionalPreviewUrl
                     subscriptionCount: m_subscriptionCount
                     itemIndex: index
                     onClicked: {
-                        sidebar.setWorkshopItem(workshopID, imgUrl,
+                        sidebar.setWorkshopItem(publishedFileID, imgUrl,
                                                 additionalPreviewUrl,
                                                 subscriptionCount)
                     }
