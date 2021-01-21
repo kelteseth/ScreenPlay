@@ -189,27 +189,27 @@ QString BaseWindow::loadFromFile(const QString& filename)
 BaseWindow::WallpaperType BaseWindow::parseWallpaperType(const QString& type)
 {
 
-    if (type.contains("VideoWallpaper", Qt::CaseInsensitive)) {
+    if (type.contains("videoWallpaper", Qt::CaseInsensitive)) {
         return (BaseWindow::WallpaperType::Video);
     }
 
-    if (type.contains("QmlWallpaper", Qt::CaseInsensitive)) {
+    if (type.contains("qmlWallpaper", Qt::CaseInsensitive)) {
         return (BaseWindow::WallpaperType::Qml);
     }
 
-    if (type.contains("HtmlWallpaper", Qt::CaseInsensitive)) {
+    if (type.contains("htmlWallpaper", Qt::CaseInsensitive)) {
         return (BaseWindow::WallpaperType::Html);
     }
 
-    if (type.contains("GodotWallpaper", Qt::CaseInsensitive)) {
+    if (type.contains("godotWallpaper", Qt::CaseInsensitive)) {
         return (BaseWindow::WallpaperType::Godot);
     }
 
-    if (type.contains("GifWallpaper", Qt::CaseInsensitive)) {
+    if (type.contains("gifWallpaper", Qt::CaseInsensitive)) {
         return (BaseWindow::WallpaperType::Gif);
     }
 
-    if (type.contains("WebsiteWallpaper", Qt::CaseInsensitive)) {
+    if (type.contains("websiteWallpaper", Qt::CaseInsensitive)) {
         return (BaseWindow::WallpaperType::Website);
     }
 
