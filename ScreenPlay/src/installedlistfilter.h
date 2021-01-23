@@ -54,6 +54,9 @@ public slots:
     void sortByName(const QString& name);
     void resetFilter();
 
+signals:
+    void sortChanged();
+
 private:
     const std::shared_ptr<InstalledListModel> m_ilm;
     ScreenPlay::SearchType::SearchType m_searchType = ScreenPlay::SearchType::SearchType::All;

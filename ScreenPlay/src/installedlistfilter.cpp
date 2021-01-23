@@ -32,6 +32,7 @@ void InstalledListFilter::sortByName(const QString& name)
     setFilterCaseSensitivity(Qt::CaseInsensitive);
     setFilterFixedString(name);
     sort(0);
+    emit sortChanged();
 }
 
 /*!
@@ -41,11 +42,13 @@ void InstalledListFilter::sortBySearchType(const ScreenPlay::SearchType::SearchT
 {
     if (searchType == SearchType::SearchType::All) {
         resetFilter();
+        emit sortChanged();
         return;
     }
     setFilterRole(static_cast<int>(InstalledListModel::ScreenPlayItem::SearchType));
     setFilterFixedString(QVariant::fromValue(searchType).toString());
     sort(0);
+    emit sortChanged();
 }
 
 /*!
@@ -56,6 +59,7 @@ void InstalledListFilter::resetFilter()
     setFilterRole(static_cast<int>(InstalledListModel::ScreenPlayItem::Title));
     setFilterWildcard("*");
     sort(0);
+    emit sortChanged();
 }
 
 }

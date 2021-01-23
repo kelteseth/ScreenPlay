@@ -72,6 +72,13 @@ Item {
         source: "qrc:/qml/Installed/InstalledWelcomeScreen.qml"
     }
 
+    Connections {
+        target: ScreenPlay.installedListFilter
+        function onSortChanged(){
+            gridView.positionViewAtBeginning()
+        }
+    }
+
     GridView {
         id: gridView
         boundsBehavior: Flickable.DragOverBounds
