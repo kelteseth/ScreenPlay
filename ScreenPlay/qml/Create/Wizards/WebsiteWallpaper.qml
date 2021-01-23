@@ -64,7 +64,7 @@ WizardPage {
             id: tfUrl
             Layout.fillWidth: true
             required: true
-            placeholderText: qsTr("Website URL")
+            text: "https://"
         }
 
         Item {

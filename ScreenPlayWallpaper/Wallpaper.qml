@@ -81,8 +81,7 @@ Rectangle {
             break
         case Wallpaper.WallpaperType.Website:
             loader.setSource("qrc:/WebsiteWallpaper.qml", {
-                                 "source": Qt.resolvedUrl(
-                                               Wallpaper.fullContentPath)
+                                 "url": Wallpaper.fullContentPath
                              })
             fadeIn()
             break

@@ -6,7 +6,7 @@ import ScreenPlayWallpaper 1.0
 Item {
 
     id: root
-    property alias url: webView.url
+    property string url
 
     signal requestFadeIn
 
@@ -24,6 +24,7 @@ Item {
     WebEngineView {
         id: webView
         anchors.fill: parent
+        url: root.url
         onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
             if ((loadProgress === 100)) {

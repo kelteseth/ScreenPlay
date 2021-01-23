@@ -65,7 +65,7 @@ BaseWindow::BaseWindow(
         QApplication::exit(-3);
     }
 
-    if (!project.contains("file")) {
+    if (!project.contains("file") && !project.contains("url")) {
         qFatal("No file was specified inside the json object!");
         QApplication::exit(-4);
     }
@@ -159,7 +159,11 @@ void BaseWindow::replaceWallpaper(
     setVolume(volume);
     setFillMode(fillMode);
     setType(parseWallpaperType(type));
-    setFullContentPath("file:///" + absolutePath + "/" + file);
+    if (type.contains("websiteWallpaper", Qt::CaseInsensitive)) {
+        setFullContentPath(file);
+    } else {
+        setFullContentPath("file:///" + absolutePath + "/" + file);
+    }
     qInfo() << file;
 
     if (m_type == WallpaperType::Qml || m_type == WallpaperType::Html)
