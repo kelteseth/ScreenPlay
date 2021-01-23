@@ -6,6 +6,7 @@ stages:
 
 check:
     stage: check
+    allow_failure: true
     tags:
         - vs2019
         - windows10
