@@ -110,6 +110,9 @@ struct ProjectFile {
         }
 
         m_type = *type;
+        if (m_type == InstalledType::InstalledType::GifWallpaper) {
+            m_preview = m_previewGIF;
+        }
         m_searchType = Util::getSearchTypeFromInstalledType(m_type);
     }
 

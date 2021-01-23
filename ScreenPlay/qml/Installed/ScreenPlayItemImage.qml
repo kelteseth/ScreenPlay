@@ -1,4 +1,6 @@
 import QtQuick 2.12
+import ScreenPlay 1.0
+import ScreenPlay.Enums.InstalledType 1.0
 
 Item {
     id: root
@@ -10,31 +12,48 @@ Item {
     property string sourceImage
     property string sourceImageGIF
     property var type: InstalledType.Unknown
+    onTypeChanged: {
+        if (root.sourceImage === "" && root.sourceImageGIF === "") {
+            image.source = "qrc:/assets/images/missingPreview.png"
+            return
+        }
 
-    function enter() {
-        if (root.sourceImageGIF != "") {
-            loader_imgGIFPreview.sourceComponent = component_imgGIFPreview
+        if (root.type === InstalledType.GifWallpaper) {
+            image.source = Qt.resolvedUrl(
+                        absoluteStoragePath + "/" + root.sourceImageGIF)
+            print(image.source)
+        } else {
+            if (root.sourceImage !== "") {
+                image.source = Qt.resolvedUrl(
+                            absoluteStoragePath + "/" + root.sourceImage)
+            }
         }
     }
 
-    function exit() {
-        root.state = "loaded"
-        loader_imgGIFPreview.sourceComponent = null
+    function enter() {
+        if (root.type !== InstalledType.GifWallpaper) {
+            if (root.sourceImageGIF !== "")
+                image.source = Qt.resolvedUrl(
+                            absoluteStoragePath + "/" + root.sourceImageGIF)
+        }
+        image.playing = true
     }
 
-    Image {
+    function exit() {
+        image.playing = false
+        if (root.type !== InstalledType.GifWallpaper) {
+            image.source = Qt.resolvedUrl(
+                        absoluteStoragePath + "/" + root.sourceImage)
+        }
+    }
+
+    AnimatedImage {
         id: image
         anchors.fill: parent
         asynchronous: true
         cache: true
+        playing: false
         fillMode: Image.PreserveAspectCrop
-        source: {
-            if (root.sourceImage === "")
-                return "qrc:/assets/images/missingPreview.png"
-
-            return root.screenPreview === "" ? "qrc:/assets/images/missingPreview.png" : Qt.resolvedUrl(
-                                            absoluteStoragePath + "/" + root.sourceImage)
-        }
 
         onStatusChanged: {
             if (image.status === Image.Ready) {
@@ -45,62 +64,4 @@ Item {
             }
         }
     }
-
-    Component {
-        id: component_imgGIFPreview
-        AnimatedImage {
-            id: imgGIFPreview
-            asynchronous: true
-            playing: true
-            source: root.sourceImageGIF
-                    === "" ? "qrc:/assets/images/missingPreview.png" : Qt.resolvedUrl(
-                                 absoluteStoragePath + "/" + root.sourceImageGIF)
-            fillMode: Image.PreserveAspectCrop
-        }
-    }
-    Loader {
-        id: loader_imgGIFPreview
-        anchors.fill: parent
-        opacity: 0
-    }
-
-    transitions: [
-        Transition {
-            from: "loading"
-            to: "loaded"
-
-            OpacityAnimator {
-                target: image
-                duration: 300
-                from: 0
-                to: 1
-                easing.type: Easing.OutQuart
-            }
-        },
-        Transition {
-            from: "hover"
-            to: "loaded"
-
-            OpacityAnimator {
-                target: loader_imgGIFPreview
-                duration: 300
-                from: 1
-                to: 0
-                easing.type: Easing.OutQuart
-            }
-        },
-        Transition {
-            from: "loaded"
-            to: "hover"
-            reversible: true
-
-            OpacityAnimator {
-                target: loader_imgGIFPreview
-                duration: 400
-                from: 0
-                to: 1
-                easing.type: Easing.OutQuart
-            }
-        }
-    ]
 }
