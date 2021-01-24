@@ -18,6 +18,7 @@ Item {
     property var type: InstalledType.Unknown
     property var publishedFileID: 0
     property int itemIndex
+    property bool isScrolling: false
 
     signal openContextMenu(point position)
 
@@ -157,7 +158,7 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-                hoverEnabled: true
+                hoverEnabled: !root.isScrolling
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onEntered: {

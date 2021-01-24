@@ -167,6 +167,7 @@ Item {
             }
         }
         property bool isDragging: false
+        property bool isScrolling: gridView.verticalVelocity != 0
         onDragStarted: isDragging = true
         onDragEnded: isDragging = false
         onContentYChanged: {
@@ -193,6 +194,7 @@ Item {
             absoluteStoragePath: m_absoluteStoragePath
             publishedFileID: m_publishedFileID
             itemIndex: index
+            isScrolling: gridView.isScrolling
             onOpenContextMenu: {
                 // Set the menu to the current item informations
                 contextMenu.publishedFileID = delegate.publishedFileID
