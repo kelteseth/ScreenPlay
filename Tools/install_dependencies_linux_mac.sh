@@ -5,8 +5,8 @@ cd ..
 git clone https://github.com/microsoft/vcpkg.git ScreenPlay-vcpkg
 cd ScreenPlay-vcpkg
 git pull
-# master 10.09.2020 - 18ab4b72a26284f0df28295ce7bf9b21c96f20f4
-git checkout 18ab4b72a26284f0df28295ce7bf9b21c96f20f4
+# master 25.01.2021 - fc0d6b28006e0607a6b9871641ec48925274e079
+git checkout fc0d6b28006e0607a6b9871641ec48925274e079
 chmod +x bootstrap-vcpkg.sh
 ./bootstrap-vcpkg.sh
 chmod +x vcpkg
@@ -16,3 +16,5 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
 else
 ./vcpkg install  openssl-unix  sentry-native doctest benchmark  --triplet x64-linux --recurse
 fi
+
+./vcpkg upgrade --no-dry-run 

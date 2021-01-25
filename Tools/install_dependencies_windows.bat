@@ -5,12 +5,13 @@ cd ..
 git clone https://github.com/microsoft/vcpkg.git ScreenPlay-vcpkg
 cd ScreenPlay-vcpkg
 git pull
-rem  master 26.12.2020 - a8ac047e6c40b806ac89ac4d7281d45d7c0aaf29
-git checkout  a8ac047e6c40b806ac89ac4d7281d45d7c0aaf29
+rem master 25.01.2021 - fc0d6b28006e0607a6b9871641ec48925274e079
+git checkout fc0d6b28006e0607a6b9871641ec48925274e079
 call bootstrap-vcpkg.bat
 
 rem Install vcpkg dependencies
 vcpkg.exe install openssl  sentry-native  doctest benchmark  --triplet x64-windows --recurse
+vcpkg.exe upgrade --no-dry-run 
 
 cd ..
 cd ScreenPlay
