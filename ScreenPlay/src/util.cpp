@@ -1,5 +1,7 @@
 #include "util.h"
 
+#include <sentry.h>
+
 namespace ScreenPlay {
 
 /*!
@@ -388,6 +390,25 @@ std::optional<InstalledType::InstalledType> Util::getInstalledTypeFromString(con
     return std::nullopt;
 }
 
+static const char*
+logLevelForMessageType(QtMsgType msgType)
+{
+    switch (msgType) {
+    case QtDebugMsg:
+        return "debug";
+    case QtWarningMsg:
+        return "warning";
+    case QtCriticalMsg:
+        return "error";
+    case QtFatalMsg:
+        return "fatal";
+    case QtInfoMsg:
+        Q_FALLTHROUGH();
+    default:
+        return "info";
+    }
+}
+
 /*!
   \brief Basic logging to the GUI. No logging is done to a log file for now. This string can be copied
   in the settings tab in the UI.
@@ -423,6 +444,24 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
 
     if (utilPointer != nullptr)
         utilPointer->appendDebugMessages(log);
+
+    sentry_value_t crumb
+        = sentry_value_new_breadcrumb("default", qUtf8Printable(msg));
+
+    sentry_value_set_by_key(
+        crumb, "category", sentry_value_new_string(context.category));
+
+    sentry_value_set_by_key(
+        crumb, "level", sentry_value_new_string(logLevelForMessageType(type)));
+
+    sentry_value_t location = sentry_value_new_object();
+    sentry_value_set_by_key(
+        location, "file", sentry_value_new_string(context.file));
+    sentry_value_set_by_key(
+        location, "line", sentry_value_new_int32(context.line));
+    sentry_value_set_by_key(crumb, "data", location);
+
+    sentry_add_breadcrumb(crumb);
 }
 
 /*!
