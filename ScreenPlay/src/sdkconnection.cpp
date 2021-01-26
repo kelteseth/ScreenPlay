@@ -60,6 +60,8 @@ void ScreenPlay::SDKConnection::readyRead()
             qCritical() << "Wallpaper type not found. Expected: " << GlobalVariables::getAvailableTypes() << " got: " << msg;
         }
 
+        qInfo() << "New connection" << m_appID << msg;
+
         emit appConnected(this);
 
     } else if (msg.startsWith("command=")) {
@@ -99,7 +101,7 @@ void ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 void ScreenPlay::SDKConnection::close()
 {
 
-    qInfo() << "Close " << m_type;
+    qInfo() << "Close " << m_type << m_appID;
 
     QJsonObject obj;
     obj.insert("command", QJsonValue("quit"));

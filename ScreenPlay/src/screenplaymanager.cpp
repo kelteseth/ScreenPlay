@@ -402,6 +402,7 @@ void ScreenPlayManager::newConnection()
                 return;
             }
         }
+        qWarning() << "No  matching connection found!";
     });
     m_clients.append(connection);
 }
@@ -452,11 +453,13 @@ bool ScreenPlayManager::closeConntectionByType(const QStringList& types)
     for (auto& client : m_clients) {
         if (types.contains(client->type(), Qt::CaseInsensitive)) {
             client->close();
-            return m_clients.removeOne(client);
+            if (!m_clients.removeOne(client)) {
+                return false;
+            }
         }
     }
 
-    return false;
+    return true;
 }
 
 /*!
