@@ -46,10 +46,11 @@
 #include <QVector>
 #include <QWebSocketServer>
 
-#include <memory>
-
+#include "ScreenPlayUtil/util.h"
 #include "globalvariables.h"
 #include "util.h"
+
+#include <memory>
 
 namespace ScreenPlay {
 

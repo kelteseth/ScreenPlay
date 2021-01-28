@@ -73,6 +73,7 @@ add_subdirectory(ScreenPlaySDK)
 add_subdirectory(ScreenPlayShader)
 add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
+add_subdirectory(ScreenPlayUtil)
 
 if(WIN32)
     add_subdirectory(ScreenPlaySysInfo)

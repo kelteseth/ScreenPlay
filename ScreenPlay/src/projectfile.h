@@ -43,6 +43,7 @@
 #include <QVariant>
 #include <QVariantList>
 
+#include "ScreenPlayUtil/util.h"
 #include "globalvariables.h"
 #include "util.h"
 
@@ -103,7 +104,7 @@ struct ProjectFile {
         if (!obj.contains("type"))
             return;
 
-        auto type = Util::getInstalledTypeFromString(obj.value("type").toString());
+        auto type = ScreenPlayUtil::getInstalledTypeFromString(obj.value("type").toString());
         if (!type) {
             qWarning() << "Type could not parsed from: " << *type << folderName;
             return;
@@ -113,7 +114,7 @@ struct ProjectFile {
         if (m_type == InstalledType::InstalledType::GifWallpaper) {
             m_preview = m_previewGIF;
         }
-        m_searchType = Util::getSearchTypeFromInstalledType(m_type);
+        m_searchType = ScreenPlayUtil::getSearchTypeFromInstalledType(m_type);
     }
 
     ProjectFile() { }

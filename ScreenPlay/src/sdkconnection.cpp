@@ -48,7 +48,7 @@ void ScreenPlay::SDKConnection::readyRead()
         m_appID = appID.remove("appID=");
 
         bool typeFound = false;
-        for (const QString& type : GlobalVariables::getAvailableTypes()) {
+        for (const QString& type : ScreenPlayUtil::getAvailableTypes()) {
             if (msg.contains(type, Qt::CaseInsensitive)) {
                 m_type = type;
                 typeFound = true;
@@ -57,7 +57,7 @@ void ScreenPlay::SDKConnection::readyRead()
         }
 
         if (!typeFound) {
-            qCritical() << "Wallpaper type not found. Expected: " << GlobalVariables::getAvailableTypes() << " got: " << msg;
+            qCritical() << "Wallpaper type not found. Expected: " << ScreenPlayUtil::getAvailableTypes() << " got: " << msg;
         }
 
         qInfo() << "New connection" << m_appID << msg;

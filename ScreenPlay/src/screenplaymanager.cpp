@@ -130,7 +130,7 @@ void ScreenPlayManager::createWallpaper(
     }
 
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
-    const QString appID = Util::generateRandomString();
+    const QString appID = ScreenPlayUtil::generateRandomString();
 
     // Only support remove wallpaper that spans over 1 monitor
     if (monitorIndex.length() == 1) {
@@ -195,7 +195,7 @@ void ScreenPlayManager::createWidget(
         }
     });
 
-    const QString appID = Util::generateRandomString();
+    const QString appID = ScreenPlayUtil::generateRandomString();
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
 
     if (path.isEmpty()) {
@@ -421,7 +421,7 @@ void ScreenPlayManager::closeAllWallpapers()
     if (m_screenPlayWallpapers.empty() && m_activeWallpaperCounter == 0)
         return;
 
-    closeConntectionByType(GlobalVariables::getAvailableWallpaper());
+    closeConntectionByType(ScreenPlayUtil::getAvailableWallpaper());
     setActiveWallpaperCounter(0);
 }
 
@@ -438,7 +438,7 @@ void ScreenPlayManager::closeAllWidgets()
     if (m_screenPlayWidgets.empty() && m_activeWidgetsCounter == 0)
         return;
 
-    closeConntectionByType(GlobalVariables::getAvailableWidgets());
+    closeConntectionByType(ScreenPlayUtil::getAvailableWidgets());
     setActiveWidgetsCounter(0);
 }
 
@@ -552,14 +552,14 @@ bool ScreenPlayManager::removeWallpaperByAppID(const QString& appID)
 */
 void ScreenPlayManager::loadProfiles()
 {
-    auto configObj = Util::openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
+    auto configObj = ScreenPlayUtil::openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
 
     if (!configObj) {
         qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toString() + "/profiles.json";
         return;
     }
 
-    std::optional<QVersionNumber> version = Util::getVersionNumberFromString(configObj->value("version").toString());
+    std::optional<QVersionNumber> version = ScreenPlayUtil::getVersionNumberFromString(configObj->value("version").toString());
 
     if (version && *version != m_globalVariables->version()) {
         qWarning() << "Version missmatch fileVersion: " << version->toString() << "m_version: " << m_globalVariables->version().toString();

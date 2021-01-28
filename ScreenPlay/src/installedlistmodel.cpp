@@ -166,7 +166,7 @@ void InstalledListModel::loadInstalledContent()
         for (auto&& item : list) {
             projectItemPath = m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json";
 
-            if (auto obj = Util::openJsonFileToObject(projectItemPath)) {
+            if (auto obj = ScreenPlayUtil::openJsonFileToObject(projectItemPath)) {
 
                 if (obj->isEmpty())
                     continue;
@@ -174,8 +174,8 @@ void InstalledListModel::loadInstalledContent()
                 if (!obj->contains("type"))
                     continue;
 
-                if (GlobalVariables::getAvailableTypes().contains(obj->value("type").toString())) {
-                    if (GlobalVariables::getAvailableTypes().contains(obj->value("type").toString(), Qt::CaseInsensitive)) {
+                if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString())) {
+                    if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString(), Qt::CaseInsensitive)) {
                         emit addInstalledItem(*obj, item.baseName());
                     }
 

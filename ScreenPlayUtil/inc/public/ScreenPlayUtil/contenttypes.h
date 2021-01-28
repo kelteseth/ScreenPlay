@@ -33,46 +33,68 @@
 ****************************************************************************/
 
 #pragma once
-
-#include <QAbstractListModel>
-#include <QDebug>
-#include <QDir>
-#include <QFile>
-#include <QStandardPaths>
-#include <QString>
-#include <QUrl>
-#include <QVector>
-
-#include "globalvariables.h"
-#include "profile.h"
-
-#include <memory>
+#include <qobjectdefs.h>
 
 namespace ScreenPlay {
+/*!
+    \class ScreenPlay::GlobalVariables
+    \inmodule ScreenPlay
+    \brief GlobalVariables.
 
-struct Profile;
+    A header only class used only for storing some global variables like localStoragePath.
 
-class ProfileListModel : public QAbstractListModel {
-    Q_OBJECT
+*/
 
-public:
-    explicit ProfileListModel(
-        const std::shared_ptr<GlobalVariables>& globalVariables,
-        QObject* parent = nullptr);
+namespace SearchType {
+    Q_NAMESPACE
 
-    enum RoleNames {
-        NameRole = Qt::UserRole,
-        NumberRole
+    enum class SearchType {
+        All,
+        Text,
+        Scene, //QML, HTML, Godot, Gif, Website wallpaper
+        Wallpaper,
+        Widget,
     };
+    Q_ENUM_NS(SearchType)
 
-    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
-    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-    virtual QHash<int, QByteArray> roleNames() const override;
-    bool getProfileByName(QString id, Profile* profile);
-    void append(const Profile& profile);
+}
 
-private:
-    QVector<Profile> m_profileList;
-    const std::shared_ptr<GlobalVariables>& m_globalVariables;
-};
+namespace FillMode {
+    Q_NAMESPACE
+
+    enum class FillMode {
+        Stretch,
+        Fill,
+        Contain,
+        Cover,
+        Scale_Down
+    };
+    Q_ENUM_NS(FillMode)
+
+}
+
+namespace InstalledType {
+    Q_NAMESPACE
+
+    // When changing the enum, one also needs to change:
+    // GlobalVariables::getAvailableWallpaper
+    // GlobalVariables::getAvailableWidgets
+    // Common/Util.js isWallpaper() and isWidget()
+    // ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
+    enum class InstalledType {
+        Unknown,
+        //Wallpaper
+        VideoWallpaper,
+        QMLWallpaper,
+        HTMLWallpaper,
+        GodotWallpaper,
+        GifWallpaper,
+        WebsiteWallpaper,
+        //Widgets
+        QMLWidget,
+        HTMLWidget,
+    };
+    Q_ENUM_NS(InstalledType)
+
+}
 }

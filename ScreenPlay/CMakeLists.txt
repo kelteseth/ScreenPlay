@@ -1,7 +1,6 @@
 project(ScreenPlay LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
-
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
@@ -110,6 +109,7 @@ target_link_libraries(
             Qt5::WebEngine
             Qt5::WebSockets
             ScreenPlaySDK
+            ScreenPlayUtil
             benchmark::benchmark
             benchmark::benchmark_main
             doctest::doctest)

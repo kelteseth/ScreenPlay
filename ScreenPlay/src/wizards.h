@@ -54,14 +54,12 @@
 #include <QUrl>
 #include <QtMath>
 
-#include <memory>
-#include <optional>
-
 #include "createimportvideo.h"
 #include "globalvariables.h"
 #include "util.h"
 
-#include <QObject>
+#include <memory>
+#include <optional>
 
 namespace ScreenPlay {
 

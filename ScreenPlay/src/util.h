@@ -53,11 +53,11 @@
 #include <QtConcurrent/QtConcurrent>
 #include <qqml.h>
 
+#include "globalvariables.h"
+
 #include <fstream>
 #include <iostream>
 #include <optional>
-
-#include "globalvariables.h"
 
 namespace ScreenPlay {
 
@@ -93,7 +93,7 @@ signals:
     void requestNavigation(QString nav);
     void requestNavigationActive(bool isActive);
     void requestToggleWallpaperConfiguration();
-    void setSidebarItem(QString folderName, ScreenPlay::InstalledType::InstalledType type);
+    void setSidebarItem(QString folderName, InstalledType::InstalledType type);
     void allLicenseLoaded(QString licensesText);
     void allDataProtectionLoaded(QString dataProtectionText);
     void debugMessagesChanged(QString debugMessages);
@@ -105,13 +105,6 @@ public slots:
     void requestAllLicenses();
     void requestDataProtection();
 
-    static QJsonArray fillArray(const QVector<QString>& items);
-    static SearchType::SearchType getSearchTypeFromInstalledType(const InstalledType::InstalledType type);
-    static std::optional<InstalledType::InstalledType> getInstalledTypeFromString(const QString& type);
-    static std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteArray);
-    static std::optional<QJsonObject> openJsonFileToObject(const QString& path);
-    static std::optional<QString> openJsonFileToString(const QString& path);
-    static std::optional<QVersionNumber> getVersionNumberFromString(const QString& str);
     static void appendToMetricsFile(const QString& key, const QVariant& value);
     static void logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg);
     static bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
@@ -119,10 +112,6 @@ public slots:
     static bool writeFile(const QString& text, const QString& absolutePath);
     static bool writeFileFromQrc(const QString& qrcPath, const QString& absolutePath);
     static bool copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnail, const QString& destination);
-    static QString toString(const QStringList& list);
-    static QString toLocal(const QString& url);
-    static QString generateRandomString(quint32 length = 32);
-    static QString executableEnding();
 
     void setNavigation(QString nav)
     {

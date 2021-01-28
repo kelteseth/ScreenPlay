@@ -48,8 +48,7 @@
 #include <QtQml>
 #include <QtWebEngine>
 
-#include <memory>
-
+#include "ganalytics.h"
 #include "src/create.h"
 #include "src/globalvariables.h"
 #include "src/installedlistfilter.h"
@@ -61,7 +60,8 @@
 #include "src/util.h"
 #include "src/wizards.h"
 
-#include "ganalytics.h"
+#include <memory>
+
 #ifdef Q_OS_WIN
 #include <sentry.h>
 #endif

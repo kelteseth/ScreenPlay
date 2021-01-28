@@ -48,7 +48,7 @@ Create::Create()
 void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, const int quality)
 {
     clearFfmpegOutput();
-    videoPath = Util::toLocal(videoPath);
+    videoPath = ScreenPlayUtil::toLocal(videoPath);
 
     const QDir dir(m_globalVariables->localStoragePath().toLocalFile());
 
@@ -99,8 +99,8 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
 */
 void Create::saveWallpaper(QString title, QString description, QString filePath, QString previewImagePath, QString youtube, Create::VideoCodec codec, QVector<QString> tags)
 {
-    filePath = Util::toLocal(filePath);
-    previewImagePath = Util::toLocal(previewImagePath);
+    filePath = ScreenPlayUtil::toLocal(filePath);
+    previewImagePath = ScreenPlayUtil::toLocal(previewImagePath);
 
     emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CopyFiles);
 
@@ -146,7 +146,7 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     obj.insert("preview", previewImageFile.exists() ? previewImageFile.fileName() : "preview.jpg");
     obj.insert("previewThumbnail", "previewThumbnail.jpg");
     obj.insert("type", "videoWallpaper");
-    obj.insert("tags", Util::fillArray(tags));
+    obj.insert("tags", ScreenPlayUtil::fillArray(tags));
 
     QFile audioFile { m_workingDir + "/audio.mp3" };
     if (audioFile.exists() && audioFile.size() > 0) {

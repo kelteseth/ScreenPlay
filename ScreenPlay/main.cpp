@@ -76,6 +76,7 @@ int main(int argc, char* argv[])
 
     ScreenPlay::App app;
 
+
     if (app.m_isAnotherScreenPlayInstanceRunning) {
         return 0;
     } else {
@@ -85,6 +86,7 @@ int main(int argc, char* argv[])
 #ifdef Q_OS_WIN
         sentry_shutdown();
 #endif
+
         return status;
     }
 }
