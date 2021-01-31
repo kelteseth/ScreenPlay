@@ -41,7 +41,7 @@ if(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core Qt5::WebEngine ScreenPlaySDK)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core Qt5::WebEngine ScreenPlaySDK ScreenPlayUtil)
 
 if(APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")

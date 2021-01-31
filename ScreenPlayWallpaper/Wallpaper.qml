@@ -1,6 +1,7 @@
 import QtQuick 2.14
 import QtQml 2.14
 import ScreenPlayWallpaper 1.0
+import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlay.Shader 1.0
 import "ShaderWrapper" as ShaderWrapper
 
@@ -56,7 +57,7 @@ Rectangle {
         function onReloadVideo(oldType) {
             // We need to check if the old type
             // was also Video not get called twice
-            if (oldType === Wallpaper.WallpaperType.Video)
+            if (oldType === InstalledType.VideoWallpaper)
                 return
 
             imgCover.state = "in"
@@ -66,33 +67,33 @@ Rectangle {
 
     function init() {
         switch (Wallpaper.type) {
-        case Wallpaper.WallpaperType.Video:
+        case InstalledType.VideoWallpaper:
             loader.source = "qrc:/WebView.qml"
             break
-        case Wallpaper.WallpaperType.Html:
-            loader.webViewUrl = Qt.resolvedUrl(Wallpaper.fullContentPath)
-            loader.source = "qrc:/WebView.qml"
-            fadeIn()
+        case InstalledType.HTMLWallpaper:
+            loader.setSource("qrc:/WebView.qml", {
+                                 "url": Qt.resolvedUrl(
+                                            Wallpaper.fullContentPath)
+                             })
             break
-        case Wallpaper.WallpaperType.Qml:
+        case InstalledType.QMLWallpaper:
             loader.source = Qt.resolvedUrl(Wallpaper.fullContentPath)
-            imgCover.state = "out"
-            fadeIn()
+            print(loader.source)
             break
-        case Wallpaper.WallpaperType.Website:
+        case InstalledType.WebsiteWallpaper:
             loader.setSource("qrc:/WebsiteWallpaper.qml", {
                                  "url": Wallpaper.fullContentPath
                              })
-            fadeIn()
             break
-        case Wallpaper.WallpaperType.Gif:
+        case InstalledType.GifWallpaper:
             loader.setSource("qrc:/GifWallpaper.qml", {
                                  "source": Qt.resolvedUrl(
                                                Wallpaper.fullContentPath)
                              })
-            fadeIn()
             break
         }
+
+        fadeIn()
     }
 
     function fadeIn() {
@@ -107,16 +108,7 @@ Rectangle {
     Loader {
         id: loader
         anchors.fill: parent
-        property string webViewUrl
-        onStatusChanged: {
-            if (loader.status === Loader.Ready) {
-                if (Wallpaper.type === Wallpaper.WallpaperType.Html) {
-                    loader.item.url = loader.webViewUrl
-                    print(loader.item.url, " --- ", loader.webViewUrl)
-                }
-            }
-        }
-
+        onStatusChanged: print(status)
         Connections {
             ignoreUnknownSignals: true
             target: loader.item
@@ -135,6 +127,7 @@ Rectangle {
             right: parent.right
         }
         state: "in"
+        onStateChanged: print(state)
 
         sourceSize.width: Wallpaper.width
         sourceSize.height: Wallpaper.height

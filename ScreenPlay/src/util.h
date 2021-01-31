@@ -93,7 +93,7 @@ signals:
     void requestNavigation(QString nav);
     void requestNavigationActive(bool isActive);
     void requestToggleWallpaperConfiguration();
-    void setSidebarItem(QString folderName, InstalledType::InstalledType type);
+    void setSidebarItem(QString folderName, ScreenPlay::InstalledType::InstalledType type);
     void allLicenseLoaded(QString licensesText);
     void allDataProtectionLoaded(QString dataProtectionText);
     void debugMessagesChanged(QString debugMessages);
