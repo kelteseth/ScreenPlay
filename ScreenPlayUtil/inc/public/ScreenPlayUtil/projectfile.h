@@ -44,8 +44,6 @@
 #include <QVariantList>
 
 #include "ScreenPlayUtil/util.h"
-#include "globalvariables.h"
-#include "util.h"
 
 /*!
     \class ProjectFile

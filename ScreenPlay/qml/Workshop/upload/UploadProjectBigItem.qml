@@ -21,7 +21,7 @@ Item {
     property string absoluteStoragePath: ""
     property string screenId: ""
     property string preview: ""
-    property string type: ""
+    property var type
     property bool hasMenuOpen: false
     property var publishedFileID: 0
     property int itemIndex
@@ -103,7 +103,7 @@ Item {
 
                 Text {
                     id: name
-                    text: screenTitle
+                    text: m_title
                     color: Material.foreground
                     font.pointSize: 18
                     font.family: ScreenPlay.settings.font
@@ -111,7 +111,7 @@ Item {
                 }
 
                 Text {
-                    text: qsTr("Type: ") + screenType
+                    text: qsTr("Type: ") + m_type
                     color: Material.foreground
                     font.family: ScreenPlay.settings.font
                 }

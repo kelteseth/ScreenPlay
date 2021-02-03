@@ -100,12 +100,12 @@ Popup {
                             id: delegate
                             focus: true
                             width: gridView.cellWidth - 30
-                            customTitle: screenTitle
-                            type: screenType
-                            screenId: screenFolderId
-                            absoluteStoragePath: screenAbsoluteStoragePath
-                            publishedFileID: screenPublishedFileID
-                            preview: screenPreview
+                            customTitle: m_title
+                            type: m_type
+                            screenId: m_folderId
+                            absoluteStoragePath: m_absoluteStoragePath
+                            publishedFileID: m_publishedFileID
+                            preview: m_preview
                             itemIndex: index
                             onItemClicked: {
                                 for (let childItem in gridView.contentItem.children) {

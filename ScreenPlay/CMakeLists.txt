@@ -55,7 +55,6 @@ set(headers
     src/settings.h
     src/profilelistmodel.h
     src/profile.h
-    src/projectfile.h
     src/installedlistfilter.h
     src/projectsettingslistmodel.h
     src/screenplaymanager.h

@@ -17,6 +17,7 @@ set(SOURCES
 set(HEADER
     inc/public/ScreenPlayUtil/util.h
     inc/public/ScreenPlayUtil/contenttypes.h
+    inc/public/ScreenPlayUtil/projectfile.h
     )
 
 add_library(${PROJECT_NAME} STATIC  ${SOURCES} ${HEADER})
