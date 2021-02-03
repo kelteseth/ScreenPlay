@@ -48,7 +48,7 @@ ColumnLayout {
                 }
                 ListElement {
                     name: "Creative Commons - CC0 1.0 Universal Public Domain"
-                    description: qsTr("You allow everyone do do anything with your work.")
+                    description: qsTr("You allow everyone to do anything with your work.")
                     tldrlegal: "https://tldrlegal.com/license/creative-commons-cc0-1.0-universal"
                     licenseFile: "License_CC0_1.0.txt"
                 }
@@ -66,7 +66,7 @@ ColumnLayout {
                 }
                 ListElement {
                     name: "All rights reserved"
-                    description: qsTr("You do not share any rights and nobody is allowed to use remix it (Not recommended). Can also used to credit work others.")
+                    description: qsTr("You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.")
                     tldrlegal: "License_All_Rights_Reserved_1.0.txt"
                 }
             }

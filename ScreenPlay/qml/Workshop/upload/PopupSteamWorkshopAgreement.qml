@@ -52,7 +52,7 @@ Popup {
 
             Button {
                 id: btnAgree
-                text: qsTr("AcceptSteam Workshop Agreement")
+                text: qsTr("Accept Steam Workshop Agreement")
                 highlighted: true
                 Material.background: Material.accent
                 Material.foreground: "white"
