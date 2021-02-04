@@ -15,14 +15,19 @@ BaseWindow::BaseWindow(
 {
     QApplication::instance()->installEventFilter(this);
 
-    qRegisterMetaType<BaseWindow::WallpaperType>();
+    qRegisterMetaType<ScreenPlay::InstalledType::InstalledType>();
+    qmlRegisterUncreatableMetaObject(ScreenPlay::InstalledType::staticMetaObject,
+        "ScreenPlay.Enums.InstalledType",
+        1, 0,
+        "InstalledType",
+        "Error: only enums");
 
     qmlRegisterType<BaseWindow>("ScreenPlay.Wallpaper", 1, 0, "Wallpaper");
 
     setOSVersion(QSysInfo::productVersion());
 
     if (projectFilePath == "test") {
-        setType(BaseWindow::WallpaperType::Qml);
+        setType(ScreenPlay::InstalledType::InstalledType::QMLWallpaper);
         setFullContentPath("qrc:/Test.qml");
         setupLiveReloading();
         return;
@@ -70,10 +75,15 @@ BaseWindow::BaseWindow(
         QApplication::exit(-4);
     }
 
-    setType(parseWallpaperType(project.value("type").toString().toLower()));
+    if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(project.value("type").toString())) {
+        setType(typeOpt.value());
+    } else {
+        qCritical() << "Cannot parse Wallpaper type from value" << project.value("type");
+    }
+
     setBasePath(QUrl::fromUserInput(projectFilePath).toLocalFile());
 
-    if (m_type == WallpaperType::Website) {
+    if (m_type == ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper) {
         if (!project.contains("url")) {
             qFatal("No url was specified for a websiteWallpaper!");
             QApplication::exit(-5);
@@ -154,22 +164,24 @@ void BaseWindow::replaceWallpaper(
     const QString type,
     const bool checkWallpaperVisible)
 {
-    const WallpaperType oldType = this->type();
+    const ScreenPlay::InstalledType::InstalledType oldType = this->type();
     setCheckWallpaperVisible(checkWallpaperVisible);
     setVolume(volume);
     setFillMode(fillMode);
-    setType(parseWallpaperType(type));
+    if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(type)) {
+        setType(typeOpt.value());
+    }
+
     if (type.contains("websiteWallpaper", Qt::CaseInsensitive)) {
         setFullContentPath(file);
     } else {
         setFullContentPath("file:///" + absolutePath + "/" + file);
     }
-    qInfo() << file;
 
-    if (m_type == WallpaperType::Qml || m_type == WallpaperType::Html)
+    if (m_type == ScreenPlay::InstalledType::InstalledType::QMLWallpaper || m_type == ScreenPlay::InstalledType::InstalledType::HTMLWallpaper)
         emit reloadQML(oldType);
 
-    if (m_type == WallpaperType::Video)
+    if (m_type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper)
         emit reloadVideo(oldType);
 }
 
@@ -177,49 +189,15 @@ void BaseWindow::replaceWallpaper(
 // Loading shader relative to the qml file will be available in Qt 6
 QString BaseWindow::loadFromFile(const QString& filename)
 {
-    QFile file;
-    file.setFileName(basePath() + "/" + filename);
-    qWarning() << "  loadFromFile: " << file.fileName() << file.readAll();
-    if (file.open(QIODevice::ReadOnly)) {
-        const QString content = file.readAll();
+    QFile file(basePath() + "/" + filename);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qWarning() << "Could not loadFromFile: " << file.fileName();
         file.close();
-        return content;
+        return "";
     }
+    const QString content = file.readAll();
     file.close();
-    qWarning() << "Could not loadFromFile: " << file.fileName();
-    return "";
-}
-
-BaseWindow::WallpaperType BaseWindow::parseWallpaperType(const QString& type)
-{
-
-    if (type.contains("videoWallpaper", Qt::CaseInsensitive)) {
-        return (BaseWindow::WallpaperType::Video);
-    }
-
-    if (type.contains("qmlWallpaper", Qt::CaseInsensitive)) {
-        return (BaseWindow::WallpaperType::Qml);
-    }
-
-    if (type.contains("htmlWallpaper", Qt::CaseInsensitive)) {
-        return (BaseWindow::WallpaperType::Html);
-    }
-
-    if (type.contains("godotWallpaper", Qt::CaseInsensitive)) {
-        return (BaseWindow::WallpaperType::Godot);
-    }
-
-    if (type.contains("gifWallpaper", Qt::CaseInsensitive)) {
-        return (BaseWindow::WallpaperType::Gif);
-    }
-
-    if (type.contains("websiteWallpaper", Qt::CaseInsensitive)) {
-        return (BaseWindow::WallpaperType::Website);
-    }
-
-    qWarning() << "Could not parse Wallpaper type from value: " << type;
-
-    return BaseWindow::WallpaperType::Video;
+    return content;
 }
 
 void BaseWindow::setupLiveReloading()

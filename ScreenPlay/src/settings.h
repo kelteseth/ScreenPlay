@@ -60,11 +60,11 @@
 #include <QtConcurrent/QtConcurrent>
 #include <QtGlobal>
 
-#include <memory>
-#include <optional>
-
 #include "globalvariables.h"
 #include "util.h"
+
+#include <memory>
+#include <optional>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>

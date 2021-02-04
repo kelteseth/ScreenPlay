@@ -46,6 +46,8 @@
 #include <QSysInfo>
 #include <QtQml>
 
+#include "ScreenPlayUtil/util.h"
+
 class BaseWindow : public QObject {
     Q_OBJECT
 
@@ -75,18 +77,8 @@ public:
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
     Q_PROPERTY(float currentTime READ currentTime WRITE setCurrentTime NOTIFY currentTimeChanged)
 
-    Q_PROPERTY(WallpaperType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(ScreenPlay::InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
-
-    enum class WallpaperType {
-        Video,
-        Html,
-        Godot,
-        Qml,
-        Gif,
-        Website
-    };
-    Q_ENUM(WallpaperType)
 
     bool loops() const
     {
@@ -108,7 +100,7 @@ public:
         return m_playbackRate;
     }
 
-    BaseWindow::WallpaperType type() const
+    ScreenPlay::InstalledType::InstalledType type() const
     {
         return m_type;
     }
@@ -180,14 +172,14 @@ public:
 
 signals:
     void qmlExit();
-    void reloadQML(const BaseWindow::WallpaperType oldType);
-    void reloadVideo(const BaseWindow::WallpaperType oldType);
+    void reloadQML(const ScreenPlay::InstalledType::InstalledType oldType);
+    void reloadVideo(const ScreenPlay::InstalledType::InstalledType oldType);
 
     void loopsChanged(bool loops);
     void volumeChanged(float volume);
     void isPlayingChanged(bool isPlaying);
     void playbackRateChanged(float playbackRate);
-    void typeChanged(BaseWindow::WallpaperType type);
+    void typeChanged(ScreenPlay::InstalledType::InstalledType type);
     void fullContentPathChanged(QString fullContentPath);
     void appIDChanged(QString appID);
     void qmlSceneValueReceived(QString key, QString value);
@@ -261,7 +253,7 @@ public slots:
         emit playbackRateChanged(m_playbackRate);
     }
 
-    void setType(BaseWindow::WallpaperType type)
+    void setType(ScreenPlay::InstalledType::InstalledType type)
     {
         if (m_type == type)
             return;
@@ -406,8 +398,6 @@ public slots:
     }
 
 private:
-    BaseWindow::WallpaperType parseWallpaperType(const QString& type);
-
     void setupLiveReloading();
 
 private:
@@ -426,7 +416,7 @@ private:
     QString m_fullContentPath;
     QString m_appID;
 
-    WallpaperType m_type = BaseWindow::WallpaperType::Qml;
+    ScreenPlay::InstalledType::InstalledType m_type = ScreenPlay::InstalledType::InstalledType::Unknown;
     QString m_OSVersion;
     QString m_fillMode;
     int m_width { 0 };

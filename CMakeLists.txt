@@ -26,7 +26,12 @@ if(APPLE)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
 endif()
 
-set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlay-vcpkg")
+if(${SCREENPLAY_FOSS})
+    set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlay-vcpkg")
+else()
+    set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../ScreenPlay-vcpkg")
+endif()
+
 set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
 set(QT_TELEMTRY_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/Common/qt-google-analytics/)
 
@@ -68,6 +73,7 @@ add_subdirectory(ScreenPlaySDK)
 add_subdirectory(ScreenPlayShader)
 add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
+add_subdirectory(ScreenPlayUtil)
 
 if(WIN32)
     add_subdirectory(ScreenPlaySysInfo)

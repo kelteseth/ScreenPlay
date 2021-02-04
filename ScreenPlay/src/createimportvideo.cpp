@@ -1,4 +1,5 @@
 #include "createimportvideo.h"
+#include "ScreenPlayUtil/util.h"
 
 namespace ScreenPlay {
 
@@ -38,8 +39,8 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
     m_codec = codec;
     m_process = std::make_unique<QProcess>(this);
 
-    m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe" + Util::executableEnding();
-    m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg" + Util::executableEnding();
+    m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe" + ScreenPlayUtil::executableEnding();
+    m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg" + ScreenPlayUtil::executableEnding();
 }
 
 /*!
@@ -165,7 +166,7 @@ bool CreateImportVideo::createWallpaperInfo()
 
     args.append(m_videoPath);
 
-    emit processOutput("ffprobe " + Util::toString(args));
+    emit processOutput("ffprobe " + ScreenPlayUtil::toString(args));
 
     emit createWallpaperStateChanged(ImportVideoState::AnalyseVideo);
 
@@ -174,7 +175,7 @@ bool CreateImportVideo::createWallpaperInfo()
 
     emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoFinished);
 
-    auto obj = Util::parseQByteArrayToQJsonObject(QByteArray::fromStdString(ffmpegOut.toStdString()));
+    auto obj = ScreenPlayUtil::parseQByteArrayToQJsonObject(QByteArray::fromStdString(ffmpegOut.toStdString()));
 
     if (!obj) {
         QString error = ffmpegOut;
@@ -386,7 +387,7 @@ bool CreateImportVideo::createWallpaperVideoPreview()
     // Disable audio
     args.append("-an");
     args.append(m_exportPath + "/preview.webm");
-    emit processOutput("ffmpeg " + Util::toString(args));
+    emit processOutput("ffmpeg " + ScreenPlayUtil::toString(args));
 
     const QString ffmpegOut = waitForFinished(args);
     const QFile previewVideo(m_exportPath + "/preview.webm");
@@ -429,7 +430,7 @@ bool CreateImportVideo::createWallpaperGifPreview()
     args.append("-filter_complex");
     args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
     args.append(m_exportPath + "/preview.gif");
-    emit processOutput("ffmpeg " + Util::toString(args));
+    emit processOutput("ffmpeg " + ScreenPlayUtil::toString(args));
 
     const QString ffmpegOut = waitForFinished(args);
 
@@ -488,7 +489,7 @@ bool CreateImportVideo::createWallpaperImageThumbnailPreview()
     }
     args.append(m_exportPath + "/previewThumbnail.jpg");
 
-    emit processOutput("ffmpeg " + Util::toString(args));
+    emit processOutput("ffmpeg " + ScreenPlayUtil::toString(args));
 
     const QString ffmpegOut = waitForFinished(args);
     if (!ffmpegOut.isEmpty()) {
@@ -533,7 +534,7 @@ bool CreateImportVideo::createWallpaperImagePreview()
     }
     args.append(m_exportPath + "/preview.jpg");
 
-    emit processOutput("ffmpeg " + Util::toString(args));
+    emit processOutput("ffmpeg " + ScreenPlayUtil::toString(args));
     const QString ffmpegOut = waitForFinished(args);
     if (!ffmpegOut.isEmpty()) {
         const QFile previewImg(m_exportPath + "/preview.jpg");

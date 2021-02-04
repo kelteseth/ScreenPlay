@@ -47,7 +47,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
             projectSettingsListModelProperties.insert("playbackRate", m_playbackRate);
         } else {
             if (properties.isEmpty()) {
-                auto obj = Util::openJsonFileToObject(absolutePath + "/project.json");
+                auto obj = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json");
                 if (!obj)
                     return;
 

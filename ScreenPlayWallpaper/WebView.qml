@@ -1,6 +1,6 @@
 import QtQuick 2.0
 import QtWebEngine 1.8
-
+import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlayWallpaper 1.0
 
 Item {
@@ -42,9 +42,7 @@ Item {
         onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
             if ((loadProgress === 100)) {
-
-                if (Wallpaper.type === Wallpaper.WallpaperType.Video) {
-
+                if (Wallpaper.type === InstalledType.VideoWallpaper) {
                     webView.runJavaScript(root.getSetVideoCommand(),
                                           function (result) {
                                               fadeInTimer.start()
@@ -89,7 +87,6 @@ Item {
         target: Wallpaper
 
         function onReloadVideo(oldType) {
-
             webView.runJavaScript(root.getSetVideoCommand())
         }
 

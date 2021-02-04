@@ -89,7 +89,7 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
     if (!index.isValid())
         return QVariant();
 
-    int row = index.row();
+    const int row = index.row();
     if (row < 0 || row >= m_screenPlayFiles.count()) {
         return QVariant();
     }
@@ -127,8 +127,7 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
 */
 QHash<int, QByteArray> InstalledListModel::roleNames() const
 {
-
-    static const QHash<int, QByteArray> roles {
+    return {
         { static_cast<int>(ScreenPlayItem::Title), "m_title" },
         { static_cast<int>(ScreenPlayItem::Type), "m_type" },
         { static_cast<int>(ScreenPlayItem::Preview), "m_preview" },
@@ -140,7 +139,6 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { static_cast<int>(ScreenPlayItem::Tags), "m_tags" },
         { static_cast<int>(ScreenPlayItem::SearchType), "m_searchType" },
     };
-    return roles;
 }
 
 /*!
@@ -161,12 +159,12 @@ void InstalledListModel::loadInstalledContent()
     QtConcurrent::run([this]() {
         QFileInfoList list = QDir(m_globalVariables->localStoragePath().toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
         QString projectItemPath;
-        int counter {};
+        int counter = 0;
 
-        for (auto&& item : list) {
+        for (const auto& item : list) {
             projectItemPath = m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json";
 
-            if (auto obj = Util::openJsonFileToObject(projectItemPath)) {
+            if (auto obj = ScreenPlayUtil::openJsonFileToObject(projectItemPath)) {
 
                 if (obj->isEmpty())
                     continue;
@@ -174,8 +172,8 @@ void InstalledListModel::loadInstalledContent()
                 if (!obj->contains("type"))
                     continue;
 
-                if (GlobalVariables::getAvailableTypes().contains(obj->value("type").toString())) {
-                    if (GlobalVariables::getAvailableTypes().contains(obj->value("type").toString(), Qt::CaseInsensitive)) {
+                if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString())) {
+                    if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString(), Qt::CaseInsensitive)) {
                         emit addInstalledItem(*obj, item.baseName());
                     }
 

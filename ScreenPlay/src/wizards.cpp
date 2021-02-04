@@ -1,5 +1,7 @@
 #include "wizards.h"
 
+#include "ScreenPlayUtil/util.h"
+
 namespace ScreenPlay {
 /*!
     \class ScreenPlay::Wizards
@@ -37,12 +39,12 @@ void Wizards::createQMLWidget(const QString& title,
             return;
         }
 
-        const QString workingPath = Util::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
 
         QJsonObject obj;
         obj.insert("license", licenseName);
         obj.insert("title", title);
-        obj.insert("tags", Util::fillArray(tags));
+        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
         obj.insert("createdBy", createdBy);
         obj.insert("type", "qmlWidget");
         obj.insert("file", "main.qml");
@@ -98,13 +100,13 @@ void Wizards::createHTMLWidget(const QString& title,
             return;
         }
 
-        const QString workingPath = Util::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
 
         QJsonObject obj;
         obj.insert("license", licenseName);
         obj.insert("createdBy", createdBy);
         obj.insert("title", title);
-        obj.insert("tags", Util::fillArray(tags));
+        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
         obj.insert("type", "htmlWidget");
         obj.insert("file", "index.html");
 
@@ -161,13 +163,13 @@ void Wizards::createHTMLWallpaper(
             return;
         }
 
-        const QString workingPath = Util::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
 
         QJsonObject obj;
         obj.insert("license", licenseName);
         obj.insert("createdBy", createdBy);
         obj.insert("title", title);
-        obj.insert("tags", Util::fillArray(tags));
+        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
         obj.insert("type", "htmlWallpaper");
         obj.insert("file", "index.html");
 
@@ -223,13 +225,13 @@ void Wizards::createQMLWallpaper(
             return;
         }
 
-        const QString workingPath = Util::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
 
         QJsonObject obj;
         obj.insert("license", licenseName);
         obj.insert("title", title);
         obj.insert("createdBy", createdBy);
-        obj.insert("tags", Util::fillArray(tags));
+        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
         obj.insert("type", "qmlWallpaper");
         obj.insert("file", "main.qml");
 
@@ -276,8 +278,8 @@ void Wizards::createGifWallpaper(
             return;
         }
 
-        const QString workingPath = Util::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
-        const QString gifFileName = QFileInfo(Util::toLocal(file)).fileName();
+        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString gifFileName = QFileInfo(ScreenPlayUtil::toLocal(file)).fileName();
 
         QJsonObject obj;
         obj.insert("license", licenseName);
@@ -285,7 +287,7 @@ void Wizards::createGifWallpaper(
         obj.insert("title", title);
         obj.insert("file", gifFileName);
         obj.insert("previewGIF", gifFileName);
-        obj.insert("tags", Util::fillArray(tags));
+        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
         obj.insert("type", "gifWallpaper");
 
         if (!Util::writeFileFromQrc(":/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
@@ -299,7 +301,7 @@ void Wizards::createGifWallpaper(
             return;
         }
 
-        if (!QFile::copy(Util::toLocal(file), workingPath + "/" + gifFileName)) {
+        if (!QFile::copy(ScreenPlayUtil::toLocal(file), workingPath + "/" + gifFileName)) {
             qWarning() << "Could not copy gif " << file << " to: " << workingPath + "/" + gifFileName;
             emit widgetCreationFinished(WizardResult::CopyFileError);
             return;
@@ -326,11 +328,11 @@ void Wizards::createWebsiteWallpaper(
             return;
         }
 
-        const QString workingPath = Util::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
+        const QString workingPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString() + "/" + folderName.value());
 
         QJsonObject obj;
         obj.insert("title", title);
-        obj.insert("tags", Util::fillArray(tags));
+        obj.insert("tags", ScreenPlayUtil::fillArray(tags));
         obj.insert("type", "websiteWallpaper");
         obj.insert("url", url.toString());
 

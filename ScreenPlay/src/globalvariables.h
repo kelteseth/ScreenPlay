@@ -41,83 +41,9 @@
 #include <QUrl>
 #include <QVersionNumber>
 
+#include "ScreenPlayUtil/contenttypes.h"
+
 namespace ScreenPlay {
-
-/*!
-    \class ScreenPlay::GlobalVariables
-    \inmodule ScreenPlay
-    \brief GlobalVariables.
-
-    A header only class used only for storing some global variables like localStoragePath.
-
-*/
-
-namespace SearchType {
-    Q_NAMESPACE
-
-    enum class SearchType {
-        All,
-        Text,
-        Scene, //QML, HTML, Godot, Gif, Website wallpaper
-        Wallpaper,
-        Widget,
-    };
-    Q_ENUM_NS(SearchType)
-
-}
-
-namespace FillMode {
-    Q_NAMESPACE
-
-    enum class FillMode {
-        Stretch,
-        Fill,
-        Contain,
-        Cover,
-        Scale_Down
-    };
-    Q_ENUM_NS(FillMode)
-
-}
-
-namespace InstalledType {
-    Q_NAMESPACE
-
-    // When changing the enum, one also needs to change:
-    // GlobalVariables::getAvailableWallpaper
-    // GlobalVariables::getAvailableWidgets
-    // Common/Util.js isWallpaper() and isWidget()
-    // ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
-    enum class InstalledType {
-        Unknown,
-        //Wallpaper
-        VideoWallpaper,
-        QMLWallpaper,
-        HTMLWallpaper,
-        GodotWallpaper,
-        GifWallpaper,
-        WebsiteWallpaper,
-        //Widgets
-        QMLWidget,
-        HTMLWidget,
-    };
-    Q_ENUM_NS(InstalledType)
-
-    static bool isWallpaper(const InstalledType type)
-    {
-        return (type == InstalledType::VideoWallpaper
-            || type == InstalledType::QMLWallpaper
-            || type == InstalledType::HTMLWallpaper
-            || type == InstalledType::GifWallpaper
-            || type == InstalledType::WebsiteWallpaper
-            || type == InstalledType::GodotWallpaper);
-    }
-
-    static bool isWidget(const InstalledType type)
-    {
-        return (type == InstalledType::QMLWidget || type == InstalledType::HTMLWidget);
-    }
-}
 
 class GlobalVariables : public QObject {
     Q_OBJECT
@@ -130,30 +56,6 @@ class GlobalVariables : public QObject {
 
 public:
     explicit GlobalVariables(QObject* parent = nullptr);
-
-    static QStringList getAvailableWallpaper()
-    {
-        return {
-            "qmlWallpaper",
-            "htmlWallpaper",
-            "videoWallpaper",
-            "godotWallpaper",
-            "gifWallpaper",
-            "websiteWallpaper"
-        };
-    }
-    static QStringList getAvailableWidgets()
-    {
-        return {
-            "qmlWidget",
-            "htmlWidget",
-        };
-    }
-
-    static QStringList getAvailableTypes()
-    {
-        return { getAvailableWallpaper() + getAvailableWidgets() };
-    }
 
     /*!
         \property GlobalVariables::localStoragePath

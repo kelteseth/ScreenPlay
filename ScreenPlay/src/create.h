@@ -56,6 +56,7 @@
 
 #include <memory>
 
+#include "ScreenPlayUtil/util.h"
 #include "createimportvideo.h"
 #include "globalvariables.h"
 #include "util.h"

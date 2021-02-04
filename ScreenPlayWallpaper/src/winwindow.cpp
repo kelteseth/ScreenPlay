@@ -75,7 +75,7 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 void WinWindow::setupWindowMouseHook()
 {
     // MUST be called before setting hook for events!
-    if (type() != BaseWindow::WallpaperType::Video) {
+    if (type() != ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
         qInfo() << "Enable mousehook";
         g_winGlobalHook = &m_window;
 

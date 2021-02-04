@@ -42,11 +42,12 @@
 #include <QPoint>
 #include <QProcess>
 
-#include <memory>
-
+#include "ScreenPlayUtil/util.h"
 #include "globalvariables.h"
 #include "projectsettingslistmodel.h"
 #include "sdkconnection.h"
+
+#include <memory>
 
 namespace ScreenPlay {
 

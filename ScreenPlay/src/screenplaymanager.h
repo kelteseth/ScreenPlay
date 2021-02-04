@@ -45,7 +45,7 @@
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "profilelistmodel.h"
-#include "projectfile.h"
+#include "ScreenPlayUtil/projectfile.h"
 #include "projectsettingslistmodel.h"
 #include "screenplaywallpaper.h"
 #include "screenplaywidget.h"
