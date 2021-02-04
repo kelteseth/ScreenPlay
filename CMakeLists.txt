@@ -17,7 +17,8 @@ elseif(APPLE)
     set(VCPKG_ARCH "x64-osx")
 endif()
 
-# assume built-in pthreads on MacOS https://stackoverflow.com/questions/54587052/cmake-on-mac-could-not-find-threads-missing-threads-found
+# Assume built-in pthreads on MacOS
+# https://stackoverflow.com/questions/54587052/cmake-on-mac-could-not-find-threads-missing-threads-found
 if(APPLE)
     set(CMAKE_THREAD_LIBS_INIT "-lpthread")
     set(CMAKE_HAVE_THREADS_LIBRARY 1)
