@@ -160,40 +160,22 @@ Item {
             Text {
                 id: txtTitle
                 text: root.name
-
                 opacity: 0
                 height: 30
                 width: 180
                 verticalAlignment: Text.AlignVCenter
                 color: "white"
-                font.pointSize: 18
-                wrapMode: Text.WordWrap
+                font.pointSize: 14
+                wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 font.family: ScreenPlay.settings.font
                 anchors {
                     bottom: parent.bottom
-                    right: button.left
-                    rightMargin: 10
+                    right: parent.right
+                    rightMargin: 20
                     left: parent.left
                     leftMargin: 20
                     bottomMargin: -50
                 }
-            }
-
-            Button {
-                id: button
-                text: qsTr("Download")
-                anchors {
-                    right: parent.right
-                    rightMargin: 20
-                    bottom: parent.bottom
-                    bottomMargin: -50
-                }
-                opacity: 0
-                Material.background: Material.Orange
-                Material.foreground: "white"
-                icon.source: "qrc:/assets/icons/icon_download.svg"
-                icon.width: 12
-                icon.height: 12
             }
 
             Item {
@@ -249,7 +231,8 @@ Item {
                 onClicked: {
                     isDownloading = true
                     root.state = "downloading"
-                    SP.Workshop.steamWorkshop.subscribeItem(root.publishedFileID)
+                    SP.Workshop.steamWorkshop.subscribeItem(
+                                root.publishedFileID)
                     ScreenPlay.setTrackerSendEvent("subscribeItem",
                                                    root.publishedFileID)
                 }
@@ -322,12 +305,6 @@ Item {
             name: "hover"
 
             PropertyChanges {
-                target: button
-                opacity: 1
-                anchors.bottomMargin: 10
-            }
-
-            PropertyChanges {
                 target: openInWorkshop
                 opacity: .75
             }
@@ -350,10 +327,6 @@ Item {
         State {
             name: "downloading"
 
-            PropertyChanges {
-                target: button
-                opacity: 0
-            }
             PropertyChanges {
                 target: openInWorkshop
                 opacity: 0
@@ -382,11 +355,6 @@ Item {
         },
         State {
             name: "installed"
-
-            PropertyChanges {
-                target: button
-                opacity: 0
-            }
 
             PropertyChanges {
                 target: txtTitle
@@ -421,11 +389,6 @@ Item {
             reversible: true
 
             PropertyAnimation {
-                target: button
-                duration: 100
-                properties: "opacity, anchors.bottomMargin"
-            }
-            PropertyAnimation {
                 target: openInWorkshop
                 duration: 100
                 properties: "opacity"
@@ -446,11 +409,6 @@ Item {
             to: "downloading"
             reversible: true
 
-            PropertyAnimation {
-                target: button
-                duration: 100
-                properties: "opacity"
-            }
             PropertyAnimation {
                 target: txtTitle
                 duration: 100
