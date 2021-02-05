@@ -4,12 +4,11 @@ import ScreenPlay.Workshop 1.0
 
 Rectangle {
     id: root
-    state: "base"
     color: "#161C1D"
     property string backgroundImage: ""
     property int imageOffsetTop: 0
-    onImageOffsetTopChanged:  {
-        if ((imageOffsetTop * -1) >= 300) {
+    onImageOffsetTopChanged: {
+        if ((imageOffsetTop * -1) >= 400) {
             root.state = "backgroundColor"
         } else {
             if (root.state !== "backgroundImage") {
@@ -19,7 +18,7 @@ Rectangle {
     }
     onBackgroundImageChanged: {
         if (backgroundImage === "") {
-            root.state = "base"
+            root.state = ""
         } else {
             root.state = "backgroundImage"
         }
@@ -30,9 +29,6 @@ Rectangle {
         visible: false
         source: "qrc:/assets/images/mask_workshop.png"
     }
-
-
-
 
     Image {
         id: bgImage
@@ -58,7 +54,11 @@ Rectangle {
                     color: "#00ffffff"
                 }
                 GradientStop {
-                    position: .9
+                    position: 0.6
+                    color: "#00ffffff"
+                }
+                GradientStop {
+                    position: 1
                     color: "#161C1D"
                 }
             }
@@ -66,16 +66,15 @@ Rectangle {
     }
 
     MaskedBlur {
-        id:blur
+        id: blur
         anchors.fill: bgImage
         source: bgImage
         maskSource: maskSource
         radius: 16
         cached: true
         samples: 24
+        opacity: 0
     }
-
-
 
     Rectangle {
         id: bgColor
@@ -84,10 +83,9 @@ Rectangle {
         anchors.fill: parent
     }
 
-
     states: [
         State {
-            name: "base"
+            name: ""
             PropertyChanges {
                 target: bgImage
                 opacity: 0
@@ -115,19 +113,19 @@ Rectangle {
             }
             PropertyChanges {
                 target: blur
-                opacity: 1
+                opacity: 0
             }
         },
         State {
             name: "backgroundColor"
             PropertyChanges {
                 target: bgImage
-                opacity: 0
+                opacity: 1
             }
 
             PropertyChanges {
                 target: bgColor
-                opacity: 1
+                opacity: 0.5
             }
             PropertyChanges {
                 target: blur
@@ -137,12 +135,12 @@ Rectangle {
     ]
     transitions: [
         Transition {
-            from: "base"
+            from: ""
             to: "backgroundImage"
             reversible: true
             PropertyAnimation {
-                targets: [bgImage,  bgColor, blur]
-                duration: 2000
+                targets: [bgImage, bgColor, blur]
+                duration: 1000
                 easing.type: Easing.InOutQuart
                 property: "opacity"
             }
@@ -152,8 +150,8 @@ Rectangle {
             to: "backgroundColor"
             reversible: true
             PropertyAnimation {
-                targets: [bgImage,  bgColor]
-                duration: 1000
+                targets: [bgImage, bgColor]
+                duration: 2000
                 easing.type: Easing.InOutQuart
                 property: "opacity"
             }

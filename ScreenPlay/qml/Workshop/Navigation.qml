@@ -10,34 +10,21 @@ import ScreenPlay.Workshop.SteamEnums 1.0
 import SteamQMLImageProvider 1.0
 import ScreenPlay 1.0
 
-Item {
+Rectangle {
     id: root
-    width: 800
-    height: 60
+    implicitWidth: 800
+    height: 50
 
     signal uploadPressed
-
-    Rectangle {
-        id: bg
-        color: Material.theme === Material.Light ? "white" : Qt.darker(Material.background)
-        opacity: .9
-        radius: 3
-        anchors.fill: wrapper
-        layer.enabled: true
-        layer.effect: ElevationEffect {
-            elevation: 4
-        }
-    }
+    color: Material.theme === Material.Light ? "white" : Material.background
 
     Item {
         id: wrapper
-
+        height: 50
         anchors {
-            top: parent.top
+            verticalCenter: parent.verticalCenter
             right: parent.right
             left: parent.left
-            bottom: parent.bottom
-            bottomMargin: 5
         }
 
         Text {
@@ -66,8 +53,8 @@ Item {
 
         SteamImage {
             id: avatar
-            width: 40
-            height: 40
+            width: 30
+            height: 30
             anchors {
                 left: parent.left
                 leftMargin: 10
@@ -85,20 +72,15 @@ Item {
         Button {
             id: btnUplaod
             text: qsTr("Upload to the Steam Workshop")
-            Material.background: Material.accent
-            Material.foreground: "white"
             icon.source: "qrc:/assets/icons/icon_plus.svg"
             icon.color: "white"
             icon.width: 16
             icon.height: 16
-            highlighted: true
-
             onClicked: uploadPressed()
             anchors {
-                top: parent.top
+                verticalCenter: parent.verticalCenter
                 right: parent.right
                 rightMargin: 10
-                bottom: parent.bottom
             }
         }
     }
