@@ -127,9 +127,11 @@ Drawer {
 
             function getUpdateVideoCommand() {
                 let src = ""
-                src += "var videoPlayer1 = document.getElementById('video');\n"
-                src += "videoPlayer1.src = '" + root.videoPreview + "';\n"
-                src += "videoPlayer1.play();\n"
+                src += "var video = document.getElementById('video');\n"
+                src += "video.src = '" + root.videoPreview + "';\n"
+                // Incase a workshop item has no gif preview
+                src += "video.poster = '" + root.videoPreview + "';\n"
+                src += "video.play();\n"
 
                 return src
             }
