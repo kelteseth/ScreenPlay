@@ -120,7 +120,7 @@ Item {
             Button {
                 text: qsTr("Open Folder")
                 onClicked: ScreenPlay.util.openFolderInExplorer(
-                               screenAbsoluteStoragePath)
+                               m_absoluteStoragePath)
                 anchors {
                     right: parent.right
                     bottom: parent.bottom

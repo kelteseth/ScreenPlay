@@ -237,8 +237,8 @@ Drawer {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you like the content")
                         onClicked: {
-                            SP.Workshop.steamWorkshop.vote(root.publishedFileID,
-                                                           true)
+                            SP.Workshop.steamWorkshop.vote(
+                                        root.publishedFileID, true)
                             txtVotesUp.highlighted = true
                             txtVotesDown.highlighted = false
                         }
@@ -251,8 +251,8 @@ Drawer {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you do not like the content")
                         onClicked: {
-                            SP.Workshop.steamWorkshop.vote(root.publishedFileID,
-                                                           false)
+                            SP.Workshop.steamWorkshop.vote(
+                                        root.publishedFileID, false)
                             txtVotesUp.highlighted = false
                             txtVotesDown.highlighted = true
                         }
@@ -283,20 +283,14 @@ Drawer {
 
                 Text {
                     id: txtTags
-                    Layout.alignment: Qt.AlignLeft
+                    property string tags
+                    Layout.fillWidth: true
                     text: qsTr("Tags: ") + tags
                     font.pointSize: 11
-                    Behavior on opacity {
-                        NumberAnimation {
-                            duration: 200
-                        }
-                    }
-
-                    color: Material.secondaryTextColor
                     font.family: ScreenPlay.settings.font
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                    color: Material.secondaryTextColor
+                    wrapMode: Text.WrapAnywhere
                     elide: Text.ElideRight
-                    property string tags
                 }
             }
 

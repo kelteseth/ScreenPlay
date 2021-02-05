@@ -187,10 +187,10 @@ Popup {
 
                         delegate: UploadProjectItem {
 
-                            previewImagePath: _absolutePreviewImagePath
-                            progress: _uploadProgress
-                            name: _name
-                            steamStatus: _status
+                            previewImagePath: m_absolutePreviewImagePath
+                            progress: m_uploadProgress
+                            name: m_name
+                            steamStatus: m_status
                         }
 
                         ScrollBar.vertical: ScrollBar {
