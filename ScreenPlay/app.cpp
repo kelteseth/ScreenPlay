@@ -232,7 +232,11 @@ bool App::loadSteamPlugin()
 {
 
 #ifdef Q_OS_MACOS
+#ifdef QT_NO_DEBUG
     const QString fileSuffix = ".dylib";
+#else
+    const QString fileSuffix = "d.dylib";
+#endif
 #endif
 
 #ifdef Q_OS_WIN
@@ -250,7 +254,7 @@ bool App::loadSteamPlugin()
     m_workshopPlugin.setFileName(QApplication::applicationDirPath() + "/ScreenPlayWorkshop" + fileSuffix);
 
     if (!m_workshopPlugin.load()) {
-        qWarning() << "Steam plugin not provided!";
+        qWarning() << "Steam plugin not provided!" << QApplication::applicationDirPath() + "/ScreenPlayWorkshop" + fileSuffix;
         qWarning() << m_workshopPlugin.fileName() << " - With error: " << m_workshopPlugin.errorString();
         return false;
     }
