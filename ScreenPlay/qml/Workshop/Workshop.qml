@@ -257,7 +257,7 @@ Item {
                             radius: 3
                         }
 
-                        Common.TextField {
+                        TextField {
                             id: tiSearch
                             anchors {
                                 top: parent.top
