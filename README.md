@@ -12,7 +12,7 @@ Dev. Docs   [![pipeline status](https://gitlab.com/kelteseth/ScreenPlayDeveloper
 <a href="https://www.reddit.com/r/ScreenPlayApp/">![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/screenplayapp?style=for-the-badge)</a>
 <br><br>
 User Chat (Discord)
-<a href="https://discord.com/invite/rUvjNSV?utm_source=Discord%20Widget&utm_medium=Connect">![Discord](https://img.shields.io/discord/516635043435773970?style=for-the-badge)</a>
+<a href="https://discord.com/invite/JBMmZbgc?utm_source=Discord%20Widget&utm_medium=Connect">![Discord](https://img.shields.io/discord/516635043435773970?style=for-the-badge)</a>
 Developer Chat [![Gitter](https://badges.gitter.im/ScreenPlayApp/community.svg)](https://gitter.im/ScreenPlayApp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 
