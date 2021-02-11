@@ -73,11 +73,11 @@
     <name>Community</name>
     <message>
         <source>We use Stomt because it provides quick and easy feedback via I like/I wish. So you can easily give us feedback and speak your mind. We will read these wishes on a daily basis!</source>
-        <translation type="obsolete">Utilizamos Stomt porque proporciona una retroalimentación rápida y fácil a través de I like/I wish. Así que usted puede fácilmente darnos su opinión y decir lo que piensa. Leeremos estos deseos a diario!</translation>
+        <translation type="obsolete">Utilizamos Stomt porque fornece feedback rápido e fácil via Eu gosto/Eu desejo. Assim você pode facilmente fornecer feedback e expressar sua opinião, Leremos esses desejos diariamente!</translation>
     </message>
     <message>
         <source>Open ScreenPlay Stomt page</source>
-        <translation type="obsolete">Abrir la página de ScreenPlay Stomt</translation>
+        <translation type="obsolete">Abrir a página do ScreenPlay Stomt</translation>
     </message>
     <message>
         <source>Forums</source>
@@ -113,7 +113,7 @@
     <message>
         <location filename="../qml/Community/Community.qml" line="50"/>
         <source>Release Notes</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Notas de Lançamento</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="55"/>
@@ -153,7 +153,7 @@
     </message>
     <message>
         <source>Examples Widgets and Scenes</source>
-        <translation type="obsolete">Widgets y escenas de ejemplo</translation>
+        <translation type="obsolete">Exemplos de Widgets e cenas</translation>
     </message>
     <message>
         <source>Simple clock widget</source>
@@ -161,11 +161,11 @@
     </message>
     <message>
         <source>Musik scene wallpaper visualizer</source>
-        <translation type="obsolete">Visualizador de fondo de pantalla de la escena musical</translation>
+        <translation type="obsolete">Visualizador de papel de parede musical</translation>
     </message>
     <message>
         <source>Changing scene wallpaper via unsplash.com</source>
-        <translation type="obsolete">Cambio del fondo de pantalla de la escena a través de unsplash.com</translation>
+        <translation type="obsolete">Trocando cena de papel de parede via unsplash.com</translation>
     </message>
 </context>
 <context>
@@ -176,7 +176,7 @@
     </message>
     <message>
         <source>Copyright owner</source>
-        <translation type="obsolete">Propietario de los derechos de autor</translation>
+        <translation type="obsolete">Propietario do direitos do autorr</translation>
     </message>
     <message>
         <source>License</source>
@@ -188,14 +188,14 @@
     </message>
     <message>
         <source>You can set your own preview image here!</source>
-        <translation type="obsolete">Puede establecer su propia imagen de previsualización aquí!</translation>
+        <translation type="obsolete">Você pode definir sua propria imagem de visualização aqui!</translation>
     </message>
 </context>
 <context>
     <name>CreateEmptyWidget</name>
     <message>
         <source>Create an empty widget</source>
-        <translation type="obsolete">Crear un widget vacío</translation>
+        <translation type="obsolete">Criar um widget vazio</translation>
     </message>
     <message>
         <source>General</source>
@@ -203,19 +203,19 @@
     </message>
     <message>
         <source>Widget name</source>
-        <translation type="obsolete">Nombre del widget</translation>
+        <translation type="obsolete">Nome do widget</translation>
     </message>
     <message>
         <source>Copyright owner</source>
-        <translation type="obsolete">Propietario de los derechos de autor</translation>
+        <translation type="obsolete">Propietario dos direitos do autor</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="obsolete">Escriba</translation>
+        <translation type="obsolete">Tipo</translation>
     </message>
     <message>
         <source>License</source>
-        <translation type="obsolete">Licencia</translation>
+        <translation type="obsolete">Licença</translation>
     </message>
     <message>
         <source>Tags</source>
@@ -255,7 +255,7 @@
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="31"/>
         <source>Import any video type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importar qualquer tipo de video</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="36"/>
