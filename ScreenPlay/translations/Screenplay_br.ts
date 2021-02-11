@@ -308,7 +308,7 @@
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="52"/>
         <source>Generating preview image...</source>
-        <translation type="unfinished">Generación de la imagen de previsualización...</translation>
+        <translation type="unfinished">Generando uma imagem de visualização...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="55"/>
@@ -338,17 +338,17 @@
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="81"/>
         <source>Converting Video ERROR!</source>
-        <translation type="unfinished">Convertir no tiene éxito!</translation>
+        <translation type="unfinished">Houve um erro ao converter o video!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="84"/>
         <source>Analyse Video ERROR!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Houve um erro ao analisar o video</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="112"/>
         <source>Convert a video to a wallpaper</source>
-        <translation type="unfinished">Convertir un vídeo en un fondo de pantalla en directo</translation>
+        <translation type="unfinished">Convertendo video para papel de parede</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="164"/>
@@ -358,21 +358,21 @@
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="209"/>
         <source>Generating preview video...</source>
-        <translation type="unfinished">Generando una vista previa de video...</translation>
+        <translation type="unfinished">Generando uma visualização do video...</translation>
     </message>
     <message>
         <source>You can set your own preview image here!</source>
-        <translation type="obsolete">Puede establecer su propia imagen de previsualización aquí!</translation>
+        <translation type="obsolete">Você pode colocar sua propria imagem de visualização!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="255"/>
         <source>Name (required!)</source>
-        <translation type="unfinished">Nombre (¡obligatorio!)</translation>
+        <translation type="unfinished">Nome (¡obrigatorio!)</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="269"/>
         <source>Description</source>
-        <translation type="unfinished">Descripción</translation>
+        <translation type="unfinished">Descrição</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="276"/>
@@ -387,12 +387,12 @@
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="314"/>
         <source>Save</source>
-        <translation type="unfinished">Guardar</translation>
+        <translation type="unfinished">Salvar</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="350"/>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished">Guardar el papel tapiz...</translation>
+        <translation type="unfinished">Salvar Papel de parede...</translation>
     </message>
 </context>
 <context>
@@ -400,7 +400,7 @@
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="41"/>
         <source>Volume</source>
-        <translation type="unfinished">Volumen</translation>
+        <translation type="unfinished">Volume</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="55"/>
@@ -410,7 +410,7 @@
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="67"/>
         <source>Current Video Time</source>
-        <translation type="unfinished">Hora actual del vídeo</translation>
+        <translation type="unfinished">Hora atual do video</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="85"/>
@@ -447,31 +447,31 @@
     <name>FFMPEGPopup</name>
     <message>
         <source>Begin downloading FFMPEG</source>
-        <translation type="obsolete">Comience a descargar el FFMPEG</translation>
+        <translation type="obsolete">Começando download do FFMPEG</translation>
     </message>
     <message>
         <source>FFMPEG download failed</source>
-        <translation type="obsolete">Falló la descarga de FFMPEG</translation>
+        <translation type="obsolete">O download pelo do FFMPEG falhou</translation>
     </message>
     <message>
         <source>FFMPEG download successful</source>
-        <translation type="obsolete">Descarga de FFMPEG exitosa</translation>
+        <translation type="obsolete">O FFMPEG foi baixado com exito</translation>
     </message>
     <message>
         <source>Extracting FFMPEG</source>
-        <translation type="obsolete">Extrahieren von FFMPEG</translation>
+        <translation type="obsolete">Extraindo FFMPEG</translation>
     </message>
     <message>
         <source>ERROR extracting ffmpeg from RAM</source>
-        <translation type="obsolete">ERROR extrayendo ffmpeg de la RAM</translation>
+        <translation type="obsolete">ERRO ao extrair o ffmpeg pela RAM</translation>
     </message>
     <message>
         <source>ERROR extracing ffmpeg</source>
-        <translation type="obsolete">ERROR extracción ffmpeg</translation>
+        <translation type="obsolete">ERRO na extração do ffmpeg</translation>
     </message>
     <message>
         <source>ERROR saving FFMPEG to disk</source>
-        <translation type="obsolete">ERROR al guardar FFMPEG en el disco</translation>
+        <translation type="obsolete">ERROR ao salvar o FFMPEG no disco</translation>
     </message>
     <message>
         <source>ERROR extracing FFPROBE</source>
@@ -483,11 +483,11 @@
     </message>
     <message>
         <source>Extraction successful</source>
-        <translation type="obsolete">Extracción exitosa</translation>
+        <translation type="obsolete">A Extração teve exito</translation>
     </message>
     <message>
         <source>All done and ready to go!</source>
-        <translation type="obsolete">¡Todo hecho y listo para salir!</translation>
+        <translation type="obsolete">Tudo pronto para começar!</translation>
     </message>
     <message>
         <source>You cannot create Wallaper without FFMPEG installed!</source>
@@ -499,7 +499,7 @@
     </message>
     <message>
         <source>Download FFMPEG</source>
-        <translation type="obsolete">Descargar FFMPEG</translation>
+        <translation type="obsolete">Baixar FFMPEG</translation>
     </message>
     <message>
         <source>Before we can start creating content you need to download FFMPEG</source>
@@ -639,15 +639,15 @@ si instaló ScreenPlay vía Steam!
     </message>
     <message>
         <source>Not now!</source>
-        <translation type="obsolete">¡Ahora no!</translation>
+        <translation type="obsolete">Agora não!</translation>
     </message>
     <message>
         <source>You can now start creating content!</source>
-        <translation type="obsolete">Ya puedes empezar a crear contenido!</translation>
+        <translation type="obsolete">Você agora pode começar a criar conteudo!</translation>
     </message>
     <message>
         <source>Start!</source>
-        <translation type="obsolete">¡Lanzamiento!</translation>
+        <translation type="obsolete">Iniciar</translation>
     </message>
 </context>
 <context>
@@ -655,32 +655,32 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Common/FileSelector.qml" line="96"/>
         <source>Clear</source>
-        <translation type="unfinished">Clear</translation>
+        <translation type="unfinished">Limpar</translation>
     </message>
     <message>
         <location filename="../qml/Common/FileSelector.qml" line="117"/>
         <source>Select File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selecionar Arquivo</translation>
     </message>
     <message>
         <location filename="../qml/Common/FileSelector.qml" line="132"/>
         <source>Please choose a file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Por favor selecione o arquivo</translation>
     </message>
 </context>
 <context>
     <name>Footer</name>
     <message>
         <source>QML Quickstart Guide</source>
-        <translation type="obsolete">Guía de inicio rápido de QML</translation>
+        <translation type="obsolete">Guía de inicio rápido do QML</translation>
     </message>
     <message>
         <source>Documentation</source>
-        <translation type="obsolete">Documentación</translation>
+        <translation type="obsolete">Documentação</translation>
     </message>
     <message>
         <source>Forums</source>
-        <translation type="obsolete">Foro</translation>
+        <translation type="obsolete">Forums</translation>
     </message>
     <message>
         <source>Workshop</source>
@@ -692,7 +692,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="29"/>
         <source>Import a Gif Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importar um gif de papel de parede</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="86"/>
@@ -702,22 +702,22 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="106"/>
         <source>Select your gif</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selecione seu gif</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="119"/>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation type="unfinished">Geral</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="125"/>
         <source>Wallpaper name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nome do papel de parede</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="132"/>
         <source>Created By</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Criado por</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="141"/>
@@ -730,27 +730,27 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="34"/>
         <source>Create a HTML Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Criar um papel de parede HTML</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="39"/>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation type="unfinished">Geral</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="47"/>
         <source>Wallpaper name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nome do papel de parede</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="54"/>
         <source>Created By</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Criado por</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="60"/>
         <source>Description</source>
-        <translation type="unfinished">Descripción</translation>
+        <translation type="unfinished">Descrição</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="68"/>
@@ -760,7 +760,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="89"/>
         <source>Preview Image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pre-visualização de imagem</translation>
     </message>
 </context>
 <context>
@@ -773,7 +773,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="73"/>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation type="unfinished">Geral</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="79"/>
@@ -783,7 +783,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="85"/>
         <source>Created by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Criado por</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="92"/>
