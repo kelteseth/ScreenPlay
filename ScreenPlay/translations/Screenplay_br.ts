@@ -2653,7 +2653,7 @@ si instaló ScreenPlay vía Steam!
     <name>main</name>
     <message>
         <source>ScreenPlay - Double click to change you settings.</source>
-        <translation type="obsolete">ScreenPlay - Haga doble clic para cambiar su configuración.</translation>
+        <translation type="obsolete">ScreenPlay - Clique duas vezes para alterar suas configurações.</translation>
     </message>
     <message>
         <source>Open ScreenPlay</source>
