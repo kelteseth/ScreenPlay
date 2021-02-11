@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="es">
+<TS version="2.1" language="br">
 <context>
     <name>ColorPicker</name>
     <message>
@@ -2411,7 +2411,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="349"/>
         <source>IP Banned</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">IP Banido</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="352"/>
@@ -2421,7 +2421,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="355"/>
         <source>Insufficient Funds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fundos insuficientes</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="358"/>
@@ -2456,7 +2456,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="376"/>
         <source>Account Deleted</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Conta deletada</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="379"/>
@@ -2471,12 +2471,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="446"/>
         <source>Status:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Status</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="463"/>
         <source>Upload Progress: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Upload em progresso</translation>
     </message>
 </context>
 <context>
@@ -2494,17 +2494,17 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="47"/>
         <source>Wallpaper name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nome do Wallpaper</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="54"/>
         <source>Created By</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Criado por</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="60"/>
         <source>Description</source>
-        <translation type="unfinished">Descripción</translation>
+        <translation type="unfinished">Descrição</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="75"/>
@@ -2522,12 +2522,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/WizardPage.qml" line="65"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Salvar</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/WizardPage.qml" line="95"/>
         <source>Saving...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Salvando</translation>
     </message>
 </context>
 <context>
@@ -2535,7 +2535,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="162"/>
         <source>Loading</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Carregando</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="173"/>
@@ -2545,32 +2545,32 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="178"/>
         <source>Downloading...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Baixando...</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="185"/>
         <source>Details</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Detalhes</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="209"/>
         <source>Open In Steam</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abrir na Steam</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="270"/>
         <source>Search for Wallpaper and Widgets...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Procurar por Wallpaper e Widgets</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="291"/>
         <source>Open Workshop in Steam</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abrir workshop na steam</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="301"/>
         <source>Open GameHub in Steam</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abrir</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="332"/>
@@ -2580,7 +2580,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="335"/>
         <source>Publication Date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Data de publicação</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="338"/>
@@ -2590,12 +2590,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="341"/>
         <source>Favorited By Friends</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Favoritado por amigos</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="344"/>
         <source>Created By Friends</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Criado por amigos</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="347"/>
@@ -2628,7 +2628,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="184"/>
         <source>Download</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Baixar</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="303"/>
@@ -2638,7 +2638,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="413"/>
         <source>Download complete!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Download completado!</translation>
     </message>
 </context>
 <context>
