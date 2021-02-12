@@ -138,7 +138,7 @@
     <name>Create</name>
     <message>
         <source>Create wallpapers and widgets for local usage or the steam workshop!</source>
-        <translation type="obsolete">Cree fondos de pantalla y widgets para uso local o en el taller de vapor!</translation>
+        <translation type="obsolete">Criar papel de parede e widget para uso local ou a steam workshop!</translation>
     </message>
 </context>
 <context>
@@ -176,7 +176,7 @@
     </message>
     <message>
         <source>Copyright owner</source>
-        <translation type="obsolete">Propietario do direitos do autorr</translation>
+        <translation type="obsolete">Propietario dos direitos do autor</translation>
     </message>
     <message>
         <source>License</source>
@@ -267,7 +267,7 @@
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="46"/>
         <source>Set your preffered video codec:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Define seu codec de vídeo preferido</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="79"/>
@@ -300,7 +300,7 @@
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="88"/>
         <source>Back to create and send an error report!</source>
-        <translation type="unfinished">Vuelva a crear y enviar un informe de errores!</translation>
+        <translation type="unfinished">Voltar para criar e enviar um relatório de erro!</translation>
     </message>
 </context>
 <context>
@@ -313,17 +313,17 @@
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="55"/>
         <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished">Generar la imagen en miniatura de la vista previa...</translation>
+        <translation type="unfinished">Gerando imagem de miniatura de visualização...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="62"/>
         <source>Generating 5 second preview video...</source>
-        <translation type="unfinished">Generando una vista previa de 5 segundos de video...</translation>
+        <translation type="unfinished">Gerando uma visualização de 5 segundos do video...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="65"/>
         <source>Generating preview gif...</source>
-        <translation type="unfinished">Generando una vista previa gif...</translation>
+        <translation type="unfinished">Gerando uma visualização do gif...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="74"/>
@@ -358,16 +358,16 @@
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="209"/>
         <source>Generating preview video...</source>
-        <translation type="unfinished">Generando uma visualização do video...</translation>
+        <translation type="unfinished">Gerando uma visualização do video...</translation>
     </message>
     <message>
         <source>You can set your own preview image here!</source>
-        <translation type="obsolete">Você pode colocar sua propria imagem de visualização!</translation>
+        <translation type="obsolete">Você pode colocar sua propria imagem de visualização aqui!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="255"/>
         <source>Name (required!)</source>
-        <translation type="unfinished">Nome (¡obrigatorio!)</translation>
+        <translation type="unfinished">Nome (obrigatorio!)</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="269"/>
@@ -405,7 +405,7 @@
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="55"/>
         <source>Playback rate</source>
-        <translation type="unfinished">tasa de reproducción</translation>
+        <translation type="unfinished">taxa de reprodução</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="67"/>
@@ -415,27 +415,27 @@
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="85"/>
         <source>Fill Mode</source>
-        <translation type="unfinished">Modo de llenado</translation>
+        <translation type="unfinished">Modo de Preenchimento</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="110"/>
         <source>Stretch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Esticar</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="113"/>
         <source>Fill</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Preencher</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="116"/>
         <source>Contain</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Conter</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="119"/>
         <source>Cover</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cobrir</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="122"/>
@@ -451,7 +451,7 @@
     </message>
     <message>
         <source>FFMPEG download failed</source>
-        <translation type="obsolete">O download pelo do FFMPEG falhou</translation>
+        <translation type="obsolete">O download do FFMPEG falhou</translation>
     </message>
     <message>
         <source>FFMPEG download successful</source>
@@ -475,11 +475,11 @@
     </message>
     <message>
         <source>ERROR extracing FFPROBE</source>
-        <translation type="obsolete">Extracción de ERRORES FFPROBE</translation>
+        <translation type="obsolete">ERRO na extração do FFPROBE</translation>
     </message>
     <message>
         <source>ERROR saving FFPROBE to disk</source>
-        <translation type="obsolete">ERROR al guardar el FFPROBE en el disco</translation>
+        <translation type="obsolete">ERRO ao salvar o FFPROBE no disco</translation>
     </message>
     <message>
         <source>Extraction successful</source>
@@ -491,7 +491,7 @@
     </message>
     <message>
         <source>You cannot create Wallaper without FFMPEG installed!</source>
-        <translation type="obsolete">No se puede crear Wallaper sin tener instalado el FFMPEG!</translation>
+        <translation type="obsolete">Não pode criar um papel de parede sem o FFMPEG instalado!</translation>
     </message>
     <message>
         <source>Abort</source>
@@ -503,7 +503,7 @@
     </message>
     <message>
         <source>Before we can start creating content you need to download FFMPEG</source>
-        <translation type="obsolete">Antes de que podamos empezar a crear contenido necesitas descargar FFMPEG</translation>
+        <translation type="obsolete">Antes que possamos criar um conteudo você precisa baixar o FFMPEG</translation>
     </message>
     <message>
         <source>&lt;b&gt;Why do we bother you with this?&lt;/b&gt;
@@ -822,14 +822,14 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="162"/>
         <source>Select Preview Image</source>
-        <translation type="unfinished">Seleccione la imagen de vista previa</translation>
+        <translation type="unfinished">Selecionar imagem de visualização</translation>
     </message>
 </context>
 <context>
     <name>ImportContent</name>
     <message>
         <source>Import Content</source>
-        <translation type="obsolete">Importar contenido</translation>
+        <translation type="obsolete">Importar conteudo</translation>
     </message>
     <message>
         <source>Import video</source>
@@ -837,7 +837,7 @@ si instaló ScreenPlay vía Steam!
     </message>
     <message>
         <source>FFMPEG Needed for import</source>
-        <translation type="obsolete">FFMPEG Necesario para la importación</translation>
+        <translation type="obsolete">FFMPEG é necessario para importar</translation>
     </message>
     <message>
         <source>Upload Exsisting Project to Steam</source>
@@ -854,47 +854,47 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="51"/>
         <source>Generating preview image...</source>
-        <translation type="unfinished">Generación de la imagen de previsualización...</translation>
+        <translation type="unfinished">Gerando imagem de visualização...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="54"/>
         <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished">Generar la imagen en miniatura de la vista previa...</translation>
+        <translation type="unfinished">Gerando imagem de visualização de miniatura...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="61"/>
         <source>Generating 5 second preview video...</source>
-        <translation type="unfinished">Generando una vista previa de 5 segundos de video...</translation>
+        <translation type="unfinished">Gerando uma pre-visualização de 5 segundos de video...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="64"/>
         <source>Generating preview gif...</source>
-        <translation type="unfinished">Generando una vista previa gif...</translation>
+        <translation type="unfinished">Gerando uma pre-visualização de gif...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="73"/>
         <source>Converting Audio...</source>
-        <translation type="unfinished">Conversión de audio...</translation>
+        <translation type="unfinished">Convertendo audio...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="76"/>
         <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished">Conversión de vídeo... Esto puede llevar algo de tiempo!</translation>
+        <translation type="unfinished">Convertendo video... Isto pode levar algum tempo!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="80"/>
         <source>Converting Video ERROR!</source>
-        <translation type="unfinished">Convertir no tiene éxito!</translation>
+        <translation type="unfinished">ERRO ao converter o video!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="83"/>
         <source>Analyse Video ERROR!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ocorreu um erro ao analisar o video</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="111"/>
         <source>Import a video to a wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importar um vídeo para um papel de parede</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="189"/>
@@ -904,17 +904,17 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="202"/>
         <source>Generating preview video...</source>
-        <translation type="unfinished">Generando una vista previa de video...</translation>
+        <translation type="unfinished">Gerando uma pre-visualização de video...</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="248"/>
         <source>Name (required!)</source>
-        <translation type="unfinished">Nombre (¡obligatorio!)</translation>
+        <translation type="unfinished">Nome (obrigatorio!)</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="262"/>
         <source>Description</source>
-        <translation type="unfinished">Descripción</translation>
+        <translation type="unfinished">Descrição</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="269"/>
@@ -924,17 +924,17 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="295"/>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cancelar</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="307"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Salvar</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="343"/>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished">Guardar el papel tapiz...</translation>
+        <translation type="unfinished">Salvar papel de parede...</translation>
     </message>
 </context>
 <context>
@@ -942,7 +942,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="32"/>
         <source>Import a .webm video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Importar um video .webm</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="45"/>
@@ -952,7 +952,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="88"/>
         <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tipo de arquivo inval</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="94"/>
@@ -962,12 +962,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="128"/>
         <source>Open Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abrir documentação</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="145"/>
         <source>Select file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selecionar arquivo</translation>
     </message>
 </context>
 <context>
@@ -975,38 +975,38 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Installed/Installed.qml" line="106"/>
         <source>Refreshing!</source>
-        <translation type="unfinished">¡Refrescante!</translation>
+        <translation type="unfinished">Atualizando!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="109"/>
         <location filename="../qml/Installed/Installed.qml" line="131"/>
         <source>Pull to refresh!</source>
-        <translation type="unfinished">¡Tira para refrescarte!</translation>
+        <translation type="unfinished">Puxe para atualizar!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="148"/>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation type="unfinished">Consiga más fondos de pantalla y widgets a través del taller Steam!</translation>
+        <translation type="unfinished">Consiga mais papeis de paredes e Widgets pelo Steam workshop!</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="226"/>
         <source>Open containing folder</source>
-        <translation type="unfinished">Abrir la carpeta que contiene</translation>
+        <translation type="unfinished">Abrir a pasta que contém</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="234"/>
         <source>Deinstall Item</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Desinstlaar item</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="243"/>
         <source>Open workshop Page</source>
-        <translation type="unfinished">Taller abierto Página</translation>
+        <translation type="unfinished">Abrir página da workshop</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="255"/>
         <source>Are you sure you want to delete this item?</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Você tem certeza que quer desinstalar esse item?</translation>
     </message>
     <message>
         <source>All</source>
@@ -1018,7 +1018,7 @@ si instaló ScreenPlay vía Steam!
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="obsolete">Escenas</translation>
+        <translation type="obsolete">Cenas</translation>
     </message>
     <message>
         <source>Widgets</source>
@@ -1031,7 +1031,7 @@ si instaló ScreenPlay vía Steam!
     </message>
     <message>
         <source>Search for Wallpaper &amp; Widgets</source>
-        <translation type="obsolete">Búsqueda de Fondos y Widgets</translation>
+        <translation type="obsolete">Procurar por papel de parede e Widgets</translation>
     </message>
 </context>
 <context>
@@ -1039,12 +1039,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="67"/>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-        <translation type="unfinished">Consigue widgets y fondos de pantalla gratis a través de Steam</translation>
+        <translation type="unfinished">Consiga papeis de paredes e widgets gratis pela oficina da steam</translation>
     </message>
     <message>
         <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="97"/>
         <source>Browse the Steam Workshop</source>
-        <translation type="unfinished">Navegue por el Taller Steam</translation>
+        <translation type="unfinished">Navegue pela oficina da steam</translation>
     </message>
 </context>
 <context>
@@ -1052,7 +1052,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Common/LicenseSelector.qml" line="17"/>
         <source>License</source>
-        <translation type="unfinished">Licencia</translation>
+        <translation type="unfinished">Licença</translation>
     </message>
     <message>
         <location filename="../qml/Common/LicenseSelector.qml" line="33"/>
@@ -1100,12 +1100,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="67"/>
         <source>Wallpaper Configuration</source>
-        <translation type="unfinished">Configuración de los fondos de pantalla</translation>
+        <translation type="unfinished">Configuração do papel de parede</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="132"/>
         <source>Remove selected</source>
-        <translation type="unfinished">Eliminar seleccionado</translation>
+        <translation type="unfinished">Remover selecionado</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="144"/>
@@ -1116,7 +1116,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="145"/>
         <source>Wallpapers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Papeis de parede</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/Monitors.qml" line="159"/>
@@ -1125,11 +1125,11 @@ si instaló ScreenPlay vía Steam!
     </message>
     <message>
         <source>Remove all Wallpapers</source>
-        <translation type="obsolete">Eliminar todos los fondos de pantalla</translation>
+        <translation type="obsolete">Eliminar todos os papeis de parede</translation>
     </message>
     <message>
         <source>Remove all Widgets</source>
-        <translation type="obsolete">Eliminar todos los Widgets</translation>
+        <translation type="obsolete">Remover todos os Widgets</translation>
     </message>
 </context>
 <context>
@@ -1137,12 +1137,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="132"/>
         <source>Set color</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Colocar cor</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="155"/>
         <source>Please choose a color</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Por favor escolha uma cor</translation>
     </message>
 </context>
 <context>
@@ -1155,7 +1155,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Installed/Navigation.qml" line="72"/>
         <source>Scenes</source>
-        <translation type="unfinished">Escenas</translation>
+        <translation type="unfinished">Cenas</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Navigation.qml" line="88"/>
@@ -1170,12 +1170,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Navigation.qml" line="46"/>
         <source> Subscribed items: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Items inscritos</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Navigation.qml" line="87"/>
         <source>Upload to the Steam Workshop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enviar para oficina da steam</translation>
     </message>
 </context>
 <context>
@@ -1183,12 +1183,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="70"/>
         <source>Configurate active Wallpaper or Widgets</source>
-        <translation type="unfinished">Configurar el papel tapiz o los widgets activos</translation>
+        <translation type="unfinished">Configurar Papel de parede ou Widget ativo</translation>
     </message>
     <message>
         <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="72"/>
         <source>No active Wallpaper or Widgets</source>
-        <translation type="unfinished">No hay fondos de pantalla o widgets activos</translation>
+        <translation type="unfinished">Nenhum Papel de parede ou Widget ativo</translation>
     </message>
 </context>
 <context>
@@ -1196,12 +1196,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/PopupOffline.qml" line="28"/>
         <source>You need to run Steam for this :)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Você precisa iniciar a steam para isso :)</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/PopupOffline.qml" line="37"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Voltar</translation>
     </message>
 </context>
 <context>
@@ -1232,27 +1232,27 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="34"/>
         <source>Create a QML Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Criar um Papel de parede QML</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="39"/>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation type="unfinished">Geral</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="47"/>
         <source>Wallpaper name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nome do Papel de parede</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="54"/>
         <source>Created By</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Criado por</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="60"/>
         <source>Description</source>
-        <translation type="unfinished">Descripción</translation>
+        <translation type="unfinished">Descrição</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="68"/>
@@ -1262,7 +1262,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="90"/>
         <source>Preview Image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Imagem de visualização</translation>
     </message>
 </context>
 <context>
@@ -1270,22 +1270,22 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/QMLWidget.qml" line="25"/>
         <source>Create a QML widget</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Criar um Widget QML</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/QMLWidget.qml" line="73"/>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation type="unfinished">Geral</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/QMLWidget.qml" line="79"/>
         <source>Widget name</source>
-        <translation type="unfinished">Nombre del widget</translation>
+        <translation type="unfinished">Nome do Widget</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/QMLWidget.qml" line="85"/>
         <source>Created by</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Criado por</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/QMLWidget.qml" line="92"/>
@@ -1298,18 +1298,18 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Monitors/SaveNotification.qml" line="40"/>
         <source>Profile saved successfully!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Perfil salvado com sucesso!</translation>
     </message>
 </context>
 <context>
     <name>ScreenPlayItem</name>
     <message>
         <source>Open containing folder</source>
-        <translation type="obsolete">Abrir la carpeta que contiene</translation>
+        <translation type="obsolete">Abrir a pasta que contem</translation>
     </message>
     <message>
         <source>Open workshop Page</source>
-        <translation type="obsolete">Taller abierto Página</translation>
+        <translation type="obsolete">Abrir pagina da oficina</translation>
     </message>
 </context>
 <context>
@@ -1317,7 +1317,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Common/Search.qml" line="41"/>
         <source>Search for Wallpaper &amp; Widgets</source>
-        <translation type="unfinished">Búsqueda de Fondos y Widgets</translation>
+        <translation type="unfinished">Pesquisar por Papel de parede e Widgets</translation>
     </message>
 </context>
 <context>
@@ -1325,22 +1325,22 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="57"/>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation type="unfinished">Geral</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="72"/>
         <source>Autostart</source>
-        <translation type="unfinished">Autoencendido</translation>
+        <translation type="unfinished">Auto iniciar</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="73"/>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation type="unfinished">ScreenPlay se iniciará con Windows y configurará el escritorio cada vez que lo necesite.</translation>
+        <translation type="unfinished">ScreenPlay iniciará com o Windows e sempre configurará sua área de trabalho para você.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="81"/>
         <source>High priority Autostart</source>
-        <translation type="unfinished">Arranque automático de alta prioridad</translation>
+        <translation type="unfinished">Início autómatico de alta prioridade</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="84"/>
@@ -1350,7 +1350,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="93"/>
         <source>Send anonymous crash reports and statistics</source>
-        <translation type="unfinished">Enviar informes y estadísticas de accidentes anónimos</translation>
+        <translation type="unfinished">Enviar estatisticas e relatórios de falhas anônimos</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="94"/>
@@ -1360,7 +1360,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="103"/>
         <source>Set save location</source>
-        <translation type="unfinished">Establecer la ubicación de almacenamiento</translation>
+        <translation type="unfinished">Definir local para salvar</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="108"/>
@@ -1370,7 +1370,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="114"/>
         <source>Set location</source>
-        <translation type="unfinished">Fijar la ubicación</translation>
+        <translation type="unfinished">Definir localização</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="130"/>
@@ -1385,7 +1385,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="149"/>
         <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished">Configurar el idioma de la interfaz de usuario de ScreenPlay</translation>
+        <translation type="unfinished">Definir o idioma da interface do ScreenPlay</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="164"/>
@@ -1425,12 +1425,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="193"/>
         <source>Theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tema</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="194"/>
         <source>Switch dark/light theme</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Trocar para tema escuro/tema claro</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="208"/>
@@ -1440,17 +1440,17 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="211"/>
         <source>Dark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Escuro</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="214"/>
         <source>Light</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Claro</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="224"/>
         <source>Performance</source>
-        <translation type="unfinished">Rendimiento</translation>
+        <translation type="unfinished">Performance</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="239"/>
@@ -2146,17 +2146,17 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="190"/>
         <source>Cancelled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cancelado</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="193"/>
         <source>Data Corruption</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dados comrropido</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="196"/>
         <source>Disk Full</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Disco cheio</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="199"/>
@@ -2376,37 +2376,37 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="328"/>
         <source>Refund To Wallet</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Reembolsado para carteira</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="331"/>
         <source>Email Send Failure</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Envio do email falhou</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="334"/>
         <source>Not Settled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Não estabelecido</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="337"/>
         <source>Need Captcha</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Necessita de Captcha</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="340"/>
         <source>GSLT Denied</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GSLT Negado</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="343"/>
         <source>GS Owner Denied</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Proprietario GS Negado</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="346"/>
         <source>Invalid Item Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tipo de item invalido</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="349"/>
@@ -2416,7 +2416,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="352"/>
         <source>GSLT Expired</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GSLT Expirou</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="355"/>
@@ -2431,27 +2431,27 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="361"/>
         <source>No Site Licenses Found</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nenhuma licença de site encontrada</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="364"/>
         <source>WG Network Send Exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Envio de rede WG excedido</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="367"/>
         <source>Account Not Friends</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">A conta não tem amigos</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="370"/>
         <source>Limited User Account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Conta de usuario limitada</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="373"/>
         <source>Cant Remove Item</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Não é possivel remover o item</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="376"/>
@@ -2461,12 +2461,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="379"/>
         <source>Existing User Cancelled License</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Licença cancelada pelo usuário existente</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="382"/>
         <source>Community Cooldown</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Esfriamento da comunidade</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="446"/>
@@ -2489,7 +2489,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="38"/>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation type="unfinished">Geral</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="47"/>
@@ -2514,7 +2514,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="88"/>
         <source>Preview Image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Imagem de visualização</translation>
     </message>
 </context>
 <context>
@@ -2540,7 +2540,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="173"/>
         <source>Download now!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Baixe agora!</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="178"/>
@@ -2565,17 +2565,17 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="291"/>
         <source>Open Workshop in Steam</source>
-        <translation type="unfinished">Abrir workshop na steam</translation>
+        <translation type="unfinished">Abrir workshop na Steam</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="301"/>
         <source>Open GameHub in Steam</source>
-        <translation type="unfinished">Abrir</translation>
+        <translation type="unfinished">Abrir Gamehub na Steam</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="332"/>
         <source>Ranked By Vote</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Classificado por voto</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="335"/>
@@ -2585,7 +2585,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="338"/>
         <source>Ranked By Trend</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Classificado por tendência</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="341"/>
@@ -2600,12 +2600,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="347"/>
         <source>Created By Followed Users</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Criado por usuarios seguidos</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="350"/>
         <source>Not Yet Rated</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Não votado</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="353"/>
@@ -2615,7 +2615,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="356"/>
         <source>Votes Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Votos acima</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Workshop.qml" line="359"/>
@@ -2633,7 +2633,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="303"/>
         <source>Successfully subscribed to Workshop Item!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Inscrito com sucesso no item da oficina!</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="413"/>
@@ -2677,7 +2677,7 @@ si instaló ScreenPlay vía Steam!
     </message>
     <message>
         <source>Quit</source>
-        <translation type="obsolete">Sair de</translation>
+        <translation type="obsolete">Sair</translation>
     </message>
 </context>
 </TS>
