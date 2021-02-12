@@ -1503,12 +1503,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="269"/>
         <source>Contain</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Conter</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="272"/>
         <source>Cover</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cobrir</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="275"/>
@@ -1528,7 +1528,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="328"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation type="unfinished">Hola, soy Elias Steurer también conocido como Kelteseth y soy el desarrollador de ScreenPlay. Gracias por usar mi software. Puedes seguirme para recibir actualizaciones sobre ScreenPlay aquí:</translation>
+        <translation type="unfinished">Olá, Eu sou o Elias Steurer tambem conhecido como Kelteseth e eu sou desenvolvedor do ScreenPlay. Obrigado por usar meu programa. Você pode me seguir para receber atualizações sobre o ScreenPlay aquí:</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="417"/>
@@ -1567,7 +1567,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="448"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation type="unfinished">Si su ScreenPlay se comporta mal, esta es una buena manera de buscar respuestas. Esto muestra todos los registros y advertencias durante el tiempo de ejecución.</translation>
+        <translation type="unfinished">Se o seu ScreenPlay se comportar mal, esta é uma boa maneira de procurar respostas. Isso mostra todos os logs e avisos durante o tempo de execução</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="449"/>
@@ -1603,7 +1603,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="90"/>
         <source>Set Widget</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Definir Widget</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="198"/>
@@ -1618,59 +1618,59 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="284"/>
         <source>Set Volume</source>
-        <translation type="unfinished">Establecer el volumen de audio</translation>
+        <translation type="unfinished">Definir volume</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="294"/>
         <source>Fill Mode</source>
-        <translation type="unfinished">Modo de llenado</translation>
+        <translation type="unfinished">Modo escalonado</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="317"/>
         <source>Stretch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Esticar</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="320"/>
         <source>Fill</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Preencher</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="323"/>
         <source>Contain</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Conter</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="326"/>
         <source>Cover</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cobrir</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="329"/>
         <source>Scale-Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rolar para baixo</translation>
     </message>
     <message>
         <source>Set wallpaper</source>
-        <translation type="obsolete">Establecer wallpaper</translation>
+        <translation type="obsolete">Definir papel de parede</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="87"/>
         <source>Set Wallpaper</source>
-        <translation type="unfinished">Establecer wallpaper</translation>
+        <translation type="unfinished">Definir papel de parede</translation>
     </message>
     <message>
         <source>Create Widget</source>
-        <translation type="obsolete">Crear un  widget</translation>
+        <translation type="obsolete">Criar widget</translation>
     </message>
     <message>
         <source>Create Wallpaper</source>
-        <translation type="obsolete">Crear un wallpaper</translation>
+        <translation type="obsolete">Criar papel de parede</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="90"/>
         <source>Project size: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tamanho do projeto</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="90"/>
@@ -1680,7 +1680,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="96"/>
         <source>No description...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sem descrição...</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="238"/>
@@ -1860,12 +1860,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="54"/>
         <source>Upload Wallpaper/Widgets to Steam</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Enviar papel de parede/Widget para Steam</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="128"/>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cancelar</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="143"/>
@@ -1888,12 +1888,12 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="121"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abrir pasta</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="134"/>
         <source>Invalid Project!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Projeto Invalido</translation>
     </message>
 </context>
 <context>
@@ -1901,17 +1901,17 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="43"/>
         <source>Fail</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Falha</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="46"/>
         <source>No Connection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sem conexão</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="49"/>
         <source>Invalid Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Senha invalida</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="52"/>
