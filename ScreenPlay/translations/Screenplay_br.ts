@@ -1345,7 +1345,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="84"/>
         <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-        <translation type="unfinished">Esta opción otorga a ScreenPlay una prioridad de autoinicio mayor que la de otras aplicaciones.</translation>
+        <translation type="unfinished">Esta opção concede ao ScreenPlay uma prioridade de inicialização automática mais alta do que outros aplicativos.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="93"/>
@@ -1355,7 +1355,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="94"/>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!</source>
-        <translation type="unfinished">Ayúdenos a hacer que ScreenPlay sea más rápido y estable. Todos los datos recogidos son puramente anónimos y sólo se utilizan para fines de desarrollo!</translation>
+        <translation type="unfinished">Ajude-nos a tornar o ScreenPlay mais rápido e estável. Todos os dados coletados são puramente anônimos e usados apenas para fins de desenvolvimento!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="103"/>
@@ -1365,7 +1365,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="108"/>
         <source>Your storage path is empty!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Seu caminho de armazenamento está vazio</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="114"/>
@@ -1375,7 +1375,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="130"/>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation type="unfinished">Importante: El cambio de este directorio no tiene ningún efecto sobre la ruta de descarga del taller. ScreenPlay sólo admite tener una carpeta de contenido!</translation>
+        <translation type="unfinished">Importante: alterando este diretório não afeta o caminho de download da oficina. O ScreenPlay suporta apenas uma pasta de conteúdo!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="148"/>
@@ -1455,25 +1455,25 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="239"/>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pausar a renderização do vídeo do papel de parede enquanto outro aplicativo está em primeiro plano</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="240"/>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nós desativamos a renderização de video (menos o audio!) para melhor performance. Se você tiver problemas você pode desativar isso por aqui. O papel de parede vai precisar ser reiniciado!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="447"/>
         <source>Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Logs</translation>
     </message>
     <message>
         <source>Pause wallpaper while ingame</source>
-        <translation type="obsolete">Pausa Wallpaper durante el juego</translation>
+        <translation type="obsolete">Pausar papel de parede durante o jogo</translation>
     </message>
     <message>
         <source>To maximise your framerates ingame, you can enable this setting to pause all active wallpapers!</source>
-        <translation type="obsolete">Para maximizar sus marcos dentro del juego, puede activar esta opción para detener todos los wallpaper activos!</translation>
+        <translation type="obsolete">Para maximizar seu framerate durante o jogo, você pode ativar!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="170"/>
@@ -1483,22 +1483,22 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="250"/>
         <source>Default Fill Mode</source>
-        <translation type="unfinished">Modo de llenado por defecto</translation>
+        <translation type="unfinished">Modo de alinhamento padrão</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="251"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation type="unfinished">Defina esta propiedad para definir cómo se escala el vídeo para que se ajuste al área de destino.</translation>
+        <translation type="unfinished">Defina esta propriedade para definir como o vídeo é dimensionado para caber na área de destino.</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="263"/>
         <source>Stretch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Esticar</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="266"/>
         <source>Fill</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Preencher</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="269"/>
@@ -1513,17 +1513,17 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="275"/>
         <source>Scale-Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rolar para baixo</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="285"/>
         <source>About</source>
-        <translation type="unfinished">Acerca de</translation>
+        <translation type="unfinished">Sobre</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="313"/>
         <source>Thank you for using ScreenPlay</source>
-        <translation type="unfinished">Gracias por usar ScreenPlay</translation>
+        <translation type="unfinished">Obrigado por usar o ScreenPlay</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="328"/>
@@ -1533,36 +1533,36 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="417"/>
         <source>Version</source>
-        <translation type="unfinished">Versión</translation>
+        <translation type="unfinished">Versão</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="418"/>
         <source>ScreenPlay Build Version </source>
-        <translation type="unfinished">Versión de construcción de ScreenPlay </translation>
+        <translation type="unfinished">Versão da build do ScreenPlay </translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="420"/>
         <source>Open Changelog</source>
-        <translation type="unfinished">Registro de cambios abierto</translation>
+        <translation type="unfinished">Abrir Changelog</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="427"/>
         <source>Third Party Software</source>
-        <translation type="unfinished">Software de terceros</translation>
+        <translation type="unfinished">Software de terceiros</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="428"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation type="unfinished">ScreenPlay no sería posible sin el trabajo de otros. Muchas gracias a todos: </translation>
+        <translation type="unfinished">ScreenPlay não seria possivel sem o trabalho de outras pessoas. Um grande obrigado a você tambêm: </translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="429"/>
         <source>Licenses</source>
-        <translation type="unfinished">Licencias</translation>
+        <translation type="unfinished">Licenças</translation>
     </message>
     <message>
         <source>Debug Messages</source>
-        <translation type="obsolete">Mensajes de depuración</translation>
+        <translation type="obsolete">Mensagens de depuração</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="448"/>
@@ -1572,22 +1572,22 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/Settings.qml" line="449"/>
         <source>Show Logs</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar logs</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="460"/>
         <source>Data Protection</source>
-        <translation type="unfinished">Protección de datos</translation>
+        <translation type="unfinished">Proteção de dados</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="461"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation type="unfinished">Utilizamos sus datos con mucho cuidado para mejorar ScreenPlay. No vendemos ni compartimos esta información (anónima) con otros!</translation>
+        <translation type="unfinished">Utilizamos seus dados com muito cuidado para melhorar o ScreenPlay. Não vendemos e nem compartilhamos informações (anónima) com outros!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="462"/>
         <source>Privacy</source>
-        <translation type="unfinished">Privacidad</translation>
+        <translation type="unfinished">Privacidade</translation>
     </message>
 </context>
 <context>
@@ -1595,7 +1595,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Settings/SettingsExpander.qml" line="51"/>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished">Copiar texto al portapapeles</translation>
+        <translation type="unfinished">Copiar texto para a área de transferência</translation>
     </message>
 </context>
 <context>
@@ -1613,7 +1613,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="249"/>
         <source>Select a Monitor to display the content</source>
-        <translation type="unfinished">Seleccione un monitor para mostrar el contenido</translation>
+        <translation type="unfinished">Selecione um monitor para mostrar o conteudo</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Sidebar.qml" line="284"/>
@@ -1685,17 +1685,17 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="238"/>
         <source>Click here if you like the content</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Clique aqui se você gosta do conteudo</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="252"/>
         <source>Click here if you do not like the content</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Cloque aqui se você não gosta do conteudo</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="287"/>
         <source>Tags: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Etiquetas: </translation>
     </message>
     <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="311"/>
@@ -2121,7 +2121,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="175"/>
         <source>Content Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Versão do conteudo</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="178"/>
@@ -2633,7 +2633,7 @@ si instaló ScreenPlay vía Steam!
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="303"/>
         <source>Successfully subscribed to Workshop Item!</source>
-        <translation type="unfinished">Inscrito com sucesso no item da oficina!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="413"/>
