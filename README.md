@@ -12,15 +12,17 @@ Dev. Docs   [![pipeline status](https://gitlab.com/kelteseth/ScreenPlayDeveloper
 <a href="https://www.reddit.com/r/ScreenPlayApp/">![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/screenplayapp?style=for-the-badge)</a>
 <br><br>
 User Chat (Discord)
-<a href="https://discord.com/invite/rUvjNSV?utm_source=Discord%20Widget&utm_medium=Connect">![Discord](https://img.shields.io/discord/516635043435773970?style=for-the-badge)</a>
+<a href="https://discord.com/invite/JBMmZbgc?utm_source=Discord%20Widget&utm_medium=Connect">![Discord](https://img.shields.io/discord/516635043435773970?style=for-the-badge)</a>
 Developer Chat [![Gitter](https://badges.gitter.im/ScreenPlayApp/community.svg)](https://gitter.im/ScreenPlayApp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
 
 
 <br>
-ScreenPlay is an open source cross platform app for displaying Video Wallpaper, Widgets and AppDrawer. It is written in modern C++20/Qt5/QML. Binaries with workshop support are available for Windows and soon Linux & MacOSX via <a href="https://store.steampowered.com/about/">Steam</a>.  Join our community: 
+ScreenPlay is an open source cross platform app for displaying Video Wallpaper, Widgets and AppDrawer. It is written in modern C++20/Qt5/QML. Binaries with workshop support are available for Windows and soon Linux & MacOSX via <a href="https://store.steampowered.com/app/672870/ScreenPlay/">Steam</a>.  Join our community: <a href="https://screen-play.app/">Homepage</a> - <a href="https://forum.screen-play.app/">Forum</a>
 
-<h3><a href="https://screen-play.app/">Homepage</a> - <a href="https://forum.screen-play.app/">Forum</a> - <a href="https://discord.gg/3RygPHZ">🎉 Discord (Free Steam Key Here!)</a>  -  <a href="https://www.reddit.com/r/ScreenPlayApp/">Reddit</a> - <a href="https://store.steampowered.com/app/672870/ScreenPlay/">Steam</a></h3>
+<h3><a href="https://store.steampowered.com/app/672870/ScreenPlay/">✨Download ScreenPlay via Steam✨</a></h3>
+Windows only, Linux and MacOS (soon™)
+<br>
 <br>
 
 <a href="https://www.youtube.com/watch?v=q-J2fTWDxw8">
