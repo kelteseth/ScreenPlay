@@ -37,10 +37,10 @@
 #include <QDebug>
 #include <QObject>
 #include <QTimer>
+
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
 #endif
-//#include <sysinfoapi.h>
 
 #define DWORDLONG unsigned long long
 
