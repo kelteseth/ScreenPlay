@@ -264,4 +264,9 @@ bool App::loadSteamPlugin()
     settings()->setSteamVersion(true);
     return true;
 }
+
+bool App::unloadSteamPlugin()
+{
+    return m_workshopPlugin.unload();
+}
 }

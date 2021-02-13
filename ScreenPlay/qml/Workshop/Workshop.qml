@@ -13,16 +13,22 @@ import "upload/"
 import "../Common" as Common
 
 Item {
-    id: workshop
+    id: root
     state: "base"
     onVisibleChanged: {
         if (!visible)
             sidebar.close()
     }
 
+    property alias steamWorkshop: screenPlayWorkshop.steamWorkshop
+
+    ScreenPlayWorkshop {
+        id: screenPlayWorkshop
+    }
+
     Component.onCompleted: {
-        if (Workshop.steamWorkshop.online) {
-            Workshop.steamWorkshop.workshopListModel.searchWorkshop(
+        if (steamWorkshop.online) {
+            steamWorkshop.workshopListModel.searchWorkshop(
                         SteamEnums.K_EUGCQuery_RankedByTrend)
         } else {
             popupOffline.open()
@@ -30,13 +36,13 @@ Item {
     }
 
     Connections {
-        target: Workshop.steamWorkshop.workshopListModel
+        target: steamWorkshop.workshopListModel
         function onWorkshopSearched() {
-            bannerTxt.text = Workshop.steamWorkshop.workshopListModel.getBannerText()
-            background.backgroundImage = Workshop.steamWorkshop.workshopListModel.getBannerUrl()
-            banner.bannerPublishedFileID = Workshop.steamWorkshop.workshopListModel.getBannerID()
+            bannerTxt.text = steamWorkshop.workshopListModel.getBannerText()
+            background.backgroundImage = steamWorkshop.workshopListModel.getBannerUrl()
+            banner.bannerPublishedFileID = steamWorkshop.workshopListModel.getBannerID()
             bannerTxtUnderline.numberSubscriber
-                    = Workshop.steamWorkshop.workshopListModel.getBannerAmountSubscriber()
+                    = steamWorkshop.workshopListModel.getBannerAmountSubscriber()
         }
     }
 
@@ -51,6 +57,8 @@ Item {
 
     UploadProject {
         id: popupUploadProject
+        steamWorkshop: root.steamWorkshop
+        workshop: screenPlayWorkshop
     }
 
     PopupSteamWorkshopAgreement {
@@ -58,7 +66,7 @@ Item {
     }
 
     Connections {
-        target: Workshop.steamWorkshop.uploadListModel
+        target: steamWorkshop.uploadListModel
         function onUserNeedsToAcceptWorkshopLegalAgreement() {
             popupSteamWorkshopAgreement.open()
         }
@@ -66,6 +74,7 @@ Item {
 
     Navigation {
         id: nav
+        steamWorkshop: root.steamWorkshop
         z: 3
         anchors {
             top: parent.top
@@ -90,9 +99,9 @@ Item {
                 background.imageOffsetTop = 0
             }
             if (contentY >= (header.height)) {
-                workshop.state = "scrolling"
+                root.state = "scrolling"
             } else {
-                workshop.state = "base"
+                root.state = "base"
             }
         }
 
@@ -169,8 +178,8 @@ Item {
                             icon.source: "qrc:/assets/icons/icon_download.svg"
                             onClicked: {
                                 text = qsTr("Downloading...")
-                                Workshop.steamWorkshop.subscribeItem(
-                                            Workshop.steamWorkshop.workshopListModel.getBannerID(
+                                steamWorkshop.subscribeItem(
+                                            steamWorkshop.workshopListModel.getBannerID(
                                                 ))
                             }
                         }
@@ -219,7 +228,7 @@ Item {
             cellHeight: 190
             height: contentHeight
             interactive: false
-            model: Workshop.steamWorkshop.workshopListModel
+            model: steamWorkshop.workshopListModel
             anchors {
                 top: header.bottom
                 topMargin: 100
@@ -265,7 +274,7 @@ Item {
                         Timer {
                             id: timerSearch
                             interval: 300
-                            onTriggered: Workshop.steamWorkshop.workshopListModel.searchWorkshopByText(
+                            onTriggered: steamWorkshop.workshopListModel.searchWorkshopByText(
                                              tiSearch.text)
                         }
                     }
@@ -318,7 +327,7 @@ Item {
                     Layout.preferredHeight: searchWrapper.height
                     font.family: ScreenPlay.settings.font
                     onActivated: {
-                        Workshop.steamWorkshop.workshopListModel.searchWorkshop(
+                        steamWorkshop.workshopListModel.searchWorkshop(
                                     cbQuerySort.currentValue, 1)
                     }
                     model: [{
@@ -364,6 +373,7 @@ Item {
                 additionalPreviewUrl: m_additionalPreviewUrl
                 subscriptionCount: m_subscriptionCount
                 itemIndex: index
+                steamWorkshop: root.steamWorkshop
                 onClicked: {
                     sidebar.setWorkshopItem(publishedFileID, imgUrl,
                                             additionalPreviewUrl,
@@ -381,6 +391,7 @@ Item {
     Sidebar {
         id: sidebar
         topMargin: 60
+        steamWorkshop: root.steamWorkshop
     }
 }
 

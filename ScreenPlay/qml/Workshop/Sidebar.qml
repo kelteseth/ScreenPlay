@@ -4,7 +4,8 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.11
 import QtWebEngine 1.8
 import QtQuick.Controls.Material 2.2
-import ScreenPlay.Workshop 1.0 as SP
+
+import ScreenPlay.Workshop 1.0
 import ScreenPlay 1.0
 
 Drawer {
@@ -15,6 +16,8 @@ Drawer {
     modal: false
     width: 400
     interactive: false
+    property SteamWorkshop steamWorkshop
+
     background: Rectangle {
         color: Material.theme === Material.Light ? "white" : Qt.darker(
                                                        Material.background)
@@ -75,13 +78,13 @@ Drawer {
             root.open()
         }
 
-        SP.Workshop.steamWorkshop.requestWorkshopItemDetails(publishedFileID)
+        steamWorkshop.requestWorkshopItemDetails(publishedFileID)
 
         webView.setVideo()
     }
 
     Connections {
-        target: SP.Workshop.steamWorkshop
+        target: steamWorkshop
         function onRequestItemDetailReturned(title, tags, steamIDOwner, description, votesUp, votesDown, url, fileSize, publishedFileId) {
 
             txtTitle.text = title
@@ -239,8 +242,7 @@ Drawer {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you like the content")
                         onClicked: {
-                            SP.Workshop.steamWorkshop.vote(
-                                        root.publishedFileID, true)
+                            steamWorkshop.vote(root.publishedFileID, true)
                             txtVotesUp.highlighted = true
                             txtVotesDown.highlighted = false
                         }
@@ -253,8 +255,7 @@ Drawer {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you do not like the content")
                         onClicked: {
-                            SP.Workshop.steamWorkshop.vote(
-                                        root.publishedFileID, false)
+                            steamWorkshop.vote(root.publishedFileID, false)
                             txtVotesUp.highlighted = false
                             txtVotesDown.highlighted = true
                         }
@@ -358,7 +359,7 @@ Drawer {
         text: root.subscribed ? qsTr("Subscribed!") : qsTr("Subscribe")
         onClicked: {
             root.subscribed = true
-            SP.Workshop.steamWorkshop.subscribeItem(root.publishedFileID)
+            root.steamWorkshop.subscribeItem(root.publishedFileID)
         }
     }
 }
