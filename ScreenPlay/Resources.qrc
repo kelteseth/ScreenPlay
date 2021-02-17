@@ -134,5 +134,6 @@
         <file>translations/ScreenPlay_vi.qm</file>
         <file>translations/ScreenPlay_zh_cn.qm</file>
         <file>assets/images/Early_Access.png</file>
+        <file>translations/ScreenPlay_pt_br.qm</file>
     </qresource>
 </RCC>

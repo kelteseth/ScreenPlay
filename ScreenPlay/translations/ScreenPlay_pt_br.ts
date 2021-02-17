@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="br">
+<TS version="2.1" language="pt_BR">
 <context>
     <name>ColorPicker</name>
     <message>
@@ -1423,47 +1423,52 @@ si instaló ScreenPlay vía Steam!
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="193"/>
+        <location filename="../qml/Settings/Settings.qml" line="188"/>
+        <source>Portuguese (Brazil)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="196"/>
         <source>Theme</source>
         <translation type="unfinished">Tema</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="194"/>
+        <location filename="../qml/Settings/Settings.qml" line="197"/>
         <source>Switch dark/light theme</source>
         <translation type="unfinished">Trocar para tema escuro/tema claro</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="208"/>
+        <location filename="../qml/Settings/Settings.qml" line="211"/>
         <source>System Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="211"/>
+        <location filename="../qml/Settings/Settings.qml" line="214"/>
         <source>Dark</source>
         <translation type="unfinished">Escuro</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="214"/>
+        <location filename="../qml/Settings/Settings.qml" line="217"/>
         <source>Light</source>
         <translation type="unfinished">Claro</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="224"/>
+        <location filename="../qml/Settings/Settings.qml" line="227"/>
         <source>Performance</source>
         <translation type="unfinished">Performance</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="239"/>
+        <location filename="../qml/Settings/Settings.qml" line="242"/>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
         <translation type="unfinished">Pausar a renderização do vídeo do papel de parede enquanto outro aplicativo está em primeiro plano</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="240"/>
+        <location filename="../qml/Settings/Settings.qml" line="243"/>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
         <translation type="unfinished">Nós desativamos a renderização de video (menos o audio!) para melhor performance. Se você tiver problemas você pode desativar isso por aqui. O papel de parede vai precisar ser reiniciado!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="447"/>
+        <location filename="../qml/Settings/Settings.qml" line="450"/>
         <source>Logs</source>
         <translation type="unfinished">Logs</translation>
     </message>
@@ -1481,82 +1486,82 @@ si instaló ScreenPlay vía Steam!
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="250"/>
+        <location filename="../qml/Settings/Settings.qml" line="253"/>
         <source>Default Fill Mode</source>
         <translation type="unfinished">Modo de alinhamento padrão</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="251"/>
+        <location filename="../qml/Settings/Settings.qml" line="254"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
         <translation type="unfinished">Defina esta propriedade para definir como o vídeo é dimensionado para caber na área de destino.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="263"/>
+        <location filename="../qml/Settings/Settings.qml" line="266"/>
         <source>Stretch</source>
         <translation type="unfinished">Esticar</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="266"/>
+        <location filename="../qml/Settings/Settings.qml" line="269"/>
         <source>Fill</source>
         <translation type="unfinished">Preencher</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="269"/>
+        <location filename="../qml/Settings/Settings.qml" line="272"/>
         <source>Contain</source>
         <translation type="unfinished">Conter</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="272"/>
+        <location filename="../qml/Settings/Settings.qml" line="275"/>
         <source>Cover</source>
         <translation type="unfinished">Cobrir</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="275"/>
+        <location filename="../qml/Settings/Settings.qml" line="278"/>
         <source>Scale-Down</source>
         <translation type="unfinished">Rolar para baixo</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="285"/>
+        <location filename="../qml/Settings/Settings.qml" line="288"/>
         <source>About</source>
         <translation type="unfinished">Sobre</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="313"/>
+        <location filename="../qml/Settings/Settings.qml" line="316"/>
         <source>Thank you for using ScreenPlay</source>
         <translation type="unfinished">Obrigado por usar o ScreenPlay</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="328"/>
+        <location filename="../qml/Settings/Settings.qml" line="331"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
         <translation type="unfinished">Olá, Eu sou o Elias Steurer tambem conhecido como Kelteseth e eu sou desenvolvedor do ScreenPlay. Obrigado por usar meu programa. Você pode me seguir para receber atualizações sobre o ScreenPlay aquí:</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="417"/>
+        <location filename="../qml/Settings/Settings.qml" line="420"/>
         <source>Version</source>
         <translation type="unfinished">Versão</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="418"/>
+        <location filename="../qml/Settings/Settings.qml" line="421"/>
         <source>ScreenPlay Build Version </source>
         <translation type="unfinished">Versão da build do ScreenPlay </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="420"/>
+        <location filename="../qml/Settings/Settings.qml" line="423"/>
         <source>Open Changelog</source>
         <translation type="unfinished">Abrir Changelog</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="427"/>
+        <location filename="../qml/Settings/Settings.qml" line="430"/>
         <source>Third Party Software</source>
         <translation type="unfinished">Software de terceiros</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="428"/>
+        <location filename="../qml/Settings/Settings.qml" line="431"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation type="unfinished">ScreenPlay não seria possivel sem o trabalho de outras pessoas. Um grande obrigado a você tambêm: </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="429"/>
+        <location filename="../qml/Settings/Settings.qml" line="432"/>
         <source>Licenses</source>
         <translation type="unfinished">Licenças</translation>
     </message>
@@ -1565,27 +1570,27 @@ si instaló ScreenPlay vía Steam!
         <translation type="obsolete">Mensagens de depuração</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="448"/>
+        <location filename="../qml/Settings/Settings.qml" line="451"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation type="unfinished">Se o seu ScreenPlay se comportar mal, esta é uma boa maneira de procurar respostas. Isso mostra todos os logs e avisos durante o tempo de execução</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="449"/>
+        <location filename="../qml/Settings/Settings.qml" line="452"/>
         <source>Show Logs</source>
         <translation type="unfinished">Mostrar logs</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="460"/>
+        <location filename="../qml/Settings/Settings.qml" line="463"/>
         <source>Data Protection</source>
         <translation type="unfinished">Proteção de dados</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="461"/>
+        <location filename="../qml/Settings/Settings.qml" line="464"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation type="unfinished">Utilizamos seus dados com muito cuidado para melhorar o ScreenPlay. Não vendemos e nem compartilhamos informações (anónima) com outros!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="462"/>
+        <location filename="../qml/Settings/Settings.qml" line="465"/>
         <source>Privacy</source>
         <translation type="unfinished">Privacidade</translation>
     </message>

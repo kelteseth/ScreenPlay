@@ -183,6 +183,9 @@ Item {
                                 }, {
                                     "value": Settings.Vi,
                                     "text": qsTr("Vietnamese")
+                                }, {
+                                    "value": Settings.Pt_BR,
+                                    "text": qsTr("Portuguese (Brazil)")
                                 }]
                         }
                     }

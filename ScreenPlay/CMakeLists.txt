@@ -66,6 +66,7 @@ set(headers
 set(l10n
     translations/ScreenPlay_de.ts
     translations/ScreenPlay_zh_cn.ts
+    translations/ScreenPlay_pt_br.ts
     translations/ScreenPlay_en.ts
     translations/ScreenPlay_es.ts
     translations/ScreenPlay_fr.ts
