@@ -265,7 +265,6 @@ Item {
 
     Navigation {
         id: navWrapper
-        height: 115
         anchors {
             top: parent.top
             right: parent.right

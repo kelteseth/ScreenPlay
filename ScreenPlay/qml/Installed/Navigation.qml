@@ -15,6 +15,7 @@ import "../Common" as Common
 Item {
     id: navWrapper
     state: "out"
+    height: 52
 
     Rectangle {
         id: nav
