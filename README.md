@@ -77,7 +77,7 @@ Here are some ways you can contribute:
 | __Steam Binaries__            | ✔       	    | ❌     	        | ❌     	|
 | __Wallpaper__                 | ✔       	    | ❓ Help Needed for Gnome/KDE/etc!               | ✔    |
 | __Widgets__                   | ✔       	    | ✔   	| ✔    	|
-| __Multilanguage (EN,DE,RU,FR,ES,KO,VI,CH🆕)__              | ✔            	| ✔     	        |  ✔     	|
+| __Multilanguage (EN,DE,RU,FR,ES,KO,VI,CH_ZN,PT_BR🆕)__              | ✔            	| ✔     	        |  ✔     	|
 
 </div>
 
