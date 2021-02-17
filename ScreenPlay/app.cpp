@@ -70,8 +70,8 @@ App::App()
     QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Medium.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Light.ttf");
 
-    if (-1 == QFontDatabase::addApplicationFont(QDir::current().absolutePath() + "/assets/fonts/NotoSansCJKkr-Regular.otf")) {
-        qWarning() << "Could not load korean font from: " << QDir::current().absolutePath() + "/assets/fonts/NotoSansCJKkr-Regular.otf";
+    if (-1 == QFontDatabase::addApplicationFont(QGuiApplication::applicationDirPath() + "/assets/fonts/NotoSansCJKkr-Regular.otf")) {
+        qWarning() << "Could not load korean font from: " << QGuiApplication::applicationDirPath() + "/assets/fonts/NotoSansCJKkr-Regular.otf";
     }
 
     QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
