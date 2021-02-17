@@ -1,6 +1,7 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.12
+import QtQuick.Controls.Material 2.12
 import QtQuick.Controls.Styles 1.4
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
@@ -116,9 +117,25 @@ Item {
             visible: false
             anchors.fill: parent
 
+            Rectangle {
+                anchors.fill: parent
+                color: Material.backgroundColor
+            }
+
+            Text {
+                text: root.customTitle
+                font.family: ScreenPlay.settings.font
+                font.pointSize: 16
+                color: Material.primaryTextColor
+                anchors.centerIn: parent
+                horizontalAlignment: Text.AlignHCenter
+            }
+
             ScreenPlayItemImage {
                 id: screenPlayItemImage
                 anchors.fill: parent
+                enabled: visible
+                visible: m_preview !== "" && m_previewGIF !== ""
                 sourceImage: m_preview
                 sourceImageGIF: m_previewGIF
                 type: root.type
