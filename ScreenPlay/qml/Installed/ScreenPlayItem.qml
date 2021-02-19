@@ -133,7 +133,7 @@ Item {
                 text: root.customTitle
                 font.family: ScreenPlay.settings.font
                 font.pointSize: 16
-                visible: !screenPlayItemImage.visible
+                visible: !screenPlayItemImage.visible && !showAnim.running
                 color: Material.primaryTextColor
                 anchors.centerIn: parent
                 horizontalAlignment: Text.AlignHCenter
