@@ -174,6 +174,7 @@ signals:
     void qmlExit();
     void reloadQML(const ScreenPlay::InstalledType::InstalledType oldType);
     void reloadVideo(const ScreenPlay::InstalledType::InstalledType oldType);
+    void reloadGIF(const ScreenPlay::InstalledType::InstalledType oldType);
 
     void loopsChanged(bool loops);
     void volumeChanged(float volume);

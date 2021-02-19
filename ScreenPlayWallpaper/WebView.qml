@@ -39,25 +39,20 @@ Item {
         id: webView
         anchors.fill: parent
         url: "qrc:/index.html"
+        backgroundColor: "transparent"
         onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
             if ((loadProgress === 100)) {
                 if (Wallpaper.type === InstalledType.VideoWallpaper) {
                     webView.runJavaScript(root.getSetVideoCommand(),
                                           function (result) {
-                                              fadeInTimer.start()
+                                              requestFadeIn()
                                           })
                 } else {
-                    fadeInTimer.start()
+                    requestFadeIn()
                 }
             }
         }
-    }
-
-    Timer {
-        id: fadeInTimer
-        interval: 500
-        onTriggered: requestFadeIn()
     }
 
     Text {

@@ -168,6 +168,7 @@ void BaseWindow::replaceWallpaper(
     setCheckWallpaperVisible(checkWallpaperVisible);
     setVolume(volume);
     setFillMode(fillMode);
+
     if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(type)) {
         setType(typeOpt.value());
     }
@@ -183,6 +184,9 @@ void BaseWindow::replaceWallpaper(
 
     if (m_type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper)
         emit reloadVideo(oldType);
+
+    if (m_type == ScreenPlay::InstalledType::InstalledType::GifWallpaper)
+        emit reloadGIF(oldType);
 }
 
 // Used for loading shader

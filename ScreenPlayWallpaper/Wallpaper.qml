@@ -36,7 +36,6 @@ Rectangle {
         function onQmlSceneValueReceived(key, value) {
             var obj2 = 'import QtQuick 2.0; Item {Component.onCompleted: loader.item.'
                     + key + ' = ' + value + '; }'
-            print(key, value)
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
             newObject.destroy(10000)
         }
@@ -49,6 +48,11 @@ Rectangle {
             Wallpaper.clearComponentCache()
 
             loader.source = Qt.resolvedUrl(Wallpaper.fullContentPath)
+        }
+
+        // Replace wallpaper with GIF
+        function onReloadGIF(oldType) {
+            init()
         }
 
         // This function only gets called here (the same function
@@ -78,7 +82,6 @@ Rectangle {
             break
         case InstalledType.QMLWallpaper:
             loader.source = Qt.resolvedUrl(Wallpaper.fullContentPath)
-            print(loader.source)
             break
         case InstalledType.WebsiteWallpaper:
             loader.setSource("qrc:/WebsiteWallpaper.qml", {
@@ -108,7 +111,6 @@ Rectangle {
     Loader {
         id: loader
         anchors.fill: parent
-        onStatusChanged: print(status)
         Connections {
             ignoreUnknownSignals: true
             target: loader.item
@@ -127,8 +129,7 @@ Rectangle {
             right: parent.right
         }
         state: "in"
-        onStateChanged: print(state)
-
+        onStatusChanged: print(status,source)
         sourceSize.width: Wallpaper.width
         sourceSize.height: Wallpaper.height
         source: {
