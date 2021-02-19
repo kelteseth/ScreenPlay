@@ -129,7 +129,7 @@ public slots:
     bool removeApp(const QString& appID);
 
     void requestProjectSettingsAtMonitorIndex(const int index);
-    void setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
+    bool setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
     void setAllWallpaperValue(const QString& key, const QString& value);
     ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID) const;
 
