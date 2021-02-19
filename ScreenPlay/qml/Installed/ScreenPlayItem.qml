@@ -143,7 +143,7 @@ Item {
                 id: screenPlayItemImage
                 anchors.fill: parent
                 enabled: visible
-                visible: m_preview !== "" && m_previewGIF !== ""
+                visible: m_preview !== "" || m_previewGIF !== ""
                 sourceImage: m_preview
                 sourceImageGIF: m_previewGIF
                 type: root.type
