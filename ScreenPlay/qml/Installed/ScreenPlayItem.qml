@@ -16,7 +16,7 @@ Item {
     property string customTitle
     property string screenId
     property url absoluteStoragePath
-    property var type: InstalledType.Unknown
+    property int type: InstalledType.Unknown
     property var publishedFileID: 0
     property int itemIndex
     property bool isScrolling: false
@@ -24,10 +24,17 @@ Item {
     signal openContextMenu(point position)
 
     onTypeChanged: {
-        if (JSUtil.isWallpaper()) {
+        if (JSUtil.isWidget(type)) {
             icnType.source = "qrc:/assets/icons/icon_widgets.svg"
-        } else {
+            return
+        }
+        if (JSUtil.isScene(type)) {
+            icnType.source = "qrc:/assets/icons/icon_code.svg"
+            return
+        }
+        if (JSUtil.isVideo(type)) {
             icnType.source = "qrc:/assets/icons/icon_movie.svg"
+            return
         }
     }
 
@@ -126,6 +133,7 @@ Item {
                 text: root.customTitle
                 font.family: ScreenPlay.settings.font
                 font.pointSize: 16
+                visible: !screenPlayItemImage.visible
                 color: Material.primaryTextColor
                 anchors.centerIn: parent
                 horizontalAlignment: Text.AlignHCenter
@@ -146,7 +154,7 @@ Item {
                 id: icnType
                 width: 20
                 height: 20
-                opacity: 0
+                opacity: 0.25
                 source: "qrc:/assets/icons/icon_movie.svg"
                 sourceSize: Qt.size(20, 20)
                 anchors {
@@ -220,8 +228,8 @@ Item {
             OpacityAnimator {
                 target: icnType
                 duration: 80
-                from: 0.5
-                to: 1
+                from: 0.25
+                to: .8
             }
             OpacityAnimator {
                 target: effect
@@ -249,8 +257,8 @@ Item {
             OpacityAnimator {
                 target: icnType
                 duration: 80
-                from: 1
-                to: 0.5
+                from: .8
+                to: 0.25
             }
             OpacityAnimator {
                 target: effect
