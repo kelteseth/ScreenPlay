@@ -240,6 +240,7 @@ Item {
             header: Item {
                 height: 70
                 width: parent.width
+                property alias searchField: tiSearch
 
                 Item {
                     id: searchWrapper
@@ -392,6 +393,10 @@ Item {
         id: sidebar
         topMargin: 60
         steamWorkshop: root.steamWorkshop
+        onTagClicked: {
+            gridView.headerItem.searchField.text = tag
+            sidebar.close()
+        }
     }
 }
 

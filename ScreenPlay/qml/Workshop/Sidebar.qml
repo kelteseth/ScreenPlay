@@ -18,6 +18,8 @@ Drawer {
     interactive: false
     property SteamWorkshop steamWorkshop
 
+    signal tagClicked(var tag)
+
     background: Rectangle {
         color: Material.theme === Material.Light ? "white" : Qt.darker(
                                                        Material.background)
@@ -87,10 +89,15 @@ Drawer {
         target: steamWorkshop
         function onRequestItemDetailReturned(title, tags, steamIDOwner, description, votesUp, votesDown, url, fileSize, publishedFileId) {
 
+            tagListModel.clear()
+            for (var i in tags) {
+                tagListModel.append({
+                                        "name": tags[i]
+                                    })
+            }
             txtTitle.text = title
-            txtTags.tags = tags
             const size = Math.floor((1000 * ((fileSize / 1024) / 1000)) / 1000)
-            txtFileSize.text = qsTr("Project size: ") + size + qsTr(" MB")
+            txtFileSize.text = qsTr("Size: ") + size + qsTr(" MB")
             pbVotes.to = votesDown + votesUp
             pbVotes.value = votesUp
             txtVotesDown.text = votesDown
@@ -273,6 +280,7 @@ Drawer {
             }
 
             RowLayout {
+                Layout.preferredHeight: 40
                 Layout.fillWidth: true
                 spacing: 20
 
@@ -284,16 +292,32 @@ Drawer {
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
 
-                Text {
-                    id: txtTags
-                    property string tags
+                ListView {
+                    id: rpTagList
+                    clip: true
+                    orientation: ListView.Horizontal
                     Layout.fillWidth: true
-                    text: qsTr("Tags: ") + tags
-                    font.pointSize: 11
-                    font.family: ScreenPlay.settings.font
-                    color: Material.secondaryTextColor
-                    wrapMode: Text.WrapAnywhere
-                    elide: Text.ElideRight
+                    Layout.fillHeight: true
+                    model: ListModel {
+                        id: tagListModel
+                    }
+
+                    ScrollBar.horizontal: ScrollBar {
+                        height: 8
+                    }
+
+                    delegate: ToolButton {
+                        id: txtTags
+                        property string tags
+                        Layout.fillWidth: true
+                        height: 20
+                        text: name
+                        font.pointSize: 11
+                        font.family: ScreenPlay.settings.font
+                        onClicked: {
+                            root.tagClicked(txtTags.text)
+                        }
+                    }
                 }
             }
 
