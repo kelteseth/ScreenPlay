@@ -220,35 +220,6 @@ Item {
                 }
             }
             MouseArea {
-                cursorShape: Qt.PointingHandCursor
-                height: 50
-                anchors {
-                    right: parent.right
-                    left: parent.left
-                    bottom: parent.bottom
-                }
-
-                onClicked: {
-                    isDownloading = true
-                    root.state = "downloading"
-                    root.steamWorkshop.subscribeItem(
-                                root.publishedFileID)
-                    ScreenPlay.setTrackerSendEvent("subscribeItem",
-                                                   root.publishedFileID)
-                }
-
-                Connections {
-                    target: root.steamWorkshop
-                    function onWorkshopItemInstalled(appID, publishedFileID) {
-                        if (appID === root.steamWorkshop.appID
-                                && publishedFileID === root.publishedFileID) {
-                            root.state = "installed"
-                        }
-                    }
-                }
-            }
-
-            MouseArea {
                 height: 20
                 width: 20
                 cursorShape: Qt.PointingHandCursor
