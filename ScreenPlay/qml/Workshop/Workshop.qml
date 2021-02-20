@@ -52,7 +52,8 @@ Item {
             background.backgroundImage = steamWorkshop.workshopListModel.getBannerUrl()
             banner.bannerPublishedFileID = steamWorkshop.workshopListModel.getBannerID()
             bannerTxtUnderline.numberSubscriber
-                    = steamWorkshop.workshopListModel.getBannerAmountSubscriber()
+                    = steamWorkshop.workshopListModel.getBannerAmountSubscriber(
+                        )
         }
     }
 
@@ -99,7 +100,15 @@ Item {
         id: scrollView
         anchors.fill: parent
         contentWidth: parent.width
-        contentHeight: gridView.height + header.height + 300
+        contentHeight: gridView.height + header.height + 150
+
+        Behavior on contentHeight {
+            PropertyAnimation {
+                duration: 400
+                property: "contentHeight"
+                easing.type: Easing.InOutQuart
+            }
+        }
 
         onContentYChanged: {
             // Calculate parallax scrolling
@@ -238,140 +247,149 @@ Item {
             cellHeight: 190
             height: contentHeight
             interactive: false
+
             model: steamWorkshop.workshopListModel
             anchors {
                 top: header.bottom
                 topMargin: 100
                 left: parent.left
                 right: parent.right
-                leftMargin: 50
+                leftMargin: 45
             }
 
             header: Item {
                 height: 70
-                width: parent.width
+                width: gridView.width - gridView.anchors.leftMargin
                 property alias searchField: tiSearch
 
-                Item {
-                    id: searchWrapper
+                Rectangle {
+                    color: Material.backgroundColor
+                    radius: 3
+                    width: parent.width - 10
+                    height: parent.height
+                    anchors.centerIn: parent
 
-                    width: 400
-                    height: 50
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        left: parent.left
-                    }
-
-                    Rectangle {
-                        anchors.fill: parent
-                        color: Material.theme === Material.Light ? "white" : Qt.darker(
-                                                                       Material.background)
-                        opacity: .95
-                        radius: 3
-                    }
-
-                    TextField {
-                        id: tiSearch
+                    Item {
+                        id: searchWrapper
+                        width: 400
+                        height: 50
                         anchors {
-                            top: parent.top
-                            right: parent.right
-                            rightMargin: 10
-                            bottom: parent.bottom
+                            verticalCenter: parent.verticalCenter
                             left: parent.left
                             leftMargin: 10
                         }
-                        placeholderText: qsTr("Search for Wallpaper and Widgets...")
-                        onTextChanged: timerSearch.restart()
-                        Timer {
-                            id: timerSearch
-                            interval: 300
-                            onTriggered: steamWorkshop.workshopListModel.searchWorkshopByText(
-                                             tiSearch.text)
+
+                        Rectangle {
+                            anchors.fill: parent
+                            color: Material.theme === Material.Light ? "white" : Qt.darker(
+                                                                           Material.background)
+                            opacity: .95
+                            radius: 3
+                        }
+
+                        TextField {
+                            id: tiSearch
+                            anchors {
+                                top: parent.top
+                                right: parent.right
+                                rightMargin: 10
+                                bottom: parent.bottom
+                                left: parent.left
+                                leftMargin: 10
+                            }
+                            placeholderText: qsTr("Search for Wallpaper and Widgets...")
+                            onTextChanged: timerSearch.restart()
+                            Timer {
+                                id: timerSearch
+                                interval: 300
+                                onTriggered: steamWorkshop.workshopListModel.searchWorkshopByText(
+                                                 tiSearch.text)
+                            }
                         }
                     }
-                }
 
-                Row {
-                    spacing: 20
-                    anchors {
-                        left: searchWrapper.right
-                        leftMargin: 20
-                        right: cbQuerySort.left
-                        rightMargin: 20
-                        verticalCenter: parent.verticalCenter
+                    Row {
+                        spacing: 20
+                        anchors {
+                            left: searchWrapper.right
+                            leftMargin: 20
+                            right: cbQuerySort.left
+                            rightMargin: 20
+                            verticalCenter: parent.verticalCenter
+                        }
+                        Button {
+                            text: qsTr("Open Workshop in Steam")
+                            font.capitalization: Font.Capitalize
+                            font.family: ScreenPlay.settings.font
+                            onClicked: Qt.openUrlExternally(
+                                           "steam://url/SteamWorkshopPage/672870")
+                            icon.source: "qrc:/assets/icons/icon_steam.svg"
+                            icon.width: 18
+                            icon.height: 18
+                        }
+                        Button {
+                            text: qsTr("Open GameHub in Steam")
+                            font.capitalization: Font.Capitalize
+                            font.family: ScreenPlay.settings.font
+                            onClicked: Qt.openUrlExternally(
+                                           "steam://url/GameHub/672870")
+                            icon.source: "qrc:/assets/icons/icon_steam.svg"
+                            icon.width: 18
+                            icon.height: 18
+                        }
                     }
-                    Button {
-                        text: qsTr("Open Workshop in Steam")
-                        font.capitalization: Font.Capitalize
+
+                    ComboBox {
+                        id: cbQuerySort
+                        width: 250
+                        height: searchWrapper.height
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            right: parent.right
+                            rightMargin: 10
+                        }
+
+                        textRole: "text"
+                        valueRole: "value"
+                        currentIndex: 2
+                        Layout.preferredHeight: searchWrapper.height
                         font.family: ScreenPlay.settings.font
-                        onClicked: Qt.openUrlExternally(
-                                       "steam://url/SteamWorkshopPage/672870")
-                        icon.source: "qrc:/assets/icons/icon_steam.svg"
-                        icon.width: 18
-                        icon.height: 18
+                        onActivated: {
+                            steamWorkshop.workshopListModel.searchWorkshop(
+                                        cbQuerySort.currentValue)
+                        }
+                        model: [{
+                                "value": SteamEnums.k_EUGCQuery_RankedByVote,
+                                "text": qsTr("Ranked By Vote")
+                            }, {
+                                "value": SteamEnums.K_EUGCQuery_RankedByPublicationDate,
+                                "text": qsTr("Publication Date")
+                            }, {
+                                "value": SteamEnums.K_EUGCQuery_RankedByTrend,
+                                "text": qsTr("Ranked By Trend")
+                            }, {
+                                "value": SteamEnums.K_EUGCQuery_FavoritedByFriendsRankedByPublicationDate,
+                                "text": qsTr("Favorited By Friends")
+                            }, {
+                                "value": SteamEnums.K_EUGCQuery_CreatedByFriendsRankedByPublicationDate,
+                                "text": qsTr("Created By Friends")
+                            }, {
+                                "value": SteamEnums.K_EUGCQuery_CreatedByFollowedUsersRankedByPublicationDate,
+                                "text": qsTr("Created By Followed Users")
+                            }, {
+                                "value": SteamEnums.K_EUGCQuery_NotYetRated,
+                                "text": qsTr("Not Yet Rated")
+                            }, {
+                                "value": SteamEnums.K_EUGCQuery_RankedByTotalVotesAsc,
+                                "text": qsTr("Total VotesAsc")
+                            }, {
+                                "value": SteamEnums.K_EUGCQuery_RankedByVotesUp,
+                                "text": qsTr("Votes Up")
+                            }, {
+                                "value": SteamEnums.K_EUGCQuery_RankedByTotalUniqueSubscriptions,
+                                "text": qsTr("Total Unique Subscriptions")
+                            }]
                     }
-                    Button {
-                        text: qsTr("Open GameHub in Steam")
-                        font.capitalization: Font.Capitalize
-                        font.family: ScreenPlay.settings.font
-                        onClicked: Qt.openUrlExternally(
-                                       "steam://url/GameHub/672870")
-                        icon.source: "qrc:/assets/icons/icon_steam.svg"
-                        icon.width: 18
-                        icon.height: 18
-                    }
-                }
-
-                ComboBox {
-                    id: cbQuerySort
-                    width: 250
-                    height: searchWrapper.height
-                    anchors {
-                        verticalCenter: parent.verticalCenter
-                        right: parent.right
-                        rightMargin: 50
-                    }
-
-                    textRole: "text"
-                    valueRole: "value"
-                    currentIndex: 2
-                    Layout.preferredHeight: searchWrapper.height
-                    font.family: ScreenPlay.settings.font
-                    onActivated: {
-                        steamWorkshop.workshopListModel.searchWorkshop(
-                                    cbQuerySort.currentValue, 1)
-                    }
-                    model: [{
-                            "value": SteamEnums.k_EUGCQuery_RankedByVote,
-                            "text": qsTr("Ranked By Vote")
-                        }, {
-                            "value": SteamEnums.K_EUGCQuery_RankedByPublicationDate,
-                            "text": qsTr("Publication Date")
-                        }, {
-                            "value": SteamEnums.K_EUGCQuery_RankedByTrend,
-                            "text": qsTr("Ranked By Trend")
-                        }, {
-                            "value": SteamEnums.K_EUGCQuery_FavoritedByFriendsRankedByPublicationDate,
-                            "text": qsTr("Favorited By Friends")
-                        }, {
-                            "value": SteamEnums.K_EUGCQuery_CreatedByFriendsRankedByPublicationDate,
-                            "text": qsTr("Created By Friends")
-                        }, {
-                            "value": SteamEnums.K_EUGCQuery_CreatedByFollowedUsersRankedByPublicationDate,
-                            "text": qsTr("Created By Followed Users")
-                        }, {
-                            "value": SteamEnums.K_EUGCQuery_NotYetRated,
-                            "text": qsTr("Not Yet Rated")
-                        }, {
-                            "value": SteamEnums.K_EUGCQuery_RankedByTotalVotesAsc,
-                            "text": qsTr("Total VotesAsc")
-                        }, {
-                            "value": SteamEnums.K_EUGCQuery_RankedByVotesUp,
-                            "text": qsTr("Votes Up")
-                        }, {
-                            "value": SteamEnums.K_EUGCQuery_RankedByTotalUniqueSubscriptions,
-                            "text": qsTr("Total Unique Subscriptions")
-                        }]
                 }
             }
 
@@ -395,6 +413,51 @@ Item {
             ScrollBar.vertical: ScrollBar {
                 id: workshopScrollBar
                 snapMode: ScrollBar.SnapOnRelease
+            }
+
+            footer: RowLayout {
+                height: 150
+                width: parent.width
+                spacing: 10
+                Item {
+                    Layout.fillWidth: true
+                }
+                Button {
+                    id: btnBack
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr("Back")
+                    enabled: steamWorkshop.workshopListModel.currentPage > 1
+                    onClicked: {
+                        steamWorkshop.workshopListModel.setCurrentPage(
+                                    steamWorkshop.workshopListModel.currentPage - 1)
+                        steamWorkshop.workshopListModel.searchWorkshop(
+                                    SteamEnums.K_EUGCQuery_RankedByTrend)
+                    }
+                }
+                Text {
+                    id: txtPage
+                    Layout.alignment: Qt.AlignVCenter
+                    text: steamWorkshop.workshopListModel.currentPage + "/"
+                          + steamWorkshop.workshopListModel.pages
+                    font.family: ScreenPlay.settings.font
+                    color: Material.primaryTextColor
+                }
+                Button {
+                    id: btnForward
+                    Layout.alignment: Qt.AlignVCenter
+                    text: qsTr("Forward")
+                    enabled: steamWorkshop.workshopListModel.currentPage
+                             <= steamWorkshop.workshopListModel.pages - 1
+                    onClicked: {
+                        steamWorkshop.workshopListModel.setCurrentPage(
+                                    steamWorkshop.workshopListModel.currentPage + 1)
+                        steamWorkshop.workshopListModel.searchWorkshop(
+                                    SteamEnums.K_EUGCQuery_RankedByTrend)
+                    }
+                }
+                Item {
+                    Layout.fillWidth: true
+                }
             }
         }
     }
