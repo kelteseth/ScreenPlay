@@ -22,6 +22,16 @@ Item {
 
     property alias steamWorkshop: screenPlayWorkshop.steamWorkshop
 
+    MouseArea {
+        enabled: gridView.count === 0
+        z: enabled ? 10 : 0
+        cursorShape: enabled ? Qt.WaitCursor : Qt.ArrowCursor
+        acceptedButtons: Qt.NoButton
+        propagateComposedEvents: true
+        anchors.fill: parent
+        preventStealing: true
+    }
+
     ScreenPlayWorkshop {
         id: screenPlayWorkshop
     }
