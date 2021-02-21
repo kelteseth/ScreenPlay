@@ -279,36 +279,53 @@ Item {
                             leftMargin: 10
                         }
 
-                        Rectangle {
-                            anchors.fill: parent
-                            color: Material.theme === Material.Light ? "white" : Qt.darker(
-                                                                           Material.background)
-                            opacity: .95
-                            radius: 3
-                        }
 
                         TextField {
                             id: tiSearch
                             anchors {
                                 top: parent.top
                                 right: parent.right
-                                rightMargin: 10
                                 bottom: parent.bottom
                                 left: parent.left
                                 leftMargin: 10
                             }
+                            leftPadding:25
+                            selectByMouse:true
                             placeholderText: qsTr("Search for Wallpaper and Widgets...")
                             onTextChanged: timerSearch.restart()
                             Timer {
                                 id: timerSearch
-                                interval: 300
+                                interval: 500
                                 onTriggered: steamWorkshop.workshopListModel.searchWorkshopByText(
                                                  tiSearch.text)
                             }
                         }
+
+                        Image {
+                            source: "qrc:/assets/icons/icon_search.svg"
+                            width: 14
+                            height: width
+                            sourceSize: Qt.size(width,width)
+                            anchors {
+                                left: parent.left
+                                leftMargin: 15
+                                verticalCenter: parent.verticalCenter
+                            }
+                        }
+
+                        ToolButton {
+                            id:tb
+                            enabled: tiSearch.text !== ""
+                            anchors {
+                                right: parent.right
+                                verticalCenter: parent.verticalCenter
+                            }
+                            text: "X"
+                            onClicked: tiSearch.text = ""
+                        }
                     }
 
-                    Row {
+                    RowLayout {
                         spacing: 20
                         anchors {
                             left: searchWrapper.right
@@ -316,6 +333,10 @@ Item {
                             right: cbQuerySort.left
                             rightMargin: 20
                             verticalCenter: parent.verticalCenter
+                        }
+                        Item {
+                            Layout.fillWidth: true
+                            Layout.fillHeight: true
                         }
                         Button {
                             text: qsTr("Open Workshop in Steam")
@@ -326,6 +347,7 @@ Item {
                             icon.source: "qrc:/assets/icons/icon_steam.svg"
                             icon.width: 18
                             icon.height: 18
+                            height: cbQuerySort.height
                         }
                         Button {
                             text: qsTr("Open GameHub in Steam")
@@ -336,6 +358,7 @@ Item {
                             icon.source: "qrc:/assets/icons/icon_steam.svg"
                             icon.width: 18
                             icon.height: 18
+                            height: cbQuerySort.height
                         }
                     }
 
