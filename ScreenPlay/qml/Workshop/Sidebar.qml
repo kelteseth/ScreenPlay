@@ -90,11 +90,20 @@ Drawer {
         function onRequestItemDetailReturned(title, tags, steamIDOwner, description, votesUp, votesDown, url, fileSize, publishedFileId) {
 
             tagListModel.clear()
-            for (var i in tags) {
-                tagListModel.append({
-                                        "name": tags[i]
-                                    })
+
+            // Even if the tags array is empty it still contains
+            // one empty string, resulting in an empty button
+            if (tags.length > 1) {
+                for (var i in tags) {
+                    tagListModel.append({
+                                            "name": tags[i]
+                                        })
+                }
+                rpTagList.model = tagListModel
+            } else {
+                rpTagList.model = null
             }
+
             txtTitle.text = title
             const size = Math.floor((1000 * ((fileSize / 1024) / 1000)) / 1000)
             txtFileSize.text = qsTr("Size: ") + size + qsTr(" MB")
@@ -222,7 +231,7 @@ Drawer {
             top: imgWrapper.bottom
             right: parent.right
             left: parent.left
-
+            bottom: rlBottomButtons.top
             margins: 20
         }
 
@@ -279,40 +288,23 @@ Drawer {
                 }
             }
 
-            RowLayout {
+            Grid {
                 Layout.preferredHeight: 40
                 Layout.fillWidth: true
-                spacing: 20
-
-                Text {
-                    id: txtFileSize
-                    color: Material.secondaryTextColor
-                    font.family: ScreenPlay.settings.font
-                    font.pointSize: 11
-                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                spacing: 5
+                padding: 2
+                ListModel {
+                    id: tagListModel
                 }
-
-                ListView {
+                Repeater {
                     id: rpTagList
                     clip: true
-                    orientation: ListView.Horizontal
-                    Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    model: ListModel {
-                        id: tagListModel
-                    }
-
-                    ScrollBar.horizontal: ScrollBar {
-                        height: 8
-                    }
-
-                    delegate: ToolButton {
+                    anchors.fill: parent
+                    delegate: Button {
                         id: txtTags
                         property string tags
-                        Layout.fillWidth: true
-                        height: 20
                         text: name
-                        font.pointSize: 11
+                        font.pointSize: 8
                         font.family: ScreenPlay.settings.font
                         onClicked: {
                             root.tagClicked(txtTags.text)
@@ -336,11 +328,12 @@ Drawer {
                     Layout.fillWidth: true
                 }
 
-                ToolButton {
-                    icon.source: "qrc:/assets/icons/icon_open_in_new.svg"
-                    text: qsTr("Open In Steam")
-                    onClicked: Qt.openUrlExternally(
-                                   "steam://url/CommunityFilePage/" + root.publishedFileID)
+                Text {
+                    id: txtFileSize
+                    color: Material.secondaryTextColor
+                    font.family: ScreenPlay.settings.font
+                    font.pointSize: 11
+                    wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
             }
 
@@ -352,7 +345,7 @@ Drawer {
                 radius: 3
                 ScrollView {
                     anchors.fill: parent
-                    anchors.margins: 10
+                    anchors.margins: 20
                     clip: true
                     ScrollBar.vertical.policy: ScrollBar.AsNeeded
                     ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
@@ -362,28 +355,41 @@ Drawer {
                         width: parent.width
                         color: Material.primaryTextColor
                         font.family: ScreenPlay.settings.font
-                        font.pointSize: 10
+                        font.pointSize: 12
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
                 }
             }
         }
     }
-
-    Button {
+    RowLayout {
+        id: rlBottomButtons
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
             bottomMargin: 20
         }
+        spacing:20
+        ToolButton {
+            id: btnOpenInSteam
+            font.pointSize: 10
+            icon.source: "qrc:/assets/icons/icon_open_in_new.svg"
+            height: 25
+            text: qsTr("Open In Steam")
+            onClicked: Qt.openUrlExternally(
+                           "steam://url/CommunityFilePage/" + root.publishedFileID)
+        }
+        Button {
+            id: btnSubscribe
 
-        highlighted: !root.subscribed
-        enabled: !root.subscribed
-        icon.source: "qrc:/assets/icons/icon_download.svg"
-        text: root.subscribed ? qsTr("Subscribed!") : qsTr("Subscribe")
-        onClicked: {
-            root.subscribed = true
-            root.steamWorkshop.subscribeItem(root.publishedFileID)
+            highlighted: !root.subscribed
+            enabled: !root.subscribed
+            icon.source: "qrc:/assets/icons/icon_download.svg"
+            text: root.subscribed ? qsTr("Subscribed!") : qsTr("Subscribe")
+            onClicked: {
+                root.subscribed = true
+                root.steamWorkshop.subscribeItem(root.publishedFileID)
+            }
         }
     }
 }
