@@ -76,7 +76,8 @@ sudo yum install mesa-libGL-devel
 # openSUSE (zypper)
 sudo zypper install -t pattern devel_basis
 ```
-2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
+1. It is recommended (but not necessary) to use a git UI like [gitextetions](https://gitextensions.github.io/).
+1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
         - Qt 5.15.2
