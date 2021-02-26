@@ -44,7 +44,7 @@ VCPKG_TARGET_TRIPLET:STRING=x64-osx
 8. Save and close the settings.
 9. Open Project via `File -> Open File or Project` and select your `CMakeLists.txt`. Then select __our created kit__, press `Configure Project`
 <div>
-<img width="100%" height="auto" src="../.gitlab/media/QtCreator_kit_select.png">
+<img  height="auto" src="../.gitlab/media/QtCreator_kit_select.png">
 </div>
 9. Press build (the big green play button on the bottom left). This will compile and start ScreenPlay and copy all necessary files into your Qt installation.
 
