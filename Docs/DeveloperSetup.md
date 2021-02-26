@@ -23,7 +23,6 @@ chmod +x install_dependencies_linux_mac.sh
       * openSSL 1.1.1d
       * sentry-native
       * doctest
-   * Download ffmpeg binaries from https://www.gyan.dev
 5. Open the CMakeLists.txt via QtCreator. **This can take some time until QtCreator parses all files!**
 
 6. Add CMake variables
