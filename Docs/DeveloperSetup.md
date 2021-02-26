@@ -54,7 +54,7 @@ VCPKG_TARGET_TRIPLET:STRING=x64-osx
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.15.1
+        - Qt 5.15.2
             - MSVC 2019 64-bit
             - Qt WebEngine
         - Developer and Designer Tools
