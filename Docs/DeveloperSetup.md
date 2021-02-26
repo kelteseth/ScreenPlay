@@ -51,7 +51,7 @@ VCPKG_TARGET_TRIPLET:STRING=x64-osx
 8. Press build (the big green play button on the bottom left). This will compile and start ScreenPlay and copy all necessary files into your Qt installation.
 
 ## Windows
-1. It is recommended (but not necessary) to use a git UI like [gitextetions](https://gitextensions.github.io/).
+1. It is recommended (but not necessary) to use an easy git UI like [gitextensions](https://gitextensions.github.io/).
 1. [Download and install the most recent MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)
     - Select "Desktop development with C++"
 1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
