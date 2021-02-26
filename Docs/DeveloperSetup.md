@@ -28,10 +28,10 @@ chmod +x install_dependencies_linux_mac.sh
 <img width="100%" height="auto" src="../.gitlab/media/QtCreator_kit.png">
 </div>
 
-5. Open __QtCreator__ and open the settings `Extras -> Settings`
+5. Open __QtCreator__ and open the settings `Tools -> Options`
 6. Clone an existing kit like `Qt 5.15.2 MSVC2019 64bit` and add `ScreenPlay` to the new kit name
 5. Edit CMake variables amd add CMAKE_TOOLCHAIN_FILE and VCPKG_TARGET_TRIPLET
-    * `Extras -> Tools -> Kits -> <Your Kit> -> CMake Configuration`
+    * `Kits -> <Your_Kit> -> CMake Configuration`
     
 Append this:
 ``` bash
