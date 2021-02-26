@@ -33,9 +33,27 @@ Windows only, Linux and MacOS (soon™)
 <p>Click gif to see the Steam Early Access Trailer (YouTube)</p>
 </div>
 
+# Content Creation
+<div>
+<img src=".gitlab/media/wallpaper_guide.png">
+</div>
+
+* [Video Wallpaper](https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/video_wallpaper/). You can import any WebM file directly or use the importer for any other video type.
+* [Performance Guidelines](https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/). You need a modern GPU for smooth playback. You can always use QML/HTML/GIF wallpaper if you encounter performance issues!
+* [Video import via Handbrake](https://forum.screen-play.app/topic/43/fast-bulk-video-conversion-with-handbrake). Handbrake offers easy bulk import of videos.
+
+<div>
+<img src=".gitlab/media/widgets_guide.png">
+</div>
 
 
-# Contributing
+* [Widgets Guide](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/widgets/). General guidelines how to create widgets. ScreenPlay uses the easy to learn QML language. No coding knowledge required!
+* [Storage Widget](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_Storage/). Display your drives and usage.
+* [CPU Usage Widget](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_CPU/). Displays your current CPU usage.
+* [RSS Feed Widget](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_RSS/). Display news as a rss widget.
+
+
+# General Contributing
 
 Everyone can contribute with code, design, documentation or translation. Visit our [contributing guide](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/contribute) for more information. Also checkout our [Collaboration Guidelines](Docs/CodeOfConduct.md).
 
@@ -51,7 +69,7 @@ Here are some ways you can contribute:
 * by [reviewing merge requests](https://gitlab.com/kelteseth/ScreenPlay/-/merge_requests)
 * by [verifying issues](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Unverified)
 
-# Coding
+# Development
 * [**Developer setup guide on how to download and compile ScreenPlay yourself.**](Docs/DeveloperSetup.md)
  * If you want to contribute but don't know how to start, take a look at our open issues and WIP merge request.
  * If you need help don't hesitate to ask me (Kelteseth) via:
@@ -59,10 +77,6 @@ Here are some ways you can contribute:
      * [discord channel general](https://discord.gg/3RygPHZ)
  * [ScreenPlay project overview](Docs/ProjectOverview.md)
  * [Developer C++ Classes Documentation](https://kelteseth.gitlab.io/ScreenPlayDeveloperDocs/)
-
-# Content Creation
-* [Wallpaper Guide](https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/)
-* [Widgets Guide](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/widgets/)
 
 # Platform support
 
