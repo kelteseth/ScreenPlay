@@ -23,11 +23,15 @@ chmod +x install_dependencies_linux_mac.sh
       * openSSL 1.1.1d
       * sentry-native
       * doctest
-5. Open the CMakeLists.txt via QtCreator. **This can take some time until QtCreator parses all files!**
 
-6. Add CMake variables
-    * Add CMAKE_TOOLCHAIN_FILE and VCPKG_TARGET_TRIPLET
-       * `Extras -> Tools -> Kits -> <Your Kit> -> CMake Configuration`
+<div>
+<img width="100%" height="auto" src="../.gitlab/media/QtCreator_kit.png">
+</div>
+
+5. Open __QtCreator__ and open the settings `Extras -> Settings`
+6. Clone an existing kit like `Qt 5.15.2 MSVC2019 64bit` and add `ScreenPlay` to the new kit name
+5. Edit CMake variables amd add CMAKE_TOOLCHAIN_FILE and VCPKG_TARGET_TRIPLET
+    * `Extras -> Tools -> Kits -> <Your Kit> -> CMake Configuration`
     
 Append this:
 ``` bash
@@ -37,16 +41,14 @@ VCPKG_TARGET_TRIPLET:STRING=x64-windows
 VCPKG_TARGET_TRIPLET:STRING=x64-linux
 VCPKG_TARGET_TRIPLET:STRING=x64-osx
 ```
-<div>
-<img width="100%" height="auto" src="../.gitlab/media/QtCreator_kit.png">
-</div>
 
-8. Save and close the settings.
-9. Open Project via `File -> Open File or Project` and select your `CMakeLists.txt`. Then select __our created kit__, press `Configure Project`
+
+6. Save and close the settings.
+7. Open Project via `File -> Open File or Project` and select your `CMakeLists.txt`. Then select __our created kit__, press `Configure Project`
 <div>
 <img  height="auto" src="../.gitlab/media/QtCreator_kit_select.png">
 </div>
-9. Press build (the big green play button on the bottom left). This will compile and start ScreenPlay and copy all necessary files into your Qt installation.
+8. Press build (the big green play button on the bottom left). This will compile and start ScreenPlay and copy all necessary files into your Qt installation.
 
 ## Windows
 1. [Download and install the most recent MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)
