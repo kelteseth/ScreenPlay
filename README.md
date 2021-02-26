@@ -35,7 +35,7 @@ Windows only, Linux and MacOS (soon™)
 
 # Content Creation
 <div>
-<img src=".gitlab/media/wallpaper_guide.png">
+<a href="https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/"><img src=".gitlab/media/wallpaper_guide.png"></a>
 </div>
 
 * [Video Wallpaper](https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/video_wallpaper/). You can import any WebM file directly or use the importer for any other video type.
@@ -43,7 +43,7 @@ Windows only, Linux and MacOS (soon™)
 * [Video import via Handbrake](https://forum.screen-play.app/topic/43/fast-bulk-video-conversion-with-handbrake). Handbrake offers easy bulk import of videos.
 
 <div>
-<img src=".gitlab/media/widgets_guide.png">
+<a href="https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/widgets/"><img src=".gitlab/media/widgets_guide.png"></a>
 </div>
 
 
