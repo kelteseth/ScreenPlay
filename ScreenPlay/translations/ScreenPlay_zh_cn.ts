@@ -671,7 +671,7 @@
     <message>
         <location filename="../qml/Common/LicenseSelector.qml" line="69"/>
         <source>You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</source>
-        <translation>您不分享任何权利，没有人可以使用或改编它（不推荐）。也可用于记入他人的作品。</translation>
+        <translation type="unfinished">您不分享任何权限，没有人可以使用或改编它（不推荐）。Can also used to credit work others.</translation>
     </message>
 </context>
 <context>
@@ -749,12 +749,12 @@
         <translation>物件</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Navigation.qml" line="33"/>
+        <location filename="../qml/Workshop/Navigation.qml" line="35"/>
         <source> Subscribed items: </source>
         <translation>已订阅：</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Navigation.qml" line="74"/>
+        <location filename="../qml/Workshop/Navigation.qml" line="78"/>
         <source>Upload to the Steam Workshop</source>
         <translation>上传到创意工坊</translation>
     </message>
@@ -948,7 +948,7 @@
         <translation>设置ScreenPlay界面语言</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="224"/>
+        <location filename="../qml/Settings/Settings.qml" line="227"/>
         <source>Performance</source>
         <translation>性能</translation>
     </message>
@@ -1003,147 +1003,152 @@
         <translation>越南语</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="193"/>
+        <location filename="../qml/Settings/Settings.qml" line="188"/>
+        <source>Portuguese (Brazil)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="196"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="194"/>
+        <location filename="../qml/Settings/Settings.qml" line="197"/>
         <source>Switch dark/light theme</source>
         <translation>切换到暗/亮主题</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="208"/>
+        <location filename="../qml/Settings/Settings.qml" line="211"/>
         <source>System Default</source>
         <translation>跟随系统</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="211"/>
+        <location filename="../qml/Settings/Settings.qml" line="214"/>
         <source>Dark</source>
         <translation>暗</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="214"/>
+        <location filename="../qml/Settings/Settings.qml" line="217"/>
         <source>Light</source>
         <translation>亮</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="239"/>
+        <location filename="../qml/Settings/Settings.qml" line="242"/>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
         <translation>当其他应用程序在前台时，暂停壁纸视频渲染</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="240"/>
+        <location filename="../qml/Settings/Settings.qml" line="243"/>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
         <translation>我们禁用视频渲染（不是音频）以获得最佳性能。如果您有问题，可以在此处禁用此行为。 需要重启壁纸！</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="250"/>
+        <location filename="../qml/Settings/Settings.qml" line="253"/>
         <source>Default Fill Mode</source>
         <translation>默认填充模式</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="251"/>
+        <location filename="../qml/Settings/Settings.qml" line="254"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
         <translation>设置此属性可定义视频的缩放方式以适应目标区域。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="263"/>
+        <location filename="../qml/Settings/Settings.qml" line="266"/>
         <source>Stretch</source>
         <translation>拉伸</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="266"/>
+        <location filename="../qml/Settings/Settings.qml" line="269"/>
         <source>Fill</source>
         <translation>填充</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="269"/>
+        <location filename="../qml/Settings/Settings.qml" line="272"/>
         <source>Contain</source>
         <translation>适应</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="272"/>
+        <location filename="../qml/Settings/Settings.qml" line="275"/>
         <source>Cover</source>
         <translation>平铺</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="275"/>
+        <location filename="../qml/Settings/Settings.qml" line="278"/>
         <source>Scale-Down</source>
         <translation>裁剪</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="285"/>
+        <location filename="../qml/Settings/Settings.qml" line="288"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="313"/>
+        <location filename="../qml/Settings/Settings.qml" line="316"/>
         <source>Thank you for using ScreenPlay</source>
         <translation>感谢您的使用</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="328"/>
+        <location filename="../qml/Settings/Settings.qml" line="331"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
         <translation>您好，我是Elias Steurer，也叫Kelteseth，我是ScreenPlay的开发者。感谢您使用我的软件。您可以在这里关注我，接收ScreenPlay的更新。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="417"/>
+        <location filename="../qml/Settings/Settings.qml" line="420"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="418"/>
+        <location filename="../qml/Settings/Settings.qml" line="421"/>
         <source>ScreenPlay Build Version </source>
         <translation>ScreenPlay编译版本 </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="420"/>
+        <location filename="../qml/Settings/Settings.qml" line="423"/>
         <source>Open Changelog</source>
         <translation>打开更改日志。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="427"/>
+        <location filename="../qml/Settings/Settings.qml" line="430"/>
         <source>Third Party Software</source>
         <translation>第三方软件</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="428"/>
+        <location filename="../qml/Settings/Settings.qml" line="431"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation>ScreenPlay离不开一些人的帮助。非常感谢您们：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="429"/>
+        <location filename="../qml/Settings/Settings.qml" line="432"/>
         <source>Licenses</source>
         <translation>许可证</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="447"/>
+        <location filename="../qml/Settings/Settings.qml" line="450"/>
         <source>Logs</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="448"/>
+        <location filename="../qml/Settings/Settings.qml" line="451"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation>如果您的ScreenPlay出错，这是个很好的查错方式。它显示所有的日志和运行时警告。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="449"/>
+        <location filename="../qml/Settings/Settings.qml" line="452"/>
         <source>Show Logs</source>
         <translation>显示日志</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="460"/>
+        <location filename="../qml/Settings/Settings.qml" line="463"/>
         <source>Data Protection</source>
         <translation>数据保护</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="461"/>
+        <location filename="../qml/Settings/Settings.qml" line="464"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation>我们使用您的数据提升ScreenPlay的体验。我们承诺不出售或分享这些匿名信息！</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="462"/>
+        <location filename="../qml/Settings/Settings.qml" line="465"/>
         <source>Privacy</source>
         <translation>隐私</translation>
     </message>
@@ -1214,52 +1219,52 @@
         <translation>设置壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="90"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="93"/>
         <source>Project size: </source>
         <translation>项目大小：</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="90"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="93"/>
         <source> MB</source>
         <translation> 兆字节</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="96"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="99"/>
         <source>No description...</source>
         <translation>没有简介...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="240"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="243"/>
         <source>Click here if you like the content</source>
         <translation>如果您喜欢它，点这里！</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="254"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="256"/>
         <source>Click here if you do not like the content</source>
         <translation>如果您不喜欢它，点这里</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="290"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="291"/>
         <source>Tags: </source>
         <translation>标签：</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="307"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="308"/>
         <source>Subscribtions: </source>
         <translation>订阅：</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="316"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="317"/>
         <source>Open In Steam</source>
         <translation>在Steam打开</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="358"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="359"/>
         <source>Subscribed!</source>
         <translation>已订阅！</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="358"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="359"/>
         <source>Subscribe</source>
         <translation>订阅</translation>
     </message>
@@ -1404,17 +1409,17 @@
 <context>
     <name>UploadProject</name>
     <message>
-        <location filename="../qml/Workshop/upload/UploadProject.qml" line="54"/>
+        <location filename="../qml/Workshop/upload/UploadProject.qml" line="55"/>
         <source>Upload Wallpaper/Widgets to Steam</source>
         <translation>上传 壁纸/物件 到Steam</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/upload/UploadProject.qml" line="128"/>
+        <location filename="../qml/Workshop/upload/UploadProject.qml" line="129"/>
         <source>Abort</source>
         <translation>取消</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/upload/UploadProject.qml" line="143"/>
+        <location filename="../qml/Workshop/upload/UploadProject.qml" line="144"/>
         <source>Upload Selected Projects</source>
         <translation>上传所选项目</translation>
     </message>
@@ -2079,98 +2084,102 @@
 <context>
     <name>Workshop</name>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="155"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="164"/>
         <source>Loading</source>
         <translation>加载中</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="166"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="175"/>
         <source>Download now!</source>
         <translation>开始下载！</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="171"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="180"/>
         <source>Downloading...</source>
         <translation>下载中...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="178"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="187"/>
         <source>Details</source>
         <translation>查看详情</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="202"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="211"/>
         <source>Open In Steam</source>
         <translation>在Steam打开</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="263"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="272"/>
         <source>Search for Wallpaper and Widgets...</source>
         <translation>搜索壁纸和物件...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="284"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="293"/>
         <source>Open Workshop in Steam</source>
         <translation>在Steam中打开创意工坊</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="294"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="303"/>
         <source>Open GameHub in Steam</source>
         <translation>在Steam中打开游戏社区</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="326"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="335"/>
         <source>Ranked By Vote</source>
         <translation>评分最好</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="329"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="338"/>
         <source>Publication Date</source>
         <translation>发布日期</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="332"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="341"/>
         <source>Ranked By Trend</source>
         <translation>评分趋势</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="335"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="344"/>
         <source>Favorited By Friends</source>
         <translation>好友收藏</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="338"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="347"/>
         <source>Created By Friends</source>
         <translation>好友创建</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="341"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="350"/>
         <source>Created By Followed Users</source>
         <translation>已关注的</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="344"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="353"/>
         <source>Not Yet Rated</source>
         <translation>尚未评分</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="347"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="356"/>
         <source>Total VotesAsc</source>
         <translation>按总票数升序</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="350"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="359"/>
         <source>Votes Up</source>
         <translation>评分上升</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="353"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="362"/>
         <source>Total Unique Subscriptions</source>
         <translation>总订阅量</translation>
     </message>
 </context>
 <context>
     <name>WorkshopItem</name>
+    <message>
+        <source>Download</source>
+        <translation type="vanished">下载</translation>
+    </message>
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="286"/>
         <source>Successfully subscribed to Workshop Item!</source>

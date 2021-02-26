@@ -85,6 +85,8 @@ ApplicationWindow {
     }
 
     function switchPage(name) {
+        const unloadSteamPlugin = nav.currentNavigationName === "Workshop"
+
         if (nav.currentNavigationName === name) {
             if (name === "Installed")
                 ScreenPlay.installedListModel.reset()
@@ -103,6 +105,10 @@ ApplicationWindow {
         }
 
         stackView.replace("qrc:/qml/" + name + "/" + name + ".qml")
+
+        if (unloadSteamPlugin) {
+            ScreenPlay.unloadSteamPlugin()
+        }
 
         sidebar.state = "inactive"
     }

@@ -21,8 +21,6 @@ InstalledListModel::InstalledListModel(
     : QAbstractListModel(parent)
     , m_globalVariables { globalVariables }
 {
-    QObject::connect(this, &InstalledListModel::addInstalledItem,
-        this, &InstalledListModel::append, Qt::QueuedConnection);
 }
 
 /*!
@@ -33,8 +31,6 @@ void InstalledListModel::init()
     if (!m_fileSystemWatcher.addPath(m_globalVariables->localStoragePath().toLocalFile())) {
         qWarning() << "Could not setup file system watcher for changed files with path: " << m_globalVariables->localStoragePath().toLocalFile();
     }
-
-    loadInstalledContent();
 
     auto reloadLambda = [this]() {
         QTimer::singleShot(500, [this]() {
@@ -47,7 +43,8 @@ void InstalledListModel::init()
 }
 
 /*!
-    \brief .
+    \brief Deleted the item from the local storage and removes it from the
+    installed list.
 */
 bool InstalledListModel::deinstallItemAt(const int index)
 {
@@ -114,6 +111,8 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(row).m_publishedFileID;
         case static_cast<int>(ScreenPlayItem::Tags):
             return m_screenPlayFiles.at(row).m_tags;
+        case static_cast<int>(ScreenPlayItem::LastModified):
+            return m_screenPlayFiles.at(row).m_lastModified;
         case static_cast<int>(ScreenPlayItem::SearchType):
             return QVariant::fromValue(m_screenPlayFiles.at(row).m_searchType);
         default:
@@ -138,33 +137,32 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { static_cast<int>(ScreenPlayItem::PublishedFileID), "m_publishedFileID" },
         { static_cast<int>(ScreenPlayItem::Tags), "m_tags" },
         { static_cast<int>(ScreenPlayItem::SearchType), "m_searchType" },
+        { static_cast<int>(ScreenPlayItem::LastModified), "m_lastModified" },
     };
 }
 
 /*!
-    \brief .
+    \brief Append an ProjectFile to the list.
 */
-void InstalledListModel::append(const QJsonObject& obj, const QString& folderName)
+void InstalledListModel::append(const QJsonObject& obj, const QString& folderName, const QDateTime& lastModified)
 {
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
-    m_screenPlayFiles.append(ProjectFile(obj, folderName, m_globalVariables->localStoragePath()));
+    m_screenPlayFiles.append(ProjectFile(obj, folderName, m_globalVariables->localStoragePath(), lastModified));
     endInsertRows();
 }
 
 /*!
-    \brief .
+    \brief Loads all installed content. Skips projects.json without a "type" field.
 */
 void InstalledListModel::loadInstalledContent()
 {
     QtConcurrent::run([this]() {
         QFileInfoList list = QDir(m_globalVariables->localStoragePath().toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
-        QString projectItemPath;
         int counter = 0;
 
         for (const auto& item : list) {
-            projectItemPath = m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json";
 
-            if (auto obj = ScreenPlayUtil::openJsonFileToObject(projectItemPath)) {
+            if (auto obj = ScreenPlayUtil::openJsonFileToObject(m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json")) {
 
                 if (obj->isEmpty())
                     continue;
@@ -172,9 +170,10 @@ void InstalledListModel::loadInstalledContent()
                 if (!obj->contains("type"))
                     continue;
 
+
                 if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString())) {
                     if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString(), Qt::CaseInsensitive)) {
-                        emit addInstalledItem(*obj, item.baseName());
+                        append(*obj, item.baseName(), item.lastModified());
                     }
 
                     counter += 1;
@@ -206,6 +205,7 @@ QVariantMap InstalledListModel::get(const QString& folderId) const
             map.insert("m_type", QVariant::fromValue(m_screenPlayFiles[i].m_type));
             map.insert("m_absoluteStoragePath", m_screenPlayFiles[i].m_absoluteStoragePath);
             map.insert("m_publishedFileID", m_screenPlayFiles[i].m_publishedFileID);
+            map.insert("m_lastModified", m_screenPlayFiles[i].m_lastModified);
             return map;
         }
     }

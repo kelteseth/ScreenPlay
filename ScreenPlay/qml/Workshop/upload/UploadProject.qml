@@ -3,7 +3,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 
-import ScreenPlay.Workshop 1.0 as SP
+import ScreenPlay.Workshop 1.0
 import ScreenPlay 1.0
 
 Popup {
@@ -16,6 +16,8 @@ Popup {
     closePolicy: Popup.NoAutoClose
     onAboutToShow: uploadLoader.sourceComponent = com
     onAboutToHide: uploadLoader.sourceComponent = undefined
+    property SteamWorkshop steamWorkshop
+    property ScreenPlayWorkshop workshop
     background: Rectangle {
         color: Material.theme === Material.Light ? "white" : Material.background
     }
@@ -31,7 +33,6 @@ Popup {
             root.close()
         }
     }
-
 
     Component {
         id: com
@@ -88,7 +89,7 @@ Popup {
                         cellWidth: parent.width
                         cellHeight: 250
                         clip: true
-                        model: SP.Workshop.installedListModel
+                        model: workshop.installedListModel
                         anchors {
                             top: parent.top
                             right: parent.right
@@ -127,7 +128,7 @@ Popup {
                         id: btnAbort
                         text: qsTr("Abort")
                         onClicked: {
-                            SP.Workshop.steamWorkshop.uploadListModel.clear()
+                            steamWorkshop.uploadListModel.clear()
                             wrapper.requestClosePopup()
                         }
 
@@ -160,8 +161,7 @@ Popup {
                                 }
                             }
                             view.currentIndex = 1
-                            SP.Workshop.steamWorkshop.bulkUploadToWorkshop(
-                                        uploadListArray)
+                            steamWorkshop.bulkUploadToWorkshop(uploadListArray)
                         }
                     }
                 }
@@ -175,7 +175,7 @@ Popup {
                         flickDeceleration: 5000
                         cacheBuffer: 1000
                         clip: true
-                        model: SP.Workshop.steamWorkshop.uploadListModel
+                        model: steamWorkshop.uploadListModel
                         width: parent.width - 50
                         spacing: 25
                         anchors {
@@ -202,7 +202,7 @@ Popup {
                         id: btnFinish
                         text: qsTr("Finish")
                         onClicked: {
-                            SP.Workshop.steamWorkshop.uploadListModel.clear()
+                            steamWorkshop.uploadListModel.clear()
                             wrapper.requestClosePopup()
                         }
                         highlighted: true
@@ -213,7 +213,7 @@ Popup {
                             margins: 10
                         }
                         Connections {
-                            target: SP.Workshop.steamWorkshop.uploadListModel
+                            target: steamWorkshop.uploadListModel
                             function onUploadCompleted() {
                                 btnFinish.enabled = true
                             }

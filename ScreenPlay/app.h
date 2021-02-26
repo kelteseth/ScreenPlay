@@ -164,6 +164,7 @@ public slots:
 
     void exit();
     bool loadSteamPlugin();
+    bool unloadSteamPlugin();
     void setTrackerSendEvent(const QString& category, const QString& page)
     {
         if (m_telemetry) {

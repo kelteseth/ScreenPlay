@@ -15,6 +15,8 @@ Rectangle {
     implicitWidth: 800
     height: 50
 
+    property SteamWorkshop steamWorkshop
+
     signal uploadPressed
     color: Material.theme === Material.Light ? "white" : Material.background
 
@@ -30,9 +32,9 @@ Rectangle {
         Text {
             id: name
             text: {
-                return Workshop.steamWorkshop.steamAccount.username + qsTr(
+                return steamWorkshop.steamAccount.username + qsTr(
                             " Subscribed items: ")
-                        + Workshop.steamWorkshop.steamAccount.amountSubscribedItems
+                        + steamWorkshop.steamAccount.amountSubscribedItems
             }
 
             font.pointSize: 14
@@ -60,9 +62,11 @@ Rectangle {
                 leftMargin: 10
                 verticalCenter: parent.verticalCenter
             }
-            Component.onCompleted: Workshop.steamWorkshop.steamAccount.loadAvatar()
+            Component.onCompleted: {
+                steamWorkshop.steamAccount.loadAvatar()
+            }
             Connections {
-                target: Workshop.steamWorkshop.steamAccount
+                target: steamWorkshop.steamAccount
                 function onAvatarChanged(_avatar) {
                     avatar.setImage(_avatar)
                 }

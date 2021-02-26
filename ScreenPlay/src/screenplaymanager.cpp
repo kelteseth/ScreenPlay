@@ -348,17 +348,15 @@ void ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
 /*!
   \brief Set a wallpaper \a value at a given \a index and \a key.
 */
-void ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value)
+bool ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value)
 {
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
-
-        if (key == "volume" || key == "currentTime" || key == "playbackRate") {
-            setWallpaperValue(*appID, key, value);
-        }
         setWallpaperValue(*appID, key, value);
-    } else {
-        qWarning() << "Could net get appID from m_monitorListModel!";
+        return true;
     }
+
+    qWarning() << "Could net get appID from m_monitorListModel!";
+    return false;
 }
 
 /*!

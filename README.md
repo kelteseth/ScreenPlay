@@ -20,7 +20,8 @@ Developer Chat [![Gitter](https://badges.gitter.im/ScreenPlayApp/community.svg)]
 <br>
 ScreenPlay is an open source cross platform app for displaying Video Wallpaper, Widgets and AppDrawer. It is written in modern C++20/Qt5/QML. Binaries with workshop support are available for Windows and soon Linux & MacOSX via <a href="https://store.steampowered.com/app/672870/ScreenPlay/">Steam</a>.  Join our community: <a href="https://screen-play.app/">Homepage</a> - <a href="https://forum.screen-play.app/">Forum</a>
 
-<h3><a href="https://store.steampowered.com/app/672870/ScreenPlay/">✨Download ScreenPlay via Steam✨</a></h3>
+<br> 
+<h3><a href="https://store.steampowered.com/app/672870/ScreenPlay/">✨Download ScreenPlay via Steam</a> - <a href="https://steamcommunity.com/app/672870/workshop/">Steam Workshop for Wallpaper and Widgets✨</a></h3> 
 Windows only, Linux and MacOS (soon™)
 <br>
 <br>
@@ -33,9 +34,27 @@ Windows only, Linux and MacOS (soon™)
 <p>Click gif to see the Steam Early Access Trailer (YouTube)</p>
 </div>
 
+# Content Creation
+<div>
+<a href="https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/"><img src=".gitlab/media/wallpaper_guide.png"></a>
+</div>
+
+* [Video Wallpaper](https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/video_wallpaper/). You can import any WebM file directly or use the importer for any other video type.
+* [Performance Guidelines](https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/). You need a modern GPU for smooth playback. You can always use QML/HTML/GIF wallpaper if you encounter performance issues!
+* [Video import via Handbrake](https://forum.screen-play.app/topic/43/fast-bulk-video-conversion-with-handbrake). Handbrake offers easy bulk import of videos.
+
+<div>
+<a href="https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/widgets/"><img src=".gitlab/media/widgets_guide.png"></a>
+</div>
 
 
-# Contributing
+* [Widgets Guide](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/widgets/). General guidelines how to create widgets. ScreenPlay uses the easy to learn QML language. No coding knowledge required!
+* [Storage Widget](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_Storage/). Display your drives and usage.
+* [CPU Usage Widget](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_CPU/). Displays your current CPU usage.
+* [RSS Feed Widget](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_RSS/). Display news as a rss widget.
+
+
+# General Contributing
 
 Everyone can contribute with code, design, documentation or translation. Visit our [contributing guide](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/contribute) for more information. Also checkout our [Collaboration Guidelines](Docs/CodeOfConduct.md).
 
@@ -51,7 +70,7 @@ Here are some ways you can contribute:
 * by [reviewing merge requests](https://gitlab.com/kelteseth/ScreenPlay/-/merge_requests)
 * by [verifying issues](https://gitlab.com/kelteseth/ScreenPlay/-/issues?label_name%5B%5D=Unverified)
 
-# Coding
+# Development
 * [**Developer setup guide on how to download and compile ScreenPlay yourself.**](Docs/DeveloperSetup.md)
  * If you want to contribute but don't know how to start, take a look at our open issues and WIP merge request.
  * If you need help don't hesitate to ask me (Kelteseth) via:
@@ -59,10 +78,6 @@ Here are some ways you can contribute:
      * [discord channel general](https://discord.gg/3RygPHZ)
  * [ScreenPlay project overview](Docs/ProjectOverview.md)
  * [Developer C++ Classes Documentation](https://kelteseth.gitlab.io/ScreenPlayDeveloperDocs/)
-
-# Content Creation
-* [Wallpaper Guide](https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/)
-* [Widgets Guide](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/widgets/)
 
 # Platform support
 
@@ -77,7 +92,7 @@ Here are some ways you can contribute:
 | __Steam Binaries__            | ✔       	    | ❌     	        | ❌     	|
 | __Wallpaper__                 | ✔       	    | ❓ Help Needed for Gnome/KDE/etc!               | ✔    |
 | __Widgets__                   | ✔       	    | ✔   	| ✔    	|
-| __Multilanguage (EN,DE,RU,FR,ES,KO,VI,CH🆕)__              | ✔            	| ✔     	        |  ✔     	|
+| __Multilanguage (EN,DE,RU,FR,ES,KO,VI,CH_ZN,PT_BR🆕)__              | ✔            	| ✔     	        |  ✔     	|
 
 </div>
 

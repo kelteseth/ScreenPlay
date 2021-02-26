@@ -9,8 +9,22 @@ find_package(
     COMPONENTS Quick Core
     REQUIRED)
 
-set(src screenplaysysinfo_plugin.cpp sysinfo.cpp cpu.cpp ram.cpp storage.cpp)
-set(headers screenplaysysinfo_plugin.h sysinfo.h cpu.h ram.h mathhelper.h storage.h)
+set(src
+    screenplaysysinfo_plugin.cpp
+    sysinfo.cpp
+    cpu.cpp
+    ram.cpp
+    storage.cpp
+    uptime.cpp)
+
+set(headers
+    screenplaysysinfo_plugin.h
+    sysinfo.h
+    cpu.h
+    ram.h
+    mathhelper.h
+    storage.h
+    uptime.h)
 
 add_library(${PROJECT_NAME} SHARED ${src} ${headers})
 

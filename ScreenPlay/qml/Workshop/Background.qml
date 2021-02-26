@@ -8,7 +8,7 @@ Rectangle {
     property string backgroundImage: ""
     property int imageOffsetTop: 0
     onImageOffsetTopChanged: {
-        if ((imageOffsetTop * -1) >= 400) {
+        if ((imageOffsetTop * -1) >= 200) {
             root.state = "backgroundColor"
         } else {
             if (root.state !== "backgroundImage") {
@@ -125,7 +125,7 @@ Rectangle {
 
             PropertyChanges {
                 target: bgColor
-                opacity: 0.5
+                opacity: 0.8
             }
             PropertyChanges {
                 target: blur
@@ -140,7 +140,7 @@ Rectangle {
             reversible: true
             PropertyAnimation {
                 targets: [bgImage, bgColor, blur]
-                duration: 1000
+                duration: 500
                 easing.type: Easing.InOutQuart
                 property: "opacity"
             }
@@ -150,8 +150,8 @@ Rectangle {
             to: "backgroundColor"
             reversible: true
             PropertyAnimation {
-                targets: [bgImage, bgColor]
-                duration: 2000
+                targets: [bgImage, bgColor, blur]
+                duration: 200
                 easing.type: Easing.InOutQuart
                 property: "opacity"
             }

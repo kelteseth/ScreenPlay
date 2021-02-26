@@ -15,6 +15,7 @@ import "../Common" as Common
 Item {
     id: navWrapper
     state: "out"
+    height: 52
 
     Rectangle {
         id: nav
@@ -121,10 +122,37 @@ Item {
         Common.Search {
             height: parent.height
             anchors {
-                right: parent.right
-                rightMargin: 30
+                right: btnSortOrder.left
+                rightMargin: 10
                 top: parent.top
             }
+        }
+
+        ToolButton {
+            id: btnSortOrder
+            property int sortOrder: Qt.DescendingOrder
+            onClicked: {
+                sortOrder = (sortOrder
+                             === Qt.DescendingOrder) ? Qt.AscendingOrder : Qt.DescendingOrder
+                ScreenPlay.installedListFilter.setSortOrder(sortOrder)
+            }
+
+            icon.source: (sortOrder === Qt.AscendingOrder) ? "qrc:/assets/icons/icon_sort-down-solid.svg" : "qrc:/assets/icons/icon_sort-up-solid.svg"
+            icon.width: 12
+            icon.height: 12
+            anchors {
+                right: parent.right
+                rightMargin: 10
+                top: parent.top
+                verticalCenter: parent.verticalCenter
+            }
+            hoverEnabled: true
+
+            ToolTip.delay: 100
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: (sortOrder === Qt.AscendingOrder) ? qsTr("Install Date Ascending") : qsTr(
+                                                                  "Install Date Descending")
         }
     }
 

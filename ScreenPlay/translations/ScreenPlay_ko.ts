@@ -1105,12 +1105,12 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
         <translation type="unfinished">위젯</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Navigation.qml" line="33"/>
+        <location filename="../qml/Workshop/Navigation.qml" line="35"/>
         <source> Subscribed items: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Navigation.qml" line="74"/>
+        <location filename="../qml/Workshop/Navigation.qml" line="78"/>
         <source>Upload to the Steam Workshop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1360,47 +1360,52 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="193"/>
+        <location filename="../qml/Settings/Settings.qml" line="188"/>
+        <source>Portuguese (Brazil)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="196"/>
         <source>Theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="194"/>
+        <location filename="../qml/Settings/Settings.qml" line="197"/>
         <source>Switch dark/light theme</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="208"/>
+        <location filename="../qml/Settings/Settings.qml" line="211"/>
         <source>System Default</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="211"/>
+        <location filename="../qml/Settings/Settings.qml" line="214"/>
         <source>Dark</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="214"/>
+        <location filename="../qml/Settings/Settings.qml" line="217"/>
         <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="224"/>
+        <location filename="../qml/Settings/Settings.qml" line="227"/>
         <source>Performance</source>
         <translation>성능</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="239"/>
+        <location filename="../qml/Settings/Settings.qml" line="242"/>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="240"/>
+        <location filename="../qml/Settings/Settings.qml" line="243"/>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="447"/>
+        <location filename="../qml/Settings/Settings.qml" line="450"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1418,82 +1423,82 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="250"/>
+        <location filename="../qml/Settings/Settings.qml" line="253"/>
         <source>Default Fill Mode</source>
         <translation>기본 채우기 설정</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="251"/>
+        <location filename="../qml/Settings/Settings.qml" line="254"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
         <translation>이 값으로 화면에 영상을 어떻게 채울지 설정하세요.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="263"/>
+        <location filename="../qml/Settings/Settings.qml" line="266"/>
         <source>Stretch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="266"/>
+        <location filename="../qml/Settings/Settings.qml" line="269"/>
         <source>Fill</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="269"/>
+        <location filename="../qml/Settings/Settings.qml" line="272"/>
         <source>Contain</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="272"/>
+        <location filename="../qml/Settings/Settings.qml" line="275"/>
         <source>Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="275"/>
+        <location filename="../qml/Settings/Settings.qml" line="278"/>
         <source>Scale-Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="285"/>
+        <location filename="../qml/Settings/Settings.qml" line="288"/>
         <source>About</source>
         <translation>알아보기</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="313"/>
+        <location filename="../qml/Settings/Settings.qml" line="316"/>
         <source>Thank you for using ScreenPlay</source>
         <translation>ScreenPlay를 사용해주셔서 감사합니다</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="328"/>
+        <location filename="../qml/Settings/Settings.qml" line="331"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
         <translation>안녕하세요, ScreenPlay를 개발한, Kelteseth 닉네임을 쓰고 있는 Elias Steurer입니다.  제 소프트웨어를 사용해주셔서 감사합니다. 저를 팔로우하셔서 ScreenPlay의 업데이트 내용을 확인하실 수 있습니다 클릭:</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="417"/>
+        <location filename="../qml/Settings/Settings.qml" line="420"/>
         <source>Version</source>
         <translation>버전</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="418"/>
+        <location filename="../qml/Settings/Settings.qml" line="421"/>
         <source>ScreenPlay Build Version </source>
         <translation>ScreenPlay 빌드 버전 </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="420"/>
+        <location filename="../qml/Settings/Settings.qml" line="423"/>
         <source>Open Changelog</source>
         <translation>변경 이력 열기</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="427"/>
+        <location filename="../qml/Settings/Settings.qml" line="430"/>
         <source>Third Party Software</source>
         <translation>타사 소프트웨어</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="428"/>
+        <location filename="../qml/Settings/Settings.qml" line="431"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation>ScreenPlay 기여자 여러분의 도움에 의해 완성되었습니다. 여러분께 감사드립니다: </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="429"/>
+        <location filename="../qml/Settings/Settings.qml" line="432"/>
         <source>Licenses</source>
         <translation>라이선스</translation>
     </message>
@@ -1502,27 +1507,27 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
         <translation type="vanished">디버그 메시지</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="448"/>
+        <location filename="../qml/Settings/Settings.qml" line="451"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation>ScreenPlay가 올바르게 작동하지 않고 있다면, 이것이 해답이 될 수 있습니다. 이것은 런타임동안의 모든 이력과 경고를 포함하고 있습니다.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="449"/>
+        <location filename="../qml/Settings/Settings.qml" line="452"/>
         <source>Show Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="460"/>
+        <location filename="../qml/Settings/Settings.qml" line="463"/>
         <source>Data Protection</source>
         <translation>데이터 보호</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="461"/>
+        <location filename="../qml/Settings/Settings.qml" line="464"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation>ScreenPlay 향상을 위해 여러분의 익명 데이터를 신중히 사용합니다. 절대 정보를 팔거나 공유하지 않습니다!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="462"/>
+        <location filename="../qml/Settings/Settings.qml" line="465"/>
         <source>Privacy</source>
         <translation>개인 정보</translation>
     </message>
@@ -1605,52 +1610,52 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
         <translation type="vanished">배경화면 만들기</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="90"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="93"/>
         <source>Project size: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="90"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="93"/>
         <source> MB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="96"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="99"/>
         <source>No description...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="240"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="243"/>
         <source>Click here if you like the content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="254"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="256"/>
         <source>Click here if you do not like the content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="290"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="291"/>
         <source>Tags: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="307"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="308"/>
         <source>Subscribtions: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="316"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="317"/>
         <source>Open In Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="358"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="359"/>
         <source>Subscribed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="358"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="359"/>
         <source>Subscribe</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1795,17 +1800,17 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
 <context>
     <name>UploadProject</name>
     <message>
-        <location filename="../qml/Workshop/upload/UploadProject.qml" line="54"/>
+        <location filename="../qml/Workshop/upload/UploadProject.qml" line="55"/>
         <source>Upload Wallpaper/Widgets to Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/upload/UploadProject.qml" line="128"/>
+        <location filename="../qml/Workshop/upload/UploadProject.qml" line="129"/>
         <source>Abort</source>
         <translation type="unfinished">버리기</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/upload/UploadProject.qml" line="143"/>
+        <location filename="../qml/Workshop/upload/UploadProject.qml" line="144"/>
         <source>Upload Selected Projects</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2470,92 +2475,92 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
 <context>
     <name>Workshop</name>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="155"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="164"/>
         <source>Loading</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="166"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="175"/>
         <source>Download now!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="171"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="180"/>
         <source>Downloading...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="178"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="187"/>
         <source>Details</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="202"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="211"/>
         <source>Open In Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="263"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="272"/>
         <source>Search for Wallpaper and Widgets...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="284"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="293"/>
         <source>Open Workshop in Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="294"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="303"/>
         <source>Open GameHub in Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="326"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="335"/>
         <source>Ranked By Vote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="329"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="338"/>
         <source>Publication Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="332"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="341"/>
         <source>Ranked By Trend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="335"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="344"/>
         <source>Favorited By Friends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="338"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="347"/>
         <source>Created By Friends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="341"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="350"/>
         <source>Created By Followed Users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="344"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="353"/>
         <source>Not Yet Rated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="347"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="356"/>
         <source>Total VotesAsc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="350"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="359"/>
         <source>Votes Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="353"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="362"/>
         <source>Total Unique Subscriptions</source>
         <translation type="unfinished"></translation>
     </message>

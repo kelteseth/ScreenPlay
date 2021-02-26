@@ -975,12 +975,12 @@
         <translation>Tiện ích con</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Navigation.qml" line="33"/>
+        <location filename="../qml/Workshop/Navigation.qml" line="35"/>
         <source> Subscribed items: </source>
         <translation>Các mục đã đăng ký: </translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Navigation.qml" line="74"/>
+        <location filename="../qml/Workshop/Navigation.qml" line="78"/>
         <source>Upload to the Steam Workshop</source>
         <translation>Tải lên Steam Workshop</translation>
     </message>
@@ -1182,7 +1182,7 @@
         <translation>Chọn ngôn ngữ cho ScreenPlay</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="224"/>
+        <location filename="../qml/Settings/Settings.qml" line="227"/>
         <source>Performance</source>
         <translation>Hiệu năng</translation>
     </message>
@@ -1232,37 +1232,37 @@
         <translation>Tiếng Việt</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="193"/>
+        <location filename="../qml/Settings/Settings.qml" line="196"/>
         <source>Theme</source>
         <translation>Chủ đề</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="194"/>
+        <location filename="../qml/Settings/Settings.qml" line="197"/>
         <source>Switch dark/light theme</source>
         <translation>Chuyển giữa chủ đề tối/sáng</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="208"/>
+        <location filename="../qml/Settings/Settings.qml" line="211"/>
         <source>System Default</source>
         <translation>Mặc định theo hệ thống</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="211"/>
+        <location filename="../qml/Settings/Settings.qml" line="214"/>
         <source>Dark</source>
         <translation>Tối</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="214"/>
+        <location filename="../qml/Settings/Settings.qml" line="217"/>
         <source>Light</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="239"/>
+        <location filename="../qml/Settings/Settings.qml" line="242"/>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
         <translation>Tạm dừng hiện video khi mà những ứng dụng khác đang toàn màn hình</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="240"/>
+        <location filename="../qml/Settings/Settings.qml" line="243"/>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
         <translation>Chúng tôi không hiện video (vẫn có âm thanh!) cho một hiệu năng tốt nhất. Nếu bạn gặp sự cố bạn có thể tắt tùy chọn này. Cần khởi động lại hình nền!</translation>
     </message>
@@ -1272,87 +1272,92 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="250"/>
+        <location filename="../qml/Settings/Settings.qml" line="188"/>
+        <source>Portuguese (Brazil)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="253"/>
         <source>Default Fill Mode</source>
         <translation>Chế độ phủ mặc định</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="251"/>
+        <location filename="../qml/Settings/Settings.qml" line="254"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
         <translation>Đặt thuộc tính này để xác định cách chia tỷ lệ video để phù hợp với màn hình.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="263"/>
+        <location filename="../qml/Settings/Settings.qml" line="266"/>
         <source>Stretch</source>
         <translation>Kéo dãn</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="266"/>
+        <location filename="../qml/Settings/Settings.qml" line="269"/>
         <source>Fill</source>
         <translation>Lấp đầy</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="269"/>
+        <location filename="../qml/Settings/Settings.qml" line="272"/>
         <source>Contain</source>
         <translation>Bên trong</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="272"/>
+        <location filename="../qml/Settings/Settings.qml" line="275"/>
         <source>Cover</source>
         <translation>Bọc</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="275"/>
+        <location filename="../qml/Settings/Settings.qml" line="278"/>
         <source>Scale-Down</source>
         <translation>Giảm độ phân giải</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="285"/>
+        <location filename="../qml/Settings/Settings.qml" line="288"/>
         <source>About</source>
         <translation>Về ứng dụng</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="313"/>
+        <location filename="../qml/Settings/Settings.qml" line="316"/>
         <source>Thank you for using ScreenPlay</source>
         <translation>Cảm ơn bạn đã sử dụng ScreenPlay</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="328"/>
+        <location filename="../qml/Settings/Settings.qml" line="331"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
         <translation>Chào, tôi là Elias Steurer (hay còn được biết đến là Kelteseth) và tôi là nhà phát triển của ScreenPlay. Cảm ơn ban đã sử dụng ứng dụng của tôi. Bạn có thể theo dõi tôi ở đây để nhận tin tức về ScreenPlay:</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="417"/>
+        <location filename="../qml/Settings/Settings.qml" line="420"/>
         <source>Version</source>
         <translation>Phiên bản</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="418"/>
+        <location filename="../qml/Settings/Settings.qml" line="421"/>
         <source>ScreenPlay Build Version </source>
         <translation>Bản dựng của ScreenPlay </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="420"/>
+        <location filename="../qml/Settings/Settings.qml" line="423"/>
         <source>Open Changelog</source>
         <translation>Mở changelog</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="427"/>
+        <location filename="../qml/Settings/Settings.qml" line="430"/>
         <source>Third Party Software</source>
         <translation>Những ứng dụng của bên thứ ba</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="428"/>
+        <location filename="../qml/Settings/Settings.qml" line="431"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation>ScreenPlay sẽ không thể có được néu như không có việc làm của những người khác. Một sự cảm ơn to lớn cho: </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="429"/>
+        <location filename="../qml/Settings/Settings.qml" line="432"/>
         <source>Licenses</source>
         <translation>Giấy phép</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="447"/>
+        <location filename="../qml/Settings/Settings.qml" line="450"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1361,27 +1366,27 @@
         <translation type="vanished">Các ghi chú gỡ lỗi</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="448"/>
+        <location filename="../qml/Settings/Settings.qml" line="451"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation>Nếu ScreenPlay của bạn không hoạt động bình thường thì đây là cách tốt để tìm ra câu trả lời. Cái này sẽ hiện tất cả các ghi chú và cảnh báo trong lúc ứng dụng chạy.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="449"/>
+        <location filename="../qml/Settings/Settings.qml" line="452"/>
         <source>Show Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="460"/>
+        <location filename="../qml/Settings/Settings.qml" line="463"/>
         <source>Data Protection</source>
         <translation>Bảo vệ dữ liệu</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="461"/>
+        <location filename="../qml/Settings/Settings.qml" line="464"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation>Chúng tôi dùng dữ liệu của bạn rất cẩn thận để cải thiện ScreenPlay. Chúng tôi không bán thông tin của bạn với người khác!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="462"/>
+        <location filename="../qml/Settings/Settings.qml" line="465"/>
         <source>Privacy</source>
         <translation>Quyền riêng tư</translation>
     </message>
@@ -1452,52 +1457,52 @@
         <translation>Chọn hình nền</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="90"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="93"/>
         <source>Project size: </source>
         <translation>Kích thước dự án: </translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="90"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="93"/>
         <source> MB</source>
         <translation>MB</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="96"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="99"/>
         <source>No description...</source>
         <translation>Không có mô tả...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="240"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="243"/>
         <source>Click here if you like the content</source>
         <translation>Bấm vào đây nếu bạn thích nội dung này</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="254"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="256"/>
         <source>Click here if you do not like the content</source>
         <translation>Bấm vào đây nếu bạn không thích nội dung này</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="290"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="291"/>
         <source>Tags: </source>
         <translation>Từ khóa:</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="307"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="308"/>
         <source>Subscribtions: </source>
         <translation>Đăng ký: </translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="316"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="317"/>
         <source>Open In Steam</source>
         <translation>Mở trên Steam</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="358"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="359"/>
         <source>Subscribed!</source>
         <translation>Đã đăng ký!</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="358"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="359"/>
         <source>Subscribe</source>
         <translation>Đăng ký</translation>
     </message>
@@ -1642,17 +1647,17 @@
 <context>
     <name>UploadProject</name>
     <message>
-        <location filename="../qml/Workshop/upload/UploadProject.qml" line="54"/>
+        <location filename="../qml/Workshop/upload/UploadProject.qml" line="55"/>
         <source>Upload Wallpaper/Widgets to Steam</source>
         <translation>Tải hình nền/tiện ích con lên Steam</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/upload/UploadProject.qml" line="128"/>
+        <location filename="../qml/Workshop/upload/UploadProject.qml" line="129"/>
         <source>Abort</source>
         <translation>Hủy</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/upload/UploadProject.qml" line="143"/>
+        <location filename="../qml/Workshop/upload/UploadProject.qml" line="144"/>
         <source>Upload Selected Projects</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2321,94 +2326,94 @@
 <context>
     <name>Workshop</name>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="155"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="164"/>
         <source>Loading</source>
         <translation>Đang tải</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="166"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="175"/>
         <source>Download now!</source>
         <translation>Tải xuống ngay!</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="171"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="180"/>
         <source>Downloading...</source>
         <translation>Đang tải xuống...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="178"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="187"/>
         <source>Details</source>
         <translation>Chi tiết</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="202"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="211"/>
         <source>Open In Steam</source>
         <translation>Mở trên Steam</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="263"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="272"/>
         <source>Search for Wallpaper and Widgets...</source>
         <translation>Tìm hình nền &amp; cảnh...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="284"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="293"/>
         <source>Open Workshop in Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="294"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="303"/>
         <source>Open GameHub in Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="326"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="335"/>
         <source>Ranked By Vote</source>
         <translation>Xếp hạng bởi số phiếu.</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="329"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="338"/>
         <source>Publication Date</source>
         <translation>Ngày tải lên</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="332"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="341"/>
         <source>Ranked By Trend</source>
         <translation>Xếp hạng bởi trend</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="335"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="344"/>
         <source>Favorited By Friends</source>
         <translation>Được yêu thích bởi bạn bè</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="338"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="347"/>
         <source>Created By Friends</source>
         <translation>Tạo bởi bạn bè</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="341"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="350"/>
         <source>Created By Followed Users</source>
         <translation>Tạo bởi người đã theo dỗi</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="344"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="353"/>
         <source>Not Yet Rated</source>
         <translation>Chưa được xếp hạng</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="347"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="356"/>
         <source>Total VotesAsc</source>
         <translatorcomment>????</translatorcomment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="350"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="359"/>
         <source>Votes Up</source>
         <translatorcomment>?????</translatorcomment>
         <translation>Số phiếu đang lên cao</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="353"/>
+        <location filename="../qml/Workshop/Workshop.qml" line="362"/>
         <source>Total Unique Subscriptions</source>
         <translation>Tổng số đăng ký duy nhất</translation>
     </message>

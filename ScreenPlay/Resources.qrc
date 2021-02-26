@@ -134,5 +134,8 @@
         <file>translations/ScreenPlay_vi.qm</file>
         <file>translations/ScreenPlay_zh_cn.qm</file>
         <file>assets/images/Early_Access.png</file>
+        <file>translations/ScreenPlay_pt_br.qm</file>
+        <file>assets/icons/icon_sort-up-solid.svg</file>
+        <file>assets/icons/icon_sort-down-solid.svg</file>
     </qresource>
 </RCC>

@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
-import ScreenPlay.Workshop 1.0 as SP
+import ScreenPlay.Workshop 1.0
 
 import ScreenPlay 1.0
 
@@ -17,8 +17,8 @@ Item {
     property var publishedFileID: 0
     property int itemIndex
     property int subscriptionCount
-
     property bool isDownloading: false
+    property SteamWorkshop steamWorkshop
 
     signal clicked(var publishedFileID, url imgUrl)
 
@@ -219,35 +219,6 @@ Item {
                     root.clicked(root.publishedFileID, root.imgUrl)
                 }
             }
-            MouseArea {
-                cursorShape: Qt.PointingHandCursor
-                height: 50
-                anchors {
-                    right: parent.right
-                    left: parent.left
-                    bottom: parent.bottom
-                }
-
-                onClicked: {
-                    isDownloading = true
-                    root.state = "downloading"
-                    SP.Workshop.steamWorkshop.subscribeItem(
-                                root.publishedFileID)
-                    ScreenPlay.setTrackerSendEvent("subscribeItem",
-                                                   root.publishedFileID)
-                }
-
-                Connections {
-                    target: SP.Workshop.steamWorkshop
-                    function onWorkshopItemInstalled(appID, publishedFileID) {
-                        if (appID === SP.Workshop.steamWorkshop.appID
-                                && publishedFileID === root.publishedFileID) {
-                            root.state = "installed"
-                        }
-                    }
-                }
-            }
-
             MouseArea {
                 height: 20
                 width: 20

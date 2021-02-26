@@ -121,6 +121,7 @@ public:
         Es,
         Ko,
         Vi,
+        Pt_BR,
         Zh_CN,
     };
     Q_ENUM(Language)

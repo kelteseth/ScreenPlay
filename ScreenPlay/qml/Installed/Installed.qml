@@ -74,7 +74,7 @@ Item {
 
     Connections {
         target: ScreenPlay.installedListFilter
-        function onSortChanged(){
+        function onSortChanged() {
             gridView.positionViewAtBeginning()
         }
     }
@@ -97,7 +97,7 @@ Item {
         }
         header: Item {
             height: 82
-            width: parent.width
+            width: parent.width - gridView.leftMargin
             property bool isVisible: false
             opacity: 0
             onIsVisibleChanged: {
@@ -265,7 +265,6 @@ Item {
 
     Navigation {
         id: navWrapper
-        height: 115
         anchors {
             top: parent.top
             right: parent.right

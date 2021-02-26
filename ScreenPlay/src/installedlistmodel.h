@@ -36,6 +36,7 @@
 
 #include <QAbstractListModel>
 #include <QByteArray>
+#include <QDateTime>
 #include <QDebug>
 #include <QDir>
 #include <QDirIterator>
@@ -53,9 +54,9 @@
 #include <QVector>
 #include <QtConcurrent/QtConcurrent>
 
+#include "ScreenPlayUtil/projectfile.h"
 #include "globalvariables.h"
 #include "profilelistmodel.h"
-#include "ScreenPlayUtil/projectfile.h"
 #include "util.h"
 
 #include <memory>
@@ -87,6 +88,7 @@ public:
         PublishedFileID,
         Tags,
         SearchType,
+        LastModified,
     };
     Q_ENUM(ScreenPlayItem)
 
@@ -99,7 +101,7 @@ public slots:
     QVariantMap get(const QString& folderId) const;
 
     void loadInstalledContent();
-    void append(const QJsonObject&, const QString&);
+    void append(const QJsonObject&, const QString&, const QDateTime& lastModified);
     void reset();
     void init();
     bool deinstallItemAt(const int index);
@@ -114,7 +116,6 @@ public slots:
     }
 
 signals:
-    void addInstalledItem(const QJsonObject, const QString);
     void installedLoadingFinished();
     void countChanged(int count);
 

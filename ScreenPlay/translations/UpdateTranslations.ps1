@@ -16,10 +16,10 @@ Function Execute-Command ($commandTitle, $commandPath, $commandArguments)
     Write-Output $p.StandardError.ReadToEnd()
     Write-Output "Exit code: $exitcodestr"
 }
-$MSVCPATH = Read-Host 'Type your ABSOLUTE Qt "bin" directory (default is C:\Qt\5.15.1\msvc2019_64\bin)'
+$MSVCPATH = Read-Host 'Type your ABSOLUTE Qt "bin" directory (default is C:\Qt\5.15.2\msvc2019_64\bin)'
 if ($MSVCPATH -eq "") {
     echo "Using default directory..."
-    $MSVCPATH = "C:\Qt\5.15.1\msvc2019_64\bin"
+    $MSVCPATH = "C:\Qt\5.15.2\msvc2019_64\bin"
 }
 echo "Testing directory..."
 if (((Test-Path -Path "$MSVCPATH\lupdate.exe") -eq $true) -and ((Test-Path -Path "$MSVCPATH\lrelease.exe") -eq $true)) {
