@@ -5,9 +5,9 @@
 git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git ScreenPlay
 ```
 3. Download the latest __Qt 5.15.x__ for you platform. Earlier versions are not supported!
-    1. [Install instructions Windows](##Windows)
-    1. [Install instructions Linux](##Linux)
-    1. [Install instructions MacOSX](##MacOSX)
+    1. [Install instructions Windows](#windows)
+    1. [Install instructions Linux](#linux)
+    1. [Install instructions MacOSX](#macosx)
 4. Start install-dependencies.bat to download dependencies. This will create a ScreenPlay-vcpkg folder in the same directory as your ScreenPlay source folder. 
 ``` bash
 #Windows
