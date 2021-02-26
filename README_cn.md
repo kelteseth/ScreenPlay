@@ -53,8 +53,8 @@ ScreenPlay 是一款开源、跨平台，显示视频壁纸，部件和桌面应
 * [部件引导](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/widgets/) - 通用引导，如何创建部件。
 ScreenPlay使用易于学习的 QML 语言。无需任何编程知识！
 * [Storage Widget](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_Storage/). Display your drives and usage.
-* [CPU Usage Widget](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_CPU/). Displays your current CPU usage.
-* [RSS Feed Widget](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_RSS/). Display news as a rss widget.
+* [CPU 占用部件](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_CPU/) 显示您当前的CPU使用情况
+* [RSS订阅部件](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_RSS/) 以RSS部件显示新闻，
 
 
 # 一般贡献
