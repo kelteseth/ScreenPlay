@@ -4,45 +4,52 @@
 ``` bash
 git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git ScreenPlay
 ```
-3. Download the latest [__Qt 5.15__](https://www.qt.io/download-qt-installer). Earlier versions are not supported!
-4. Start install-dependencies.bat to download dependencies. ATTENTION: This will create a ScreenPlay-vcpkg folder in the same directory as your ScreenPlay source folder. 
+3. Download the latest __Qt 5.15.x__ for you platform. Earlier versions are not supported!
+    1. [Install instructions Windows](##Windows)
+    1. [Install instructions Linux](##Linux)
+    1. [Install instructions MacOSX](##MacOSX)
+4. Start install-dependencies.bat to download dependencies. This will create a ScreenPlay-vcpkg folder in the same directory as your ScreenPlay source folder. 
 ``` bash
-//Windows
-.\Tools\install-dependencies.bat
+#Windows
+cd Tools
+.\install_dependencies_windows.bat
 
-//Linux
-sudo apt install git gcc cmake build-essential libgl1-mesa-dev
-chmod +x install-dependencies.sh
-.\Tools\install-dependencies.sh
+#Linux and MacOSX
+cd Tools
+chmod +x install_dependencies_linux_mac.sh
+.\install_dependencies_linux_mac.sh
 ```
    * This will install these dependencies via __vcpkg__
       * openSSL 1.1.1d
       * sentry-native
-   * Download these dependencies via __git submodules__
-      * qt-google-analytics
-   * Download ffmpeg binaries
-5. **Follow the steps below for your OS**. 
-6. Open the CMakeLists.txt via QtCreator. **This can take some time until QtCreator parses all files!**
+      * doctest
+   * Download ffmpeg binaries from https://www.gyan.dev
+5. Open the CMakeLists.txt via QtCreator. **This can take some time until QtCreator parses all files!**
 
-7. Add CMake variables
+6. Add CMake variables
     * Add CMAKE_TOOLCHAIN_FILE and VCPKG_TARGET_TRIPLET
-       * Extras -> Tools -> Kits -> <Your Kit> -> CMake Configuration -> Append this:
-       * CMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/../ScreenPlay-vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake
-       * VCPKG_TARGET_TRIPLET:STRING=x64-windows
-       * or  Linux: x64-linux MacOSX: x64-osx
-
+       * `Extras -> Tools -> Kits -> <Your Kit> -> CMake Configuration`
+    
+Append this:
+``` bash
+CMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/../ScreenPlay-vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake
+# Only _one_ of these lines that match your OS:
+VCPKG_TARGET_TRIPLET:STRING=x64-windows
+VCPKG_TARGET_TRIPLET:STRING=x64-linux
+VCPKG_TARGET_TRIPLET:STRING=x64-osx
+```
 <div>
 <img width="100%" height="auto" src="../.gitlab/media/QtCreator_kit.png">
 </div>
 
-8. Check if Ninja is selected
-    * Extras -> Tools -> Kits -> <Your Kit> -> CMakeGenerator -> Change to:
-        * Generator: Ninja
-        * Extra Generator: CodeBlocks
-9. Save and close the settings.
-10. Press build (the big green play button). This will compile the project and copy all necessary files into your Qt installation.
+8. Save and close the settings.
+9. Open Project via `File -> Open File or Project` and select your `CMakeLists.txt`. Then select __our created kit__, press `Configure Project`
+<div>
+<img width="100%" height="auto" src="../.gitlab/media/QtCreator_kit_select.png">
+</div>
+9. Press build (the big green play button on the bottom left). This will compile and start ScreenPlay and copy all necessary files into your Qt installation.
 
-### Windows
+## Windows
 1. [Download and install the most recent MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)
     - Select "Desktop development with C++"
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
@@ -55,7 +62,7 @@ chmod +x install-dependencies.sh
             - Cmake
             - Ninja
 
-### Linux
+## Linux
 1. Install dependencies for your distro:
 ``` bash
 # Debian/Ubuntu
@@ -71,14 +78,19 @@ sudo zypper install -t pattern devel_basis
 2. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.15.1
+        - Qt 5.15.2
             - GCC
             - Qt WebEngine
-### OSX
+        - Developer and Designer Tools
+            - OpenSSL 1.1.1.c Toolkit
+                - OpenSSL 64-bit binaries
+            - Cmake
+            - Ninja
+## MacOSX
 1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 5.15.1
+        - Qt 5.15.2
             - Qt WebEngine
         - Developer and Designer Tools
             - OpenSSL 1.1.1.c Toolkit
