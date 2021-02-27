@@ -18,7 +18,7 @@ ScreenPlay [![pipeline status](https://gitlab.com/kelteseth/ScreenPlay/badges/ma
 
 
 <br>
-ScreenPlay 是一款开源、跨平台，显示视频壁纸，部件和桌面应用的软件。它以现代的 C++20/Qt5/QML编写。
+ScreenPlay 是一款开源、跨平台，显示视频壁纸，部件，应用抽屉的软件。它以现代的 C++20/Qt5/QML编写。
 带有创意工坊支持的二进制（在 Windows ，以及不久的 Linux 及 MacOSX 可用）可以通过<a href="https://store.steampowered.com/app/672870/ScreenPlay/">Steam</a>获取。加入我们（英语）：<a href="https://screen-play.app/">首页</a> - <a href="https://forum.screen-play.app/">论坛</a>
 
 <br> 
