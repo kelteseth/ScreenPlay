@@ -29,6 +29,30 @@ std::optional<QJsonObject> openJsonFileToObject(const QString& path)
     return jsonDocument.object();
 }
 
+bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate)
+{
+    QFile configTmp;
+    configTmp.setFileName(absoluteFilePath);
+    QIODevice::OpenMode openMode;
+    if (truncate) {
+        openMode = QIODevice::ReadWrite | QIODevice::Truncate;
+    } else {
+        openMode = QIODevice::ReadWrite | QIODevice::Append;
+    }
+
+    if (!configTmp.open(openMode)) {
+        qWarning() << "Could not open out file!" << configTmp.errorString();
+        return false;
+    }
+
+    QTextStream out(&configTmp);
+    out.setCodec("UTF-8");
+    out << QJsonDocument(object).toJson();
+
+    configTmp.close();
+    return true;
+}
+
 /*!
   \brief  Opens a json file (absolute path) and tries to convert it to a QString.
   Returns std::nullopt when not successful.
@@ -268,6 +292,12 @@ bool isWidget(const ScreenPlay::InstalledType::InstalledType type)
     using ScreenPlay::InstalledType::InstalledType;
 
     return (type == InstalledType::QMLWidget || type == InstalledType::HTMLWidget);
+}
+
+QStringList getAvailableFillModes()
+{
+    // https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
+    return { "stretch", "fill", "contain", "cover", "scale-down" };
 }
 
 }

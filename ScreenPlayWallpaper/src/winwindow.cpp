@@ -74,14 +74,17 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 
 void WinWindow::setupWindowMouseHook()
 {
+    using ScreenPlay::InstalledType::InstalledType;
+
     // MUST be called before setting hook for events!
-    if (type() != ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
+    if (type() != InstalledType::VideoWallpaper && type() != InstalledType::GifWallpaper) {
         qInfo() << "Enable mousehook";
         g_winGlobalHook = &m_window;
 
         HINSTANCE hInstance = GetModuleHandle(NULL);
         if (!(g_mouseHook = SetWindowsHookEx(WH_MOUSE_LL, MouseHookCallback, hInstance, 0))) {
-            qDebug() << "Faild to install mouse hook!";
+            qInfo() << "Faild to install mouse hook!";
+            return;
         }
         qInfo() << "Setup mousehook";
     }
@@ -343,7 +346,6 @@ void WinWindow::checkForFullScreenWindow()
 
 void WinWindow::terminate()
 {
-
     ShowWindow(m_windowHandle, SW_HIDE);
 
     // Force refresh so that we display the regular
@@ -351,7 +353,7 @@ void WinWindow::terminate()
     ShowWindow(m_windowHandleWorker, SW_HIDE);
     ShowWindow(m_windowHandleWorker, SW_SHOW);
 
-    QCoreApplication::quit();
+    QApplication::quit();
 }
 
 void WinWindow::clearComponentCache()

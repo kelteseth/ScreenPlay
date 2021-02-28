@@ -327,12 +327,10 @@ public slots:
 
         fillMode = fillMode.toLower();
 
-        QStringList availableFillModes { "stretch", "fill", "contain", "cover", "scale-down" };
-
-        if (!availableFillModes.contains(fillMode)) {
+        if (!ScreenPlayUtil::getAvailableFillModes().contains(fillMode)) {
             qWarning() << "Unable to set fillmode, the provided value did not match the available values"
                        << "Provided: " << fillMode
-                       << "Available: " << availableFillModes;
+                       << "Available: " << ScreenPlayUtil::getAvailableFillModes();
             return;
         }
 
@@ -383,7 +381,7 @@ public slots:
         if (m_visualsPaused == visualsPaused)
             return;
 
-        qDebug() << "visualsPaused: " << visualsPaused;
+        qInfo() << "visualsPaused: " << visualsPaused;
 
         m_visualsPaused = visualsPaused;
         emit visualsPausedChanged(m_visualsPaused);

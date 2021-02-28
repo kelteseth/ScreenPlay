@@ -72,7 +72,7 @@ void ScreenPlay::SDKConnection::readyRead()
         }
     } else if (msg.startsWith("{") && msg.endsWith("}")) {
         QJsonObject obj;
-        QJsonParseError err;
+        QJsonParseError err {};
         QJsonDocument doc = QJsonDocument::fromJson(QByteArray { msg.toUtf8() }, &err);
 
         if (err.error != QJsonParseError::NoError)

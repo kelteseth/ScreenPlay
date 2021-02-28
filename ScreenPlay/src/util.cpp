@@ -58,6 +58,7 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
     }
 
     if (!configTmp.open(openMode)) {
+        qWarning() << "Could not open out file!" << configTmp.errorString();
         return false;
     }
 

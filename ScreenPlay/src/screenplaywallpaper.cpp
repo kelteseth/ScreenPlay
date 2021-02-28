@@ -91,6 +91,9 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
 
     m_process.setArguments(proArgs);
     m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
+    // We must start detatched otherwise we would instantly close the process
+    // and would loose the animted fade-out and the background refresh needed
+    // to display the original wallpaper.
     const bool success = m_process.startDetached();
     qInfo() << "Starting ScreenPlayWallpaper detached: " << (success ? "success" : "failed!");
     if (!success) {
@@ -181,23 +184,23 @@ void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
 void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>& connection)
 {
     m_connection = connection;
-    QTimer::singleShot(500, [this]() {
+
+    QTimer::singleShot(1000, [this]() {
         if (playbackRate() != 1.0) {
             setWallpaperValue("playbackRate", QString::number(playbackRate()), false);
         }
-    });
 
+        QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
+            qInfo() << "For " << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Wallpaper is dead and likely crashed!";
+            emit requestClose(m_appID);
+        });
+        m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
+    });
     // Check every X seconds if the wallpaper is still alive
     QObject::connect(m_connection.get(), &SDKConnection::pingAliveReceived, this, [this]() {
         m_pingAliveTimer.stop();
-        m_pingAliveTimer.start(16000);
+        m_pingAliveTimer.start(GlobalVariables::contentPingAliveIntervalMS);
     });
-
-    QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, [this]() {
-        qInfo() << "For " << m_pingAliveTimer.interval() << "ms no alive signal received. This means the Wallpaper is dead and likely crashed!";
-        emit requestClose(m_appID);
-    });
-    m_pingAliveTimer.start(16000);
 }
 
 /*!
@@ -225,7 +228,7 @@ void ScreenPlayWallpaper::replace(
     obj.insert("command", "replace");
     obj.insert("type", QVariant::fromValue(type).toString());
     obj.insert("fillMode", QVariant::fromValue(fillMode).toString());
-    obj.insert("volume", std::floor(volume * 100.0f) / 100.0f);
+    obj.insert("volume", std::floor(volume * 100.0F) / 100.0f);
     obj.insert("absolutePath", absolutePath);
     obj.insert("file", file);
     obj.insert("checkWallpaperVisible", checkWallpaperVisible);

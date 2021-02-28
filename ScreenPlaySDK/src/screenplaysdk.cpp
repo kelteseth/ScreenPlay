@@ -43,7 +43,7 @@ void ScreenPlaySDK::init()
         }
 
         QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlaySDK::pingAlive);
-        m_pingAliveTimer.start(5000);
+        m_pingAliveTimer.start(1000);
     });
 }
 

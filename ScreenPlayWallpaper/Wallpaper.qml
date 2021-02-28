@@ -111,6 +111,15 @@ Rectangle {
     Loader {
         id: loader
         anchors.fill: parent
+        // QML Engine deadlocks in 5.15.2 when a loader cannot load
+        // an item. QApplication::quit(); waits for the destruction forever.
+        asynchronous: true
+        onStatusChanged: {
+            if (loader.status === Loader.Error) {
+                loader.source = ""
+                Wallpaper.terminate()
+            }
+        }
         Connections {
             ignoreUnknownSignals: true
             target: loader.item
@@ -129,7 +138,6 @@ Rectangle {
             right: parent.right
         }
         state: "in"
-        onStatusChanged: print(status,source)
         sourceSize.width: Wallpaper.width
         sourceSize.height: Wallpaper.height
         source: {

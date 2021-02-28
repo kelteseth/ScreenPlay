@@ -40,12 +40,12 @@
 #include <QProcess>
 #include <QtWebSockets/QWebSocket>
 
+#include "ScreenPlayUtil/projectfile.h"
 #include "ganalytics.h"
 #include "globalvariables.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
 #include "profilelistmodel.h"
-#include "ScreenPlayUtil/projectfile.h"
 #include "projectsettingslistmodel.h"
 #include "screenplaywallpaper.h"
 #include "screenplaywidget.h"

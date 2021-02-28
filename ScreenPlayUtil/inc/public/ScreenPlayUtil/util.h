@@ -60,6 +60,7 @@ QString executableEnding();
 QStringList getAvailableWallpaper();
 QStringList getAvailableWidgets();
 QStringList getAvailableTypes();
+QStringList getAvailableFillModes();
 bool isWallpaper(const ScreenPlay::InstalledType::InstalledType type);
 bool isWidget(const ScreenPlay::InstalledType::InstalledType type);
 }
