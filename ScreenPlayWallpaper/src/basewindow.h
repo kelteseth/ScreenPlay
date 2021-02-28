@@ -80,95 +80,24 @@ public:
     Q_PROPERTY(ScreenPlay::InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
 
-    bool loops() const
-    {
-        return m_loops;
-    }
-
-    float volume() const
-    {
-        return m_volume;
-    }
-
-    bool isPlaying() const
-    {
-        return m_isPlaying;
-    }
-
-    float playbackRate() const
-    {
-        return m_playbackRate;
-    }
-
-    ScreenPlay::InstalledType::InstalledType type() const
-    {
-        return m_type;
-    }
-
-    QString fullContentPath() const
-    {
-        return m_fullContentPath;
-    }
-
-    QString appID() const
-    {
-        return m_appID;
-    }
-
-    QString OSVersion() const
-    {
-        return m_OSVersion;
-    }
-
-    bool muted() const
-    {
-        return m_muted;
-    }
-
-    float currentTime() const
-    {
-        return m_currentTime;
-    }
-
-    bool canFade() const
-    {
-        return m_canFade;
-    }
-
-    QString fillMode() const
-    {
-        return m_fillMode;
-    }
-
-    int width() const
-    {
-        return m_width;
-    }
-
-    int height() const
-    {
-        return m_height;
-    }
-
-    QVector<int> activeScreensList() const
-    {
-        return m_activeScreensList;
-    }
-
-    bool checkWallpaperVisible() const
-    {
-        return m_checkWallpaperVisible;
-    }
-
-    bool visualsPaused() const
-    {
-        return m_visualsPaused;
-    }
-
-    QString basePath() const
-    {
-        return m_basePath;
-    }
+    bool loops() const { return m_loops; }
+    float volume() const { return m_volume; }
+    bool isPlaying() const { return m_isPlaying; }
+    float playbackRate() const { return m_playbackRate; }
+    ScreenPlay::InstalledType::InstalledType type() const { return m_type; }
+    QString fullContentPath() const { return m_fullContentPath; }
+    QString appID() const { return m_appID; }
+    QString OSVersion() const { return m_OSVersion; }
+    bool muted() const { return m_muted; }
+    float currentTime() const { return m_currentTime; }
+    bool canFade() const { return m_canFade; }
+    QString fillMode() const { return m_fillMode; }
+    int width() const { return m_width; }
+    int height() const { return m_height; }
+    QVector<int> activeScreensList() const { return m_activeScreensList; }
+    bool checkWallpaperVisible() const { return m_checkWallpaperVisible; }
+    bool visualsPaused() const { return m_visualsPaused; }
+    QString basePath() const { return m_basePath; }
 
 signals:
     void qmlExit();
@@ -209,11 +138,7 @@ public slots:
         const bool checkWallpaperVisible) final;
 
     QString loadFromFile(const QString& filename);
-
-    QString getApplicationPath()
-    {
-        return QApplication::applicationDirPath();
-    }
+    QString getApplicationPath();
 
     void setLoops(bool loops)
     {
@@ -253,7 +178,6 @@ public slots:
         m_playbackRate = playbackRate;
         emit playbackRateChanged(m_playbackRate);
     }
-
     void setType(ScreenPlay::InstalledType::InstalledType type)
     {
         if (m_type == type)
@@ -262,7 +186,6 @@ public slots:
         m_type = type;
         emit typeChanged(m_type);
     }
-
     void setFullContentPath(QString fullContentPath)
     {
         if (m_fullContentPath == fullContentPath)
@@ -271,7 +194,6 @@ public slots:
         m_fullContentPath = fullContentPath;
         emit fullContentPathChanged(m_fullContentPath);
     }
-
     void setAppID(QString appID)
     {
         if (m_appID == appID)
@@ -280,7 +202,6 @@ public slots:
         m_appID = appID;
         emit appIDChanged(m_appID);
     }
-
     void setOSVersion(QString OSVersion)
     {
         if (m_OSVersion == OSVersion)
@@ -289,7 +210,6 @@ public slots:
         m_OSVersion = OSVersion;
         emit OSVersionChanged(m_OSVersion);
     }
-
     void setMuted(bool muted)
     {
         if (m_muted == muted)
@@ -298,7 +218,6 @@ public slots:
         m_muted = muted;
         emit mutedChanged(m_muted);
     }
-
     void setCurrentTime(float currentTime)
     {
         if (currentTime < 0.0f || currentTime > 100000000000.0f)
@@ -310,7 +229,6 @@ public slots:
         m_currentTime = currentTime;
         emit currentTimeChanged(m_currentTime);
     }
-
     void setCanFade(bool canFade)
     {
         if (m_canFade == canFade)
@@ -319,7 +237,6 @@ public slots:
         m_canFade = canFade;
         emit canFadeChanged(m_canFade);
     }
-
     void setFillMode(QString fillMode)
     {
         if (m_fillMode == fillMode)
@@ -339,7 +256,6 @@ public slots:
         m_fillMode = fillMode.toLower();
         emit fillModeChanged(m_fillMode);
     }
-
     void setWidth(int width)
     {
         if (m_width == width)
@@ -348,7 +264,6 @@ public slots:
         m_width = width;
         emit widthChanged(m_width);
     }
-
     void setHeight(int height)
     {
         if (m_height == height)
@@ -357,7 +272,6 @@ public slots:
         m_height = height;
         emit heightChanged(m_height);
     }
-
     void setActiveScreensList(QVector<int> activeScreensList)
     {
         if (m_activeScreensList == activeScreensList)
@@ -366,7 +280,6 @@ public slots:
         m_activeScreensList = activeScreensList;
         emit activeScreensListChanged(m_activeScreensList);
     }
-
     void setCheckWallpaperVisible(bool checkWallpaperVisible)
     {
         if (m_checkWallpaperVisible == checkWallpaperVisible)
@@ -375,7 +288,6 @@ public slots:
         m_checkWallpaperVisible = checkWallpaperVisible;
         emit checkWallpaperVisibleChanged(m_checkWallpaperVisible);
     }
-
     void setVisualsPaused(bool visualsPaused)
     {
         if (m_visualsPaused == visualsPaused)
@@ -386,7 +298,6 @@ public slots:
         m_visualsPaused = visualsPaused;
         emit visualsPausedChanged(m_visualsPaused);
     }
-
     void setBasePath(QString basePath)
     {
         if (m_basePath == basePath)

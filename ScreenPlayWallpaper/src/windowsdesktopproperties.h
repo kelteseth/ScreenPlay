@@ -66,48 +66,19 @@ public:
      * 22 -> span
      */
 
-    QString wallpaperPath() const
-    {
-        return m_wallpaperPath;
-    }
-
-    QPoint position() const
-    {
-        return m_position;
-    }
-
-    bool isTiled() const
-    {
-        return m_isTiled;
-    }
-
-    int wallpaperStyle() const
-    {
-        return m_wallpaperStyle;
-    }
-
-    QColor color() const
-    {
-        return m_color;
-    }
-
-    int windowsVersion() const
-    {
-        return m_windowsVersion;
-    }
+    QString wallpaperPath() const { return m_wallpaperPath; }
+    QPoint position() const { return m_position; }
+    bool isTiled() const { return m_isTiled; }
+    int wallpaperStyle() const { return m_wallpaperStyle; }
+    QColor color() const { return m_color; }
+    int windowsVersion() const { return m_windowsVersion; }
 
 signals:
-
     void wallpaperPathChanged(QString wallpaperPath);
-
     void positionChanged(QPoint position);
-
     void isTiledChanged(bool isTiled);
-
     void wallpaperStyleChanged(int wallpaperStyle);
-
     void colorChanged(QColor color);
-
     void windowsVersionChanged(int windowsVersion);
 
 public slots:
@@ -143,7 +114,6 @@ public slots:
         m_wallpaperStyle = wallpaperStyle;
         emit wallpaperStyleChanged(m_wallpaperStyle);
     }
-
     void setColor(QColor color)
     {
         if (m_color == color)

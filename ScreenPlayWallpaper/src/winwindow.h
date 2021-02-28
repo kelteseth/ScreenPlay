@@ -66,10 +66,7 @@ public:
         const QString& fillmode,
         const bool checkWallpaperVisible);
 
-    WindowsDesktopProperties* windowsDesktopProperties() const
-    {
-        return m_windowsDesktopProperties.get();
-    }
+    WindowsDesktopProperties* windowsDesktopProperties() const { return m_windowsDesktopProperties.get(); }
 
 public slots:
     void setVisible(bool show) override;

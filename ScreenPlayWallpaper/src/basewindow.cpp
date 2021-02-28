@@ -204,6 +204,14 @@ QString BaseWindow::loadFromFile(const QString& filename)
     return content;
 }
 
+/*!
+ \brief This public slot is for QML usage.
+ */
+QString BaseWindow::getApplicationPath()
+{
+    return QApplication::applicationDirPath();
+}
+
 void BaseWindow::setupLiveReloading()
 {
     auto reloadQMLLambda = [this]() { emit reloadQML(type()); };
