@@ -99,7 +99,7 @@ BaseWindow::BaseWindow(
 void BaseWindow::messageReceived(QString key, QString value)
 {
     if (key == "volume") {
-        bool ok;
+        bool ok = false;
         float tmp = value.toFloat(&ok);
         if (ok) {
             setVolume(tmp);
@@ -108,7 +108,7 @@ void BaseWindow::messageReceived(QString key, QString value)
     }
 
     if (key == "playbackRate") {
-        bool ok;
+        bool ok = false;
         float tmp = value.toFloat(&ok);
         if (ok) {
             setPlaybackRate(tmp);
@@ -145,7 +145,7 @@ void BaseWindow::messageReceived(QString key, QString value)
     }
 
     if (key == "currentTime") {
-        bool ok;
+        bool ok = false;
         float tmp = value.toFloat(&ok);
         if (ok) {
             setCurrentTime(tmp);
