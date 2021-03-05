@@ -6,138 +6,162 @@ import QtQuick.Layouts 1.3
 import QtQuick.XmlListModel 2.12
 import ScreenPlay 1.0
 
-GridView {
-    id: changelogFlickableWrapper
-    flickableDirection: Flickable.VerticalFlick
-    maximumFlickVelocity: 5000
-    flickDeceleration: 5000
-    cellHeight: 205
-    cellWidth: 360
-    clip: true
-    model: feedModel
-    onCountChanged: print("count ",count)
+Item {
+    id: root
 
+    GridView {
+        id: changelogFlickableWrapper
+        flickableDirection: Flickable.VerticalFlick
+        maximumFlickVelocity: 5000
+        flickDeceleration: 5000
+        cellHeight: 250
+        cellWidth: 450
+        clip: true
 
-    XmlListModel {
-        id: feedModel
-
-        namespaceDeclarations: "declare default element namespace 'http://www.w3.org/2005/Atom';"
-        onProgressChanged: print("progress ",progress)
-        source: "https://gitlab.com/kelteseth/ScreenPlay/-/tags?&format=atom"
-        query: "/entry"
-        XmlRole {
-            name: "title"
-            query: "title/string()"
-        }
-        XmlRole {
-            name: "content"
-            query: "content/string()"
-        }
-        XmlRole {
-            name: "link"
-            query: "link/string()"
-        }
-        XmlRole {
-            name: "updated"
-            query: "updated/string()"
+        model: feedModel
+        anchors {
+            top: parent.top
+            right: parent.right
+            bottom: parent.bottom
+            left: parent.left
+            leftMargin: 30
         }
 
-    }
-
-    header: Item {
-        height: 100
-        width: parent.width
-
-        Text {
-            id: name
-            text: qsTr("News & Patchnotes")
-            wrapMode: Text.WordWrap
-            color: "#626262"
-            
-            verticalAlignment: Text.AlignVCenter
-            horizontalAlignment: Text.AlignLeft
-            font.pointSize: 32
-            font.family: ScreenPlay.settings.font
-
-            anchors {
-                top: parent.top
-                topMargin: 30
-                horizontalCenter: parent.horizontalCenter
+        XmlListModel {
+            id: feedModel
+            source: "https://screen-play.app/blog/index.xml"
+            onCountChanged: print(count)
+            query: "/rss/channel/item"
+            XmlRole {
+                name: "title"
+                query: "title/string()"
+            }
+            XmlRole {
+                name: "image"
+                query: "image/string()"
+            }
+            XmlRole {
+                name: "pubDate"
+                query: "pubDate/string()"
+            }
+            XmlRole {
+                name: "link"
+                query: "link/string()"
+            }
+            XmlRole {
+                name: "description"
+                query: "description/string()"
             }
         }
-    }
 
-    delegate: Item {
-        id: root
-        width: 352
-        height: 197
-
-        RectangularGlow {
-            id: effectchangelogWrapper
-            anchors {
-                top: parent.top
-                topMargin: 3
-            }
-            height: parent.height
+        header: Item {
+            height: 100
             width: parent.width
-            cached: true
-            glowRadius: 3
-            spread: 0.2
-            color: "black"
-            opacity: 0.2
-            cornerRadius: 15
+
+            Text {
+                id: name
+                text: qsTr("News & Patchnotes")
+                wrapMode: Text.WordWrap
+                color: Material.primaryTextColor
+
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignLeft
+                font.pointSize: 32
+                font.family: ScreenPlay.settings.font
+                font.weight: Font.Light
+
+                anchors {
+                    top: parent.top
+                    topMargin: 30
+                    horizontalCenter: parent.horizontalCenter
+                }
+            }
         }
 
-        Rectangle {
-            anchors.fill: parent
-            anchors.margins: 5
-            radius: 4
+        delegate: Item {
+            width: changelogFlickableWrapper.cellWidth - 20
+            height: changelogFlickableWrapper.cellHeight - 20
 
-            Text {
-                id: txtTitle
-                text: title
-                
-                anchors {
-                    right: parent.right
-                    bottom: parent.bottom
-                    left: parent.left
-                    margins: 20
-                }
-                color: Material.primaryTextColor
-                font.family: ScreenPlay.settings.font
-                font.weight: Font.Normal
-                font.pointSize: 18
-                wrapMode: Text.WordWrap
-            }
-            Text {
-                id: txtPubDate
-                text: updated
-                anchors {
-                    right: parent.right
-                    rightMargin: 20
-                    bottom: txtTitle.top
-                    bottomMargin: 10
-                    left: parent.left
-                    leftMargin: 20
-                }
-                color: Material.primaryTextColor
-                font.family: ScreenPlay.settings.font
-                
-                font.weight: Font.Normal
-                font.pointSize: 14
-                wrapMode: Text.WordWrap
-            }
-            MouseArea {
+            Rectangle {
                 anchors.fill: parent
-                onClicked: Qt.openUrlExternally(link)
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
+                anchors.margins: 5
+                color: Material.backgroundColor
+
+                Image {
+                    asynchronous: true
+                    anchors.fill: parent
+                    fillMode: Image.PreserveAspectCrop
+                    source: image
+                    opacity: status === Image.Ready ? 1 : 0
+                    Behavior on opacity {
+                        PropertyAnimation {
+                            duration: 250
+                        }
+                    }
+                }
+
+                LinearGradient {
+                    anchors.fill: parent
+
+                    start: Qt.point(0, 0)
+                    end: Qt.point(0, parent.height)
+                    gradient: Gradient {
+                        GradientStop {
+                            position: 1.0
+                            color: "#ee111111"
+                        }
+                        GradientStop {
+                            position: 0.0
+                            color: "transparent"
+                        }
+                    }
+                }
+
+                Text {
+                    id: txtTitle
+                    text: title
+
+                    anchors {
+                        right: parent.right
+                        bottom: parent.bottom
+                        left: parent.left
+                        margins: 20
+                    }
+                    color: Material.primaryTextColor
+                    font.family: ScreenPlay.settings.font
+                    font.weight: Font.Normal
+                    font.pointSize: 14
+                    wrapMode: Text.WordWrap
+                }
+                Text {
+                    id: txtPubDate
+                    text: pubDate
+                    anchors {
+                        right: parent.right
+                        rightMargin: 20
+                        bottom: txtTitle.top
+                        bottomMargin: 10
+                        left: parent.left
+                        leftMargin: 20
+                    }
+                    color: Material.primaryTextColor
+                    font.family: ScreenPlay.settings.font
+
+                    font.pointSize: 8
+                    wrapMode: Text.WordWrap
+                }
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: Qt.openUrlExternally(link)
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                }
             }
         }
-    }
 
-    ScrollBar.vertical: ScrollBar {
-        snapMode: ScrollBar.SnapOnRelease
-        policy: ScrollBar.AlwaysOn
+        ScrollBar.vertical: ScrollBar {
+            snapMode: ScrollBar.SnapOnRelease
+            policy: ScrollBar.AlwaysOn
+        }
     }
 }

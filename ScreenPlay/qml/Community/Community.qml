@@ -31,6 +31,12 @@ Item {
             }
 
             CommunityNavItem {
+                text: qsTr("News")
+                openLink: webModel.get(0).url
+                icon.source: "qrc:/assets/icons/icon_help_center.svg"
+            }
+
+            CommunityNavItem {
                 text: qsTr("Wiki")
                 openLink: webModel.get(0).url
                 icon.source: "qrc:/assets/icons/icon_help_center.svg"
@@ -52,7 +58,7 @@ Item {
                 icon.source: "qrc:/assets/icons/icon_new_releases.svg"
             }
             CommunityNavItem {
-                text: qsTr("Contribution Guide")
+                text: qsTr("Contribution")
                 openLink: webModel.get(4).url
                 icon.source: "qrc:/assets/icons/icon_supervisor_account.svg"
             }
@@ -96,6 +102,10 @@ Item {
             bottom: parent.bottom
             left: parent.left
         }
+        XMLNewsfeed {
+
+        }
+
         Repeater {
             id: repeater
             model: ListModel {
