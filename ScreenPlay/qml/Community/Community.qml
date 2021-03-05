@@ -33,7 +33,7 @@ Item {
             CommunityNavItem {
                 text: qsTr("News")
                 openLink: webModel.get(0).url
-                icon.source: "qrc:/assets/icons/icon_help_center.svg"
+                icon.source: "qrc:/assets/icons/icon_document.svg"
             }
 
             CommunityNavItem {
