@@ -38,27 +38,22 @@ Item {
 
             CommunityNavItem {
                 text: qsTr("Wiki")
-                openLink: webModel.get(0).url
+                openLink: webModel.get(1).url
                 icon.source: "qrc:/assets/icons/icon_help_center.svg"
             }
 
             CommunityNavItem {
                 text: qsTr("Forum")
-                openLink: webModel.get(1).url
+                openLink: webModel.get(2).url
                 icon.source: "qrc:/assets/icons/icon_forum.svg"
             }
             CommunityNavItem {
                 text: qsTr("Issue List")
-                openLink: webModel.get(2).url
+                openLink: webModel.get(3).url
                 icon.source: "qrc:/assets/icons/icon_report_problem.svg"
             }
             CommunityNavItem {
-                text: qsTr("Release Notes")
-                openLink: webModel.get(3).url
-                icon.source: "qrc:/assets/icons/icon_new_releases.svg"
-            }
-            CommunityNavItem {
-                text: qsTr("Contribution")
+                text: qsTr("Contribute")
                 openLink: webModel.get(4).url
                 icon.source: "qrc:/assets/icons/icon_supervisor_account.svg"
             }
@@ -110,26 +105,21 @@ Item {
             id: repeater
             model: ListModel {
                 id: webModel
-
+                ListElement {
+                    url: "https://screen-play.app/blog/"
+                }
                 ListElement {
                     url: "https://kelteseth.gitlab.io/ScreenPlayDocs/"
                 }
                 ListElement {
                     url: "https://forum.screen-play.app/"
                 }
-
                 ListElement {
                     url: "https://gitlab.com/kelteseth/ScreenPlay/-/issues"
                 }
-
                 ListElement {
-                    url: "https://gitlab.com/kelteseth/ScreenPlay/-/releases"
+                    url: "https://gitlab.com/kelteseth/ScreenPlay#general-contributing"
                 }
-
-                ListElement {
-                    url: "https://gitlab.com/kelteseth/ScreenPlay#contributing-for-none-programmer"
-                }
-
                 ListElement {
                     url: "https://steamcommunity.com/app/672870/workshop/"
                 }
