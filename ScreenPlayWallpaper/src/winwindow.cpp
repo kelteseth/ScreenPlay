@@ -1,5 +1,5 @@
 #include "winwindow.h"
-
+#include "WinUser.h"
 #include "qqml.h"
 
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
@@ -62,10 +62,11 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     QApplication::sendEvent(g_winGlobalHook, &event);
 
     if (type == QMouseEvent::Type::MouseButtonPress) {
-
-        QTimer::singleShot(100, []() {
-            auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, Qt::MouseButton::LeftButton, Qt::LeftButton, {});
-            QApplication::sendEvent(g_winGlobalHook, &eventRelease);
+        QTimer::singleShot(100, [=]() {
+            auto eventPress = QMouseEvent(QMouseEvent::Type::MouseButtonPress, g_LastMousePosition, mouseButton, mouseButtons, {});
+            qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventPress);
+            auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, mouseButton, mouseButtons, {});
+            qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventRelease);
         });
     }
 
@@ -187,8 +188,28 @@ void WinWindow::destroyThis()
     emit qmlExit();
 }
 
+struct sEnumInfo {
+    int iIndex;
+    HMONITOR hMonitor;
+};
+
+BOOL CALLBACK GetMonitorByIndex(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
+{
+    auto* info = (sEnumInfo*)dwData;
+    if (--info->iIndex < 0) {
+        info->hMonitor = hMonitor;
+        return FALSE;
+    }
+    return TRUE;
+}
+
 void WinWindow::calcOffsets()
 {
+
+    MonitorRects monitors;
+
+    qInfo() << "You have " << monitors.rcMonitors.size() << " monitors connected.";
+
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
         if (screen->availableGeometry().x() < 0) {
@@ -197,15 +218,32 @@ void WinWindow::calcOffsets()
         if (screen->availableGeometry().y() < 0) {
             m_windowOffsetY += (screen->availableGeometry().y() * -1);
         }
+        auto monitor = monitors.rcMonitors.at(i);
+        qInfo() << i << monitor;
+
+        //        sEnumInfo info{};
+        //        info.iIndex = i;
+        //        info.hMonitor = nullptr;
+
+        //        EnumDisplayMonitors(nullptr, nullptr, GetMonitorByIndex, (LPARAM)&info);
+        //        if (info.hMonitor != nullptr) {
+        //            //LPMONITORINFO monitorInfo;
+        //            //bool success = GetMonitorInfoA(info.hMonitor, monitorInfo);
+        //            qInfo() << i << info.iIndex ;
+        //        }
     }
 }
 
 void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
-    QScreen* screen = QApplication::screens().at(activeScreen);
-    QRect screenRect = screen->geometry();
+    const QRect screenRect = QApplication::screens().at(activeScreen)->geometry();
 
-    if (!SetWindowPos(m_windowHandle, nullptr, screenRect.x() + m_windowOffsetX - 1, screenRect.y() + m_windowOffsetY - 1, screenRect.width() + 2, screenRect.height() + 2, SWP_HIDEWINDOW)) {
+    MonitorRects monitors;
+
+    auto monitor = monitors.rcMonitors.at(2);
+    qInfo() << activeScreen<<"monitorRect " << monitor.width() << monitor.height() << monitor.x() << monitor.y();
+
+    if (!SetWindowPos(m_windowHandle, nullptr, monitor.x() + m_windowOffsetX - 1, monitor.y() + m_windowOffsetY - 1, monitor.width() + 2, monitor.height() + 2, SWP_HIDEWINDOW)) {
         qFatal("Could not set window pos: ");
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
@@ -287,11 +325,6 @@ BOOL CALLBACK FindTheDesiredWnd(HWND hWnd, LPARAM lParam)
     }
     return true; // keep enumerating
 }
-
-struct sEnumInfo {
-    int iIndex = 0;
-    HMONITOR hMonitor = NULL;
-};
 
 BOOL CALLBACK GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
 {
