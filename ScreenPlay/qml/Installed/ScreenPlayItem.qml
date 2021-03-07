@@ -133,7 +133,7 @@ Item {
                 text: root.customTitle
                 font.family: ScreenPlay.settings.font
                 font.pointSize: 16
-                visible: !screenPlayItemImage.visible && !showAnim.running
+                visible: !screenPlayItemImage.visible
                 color: Material.primaryTextColor
                 anchors.centerIn: parent
                 horizontalAlignment: Text.AlignHCenter
@@ -183,7 +183,7 @@ Item {
 
             MouseArea {
                 anchors.fill: parent
-                hoverEnabled: !root.isScrolling
+                hoverEnabled: !root.isScrolling && !showAnim.running
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onEntered: {
