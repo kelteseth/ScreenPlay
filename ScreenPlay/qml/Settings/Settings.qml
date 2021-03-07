@@ -376,6 +376,11 @@ Item {
                                     url: "https://www.twitch.tv/kelteseth/"
                                     color: "#6441A5"
                                 }
+                                GrowIconLink {
+                                    iconSource: "qrc:/assets/icons/brand_reddit.svg"
+                                    url: "https://www.reddit.com/r/ScreenPlayApp/"
+                                    color: "#FF4500"
+                                }
                             }
 
                             Image {
