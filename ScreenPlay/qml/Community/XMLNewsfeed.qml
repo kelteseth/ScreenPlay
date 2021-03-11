@@ -30,7 +30,6 @@ Item {
         XmlListModel {
             id: feedModel
             source: "https://screen-play.app/blog/index.xml"
-            onCountChanged: print(count)
             query: "/rss/channel/item"
             XmlRole {
                 name: "title"
