@@ -28,7 +28,7 @@ if(WIN32)
 endif()
 
 if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
+    #set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core ScreenPlaySDK)
