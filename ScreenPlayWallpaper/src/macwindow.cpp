@@ -15,6 +15,7 @@ MacWindow::MacWindow(
         qFatal("Could not parse volume");
     }
     setVolume(volumeParsed);
+    setFillMode(fillmode);
 
     // Ether for one Screen or for all
     if ((QApplication::screens().length() == activeScreensList.length()) && (activeScreensList.length() != 1)) {
@@ -28,15 +29,12 @@ MacWindow::MacWindow(
         //setupWallpaperForMultipleScreens(activeScreensList);
     }
 
+    qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
+
     // WARNING: Setting Window flags must be called *here*!
     Qt::WindowFlags flags = m_window.flags();
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::Desktop);
-
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.rootContext()->setContextProperty("window", this);
-    // Instead of setting "renderType: Text.NativeRendering" every time
-
-    // we can set it here once :)
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setSource(QUrl("qrc:/Wallpaper.qml"));
 

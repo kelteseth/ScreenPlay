@@ -85,16 +85,29 @@ endif()
 add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml})
 
 if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
+    #set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
 endif()
 
 if(WIN32)
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
+    target_link_libraries(${PROJECT_NAME} PRIVATE sentry::sentry)
 
     # Disable console window on Windows
     # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
+
+    # Copy ffmpeg. If the ffmpeg files are missing, start the install_dependencies_XXX for your system!
+    file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/*")
+    foreach(filename ${files})
+        configure_file(${filename} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+    endforeach()
+
+    configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets/fonts)
+    configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/assets/fonts COPYONLY)
+
 endif()
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE "GIT_VERSION=${GIT_VERSION}")
@@ -113,28 +126,8 @@ target_link_libraries(
             benchmark::benchmark_main
             doctest::doctest)
 
-if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE sentry::sentry)
-endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${QT_TELEMTRY_INCLUDE})
 
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets/fonts)
-configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/assets/fonts COPYONLY)
 
-# Copy ffmpeg. If the ffmpeg files are missing, start the install_dependencies_XXX for your system!
-if(WIN32)
 
-    file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/*")
-    foreach(filename ${files})
-        configure_file(${filename} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-    endforeach()
-
-    configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-elseif(APPLE)
-    # cmake-format: off
-    # Auto ffmpeg download missing for osx
-    #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffmpeg ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-    #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-    # cmake-format: on
-endif()
