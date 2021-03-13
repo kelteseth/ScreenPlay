@@ -131,4 +131,18 @@ target_link_libraries(
 target_include_directories(${PROJECT_NAME} PRIVATE ${QT_TELEMTRY_INCLUDE})
 
 
+if(APPLE)
 
+    # Creates a ScreenPlay.app
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+        OUTPUT_NAME ${PROJECT_NAME}
+        MACOSX_BUNDLE TRUE
+        MACOSX_RPATH TRUE
+        MACOSX_FRAMEWORK_IDENTIFIER screen-play.app
+        XCODE_ATTRIBUTE_LD_RUNPATH_SEARCH_PATHS "@loader_path/Libraries"
+        RESOURCE "${RESOURCE_FILES}"
+        XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
+        XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME}
+    )
+
+endif()

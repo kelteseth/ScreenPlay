@@ -81,46 +81,12 @@ if(WIN32)
     add_subdirectory(ScreenPlaySysInfo)
 endif()
 
+#if(APPLE)
+#add_custom_target(CopyDependencies DEPENDS ScreenPlay)
+#add_custom_command(TARGET CopyDependencies POST_BUILD
+#  COMMAND "ScreenPlayWallpaper" -E copy_directory
+#     "$<TARGET_FILE:ScreenPlayWallpaper>"
+#     "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/$<TARGET_FILE_NAME:ScreenPlayWallpaper>/"
+#  COMMENT "Copying into ScreenPlay.app bundle")
+#endif()
 
-if(APPLE)
-
-
-# To Create a package, one can run "cpack -G DragNDrop CPackConfig.cmake" on Mac OS X
-# ~/Qt/Tools/CMake/CMake.app/Contents/bin/cpack
-# where CPackConfig.cmake is created by including CPack
-# And then there's ways to customize this as well
-set(CPACK_BINARY_DRAGNDROP ON)
-set(CPACK_PACKAGE_NAME "ScreenPlay")
-set(CPACK_PACKAGE_VENDOR "ScreenPlay")
-
-set(CPACK_GENERATOR "DragNDrop")#;TGZ;productbuild
-
-set(CPACK_DMG_FORMAT "UDBZ")
-set(CPACK_DMG_VOLUME_NAME "${PROJECT_NAME}")
-set(CPACK_SYSTEM_NAME "OSX")
-
-set(EXECUTABLE "${PROJECT_NAME}.app")
-
-
-install(TARGETS ScreenPlay
-  RUNTIME
-  DESTINATION bin
-  COMPONENT applications)
-
-install(TARGETS ScreenPlayWallpaper
-  RUNTIME
-  DESTINATION bin
-  COMPONENT applications)
-
-install(TARGETS ScreenPlayWidget
-  RUNTIME
-  DESTINATION bin
-  COMPONENT applications)
-
-
-# This must always be last!
-include(CPack)
-
-
-
-endif()

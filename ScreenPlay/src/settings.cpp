@@ -174,18 +174,8 @@ void Settings::setupWidgetAndWindowPaths()
 {
     QDir workingDir(QGuiApplication::applicationDirPath());
 
-#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
-#endif
     m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + ScreenPlayUtil::executableEnding()));
     m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + ScreenPlayUtil::executableEnding()));
-
-
-#if defined(Q_OS_OSX)
-
-    // MACOS bundle
-    //m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
-    //m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
-#endif
 }
 
 /*!
