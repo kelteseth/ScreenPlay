@@ -118,7 +118,7 @@ signals:
     void wizardsChanged(Wizards* wizards);
 
 public slots:
-
+    QString version() const;
     void exit();
     bool loadSteamPlugin();
     bool unloadSteamPlugin();

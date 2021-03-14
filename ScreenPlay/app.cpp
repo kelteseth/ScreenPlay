@@ -54,7 +54,7 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("https://screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.13.0");
+    QGuiApplication::setApplicationVersion("0.13.1");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
@@ -206,6 +206,11 @@ void App::init()
     // Must be called last to display a error message on startup by the qml engine
     m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_telemetry, m_settings);
     QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_screenPlayManager.get(), &ScreenPlayManager::closeAllWallpapers);
+}
+
+QString App::version() const
+{
+    return QGuiApplication::applicationVersion();
 }
 
 /*!
