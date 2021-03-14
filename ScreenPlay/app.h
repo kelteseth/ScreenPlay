@@ -92,60 +92,17 @@ public:
     void init();
     bool m_isAnotherScreenPlayInstanceRunning { false };
 
-    GlobalVariables* globalVariables() const
-    {
-        return m_globalVariables.get();
-    }
-
-    ScreenPlayManager* screenPlayManager() const
-    {
-        return m_screenPlayManager.get();
-    }
-
-    Create* create() const
-    {
-        return m_create.get();
-    }
-
-    Util* util() const
-    {
-        return m_util.get();
-    }
-
-    Settings* settings() const
-    {
-        return m_settings.get();
-    }
-
-    InstalledListModel* installedListModel() const
-    {
-        return m_installedListModel.get();
-    }
-
-    MonitorListModel* monitorListModel() const
-    {
-        return m_monitorListModel.get();
-    }
-
-    ProfileListModel* profileListModel() const
-    {
-        return m_profileListModel.get();
-    }
-
-    InstalledListFilter* installedListFilter() const
-    {
-        return m_installedListFilter.get();
-    }
-
-    QQmlApplicationEngine* mainWindowEngine() const
-    {
-        return m_mainWindowEngine.get();
-    }
-
-    Wizards* wizards() const
-    {
-        return m_wizards.get();
-    }
+    GlobalVariables* globalVariables() const { return m_globalVariables.get(); }
+    ScreenPlayManager* screenPlayManager() const { return m_screenPlayManager.get(); }
+    Create* create() const { return m_create.get(); }
+    Util* util() const { return m_util.get(); }
+    Settings* settings() const { return m_settings.get(); }
+    InstalledListModel* installedListModel() const { return m_installedListModel.get(); }
+    MonitorListModel* monitorListModel() const { return m_monitorListModel.get(); }
+    ProfileListModel* profileListModel() const { return m_profileListModel.get(); }
+    InstalledListFilter* installedListFilter() const { return m_installedListFilter.get(); }
+    QQmlApplicationEngine* mainWindowEngine() const { return m_mainWindowEngine.get(); }
+    Wizards* wizards() const { return m_wizards.get(); }
 
 signals:
     void globalVariablesChanged(GlobalVariables* globalVariables);

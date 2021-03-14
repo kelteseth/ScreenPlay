@@ -95,60 +95,27 @@ public:
 
     QJsonObject getActiveSettingsJson();
 
-    QVector<int> screenNumber() const
-    {
-        return m_screenNumber;
-    }
+    QVector<int> screenNumber() const { return m_screenNumber; }
 
-    QString previewImage() const
-    {
-        return m_previewImage;
-    }
+    QString previewImage() const { return m_previewImage; }
 
-    QString appID() const
-    {
-        return m_appID;
-    }
+    QString appID() const { return m_appID; }
 
-    InstalledType::InstalledType type() const
-    {
-        return m_type;
-    }
+    InstalledType::InstalledType type() const { return m_type; }
 
-    QString file() const
-    {
-        return m_file;
-    }
+    QString file() const { return m_file; }
 
-    FillMode::FillMode fillMode() const
-    {
-        return m_fillMode;
-    }
+    FillMode::FillMode fillMode() const { return m_fillMode; }
 
-    QString absolutePath() const
-    {
-        return m_absolutePath;
-    }
+    QString absolutePath() const { return m_absolutePath; }
 
-    float volume() const
-    {
-        return m_volume;
-    }
+    float volume() const { return m_volume; }
 
-    bool isLooping() const
-    {
-        return m_isLooping;
-    }
+    bool isLooping() const { return m_isLooping; }
 
-    ProjectSettingsListModel* getProjectSettingsListModel()
-    {
-        return &m_projectSettingsListModel;
-    }
+    ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
 
-    float playbackRate() const
-    {
-        return m_playbackRate;
-    }
+    float playbackRate() const { return m_playbackRate; }
 
 signals:
     void screenNumberChanged(QVector<int> screenNumber);

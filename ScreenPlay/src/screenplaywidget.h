@@ -70,37 +70,19 @@ public:
 
     ScreenPlayWidget() { }
 
-    QString previewImage() const
-    {
-        return m_previewImage;
-    }
+    QString previewImage() const { return m_previewImage; }
 
-    QPoint position() const
-    {
-        return m_position;
-    }
+    QPoint position() const { return m_position; }
 
-    QString absolutePath() const
-    {
-        return m_absolutePath;
-    }
+    QString absolutePath() const { return m_absolutePath; }
 
-    QString appID() const
-    {
-        return m_appID;
-    }
+    QString appID() const { return m_appID; }
 
-    InstalledType::InstalledType type() const
-    {
-        return m_type;
-    }
+    InstalledType::InstalledType type() const { return m_type; }
 
     void setSDKConnection(const std::shared_ptr<SDKConnection>& connection);
 
-    ProjectSettingsListModel* getProjectSettingsListModel()
-    {
-        return &m_projectSettingsListModel;
-    }
+    ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
 
 public slots:
     QJsonObject getActiveSettingsJson();
