@@ -106,9 +106,6 @@ Item {
             model: ListModel {
                 id: webModel
                 ListElement {
-                    url: "https://screen-play.app/blog/"
-                }
-                ListElement {
                     url: "https://kelteseth.gitlab.io/ScreenPlayDocs/"
                 }
                 ListElement {

@@ -68,19 +68,10 @@ public:
 
         QObject* parent = nullptr);
 
-    int activeWallpaperCounter() const
-    {
-        return m_activeWallpaperCounter;
-    }
+    int activeWallpaperCounter() const { return m_activeWallpaperCounter; }
 
-    int activeWidgetsCounter() const
-    {
-        return m_activeWidgetsCounter;
-    }
-    bool isAnotherScreenPlayInstanceRunning()
-    {
-        return m_isAnotherScreenPlayInstanceRunning;
-    }
+    int activeWidgetsCounter() const { return m_activeWidgetsCounter; }
+    bool isAnotherScreenPlayInstanceRunning() { return m_isAnotherScreenPlayInstanceRunning; }
 
     void init(
         const std::shared_ptr<GlobalVariables>& globalVariables,

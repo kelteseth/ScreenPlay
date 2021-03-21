@@ -35,6 +35,7 @@ Windows only, Linux and MacOS (soon™)
 </div>
 
 # Content Creation
+[Learn the basics of QML for Wallpapers and Widgets in 5 minutes](https://screen-play.app/blog/guide_learn_the_basics_of_qml/)
 <div>
 <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/"><img src=".gitlab/media/wallpaper_guide.png"></a>
 </div>

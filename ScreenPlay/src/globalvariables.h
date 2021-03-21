@@ -67,42 +67,27 @@ public:
         \property GlobalVariables::localStoragePath
         \brief Returns the localStoragePath.
     */
-    QUrl localStoragePath() const
-    {
-        return m_localStoragePath;
-    }
+    QUrl localStoragePath() const { return m_localStoragePath; }
     /*!
         \property GlobalVariables::localSettingsPath
         \brief Returns the localSettingsPath.
     */
-    QUrl localSettingsPath() const
-    {
-        return m_localSettingsPath;
-    }
+    QUrl localSettingsPath() const { return m_localSettingsPath; }
     /*!
         \property GlobalVariables::wallpaperExecutablePath
         \brief  Returns the wallpaperExecutablePath. This only differes in development builds.
     */
-    QUrl wallpaperExecutablePath() const
-    {
-        return m_wallpaperExecutablePath;
-    }
+    QUrl wallpaperExecutablePath() const { return m_wallpaperExecutablePath; }
     /*!
         \property GlobalVariables::widgetExecutablePath
         \brief Returns the widgetExecutablePath. This only differes in development builds.
     */
-    QUrl widgetExecutablePath() const
-    {
-        return m_widgetExecutablePath;
-    }
+    QUrl widgetExecutablePath() const { return m_widgetExecutablePath; }
     /*!
         \property GlobalVariables::m_version
         \brief Returns the current app version. Not yet used.
     */
-    QVersionNumber version() const
-    {
-        return m_version;
-    }
+    QVersionNumber version() const { return m_version; }
 
 signals:
     void localStoragePathChanged(QUrl localStoragePath);

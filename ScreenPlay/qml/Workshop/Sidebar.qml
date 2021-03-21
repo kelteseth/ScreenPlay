@@ -288,26 +288,29 @@ Drawer {
                 }
             }
 
-            Grid {
+            Flickable {
                 Layout.preferredHeight: 40
+                Layout.maximumHeight: 40
                 Layout.fillWidth: true
-                spacing: 5
-                padding: 2
+                clip: true
+                contentWidth: rowTagList.width + rpTagList.count * rowTagList.spacing
                 ListModel {
                     id: tagListModel
                 }
-                Repeater {
-                    id: rpTagList
-                    clip: true
-                    anchors.fill: parent
-                    delegate: Button {
-                        id: txtTags
-                        property string tags
-                        text: name
-                        font.pointSize: 8
-                        font.family: ScreenPlay.settings.font
-                        onClicked: {
-                            root.tagClicked(txtTags.text)
+                Row {
+                    id: rowTagList
+                    width: parent.width
+                    spacing: 10
+                    Repeater {
+                        id: rpTagList
+
+                        delegate: Button {
+                            id: txtTags
+                            property string tags
+                            text: name
+                            font.pointSize: 8
+                            font.family: ScreenPlay.settings.font
+                            onClicked: root.tagClicked(txtTags.text)
                         }
                     }
                 }
@@ -369,7 +372,7 @@ Drawer {
             bottom: parent.bottom
             bottomMargin: 20
         }
-        spacing:20
+        spacing: 20
         ToolButton {
             id: btnOpenInSteam
             font.pointSize: 10

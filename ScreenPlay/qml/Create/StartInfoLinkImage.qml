@@ -105,12 +105,9 @@ Item {
             cursorShape: Qt.PointingHandCursor
             hoverEnabled: true
             onClicked: Qt.openUrlExternally(delegate.link)
-            onEntered: {
-                delegate.state = "hover"
-            }
-            onExited: {
-                delegate.state = ""
-            }
+            onEntered: delegate.state = "hover"
+            onExited: delegate.state = ""
+
         }
     }
 

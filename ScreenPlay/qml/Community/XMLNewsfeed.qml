@@ -30,7 +30,6 @@ Item {
         XmlListModel {
             id: feedModel
             source: "https://screen-play.app/blog/index.xml"
-            onCountChanged: print(count)
             query: "/rss/channel/item"
             XmlRole {
                 name: "title"
@@ -79,6 +78,7 @@ Item {
         }
 
         delegate: Item {
+            id: delegate
             width: changelogFlickableWrapper.cellWidth - 20
             height: changelogFlickableWrapper.cellHeight - 20
 
@@ -86,8 +86,10 @@ Item {
                 anchors.fill: parent
                 anchors.margins: 5
                 color: Material.backgroundColor
+                clip: true
 
                 Image {
+                    id: img
                     asynchronous: true
                     anchors.fill: parent
                     fillMode: Image.PreserveAspectCrop
@@ -133,6 +135,7 @@ Item {
                     font.pointSize: 14
                     wrapMode: Text.WordWrap
                 }
+
                 Text {
                     id: txtPubDate
                     text: pubDate
@@ -150,13 +153,40 @@ Item {
                     font.pointSize: 8
                     wrapMode: Text.WordWrap
                 }
+
                 MouseArea {
                     anchors.fill: parent
                     onClicked: Qt.openUrlExternally(link)
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
+                    onEntered: delegate.state = "hover"
+                    onExited: delegate.state = ""
                 }
             }
+            transitions: [
+                Transition {
+                    from: ""
+                    to: "hover"
+
+                    ScaleAnimator {
+                        target: img
+                        duration: 80
+                        from: 1
+                        to: 1.05
+                    }
+                },
+                Transition {
+                    from: "hover"
+                    to: ""
+
+                    ScaleAnimator {
+                        target: img
+                        duration: 80
+                        from: 1.05
+                        to: 1
+                    }
+                }
+            ]
         }
 
         ScrollBar.vertical: ScrollBar {
