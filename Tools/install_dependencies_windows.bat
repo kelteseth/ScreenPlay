@@ -5,8 +5,8 @@ cd ..
 git clone https://github.com/microsoft/vcpkg.git ScreenPlay-vcpkg
 cd ScreenPlay-vcpkg
 git pull
-rem master 25.01.2021 - fc0d6b28006e0607a6b9871641ec48925274e079
-git checkout fc0d6b28006e0607a6b9871641ec48925274e079
+rem master 27.03.2021 - 9f6157a
+git checkout 9f6157a
 call bootstrap-vcpkg.bat
 
 rem Install vcpkg dependencies
