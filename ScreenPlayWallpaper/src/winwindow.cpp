@@ -165,9 +165,9 @@ WinWindow::WinWindow(
         }
     }
 
-    QTimer::singleShot(1000, [this]() {
-        setupWindowMouseHook();
-    });
+    //    QTimer::singleShot(1000, [this]() {
+    //        setupWindowMouseHook();
+    //    });
 }
 
 void WinWindow::setVisible(bool show)
@@ -212,16 +212,23 @@ void WinWindow::calcOffsets()
 
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
+        auto monitor = monitors.rcMonitors.at(i);
         if (screen->availableGeometry().x() < 0) {
-            m_windowOffsetX += (screen->availableGeometry().x() * -1);
+            m_windowOffsetX += (monitor.x() * -1);
         }
         if (screen->availableGeometry().y() < 0) {
-            m_windowOffsetY += (screen->availableGeometry().y() * -1);
+            m_windowOffsetY += (monitor.y() * -1);
         }
-        auto monitor = monitors.rcMonitors.at(i);
-        qInfo() << i << monitor;
 
-        //        sEnumInfo info{};
+        qInfo() << i << monitor << " - " << screen->availableGeometry() <<"\t - " << m_windowOffsetX << m_windowOffsetY << screen->logicalDotsPerInch();
+        // screen->logicalDotsPerInch()
+        // 100% - 96
+        // 125% - 120
+        // 150% - 144
+        // 175% - 168
+        // 200% - 192
+
+        //        sEnumInfo info {};
         //        info.iIndex = i;
         //        info.hMonitor = nullptr;
 
@@ -229,7 +236,7 @@ void WinWindow::calcOffsets()
         //        if (info.hMonitor != nullptr) {
         //            //LPMONITORINFO monitorInfo;
         //            //bool success = GetMonitorInfoA(info.hMonitor, monitorInfo);
-        //            qInfo() << i << info.iIndex ;
+        //            qInfo() << i << "EnumDisplayMonitors" << info.iIndex;
         //        }
     }
 }
@@ -238,12 +245,32 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
     const QRect screenRect = QApplication::screens().at(activeScreen)->geometry();
 
+    const float scaling = getScaling(activeScreen);
+
     MonitorRects monitors;
 
-    auto monitor = monitors.rcMonitors.at(2);
-    qInfo() << activeScreen<<"monitorRect " << monitor.width() << monitor.height() << monitor.x() << monitor.y();
+    auto monitor = monitors.rcMonitors.at(activeScreen);
+    qInfo() << scaling << activeScreen << "monitorRect " << monitor << screenRect << m_windowOffsetX << m_windowOffsetY;
 
-    if (!SetWindowPos(m_windowHandle, nullptr, monitor.x() + m_windowOffsetX - 1, monitor.y() + m_windowOffsetY - 1, monitor.width() + 2, monitor.height() + 2, SWP_HIDEWINDOW)) {
+    //    if (!SetWindowPos(
+    //            m_windowHandle,
+    //            nullptr,
+    //            (int)(monitor.x() + m_windowOffsetX - 1) * scaling,
+    //            (int)(monitor.y() + m_windowOffsetY - 1) * scaling,
+    //            (int)(monitor.width() + 2) * scaling,
+    //            (int)(monitor.height() + 2) * scaling,
+    //            SWP_HIDEWINDOW)) {
+    //        qFatal("Could not set window pos: ");
+    //    }
+
+    if (!SetWindowPos(
+            m_windowHandle,
+            nullptr,
+            (int)(monitor.x()- 1) ,
+            (int)(monitor.y()- 1),
+            (int)(screenRect.width() + 2),
+            (int)(screenRect.height() + 2),
+            SWP_HIDEWINDOW)) {
         qFatal("Could not set window pos: ");
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
@@ -307,6 +334,38 @@ bool WinWindow::searchWorkerWindowToParentTo()
         10000, nullptr);
 
     return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
+}
+
+float WinWindow::getScaling(const int monitorIndex)
+{
+    // screen->logicalDotsPerInch()
+    // 100% - 96
+    // 125% - 120
+    // 150% - 144
+    // 175% - 168
+    // 200% - 192
+    QScreen* screen = QApplication::screens().at(monitorIndex);
+    const int factor = screen->logicalDotsPerInch();
+    switch (factor) {
+    case 96:
+        return 1;
+        break;
+    case 120:
+        return 1.25;
+        break;
+    case 144:
+        return 1.5;
+        break;
+    case 168:
+        return 1.75;
+        break;
+    case 192:
+        return 2;
+        break;
+    default:
+        return 1;
+        break;
+    }
 }
 
 QString printWindowNameByhWnd(HWND hWnd)

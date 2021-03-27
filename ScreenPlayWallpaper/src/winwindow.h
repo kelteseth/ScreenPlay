@@ -64,7 +64,10 @@ struct MonitorRects {
     {
         MonitorRects* pThis = reinterpret_cast<MonitorRects*>(pData);
         RECT monitor = (RECT)*lprcMonitor;
-        pThis->rcMonitors.push_back(QRect(QPoint { monitor.top, monitor.left }, QPoint { monitor.bottom, monitor.right }));
+        const QRect tmp = QRect(QPoint { monitor.top, monitor.left }, QPoint { monitor.bottom, monitor.right });
+        const QRect rect = QRect(QPoint { monitor.top, monitor.left }, QSize { tmp.height() - 1, tmp.width() - 1 });
+        pThis->rcMonitors.push_back(rect);
+        qInfo() << rect;
 
         return TRUE;
     }
@@ -111,6 +114,7 @@ private:
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
     void setupWindowMouseHook();
     bool searchWorkerWindowToParentTo();
+    float getScaling(const int monitorIndex);
 
 private slots:
     void checkForFullScreenWindow();
