@@ -34,6 +34,11 @@ Windows only, Linux and MacOS (soon™)
 <p>Click gif to see the Steam Early Access Trailer (YouTube)</p>
 </div>
 
+# Important Issues
+* [Support for Windows monitor scaling is currently buggy. All monitors must be set to 100%!](https://gitlab.com/kelteseth/ScreenPlay/-/issues/125)
+* [Implement KDE Support](https://gitlab.com/kelteseth/ScreenPlay/-/issues/111)
+* [Implement MacOS Support](https://gitlab.com/kelteseth/ScreenPlay/-/issues/130)
+
 # Content Creation
 [Learn the basics of QML for Wallpapers and Widgets in 5 minutes](https://screen-play.app/blog/guide_learn_the_basics_of_qml/)
 <div>
