@@ -52,27 +52,6 @@
 #include "basewindow.h"
 #include "windowsdesktopproperties.h"
 
-struct MonitorRects {
-    std::vector<QRect> rcMonitors;
-
-    MonitorRects()
-    {
-        EnumDisplayMonitors(0, 0, MonitorEnum, (LPARAM)this);
-    }
-
-    static BOOL CALLBACK MonitorEnum(HMONITOR hMon, HDC hdc, LPRECT lprcMonitor, LPARAM pData)
-    {
-        MonitorRects* pThis = reinterpret_cast<MonitorRects*>(pData);
-        RECT monitor = (RECT)*lprcMonitor;
-        const QRect tmp = QRect(QPoint { monitor.top, monitor.left }, QPoint { monitor.bottom, monitor.right });
-        const QRect rect = QRect(QPoint { monitor.top, monitor.left }, QSize { tmp.height() - 1, tmp.width() - 1 });
-        pThis->rcMonitors.push_back(rect);
-        qInfo() << rect;
-
-        return TRUE;
-    }
-};
-
 class WinWindow : public BaseWindow {
     Q_OBJECT
 

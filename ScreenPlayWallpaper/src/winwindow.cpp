@@ -1,6 +1,40 @@
 #include "winwindow.h"
 #include "WinUser.h"
 #include "qqml.h"
+#include <ShellScalingApi.h>
+#include <iostream>
+#include <vector>
+#include <windows.h>
+
+struct cMonitorsVec {
+    std::vector<int> iMonitors;
+    std::vector<HMONITOR> hMonitors;
+    std::vector<HDC> hdcMonitors;
+    std::vector<RECT> rcMonitors;
+    std::vector<DEVICE_SCALE_FACTOR> scaleFactor;
+    std::vector<std::pair<UINT, UINT>> sizes;
+
+    static BOOL CALLBACK MonitorEnum(HMONITOR hMon, HDC hdc, LPRECT lprcMonitor,
+        LPARAM pData)
+    {
+        cMonitorsVec* pThis = reinterpret_cast<cMonitorsVec*>(pData);
+        auto scaleFactor = DEVICE_SCALE_FACTOR::DEVICE_SCALE_FACTOR_INVALID;
+        GetScaleFactorForMonitor(hMon, &scaleFactor);
+
+        UINT x = 0;
+        UINT y = 0;
+        GetDpiForMonitor(hMon, MONITOR_DPI_TYPE::MDT_RAW_DPI, &x, &y);
+        pThis->sizes.push_back({ x, y });
+        pThis->scaleFactor.push_back(scaleFactor);
+        pThis->hMonitors.push_back(hMon);
+        pThis->hdcMonitors.push_back(hdc);
+        pThis->rcMonitors.push_back(*lprcMonitor);
+        pThis->iMonitors.push_back(pThis->hdcMonitors.size());
+        return TRUE;
+    }
+
+    cMonitorsVec() { EnumDisplayMonitors(0, 0, MonitorEnum, (LPARAM)this); }
+};
 
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
@@ -205,39 +239,14 @@ BOOL CALLBACK GetMonitorByIndex(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMo
 
 void WinWindow::calcOffsets()
 {
-
-    MonitorRects monitors;
-
-    qInfo() << "You have " << monitors.rcMonitors.size() << " monitors connected.";
-
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
-        auto monitor = monitors.rcMonitors.at(i);
         if (screen->availableGeometry().x() < 0) {
-            m_windowOffsetX += (monitor.x() * -1);
+            m_windowOffsetX += (screen->availableGeometry().x() * -1);
         }
         if (screen->availableGeometry().y() < 0) {
-            m_windowOffsetY += (monitor.y() * -1);
+            m_windowOffsetY += (screen->availableGeometry().y() * -1);
         }
-
-        qInfo() << i << monitor << " - " << screen->availableGeometry() <<"\t - " << m_windowOffsetX << m_windowOffsetY << screen->logicalDotsPerInch();
-        // screen->logicalDotsPerInch()
-        // 100% - 96
-        // 125% - 120
-        // 150% - 144
-        // 175% - 168
-        // 200% - 192
-
-        //        sEnumInfo info {};
-        //        info.iIndex = i;
-        //        info.hMonitor = nullptr;
-
-        //        EnumDisplayMonitors(nullptr, nullptr, GetMonitorByIndex, (LPARAM)&info);
-        //        if (info.hMonitor != nullptr) {
-        //            //LPMONITORINFO monitorInfo;
-        //            //bool success = GetMonitorInfoA(info.hMonitor, monitorInfo);
-        //            qInfo() << i << "EnumDisplayMonitors" << info.iIndex;
-        //        }
     }
 }
 
@@ -245,33 +254,33 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
     const QRect screenRect = QApplication::screens().at(activeScreen)->geometry();
 
-    const float scaling = getScaling(activeScreen);
+    float scaling = getScaling(activeScreen);
 
-    MonitorRects monitors;
+    cMonitorsVec Monitors;
+    int width = std::abs(Monitors.rcMonitors[activeScreen].right - Monitors.rcMonitors[activeScreen].left);
+    int height = std::abs(Monitors.rcMonitors[activeScreen].top - Monitors.rcMonitors[activeScreen].bottom);
 
-    auto monitor = monitors.rcMonitors.at(activeScreen);
-    qInfo() << scaling << activeScreen << "monitorRect " << monitor << screenRect << m_windowOffsetX << m_windowOffsetY;
-
-    //    if (!SetWindowPos(
-    //            m_windowHandle,
-    //            nullptr,
-    //            (int)(monitor.x() + m_windowOffsetX - 1) * scaling,
-    //            (int)(monitor.y() + m_windowOffsetY - 1) * scaling,
-    //            (int)(monitor.width() + 2) * scaling,
-    //            (int)(monitor.height() + 2) * scaling,
-    //            SWP_HIDEWINDOW)) {
-    //        qFatal("Could not set window pos: ");
-    //    }
+    // Needs to be set like to this work. I do not know why...
+    if (!SetWindowPos(
+            m_windowHandle,
+            nullptr,
+            Monitors.rcMonitors[activeScreen].left,
+            Monitors.rcMonitors[activeScreen].top,
+            width,
+            height,
+            SWP_HIDEWINDOW)) {
+        qFatal("Could not set window pos");
+    }
 
     if (!SetWindowPos(
             m_windowHandle,
             nullptr,
-            (int)(monitor.x()- 1) ,
-            (int)(monitor.y()- 1),
-            (int)(screenRect.width() + 2),
-            (int)(screenRect.height() + 2),
+            screenRect.x() + m_windowOffsetX,
+            screenRect.y() + m_windowOffsetY,
+            screenRect.width() / scaling,
+            screenRect.height() / scaling,
             SWP_HIDEWINDOW)) {
-        qFatal("Could not set window pos: ");
+        qFatal("Could not set window pos");
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
         qFatal("Could not attach to parent window");
@@ -349,22 +358,25 @@ float WinWindow::getScaling(const int monitorIndex)
     switch (factor) {
     case 96:
         return 1;
-        break;
     case 120:
         return 1.25;
-        break;
     case 144:
         return 1.5;
-        break;
     case 168:
         return 1.75;
-        break;
     case 192:
         return 2;
-        break;
+    case 216:
+        return 2.25;
+    case 240:
+        return 2.5;
+    case 288:
+        return 3;
+    case 336:
+        return 3.5;
     default:
+        qWarning() << "Monitor with factor: " << factor << " detected! This is not supported!";
         return 1;
-        break;
     }
 }
 
