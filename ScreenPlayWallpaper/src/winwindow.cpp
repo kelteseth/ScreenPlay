@@ -1,6 +1,40 @@
 #include "winwindow.h"
-
+#include "WinUser.h"
 #include "qqml.h"
+#include <ShellScalingApi.h>
+#include <iostream>
+#include <vector>
+#include <windows.h>
+
+struct cMonitorsVec {
+    std::vector<int> iMonitors;
+    std::vector<HMONITOR> hMonitors;
+    std::vector<HDC> hdcMonitors;
+    std::vector<RECT> rcMonitors;
+    std::vector<DEVICE_SCALE_FACTOR> scaleFactor;
+    std::vector<std::pair<UINT, UINT>> sizes;
+
+    static BOOL CALLBACK MonitorEnum(HMONITOR hMon, HDC hdc, LPRECT lprcMonitor,
+        LPARAM pData)
+    {
+        cMonitorsVec* pThis = reinterpret_cast<cMonitorsVec*>(pData);
+        auto scaleFactor = DEVICE_SCALE_FACTOR::DEVICE_SCALE_FACTOR_INVALID;
+        GetScaleFactorForMonitor(hMon, &scaleFactor);
+
+        UINT x = 0;
+        UINT y = 0;
+        GetDpiForMonitor(hMon, MONITOR_DPI_TYPE::MDT_RAW_DPI, &x, &y);
+        pThis->sizes.push_back({ x, y });
+        pThis->scaleFactor.push_back(scaleFactor);
+        pThis->hMonitors.push_back(hMon);
+        pThis->hdcMonitors.push_back(hdc);
+        pThis->rcMonitors.push_back(*lprcMonitor);
+        pThis->iMonitors.push_back(pThis->hdcMonitors.size());
+        return TRUE;
+    }
+
+    cMonitorsVec() { EnumDisplayMonitors(0, 0, MonitorEnum, (LPARAM)this); }
+};
 
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
@@ -62,10 +96,11 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     QApplication::sendEvent(g_winGlobalHook, &event);
 
     if (type == QMouseEvent::Type::MouseButtonPress) {
-
-        QTimer::singleShot(100, []() {
-            auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, Qt::MouseButton::LeftButton, Qt::LeftButton, {});
-            QApplication::sendEvent(g_winGlobalHook, &eventRelease);
+        QTimer::singleShot(100, [=]() {
+            auto eventPress = QMouseEvent(QMouseEvent::Type::MouseButtonPress, g_LastMousePosition, mouseButton, mouseButtons, {});
+            qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventPress);
+            auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, mouseButton, mouseButtons, {});
+            qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventRelease);
         });
     }
 
@@ -164,9 +199,9 @@ WinWindow::WinWindow(
         }
     }
 
-    QTimer::singleShot(1000, [this]() {
-        setupWindowMouseHook();
-    });
+    //    QTimer::singleShot(1000, [this]() {
+    //        setupWindowMouseHook();
+    //    });
 }
 
 void WinWindow::setVisible(bool show)
@@ -187,6 +222,21 @@ void WinWindow::destroyThis()
     emit qmlExit();
 }
 
+struct sEnumInfo {
+    int iIndex;
+    HMONITOR hMonitor;
+};
+
+BOOL CALLBACK GetMonitorByIndex(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
+{
+    auto* info = (sEnumInfo*)dwData;
+    if (--info->iIndex < 0) {
+        info->hMonitor = hMonitor;
+        return FALSE;
+    }
+    return TRUE;
+}
+
 void WinWindow::calcOffsets()
 {
     for (int i = 0; i < QApplication::screens().count(); i++) {
@@ -202,11 +252,35 @@ void WinWindow::calcOffsets()
 
 void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
-    QScreen* screen = QApplication::screens().at(activeScreen);
-    QRect screenRect = screen->geometry();
+    const QRect screenRect = QApplication::screens().at(activeScreen)->geometry();
 
-    if (!SetWindowPos(m_windowHandle, nullptr, screenRect.x() + m_windowOffsetX - 1, screenRect.y() + m_windowOffsetY - 1, screenRect.width() + 2, screenRect.height() + 2, SWP_HIDEWINDOW)) {
-        qFatal("Could not set window pos: ");
+    float scaling = getScaling(activeScreen);
+
+    cMonitorsVec Monitors;
+    int width = std::abs(Monitors.rcMonitors[activeScreen].right - Monitors.rcMonitors[activeScreen].left);
+    int height = std::abs(Monitors.rcMonitors[activeScreen].top - Monitors.rcMonitors[activeScreen].bottom);
+
+    // Needs to be set like to this work. I do not know why...
+    if (!SetWindowPos(
+            m_windowHandle,
+            nullptr,
+            Monitors.rcMonitors[activeScreen].left,
+            Monitors.rcMonitors[activeScreen].top,
+            width,
+            height,
+            SWP_HIDEWINDOW)) {
+        qFatal("Could not set window pos");
+    }
+
+    if (!SetWindowPos(
+            m_windowHandle,
+            nullptr,
+            screenRect.x() + m_windowOffsetX,
+            screenRect.y() + m_windowOffsetY,
+            screenRect.width() / scaling,
+            screenRect.height() / scaling,
+            SWP_HIDEWINDOW)) {
+        qFatal("Could not set window pos");
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
         qFatal("Could not attach to parent window");
@@ -271,6 +345,41 @@ bool WinWindow::searchWorkerWindowToParentTo()
     return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
 }
 
+float WinWindow::getScaling(const int monitorIndex)
+{
+    // screen->logicalDotsPerInch()
+    // 100% - 96
+    // 125% - 120
+    // 150% - 144
+    // 175% - 168
+    // 200% - 192
+    QScreen* screen = QApplication::screens().at(monitorIndex);
+    const int factor = screen->logicalDotsPerInch();
+    switch (factor) {
+    case 96:
+        return 1;
+    case 120:
+        return 1.25;
+    case 144:
+        return 1.5;
+    case 168:
+        return 1.75;
+    case 192:
+        return 2;
+    case 216:
+        return 2.25;
+    case 240:
+        return 2.5;
+    case 288:
+        return 3;
+    case 336:
+        return 3.5;
+    default:
+        qWarning() << "Monitor with factor: " << factor << " detected! This is not supported!";
+        return 1;
+    }
+}
+
 QString printWindowNameByhWnd(HWND hWnd)
 {
     std::wstring title(GetWindowTextLength(hWnd) + 1, L'\0');
@@ -287,11 +396,6 @@ BOOL CALLBACK FindTheDesiredWnd(HWND hWnd, LPARAM lParam)
     }
     return true; // keep enumerating
 }
-
-struct sEnumInfo {
-    int iIndex = 0;
-    HMONITOR hMonitor = NULL;
-};
 
 BOOL CALLBACK GetMonitorByHandle(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor, LPARAM dwData)
 {

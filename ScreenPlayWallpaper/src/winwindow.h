@@ -93,6 +93,7 @@ private:
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
     void setupWindowMouseHook();
     bool searchWorkerWindowToParentTo();
+    float getScaling(const int monitorIndex);
 
 private slots:
     void checkForFullScreenWindow();

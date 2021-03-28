@@ -21,7 +21,7 @@
 
 int main(int argc, char* argv[])
 {
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication app(argc, argv);
@@ -38,9 +38,9 @@ int main(int argc, char* argv[])
 
 #if defined(Q_OS_WIN)
 
-        WinWindow window1({ 0 }, "test", "appid", "1", "fill", true);
-        //WinWindow window2({ 1 }, "test", "appid", "1", "fill");
-        //WinWindow window3({ 2 }, "test", "appid", "1", "fill");
+        WinWindow window1({ 1 }, "test", "appid", "1", "fill", true);
+        //WinWindow window2({ 1 }, "test", "appid", "1", "fill", true);
+        //WinWindow window3({ 2 }, "test", "appid", "1", "fill", true);
 
         // WinWindow window({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/qmlParticles", "appid", "1", "fill", true);
 #endif
