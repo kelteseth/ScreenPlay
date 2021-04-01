@@ -35,7 +35,13 @@ ScreenPlay 是一款开源、跨平台，显示视频壁纸，部件，应用抽
 <p>点击gif，查看尽早访问预告片！ (YouTube)</p>
 </div>
 
+# 重要议题
+* [对Windows显示器缩放的支持目前有问题。所有显示器必须被设为100%！](https://gitlab.com/kelteseth/ScreenPlay/-/issues/125)
+* [KDE 支持](https://gitlab.com/kelteseth/ScreenPlay/-/issues/111)
+* [MacOS 支持](https://gitlab.com/kelteseth/ScreenPlay/-/issues/130)
+
 # 内容创建
+[5分钟内学习QML基础（壁纸，部件）(English)](https://screen-play.app/blog/guide_learn_the_basics_of_qml/)
 <div>
 <a href="https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/"><img src=".gitlab/media/wallpaper_guide.png"></a>
 </div>
