@@ -97,31 +97,31 @@
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="34"/>
-        <source>Wiki</source>
+        <source>News</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="40"/>
+        <source>Wiki</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Community/Community.qml" line="46"/>
         <source>Forum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="45"/>
+        <location filename="../qml/Community/Community.qml" line="51"/>
         <source>Issue List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="50"/>
-        <source>Release Notes</source>
+        <location filename="../qml/Community/Community.qml" line="56"/>
+        <source>Contribute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="55"/>
-        <source>Contribution Guide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Community/Community.qml" line="60"/>
+        <location filename="../qml/Community/Community.qml" line="61"/>
         <source>Steam Workshop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1415,7 +1415,7 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="450"/>
+        <location filename="../qml/Settings/Settings.qml" line="455"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1483,32 +1483,32 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
         <translation>안녕하세요, ScreenPlay를 개발한, Kelteseth 닉네임을 쓰고 있는 Elias Steurer입니다.  제 소프트웨어를 사용해주셔서 감사합니다. 저를 팔로우하셔서 ScreenPlay의 업데이트 내용을 확인하실 수 있습니다 클릭:</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="420"/>
+        <location filename="../qml/Settings/Settings.qml" line="425"/>
         <source>Version</source>
         <translation>버전</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="421"/>
+        <location filename="../qml/Settings/Settings.qml" line="426"/>
         <source>ScreenPlay Build Version </source>
         <translation>ScreenPlay 빌드 버전 </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="423"/>
+        <location filename="../qml/Settings/Settings.qml" line="428"/>
         <source>Open Changelog</source>
         <translation>변경 이력 열기</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="430"/>
+        <location filename="../qml/Settings/Settings.qml" line="435"/>
         <source>Third Party Software</source>
         <translation>타사 소프트웨어</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="431"/>
+        <location filename="../qml/Settings/Settings.qml" line="436"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation>ScreenPlay 기여자 여러분의 도움에 의해 완성되었습니다. 여러분께 감사드립니다: </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="432"/>
+        <location filename="../qml/Settings/Settings.qml" line="437"/>
         <source>Licenses</source>
         <translation>라이선스</translation>
     </message>
@@ -1517,27 +1517,27 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
         <translation type="vanished">디버그 메시지</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="451"/>
+        <location filename="../qml/Settings/Settings.qml" line="456"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation>ScreenPlay가 올바르게 작동하지 않고 있다면, 이것이 해답이 될 수 있습니다. 이것은 런타임동안의 모든 이력과 경고를 포함하고 있습니다.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="452"/>
+        <location filename="../qml/Settings/Settings.qml" line="457"/>
         <source>Show Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="463"/>
+        <location filename="../qml/Settings/Settings.qml" line="468"/>
         <source>Data Protection</source>
         <translation>데이터 보호</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="464"/>
+        <location filename="../qml/Settings/Settings.qml" line="469"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation>ScreenPlay 향상을 위해 여러분의 익명 데이터를 신중히 사용합니다. 절대 정보를 팔거나 공유하지 않습니다!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="465"/>
+        <location filename="../qml/Settings/Settings.qml" line="470"/>
         <source>Privacy</source>
         <translation>개인 정보</translation>
     </message>
@@ -1645,22 +1645,22 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="324"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="327"/>
         <source>Subscribtions: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="378"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="381"/>
         <source>Open In Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="388"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="391"/>
         <source>Subscribed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="388"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="391"/>
         <source>Subscribe</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2596,7 +2596,7 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
 <context>
     <name>XMLNewsfeed</name>
     <message>
-        <location filename="../qml/Community/XMLNewsfeed.qml" line="53"/>
+        <location filename="../qml/Community/XMLNewsfeed.qml" line="62"/>
         <source>News &amp; Patchnotes</source>
         <translation>뉴스 &amp; 패치노트</translation>
     </message>
