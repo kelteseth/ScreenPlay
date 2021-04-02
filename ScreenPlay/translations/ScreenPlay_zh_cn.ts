@@ -73,31 +73,31 @@
     <name>Community</name>
     <message>
         <location filename="../qml/Community/Community.qml" line="34"/>
+        <source>News</source>
+        <translation>新闻</translation>
+    </message>
+    <message>
+        <location filename="../qml/Community/Community.qml" line="40"/>
         <source>Wiki</source>
         <translation>维基</translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="40"/>
+        <location filename="../qml/Community/Community.qml" line="46"/>
         <source>Forum</source>
         <translation>论坛</translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="45"/>
+        <location filename="../qml/Community/Community.qml" line="51"/>
         <source>Issue List</source>
         <translation>问题列表</translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="50"/>
-        <source>Release Notes</source>
-        <translation>发布日志</translation>
+        <location filename="../qml/Community/Community.qml" line="56"/>
+        <source>Contribute</source>
+        <translation>贡献</translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="55"/>
-        <source>Contribution Guide</source>
-        <translation>怎么贡献</translation>
-    </message>
-    <message>
-        <location filename="../qml/Community/Community.qml" line="60"/>
+        <location filename="../qml/Community/Community.qml" line="61"/>
         <source>Steam Workshop</source>
         <translation>创意工坊</translation>
     </message>
@@ -1103,62 +1103,62 @@
         <translation>您好，我是Elias Steurer，也叫Kelteseth，我是ScreenPlay的开发者。感谢您使用我的软件。您可以在这里关注我，接收ScreenPlay的更新。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="420"/>
+        <location filename="../qml/Settings/Settings.qml" line="425"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="421"/>
+        <location filename="../qml/Settings/Settings.qml" line="426"/>
         <source>ScreenPlay Build Version </source>
         <translation>ScreenPlay编译版本 </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="423"/>
+        <location filename="../qml/Settings/Settings.qml" line="428"/>
         <source>Open Changelog</source>
         <translation>打开更改日志。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="430"/>
+        <location filename="../qml/Settings/Settings.qml" line="435"/>
         <source>Third Party Software</source>
         <translation>第三方软件</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="431"/>
+        <location filename="../qml/Settings/Settings.qml" line="436"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation>ScreenPlay离不开一些人的帮助。非常感谢您们：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="432"/>
+        <location filename="../qml/Settings/Settings.qml" line="437"/>
         <source>Licenses</source>
         <translation>许可证</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="450"/>
+        <location filename="../qml/Settings/Settings.qml" line="455"/>
         <source>Logs</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="451"/>
+        <location filename="../qml/Settings/Settings.qml" line="456"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation>如果您的ScreenPlay出错，这是个很好的查错方式。它显示所有的日志和运行时警告。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="452"/>
+        <location filename="../qml/Settings/Settings.qml" line="457"/>
         <source>Show Logs</source>
         <translation>显示日志</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="463"/>
+        <location filename="../qml/Settings/Settings.qml" line="468"/>
         <source>Data Protection</source>
         <translation>数据保护</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="464"/>
+        <location filename="../qml/Settings/Settings.qml" line="469"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation>我们使用您的数据提升ScreenPlay的体验。我们承诺不出售或分享这些匿名信息！</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="465"/>
+        <location filename="../qml/Settings/Settings.qml" line="470"/>
         <source>Privacy</source>
         <translation>隐私</translation>
     </message>
@@ -1254,22 +1254,22 @@
         <translation>如果您不喜欢它，点这里</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="324"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="327"/>
         <source>Subscribtions: </source>
         <translation>订阅：</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="378"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="381"/>
         <source>Open In Steam</source>
         <translation>在Steam打开</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="388"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="391"/>
         <source>Subscribed!</source>
         <translation>已订阅！</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="388"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="391"/>
         <source>Subscribe</source>
         <translation>订阅</translation>
     </message>
@@ -2205,7 +2205,7 @@
 <context>
     <name>XMLNewsfeed</name>
     <message>
-        <location filename="../qml/Community/XMLNewsfeed.qml" line="53"/>
+        <location filename="../qml/Community/XMLNewsfeed.qml" line="62"/>
         <source>News &amp; Patchnotes</source>
         <translation>新闻和更改日志</translation>
     </message>

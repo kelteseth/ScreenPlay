@@ -97,31 +97,31 @@
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="34"/>
-        <source>Wiki</source>
+        <source>News</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="40"/>
+        <source>Wiki</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Community/Community.qml" line="46"/>
         <source>Forum</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="45"/>
+        <location filename="../qml/Community/Community.qml" line="51"/>
         <source>Issue List</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="50"/>
-        <source>Release Notes</source>
+        <location filename="../qml/Community/Community.qml" line="56"/>
+        <source>Contribute</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="55"/>
-        <source>Contribution Guide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Community/Community.qml" line="60"/>
+        <location filename="../qml/Community/Community.qml" line="61"/>
         <source>Steam Workshop</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1555,37 +1555,37 @@ si vous avez installé ScreenPlay via Steam !
         <translation type="unfinished">Bonjour, je suis Elias Steurer, aussi connu sous le nom de Kelteseth, et je suis le développeur de ScreenPlay. Merci d&apos;utiliser mon logiciel. Vous pouvez me suivre pour recevoir des mises à jour sur ScreenPlay ici :</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="420"/>
+        <location filename="../qml/Settings/Settings.qml" line="425"/>
         <source>Version</source>
         <translation type="unfinished">Version</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="421"/>
+        <location filename="../qml/Settings/Settings.qml" line="426"/>
         <source>ScreenPlay Build Version </source>
         <translation type="unfinished">Version de construction de ScreenPlay </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="423"/>
+        <location filename="../qml/Settings/Settings.qml" line="428"/>
         <source>Open Changelog</source>
         <translation type="unfinished">Ouvrir le journal des modifications</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="430"/>
+        <location filename="../qml/Settings/Settings.qml" line="435"/>
         <source>Third Party Software</source>
         <translation type="unfinished">Logiciel tiers</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="431"/>
+        <location filename="../qml/Settings/Settings.qml" line="436"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation type="unfinished">ScreenPlay ne serait pas possible sans le travail des autres. Un grand merci à : </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="432"/>
+        <location filename="../qml/Settings/Settings.qml" line="437"/>
         <source>Licenses</source>
         <translation type="unfinished">Licences</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="450"/>
+        <location filename="../qml/Settings/Settings.qml" line="455"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1594,27 +1594,27 @@ si vous avez installé ScreenPlay via Steam !
         <translation type="obsolete">Messages de débogage</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="451"/>
+        <location filename="../qml/Settings/Settings.qml" line="456"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation type="unfinished">Si votre ScreenPlay se comporte mal, c&apos;est une bonne façon de chercher des réponses. Ceci montre tous les journaux et les avertissements pendant l&apos;exécution.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="452"/>
+        <location filename="../qml/Settings/Settings.qml" line="457"/>
         <source>Show Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="463"/>
+        <location filename="../qml/Settings/Settings.qml" line="468"/>
         <source>Data Protection</source>
         <translation type="unfinished">Protection des données</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="464"/>
+        <location filename="../qml/Settings/Settings.qml" line="469"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation type="unfinished">Nous utilisons vos données avec beaucoup de soin pour améliorer le ScreenPlay. Nous ne vendons ni ne partageons ces informations (anonymes) avec d&apos;autres personnes !</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="465"/>
+        <location filename="../qml/Settings/Settings.qml" line="470"/>
         <source>Privacy</source>
         <translation type="unfinished">Confidentialité</translation>
     </message>
@@ -1722,22 +1722,22 @@ si vous avez installé ScreenPlay via Steam !
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="324"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="327"/>
         <source>Subscribtions: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="378"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="381"/>
         <source>Open In Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="388"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="391"/>
         <source>Subscribed!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="388"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="391"/>
         <source>Subscribe</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2673,7 +2673,7 @@ si vous avez installé ScreenPlay via Steam !
 <context>
     <name>XMLNewsfeed</name>
     <message>
-        <location filename="../qml/Community/XMLNewsfeed.qml" line="53"/>
+        <location filename="../qml/Community/XMLNewsfeed.qml" line="62"/>
         <source>News &amp; Patchnotes</source>
         <translation type="unfinished">Nouveautées et notes de versions</translation>
     </message>

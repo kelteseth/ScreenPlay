@@ -73,31 +73,39 @@
     <name>Community</name>
     <message>
         <location filename="../qml/Community/Community.qml" line="34"/>
+        <source>News</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Community/Community.qml" line="40"/>
         <source>Wiki</source>
         <translation>Wiki</translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="40"/>
+        <location filename="../qml/Community/Community.qml" line="46"/>
         <source>Forum</source>
         <translation>Diễn đàn</translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="45"/>
+        <location filename="../qml/Community/Community.qml" line="51"/>
         <source>Issue List</source>
         <translation>D.Sách Lỗi</translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="50"/>
+        <location filename="../qml/Community/Community.qml" line="56"/>
+        <source>Contribute</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Release Notes</source>
-        <translation>Ghi chú bản phát hành</translation>
+        <translation type="vanished">Ghi chú bản phát hành</translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="55"/>
         <source>Contribution Guide</source>
-        <translation>Hướng dẫn đóng góp</translation>
+        <translation type="vanished">Hướng dẫn đóng góp</translation>
     </message>
     <message>
-        <location filename="../qml/Community/Community.qml" line="60"/>
+        <location filename="../qml/Community/Community.qml" line="61"/>
         <source>Steam Workshop</source>
         <translatorcomment>Still workshop.</translatorcomment>
         <translation>Steam Workshop</translation>
@@ -1337,37 +1345,37 @@
         <translation>Chào, tôi là Elias Steurer (hay còn được biết đến là Kelteseth) và tôi là nhà phát triển của ScreenPlay. Cảm ơn ban đã sử dụng ứng dụng của tôi. Bạn có thể theo dõi tôi ở đây để nhận tin tức về ScreenPlay:</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="420"/>
+        <location filename="../qml/Settings/Settings.qml" line="425"/>
         <source>Version</source>
         <translation>Phiên bản</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="421"/>
+        <location filename="../qml/Settings/Settings.qml" line="426"/>
         <source>ScreenPlay Build Version </source>
         <translation>Bản dựng của ScreenPlay </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="423"/>
+        <location filename="../qml/Settings/Settings.qml" line="428"/>
         <source>Open Changelog</source>
         <translation>Mở changelog</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="430"/>
+        <location filename="../qml/Settings/Settings.qml" line="435"/>
         <source>Third Party Software</source>
         <translation>Những ứng dụng của bên thứ ba</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="431"/>
+        <location filename="../qml/Settings/Settings.qml" line="436"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation>ScreenPlay sẽ không thể có được néu như không có việc làm của những người khác. Một sự cảm ơn to lớn cho: </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="432"/>
+        <location filename="../qml/Settings/Settings.qml" line="437"/>
         <source>Licenses</source>
         <translation>Giấy phép</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="450"/>
+        <location filename="../qml/Settings/Settings.qml" line="455"/>
         <source>Logs</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1376,27 +1384,27 @@
         <translation type="vanished">Các ghi chú gỡ lỗi</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="451"/>
+        <location filename="../qml/Settings/Settings.qml" line="456"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation>Nếu ScreenPlay của bạn không hoạt động bình thường thì đây là cách tốt để tìm ra câu trả lời. Cái này sẽ hiện tất cả các ghi chú và cảnh báo trong lúc ứng dụng chạy.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="452"/>
+        <location filename="../qml/Settings/Settings.qml" line="457"/>
         <source>Show Logs</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="463"/>
+        <location filename="../qml/Settings/Settings.qml" line="468"/>
         <source>Data Protection</source>
         <translation>Bảo vệ dữ liệu</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="464"/>
+        <location filename="../qml/Settings/Settings.qml" line="469"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation>Chúng tôi dùng dữ liệu của bạn rất cẩn thận để cải thiện ScreenPlay. Chúng tôi không bán thông tin của bạn với người khác!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="465"/>
+        <location filename="../qml/Settings/Settings.qml" line="470"/>
         <source>Privacy</source>
         <translation>Quyền riêng tư</translation>
     </message>
@@ -1500,22 +1508,22 @@
         <translation type="vanished">Từ khóa:</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="324"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="327"/>
         <source>Subscribtions: </source>
         <translation>Đăng ký: </translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="378"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="381"/>
         <source>Open In Steam</source>
         <translation>Mở trên Steam</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="388"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="391"/>
         <source>Subscribed!</source>
         <translation>Đã đăng ký!</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="388"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="391"/>
         <source>Subscribe</source>
         <translation>Đăng ký</translation>
     </message>
@@ -2461,7 +2469,7 @@
 <context>
     <name>XMLNewsfeed</name>
     <message>
-        <location filename="../qml/Community/XMLNewsfeed.qml" line="53"/>
+        <location filename="../qml/Community/XMLNewsfeed.qml" line="62"/>
         <source>News &amp; Patchnotes</source>
         <translation>Tin tức &amp; Ghi chú</translation>
     </message>
