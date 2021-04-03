@@ -99,11 +99,10 @@ private slots:
     void checkForFullScreenWindow();
 
 private:
-    int m_windowOffsetX = 0;
-    int m_windowOffsetY = 0;
+    QPoint m_zeroPoint {};
     QQuickView m_window;
-    HWND m_windowHandle;
-    HWND m_windowHandleWorker;
+    HWND m_windowHandle {};
+    HWND m_windowHandleWorker {};
     QTimer m_checkForFullScreenWindowTimer;
     std::unique_ptr<WindowsDesktopProperties> m_windowsDesktopProperties;
 };

@@ -160,13 +160,19 @@ WinWindow::WinWindow(
         qFatal("No worker window found");
     }
 
+    RECT rect {};
+    if (!GetWindowRect(m_windowHandleWorker, &rect)) {
+        qFatal("Unable to get WindoeRect from worker");
+    }
+
+    // Windows coordante system begins at 0x0 at the
+    // main monitors upper left and not at the most left top monitor.
+    // This can be easily read from the worker window.
+    m_zeroPoint = { std::abs(rect.left), std::abs(rect.top) };
+
     // WARNING: Setting Window flags must be called *here*!
     SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
     SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_POPUPWINDOW);
-
-    // Windows coordante system begins at 0x0 at the
-    // main monitors upper left and not at the most left top monitor
-    calcOffsets();
 
     // Ether for one Screen or for all
     if ((QApplication::screens().length() == activeScreensList.length()) && (activeScreensList.length() != 1)) {
@@ -237,24 +243,15 @@ BOOL CALLBACK GetMonitorByIndex(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMo
     return TRUE;
 }
 
-void WinWindow::calcOffsets()
-{
-    for (int i = 0; i < QApplication::screens().count(); i++) {
-        QScreen* screen = QApplication::screens().at(i);
-        if (screen->availableGeometry().x() < 0) {
-            m_windowOffsetX += (screen->availableGeometry().x() * -1);
-        }
-        if (screen->availableGeometry().y() < 0) {
-            m_windowOffsetY += (screen->availableGeometry().y() * -1);
-        }
-    }
-}
-
 void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
     const QRect screenRect = QApplication::screens().at(activeScreen)->geometry();
 
-    float scaling = getScaling(activeScreen);
+    float scaling = 1; // getScaling(activeScreen);
+    for (int i = 0; i < QApplication::screens().count(); i++) {
+        qInfo() << i << "scaling " << getScaling(i) << QApplication::screens().at(i)->geometry();
+    }
+    qInfo() << scaling;
 
     cMonitorsVec Monitors;
     int width = std::abs(Monitors.rcMonitors[activeScreen].right - Monitors.rcMonitors[activeScreen].left);
@@ -275,8 +272,8 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
     if (!SetWindowPos(
             m_windowHandle,
             nullptr,
-            screenRect.x() + m_windowOffsetX,
-            screenRect.y() + m_windowOffsetY,
+            screenRect.x() + m_zeroPoint.x(),
+            screenRect.y() + m_zeroPoint.y(),
             screenRect.width() / scaling,
             screenRect.height() / scaling,
             SWP_HIDEWINDOW)) {
@@ -326,7 +323,7 @@ void WinWindow::setupWallpaperForMultipleScreens(const QVector<int>& activeScree
     rect.setX(upperLeftScreen->geometry().x());
     rect.setY(upperLeftScreen->geometry().y());
 
-    if (!SetWindowPos(m_windowHandle, nullptr, rect.x() + m_windowOffsetX, rect.y() + m_windowOffsetY, rect.width(), rect.height(), SWP_SHOWWINDOW)) {
+    if (!SetWindowPos(m_windowHandle, nullptr, rect.x() + m_zeroPoint.x(), rect.y() + m_zeroPoint.y(), rect.width(), rect.height(), SWP_SHOWWINDOW)) {
         qFatal("Could not set window pos: ");
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
