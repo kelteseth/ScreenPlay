@@ -93,6 +93,7 @@ private:
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
     void setupWindowMouseHook();
     bool searchWorkerWindowToParentTo();
+    void configureWindowGeometry();
     float getScaling(const int monitorIndex);
 
 private slots:
@@ -104,5 +105,6 @@ private:
     HWND m_windowHandle {};
     HWND m_windowHandleWorker {};
     QTimer m_checkForFullScreenWindowTimer;
+    QTimer m_reconfigureTimer;
     std::unique_ptr<WindowsDesktopProperties> m_windowsDesktopProperties;
 };

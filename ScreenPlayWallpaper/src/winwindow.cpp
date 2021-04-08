@@ -2,11 +2,12 @@
 #include "WinUser.h"
 #include "qqml.h"
 #include <ShellScalingApi.h>
+#include <algorithm>
 #include <iostream>
 #include <vector>
 #include <windows.h>
 
-struct cMonitorsVec {
+struct WinMonitorStats {
     std::vector<int> iMonitors;
     std::vector<HMONITOR> hMonitors;
     std::vector<HDC> hdcMonitors;
@@ -17,7 +18,7 @@ struct cMonitorsVec {
     static BOOL CALLBACK MonitorEnum(HMONITOR hMon, HDC hdc, LPRECT lprcMonitor,
         LPARAM pData)
     {
-        cMonitorsVec* pThis = reinterpret_cast<cMonitorsVec*>(pData);
+        WinMonitorStats* pThis = reinterpret_cast<WinMonitorStats*>(pData);
         auto scaleFactor = DEVICE_SCALE_FACTOR::DEVICE_SCALE_FACTOR_INVALID;
         GetScaleFactorForMonitor(hMon, &scaleFactor);
 
@@ -33,7 +34,7 @@ struct cMonitorsVec {
         return TRUE;
     }
 
-    cMonitorsVec() { EnumDisplayMonitors(0, 0, MonitorEnum, (LPARAM)this); }
+    WinMonitorStats() { EnumDisplayMonitors(0, 0, MonitorEnum, (LPARAM)this); }
 };
 
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
@@ -51,6 +52,7 @@ BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 
 HHOOK g_mouseHook;
 QPoint g_LastMousePosition { 0, 0 };
+QPoint g_globalOffset { 0, 0 };
 QQuickView* g_winGlobalHook = nullptr;
 
 LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
@@ -96,13 +98,13 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     QApplication::sendEvent(g_winGlobalHook, &event);
 
     if (type == QMouseEvent::Type::MouseButtonPress) {
-        QTimer::singleShot(100, [=]() {
-            auto eventPress = QMouseEvent(QMouseEvent::Type::MouseButtonPress, g_LastMousePosition, mouseButton, mouseButtons, {});
-            qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventPress);
-            auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, mouseButton, mouseButtons, {});
-            qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventRelease);
-        });
     }
+    QTimer::singleShot(100, [&]() {
+        //auto eventPress = QMouseEvent(QMouseEvent::Type::MouseButtonPress, g_LastMousePosition, mouseButton, mouseButtons, {});
+        //qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventPress) << g_globalOffset.x() << g_globalOffset.y();
+        auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, mouseButton, mouseButtons, {});
+        //qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventRelease);
+    });
 
     return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
 }
@@ -135,16 +137,23 @@ WinWindow::WinWindow(
     : BaseWindow(projectPath, activeScreensList, checkWallpaperVisible)
 
 {
+    auto* guiAppInst = dynamic_cast<QApplication*>(QApplication::instance());
+    connect(guiAppInst, &QApplication::screenAdded, this, &WinWindow::configureWindowGeometry);
+    connect(guiAppInst, &QApplication::screenRemoved, this, &WinWindow::configureWindowGeometry);
+    connect(guiAppInst, &QApplication::primaryScreenChanged, this, &WinWindow::configureWindowGeometry);
 
-    qRegisterMetaType<WindowsDesktopProperties*>();
-    qRegisterMetaType<WinWindow*>();
+    for (auto screen : QApplication::screens()) {
+        connect(screen, &QScreen::geometryChanged, this, &WinWindow::configureWindowGeometry);
+    }
+
     m_windowsDesktopProperties = std::make_unique<WindowsDesktopProperties>();
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
-
     if (!IsWindow(m_windowHandle)) {
         qFatal("Could not get a valid window handle!");
     }
-    ShowWindow(m_windowHandleWorker, SW_HIDE);
+    qRegisterMetaType<WindowsDesktopProperties*>();
+    qRegisterMetaType<WinWindow*>();
+
     setAppID(id);
 
     bool ok = false;
@@ -156,45 +165,20 @@ WinWindow::WinWindow(
     setVolume(volumeParsed);
     setFillMode(fillmode);
 
-    if (!searchWorkerWindowToParentTo()) {
-        qFatal("No worker window found");
-    }
-
-    RECT rect {};
-    if (!GetWindowRect(m_windowHandleWorker, &rect)) {
-        qFatal("Unable to get WindoeRect from worker");
-    }
-
-    // Windows coordante system begins at 0x0 at the
-    // main monitors upper left and not at the most left top monitor.
-    // This can be easily read from the worker window.
-    m_zeroPoint = { std::abs(rect.left), std::abs(rect.top) };
-
-    // WARNING: Setting Window flags must be called *here*!
-    SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
-    SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_POPUPWINDOW);
-
-    // Ether for one Screen or for all
-    if ((QApplication::screens().length() == activeScreensList.length()) && (activeScreensList.length() != 1)) {
-        setupWallpaperForAllScreens();
-    } else if (activeScreensList.length() == 1) {
-        setupWallpaperForOneScreen(activeScreensList.at(0));
-        setCanFade(true);
-    } else if (activeScreensList.length() > 1) {
-        setupWallpaperForMultipleScreens(activeScreensList);
-    }
-
-    setWidth(m_window.width());
-    setHeight(m_window.height());
-
     qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
 
-    // Instead of setting "renderType: Text.NativeRendering" every time
-    // we can set it here once :)
-    m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
-    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.setSource(QUrl("qrc:/Wallpaper.qml"));
-    m_window.hide();
+    configureWindowGeometry();
+    bool hasWindowScaling = false;
+    for (int i = 0; i < QApplication::screens().count(); i++) {
+        if (getScaling(i) != 1) {
+            hasWindowScaling = true;
+            break;
+        }
+    }
+    if (hasWindowScaling) {
+        qInfo() << "scaling";
+        configureWindowGeometry();
+    }
 
     QObject::connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);
 
@@ -205,21 +189,20 @@ WinWindow::WinWindow(
         }
     }
 
-    //    QTimer::singleShot(1000, [this]() {
-    //        setupWindowMouseHook();
-    //    });
+    QTimer::singleShot(1000, [&]() {
+        setupWindowMouseHook();
+    });
 }
 
 void WinWindow::setVisible(bool show)
 {
     if (show) {
-        if (!ShowWindow(m_windowHandle, SW_SHOW)) {
+        if (!ShowWindow(m_windowHandle, SW_SHOW))
             qDebug() << "Cannot set window handle SW_SHOW";
-        }
+
     } else {
-        if (!ShowWindow(m_windowHandle, SW_HIDE)) {
+        if (!ShowWindow(m_windowHandle, SW_HIDE))
             qDebug() << "Cannot set window handle SW_HIDE";
-        }
     }
 }
 
@@ -247,15 +230,19 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
     const QRect screenRect = QApplication::screens().at(activeScreen)->geometry();
 
-    float scaling = 1; // getScaling(activeScreen);
+    const float scaling = 1; //getScaling(activeScreen);
     for (int i = 0; i < QApplication::screens().count(); i++) {
         qInfo() << i << "scaling " << getScaling(i) << QApplication::screens().at(i)->geometry();
     }
-    qInfo() << scaling;
 
-    cMonitorsVec Monitors;
+    qInfo() << activeScreen << "Monitor 0" << getScaling(0) << QApplication::screens().at(0)->geometry();
+    qInfo() << activeScreen << "Monitor 1" << getScaling(1) << QApplication::screens().at(1)->geometry();
+
+    WinMonitorStats Monitors;
     int width = std::abs(Monitors.rcMonitors[activeScreen].right - Monitors.rcMonitors[activeScreen].left);
     int height = std::abs(Monitors.rcMonitors[activeScreen].top - Monitors.rcMonitors[activeScreen].bottom);
+    qInfo() << "scaling " << scaling << width << height << " activeScreen " << activeScreen;
+    qInfo() << "scaling " << scaling << screenRect.width() << screenRect.height() << " activeScreen " << activeScreen;
 
     // Needs to be set like to this work. I do not know why...
     if (!SetWindowPos(
@@ -274,8 +261,8 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
             nullptr,
             screenRect.x() + m_zeroPoint.x(),
             screenRect.y() + m_zeroPoint.y(),
-            screenRect.width() / scaling,
-            screenRect.height() / scaling,
+            screenRect.width() * scaling,
+            screenRect.height() * scaling,
             SWP_HIDEWINDOW)) {
         qFatal("Could not set window pos");
     }
@@ -377,11 +364,48 @@ float WinWindow::getScaling(const int monitorIndex)
     }
 }
 
-QString printWindowNameByhWnd(HWND hWnd)
+void WinWindow::configureWindowGeometry()
 {
-    std::wstring title(GetWindowTextLength(hWnd) + 1, L'\0');
-    GetWindowTextW(hWnd, &title[0], title.size());
-    return QString::fromStdWString(title);
+    ShowWindow(m_windowHandleWorker, SW_HIDE);
+
+    if (!searchWorkerWindowToParentTo()) {
+        qFatal("No worker window found");
+    }
+
+    RECT rect {};
+    if (!GetWindowRect(m_windowHandleWorker, &rect)) {
+        qFatal("Unable to get WindoeRect from worker");
+    }
+
+    // Windows coordante system begins at 0x0 at the
+    // main monitors upper left and not at the most left top monitor.
+    // This can be easily read from the worker window.
+    m_zeroPoint = { std::abs(rect.left), std::abs(rect.top) };
+    g_globalOffset = m_zeroPoint;
+
+    // WARNING: Setting Window flags must be called *here*!
+    SetWindowLongPtr(m_windowHandle, GWL_EXSTYLE, WS_EX_LEFT | WS_EX_LTRREADING | WS_EX_RIGHTSCROLLBAR | WS_EX_NOACTIVATE | WS_EX_TOOLWINDOW | WS_EX_TRANSPARENT);
+    SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_POPUPWINDOW);
+
+    // Ether for one Screen or for all
+    if ((QApplication::screens().length() == activeScreensList().length()) && (activeScreensList().length() != 1)) {
+        setupWallpaperForAllScreens();
+    } else if (activeScreensList().length() == 1) {
+        setupWallpaperForOneScreen(activeScreensList().at(0));
+        setCanFade(true);
+    } else if (activeScreensList().length() > 1) {
+        setupWallpaperForMultipleScreens(activeScreensList());
+    }
+
+    setWidth(m_window.width());
+    setHeight(m_window.height());
+
+    // Instead of setting "renderType: Text.NativeRendering" every time
+    // we can set it here once :)
+    m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
+    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    m_window.setSource(QUrl("qrc:/Wallpaper.qml"));
+    m_window.hide();
 }
 
 BOOL CALLBACK FindTheDesiredWnd(HWND hWnd, LPARAM lParam)
