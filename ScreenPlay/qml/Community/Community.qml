@@ -142,4 +142,10 @@ Item {
             }
         }
     }
+
+    Binding{
+        target: nav
+        property: "currentIndex"
+        value: swipeView.currentIndex
+    }
 }
