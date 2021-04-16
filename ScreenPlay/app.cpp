@@ -225,7 +225,7 @@ void App::exit()
         // Workaround because we cannot force to send exit event
         m_telemetry->setSendInterval(5);
         m_telemetry->endSession();
-        QTimer::singleShot(150, []() { QApplication::instance()->quit(); });
+        QTimer::singleShot(150, this, []() { QApplication::instance()->quit(); });
     }
 }
 

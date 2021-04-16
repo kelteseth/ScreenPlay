@@ -99,7 +99,7 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 
     if (type == QMouseEvent::Type::MouseButtonPress) {
     }
-    QTimer::singleShot(100, [&]() {
+    QTimer::singleShot(100,  [&]() {
         //auto eventPress = QMouseEvent(QMouseEvent::Type::MouseButtonPress, g_LastMousePosition, mouseButton, mouseButtons, {});
         //qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventPress) << g_globalOffset.x() << g_globalOffset.y();
         auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, mouseButton, mouseButtons, {});
@@ -189,7 +189,7 @@ WinWindow::WinWindow(
         }
     }
 
-    QTimer::singleShot(1000, [&]() {
+    QTimer::singleShot(1000, this, [&]() {
         setupWindowMouseHook();
     });
 }

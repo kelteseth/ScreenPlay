@@ -187,7 +187,7 @@ void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>&
 {
     m_connection = connection;
 
-    QTimer::singleShot(1000, [this]() {
+    QTimer::singleShot(1000, this, [this]() {
         if (playbackRate() != 1.0) {
             setWallpaperValue("playbackRate", QString::number(playbackRate()), false);
         }

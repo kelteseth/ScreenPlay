@@ -36,7 +36,7 @@ void ScreenPlaySDK::init()
     // If the wallpaper never connects it will never get the
     // disconnect event. We can savely assume no connection will
     // be made after 1 second timeout.
-    QTimer::singleShot(1000, [this]() {
+    QTimer::singleShot(1000, this, [this]() {
         if (m_socket.state() != QLocalSocket::ConnectedState) {
             m_socket.disconnectFromServer();
             emit sdkDisconnected();
