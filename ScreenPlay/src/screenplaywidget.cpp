@@ -48,15 +48,18 @@ ScreenPlayWidget::ScreenPlayWidget(
         m_projectSettingsListModel.init(type, projectSettingsListModelProperties);
     }
 
-    const QStringList proArgs {
+    m_appArgumentsList = QStringList {
         m_absolutePath,
         QString { "appID=" + m_appID },
         QVariant::fromValue(m_type).toString(),
         QString::number(m_position.x()),
         QString::number(m_position.y()),
     };
+}
 
-    m_process.setArguments(proArgs);
+bool ScreenPlayWidget::start()
+{
+    m_process.setArguments(m_appArgumentsList);
     m_process.setProgram(m_globalVariables->widgetExecutablePath().path());
 
     QObject::connect(&m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
@@ -65,10 +68,9 @@ ScreenPlayWidget::ScreenPlayWidget(
     const bool success = m_process.startDetached();
     qInfo() << "Starting ScreenPlayWWidget detached: " << (success ? "success" : "failed!");
     if (!success) {
-        qInfo() << m_process.errorString();
-        emit requestClose(m_appID);
         emit error(QString("Could not start Widget: " + m_process.errorString()));
     }
+    return success;
 }
 
 /*!

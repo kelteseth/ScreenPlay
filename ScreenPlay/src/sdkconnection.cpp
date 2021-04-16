@@ -98,27 +98,34 @@ void ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
     \brief Closes the socket connection. Before it explicitly sends a quit command to make sure
            the wallpaper closes (fast). This also requestDecreaseWidgetCount() because Widgets.
 */
-void ScreenPlay::SDKConnection::close()
+bool ScreenPlay::SDKConnection::close()
 {
 
-    qInfo() << "Close " << m_type << m_appID;
+    qInfo() << "Close " << m_type << m_appID << m_socket->state();
 
     QJsonObject obj;
     obj.insert("command", QJsonValue("quit"));
     QByteArray command = QJsonDocument(obj).toJson();
 
     m_socket->write(command);
-    m_socket->waitForBytesWritten();
+    if (!m_socket->waitForBytesWritten()) {
+        qWarning("Faild to send quit command to app");
+        return false;
+    }
 
     if (m_socket->state() == QLocalSocket::ConnectedState) {
         m_socket->disconnectFromServer();
         m_socket->close();
 
-        qDebug() << "### Destroy APPID:\t " << m_appID << " State: " << m_socket->state();
+        qInfo() << "### Destroy APPID:\t " << m_appID << " State: " << m_socket->state();
+    } else {
+        qWarning() << "Cannot disconnect  app " << m_appID << " with the state:" << m_socket->state();
+        return false;
     }
 
     if (m_type.contains("widget", Qt::CaseInsensitive)) {
         emit requestDecreaseWidgetCount();
     }
+    return true;
 }
 }

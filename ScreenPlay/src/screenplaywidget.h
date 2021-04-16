@@ -68,6 +68,8 @@ public:
         const QString& previewImage, const QJsonObject& properties,
         const InstalledType::InstalledType type);
 
+    bool start();
+
     ScreenPlayWidget() { }
 
     QString previewImage() const { return m_previewImage; }
@@ -155,5 +157,6 @@ private:
     InstalledType::InstalledType m_type;
     QString m_absolutePath;
     QTimer m_pingAliveTimer;
+    QStringList m_appArgumentsList;
 };
 }

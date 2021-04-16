@@ -98,14 +98,12 @@ Popup {
                     if (installedType === InstalledType.VideoWallpaper) {
                         videoControlWrapper.state = "visible"
                         customPropertiesGridView.visible = false
-                        const wallpaper = ScreenPlay.screenPlayManager.getWallpaperByAppID(
-                                            appID)
+                        const wallpaper = ScreenPlay.screenPlayManager.getWallpaperByAppID(appID)
                         videoControlWrapper.wallpaper = wallpaper
                     } else {
                         videoControlWrapper.state = "hidden"
                         customPropertiesGridView.visible = true
-                        ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(
-                                    index)
+                        ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(index)
                     }
 
                     activeMonitorIndex = index
@@ -135,8 +133,10 @@ Popup {
                     font.family: ScreenPlay.settings.font
                     enabled: monitorSelection.activeMonitors.length == 1
                     onClicked: {
-                        ScreenPlay.screenPlayManager.removeWallpaperAt(
-                                    monitorSelection.activeMonitors[0])
+                        if (!ScreenPlay.screenPlayManager.removeWallpaperAt(
+                                    monitorSelection.activeMonitors[0])) {
+                            print("Unable to close singel wallpaper")
+                        }
                     }
                 }
                 Button {
@@ -149,21 +149,26 @@ Popup {
                     font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
-                        ScreenPlay.screenPlayManager.removeAllWallpapers()
+                        if (!ScreenPlay.screenPlayManager.removeAllWallpapers()) {
+                            print("Unable to close all wallpaper!")
+                        }
+
                         monitors.close()
                     }
                 }
                 Button {
                     id: btnRemoveAllWidgets
                     text: qsTr("Remove ")
-                          + ScreenPlay.screenPlayManager.activeWidgetsCounter + " " + qsTr(
-                              "Widgets")
+                          + ScreenPlay.screenPlayManager.activeWidgetsCounter + " " + qsTr("Widgets")
                     Material.background: Material.accent
                     Material.foreground: "white"
                     font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
                     onClicked: {
-                        ScreenPlay.screenPlayManager.removeAllWidgets()
+                        if (!ScreenPlay.screenPlayManager.removeAllWidgets()) {
+                            print("Unable to close all widgets!")
+                        }
+
                         monitors.close()
                     }
                 }

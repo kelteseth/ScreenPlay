@@ -94,7 +94,7 @@ private slots:
 
 public slots:
     // moc needs full enum namespace info see QTBUG-58454
-    void createWallpaper(
+    bool createWallpaper(
         const ScreenPlay::InstalledType::InstalledType type,
         const ScreenPlay::FillMode::FillMode fillMode,
         const QString& absoluteStoragePath,
@@ -106,7 +106,7 @@ public slots:
         const QJsonObject& properties,
         const bool saveToProfilesConfigFile);
 
-    void createWidget(
+    bool createWidget(
         const ScreenPlay::InstalledType::InstalledType type,
         const QPoint& position,
         const QString& absoluteStoragePath,
@@ -125,8 +125,8 @@ public slots:
     ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID) const;
 
     void newConnection();
-    void closeAllWallpapers();
-    void closeAllWidgets();
+    bool closeAllWallpapers();
+    bool closeAllWidgets();
     bool closeConntectionByType(const QStringList& types);
     bool closeConnection(const QString& appID);
     void setWallpaperValue(const QString& appID, const QString& key, const QString& value);

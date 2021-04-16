@@ -101,7 +101,7 @@ void ScreenPlayManager::init(
     a \a fillMode, a \a type (htmlWallpaper, qmlWallpaper etc.), a \a saveToProfilesConfigFile bool only set to flase
     if we call the method when using via the settings on startup to skip a unnecessary save.
 */
-void ScreenPlayManager::createWallpaper(
+bool ScreenPlayManager::createWallpaper(
     const InstalledType::InstalledType type,
     const FillMode::FillMode fillMode,
     const QString& absoluteStoragePath,
@@ -148,7 +148,7 @@ void ScreenPlayManager::createWallpaper(
                         m_settings->checkWallpaperVisible());
                     m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
 
-                    return;
+                    return true;
                 }
             }
             i++;
@@ -172,15 +172,19 @@ void ScreenPlayManager::createWallpaper(
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestClose, this, &ScreenPlayManager::removeApp);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::error, this, &ScreenPlayManager::displayErrorPopup);
+    if (!wallpaper->start()) {
+        return false;
+    }
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
     increaseActiveWallpaperCounter();
+    return true;
 }
 
 /*!
   \brief Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
 */
-void ScreenPlayManager::createWidget(
+bool ScreenPlayManager::createWidget(
     const InstalledType::InstalledType type,
     const QPoint& position,
     const QString& absoluteStoragePath,
@@ -200,7 +204,7 @@ void ScreenPlayManager::createWidget(
 
     if (path.isEmpty()) {
         qWarning() << "Path is empty, Abort! String: " << absoluteStoragePath;
-        return;
+        return false;
     }
 
     auto widget = std::make_shared<ScreenPlayWidget>(
@@ -215,8 +219,12 @@ void ScreenPlayManager::createWidget(
     QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(widget.get(), &ScreenPlayWidget::requestClose, this, &ScreenPlayManager::removeApp);
     QObject::connect(widget.get(), &ScreenPlayWidget::error, this, &ScreenPlayManager::displayErrorPopup);
+    if (!widget->start()) {
+        return false;
+    }
     increaseActiveWidgetsCounter();
     m_screenPlayWidgets.append(widget);
+    return true;
 }
 
 /*!
@@ -414,13 +422,18 @@ void ScreenPlayManager::newConnection()
     \li godotWallpaper
  \endlist
 */
-void ScreenPlayManager::closeAllWallpapers()
+bool ScreenPlayManager::closeAllWallpapers()
 {
-    if (m_screenPlayWallpapers.empty() && m_activeWallpaperCounter == 0)
-        return;
+    if (m_screenPlayWallpapers.empty() && m_activeWallpaperCounter == 0) {
+        qWarning() << "Cannot close connection on empty client list!";
+        return true;
+    }
 
-    closeConntectionByType(ScreenPlayUtil::getAvailableWallpaper());
+    if (!closeConntectionByType(ScreenPlayUtil::getAvailableWallpaper())) {
+        return false;
+    }
     setActiveWallpaperCounter(0);
+    return true;
 }
 
 /*!
@@ -431,13 +444,18 @@ void ScreenPlayManager::closeAllWallpapers()
     \li standaloneWidget
  \endlist
 */
-void ScreenPlayManager::closeAllWidgets()
+bool ScreenPlayManager::closeAllWidgets()
 {
-    if (m_screenPlayWidgets.empty() && m_activeWidgetsCounter == 0)
-        return;
+    if (m_screenPlayWidgets.empty() && m_activeWidgetsCounter == 0) {
+        qWarning() << "Cannot close connection on empty client list!";
+        return true;
+    }
 
-    closeConntectionByType(ScreenPlayUtil::getAvailableWidgets());
+    if (!closeConntectionByType(ScreenPlayUtil::getAvailableWidgets())) {
+        return false;
+    }
     setActiveWidgetsCounter(0);
+    return true;
 }
 
 /*!
@@ -445,13 +463,18 @@ void ScreenPlayManager::closeAllWidgets()
 */
 bool ScreenPlayManager::closeConntectionByType(const QStringList& types)
 {
-    if (m_clients.isEmpty())
+    if (m_clients.isEmpty()) {
+        qWarning() << "Cannot close connection on empty client list!";
         return true;
+    }
 
     for (auto& client : m_clients) {
         if (types.contains(client->type(), Qt::CaseInsensitive)) {
-            client->close();
+            if (client->close()) {
+                return false;
+            }
             if (!m_clients.removeOne(client)) {
+                qWarning() << "Cannot close client";
                 return false;
             }
         }

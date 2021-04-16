@@ -77,7 +77,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
         tmpScreenNumber = QString::number(m_screenNumber.first());
     }
 
-    const QStringList proArgs {
+    m_appArgumentsList = QStringList {
         tmpScreenNumber,
         m_absolutePath,
         QString { "appID=" + m_appID },
@@ -88,8 +88,11 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
         // Fixes issue 84 media key overlay
         " --disable-features=HardwareMediaKeyHandling"
     };
+}
 
-    m_process.setArguments(proArgs);
+bool ScreenPlayWallpaper::start()
+{
+    m_process.setArguments(m_appArgumentsList);
     m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
     // We must start detatched otherwise we would instantly close the process
     // and would loose the animted fade-out and the background refresh needed
@@ -97,10 +100,9 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const bool success = m_process.startDetached();
     qInfo() << "Starting ScreenPlayWallpaper detached: " << (success ? "success" : "failed!");
     if (!success) {
-        qInfo() << m_process.errorString();
-        emit requestClose(m_appID);
         emit error(QString("Could not start Wallpaper: " + m_process.errorString()));
     }
+    return success;
 }
 
 /*!

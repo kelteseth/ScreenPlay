@@ -82,6 +82,8 @@ public:
         const bool checkWallpaperVisible,
         QObject* parent = nullptr);
 
+    bool start();
+
     void replace(
         const QString& absolutePath,
         const QString& previewImage,
@@ -249,5 +251,6 @@ private:
     bool m_isLooping { true };
     float m_playbackRate { 1.0f };
     QTimer m_pingAliveTimer;
+    QStringList m_appArgumentsList;
 };
 }
