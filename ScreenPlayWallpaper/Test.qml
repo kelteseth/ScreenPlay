@@ -36,10 +36,10 @@ Rectangle {
 
         onPositionChanged: {
             setPosition()
-
         }
         onClicked: {
-           // setPosition()
+
+            // setPosition()
         }
         function setPosition() {
             attractor.pointX = mouseX - 25
@@ -52,8 +52,6 @@ Rectangle {
         id: mouseDot
         property int center: mouseDot.width * .5
         width: 10
-        y: attractor.pointY
-        x: attractor.pointX
         height: width
         radius: width
         z: 99
@@ -103,6 +101,21 @@ Rectangle {
         source: "dot.png"
         system: particleSystem
         opacity: root.imgOpacity
+    }
+    Text {
+        id: txtMousePos
+        property int counter: 0
+        text: attractor.pointY + " - " +attractor.pointX
+        font.pointSize: 32
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        wrapMode: Text.WordWrap
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: txtButtonConter.top
+            bottomMargin: 20
+        }
+        color: "white"
     }
 
     Text {
