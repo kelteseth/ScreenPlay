@@ -74,7 +74,8 @@ bool ScreenPlayWidget::start()
 }
 
 /*!
-    \brief Connects to ScreenPlay. Start a alive ping check for every 16 seconds.
+    \brief Connects to ScreenPlay. Start a alive ping check for every
+           GlobalVariables::contentPingAliveIntervalMS  seconds.
 */
 void ScreenPlayWidget::setSDKConnection(std::unique_ptr<SDKConnection> connection)
 {
