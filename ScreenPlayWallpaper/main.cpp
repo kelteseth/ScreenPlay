@@ -54,7 +54,7 @@ int main(int argc, char* argv[])
         return -3;
     }
 
-    const bool debugMode = true;
+    const bool debugMode = false;
 
     const auto activeScreensList = ScreenPlayUtil::parseStringToIntegerList(argumentList.at(1));
 

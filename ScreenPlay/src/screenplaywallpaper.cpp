@@ -16,7 +16,7 @@ namespace ScreenPlay {
 ScreenPlayWallpaper::~ScreenPlayWallpaper()
 {
     qInfo() << "Remove wallpaper " << m_appID;
-     m_connection->close();
+    m_connection->close();
 }
 
 /*!
@@ -168,7 +168,7 @@ void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
         playbackRate or fillMode. Otherwise it is a simple key, value json pair.
 
 */
-void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value, const bool save)
+bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value, const bool save)
 {
     QJsonObject obj;
     obj.insert(key, value);
@@ -183,10 +183,12 @@ void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
         setFillMode(QStringToEnum<FillMode::FillMode>(value, FillMode::FillMode::Cover));
     }
 
-    m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+    const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
 
-    if (save)
+    if (save && success)
         emit requestSave();
+
+    return success;
 }
 
 /*!

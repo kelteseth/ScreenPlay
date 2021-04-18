@@ -88,7 +88,7 @@ signals:
     void displayErrorPopup(const QString& msg);
 
 private slots:
-    void saveProfiles();
+    bool saveProfiles();
 
 public slots:
     // moc needs full enum namespace info see QTBUG-58454
@@ -116,10 +116,10 @@ public slots:
     bool removeAllWidgets();
     bool removeWallpaperAt(const int index);
 
-    void requestProjectSettingsAtMonitorIndex(const int index);
+    bool requestProjectSettingsAtMonitorIndex(const int index);
     bool setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
-    void setAllWallpaperValue(const QString& key, const QString& value);
-    void setWallpaperValue(const QString& appID, const QString& key, const QString& value);
+    bool setAllWallpaperValue(const QString& key, const QString& value);
+    bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
     ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID) const;
 
     void newConnection();
@@ -173,7 +173,7 @@ public slots:
     }
 
 private:
-    void loadProfiles();
+    bool loadProfiles();
     bool checkIsAnotherScreenPlayInstanceRunning();
     bool removeWallpaper(const QString& appID);
     bool removeWidget(const QString& appID);

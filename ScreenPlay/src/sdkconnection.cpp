@@ -88,10 +88,10 @@ void ScreenPlay::SDKConnection::readyRead()
 /*!
     \brief Sends a message to the connected socket.
 */
-void ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
+bool ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 {
     m_socket->write(message);
-    m_socket->waitForBytesWritten();
+    return m_socket->waitForBytesWritten();
 }
 
 /*!
