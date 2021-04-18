@@ -48,6 +48,7 @@
 #include "sdkconnection.h"
 
 #include <memory>
+#include <utility>
 
 namespace ScreenPlay {
 
@@ -68,6 +69,8 @@ public:
         const QString& previewImage, const QJsonObject& properties,
         const InstalledType::InstalledType type);
 
+    bool start();
+
     ScreenPlayWidget() { }
 
     QString previewImage() const { return m_previewImage; }
@@ -80,7 +83,7 @@ public:
 
     InstalledType::InstalledType type() const { return m_type; }
 
-    void setSDKConnection(const std::shared_ptr<SDKConnection>& connection);
+    void setSDKConnection(std::unique_ptr<SDKConnection> connection);
 
     ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
 
@@ -145,7 +148,7 @@ signals:
 
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
-    std::shared_ptr<SDKConnection> m_connection;
+    std::unique_ptr<SDKConnection> m_connection;
     ProjectSettingsListModel m_projectSettingsListModel;
 
     QProcess m_process;
@@ -155,5 +158,6 @@ private:
     InstalledType::InstalledType m_type;
     QString m_absolutePath;
     QTimer m_pingAliveTimer;
+    QStringList m_appArgumentsList;
 };
 }

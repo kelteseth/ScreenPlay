@@ -60,11 +60,12 @@ class WinWindow : public BaseWindow {
 public:
     explicit WinWindow(
         const QVector<int>& activeScreensList,
-        const QString& projectPath,
-        const QString& id,
+        const QString& projectFilePath,
+        const QString& appID,
         const QString& volume,
-        const QString& fillmode,
-        const bool checkWallpaperVisible);
+        const QString& fillmode, const QString &type,
+        const bool checkWallpaperVisible,
+        const bool debugMode = false);
 
     WindowsDesktopProperties* windowsDesktopProperties() const { return m_windowsDesktopProperties.get(); }
 
@@ -93,16 +94,18 @@ private:
     void setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList);
     void setupWindowMouseHook();
     bool searchWorkerWindowToParentTo();
+    void configureWindowGeometry();
+    float getScaling(const int monitorIndex);
 
 private slots:
     void checkForFullScreenWindow();
 
 private:
-    int m_windowOffsetX = 0;
-    int m_windowOffsetY = 0;
+    QPoint m_zeroPoint {};
     QQuickView m_window;
-    HWND m_windowHandle;
-    HWND m_windowHandleWorker;
+    HWND m_windowHandle {};
+    HWND m_windowHandleWorker {};
     QTimer m_checkForFullScreenWindowTimer;
+    QTimer m_reconfigureTimer;
     std::unique_ptr<WindowsDesktopProperties> m_windowsDesktopProperties;
 };

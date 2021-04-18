@@ -68,6 +68,7 @@ class ScreenPlayWallpaper : public QObject {
 
 public:
     ScreenPlayWallpaper() { }
+    ~ScreenPlayWallpaper();
 
     explicit ScreenPlayWallpaper(
         const QVector<int>& screenNumber,
@@ -82,6 +83,8 @@ public:
         const bool checkWallpaperVisible,
         QObject* parent = nullptr);
 
+    bool start();
+
     void replace(
         const QString& absolutePath,
         const QString& previewImage,
@@ -91,7 +94,7 @@ public:
         const InstalledType::InstalledType type,
         const bool checkWallpaperVisible);
 
-    void setSDKConnection(const std::shared_ptr<SDKConnection>& connection);
+    void setSDKConnection(std::unique_ptr<SDKConnection> connection);
 
     QJsonObject getActiveSettingsJson();
 
@@ -137,7 +140,7 @@ signals:
 public slots:
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
     void processError(QProcess::ProcessError error);
-    void setWallpaperValue(const QString& key, const QString& value, const bool save = false);
+    bool setWallpaperValue(const QString& key, const QString& value, const bool save = false);
 
     void setScreenNumber(QVector<int> screenNumber)
     {
@@ -234,7 +237,7 @@ public slots:
 
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
-    std::shared_ptr<SDKConnection> m_connection;
+    std::unique_ptr<SDKConnection> m_connection;
 
     ProjectSettingsListModel m_projectSettingsListModel;
     QVector<int> m_screenNumber;
@@ -249,5 +252,6 @@ private:
     bool m_isLooping { true };
     float m_playbackRate { 1.0f };
     QTimer m_pingAliveTimer;
+    QStringList m_appArgumentsList;
 };
 }

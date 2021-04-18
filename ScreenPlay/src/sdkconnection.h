@@ -93,8 +93,8 @@ signals:
 
 public slots:
     void readyRead();
-    void sendMessage(const QByteArray& message);
-    void close();
+    bool sendMessage(const QByteArray& message);
+    bool close();
 
     void setAppID(QString appID)
     {

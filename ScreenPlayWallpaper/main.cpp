@@ -5,6 +5,8 @@
 #include <QtGlobal>
 #include <QtWebEngine>
 
+#include "ScreenPlayUtil/util.h"
+
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
 #endif
@@ -17,11 +19,9 @@
 #include "src/macwindow.h"
 #endif
 
-#include "screenplaysdk.h"
-
 int main(int argc, char* argv[])
 {
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication app(argc, argv);
@@ -32,17 +32,12 @@ int main(int argc, char* argv[])
     // If we start with only one argument (app path)
     // It means we want to test a single wallpaper
     QStringList argumentList = app.arguments();
+
     if (argumentList.length() == 1) {
-
-        //Set the monitor number to test
-
 #if defined(Q_OS_WIN)
-
-        WinWindow window1({ 0 }, "test", "appid", "1", "fill", true);
-        //WinWindow window2({ 1 }, "test", "appid", "1", "fill");
-        //WinWindow window3({ 2 }, "test", "appid", "1", "fill");
-
-        // WinWindow window({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/qmlParticles", "appid", "1", "fill", true);
+        WinWindow window1({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
+        //WinWindow window2({ 1 }, "test", "appID=xyz", "1", "fill", true, true);
+        //WinWindow window3({ 2 }, "test", "appID=123", "1", "fill", true,true);
 #endif
 #if defined(Q_OS_LINUX)
         LinuxWindow window({ 0 }, "/home/graphicscore/Desktop/wallpapers/MechaGirl", "appid", "1", "fill", false);
@@ -54,48 +49,24 @@ int main(int argc, char* argv[])
         return app.exec();
     }
 
-    // 6 parameter + 1 OS working directory default paramter
+    // 8 parameter + 1 OS working directory as the first default paramter
     if (argumentList.length() != 9) {
         return -3;
     }
 
-    // AppID, Type
-    ScreenPlaySDK sdk(argumentList.at(3), argumentList.at(6));
+    const bool debugMode = false;
 
-    QString monitorNumbers = argumentList.at(1);
-    QStringList activeScreensList = monitorNumbers.split(",");
+    const auto activeScreensList = ScreenPlayUtil::parseStringToIntegerList(argumentList.at(1));
 
-    activeScreensList.removeAll(",");
-    QVector<int> list;
-
-    if (monitorNumbers.length() == 1) {
-        bool canParseMonitorNumber = false;
-        int monitor = monitorNumbers.toInt(&canParseMonitorNumber);
-        if (!canParseMonitorNumber) {
-            qFatal("Could not parse monitor id to diplay wallpaper");
-        } else {
-            list.append(monitor);
-        }
-
-    } else {
-
-        for (const QString& s : activeScreensList) {
-            bool ok = false;
-            int val = s.toInt(&ok);
-            if (!ok) {
-                qFatal("Could not parse monitor id to diplay wallpaper");
-            } else {
-                list.append(val);
-            }
-        }
-    }
-
-    if (list.empty()) {
+    if (!activeScreensList.has_value())
         return -4;
-    }
 
-    // Args: which monitor, (2) path to project, (3)wallpaper secret to identify the connected socket, (4) volume, (5) fillmode, (6) type, (7)
-    // See screenplay.h @ScreenPlayWallpaper constructor how the args get created
+    // See ScreenPlayWallpaper m_appArgumentsList constructor how the args get created
+    const QString projectFilePath = argumentList.at(2);
+    const QString appID = argumentList.at(3);
+    const QString volume = argumentList.at(4);
+    const QString fillmode = argumentList.at(5);
+    const QString type = argumentList.at(6);
 
     bool okParseCheckWallpaperVisible = false;
     bool checkWallpaperVisible = argumentList.at(7).toInt(&okParseCheckWallpaperVisible);
@@ -105,20 +76,37 @@ int main(int argc, char* argv[])
     }
 
 #if defined(Q_OS_WIN)
-    WinWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5), checkWallpaperVisible);
-    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &WinWindow::destroyThis);
-    QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &WinWindow::messageReceived);
-    QObject::connect(&sdk, &ScreenPlaySDK::replaceWallpaper, &window, &WinWindow::replaceWallpaper);
+    WinWindow window(
+        activeScreensList.value(),
+        projectFilePath,
+        appID,
+        volume,
+        fillmode,
+        type,
+        checkWallpaperVisible,
+        debugMode);
 #endif
 
 #if defined(Q_OS_LINUX)
-    LinuxWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5), checkWallpaperVisible);
+    LinuxWindow window(
+        activeScreensList.value(),
+        projectPath,
+        appID,
+        fillmode,
+        volume,
+        checkWallpaperVisible);
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &LinuxWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &LinuxWindow::messageReceived);
 #endif
 
 #if defined(Q_OS_OSX)
-    MacWindow window(list, argumentList.at(2), argumentList.at(3), argumentList.at(4), argumentList.at(5));
+    MacWindow window(
+        activeScreensList.value(),
+        projectPath,
+        appID,
+        fillmode,
+        volume,
+        checkWallpaperVisible);
     QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &MacWindow::destroyThis);
     QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &MacWindow::messageReceived);
 #endif

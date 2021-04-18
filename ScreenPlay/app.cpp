@@ -205,7 +205,7 @@ void App::init()
 
     // Must be called last to display a error message on startup by the qml engine
     m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_telemetry, m_settings);
-    QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_screenPlayManager.get(), &ScreenPlayManager::closeAllWallpapers);
+    QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_screenPlayManager.get(), &ScreenPlayManager::removeAllWallpapers);
 }
 
 QString App::version() const
@@ -225,7 +225,7 @@ void App::exit()
         // Workaround because we cannot force to send exit event
         m_telemetry->setSendInterval(5);
         m_telemetry->endSession();
-        QTimer::singleShot(150, []() { QApplication::instance()->quit(); });
+        QTimer::singleShot(150, this, []() { QApplication::instance()->quit(); });
     }
 }
 

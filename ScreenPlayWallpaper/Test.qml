@@ -8,6 +8,8 @@ Rectangle {
     id: root
     anchors.fill: parent
     color: Material.color(Material.Grey, Material.Shade800)
+    border.width: 10
+    border.color: "orange"
 
     property int attStrength: 800000
     //Emitter
@@ -25,7 +27,7 @@ Rectangle {
         id: ma
         anchors.fill: parent
         preventStealing: true
-        propagateComposedEvents:true
+        propagateComposedEvents: true
         hoverEnabled: true
         Component.onCompleted: {
             attractor.pointX = parent.width * .5
@@ -34,10 +36,10 @@ Rectangle {
 
         onPositionChanged: {
             setPosition()
-
         }
         onClicked: {
-           // setPosition()
+
+            // setPosition()
         }
         function setPosition() {
             attractor.pointX = mouseX - 25
@@ -50,11 +52,9 @@ Rectangle {
         id: mouseDot
         property int center: mouseDot.width * .5
         width: 10
-        y: attractor.pointY
-        x: attractor.pointX
         height: width
         radius: width
-
+        z: 99
         color: "orange"
     }
 
@@ -102,6 +102,21 @@ Rectangle {
         system: particleSystem
         opacity: root.imgOpacity
     }
+    Text {
+        id: txtMousePos
+        property int counter: 0
+        text: attractor.pointY + " - " +attractor.pointX
+        font.pointSize: 32
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        wrapMode: Text.WordWrap
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: txtButtonConter.top
+            bottomMargin: 20
+        }
+        color: "white"
+    }
 
     Text {
         id: txtButtonConter
@@ -125,16 +140,15 @@ Rectangle {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap
-        anchors.centerIn:  parent
+        anchors.centerIn: parent
         anchors.margins: 10
         color: "white"
     }
 
-
     Row {
         anchors {
             horizontalCenter: parent.horizontalCenter
-            top:name.bottom
+            top: name.bottom
             topMargin: 20
         }
         spacing: 20
@@ -142,9 +156,9 @@ Rectangle {
             highlighted: true
 
             onClicked: {
-                 focus =false
-                 focus =true
-                print("Button Clicked!" )
+                focus = false
+                focus = true
+                print("Button Clicked!")
                 txtButtonConter.counter = txtButtonConter.counter - 1
             }
             text: qsTr("Click me! - 1")
@@ -153,24 +167,23 @@ Rectangle {
             highlighted: true
 
             onClicked: {
-                 focus =false
-                 focus =true
-                print("Button Clicked!" )
+                focus = false
+                focus = true
+                print("Button Clicked!")
                 txtButtonConter.counter = txtButtonConter.counter
             }
             text: qsTr("Click me!")
         }
         Button {
             highlighted: true
-           focusPolicy: Qt.ClickFocus
+            focusPolicy: Qt.ClickFocus
             onClicked: {
 
-                print("Button Clicked!" )
+                print("Button Clicked!")
                 txtButtonConter.counter = txtButtonConter.counter + 1
             }
             text: qsTr("Click me! +1")
         }
-
     }
 
     WebView {

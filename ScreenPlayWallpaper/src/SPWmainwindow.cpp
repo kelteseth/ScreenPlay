@@ -158,7 +158,7 @@ MainWindow::MainWindow(int screenAt, QString projectPath, QString id, QString de
         }
     });
 
-    QTimer::singleShot(3000, [=]() {
+    QTimer::singleShot(3000, this, [=]() {
         ShowWindow(m_hwnd, SW_SHOWNOACTIVATE);
     });
 

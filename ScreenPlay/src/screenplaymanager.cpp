@@ -101,7 +101,7 @@ void ScreenPlayManager::init(
     a \a fillMode, a \a type (htmlWallpaper, qmlWallpaper etc.), a \a saveToProfilesConfigFile bool only set to flase
     if we call the method when using via the settings on startup to skip a unnecessary save.
 */
-void ScreenPlayManager::createWallpaper(
+bool ScreenPlayManager::createWallpaper(
     const InstalledType::InstalledType type,
     const FillMode::FillMode fillMode,
     const QString& absoluteStoragePath,
@@ -146,9 +146,9 @@ void ScreenPlayManager::createWallpaper(
                         fillMode,
                         type,
                         m_settings->checkWallpaperVisible());
-                    m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
+                    m_monitorListModel->setWallpaperMonitor(wallpaper, monitorIndex);
 
-                    return;
+                    return true;
                 }
             }
             i++;
@@ -170,17 +170,21 @@ void ScreenPlayManager::createWallpaper(
         m_settings->checkWallpaperVisible());
 
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
-    QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestClose, this, &ScreenPlayManager::removeApp);
+    QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestClose, this, &ScreenPlayManager::removeWallpaper);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::error, this, &ScreenPlayManager::displayErrorPopup);
+    if (!wallpaper->start()) {
+        return false;
+    }
     m_screenPlayWallpapers.append(wallpaper);
-    m_monitorListModel->setWallpaperActiveMonitor(wallpaper, monitorIndex);
+    m_monitorListModel->setWallpaperMonitor(wallpaper, monitorIndex);
     increaseActiveWallpaperCounter();
+    return true;
 }
 
 /*!
   \brief Creates a ScreenPlayWidget object via a \a absoluteStoragePath and a \a preview image (relative path).
 */
-void ScreenPlayManager::createWidget(
+bool ScreenPlayManager::createWidget(
     const InstalledType::InstalledType type,
     const QPoint& position,
     const QString& absoluteStoragePath,
@@ -200,7 +204,7 @@ void ScreenPlayManager::createWidget(
 
     if (path.isEmpty()) {
         qWarning() << "Path is empty, Abort! String: " << absoluteStoragePath;
-        return;
+        return false;
     }
 
     auto widget = std::make_shared<ScreenPlayWidget>(
@@ -213,79 +217,63 @@ void ScreenPlayManager::createWidget(
         type);
 
     QObject::connect(widget.get(), &ScreenPlayWidget::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
-    QObject::connect(widget.get(), &ScreenPlayWidget::requestClose, this, &ScreenPlayManager::removeApp);
+    QObject::connect(widget.get(), &ScreenPlayWidget::requestClose, this, &ScreenPlayManager::removeWidget);
     QObject::connect(widget.get(), &ScreenPlayWidget::error, this, &ScreenPlayManager::displayErrorPopup);
+    if (!widget->start()) {
+        return false;
+    }
     increaseActiveWidgetsCounter();
     m_screenPlayWidgets.append(widget);
+    return true;
 }
 
 /*!
-    \brief Iterates all Wallpaper and Widgets for the matching appID. Returns true if a matching appID
-            was successful set.
+    \brief Removes all wallpaper entries in the profiles.json.
 */
-bool ScreenPlayManager::appConnected(const std::shared_ptr<SDKConnection>& connection)
+bool ScreenPlayManager::removeAllWallpapers()
 {
-    for (const auto& item : qAsConst(m_screenPlayWidgets)) {
-        if (item->appID() == connection->appID()) {
-            item->setSDKConnection(connection);
-            return true;
+
+    if (m_screenPlayWallpapers.empty()) {
+        qWarning() << "Trying to remove all Wallpapers while m_screenPlayWallpapers is not empty. Count: " << m_screenPlayWallpapers.size();
+        return false;
+    }
+
+    QStringList appIDs;
+    // Do not remove items from the vector you iterate on.
+    for (auto& client : m_screenPlayWallpapers) {
+        appIDs.append(client->appID());
+    }
+
+    for (const auto& appID : appIDs) {
+        if (!removeWallpaper(appID)) {
+            return false;
         }
     }
 
-    for (const auto& item : qAsConst(m_screenPlayWallpapers)) {
-        if (item->appID() == connection->appID()) {
-            item->setSDKConnection(connection);
-            return true;
-        }
-    }
+    emit requestSaveProfiles();
 
-    qWarning() << "No matching appID for id" << connection->appID() << " was found!";
-
-    return false;
-}
-
-/*!
-    \brief Removes all wallpaper entries in the profiles.json. This method will likely be removed
-    when using nlohmann/json in the future.
-*/
-void ScreenPlayManager::removeAllWallpapers()
-{
-    if (!m_screenPlayWallpapers.empty()) {
-
-        closeAllWallpapers();
-        m_screenPlayWallpapers.clear();
-
-        m_monitorListModel->clearActiveWallpaper();
-
-        emit requestSaveProfiles();
-        setActiveWallpaperCounter(0);
-        if (activeWallpaperCounter() != m_screenPlayWallpapers.length()) {
-            if (m_telemetry) {
-                m_telemetry->sendEvent("wallpaper", "error_removeAllWallpapers");
-            }
-
-            qWarning() << "activeWallpaperCounter value: " << activeWallpaperCounter()
-                       << "does not match m_screenPlayWallpapers length:" << m_screenPlayWallpapers.length();
-        }
-    } else {
-        if (m_telemetry) {
-            m_telemetry->sendEvent("wallpaper", "error_removeAllWallpapers_m_screenPlayWallpapers_notEmpty");
-        }
-        qWarning() << "Trying to remove all wallpapers while m_screenPlayWallpapers is not empty. Count: " << m_screenPlayWallpapers.size();
-    }
+    return true;
 }
 
 /*!
     \brief Removes all widgets and resets the activeWidgetCounter to 0.
 */
-void ScreenPlayManager::removeAllWidgets()
+bool ScreenPlayManager::removeAllWidgets()
 {
-    if (!m_screenPlayWidgets.empty()) {
-        closeAllWidgets();
-        m_screenPlayWidgets.clear();
-        emit requestSaveProfiles();
-        setActiveWidgetsCounter(0);
+    if (m_screenPlayWallpapers.empty()) {
+        qWarning() << "Trying to remove all Widgets while m_screenPlayWallpapers is not empty. Count: " << m_screenPlayWallpapers.size();
+        return false;
     }
+
+    for (auto& client : m_screenPlayWallpapers) {
+        if (!removeWidget(client->appID())) {
+            return false;
+        }
+    }
+
+    emit requestSaveProfiles();
+
+    return true;
 }
 
 /*!
@@ -297,52 +285,30 @@ bool ScreenPlayManager::removeWallpaperAt(int index)
 {
 
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
-        return removeApp(*appID);
+        if (removeWallpaper(*appID)) {
+            emit requestSaveProfiles();
+            return true;
+        }
     }
-    if (m_telemetry) {
-        m_telemetry->sendEvent("wallpaper", "error_removeWallpaperAt");
-    }
+
     qWarning() << "Could not remove Wallpaper at index:" << index;
     return false;
 }
 
 /*!
-    \brief Disconnects the connection, remove
-*/
-bool ScreenPlayManager::removeApp(const QString& appID)
-{
-    if (!closeConnection(appID)) {
-        qWarning() << "Could not  close socket. Abort!";
-        return false;
-    }
-
-    m_monitorListModel->closeWallpaper(appID);
-
-    const QString appIDCopy = appID;
-    if (!removeWallpaperByAppID(appIDCopy)) {
-        if (m_telemetry) {
-            m_telemetry->sendEvent("wallpaper", "error_removeWallpaperAt_removeWallpaperByAppID");
-        }
-        qWarning() << "Could not remove Wallpaper " << appIDCopy << " from wallpaper list!";
-        return false;
-    }
-    emit requestSaveProfiles();
-    return true;
-}
-
-/*!
     \brief Request a spesific json profile to display in the active wallpaper popup on the right.
 */
-void ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
+bool ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
 {
     for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
         if (uPtrWallpaper->screenNumber()[0] == index) {
 
             emit projectSettingsListModelResult(
                 uPtrWallpaper->getProjectSettingsListModel());
-            return;
+            return true;
         }
     }
+    return false;
 }
 
 /*!
@@ -351,8 +317,7 @@ void ScreenPlayManager::requestProjectSettingsAtMonitorIndex(const int index)
 bool ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value)
 {
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
-        setWallpaperValue(*appID, key, value);
-        return true;
+        return setWallpaperValue(*appID, key, value);
     }
 
     qWarning() << "Could net get appID from m_monitorListModel!";
@@ -362,15 +327,17 @@ bool ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const Q
 /*!
   \brief Convenient function to set a \a value at a given \a index and \a key for all wallaper. For exmaple used to mute all wallpaper.
 */
-void ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
+bool ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
 {
-    for (const std::shared_ptr<ScreenPlayWallpaper>& uPtrWallpaper : qAsConst(m_screenPlayWallpapers)) {
-        setWallpaperValue(uPtrWallpaper->appID(), key, value);
+    for (auto& wallpaper : m_screenPlayWallpapers) {
+        return setWallpaperValue(wallpaper->appID(), key, value);
     }
+    return true;
 }
 
 /*!
   \brief Returns \c a ScreenPlayWallpaper if successful, otherwhise \c std::nullopt.
+         This function is only used in QML.
 */
 ScreenPlayWallpaper* ScreenPlayManager::getWallpaperByAppID(const QString& appID) const
 {
@@ -387,113 +354,139 @@ ScreenPlayWallpaper* ScreenPlayManager::getWallpaperByAppID(const QString& appID
 */
 void ScreenPlayManager::newConnection()
 {
-    auto connection = std::make_shared<SDKConnection>(m_server->nextPendingConnection());
+    auto connection = std::make_unique<SDKConnection>(m_server->nextPendingConnection());
+
     // Because user can close widgets by pressing x the widgets must send us the event
     QObject::connect(connection.get(), &SDKConnection::requestDecreaseWidgetCount, this, [this]() { setActiveWidgetsCounter(activeWallpaperCounter() - 1); });
     QObject::connect(connection.get(), &SDKConnection::requestRaise, this, &ScreenPlayManager::requestRaise);
-    // Only after we receive the first message with appID and type we can set the shared reference to the
-    // ScreenPlayWallpaper or ScreenPlayWidgets class
+
+    // Only after we receive the first message with appID and type we can set the SDKConnection to the
+    // ScreenPlayWallpaper or ScreenPlayWidgets class.
     QObject::connect(connection.get(), &SDKConnection::appConnected, this, [this](const SDKConnection* connection) {
-        for (const auto& client : qAsConst(m_clients)) {
-            if (client.get() == connection) {
-                appConnected(client);
+        if (m_unconnectedClients.empty()) {
+            qWarning() << "Unable to match a connection. UnconnectedClients list is empty!";
+            return;
+        }
+
+        qWarning() << "There are no wallpaper or widgets that have to SDKConnection "
+                   << "m_screenPlayWallpapers count: " << m_screenPlayWallpapers.size()
+                   << "m_screenPlayWidgets count:    " << m_screenPlayWidgets.size()
+                   << "m_unconnectedClients count:    " << m_unconnectedClients.size();
+
+        std::unique_ptr<SDKConnection> matchingConnection;
+        for (int i = 0; i < m_unconnectedClients.size(); ++i) {
+            if (m_unconnectedClients.at(i).get() == connection) {
+                matchingConnection = std::move(m_unconnectedClients.at(i));
+                m_unconnectedClients.erase(m_unconnectedClients.begin() + i);
+            }
+        }
+
+        if (!matchingConnection) {
+            qWarning() << "Unable to match a connection! Aborting!";
+            return;
+        }
+
+        for (int i = 0; i < m_screenPlayWallpapers.size(); ++i) {
+            if (m_screenPlayWallpapers.at(i)->appID() == matchingConnection->appID()) {
+                m_screenPlayWallpapers.at(i)->setSDKConnection(std::move(matchingConnection));
                 return;
             }
         }
-        qWarning() << "No  matching connection found!";
-    });
-    m_clients.append(connection);
-}
 
-/*!
- \brief Closes all wallpaper connection with the following type:
- \list
-    \li videoWallpaper
-    \li qmlWallpaper
-    \li htmlWallpaper
-    \li godotWallpaper
- \endlist
-*/
-void ScreenPlayManager::closeAllWallpapers()
-{
-    if (m_screenPlayWallpapers.empty() && m_activeWallpaperCounter == 0)
-        return;
-
-    closeConntectionByType(ScreenPlayUtil::getAvailableWallpaper());
-    setActiveWallpaperCounter(0);
-}
-
-/*!
- \brief Closes all widgets connection with the following type:
- \list
-    \li qmlWidget
-    \li htmlWidget
-    \li standaloneWidget
- \endlist
-*/
-void ScreenPlayManager::closeAllWidgets()
-{
-    if (m_screenPlayWidgets.empty() && m_activeWidgetsCounter == 0)
-        return;
-
-    closeConntectionByType(ScreenPlayUtil::getAvailableWidgets());
-    setActiveWidgetsCounter(0);
-}
-
-/*!
-  \brief Closes a connection by type. Used only by closeAllWidgets() and closeAllWallpapers()
-*/
-bool ScreenPlayManager::closeConntectionByType(const QStringList& types)
-{
-    if (m_clients.isEmpty())
-        return true;
-
-    for (auto& client : m_clients) {
-        if (types.contains(client->type(), Qt::CaseInsensitive)) {
-            client->close();
-            if (!m_clients.removeOne(client)) {
-                return false;
+        for (int i = 0; i < m_screenPlayWidgets.size(); ++i) {
+            if (m_screenPlayWidgets.at(i)->appID() == matchingConnection->appID()) {
+                m_screenPlayWidgets.at(i)->setSDKConnection(std::move(matchingConnection));
+                return;
             }
         }
+
+        qWarning() << "No matching connection found!";
+    });
+    m_unconnectedClients.push_back(std::move(connection));
+}
+
+/*!
+    \brief Removes a wallpaper from the given appID. Returns true on success.
+*/
+bool ScreenPlayManager::removeWallpaper(const QString& appID)
+{
+    m_screenPlayWallpapers.erase(
+        std::remove_if(
+            m_screenPlayWallpapers.begin(),
+            m_screenPlayWallpapers.end(),
+            [this, appID](auto& wallpaper) {
+                if (wallpaper->appID() != appID) {
+                    return false;
+                }
+
+                qInfo() << "Remove wallpaper " << wallpaper->file() << "at monitor " << wallpaper->screenNumber();
+
+                // The MonitorListModel contains a shared_ptr of this object that needs to be removed
+                // for shared_ptr to release the object.
+                m_monitorListModel->setWallpaperMonitor({}, wallpaper->screenNumber());
+
+                decreaseActiveWallpaperCounter();
+
+                return true;
+            }));
+
+    if (activeWallpaperCounter() != m_screenPlayWallpapers.length()) {
+        qWarning() << "activeWallpaperCounter value: " << activeWallpaperCounter()
+                   << "does not match m_screenPlayWallpapers length:" << m_screenPlayWallpapers.length();
+        return false;
     }
 
     return true;
 }
 
 /*!
-  \brief Closes a Wallpaper or Widget connection by the given \a appID.
+    \brief Removes a Widget from the given appID. Returns true on success.
 */
-bool ScreenPlayManager::closeConnection(const QString& appID)
+bool ScreenPlayManager::removeWidget(const QString& appID)
 {
-    if (m_clients.isEmpty())
-        return true;
+    m_screenPlayWidgets.erase(
+        std::remove_if(
+            m_screenPlayWidgets.begin(),
+            m_screenPlayWidgets.end(),
+            [this, appID](auto& widget) {
+                if (widget->appID() != appID) {
+                    return false;
+                }
 
-    for (auto& client : m_clients) {
-        if (client->appID() == appID) {
-            client->close();
-            return m_clients.removeOne(client);
-        }
+                qInfo() << "Remove widget ";
+
+                decreaseActiveWidgetsCounter();
+
+                return true;
+            }));
+
+    if (activeWidgetsCounter() != m_screenPlayWidgets.length()) {
+        qWarning() << "activeWallpaperCounter value: " << activeWidgetsCounter()
+                   << "does not match m_screenPlayWallpapers length:" << m_screenPlayWidgets.length();
+        return false;
     }
+
     return false;
 }
 
 /*!
    \brief Sets a given \a value to a given \a key. The \a appID is used to identify the receiver socket.
 */
-void ScreenPlayManager::setWallpaperValue(const QString& appID, const QString& key, const QString& value)
+bool ScreenPlayManager::setWallpaperValue(const QString& appID, const QString& key, const QString& value)
 {
-    for (const auto& wallpaper : qAsConst(m_screenPlayWallpapers)) {
+    for (auto& wallpaper : m_screenPlayWallpapers) {
         if (wallpaper->appID() == appID) {
-            wallpaper->setWallpaperValue(key, value, true);
+            return wallpaper->setWallpaperValue(key, value, true);
         }
     }
+    return false;
 }
 
 /*!
     \brief Saves a given wallpaper \a newProfileObject to a \a profileName. We ignore the profileName argument
     because we currently only support one profile. Returns \c true if successfuly saved to profiles.json, otherwise \c false.
 */
-void ScreenPlayManager::saveProfiles()
+bool ScreenPlayManager::saveProfiles()
 {
     m_saveLimiter.stop();
 
@@ -520,27 +513,9 @@ void ScreenPlayManager::saveProfiles()
     profile.insert("version", "1.0.0");
     profile.insert("profiles", activeProfileList);
 
-    if (Util::writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile))
+    if (Util::writeJsonObjectToFile({ m_globalVariables->localSettingsPath().toString() + "/profiles.json" }, profile)) {
         emit profilesSaved();
-}
-
-/*!
-    \brief Removes a wallpaper from the given appID. Returns true on success.
-*/
-bool ScreenPlayManager::removeWallpaperByAppID(const QString& appID)
-{
-    for (auto& wallpaper : m_screenPlayWallpapers) {
-        if (wallpaper->appID() == appID) {
-            qInfo() << "Remove wallpaper " << wallpaper->file() << "at monitor " << wallpaper->screenNumber();
-            decreaseActiveWallpaperCounter();
-            m_screenPlayWallpapers.removeOne(wallpaper);
-            if (activeWallpaperCounter() != m_screenPlayWallpapers.length()) {
-                qWarning() << "activeWallpaperCounter value: " << activeWallpaperCounter()
-                           << "does not match m_screenPlayWallpapers length:" << m_screenPlayWallpapers.length();
-                return false;
-            }
-            return true;
-        }
+        return true;
     }
     return false;
 }
@@ -548,27 +523,27 @@ bool ScreenPlayManager::removeWallpaperByAppID(const QString& appID)
 /*!
  \brief Loads all wallpaper from profiles.json when the version number matches and starts the available wallpaper
 */
-void ScreenPlayManager::loadProfiles()
+bool ScreenPlayManager::loadProfiles()
 {
-    auto configObj = ScreenPlayUtil::openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
+    const auto configObj = ScreenPlayUtil::openJsonFileToObject(m_globalVariables->localSettingsPath().toString() + "/profiles.json");
 
     if (!configObj) {
         qWarning() << "Could not load active profiles at path: " << m_globalVariables->localSettingsPath().toString() + "/profiles.json";
-        return;
+        return false;
     }
 
     std::optional<QVersionNumber> version = ScreenPlayUtil::getVersionNumberFromString(configObj->value("version").toString());
 
     if (version && *version != m_globalVariables->version()) {
         qWarning() << "Version missmatch fileVersion: " << version->toString() << "m_version: " << m_globalVariables->version().toString();
-        return;
+        return false;
     }
 
     QJsonArray activeProfilesTmp = configObj->value("profiles").toArray();
 
     if (activeProfilesTmp.size() > 1) {
         qWarning() << "We currently only support one profile!";
-        return;
+        return false;
     }
 
     qInfo() << "Loading profiles " << activeProfilesTmp.size();
@@ -579,7 +554,7 @@ void ScreenPlayManager::loadProfiles()
         if (wallpaper.toObject().value("name").toString() != "default")
             continue;
 
-        for (const QJsonValueRef wallpaper : wallpaper.toObject().value("wallpaper").toArray()) {
+        for (QJsonValueRef wallpaper : wallpaper.toObject().value("wallpaper").toArray()) {
             QJsonObject wallpaperObj = wallpaper.toObject();
 
             if (wallpaperObj.empty())
@@ -592,12 +567,12 @@ void ScreenPlayManager::loadProfiles()
                 int value = monitorNumber.toInt(-1);
                 if (value == -1) {
                     qWarning() << "Could not parse monitor number to display content at";
-                    return;
+                    return false;
                 }
 
                 if (monitors.contains(value)) {
                     qWarning() << "The monitor: " << value << " is sharing the config multiple times. ";
-                    return;
+                    return false;
                 }
                 monitors.append(value);
             }
@@ -618,8 +593,11 @@ void ScreenPlayManager::loadProfiles()
             const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::VideoWallpaper);
             const auto fillMode = QStringToEnum<FillMode::FillMode>(fillModeString, FillMode::FillMode::Cover);
 
-            qInfo() << "Start wallpaper from profile:" << type << fillMode << monitors << absolutePath;
-            createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, playbackRate, properties, false);
+            const bool success = createWallpaper(type, fillMode, absolutePath, previewImage, file, monitors, volume, playbackRate, properties, false);
+
+            if (!success) {
+                qWarning() << "Unable to start Wallpaper! " << type << fillMode << monitors << absolutePath;
+            }
         }
 
         for (const QJsonValueRef widget : wallpaper.toObject().value("widgets").toArray()) {
@@ -637,10 +615,14 @@ void ScreenPlayManager::loadProfiles()
             const auto type = QStringToEnum<InstalledType::InstalledType>(typeString, InstalledType::InstalledType::QMLWidget);
             const QJsonObject properties = widgetObj.value("properties").toObject();
 
-            qInfo() << "Start widget from profile:" << type << position << absolutePath;
-            createWidget(type, position, absolutePath, previewImage, properties, false);
+            const bool success = createWidget(type, position, absolutePath, previewImage, properties, false);
+
+            if (!success) {
+                qWarning() << "Unable to start Widget! " << type << position << absolutePath;
+            }
         }
     }
+    return true;
 }
 
 TEST_CASE("Loads profiles.json")
@@ -648,5 +630,4 @@ TEST_CASE("Loads profiles.json")
     GlobalVariables globalVariables;
     ScreenPlayManager manager;
 }
-
 }
