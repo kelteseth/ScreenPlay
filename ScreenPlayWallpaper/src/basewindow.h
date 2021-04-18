@@ -48,12 +48,22 @@
 
 #include "ScreenPlayUtil/util.h"
 
+#include "screenplaysdk.h"
+
+#include <memory>
+
 class BaseWindow : public QObject {
     Q_OBJECT
 
 public:
     BaseWindow(QObject* parent = nullptr);
-    BaseWindow(const QString& projectFilePath, const QVector<int> activeScreensList, const bool checkWallpaperVisible);
+    BaseWindow(
+        const QVector<int> activeScreensList,
+        const QString& projectFilePath,
+        const QString& type,
+        const bool checkWallpaperVisible,
+        const QString& appID,
+        const bool debugMode);
 
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
@@ -68,6 +78,7 @@ public:
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
     Q_PROPERTY(bool muted READ muted WRITE setMuted NOTIFY mutedChanged)
     Q_PROPERTY(bool canFade READ canFade WRITE setCanFade NOTIFY canFadeChanged)
+    Q_PROPERTY(bool debugMode READ debugMode WRITE setDebugMode NOTIFY debugModeChanged)
 
     // Save performance by checking if the wallpaper is visible (video wallpaper only for now)
     Q_PROPERTY(bool checkWallpaperVisible READ checkWallpaperVisible WRITE setCheckWallpaperVisible NOTIFY checkWallpaperVisibleChanged)
@@ -79,6 +90,8 @@ public:
 
     Q_PROPERTY(ScreenPlay::InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
+
+    Q_PROPERTY(ScreenPlaySDK* sdk READ sdk WRITE setSdk NOTIFY sdkChanged)
 
     bool loops() const { return m_loops; }
     float volume() const { return m_volume; }
@@ -98,6 +111,8 @@ public:
     bool checkWallpaperVisible() const { return m_checkWallpaperVisible; }
     bool visualsPaused() const { return m_visualsPaused; }
     QString basePath() const { return m_basePath; }
+    bool debugMode() const { return m_debugMode; }
+    ScreenPlaySDK* sdk() const { return m_sdk.get(); }
 
 signals:
     void qmlExit();
@@ -124,6 +139,8 @@ signals:
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
     void visualsPausedChanged(bool visualsPaused);
     void basePathChanged(QString basePath);
+    void debugModeChanged(bool debugMode);
+    void sdkChanged(ScreenPlaySDK* sdk);
 
 public slots:
     virtual void destroyThis() { }
@@ -307,6 +324,22 @@ public slots:
         emit basePathChanged(m_basePath);
     }
 
+    void setDebugMode(bool debugMode)
+    {
+        if (m_debugMode == debugMode)
+            return;
+        m_debugMode = debugMode;
+        emit debugModeChanged(debugMode);
+    }
+
+    void setSdk(ScreenPlaySDK* sdk)
+    {
+        if (m_sdk.get() == sdk)
+            return;
+        m_sdk.reset(sdk);
+        emit sdkChanged(sdk);
+    }
+
 private:
     void setupLiveReloading();
 
@@ -335,4 +368,6 @@ private:
     QFileSystemWatcher m_fileSystemWatcher;
     QSysInfo m_sysinfo;
     QString m_basePath;
+    bool m_debugMode = false;
+    std::unique_ptr<ScreenPlaySDK> m_sdk;
 };

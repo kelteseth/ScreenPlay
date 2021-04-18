@@ -76,7 +76,6 @@ int main(int argc, char* argv[])
 
     ScreenPlay::App app;
 
-
     if (app.m_isAnotherScreenPlayInstanceRunning) {
         return 0;
     } else {

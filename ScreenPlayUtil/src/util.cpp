@@ -29,6 +29,9 @@ std::optional<QJsonObject> openJsonFileToObject(const QString& path)
     return jsonDocument.object();
 }
 
+/*!
+    \brief .
+*/
 bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate)
 {
     QFile configTmp;
@@ -248,6 +251,9 @@ QString toLocal(const QString& url)
     return QUrl(url).toLocalFile();
 }
 
+/*!
+    \brief .
+*/
 QStringList getAvailableWallpaper()
 {
     return {
@@ -260,6 +266,9 @@ QStringList getAvailableWallpaper()
     };
 }
 
+/*!
+    \brief .
+*/
 QStringList getAvailableWidgets()
 {
     return {
@@ -268,11 +277,17 @@ QStringList getAvailableWidgets()
     };
 }
 
+/*!
+    \brief .
+*/
 QStringList getAvailableTypes()
 {
     return { getAvailableWallpaper() + getAvailableWidgets() };
 }
 
+/*!
+    \brief .
+*/
 bool isWallpaper(const ScreenPlay::InstalledType::InstalledType type)
 {
 
@@ -286,6 +301,9 @@ bool isWallpaper(const ScreenPlay::InstalledType::InstalledType type)
         || type == InstalledType::GodotWallpaper);
 }
 
+/*!
+    \brief .
+*/
 bool isWidget(const ScreenPlay::InstalledType::InstalledType type)
 {
 
@@ -294,10 +312,36 @@ bool isWidget(const ScreenPlay::InstalledType::InstalledType type)
     return (type == InstalledType::QMLWidget || type == InstalledType::HTMLWidget);
 }
 
+/*!
+    \brief See https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
+*/
 QStringList getAvailableFillModes()
 {
-    // https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
     return { "stretch", "fill", "contain", "cover", "scale-down" };
+}
+
+/*!
+  \brief parseIntList parses a list of string separated with a comma
+        "1,2,3". IMPORTANT: No trailing comma!
+ */
+std::optional<QVector<int>> parseStringToIntegerList(const QString string)
+{
+    if (string.isEmpty())
+        return {};
+
+    QVector<int> list;
+    QStringList stringList = string.split(",");
+    for (const auto& item : stringList) {
+        bool ok = false;
+        int val = item.toInt(&ok);
+        if (!ok) {
+            qFatal("Could not parse item to Integer!");
+        } else {
+            list.append(val);
+        }
+    }
+
+    return list;
 }
 
 }

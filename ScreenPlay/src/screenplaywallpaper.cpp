@@ -11,6 +11,15 @@ namespace ScreenPlay {
 */
 
 /*!
+    \brief Destructor for ScreenPlayWallpaper.
+*/
+ScreenPlayWallpaper::~ScreenPlayWallpaper()
+{
+    qInfo() << "Remove wallpaper " << m_appID;
+     m_connection->close();
+}
+
+/*!
     \brief  Constructor for ScreenPlayWallpaper.
 */
 ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
@@ -112,7 +121,7 @@ bool ScreenPlayWallpaper::start()
 QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 {
     QJsonArray screenNumber;
-    for (const int i : m_screenNumber) {
+    for (const int i : qAsConst(m_screenNumber)) {
         screenNumber.append(i);
     }
 
@@ -183,9 +192,9 @@ void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
 /*!
     \brief  Connects to ScreenPlay. Start a alive ping check for every 16 seconds.
 */
-void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>& connection)
+void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connection)
 {
-    m_connection = connection;
+    m_connection = std::move(connection);
 
     QTimer::singleShot(1000, this, [this]() {
         if (playbackRate() != 1.0) {

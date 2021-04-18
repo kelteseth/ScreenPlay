@@ -99,11 +99,11 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 
     if (type == QMouseEvent::Type::MouseButtonPress) {
     }
-    QTimer::singleShot(100,  [&]() {
+    QTimer::singleShot(100, [&]() {
         //auto eventPress = QMouseEvent(QMouseEvent::Type::MouseButtonPress, g_LastMousePosition, mouseButton, mouseButtons, {});
         //qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventPress) << g_globalOffset.x() << g_globalOffset.y();
         auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, mouseButton, mouseButtons, {});
-        //qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventRelease);
+        QApplication::sendEvent(g_winGlobalHook, &eventRelease);
     });
 
     return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
@@ -129,20 +129,33 @@ void WinWindow::setupWindowMouseHook()
 
 WinWindow::WinWindow(
     const QVector<int>& activeScreensList,
-    const QString& projectPath,
-    const QString& id,
+    const QString& projectFilePath,
+    const QString& appID,
     const QString& volume,
     const QString& fillmode,
-    const bool checkWallpaperVisible)
-    : BaseWindow(projectPath, activeScreensList, checkWallpaperVisible)
+    const QString& type,
+    const bool checkWallpaperVisible,
+    const bool debugMode)
+    : BaseWindow(
+        activeScreensList,
+        projectFilePath,
+        type,
+        checkWallpaperVisible,
+        appID,
+        debugMode)
 
 {
     auto* guiAppInst = dynamic_cast<QApplication*>(QApplication::instance());
     connect(guiAppInst, &QApplication::screenAdded, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QApplication::screenRemoved, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QApplication::primaryScreenChanged, this, &WinWindow::configureWindowGeometry);
+    connect(sdk(), &ScreenPlaySDK::sdkDisconnected, this, &WinWindow::destroyThis);
+    connect(sdk(), &ScreenPlaySDK::incommingMessage, this, &WinWindow::messageReceived);
+    connect(sdk(), &ScreenPlaySDK::replaceWallpaper, this, &WinWindow::replaceWallpaper);
+    connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);
 
-    for (auto screen : QApplication::screens()) {
+    const auto screens = QApplication::screens();
+    for (const auto& screen : screens) {
         connect(screen, &QScreen::geometryChanged, this, &WinWindow::configureWindowGeometry);
     }
 
@@ -153,8 +166,6 @@ WinWindow::WinWindow(
     }
     qRegisterMetaType<WindowsDesktopProperties*>();
     qRegisterMetaType<WinWindow*>();
-
-    setAppID(id);
 
     bool ok = false;
     float volumeParsed = volume.toFloat(&ok);
@@ -169,7 +180,7 @@ WinWindow::WinWindow(
 
     configureWindowGeometry();
     bool hasWindowScaling = false;
-    for (int i = 0; i < QApplication::screens().count(); i++) {
+    for (int i = 0; i < screens.count(); i++) {
         if (getScaling(i) != 1) {
             hasWindowScaling = true;
             break;
@@ -179,8 +190,6 @@ WinWindow::WinWindow(
         qInfo() << "scaling";
         configureWindowGeometry();
     }
-
-    QObject::connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);
 
     // We do not support autopause for multi monitor wallpaper
     if (this->activeScreensList().length() == 1) {
@@ -192,6 +201,8 @@ WinWindow::WinWindow(
     QTimer::singleShot(1000, this, [&]() {
         setupWindowMouseHook();
     });
+
+    sdk()->start();
 }
 
 void WinWindow::setVisible(bool show)
@@ -232,26 +243,28 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 
     const float scaling = 1; //getScaling(activeScreen);
     for (int i = 0; i < QApplication::screens().count(); i++) {
-        qInfo() << i << "scaling " << getScaling(i) << QApplication::screens().at(i)->geometry();
+        //   qInfo() << i << "scaling " << getScaling(i) << QApplication::screens().at(i)->geometry();
     }
 
-    qInfo() << activeScreen << "Monitor 0" << getScaling(0) << QApplication::screens().at(0)->geometry();
-    qInfo() << activeScreen << "Monitor 1" << getScaling(1) << QApplication::screens().at(1)->geometry();
+    // qInfo() << activeScreen << "Monitor 0" << getScaling(0) << QApplication::screens().at(0)->geometry();
+    // qInfo() << activeScreen << "Monitor 1" << getScaling(1) << QApplication::screens().at(1)->geometry();
 
     WinMonitorStats Monitors;
     int width = std::abs(Monitors.rcMonitors[activeScreen].right - Monitors.rcMonitors[activeScreen].left);
     int height = std::abs(Monitors.rcMonitors[activeScreen].top - Monitors.rcMonitors[activeScreen].bottom);
-    qInfo() << "scaling " << scaling << width << height << " activeScreen " << activeScreen;
-    qInfo() << "scaling " << scaling << screenRect.width() << screenRect.height() << " activeScreen " << activeScreen;
+    //qInfo() << "scaling " << scaling << width << height << " activeScreen " << activeScreen;
+    //qInfo() << "scaling " << scaling << screenRect.width() << screenRect.height() << " activeScreen " << activeScreen;
 
+    const int boderWidth = 2;
+    const int borderOffset = -1;
     // Needs to be set like to this work. I do not know why...
     if (!SetWindowPos(
             m_windowHandle,
             nullptr,
-            Monitors.rcMonitors[activeScreen].left,
-            Monitors.rcMonitors[activeScreen].top,
-            width,
-            height,
+            Monitors.rcMonitors[activeScreen].left + borderOffset,
+            Monitors.rcMonitors[activeScreen].top + borderOffset,
+            width + boderWidth,
+            height + boderWidth,
             SWP_HIDEWINDOW)) {
         qFatal("Could not set window pos");
     }
@@ -259,10 +272,10 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
     if (!SetWindowPos(
             m_windowHandle,
             nullptr,
-            screenRect.x() + m_zeroPoint.x(),
-            screenRect.y() + m_zeroPoint.y(),
-            screenRect.width() * scaling,
-            screenRect.height() * scaling,
+            screenRect.x() + m_zeroPoint.x() + borderOffset,
+            screenRect.y() + m_zeroPoint.y() + borderOffset,
+            screenRect.width() * scaling + boderWidth,
+            screenRect.height() * scaling + boderWidth,
             SWP_HIDEWINDOW)) {
         qFatal("Could not set window pos");
     }

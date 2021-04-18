@@ -76,9 +76,9 @@ bool ScreenPlayWidget::start()
 /*!
     \brief Connects to ScreenPlay. Start a alive ping check for every 16 seconds.
 */
-void ScreenPlayWidget::setSDKConnection(const std::shared_ptr<SDKConnection>& connection)
+void ScreenPlayWidget::setSDKConnection(std::unique_ptr<SDKConnection> connection)
 {
-    m_connection = connection;
+    m_connection = std::move(connection);
     qInfo() << "App widget connected!";
     QObject::connect(m_connection.get(), &SDKConnection::jsonMessageReceived, this, [this](const QJsonObject obj) {
         if (obj.value("messageType") == "positionUpdate") {

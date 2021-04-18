@@ -1,5 +1,6 @@
-import QtQuick 2.14
 import QtQml 2.14
+import QtQuick 2.14
+import QtQuick.Controls 2.14
 import ScreenPlayWallpaper 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlay.Shader 1.0
@@ -231,6 +232,52 @@ Rectangle {
             case 22:
                 root.canFadeByWallpaperFillMode = false
                 break
+            }
+        }
+    }
+
+    Pane {
+        id: debug
+        visible: Wallpaper.debugMode
+        enabled: Wallpaper.debugMode
+        width: parent.width * .3
+        height: parent.height * .3
+        anchors.centerIn: parent
+        background: Rectangle {
+            opacity: .5
+        }
+
+        Column {
+            anchors.fill: parent
+            anchors.margins: 20
+            spacing: 10
+            Text {
+                text: "appID " + Wallpaper.appID
+                font.pointSize: 14
+            }
+            Text {
+                text: "basePath " + Wallpaper.basePath
+                font.pointSize: 14
+            }
+            Text {
+                text: "fullContentPath " + Wallpaper.fullContentPath
+                font.pointSize: 14
+            }
+            Text {
+                text: "fillMode " + Wallpaper.fillMode
+                font.pointSize: 14
+            }
+            Text {
+                text: "sdk.type " + Wallpaper.sdk.type
+                font.pointSize: 14
+            }
+            Text {
+                text: "sdk.isConnected " + Wallpaper.sdk.isConnected
+                font.pointSize: 14
+            }
+            Text {
+                text: "sdk.appID " + Wallpaper.sdk.appID
+                font.pointSize: 14
             }
         }
     }

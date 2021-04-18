@@ -68,6 +68,7 @@ class ScreenPlayWallpaper : public QObject {
 
 public:
     ScreenPlayWallpaper() { }
+    ~ScreenPlayWallpaper();
 
     explicit ScreenPlayWallpaper(
         const QVector<int>& screenNumber,
@@ -93,7 +94,7 @@ public:
         const InstalledType::InstalledType type,
         const bool checkWallpaperVisible);
 
-    void setSDKConnection(const std::shared_ptr<SDKConnection>& connection);
+    void setSDKConnection(std::unique_ptr<SDKConnection> connection);
 
     QJsonObject getActiveSettingsJson();
 
@@ -236,7 +237,7 @@ public slots:
 
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
-    std::shared_ptr<SDKConnection> m_connection;
+    std::unique_ptr<SDKConnection> m_connection;
 
     ProjectSettingsListModel m_projectSettingsListModel;
     QVector<int> m_screenNumber;

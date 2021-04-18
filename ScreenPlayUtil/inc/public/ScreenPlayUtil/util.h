@@ -63,4 +63,5 @@ QStringList getAvailableTypes();
 QStringList getAvailableFillModes();
 bool isWallpaper(const ScreenPlay::InstalledType::InstalledType type);
 bool isWidget(const ScreenPlay::InstalledType::InstalledType type);
+std::optional<QVector<int>> parseStringToIntegerList(const QString string);
 }

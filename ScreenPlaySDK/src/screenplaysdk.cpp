@@ -6,7 +6,6 @@ static ScreenPlaySDK* global_sdkPtr = nullptr;
 ScreenPlaySDK::ScreenPlaySDK(QQuickItem* parent)
     : QQuickItem(parent)
 {
-    init();
 }
 
 ScreenPlaySDK::ScreenPlaySDK(
@@ -17,10 +16,9 @@ ScreenPlaySDK::ScreenPlaySDK(
     , m_type { type }
     , m_appID { appID }
 {
-    init();
 }
 
-void ScreenPlaySDK::init()
+void ScreenPlaySDK::start()
 {
     // Redirect all messages from this to ScreenPlay
     global_sdkPtr = this;
@@ -122,7 +120,7 @@ void ScreenPlaySDK::readyRead()
                 qWarning() << "Command replaced contained bad volume float value: " << volumeParsed;
             }
 
-            qWarning()
+            qInfo()
                 << type
                 << fillMode
                 << volumeParsed
@@ -142,9 +140,7 @@ void ScreenPlaySDK::readyRead()
 
 void ScreenPlaySDK::error(QLocalSocket::LocalSocketError socketError)
 {
-    if (socketError == QLocalSocket::LocalSocketError::ConnectionRefusedError) {
-        QCoreApplication::quit();
-    }
+    emit sdkDisconnected();
 }
 
 void ScreenPlaySDK::redirectMessage(QByteArray& msg)
@@ -172,8 +168,8 @@ void ScreenPlaySDK::ScreenPlaySDK::redirectMessageOutputToMainWindow(QtMsgType t
         return;
 
     QByteArray localMsg = msg.toLocal8Bit();
-    QByteArray file = "File: " + QByteArray(context.file) + ", ";
-    QByteArray line = "in line " + QByteArray::number(context.line) + ", ";
+    localMsg += "\nFile: " + QByteArray(context.file) + ", ";
+    localMsg += "\nin line " + QByteArray::number(context.line) + ", ";
 
     global_sdkPtr->redirectMessage(localMsg);
 }

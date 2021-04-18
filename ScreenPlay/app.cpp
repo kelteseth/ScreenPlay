@@ -205,7 +205,7 @@ void App::init()
 
     // Must be called last to display a error message on startup by the qml engine
     m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_telemetry, m_settings);
-    QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_screenPlayManager.get(), &ScreenPlayManager::closeAllWallpapers);
+    QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_screenPlayManager.get(), &ScreenPlayManager::removeAllWallpapers);
 }
 
 QString App::version() const

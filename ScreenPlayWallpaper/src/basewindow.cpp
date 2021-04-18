@@ -6,12 +6,17 @@ BaseWindow::BaseWindow(QObject* parent)
 }
 
 BaseWindow::BaseWindow(
-    const QString& projectFilePath,
     const QVector<int> activeScreensList,
-    const bool checkWallpaperVisible)
+    const QString& projectFilePath,
+    const QString& type,
+    const bool checkWallpaperVisible,
+    const QString& appID,
+    const bool debugMode)
     : QObject(nullptr)
     , m_checkWallpaperVisible(checkWallpaperVisible)
     , m_activeScreensList(activeScreensList)
+    , m_debugMode(debugMode)
+    , m_sdk(std::make_unique<ScreenPlaySDK>(appID, type))
 {
     QApplication::instance()->installEventFilter(this);
 
@@ -23,6 +28,13 @@ BaseWindow::BaseWindow(
         "Error: only enums");
 
     qmlRegisterType<BaseWindow>("ScreenPlay.Wallpaper", 1, 0, "Wallpaper");
+
+    if (!appID.contains("appID=")) {
+        qInfo() << "Invalid appID: "<< appID;
+        qFatal("AppID does not contain appID=");
+    }
+
+    setAppID(appID);
 
     setOSVersion(QSysInfo::productVersion());
 
