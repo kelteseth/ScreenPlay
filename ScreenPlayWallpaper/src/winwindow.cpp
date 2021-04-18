@@ -379,7 +379,7 @@ float WinWindow::getScaling(const int monitorIndex)
 
 void WinWindow::configureWindowGeometry()
 {
-    //ShowWindow(m_windowHandleWorker, SW_HIDE);
+    ShowWindow(m_windowHandle, SW_HIDE);
 
     if (!searchWorkerWindowToParentTo()) {
         qFatal("No worker window found");
