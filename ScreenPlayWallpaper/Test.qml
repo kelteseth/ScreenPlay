@@ -11,6 +11,9 @@ Rectangle {
     border.width: 10
     border.color: "orange"
 
+    signal requestFadeIn
+    Component.onCompleted: root.requestFadeIn()
+
     property int attStrength: 800000
     //Emitter
     property bool isEnabled: true
