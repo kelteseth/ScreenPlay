@@ -8,6 +8,9 @@
 
 ScreenPlay [![pipeline status](https://gitlab.com/kelteseth/ScreenPlay/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlay/-/commits/master) <br>
 Dev. Docs   [![pipeline status](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/-/commits/master) <br><br>
+<a href=""></a>
+[中文总览](README_zh_CN.md)
+<br><br>
 <a href="https://twitter.com/kelteseth">![Twitter Follow](https://img.shields.io/twitter/follow/kelteseth?style=for-the-badge)</a>
 <a href="https://www.reddit.com/r/ScreenPlayApp/">![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/screenplayapp?style=for-the-badge)</a>
 <br><br>
@@ -33,6 +36,11 @@ Windows only, Linux and MacOS (soon™)
 </a> 
 <p>Click gif to see the Steam Early Access Trailer (YouTube)</p>
 </div>
+
+# Important Issues
+* [Support for Windows monitor scaling is currently buggy. All monitors must be set to 100%!](https://gitlab.com/kelteseth/ScreenPlay/-/issues/125)
+* [Implement KDE Support](https://gitlab.com/kelteseth/ScreenPlay/-/issues/111)
+* [Implement MacOS Support](https://gitlab.com/kelteseth/ScreenPlay/-/issues/130)
 
 # Content Creation
 [Learn the basics of QML for Wallpapers and Widgets in 5 minutes](https://screen-play.app/blog/guide_learn_the_basics_of_qml/)

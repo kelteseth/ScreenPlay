@@ -223,9 +223,10 @@ QRect MonitorListModel::getAbsoluteDesktopSize() const
 }
 
 /*!
-  \brief Sets the previewImage and appID for a list item.
+  \brief Sets a shared_ptr to the monitor list. This should be used to set and
+         remove the shared_ptr.
 */
-void MonitorListModel::setWallpaperActiveMonitor(const std::shared_ptr<ScreenPlayWallpaper>& wallpaper, const QVector<int> monitors)
+void MonitorListModel::setWallpaperMonitor(const std::shared_ptr<ScreenPlayWallpaper>& wallpaper, const QVector<int> monitors)
 {
 
     for (const int monitor : monitors) {

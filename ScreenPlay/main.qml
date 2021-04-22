@@ -24,7 +24,7 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 788
-    title: "ScreenPlay Alpha - 0.13.0"
+    title: "ScreenPlay Alpha - " + ScreenPlay.version();
     minimumHeight: 450
     minimumWidth: 1050
     onVisibilityChanged: {

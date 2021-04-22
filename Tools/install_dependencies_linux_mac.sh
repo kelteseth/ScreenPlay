@@ -5,8 +5,8 @@ cd ..
 git clone https://github.com/microsoft/vcpkg.git ScreenPlay-vcpkg
 cd ScreenPlay-vcpkg
 git pull
-# master 25.01.2021 - fc0d6b28006e0607a6b9871641ec48925274e079
-git checkout fc0d6b28006e0607a6b9871641ec48925274e079
+# master 27.03.2021 - 9f6157a
+git checkout 9f6157a
 chmod +x bootstrap-vcpkg.sh
 ./bootstrap-vcpkg.sh
 chmod +x vcpkg

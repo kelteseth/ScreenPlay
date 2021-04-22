@@ -68,6 +68,7 @@ class ScreenPlayWallpaper : public QObject {
 
 public:
     ScreenPlayWallpaper() { }
+    ~ScreenPlayWallpaper();
 
     explicit ScreenPlayWallpaper(
         const QVector<int>& screenNumber,
@@ -82,6 +83,8 @@ public:
         const bool checkWallpaperVisible,
         QObject* parent = nullptr);
 
+    bool start();
+
     void replace(
         const QString& absolutePath,
         const QString& previewImage,
@@ -91,64 +94,31 @@ public:
         const InstalledType::InstalledType type,
         const bool checkWallpaperVisible);
 
-    void setSDKConnection(const std::shared_ptr<SDKConnection>& connection);
+    void setSDKConnection(std::unique_ptr<SDKConnection> connection);
 
     QJsonObject getActiveSettingsJson();
 
-    QVector<int> screenNumber() const
-    {
-        return m_screenNumber;
-    }
+    QVector<int> screenNumber() const { return m_screenNumber; }
 
-    QString previewImage() const
-    {
-        return m_previewImage;
-    }
+    QString previewImage() const { return m_previewImage; }
 
-    QString appID() const
-    {
-        return m_appID;
-    }
+    QString appID() const { return m_appID; }
 
-    InstalledType::InstalledType type() const
-    {
-        return m_type;
-    }
+    InstalledType::InstalledType type() const { return m_type; }
 
-    QString file() const
-    {
-        return m_file;
-    }
+    QString file() const { return m_file; }
 
-    FillMode::FillMode fillMode() const
-    {
-        return m_fillMode;
-    }
+    FillMode::FillMode fillMode() const { return m_fillMode; }
 
-    QString absolutePath() const
-    {
-        return m_absolutePath;
-    }
+    QString absolutePath() const { return m_absolutePath; }
 
-    float volume() const
-    {
-        return m_volume;
-    }
+    float volume() const { return m_volume; }
 
-    bool isLooping() const
-    {
-        return m_isLooping;
-    }
+    bool isLooping() const { return m_isLooping; }
 
-    ProjectSettingsListModel* getProjectSettingsListModel()
-    {
-        return &m_projectSettingsListModel;
-    }
+    ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
 
-    float playbackRate() const
-    {
-        return m_playbackRate;
-    }
+    float playbackRate() const { return m_playbackRate; }
 
 signals:
     void screenNumberChanged(QVector<int> screenNumber);
@@ -170,7 +140,7 @@ signals:
 public slots:
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
     void processError(QProcess::ProcessError error);
-    void setWallpaperValue(const QString& key, const QString& value, const bool save = false);
+    bool setWallpaperValue(const QString& key, const QString& value, const bool save = false);
 
     void setScreenNumber(QVector<int> screenNumber)
     {
@@ -267,7 +237,7 @@ public slots:
 
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
-    std::shared_ptr<SDKConnection> m_connection;
+    std::unique_ptr<SDKConnection> m_connection;
 
     ProjectSettingsListModel m_projectSettingsListModel;
     QVector<int> m_screenNumber;
@@ -282,5 +252,6 @@ private:
     bool m_isLooping { true };
     float m_playbackRate { 1.0f };
     QTimer m_pingAliveTimer;
+    QStringList m_appArgumentsList;
 };
 }

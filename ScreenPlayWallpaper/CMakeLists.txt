@@ -35,6 +35,7 @@ if(WIN32)
     # Disable console window on Windows
     # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
+    target_link_libraries(${PROJECT_NAME} PRIVATE  shcore.lib )
 endif()
 
 if(APPLE)
@@ -42,7 +43,8 @@ if(APPLE)
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")
 endif()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core Qt5::WebEngine ScreenPlaySDK ScreenPlayUtil)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core Qt5::WebEngine shcore.lib ScreenPlaySDK ScreenPlayUtil)
+
 
 
 if(APPLE)

@@ -72,25 +72,13 @@ public:
     */
     explicit SDKConnection(QLocalSocket* socket, QObject* parent = nullptr);
 
-    QString appID() const
-    {
-        return m_appID;
-    }
+    QString appID() const { return m_appID; }
 
-    QLocalSocket* socket() const
-    {
-        return m_socket;
-    }
+    QLocalSocket* socket() const { return m_socket; }
 
-    QVector<int> monitor() const
-    {
-        return m_monitor;
-    }
+    QVector<int> monitor() const { return m_monitor; }
 
-    QString type() const
-    {
-        return m_type;
-    }
+    QString type() const { return m_type; }
 
 signals:
     void requestCloseAt(int at);
@@ -105,8 +93,8 @@ signals:
 
 public slots:
     void readyRead();
-    void sendMessage(const QByteArray& message);
-    void close();
+    bool sendMessage(const QByteArray& message);
+    bool close();
 
     void setAppID(QString appID)
     {

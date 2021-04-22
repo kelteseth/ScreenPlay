@@ -133,83 +133,23 @@ public:
     };
     Q_ENUM(Theme)
 
-    bool offlineMode() const
-    {
-        return m_offlineMode;
-    }
+    bool offlineMode() const { return m_offlineMode; }
+    bool getOfflineMode() const { return m_offlineMode; }
+    bool autostart() const { return m_autostart; }
+    bool highPriorityStart() const { return m_highPriorityStart; }
+    QString decoder() const { return m_decoder; }
+    QString gitBuildHash() const { return m_gitBuildHash; }
+    bool silentStart() const { return m_silentStart; }
+    bool anonymousTelemetry() const { return m_anonymousTelemetry; }
+    bool checkWallpaperVisible() const { return m_checkWallpaperVisible; }
+    ScreenPlay::FillMode::FillMode videoFillMode() const { return m_videoFillMode; }
+    Language language() const { return m_language; }
+    QString font() const { return m_font; }
+    Theme theme() const { return m_theme; }
+    bool steamVersion() const { return m_steamVersion; }
+    DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
 
-    bool getOfflineMode() const
-    {
-        return m_offlineMode;
-    }
-
-    bool autostart() const
-    {
-        return m_autostart;
-    }
-
-    bool highPriorityStart() const
-    {
-        return m_highPriorityStart;
-    }
-
-    QString decoder() const
-    {
-        return m_decoder;
-    }
-
-    QString gitBuildHash() const
-    {
-        return m_gitBuildHash;
-    }
-
-    bool silentStart() const
-    {
-        return m_silentStart;
-    }
-
-    bool anonymousTelemetry() const
-    {
-        return m_anonymousTelemetry;
-    }
-
-    bool checkWallpaperVisible() const
-    {
-        return m_checkWallpaperVisible;
-    }
-
-    ScreenPlay::FillMode::FillMode videoFillMode() const
-    {
-        return m_videoFillMode;
-    }
-
-    Language language() const
-    {
-        return m_language;
-    }
-
-public:
     void setupLanguage();
-
-    QString font() const
-    {
-        return m_font;
-    }
-
-    Theme theme() const
-    {
-        return m_theme;
-    }
-
-    bool steamVersion() const
-    {
-        return m_steamVersion;
-    }
-
-    DesktopEnvironment desktopEnvironment() const
-    {
-        return m_desktopEnvironment;
-    }
 
 signals:
     void requestRetranslation();

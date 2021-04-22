@@ -1,5 +1,6 @@
-import QtQuick 2.14
 import QtQml 2.14
+import QtQuick 2.14
+import QtQuick.Controls 2.14
 import ScreenPlayWallpaper 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlay.Shader 1.0
@@ -27,7 +28,7 @@ Rectangle {
 
         function onQmlExit() {
             if (canFadeByWallpaperFillMode && Wallpaper.canFade) {
-                imgCover.state = "outExit"
+                imgCover.state = "exit"
             } else {
                 Wallpaper.terminate()
             }
@@ -64,7 +65,7 @@ Rectangle {
             if (oldType === InstalledType.VideoWallpaper)
                 return
 
-            imgCover.state = "in"
+            imgCover.state = "showDefaultBackgroundImage"
             loader.source = "qrc:/WebView.qml"
         }
     }
@@ -82,27 +83,28 @@ Rectangle {
             break
         case InstalledType.QMLWallpaper:
             loader.source = Qt.resolvedUrl(Wallpaper.fullContentPath)
+            fadeIn()
             break
         case InstalledType.WebsiteWallpaper:
             loader.setSource("qrc:/WebsiteWallpaper.qml", {
                                  "url": Wallpaper.fullContentPath
                              })
+            fadeIn()
             break
         case InstalledType.GifWallpaper:
             loader.setSource("qrc:/GifWallpaper.qml", {
                                  "source": Qt.resolvedUrl(
                                                Wallpaper.fullContentPath)
                              })
+            fadeIn()
             break
         }
-
-        fadeIn()
     }
 
     function fadeIn() {
         Wallpaper.setVisible(true)
         if (canFadeByWallpaperFillMode && Wallpaper.canFade) {
-            imgCover.state = "out"
+            imgCover.state = "hideDefaultBackgroundImage"
         } else {
             imgCover.opacity = 0
         }
@@ -137,35 +139,33 @@ Rectangle {
             left: parent.left
             right: parent.right
         }
-        state: "in"
+        state: "showDefaultBackgroundImage"
         sourceSize.width: Wallpaper.width
         sourceSize.height: Wallpaper.height
         source: {
             if (Qt.platform.os === "windows") {
                 return Qt.resolvedUrl(
                             "file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath)
-            } else {
-                return ""
             }
         }
 
         states: [
             State {
-                name: "in"
+                name: "showDefaultBackgroundImage"
                 PropertyChanges {
                     target: imgCover
                     opacity: 1
                 }
             },
             State {
-                name: "out"
+                name: "hideDefaultBackgroundImage"
                 PropertyChanges {
                     target: imgCover
                     opacity: 0
                 }
             },
             State {
-                name: "outExit"
+                name: "exit"
                 PropertyChanges {
                     target: imgCover
                     opacity: 1
@@ -174,18 +174,24 @@ Rectangle {
         ]
         transitions: [
             Transition {
-                from: "out"
-                to: "in"
+                from: "showDefaultBackgroundImage"
+                to: "hideDefaultBackgroundImage"
                 reversible: true
-                PropertyAnimation {
-                    target: imgCover
-                    duration: 600
-                    property: "opacity"
+
+                SequentialAnimation {
+                    PauseAnimation {
+                        duration: 100
+                    }
+                    PropertyAnimation {
+                        target: imgCover
+                        duration: 600
+                        property: "opacity"
+                    }
                 }
             },
             Transition {
-                from: "out"
-                to: "outExit"
+                from: "hideDefaultBackgroundImage"
+                to: "exit"
                 reversible: true
                 SequentialAnimation {
                     PropertyAnimation {
@@ -231,6 +237,69 @@ Rectangle {
             case 22:
                 root.canFadeByWallpaperFillMode = false
                 break
+            }
+        }
+    }
+
+    Pane {
+        id: debug
+        visible: Wallpaper.debugMode
+        enabled: Wallpaper.debugMode
+        width: parent.width * .3
+        height: parent.height * .3
+        anchors.centerIn: parent
+        background: Rectangle {
+            opacity: .5
+        }
+
+        Column {
+            anchors.fill: parent
+            anchors.margins: 20
+            spacing: 10
+            Text {
+                text: "appID " + Wallpaper.appID
+                font.pointSize: 14
+            }
+            Text {
+                text: "basePath " + Wallpaper.basePath
+                font.pointSize: 14
+            }
+            Text {
+                text: "fullContentPath " + Wallpaper.fullContentPath
+                font.pointSize: 14
+            }
+            Text {
+                text: "fillMode " + Wallpaper.fillMode
+                font.pointSize: 14
+            }
+            Text {
+                text: "sdk.type " + Wallpaper.sdk.type
+                font.pointSize: 14
+            }
+            Text {
+                text: "sdk.isConnected " + Wallpaper.sdk.isConnected
+                font.pointSize: 14
+            }
+            Text {
+                text: "sdk.appID " + Wallpaper.sdk.appID
+                font.pointSize: 14
+            }
+            Text {
+                text: "canFadeByWallpaperFillMode " + canFadeByWallpaperFillMode
+                font.pointSize: 14
+            }
+            Text {
+                text: "Wallpaper.canFade " + Wallpaper.canFade
+                font.pointSize: 14
+            }
+            Text {
+                text: "imgCover.source " + Qt.resolvedUrl(
+                          "file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath)
+                font.pointSize: 14
+            }
+            Text {
+                text: "imgCover.status " + imgCover.status
+                font.pointSize: 14
             }
         }
     }

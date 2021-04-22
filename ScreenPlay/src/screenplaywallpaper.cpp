@@ -11,6 +11,15 @@ namespace ScreenPlay {
 */
 
 /*!
+    \brief Destructor for ScreenPlayWallpaper.
+*/
+ScreenPlayWallpaper::~ScreenPlayWallpaper()
+{
+    qInfo() << "Remove wallpaper " << m_appID;
+    m_connection->close();
+}
+
+/*!
     \brief  Constructor for ScreenPlayWallpaper.
 */
 ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
@@ -77,7 +86,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
         tmpScreenNumber = QString::number(m_screenNumber.first());
     }
 
-    const QStringList proArgs {
+    m_appArgumentsList = QStringList {
         tmpScreenNumber,
         m_absolutePath,
         QString { "appID=" + m_appID },
@@ -88,8 +97,11 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
         // Fixes issue 84 media key overlay
         " --disable-features=HardwareMediaKeyHandling"
     };
+}
 
-    m_process.setArguments(proArgs);
+bool ScreenPlayWallpaper::start()
+{
+    m_process.setArguments(m_appArgumentsList);
     m_process.setProgram(m_globalVariables->wallpaperExecutablePath().toString());
     // We must start detatched otherwise we would instantly close the process
     // and would loose the animted fade-out and the background refresh needed
@@ -97,10 +109,9 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const bool success = m_process.startDetached();
     qInfo() << "Starting ScreenPlayWallpaper detached: " << (success ? "success" : "failed!");
     if (!success) {
-        qInfo() << m_process.errorString();
-        emit requestClose(m_appID);
         emit error(QString("Could not start Wallpaper: " + m_process.errorString()));
     }
+    return success;
 }
 
 /*!
@@ -110,7 +121,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
 QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 {
     QJsonArray screenNumber;
-    for (const int i : m_screenNumber) {
+    for (const int i : qAsConst(m_screenNumber)) {
         screenNumber.append(i);
     }
 
@@ -157,7 +168,7 @@ void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
         playbackRate or fillMode. Otherwise it is a simple key, value json pair.
 
 */
-void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value, const bool save)
+bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value, const bool save)
 {
     QJsonObject obj;
     obj.insert(key, value);
@@ -172,20 +183,23 @@ void ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
         setFillMode(QStringToEnum<FillMode::FillMode>(value, FillMode::FillMode::Cover));
     }
 
-    m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+    const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
 
-    if (save)
+    if (save && success)
         emit requestSave();
+
+    return success;
 }
 
 /*!
-    \brief  Connects to ScreenPlay. Start a alive ping check for every 16 seconds.
+    \brief  Connects to ScreenPlay. Start a alive ping check for every
+            GlobalVariables::contentPingAliveIntervalMS seconds.
 */
-void ScreenPlayWallpaper::setSDKConnection(const std::shared_ptr<SDKConnection>& connection)
+void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connection)
 {
-    m_connection = connection;
+    m_connection = std::move(connection);
 
-    QTimer::singleShot(1000, [this]() {
+    QTimer::singleShot(1000, this, [this]() {
         if (playbackRate() != 1.0) {
             setWallpaperValue("playbackRate", QString::number(playbackRate()), false);
         }

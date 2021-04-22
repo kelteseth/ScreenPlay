@@ -100,10 +100,7 @@ public:
     };
     Q_ENUM(ImportVideoState)
 
-    float progress() const
-    {
-        return m_progress;
-    }
+    float progress() const { return m_progress; }
 
     bool m_skipAudio { false };
 

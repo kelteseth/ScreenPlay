@@ -33,7 +33,7 @@ void InstalledListModel::init()
     }
 
     auto reloadLambda = [this]() {
-        QTimer::singleShot(500, [this]() {
+        QTimer::singleShot(500, this, [this]() {
             reset();
         });
     };
@@ -169,7 +169,6 @@ void InstalledListModel::loadInstalledContent()
 
                 if (!obj->contains("type"))
                     continue;
-
 
                 if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString())) {
                     if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString(), Qt::CaseInsensitive)) {

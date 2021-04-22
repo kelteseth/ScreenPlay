@@ -69,7 +69,7 @@ WidgetWindow::WidgetWindow(
     m_window.show();
 
     // Do not trigger position changed save reuqest on startup
-    QTimer::singleShot(1000, [=, this]() {
+    QTimer::singleShot(1000, this, [=, this]() {
         // We limit ourself to only update the position every 500ms!
         auto sendPositionUpdate = [this]() {
             m_positionMessageLimiter.stop();

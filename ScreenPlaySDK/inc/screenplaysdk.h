@@ -85,6 +85,7 @@ public slots:
     void error(QLocalSocket::LocalSocketError socketError);
     void redirectMessage(QByteArray& msg);
     void pingAlive();
+    void start();
 
     void setType(QString type)
     {
@@ -135,9 +136,6 @@ signals:
         const QString fillMode,
         const QString type,
         const bool checkWallpaperVisible);
-
-private:
-    void init();
 
 private:
     QLocalSocket m_socket;
