@@ -16,7 +16,6 @@ namespace ScreenPlay {
 ScreenPlayWallpaper::~ScreenPlayWallpaper()
 {
     qInfo() << "Remove wallpaper " << m_appID;
-    m_connection->close();
 }
 
 /*!
