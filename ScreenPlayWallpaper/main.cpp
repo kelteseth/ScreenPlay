@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
         LinuxWindow window({ 0 }, "/home/graphicscore/Desktop/wallpapers/MechaGirl", "appid", "1", "fill", false);
 #endif
 #if defined(Q_OS_OSX)
-        MacWindow window({ 0 }, "test", "appid", "1", "fill");
+        MacWindow window({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
 #endif
 
         return app.exec();
@@ -89,26 +89,26 @@ int main(int argc, char* argv[])
 
 #if defined(Q_OS_LINUX)
     LinuxWindow window(
-        activeScreensList.value(),
-        projectPath,
-        appID,
-        fillmode,
-        volume,
-        checkWallpaperVisible);
-    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &LinuxWindow::destroyThis);
-    QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &LinuxWindow::messageReceived);
+                activeScreensList.value(),
+                projectFilePath,
+                appID,
+                volume,
+                fillmode,
+                type,
+                checkWallpaperVisible,
+                debugMode);
 #endif
 
 #if defined(Q_OS_OSX)
     MacWindow window(
-        activeScreensList.value(),
-        projectPath,
-        appID,
-        fillmode,
-        volume,
-        checkWallpaperVisible);
-    QObject::connect(&sdk, &ScreenPlaySDK::sdkDisconnected, &window, &MacWindow::destroyThis);
-    QObject::connect(&sdk, &ScreenPlaySDK::incommingMessage, &window, &MacWindow::messageReceived);
+                activeScreensList.value(),
+                projectFilePath,
+                appID,
+                volume,
+                fillmode,
+                type,
+                checkWallpaperVisible,
+                debugMode);
 #endif
 
     return app.exec();

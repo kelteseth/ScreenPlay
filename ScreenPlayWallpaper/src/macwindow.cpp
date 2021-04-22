@@ -1,14 +1,23 @@
 #include "macwindow.h"
 
 MacWindow::MacWindow(
-    const QVector<int>& activeScreensList,
-    const QString& projectPath,
-    const QString& id,
-    const QString& volume,
-    const QString& fillmode)
-    : BaseWindow(projectPath, activeScreensList, false)
+        const QVector<int>& activeScreensList,
+        const QString& projectFilePath,
+        const QString& appID,
+        const QString& volume,
+        const QString& fillmode,
+        const QString& type,
+        const bool checkWallpaperVisible,
+        const bool debugMode)
+    : BaseWindow(
+          activeScreensList,
+              projectFilePath,
+              type,
+              checkWallpaperVisible,
+              appID,
+              debugMode)
 {
-    setAppID(id);
+    setAppID(appID);
     bool ok = false;
     float volumeParsed = volume.toFloat(&ok);
     if (!ok) {

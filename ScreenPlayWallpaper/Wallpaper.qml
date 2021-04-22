@@ -146,6 +146,8 @@ Rectangle {
             if (Qt.platform.os === "windows") {
                 return Qt.resolvedUrl(
                             "file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath)
+            } else {
+                return ""
             }
         }
 
@@ -290,11 +292,6 @@ Rectangle {
             }
             Text {
                 text: "Wallpaper.canFade " + Wallpaper.canFade
-                font.pointSize: 14
-            }
-            Text {
-                text: "imgCover.source " + Qt.resolvedUrl(
-                          "file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath)
                 font.pointSize: 14
             }
             Text {
