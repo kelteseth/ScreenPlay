@@ -10,6 +10,7 @@ find_package(
                QuickCompiler
                Widgets
                Gui
+               Svg
                WebEngine
                LinguistTools
                WebSockets
@@ -121,6 +122,7 @@ target_link_libraries(
             Qt5::Core
             Qt5::WebEngine
             Qt5::WebSockets
+            Qt5::Svg
             ScreenPlaySDK
             ScreenPlayUtil
             benchmark::benchmark

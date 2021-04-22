@@ -47,6 +47,7 @@
 #include <QtGlobal>
 #include <QtQml>
 #include <QtWebEngine>
+#include <QtSvg>
 
 #include "ganalytics.h"
 #include "src/create.h"
