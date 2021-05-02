@@ -65,6 +65,7 @@ std::optional<QString> openJsonFileToString(const QString& path)
     QFile file;
     file.setFileName(path);
     if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        qWarning() << "Unable to open file: " << path << file.errorString();
         return std::nullopt;
     }
     QString fileContent = file.readAll();
