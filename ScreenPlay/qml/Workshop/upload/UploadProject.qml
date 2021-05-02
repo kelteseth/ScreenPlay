@@ -128,7 +128,6 @@ Popup {
                         id: btnAbort
                         text: qsTr("Abort")
                         onClicked: {
-                            steamWorkshop.uploadListModel.clear()
                             wrapper.requestClosePopup()
                         }
 
@@ -147,7 +146,6 @@ Popup {
                         anchors {
                             right: parent.right
                             bottom: parent.bottom
-
                             margins: 10
                         }
 
@@ -202,8 +200,7 @@ Popup {
                         id: btnFinish
                         text: qsTr("Finish")
                         onClicked: {
-                            steamWorkshop.uploadListModel.clear()
-                            wrapper.requestClosePopup()
+                            root.close()
                         }
                         highlighted: true
                         enabled: false
