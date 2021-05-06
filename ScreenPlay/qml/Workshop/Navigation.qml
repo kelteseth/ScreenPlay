@@ -6,7 +6,6 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material.impl 2.12
 
 import ScreenPlay.Workshop 1.0
-import ScreenPlay.Workshop.SteamEnums 1.0
 import SteamQMLImageProvider 1.0
 import ScreenPlay 1.0
 

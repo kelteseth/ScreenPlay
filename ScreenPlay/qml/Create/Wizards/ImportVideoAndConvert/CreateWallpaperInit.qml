@@ -77,10 +77,10 @@ Item {
             id: sliderQuality
             iconSource: "qrc:/assets/icons/icon_settings.svg"
             headline: qsTr(
-                          "Quality slider. Greater value means better quality.")
+                          "Quality slider. Lower value means better quality.")
             slider {
                 from: 4
-                value: 50
+                value: 23
                 to: 63
                 stepSize: 1
             }

@@ -609,6 +609,15 @@ bool CreateImportVideo::createWallpaperVideo()
     if (m_codec == "av1")
         args.append("libaom-av1");
     args.append("-b:v");
+    args.append("3000k");
+    args.append("-threads");
+    args.append(QString::number(QThread::idealThreadCount()));
+    qInfo() << "threads" << QThread::idealThreadCount() << "m_quality" << m_quality;
+    args.append("-speed");
+    args.append("4");
+    args.append("-tile-columns");
+    args.append("0");
+    args.append("-frame-parallel");
     args.append("0");
     args.append("-crf");
     args.append(QString::number(m_quality));
@@ -643,7 +652,19 @@ bool CreateImportVideo::createWallpaperVideo()
     if (m_codec == "av1")
         args.append("libaom-av1");
     args.append("-b:v");
+    args.append("3000k");
+    args.append("-threads");
+    args.append(QString::number(QThread::idealThreadCount()));
+    args.append("-speed");
     args.append("0");
+    args.append("-tile-columns");
+    args.append("0");
+    args.append("-frame-parallel");
+    args.append("0");
+    args.append("-auto-alt-ref");
+    args.append("1");
+    args.append("-lag-in-frames");
+    args.append("25");
     args.append("-crf");
     args.append(QString::number(m_quality));
     args.append("-pass");
