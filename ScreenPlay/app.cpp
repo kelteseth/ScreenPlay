@@ -204,7 +204,8 @@ QString App::version() const
 }
 
 /*!
-    \brief Tries to send the telemetry quit event before we call quit ourself.
+    \brief Calls QApplication quit() and can be used to do additional
+           tasks before exiting.
 */
 void App::exit()
 {
