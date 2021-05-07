@@ -61,8 +61,6 @@ Rectangle {
 
     function onPageChanged(name) {
 
-        ScreenPlay.setTrackerSendEvent("navigation", name)
-
         if (!navActive)
             return
 

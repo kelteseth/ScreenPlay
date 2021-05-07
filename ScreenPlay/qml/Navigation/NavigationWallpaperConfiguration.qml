@@ -27,8 +27,6 @@ Item {
         target: ScreenPlay.screenPlayManager
         function onActiveWallpaperCounterChanged() {
             rippleEffect.trigger()
-            ScreenPlay.setTrackerSendEvent("navigation",
-                                           "wallpaperConfiguration")
         }
     }
 

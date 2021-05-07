@@ -70,26 +70,6 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
     return true;
 }
 
-void Util::appendToMetricsFile(const QString& key, const QVariant& value)
-{
-    if (!QGuiApplication::arguments().contains("--benchmark"))
-        return;
-
-    const QString appDir = QGuiApplication::applicationDirPath();
-    QFile metricsFile { appDir + "/metrics.txt" };
-
-    if (!metricsFile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append)) {
-        qWarning() << "Cannot open metrix file:" << appDir << metricsFile.fileName();
-        return;
-    }
-
-    QString text = key + "\t" + value.toString() + "\n";
-    QTextStream out(&metricsFile);
-    out << text;
-
-    metricsFile.flush();
-    metricsFile.close();
-}
 
 /*!
   \brief Opens a native folder window on the given path. Windows and Mac only for now!

@@ -95,7 +95,6 @@ Item {
             margins: 10
         }
         onClicked: {
-            ScreenPlay.setTrackerSendEvent("createWallpaperError",txtFFMPEGDebug.text);
             ScreenPlay.util.setNavigationActive(true)
             ScreenPlay.util.setNavigation("Create")
         }

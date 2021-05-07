@@ -48,7 +48,6 @@
 #include <QtQml>
 #include <QtWebEngine>
 
-#include "ganalytics.h"
 #include "src/create.h"
 #include "src/globalvariables.h"
 #include "src/installedlistfilter.h"
@@ -122,12 +121,6 @@ public slots:
     void exit();
     bool loadSteamPlugin();
     bool unloadSteamPlugin();
-    void setTrackerSendEvent(const QString& category, const QString& page)
-    {
-        if (m_telemetry) {
-            m_telemetry->sendEvent(category, page);
-        }
-    }
 
     void setGlobalVariables(GlobalVariables* globalVariables)
     {
@@ -237,7 +230,6 @@ private:
     std::unique_ptr<ScreenPlayManager> m_screenPlayManager;
     std::unique_ptr<Util> m_util;
 
-    std::shared_ptr<GAnalytics> m_telemetry;
     std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<Settings> m_settings;
 

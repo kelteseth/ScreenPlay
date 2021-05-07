@@ -128,7 +128,6 @@ App::App()
     // ScreenPlayManager first to check if another ScreenPlay Instace is running
     m_screenPlayManager = std::make_unique<ScreenPlayManager>();
     m_isAnotherScreenPlayInstanceRunning = m_screenPlayManager->isAnotherScreenPlayInstanceRunning();
-    Util::appendToMetricsFile("screenplay_app_constructor", m_continuousIntegrationMetricsTimer.msecsSinceReference());
 }
 
 /*!
@@ -139,8 +138,6 @@ App::App()
 */
 void App::init()
 {
-
-    Util::appendToMetricsFile("screenplay_app_init", m_continuousIntegrationMetricsTimer.msecsSinceReference());
 
     using std::make_shared, std::make_unique;
 
@@ -154,13 +151,8 @@ void App::init()
     m_settings = make_shared<Settings>(m_globalVariables);
     m_mainWindowEngine = make_unique<QQmlApplicationEngine>();
 
-    // Only create tracker if user did not disallow!
+    // Only create anonymousTelemetry if user did not disallow!
     if (m_settings->anonymousTelemetry()) {
-        m_telemetry = make_shared<GAnalytics>("UA-152830367-3");
-        m_telemetry->setNetworkAccessManager(&m_networkAccessManager);
-        m_telemetry->setSendInterval(1000);
-        m_telemetry->startSession();
-        m_telemetry->sendEvent("version", QApplication::applicationVersion());
 
 #ifdef Q_OS_WIN
         sentry_options_t* options = sentry_options_new();
@@ -199,12 +191,10 @@ void App::init()
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
-    Util::appendToMetricsFile("Screenplay_app_qqmlapplicationengine_load_begin", m_continuousIntegrationMetricsTimer.msecsSinceReference());
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
-    Util::appendToMetricsFile("Screenplay_app_qqmlapplicationengine_load_end", m_continuousIntegrationMetricsTimer.msecsSinceReference());
 
     // Must be called last to display a error message on startup by the qml engine
-    m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_telemetry, m_settings);
+    m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_settings);
     QObject::connect(m_monitorListModel.get(), &MonitorListModel::monitorConfigurationChanged, m_screenPlayManager.get(), &ScreenPlayManager::removeAllWallpapers);
 }
 
@@ -218,15 +208,7 @@ QString App::version() const
 */
 void App::exit()
 {
-    if (!m_telemetry) {
-        QApplication::instance()->quit();
-        return;
-    } else {
-        // Workaround because we cannot force to send exit event
-        m_telemetry->setSendInterval(5);
-        m_telemetry->endSession();
-        QTimer::singleShot(150, this, []() { QApplication::instance()->quit(); });
-    }
+    QApplication::instance()->quit();
 }
 
 /*!

@@ -89,7 +89,6 @@ Item {
                 busyIndicator.running = false
                 root.checkCanSave()
 
-                ScreenPlay.setTrackerSendEvent("createWallpaperSuccessful", "")
                 break
             }
         }
