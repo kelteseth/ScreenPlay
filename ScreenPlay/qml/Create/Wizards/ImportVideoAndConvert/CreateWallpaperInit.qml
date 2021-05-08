@@ -41,43 +41,47 @@ Item {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.family: ScreenPlay.settings.font
         }
-        Text {
-            id: txtComboboxHeadline
-            text: qsTr("Set your preffered video codec:")
-            color: Material.secondaryTextColor
-            width: parent.width
-            font.pointSize: 14
-            font.family: ScreenPlay.settings.font
-        }
-        ComboBox {
-            id: comboBoxCodec
-            Layout.preferredWidth: 400
-            textRole: "text"
-            valueRole: "value"
-            currentIndex: 1
-            font.family: ScreenPlay.settings.font
-            model: ListModel {
-                id: model
-                ListElement {
-                    text: "VP8 (Better for older hardware)"
-                    value: Create.VP9
+        ColumnLayout {
+            spacing: 20
+            Text {
+                id: txtComboboxHeadline
+                text: qsTr("Set your preffered video codec:")
+                color: Material.primaryTextColor
+                width: parent.width
+                font.pointSize: 14
+                font.family: ScreenPlay.settings.font
+            }
+            ComboBox {
+                id: comboBoxCodec
+                Layout.preferredWidth: 400
+                textRole: "text"
+                valueRole: "value"
+                currentIndex: 1
+                font.family: ScreenPlay.settings.font
+                model: ListModel {
+                    id: model
+                    ListElement {
+                        text: "VP8 (Better for older hardware)"
+                        value: Create.VP9
+                    }
+                    ListElement {
+                        text: "VP9 (Better for newer hardware 2018+)"
+                        value: Create.VP8
+                    }
+    // Import works but the QWebEngine cannot display AV1 :(
+    //                ListElement {
+    //                    text: "AV1 (NVidia 3000, AMD 6000 or newer). ULTRA SLOW ENCODING!"
+    //                    value: Create.AV1
+    //                }
                 }
-                ListElement {
-                    text: "VP9 (Better for newer hardware 2018+)"
-                    value: Create.VP8
-                }
-// Import works but the QWebEngine cannot display AV1 :(
-//                ListElement {
-//                    text: "AV1 (NVidia 3000, AMD 6000 or newer). ULTRA SLOW ENCODING!"
-//                    value: Create.AV1
-//                }
             }
         }
+
+
         Common.Slider {
             id: sliderQuality
             iconSource: "qrc:/assets/icons/icon_settings.svg"
-            headline: qsTr(
-                          "Quality slider. Lower value means better quality.")
+            headline: qsTr("Quality slider. Lower value means better quality.")
             slider {
                 from: 63
                 value: 22
