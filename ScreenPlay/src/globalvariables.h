@@ -59,7 +59,7 @@ public:
 
     /*!
       \brief We need to check if there was an error in the Wallpaper/Widgets.
-             For this we ping it every 1s.
+             For this we ping it every 3s.
      */
     static const int contentPingAliveIntervalMS = 3000;
 

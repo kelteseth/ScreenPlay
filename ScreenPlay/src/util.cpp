@@ -70,7 +70,6 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
     return true;
 }
 
-
 /*!
   \brief Opens a native folder window on the given path. Windows and Mac only for now!
 */
@@ -94,6 +93,11 @@ void Util::openFolderInExplorer(const QString& url) const
 #endif
 
     explorer.startDetached();
+}
+
+QString Util::toLocal(const QString& url)
+{
+    return ScreenPlayUtil::toLocal(url);
 }
 
 /*!
