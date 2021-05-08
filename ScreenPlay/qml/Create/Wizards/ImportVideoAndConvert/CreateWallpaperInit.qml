@@ -79,9 +79,9 @@ Item {
             headline: qsTr(
                           "Quality slider. Lower value means better quality.")
             slider {
-                from: 4
-                value: 23
-                to: 63
+                from: 63
+                value: 22
+                to: 0
                 stepSize: 1
             }
             Layout.preferredWidth: 400
