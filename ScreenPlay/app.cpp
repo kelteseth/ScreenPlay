@@ -70,9 +70,7 @@ App::App()
     QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Medium.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Light.ttf");
 
-    if (-1 == QFontDatabase::addApplicationFont(QGuiApplication::applicationDirPath() + "/assets/fonts/NotoSansCJKkr-Regular.otf")) {
-        qWarning() << "Could not load korean font from: " << QGuiApplication::applicationDirPath() + "/assets/fonts/NotoSansCJKkr-Regular.otf";
-    }
+    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSansCJKkr-Regular.otf");
 
     QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
@@ -224,14 +222,13 @@ bool App::loadSteamPlugin()
     isDebug = false;
 #endif
 
-
 #ifdef Q_OS_MACOS
-    const QString fileSuffix = isDebug ?  "d.dylib" : ".dylib";
+    const QString fileSuffix = isDebug ? "d.dylib" : ".dylib";
     m_workshopPlugin.setFileName(QApplication::applicationDirPath() + "/libScreenPlayWorkshop" + fileSuffix);
 #endif
 
 #ifdef Q_OS_WIN
-    const QString fileSuffix = isDebug ?  "d.dll" : ".dll";
+    const QString fileSuffix = isDebug ? "d.dll" : ".dll";
     m_workshopPlugin.setFileName(QApplication::applicationDirPath() + "/ScreenPlayWorkshop" + fileSuffix);
 #endif
 
@@ -239,11 +236,9 @@ bool App::loadSteamPlugin()
     const QString fileSuffix = ".so";
 #endif
 
-
-
     if (!m_workshopPlugin.load()) {
         qWarning() << "Steam plugin not provided!" << QApplication::applicationDirPath() + "/ScreenPlayWorkshop" + fileSuffix;
-        qWarning() << m_workshopPlugin.fileName() << " - With error: " << m_workshopPlugin.errorString()  << " debug: " << isDebug;
+        qWarning() << m_workshopPlugin.fileName() << " - With error: " << m_workshopPlugin.errorString() << " debug: " << isDebug;
         return false;
     }
 

@@ -1,16 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>assets/WorkshopPreview.html</file>
-        <file>assets/fonts/LibreBaskerville-Italic.ttf</file>
-        <file>assets/fonts/NotoSans-Light.ttf</file>
-        <file>assets/fonts/NotoSans-Medium.ttf</file>
-        <file>assets/fonts/NotoSans-Regular.ttf</file>
-        <file>assets/fonts/NotoSans-Thin.ttf</file>
-        <file>assets/fonts/Roboto-Light.ttf</file>
-        <file>assets/fonts/Roboto-Regular.ttf</file>
-        <file>assets/fonts/Roboto-Thin.ttf</file>
-        <file>assets/fonts/RobotoMono-Light.ttf</file>
-        <file>assets/fonts/RobotoMono-Thin.ttf</file>
         <file>assets/icons/app.ico</file>
         <file>assets/icons/brand_github.svg</file>
         <file>assets/icons/brand_gitlab.svg</file>

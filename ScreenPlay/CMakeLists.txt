@@ -76,13 +76,15 @@ set(l10n
 set_source_files_properties(${l10n} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/translations")
 qt5_add_translation(qmFiles ${l10n})
 
+qt5_add_big_resources(fonts fonts.qrc)
+
 if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-    qt5_add_resources(qml qml.qrc Resources.qrc)
+    qt5_add_resources(qml qml.qrc assets.qrc)
 else()
-    qtquick_compiler_add_resources(qml qml.qrc Resources.qrc)
+    qtquick_compiler_add_resources(qml qml.qrc assets.qrc)
 endif()
 
-add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml})
+add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml} ${fonts})
 
 if(APPLE)
     #set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
@@ -105,10 +107,12 @@ if(WIN32)
 
     configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 
-    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets/fonts)
-    configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/assets/fonts COPYONLY)
 
 endif()
+
+file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets/fonts)
+configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/assets/fonts COPYONLY)
+
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE "GIT_VERSION=${GIT_VERSION}")
 
