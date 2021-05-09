@@ -235,32 +235,32 @@ void App::exit()
 */
 bool App::loadSteamPlugin()
 {
+    const bool isDebug = true;
+
+#ifdef QT_NO_DEBUG
+    isDebug = false;
+#endif
+
 
 #ifdef Q_OS_MACOS
-#ifdef QT_NO_DEBUG
-    const QString fileSuffix = ".dylib";
-#else
-    const QString fileSuffix = "d.dylib";
-#endif
+    const QString fileSuffix = isDebug ?  "d.dylib" : ".dylib";
+    m_workshopPlugin.setFileName(QApplication::applicationDirPath() + "/libScreenPlayWorkshop" + fileSuffix);
 #endif
 
 #ifdef Q_OS_WIN
-#ifdef QT_NO_DEBUG
-    const QString fileSuffix = ".dll";
-#else
-    const QString fileSuffix = "d.dll";
-#endif
+    const QString fileSuffix = isDebug ?  "d.dll" : ".dll";
+    m_workshopPlugin.setFileName(QApplication::applicationDirPath() + "/ScreenPlayWorkshop" + fileSuffix);
 #endif
 
 #ifdef Q_OS_LINUX
     const QString fileSuffix = ".so";
 #endif
 
-    m_workshopPlugin.setFileName(QApplication::applicationDirPath() + "/ScreenPlayWorkshop" + fileSuffix);
+
 
     if (!m_workshopPlugin.load()) {
         qWarning() << "Steam plugin not provided!" << QApplication::applicationDirPath() + "/ScreenPlayWorkshop" + fileSuffix;
-        qWarning() << m_workshopPlugin.fileName() << " - With error: " << m_workshopPlugin.errorString();
+        qWarning() << m_workshopPlugin.fileName() << " - With error: " << m_workshopPlugin.errorString()  << " debug: " << isDebug;
         return false;
     }
 
