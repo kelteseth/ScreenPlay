@@ -1,23 +1,27 @@
 #include "macwindow.h"
 
 MacWindow::MacWindow(
-        const QVector<int>& activeScreensList,
-        const QString& projectFilePath,
-        const QString& appID,
-        const QString& volume,
-        const QString& fillmode,
-        const QString& type,
-        const bool checkWallpaperVisible,
-        const bool debugMode)
+    const QVector<int>& activeScreensList,
+    const QString& projectFilePath,
+    const QString& appID,
+    const QString& volume,
+    const QString& fillmode,
+    const QString& type,
+    const bool checkWallpaperVisible,
+    const bool debugMode)
     : BaseWindow(
-          activeScreensList,
-              projectFilePath,
-              type,
-              checkWallpaperVisible,
-              appID,
-              debugMode)
+        activeScreensList,
+        projectFilePath,
+        type,
+        checkWallpaperVisible,
+        appID,
+        debugMode)
 {
-    setAppID(appID);
+
+    connect(sdk(), &ScreenPlaySDK::sdkDisconnected, this, &MacWindow::destroyThis);
+    connect(sdk(), &ScreenPlaySDK::incommingMessage, this, &MacWindow::messageReceived);
+    connect(sdk(), &ScreenPlaySDK::replaceWallpaper, this, &MacWindow::replaceWallpaper);
+
     bool ok = false;
     float volumeParsed = volume.toFloat(&ok);
     if (!ok) {
@@ -46,6 +50,8 @@ MacWindow::MacWindow(
 
     MacIntegration* macIntegration = new MacIntegration(this);
     macIntegration->SetBackgroundLevel(&m_window);
+
+    sdk()->start();
 }
 
 void MacWindow::setVisible(bool show)
