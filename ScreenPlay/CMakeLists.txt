@@ -107,12 +107,7 @@ if(WIN32)
 
     configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 
-
 endif()
-
-file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets/fonts)
-configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/assets/fonts COPYONLY)
-
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE "GIT_VERSION=${GIT_VERSION}")
 
