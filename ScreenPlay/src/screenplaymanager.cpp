@@ -362,11 +362,6 @@ void ScreenPlayManager::newConnection()
             return;
         }
 
-        qWarning() << "There are no wallpaper or widgets that have to SDKConnection "
-                   << "m_screenPlayWallpapers count: " << m_screenPlayWallpapers.size()
-                   << "m_screenPlayWidgets count:    " << m_screenPlayWidgets.size()
-                   << "m_unconnectedClients count:    " << m_unconnectedClients.size();
-
         std::unique_ptr<SDKConnection> matchingConnection;
         for (int i = 0; i < m_unconnectedClients.size(); ++i) {
             if (m_unconnectedClients.at(i).get() == connection) {
@@ -382,6 +377,7 @@ void ScreenPlayManager::newConnection()
 
         for (int i = 0; i < m_screenPlayWallpapers.size(); ++i) {
             if (m_screenPlayWallpapers.at(i)->appID() == matchingConnection->appID()) {
+                qInfo() << "Matching Wallpaper found!";
                 m_screenPlayWallpapers.at(i)->setSDKConnection(std::move(matchingConnection));
                 return;
             }
@@ -389,12 +385,19 @@ void ScreenPlayManager::newConnection()
 
         for (int i = 0; i < m_screenPlayWidgets.size(); ++i) {
             if (m_screenPlayWidgets.at(i)->appID() == matchingConnection->appID()) {
+                qInfo() << "Matching Widget found!";
                 m_screenPlayWidgets.at(i)->setSDKConnection(std::move(matchingConnection));
                 return;
             }
         }
 
         qWarning() << "No matching connection found!";
+
+        qWarning() << "There are no wallpaper or widgets that have to SDKConnection "
+                   << "m_screenPlayWallpapers count: " << m_screenPlayWallpapers.size()
+                   << "m_screenPlayWidgets count:    " << m_screenPlayWidgets.size()
+                   << "m_unconnectedClients count:    " << m_unconnectedClients.size();
+
     });
     m_unconnectedClients.push_back(std::move(connection));
 }

@@ -54,7 +54,12 @@ ScreenPlayWidget::ScreenPlayWidget(
         QVariant::fromValue(m_type).toString(),
         QString::number(m_position.x()),
         QString::number(m_position.y()),
-    };
+};
+}
+
+ScreenPlayWidget::~ScreenPlayWidget()
+{
+    m_connection->close();
 }
 
 bool ScreenPlayWidget::start()
