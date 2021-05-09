@@ -30,12 +30,9 @@ MacWindow::MacWindow(
     if ((QApplication::screens().length() == activeScreensList.length()) && (activeScreensList.length() != 1)) {
         //setupWallpaperForAllScreens();
     } else if (activeScreensList.length() == 1) {
-        //setupWallpaperForOneScreen(activeScreensList.at(0));
-        auto* screen = QGuiApplication::screens().at(0);
-        m_window.setWidth(screen->geometry().width());
-        m_window.setHeight(screen->geometry().height());
+        auto* screen = QGuiApplication::screens().at(activeScreensList.at(0));
+        m_window.setGeometry(screen->geometry());
     } else if (activeScreensList.length() > 1) {
-        //setupWallpaperForMultipleScreens(activeScreensList);
     }
 
     qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
