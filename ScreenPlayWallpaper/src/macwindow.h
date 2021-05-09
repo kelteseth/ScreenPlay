@@ -51,14 +51,14 @@
 class MacWindow : public BaseWindow {
     Q_OBJECT
 public:
-    explicit MacWindow(    const QVector<int>& activeScreensList,
-                           const QString& projectFilePath,
-                           const QString& appID,
-                           const QString& volume,
-                           const QString& fillmode,
-                           const QString& type,
-                           const bool checkWallpaperVisible,
-                           const bool debugMode);
+    explicit MacWindow(const QVector<int>& activeScreensList,
+        const QString& projectFilePath,
+        const QString& appID,
+        const QString& volume,
+        const QString& fillmode,
+        const QString& type,
+        const bool checkWallpaperVisible,
+        const bool debugMode);
 
 signals:
 

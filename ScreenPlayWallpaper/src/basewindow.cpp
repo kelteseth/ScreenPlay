@@ -18,6 +18,7 @@ BaseWindow::BaseWindow(
     , m_debugMode(debugMode)
     , m_sdk(std::make_unique<ScreenPlaySDK>(appID, type))
 {
+    qInfo() << "parent";
     QApplication::instance()->installEventFilter(this);
 
     qRegisterMetaType<ScreenPlay::InstalledType::InstalledType>();
@@ -30,7 +31,7 @@ BaseWindow::BaseWindow(
     qmlRegisterType<BaseWindow>("ScreenPlay.Wallpaper", 1, 0, "Wallpaper");
 
     if (!appID.contains("appID=")) {
-        qInfo() << "Invalid appID: "<< appID;
+        qInfo() << "Invalid appID: " << appID;
         qFatal("AppID does not contain appID=");
     }
 
