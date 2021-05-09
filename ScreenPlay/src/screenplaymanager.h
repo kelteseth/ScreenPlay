@@ -41,7 +41,6 @@
 #include <QtWebSockets/QWebSocket>
 
 #include "ScreenPlayUtil/projectfile.h"
-#include "ganalytics.h"
 #include "globalvariables.h"
 #include "installedlistmodel.h"
 #include "monitorlistmodel.h"
@@ -69,7 +68,6 @@ public:
     void init(
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const std::shared_ptr<MonitorListModel>& mlm,
-        const std::shared_ptr<GAnalytics>& telemetry,
         const std::shared_ptr<Settings>& settings);
 
     int activeWallpaperCounter() const { return m_activeWallpaperCounter; }
@@ -181,7 +179,6 @@ private:
 private:
     std::shared_ptr<GlobalVariables> m_globalVariables;
     std::shared_ptr<MonitorListModel> m_monitorListModel;
-    std::shared_ptr<GAnalytics> m_telemetry;
     std::shared_ptr<Settings> m_settings;
     std::unique_ptr<QLocalServer> m_server;
     std::unique_ptr<QWebSocketServer> m_websocketServer;

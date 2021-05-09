@@ -27,7 +27,6 @@ endif()
 set(src
     main.cpp
     app.cpp
-    ../Common/qt-google-analytics/ganalytics.cpp
     src/globalvariables.cpp
     src/createimportvideo.cpp
     src/installedlistmodel.cpp
@@ -46,7 +45,6 @@ set(src
 
 set(headers
     app.h
-    ../Common/qt-google-analytics/ganalytics.h
     src/globalvariables.h
     src/createimportvideo.h
     src/installedlistmodel.h

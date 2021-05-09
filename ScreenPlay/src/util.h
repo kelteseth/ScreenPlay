@@ -54,6 +54,7 @@
 #include <qqml.h>
 
 #include "globalvariables.h"
+#include "ScreenPlayUtil/util.h"
 
 #include <fstream>
 #include <iostream>
@@ -101,11 +102,11 @@ signals:
 public slots:
     void copyToClipboard(const QString& text) const;
     void openFolderInExplorer(const QString& url) const;
+    QString toLocal(const QString& url);
 
     void requestAllLicenses();
     void requestDataProtection();
 
-    static void appendToMetricsFile(const QString& key, const QVariant& value);
     static void logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg);
     static bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);
     static bool writeSettings(const QJsonObject& obj, const QString& absolutePath);

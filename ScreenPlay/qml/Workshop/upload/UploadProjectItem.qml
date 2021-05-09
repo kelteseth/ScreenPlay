@@ -35,10 +35,13 @@ Page {
     onSteamStatusChanged: {
         let errorText
         switch (steamStatus) {
+            // Everyting that is not OK is a fail. See steam_qt_enums_generated.h
         case SteamEnums.K_EResultNone:
             root.contentItem.state = "uploadComplete"
             return
-            // Everyting that is not OK is a fail. See steam_qt_enums_generated.h
+        case SteamEnums.K_EResultOK:
+            root.contentItem.state = "uploadComplete"
+            return
         case SteamEnums.K_EResultFail:
             errorText = qsTr("Fail")
             break
@@ -461,7 +464,7 @@ Page {
                 Layout.fillWidth: true
                 Text {
                     text: qsTr("Upload Progress: ") + " " + Math.ceil(
-                              root.progress * 100) + "%"
+                              root.progress) + "%"
                     verticalAlignment: Text.AlignVCenter
                     horizontalAlignment: Text.AlignHCenter
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -475,6 +478,7 @@ Page {
                     id: progressBar
                     Layout.fillWidth: true
                     value: root.progress
+                    to: 100
                 }
             }
         }

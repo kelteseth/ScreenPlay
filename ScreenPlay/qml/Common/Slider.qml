@@ -16,7 +16,7 @@ Item {
         id: txtHeadline
         text: headline
         height: 20
-        font.pointSize: 10
+        font.pointSize: 14
         font.family: ScreenPlay.settings.font
         color: QQCM.Material.primaryTextColor
 
@@ -31,6 +31,7 @@ Item {
         spacing: 30
         anchors {
             top: txtHeadline.bottom
+
             right: parent.right
             bottom: parent.bottom
             left: parent.left

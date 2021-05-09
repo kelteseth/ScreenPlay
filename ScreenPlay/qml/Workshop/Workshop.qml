@@ -38,15 +38,14 @@ Item {
 
     Component.onCompleted: {
         if (steamWorkshop.online) {
-            steamWorkshop.workshopListModel.searchWorkshop(
-                        SteamEnums.K_EUGCQuery_RankedByTrend)
+            steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend)
         } else {
             popupOffline.open()
         }
     }
 
     Connections {
-        target: steamWorkshop.workshopListModel
+        target: steamWorkshop
         function onWorkshopSearched() {
             bannerTxt.text = steamWorkshop.workshopListModel.getBannerText()
             background.backgroundImage = steamWorkshop.workshopListModel.getBannerUrl()
@@ -130,7 +129,7 @@ Item {
 
         Item {
             id: header
-            height: 440
+            height: 350
             anchors {
                 top: parent.top
                 topMargin: nav.height
@@ -258,7 +257,7 @@ Item {
             }
 
             header: Item {
-                height: 70
+                height: 80
                 width: gridView.width - gridView.anchors.leftMargin
                 property alias searchField: tiSearch
 
@@ -266,7 +265,7 @@ Item {
                     color: Material.backgroundColor
                     radius: 3
                     width: parent.width - 10
-                    height: parent.height
+                    height: 70
                     anchors.centerIn: parent
 
                     Item {
@@ -279,7 +278,6 @@ Item {
                             leftMargin: 10
                         }
 
-
                         TextField {
                             id: tiSearch
                             anchors {
@@ -289,14 +287,14 @@ Item {
                                 left: parent.left
                                 leftMargin: 10
                             }
-                            leftPadding:25
-                            selectByMouse:true
+                            leftPadding: 25
+                            selectByMouse: true
                             placeholderText: qsTr("Search for Wallpaper and Widgets...")
                             onTextChanged: timerSearch.restart()
                             Timer {
                                 id: timerSearch
                                 interval: 500
-                                onTriggered: steamWorkshop.workshopListModel.searchWorkshopByText(
+                                onTriggered: steamWorkshop.searchWorkshopByText(
                                                  tiSearch.text)
                             }
                         }
@@ -305,22 +303,25 @@ Item {
                             source: "qrc:/assets/icons/icon_search.svg"
                             width: 14
                             height: width
-                            sourceSize: Qt.size(width,width)
+                            sourceSize: Qt.size(width, width)
                             anchors {
                                 left: parent.left
                                 leftMargin: 15
-                                verticalCenter: parent.verticalCenter
+                                bottom: parent.bottom
+                                bottomMargin: 22
                             }
                         }
 
                         ToolButton {
-                            id:tb
+                            id: tb
                             enabled: tiSearch.text !== ""
                             anchors {
                                 right: parent.right
-                                verticalCenter: parent.verticalCenter
+                                bottom: parent.bottom
+                                bottomMargin: 10
                             }
-                            text: "X"
+                            icon.source: "qrc:/assets/icons/font-awsome/close.svg"
+
                             onClicked: tiSearch.text = ""
                         }
                     }
@@ -378,7 +379,7 @@ Item {
                         Layout.preferredHeight: searchWrapper.height
                         font.family: ScreenPlay.settings.font
                         onActivated: {
-                            steamWorkshop.workshopListModel.searchWorkshop(
+                            steamWorkshop.searchWorkshop(
                                         cbQuerySort.currentValue)
                         }
                         model: [{
@@ -453,7 +454,7 @@ Item {
                     onClicked: {
                         steamWorkshop.workshopListModel.setCurrentPage(
                                     steamWorkshop.workshopListModel.currentPage - 1)
-                        steamWorkshop.workshopListModel.searchWorkshop(
+                        steamWorkshop.searchWorkshop(
                                     SteamEnums.K_EUGCQuery_RankedByTrend)
                     }
                 }
@@ -474,7 +475,7 @@ Item {
                     onClicked: {
                         steamWorkshop.workshopListModel.setCurrentPage(
                                     steamWorkshop.workshopListModel.currentPage + 1)
-                        steamWorkshop.workshopListModel.searchWorkshop(
+                        steamWorkshop.searchWorkshop(
                                     SteamEnums.K_EUGCQuery_RankedByTrend)
                     }
                 }

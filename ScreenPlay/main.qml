@@ -43,9 +43,6 @@ ApplicationWindow {
 
         if (!ScreenPlay.settings.silentStart) {
             window.show()
-            ScreenPlay.setTrackerSendEvent("navigation", "Installed")
-        } else {
-            ScreenPlay.setTrackerSendEvent("navigation", "Silent")
         }
     }
 

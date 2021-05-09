@@ -75,12 +75,10 @@ bool ScreenPlayManager::checkIsAnotherScreenPlayInstanceRunning()
 void ScreenPlayManager::init(
     const std::shared_ptr<GlobalVariables>& globalVariables,
     const std::shared_ptr<MonitorListModel>& mlm,
-    const std::shared_ptr<GAnalytics>& telemetry,
     const std::shared_ptr<Settings>& settings)
 {
     m_globalVariables = globalVariables;
     m_monitorListModel = mlm;
-    m_telemetry = telemetry;
     m_settings = settings;
 
     if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
@@ -119,10 +117,6 @@ bool ScreenPlayManager::createWallpaper(
             emit requestSaveProfiles();
         }
     });
-
-    if (m_telemetry) {
-        m_telemetry->sendEvent("wallpaper", "start");
-    }
 
     QJsonArray monitors;
     for (const int index : monitorIndex) {

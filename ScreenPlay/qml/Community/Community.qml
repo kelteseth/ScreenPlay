@@ -32,29 +32,29 @@ Item {
 
             CommunityNavItem {
                 text: qsTr("News")
-                openLink: webModel.get(0).url
+                openLink: "https://screen-play.app/blog/"
                 icon.source: "qrc:/assets/icons/icon_document.svg"
             }
 
             CommunityNavItem {
                 text: qsTr("Wiki")
-                openLink: webModel.get(1).url
+                openLink: "https://kelteseth.gitlab.io/ScreenPlayDocs/"
                 icon.source: "qrc:/assets/icons/icon_help_center.svg"
             }
 
             CommunityNavItem {
                 text: qsTr("Forum")
-                openLink: webModel.get(2).url
+                openLink: "https://forum.screen-play.app/"
                 icon.source: "qrc:/assets/icons/icon_forum.svg"
             }
             CommunityNavItem {
                 text: qsTr("Issue List")
-                openLink: webModel.get(3).url
+                openLink: "https://gitlab.com/kelteseth/ScreenPlay/-/issues"
                 icon.source: "qrc:/assets/icons/icon_report_problem.svg"
             }
             CommunityNavItem {
                 text: qsTr("Contribute")
-                openLink: webModel.get(4).url
+                openLink: "https://gitlab.com/kelteseth/ScreenPlay#general-contributing"
                 icon.source: "qrc:/assets/icons/icon_supervisor_account.svg"
             }
             CommunityNavItem {
@@ -134,7 +134,7 @@ Item {
                     Timer {
                         id: timer
                         interval: 200
-                        onTriggered: webView.url = webModel.get(index).url
+                        onTriggered: webView.url = webModel.get(index +1).url
                     }
 
                     WebEngineView {

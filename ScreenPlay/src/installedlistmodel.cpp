@@ -161,8 +161,12 @@ void InstalledListModel::loadInstalledContent()
         int counter = 0;
 
         for (const auto& item : list) {
+            const QString absoluteFilePath = m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json";
 
-            if (auto obj = ScreenPlayUtil::openJsonFileToObject(m_globalVariables->localStoragePath().toLocalFile() + "/" + item.baseName() + "/project.json")) {
+            if (!QFile::exists(absoluteFilePath))
+                continue;
+
+            if (auto obj = ScreenPlayUtil::openJsonFileToObject(absoluteFilePath)) {
 
                 if (obj->isEmpty())
                     continue;

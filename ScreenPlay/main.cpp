@@ -51,18 +51,6 @@ int main(int argc, char* argv[])
 
     QApplication qtGuiApp(argc, argv);
 
-    // Benchmarks
-    if (QGuiApplication::arguments().contains("--benchmark")) {
-        QFile metricsFile { QGuiApplication::applicationDirPath() + "/metrics.txt" };
-        if (metricsFile.exists())
-            qInfo() << "Removing old Continuous Integration Metrics Timer: " << metricsFile.remove();
-
-        QTimer::singleShot(10000, []() {
-            qInfo() << "Exit ScreenPlay benchmark mode!";
-            QGuiApplication::quit();
-        });
-    }
-
     // Unit tests
     doctest::Context context;
     context.setOption("abort-after", 5); // stop test execution after 5 failed assertions
