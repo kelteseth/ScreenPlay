@@ -72,6 +72,7 @@ public:
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString basePath READ basePath WRITE setBasePath NOTIFY basePathChanged)
     Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
+    Q_PROPERTY(QString contentBasePath READ contentBasePath WRITE setContentBasePath NOTIFY contentBasePathChanged)
     Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
 
     Q_PROPERTY(bool loops READ loops WRITE setLoops NOTIFY loopsChanged)
@@ -113,6 +114,7 @@ public:
     QString basePath() const { return m_basePath; }
     bool debugMode() const { return m_debugMode; }
     ScreenPlaySDK* sdk() const { return m_sdk.get(); }
+    const QString& contentBasePath() const { return m_contentBasePath; }
 
 signals:
     void qmlExit();
@@ -141,6 +143,8 @@ signals:
     void basePathChanged(QString basePath);
     void debugModeChanged(bool debugMode);
     void sdkChanged(ScreenPlaySDK* sdk);
+
+    void contentBasePathChanged(const QString&);
 
 public slots:
     virtual void destroyThis() { }
@@ -340,6 +344,14 @@ public slots:
         emit sdkChanged(sdk);
     }
 
+    void setContentBasePath(const QString& contentBasePath)
+    {
+        if (m_contentBasePath == contentBasePath)
+            return;
+        m_contentBasePath = contentBasePath;
+        emit contentBasePathChanged(m_contentBasePath);
+    }
+
 private:
     void setupLiveReloading();
 
@@ -370,4 +382,6 @@ private:
     QString m_basePath;
     bool m_debugMode = false;
     std::unique_ptr<ScreenPlaySDK> m_sdk;
+    QString m_contentBasePath;
+    QTimer m_liveReloadLimiter;
 };

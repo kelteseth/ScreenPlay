@@ -123,7 +123,6 @@ void WinWindow::setupWindowMouseHook()
             qInfo() << "Faild to install mouse hook!";
             return;
         }
-        qInfo() << "Setup mousehook";
     }
 }
 
@@ -146,6 +145,9 @@ WinWindow::WinWindow(
 
 {
     auto* guiAppInst = dynamic_cast<QApplication*>(QApplication::instance());
+    connect(this, &BaseWindow::reloadQML, this, [this]() {
+        clearComponentCache();
+    });
     connect(guiAppInst, &QApplication::screenAdded, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QApplication::screenRemoved, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QApplication::primaryScreenChanged, this, &WinWindow::configureWindowGeometry);
@@ -187,7 +189,7 @@ WinWindow::WinWindow(
         }
     }
     if (hasWindowScaling) {
-        qInfo() << "scaling";
+        qInfo() << "Monitor with scaling detected!";
         configureWindowGeometry();
     }
 
@@ -202,7 +204,8 @@ WinWindow::WinWindow(
         setupWindowMouseHook();
     });
 
-    sdk()->start();
+    if (!debugMode)
+        sdk()->start();
 }
 
 void WinWindow::setVisible(bool show)

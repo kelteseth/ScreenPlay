@@ -37,7 +37,7 @@ BaseWindow::BaseWindow(
     }
 
     setAppID(appID);
-
+    setContentBasePath(projectFilePath);
     setOSVersion(QSysInfo::productVersion());
 
     if (projectFilePath == "test") {
@@ -209,13 +209,22 @@ QString BaseWindow::getApplicationPath()
 }
 
 /*!
- \brief This public slot is for QML usage.
+ \brief This public slot is for QML usage. We limit the change event updates
+        to every 50ms, because the filesystem can be very trigger happy
+        with multiple change events per second.
  */
 void BaseWindow::setupLiveReloading()
 {
-    auto reloadQMLLambda = [this]() { emit reloadQML(type()); };
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, reloadQMLLambda);
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, reloadQMLLambda);
-    const QFileInfo file { m_fullContentPath };
-    m_fileSystemWatcher.addPaths({ file.path(), m_fullContentPath });
+    auto reloadQMLLambda = [this]() {
+        m_liveReloadLimiter.stop();
+        emit reloadQML(type());
+    };
+    auto timeoutLambda = [this]() {
+        m_liveReloadLimiter.start(50);
+    };
+
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, timeoutLambda);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, timeoutLambda);
+    QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
+    m_fileSystemWatcher.addPaths({ m_contentBasePath });
 }
