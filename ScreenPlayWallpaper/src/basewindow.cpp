@@ -85,6 +85,9 @@ BaseWindow::BaseWindow(
     setupLiveReloading();
 }
 
+/*!
+ \brief messageReceived.
+ */
 void BaseWindow::messageReceived(QString key, QString value)
 {
     if (key == "volume") {
@@ -145,6 +148,9 @@ void BaseWindow::messageReceived(QString key, QString value)
     emit qmlSceneValueReceived(key, value);
 }
 
+/*!
+ \brief replaceWallpaper.
+ */
 void BaseWindow::replaceWallpaper(
     const QString absolutePath,
     const QString file,
@@ -178,8 +184,9 @@ void BaseWindow::replaceWallpaper(
         emit reloadGIF(oldType);
 }
 
-// Used for loading shader
-// Loading shader relative to the qml file will be available in Qt 6
+/*!
+ \brief Used for loading shader. Loading shader relative to the qml file will be available in Qt 6
+ */
 QString BaseWindow::loadFromFile(const QString& filename)
 {
     QFile file(basePath() + "/" + filename);
@@ -201,6 +208,9 @@ QString BaseWindow::getApplicationPath()
     return QApplication::applicationDirPath();
 }
 
+/*!
+ \brief This public slot is for QML usage.
+ */
 void BaseWindow::setupLiveReloading()
 {
     auto reloadQMLLambda = [this]() { emit reloadQML(type()); };
