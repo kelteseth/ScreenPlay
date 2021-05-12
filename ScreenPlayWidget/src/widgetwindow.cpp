@@ -2,6 +2,9 @@
 
 #include <QCoreApplication>
 
+#include "ScreenPlayUtil/contenttypes.h"
+#include "ScreenPlayUtil/util.h"
+
 WidgetWindow::WidgetWindow(
     const QString& projectPath,
     const QString& appID,
@@ -18,12 +21,7 @@ WidgetWindow::WidgetWindow(
     QObject::connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WidgetWindow::qmlExit);
     QObject::connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &WidgetWindow::messageReceived);
 
-    QStringList availableTypes {
-        "qmlWidget",
-        "htmlWidget"
-    };
-
-    if (!availableTypes.contains(m_type, Qt::CaseSensitivity::CaseInsensitive)) {
+    if (!ScreenPlayUtil::getAvailableWidgets().contains(m_type, Qt::CaseSensitivity::CaseInsensitive)) {
         QApplication::exit(-4);
     }
 
@@ -44,20 +42,13 @@ WidgetWindow::WidgetWindow(
     if (projectPath == "test") {
         setSourcePath("qrc:/test.qml");
     } else {
-        QFile configTmp;
-        QJsonDocument configJsonDocument;
-        QJsonParseError parseError {};
-
-        configTmp.setFileName(projectPath + "/project.json");
-        configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-        m_projectConfig = configTmp.readAll();
-        configJsonDocument = QJsonDocument::fromJson(m_projectConfig.toUtf8(), &parseError);
-
-        if (!(parseError.error == QJsonParseError::NoError)) {
-            qWarning() << "Settings Json Parse Error " << parseError.errorString() << configTmp.fileName();
+        auto projectOpt = ScreenPlayUtil::openJsonFileToObject(projectPath + "/project.json");
+        if (projectOpt.has_value()) {
+            qWarning() << "Unable to parse project file!";
+            QApplication::exit(-1);
         }
 
-        m_project = configJsonDocument.object();
+        m_project = projectOpt.value();
         QString fullPath = "file:///" + projectPath + "/" + m_project.value("file").toString();
         setSourcePath(fullPath);
     }
