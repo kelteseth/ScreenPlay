@@ -1,5 +1,7 @@
 #include "basewindow.h"
 
+#include "ScreenPlayUtil/util.h"
+
 BaseWindow::BaseWindow(QObject* parent)
     : QObject(parent)
 {
@@ -30,7 +32,7 @@ BaseWindow::BaseWindow(
     qmlRegisterType<BaseWindow>("ScreenPlay.Wallpaper", 1, 0, "Wallpaper");
 
     if (!appID.contains("appID=")) {
-        qInfo() << "Invalid appID: "<< appID;
+        qInfo() << "Invalid appID: " << appID;
         qFatal("AppID does not contain appID=");
     }
 
@@ -45,37 +47,12 @@ BaseWindow::BaseWindow(
         return;
     }
 
-    QFile projectFile { projectFilePath + "/project.json" };
-    QJsonDocument configJsonDocument;
-    QJsonParseError parseError;
+    auto projectOpt = ScreenPlayUtil::openJsonFileToObject(projectFilePath + "/project.json");
 
-    projectFile.open(QIODevice::ReadOnly | QIODevice::Text);
-    const QString projectConfig = projectFile.readAll();
-    projectFile.close();
-    configJsonDocument = QJsonDocument::fromJson(projectConfig.toUtf8(), &parseError);
-
-    /* project.json example:
-    *  https://kelteseth.gitlab.io/ScreenPlayDocs/project/project/
-    *{
-    *    "title": "example title",
-    *    "description": "",
-    *    "file": "example.webm",
-    *    "preview": "preview.png",
-    *    "previewGIF": "preview.gif",
-    *    "previewWEBM": "preview.webm",
-    *    "type": "videoWallpaper"
-    *    "url": "https://www.golem.de/" //websiteWallpaper only
-    *}
-    */
-
-    if (!(parseError.error == QJsonParseError::NoError)) {
-        qInfo() << projectFile.fileName()
-                << projectConfig
-                << parseError.errorString();
-        qFatal("Settings Json Parse Error. Exiting now!");
+    if (!projectOpt.has_value()) {
+        QApplication::exit(-5);
     }
-
-    const QJsonObject project = configJsonDocument.object();
+    const QJsonObject project = projectOpt.value();
 
     if (!project.contains("type")) {
         qFatal("No type was specified inside the json object!");
