@@ -4,6 +4,7 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
+find_package(infoware CONFIG REQUIRED)
 find_package(
     Qt5
     COMPONENTS Quick Core
@@ -15,7 +16,8 @@ set(src
     cpu.cpp
     ram.cpp
     storage.cpp
-    uptime.cpp)
+    uptime.cpp
+    gpu.cpp)
 
 set(headers
     screenplaysysinfo_plugin.h
@@ -24,11 +26,12 @@ set(headers
     ram.h
     mathhelper.h
     storage.h
-    uptime.h)
+    uptime.h
+    gpu.h)
 
 add_library(${PROJECT_NAME} SHARED ${src} ${headers})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick infoware)
 
 # QML module deployment
 set(URI "ScreenPlay/Sysinfo")
