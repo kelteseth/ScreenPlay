@@ -21,7 +21,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">Settings Class</h1>
-<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::Settings</span>
+<span class="small-subtitle">class <a href="screenplay-module.html">ScreenPlay</a>::Settings</span>
 <!-- $$$Settings-brief -->
 <p>Global settings class for reading and writing settings. <a href="#details">More...</a></p>
 <!-- @@@Settings -->
@@ -48,7 +48,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">silentStart</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#steamVersion-prop">steamVersion</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::Settings::Theme </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#theme-prop">theme</a></b>() const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> ScreenPlay::FillMode::FillMode </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">videoFillMode</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">videoFillMode</a></b>() const</td></tr>
 </table></div>
 <a name="public-slots"></a>
 <h2 id="public-slots">Public Slots</h2>
@@ -67,7 +67,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">setSilentStart</a></b>(bool <i>silentStart</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#steamVersion-prop">setSteamVersion</a></b>(bool <i>steamVersion</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#theme-prop">setTheme</a></b>(ScreenPlay::Settings::Theme <i>theme</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">setVideoFillMode</a></b>(ScreenPlay::FillMode::FillMode <i>videoFillMode</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">setVideoFillMode</a></b>(int <i>videoFillMode</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#setupWidgetAndWindowPaths">setupWidgetAndWindowPaths</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#writeJsonFileFromResource">writeJsonFileFromResource</a></b>(const QString &amp;<i>filename</i>)</td></tr>
 </table></div>
@@ -87,7 +87,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#silentStart-prop">silentStartChanged</a></b>(bool <i>silentStart</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#steamVersion-prop">steamVersionChanged</a></b>(bool <i>steamVersion</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#theme-prop">themeChanged</a></b>(ScreenPlay::Settings::Theme <i>theme</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">videoFillModeChanged</a></b>(ScreenPlay::FillMode::FillMode <i>videoFillMode</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-settings.html#videoFillMode-prop">videoFillModeChanged</a></b>(int <i>videoFillMode</i>)</td></tr>
 </table></div>
 <a name="details"></a>
 <!-- $$$Settings-description -->
@@ -97,7 +97,7 @@
 <ul>
 <li>User configuration via AppData<b class="redFont"><code>\Local</code></b>ScreenPlayScreenPlay<ul>
 <li>profiles.json - saved wallpaper and widgets config</li>
-<li>Computer\HKEY_CURRENT_USER\Software\<a href="screenplay.html">ScreenPlay</a>\<a href="screenplay.html">ScreenPlay</a> - ScreenPlayContentPath for steam plugin</li>
+<li>Computer\HKEY_CURRENT_USER\Software\<a href="screenplay-module.html">ScreenPlay</a>\<a href="screenplay-module.html">ScreenPlay</a> - ScreenPlayContentPath for steam plugin</li>
 </ul>
 </li>
 <li>Communication via the SDK Connector</li>
@@ -110,7 +110,7 @@
 <!-- $$$Settings[overload1]$$$Settingsconststd::shared_ptr<GlobalVariables>&QObject* -->
 <h3 class="fn" id="Settings"><a name="Settings"></a>Settings::<span class="name">Settings</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-globalvariables.html">GlobalVariables</a></span>&gt; &amp;<i>globalVariables</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
 <p>Constructor and sets up:</p>
-<ol class="1" type="1"><li>Sets the git build hash via <a href="screenplay.html">ScreenPlay</a>.pro c++ define</li>
+<ol class="1" type="1"><li>Sets the git build hash via <a href="screenplay-module.html">ScreenPlay</a>.pro c++ define</li>
 <li>Checks the langauge via settings or system and available ones and installes a translator.</li>
 <li>Checks the AbsoluteStoragePath.</li>
 <li>Checks regisitry for steam plugin settings</li>

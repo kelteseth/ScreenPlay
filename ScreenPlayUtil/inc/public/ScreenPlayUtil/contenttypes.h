@@ -37,11 +37,9 @@
 
 namespace ScreenPlay {
 /*!
-    \class ScreenPlay::GlobalVariables
-    \inmodule ScreenPlay
-    \brief GlobalVariables.
-
-    A header only class used only for storing some global variables like localStoragePath.
+    \class ScreenPlay::SearchType
+    \inmodule ScreenPlayUtil
+    \brief Global Enums.
 
 */
 
@@ -58,6 +56,12 @@ namespace SearchType {
     Q_ENUM_NS(SearchType)
 
 }
+/*!
+    \class ScreenPlay::FillMode
+    \inmodule ScreenPlayUtil
+    \brief Global Enums.
+
+*/
 
 namespace FillMode {
     Q_NAMESPACE
@@ -72,6 +76,12 @@ namespace FillMode {
     Q_ENUM_NS(FillMode)
 
 }
+/*!
+    \class ScreenPlay::InstalledType
+    \inmodule ScreenPlayUtil
+    \brief Global Enums.
+
+*/
 
 namespace InstalledType {
     Q_NAMESPACE

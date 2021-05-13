@@ -1,5 +1,18 @@
 #include "sysinfo.h"
 
+/*!
+    \module ScreenPlaySysInfo
+    \title ScreenPlaySysInfo
+    \brief Module for ScreenPlaySysInfo.
+*/
+
+/*!
+    \class SysInfo
+    \inmodule ScreenPlaySysInfo
+    \brief  .
+
+*/
+
 SysInfo::SysInfo(QQuickItem* parent)
     : QQuickItem(parent)
     , m_ram(std::make_unique<RAM>())

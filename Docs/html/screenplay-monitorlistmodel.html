@@ -21,7 +21,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">MonitorListModel Class</h1>
-<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::MonitorListModel</span>
+<span class="small-subtitle">class <a href="screenplay-module.html">ScreenPlay</a>::MonitorListModel</span>
 <!-- $$$MonitorListModel-brief -->
 <p>MonitorListModel. <a href="#details">More...</a></p>
 <!-- @@@MonitorListModel -->
@@ -35,7 +35,7 @@
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#MonitorListModel">MonitorListModel</a></b>(QObject *<i>parent</i> = nullptr)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;QString&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#getAppIDByMonitorIndex">getAppIDByMonitorIndex</a></b>(const int <i>index</i>) const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#setWallpaperActiveMonitor">setWallpaperActiveMonitor</a></b>(const std::shared_ptr&lt;ScreenPlayWallpaper&gt; &amp;<i>wallpaper</i>, const QVector&lt;int&gt; <i>monitors</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-monitorlistmodel.html#setWallpaperMonitor">setWallpaperMonitor</a></b>(const std::shared_ptr&lt;ScreenPlayWallpaper&gt; &amp;<i>wallpaper</i>, const QVector&lt;int&gt; <i>monitors</i>)</td></tr>
 </table></div>
 <a name="reimplemented-public-functions"></a>
 <h2 id="reimplemented-public-functions">Reimplemented Public Functions</h2>
@@ -103,10 +103,10 @@
 <h3 class="fn" id="rowCount"><a name="rowCount"></a><code>[override virtual] </code><span class="type">int</span> MonitorListModel::<span class="name">rowCount</span>(const <span class="type">QModelIndex</span> &amp;<i>parent</i> = QModelIndex()) const</h3>
 <p>Returns the amount of active monitors.</p>
 <!-- @@@rowCount -->
-<!-- $$$setWallpaperActiveMonitor[overload1]$$$setWallpaperActiveMonitorconststd::shared_ptr<ScreenPlayWallpaper>&constQVector<int> -->
-<h3 class="fn" id="setWallpaperActiveMonitor"><a name="setWallpaperActiveMonitor"></a><span class="type">void</span> MonitorListModel::<span class="name">setWallpaperActiveMonitor</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-screenplaywallpaper.html">ScreenPlayWallpaper</a></span>&gt; &amp;<i>wallpaper</i>, const <span class="type">QVector</span>&lt;<span class="type">int</span>&gt; <i>monitors</i>)</h3>
-<p>Sets the previewImage and appID for a list item.</p>
-<!-- @@@setWallpaperActiveMonitor -->
+<!-- $$$setWallpaperMonitor[overload1]$$$setWallpaperMonitorconststd::shared_ptr<ScreenPlayWallpaper>&constQVector<int> -->
+<h3 class="fn" id="setWallpaperMonitor"><a name="setWallpaperMonitor"></a><span class="type">void</span> MonitorListModel::<span class="name">setWallpaperMonitor</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-screenplaywallpaper.html">ScreenPlayWallpaper</a></span>&gt; &amp;<i>wallpaper</i>, const <span class="type">QVector</span>&lt;<span class="type">int</span>&gt; <i>monitors</i>)</h3>
+<p>Sets a shared_ptr to the monitor list. This should be used to set and remove the shared_ptr.</p>
+<!-- @@@setWallpaperMonitor -->
 </div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

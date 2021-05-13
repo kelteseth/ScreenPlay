@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+<!-- basewindow.cpp -->
+  <title>BaseWindow Class | ScreenPlay</title>
+<link rel="stylesheet" type="text/css" href="../css/style.css"/> <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css"/>
+</head>
+<body>
+<div class="container-fullwidth nav sticky-top"><div class="container navWrapper"><a href="../index.html"><span class="logo">ScreenPlay Generated Docs </span></a><span class="navHome"><a href="../index.html">Home</a></span></div></div> <div id= mainWrapper class="wrapper container ">
+<li>BaseWindow</li>
+<div class="sidebar">
+<div class="toc">
+<h3><a name="toc">Contents</a></h3>
+<ul>
+<li class="level1"><a href="#public-functions">Public Functions</a></li>
+<li class="level1"><a href="#public-slots">Public Slots</a></li>
+<li class="level1"><a href="#signals">Signals</a></li>
+<li class="level1"><a href="#details">Detailed Description</a></li>
+</ul>
+</div>
+<div class="sidebar-content" id="sidebar-content"></div></div>
+<h1 class="title">BaseWindow Class</h1>
+<!-- $$$BaseWindow-brief -->
+<p>. <a href="#details">More...</a></p>
+<!-- @@@BaseWindow -->
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;BaseWindow&gt;</span>
+</td></tr><tr><td class="memItemLeft rightAlign topAlign"> Inherited By:</td><td class="memItemRight bottomAlign"> <p><a href="winwindow.html">WinWindow</a></p>
+</td></tr></table></div><ul>
+<li><a href="basewindow-members.html">List of all members, including inherited members</a></li>
+</ul>
+<a name="public-functions"></a>
+<h2 id="public-functions">Public Functions</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#OSVersion-prop">OSVersion</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QVector&lt;int&gt; </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#activeScreensList-prop">activeScreensList</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#appID-prop">appID</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#basePath-prop">basePath</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#canFade-prop">canFade</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#checkWallpaperVisible-prop">checkWallpaperVisible</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> const QString &amp;</td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#contentBasePath-prop">contentBasePath</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> float </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#currentTime-prop">currentTime</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#debugMode-prop">debugMode</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#fillMode-prop">fillMode</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#fullContentPath-prop">fullContentPath</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#height-prop">height</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#isPlaying-prop">isPlaying</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#loops-prop">loops</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#muted-prop">muted</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> float </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#playbackRate-prop">playbackRate</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int *</td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#sdk-prop">sdk</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#type-prop">type</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#visualsPaused-prop">visualsPaused</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> float </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#volume-prop">volume</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#width-prop">width</a></b>() const</td></tr>
+</table></div>
+<a name="public-slots"></a>
+<h2 id="public-slots">Public Slots</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#getApplicationPath">getApplicationPath</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#loadFromFile">loadFromFile</a></b>(const QString &amp;<i>filename</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#messageReceived">messageReceived</a></b>(QString <i>key</i>, QString <i>value</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#replaceWallpaper">replaceWallpaper</a></b>(const QString <i>absolutePath</i>, const QString <i>file</i>, const float <i>volume</i>, const QString <i>fillMode</i>, const QString <i>type</i>, const bool <i>checkWallpaperVisible</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#activeScreensList-prop">setActiveScreensList</a></b>(QVector&lt;int&gt; <i>activeScreensList</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#appID-prop">setAppID</a></b>(QString <i>appID</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#basePath-prop">setBasePath</a></b>(QString <i>basePath</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#canFade-prop">setCanFade</a></b>(bool <i>canFade</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#checkWallpaperVisible-prop">setCheckWallpaperVisible</a></b>(bool <i>checkWallpaperVisible</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#contentBasePath-prop">setContentBasePath</a></b>(const QString &amp;<i>contentBasePath</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#currentTime-prop">setCurrentTime</a></b>(float <i>currentTime</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#debugMode-prop">setDebugMode</a></b>(bool <i>debugMode</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#fillMode-prop">setFillMode</a></b>(QString <i>fillMode</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#fullContentPath-prop">setFullContentPath</a></b>(QString <i>fullContentPath</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#height-prop">setHeight</a></b>(int <i>height</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#isPlaying-prop">setIsPlaying</a></b>(bool <i>isPlaying</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#loops-prop">setLoops</a></b>(bool <i>loops</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#muted-prop">setMuted</a></b>(bool <i>muted</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#OSVersion-prop">setOSVersion</a></b>(QString <i>OSVersion</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#playbackRate-prop">setPlaybackRate</a></b>(float <i>playbackRate</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#sdk-prop">setSdk</a></b>(int *<i>sdk</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#type-prop">setType</a></b>(int <i>type</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#visualsPaused-prop">setVisualsPaused</a></b>(bool <i>visualsPaused</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#volume-prop">setVolume</a></b>(float <i>volume</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#width-prop">setWidth</a></b>(int <i>width</i>)</td></tr>
+</table></div>
+<a name="signals"></a>
+<h2 id="signals">Signals</h2>
+<div class="table"><table class="alignedsummary">
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#OSVersion-prop">OSVersionChanged</a></b>(QString <i>OSVersion</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#activeScreensList-prop">activeScreensListChanged</a></b>(QVector&lt;int&gt; <i>activeScreensList</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#appID-prop">appIDChanged</a></b>(QString <i>appID</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#basePath-prop">basePathChanged</a></b>(QString <i>basePath</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#canFade-prop">canFadeChanged</a></b>(bool <i>canFade</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#checkWallpaperVisible-prop">checkWallpaperVisibleChanged</a></b>(bool <i>checkWallpaperVisible</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#contentBasePath-prop">contentBasePathChanged</a></b>(const QString &amp;)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#currentTime-prop">currentTimeChanged</a></b>(float <i>currentTime</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#debugMode-prop">debugModeChanged</a></b>(bool <i>debugMode</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#fillMode-prop">fillModeChanged</a></b>(QString <i>fillMode</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#fullContentPath-prop">fullContentPathChanged</a></b>(QString <i>fullContentPath</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#height-prop">heightChanged</a></b>(int <i>height</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#isPlaying-prop">isPlayingChanged</a></b>(bool <i>isPlaying</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#loops-prop">loopsChanged</a></b>(bool <i>loops</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#muted-prop">mutedChanged</a></b>(bool <i>muted</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#playbackRate-prop">playbackRateChanged</a></b>(float <i>playbackRate</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#sdk-prop">sdkChanged</a></b>(int *<i>sdk</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#type-prop">typeChanged</a></b>(int <i>type</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#visualsPaused-prop">visualsPausedChanged</a></b>(bool <i>visualsPaused</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#volume-prop">volumeChanged</a></b>(float <i>volume</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="basewindow.html#width-prop">widthChanged</a></b>(int <i>width</i>)</td></tr>
+</table></div>
+<a name="details"></a>
+<!-- $$$BaseWindow-description -->
+<div class="descr">
+<h2 id="details">Detailed Description</h2>
+</div>
+<!-- @@@BaseWindow -->
+<div class="func">
+<h2>Member Function Documentation</h2>
+<!-- $$$getApplicationPath[overload1]$$$getApplicationPath -->
+<h3 class="fn" id="getApplicationPath"><a name="getApplicationPath"></a><code>[slot] </code><span class="type">QString</span> BaseWindow::<span class="name">getApplicationPath</span>()</h3>
+<p>This public slot is for QML usage.</p>
+<!-- @@@getApplicationPath -->
+<!-- $$$loadFromFile[overload1]$$$loadFromFileconstQString& -->
+<h3 class="fn" id="loadFromFile"><a name="loadFromFile"></a><code>[slot] </code><span class="type">QString</span> BaseWindow::<span class="name">loadFromFile</span>(const <span class="type">QString</span> &amp;<i>filename</i>)</h3>
+<p>Used for loading shader. Loading shader relative to the qml file will be available in Qt 6</p>
+<!-- @@@loadFromFile -->
+<!-- $$$messageReceived[overload1]$$$messageReceivedQStringQString -->
+<h3 class="fn" id="messageReceived"><a name="messageReceived"></a><code>[virtual slot] </code><span class="type">void</span> BaseWindow::<span class="name">messageReceived</span>(<span class="type">QString</span> <i>key</i>, <span class="type">QString</span> <i>value</i>)</h3>
+<p>messageReceived.</p>
+<!-- @@@messageReceived -->
+<!-- $$$replaceWallpaper[overload1]$$$replaceWallpaperconstQStringconstQStringconstfloatconstQStringconstQStringconstbool -->
+<h3 class="fn" id="replaceWallpaper"><a name="replaceWallpaper"></a><code>[virtual slot] </code><span class="type">void</span> BaseWindow::<span class="name">replaceWallpaper</span>(const <span class="type">QString</span> <i>absolutePath</i>, const <span class="type">QString</span> <i>file</i>, const <span class="type">float</span> <i>volume</i>, const <span class="type">QString</span> <i>fillMode</i>, const <span class="type">QString</span> <i>type</i>, const <span class="type">bool</span> <i>checkWallpaperVisible</i>)</h3>
+<p>replaceWallpaper.</p>
+<!-- @@@replaceWallpaper -->
+</div>
+<div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
+</html>

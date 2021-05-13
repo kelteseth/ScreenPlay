@@ -20,7 +20,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">InstalledListFilter Class</h1>
-<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::InstalledListFilter</span>
+<span class="small-subtitle">class <a href="screenplay-module.html">ScreenPlay</a>::InstalledListFilter</span>
 <!-- $$$InstalledListFilter-brief -->
 <p>Proxy between Installed List Model and QML view to filter items. <a href="#details">More...</a></p>
 <!-- @@@InstalledListFilter -->
@@ -38,8 +38,8 @@
 <h2 id="public-slots">Public Slots</h2>
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistfilter.html#resetFilter">resetFilter</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistfilter.html#setSortOrder">setSortOrder</a></b>(const Qt::SortOrder <i>sortOrder</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistfilter.html#sortByName">sortByName</a></b>(const QString &amp;<i>name</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-installedlistfilter.html#sortBySearchType">sortBySearchType</a></b>(const ScreenPlay::SearchType::SearchType <i>searchType</i>)</td></tr>
 </table></div>
 <a name="details"></a>
 <!-- $$$InstalledListFilter-description -->
@@ -58,14 +58,14 @@
 <h3 class="fn" id="resetFilter"><a name="resetFilter"></a><code>[slot] </code><span class="type">void</span> InstalledListFilter::<span class="name">resetFilter</span>()</h3>
 <p>Resets the filter and sorts by title.</p>
 <!-- @@@resetFilter -->
+<!-- $$$setSortOrder[overload1]$$$setSortOrderconstQt::SortOrder -->
+<h3 class="fn" id="setSortOrder"><a name="setSortOrder"></a><code>[slot] </code><span class="type">void</span> InstalledListFilter::<span class="name">setSortOrder</span>(const <span class="type">Qt::SortOrder</span> <i>sortOrder</i>)</h3>
+<p>sets the sort order by date.</p>
+<!-- @@@setSortOrder -->
 <!-- $$$sortByName[overload1]$$$sortByNameconstQString& -->
 <h3 class="fn" id="sortByName"><a name="sortByName"></a><code>[slot] </code><span class="type">void</span> InstalledListFilter::<span class="name">sortByName</span>(const <span class="type">QString</span> &amp;<i>name</i>)</h3>
 <p>Invoked when the user uses the quicksearch at the top right of the installed page. Uses the <i>name</i> to sort by name. This name is saved in the project.json title.</p>
 <!-- @@@sortByName -->
-<!-- $$$sortBySearchType[overload1]$$$sortBySearchTypeconstScreenPlay::SearchType::SearchType -->
-<h3 class="fn" id="sortBySearchType"><a name="sortBySearchType"></a><code>[slot] </code><span class="type">void</span> InstalledListFilter::<span class="name">sortBySearchType</span>(const <span class="type">ScreenPlay::SearchType::SearchType</span> <i>searchType</i>)</h3>
-<p>.</p>
-<!-- @@@sortBySearchType -->
 </div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>
 </html>

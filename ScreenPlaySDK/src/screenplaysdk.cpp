@@ -1,7 +1,19 @@
 #include "screenplaysdk.h"
 
+/*!
+    \module ScreenPlaySDK
+    \title ScreenPlaySDK
+    \brief Namespace for ScreenPlaySDK.
+*/
+
 // USE THIS ONLY FOR redirectMessageOutputToMainWindow
 static ScreenPlaySDK* global_sdkPtr = nullptr;
+
+/*!
+    \class ScreenPlaySDK
+    \inmodule ScreenPlaySDK
+    \brief  .
+*/
 
 ScreenPlaySDK::ScreenPlaySDK(QQuickItem* parent)
     : QQuickItem(parent)

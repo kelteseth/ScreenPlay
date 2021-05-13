@@ -21,7 +21,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">SDKConnection Class</h1>
-<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::SDKConnection</span>
+<span class="small-subtitle">class <a href="screenplay-module.html">ScreenPlay</a>::SDKConnection</span>
 <!-- $$$SDKConnection-brief -->
 <p>Contains all connections to Wallpaper and Widgets. <a href="#details">More...</a></p>
 <!-- @@@SDKConnection -->
@@ -41,9 +41,9 @@
 <a name="public-slots"></a>
 <h2 id="public-slots">Public Slots</h2>
 <div class="table"><table class="alignedsummary">
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#close">close</a></b>()</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#close">close</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#readyRead">readyRead</a></b>()</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#sendMessage">sendMessage</a></b>(const QByteArray &amp;<i>message</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#sendMessage">sendMessage</a></b>(const QByteArray &amp;<i>message</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#appID-prop">setAppID</a></b>(QString <i>appID</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#monitor-prop">setMonitor</a></b>(QVector&lt;int&gt; <i>monitor</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-sdkconnection.html#type-prop">setType</a></b>(QString <i>type</i>)</td></tr>
@@ -68,7 +68,7 @@
 <p>Constructor.</p>
 <!-- @@@SDKConnection -->
 <!-- $$$close[overload1]$$$close -->
-<h3 class="fn" id="close"><a name="close"></a><code>[slot] </code><span class="type">void</span> SDKConnection::<span class="name">close</span>()</h3>
+<h3 class="fn" id="close"><a name="close"></a><code>[slot] </code><span class="type">bool</span> SDKConnection::<span class="name">close</span>()</h3>
 <p>Closes the socket connection. Before it explicitly sends a quit command to make sure the wallpaper closes (fast). This also requestDecreaseWidgetCount() because Widgets.</p>
 <!-- @@@close -->
 <!-- $$$readyRead[overload1]$$$readyRead -->
@@ -76,12 +76,12 @@
 <p>Read incomming messages. Checks for types like:</p>
 <ol class="1" type="1"><li>ping: Used to check if wallpaper is still alive</li>
 <li><a href="screenplay-sdkconnection.html#appID-prop">appID</a>: First message of an app must contain the ID to match it to our list of running apps</li>
-<li>command: Used mainly for requestRaise. This will get fired if the user tries to open a second <a href="screenplay.html">ScreenPlay</a> instance</li>
+<li>command: Used mainly for requestRaise. This will get fired if the user tries to open a second <a href="screenplay-module.html">ScreenPlay</a> instance</li>
 <li>general Json object</li>
 </ol>
 <!-- @@@readyRead -->
 <!-- $$$sendMessage[overload1]$$$sendMessageconstQByteArray& -->
-<h3 class="fn" id="sendMessage"><a name="sendMessage"></a><code>[slot] </code><span class="type">void</span> SDKConnection::<span class="name">sendMessage</span>(const <span class="type">QByteArray</span> &amp;<i>message</i>)</h3>
+<h3 class="fn" id="sendMessage"><a name="sendMessage"></a><code>[slot] </code><span class="type">bool</span> SDKConnection::<span class="name">sendMessage</span>(const <span class="type">QByteArray</span> &amp;<i>message</i>)</h3>
 <p>Sends a message to the connected socket.</p>
 <!-- @@@sendMessage -->
 </div>

@@ -21,9 +21,9 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">App Class</h1>
-<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::App</span>
+<span class="small-subtitle">class <a href="screenplay-module.html">ScreenPlay</a>::App</span>
 <!-- $$$App-brief -->
-<p>The App class contains all members for <a href="screenplay.html">ScreenPlay</a>. <a href="#details">More...</a></p>
+<p>The App class contains all members for <a href="screenplay-module.html">ScreenPlay</a>. <a href="#details">More...</a></p>
 <!-- @@@App -->
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> Header:</td><td class="memItemRight bottomAlign"> <span class="preprocessor">#include &lt;App&gt;</span>
@@ -111,19 +111,19 @@
 <h2>Member Function Documentation</h2>
 <!-- $$$App[overload1]$$$App -->
 <h3 class="fn" id="App"><a name="App"></a>App::<span class="name">App</span>()</h3>
-<p>Constructor creates and holds all classes used by <a href="screenplay.html">ScreenPlay</a> via unique_ptr or shared_ptr.</p>
+<p>Constructor creates and holds all classes used by <a href="screenplay-module.html">ScreenPlay</a> via unique_ptr or shared_ptr.</p>
 <!-- @@@App -->
 <!-- $$$exit[overload1]$$$exit -->
 <h3 class="fn" id="exit"><a name="exit"></a><code>[slot] </code><span class="type">void</span> App::<span class="name">exit</span>()</h3>
-<p>Tries to send the telemetry quit event before we call quit ourself.</p>
+<p>Calls QApplication quit() and can be used to do additional tasks before exiting.</p>
 <!-- @@@exit -->
 <!-- $$$loadSteamPlugin[overload1]$$$loadSteamPlugin -->
 <h3 class="fn" id="loadSteamPlugin"><a name="loadSteamPlugin"></a><code>[slot] </code><span class="type">bool</span> App::<span class="name">loadSteamPlugin</span>()</h3>
-<p>Loads the Steam plugin when needed. This enables to start <a href="screenplay.html">ScreenPlay</a> via OS autostart without waiting for Steam first.</p>
+<p>Loads the Steam plugin when needed. This enables to start <a href="screenplay-module.html">ScreenPlay</a> via OS autostart without waiting for Steam first.</p>
 <!-- @@@loadSteamPlugin -->
 <!-- $$$init[overload1]$$$init -->
 <h3 class="fn" id="init"><a name="init"></a><span class="type">void</span> App::<span class="name">init</span>()</h3>
-<p>Used for initialization after the constructor. The sole purpose is to check if another <a href="screenplay.html">ScreenPlay</a> instance is running and then quit early. This is also because we cannot call QApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event loop ) has started.</p>
+<p>Used for initialization after the constructor. The sole purpose is to check if another <a href="screenplay-module.html">ScreenPlay</a> instance is running and then quit early. This is also because we cannot call QApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event loop ) has started.</p>
 <!-- @@@init -->
 </div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>

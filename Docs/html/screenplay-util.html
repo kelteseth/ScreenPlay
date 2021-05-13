@@ -21,7 +21,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">Util Class</h1>
-<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::Util</span>
+<span class="small-subtitle">class <a href="screenplay-module.html">ScreenPlay</a>::Util</span>
 <!-- $$$Util-brief -->
 <p>Easy to use global object to use when certain functionality is not available in QML. <a href="#details">More...</a></p>
 <!-- @@@Util -->
@@ -39,22 +39,12 @@
 <a name="public-slots"></a>
 <h2 id="public-slots">Public Slots</h2>
 <div class="table"><table class="alignedsummary">
-<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#copyPreviewThumbnail">copyPreviewThumbnail</a></b>(QJsonObject &amp;<i>obj</i>, const QString &amp;<i>name</i>, const QString &amp;<i>destination</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#copyPreviewThumbnail">copyPreviewThumbnail</a></b>(QJsonObject &amp;<i>obj</i>, const QString &amp;<i>previewThumbnail</i>, const QString &amp;<i>destination</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#copyToClipboard">copyToClipboard</a></b>(const QString &amp;<i>text</i>) const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> QJsonArray </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#fillArray">fillArray</a></b>(const QVector&lt;QString&gt; &amp;<i>items</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#generateRandomString">generateRandomString</a></b>(quint32 <i>length</i> = 32)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;InstalledType::InstalledType&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#getInstalledTypeFromString">getInstalledTypeFromString</a></b>(const QString &amp;<i>type</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> SearchType::SearchType </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#getSearchTypeFromInstalledType">getSearchTypeFromInstalledType</a></b>(const InstalledType::InstalledType <i>type</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;QVersionNumber&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#getVersionNumberFromString">getVersionNumberFromString</a></b>(const QString &amp;<i>str</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#logToGui">logToGui</a></b>(QtMsgType <i>type</i>, const QMessageLogContext &amp;<i>context</i>, const QString &amp;<i>msg</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openFolderInExplorer">openFolderInExplorer</a></b>(const QString &amp;<i>url</i>) const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;QJsonObject&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openJsonFileToObject">openJsonFileToObject</a></b>(const QString &amp;<i>path</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;QString&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#openJsonFileToString">openJsonFileToString</a></b>(const QString &amp;<i>path</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> std::optional&lt;QJsonObject&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#parseQByteArrayToQJsonObject">parseQByteArrayToQJsonObject</a></b>(const QByteArray &amp;<i>byteArray</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#requestAllLicenses">requestAllLicenses</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#requestDataProtection">requestDataProtection</a></b>()</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#toLocal">toLocal</a></b>(const QString &amp;<i>url</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#toString">toString</a></b>(const QStringList &amp;<i>list</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#writeFile">writeFile</a></b>(const QString &amp;<i>text</i>, const QString &amp;<i>absolutePath</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#writeFileFromQrc">writeFileFromQrc</a></b>(const QString &amp;<i>qrcPath</i>, const QString &amp;<i>absolutePath</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-util.html#writeJsonObjectToFile">writeJsonObjectToFile</a></b>(const QString &amp;<i>absoluteFilePath</i>, const QJsonObject &amp;<i>object</i>, bool <i>truncate</i> = true)</td></tr>
@@ -78,38 +68,13 @@
 <p>Constructor.</p>
 <!-- @@@Util -->
 <!-- $$$copyPreviewThumbnail[overload1]$$$copyPreviewThumbnailQJsonObject&constQString&constQString& -->
-<h3 class="fn" id="copyPreviewThumbnail"><a name="copyPreviewThumbnail"></a><code>[static slot] </code><span class="type">bool</span> Util::<span class="name">copyPreviewThumbnail</span>(<span class="type">QJsonObject</span> &amp;<i>obj</i>, const <span class="type">QString</span> &amp;<i>name</i>, const <span class="type">QString</span> &amp;<i>destination</i>)</h3>
+<h3 class="fn" id="copyPreviewThumbnail"><a name="copyPreviewThumbnail"></a><code>[static slot] </code><span class="type">bool</span> Util::<span class="name">copyPreviewThumbnail</span>(<span class="type">QJsonObject</span> &amp;<i>obj</i>, const <span class="type">QString</span> &amp;<i>previewThumbnail</i>, const <span class="type">QString</span> &amp;<i>destination</i>)</h3>
 <p>Takes reference to <i>obj</i>. If the copy of the thumbnail is successful, it adds the corresponding settings entry to the json object reference.</p>
 <!-- @@@copyPreviewThumbnail -->
 <!-- $$$copyToClipboard[overload1]$$$copyToClipboardconstQString& -->
 <h3 class="fn" id="copyToClipboard"><a name="copyToClipboard"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">copyToClipboard</span>(const <span class="type">QString</span> &amp;<i>text</i>) const</h3>
 <p>Copies the given string to the clipboard.</p>
 <!-- @@@copyToClipboard -->
-<!-- $$$fillArray[overload1]$$$fillArrayconstQVector<QString>& -->
-<h3 class="fn" id="fillArray"><a name="fillArray"></a><code>[static slot] </code><span class="type">QJsonArray</span> Util::<span class="name">fillArray</span>(const <span class="type">QVector</span>&lt;<span class="type">QString</span>&gt; &amp;<i>items</i>)</h3>
-<p>Util function that converts a QVector of Strings into a QJsonArray.</p>
-<!-- @@@fillArray -->
-<!-- $$$generateRandomString[overload1]$$$generateRandomStringquint32 -->
-<h3 class="fn" id="generateRandomString"><a name="generateRandomString"></a><code>[static slot] </code><span class="type">QString</span> Util::<span class="name">generateRandomString</span>(<span class="type">quint32</span> <i>length</i> = 32)</h3>
-<p>Generates a (non secure) random string with the default length of 32. Can contain:</p>
-<ul>
-<li>A-Z</li>
-<li>a-z</li>
-<li>0-9</li>
-</ul>
-<!-- @@@generateRandomString -->
-<!-- $$$getInstalledTypeFromString[overload1]$$$getInstalledTypeFromStringconstQString& -->
-<h3 class="fn" id="getInstalledTypeFromString"><a name="getInstalledTypeFromString"></a><code>[static slot] </code><span class="type">std::optional</span>&lt;<span class="type">InstalledType::InstalledType</span>&gt; Util::<span class="name">getInstalledTypeFromString</span>(const <span class="type">QString</span> &amp;<i>type</i>)</h3>
-<p>Maps the installed type from a QString to an enum. Used for parsing the project.json.</p>
-<!-- @@@getInstalledTypeFromString -->
-<!-- $$$getSearchTypeFromInstalledType[overload1]$$$getSearchTypeFromInstalledTypeconstInstalledType::InstalledType -->
-<h3 class="fn" id="getSearchTypeFromInstalledType"><a name="getSearchTypeFromInstalledType"></a><code>[static slot] </code><span class="type">SearchType::SearchType</span> Util::<span class="name">getSearchTypeFromInstalledType</span>(const <span class="type">InstalledType::InstalledType</span> <i>type</i>)</h3>
-<p>Maps the Search type to an installed type. Used for filtering the installed content.</p>
-<!-- @@@getSearchTypeFromInstalledType -->
-<!-- $$$getVersionNumberFromString[overload1]$$$getVersionNumberFromStringconstQString& -->
-<h3 class="fn" id="getVersionNumberFromString"><a name="getVersionNumberFromString"></a><code>[static slot] </code><span class="type">std::optional</span>&lt;<span class="type">QVersionNumber</span>&gt; Util::<span class="name">getVersionNumberFromString</span>(const <span class="type">QString</span> &amp;<i>str</i>)</h3>
-<p>Parses a version from a given QString. The QString must be looke like this: 1.0&#x2e;0 - Major.Minor.Patch. A fixed position is used for parsing (at 0,2,4). Return std::nullopt when not successful.</p>
-<!-- @@@getVersionNumberFromString -->
 <!-- $$$logToGui[overload1]$$$logToGuiQtMsgTypeconstQMessageLogContext&constQString& -->
 <h3 class="fn" id="logToGui"><a name="logToGui"></a><code>[static slot] </code><span class="type">void</span> Util::<span class="name">logToGui</span>(<span class="type">QtMsgType</span> <i>type</i>, const <span class="type">QMessageLogContext</span> &amp;<i>context</i>, const <span class="type">QString</span> &amp;<i>msg</i>)</h3>
 <p>Basic logging to the GUI. No logging is done to a log file for now. This string can be copied in the settings tab in the UI.</p>
@@ -118,18 +83,6 @@
 <h3 class="fn" id="openFolderInExplorer"><a name="openFolderInExplorer"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">openFolderInExplorer</span>(const <span class="type">QString</span> &amp;<i>url</i>) const</h3>
 <p>Opens a native folder window on the given path. Windows and Mac only for now!</p>
 <!-- @@@openFolderInExplorer -->
-<!-- $$$openJsonFileToObject[overload1]$$$openJsonFileToObjectconstQString& -->
-<h3 class="fn" id="openJsonFileToObject"><a name="openJsonFileToObject"></a><code>[static slot] </code><span class="type">std::optional</span>&lt;<span class="type">QJsonObject</span>&gt; Util::<span class="name">openJsonFileToObject</span>(const <span class="type">QString</span> &amp;<i>path</i>)</h3>
-<p>Opens a json file (absolute path) and tries to convert it to a QJsonObject. Returns std::nullopt when not successful.</p>
-<!-- @@@openJsonFileToObject -->
-<!-- $$$openJsonFileToString[overload1]$$$openJsonFileToStringconstQString& -->
-<h3 class="fn" id="openJsonFileToString"><a name="openJsonFileToString"></a><code>[static slot] </code><span class="type">std::optional</span>&lt;<span class="type">QString</span>&gt; Util::<span class="name">openJsonFileToString</span>(const <span class="type">QString</span> &amp;<i>path</i>)</h3>
-<p>Opens a json file (absolute path) and tries to convert it to a QString. Returns std::nullopt when not successful.</p>
-<!-- @@@openJsonFileToString -->
-<!-- $$$parseQByteArrayToQJsonObject[overload1]$$$parseQByteArrayToQJsonObjectconstQByteArray& -->
-<h3 class="fn" id="parseQByteArrayToQJsonObject"><a name="parseQByteArrayToQJsonObject"></a><code>[static slot] </code><span class="type">std::optional</span>&lt;<span class="type">QJsonObject</span>&gt; Util::<span class="name">parseQByteArrayToQJsonObject</span>(const <span class="type">QByteArray</span> &amp;<i>byteArray</i>)</h3>
-<p>Parses a QByteArray to a QJsonObject. If returns and std::nullopt on failure.</p>
-<!-- @@@parseQByteArrayToQJsonObject -->
 <!-- $$$requestAllLicenses[overload1]$$$requestAllLicenses -->
 <h3 class="fn" id="requestAllLicenses"><a name="requestAllLicenses"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">requestAllLicenses</span>()</h3>
 <p>Loads all content of the legal folder in the qrc into a property string of this class. allLicenseLoaded is emited when loading is finished.</p>
@@ -138,14 +91,6 @@
 <h3 class="fn" id="requestDataProtection"><a name="requestDataProtection"></a><code>[slot] </code><span class="type">void</span> Util::<span class="name">requestDataProtection</span>()</h3>
 <p>Loads all dataprotection of the legal folder in the qrc into a property string of this class. allDataProtectionLoaded is emited when loading is finished.</p>
 <!-- @@@requestDataProtection -->
-<!-- $$$toLocal[overload1]$$$toLocalconstQString& -->
-<h3 class="fn" id="toLocal"><a name="toLocal"></a><code>[static slot] </code><span class="type">QString</span> Util::<span class="name">toLocal</span>(const <span class="type">QString</span> &amp;<i>url</i>)</h3>
-<p>Converts the given <i>url</i> string to a local file path.</p>
-<!-- @@@toLocal -->
-<!-- $$$toString[overload1]$$$toStringconstQStringList& -->
-<h3 class="fn" id="toString"><a name="toString"></a><code>[static slot] </code><span class="type">QString</span> Util::<span class="name">toString</span>(const <span class="type">QStringList</span> &amp;<i>list</i>)</h3>
-<p>Helper function to append a QStringList into a QString with a space between the items.</p>
-<!-- @@@toString -->
 <!-- $$$writeFile[overload1]$$$writeFileconstQString&constQString& -->
 <h3 class="fn" id="writeFile"><a name="writeFile"></a><code>[static slot] </code><span class="type">bool</span> Util::<span class="name">writeFile</span>(const <span class="type">QString</span> &amp;<i>text</i>, const <span class="type">QString</span> &amp;<i>absolutePath</i>)</h3>
 <p>Tries to save into a text file with absolute path.</p>

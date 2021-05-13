@@ -1,11 +1,11 @@
 # Run:
-# C:\Qt\6.0.0\msvc2019_64\bin\qdoc.exe config.qdocconf
+# C:\Qt\6.1.0\msvc2019_64\bin\qdoc.exe config.qdocconf
 # in this directory. You can shift + right click in this explorer
 # window and select "Open PowerShell Window here" for this.
 
-include(C:\Qt\6.0.0\msvc2019_64\doc\global\qt-cpp-defines.qdocconf)
-include(C:\Qt\6.0.0\msvc2019_64\doc\global\compat.qdocconf)
-include(C:\Qt\6.0.0\msvc2019_64\doc\global\fileextensions.qdocconf)
+include(C:\Qt\6.1.0\msvc2019_64\doc\global\qt-cpp-defines.qdocconf)
+include(C:\Qt\6.1.0\msvc2019_64\doc\global\compat.qdocconf)
+include(C:\Qt\6.1.0\msvc2019_64\doc\global\fileextensions.qdocconf)
 
 descripton  = ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. 
 language    = Cpp
@@ -20,36 +20,45 @@ sourcedirs += ../ScreenPlayWallpaper/src/
 sourcedirs += ../ScreenPlayWallpaper/
 sourcedirs += ../ScreenPlayWidget/src/
 sourcedirs += ../ScreenPlayWidget/
+sourcedirs += ../ScreenPlayShader/
+sourcedirs += ../ScreenPlayUtil/
+sourcedirs += ../ScreenPlayUtil/src/
 
 # Header
 headerdirs += ../ScreenPlay/src/
 headerdirs += ../ScreenPlay/
 headerdirs += ../ScreenPlaySDK/
+headerdirs += ../ScreenPlaySDK/inc/
 headerdirs += ../ScreenPlaySysInfo/
 headerdirs += ../ScreenPlayWallpaper/src/
 headerdirs += ../ScreenPlayWallpaper/
 headerdirs += ../ScreenPlayWidget/src/
 headerdirs += ../ScreenPlayWidget/
+headerdirs += ../ScreenPlayShader/
+headerdirs += ../ScreenPlayUtil/inc/
 
 # Include
 includepaths += ../ScreenPlay/src/
 includepaths += ../ScreenPlay/
 includepaths += ../ScreenPlaySDK/
+includepaths += ../ScreenPlaySDK/src/
 includepaths += ../ScreenPlaySysInfo/
 includepaths += ../ScreenPlayWallpaper/src/
 includepaths += ../ScreenPlayWallpaper/
 includepaths += ../ScreenPlayWidget/src/
 includepaths += ../ScreenPlayWidget/
+includepaths += ../ScreenPlayShader/
+includepaths += ../ScreenPlayUtil/
 
 # qt
-includepaths += C:/Qt/6.0.0/msvc2019_64/include/
-includepaths += C:/Qt/6.0.0/msvc2019_64/include/QtCore/
-includepaths += C:/Qt/6.0.0/msvc2019_64/include/QtGui/
-includepaths += C:/Qt/6.0.0/msvc2019_64/include/QtQml/
-includepaths += C:/Qt/6.0.0/msvc2019_64/include/QtWebEngine/
-includepaths += C:/Qt/6.0.0/msvc2019_64/include/QtNetwork/
-includepaths += C:/Qt/6.0.0/msvc2019_64/include/QtQuick/
-includepaths += C:/Qt/6.0.0/msvc2019_64/include/QtQuickControls2/
+includepaths += C:/Qt/6.1.0/msvc2019_64/include/
+includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtCore/
+includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtGui/
+includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtQml/
+includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtWebEngine/
+includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtNetwork/
+includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtQuick/
+includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtQuickControls2/
 
 
 

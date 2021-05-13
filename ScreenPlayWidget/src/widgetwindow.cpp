@@ -5,6 +5,18 @@
 #include "ScreenPlayUtil/contenttypes.h"
 #include "ScreenPlayUtil/util.h"
 
+/*!
+    \module ScreenPlayWidget
+    \title ScreenPlayWidget
+    \brief Module for ScreenPlayWidget.
+*/
+
+/*!
+    \class WidgetWindow
+    \inmodule ScreenPlayWidget
+    \brief  .
+*/
+
 WidgetWindow::WidgetWindow(
     const QString& projectPath,
     const QString& appID,

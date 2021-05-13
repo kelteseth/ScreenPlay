@@ -5,6 +5,12 @@
 #include <sysinfoapi.h>
 #endif
 
+
+/*!
+    \class Uptime
+    \inmodule ScreenPlaySysInfo
+    \brief  .
+*/
 Uptime::Uptime(QObject* parent)
     : QObject(parent)
 {

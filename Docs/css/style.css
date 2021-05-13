@@ -16,10 +16,15 @@ h2 {
 
 }
 a {
-    color:#41cd52 !important;
+    color:#ff6e42 !important;
+    text-decoration: none !important;
 }
 img {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.table > :not(caption) > * > * {
+    border-color: #ececec;
 }
 
 p {

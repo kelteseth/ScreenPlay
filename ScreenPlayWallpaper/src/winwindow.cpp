@@ -126,6 +126,12 @@ void WinWindow::setupWindowMouseHook()
     }
 }
 
+/*!
+    \class WinWindow
+    \inmodule ScreenPlayWallpaper
+    \brief  .
+*/
+
 WinWindow::WinWindow(
     const QVector<int>& activeScreensList,
     const QString& projectFilePath,
@@ -211,12 +217,20 @@ WinWindow::WinWindow(
 void WinWindow::setVisible(bool show)
 {
     if (show) {
-        if (!ShowWindow(m_windowHandle, SW_SHOW))
+        if (!ShowWindow(m_windowHandleWorker, SW_SHOW)) {
             qDebug() << "Cannot set window handle SW_SHOW";
+        }
+        if (!ShowWindow(m_windowHandle, SW_SHOW)) {
+            qDebug() << "Cannot set window handle SW_SHOW";
+        }
 
     } else {
-        if (!ShowWindow(m_windowHandle, SW_HIDE))
+        if (!ShowWindow(m_windowHandleWorker, SW_HIDE)) {
             qDebug() << "Cannot set window handle SW_HIDE";
+        }
+        if (!ShowWindow(m_windowHandle, SW_HIDE)) {
+            qDebug() << "Cannot set window handle SW_HIDE";
+        }
     }
 }
 
@@ -282,6 +296,7 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
             SWP_HIDEWINDOW)) {
         qFatal("Could not set window pos");
     }
+
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
         qFatal("Could not attach to parent window");
     }
@@ -387,6 +402,8 @@ void WinWindow::configureWindowGeometry()
     if (!searchWorkerWindowToParentTo()) {
         qFatal("No worker window found");
     }
+
+    ShowWindow(m_windowHandleWorker, SW_HIDE);
 
     RECT rect {};
     if (!GetWindowRect(m_windowHandleWorker, &rect)) {

@@ -5,6 +5,13 @@
 #define STATUS_SUCCESS 0
 #define STATUS_INFO_LENGTH_MISMATCH 0xC0000004
 
+/*!
+    \class CPU
+    \inmodule ScreenPlaySysInfo
+    \brief  .
+
+*/
+
 CPU::CPU(QObject* parent)
     : QObject(parent)
 {

@@ -3,6 +3,17 @@
 #include <QJsonParseError>
 #include <QRandomGenerator>
 
+/*!
+    \module ScreenPlayUtil
+    \title ScreenPlayUtil
+    \brief Module for ScreenPlayUtil.
+*/
+/*!
+    \namespace ScreenPlayUtil
+    \inmodule ScreenPlayUtil
+    \brief Namespace for ScreenPlayUtil.
+*/
+
 namespace ScreenPlayUtil {
 
 /*!

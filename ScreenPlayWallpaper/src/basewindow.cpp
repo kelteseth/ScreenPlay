@@ -2,6 +2,18 @@
 
 #include "ScreenPlayUtil/util.h"
 
+/*!
+    \module ScreenPlayWallpaper
+    \title ScreenPlayWallpaper
+    \brief Module for ScreenPlayWallpaper.
+*/
+
+/*!
+    \class BaseWindow
+    \inmodule ScreenPlayWallpaper
+    \brief  .
+*/
+
 BaseWindow::BaseWindow(QObject* parent)
     : QObject(parent)
 {

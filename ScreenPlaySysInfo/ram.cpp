@@ -3,6 +3,13 @@
 #include <QtQml/qqml.h>
 #include <qmetatype.h>
 
+
+/*!
+    \class RAM
+    \inmodule ScreenPlaySysInfo
+    \brief  .
+
+*/
 RAM::RAM(QObject* parent)
     : QObject(parent)
 {

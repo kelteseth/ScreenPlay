@@ -4,8 +4,32 @@
 #include "infoware/version.hpp"
 #include <QDebug>
 
-static const char* vendor_name(iware::gpu::vendor_t vendor) noexcept;
+static const char* vendor_name(iware::gpu::vendor_t vendor) noexcept
+{
+    switch (vendor) {
+    case iware::gpu::vendor_t::intel:
+        return "Intel";
+    case iware::gpu::vendor_t::amd:
+        return "AMD";
+    case iware::gpu::vendor_t::nvidia:
+        return "NVidia";
+    case iware::gpu::vendor_t::microsoft:
+        return "Microsoft";
+    case iware::gpu::vendor_t::qualcomm:
+        return "Qualcomm";
+    case iware::gpu::vendor_t::apple:
+        return "Apple";
+    default:
+        return "Unknown";
+    }
+}
 
+/*!
+    \class GPU
+    \inmodule ScreenPlaySysInfo
+    \brief  .
+
+*/
 GPU::GPU(QObject* parent)
     : QObject(parent)
 {
@@ -27,24 +51,5 @@ GPU::GPU(QObject* parent)
         setRamSize(properties_of_device.memory_size);
         setCacheSize(properties_of_device.cache_size);
         setMaxFrequency(properties_of_device.max_frequency);
-    }
-}
-static const char* vendor_name(iware::gpu::vendor_t vendor) noexcept
-{
-    switch (vendor) {
-    case iware::gpu::vendor_t::intel:
-        return "Intel";
-    case iware::gpu::vendor_t::amd:
-        return "AMD";
-    case iware::gpu::vendor_t::nvidia:
-        return "NVidia";
-    case iware::gpu::vendor_t::microsoft:
-        return "Microsoft";
-    case iware::gpu::vendor_t::qualcomm:
-        return "Qualcomm";
-    case iware::gpu::vendor_t::apple:
-        return "Apple";
-    default:
-        return "Unknown";
     }
 }
