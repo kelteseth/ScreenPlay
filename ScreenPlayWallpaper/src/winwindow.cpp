@@ -547,6 +547,7 @@ void WinWindow::checkForFullScreenWindow()
 */
 void WinWindow::terminate()
 {
+    UnhookWindowsHookEx(g_mouseHook);
     ShowWindow(m_windowHandle, SW_HIDE);
 
     // Force refresh so that we display the regular
