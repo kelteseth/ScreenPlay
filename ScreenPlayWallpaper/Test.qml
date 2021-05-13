@@ -3,6 +3,7 @@ import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.12
 import QtQuick.Shapes 1.12
+import ScreenPlayWallpaper 1.0
 
 Rectangle {
     id: root
@@ -108,7 +109,7 @@ Rectangle {
     Text {
         id: txtMousePos
         property int counter: 0
-        text: attractor.pointY + " - " +attractor.pointX
+        text: attractor.pointY + " - " + attractor.pointX
         font.pointSize: 32
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
@@ -172,10 +173,10 @@ Rectangle {
             onClicked: {
                 focus = false
                 focus = true
-                print("Button Clicked!")
-                txtButtonConter.counter = txtButtonConter.counter
+                print("Exit Wallpaper")
+                Wallpaper.terminate()
             }
-            text: qsTr("Click me!")
+            text: qsTr("Exit Wallpaper")
         }
         Button {
             highlighted: true
