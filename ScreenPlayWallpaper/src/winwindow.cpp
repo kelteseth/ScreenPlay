@@ -37,6 +37,9 @@ struct WinMonitorStats {
     WinMonitorStats() { EnumDisplayMonitors(0, 0, MonitorEnum, (LPARAM)this); }
 };
 
+/*!
+  \brief Searches for the worker window for our window to parent to.
+*/
 BOOL WINAPI SearchForWorkerWindow(HWND hwnd, LPARAM lparam)
 {
     // 0xXXXXXXX "" WorkerW
@@ -55,6 +58,10 @@ QPoint g_LastMousePosition { 0, 0 };
 QPoint g_globalOffset { 0, 0 };
 QQuickView* g_winGlobalHook = nullptr;
 
+/*!
+  \brief Windows mouse callback. This hook then forwards the event to the Qt window.
+         We must manually call a release event otherwise QML gets stuck.
+*/
 LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 {
 
@@ -109,6 +116,9 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
 }
 
+/*!
+  \brief Setup the SetWindowsHookEx hook to be used to receive mouse events.
+*/
 void WinWindow::setupWindowMouseHook()
 {
     using ScreenPlay::InstalledType::InstalledType;
@@ -129,9 +139,20 @@ void WinWindow::setupWindowMouseHook()
 /*!
     \class WinWindow
     \inmodule ScreenPlayWallpaper
-    \brief  .
+    \brief  ScreenPlayWindow used for the Windows implementation.
 */
 
+/*!
+ \brief Creates a window on Windows from the give parameters:
+     \a activeScreensList
+     \a projectFilePath
+     \a appID
+     \a volume
+     \a fillmode
+     \a type
+     \a checkWallpaperVisible
+     \a debugMode
+ */
 WinWindow::WinWindow(
     const QVector<int>& activeScreensList,
     const QString& projectFilePath,
@@ -213,27 +234,27 @@ WinWindow::WinWindow(
     if (!debugMode)
         sdk()->start();
 }
-
+/*!
+  \brief Calls ShowWindow function to set the main window in/visible.
+*/
 void WinWindow::setVisible(bool show)
 {
     if (show) {
-        if (!ShowWindow(m_windowHandleWorker, SW_SHOW)) {
-            qDebug() << "Cannot set window handle SW_SHOW";
-        }
         if (!ShowWindow(m_windowHandle, SW_SHOW)) {
             qDebug() << "Cannot set window handle SW_SHOW";
         }
 
     } else {
-        if (!ShowWindow(m_windowHandleWorker, SW_HIDE)) {
-            qDebug() << "Cannot set window handle SW_HIDE";
-        }
         if (!ShowWindow(m_windowHandle, SW_HIDE)) {
             qDebug() << "Cannot set window handle SW_HIDE";
         }
     }
 }
-
+/*!
+  \brief This function fires a qmlExit() signal to the UI for it to handle
+         nice fade out animation first. Then the UI is responsible for calling
+         WinWindow::terminate().
+*/
 void WinWindow::destroyThis()
 {
     emit qmlExit();
@@ -254,6 +275,9 @@ BOOL CALLBACK GetMonitorByIndex(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMo
     return TRUE;
 }
 
+/*!
+  \brief This method is called if the user want to have one wallpaper on one window.
+*/
 void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
     const QRect screenRect = QApplication::screens().at(activeScreen)->geometry();
@@ -302,6 +326,9 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
     }
 }
 
+/*!
+  \brief This method is called if the user want to have one wallpaper on all windows.
+*/
 void WinWindow::setupWallpaperForAllScreens()
 {
     QRect rect;
@@ -320,6 +347,9 @@ void WinWindow::setupWallpaperForAllScreens()
     }
 }
 
+/*!
+  \brief This method is called if the user want to have one wallpaper on multiple windows.
+*/
 void WinWindow::setupWallpaperForMultipleScreens(const QVector<int>& activeScreensList)
 {
     QRect rect;
@@ -360,14 +390,19 @@ bool WinWindow::searchWorkerWindowToParentTo()
     return EnumWindows(SearchForWorkerWindow, reinterpret_cast<LPARAM>(&m_windowHandleWorker));
 }
 
+/*!
+  \brief Reads the logicalDotsPerInch and mapps them to scaling factors.
+         This is needed to detect if the user has different monitors with
+         different scaling factors.
+
+         screen->logicalDotsPerInch()
+         100% -> 96  -> 1
+         125% -> 120 -> 1.25
+         150% -> 144 -> 1.5
+         ...
+*/
 float WinWindow::getScaling(const int monitorIndex)
 {
-    // screen->logicalDotsPerInch()
-    // 100% - 96
-    // 125% - 120
-    // 150% - 144
-    // 175% - 168
-    // 200% - 192
     QScreen* screen = QApplication::screens().at(monitorIndex);
     const int factor = screen->logicalDotsPerInch();
     switch (factor) {
@@ -395,6 +430,10 @@ float WinWindow::getScaling(const int monitorIndex)
     }
 }
 
+/*!
+   \brief Sets the size and the parent to the worker handle to be displayed behind the
+          desktop icons.
+*/
 void WinWindow::configureWindowGeometry()
 {
     ShowWindow(m_windowHandle, SW_HIDE);
@@ -402,8 +441,6 @@ void WinWindow::configureWindowGeometry()
     if (!searchWorkerWindowToParentTo()) {
         qFatal("No worker window found");
     }
-
-    ShowWindow(m_windowHandleWorker, SW_HIDE);
 
     RECT rect {};
     if (!GetWindowRect(m_windowHandleWorker, &rect)) {
@@ -473,7 +510,10 @@ int GetMonitorIndex(HMONITOR hMonitor)
 
     return info.iIndex;
 }
-
+/*!
+  \brief This method is called via a fixed interval to detect if a window completely
+         covers a monitor. If then sets visualPaused for QML to pause the content.
+*/
 void WinWindow::checkForFullScreenWindow()
 {
 
@@ -501,7 +541,10 @@ void WinWindow::checkForFullScreenWindow()
         setVisualsPaused(false);
     }
 }
-
+/*!
+  \brief Custom exit method to force a redraw of the window so that
+         the default desktop wallpaper can be seen agian.
+*/
 void WinWindow::terminate()
 {
     ShowWindow(m_windowHandle, SW_HIDE);
@@ -514,6 +557,11 @@ void WinWindow::terminate()
     QApplication::quit();
 }
 
+/*!
+  \brief Call the qml engine clearComponentCache. This function is used for
+         refreshing wallpaper when the content has changed. For example this
+         is needed for live editing when the content is chached.
+*/
 void WinWindow::clearComponentCache()
 {
     m_window.engine()->clearComponentCache();

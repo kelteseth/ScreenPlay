@@ -1,6 +1,5 @@
 #include "storage.h"
 
-
 /*!
     \class Storage
     \inmodule ScreenPlaySysInfo

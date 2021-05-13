@@ -13,6 +13,9 @@
 
 */
 
+/*!
+ * \brief SysInfo::SysInfo
+ */
 SysInfo::SysInfo(QQuickItem* parent)
     : QQuickItem(parent)
     , m_ram(std::make_unique<RAM>())

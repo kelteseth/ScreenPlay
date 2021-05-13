@@ -28,8 +28,11 @@ static const char* vendor_name(iware::gpu::vendor_t vendor) noexcept
     \class GPU
     \inmodule ScreenPlaySysInfo
     \brief  .
-
 */
+
+/*!
+ * \brief GPU::GPU
+ */
 GPU::GPU(QObject* parent)
     : QObject(parent)
 {

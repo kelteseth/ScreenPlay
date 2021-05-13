@@ -5,7 +5,6 @@
 #include <sysinfoapi.h>
 #endif
 
-
 /*!
     \class Uptime
     \inmodule ScreenPlaySysInfo
@@ -18,11 +17,13 @@ Uptime::Uptime(QObject* parent)
     m_updateTimer.start(m_tickRate);
 }
 
+/*!
+ * \brief Uptime::update
+ */
 void Uptime::update()
 {
 #ifdef Q_OS_WINDOWS
     auto ticks = GetTickCount64();
-    auto milliseconds = ticks % 1000;
     ticks /= 1000;
     auto seconds = ticks % 60;
     ticks /= 60;

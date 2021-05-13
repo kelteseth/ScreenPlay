@@ -12,6 +12,10 @@
     \brief  .
 */
 
+/*!
+ * \brief ShaderLibrary::ShaderLibrary
+ * \param parent
+ */
 ShaderLibrary::ShaderLibrary(QQuickItem* parent)
     : QQuickItem(parent)
 {

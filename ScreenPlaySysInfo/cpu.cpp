@@ -19,6 +19,9 @@ CPU::CPU(QObject* parent)
     m_updateTimer.start(m_tickRate);
 }
 
+/*!
+ * \brief CPU::update
+ */
 void CPU::update()
 {
     BOOL status;
