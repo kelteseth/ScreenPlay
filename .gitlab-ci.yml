@@ -27,7 +27,7 @@ build:windows_debug:
         - cd Tools
         - python build.py -t debug
     artifacts:
-        expire_in: '4 weeks'
+        expire_in: "4 weeks"
         paths:
             - build-x64-windows-debug/bin/
 
@@ -42,10 +42,9 @@ build:windows_release:
         - cd Tools
         - python build.py -t release
     artifacts:
-        expire_in: '4 weeks'
+        expire_in: "4 weeks"
         paths:
             - build-x64-windows-release/bin/
-
 
 build:osx_debug:
     stage: build
@@ -58,7 +57,7 @@ build:osx_debug:
         - cd Tools
         - python3 build.py -t debug
     artifacts:
-        expire_in: '4 weeks'
+        expire_in: "4 weeks"
         paths:
             - build-x64-osx-debug/bin/
 
@@ -73,18 +72,18 @@ build:osx_release:
         - cd Tools
         - python3 build.py -t release
     artifacts:
-        expire_in: '4 weeks'
+        expire_in: "4 weeks"
         paths:
             - build-x64-osx-release/bin/
 
 build:linux_debug:
     stage: build
     allow_failure: true
-    image:  
+    image:
         name: darkmattercoder/qt-build:5.15.1
         entrypoint: [""]
     tags:
-        - gitlab-org-docker 
+        - gitlab-org-docker
     needs:
         - check
     script:
@@ -99,18 +98,18 @@ build:linux_debug:
         - cd Tools
         - python build.py -t debug
     artifacts:
-        expire_in: '4 weeks'
+        expire_in: "4 weeks"
         paths:
             - build-x64-linux-debug/bin/
 
 build:linux_release:
     stage: build
     allow_failure: true
-    image:  
+    image:
         name: darkmattercoder/qt-build:5.15.1
         entrypoint: [""]
     tags:
-        - gitlab-org-docker 
+        - gitlab-org-docker
     needs:
         - check
     script:
@@ -122,10 +121,10 @@ build:linux_release:
         - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic-rc main' -y
         - sudo apt-get update -y
         - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake -y
-        - cd Tools        
+        - cd Tools
         - python build.py -t release
     artifacts:
-        expire_in: '4 weeks'
+        expire_in: "4 weeks"
         paths:
             - build-x64-linux-release/bin/
 
@@ -141,7 +140,7 @@ test:windows_debug:
     script:
         - ./build-x64-windows-debug/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
     artifacts:
-        expire_in: '4 weeks'
+        expire_in: "4 weeks"
         when: always
         reports:
             junit: test-report-junit.xml
@@ -158,31 +157,12 @@ test:windows_release:
     script:
         - ./build-x64-windows-release/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
     artifacts:
-        expire_in: '4 weeks'
+        expire_in: "4 weeks"
         when: always
         reports:
             junit: test-report-junit.xml
 
-
-benchmark:windows_release:
-    stage: benchmark
-    tags:
-        - windows10
-        - vs2019
-    dependencies:
-        - build:windows_release
-    needs:
-        - build:windows_release
-    script:
-        - ./build-x64-windows-release/bin/ScreenPlay.exe --benchmark
-    artifacts:
-        expire_in: '4 weeks'
-        when: always
-        reports:
-            metrics: build-x64-windows-release/bin/metrics.txt
-            
-
 build_docs:
-  stage: .post 
-  script:
-  - curl --request POST --form "token=$CI_JOB_TOKEN" --form ref=master https://gitlab.com/api/v4/projects/15800262/trigger/pipeline
+    stage: .post
+    script:
+        - curl --request POST --form "token=$CI_JOB_TOKEN" --form ref=master https://gitlab.com/api/v4/projects/15800262/trigger/pipeline
