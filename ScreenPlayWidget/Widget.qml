@@ -22,20 +22,17 @@ Item {
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
             newObject.destroy(10000)
         }
-    }
+        // Replace wallpaper with QML Scene
+        function onReloadQML(oldType) {
 
-    Action {
-        shortcut: "F5"
-        onTriggered: {
             loader.sourceComponent = undefined
             loader.source = ""
             Widget.clearComponentCache()
-            if (Widget.type === "qmlWidget") {
-                loader.source = Qt.resolvedUrl(Widget.sourcePath)
-            } else if (Widget.type === "htmlWidget") {
-                loader.sourceComponent = webViewComponent
-            }
+
+            loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute)
         }
+
+
     }
 
     OpacityAnimator {

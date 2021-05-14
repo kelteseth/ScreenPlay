@@ -21,11 +21,13 @@ WidgetWindow::WidgetWindow(
     const QString& projectPath,
     const QString& appID,
     const QString& type,
-    const QPoint& position)
+    const QPoint& position,
+    const bool debugMode)
     : QObject(nullptr)
     , m_appID { appID }
     , m_position { position }
     , m_sdk { std::make_unique<ScreenPlaySDK>(appID, type) }
+    , m_debugMode { debugMode }
 {
 
     qRegisterMetaType<ScreenPlay::InstalledType::InstalledType>();
@@ -56,14 +58,15 @@ WidgetWindow::WidgetWindow(
         setProjectSourceFileAbsolute({ "qrc:/test.qml" });
         setType(ScreenPlay::InstalledType::InstalledType::QMLWidget);
     } else {
-        auto projectOpt = ScreenPlayUtil::openJsonFileToObject(projectPath + "/project.json");
+        setProjectPath(projectPath);
+        auto projectOpt = ScreenPlayUtil::openJsonFileToObject(m_projectPath + "/project.json");
         if (!projectOpt.has_value()) {
             qWarning() << "Unable to parse project file!";
         }
 
         m_project = projectOpt.value();
         setProjectSourceFile(m_project.value("file").toString());
-        setProjectSourceFileAbsolute(QUrl::fromLocalFile(projectPath + "/" + projectSourceFile()));
+        setProjectSourceFileAbsolute(QUrl::fromLocalFile(m_projectPath + "/" + projectSourceFile()));
 
         if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(m_project.value("type").toString())) {
             setType(typeOpt.value());
@@ -79,26 +82,30 @@ WidgetWindow::WidgetWindow(
     m_window.show();
 
     // Do not trigger position changed save reuqest on startup
-    sdk()->start();
-    QTimer::singleShot(1000, this, [=, this]() {
-        // We limit ourself to only update the position every 500ms!
-        auto sendPositionUpdate = [this]() {
-            m_positionMessageLimiter.stop();
-            if (!m_sdk->isConnected())
-                return;
+    if (!m_debugMode) {
+        sdk()->start();
+        QTimer::singleShot(1000, this, [=, this]() {
+            // We limit ourself to only update the position every 500ms!
+            auto sendPositionUpdate = [this]() {
+                m_positionMessageLimiter.stop();
+                if (!m_sdk->isConnected())
+                    return;
 
-            QJsonObject obj;
-            obj.insert("messageType", "positionUpdate");
-            obj.insert("positionX", m_window.x());
-            obj.insert("positionY", m_window.y());
-            m_sdk->sendMessage(obj);
-        };
-        m_positionMessageLimiter.setInterval(500);
+                QJsonObject obj;
+                obj.insert("messageType", "positionUpdate");
+                obj.insert("positionX", m_window.x());
+                obj.insert("positionY", m_window.y());
+                m_sdk->sendMessage(obj);
+            };
+            m_positionMessageLimiter.setInterval(500);
 
-        QObject::connect(&m_positionMessageLimiter, &QTimer::timeout, this, sendPositionUpdate);
-        QObject::connect(&m_window, &QWindow::xChanged, this, [this]() { m_positionMessageLimiter.start(); });
-        QObject::connect(&m_window, &QWindow::yChanged, this, [this]() { m_positionMessageLimiter.start(); });
-    });
+            QObject::connect(&m_positionMessageLimiter, &QTimer::timeout, this, sendPositionUpdate);
+            QObject::connect(&m_window, &QWindow::xChanged, this, [this]() { m_positionMessageLimiter.start(); });
+            QObject::connect(&m_window, &QWindow::yChanged, this, [this]() { m_positionMessageLimiter.start(); });
+        });
+    }
+
+    setupLiveReloading();
 }
 
 void WidgetWindow::setSize(QSize size)
@@ -131,11 +138,6 @@ void WidgetWindow::setWidgetSize(const int with, const int height)
 {
     m_window.setWidth(with);
     m_window.setHeight(height);
-}
-
-void WidgetWindow::clearComponentCache()
-{
-    m_window.engine()->clearComponentCache();
 }
 
 #ifdef Q_OS_WIN
@@ -174,3 +176,34 @@ void WidgetWindow::setWindowBlur(unsigned int style)
     }
 }
 #endif
+
+/*!
+  \brief Call the qml engine clearComponentCache. This function is used for
+         refreshing wallpaper when the content has changed. For example this
+         is needed for live editing when the content is chached.
+*/
+void WidgetWindow::clearComponentCache()
+{
+    m_window.engine()->clearComponentCache();
+}
+
+/*!
+ \brief This public slot is for QML usage. We limit the change event updates
+        to every 50ms, because the filesystem can be very trigger happy
+        with multiple change events per second.
+ */
+void WidgetWindow::setupLiveReloading()
+{
+    auto reloadQMLLambda = [this]() {
+        m_liveReloadLimiter.stop();
+        emit reloadQML(type());
+    };
+    auto timeoutLambda = [this]() {
+        m_liveReloadLimiter.start(50);
+    };
+
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, timeoutLambda);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, timeoutLambda);
+    QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
+    m_fileSystemWatcher.addPaths({ projectPath() });
+}

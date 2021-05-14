@@ -52,6 +52,7 @@
 #include <QtQuick/QQuickWindow>
 
 #ifdef Q_OS_WIN
+#include <QFileSystemWatcher>
 #include <qt_windows.h>
 #endif
 
@@ -67,7 +68,8 @@ public:
         const QString& projectPath,
         const QString& appid,
         const QString& type,
-        const QPoint& position);
+        const QPoint& position,
+        const bool debugMode = false);
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
     Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
@@ -76,6 +78,7 @@ public:
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(ScreenPlay::InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(ScreenPlaySDK* sdk READ sdk WRITE setSdk NOTIFY sdkChanged)
+    Q_PROPERTY(bool debugMode READ debugMode WRITE setDebugMode NOTIFY debugModeChanged)
 
     QString appID() const { return m_appID; }
     QPoint position() const { return m_position; }
@@ -84,10 +87,11 @@ public:
     const QString& projectSourceFile() const { return m_projectSourceFile; }
     const QUrl& projectSourceFileAbsolute() const { return m_projectSourceFileAbsolute; }
     ScreenPlaySDK* sdk() const { return m_sdk.get(); }
+    bool debugMode() const { return m_debugMode; }
 
 signals:
     void qmlExit();
-
+    void reloadQML(const ScreenPlay::InstalledType::InstalledType oldType);
     void appIDChanged(QString appID);
     void qmlSceneValueReceived(QString key, QString value);
     void positionChanged(QPoint position);
@@ -95,8 +99,8 @@ signals:
     void typeChanged(ScreenPlay::InstalledType::InstalledType);
     void projectSourceFileChanged(const QString& projectSourceFile);
     void projectSourceFileAbsoluteChanged(const QUrl& projectSourceFileAbsolute);
-
-    void sdkChanged(ScreenPlaySDK*);
+    void sdkChanged(ScreenPlaySDK* sdk);
+    void debugModeChanged(bool debugMode);
 
 public slots:
     void setSize(QSize size);
@@ -171,9 +175,21 @@ public slots:
         emit sdkChanged(sdk);
     }
 
+    void setDebugMode(bool debugMode)
+    {
+        if (m_debugMode == debugMode)
+            return;
+        m_debugMode = debugMode;
+        emit debugModeChanged(m_debugMode);
+    }
+
+private:
+    void setupLiveReloading();
+
 private:
     QString m_appID;
     QString m_projectPath;
+    QString m_projectSourceFile;
     QJsonObject m_project;
     QPoint m_clickPos = { 0, 0 };
     QPoint m_lastPos = { 0, 0 };
@@ -182,10 +198,11 @@ private:
     std::unique_ptr<ScreenPlaySDK> m_sdk;
     QTimer m_positionMessageLimiter;
     ScreenPlay::InstalledType::InstalledType m_type;
-
+    QFileSystemWatcher m_fileSystemWatcher;
+    QTimer m_liveReloadLimiter;
+    QUrl m_projectSourceFileAbsolute;
 #ifdef Q_OS_WIN
     HWND m_hwnd;
 #endif
-    QString m_projectSourceFile;
-    QUrl m_projectSourceFileAbsolute;
+    bool m_debugMode = false;
 };
