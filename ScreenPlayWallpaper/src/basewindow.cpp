@@ -49,12 +49,12 @@ BaseWindow::BaseWindow(
     }
 
     setAppID(appID);
-    setContentBasePath(projectFilePath);
+    setProjectPath(projectFilePath);
     setOSVersion(QSysInfo::productVersion());
 
     if (projectFilePath == "test") {
         setType(ScreenPlay::InstalledType::InstalledType::QMLWallpaper);
-        setFullContentPath("qrc:/Test.qml");
+        setProjectSourceFileAbsolute({ "qrc:/Test.qml" });
         setupLiveReloading();
         return;
     }
@@ -82,16 +82,15 @@ BaseWindow::BaseWindow(
         qCritical() << "Cannot parse Wallpaper type from value" << project.value("type");
     }
 
-    setBasePath(QUrl::fromUserInput(projectFilePath).toLocalFile());
-
     if (m_type == ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper) {
         if (!project.contains("url")) {
             qFatal("No url was specified for a websiteWallpaper!");
             QApplication::exit(-5);
         }
-        setFullContentPath(project.value("url").toString());
+        setProjectSourceFileAbsolute(project.value("url").toString());
     } else {
-        setFullContentPath("file:///" + projectFilePath + "/" + project.value("file").toString());
+        setProjectSourceFile(project.value("file").toString());
+        setProjectSourceFileAbsolute(QUrl::fromLocalFile(projectFilePath + "/" + projectSourceFile()));
     }
 
     setupLiveReloading();
@@ -181,9 +180,9 @@ void BaseWindow::replaceWallpaper(
     }
 
     if (type.contains("websiteWallpaper", Qt::CaseInsensitive)) {
-        setFullContentPath(file);
+        setProjectSourceFileAbsolute(file);
     } else {
-        setFullContentPath("file:///" + absolutePath + "/" + file);
+        setProjectSourceFileAbsolute(QUrl::fromLocalFile(absolutePath + "/" + file));
     }
 
     if (m_type == ScreenPlay::InstalledType::InstalledType::QMLWallpaper || m_type == ScreenPlay::InstalledType::InstalledType::HTMLWallpaper)
@@ -201,7 +200,7 @@ void BaseWindow::replaceWallpaper(
  */
 QString BaseWindow::loadFromFile(const QString& filename)
 {
-    QFile file(basePath() + "/" + filename);
+    QFile file(projectPath() + "/" + filename);
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "Could not loadFromFile: " << file.fileName();
         file.close();
@@ -238,5 +237,5 @@ void BaseWindow::setupLiveReloading()
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, timeoutLambda);
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, timeoutLambda);
     QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
-    m_fileSystemWatcher.addPaths({ m_contentBasePath });
+    m_fileSystemWatcher.addPaths({ projectPath() });
 }

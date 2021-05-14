@@ -24,20 +24,21 @@ WidgetWindow::WidgetWindow(
     const QPoint& position)
     : QObject(nullptr)
     , m_appID { appID }
-    , m_type { type }
     , m_position { position }
+    , m_sdk { std::make_unique<ScreenPlaySDK>(appID, type) }
 {
+
+    qRegisterMetaType<ScreenPlay::InstalledType::InstalledType>();
+    qmlRegisterUncreatableMetaObject(ScreenPlay::InstalledType::staticMetaObject,
+        "ScreenPlay.Enums.InstalledType",
+        1, 0,
+        "InstalledType",
+        "Error: only enums");
 
     m_sdk = std::make_unique<ScreenPlaySDK>(appID, type);
 
     QObject::connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WidgetWindow::qmlExit);
     QObject::connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &WidgetWindow::messageReceived);
-
-    if (!ScreenPlayUtil::getAvailableWidgets().contains(m_type, Qt::CaseSensitivity::CaseInsensitive)) {
-        QApplication::exit(-4);
-    }
-
-    setType(type);
 
     Qt::WindowFlags flags = m_window.flags();
 
@@ -52,17 +53,23 @@ WidgetWindow::WidgetWindow(
 #endif
 
     if (projectPath == "test") {
-        setSourcePath("qrc:/test.qml");
+        setProjectSourceFileAbsolute({ "qrc:/test.qml" });
+        setType(ScreenPlay::InstalledType::InstalledType::QMLWidget);
     } else {
         auto projectOpt = ScreenPlayUtil::openJsonFileToObject(projectPath + "/project.json");
-        if (projectOpt.has_value()) {
+        if (!projectOpt.has_value()) {
             qWarning() << "Unable to parse project file!";
-            QApplication::exit(-1);
         }
 
         m_project = projectOpt.value();
-        QString fullPath = "file:///" + projectPath + "/" + m_project.value("file").toString();
-        setSourcePath(fullPath);
+        setProjectSourceFile(m_project.value("file").toString());
+        setProjectSourceFileAbsolute(QUrl::fromLocalFile(projectPath + "/" + projectSourceFile()));
+
+        if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(m_project.value("type").toString())) {
+            setType(typeOpt.value());
+        } else {
+            qWarning() << "Cannot parse Wallpaper type from value" << m_project.value("type");
+        }
     }
 
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
@@ -72,6 +79,7 @@ WidgetWindow::WidgetWindow(
     m_window.show();
 
     // Do not trigger position changed save reuqest on startup
+    sdk()->start();
     QTimer::singleShot(1000, this, [=, this]() {
         // We limit ourself to only update the position every 500ms!
         auto sendPositionUpdate = [this]() {

@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtWebEngine 1.8
 import ScreenPlayWidget 1.0
+import ScreenPlay.Enums.InstalledType 1.0
 
 Item {
     id: mainWindow
@@ -67,11 +68,13 @@ Item {
         anchors.fill: parent
         asynchronous: true
         Component.onCompleted: {
-            if (Widget.type === "QMLWidget") {
-                loader.source = Qt.resolvedUrl(Widget.sourcePath)
-                print("loader.source", loader.source)
-            } else if (Widget.type === "HTMLWidget") {
+            switch (Widget.type) {
+            case InstalledType.QMLWidget:
+                loader.source = Qt.resolvedUrl( Widget.projectSourceFileAbsolute)
+                break
+            case InstalledType.HTMLWidget:
                 loader.sourceComponent = webViewComponent
+                break
             }
         }
         onStatusChanged: {

@@ -11,13 +11,12 @@ int main(int argc, char* argv[])
 
     QApplication app(argc, argv);
 
-    QStringList argumentList = app.arguments();
+    const QStringList argumentList = app.arguments();
 
     // If we start with only one argument (path, appID, type),
     // it means we want to test a single widget
     if (argumentList.length() == 1) {
-        // WidgetWindow spwmw("test", { 0, 0 }, "appid", "qmlWidget");
-        //WidgetWindow spwmw("C:\\Program Files (x86)\\Steam\\steamapps\\workshop\\content\\672870\\2136442401", "appid", "qmlWidget", { 0, 0 });
+       //WidgetWindow spwmw("test", "appid", "qmlWidget", { 0, 0 });
         WidgetWindow spwmw("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2136442401", "appid", "qmlWidget", { 0, 0 });
         return app.exec();
     }
@@ -39,8 +38,11 @@ int main(int argc, char* argv[])
         positionY = 0;
     }
 
-    //                 1. Project path,    2. AppID,           3. Type,                      4. Posx,  5. PosY
-    WidgetWindow spwmw(argumentList.at(1), argumentList.at(2), argumentList.at(3), QPoint { positionX, positionY });
+    WidgetWindow spwmw(
+        argumentList.at(1), // Project path,
+        argumentList.at(2), // AppID
+        argumentList.at(3), // Type
+        QPoint { positionX, positionY });
 
     return app.exec();
 }

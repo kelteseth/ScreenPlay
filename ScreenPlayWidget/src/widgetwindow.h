@@ -55,9 +55,9 @@
 #include <qt_windows.h>
 #endif
 
-#include <memory>
-
+#include "ScreenPlayUtil/util.h"
 #include "screenplaysdk.h"
+#include <memory>
 
 class WidgetWindow : public QObject {
     Q_OBJECT
@@ -70,46 +70,33 @@ public:
         const QPoint& position);
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
-    Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
-    Q_PROPERTY(QString projectConfig READ projectConfig WRITE setProjectConfig NOTIFY projectConfigChanged)
-    Q_PROPERTY(QString sourcePath READ sourcePath WRITE setSourcePath NOTIFY sourcePathChanged)
+    Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
+    Q_PROPERTY(QString projectSourceFile READ projectSourceFile WRITE setProjectSourceFile NOTIFY projectSourceFileChanged)
+    Q_PROPERTY(QUrl projectSourceFileAbsolute READ projectSourceFileAbsolute WRITE setProjectSourceFileAbsolute NOTIFY projectSourceFileAbsoluteChanged)
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
+    Q_PROPERTY(ScreenPlay::InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(ScreenPlaySDK* sdk READ sdk WRITE setSdk NOTIFY sdkChanged)
 
-    QString appID() const
-    {
-        return m_appID;
-    }
-
-    QString type() const
-    {
-        return m_type;
-    }
-
-    QString projectConfig() const
-    {
-        return m_projectConfig;
-    }
-
-    QString sourcePath() const
-    {
-        return m_sourcePath;
-    }
-
-    QPoint position() const
-    {
-        return m_position;
-    }
+    QString appID() const { return m_appID; }
+    QPoint position() const { return m_position; }
+    const QString& projectPath() const { return m_projectPath; }
+    ScreenPlay::InstalledType::InstalledType type() const { return m_type; }
+    const QString& projectSourceFile() const { return m_projectSourceFile; }
+    const QUrl& projectSourceFileAbsolute() const { return m_projectSourceFileAbsolute; }
+    ScreenPlaySDK* sdk() const { return m_sdk.get(); }
 
 signals:
     void qmlExit();
 
     void appIDChanged(QString appID);
-    void typeChanged(QString type);
-    void projectConfigChanged(QString projectConfig);
-    void sourcePathChanged(QString sourcePath);
     void qmlSceneValueReceived(QString key, QString value);
-
     void positionChanged(QPoint position);
+    void projectPathChanged(const QString& projectPath);
+    void typeChanged(ScreenPlay::InstalledType::InstalledType);
+    void projectSourceFileChanged(const QString& projectSourceFile);
+    void projectSourceFileAbsoluteChanged(const QUrl& projectSourceFileAbsolute);
+
+    void sdkChanged(ScreenPlaySDK*);
 
 public slots:
     void setSize(QSize size);
@@ -128,30 +115,6 @@ public slots:
         m_appID = appID;
         emit appIDChanged(m_appID);
     }
-    void setType(QString type)
-    {
-        if (m_type == type)
-            return;
-
-        m_type = type;
-        emit typeChanged(m_type);
-    }
-    void setProjectConfig(QString projectConfig)
-    {
-        if (m_projectConfig == projectConfig)
-            return;
-
-        m_projectConfig = projectConfig;
-        emit projectConfigChanged(m_projectConfig);
-    }
-    void setSourcePath(QString sourcePath)
-    {
-        if (m_sourcePath == sourcePath)
-            return;
-
-        m_sourcePath = sourcePath;
-        emit sourcePathChanged(m_sourcePath);
-    }
 
     QPointF cursorPos() { return QCursor::pos(); }
 
@@ -168,21 +131,61 @@ public slots:
         emit positionChanged(m_position);
     }
 
-private:
-    QString m_appID { "" };
-    QString m_type { "qmlWidget" };
-    QString m_projectConfig { "" };
-    QString m_sourcePath { "" };
+    void setProjectPath(const QString& projectPath)
+    {
+        if (m_projectPath == projectPath)
+            return;
+        m_projectPath = projectPath;
+        emit projectPathChanged(m_projectPath);
+    }
 
+    void setType(ScreenPlay::InstalledType::InstalledType Type)
+    {
+        if (m_type == Type)
+            return;
+        m_type = Type;
+        emit typeChanged(m_type);
+    }
+
+    void setProjectSourceFile(const QString& ProjectSourceFile)
+    {
+        if (m_projectSourceFile == ProjectSourceFile)
+            return;
+        m_projectSourceFile = ProjectSourceFile;
+        emit projectSourceFileChanged(m_projectSourceFile);
+    }
+
+    void setProjectSourceFileAbsolute(const QUrl& projectSourceFileAbsolute)
+    {
+        if (m_projectSourceFileAbsolute == projectSourceFileAbsolute)
+            return;
+        m_projectSourceFileAbsolute = projectSourceFileAbsolute;
+        emit projectSourceFileAbsoluteChanged(m_projectSourceFileAbsolute);
+    }
+
+    void setSdk(ScreenPlaySDK* sdk)
+    {
+        if (m_sdk.get() == sdk)
+            return;
+        m_sdk.reset(sdk);
+        emit sdkChanged(sdk);
+    }
+
+private:
+    QString m_appID;
+    QString m_projectPath;
     QJsonObject m_project;
     QPoint m_clickPos = { 0, 0 };
     QPoint m_lastPos = { 0, 0 };
+    QPoint m_position = { 0, 0 };
     QQuickView m_window;
+    std::unique_ptr<ScreenPlaySDK> m_sdk;
+    QTimer m_positionMessageLimiter;
+    ScreenPlay::InstalledType::InstalledType m_type;
 
 #ifdef Q_OS_WIN
     HWND m_hwnd;
 #endif
-    QPoint m_position;
-    std::unique_ptr<ScreenPlaySDK> m_sdk;
-    QTimer m_positionMessageLimiter;
+    QString m_projectSourceFile;
+    QUrl m_projectSourceFileAbsolute;
 };

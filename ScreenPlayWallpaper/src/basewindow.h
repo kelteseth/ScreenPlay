@@ -70,10 +70,11 @@ public:
     Q_PROPERTY(QVector<int> activeScreensList READ activeScreensList WRITE setActiveScreensList NOTIFY activeScreensListChanged)
 
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
-    Q_PROPERTY(QString basePath READ basePath WRITE setBasePath NOTIFY basePathChanged)
-    Q_PROPERTY(QString fullContentPath READ fullContentPath WRITE setFullContentPath NOTIFY fullContentPathChanged)
-    Q_PROPERTY(QString contentBasePath READ contentBasePath WRITE setContentBasePath NOTIFY contentBasePathChanged)
     Q_PROPERTY(QString fillMode READ fillMode WRITE setFillMode NOTIFY fillModeChanged)
+
+    Q_PROPERTY(QString projectPath READ projectPath WRITE setProjectPath NOTIFY projectPathChanged)
+    Q_PROPERTY(QString projectSourceFile READ projectSourceFile WRITE setProjectSourceFile NOTIFY projectSourceFileChanged)
+    Q_PROPERTY(QUrl projectSourceFileAbsolute READ projectSourceFileAbsolute WRITE setProjectSourceFileAbsolute NOTIFY projectSourceFileAbsoluteChanged)
 
     Q_PROPERTY(bool loops READ loops WRITE setLoops NOTIFY loopsChanged)
     Q_PROPERTY(bool isPlaying READ isPlaying WRITE setIsPlaying NOTIFY isPlayingChanged)
@@ -99,7 +100,6 @@ public:
     bool isPlaying() const { return m_isPlaying; }
     float playbackRate() const { return m_playbackRate; }
     ScreenPlay::InstalledType::InstalledType type() const { return m_type; }
-    QString fullContentPath() const { return m_fullContentPath; }
     QString appID() const { return m_appID; }
     QString OSVersion() const { return m_OSVersion; }
     bool muted() const { return m_muted; }
@@ -111,10 +111,11 @@ public:
     QVector<int> activeScreensList() const { return m_activeScreensList; }
     bool checkWallpaperVisible() const { return m_checkWallpaperVisible; }
     bool visualsPaused() const { return m_visualsPaused; }
-    QString basePath() const { return m_basePath; }
     bool debugMode() const { return m_debugMode; }
     ScreenPlaySDK* sdk() const { return m_sdk.get(); }
-    const QString& contentBasePath() const { return m_contentBasePath; }
+    const QString& projectPath() const { return m_projectPath; }
+    const QString& projectSourceFile() const { return m_projectSourceFile; }
+    const QUrl& projectSourceFileAbsolute() const { return m_projectSourceFileAbsolute; }
 
 signals:
     void qmlExit();
@@ -127,7 +128,6 @@ signals:
     void isPlayingChanged(bool isPlaying);
     void playbackRateChanged(float playbackRate);
     void typeChanged(ScreenPlay::InstalledType::InstalledType type);
-    void fullContentPathChanged(QString fullContentPath);
     void appIDChanged(QString appID);
     void qmlSceneValueReceived(QString key, QString value);
     void OSVersionChanged(QString OSVersion);
@@ -140,11 +140,11 @@ signals:
     void activeScreensListChanged(QVector<int> activeScreensList);
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
     void visualsPausedChanged(bool visualsPaused);
-    void basePathChanged(QString basePath);
     void debugModeChanged(bool debugMode);
     void sdkChanged(ScreenPlaySDK* sdk);
-
-    void contentBasePathChanged(const QString&);
+    void projectPathChanged(const QString& rojectPath);
+    void projectSourceFileChanged(const QString& projectSourceFile);
+    void projectSourceFileAbsoluteChanged(const QUrl& rojectSourceFileAbsolute);
 
 public slots:
     virtual void destroyThis() { }
@@ -206,14 +206,6 @@ public slots:
 
         m_type = type;
         emit typeChanged(m_type);
-    }
-    void setFullContentPath(QString fullContentPath)
-    {
-        if (m_fullContentPath == fullContentPath)
-            return;
-
-        m_fullContentPath = fullContentPath;
-        emit fullContentPathChanged(m_fullContentPath);
     }
     void setAppID(QString appID)
     {
@@ -319,15 +311,6 @@ public slots:
         m_visualsPaused = visualsPaused;
         emit visualsPausedChanged(m_visualsPaused);
     }
-    void setBasePath(QString basePath)
-    {
-        if (m_basePath == basePath)
-            return;
-
-        m_basePath = basePath;
-        emit basePathChanged(m_basePath);
-    }
-
     void setDebugMode(bool debugMode)
     {
         if (m_debugMode == debugMode)
@@ -344,12 +327,28 @@ public slots:
         emit sdkChanged(sdk);
     }
 
-    void setContentBasePath(const QString& contentBasePath)
+    void setProjectPath(const QString& projectPath)
     {
-        if (m_contentBasePath == contentBasePath)
+        if (m_projectPath == projectPath)
             return;
-        m_contentBasePath = contentBasePath;
-        emit contentBasePathChanged(m_contentBasePath);
+        m_projectPath = projectPath;
+        emit projectPathChanged(m_projectPath);
+    }
+
+    void setProjectSourceFile(const QString& projectSourceFile)
+    {
+        if (m_projectSourceFile == projectSourceFile)
+            return;
+        m_projectSourceFile = projectSourceFile;
+        emit projectSourceFileChanged(m_projectSourceFile);
+    }
+
+    void setProjectSourceFileAbsolute(const QUrl& projectSourceFileAbsolute)
+    {
+        if (m_projectSourceFileAbsolute == projectSourceFileAbsolute)
+            return;
+        m_projectSourceFileAbsolute = projectSourceFileAbsolute;
+        emit projectSourceFileAbsoluteChanged(m_projectSourceFileAbsolute);
     }
 
 private:
@@ -368,7 +367,6 @@ private:
     float m_playbackRate { 1.0f };
     float m_currentTime { 0.0f };
 
-    QString m_fullContentPath;
     QString m_appID;
 
     ScreenPlay::InstalledType::InstalledType m_type = ScreenPlay::InstalledType::InstalledType::Unknown;
@@ -379,9 +377,11 @@ private:
     QVector<int> m_activeScreensList;
     QFileSystemWatcher m_fileSystemWatcher;
     QSysInfo m_sysinfo;
-    QString m_basePath;
     bool m_debugMode = false;
     std::unique_ptr<ScreenPlaySDK> m_sdk;
     QString m_contentBasePath;
     QTimer m_liveReloadLimiter;
+    QString m_projectPath;
+    QString m_projectSourceFile;
+    QUrl m_projectSourceFileAbsolute;
 };

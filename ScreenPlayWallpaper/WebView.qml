@@ -26,7 +26,7 @@ Item {
         var src = ""
         src += "var videoPlayer = document.getElementById('videoPlayer');"
         src += "var videoSource = document.getElementById('videoSource');"
-        src += "videoSource.src = '" + Wallpaper.fullContentPath + "';"
+        src += "videoSource.src = '" + Wallpaper.projectSourceFileAbsolute + "';"
         src += "videoPlayer.load();"
         src += "videoPlayer.volume = " + Wallpaper.volume + ";"
         src += "videoPlayer.setAttribute('style', 'object-fit :" + Wallpaper.fillMode + ";');"

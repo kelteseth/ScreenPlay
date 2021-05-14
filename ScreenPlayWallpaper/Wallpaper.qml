@@ -48,7 +48,7 @@ Rectangle {
             loader.source = ""
             Wallpaper.clearComponentCache()
 
-            loader.source = Qt.resolvedUrl(Wallpaper.fullContentPath)
+            loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
         }
 
         // Replace wallpaper with GIF
@@ -78,23 +78,23 @@ Rectangle {
         case InstalledType.HTMLWallpaper:
             loader.setSource("qrc:/WebView.qml", {
                                  "url": Qt.resolvedUrl(
-                                            Wallpaper.fullContentPath)
+                                            Wallpaper.projectSourceFileAbsolute)
                              })
             break
         case InstalledType.QMLWallpaper:
-            loader.source = Qt.resolvedUrl(Wallpaper.fullContentPath)
+            loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
             fadeIn()
             break
         case InstalledType.WebsiteWallpaper:
             loader.setSource("qrc:/WebsiteWallpaper.qml", {
-                                 "url": Wallpaper.fullContentPath
+                                 "url": Wallpaper.projectSourceFileAbsolute
                              })
             fadeIn()
             break
         case InstalledType.GifWallpaper:
             loader.setSource("qrc:/GifWallpaper.qml", {
                                  "source": Qt.resolvedUrl(
-                                               Wallpaper.fullContentPath)
+                                               Wallpaper.projectSourceFileAbsolute)
                              })
             fadeIn()
             break
@@ -261,11 +261,11 @@ Rectangle {
                 font.pointSize: 14
             }
             Text {
-                text: "basePath " + Wallpaper.basePath
+                text: "projectPath " + Wallpaper.projectPath
                 font.pointSize: 14
             }
             Text {
-                text: "fullContentPath " + Wallpaper.fullContentPath
+                text: "projectSourceFileAbsolute " + Wallpaper.projectSourceFileAbsolute
                 font.pointSize: 14
             }
             Text {
