@@ -14,7 +14,7 @@ if __name__ == "__main__":
     project_source_parent_path = ""
 
     project_source_path = os.path.abspath(os.path.join(os.getcwd(), "../"))
-    if(args.path != ""):
+    if args.path is not None:
         project_source_parent_path = os.path.abspath(args.path)
     else:
         print("No --path provided!")
