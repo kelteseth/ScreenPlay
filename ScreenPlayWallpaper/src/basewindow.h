@@ -376,11 +376,11 @@ private:
     int m_height { 0 };
     QVector<int> m_activeScreensList;
     QFileSystemWatcher m_fileSystemWatcher;
+    QTimer m_liveReloadLimiter;
     QSysInfo m_sysinfo;
     bool m_debugMode = false;
     std::unique_ptr<ScreenPlaySDK> m_sdk;
     QString m_contentBasePath;
-    QTimer m_liveReloadLimiter;
     QString m_projectPath;
     QString m_projectSourceFile;
     QUrl m_projectSourceFileAbsolute;

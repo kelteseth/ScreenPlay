@@ -17,6 +17,9 @@ RAM::RAM(QObject* parent)
     m_updateTimer.start(m_tickRate);
 }
 
+/*!
+ * \brief RAM::update
+ */
 void RAM::update()
 {
     //Get values from system

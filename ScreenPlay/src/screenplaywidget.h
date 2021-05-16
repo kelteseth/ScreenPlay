@@ -62,7 +62,8 @@ class ScreenPlayWidget : public QObject {
     Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
-    explicit ScreenPlayWidget(const QString& appID,
+    explicit ScreenPlayWidget(
+        const QString& appID,
         const std::shared_ptr<GlobalVariables>& globalVariables,
         const QPoint& position,
         const QString& absolutePath,
@@ -72,15 +73,13 @@ public:
     bool start();
 
     ScreenPlayWidget() { }
+    ~ScreenPlayWidget();
+
 
     QString previewImage() const { return m_previewImage; }
-
     QPoint position() const { return m_position; }
-
     QString absolutePath() const { return m_absolutePath; }
-
     QString appID() const { return m_appID; }
-
     InstalledType::InstalledType type() const { return m_type; }
 
     void setSDKConnection(std::unique_ptr<SDKConnection> connection);
@@ -89,6 +88,7 @@ public:
 
 public slots:
     QJsonObject getActiveSettingsJson();
+
 
     void setPreviewImage(QString previewImage)
     {

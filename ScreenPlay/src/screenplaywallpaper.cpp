@@ -47,27 +47,24 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     , m_volume { volume }
     , m_playbackRate { playbackRate }
 {
-    {
-        // If
-        QJsonObject projectSettingsListModelProperties;
 
-        if (type == InstalledType::InstalledType::VideoWallpaper) {
-            projectSettingsListModelProperties.insert("volume", m_volume);
-            projectSettingsListModelProperties.insert("playbackRate", m_playbackRate);
-        } else {
-            if (properties.isEmpty()) {
-                auto obj = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json");
-                if (!obj)
-                    return;
-
+    QJsonObject projectSettingsListModelProperties;
+    if (type == InstalledType::InstalledType::VideoWallpaper) {
+        projectSettingsListModelProperties.insert("volume", m_volume);
+        projectSettingsListModelProperties.insert("playbackRate", m_playbackRate);
+    } else {
+        if (properties.isEmpty()) {
+            if (auto obj = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json")) {
                 if (obj->contains("properties"))
                     projectSettingsListModelProperties = obj->value("properties").toObject();
-            } else {
-                projectSettingsListModelProperties = properties;
             }
+        } else {
+            projectSettingsListModelProperties = properties;
         }
-        m_projectSettingsListModel.init(type, projectSettingsListModelProperties);
     }
+
+    if (!projectSettingsListModelProperties.isEmpty())
+        m_projectSettingsListModel.init(type, projectSettingsListModelProperties);
 
     QObject::connect(&m_process, QOverload<int, QProcess::ExitStatus>::of(&QProcess::finished), this, &ScreenPlayWallpaper::processExit);
     QObject::connect(&m_process, &QProcess::errorOccurred, this, &ScreenPlayWallpaper::processError);
@@ -198,6 +195,7 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
 void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connection)
 {
     m_connection = std::move(connection);
+    qInfo() << "[3/3] SDKConnection (Wallpaper) saved!";
 
     QTimer::singleShot(1000, this, [this]() {
         if (playbackRate() != 1.0) {

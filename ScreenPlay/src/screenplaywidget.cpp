@@ -29,24 +29,20 @@ ScreenPlayWidget::ScreenPlayWidget(
     , m_type { type }
     , m_absolutePath { absolutePath }
 {
-    {
-        // If
-        QJsonObject projectSettingsListModelProperties;
 
-        if (properties.isEmpty()) {
-            auto obj = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json");
-            if (!obj)
-                return;
+    QJsonObject projectSettingsListModelProperties;
 
-            if (!obj->contains("properties"))
-                return;
-            projectSettingsListModelProperties = obj->value("properties").toObject();
-        } else {
-            projectSettingsListModelProperties = properties;
+    if (properties.isEmpty()) {
+        if (auto obj = ScreenPlayUtil::openJsonFileToObject(absolutePath + "/project.json")) {
+            if (obj->contains("properties"))
+                projectSettingsListModelProperties = obj->value("properties").toObject();
         }
-
-        m_projectSettingsListModel.init(type, projectSettingsListModelProperties);
+    } else {
+        projectSettingsListModelProperties = properties;
     }
+
+    if (!projectSettingsListModelProperties.isEmpty())
+        m_projectSettingsListModel.init(type, projectSettingsListModelProperties);
 
     m_appArgumentsList = QStringList {
         m_absolutePath,
@@ -60,17 +56,23 @@ ScreenPlayWidget::ScreenPlayWidget(
 bool ScreenPlayWidget::start()
 {
     m_process.setArguments(m_appArgumentsList);
-    m_process.setProgram(m_globalVariables->widgetExecutablePath().path());
+    m_process.setProgram(m_globalVariables->widgetExecutablePath().toString());
 
     QObject::connect(&m_process, &QProcess::errorOccurred, this, [](QProcess::ProcessError error) {
         qDebug() << "error: " << error;
     });
     const bool success = m_process.startDetached();
-    qInfo() << "Starting ScreenPlayWWidget detached: " << (success ? "success" : "failed!");
+    qInfo() << "Starting ScreenPlayWidget detached: " << (success ? "success" : "failed!");
     if (!success) {
         emit error(QString("Could not start Widget: " + m_process.errorString()));
     }
     return success;
+}
+
+ScreenPlayWidget::~ScreenPlayWidget()
+{
+    qInfo() << "Remove widget " << m_appID;
+    m_connection->close();
 }
 
 /*!
@@ -80,11 +82,13 @@ bool ScreenPlayWidget::start()
 void ScreenPlayWidget::setSDKConnection(std::unique_ptr<SDKConnection> connection)
 {
     m_connection = std::move(connection);
-    qInfo() << "App widget connected!";
+    qInfo() << "[3/3] SDKConnected (Widged) saved!";
+    QObject::connect(m_connection.get(), &SDKConnection::requestDecreaseWidgetCount, this, [this]() { emit requestClose(appID()); });
     QObject::connect(m_connection.get(), &SDKConnection::jsonMessageReceived, this, [this](const QJsonObject obj) {
         if (obj.value("messageType") == "positionUpdate") {
             setPosition({ obj.value("positionX").toInt(0), obj.value("positionY").toInt(0) });
             emit requestSave();
+            return;
         }
     });
 

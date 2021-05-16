@@ -510,6 +510,7 @@ int GetMonitorIndex(HMONITOR hMonitor)
 
     return info.iIndex;
 }
+
 /*!
   \brief This method is called via a fixed interval to detect if a window completely
          covers a monitor. If then sets visualPaused for QML to pause the content.

@@ -37,13 +37,7 @@ WidgetWindow::WidgetWindow(
         "InstalledType",
         "Error: only enums");
 
-    m_sdk = std::make_unique<ScreenPlaySDK>(appID, type);
-
-    QObject::connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WidgetWindow::qmlExit);
-    QObject::connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &WidgetWindow::messageReceived);
-
     Qt::WindowFlags flags = m_window.flags();
-
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
     m_window.setColor(Qt::transparent);
 
@@ -81,9 +75,13 @@ WidgetWindow::WidgetWindow(
     m_window.setPosition(m_position);
     m_window.show();
 
-    // Do not trigger position changed save reuqest on startup
+    // Debug mode means we directly start the ScreenPlayWallpaper for easy debugging.
+    // This means we do not have a running ScreenPlay instance to connect to.
     if (!m_debugMode) {
+        QObject::connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WidgetWindow::qmlExit);
+        QObject::connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &WidgetWindow::messageReceived);
         sdk()->start();
+        // Do not trigger position changed save reuqest on startup
         QTimer::singleShot(1000, this, [=, this]() {
             // We limit ourself to only update the position every 500ms!
             auto sendPositionUpdate = [this]() {
