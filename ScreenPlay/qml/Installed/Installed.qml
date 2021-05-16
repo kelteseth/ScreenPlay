@@ -4,7 +4,6 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Controls.Styles 1.4
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material.impl 2.12
-
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlay.Enums.SearchType 1.0
@@ -12,16 +11,32 @@ import ScreenPlay.Enums.SearchType 1.0
 Item {
     id: root
 
-    signal setNavigationItem(var pos)
-    signal setSidebarActive(var active)
-
     property bool refresh: false
     property bool enabled: true
 
+    signal setNavigationItem(var pos)
+    signal setSidebarActive(var active)
+
+    function checkIsContentInstalled() {
+        if (ScreenPlay.installedListModel.count === 0) {
+            loaderHelp.active = true;
+            gridView.footerItem.isVisible = true;
+            gridView.visible = false;
+            navWrapper.visible = false;
+        } else {
+            loaderHelp.active = false;
+            gridView.footerItem.isVisible = false;
+            refresh = false;
+            gridView.contentY = -82;
+            gridView.visible = true;
+            navWrapper.visible = true;
+        }
+    }
+
     Component.onCompleted: {
-        navWrapper.state = "in"
-        ScreenPlay.installedListFilter.sortBySearchType(SearchType.All)
-        checkIsContentInstalled()
+        navWrapper.state = "in";
+        ScreenPlay.installedListFilter.sortBySearchType(SearchType.All);
+        checkIsContentInstalled();
     }
 
     Action {
@@ -30,42 +45,30 @@ Item {
     }
 
     Connections {
-        target: loaderHelp.item
         function onHelperButtonPressed(pos) {
-            setNavigationItem(pos)
+            setNavigationItem(pos);
         }
+
+        target: loaderHelp.item
     }
 
     Connections {
-        target: ScreenPlay.installedListModel
         function onInstalledLoadingFinished() {
-            checkIsContentInstalled()
+            checkIsContentInstalled();
         }
-        function onCountChanged(count) {
-            if (count === 0) {
-                checkIsContentInstalled()
-            }
-        }
-    }
 
-    function checkIsContentInstalled() {
-        if (ScreenPlay.installedListModel.count === 0) {
-            loaderHelp.active = true
-            gridView.footerItem.isVisible = true
-            gridView.visible = false
-            navWrapper.visible = false
-        } else {
-            loaderHelp.active = false
-            gridView.footerItem.isVisible = false
-            refresh = false
-            gridView.contentY = -82
-            gridView.visible = true
-            navWrapper.visible = true
+        function onCountChanged(count) {
+            if (count === 0)
+                checkIsContentInstalled();
+
         }
+
+        target: ScreenPlay.installedListModel
     }
 
     Loader {
         id: loaderHelp
+
         active: false
         z: 99
         anchors.fill: parent
@@ -73,14 +76,19 @@ Item {
     }
 
     Connections {
-        target: ScreenPlay.installedListFilter
         function onSortChanged() {
-            gridView.positionViewAtBeginning()
+            gridView.positionViewAtBeginning();
         }
+
+        target: ScreenPlay.installedListFilter
     }
 
     GridView {
         id: gridView
+
+        property bool isDragging: false
+        property bool isScrolling: gridView.verticalVelocity != 0
+
         boundsBehavior: Flickable.DragOverBounds
         maximumFlickVelocity: 2500
         flickDeceleration: 500
@@ -90,23 +98,39 @@ Item {
         cacheBuffer: 160
         interactive: root.enabled
         snapMode: GridView.SnapToRow
+        onDragStarted: isDragging = true
+        onDragEnded: isDragging = false
+        model: ScreenPlay.installedListFilter
+        onContentYChanged: {
+            if (contentY <= -180)
+                gridView.headerItem.isVisible = true;
+            else
+                gridView.headerItem.isVisible = false;
+            //Pull to refresh
+            if (contentY <= -180 && !refresh && !isDragging)
+                ScreenPlay.installedListModel.reset();
+
+        }
+
         anchors {
             topMargin: 0
             rightMargin: 0
             leftMargin: 30
         }
+
         header: Item {
+            property bool isVisible: false
+
             height: 82
             width: parent.width - gridView.leftMargin
-            property bool isVisible: false
             opacity: 0
             onIsVisibleChanged: {
                 if (isVisible) {
-                    txtHeader.color = Material.accent
-                    txtHeader.text = qsTr("Refreshing!")
+                    txtHeader.color = Material.accent;
+                    txtHeader.text = qsTr("Refreshing!");
                 } else {
-                    txtHeader.color = "gray"
-                    txtHeader.text = qsTr("Pull to refresh!")
+                    txtHeader.color = "gray";
+                    txtHeader.text = qsTr("Pull to refresh!");
                 }
             }
 
@@ -114,29 +138,34 @@ Item {
                 interval: 150
                 running: true
                 onTriggered: {
-                    animFadeIn.start()
+                    animFadeIn.start();
                 }
-            }
-
-            PropertyAnimation on opacity {
-                id: animFadeIn
-                from: 0
-                to: 1
-                running: false
-                duration: 1000
             }
 
             Text {
                 id: txtHeader
+
                 text: qsTr("Pull to refresh!")
                 font.family: ScreenPlay.settings.font
                 anchors.centerIn: parent
                 color: "gray"
                 font.pointSize: 18
             }
+
+            PropertyAnimation on opacity {
+                id: animFadeIn
+
+                from: 0
+                to: 1
+                running: false
+                duration: 1000
+            }
+
         }
+
         footer: Item {
             property bool isVisible: true
+
             height: 100
             opacity: 0
             visible: isVisible
@@ -144,6 +173,7 @@ Item {
 
             Text {
                 id: txtFooter
+
                 font.family: ScreenPlay.settings.font
                 text: qsTr("Get more Wallpaper & Widgets via the Steam workshop!")
                 anchors.centerIn: parent
@@ -153,40 +183,26 @@ Item {
                     interval: 400
                     running: true
                     onTriggered: {
-                        animFadeInTxtFooter.start()
+                        animFadeInTxtFooter.start();
                     }
                 }
 
                 PropertyAnimation on opacity {
                     id: animFadeInTxtFooter
+
                     from: 0
                     to: 1
                     running: false
                     duration: 1000
                 }
-            }
-        }
-        property bool isDragging: false
-        property bool isScrolling: gridView.verticalVelocity != 0
-        onDragStarted: isDragging = true
-        onDragEnded: isDragging = false
-        onContentYChanged: {
-            if (contentY <= -180) {
-                gridView.headerItem.isVisible = true
-            } else {
-                gridView.headerItem.isVisible = false
+
             }
 
-            //Pull to refresh
-            if (contentY <= -180 && !refresh && !isDragging) {
-                ScreenPlay.installedListModel.reset()
-            }
         }
-
-        model: ScreenPlay.installedListFilter
 
         delegate: ScreenPlayItem {
             id: delegate
+
             focus: true
             customTitle: m_title
             type: m_type
@@ -197,28 +213,28 @@ Item {
             isScrolling: gridView.isScrolling
             onOpenContextMenu: {
                 // Set the menu to the current item informations
-                contextMenu.publishedFileID = delegate.publishedFileID
-                contextMenu.absoluteStoragePath = delegate.absoluteStoragePath
-
-                deleteDialog.currentItemIndex = itemIndex
-
-                const pos = delegate.mapToItem(root, position.x, position.y)
-
+                contextMenu.publishedFileID = delegate.publishedFileID;
+                contextMenu.absoluteStoragePath = delegate.absoluteStoragePath;
+                deleteDialog.currentItemIndex = itemIndex;
+                const pos = delegate.mapToItem(root, position.x, position.y);
                 // Disable duplicate opening. The can happen if we
                 // call popup when we are in the closing animtion.
                 if (contextMenu.visible || contextMenu.opened)
-                    return
+                    return ;
 
-                contextMenu.popup(pos.x, pos.y)
+                contextMenu.popup(pos.x, pos.y);
             }
         }
+
         ScrollBar.vertical: ScrollBar {
             snapMode: ScrollBar.SnapOnRelease
         }
+
     }
 
     Menu {
         id: contextMenu
+
         property var publishedFileID: 0
         property url absoluteStoragePath
 
@@ -226,49 +242,54 @@ Item {
             text: qsTr("Open containing folder")
             icon.source: "qrc:/assets/icons/icon_folder_open.svg"
             onClicked: {
-                ScreenPlay.util.openFolderInExplorer(
-                            contextMenu.absoluteStoragePath)
+                ScreenPlay.util.openFolderInExplorer(contextMenu.absoluteStoragePath);
             }
         }
+
         MenuItem {
             text: qsTr("Deinstall Item")
             icon.source: "qrc:/assets/icons/icon_delete.svg"
             enabled: contextMenu.publishedFileID === 0
             onClicked: {
-                deleteDialog.open()
+                deleteDialog.open();
             }
         }
+
         MenuItem {
             id: miWorkshop
+
             text: qsTr("Open workshop Page")
             enabled: contextMenu.publishedFileID !== 0
             icon.source: "qrc:/assets/icons/icon_steam.svg"
             onClicked: {
-                Qt.openUrlExternally(
-                            "steam://url/CommunityFilePage/" + publishedFileID)
+                Qt.openUrlExternally("steam://url/CommunityFilePage/" + publishedFileID);
             }
         }
+
     }
 
     Dialog {
         id: deleteDialog
+
+        property int currentItemIndex: 0
+
         title: qsTr("Are you sure you want to delete this item?")
         standardButtons: Dialog.Ok | Dialog.Cancel
         modal: true
         dim: true
         anchors.centerIn: Overlay.overlay
-        property int currentItemIndex: 0
-
-        onAccepted: ScreenPlay.installedListModel.deinstallItemAt(
-                        currentItemIndex)
+        onAccepted: ScreenPlay.installedListModel.deinstallItemAt(currentItemIndex)
     }
 
     Navigation {
         id: navWrapper
+
         anchors {
             top: parent.top
             right: parent.right
             left: parent.left
         }
+
     }
+
 }

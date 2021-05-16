@@ -3,13 +3,10 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
 import ScreenPlay.Workshop 1.0
-
 import ScreenPlay 1.0
 
 Item {
     id: root
-    width: 320
-    height: 180
 
     property url imgUrl
     property url additionalPreviewUrl
@@ -22,12 +19,36 @@ Item {
 
     signal clicked(var publishedFileID, url imgUrl)
 
+    width: 320
+    height: 180
+    transform: [
+        Rotation {
+            id: rt
+
+            origin.x: width * 0.5
+            origin.y: height * 0.5
+            angle: 0
+
+            axis {
+                x: -0.5
+                y: 0
+                z: 0
+            }
+
+        },
+        Translate {
+            id: tr
+        },
+        Scale {
+            id: sc
+
+            origin.x: width * 0.5
+            origin.y: height * 0.5
+        }
+    ]
+
     RectangularGlow {
         id: effect
-        anchors {
-            top: parent.top
-            topMargin: 3
-        }
 
         height: parent.height
         width: parent.width
@@ -37,39 +58,28 @@ Item {
         color: "black"
         opacity: 0.4
         cornerRadius: 15
+
+        anchors {
+            top: parent.top
+            topMargin: 3
+        }
+
     }
+
     Timer {
         id: timerAnim
+
         interval: 40 * itemIndex * Math.random()
         running: true
         repeat: false
         onTriggered: showAnim.start()
     }
 
-    transform: [
-        Rotation {
-            id: rt
-            origin.x: width * .5
-            origin.y: height * .5
-            axis {
-                x: -.5
-                y: 0
-                z: 0
-            }
-            angle: 0
-        },
-        Translate {
-            id: tr
-        },
-        Scale {
-            id: sc
-            origin.x: width * .5
-            origin.y: height * .5
-        }
-    ]
     ParallelAnimation {
         id: showAnim
+
         running: false
+
         RotationAnimation {
             target: rt
             from: 90
@@ -78,6 +88,7 @@ Item {
             easing.type: Easing.OutQuint
             property: "angle"
         }
+
         PropertyAnimation {
             target: root
             from: 0
@@ -86,6 +97,7 @@ Item {
             easing.type: Easing.OutQuint
             property: "opacity"
         }
+
         PropertyAnimation {
             target: tr
             from: 80
@@ -94,24 +106,28 @@ Item {
             easing.type: Easing.OutQuint
             property: "y"
         }
+
         PropertyAnimation {
             target: sc
-            from: .8
+            from: 0.8
             to: 1
             duration: 500
             easing.type: Easing.OutQuint
             properties: "xScale,yScale"
         }
+
     }
 
     Item {
         id: screenPlay
+
         anchors.centerIn: parent
         height: 180
         width: 320
 
         Image {
             id: mask
+
             source: "qrc:/assets/images/Window.svg"
             sourceSize: Qt.size(screenPlay.width, screenPlay.height)
             visible: false
@@ -121,7 +137,9 @@ Item {
 
         Item {
             id: itemWrapper
+
             visible: false
+
             anchors {
                 fill: parent
                 margins: 5
@@ -129,6 +147,7 @@ Item {
 
             ScreenPlayItemImage {
                 id: screenPlayItemImage
+
                 anchors.fill: parent
                 sourceImage: root.imgUrl
                 sourceImageGIF: root.additionalPreviewUrl
@@ -136,29 +155,37 @@ Item {
 
             LinearGradient {
                 id: shadow
+
                 height: 80
                 opacity: 0
                 cached: true
+                start: Qt.point(0, 80)
+                end: Qt.point(0, 0)
+
                 anchors {
                     bottom: parent.bottom
                     right: parent.right
                     left: parent.left
                 }
-                start: Qt.point(0, 80)
-                end: Qt.point(0, 0)
+
                 gradient: Gradient {
                     GradientStop {
-                        position: 0.0
+                        position: 0
                         color: "#CC000000"
                     }
+
                     GradientStop {
-                        position: 1.0
+                        position: 1
                         color: "#00000000"
                     }
+
                 }
+
             }
+
             Text {
                 id: txtTitle
+
                 text: root.name
                 opacity: 0
                 height: 30
@@ -168,6 +195,7 @@ Item {
                 font.pointSize: 14
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 font.family: ScreenPlay.settings.font
+
                 anchors {
                     bottom: parent.bottom
                     right: parent.right
@@ -176,25 +204,31 @@ Item {
                     leftMargin: 20
                     bottomMargin: -50
                 }
+
             }
 
             Item {
                 id: openInWorkshop
+
                 height: 20
                 width: 20
                 z: 99
                 opacity: 0
+
                 anchors {
                     margins: 10
                     top: parent.top
                     right: parent.right
                 }
+
                 Image {
                     source: "qrc:/assets/icons/icon_open_in_new.svg"
                     sourceSize: Qt.size(parent.width, parent.height)
                     fillMode: Image.PreserveAspectFit
                 }
+
             }
+
         }
 
         OpacityMask {
@@ -208,34 +242,38 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 onContainsMouseChanged: {
                     if (!isDownloading) {
-                        if (containsMouse) {
-                            root.state = "hover"
-                        } else {
-                            root.state = ""
-                        }
+                        if (containsMouse)
+                            root.state = "hover";
+                        else
+                            root.state = "";
                     }
                 }
                 onClicked: {
-                    root.clicked(root.publishedFileID, root.imgUrl)
+                    root.clicked(root.publishedFileID, root.imgUrl);
                 }
             }
+
             MouseArea {
                 height: 20
                 width: 20
                 cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID);
+                }
+
                 anchors {
                     margins: 10
                     top: parent.top
                     right: parent.right
                 }
-                onClicked: {
-                    Qt.openUrlExternally(
-                                "steam://url/CommunityFilePage/" + root.publishedFileID)
-                }
+
             }
+
         }
+
         FastBlur {
             id: effBlur
+
             anchors.fill: itemWrapper
             source: itemWrapper
             radius: 0
@@ -243,7 +281,9 @@ Item {
 
         Item {
             id: itmDownloading
+
             opacity: 0
+
             anchors {
                 top: parent.top
                 topMargin: 50
@@ -254,12 +294,14 @@ Item {
 
             Text {
                 id: txtDownloading
+
                 text: qsTr("Successfully subscribed to Workshop Item!")
                 color: "white"
                 font.pointSize: 18
                 wrapMode: Text.WordWrap
                 font.family: ScreenPlay.settings.font
                 horizontalAlignment: Qt.AlignHCenter
+
                 anchors {
                     verticalCenter: parent.verticalCenter
                     right: parent.right
@@ -267,8 +309,11 @@ Item {
                     left: parent.left
                     leftMargin: 20
                 }
+
             }
+
         }
+
     }
 
     states: [
@@ -277,7 +322,7 @@ Item {
 
             PropertyChanges {
                 target: openInWorkshop
-                opacity: .75
+                opacity: 0.75
             }
 
             PropertyChanges {
@@ -290,10 +335,12 @@ Item {
                 target: shadow
                 opacity: 1
             }
+
             PropertyChanges {
                 target: effBlur
                 radius: 0
             }
+
         },
         State {
             name: "downloading"
@@ -323,6 +370,7 @@ Item {
                 opacity: 1
                 anchors.topMargin: 0
             }
+
         },
         State {
             name: "installed"
@@ -347,10 +395,12 @@ Item {
                 opacity: 1
                 anchors.topMargin: 0
             }
+
             PropertyChanges {
                 target: txtDownloading
                 text: qsTr("Download complete!")
             }
+
         }
     ]
     transitions: [
@@ -364,16 +414,19 @@ Item {
                 duration: 100
                 properties: "opacity"
             }
+
             PropertyAnimation {
                 target: txtTitle
                 duration: 100
                 properties: "opacity, anchors.bottomMargin"
             }
+
             PropertyAnimation {
                 target: shadow
                 duration: 100
                 properties: "opacity"
             }
+
         },
         Transition {
             from: "*"
@@ -385,23 +438,28 @@ Item {
                 duration: 100
                 properties: "opacity"
             }
+
             PropertyAnimation {
                 target: shadow
                 duration: 100
                 properties: "opacity"
             }
+
             SequentialAnimation {
                 PropertyAnimation {
                     target: effBlur
                     duration: 500
                     properties: "radius"
                 }
+
                 PropertyAnimation {
                     target: txtTitle
                     duration: 200
                     properties: "opacity, anchors.topMargin"
                 }
+
             }
+
         }
     ]
 }

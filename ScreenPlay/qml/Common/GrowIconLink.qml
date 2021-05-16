@@ -4,18 +4,19 @@ import QtQuick.Controls.Material 2.12
 
 Rectangle {
     id: root
-    color: Material.theme === Material.Light ? Material.background : Qt.darker(
-                                                   Material.background)
-    width: 42
-    height: width
-    radius: width
 
     property alias iconSource: icon.source
     property string url
     property alias color: overlay.color
 
+    color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
+    width: 42
+    height: width
+    radius: width
+
     Image {
         id: icon
+
         sourceSize: Qt.size(28, 28)
         anchors.centerIn: parent
         visible: false
@@ -25,6 +26,7 @@ Rectangle {
 
     ColorOverlay {
         id: overlay
+
         anchors.fill: icon
         source: icon
         color: Material.accent
@@ -42,26 +44,29 @@ Rectangle {
     states: [
         State {
             name: "hover"
+
             PropertyChanges {
                 target: icon
                 width: 34
                 height: 34
-                sourceSize: Qt.size(34,34)
+                sourceSize: Qt.size(34, 34)
             }
+
         }
     ]
-
     transitions: [
         Transition {
             from: ""
             to: "hover"
             reversible: true
+
             PropertyAnimation {
                 target: icon
                 properties: "width,height,sourceSize"
                 duration: 200
                 easing.type: Easing.InOutQuart
             }
+
         }
     ]
 }

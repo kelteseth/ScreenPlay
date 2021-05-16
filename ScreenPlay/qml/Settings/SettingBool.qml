@@ -6,27 +6,29 @@ import ScreenPlay 1.0
 
 Item {
     id: settingsBool
+
     property string headline: "Headline"
     property string description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
     property bool isChecked: false
     property bool available: true
 
+    signal checkboxChanged(bool checked)
+
     height: txtHeadline.paintedHeight + txtDescription.paintedHeight + 20
     width: parent.width
-
     onAvailableChanged: {
         if (!available) {
-            settingsBool.opacity = .5
-            radioButton.enabled = false
+            settingsBool.opacity = 0.5;
+            radioButton.enabled = false;
         } else {
-            settingsButton.opacity = 1
-            radioButton.enabled = true
+            settingsButton.opacity = 1;
+            radioButton.enabled = true;
         }
     }
-    signal checkboxChanged(bool checked)
 
     Text {
         id: txtHeadline
+
         color: Material.foreground
         text: settingsBool.headline
         font.family: ScreenPlay.settings.font
@@ -34,6 +36,7 @@ Item {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+
         anchors {
             top: parent.top
             topMargin: 6
@@ -42,15 +45,15 @@ Item {
             right: parent.right
             rightMargin: 20
         }
+
     }
+
     Text {
         id: txtDescription
+
         text: settingsBool.description
         wrapMode: Text.WordWrap
-        color: Material.theme === Material.Light ? Qt.lighter(
-                                                       Material.foreground) : Qt.darker(
-                                                       Material.foreground)
-
+        color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
         font.family: ScreenPlay.settings.font
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
@@ -64,23 +67,26 @@ Item {
             right: radioButton.left
             rightMargin: 20
         }
+
     }
 
     CheckBox {
         id: radioButton
+
+        checked: settingsBool.isChecked
+        onCheckedChanged: {
+            if (radioButton.checkState === Qt.Checked)
+                checkboxChanged(true);
+            else
+                checkboxChanged(false);
+        }
+
         anchors {
             right: parent.right
             rightMargin: 20
             verticalCenter: parent.verticalCenter
         }
 
-        checked: settingsBool.isChecked
-        onCheckedChanged: {
-            if (radioButton.checkState === Qt.Checked) {
-                checkboxChanged(true)
-            } else {
-                checkboxChanged(false)
-            }
-        }
     }
+
 }

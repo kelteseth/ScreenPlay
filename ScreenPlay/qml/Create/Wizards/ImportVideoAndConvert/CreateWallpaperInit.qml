@@ -4,17 +4,17 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.3
-
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
-
 import "../../../Common" as Common
 
 Item {
     id: root
-    signal next(var filePath, var codec)
 
     property int quality: sliderQuality.slider.value
+
+    signal next(var filePath, var codec)
+
     ColumnLayout {
         spacing: 40
 
@@ -33,6 +33,7 @@ Item {
 
         Text {
             id: txtDescription
+
             text: qsTr("Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: \n
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv")
             color: Material.primaryTextColor
@@ -41,55 +42,70 @@ Item {
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             font.family: ScreenPlay.settings.font
         }
+
         ColumnLayout {
             spacing: 20
+
             Text {
                 id: txtComboboxHeadline
+
                 text: qsTr("Set your preffered video codec:")
                 color: Material.primaryTextColor
                 width: parent.width
                 font.pointSize: 14
                 font.family: ScreenPlay.settings.font
             }
+
             ComboBox {
+                //                ListElement {
+                //                    text: "AV1 (NVidia 3000, AMD 6000 or newer). ULTRA SLOW ENCODING!"
+                //                    value: Create.AV1
+                //                }
+
                 id: comboBoxCodec
+
                 Layout.preferredWidth: 400
                 textRole: "text"
                 valueRole: "value"
                 currentIndex: 1
                 font.family: ScreenPlay.settings.font
+
                 model: ListModel {
                     id: model
+
                     ListElement {
                         text: "VP8 (Better for older hardware)"
                         value: Create.VP9
                     }
+
                     ListElement {
                         text: "VP9 (Better for newer hardware 2018+)"
                         value: Create.VP8
                     }
-    // Import works but the QWebEngine cannot display AV1 :(
-    //                ListElement {
-    //                    text: "AV1 (NVidia 3000, AMD 6000 or newer). ULTRA SLOW ENCODING!"
-    //                    value: Create.AV1
-    //                }
-                }
-            }
-        }
+                    // Import works but the QWebEngine cannot display AV1 :(
 
+                }
+
+            }
+
+        }
 
         Common.Slider {
             id: sliderQuality
+
             iconSource: "qrc:/assets/icons/icon_settings.svg"
             headline: qsTr("Quality slider. Lower value means better quality.")
+            Layout.preferredWidth: 400
+
             slider {
                 from: 63
                 value: 22
                 to: 0
                 stepSize: 1
             }
-            Layout.preferredWidth: 400
+
         }
+
     }
 
     Button {
@@ -101,12 +117,13 @@ Item {
         icon.width: 16
         icon.height: 16
         font.family: ScreenPlay.settings.font
-        onClicked: Qt.openUrlExternally(
-                       "https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
+        onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
+
         anchors {
             bottom: parent.bottom
             margins: 20
         }
+
     }
 
     Button {
@@ -114,16 +131,15 @@ Item {
         highlighted: true
         font.family: ScreenPlay.settings.font
         onClicked: {
-            fileDialogImportVideo.open()
+            fileDialogImportVideo.open();
         }
 
         FileDialog {
             id: fileDialogImportVideo
-            nameFilters: ["Video files (*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv)"]
 
+            nameFilters: ["Video files (*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv)"]
             onAccepted: {
-                root.next(fileDialogImportVideo.fileUrl,
-                          model.get(comboBoxCodec.currentIndex).value)
+                root.next(fileDialogImportVideo.fileUrl, model.get(comboBoxCodec.currentIndex).value);
             }
         }
 
@@ -132,12 +148,7 @@ Item {
             bottom: parent.bottom
             margins: 20
         }
+
     }
-}
 
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:768;width:1366}
 }
-##^##*/
-

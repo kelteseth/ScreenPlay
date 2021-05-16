@@ -14,6 +14,7 @@ Item {
         height: customHeight
         width: customWidth
         color: customColor
+
         anchors {
             right: parent.right
             rightMargin: customMargin
@@ -21,5 +22,7 @@ Item {
             leftMargin: customMargin
             verticalCenter: parent.verticalCenter
         }
+
     }
+
 }

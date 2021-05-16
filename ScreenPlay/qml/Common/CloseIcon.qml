@@ -9,19 +9,6 @@ import QtQuick.Controls.Material 2.3
 */
 MouseArea {
     id: root
-    width: 32
-    height: width
-    cursorShape: Qt.PointingHandCursor
-
-    onEntered: root.state = "hover"
-    onExited: root.state = ""
-    hoverEnabled: true
-    anchors {
-        top: parent.top
-        right: parent.right
-        margins: 10
-    }
-
 
     /*!
         \qmlproperty color BackButtonIcon::color
@@ -29,8 +16,6 @@ MouseArea {
         Color if the icon.
     */
     property color color: Material.iconColor
-
-
     /*!
         \qmlproperty string BackButtonIcon::icon
 
@@ -38,8 +23,22 @@ MouseArea {
     */
     property string icon: "qrc:/assets/icons/icon_close.svg"
 
+    width: 32
+    height: width
+    cursorShape: Qt.PointingHandCursor
+    onEntered: root.state = "hover"
+    onExited: root.state = ""
+    hoverEnabled: true
+
+    anchors {
+        top: parent.top
+        right: parent.right
+        margins: 10
+    }
+
     Image {
         id: imgClose
+
         source: root.icon
         visible: false
         width: 14
@@ -51,10 +50,12 @@ MouseArea {
 
     ColorOverlay {
         id: iconColorOverlay
+
         anchors.fill: imgClose
         source: imgClose
         color: root.color
     }
+
     states: [
         State {
             name: "hover"
@@ -63,9 +64,9 @@ MouseArea {
                 target: iconColorOverlay
                 color: Material.color(Material.Orange)
             }
+
         }
     ]
-
     transitions: [
         Transition {
             from: ""
@@ -77,6 +78,7 @@ MouseArea {
                 duration: 200
                 easing.type: Easing.InOutQuad
             }
+
         }
     ]
 }

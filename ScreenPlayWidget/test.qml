@@ -6,6 +6,7 @@ Rectangle {
 
     Text {
         id: name
+
         text: qsTr("This is a empty test widget. You can change the source in test.qml")
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
@@ -16,10 +17,3 @@ Rectangle {
     }
 
 }
-
-
-
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
-}
- ##^##*/

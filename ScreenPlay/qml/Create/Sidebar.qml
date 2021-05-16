@@ -4,92 +4,27 @@ import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
-
 import QtQuick.Controls.Material.impl 2.12
-
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
 
 Rectangle {
     id: root
-    width: 350
-    state: expanded ? "" : "inactive"
-    layer.enabled: true
-    layer.effect: ElevationEffect {
-        elevation: 6
-    }
-    property bool expanded: false
-    Component.onCompleted: expanded = true
-    color: Material.background
 
+    property bool expanded: false
     property alias listView: listView
     property alias model: listView.model
     property StackView stackView
 
+    width: 350
+    state: expanded ? "" : "inactive"
+    layer.enabled: true
+    Component.onCompleted: expanded = true
+    color: Material.background
+
     ListView {
-        id: listView
-        anchors.fill: parent
-        anchors.margins: 20
-        spacing: 5
-        model: ListModel {
-
-            ListElement {
-                headline: qsTr("Tools Overview")
-                source: "qrc:/qml/Create/StartInfo.qml"
-                category: "Home"
-            }
-
-            ListElement {
-                headline: "Video import and convert (all types)"
-                source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
-                category: "Video Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("Video Import (.webm)")
-                source: "qrc:/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
-                category: "Video Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("GIF Wallpaper")
-                source: "qrc:/qml/Create/Wizards/GifWallpaper.qml"
-                category: "Video Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("QML Wallpaper")
-                source: "qrc:/qml/Create/Wizards/QMLWallpaper.qml"
-                category: "Code Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("HTML5 Wallpaper")
-                source: "qrc:/qml/Create/Wizards/HTMLWallpaper.qml"
-                category: "Code Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("Website Wallpaper")
-                source: "qrc:/qml/Create/Wizards/WebsiteWallpaper.qml"
-                category: "Code Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("QML Widget")
-                source: "qrc:/qml/Create/Wizards/QMLWidget.qml"
-                category: "Code Widgets"
-            }
-
-            ListElement {
-                headline: qsTr("HTML Widget")
-                source: "qrc:/qml/Create/Wizards/HTMLWidget.qml"
-                category: "Code Widgets"
-            }
-
-
-            /*
+        /*
             ListElement {
                 headline: qsTr("QML Particle Wallpaper")
                 source: ""
@@ -150,75 +85,152 @@ Rectangle {
                 category: "Example Widget"
             }
             */
+
+        id: listView
+
+        anchors.fill: parent
+        anchors.margins: 20
+        spacing: 5
+        section.property: "category"
+
+        Connections {
+            id: loaderConnections
+
+            function onWizardStarted() {
+                root.expanded = false;
+            }
+
+            function onWizardExited() {
+                root.expanded = true;
+                stackView.clear(StackView.PushTransition);
+                stackView.push("qrc:/qml/Create/StartInfo.qml");
+                listView.currentIndex = 0;
+                ScreenPlay.util.setNavigationActive(true);
+            }
+
+            ignoreUnknownSignals: true
+        }
+
+        model: ListModel {
+            ListElement {
+                headline: qsTr("Tools Overview")
+                source: "qrc:/qml/Create/StartInfo.qml"
+                category: "Home"
+            }
+
+            ListElement {
+                headline: "Video import and convert (all types)"
+                source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
+                category: "Video Wallpaper"
+            }
+
+            ListElement {
+                headline: qsTr("Video Import (.webm)")
+                source: "qrc:/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
+                category: "Video Wallpaper"
+            }
+
+            ListElement {
+                headline: qsTr("GIF Wallpaper")
+                source: "qrc:/qml/Create/Wizards/GifWallpaper.qml"
+                category: "Video Wallpaper"
+            }
+
+            ListElement {
+                headline: qsTr("QML Wallpaper")
+                source: "qrc:/qml/Create/Wizards/QMLWallpaper.qml"
+                category: "Code Wallpaper"
+            }
+
+            ListElement {
+                headline: qsTr("HTML5 Wallpaper")
+                source: "qrc:/qml/Create/Wizards/HTMLWallpaper.qml"
+                category: "Code Wallpaper"
+            }
+
+            ListElement {
+                headline: qsTr("Website Wallpaper")
+                source: "qrc:/qml/Create/Wizards/WebsiteWallpaper.qml"
+                category: "Code Wallpaper"
+            }
+
+            ListElement {
+                headline: qsTr("QML Widget")
+                source: "qrc:/qml/Create/Wizards/QMLWidget.qml"
+                category: "Code Widgets"
+            }
+
+            ListElement {
+                headline: qsTr("HTML Widget")
+                source: "qrc:/qml/Create/Wizards/HTMLWidget.qml"
+                category: "Code Widgets"
+            }
+
         }
 
         ScrollBar.vertical: ScrollBar {
             snapMode: ScrollBar.SnapOnRelease
             policy: ScrollBar.AsNeeded
         }
-        section.property: "category"
+
         section.delegate: Item {
             height: 60
+
             Text {
+                font.pointSize: 18
+                color: Material.primaryTextColor
+                text: section
+
                 anchors {
                     bottom: parent.bottom
                     left: parent.left
                     bottomMargin: 10
                 }
-                font.pointSize: 18
 
-                color: Material.primaryTextColor
-                text: section
             }
-        }
 
-        Connections {
-            id: loaderConnections
-            ignoreUnknownSignals: true
-            function onWizardStarted() {
-                root.expanded = false
-            }
-            function onWizardExited() {
-                root.expanded = true
-
-                stackView.clear(StackView.PushTransition)
-                stackView.push("qrc:/qml/Create/StartInfo.qml")
-                listView.currentIndex = 0
-
-                ScreenPlay.util.setNavigationActive(true)
-            }
         }
 
         delegate: Button {
             id: listItem
+
             width: listView.width - 40
             height: 45
             highlighted: ListView.isCurrentItem
-            onClicked: {
-                listView.currentIndex = index
-                const item = stackView.push(source)
-                loaderConnections.target = item
-            }
             text: headline
+            onClicked: {
+                listView.currentIndex = index;
+                const item = stackView.push(source);
+                loaderConnections.target = item;
+            }
         }
+
+    }
+
+    layer.effect: ElevationEffect {
+        elevation: 6
     }
 
     states: [
         State {
             name: ""
+
             PropertyChanges {
                 target: root
                 anchors.leftMargin: 0
                 opacity: 1
             }
+
         },
         State {
             name: "inactive"
+
             PropertyChanges {
                 target: root
                 opacity: 0
                 anchors.leftMargin: -root.width
             }
+
         }
     ]
     transitions: [
@@ -226,17 +238,20 @@ Rectangle {
             from: ""
             to: "inactive"
             reversible: true
-            SequentialAnimation {
 
+            SequentialAnimation {
                 PauseAnimation {
                     duration: 100
                 }
+
                 PropertyAnimation {
                     properties: "anchors.leftMargin,opacity"
                     duration: 300
                     easing.type: Easing.OutCubic
                 }
+
             }
+
         }
     ]
 }

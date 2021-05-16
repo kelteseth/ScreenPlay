@@ -3,13 +3,15 @@ import QtQuick.Controls.Material 2.12
 import ScreenPlay 1.0
 
 Item {
-    id:root
-    height: 40
+    id: root
 
     property alias text: txtHeadline.text
 
+    height: 40
+
     Text {
         id: txtHeadline
+
         font.pointSize: 18
         color: Material.primaryTextColor
         text: qsTr("Headline")
@@ -21,10 +23,13 @@ Item {
         height: 2
         width: parent.width
         color: Material.secondaryTextColor
+
         anchors {
-            right:parent.right
-            left:parent.left
+            right: parent.right
+            left: parent.left
             bottom: parent.bottom
         }
+
     }
+
 }
