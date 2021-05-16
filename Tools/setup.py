@@ -51,7 +51,7 @@ if __name__ == "__main__":
         executable_file_suffix = ".exe"
         execute("download_ffmpeg.bat", project_source_path + "/Tools", False)
         execute("bootstrap-vcpkg.bat", vcpkg_path, False)
-        vcpkg_triplet = "x86-windows"
+        vcpkg_triplet = "x64-windows"
     elif sys.platform == "darwin":
         vcpkg_packages_list.append("infoware[opencl]")
         execute("bootstrap-vcpkg.sh", vcpkg_path, False)
