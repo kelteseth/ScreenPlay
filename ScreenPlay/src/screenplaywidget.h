@@ -75,7 +75,6 @@ public:
     ScreenPlayWidget() { }
     ~ScreenPlayWidget();
 
-
     QString previewImage() const { return m_previewImage; }
     QPoint position() const { return m_position; }
     QString absolutePath() const { return m_absolutePath; }
@@ -88,7 +87,6 @@ public:
 
 public slots:
     QJsonObject getActiveSettingsJson();
-
 
     void setPreviewImage(QString previewImage)
     {

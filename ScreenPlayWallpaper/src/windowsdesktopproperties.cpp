@@ -1,6 +1,5 @@
 #include "windowsdesktopproperties.h"
 
-
 /*!
     \class WindowsDesktopProperties
     \inmodule ScreenPlayWallpaper

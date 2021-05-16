@@ -3,7 +3,6 @@
 #include <QtQml/qqml.h>
 #include <qmetatype.h>
 
-
 /*!
     \class RAM
     \inmodule ScreenPlaySysInfo
