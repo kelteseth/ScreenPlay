@@ -42,7 +42,6 @@ if __name__ == "__main__":
         "benchmark",
     ]
 
-    vcpkg_packages = " ".join(vcpkg_packages_list)
     vcpkg_triplet = ""
     executable_file_suffix = ""
 
@@ -63,6 +62,7 @@ if __name__ == "__main__":
         execute("chmod +x vcpkg", vcpkg_path)
         vcpkg_triplet = "x64-osx"
 
+    vcpkg_packages = " ".join(vcpkg_packages_list)
     execute("vcpkg{} update".format(executable_file_suffix), vcpkg_path, False)
     execute("vcpkg{} upgrade --no-dry-run".format(executable_file_suffix),
             vcpkg_path, False)
