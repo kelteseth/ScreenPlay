@@ -51,21 +51,14 @@ if platform == "win32":
     os.environ.update(dict)
     cmake_prefix_path = "c:/Qt/" + qt_version + "/" + windows_msvc
     cmake_target_triplet = "x64-windows"
-    os.system("install_dependencies_windows.bat")
 elif platform == "darwin":
     cmake_prefix_path = "~/Qt/" + qt_version + "/clang_64"
     deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml "
     cmake_target_triplet = "x64-osx"
-    print("Executing install_dependencies_linux_mac.sh")
-    os.system("chmod +x install_dependencies_linux_mac.sh")
-    os.system("./install_dependencies_linux_mac.sh")
 elif platform == "linux":
     deploy_command = "cqtdeployer -qmldir ../../{app}/qml -bin {app}"
     cmake_prefix_path = "~/Qt/" + qt_version + "/gcc_64"
     cmake_target_triplet = "x64-linux"
-    print("Executing install_dependencies_linux_mac.sh")
-    os.system("chmod +x install_dependencies_linux_mac.sh")
-    #os.system("./install_dependencies_linux_mac.sh")
 
 # REMOVE OLD BUILD FOLDER
 cwd = os.getcwd()

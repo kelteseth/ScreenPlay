@@ -25,6 +25,7 @@ build:windows_debug:
         - check
     script:
         - cd Tools
+        - python setup.py
         - python build.py -t debug
     artifacts:
         expire_in: "4 weeks"
@@ -40,6 +41,7 @@ build:windows_release:
         - check
     script:
         - cd Tools
+        - python setup.py
         - python build.py -t release
     artifacts:
         expire_in: "4 weeks"
@@ -55,6 +57,7 @@ build:osx_debug:
         - check
     script:
         - cd Tools
+        - python3 setup.py
         - python3 build.py -t debug
     artifacts:
         expire_in: "4 weeks"
@@ -70,6 +73,7 @@ build:osx_release:
         - check
     script:
         - cd Tools
+        - python3 setup.py
         - python3 build.py -t release
     artifacts:
         expire_in: "4 weeks"
@@ -96,6 +100,7 @@ build:linux_debug:
         - sudo apt-get update -y
         - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - cd Tools
+        - python setup.py
         - python build.py -t debug
     artifacts:
         expire_in: "4 weeks"
@@ -122,6 +127,7 @@ build:linux_release:
         - sudo apt-get update -y
         - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - cd Tools
+        - python setup.py
         - python build.py -t release
     artifacts:
         expire_in: "4 weeks"
