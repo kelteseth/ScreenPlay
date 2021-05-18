@@ -2,35 +2,42 @@
 
 #include <QCoreApplication>
 
+#include "ScreenPlayUtil/contenttypes.h"
+#include "ScreenPlayUtil/util.h"
+
+/*!
+    \module ScreenPlayWidget
+    \title ScreenPlayWidget
+    \brief Module for ScreenPlayWidget.
+*/
+
+/*!
+    \class WidgetWindow
+    \inmodule ScreenPlayWidget
+    \brief  .
+*/
+
 WidgetWindow::WidgetWindow(
     const QString& projectPath,
     const QString& appID,
     const QString& type,
-    const QPoint& position)
+    const QPoint& position,
+    const bool debugMode)
     : QObject(nullptr)
     , m_appID { appID }
-    , m_type { type }
     , m_position { position }
+    , m_sdk { std::make_unique<ScreenPlaySDK>(appID, type) }
+    , m_debugMode { debugMode }
 {
 
-    m_sdk = std::make_unique<ScreenPlaySDK>(appID, type);
-
-    QObject::connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WidgetWindow::qmlExit);
-    QObject::connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &WidgetWindow::messageReceived);
-
-    QStringList availableTypes {
-        "qmlWidget",
-        "htmlWidget"
-    };
-
-    if (!availableTypes.contains(m_type, Qt::CaseSensitivity::CaseInsensitive)) {
-        QApplication::exit(-4);
-    }
-
-    setType(type);
+    qRegisterMetaType<ScreenPlay::InstalledType::InstalledType>();
+    qmlRegisterUncreatableMetaObject(ScreenPlay::InstalledType::staticMetaObject,
+        "ScreenPlay.Enums.InstalledType",
+        1, 0,
+        "InstalledType",
+        "Error: only enums");
 
     Qt::WindowFlags flags = m_window.flags();
-
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
     m_window.setColor(Qt::transparent);
 
@@ -42,24 +49,24 @@ WidgetWindow::WidgetWindow(
 #endif
 
     if (projectPath == "test") {
-        setSourcePath("qrc:/test.qml");
+        setProjectSourceFileAbsolute({ "qrc:/test.qml" });
+        setType(ScreenPlay::InstalledType::InstalledType::QMLWidget);
     } else {
-        QFile configTmp;
-        QJsonDocument configJsonDocument;
-        QJsonParseError parseError {};
-
-        configTmp.setFileName(projectPath + "/project.json");
-        configTmp.open(QIODevice::ReadOnly | QIODevice::Text);
-        m_projectConfig = configTmp.readAll();
-        configJsonDocument = QJsonDocument::fromJson(m_projectConfig.toUtf8(), &parseError);
-
-        if (!(parseError.error == QJsonParseError::NoError)) {
-            qWarning() << "Settings Json Parse Error " << parseError.errorString() << configTmp.fileName();
+        setProjectPath(projectPath);
+        auto projectOpt = ScreenPlayUtil::openJsonFileToObject(m_projectPath + "/project.json");
+        if (!projectOpt.has_value()) {
+            qWarning() << "Unable to parse project file!";
         }
 
-        m_project = configJsonDocument.object();
-        QString fullPath = "file:///" + projectPath + "/" + m_project.value("file").toString();
-        setSourcePath(fullPath);
+        m_project = projectOpt.value();
+        setProjectSourceFile(m_project.value("file").toString());
+        setProjectSourceFileAbsolute(QUrl::fromLocalFile(m_projectPath + "/" + projectSourceFile()));
+
+        if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(m_project.value("type").toString())) {
+            setType(typeOpt.value());
+        } else {
+            qWarning() << "Cannot parse Wallpaper type from value" << m_project.value("type");
+        }
     }
 
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
@@ -68,26 +75,35 @@ WidgetWindow::WidgetWindow(
     m_window.setPosition(m_position);
     m_window.show();
 
-    // Do not trigger position changed save reuqest on startup
-    QTimer::singleShot(1000, this, [=, this]() {
-        // We limit ourself to only update the position every 500ms!
-        auto sendPositionUpdate = [this]() {
-            m_positionMessageLimiter.stop();
-            if (!m_sdk->isConnected())
-                return;
+    // Debug mode means we directly start the ScreenPlayWallpaper for easy debugging.
+    // This means we do not have a running ScreenPlay instance to connect to.
+    if (!m_debugMode) {
+        QObject::connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WidgetWindow::qmlExit);
+        QObject::connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &WidgetWindow::messageReceived);
+        sdk()->start();
+        // Do not trigger position changed save reuqest on startup
+        QTimer::singleShot(1000, this, [=, this]() {
+            // We limit ourself to only update the position every 500ms!
+            auto sendPositionUpdate = [this]() {
+                m_positionMessageLimiter.stop();
+                if (!m_sdk->isConnected())
+                    return;
 
-            QJsonObject obj;
-            obj.insert("messageType", "positionUpdate");
-            obj.insert("positionX", m_window.x());
-            obj.insert("positionY", m_window.y());
-            m_sdk->sendMessage(obj);
-        };
-        m_positionMessageLimiter.setInterval(500);
+                QJsonObject obj;
+                obj.insert("messageType", "positionUpdate");
+                obj.insert("positionX", m_window.x());
+                obj.insert("positionY", m_window.y());
+                m_sdk->sendMessage(obj);
+            };
+            m_positionMessageLimiter.setInterval(500);
 
-        QObject::connect(&m_positionMessageLimiter, &QTimer::timeout, this, sendPositionUpdate);
-        QObject::connect(&m_window, &QWindow::xChanged, this, [this]() { m_positionMessageLimiter.start(); });
-        QObject::connect(&m_window, &QWindow::yChanged, this, [this]() { m_positionMessageLimiter.start(); });
-    });
+            QObject::connect(&m_positionMessageLimiter, &QTimer::timeout, this, sendPositionUpdate);
+            QObject::connect(&m_window, &QWindow::xChanged, this, [this]() { m_positionMessageLimiter.start(); });
+            QObject::connect(&m_window, &QWindow::yChanged, this, [this]() { m_positionMessageLimiter.start(); });
+        });
+    }
+
+    setupLiveReloading();
 }
 
 void WidgetWindow::setSize(QSize size)
@@ -120,11 +136,6 @@ void WidgetWindow::setWidgetSize(const int with, const int height)
 {
     m_window.setWidth(with);
     m_window.setHeight(height);
-}
-
-void WidgetWindow::clearComponentCache()
-{
-    m_window.engine()->clearComponentCache();
 }
 
 #ifdef Q_OS_WIN
@@ -163,3 +174,34 @@ void WidgetWindow::setWindowBlur(unsigned int style)
     }
 }
 #endif
+
+/*!
+  \brief Call the qml engine clearComponentCache. This function is used for
+         refreshing wallpaper when the content has changed. For example this
+         is needed for live editing when the content is chached.
+*/
+void WidgetWindow::clearComponentCache()
+{
+    m_window.engine()->clearComponentCache();
+}
+
+/*!
+ \brief This public slot is for QML usage. We limit the change event updates
+        to every 50ms, because the filesystem can be very trigger happy
+        with multiple change events per second.
+ */
+void WidgetWindow::setupLiveReloading()
+{
+    auto reloadQMLLambda = [this]() {
+        m_liveReloadLimiter.stop();
+        emit reloadQML(type());
+    };
+    auto timeoutLambda = [this]() {
+        m_liveReloadLimiter.start(50);
+    };
+
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, timeoutLambda);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, timeoutLambda);
+    QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
+    m_fileSystemWatcher.addPaths({ projectPath() });
+}

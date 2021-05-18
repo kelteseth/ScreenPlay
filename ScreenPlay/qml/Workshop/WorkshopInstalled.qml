@@ -6,39 +6,38 @@ import ScreenPlay.Workshop 1.0 as SP
 
 Item {
     id: pageInstalled
-    state: "out"
-    clip: true
+
+    property bool refresh: false
+    property bool enabled: true
 
     signal setSidebaractiveItem(var screenId, var type)
     signal setNavigationItem(var pos)
     signal setSidebarActive(var active)
 
-    property bool refresh: false
-    property bool enabled: true
-
+    state: "out"
+    clip: true
+    states: []
     Component.onCompleted: {
-        pageInstalled.state = "in"
+        pageInstalled.state = "in";
     }
 
     Connections {
-        target: loaderHelp.item
         function onHelperButtonPressed(pos) {
-            setNavigationItem(pos)
+            setNavigationItem(pos);
         }
+
+        target: loaderHelp.item
     }
 
     Loader {
         id: loaderHelp
+
         asynchronous: true
         active: false
         z: 99
         anchors.fill: parent
         source: "qrc:/qml/Installed/InstalledUserHelper.qml"
     }
-
-
-
-    states: []
 
     transitions: [
         Transition {

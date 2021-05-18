@@ -21,7 +21,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">Create Class</h1>
-<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::Create</span>
+<span class="small-subtitle">class <a href="screenplay-module.html">ScreenPlay</a>::Create</span>
 <!-- $$$Create-brief -->
 <p>Baseclass for creating wallapers, widgets and the corresponding wizards. <a href="#details">More...</a></p>
 <!-- @@@Create -->
@@ -44,7 +44,7 @@
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#abortAndCleanup">abortAndCleanup</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#ffmpegOutput-prop">appendFfmpegOutput</a></b>(QString <i>ffmpegOutput</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#createWallpaperStart">createWallpaperStart</a></b>(QString <i>videoPath</i>, Create::VideoCodec <i>codec</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#createWallpaperStart">createWallpaperStart</a></b>(QString <i>videoPath</i>, Create::VideoCodec <i>codec</i>, const int <i>quality</i> = 50)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#saveWallpaper">saveWallpaper</a></b>(QString <i>title</i>, QString <i>description</i>, QString <i>filePath</i>, QString <i>previewImagePath</i>, QString <i>youtube</i>, ScreenPlay::Create::VideoCodec <i>codec</i>, QVector&lt;QString&gt; <i>tags</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#progress-prop">setProgress</a></b>(float <i>progress</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-create.html#workingDir-prop">setWorkingDir</a></b>(const QString &amp;<i>workingDir</i>)</td></tr>
@@ -77,8 +77,8 @@
 <h3 class="fn" id="abortAndCleanup"><a name="abortAndCleanup"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">abortAndCleanup</span>()</h3>
 <p>This method is called when the user manually aborts the wallpaper import.</p>
 <!-- @@@abortAndCleanup -->
-<!-- $$$createWallpaperStart[overload1]$$$createWallpaperStartQStringCreate::VideoCodec -->
-<h3 class="fn" id="createWallpaperStart"><a name="createWallpaperStart"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">createWallpaperStart</span>(<span class="type">QString</span> <i>videoPath</i>, <span class="type">Create::VideoCodec</span> <i>codec</i>)</h3>
+<!-- $$$createWallpaperStart[overload1]$$$createWallpaperStartQStringCreate::VideoCodecconstint -->
+<h3 class="fn" id="createWallpaperStart"><a name="createWallpaperStart"></a><code>[slot] </code><span class="type">void</span> Create::<span class="name">createWallpaperStart</span>(<span class="type">QString</span> <i>videoPath</i>, <span class="type">Create::VideoCodec</span> <i>codec</i>, const <span class="type">int</span> <i>quality</i> = 50)</h3>
 <p>Starts the process.</p>
 <!-- @@@createWallpaperStart -->
 <!-- $$$saveWallpaper[overload1]$$$saveWallpaperQStringQStringQStringQStringQStringScreenPlay::Create::VideoCodecQVector<QString> -->

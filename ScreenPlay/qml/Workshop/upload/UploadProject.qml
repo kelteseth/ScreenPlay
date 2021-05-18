@@ -2,12 +2,15 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
-
 import ScreenPlay.Workshop 1.0
 import ScreenPlay 1.0
 
 Popup {
     id: root
+
+    property SteamWorkshop steamWorkshop
+    property ScreenPlayWorkshop workshop
+
     width: 1200
     height: 700
     modal: true
@@ -16,33 +19,34 @@ Popup {
     closePolicy: Popup.NoAutoClose
     onAboutToShow: uploadLoader.sourceComponent = com
     onAboutToHide: uploadLoader.sourceComponent = undefined
-    property SteamWorkshop steamWorkshop
-    property ScreenPlayWorkshop workshop
-    background: Rectangle {
-        color: Material.theme === Material.Light ? "white" : Material.background
-    }
 
     Loader {
         id: uploadLoader
+
         anchors.fill: parent
     }
 
     Connections {
-        target: uploadLoader.item
         function onRequestClosePopup() {
-            root.close()
+            root.close();
         }
+
+        target: uploadLoader.item
     }
 
     Component {
         id: com
+
         Item {
             id: wrapper
-            signal requestClosePopup
+
+            signal requestClosePopup()
 
             Item {
                 id: headerWrapper
+
                 height: 50
+
                 anchors {
                     top: parent.top
                     right: parent.right
@@ -52,6 +56,7 @@ Popup {
 
                 Text {
                     id: txtHeadline
+
                     text: qsTr("Upload Wallpaper/Widgets to Steam")
                     color: Material.foreground
                     font.pointSize: 21
@@ -62,13 +67,18 @@ Popup {
                         top: parent.top
                         horizontalCenter: parent.horizontalCenter
                     }
+
                 }
+
             }
 
             SwipeView {
                 id: view
+
                 clip: true
                 currentIndex: 0
+                interactive: false
+
                 anchors {
                     top: headerWrapper.bottom
                     right: parent.right
@@ -76,13 +86,13 @@ Popup {
                     left: parent.left
                     margins: 10
                 }
-                interactive: false
 
                 Item {
                     id: firstPage
 
                     GridView {
                         id: gridView
+
                         boundsBehavior: Flickable.DragOverBounds
                         maximumFlickVelocity: 7000
                         flickDeceleration: 5000
@@ -90,6 +100,7 @@ Popup {
                         cellHeight: 250
                         clip: true
                         model: workshop.installedListModel
+
                         anchors {
                             top: parent.top
                             right: parent.right
@@ -97,8 +108,10 @@ Popup {
                             left: parent.left
                             margins: 10
                         }
+
                         delegate: UploadProjectBigItem {
                             id: delegate
+
                             focus: true
                             width: gridView.cellWidth - 30
                             customTitle: m_title
@@ -111,11 +124,11 @@ Popup {
                             onItemClicked: {
                                 for (let childItem in gridView.contentItem.children) {
                                     if (gridView.contentItem.children[childItem].isSelected) {
-                                        btnUploadProjects.enabled = true
-                                        return
+                                        btnUploadProjects.enabled = true;
+                                        return ;
                                     }
                                 }
-                                btnUploadProjects.enabled = false
+                                btnUploadProjects.enabled = false;
                             }
                         }
 
@@ -123,12 +136,15 @@ Popup {
                             snapMode: ScrollBar.SnapOnRelease
                             policy: ScrollBar.AlwaysOn
                         }
+
                     }
+
                     Button {
                         id: btnAbort
+
                         text: qsTr("Abort")
                         onClicked: {
-                            wrapper.requestClosePopup()
+                            wrapper.requestClosePopup();
                         }
 
                         anchors {
@@ -136,38 +152,42 @@ Popup {
                             bottom: parent.bottom
                             margins: 10
                         }
+
                     }
 
                     Button {
                         id: btnUploadProjects
+
                         text: qsTr("Upload Selected Projects")
                         highlighted: true
                         enabled: false
+                        onClicked: {
+                            var uploadListArray = [];
+                            for (let childItem in gridView.contentItem.children) {
+                                if (gridView.contentItem.children[childItem].isSelected)
+                                    uploadListArray.push(gridView.contentItem.children[childItem].absoluteStoragePath);
+
+                            }
+                            view.currentIndex = 1;
+                            steamWorkshop.bulkUploadToWorkshop(uploadListArray);
+                        }
+
                         anchors {
                             right: parent.right
                             bottom: parent.bottom
                             margins: 10
                         }
 
-                        onClicked: {
-                            var uploadListArray = []
-                            for (let childItem in gridView.contentItem.children) {
-                                if (gridView.contentItem.children[childItem].isSelected) {
-
-                                    uploadListArray.push(
-                                                gridView.contentItem.children[childItem].absoluteStoragePath)
-                                }
-                            }
-                            view.currentIndex = 1
-                            steamWorkshop.bulkUploadToWorkshop(uploadListArray)
-                        }
                     }
+
                 }
+
                 Item {
                     id: secondPage
 
                     ListView {
                         id: listView
+
                         boundsBehavior: Flickable.DragOverBounds
                         maximumFlickVelocity: 7000
                         flickDeceleration: 5000
@@ -176,6 +196,7 @@ Popup {
                         model: steamWorkshop.uploadListModel
                         width: parent.width - 50
                         spacing: 25
+
                         anchors {
                             top: parent.top
                             horizontalCenter: parent.horizontalCenter
@@ -184,7 +205,6 @@ Popup {
                         }
 
                         delegate: UploadProjectItem {
-
                             previewImagePath: m_absolutePreviewImagePath
                             progress: m_uploadProgress
                             name: m_name
@@ -194,29 +214,37 @@ Popup {
                         ScrollBar.vertical: ScrollBar {
                             snapMode: ScrollBar.SnapOnRelease
                         }
+
                     }
 
                     Button {
                         id: btnFinish
+
                         text: qsTr("Finish")
-                        onClicked: {
-                            root.close()
-                        }
                         highlighted: true
                         enabled: false
+                        onClicked: {
+                            root.close();
+                        }
+
                         anchors {
                             right: parent.right
                             bottom: parent.bottom
                             margins: 10
                         }
+
                         Connections {
-                            target: steamWorkshop.uploadListModel
                             function onUploadCompleted() {
-                                btnFinish.enabled = true
+                                btnFinish.enabled = true;
                             }
+
+                            target: steamWorkshop.uploadListModel
                         }
+
                     }
+
                 }
+
             }
 
             PageIndicator {
@@ -224,10 +252,16 @@ Popup {
 
                 count: view.count
                 currentIndex: view.currentIndex
-
                 anchors.bottom: view.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
             }
+
         }
+
     }
+
+    background: Rectangle {
+        color: Material.theme === Material.Light ? "white" : Material.background
+    }
+
 }

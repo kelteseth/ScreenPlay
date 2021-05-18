@@ -7,12 +7,17 @@ import ScreenPlay 1.0
 
 Item {
     id: root
+
+    property alias text: txtExpander.text
+
+    function toggle() {
+        root.state = root.state == "on" ? "off" : "on";
+    }
+
     state: "off"
     clip: true
     width: parent.width
     implicitHeight: 50
-
-    property alias text: txtExpander.text
 
     Flickable {
         anchors.fill: parent
@@ -20,43 +25,49 @@ Item {
         z: 999
         focus: true
         contentWidth: parent.width
-        ScrollBar.vertical: ScrollBar {
-            snapMode: ScrollBar.SnapOnRelease
-            policy: ScrollBar.AlwaysOn
-        }
+
         Text {
             id: txtExpander
+
+            color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
+            lineHeight: 1.2
+            height: txtExpander.paintedHeight
+            wrapMode: Text.WordWrap
+            font.family: ScreenPlay.settings.font
+
             anchors {
                 top: parent.top
                 right: parent.right
                 left: parent.left
                 margins: 20
             }
-            color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
-            lineHeight: 1.2
-            height: txtExpander.paintedHeight
-            wrapMode: Text.WordWrap
-            font.family: ScreenPlay.settings.font
+
         }
+
         MouseArea {
             anchors.fill: parent
             propagateComposedEvents: true
             acceptedButtons: Qt.RightButton
             onClicked: contextMenu.popup()
         }
+
+        ScrollBar.vertical: ScrollBar {
+            snapMode: ScrollBar.SnapOnRelease
+            policy: ScrollBar.AlwaysOn
+        }
+
     }
+
     Menu {
         id: contextMenu
+
         MenuItem {
             text: qsTr("Copy text to clipboard")
             onClicked: {
-                ScreenPlay.util.copyToClipboard(txtExpander.text)
+                ScreenPlay.util.copyToClipboard(txtExpander.text);
             }
         }
-    }
 
-    function toggle() {
-        root.state = root.state == "on" ? "off" : "on"
     }
 
     states: [
@@ -67,13 +78,16 @@ Item {
                 target: root
                 height: 500
             }
+
         },
         State {
             name: "off"
+
             PropertyChanges {
                 target: root
                 height: 0
             }
+
         }
     ]
     transitions: [
@@ -81,11 +95,13 @@ Item {
             from: "off"
             to: "on"
             reversible: true
+
             PropertyAnimation {
                 target: root
                 property: "height"
                 duration: 250
             }
+
         }
     ]
 }

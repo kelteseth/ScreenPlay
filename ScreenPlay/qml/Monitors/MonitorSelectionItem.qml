@@ -1,7 +1,6 @@
 import QtQuick 2.12
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.12
-
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 
@@ -18,41 +17,42 @@ Item {
     property var installedType: InstalledType.QMLWallpaper
     property bool monitorWithoutContentSelectable: true
     property bool hasContent: appID !== ""
-
-    onPreviewImageChanged: {
-        if (previewImage === "") {
-            imgPreview.opacity = 0
-        } else {
-            imgPreview.source = Qt.resolvedUrl("file:///" + previewImage)
-            imgPreview.opacity = 1
-        }
-    }
-
     property int fontSize: 10
     property int index
     property bool isSelected: false
-    onIsSelectedChanged: root.state = isSelected ? "selected" : "default"
 
     signal monitorSelected(var index)
 
+    onIsSelectedChanged: root.state = isSelected ? "selected" : "default"
+    onPreviewImageChanged: {
+        if (previewImage === "") {
+            imgPreview.opacity = 0;
+        } else {
+            imgPreview.source = Qt.resolvedUrl("file:///" + previewImage);
+            imgPreview.opacity = 1;
+        }
+    }
+
     Text {
         text: monitorSize.width + "x" + monitorSize.height
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            top: wrapper.bottom
-            topMargin: 5
-        }
         color: Material.foreground
-
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.pointSize: root.fontSize
         font.family: ScreenPlay.settings.font
         wrapMode: Text.WrapAnywhere
+
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            top: wrapper.bottom
+            topMargin: 5
+        }
+
     }
 
     Rectangle {
         id: wrapper
+
         color: "#828282"
         anchors.fill: parent
         anchors.margins: 10
@@ -63,6 +63,7 @@ Item {
 
         Image {
             id: imgPreview
+
             sourceSize: Qt.size(parent.width, parent.height)
             anchors.margins: 3
             opacity: 0
@@ -84,30 +85,35 @@ Item {
             cursorShape: Qt.PointingHandCursor
             onClicked: {
                 if (monitorWithoutContentSelectable) {
-                    monitorSelected(index)
-                    return
+                    monitorSelected(index);
+                    return ;
                 }
-
                 if (root.hasContent && !root.monitorWithoutContentSelectable)
-                    monitorSelected(index)
+                    monitorSelected(index);
+
             }
         }
+
     }
 
     states: [
         State {
             name: "default"
+
             PropertyChanges {
                 target: wrapper
                 border.color: "#373737"
             }
+
         },
         State {
             name: "selected"
+
             PropertyChanges {
                 target: wrapper
                 border.color: "#F28E0D"
             }
+
         }
     ]
     transitions: [
@@ -115,12 +121,14 @@ Item {
             from: "default"
             to: "selected"
             reversible: true
+
             PropertyAnimation {
                 target: wrapper
                 duration: 200
                 easing.type: Easing.InOutQuart
                 property: "border.color"
             }
+
         }
     ]
 }

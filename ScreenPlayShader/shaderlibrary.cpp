@@ -1,5 +1,21 @@
 #include "shaderlibrary.h"
 
+/*!
+    \module ScreenPlayShader
+    \title ScreenPlayShader
+    \brief Module for ScreenPlayShader.
+*/
+
+/*!
+    \class ShaderLibrary
+    \inmodule ScreenPlayShader
+    \brief  .
+*/
+
+/*!
+ * \brief ShaderLibrary::ShaderLibrary
+ * \param parent
+ */
 ShaderLibrary::ShaderLibrary(QQuickItem* parent)
     : QQuickItem(parent)
 {

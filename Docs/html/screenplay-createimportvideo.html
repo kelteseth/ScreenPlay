@@ -21,7 +21,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">CreateImportVideo Class</h1>
-<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::CreateImportVideo</span>
+<span class="small-subtitle">class <a href="screenplay-module.html">ScreenPlay</a>::CreateImportVideo</span>
 <!-- $$$CreateImportVideo-brief -->
 <p>This class imports (copies) and creates wallaper previews. <a href="#details">More...</a></p>
 <!-- @@@CreateImportVideo -->
@@ -33,7 +33,7 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
-<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#CreateImportVideo-2">CreateImportVideo</a></b>(const QString &amp;<i>videoPath</i>, const QString &amp;<i>exportPath</i>, const QStringList &amp;<i>codecs</i>, QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#CreateImportVideo-2">CreateImportVideo</a></b>(const QString &amp;<i>videoPath</i>, const QString &amp;<i>exportPath</i>, const QString &amp;<i>codec</i>, const int <i>quality</i>, QObject *<i>parent</i> = nullptr)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#CreateImportVideo-1">CreateImportVideo</a></b>(QObject *<i>parent</i> = nullptr)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> float </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#progress-prop">progress</a></b>() const</td></tr>
 </table></div>
@@ -44,7 +44,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#createWallpaperImagePreview">createWallpaperImagePreview</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#createWallpaperImageThumbnailPreview">createWallpaperImageThumbnailPreview</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#createWallpaperInfo">createWallpaperInfo</a></b>()</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#createWallpaperVideo">createWallpaperVideo</a></b>(const QString &amp;<i>codec</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#createWallpaperVideo">createWallpaperVideo</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#createWallpaperVideoPreview">createWallpaperVideoPreview</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#extractWallpaperAudio">extractWallpaperAudio</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-createimportvideo.html#process">process</a></b>()</td></tr>
@@ -64,8 +64,8 @@
 <!-- @@@CreateImportVideo -->
 <div class="func">
 <h2>Member Function Documentation</h2>
-<!-- $$$CreateImportVideo$$$CreateImportVideoconstQString&constQString&constQStringList&QObject* -->
-<h3 class="fn" id="CreateImportVideo-2"><a name="CreateImportVideo-2"></a>CreateImportVideo::<span class="name">CreateImportVideo</span>(const <span class="type">QString</span> &amp;<i>videoPath</i>, const <span class="type">QString</span> &amp;<i>exportPath</i>, const <span class="type">QStringList</span> &amp;<i>codecs</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
+<!-- $$$CreateImportVideo$$$CreateImportVideoconstQString&constQString&constQString&constintQObject* -->
+<h3 class="fn" id="CreateImportVideo-2"><a name="CreateImportVideo-2"></a>CreateImportVideo::<span class="name">CreateImportVideo</span>(const <span class="type">QString</span> &amp;<i>videoPath</i>, const <span class="type">QString</span> &amp;<i>exportPath</i>, const <span class="type">QString</span> &amp;<i>codec</i>, const <span class="type">int</span> <i>quality</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
 <p>Creates a CreateImportVideo object to be used in a different thread. A <i>videoPath</i> and a <i>exportPath</i> are needed for convertion.</p>
 <!-- @@@CreateImportVideo -->
 <!-- $$$CreateImportVideo$$$CreateImportVideoQObject* -->
@@ -100,7 +100,7 @@ args<span class="operator">.</span>append(m_exportPath <span class="operator">+<
 <!-- @@@createWallpaperImageThumbnailPreview -->
 <!-- $$$createWallpaperInfo[overload1]$$$createWallpaperInfo -->
 <h3 class="fn" id="createWallpaperInfo"><a name="createWallpaperInfo"></a><code>[slot] </code><span class="type">bool</span> CreateImportVideo::<span class="name">createWallpaperInfo</span>()</h3>
-<p>Starts ffprobe and tries to parse the resulting json. Returns <code>false</code> if :</p>
+<p>Starts ffprobe and tries to parse the resulting json. If the video is a container that not contains the video length like webm or mkv we need to count the frames ourself. We then call analyzeWebmReadFrames or analyzeVideo to parse the output. Returns <code>false</code> if :</p>
 <ul>
 <li>Parsing the output json of ffprobe fails.</li>
 <li>Has no video.</li>
@@ -108,8 +108,8 @@ args<span class="operator">.</span>append(m_exportPath <span class="operator">+<
 <li>Is a wrong file format or generally broken.</li>
 </ul>
 <!-- @@@createWallpaperInfo -->
-<!-- $$$createWallpaperVideo[overload1]$$$createWallpaperVideoconstQString& -->
-<h3 class="fn" id="createWallpaperVideo"><a name="createWallpaperVideo"></a><code>[slot] </code><span class="type">bool</span> CreateImportVideo::<span class="name">createWallpaperVideo</span>(const <span class="type">QString</span> &amp;<i>codec</i>)</h3>
+<!-- $$$createWallpaperVideo[overload1]$$$createWallpaperVideo -->
+<h3 class="fn" id="createWallpaperVideo"><a name="createWallpaperVideo"></a><code>[slot] </code><span class="type">bool</span> CreateImportVideo::<span class="name">createWallpaperVideo</span>()</h3>
 <p>Starts ffmpeg and tries to covert the given video to a webm video.</p>
 <pre class="cpp"><span class="comment">//[...]</span>
 args<span class="operator">.</span>append(<span class="string">&quot;-c:v&quot;</span>);

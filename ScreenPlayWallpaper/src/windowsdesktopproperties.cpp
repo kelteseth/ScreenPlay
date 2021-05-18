@@ -1,5 +1,11 @@
 #include "windowsdesktopproperties.h"
 
+/*!
+    \class WindowsDesktopProperties
+    \inmodule ScreenPlayWallpaper
+    \brief  .
+*/
+
 WindowsDesktopProperties::WindowsDesktopProperties(QObject* parent)
     : QObject(parent)
 {

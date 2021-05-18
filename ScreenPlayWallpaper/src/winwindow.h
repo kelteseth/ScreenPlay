@@ -63,7 +63,7 @@ public:
         const QString& projectFilePath,
         const QString& appID,
         const QString& volume,
-        const QString& fillmode, const QString &type,
+        const QString& fillmode, const QString& type,
         const bool checkWallpaperVisible,
         const bool debugMode = false);
 

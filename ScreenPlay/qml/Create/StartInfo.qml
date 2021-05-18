@@ -5,11 +5,9 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material.impl 2.12
-
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
-
 import "../Common" as Common
 
 Item {
@@ -17,31 +15,45 @@ Item {
 
     Common.Headline {
         id: headline
+
         text: qsTr("Free Tools to create wallpaper")
+
         anchors {
             top: parent.top
             right: parent.right
             left: parent.left
             margins: 20
         }
+
     }
 
     Text {
         id: introText
+
         color: Material.primaryTextColor
+        font.pointSize: 12
+        font.family: ScreenPlay.settings.font
+        text: qsTr("Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!")
+
         anchors {
             top: headline.bottom
             right: parent.right
             left: parent.left
             margins: 20
         }
-        font.pointSize: 12
-        font.family: ScreenPlay.settings.font
-        text: qsTr("Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!")
+
     }
 
     GridView {
         id: gridView
+
+        boundsBehavior: Flickable.DragOverBounds
+        maximumFlickVelocity: 2500
+        flickDeceleration: 500
+        clip: true
+        cellWidth: 186
+        cellHeight: 280
+
         anchors {
             top: introText.bottom
             right: parent.right
@@ -49,15 +61,11 @@ Item {
             left: parent.left
             margins: 20
         }
-        boundsBehavior: Flickable.DragOverBounds
-        maximumFlickVelocity: 2500
-        flickDeceleration: 500
-        clip: true
-        cellWidth: 186
-        cellHeight: 280
+
         ScrollBar.vertical: ScrollBar {
             snapMode: ScrollBar.SnapOnRelease
         }
+
         model: ListModel {
             ListElement {
                 text: "Subreddit"
@@ -66,6 +74,7 @@ Item {
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Community"
             }
+
             ListElement {
                 text: "Forums"
                 image: "qrc:/assets/startinfo/forums.png"
@@ -73,6 +82,7 @@ Item {
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Community"
             }
+
             ListElement {
                 text: "QML Online Editor"
                 image: "qrc:/assets/startinfo/qml_online.png"
@@ -80,6 +90,7 @@ Item {
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Tools"
             }
+
             ListElement {
                 text: "Godot"
                 image: "qrc:/assets/startinfo/godot.png"
@@ -87,6 +98,7 @@ Item {
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Tools"
             }
+
             ListElement {
                 text: "Handbreak"
                 image: "qrc:/assets/startinfo/handbreak.png"
@@ -94,6 +106,7 @@ Item {
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes,"
                 category: "Tools"
             }
+
             ListElement {
                 text: "Blender"
                 image: "qrc:/assets/startinfo/blender.png"
@@ -101,6 +114,7 @@ Item {
                 description: ""
                 category: "Tools"
             }
+
             ListElement {
                 text: "OBS Studio"
                 image: "qrc:/assets/startinfo/obs.png"
@@ -108,6 +122,7 @@ Item {
                 description: ""
                 category: "Tools"
             }
+
             ListElement {
                 text: "Krita"
                 image: "qrc:/assets/startinfo/krita.png"
@@ -115,6 +130,7 @@ Item {
                 description: ""
                 category: "Tools"
             }
+
             ListElement {
                 text: "Gimp"
                 image: "qrc:/assets/startinfo/gimp.png"
@@ -122,6 +138,7 @@ Item {
                 description: ""
                 category: "Tools"
             }
+
             ListElement {
                 text: "Inscape"
                 image: "qrc:/assets/startinfo/inkscape.png"
@@ -129,6 +146,7 @@ Item {
                 description: ""
                 category: "Tools"
             }
+
             ListElement {
                 text: "Kdenlive"
                 image: "qrc:/assets/startinfo/kdeenlive.png"
@@ -136,6 +154,7 @@ Item {
                 description: ""
                 category: "Tools"
             }
+
             ListElement {
                 text: "ShareX"
                 image: "qrc:/assets/startinfo/sharex.png"
@@ -143,6 +162,7 @@ Item {
                 description: ""
                 category: "Tools"
             }
+
             ListElement {
                 text: "GitLab"
                 image: "qrc:/assets/startinfo/gitlab.png"
@@ -150,6 +170,7 @@ Item {
                 description: ""
                 category: "Tools"
             }
+
             ListElement {
                 text: "Git Extensions - Git UI for Windows"
                 image: "qrc:/assets/startinfo/git_extentions.png"
@@ -157,6 +178,7 @@ Item {
                 description: ""
                 category: "Tools"
             }
+
             ListElement {
                 text: "Visual Studio Code"
                 image: "qrc:/assets/startinfo/vscode.png"
@@ -164,6 +186,7 @@ Item {
                 description: ""
                 category: "Tools"
             }
+
             ListElement {
                 text: "Shadertoy"
                 image: "qrc:/assets/startinfo/shadertoy.png"
@@ -171,6 +194,7 @@ Item {
                 description: ""
                 category: "Resources"
             }
+
             ListElement {
                 text: "Flaticon"
                 image: "qrc:/assets/startinfo/flaticon.png"
@@ -178,6 +202,7 @@ Item {
                 description: ""
                 category: "Resources"
             }
+
             ListElement {
                 text: "Unsplash"
                 image: "qrc:/assets/startinfo/unsplash.png"
@@ -185,6 +210,7 @@ Item {
                 description: ""
                 category: "Resources"
             }
+
             ListElement {
                 text: "FreeSound"
                 image: "qrc:/assets/startinfo/freesound.png"
@@ -192,10 +218,12 @@ Item {
                 description: ""
                 category: "Resources"
             }
+
         }
 
         delegate: StartInfoLinkImage {
             id: delegate
+
             image: model.image
             category: model.category + ":"
             description: model.description
@@ -204,5 +232,7 @@ Item {
             width: gridView.cellWidth
             height: gridView.cellHeight
         }
+
     }
+
 }

@@ -21,7 +21,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">ProjectSettingsListModel Class</h1>
-<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::ProjectSettingsListModel</span>
+<span class="small-subtitle">class <a href="screenplay-module.html">ScreenPlay</a>::ProjectSettingsListModel</span>
 <!-- $$$ProjectSettingsListModel-brief -->
 <p>ProjectSettingsListModel used for the dynamic loading of the properties json object inside a project.json. <a href="#details">More...</a></p>
 <!-- @@@ProjectSettingsListModel -->
@@ -35,7 +35,6 @@
 <div class="table"><table class="alignedsummary">
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#append">append</a></b>(const ScreenPlay::SettingsItem &amp;&amp;<i>item</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QJsonObject </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#getActiveSettingsJson">getActiveSettingsJson</a></b>()</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-projectsettingslistmodel.html#init">init</a></b>(const InstalledType::InstalledType &amp;<i>type</i>, const QJsonObject &amp;<i>properties</i>)</td></tr>
 </table></div>
 <a name="reimplemented-public-functions"></a>
 <h2 id="reimplemented-public-functions">Reimplemented Public Functions</h2>
@@ -95,11 +94,6 @@
 <h3 class="fn" id="getActiveSettingsJson"><a name="getActiveSettingsJson"></a><span class="type">QJsonObject</span> ProjectSettingsListModel::<span class="name">getActiveSettingsJson</span>()</h3>
 <p>ProjectSettingsListModel::getActiveSettingsJson</p>
 <!-- @@@getActiveSettingsJson -->
-<!-- $$$init[overload1]$$$initconstInstalledType::InstalledType&constQJsonObject& -->
-<h3 class="fn" id="init"><a name="init"></a><span class="type">void</span> ProjectSettingsListModel::<span class="name">init</span>(const <span class="type">InstalledType::InstalledType</span> &amp;<i>type</i>, const <span class="type">QJsonObject</span> &amp;<i>properties</i>)</h3>
-<p>Constructor when loading properties from settings.json We need to _flatten_ the json to make it work with a flat list model! See</p>
-<p><b>See also </b><a href="screenplay-projectsettingslistmodel.html#getActiveSettingsJson">getActiveSettingsJson</a>, to</a>, make</a>, the</a>, flat</a>, list</a>, to</a>, a</a>, hierarchical</a>, json</a>, and object</a>.</p>
-<!-- @@@init -->
 <!-- $$$roleNames[overload1]$$$roleNames -->
 <h3 class="fn" id="roleNames"><a name="roleNames"></a><code>[override virtual] </code><span class="type">QHash</span>&lt;<span class="type">int</span>, <span class="type">QByteArray</span>&gt; ProjectSettingsListModel::<span class="name">roleNames</span>() const</h3>
 <p>.</p>

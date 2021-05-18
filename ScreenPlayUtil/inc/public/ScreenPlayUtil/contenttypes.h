@@ -37,14 +37,10 @@
 
 namespace ScreenPlay {
 /*!
-    \class ScreenPlay::GlobalVariables
-    \inmodule ScreenPlay
-    \brief GlobalVariables.
-
-    A header only class used only for storing some global variables like localStoragePath.
-
+    \namespace ScreenPlay::SearchType
+    \inmodule ScreenPlayUtil
+    \brief Global enum for search types. Used in the "Installed" tab.
 */
-
 namespace SearchType {
     Q_NAMESPACE
 
@@ -58,7 +54,13 @@ namespace SearchType {
     Q_ENUM_NS(SearchType)
 
 }
-
+/*!
+    \namespace ScreenPlay::FillMode
+    \inmodule ScreenPlayUtil
+    \brief Global enum for fill mode. This is a c++ representation
+           of HTML fill modes. We use "_" instead of "-" for scale down,
+           because c++ forbids "-" in enum names.
+*/
 namespace FillMode {
     Q_NAMESPACE
 
@@ -72,15 +74,18 @@ namespace FillMode {
     Q_ENUM_NS(FillMode)
 
 }
-
+/*!
+    \namespace ScreenPlay::InstalledType
+    \inmodule ScreenPlayUtil
+    \brief When changing the enum, one also needs to change:
+         GlobalVariables::getAvailableWallpaper
+         GlobalVariables::getAvailableWidgets
+         Common/Util.js isWallpaper() and isWidget()
+         ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
+*/
 namespace InstalledType {
     Q_NAMESPACE
 
-    // When changing the enum, one also needs to change:
-    // GlobalVariables::getAvailableWallpaper
-    // GlobalVariables::getAvailableWidgets
-    // Common/Util.js isWallpaper() and isWidget()
-    // ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
     enum class InstalledType {
         Unknown,
         //Wallpaper

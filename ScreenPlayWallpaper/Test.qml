@@ -3,16 +3,10 @@ import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.12
 import QtQuick.Shapes 1.12
+import ScreenPlayWallpaper 1.0
 
 Rectangle {
     id: root
-    anchors.fill: parent
-    color: Material.color(Material.Grey, Material.Shade800)
-    border.width: 10
-    border.color: "orange"
-
-    signal requestFadeIn
-    Component.onCompleted: root.requestFadeIn()
 
     property int attStrength: 800000
     //Emitter
@@ -22,38 +16,49 @@ Rectangle {
     property int size: 4
     property int endSize: 8
     property int sizeVariation: 4
-
     //Image
-    property real imgOpacity: .75
+    property real imgOpacity: 0.75
+
+    signal requestFadeIn()
+
+    anchors.fill: parent
+    color: Material.color(Material.Grey, Material.Shade800)
+    border.width: 10
+    border.color: "orange"
+    Component.onCompleted: root.requestFadeIn()
 
     MouseArea {
+        // setPosition()
+
         id: ma
+
+        function setPosition() {
+            attractor.pointX = mouseX - 25;
+            attractor.pointY = mouseY - 25;
+            mouseDot.x = mouseX - mouseDot.center;
+            mouseDot.y = mouseY - mouseDot.center;
+        }
+
         anchors.fill: parent
         preventStealing: true
         propagateComposedEvents: true
         hoverEnabled: true
         Component.onCompleted: {
-            attractor.pointX = parent.width * .5
-            attractor.pointY = parent.height * .5
+            attractor.pointX = parent.width * 0.5;
+            attractor.pointY = parent.height * 0.5;
         }
-
         onPositionChanged: {
-            setPosition()
+            setPosition();
         }
         onClicked: {
-
-            // setPosition()
-        }
-        function setPosition() {
-            attractor.pointX = mouseX - 25
-            attractor.pointY = mouseY - 25
-            mouseDot.x = mouseX - mouseDot.center
-            mouseDot.y = mouseY - mouseDot.center
         }
     }
+
     Rectangle {
         id: mouseDot
-        property int center: mouseDot.width * .5
+
+        property int center: mouseDot.width * 0.5
+
         width: 10
         height: width
         radius: width
@@ -63,6 +68,7 @@ Rectangle {
 
     Attractor {
         id: attractor
+
         system: particleSystem
         affectedParameter: Attractor.Acceleration
         strength: root.attStrength
@@ -75,14 +81,10 @@ Rectangle {
 
     Emitter {
         id: emitter
-        enabled: root.isEnabled
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            bottom: parent.bottom
-        }
 
+        enabled: root.isEnabled
         width: parent.width
-        height: parent.height * .5
+        height: parent.height * 0.5
         system: particleSystem
         emitRate: root.emitRate
         lifeSpan: root.lifeSpan
@@ -90,12 +92,19 @@ Rectangle {
         size: root.size
         endSize: root.endSize
         sizeVariation: root.sizeVariation
+
+        anchors {
+            horizontalCenter: parent.horizontalCenter
+            bottom: parent.bottom
+        }
+
         velocity: AngleDirection {
             angle: -90
             magnitude: 50
             magnitudeVariation: 25
             angleVariation: 10
         }
+
     }
 
     ImageParticle {
@@ -105,39 +114,50 @@ Rectangle {
         system: particleSystem
         opacity: root.imgOpacity
     }
+
     Text {
         id: txtMousePos
+
         property int counter: 0
-        text: attractor.pointY + " - " +attractor.pointX
+
+        text: attractor.pointY + " - " + attractor.pointX
         font.pointSize: 32
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap
+        color: "white"
+
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: txtButtonConter.top
             bottomMargin: 20
         }
-        color: "white"
+
     }
 
     Text {
         id: txtButtonConter
+
         property int counter: 0
+
         text: txtButtonConter.counter
         font.pointSize: 32
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         wrapMode: Text.WordWrap
+        color: "white"
+
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: name.top
             bottomMargin: 20
         }
-        color: "white"
+
     }
+
     Text {
         id: name
+
         text: qsTr("This is a empty test window. You can change the source in test.qml")
         font.pointSize: 32
         horizontalAlignment: Text.AlignHCenter
@@ -149,60 +169,59 @@ Rectangle {
     }
 
     Row {
+        spacing: 20
+
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: name.bottom
             topMargin: 20
         }
-        spacing: 20
+
         Button {
             highlighted: true
-
-            onClicked: {
-                focus = false
-                focus = true
-                print("Button Clicked!")
-                txtButtonConter.counter = txtButtonConter.counter - 1
-            }
             text: qsTr("Click me! - 1")
+            onClicked: {
+                focus = false;
+                focus = true;
+                print("Button Clicked!");
+                txtButtonConter.counter = txtButtonConter.counter - 1;
+            }
         }
+
         Button {
             highlighted: true
-
+            text: qsTr("Exit Wallpaper")
             onClicked: {
-                focus = false
-                focus = true
-                print("Button Clicked!")
-                txtButtonConter.counter = txtButtonConter.counter
+                focus = false;
+                focus = true;
+                print("Exit Wallpaper");
+                Wallpaper.terminate();
             }
-            text: qsTr("Click me!")
         }
+
         Button {
             highlighted: true
             focusPolicy: Qt.ClickFocus
-            onClicked: {
-
-                print("Button Clicked!")
-                txtButtonConter.counter = txtButtonConter.counter + 1
-            }
             text: qsTr("Click me! +1")
+            onClicked: {
+                print("Button Clicked!");
+                txtButtonConter.counter = txtButtonConter.counter + 1;
+            }
         }
+
     }
 
     WebView {
         width: 1000
         height: 400
         url: "https://screen-play.app"
+
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
             bottomMargin: 50
         }
+
     }
-}
 
-/*##^## Designer {
-    D{i:0;autoSize:true;height:480;width:640}
 }
- ##^##*/
-

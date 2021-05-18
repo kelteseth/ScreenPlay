@@ -1,7 +1,19 @@
 #include "screenplaysdk.h"
 
+/*!
+    \module ScreenPlaySDK
+    \title ScreenPlaySDK
+    \brief Namespace for ScreenPlaySDK.
+*/
+
 // USE THIS ONLY FOR redirectMessageOutputToMainWindow
 static ScreenPlaySDK* global_sdkPtr = nullptr;
+
+/*!
+    \class ScreenPlaySDK
+    \inmodule ScreenPlaySDK
+    \brief  .
+*/
 
 ScreenPlaySDK::ScreenPlaySDK(QQuickItem* parent)
     : QQuickItem(parent)
@@ -28,21 +40,10 @@ void ScreenPlaySDK::start()
     connect(&m_socket, &QLocalSocket::connected, this, &ScreenPlaySDK::connected);
     connect(&m_socket, &QLocalSocket::disconnected, this, &ScreenPlaySDK::disconnected);
     connect(&m_socket, &QLocalSocket::readyRead, this, &ScreenPlaySDK::readyRead);
-    connect(&m_socket, QOverload<QLocalSocket::LocalSocketError>::of(&QLocalSocket::error), this, &ScreenPlaySDK::error);
+    connect(&m_firstConnectionTimer, &QTimer::timeout, this, &ScreenPlaySDK::disconnected);
+    // When we do not establish a connection in the first 5 seconds we abort.
+    m_firstConnectionTimer.start(5000);
     m_socket.connectToServer();
-
-    // If the wallpaper never connects it will never get the
-    // disconnect event. We can savely assume no connection will
-    // be made after 1 second timeout.
-    QTimer::singleShot(1000, this, [this]() {
-        if (m_socket.state() != QLocalSocket::ConnectedState) {
-            m_socket.disconnectFromServer();
-            emit sdkDisconnected();
-        }
-
-        QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlaySDK::pingAlive);
-        m_pingAliveTimer.start(1000);
-    });
 }
 
 ScreenPlaySDK::~ScreenPlaySDK()
@@ -59,9 +60,17 @@ void ScreenPlaySDK::sendMessage(const QJsonObject& obj)
 
 void ScreenPlaySDK::connected()
 {
+    m_firstConnectionTimer.stop();
+
     QByteArray welcomeMessage = QString(m_appID + "," + m_type).toUtf8();
     m_socket.write(welcomeMessage);
-    m_socket.waitForBytesWritten();
+    if (!m_socket.waitForBytesWritten()) {
+        disconnected();
+        return;
+    }
+
+    QObject::connect(&m_pingAliveTimer, &QTimer::timeout, this, &ScreenPlaySDK::pingAlive);
+    m_pingAliveTimer.start(1000);
 
     setIsConnected(true);
     emit sdkConnected();

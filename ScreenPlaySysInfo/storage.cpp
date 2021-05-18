@@ -1,5 +1,11 @@
 #include "storage.h"
 
+/*!
+    \class Storage
+    \inmodule ScreenPlaySysInfo
+    \brief  .
+
+*/
 Storage::Storage(QObject* parent)
     : QAbstractListModel(parent)
 {

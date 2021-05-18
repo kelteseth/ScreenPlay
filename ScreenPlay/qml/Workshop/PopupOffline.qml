@@ -2,12 +2,12 @@ import QtQuick 2.0
 import QtQuick.Controls 2.13
 import QtQuick.Controls.Material 2.13
 import QtGraphicalEffects 1.0
-
 import ScreenPlay.Workshop 1.0
 import ScreenPlay 1.0
 
 Popup {
     id: popupOffline
+
     width: 1100
     height: 600
     modal: true
@@ -15,12 +15,9 @@ Popup {
     anchors.centerIn: Overlay.overlay
     dim: true
 
-    background: Rectangle {
-        color: Material.theme === Material.Light ? "white" : Material.background
-    }
-
     Text {
         id: txtOffline
+
         anchors.centerIn: parent
         font.family: ScreenPlay.settings.font
         font.pointSize: 21
@@ -29,15 +26,22 @@ Popup {
     }
 
     Button {
+        highlighted: true
+        text: qsTr("Back")
+        onClicked: {
+            ScreenPlay.util.setNavigation("Installed");
+            popupOffline.close();
+        }
+
         anchors {
             horizontalCenter: parent.horizontalCenter
             top: txtOffline.bottom
         }
-        highlighted: true
-        text: qsTr("Back")
-        onClicked: {
-            ScreenPlay.util.setNavigation("Installed")
-            popupOffline.close()
-        }
+
     }
+
+    background: Rectangle {
+        color: Material.theme === Material.Light ? "white" : Material.background
+    }
+
 }

@@ -2,9 +2,6 @@ import QtQuick 2.12
 
 Item {
     id: root
-    width: 320
-    height: 121
-    state: "loading"
 
     property string absoluteStoragePath
     property string sourceImage
@@ -12,54 +9,60 @@ Item {
     property var type: InstalledType.Unknown
 
     function enter() {
-        if (root.sourceImageGIF != "") {
-            loader_imgGIFPreview.sourceComponent = component_imgGIFPreview
-        }
+        if (root.sourceImageGIF != "")
+            loader_imgGIFPreview.sourceComponent = component_imgGIFPreview;
+
     }
 
     function exit() {
-        root.state = "loaded"
-        loader_imgGIFPreview.sourceComponent = null
+        root.state = "loaded";
+        loader_imgGIFPreview.sourceComponent = null;
     }
+
+    width: 320
+    height: 121
+    state: "loading"
 
     Image {
         id: image
+
         anchors.fill: parent
         asynchronous: true
         cache: true
         fillMode: Image.PreserveAspectCrop
         source: {
             if (root.sourceImage === "")
-                return "qrc:/assets/images/missingPreview.png"
+                return "qrc:/assets/images/missingPreview.png";
 
-            return root.screenPreview === "" ? "qrc:/assets/images/missingPreview.png" : Qt.resolvedUrl(
-                                            absoluteStoragePath + "/" + root.sourceImage)
+            return root.screenPreview === "" ? "qrc:/assets/images/missingPreview.png" : Qt.resolvedUrl(absoluteStoragePath + "/" + root.sourceImage);
         }
-
         onStatusChanged: {
             if (image.status === Image.Ready) {
-                root.state = "loaded"
+                root.state = "loaded";
             } else if (image.status === Image.Error) {
-                source = "qrc:/assets/images/missingPreview.png"
-                root.state = "loaded"
+                source = "qrc:/assets/images/missingPreview.png";
+                root.state = "loaded";
             }
         }
     }
 
     Component {
         id: component_imgGIFPreview
+
         AnimatedImage {
             id: imgGIFPreview
+
             asynchronous: true
             playing: true
-            source: root.sourceImageGIF
-                    === "" ? "qrc:/assets/images/missingPreview.png" : Qt.resolvedUrl(
-                                 absoluteStoragePath + "/" + root.sourceImageGIF)
+            source: root.sourceImageGIF === "" ? "qrc:/assets/images/missingPreview.png" : Qt.resolvedUrl(absoluteStoragePath + "/" + root.sourceImageGIF)
             fillMode: Image.PreserveAspectCrop
         }
+
     }
+
     Loader {
         id: loader_imgGIFPreview
+
         anchors.fill: parent
         opacity: 0
     }
@@ -76,6 +79,7 @@ Item {
                 to: 1
                 easing.type: Easing.OutQuart
             }
+
         },
         Transition {
             from: "hover"
@@ -88,6 +92,7 @@ Item {
                 to: 0
                 easing.type: Easing.OutQuart
             }
+
         },
         Transition {
             from: "loaded"
@@ -101,6 +106,7 @@ Item {
                 to: 1
                 easing.type: Easing.OutQuart
             }
+
         }
     ]
 }

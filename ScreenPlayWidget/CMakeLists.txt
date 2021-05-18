@@ -28,15 +28,11 @@ if(WIN32)
 endif()
 
 if(APPLE)
-    #set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
-endif()
-
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core ScreenPlaySDK)
-
-if(APPLE)
 add_custom_command(TARGET ${PROJECT_NAME}
   POST_BUILD
   COMMENT "Copying into ScreenPlay.app bundle"
   COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME}
           ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/${PROJECT_NAME})
 endif()
+
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core ScreenPlaySDK ScreenPlayUtil)

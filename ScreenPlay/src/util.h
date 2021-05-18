@@ -53,8 +53,8 @@
 #include <QtConcurrent/QtConcurrent>
 #include <qqml.h>
 
-#include "globalvariables.h"
 #include "ScreenPlayUtil/util.h"
+#include "globalvariables.h"
 
 #include <fstream>
 #include <iostream>

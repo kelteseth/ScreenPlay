@@ -21,7 +21,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">ScreenPlayWidget Class</h1>
-<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::ScreenPlayWidget</span>
+<span class="small-subtitle">class <a href="screenplay-module.html">ScreenPlay</a>::ScreenPlayWidget</span>
 <!-- $$$ScreenPlayWidget-brief -->
 <p>A Single Object to manage a Widget. <a href="#details">More...</a></p>
 <!-- @@@ScreenPlayWidget -->
@@ -33,13 +33,12 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
-<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#ScreenPlayWidget">ScreenPlayWidget</a></b>(const QString &amp;<i>appID</i>, const std::shared_ptr&lt;GlobalVariables&gt; &amp;<i>globalVariables</i>, const QPoint &amp;<i>position</i>, const QString &amp;<i>absolutePath</i>, const QString &amp;<i>previewImage</i>, const QJsonObject &amp;<i>properties</i>, const InstalledType::InstalledType <i>type</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#absolutePath-prop">absolutePath</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#appID-prop">appID</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QPoint </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#position-prop">position</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#previewImage-prop">previewImage</a></b>() const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#setSDKConnection">setSDKConnection</a></b>(const std::shared_ptr&lt;SDKConnection&gt; &amp;<i>connection</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> InstalledType::InstalledType </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#type-prop">type</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#setSDKConnection">setSDKConnection</a></b>(std::unique_ptr&lt;SDKConnection&gt; <i>connection</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#type-prop">type</a></b>() const</td></tr>
 </table></div>
 <a name="public-slots"></a>
 <h2 id="public-slots">Public Slots</h2>
@@ -49,7 +48,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#appID-prop">setAppID</a></b>(QString <i>appID</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#position-prop">setPosition</a></b>(QPoint <i>position</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#previewImage-prop">setPreviewImage</a></b>(QString <i>previewImage</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#type-prop">setType</a></b>(InstalledType::InstalledType <i>type</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#type-prop">setType</a></b>(int <i>type</i>)</td></tr>
 </table></div>
 <a name="signals"></a>
 <h2 id="signals">Signals</h2>
@@ -58,7 +57,7 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#appID-prop">appIDChanged</a></b>(QString <i>appID</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#position-prop">positionChanged</a></b>(QPoint <i>position</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#previewImage-prop">previewImageChanged</a></b>(QString <i>previewImage</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#type-prop">typeChanged</a></b>(InstalledType::InstalledType <i>type</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywidget.html#type-prop">typeChanged</a></b>(int <i>type</i>)</td></tr>
 </table></div>
 <a name="details"></a>
 <!-- $$$ScreenPlayWidget-description -->
@@ -69,17 +68,13 @@
 <!-- @@@ScreenPlayWidget -->
 <div class="func">
 <h2>Member Function Documentation</h2>
-<!-- $$$ScreenPlayWidget[overload1]$$$ScreenPlayWidgetconstQString&conststd::shared_ptr<GlobalVariables>&constQPoint&constQString&constQString&constQJsonObject&constInstalledType::InstalledType -->
-<h3 class="fn" id="ScreenPlayWidget"><a name="ScreenPlayWidget"></a>ScreenPlayWidget::<span class="name">ScreenPlayWidget</span>(const <span class="type">QString</span> &amp;<i>appID</i>, const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-globalvariables.html">GlobalVariables</a></span>&gt; &amp;<i>globalVariables</i>, const <span class="type">QPoint</span> &amp;<i>position</i>, const <span class="type">QString</span> &amp;<i>absolutePath</i>, const <span class="type">QString</span> &amp;<i>previewImage</i>, const <span class="type">QJsonObject</span> &amp;<i>properties</i>, const <span class="type">InstalledType::InstalledType</span> <i>type</i>)</h3>
-<p>Constructs a ScreenPlayWidget</p>
-<!-- @@@ScreenPlayWidget -->
 <!-- $$$getActiveSettingsJson[overload1]$$$getActiveSettingsJson -->
 <h3 class="fn" id="getActiveSettingsJson"><a name="getActiveSettingsJson"></a><code>[slot] </code><span class="type">QJsonObject</span> ScreenPlayWidget::<span class="name">getActiveSettingsJson</span>()</h3>
 <p>Loads the project.json content.</p>
 <!-- @@@getActiveSettingsJson -->
-<!-- $$$setSDKConnection[overload1]$$$setSDKConnectionconststd::shared_ptr<SDKConnection>& -->
-<h3 class="fn" id="setSDKConnection"><a name="setSDKConnection"></a><span class="type">void</span> ScreenPlayWidget::<span class="name">setSDKConnection</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-sdkconnection.html">SDKConnection</a></span>&gt; &amp;<i>connection</i>)</h3>
-<p>Connects to <a href="screenplay.html">ScreenPlay</a>. Start a alive ping check for every 16 seconds.</p>
+<!-- $$$setSDKConnection[overload1]$$$setSDKConnectionstd::unique_ptr<SDKConnection> -->
+<h3 class="fn" id="setSDKConnection"><a name="setSDKConnection"></a><span class="type">void</span> ScreenPlayWidget::<span class="name">setSDKConnection</span>(<span class="type">std::unique_ptr</span>&lt;<span class="type"><a href="screenplay-sdkconnection.html">SDKConnection</a></span>&gt; <i>connection</i>)</h3>
+<p>Connects to <a href="screenplay-module.html">ScreenPlay</a>. Start a alive ping check for every GlobalVariables::contentPingAliveIntervalMS seconds.</p>
 <!-- @@@setSDKConnection -->
 </div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>

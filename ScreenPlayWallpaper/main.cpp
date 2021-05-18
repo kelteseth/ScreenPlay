@@ -9,13 +9,9 @@
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
-#endif
-
-#if defined(Q_OS_LINUX)
+#elif defined(Q_OS_LINUX)
 #include "src/linuxwindow.h"
-#endif
-
-#if defined(Q_OS_OSX)
+#elif defined(Q_OS_OSX)
 #include "src/macwindow.h"
 #endif
 
@@ -31,21 +27,18 @@ int main(int argc, char* argv[])
 
     // If we start with only one argument (app path)
     // It means we want to test a single wallpaper
-    QStringList argumentList = app.arguments();
+    const QStringList argumentList = app.arguments();
 
+    // For testing purposes when starting the ScreenPlayWallpaper directly.
     if (argumentList.length() == 1) {
 #if defined(Q_OS_WIN)
         WinWindow window1({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
-        //WinWindow window2({ 1 }, "test", "appID=xyz", "1", "fill", true, true);
-        //WinWindow window3({ 2 }, "test", "appID=123", "1", "fill", true,true);
+        //WinWindow window1({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/_tmp_171806", "appID=test", "1", "fill", "videoWallpaper", true, true);
+#elif defined(Q_OS_LINUX)
+        LinuxWindow window({ 0 }, "test", "appid", "1", "fill", false);
+#elif defined(Q_OS_OSX)
+        MacWindow window({ 0 }, "test", "appID=test", "1", "fill","videoWallpaper", true, true);
 #endif
-#if defined(Q_OS_LINUX)
-        LinuxWindow window({ 0 }, "/home/graphicscore/Desktop/wallpapers/MechaGirl", "appid", "1", "fill", false);
-#endif
-#if defined(Q_OS_OSX)
-        MacWindow window({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
-#endif
-
         return app.exec();
     }
 
@@ -85,21 +78,15 @@ int main(int argc, char* argv[])
         type,
         checkWallpaperVisible,
         debugMode);
-#endif
-
-#if defined(Q_OS_LINUX)
+#elif defined(Q_OS_LINUX)
     LinuxWindow window(
-                activeScreensList.value(),
-                projectFilePath,
-                appID,
-                volume,
-                fillmode,
-                type,
-                checkWallpaperVisible,
-                debugMode);
-#endif
-
-#if defined(Q_OS_OSX)
+        activeScreensList.value(),
+        projectPath,
+        appID,
+        fillmode,
+        volume,
+        checkWallpaperVisible);
+#elif defined(Q_OS_OSX)
     MacWindow window(
                 activeScreensList.value(),
                 projectFilePath,

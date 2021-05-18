@@ -173,9 +173,20 @@ void Settings::writeJsonFileFromResource(const QString& filename)
 void Settings::setupWidgetAndWindowPaths()
 {
     QDir workingDir(QGuiApplication::applicationDirPath());
-
+#ifdef Q_OS_WIN
     m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + ScreenPlayUtil::executableEnding()));
     m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + ScreenPlayUtil::executableEnding()));
+#endif
+
+#ifdef Q_OS_OSX
+
+    workingDir.cdUp();
+    workingDir.cdUp();
+    workingDir.cdUp();
+
+    m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
+    m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
+#endif
 }
 
 /*!

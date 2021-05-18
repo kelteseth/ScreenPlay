@@ -5,30 +5,35 @@ import ScreenPlay 1.0
 
 TabButton {
     id: control
-    height: parent.height
+
     property url openLink
+
+    height: parent.height
 
     contentItem: Item {
         anchors.fill: parent
 
         ToolButton {
             icon.source: control.icon.source
-            anchors {
-                right: txt.left
-                verticalCenter: txt.verticalCenter
-            }
             icon.color: control.checked ? Material.accentColor : Material.secondaryTextColor
             hoverEnabled: false
             icon.width: 16
             icon.height: 16
             enabled: false
+
+            anchors {
+                right: txt.left
+                verticalCenter: txt.verticalCenter
+            }
+
         }
 
         Text {
             id: txt
+
             text: control.text
             font.family: ScreenPlay.settings.font
-            opacity: enabled ? 1.0 : 0.3
+            opacity: enabled ? 1 : 0.3
             color: control.checked ? Material.accentColor : Material.primaryTextColor
             horizontalAlignment: Text.AlignHCenter
             elide: Text.ElideRight
@@ -40,32 +45,28 @@ TabButton {
         }
 
         ToolButton {
+            opacity: 0.6
+            width: parent.width * 0.2
+            icon.source: "qrc:/assets/icons/icon_open_in_new.svg"
+            icon.width: 16
+            icon.height: 16
+            onClicked: Qt.openUrlExternally(control.openLink)
+            ToolTip.delay: 500
+            ToolTip.timeout: 5000
+            ToolTip.visible: hovered
+            ToolTip.text: qsTr("Open in browser")
+
             anchors {
                 top: parent.top
                 topMargin: 15
                 right: parent.right
             }
-            opacity: 0.6
 
-            width: parent.width * .2
-            icon.source: "qrc:/assets/icons/icon_open_in_new.svg"
-            icon.width: 16
-            icon.height: 16
-            onClicked: Qt.openUrlExternally(control.openLink)
-
-            ToolTip.delay: 500
-            ToolTip.timeout: 5000
-            ToolTip.visible: hovered
-            ToolTip.text: qsTr("Open in browser")
         }
+
     }
 
-    background: Item {}
-}
+    background: Item {
+    }
 
-/*##^##
-Designer {
-    D{i:0;height:60;width:300}
 }
-##^##*/
-

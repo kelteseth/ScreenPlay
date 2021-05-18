@@ -55,7 +55,6 @@ class ScreenPlayWallpaper : public QObject {
 
     Q_PROPERTY(float volume READ volume WRITE setVolume NOTIFY volumeChanged)
     Q_PROPERTY(float playbackRate READ playbackRate WRITE setPlaybackRate NOTIFY playbackRateChanged)
-
     Q_PROPERTY(bool isLooping READ isLooping WRITE setIsLooping NOTIFY isLoopingChanged)
 
     Q_PROPERTY(QString file READ file WRITE setFile NOTIFY fileChanged)
@@ -99,25 +98,15 @@ public:
     QJsonObject getActiveSettingsJson();
 
     QVector<int> screenNumber() const { return m_screenNumber; }
-
     QString previewImage() const { return m_previewImage; }
-
     QString appID() const { return m_appID; }
-
     InstalledType::InstalledType type() const { return m_type; }
-
     QString file() const { return m_file; }
-
     FillMode::FillMode fillMode() const { return m_fillMode; }
-
     QString absolutePath() const { return m_absolutePath; }
-
     float volume() const { return m_volume; }
-
     bool isLooping() const { return m_isLooping; }
-
     ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
-
     float playbackRate() const { return m_playbackRate; }
 
 signals:

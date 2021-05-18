@@ -5,22 +5,25 @@ import ScreenPlay 1.0
 
 Item {
     id: tag
-    width: textMetrics.width + 20
-    height: 45
 
     property int itemIndex
     property alias text: txt.text
+
     signal removeThis(var index)
+
+    width: textMetrics.width + 20
+    height: 45
 
     Rectangle {
         id: rectangle
+
         anchors.fill: parent
         radius: 3
-        color: Material.theme === Material.Light ? Qt.lighter(
-                                                       Material.background) : Material.background
+        color: Material.theme === Material.Light ? Qt.lighter(Material.background) : Material.background
 
         Text {
             id: txt
+
             text: _name
             color: Material.primaryTextColor
             verticalAlignment: Text.AlignVCenter
@@ -31,6 +34,7 @@ Item {
 
         TextField {
             id: textField
+
             enabled: false
             opacity: 0
             anchors.fill: parent
@@ -41,30 +45,37 @@ Item {
 
         TextMetrics {
             id: textMetrics
+
             text: txt.text
             font.pointSize: 14
             font.family: ScreenPlay.settings.font
         }
+
     }
+
     MouseArea {
         id: ma
+
         width: 10
         height: width
         cursorShape: Qt.PointingHandCursor
+        onClicked: {
+            tag.removeThis(itemIndex);
+        }
+
         anchors {
             top: parent.top
             right: parent.right
             margins: 5
         }
-        onClicked: {
-            tag.removeThis(itemIndex)
-        }
 
         Image {
             id: name
+
             anchors.fill: parent
             source: "qrc:/assets/icons/icon_close.svg"
         }
+
     }
 
     states: [
@@ -81,13 +92,7 @@ Item {
                 opacity: 1
                 enabled: true
             }
+
         }
     ]
 }
-
-/*##^##
-Designer {
-    D{i:0;height:50;width:100}
-}
-##^##*/
-

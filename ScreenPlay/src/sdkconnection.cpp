@@ -16,7 +16,6 @@ namespace ScreenPlay {
 ScreenPlay::SDKConnection::SDKConnection(QLocalSocket* socket, QObject* parent)
     : QObject(parent)
 {
-
     m_socket = socket;
     connect(m_socket, &QLocalSocket::readyRead, this, &SDKConnection::readyRead);
 }
@@ -60,7 +59,7 @@ void ScreenPlay::SDKConnection::readyRead()
             qCritical() << "Wallpaper type not found. Expected: " << ScreenPlayUtil::getAvailableTypes() << " got: " << msg;
         }
 
-        qInfo() << "New connection" << m_appID << msg;
+        qInfo() << "[2/3] SDKConnection parsed with type: " << m_type << " connected with AppID:" << m_appID;
 
         emit appConnected(this);
 
@@ -96,7 +95,7 @@ bool ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 
 /*!
     \brief Closes the socket connection. Before it explicitly sends a quit command to make sure
-           the wallpaper closes (fast). This also requestDecreaseWidgetCount() because Widgets.
+           the wallpaper closes (fast).
 */
 bool ScreenPlay::SDKConnection::close()
 {
@@ -121,10 +120,6 @@ bool ScreenPlay::SDKConnection::close()
     } else {
         qWarning() << "Cannot disconnect  app " << m_appID << " with the state:" << m_socket->state();
         return false;
-    }
-
-    if (m_type.contains("widget", Qt::CaseInsensitive)) {
-        emit requestDecreaseWidgetCount();
     }
     return true;
 }

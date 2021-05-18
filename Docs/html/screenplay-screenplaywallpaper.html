@@ -21,7 +21,7 @@
 </div>
 <div class="sidebar-content" id="sidebar-content"></div></div>
 <h1 class="title">ScreenPlayWallpaper Class</h1>
-<span class="small-subtitle">class <a href="screenplay.html">ScreenPlay</a>::ScreenPlayWallpaper</span>
+<span class="small-subtitle">class <a href="screenplay-module.html">ScreenPlay</a>::ScreenPlayWallpaper</span>
 <!-- $$$ScreenPlayWallpaper-brief -->
 <p>A Single Object to manage a Wallpaper. <a href="#details">More...</a></p>
 <!-- @@@ScreenPlayWallpaper -->
@@ -33,19 +33,18 @@
 <a name="public-functions"></a>
 <h2 id="public-functions">Public Functions</h2>
 <div class="table"><table class="alignedsummary">
-<tr><td class="memItemLeft rightAlign topAlign"> </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#ScreenPlayWallpaper-1">ScreenPlayWallpaper</a></b>(const QVector&lt;int&gt; &amp;<i>screenNumber</i>, const std::shared_ptr&lt;GlobalVariables&gt; &amp;<i>globalVariables</i>, const QString &amp;<i>appID</i>, const QString &amp;<i>absolutePath</i>, const QString &amp;<i>previewImage</i>, const QString &amp;<i>file</i>, const float <i>volume</i>, const float <i>playbackRate</i>, const FillMode::FillMode <i>fillMode</i>, const InstalledType::InstalledType <i>type</i>, const QJsonObject &amp;<i>properties</i>, const bool <i>checkWallpaperVisible</i>, QObject *<i>parent</i> = nullptr)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> virtual </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#dtor.ScreenPlayWallpaper">~ScreenPlayWallpaper</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#absolutePath-prop">absolutePath</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#appID-prop">appID</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#file-prop">file</a></b>() const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> FillMode::FillMode </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#fillMode-prop">fillMode</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#fillMode-prop">fillMode</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QJsonObject </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#getActiveSettingsJson">getActiveSettingsJson</a></b>()</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#isLooping-prop">isLooping</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> float </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#playbackRate-prop">playbackRate</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QString </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#previewImage-prop">previewImage</a></b>() const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#replace">replace</a></b>(const QString &amp;<i>absolutePath</i>, const QString &amp;<i>previewImage</i>, const QString &amp;<i>file</i>, const float <i>volume</i>, const FillMode::FillMode <i>fillMode</i>, const InstalledType::InstalledType <i>type</i>, const bool <i>checkWallpaperVisible</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> QVector&lt;int&gt; </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#screenNumber-prop">screenNumber</a></b>() const</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#setSDKConnection">setSDKConnection</a></b>(const std::shared_ptr&lt;SDKConnection&gt; &amp;<i>connection</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> InstalledType::InstalledType </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#type-prop">type</a></b>() const</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#setSDKConnection">setSDKConnection</a></b>(std::unique_ptr&lt;SDKConnection&gt; <i>connection</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> int </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#type-prop">type</a></b>() const</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> float </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#volume-prop">volume</a></b>() const</td></tr>
 </table></div>
 <a name="public-slots"></a>
@@ -56,14 +55,14 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#absolutePath-prop">setAbsolutePath</a></b>(QString <i>absolutePath</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#appID-prop">setAppID</a></b>(QString <i>appID</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#file-prop">setFile</a></b>(QString <i>file</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#fillMode-prop">setFillMode</a></b>(FillMode::FillMode <i>fillMode</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#fillMode-prop">setFillMode</a></b>(int <i>fillMode</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#isLooping-prop">setIsLooping</a></b>(bool <i>isLooping</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#playbackRate-prop">setPlaybackRate</a></b>(float <i>playbackRate</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#previewImage-prop">setPreviewImage</a></b>(QString <i>previewImage</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#screenNumber-prop">setScreenNumber</a></b>(QVector&lt;int&gt; <i>screenNumber</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#type-prop">setType</a></b>(InstalledType::InstalledType <i>type</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#type-prop">setType</a></b>(int <i>type</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#volume-prop">setVolume</a></b>(float <i>volume</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#setWallpaperValue">setWallpaperValue</a></b>(const QString &amp;<i>key</i>, const QString &amp;<i>value</i>, const bool <i>save</i> = false)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> bool </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#setWallpaperValue">setWallpaperValue</a></b>(const QString &amp;<i>key</i>, const QString &amp;<i>value</i>, const bool <i>save</i> = false)</td></tr>
 </table></div>
 <a name="signals"></a>
 <h2 id="signals">Signals</h2>
@@ -71,12 +70,12 @@
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#absolutePath-prop">absolutePathChanged</a></b>(QString <i>absolutePath</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#appID-prop">appIDChanged</a></b>(QString <i>appID</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#file-prop">fileChanged</a></b>(QString <i>file</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#fillMode-prop">fillModeChanged</a></b>(FillMode::FillMode <i>fillMode</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#fillMode-prop">fillModeChanged</a></b>(int <i>fillMode</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#isLooping-prop">isLoopingChanged</a></b>(bool <i>isLooping</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#playbackRate-prop">playbackRateChanged</a></b>(float <i>playbackRate</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#previewImage-prop">previewImageChanged</a></b>(QString <i>previewImage</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#screenNumber-prop">screenNumberChanged</a></b>(QVector&lt;int&gt; <i>screenNumber</i>)</td></tr>
-<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#type-prop">typeChanged</a></b>(InstalledType::InstalledType <i>type</i>)</td></tr>
+<tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#type-prop">typeChanged</a></b>(int <i>type</i>)</td></tr>
 <tr><td class="memItemLeft rightAlign topAlign"> void </td><td class="memItemRight bottomAlign"><b><a href="screenplay-screenplaywallpaper.html#volume-prop">volumeChanged</a></b>(float <i>volume</i>)</td></tr>
 </table></div>
 <a name="details"></a>
@@ -88,10 +87,6 @@
 <!-- @@@ScreenPlayWallpaper -->
 <div class="func">
 <h2>Member Function Documentation</h2>
-<!-- $$$ScreenPlayWallpaper$$$ScreenPlayWallpaperconstQVector<int>&conststd::shared_ptr<GlobalVariables>&constQString&constQString&constQString&constQString&constfloatconstfloatconstFillMode::FillModeconstInstalledType::InstalledTypeconstQJsonObject&constboolQObject* -->
-<h3 class="fn" id="ScreenPlayWallpaper-1"><a name="ScreenPlayWallpaper-1"></a>ScreenPlayWallpaper::<span class="name">ScreenPlayWallpaper</span>(const <span class="type">QVector</span>&lt;<span class="type">int</span>&gt; &amp;<i>screenNumber</i>, const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-globalvariables.html">GlobalVariables</a></span>&gt; &amp;<i>globalVariables</i>, const <span class="type">QString</span> &amp;<i>appID</i>, const <span class="type">QString</span> &amp;<i>absolutePath</i>, const <span class="type">QString</span> &amp;<i>previewImage</i>, const <span class="type">QString</span> &amp;<i>file</i>, const <span class="type">float</span> <i>volume</i>, const <span class="type">float</span> <i>playbackRate</i>, const <span class="type">FillMode::FillMode</span> <i>fillMode</i>, const <span class="type">InstalledType::InstalledType</span> <i>type</i>, const <span class="type">QJsonObject</span> &amp;<i>properties</i>, const <span class="type">bool</span> <i>checkWallpaperVisible</i>, <span class="type">QObject</span> *<i>parent</i> = nullptr)</h3>
-<p>Constructor for ScreenPlayWallpaper.</p>
-<!-- @@@ScreenPlayWallpaper -->
 <!-- $$$processError[overload1]$$$processErrorQProcess::ProcessError -->
 <h3 class="fn" id="processError"><a name="processError"></a><code>[slot] </code><span class="type">void</span> ScreenPlayWallpaper::<span class="name">processError</span>(<span class="type">QProcess::ProcessError</span> <i>error</i>)</h3>
 <p>Prints the exit code error.</p>
@@ -101,20 +96,20 @@
 <p>Prints the exit code if != 0.</p>
 <!-- @@@processExit -->
 <!-- $$$setWallpaperValue[overload1]$$$setWallpaperValueconstQString&constQString&constbool -->
-<h3 class="fn" id="setWallpaperValue"><a name="setWallpaperValue"></a><code>[slot] </code><span class="type">void</span> ScreenPlayWallpaper::<span class="name">setWallpaperValue</span>(const <span class="type">QString</span> &amp;<i>key</i>, const <span class="type">QString</span> &amp;<i>value</i>, const <span class="type">bool</span> <i>save</i> = false)</h3>
+<h3 class="fn" id="setWallpaperValue"><a name="setWallpaperValue"></a><code>[slot] </code><span class="type">bool</span> ScreenPlayWallpaper::<span class="name">setWallpaperValue</span>(const <span class="type">QString</span> &amp;<i>key</i>, const <span class="type">QString</span> &amp;<i>value</i>, const <span class="type">bool</span> <i>save</i> = false)</h3>
 <p>Sets a wallpaper value. We directly set the property if it is either volume, <a href="screenplay-screenplaywallpaper.html#playbackRate-prop">playbackRate</a> or <a href="screenplay-screenplaywallpaper.html#fillMode-prop">fillMode</a>. Otherwise it is a simple key, value json pair.</p>
 <!-- @@@setWallpaperValue -->
+<!-- $$$~ScreenPlayWallpaper[overload1]$$$~ScreenPlayWallpaper -->
+<h3 class="fn" id="dtor.ScreenPlayWallpaper"><a name="dtor.ScreenPlayWallpaper"></a><code>[virtual] </code>ScreenPlayWallpaper::<span class="name">~ScreenPlayWallpaper</span>()</h3>
+<p>Destructor for <a href="screenplay-screenplaywallpaper.html">ScreenPlayWallpaper</a>.</p>
+<!-- @@@~ScreenPlayWallpaper -->
 <!-- $$$getActiveSettingsJson[overload1]$$$getActiveSettingsJson -->
 <h3 class="fn" id="getActiveSettingsJson"><a name="getActiveSettingsJson"></a><span class="type">QJsonObject</span> ScreenPlayWallpaper::<span class="name">getActiveSettingsJson</span>()</h3>
 <p>Loads the project.json that contains all settings to display the wallpaper.</p>
 <!-- @@@getActiveSettingsJson -->
-<!-- $$$replace[overload1]$$$replaceconstQString&constQString&constQString&constfloatconstFillMode::FillModeconstInstalledType::InstalledTypeconstbool -->
-<h3 class="fn" id="replace"><a name="replace"></a><span class="type">void</span> ScreenPlayWallpaper::<span class="name">replace</span>(const <span class="type">QString</span> &amp;<i>absolutePath</i>, const <span class="type">QString</span> &amp;<i>previewImage</i>, const <span class="type">QString</span> &amp;<i>file</i>, const <span class="type">float</span> <i>volume</i>, const <span class="type">FillMode::FillMode</span> <i>fillMode</i>, const <span class="type">InstalledType::InstalledType</span> <i>type</i>, const <span class="type">bool</span> <i>checkWallpaperVisible</i>)</h3>
-<p>Replaces the current wallpaper with the given one.</p>
-<!-- @@@replace -->
-<!-- $$$setSDKConnection[overload1]$$$setSDKConnectionconststd::shared_ptr<SDKConnection>& -->
-<h3 class="fn" id="setSDKConnection"><a name="setSDKConnection"></a><span class="type">void</span> ScreenPlayWallpaper::<span class="name">setSDKConnection</span>(const <span class="type">std::shared_ptr</span>&lt;<span class="type"><a href="screenplay-sdkconnection.html">SDKConnection</a></span>&gt; &amp;<i>connection</i>)</h3>
-<p>Connects to <a href="screenplay.html">ScreenPlay</a>. Start a alive ping check for every 16 seconds.</p>
+<!-- $$$setSDKConnection[overload1]$$$setSDKConnectionstd::unique_ptr<SDKConnection> -->
+<h3 class="fn" id="setSDKConnection"><a name="setSDKConnection"></a><span class="type">void</span> ScreenPlayWallpaper::<span class="name">setSDKConnection</span>(<span class="type">std::unique_ptr</span>&lt;<span class="type"><a href="screenplay-sdkconnection.html">SDKConnection</a></span>&gt; <i>connection</i>)</h3>
+<p>Connects to <a href="screenplay-module.html">ScreenPlay</a>. Start a alive ping check for every GlobalVariables::contentPingAliveIntervalMS seconds.</p>
 <!-- @@@setSDKConnection -->
 </div>
 <div id= license  class="footer center"><p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p></div> <script src="../js/bootstrap.bundle.min.js"></script> <script src="../js/mermaid.min.js"></script> <script>var config = {startOnLoad:true,flowchart:{useMaxWidth:true,htmlLabels:true}};mermaid.initialize(config);</script></body>

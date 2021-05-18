@@ -2,14 +2,15 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.12
 import QtGraphicalEffects 1.0
-
 import ScreenPlay 1.0
-
 import "../Common"
 
 Item {
     id: navigationWallpaperConfiguration
+
     width: 450
+    states: []
+    transitions: []
 
     anchors {
         top: parent.top
@@ -18,34 +19,36 @@ Item {
     }
 
     RippleEffect {
-        id:rippleEffect
-        target: navigationWallpaperConfiguration
+        id: rippleEffect
 
+        target: navigationWallpaperConfiguration
     }
 
     Connections {
-        target: ScreenPlay.screenPlayManager
         function onActiveWallpaperCounterChanged() {
-            rippleEffect.trigger()
+            rippleEffect.trigger();
         }
-    }
 
+        target: ScreenPlay.screenPlayManager
+    }
 
     Image {
         id: image
+
         width: 24
         height: 24
+        source: "qrc:/assets/icons/icon_monitor.svg"
+
         anchors {
             rightMargin: 30
             right: parent.right
             verticalCenter: parent.verticalCenter
         }
-        source: "qrc:/assets/icons/icon_monitor.svg"
 
         Text {
             id: txtAmountActiveWallpapers
-            text: ScreenPlay.screenPlayManager.activeWallpaperCounter
-                  + ScreenPlay.screenPlayManager.activeWidgetsCounter
+
+            text: ScreenPlay.screenPlayManager.activeWallpaperCounter + ScreenPlay.screenPlayManager.activeWidgetsCounter
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             color: Material.accent
@@ -58,17 +61,23 @@ Item {
                 top: parent.top
                 topMargin: 1
             }
+
         }
+
     }
 
     Text {
         id: activeMonitorName
+
+        horizontalAlignment: Text.AlignRight
+        color: Material.foreground
+        font.pointSize: 12
+        font.family: ScreenPlay.settings.font
         text: {
-            if (ScreenPlay.screenPlayManager.activeWallpaperCounter > 0) {
-                return qsTr("Configurate active Wallpaper or Widgets")
-            } else {
-                return qsTr("No active Wallpaper or Widgets")
-            }
+            if (ScreenPlay.screenPlayManager.activeWallpaperCounter > 0)
+                return qsTr("Configurate active Wallpaper or Widgets");
+            else
+                return qsTr("No active Wallpaper or Widgets");
         }
 
         anchors {
@@ -76,21 +85,17 @@ Item {
             rightMargin: 30
             verticalCenter: parent.verticalCenter
         }
-        horizontalAlignment: Text.AlignRight
-        color: Material.foreground
-        font.pointSize: 12
-        font.family: ScreenPlay.settings.font
+
     }
+
     MouseArea {
         id: ma
+
         anchors.fill: parent
         cursorShape: Qt.PointingHandCursor
         onClicked: {
-            ScreenPlay.util.setToggleWallpaperConfiguration()
+            ScreenPlay.util.setToggleWallpaperConfiguration();
         }
     }
 
-    states: []
-
-    transitions: []
 }

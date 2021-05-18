@@ -1,28 +1,25 @@
 # Developer Setup
 1. Install latest [git + git-lfs](https://git-scm.com/)
-2. Clone ScreenPlay
+2. Install [python 3](https://www.python.org/)
+3. Clone ScreenPlay
 ``` bash
 git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git ScreenPlay
 ```
-3. Download the latest __Qt 5.15.x__ for you platform. Earlier versions are not supported!
+4. Download the latest __Qt 5.15.x__ for you platform. Earlier versions are not supported!
     1. [Install instructions Windows](#windows)
     1. [Install instructions Linux](#linux)
     1. [Install instructions MacOSX](#macosx)
-4. Start the following script to download all needed dependencies automatically. This will create a ScreenPlay-vcpkg folder in the same directory as your ScreenPlay source folder. 
+5. Start the following script to download all needed dependencies automatically. This will create a ScreenPlay-vcpkg folder in the same directory as your ScreenPlay source folder. 
 ``` bash
-# Windows
 cd Tools
-.\install_dependencies_windows.bat
-
-# Linux and MacOSX
-cd Tools
-chmod +x install_dependencies_linux_mac.sh
-.\install_dependencies_linux_mac.sh
+py setup.py
 ```
    * This will install these dependencies via __vcpkg__
       * openSSL 1.1.1d
       * sentry-native
       * doctest
+      * benchmark
+      * infoware
 
 <div>
 <img width="100%" height="auto" src="../.gitlab/media/QtCreator_kit.png">

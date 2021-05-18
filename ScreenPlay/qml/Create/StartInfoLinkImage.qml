@@ -5,11 +5,9 @@ import QtQuick.Controls.Material 2.12
 import QtQuick.Particles 2.0
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material.impl 2.12
-
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
-
 import "../Common" as Common
 
 Item {
@@ -23,16 +21,15 @@ Item {
 
     Rectangle {
         id: img
+
         anchors.fill: parent
         anchors.margins: 5
         clip: true
         layer.enabled: true
-        layer.effect: ElevationEffect {
-            elevation: 4
-        }
 
         Image {
             id: image
+
             anchors.fill: parent
             fillMode: Image.PreserveAspectCrop
         }
@@ -40,23 +37,30 @@ Item {
         LinearGradient {
             anchors.fill: parent
             end: Qt.point(0, 0)
-            start: Qt.point(0, parent.height * .66)
+            start: Qt.point(0, parent.height * 0.66)
+
             gradient: Gradient {
                 GradientStop {
-                    position: 0.0
+                    position: 0
                     color: "#DD000000"
                 }
+
                 GradientStop {
-                    position: 1.0
+                    position: 1
                     color: "#00000000"
                 }
+
             }
+
         }
+
         Text {
             id: txtCategory
+
             font.pointSize: 10
             font.family: ScreenPlay.settings.font
             color: "white"
+
             anchors {
                 left: parent.left
                 right: parent.right
@@ -64,9 +68,12 @@ Item {
                 margins: 15
                 bottomMargin: 5
             }
+
         }
+
         Text {
             id: txtText
+
             font.pointSize: 16
             font.family: ScreenPlay.settings.font
             color: "white"
@@ -78,10 +85,12 @@ Item {
                 bottom: parent.bottom
                 margins: 15
             }
+
         }
 
         Rectangle {
             color: Material.backgroundDimColor
+
             anchors {
                 top: img.bottom
                 right: parent.right
@@ -91,15 +100,20 @@ Item {
 
             Text {
                 id: description
+
                 font.pointSize: 14
                 font.family: ScreenPlay.settings.font
                 color: Material.primaryTextColor
+
                 anchors {
                     fill: parent
                     margins: 5
                 }
+
             }
+
         }
+
         MouseArea {
             anchors.fill: parent
             cursorShape: Qt.PointingHandCursor
@@ -107,8 +121,12 @@ Item {
             onClicked: Qt.openUrlExternally(delegate.link)
             onEntered: delegate.state = "hover"
             onExited: delegate.state = ""
-
         }
+
+        layer.effect: ElevationEffect {
+            elevation: 4
+        }
+
     }
 
     transitions: [
@@ -122,6 +140,7 @@ Item {
                 from: 1
                 to: 1.05
             }
+
         },
         Transition {
             from: "hover"
@@ -133,6 +152,7 @@ Item {
                 from: 1.05
                 to: 1
             }
+
         }
     ]
 }

@@ -8,31 +8,32 @@ import ScreenPlay 1.0
 
 Dialog {
     id: root
-    modal: true
-    anchors.centerIn: Overlay.overlay
-    standardButtons: Dialog.Ok | Dialog.Help
-    onHelpRequested: {
-        Qt.openUrlExternally(
-                    "https://forum.screen-play.app/category/7/troubleshooting")
-    }
 
     property Window mainWindow
     property string message
 
+    modal: true
+    anchors.centerIn: Overlay.overlay
+    standardButtons: Dialog.Ok | Dialog.Help
+    onHelpRequested: {
+        Qt.openUrlExternally("https://forum.screen-play.app/category/7/troubleshooting");
+    }
+
     Connections {
-        target: ScreenPlay.screenPlayManager
         function onDisplayErrorPopup(msg) {
-            root.message = msg
-            root.mainWindow.show()
-            root.open()
+            root.message = msg;
+            root.mainWindow.show();
+            root.open();
         }
+
+        target: ScreenPlay.screenPlayManager
     }
 
     contentItem: Item {
         width: 600
         height: 400
-        ColumnLayout {
 
+        ColumnLayout {
             anchors.margins: 20
             anchors.fill: parent
             spacing: 20
@@ -46,10 +47,13 @@ Dialog {
 
                 layer {
                     enabled: true
+
                     effect: ColorOverlay {
                         color: Material.color(Material.DeepOrange)
                     }
+
                 }
+
             }
 
             Text {
@@ -63,6 +67,9 @@ Dialog {
                 font.pointSize: 16
                 color: Material.primaryTextColor
             }
+
         }
+
     }
+
 }

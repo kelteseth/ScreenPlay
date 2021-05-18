@@ -1,7 +1,11 @@
 #include "app.h"
 
 namespace ScreenPlay {
-
+/*!
+    \module ScreenPlay
+    \title ScreenPlay
+    \brief Module for ScreenPlay.
+*/
 /*!
     \namespace ScreenPlay
     \inmodule ScreenPlay

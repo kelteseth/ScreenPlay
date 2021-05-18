@@ -73,11 +73,8 @@ public:
     explicit SDKConnection(QLocalSocket* socket, QObject* parent = nullptr);
 
     QString appID() const { return m_appID; }
-
     QLocalSocket* socket() const { return m_socket; }
-
     QVector<int> monitor() const { return m_monitor; }
-
     QString type() const { return m_type; }
 
 signals:

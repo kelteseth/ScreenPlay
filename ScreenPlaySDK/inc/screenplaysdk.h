@@ -145,4 +145,5 @@ private:
 
     QString m_appID;
     QTimer m_pingAliveTimer;
+    QTimer m_firstConnectionTimer;
 };

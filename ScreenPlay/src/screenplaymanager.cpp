@@ -197,7 +197,7 @@ bool ScreenPlayManager::createWidget(
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
 
     if (path.isEmpty()) {
-        qWarning() << "Path is empty, Abort! String: " << absoluteStoragePath;
+        qWarning() << "Path is empty, Abort! Path: " << absoluteStoragePath;
         return false;
     }
 
@@ -254,13 +254,19 @@ bool ScreenPlayManager::removeAllWallpapers()
 */
 bool ScreenPlayManager::removeAllWidgets()
 {
-    if (m_screenPlayWallpapers.empty()) {
-        qWarning() << "Trying to remove all Widgets while m_screenPlayWallpapers is not empty. Count: " << m_screenPlayWallpapers.size();
+    if (m_screenPlayWidgets.empty()) {
+        qWarning() << "Trying to remove all Widgets while m_screenPlayWidgets is not empty. Count: " << m_screenPlayWidgets.size();
         return false;
     }
 
-    for (auto& client : m_screenPlayWallpapers) {
-        if (!removeWidget(client->appID())) {
+    QStringList appIDs;
+    // Do not remove items from the vector you iterate on.
+    for (auto& client : m_screenPlayWidgets) {
+        appIDs.append(client->appID());
+    }
+
+    for (const auto& appID : appIDs) {
+        if (!removeWidget(appID)) {
             return false;
         }
     }
@@ -348,10 +354,8 @@ ScreenPlayWallpaper* ScreenPlayManager::getWallpaperByAppID(const QString& appID
 */
 void ScreenPlayManager::newConnection()
 {
+    qInfo() << "[1/3] SDKConnection incomming";
     auto connection = std::make_unique<SDKConnection>(m_server->nextPendingConnection());
-
-    // Because user can close widgets by pressing x the widgets must send us the event
-    QObject::connect(connection.get(), &SDKConnection::requestDecreaseWidgetCount, this, [this]() { setActiveWidgetsCounter(activeWallpaperCounter() - 1); });
     QObject::connect(connection.get(), &SDKConnection::requestRaise, this, &ScreenPlayManager::requestRaise);
 
     // Only after we receive the first message with appID and type we can set the SDKConnection to the
@@ -391,13 +395,10 @@ void ScreenPlayManager::newConnection()
             }
         }
 
-        qWarning() << "No matching connection found!";
-
-        qWarning() << "There are no wallpaper or widgets that have to SDKConnection "
-                   << "m_screenPlayWallpapers count: " << m_screenPlayWallpapers.size()
-                   << "m_screenPlayWidgets count:    " << m_screenPlayWidgets.size()
+        qWarning() << "No matching connection found!"
+                   << "m_screenPlayWallpapers count:  " << m_screenPlayWallpapers.size()
+                   << "m_screenPlayWidgets count:     " << m_screenPlayWidgets.size()
                    << "m_unconnectedClients count:    " << m_unconnectedClients.size();
-
     });
     m_unconnectedClients.push_back(std::move(connection));
 }
@@ -447,10 +448,11 @@ bool ScreenPlayManager::removeWidget(const QString& appID)
             m_screenPlayWidgets.end(),
             [this, appID](auto& widget) {
                 if (widget->appID() != appID) {
+                    qInfo() << "No match " << widget->appID();
                     return false;
                 }
 
-                qInfo() << "Remove widget ";
+                qInfo() << "Remove widget " << appID;
 
                 decreaseActiveWidgetsCounter();
 
@@ -458,12 +460,12 @@ bool ScreenPlayManager::removeWidget(const QString& appID)
             }));
 
     if (activeWidgetsCounter() != m_screenPlayWidgets.length()) {
-        qWarning() << "activeWallpaperCounter value: " << activeWidgetsCounter()
-                   << "does not match m_screenPlayWallpapers length:" << m_screenPlayWidgets.length();
+        qWarning() << "activeWidgetsCounter value: " << activeWidgetsCounter()
+                   << "does not match m_screenPlayWidgets length:" << m_screenPlayWidgets.length();
         return false;
     }
 
-    return false;
+    return true;
 }
 
 /*!

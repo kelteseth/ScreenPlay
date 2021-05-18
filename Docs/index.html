@@ -1,117 +1,98 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-        <title>Screen Play Developer Documentation</title>
-        <link rel="stylesheet" type="text/css" href="css/style.css" />
-        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-    </head>
-    <body>
-        <div class="container-fullwidth nav sticky-top">
-            <div class="container navWrapper"><span class="logo">ScreenPlay Generated Docs </span></div>
-        </div>
-        <div class="wrapper container">
-            <h1 class="display-4 text-center">ScreenPlay Documentation</h1>
-            <br />
-            <p class="text-justify">
-                This is the ScreenPlay Code documentation. Every file gets generated via <kbd>qdoc.exe config.qdocconf</kbd>, except this index.html file. This docs is <b>automatically generated</b> via our ScreenPlayDeveloperDocs
-                <a href="https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs">GitLab repository</a>. If you want to help documenting ScreenPlay, you can do that in the <a href="https://gitlab.com/kelteseth/ScreenPlay">main repository</a>.
-            </p>
-            <h2>Getting started</h2>
-            <hr />
-            <ul>
-                <li><a href="html/screenplay.html">ScreenPlay Namespace. This contains all classes and descriptions.</a></li>
-                <li><a href="https://gitlab.com/kelteseth/ScreenPlay/-/blob/master/Docs/DeveloperSetup.md">Developer Setup</a></li>
-                <li><a href="https://gitlab.com/kelteseth/ScreenPlay/-/blob/master/Docs/ProjectOverview.md">Developer Overview</a></li>
-            </ul>
-            <h2>ScreenPlay consists of 6 projects:</h2>
-            <hr />
-            <ul>
-                <li>
-                    <strong>ScreenPlay</strong>
-                    <ul>
-                        <li>The main ScreenPlay App UI with Create, Installed, Community and Settings.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>ScreenPlayUtil</strong>
-                    <ul>
-                        <li>Contains functions like json project file loading/saving and enums like FillMode and ContentType that is needed by all projects.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>ScreenPlaySDK</strong>
-                    <ul>
-                        <li>A SDK used internally in the ScreenPlayWallpaper and ScreenPlayWidget to talk to the main ScreenPlay app via QLocalsockets (Windows Pipes and Unix sockets).</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>ScreenPlayShader</strong>
-                    <ul>
-                        <li>A list of ready to use shader in Wallpaper and Widgets.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>ScreenPlaySysInfo</strong>
-                    <ul>
-                        <li>A qml plugin to read CPU, GPU, Network and all sort of statistics.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>ScreenPlayWallpaper</strong>
-                    <ul>
-                        <li>The Wallpaper executable that is used for displaying a single wallpaper. This uses ScreenPlaySDK to talk via QLocalsockets with the main ScreenPlayApp.</li>
-                    </ul>
-                </li>
-                <li>
-                    <strong>ScreenPlayWidget</strong>
-                    <ul>
-                        <li>The Widget executable that is used for displaying a single widget. This uses ScreenPlaySDK to talk via QLocalsockets with the main ScreenPlayApp .</li>
-                    </ul>
-                </li>
-            </ul>
 
-            <h2>C++ Namespace And Classes</h2>
-            <hr />
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Screen Play Developer Documentation</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+</head>
 
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <ul>
-                            <li><a href="html/screenplay-create.html">Create</a></li>
-                            <li><a href="html/screenplay-createimportvideo.html">CreateImport</a></li>
-                            <li><a href="html/screenplay-globalvariables.html">GlobalVariables</a></li>
-                            <li><a href="html/screenplay-installedlistfilter.html">InstalledListFilter</a></li>
-                            <li><a href="html/screenplay-installedlistmodel.html">InstalledListModel</a></li>
-                            <li><a href="html/screenplay-monitorlistmodel.html">MonitorListModel</a></li>
-                            <li><a href="html/screenplay-profilelistmodel.html">ProfileListModel</a></li>
-                            <li><a href="html/screenplay-projectsettingslistmodel.html">ProjectSettingsListModel</a></li>
-                        </ul>
-                    </div>
-                    <div class="col">
-                        <ul>
-                            <li><a href="html/screenplay-screenplaymanager.html">ScreenPlayManager</a></li>
-                            <li><a href="html/screenplay-screenplaywallpaper.html">ScreenPlayWallpaper</a></li>
-                            <li><a href="html/screenplay-screenplaywidget.html">ScreenPlayWidget</a></li>
-                            <li><a href="html/screenplay-sdkconnection.html">SDKConnection</a></li>
-                            <li><a href="html/screenplay-settings.html">Settings</a></li>
-                            <li><a href="html/screenplay-util.html">Util</a></li>
-                            <li><a href="html/screenplay-app.html">App</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
+<body>
+    <div class="container-fullwidth nav sticky-top">
+        <div class="container navWrapper"><span class="logo">ScreenPlay Generated Docs </span></div>
+    </div>
+    <div class="wrapper container">
+        <h1 class="display-4 text-center">ScreenPlay Documentation</h1>
+        <br />
+        <p class="text-justify">
+            This is the ScreenPlay Code documentation. Every file gets generated via <kbd>qdoc.exe
+                config.qdocconf</kbd>, except this index.html file. This docs is <b>automatically generated</b> via our
+            ScreenPlayDeveloperDocs
+            <a href="https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs">GitLab repository</a>. If you want to help
+            documenting ScreenPlay, you can do that in the <a href="https://gitlab.com/kelteseth/ScreenPlay">main
+                repository</a>.
+        </p>
+        <h2>Getting started</h2>
+        <hr />
+        <ul>
+            <li><a href="html/screenplay.html">ScreenPlay Namespace. This contains all classes and descriptions.</a>
+            </li>
+            <li><a href="https://gitlab.com/kelteseth/ScreenPlay/-/blob/master/Docs/DeveloperSetup.md">Developer
+                    Setup</a></li>
+            <li><a href="https://gitlab.com/kelteseth/ScreenPlay/-/blob/master/Docs/ProjectOverview.md">Developer
+                    Overview</a></li>
+        </ul>
+        <h2>ScreenPlay consists of 7 projects:</h2>
+        <hr />
+        <ul>
+            <li>
+                <strong><a href="html/screenplay-module.html">ScreenPlay App</a></strong>
+                <ul>
+                    <li>The main ScreenPlay module. This contains things like <a href="html/screenplay-app.html">ScreenPlayApp</a> UI with Create, Installed, Community and Settings.</li>
+                </ul>
+            </li>
+            <li>
+                <strong><a href="html/screenplaywallpaper-module.html">ScreenPlayWallpaper App</a></strong>
+                <ul>
+                    <li>The Wallpaper executable that is used for displaying a single wallpaper. This uses ScreenPlaySDK
+                        to talk via QLocalsockets with the main ScreenPlayApp.</li>
+                </ul>
+            </li>
+            <li>
+                <strong><a href="html/screenplaywidget-module.html">ScreenPlayWidget App</a></strong>
+                <ul>
+                    <li>The Widget executable that is used for displaying a single widget. This uses ScreenPlaySDK to
+                        talk via QLocalsockets with the main ScreenPlayApp .</li>
+                </ul>
+            </li>
+            <br>
+            <li>
+                <strong><a href="html/screenplayutil.html">ScreenPlayUtil Library</a></strong>
+                <ul>
+                    <li>Contains functions like json project file loading/saving and enums like FillMode and ContentType
+                        that is needed by all projects.</li>
+                </ul>
+            </li>
+            <li>
+                <strong><a href="html/screenplaysdk-module.html">ScreenPlaySDK Library</a></strong>
+                <ul>
+                    <li>A SDK used internally in the ScreenPlayWallpaper and ScreenPlayWidget to talk to the main
+                        ScreenPlay app via QLocalsockets (Windows Pipes and Unix sockets).</li>
+                </ul>
+            </li>
+            <li>
+                <strong><a href="html/shaderlibrary.html">ScreenPlayShader Library</a></strong>
+                <ul>
+                    <li>A list of ready to use shader in Wallpaper and Widgets.</li>
+                </ul>
+            </li>
+            <li>
+                <strong><a href="html/screenplaysysinfo-module.html">ScreenPlaySysInfo Library</a></strong>
+                <ul>
+                    <li>A qml plugin to read CPU, GPU, Network and all sort of statistics.</li>
+                </ul>
+            </li>
 
-            <h2>QML Common Components</h2>
-            <hr />
-            <ul>
-                <li><a href="html/qml-imageselector.html">ImageSelector</a></li>
-            </ul>
-        </div>
-        <div id="license" class="footer center">
-            <p>This documentation is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.</p>
-        </div>
-        <script src="js/bootstrap.bundle.min.js"></script>
-    </body>
+        </ul>
+    </div>
+    <div id="license" class="footer center">
+        <p>This documentation is licensed under a <a rel="license"
+                href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International
+                License</a>.</p>
+    </div>
+    <script src="js/bootstrap.bundle.min.js"></script>
+</body>
+
 </html>

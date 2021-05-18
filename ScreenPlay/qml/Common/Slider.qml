@@ -6,14 +6,16 @@ import ScreenPlay 1.0
 
 Item {
     id: root
-    height: 70
 
     property string headline: "dummyHeandline"
     property string iconSource: "qrc:/assets/icons/icon_volume.svg"
     property alias slider: slider
 
+    height: 70
+
     Text {
         id: txtHeadline
+
         text: headline
         height: 20
         font.pointSize: 14
@@ -25,13 +27,14 @@ Item {
             right: parent.right
             left: parent.left
         }
+
     }
 
     RowLayout {
         spacing: 30
+
         anchors {
             top: txtHeadline.bottom
-
             right: parent.right
             bottom: parent.bottom
             left: parent.left
@@ -39,6 +42,7 @@ Item {
 
         Image {
             id: imgIcon
+
             width: 20
             height: 20
             source: iconSource
@@ -48,6 +52,7 @@ Item {
 
         QQC.Slider {
             id: slider
+
             stepSize: 0.01
             from: 0
             value: 1
@@ -58,6 +63,7 @@ Item {
 
         Text {
             id: txtValue
+
             color: QQCM.Material.secondaryTextColor
             text: Math.round(slider.value * 100) / 100
             Layout.alignment: Qt.AlignVCenter
@@ -65,5 +71,7 @@ Item {
             font.italic: true
             verticalAlignment: Text.AlignVCenter
         }
+
     }
+
 }

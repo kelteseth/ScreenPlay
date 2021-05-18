@@ -1,9 +1,7 @@
 #ifndef UTIL_H
 #define UTIL_H
 
-
-class Util
-{
+class Util {
 public:
     Util();
 };

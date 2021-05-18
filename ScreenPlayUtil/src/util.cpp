@@ -3,6 +3,17 @@
 #include <QJsonParseError>
 #include <QRandomGenerator>
 
+/*!
+    \module ScreenPlayUtil
+    \title ScreenPlayUtil
+    \brief Module for ScreenPlayUtil.
+*/
+/*!
+    \namespace ScreenPlayUtil
+    \inmodule ScreenPlayUtil
+    \brief Namespace for ScreenPlayUtil.
+*/
+
 namespace ScreenPlayUtil {
 
 /*!
@@ -30,7 +41,8 @@ std::optional<QJsonObject> openJsonFileToObject(const QString& path)
 }
 
 /*!
-    \brief .
+    \brief Writes a QJsonObject into a given file. It defaults to truncate the file
+           or you can set it to append to an existing file.
 */
 bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate)
 {
@@ -100,15 +112,17 @@ QString generateRandomString(quint32 length)
 }
 
 /*!
-  \brief Return .exe in windows otherwise empty string.
+  \brief Return .exe on windows otherwise empty string.
 */
 QString executableEnding()
 {
 #ifdef Q_OS_WIN
     return ".exe";
-#else
-    return "";
 #endif
+#ifdef Q_OS_OSX
+    return ".app";
+#endif
+    return "";
 }
 
 /*!
@@ -165,7 +179,6 @@ QString toString(const QStringList& list)
 
 /*!
   \brief Util function that converts a QVector of Strings into a QJsonArray.
-
 */
 QJsonArray fillArray(const QVector<QString>& items)
 {
@@ -177,9 +190,7 @@ QJsonArray fillArray(const QVector<QString>& items)
 }
 
 /*!
-  \brief Maps the Search type to an installed type. Used for filtering the installed
-         content.
-
+  \brief Maps the Search type to an installed type. Used for filtering the installed content.
 */
 ScreenPlay::SearchType::SearchType getSearchTypeFromInstalledType(const ScreenPlay::InstalledType::InstalledType type)
 {
@@ -253,7 +264,7 @@ QString toLocal(const QString& url)
 }
 
 /*!
-    \brief .
+    \brief Returns a list of available wallpaper types like videoWallpaper.
 */
 QStringList getAvailableWallpaper()
 {
@@ -268,7 +279,7 @@ QStringList getAvailableWallpaper()
 }
 
 /*!
-    \brief .
+    \brief Returns a list of available widget types like qmlWidget.
 */
 QStringList getAvailableWidgets()
 {
@@ -279,7 +290,7 @@ QStringList getAvailableWidgets()
 }
 
 /*!
-    \brief .
+    \brief Returns a combined list of available widgets and wallpaper types.
 */
 QStringList getAvailableTypes()
 {
@@ -287,7 +298,7 @@ QStringList getAvailableTypes()
 }
 
 /*!
-    \brief .
+    \brief Returns true of the given type is a wallpaper.
 */
 bool isWallpaper(const ScreenPlay::InstalledType::InstalledType type)
 {
@@ -303,7 +314,7 @@ bool isWallpaper(const ScreenPlay::InstalledType::InstalledType type)
 }
 
 /*!
-    \brief .
+    \brief Returns true of the given type is a widget.
 */
 bool isWidget(const ScreenPlay::InstalledType::InstalledType type)
 {
@@ -314,7 +325,8 @@ bool isWidget(const ScreenPlay::InstalledType::InstalledType type)
 }
 
 /*!
-    \brief See https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
+    \brief HTML video fillModes to be used in the QWebEngine video player.
+           See https://developer.mozilla.org/en-US/docs/Web/CSS/object-fit
 */
 QStringList getAvailableFillModes()
 {

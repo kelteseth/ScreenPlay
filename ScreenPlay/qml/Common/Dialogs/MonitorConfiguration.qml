@@ -2,19 +2,26 @@ import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.3
 import QtQuick.Controls.Material 2.12
-
 import ScreenPlay 1.0
 
 Dialog {
     id: dialogMonitorConfigurationChanged
+
     modal: true
     anchors.centerIn: Overlay.overlay
     standardButtons: Dialog.Ok
     contentHeight: 250
 
+    Connections {
+        function onMonitorConfigurationChanged() {
+            dialogMonitorConfigurationChanged.open();
+        }
+
+        target: ScreenPlay.monitorListModel
+    }
+
     contentItem: Item {
         ColumnLayout {
-
             anchors.margins: 20
             anchors.fill: parent
             spacing: 20
@@ -37,12 +44,9 @@ Dialog {
                 font.pointSize: 16
                 color: Material.primaryTextColor
             }
+
         }
+
     }
-    Connections {
-        target: ScreenPlay.monitorListModel
-        function onMonitorConfigurationChanged() {
-            dialogMonitorConfigurationChanged.open()
-        }
-    }
+
 }

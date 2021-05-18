@@ -1,5 +1,19 @@
 #include "basewindow.h"
 
+#include "ScreenPlayUtil/util.h"
+
+/*!
+    \module ScreenPlayWallpaper
+    \title ScreenPlayWallpaper
+    \brief Module for ScreenPlayWallpaper.
+*/
+
+/*!
+    \class BaseWindow
+    \inmodule ScreenPlayWallpaper
+    \brief  .
+*/
+
 BaseWindow::BaseWindow(QObject* parent)
     : QObject(parent)
 {
@@ -36,47 +50,22 @@ BaseWindow::BaseWindow(
     }
 
     setAppID(appID);
-
+    setProjectPath(projectFilePath);
     setOSVersion(QSysInfo::productVersion());
 
     if (projectFilePath == "test") {
         setType(ScreenPlay::InstalledType::InstalledType::QMLWallpaper);
-        setFullContentPath("qrc:/Test.qml");
+        setProjectSourceFileAbsolute({ "qrc:/Test.qml" });
         setupLiveReloading();
         return;
     }
 
-    QFile projectFile { projectFilePath + "/project.json" };
-    QJsonDocument configJsonDocument;
-    QJsonParseError parseError;
+    auto projectOpt = ScreenPlayUtil::openJsonFileToObject(projectFilePath + "/project.json");
 
-    projectFile.open(QIODevice::ReadOnly | QIODevice::Text);
-    const QString projectConfig = projectFile.readAll();
-    projectFile.close();
-    configJsonDocument = QJsonDocument::fromJson(projectConfig.toUtf8(), &parseError);
-
-    /* project.json example:
-    *  https://kelteseth.gitlab.io/ScreenPlayDocs/project/project/
-    *{
-    *    "title": "example title",
-    *    "description": "",
-    *    "file": "example.webm",
-    *    "preview": "preview.png",
-    *    "previewGIF": "preview.gif",
-    *    "previewWEBM": "preview.webm",
-    *    "type": "videoWallpaper"
-    *    "url": "https://www.golem.de/" //websiteWallpaper only
-    *}
-    */
-
-    if (!(parseError.error == QJsonParseError::NoError)) {
-        qInfo() << projectFile.fileName()
-                << projectConfig
-                << parseError.errorString();
-        qFatal("Settings Json Parse Error. Exiting now!");
+    if (!projectOpt.has_value()) {
+        QApplication::exit(-5);
     }
-
-    const QJsonObject project = configJsonDocument.object();
+    const QJsonObject project = projectOpt.value();
 
     if (!project.contains("type")) {
         qFatal("No type was specified inside the json object!");
@@ -94,21 +83,23 @@ BaseWindow::BaseWindow(
         qCritical() << "Cannot parse Wallpaper type from value" << project.value("type");
     }
 
-    setBasePath(QUrl::fromUserInput(projectFilePath).toLocalFile());
-
     if (m_type == ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper) {
         if (!project.contains("url")) {
             qFatal("No url was specified for a websiteWallpaper!");
             QApplication::exit(-5);
         }
-        setFullContentPath(project.value("url").toString());
+        setProjectSourceFileAbsolute(project.value("url").toString());
     } else {
-        setFullContentPath("file:///" + projectFilePath + "/" + project.value("file").toString());
+        setProjectSourceFile(project.value("file").toString());
+        setProjectSourceFileAbsolute(QUrl::fromLocalFile(projectFilePath + "/" + projectSourceFile()));
     }
 
     setupLiveReloading();
 }
 
+/*!
+ \brief messageReceived.
+ */
 void BaseWindow::messageReceived(QString key, QString value)
 {
     if (key == "volume") {
@@ -169,6 +160,9 @@ void BaseWindow::messageReceived(QString key, QString value)
     emit qmlSceneValueReceived(key, value);
 }
 
+/*!
+ \brief replaceWallpaper.
+ */
 void BaseWindow::replaceWallpaper(
     const QString absolutePath,
     const QString file,
@@ -187,9 +181,9 @@ void BaseWindow::replaceWallpaper(
     }
 
     if (type.contains("websiteWallpaper", Qt::CaseInsensitive)) {
-        setFullContentPath(file);
+        setProjectSourceFileAbsolute(file);
     } else {
-        setFullContentPath("file:///" + absolutePath + "/" + file);
+        setProjectSourceFileAbsolute(QUrl::fromLocalFile(absolutePath + "/" + file));
     }
 
     if (m_type == ScreenPlay::InstalledType::InstalledType::QMLWallpaper || m_type == ScreenPlay::InstalledType::InstalledType::HTMLWallpaper)
@@ -202,11 +196,12 @@ void BaseWindow::replaceWallpaper(
         emit reloadGIF(oldType);
 }
 
-// Used for loading shader
-// Loading shader relative to the qml file will be available in Qt 6
+/*!
+ \brief Used for loading shader. Loading shader relative to the qml file will be available in Qt 6
+ */
 QString BaseWindow::loadFromFile(const QString& filename)
 {
-    QFile file(basePath() + "/" + filename);
+    QFile file(projectPath() + "/" + filename);
     if (!file.open(QIODevice::ReadOnly)) {
         qWarning() << "Could not loadFromFile: " << file.fileName();
         file.close();
@@ -225,11 +220,23 @@ QString BaseWindow::getApplicationPath()
     return QApplication::applicationDirPath();
 }
 
+/*!
+ \brief This public slot is for QML usage. We limit the change event updates
+        to every 50ms, because the filesystem can be very trigger happy
+        with multiple change events per second.
+ */
 void BaseWindow::setupLiveReloading()
 {
-    auto reloadQMLLambda = [this]() { emit reloadQML(type()); };
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, reloadQMLLambda);
-    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, reloadQMLLambda);
-    const QFileInfo file { m_fullContentPath };
-    m_fileSystemWatcher.addPaths({ file.path(), m_fullContentPath });
+    auto reloadQMLLambda = [this]() {
+        m_liveReloadLimiter.stop();
+        emit reloadQML(type());
+    };
+    auto timeoutLambda = [this]() {
+        m_liveReloadLimiter.start(50);
+    };
+
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, timeoutLambda);
+    QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, timeoutLambda);
+    QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
+    m_fileSystemWatcher.addPaths({ projectPath() });
 }

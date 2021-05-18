@@ -3,6 +3,12 @@
 #include <QtQml/qqml.h>
 #include <qmetatype.h>
 
+/*!
+    \class RAM
+    \inmodule ScreenPlaySysInfo
+    \brief  .
+
+*/
 RAM::RAM(QObject* parent)
     : QObject(parent)
 {
@@ -10,6 +16,9 @@ RAM::RAM(QObject* parent)
     m_updateTimer.start(m_tickRate);
 }
 
+/*!
+ * \brief RAM::update
+ */
 void RAM::update()
 {
     //Get values from system

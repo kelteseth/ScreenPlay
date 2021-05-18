@@ -4,19 +4,19 @@ import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.12
 import QtQuick.Dialogs 1.3
-
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
-
 import "../../../Common" as Common
 import "../../"
 
 Item {
     id: root
+
     signal next(var filePath)
 
     ColumnLayout {
         id: wrapper
+
         spacing: 40
 
         anchors {
@@ -36,12 +36,15 @@ Item {
             Layout.fillHeight: true
             Layout.fillWidth: true
             spacing: 40
+
             ColumnLayout {
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 spacing: 40
+
                 Text {
                     id: txtDescription
+
                     text: qsTr("When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from 'ideo import and convert (all types)' you can also convert via the free and open source HandBrake!")
                     color: Material.primaryTextColor
                     Layout.fillWidth: true
@@ -52,11 +55,28 @@ Item {
 
                 DropArea {
                     id: dropArea
+
                     Layout.fillHeight: true
                     Layout.fillWidth: true
+                    onExited: {
+                        bg.color = Qt.darker(Material.backgroundColor);
+                    }
+                    onEntered: {
+                        bg.color = Qt.darker(Qt.darker(Material.backgroundColor));
+                        drag.accept(Qt.LinkAction);
+                    }
+                    onDropped: {
+                        let file = ScreenPlay.util.toLocal(drop.urls[0]);
+                        bg.color = Qt.darker(Qt.darker(Material.backgroundColor));
+                        if (file.endsWith(".webm"))
+                            root.next(drop.urls[0]);
+                        else
+                            txtFile.text = qsTr("Invalid file type. Must be valid VP8 or VP9 (*.webm)!");
+                    }
 
                     Rectangle {
                         id: bg
+
                         anchors.fill: parent
                         radius: 3
                         color: Qt.darker(Material.backgroundColor)
@@ -64,50 +84,38 @@ Item {
 
                     Image {
                         id: bgPattern
+
                         anchors.fill: parent
                         fillMode: Image.Tile
-                        opacity: .2
+                        opacity: 0.2
                         source: "qrc:/assets/images/noisy-texture-3.png"
                     }
-                    onExited: {
-                        bg.color = Qt.darker(Material.backgroundColor)
-                    }
 
-                    onEntered: {
-                        bg.color = Qt.darker(Qt.darker(
-                                                 Material.backgroundColor))
-                        drag.accept(Qt.LinkAction)
-                    }
-                    onDropped: {
-                        let file = ScreenPlay.util.toLocal(drop.urls[0])
-                        bg.color = Qt.darker(Qt.darker(
-                                                 Material.backgroundColor))
-                        if (file.endsWith(".webm")) {
-                            root.next(drop.urls[0])
-                        } else {
-                            txtFile.text = qsTr(
-                                        "Invalid file type. Must be valid VP8 or VP9 (*.webm)!")
-                        }
-                    }
                     Text {
                         id: txtFile
+
                         text: qsTr("Drop a *.webm file here or use 'Select file' below.")
-                        anchors {
-                            fill: parent
-                            margins: 40
-                        }
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         color: Material.primaryTextColor
                         font.pointSize: 13
                         horizontalAlignment: Qt.AlignHCenter
                         verticalAlignment: Qt.AlignVCenter
                         font.family: ScreenPlay.settings.font
+
+                        anchors {
+                            fill: parent
+                            margins: 40
+                        }
+
                     }
+
                 }
+
             }
+
             Item {
                 Layout.fillHeight: true
-                Layout.preferredWidth: wrapper.width * .33
+                Layout.preferredWidth: wrapper.width * 0.33
 
                 StartInfoLinkImage {
                     text: "Handbreak"
@@ -119,12 +127,16 @@ Item {
                     height: parent.height
                     anchors.centerIn: parent
                 }
+
             }
+
         }
+
     }
 
     Button {
         id: btnOpenDocs
+
         text: qsTr("Open Documentation")
         Material.background: Material.LightGreen
         Material.foreground: "white"
@@ -133,28 +145,30 @@ Item {
         icon.width: 16
         icon.height: 16
         font.family: ScreenPlay.settings.font
-        onClicked: Qt.openUrlExternally(
-                       "https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
+        onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
+
         anchors {
             bottom: parent.bottom
             left: parent.left
             margins: 20
         }
+
     }
+
     Button {
         text: qsTr("Select file")
         highlighted: true
         font.family: ScreenPlay.settings.font
         onClicked: {
-            fileDialogImportVideo.open()
+            fileDialogImportVideo.open();
         }
 
         FileDialog {
             id: fileDialogImportVideo
-            nameFilters: ["Video files (*.webm)"]
 
+            nameFilters: ["Video files (*.webm)"]
             onAccepted: {
-                root.next(fileDialogImportVideo.fileUrl)
+                root.next(fileDialogImportVideo.fileUrl);
             }
         }
 
@@ -163,12 +177,7 @@ Item {
             bottom: parent.bottom
             margins: 20
         }
+
     }
-}
 
-/*##^##
-Designer {
-    D{i:0;autoSize:true;height:768;width:1366}
 }
-##^##*/
-
