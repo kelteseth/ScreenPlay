@@ -115,9 +115,6 @@ target_link_libraries(
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE sentry::sentry)
 endif()
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${QT_TELEMTRY_INCLUDE})
-
 file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/assets/fonts)
 configure_file(assets/fonts/NotoSansCJKkr-Regular.otf ${CMAKE_BINARY_DIR}/bin/assets/fonts COPYONLY)
 

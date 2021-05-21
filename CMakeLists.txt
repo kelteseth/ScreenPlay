@@ -35,7 +35,6 @@ else()
 endif()
 
 set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
-set(QT_TELEMTRY_INCLUDE ${CMAKE_CURRENT_SOURCE_DIR}/Common/qt-google-analytics/)
 
 find_package(Git REQUIRED)
 if(WIN32)
