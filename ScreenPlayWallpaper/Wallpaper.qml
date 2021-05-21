@@ -136,7 +136,8 @@ Rectangle {
         source: {
             if (Qt.platform.os === "windows")
                 return Qt.resolvedUrl("file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath);
-
+            else
+                return ""
         }
         
         Component.onCompleted: {

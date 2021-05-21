@@ -220,7 +220,7 @@ void App::exit()
 */
 bool App::loadSteamPlugin()
 {
-    const bool isDebug = true;
+    bool isDebug = true;
 
 #ifdef QT_NO_DEBUG
     isDebug = false;
