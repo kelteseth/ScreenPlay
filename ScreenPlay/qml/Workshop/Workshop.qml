@@ -65,7 +65,7 @@ Item {
     UploadProject {
         id: popupUploadProject
 
-        steamWorkshop: root.steamWorkshop
+        steamWorkshop: steamWorkshop
         workshop: screenPlayWorkshop
     }
 
@@ -84,7 +84,7 @@ Item {
     Navigation {
         id: nav
 
-        steamWorkshop: root.steamWorkshop
+        steamWorkshop: steamWorkshop
         z: 3
         onUploadPressed: popupUploadProject.open()
 
