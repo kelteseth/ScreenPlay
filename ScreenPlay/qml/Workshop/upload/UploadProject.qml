@@ -2,14 +2,14 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
-import ScreenPlay.Workshop 1.0
+import Workshop 1.0
 import ScreenPlay 1.0
 
 Popup {
     id: root
 
-    property SteamWorkshop steamWorkshop
-    property ScreenPlayWorkshop workshop
+    property ScreenPlayWorkshop screenPlayWorkshop
+    property SteamWorkshop steam: screenPlayWorkshop.steamWorkshop
 
     width: 1200
     height: 700
@@ -28,7 +28,7 @@ Popup {
 
     Connections {
         function onRequestClosePopup() {
-            root.close();
+            root.close()
         }
 
         target: uploadLoader.item
@@ -40,7 +40,7 @@ Popup {
         Item {
             id: wrapper
 
-            signal requestClosePopup()
+            signal requestClosePopup
 
             Item {
                 id: headerWrapper
@@ -67,9 +67,7 @@ Popup {
                         top: parent.top
                         horizontalCenter: parent.horizontalCenter
                     }
-
                 }
-
             }
 
             SwipeView {
@@ -99,7 +97,7 @@ Popup {
                         cellWidth: parent.width
                         cellHeight: 250
                         clip: true
-                        model: workshop.installedListModel
+                        model: screenPlayWorkshop.installedListModel
 
                         anchors {
                             top: parent.top
@@ -124,11 +122,11 @@ Popup {
                             onItemClicked: {
                                 for (let childItem in gridView.contentItem.children) {
                                     if (gridView.contentItem.children[childItem].isSelected) {
-                                        btnUploadProjects.enabled = true;
-                                        return ;
+                                        btnUploadProjects.enabled = true
+                                        return
                                     }
                                 }
-                                btnUploadProjects.enabled = false;
+                                btnUploadProjects.enabled = false
                             }
                         }
 
@@ -136,7 +134,6 @@ Popup {
                             snapMode: ScrollBar.SnapOnRelease
                             policy: ScrollBar.AlwaysOn
                         }
-
                     }
 
                     Button {
@@ -144,7 +141,7 @@ Popup {
 
                         text: qsTr("Abort")
                         onClicked: {
-                            wrapper.requestClosePopup();
+                            wrapper.requestClosePopup()
                         }
 
                         anchors {
@@ -152,7 +149,6 @@ Popup {
                             bottom: parent.bottom
                             margins: 10
                         }
-
                     }
 
                     Button {
@@ -162,14 +158,14 @@ Popup {
                         highlighted: true
                         enabled: false
                         onClicked: {
-                            var uploadListArray = [];
+                            var uploadListArray = []
                             for (let childItem in gridView.contentItem.children) {
                                 if (gridView.contentItem.children[childItem].isSelected)
-                                    uploadListArray.push(gridView.contentItem.children[childItem].absoluteStoragePath);
-
+                                    uploadListArray.push(
+                                                gridView.contentItem.children[childItem].absoluteStoragePath)
                             }
-                            view.currentIndex = 1;
-                            steamWorkshop.bulkUploadToWorkshop(uploadListArray);
+                            view.currentIndex = 1
+                            steam.bulkUploadToWorkshop(uploadListArray)
                         }
 
                         anchors {
@@ -177,9 +173,7 @@ Popup {
                             bottom: parent.bottom
                             margins: 10
                         }
-
                     }
-
                 }
 
                 Item {
@@ -193,7 +187,7 @@ Popup {
                         flickDeceleration: 5000
                         cacheBuffer: 1000
                         clip: true
-                        model: steamWorkshop.uploadListModel
+                        model: steam.uploadListModel
                         width: parent.width - 50
                         spacing: 25
 
@@ -214,7 +208,6 @@ Popup {
                         ScrollBar.vertical: ScrollBar {
                             snapMode: ScrollBar.SnapOnRelease
                         }
-
                     }
 
                     Button {
@@ -224,7 +217,7 @@ Popup {
                         highlighted: true
                         enabled: false
                         onClicked: {
-                            root.close();
+                            root.close()
                         }
 
                         anchors {
@@ -235,16 +228,13 @@ Popup {
 
                         Connections {
                             function onUploadCompleted() {
-                                btnFinish.enabled = true;
+                                btnFinish.enabled = true
                             }
 
-                            target: steamWorkshop.uploadListModel
+                            target: steam.uploadListModel
                         }
-
                     }
-
                 }
-
             }
 
             PageIndicator {
@@ -255,13 +245,10 @@ Popup {
                 anchors.bottom: view.bottom
                 anchors.horizontalCenter: parent.horizontalCenter
             }
-
         }
-
     }
 
     background: Rectangle {
         color: Material.theme === Material.Light ? "white" : Material.background
     }
-
 }

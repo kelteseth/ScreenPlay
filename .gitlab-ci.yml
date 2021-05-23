@@ -13,8 +13,8 @@ check:
     script:
         - cd Tools
         - pip install cmakelang
-        - python format-cmake.py
-        - python format-cpp.py
+        - python format_cmake.py
+        - python format_cpp.py
 
 build:windows_debug:
     stage: build

@@ -1,6 +1,6 @@
 import QtQuick 2.13
 import QtGraphicalEffects 1.0
-import ScreenPlay.Workshop 1.0
+import Workshop 1.0
 
 Rectangle {
     id: root

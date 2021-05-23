@@ -58,7 +58,7 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("https://screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.13.2");
+    QGuiApplication::setApplicationVersion("0.13.3");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
@@ -216,49 +216,4 @@ void App::exit()
     QApplication::instance()->quit();
 }
 
-/*!
-    \brief Loads the Steam plugin when needed. This enables to start ScreenPlay
-           via OS autostart without waiting for Steam first.
-*/
-bool App::loadSteamPlugin()
-{
-
-#ifdef Q_OS_MACOS
-#ifdef QT_NO_DEBUG
-    const QString fileSuffix = ".dylib";
-#else
-    const QString fileSuffix = "d.dylib";
-#endif
-#endif
-
-#ifdef Q_OS_WIN
-#ifdef QT_NO_DEBUG
-    const QString fileSuffix = ".dll";
-#else
-    const QString fileSuffix = "d.dll";
-#endif
-#endif
-
-#ifdef Q_OS_LINUX
-    const QString fileSuffix = ".so";
-#endif
-
-    m_workshopPlugin.setFileName(QApplication::applicationDirPath() + "/ScreenPlayWorkshop" + fileSuffix);
-
-    if (!m_workshopPlugin.load()) {
-        qWarning() << "Steam plugin not provided!" << QApplication::applicationDirPath() + "/ScreenPlayWorkshop" + fileSuffix;
-        qWarning() << m_workshopPlugin.fileName() << " - With error: " << m_workshopPlugin.errorString();
-        return false;
-    }
-
-    const ScreenPlayWorkshopPlugin* workshopPlugin = reinterpret_cast<ScreenPlayWorkshopPlugin*>(m_workshopPlugin.instance());
-    Q_UNUSED(workshopPlugin)
-    settings()->setSteamVersion(true);
-    return true;
-}
-
-bool App::unloadSteamPlugin()
-{
-    return m_workshopPlugin.unload();
-}
 }

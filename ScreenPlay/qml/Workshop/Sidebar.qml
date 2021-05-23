@@ -4,7 +4,7 @@ import QtQuick.Controls 2.3
 import QtQuick.Layouts 1.11
 import QtWebEngine 1.8
 import QtQuick.Controls.Material 2.2
-import ScreenPlay.Workshop 1.0
+import Workshop 1.0
 import ScreenPlay 1.0
 
 Drawer {
