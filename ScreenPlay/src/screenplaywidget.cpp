@@ -83,7 +83,6 @@ void ScreenPlayWidget::setSDKConnection(std::unique_ptr<SDKConnection> connectio
 {
     m_connection = std::move(connection);
     qInfo() << "[3/3] SDKConnected (Widged) saved!";
-    QObject::connect(m_connection.get(), &SDKConnection::requestDecreaseWidgetCount, this, [this]() { emit requestClose(appID()); });
     QObject::connect(m_connection.get(), &SDKConnection::jsonMessageReceived, this, [this](const QJsonObject obj) {
         if (obj.value("messageType") == "positionUpdate") {
             setPosition({ obj.value("positionX").toInt(0), obj.value("positionY").toInt(0) });
