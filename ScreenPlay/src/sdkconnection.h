@@ -82,7 +82,6 @@ signals:
     void appIDChanged(QString appID);
     void monitorChanged(QVector<int> monitor);
     void typeChanged(QString type);
-    void requestDecreaseWidgetCount();
     void requestRaise();
     void appConnected(const ScreenPlay::SDKConnection* connection);
     void jsonMessageReceived(const QJsonObject obj);

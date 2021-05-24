@@ -32,27 +32,12 @@ ApplicationWindow {
     }
 
     function switchPage(name) {
-        const unloadSteamPlugin = nav.currentNavigationName === "Workshop";
         if (nav.currentNavigationName === name) {
             if (name === "Installed")
                 ScreenPlay.installedListModel.reset();
 
-            return ;
-        }
-        if (name === "Workshop") {
-            if (!ScreenPlay.settings.steamVersion) {
-                const steamAvialable = ScreenPlay.loadSteamPlugin();
-                if (!steamAvialable) {
-                    dialogSteam.open();
-                    switchPage("Installed");
-                    return ;
-                }
-            }
         }
         stackView.replace("qrc:/qml/" + name + "/" + name + ".qml");
-        if (unloadSteamPlugin)
-            ScreenPlay.unloadSteamPlugin();
-
         sidebar.state = "inactive";
     }
 

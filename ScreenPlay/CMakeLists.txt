@@ -126,9 +126,9 @@ target_link_libraries(
             benchmark::benchmark_main
             doctest::doctest)
 
-
-target_include_directories(${PROJECT_NAME} PRIVATE ${QT_TELEMTRY_INCLUDE})
-
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE sentry::sentry)
+endif()
 
 if(APPLE)
 

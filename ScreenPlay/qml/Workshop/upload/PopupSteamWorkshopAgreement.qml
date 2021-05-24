@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
-import ScreenPlay.Workshop 1.0 as SP
+import Workshop 1.0 as SP
 import ScreenPlay 1.0
 import "../../Common"
 

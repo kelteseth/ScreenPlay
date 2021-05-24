@@ -36,6 +36,7 @@
 
 #include <QDir>
 #include <QElapsedTimer>
+#include <QGuiApplication>
 #include <QIcon>
 #include <QObject>
 #include <QQmlApplicationEngine>
@@ -120,8 +121,6 @@ signals:
 public slots:
     QString version() const;
     void exit();
-    bool loadSteamPlugin();
-    bool unloadSteamPlugin();
 
     void setGlobalVariables(GlobalVariables* globalVariables)
     {

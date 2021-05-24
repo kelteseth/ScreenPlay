@@ -128,5 +128,6 @@
         <file>assets/icons/icon_sort-up-solid.svg</file>
         <file>assets/icons/icon_sort-down-solid.svg</file>
         <file>assets/icons/brand_reddit.svg</file>
+        <file>assets/icons/steam_default_avatar.png</file>
     </qresource>
 </RCC>

@@ -3,16 +3,15 @@ import QtQuick.Controls 2.13
 import QtQuick.Controls.Material 2.13
 import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material.impl 2.12
-import ScreenPlay.Workshop 1.0
-import SteamQMLImageProvider 1.0
+import Workshop 1.0
 import ScreenPlay 1.0
 
 Rectangle {
     id: root
 
-    property SteamWorkshop steamWorkshop
+    property SteamWorkshop steam
 
-    signal uploadPressed()
+    signal uploadPressed
 
     implicitWidth: 800
     height: 50
@@ -39,7 +38,8 @@ Rectangle {
             verticalAlignment: Qt.AlignVCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: {
-                return steamWorkshop.steamAccount.username + qsTr(" Subscribed items: ") + steamWorkshop.steamAccount.amountSubscribedItems;
+                return steam.steamAccount.username + qsTr(
+                            " Subscribed items: ") + steam.steamAccount.amountSubscribedItems
             }
 
             anchors {
@@ -50,7 +50,6 @@ Rectangle {
                 right: btnUplaod.left
                 rightMargin: 10
             }
-
         }
 
         SteamImage {
@@ -59,7 +58,7 @@ Rectangle {
             width: 30
             height: 30
             Component.onCompleted: {
-                steamWorkshop.steamAccount.loadAvatar();
+                steam.steamAccount.loadAvatar()
             }
 
             anchors {
@@ -70,12 +69,18 @@ Rectangle {
 
             Connections {
                 function onAvatarChanged(_avatar) {
-                    avatar.setImage(_avatar);
+                    avatar.setImage(_avatar)
+                    avatarPlaceholder.opacity = 0
                 }
 
-                target: steamWorkshop.steamAccount
+                target: steam.steamAccount
             }
+        }
 
+        Image {
+            id: avatarPlaceholder
+            anchors.fill: avatar
+            source: "qrc:/assets/icons/steam_default_avatar.png"
         }
 
         Button {
@@ -93,9 +98,7 @@ Rectangle {
                 right: parent.right
                 rightMargin: 10
             }
-
         }
-
     }
 
     states: [
@@ -106,7 +109,6 @@ Rectangle {
                 target: bg
                 radius: 3
             }
-
         },
         State {
             name: "scrolling"
@@ -115,7 +117,6 @@ Rectangle {
                 target: bg
                 radius: 0
             }
-
         }
     ]
 }
