@@ -86,10 +86,6 @@ endif()
 
 add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml} ${fonts})
 
-if(APPLE)
-    #set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
-endif()
-
 if(WIN32)
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
@@ -132,6 +128,8 @@ endif()
 
 if(APPLE)
 
+
+
     # Creates a ScreenPlay.app
     set_target_properties(${PROJECT_NAME} PROPERTIES
         OUTPUT_NAME ${PROJECT_NAME}
@@ -145,6 +143,8 @@ if(APPLE)
         XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME}
     )
 
+    # Needed for the Steam Workshop qml plugin
+    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/Workshop)
 
     add_custom_command(
         TARGET ${PROJECT_NAME} POST_BUILD
