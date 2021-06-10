@@ -129,5 +129,6 @@
         <file>assets/icons/icon_sort-down-solid.svg</file>
         <file>assets/icons/brand_reddit.svg</file>
         <file>assets/icons/steam_default_avatar.png</file>
+        <file>assets/macos/app.screenplay.plist</file>
     </qresource>
 </RCC>
