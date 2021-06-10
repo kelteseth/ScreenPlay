@@ -56,7 +56,7 @@ App::App()
 
     QGuiApplication::setWindowIcon(QIcon(":/assets/icons/app.ico"));
     QGuiApplication::setOrganizationName("ScreenPlay");
-    QGuiApplication::setOrganizationDomain("https://screen-play.app");
+    QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion("0.13.3");
     QGuiApplication::setQuitOnLastWindowClosed(false);
