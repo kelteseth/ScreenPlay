@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 if(WIN32)
     set(VCPKG_ARCH "x64-windows")
-elseif(UNIX)
+elseif(UNIX AND NOT APPLE)
     set(VCPKG_ARCH "x64-linux")
 elseif(APPLE)
     set(VCPKG_ARCH "x64-osx")

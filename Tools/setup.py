@@ -52,6 +52,7 @@ if __name__ == "__main__":
         vcpkg_triplet = "x64-windows"
     elif sys.platform == "darwin":
         vcpkg_packages_list.append("infoware[opencl]")
+        vcpkg_packages_list.append("curl") # Hidden dependency from sentry
         execute("chmod +x bootstrap-vcpkg.sh", vcpkg_path)
         execute("./bootstrap-vcpkg.sh", vcpkg_path, False)
         execute("chmod +x vcpkg", vcpkg_path)

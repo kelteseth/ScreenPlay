@@ -16,13 +16,16 @@ find_package(
                WebSockets
     REQUIRED)
 
+
 find_package(OpenSSL REQUIRED)
 find_package(benchmark CONFIG REQUIRED)
 find_package(doctest CONFIG REQUIRED)
 
-if(WIN32)
-    find_package(sentry CONFIG REQUIRED)
-endif()
+# CURL must be included before sentry
+# because sentry needs the module
+# and does not include it itself on macos...
+find_package(CURL CONFIG REQUIRED)
+find_package(sentry CONFIG REQUIRED)
 
 set(src
     main.cpp
@@ -74,8 +77,8 @@ set(l10n
     translations/ScreenPlay_vi.ts)
 
 set_source_files_properties(${l10n} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/translations")
-qt5_add_translation(qmFiles ${l10n})
 
+qt5_add_translation(qmFiles ${l10n})
 qt5_add_big_resources(fonts fonts.qrc)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
@@ -85,25 +88,6 @@ else()
 endif()
 
 add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml} ${fonts})
-
-if(WIN32)
-    # Icon
-    target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
-    target_link_libraries(${PROJECT_NAME} PRIVATE sentry::sentry)
-
-    # Disable console window on Windows
-    # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
-    set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
-
-    # Copy ffmpeg. If the ffmpeg files are missing, start the install_dependencies_XXX for your system!
-    file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/*")
-    foreach(filename ${files})
-        configure_file(${filename} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-    endforeach()
-
-    configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-
-endif()
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE "GIT_VERSION=${GIT_VERSION}")
 
@@ -120,16 +104,28 @@ target_link_libraries(
             ScreenPlayUtil
             benchmark::benchmark
             benchmark::benchmark_main
-            doctest::doctest)
+            doctest::doctest
+            sentry::sentry)
 
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PRIVATE sentry::sentry)
+    # Icon
+    target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
+
+    # Disable console window on Windows
+    # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
+    set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
+
+    # Copy ffmpeg. If the ffmpeg files are missing, start the install_dependencies_XXX for your system!
+    file(GLOB files "${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/*")
+    foreach(filename ${files})
+        configure_file(${filename} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+    endforeach()
+
+    configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+
 endif()
 
 if(APPLE)
-
-
-
     # Creates a ScreenPlay.app
     set_target_properties(${PROJECT_NAME} PROPERTIES
         OUTPUT_NAME ${PROJECT_NAME}
@@ -158,5 +154,10 @@ if(APPLE)
         ${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe
         ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/ )
 
+    add_custom_command(
+        TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler
+        ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/ )
 
 endif()

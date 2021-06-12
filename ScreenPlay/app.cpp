@@ -156,18 +156,20 @@ void App::init()
     // Only create anonymousTelemetry if user did not disallow!
     if (m_settings->anonymousTelemetry()) {
 
-#ifdef Q_OS_WIN
         sentry_options_t* options = sentry_options_new();
         sentry_options_set_dsn(options, "https://425ea0b77def4f91a5a9decc01b36ff4@o428218.ingest.sentry.io/5373419");
 
         const QString appPath = QGuiApplication::applicationDirPath();
-        sentry_options_set_handler_path(options, QString(appPath + "/crashpad_handler.exe").toStdString().c_str());
+        QString exectuableFileEnding = "";
+#ifdef Q_OS_WIN
+        exectuableFileEnding = ".exe";
+#endif
+        sentry_options_set_handler_path(options, QString(appPath + "/crashpad_handler" + exectuableFileEnding).toStdString().c_str());
         sentry_options_set_database_path(options, appPath.toStdString().c_str());
         const int sentryInitStatus = sentry_init(options);
         if (sentryInitStatus != 0) {
             qWarning() << "Unable to inti sentry crashhandler with statuscode: " << sentryInitStatus;
         }
-#endif
     }
 
     m_create = make_unique<Create>(m_globalVariables);

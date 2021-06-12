@@ -62,10 +62,7 @@
 #include "src/wizards.h"
 
 #include <memory>
-
-#ifdef Q_OS_WIN
 #include <sentry.h>
-#endif
 
 class ScreenPlayWorkshopPlugin;
 

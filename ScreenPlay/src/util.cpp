@@ -221,7 +221,6 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
     if (utilPointer != nullptr)
         utilPointer->appendDebugMessages(log);
 
-#ifdef Q_OS_WIN
     sentry_value_t crumb
         = sentry_value_new_breadcrumb("default", qUtf8Printable(msg));
 
@@ -239,7 +238,6 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
     sentry_value_set_by_key(crumb, "data", location);
 
     sentry_add_breadcrumb(crumb);
-#endif
 }
 
 /*!

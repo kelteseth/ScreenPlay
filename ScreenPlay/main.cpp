@@ -36,9 +36,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
-#ifdef Q_OS_WIN
 #include <sentry.h>
-#endif
 #define DOCTEST_CONFIG_IMPLEMENT
 #define DOCTEST_CONFIG_SUPER_FAST_ASSERTS
 #include <doctest/doctest.h>
@@ -67,13 +65,9 @@ int main(int argc, char* argv[])
     if (app.m_isAnotherScreenPlayInstanceRunning) {
         return 0;
     } else {
-
         app.init();
         const int status = qtGuiApp.exec();
-#ifdef Q_OS_WIN
         sentry_shutdown();
-#endif
-
         return status;
     }
 }
