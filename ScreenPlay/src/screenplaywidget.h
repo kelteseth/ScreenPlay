@@ -69,11 +69,11 @@ public:
         const QString& absolutePath,
         const QString& previewImage, const QJsonObject& properties,
         const InstalledType::InstalledType type);
+    ~ScreenPlayWidget();
 
     bool start();
 
     ScreenPlayWidget() { }
-    ~ScreenPlayWidget();
 
     QString previewImage() const { return m_previewImage; }
     QPoint position() const { return m_position; }

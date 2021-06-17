@@ -48,6 +48,7 @@
 #include <QtGlobal>
 #include <QtQml>
 #include <QtWebEngine>
+#include <QtSvg>
 
 #include "src/create.h"
 #include "src/globalvariables.h"
@@ -61,10 +62,7 @@
 #include "src/wizards.h"
 
 #include <memory>
-
-#ifdef Q_OS_WIN
 #include <sentry.h>
-#endif
 
 class ScreenPlayWorkshopPlugin;
 

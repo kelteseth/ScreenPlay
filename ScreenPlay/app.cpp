@@ -56,7 +56,7 @@ App::App()
 
     QGuiApplication::setWindowIcon(QIcon(":/assets/icons/app.ico"));
     QGuiApplication::setOrganizationName("ScreenPlay");
-    QGuiApplication::setOrganizationDomain("https://screen-play.app");
+    QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion("0.13.3");
     QGuiApplication::setQuitOnLastWindowClosed(false);
@@ -74,9 +74,7 @@ App::App()
     QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Medium.ttf");
     QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Light.ttf");
 
-    if (-1 == QFontDatabase::addApplicationFont(QGuiApplication::applicationDirPath() + "/assets/fonts/NotoSansCJKkr-Regular.otf")) {
-        qWarning() << "Could not load korean font from: " << QGuiApplication::applicationDirPath() + "/assets/fonts/NotoSansCJKkr-Regular.otf";
-    }
+    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSansCJKkr-Regular.otf");
 
     QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
@@ -158,18 +156,14 @@ void App::init()
     // Only create anonymousTelemetry if user did not disallow!
     if (m_settings->anonymousTelemetry()) {
 
-#ifdef Q_OS_WIN
         sentry_options_t* options = sentry_options_new();
         sentry_options_set_dsn(options, "https://425ea0b77def4f91a5a9decc01b36ff4@o428218.ingest.sentry.io/5373419");
-
-        const QString appPath = QGuiApplication::applicationDirPath();
-        sentry_options_set_handler_path(options, QString(appPath + "/crashpad_handler.exe").toStdString().c_str());
-        sentry_options_set_database_path(options, appPath.toStdString().c_str());
+        sentry_options_set_handler_path(options, QString(QGuiApplication::applicationDirPath() + "/crashpad_handler" + ScreenPlayUtil::executableBinEnding()).toStdString().c_str());
+        sentry_options_set_database_path(options, QGuiApplication::applicationDirPath().toStdString().c_str());
         const int sentryInitStatus = sentry_init(options);
         if (sentryInitStatus != 0) {
             qWarning() << "Unable to inti sentry crashhandler with statuscode: " << sentryInitStatus;
         }
-#endif
     }
 
     m_create = make_unique<Create>(m_globalVariables);

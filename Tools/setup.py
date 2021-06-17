@@ -30,7 +30,7 @@ if __name__ == "__main__":
 
     vcpkg_path = os.path.join(project_source_parent_path, "ScreenPlay-vcpkg")
     print("vcpkg_path: ", vcpkg_path)
-    vcpkg_version = "5568f11"  # https://github.com/microsoft/vcpkg/releases/tag/2021.05.12
+    vcpkg_version = "680b27d15f4d62bc6181fd33dc5259482b0890b1"  # Master 10.06.2021
     print("Build vcpkg ", vcpkg_version)
     execute("git fetch", vcpkg_path)
     execute("git checkout {}".format(vcpkg_version), vcpkg_path)
@@ -39,7 +39,6 @@ if __name__ == "__main__":
         "openssl-unix",
         "sentry-native",
         "doctest",
-        "benchmark",
     ]
 
     vcpkg_triplet = ""
@@ -53,18 +52,21 @@ if __name__ == "__main__":
         vcpkg_triplet = "x64-windows"
     elif sys.platform == "darwin":
         vcpkg_packages_list.append("infoware[opencl]")
-        execute("bootstrap-vcpkg.sh", vcpkg_path, False)
-        execute("chmod +x vcpkg", vcpkg_path)
-        vcpkg_triplet = "x64-linux"
-    elif sys.platform == "linux":
-        vcpkg_packages_list.append("infoware[opencl]")
-        execute("bootstrap-vcpkg.sh", vcpkg_path, False)
+        vcpkg_packages_list.append("curl") # Hidden dependency from sentry
+        execute("chmod +x bootstrap-vcpkg.sh", vcpkg_path)
+        execute("./bootstrap-vcpkg.sh", vcpkg_path, False)
         execute("chmod +x vcpkg", vcpkg_path)
         vcpkg_triplet = "x64-osx"
+    elif sys.platform == "linux":
+        vcpkg_packages_list.append("infoware[opencl]")
+        execute("chmod +x bootstrap-vcpkg.sh", vcpkg_path)
+        execute("./bootstrap-vcpkg.sh", vcpkg_path, False)
+        execute("chmod +x vcpkg", vcpkg_path)
+        vcpkg_triplet = "x64-linux"
 
     vcpkg_packages = " ".join(vcpkg_packages_list)
-    execute("vcpkg{} update".format(executable_file_suffix), vcpkg_path, False)
-    execute("vcpkg{} upgrade --no-dry-run".format(executable_file_suffix),
+    execute("./vcpkg{} update".format(executable_file_suffix), vcpkg_path, False)
+    execute("./vcpkg{} upgrade --no-dry-run".format(executable_file_suffix),
             vcpkg_path, False)
-    execute("vcpkg{} install {} --triplet {} --recurse".format(executable_file_suffix,
+    execute("./vcpkg{} install {} --triplet {} --recurse".format(executable_file_suffix,
             vcpkg_packages, vcpkg_triplet), vcpkg_path, False)

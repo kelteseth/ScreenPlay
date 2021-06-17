@@ -15,8 +15,9 @@ namespace ScreenPlay {
 */
 ScreenPlayWallpaper::~ScreenPlayWallpaper()
 {
-    qInfo() << "Remove wallpaper " << m_appID;
     m_connection->close();
+    qInfo() << "Remove wallpaper " << m_appID;
+
 }
 
 /*!
@@ -106,6 +107,7 @@ bool ScreenPlayWallpaper::start()
     const bool success = m_process.startDetached();
     qInfo() << "Starting ScreenPlayWallpaper detached: " << (success ? "success" : "failed!");
     if (!success) {
+        qInfo() << m_process.program() << m_appArgumentsList;
         emit error(QString("Could not start Wallpaper: " + m_process.errorString()));
     }
     return success;

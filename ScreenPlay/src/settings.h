@@ -39,6 +39,7 @@
 #include <QDir>
 #include <QFile>
 #include <QFontDatabase>
+#include <QIODevice>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
@@ -185,19 +186,48 @@ public slots:
 
     void setAutostart(bool autostart)
     {
-        if (m_autostart == autostart)
-            return;
+        if (desktopEnvironment() == DesktopEnvironment::Windows) {
 
-#ifdef Q_OS_WIN
-        QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
-        if (autostart) {
-            settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
-            settings.sync();
-        } else {
-            settings.remove("ScreenPlay");
+            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+            if (autostart) {
+                settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
+                settings.sync();
+            } else {
+                settings.remove("ScreenPlay");
+            }
         }
-#endif
+        if (desktopEnvironment() == DesktopEnvironment::OSX) {
+            const QString plistFileName = "app.screenplay.plist";
+            QFile defaultPListFile(":/assets/macos/" + plistFileName);
+            defaultPListFile.open(QIODevice::ReadOnly);
+            QString settingsPlistContent = defaultPListFile.readAll();
+            if(!settingsPlistContent.contains("{{SCREENPLAY_PATH}}")){
+                qCritical() << "Unable to load plist settings template from qrc to set autostart!";
+            }
 
+            QDir workingDir(QGuiApplication::applicationDirPath());
+            workingDir.cdUp();
+            workingDir.cdUp();
+            workingDir.cdUp();
+            const QString screenPlayPath = QUrl::fromUserInput(workingDir.path() + "/ScreenPlay.app/Contents/MacOS/ScreenPlay").toLocalFile();
+            settingsPlistContent.replace("{{SCREENPLAY_PATH}}", screenPlayPath);
+            settingsPlistContent.replace("{{SCREENPLAY_AUTOSTART}}", autostart ? "true":"false");
+
+            const QString homePath = QDir::homePath();
+            QFile settingsPlist(homePath + "/Library/LaunchAgents/" + plistFileName);
+            if (settingsPlist.exists()) {
+                if(!settingsPlist.remove()){
+                    qCritical() << "Unable to remove: " << settingsPlist;
+                }
+            }
+
+            settingsPlist.open(QIODevice::WriteOnly | QIODevice::Truncate);
+            QTextStream out(&settingsPlist);
+            out.setCodec("UTF-8");
+            out << settingsPlistContent;
+            settingsPlist.flush();
+            settingsPlist.close();
+        }
         setqSetting("Autostart", autostart);
 
         m_autostart = autostart;
@@ -371,6 +401,7 @@ public slots:
 
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
+    void initInstalledPath();
 
 private:
     QSettings m_qSettings;
