@@ -33,18 +33,19 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
     : QObject(parent)
     , m_quality(quality)
 {
-
     m_videoPath = videoPath;
     m_exportPath = exportPath;
     m_codec = codec;
-    m_process = std::make_unique<QProcess>(this);
+    m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe" + ScreenPlayUtil::executableBinEnding();
+    m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg" + ScreenPlayUtil::executableBinEnding();
 
-    QString fileEnding ;
-#ifdef Q_OS_WIN
-     fileEnding = ScreenPlayUtil::executableEnding();
-#endif
-    m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe" + fileEnding;
-    m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg" + fileEnding ;
+    if (!QFileInfo::exists(m_ffprobeExecutable)) {
+        qFatal("FFPROBE executable not found!");
+    }
+
+    if (!QFileInfo::exists(m_ffmpegExecutable)) {
+        qFatal("FFMPEG executable not found!");
+    }
 }
 
 /*!
@@ -62,7 +63,7 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 void CreateImportVideo::process()
 {
 
-    qInfo() << "createWallpaperInfo()";
+    qInfo() << "createWallpaperInfo()" << m_videoPath << m_exportPath << m_codec << m_ffmpegExecutable << m_ffprobeExecutable;
     if (!createWallpaperInfo() || QThread::currentThread()->isInterruptionRequested()) {
         emit abortAndCleanup();
         return;
@@ -268,7 +269,7 @@ bool CreateImportVideo::analyzeVideo(const QJsonObject& obj)
 
     QJsonObject videoStream;
 
-    for (const auto stream : arrayStream) {
+    for (const auto& stream : arrayStream) {
         QString codec_type = stream.toObject().value("codec_type").toString();
         if (codec_type == "video") {
             videoStream = stream.toObject();
@@ -751,19 +752,42 @@ QString CreateImportVideo::waitForFinished(
     const Executable executable)
 {
 
+    m_process = std::make_unique<QProcess>();
+    QObject::connect(m_process.get(), &QProcess::errorOccurred, [=](QProcess::ProcessError error) {
+        qDebug() << "error enum val = " << error << m_process->errorString();
+        emit createWallpaperStateChanged(ImportVideoState::AnalyseVideoError);
+        m_process->terminate();
+        if (!m_process->waitForFinished(1000)) {
+            m_process->kill();
+        }
+    });
     if (executable == Executable::FFMPEG) {
         m_process->setProgram(m_ffmpegExecutable);
     } else {
         m_process->setProgram(m_ffprobeExecutable);
     }
+
+#ifdef Q_OS_OSX
+    QProcess changeChmod;
+    changeChmod.setProgram("chmod");
+    changeChmod.setArguments({ "+x", m_process->program() });
+    changeChmod.start();
+    if (!changeChmod.waitForFinished()) {
+        qCritical() << "Unable to change permission " << m_process->program() << " to be exectuable";
+    }
+#endif
+
     m_process->setProcessChannelMode(processChannelMode);
     m_process->setArguments(args);
+    m_process->setWorkingDirectory(QApplication::applicationDirPath());
     m_process->start();
 
-    while (!m_process->waitForFinished(100)) //Wake up every 10ms and check if we must exit
+    qInfo() << m_process->workingDirectory() << m_process->program() << m_process->arguments();
+
+    while (!m_process->waitForFinished(10)) //Wake up every 10ms and check if we must exit
     {
         if (QThread::currentThread()->isInterruptionRequested()) {
-            qDebug() << "Interrupt thread";
+            qInfo() << "Interrupt thread";
             m_process->terminate();
             if (!m_process->waitForFinished(1000)) {
                 m_process->kill();

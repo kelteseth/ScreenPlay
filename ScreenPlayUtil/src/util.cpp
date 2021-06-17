@@ -114,7 +114,18 @@ QString generateRandomString(quint32 length)
 /*!
   \brief Return .exe on windows otherwise empty string.
 */
-QString executableEnding()
+QString executableBinEnding()
+{
+#ifdef Q_OS_WIN
+    return ".exe";
+#endif
+    return "";
+}
+
+/*!
+  \brief Return .exe on windows, .app on osx otherwise empty string.
+*/
+QString executableAppEnding()
 {
 #ifdef Q_OS_WIN
     return ".exe";

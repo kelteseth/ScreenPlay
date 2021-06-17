@@ -56,7 +56,8 @@ bool copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnail, con
 QString toString(const QStringList& list);
 QString toLocal(const QString& url);
 QString generateRandomString(quint32 length = 32);
-QString executableEnding();
+QString executableAppEnding();
+QString executableBinEnding();
 QStringList getAvailableWallpaper();
 QStringList getAvailableWidgets();
 QStringList getAvailableTypes();
