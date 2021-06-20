@@ -6,7 +6,12 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(infoware CONFIG REQUIRED)
 find_package(
-    Qt5
+    QT NAMES Qt6 Qt5
+    COMPONENTS Quick Core
+    REQUIRED)
+
+find_package(
+    Qt${QT_VERSION_MAJOR}
     COMPONENTS Quick Core
     REQUIRED)
 
@@ -31,13 +36,13 @@ set(headers
 
 add_library(${PROJECT_NAME} SHARED ${src} ${headers})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick infoware)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick infoware)
 
 # QML module deployment
 set(URI "ScreenPlay/Sysinfo")
 string(REPLACE "." "/" TARGETPATH ${URI})
 if(NOT DEFINED QT_QMAKE_EXECUTABLE)
-    get_target_property(QT_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+    get_target_property(QT_QMAKE_EXECUTABLE Qt${QT_VERSION_MAJOR}::qmake IMPORTED_LOCATION)
     if(NOT QT_QMAKE_EXECUTABLE)
         message(FATAL_ERROR "Cannot find qmake")
     endif()

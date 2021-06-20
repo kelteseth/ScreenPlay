@@ -3,9 +3,12 @@ project(ScreenPlayShader LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
-
 find_package(
-    Qt5
+    QT NAMES Qt6 Qt5
+    COMPONENTS Quick Core
+    REQUIRED)
+find_package(
+    Qt${QT_VERSION_MAJOR}
     COMPONENTS Quick Core
     REQUIRED)
 
@@ -17,7 +20,7 @@ set(shader shader.qrc)
 
 add_library(${PROJECT_NAME} SHARED ${src} ${headers} ${shader})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Core Qt5::Quick Qt5::Gui)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Gui)
 
 target_include_directories(${PROJECT_NAME} PUBLIC inc)
 
@@ -25,7 +28,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC inc)
 set(URI "ScreenPlay/Shader")
 string(REPLACE "." "/" TARGETPATH ${URI})
 if(NOT DEFINED QT_QMAKE_EXECUTABLE)
-    get_target_property(QT_QMAKE_EXECUTABLE Qt5::qmake IMPORTED_LOCATION)
+    get_target_property(QT_QMAKE_EXECUTABLE Qt${QT_VERSION_MAJOR}::qmake IMPORTED_LOCATION)
     if(NOT QT_QMAKE_EXECUTABLE)
         message(FATAL_ERROR "Cannot find qmake")
     endif()

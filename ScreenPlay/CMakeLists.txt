@@ -5,15 +5,16 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
 find_package(
-    Qt5
-    COMPONENTS Quick
-               QuickCompiler
-               Widgets
-               Gui
-               WebEngine
-               LinguistTools
-               WebSockets
+    QT NAMES Qt6 Qt5
+    COMPONENTS Quick Widgets Gui LinguistTools WebSockets
     REQUIRED)
+
+find_package(
+    Qt${QT_VERSION_MAJOR}
+    COMPONENTS Quick Widgets Gui LinguistTools WebSockets
+    REQUIRED)
+
+message(STATUS "[PROJECT] QT_VERSION_MAJOR = ${QT_VERSION_MAJOR}")
 
 find_package(OpenSSL REQUIRED)
 find_package(benchmark CONFIG REQUIRED)
@@ -73,10 +74,10 @@ set(l10n
     translations/ScreenPlay_vi.ts)
 
 set_source_files_properties(${l10n} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/translations")
-qt5_add_translation(qmFiles ${l10n})
+qt_add_translation(qmFiles ${l10n})
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-    qt5_add_resources(qml qml.qrc Resources.qrc)
+    qt_add_resources(qml qml.qrc Resources.qrc)
 else()
     qtquick_compiler_add_resources(qml qml.qrc Resources.qrc)
 endif()
@@ -100,12 +101,11 @@ target_compile_definitions(${PROJECT_NAME} PRIVATE "GIT_VERSION=${GIT_VERSION}")
 
 target_link_libraries(
     ${PROJECT_NAME}
-    PRIVATE Qt5::Quick
-            Qt5::Gui
-            Qt5::Widgets
-            Qt5::Core
-            Qt5::WebEngine
-            Qt5::WebSockets
+    PRIVATE Qt${QT_VERSION_MAJOR}::Quick
+            Qt${QT_VERSION_MAJOR}::Gui
+            Qt${QT_VERSION_MAJOR}::Widgets
+            Qt${QT_VERSION_MAJOR}::Core
+            Qt${QT_VERSION_MAJOR}::WebSockets
             ScreenPlaySDK
             ScreenPlayUtil
             benchmark::benchmark
@@ -127,10 +127,4 @@ if(WIN32)
     endforeach()
 
     configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-elseif(APPLE)
-    # cmake-format: off
-    # Auto ffmpeg download missing for osx
-    #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffmpeg ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-    #configure_file(${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
-    # cmake-format: on
 endif()
