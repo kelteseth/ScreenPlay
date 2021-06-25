@@ -90,5 +90,7 @@
         <file>qml/Common/Dialogs/CriticalError.qml</file>
         <file>qml/Common/ColorPicker.qml</file>
         <file>qml/Create/StartInfoLinkImage.qml</file>
+        <file>qml/Workshop/SteamProfile.qml</file>
+        <file>qml/Workshop/SteamWorkshop.qml</file>
     </qresource>
 </RCC>
