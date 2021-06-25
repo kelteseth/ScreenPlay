@@ -31,7 +31,10 @@ if(WIN32)
 endif()
 
 if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+      MACOSX_BUNDLE TRUE
+      MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+    )
 endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Gui Qt${QT_VERSION_MAJOR}::Widgets

@@ -43,8 +43,18 @@ file(MAKE_DIRECTORY ${DESTDIR})
 
 configure_file(qmldir ${DESTDIR} COPYONLY)
 
-# Copies ScreenPlayShader.* into qt qml plugins folder
-add_custom_command(
-    TARGET ${PROJECT_NAME}
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ScreenPlayShader> ${DESTDIR}/$<TARGET_FILE_NAME:ScreenPlayShader>)
+if(APPLE)
+add_custom_command(TARGET ${PROJECT_NAME}
+  POST_BUILD
+  COMMENT "Copying into ScreenPlay.app bundle"
+  COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>
+          ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/$<TARGET_FILE_NAME:${PROJECT_NAME}>)
+else()
+    # Copies ScreenPlayShader.* into qt qml plugins folder
+    add_custom_command(
+        TARGET ${PROJECT_NAME}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        $<TARGET_FILE:ScreenPlayShader>
+        ${DESTDIR}/$<TARGET_FILE_NAME:ScreenPlayShader>)
+endif()

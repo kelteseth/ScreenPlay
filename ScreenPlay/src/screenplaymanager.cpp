@@ -381,6 +381,7 @@ void ScreenPlayManager::newConnection()
 
         for (int i = 0; i < m_screenPlayWallpapers.size(); ++i) {
             if (m_screenPlayWallpapers.at(i)->appID() == matchingConnection->appID()) {
+                qInfo() << "Matching Wallpaper found!";
                 m_screenPlayWallpapers.at(i)->setSDKConnection(std::move(matchingConnection));
                 return;
             }
@@ -388,6 +389,7 @@ void ScreenPlayManager::newConnection()
 
         for (int i = 0; i < m_screenPlayWidgets.size(); ++i) {
             if (m_screenPlayWidgets.at(i)->appID() == matchingConnection->appID()) {
+                qInfo() << "Matching Widget found!";
                 m_screenPlayWidgets.at(i)->setSDKConnection(std::move(matchingConnection));
                 return;
             }

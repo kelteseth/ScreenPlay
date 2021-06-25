@@ -1,6 +1,7 @@
 #include "settings.h"
 
 #include "ScreenPlayUtil/util.h"
+#include <QFileInfo>
 
 namespace ScreenPlay {
 
@@ -39,6 +40,16 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     : QObject(parent)
     , m_globalVariables { globalVariables }
 {
+#ifdef Q_OS_WIN
+    setDesktopEnvironment(DesktopEnvironment::Windows);
+#endif
+#ifdef Q_OS_OSX
+    setDesktopEnvironment(DesktopEnvironment::OSX);
+#endif
+#ifdef Q_OS_LINUX
+    // We only support KDE for now
+    setDesktopEnvironment(DesktopEnvironment::KDE);
+#endif
 
     qRegisterMetaType<Settings::Language>("Settings::Language");
     qRegisterMetaType<Settings::Theme>("Settings::Theme");
@@ -47,15 +58,15 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
 
     if (!m_qSettings.contains("Autostart")) {
-#ifdef Q_OS_WIN
-        QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
-        if (!m_qSettings.value("Autostart").toBool()) {
-            if (!settings.contains("ScreenPlay")) {
+        if (desktopEnvironment() == DesktopEnvironment::Windows) {
+            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+            if (!m_qSettings.value("Autostart").toBool()) {
+                if (!settings.contains("ScreenPlay")) {
+                }
             }
+            settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
+            settings.sync();
         }
-        settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
-        settings.sync();
-#endif
         m_qSettings.setValue("Autostart", true);
         m_qSettings.sync();
     } else {
@@ -87,54 +98,10 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
         writeJsonFileFromResource("profiles");
     }
 
-    //If empty use steam workshop location
-    if (QString(m_qSettings.value("ScreenPlayContentPath").toString()).isEmpty()) {
-
-        /*
-         * ! We must use this (ugly) method, because to stay FOSS we cannot call the steamAPI here !
-         *
-         * We start with the assumption that when we go up 2 folder.
-         * So that there must be at least a common folder:
-         * Windows example:
-         * From -> C:\Program Files (x86)\Steam\steamapps\common\ScreenPlay
-         * To   -> C:\Program Files (x86)\Steam\steamapps\
-         * Dest.-> C:\Program Files (x86)\Steam\steamapps\workshop\content\672870
-         *
-         * When we reach the folder it _can_ contain a workshop folder when the user
-         * previously installed any workshop content. If the folder does not exsist we
-         * need to create it by hand. Normally Steam will create this folder but we need to
-         * set it here at this point so that the QFileSystemWatcher in InstalledListModel does
-         * not generate warnings.
-         */
-        QDir dir;
-        QString path = QApplication::instance()->applicationDirPath() + "/../../workshop/content/672870";
-        if (!dir.mkpath(path)) {
-            qWarning() << "Could not create steam workshop path for path: " << path;
-        } else {
-            m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(path));
-            m_qSettings.setValue("ScreenPlayContentPath", dir.cleanPath(path));
-            m_qSettings.sync();
-        }
-
-    } else {
-        m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(m_qSettings.value("ScreenPlayContentPath").toString()));
-    }
+    initInstalledPath();
 
     setupWidgetAndWindowPaths();
     setGitBuildHash(COMPILE_INFO);
-
-#ifdef Q_OS_WIN
-    setDesktopEnvironment(DesktopEnvironment::Windows);
-#endif
-
-#ifdef Q_OS_OSX
-    setDesktopEnvironment(DesktopEnvironment::OSX);
-#endif
-
-#ifdef Q_OS_LINUX
-    // We only support KDE for now
-    setDesktopEnvironment(DesktopEnvironment::KDE);
-#endif
 }
 
 /*!
@@ -173,16 +140,28 @@ void Settings::writeJsonFileFromResource(const QString& filename)
 void Settings::setupWidgetAndWindowPaths()
 {
     QDir workingDir(QGuiApplication::applicationDirPath());
-
-#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
-    m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + ScreenPlayUtil::executableEnding()));
-    m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + ScreenPlayUtil::executableEnding()));
+#ifdef Q_OS_WIN
+    m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + ScreenPlayUtil::executableBinEnding()));
+    m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + ScreenPlayUtil::executableBinEnding()));
 #endif
 
-#if defined(Q_OS_OSX)
-    m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
-    m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
+#ifdef Q_OS_OSX
+
+    workingDir.cdUp();
+    workingDir.cdUp();
+    workingDir.cdUp();
+
+    m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
+    m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
+
 #endif
+
+    if (!QFileInfo::exists(m_globalVariables->widgetExecutablePath().toString())) {
+        qFatal("widget executable not found!");
+    }
+    if (!QFileInfo::exists(m_globalVariables->wallpaperExecutablePath().toString())) {
+        qFatal("wallpaper executable not found!");
+    }
 }
 
 /*!
@@ -198,6 +177,53 @@ void Settings::restoreDefault(const QString& appConfigLocation, const QString& s
     QFile file { fullSettingsPath };
     file.remove();
     writeJsonFileFromResource(settingsFileType);
+}
+
+void Settings::initInstalledPath()
+{
+    //If empty use steam workshop location
+    qInfo() << m_qSettings.value("ScreenPlayContentPath").toString();
+    if (QString(m_qSettings.value("ScreenPlayContentPath").toString()).isEmpty()) {
+
+        /*
+         * ! We must use this (ugly) method, because to stay FOSS we cannot call the steamAPI here !
+         *
+         * We start with the assumption that when we go up 2 folder.
+         * So that there must be at least a common folder:
+         * Windows example:
+         * From -> C:\Program Files (x86)\Steam\steamapps\common\ScreenPlay
+         * To   -> C:\Program Files (x86)\Steam\steamapps\
+         * Dest.-> C:\Program Files (x86)\Steam\steamapps\workshop\content\672870
+         *
+         * When we reach the folder it _can_ contain a workshop folder when the user
+         * previously installed any workshop content. If the folder does not exsist we
+         * need to create it by hand. Normally Steam will create this folder but we need to
+         * set it here at this point so that the QFileSystemWatcher in InstalledListModel does
+         * not generate warnings.
+         */
+        QDir dir;
+        QString appBasePath = QApplication::instance()->applicationDirPath();
+        if (desktopEnvironment() == DesktopEnvironment::OSX) {
+            appBasePath += "/../../..";
+        }
+        QString path = appBasePath + "/../../workshop/content/672870";
+        qInfo() << path;
+
+        if (!dir.mkpath(path)) {
+            qWarning() << "Could not create steam workshop path for path: " << path;
+        }
+
+        if (QDir(path).exists()) {
+            m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(path));
+            m_qSettings.setValue("ScreenPlayContentPath", dir.cleanPath(path));
+            m_qSettings.sync();
+        } else {
+            qWarning() << "The following path could not be resolved to search for workshop content: " << path;
+        }
+
+    } else {
+        m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(m_qSettings.value("ScreenPlayContentPath").toString()));
+    }
 }
 
 /*!

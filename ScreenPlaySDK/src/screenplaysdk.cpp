@@ -149,6 +149,7 @@ void ScreenPlaySDK::readyRead()
 
 void ScreenPlaySDK::error(QLocalSocket::LocalSocketError socketError)
 {
+    Q_UNUSED(socketError)
     emit sdkDisconnected();
 }
 

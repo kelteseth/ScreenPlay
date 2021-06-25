@@ -12,7 +12,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 if(WIN32)
     set(VCPKG_ARCH "x64-windows")
-elseif(UNIX)
+elseif(UNIX AND NOT APPLE)
     set(VCPKG_ARCH "x64-linux")
 elseif(APPLE)
     set(VCPKG_ARCH "x64-osx")
@@ -78,3 +78,13 @@ add_subdirectory(ScreenPlayUtil)
 if(WIN32)
     add_subdirectory(ScreenPlaySysInfo)
 endif()
+
+#if(APPLE)
+#add_custom_target(CopyDependencies DEPENDS ScreenPlay)
+#add_custom_command(TARGET CopyDependencies POST_BUILD
+#  COMMAND "ScreenPlayWallpaper" -E copy_directory
+#     "$<TARGET_FILE:ScreenPlayWallpaper>"
+#     "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/$<TARGET_FILE_NAME:ScreenPlayWallpaper>/"
+#  COMMENT "Copying into ScreenPlay.app bundle")
+#endif()
+

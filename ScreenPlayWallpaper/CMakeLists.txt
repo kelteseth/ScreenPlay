@@ -41,8 +41,13 @@ if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE shcore.lib)
 endif()
 
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt5::Quick Qt5::Gui Qt5::Widgets Qt5::Core Qt5::WebEngine ScreenPlaySDK ScreenPlayUtil)
+
 if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE true)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+    MACOSX_BUNDLE TRUE
+    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
+    )
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")
 endif()
 
@@ -56,3 +61,4 @@ target_link_libraries(
             shcore.lib
             ScreenPlaySDK
             ScreenPlayUtil)
+

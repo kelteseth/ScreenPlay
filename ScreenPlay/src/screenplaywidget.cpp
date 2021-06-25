@@ -50,8 +50,9 @@ ScreenPlayWidget::ScreenPlayWidget(
         QVariant::fromValue(m_type).toString(),
         QString::number(m_position.x()),
         QString::number(m_position.y()),
-    };
+};
 }
+
 
 bool ScreenPlayWidget::start()
 {
@@ -65,6 +66,7 @@ bool ScreenPlayWidget::start()
     qInfo() << "Starting ScreenPlayWidget detached: " << (success ? "success" : "failed!");
     if (!success) {
         emit error(QString("Could not start Widget: " + m_process.errorString()));
+        return false;
     }
     return success;
 }
