@@ -96,7 +96,7 @@ Item {
                     SettingBool {
                         height: 70
                         headline: qsTr("Send anonymous crash reports and statistics")
-                        description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!")
+                        description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use <a href=\"https://sentry.io\">sentry.io</a> to collect and analyze this data. A <b>big thanks to them</b> for providing us with free premium support for open source projects!")
                         isChecked: ScreenPlay.settings.anonymousTelemetry
                         onCheckboxChanged: {
                             ScreenPlay.settings.setAnonymousTelemetry(checked);

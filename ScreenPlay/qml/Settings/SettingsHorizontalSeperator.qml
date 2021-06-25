@@ -14,6 +14,7 @@ Item {
         height: customHeight
         width: customWidth
         color: customColor
+        opacity: Material.theme === Material.Light ? 1 : 0.2
 
         anchors {
             right: parent.right
