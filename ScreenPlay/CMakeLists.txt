@@ -6,12 +6,12 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(
     QT NAMES Qt6 Qt5
-    COMPONENTS Quick Widgets Gui LinguistTools WebSockets
+    COMPONENTS Quick Widgets Gui LinguistTools WebSockets WebEngine QuickCompiler
     REQUIRED)
 
 find_package(
     Qt${QT_VERSION_MAJOR}
-    COMPONENTS Quick Widgets Gui LinguistTools WebSockets
+    COMPONENTS Quick Widgets Gui LinguistTools WebSockets WebEngine QuickCompiler
     REQUIRED)
 
 message(STATUS "[PROJECT] QT_VERSION_MAJOR = ${QT_VERSION_MAJOR}")
@@ -106,6 +106,7 @@ target_link_libraries(
             Qt${QT_VERSION_MAJOR}::Widgets
             Qt${QT_VERSION_MAJOR}::Core
             Qt${QT_VERSION_MAJOR}::WebSockets
+            Qt${QT_VERSION_MAJOR}::WebEngine
             ScreenPlaySDK
             ScreenPlayUtil
             benchmark::benchmark

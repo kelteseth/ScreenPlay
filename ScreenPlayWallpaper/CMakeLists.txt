@@ -5,11 +5,11 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 find_package(
     QT NAMES Qt6 Qt5
-    COMPONENTS Quick Widgets Gui
+    COMPONENTS Quick Widgets Gui WebEngine QuickCompiler
     REQUIRED)
 find_package(
     Qt${QT_VERSION_MAJOR}
-    COMPONENTS Quick Widgets Gui WebEngine
+    COMPONENTS Quick Widgets Gui WebEngine QuickCompiler
     REQUIRED)
 
 if(WIN32)
@@ -27,7 +27,7 @@ set(src main.cpp src/basewindow.cpp)
 set(headers src/basewindow.h)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-    set(resources SPWResources.qrc)
+    qt_add_resources(resources SPWResources.qrc)
 else()
     qtquick_compiler_add_resources(resources SPWResources.qrc)
 endif()

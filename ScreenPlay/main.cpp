@@ -36,6 +36,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
+#include <QtWebEngine/QtWebEngine>
 #ifdef Q_OS_WIN
 #include <sentry.h>
 #endif
@@ -45,7 +46,7 @@
 
 int main(int argc, char* argv[])
 {
-
+    QtWebEngine::initialize();
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
