@@ -111,17 +111,23 @@ bool ScreenPlayManager::createWallpaper(
     const QJsonObject& properties,
     const bool saveToProfilesConfigFile)
 {
+    const int screenCount = QGuiApplication::screens().count();
+
+    QJsonArray monitors;
+    for (const int index : monitorIndex) {
+        monitors.append(index);
+        if (index > screenCount - 1) {
+            qWarning() << "Configuration contains invalid monitor with index: " << index << " screen count: " << screenCount;
+            return false;
+        }
+    }
+
     auto saveToProfile = qScopeGuard([=, this] {
         // Do not save on app start
         if (saveToProfilesConfigFile) {
             emit requestSaveProfiles();
         }
     });
-
-    QJsonArray monitors;
-    for (const int index : monitorIndex) {
-        monitors.append(index);
-    }
 
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
     const QString appID = ScreenPlayUtil::generateRandomString();
