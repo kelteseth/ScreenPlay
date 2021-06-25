@@ -36,8 +36,6 @@ set(headers
 
 add_library(${PROJECT_NAME} SHARED ${src} ${headers})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick infoware)
-
 # QML module deployment
 set(URI "ScreenPlay/Sysinfo")
 string(REPLACE "." "/" TARGETPATH ${URI})
@@ -62,3 +60,10 @@ add_custom_command(
     TARGET ${PROJECT_NAME}
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ScreenPlaySysInfo> ${DESTDIR}/$<TARGET_FILE_NAME:ScreenPlaySysInfo>)
+
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE
+        Qt${QT_VERSION_MAJOR}::Core
+        Qt${QT_VERSION_MAJOR}::Quick
+        infoware)

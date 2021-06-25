@@ -90,22 +90,6 @@ add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml} ${fonts})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE "GIT_VERSION=${GIT_VERSION}")
 
-target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE Qt${QT_VERSION_MAJOR}::Quick
-            Qt${QT_VERSION_MAJOR}::Gui
-            Qt${QT_VERSION_MAJOR}::Widgets
-            Qt${QT_VERSION_MAJOR}::Core
-            Qt${QT_VERSION_MAJOR}::WebSockets
-            Qt${QT_VERSION_MAJOR}::WebEngine
-            Qt${QT_VERSION_MAJOR}::Svg
-            ScreenPlaySDK
-            ScreenPlayUtil
-            benchmark::benchmark
-            benchmark::benchmark_main
-            doctest::doctest
-            sentry::sentry)
-
 if(WIN32)
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
@@ -160,3 +144,20 @@ if(APPLE)
         ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/ )
 
 endif()
+
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE
+        Qt${QT_VERSION_MAJOR}::Quick
+        Qt${QT_VERSION_MAJOR}::Gui
+        Qt${QT_VERSION_MAJOR}::Widgets
+        Qt${QT_VERSION_MAJOR}::Core
+        Qt${QT_VERSION_MAJOR}::WebSockets
+        Qt${QT_VERSION_MAJOR}::WebEngine
+        Qt${QT_VERSION_MAJOR}::Svg
+        ScreenPlaySDK
+        ScreenPlayUtil
+        benchmark::benchmark
+        benchmark::benchmark_main
+        doctest::doctest
+        sentry::sentry)

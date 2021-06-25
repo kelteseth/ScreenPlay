@@ -20,8 +20,6 @@ set(shader shader.qrc)
 
 add_library(${PROJECT_NAME} SHARED ${src} ${headers} ${shader})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick Qt${QT_VERSION_MAJOR}::Gui)
-
 target_include_directories(${PROJECT_NAME} PUBLIC inc)
 
 # QML module deployment
@@ -58,3 +56,10 @@ else()
         $<TARGET_FILE:ScreenPlayShader>
         ${DESTDIR}/$<TARGET_FILE_NAME:ScreenPlayShader>)
 endif()
+
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE
+        Qt${QT_VERSION_MAJOR}::Core
+        Qt${QT_VERSION_MAJOR}::Quick
+        Qt${QT_VERSION_MAJOR}::Gui)

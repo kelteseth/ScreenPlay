@@ -18,9 +18,12 @@ set(HEADER inc/public/ScreenPlayUtil/util.h inc/public/ScreenPlayUtil/contenttyp
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADER})
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
-
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC inc/public/
     PRIVATE src/)
+
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE
+        Qt${QT_VERSION_MAJOR}::Core)
