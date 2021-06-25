@@ -37,6 +37,7 @@ if __name__ == "__main__":
 
     vcpkg_packages_list = [
         "openssl-unix",
+        "curl",
         "sentry-native",
         "doctest",
     ]
