@@ -552,7 +552,7 @@ bool ScreenPlayManager::loadProfiles()
     }
 
     qInfo() << "Loading profiles " << activeProfilesTmp.size();
-
+    bool containsInvalidData = false;
     for (const QJsonValueRef wallpaper : activeProfilesTmp) {
 
         // TODO right now we limit ourself to one default profile
@@ -602,6 +602,7 @@ bool ScreenPlayManager::loadProfiles()
 
             if (!success) {
                 qWarning() << "Unable to start Wallpaper! " << type << fillMode << monitors << absolutePath;
+                containsInvalidData = true;
             }
         }
 
@@ -624,9 +625,17 @@ bool ScreenPlayManager::loadProfiles()
 
             if (!success) {
                 qWarning() << "Unable to start Widget! " << type << position << absolutePath;
+                containsInvalidData = true;
             }
         }
     }
+
+    // The can happen if the user unpluggs a wallpaper but it still exists
+    // in the settings.json. For this we save all profiles with now active
+    // content.
+    if (containsInvalidData)
+        saveProfiles();
+
     return true;
 }
 
