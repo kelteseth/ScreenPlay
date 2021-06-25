@@ -161,6 +161,8 @@ void App::init()
 #ifdef Q_OS_WIN
         sentry_options_t* options = sentry_options_new();
         sentry_options_set_dsn(options, "https://425ea0b77def4f91a5a9decc01b36ff4@o428218.ingest.sentry.io/5373419");
+        QString environment = QGuiApplication::applicationVersion() + "";
+        sentry_options_set_environment(options, QString(environment).toStdString().c_str());
 
         const QString appPath = QGuiApplication::applicationDirPath();
         sentry_options_set_handler_path(options, QString(appPath + "/crashpad_handler.exe").toStdString().c_str());
