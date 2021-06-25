@@ -58,7 +58,6 @@ target_link_libraries(
             Qt${QT_VERSION_MAJOR}::Widgets
             Qt${QT_VERSION_MAJOR}::Core
             Qt${QT_VERSION_MAJOR}::WebEngine
-            shcore.lib
             ScreenPlaySDK
             ScreenPlayUtil)
 
