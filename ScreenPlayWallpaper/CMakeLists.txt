@@ -3,14 +3,8 @@ project(ScreenPlayWallpaper LANGUAGES CXX)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
-find_package(
-    QT NAMES Qt6 Qt5
-    COMPONENTS Quick Widgets Gui WebEngine QuickCompiler
-    REQUIRED)
-find_package(
-    Qt${QT_VERSION_MAJOR}
-    COMPONENTS Quick Widgets Gui WebEngine QuickCompiler
-    REQUIRED)
+
+find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
 
 if(WIN32)
     set(src_plattform src/windowsdesktopproperties.cpp src/winwindow.cpp)
@@ -42,21 +36,52 @@ if(WIN32)
 endif()
 
 if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-    MACOSX_BUNDLE TRUE
-    MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist
-    )
+    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")
 endif()
 
-target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE
-        Qt${QT_VERSION_MAJOR}::Quick
-        Qt${QT_VERSION_MAJOR}::Gui
-        Qt${QT_VERSION_MAJOR}::Widgets
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::WebEngine
-        ScreenPlaySDK
-        ScreenPlayUtil)
+target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySDK ScreenPlayUtil)
 
+if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
+    find_package(
+        Qt${QT_VERSION_MAJOR}
+        COMPONENTS Core
+                   Quick
+                   Gui
+                   Widgets
+                   WebSockets
+                   Svg
+                   WebEngineCore
+                   WebEngineQuick
+                   WebChannel
+                   Positioning)
+    target_link_libraries(
+        ${PROJECT_NAME}
+        PRIVATE Qt${QT_VERSION_MAJOR}::Quick
+                Qt${QT_VERSION_MAJOR}::Gui
+                Qt${QT_VERSION_MAJOR}::Widgets
+                Qt${QT_VERSION_MAJOR}::Core
+                Qt${QT_VERSION_MAJOR}::WebSockets
+                Qt${QT_VERSION_MAJOR}::Svg
+                Qt6::WebEngineCore
+                Qt6::WebEngineQuick)
+else()
+    find_package(
+        Qt${QT_VERSION_MAJOR}
+        COMPONENTS Core
+                   Quick
+                   Gui
+                   Widgets
+                   WebSockets
+                   Svg
+                   WebEngine)
+    target_link_libraries(
+        ${PROJECT_NAME}
+        PRIVATE Qt${QT_VERSION_MAJOR}::Quick
+                Qt${QT_VERSION_MAJOR}::Gui
+                Qt${QT_VERSION_MAJOR}::Widgets
+                Qt${QT_VERSION_MAJOR}::Core
+                Qt${QT_VERSION_MAJOR}::WebSockets
+                Qt${QT_VERSION_MAJOR}::Svg
+                Qt5::WebEngine)
+endif()

@@ -61,9 +61,4 @@ add_custom_command(
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ScreenPlaySysInfo> ${DESTDIR}/$<TARGET_FILE_NAME:ScreenPlaySysInfo>)
 
-target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::Quick
-        infoware)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick infoware)

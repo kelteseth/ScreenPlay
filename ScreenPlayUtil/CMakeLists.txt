@@ -23,7 +23,4 @@ target_include_directories(
     PUBLIC inc/public/
     PRIVATE src/)
 
-target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE
-        Qt${QT_VERSION_MAJOR}::Core)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core)
