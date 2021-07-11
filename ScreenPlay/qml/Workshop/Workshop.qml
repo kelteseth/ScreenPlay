@@ -11,8 +11,10 @@ Item {
 
     ScreenPlayWorkshop {
         id: workshop
+
         Component.onCompleted: {
-            if (online) {
+            const success = workshop.init();
+            if(success){
                 stackView.push("qrc:/qml/Workshop/SteamWorkshop.qml", {
                                    "workshop": workshop,
                                    "steam": workshop.steamWorkshop
