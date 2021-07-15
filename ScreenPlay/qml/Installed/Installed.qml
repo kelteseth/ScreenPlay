@@ -1,8 +1,8 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.12
-import QtQuick.Controls.Styles 1.4
-import QtGraphicalEffects 1.0
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl 2.12
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0

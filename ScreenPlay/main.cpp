@@ -36,7 +36,14 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
-#include <QtWebEngine/QtWebEngine>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <QtWebEngine>
+#else
+#include <QtWebEngineCore>
+#endif
+
+
+
 #include <sentry.h>
 #define DOCTEST_CONFIG_IMPLEMENT
 #define DOCTEST_CONFIG_SUPER_FAST_ASSERTS
@@ -44,8 +51,10 @@
 
 int main(int argc, char* argv[])
 {
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QtWebEngine::initialize();
     QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+#endif
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication qtGuiApp(argc, argv);

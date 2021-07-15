@@ -32,7 +32,6 @@ BaseWindow::BaseWindow(
     , m_debugMode(debugMode)
     , m_sdk(std::make_unique<ScreenPlaySDK>(appID, type))
 {
-    qInfo() << "parent";
     QApplication::instance()->installEventFilter(this);
 
     qRegisterMetaType<ScreenPlay::InstalledType::InstalledType>();

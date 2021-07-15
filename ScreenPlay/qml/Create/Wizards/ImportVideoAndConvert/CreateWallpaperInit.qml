@@ -1,9 +1,9 @@
 import QtQuick 2.12
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 import QtQuick.Controls 2.2
 import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.12
-import QtQuick.Dialogs 1.3
+import Qt.labs.platform 1.1
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import "../../../Common" as Common

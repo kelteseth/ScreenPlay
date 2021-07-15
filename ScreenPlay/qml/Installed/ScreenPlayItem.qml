@@ -1,8 +1,8 @@
 import QtQuick 2.12
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
-import QtQuick.Controls.Styles 1.4
+import QtQuick.Controls
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 import "../Common/Util.js" as JSUtil
@@ -212,7 +212,7 @@ Item {
                     screenPlayItemImage.state = "loaded";
                     screenPlayItemImage.exit();
                 }
-                onClicked: {
+                onClicked: (mouse)=> {
                     if (mouse.button === Qt.LeftButton)
                         ScreenPlay.util.setSidebarItem(root.screenId, root.type);
                     else if (mouse.button === Qt.RightButton)

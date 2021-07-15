@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.14
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts 1.3
 import ScreenPlay 1.0
 import QtWebEngine 1.8

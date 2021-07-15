@@ -8,5 +8,6 @@
         <file>index.html</file>
         <file>GifWallpaper.qml</file>
         <file>WebsiteWallpaper.qml</file>
+        <file>MultimediaView.qml</file>
     </qresource>
 </RCC>

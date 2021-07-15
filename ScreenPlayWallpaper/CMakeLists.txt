@@ -21,9 +21,9 @@ set(src main.cpp src/basewindow.cpp)
 set(headers src/basewindow.h)
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-    qt_add_resources(resources SPWResources.qrc)
+    qt6_add_resources (resources SPWResources.qrc)
 else()
-    qtquick_compiler_add_resources(resources SPWResources.qrc)
+    qt6_add_resources (resources SPWResources.qrc)
 endif()
 
 add_executable(${PROJECT_NAME} ${src} ${headers} ${src_plattform} ${headers_plattform} ${resources})
@@ -51,6 +51,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
                    Widgets
                    WebSockets
                    Svg
+                   Multimedia
                    WebEngineCore
                    WebEngineQuick
                    WebChannel
@@ -63,6 +64,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
                 Qt${QT_VERSION_MAJOR}::Core
                 Qt${QT_VERSION_MAJOR}::WebSockets
                 Qt${QT_VERSION_MAJOR}::Svg
+                Qt6::Multimedia
                 Qt6::WebEngineCore
                 Qt6::WebEngineQuick)
 else()

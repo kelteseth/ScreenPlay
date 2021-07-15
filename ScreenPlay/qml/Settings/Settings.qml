@@ -1,9 +1,9 @@
 import QtQuick 2.14
 import QtQuick.Controls 2.14
 import QtQuick.Controls.Material 2.12
-import QtQuick.Dialogs 1.3
+import Qt.labs.platform 1.1
 import QtQuick.Layouts 1.3
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 import ScreenPlay 1.0
 import ScreenPlay.Enums.FillMode 1.0
 import Settings 1.0
@@ -72,7 +72,7 @@ Item {
                         headline: qsTr("Autostart")
                         description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
                         isChecked: ScreenPlay.settings.autostart
-                        onCheckboxChanged: {
+                        onCheckboxChanged: (checked) => {
                             ScreenPlay.settings.setAutostart(checked);
                         }
                     }
@@ -98,7 +98,7 @@ Item {
                         headline: qsTr("Send anonymous crash reports and statistics")
                         description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use <a href=\"https://sentry.io\">sentry.io</a> to collect and analyze this data. A <b>big thanks to them</b> for providing us with free premium support for open source projects!")
                         isChecked: ScreenPlay.settings.anonymousTelemetry
-                        onCheckboxChanged: {
+                        onCheckboxChanged: (checked) => {
                             ScreenPlay.settings.setAnonymousTelemetry(checked);
                         }
                     }
@@ -121,10 +121,8 @@ Item {
                             folderDialogSaveLocation.open();
                         }
 
-                        FileDialog {
+                        FolderDialog  {
                             id: folderDialogSaveLocation
-
-                            selectFolder: true
                             folder: ScreenPlay.globalVariables.localStoragePath
                             onAccepted: {
                                 ScreenPlay.settings.setLocalStoragePath(folderDialogSaveLocation.fileUrls[0]);
@@ -262,7 +260,7 @@ Item {
                         headline: qsTr("Pause wallpaper video rendering while another app is in the foreground")
                         description: qsTr("We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!")
                         isChecked: ScreenPlay.settings.checkWallpaperVisible
-                        onCheckboxChanged: {
+                        onCheckboxChanged: (checked) =>{
                             ScreenPlay.settings.setCheckWallpaperVisible(checked);
                         }
                     }

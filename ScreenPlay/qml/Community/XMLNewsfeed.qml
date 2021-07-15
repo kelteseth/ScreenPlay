@@ -1,9 +1,9 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.3
 import QtQuick.Controls.Material 2.2
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts 1.3
-import QtQuick.XmlListModel 2.12
+import QtQml.XmlListModel
 import ScreenPlay 1.0
 
 Item {
@@ -34,29 +34,29 @@ Item {
             source: "https://screen-play.app/blog/index.xml"
             query: "/rss/channel/item"
 
-            XmlRole {
+            XmlListModelRole {
                 name: "title"
-                query: "title/string()"
+                elementName: "title"
             }
 
-            XmlRole {
+            XmlListModelRole {
                 name: "image"
-                query: "image/string()"
+                elementName: "image"
             }
 
-            XmlRole {
+            XmlListModelRole {
                 name: "pubDate"
-                query: "pubDate/string()"
+                elementName: "pubDate"
             }
 
-            XmlRole {
+            XmlListModelRole {
                 name: "link"
-                query: "link/string()"
+                elementName: "link"
             }
 
-            XmlRole {
+            XmlListModelRole {
                 name: "description"
-                query: "description/string()"
+                elementName: "description"
             }
 
         }

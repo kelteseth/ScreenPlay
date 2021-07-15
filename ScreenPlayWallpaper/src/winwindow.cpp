@@ -175,6 +175,13 @@ WinWindow::WinWindow(
     connect(this, &BaseWindow::reloadQML, this, [this]() {
         clearComponentCache();
     });
+    connect(
+        &m_window, &QQuickView::statusChanged,
+        this, [](auto status) {
+            if (status == QQuickView::Status::Error)
+                QCoreApplication::exit(-1);
+        },
+        Qt::QueuedConnection);
     connect(guiAppInst, &QApplication::screenAdded, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QApplication::screenRemoved, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QApplication::primaryScreenChanged, this, &WinWindow::configureWindowGeometry);
@@ -470,8 +477,7 @@ void WinWindow::configureWindowGeometry()
     setWidth(m_window.width());
     setHeight(m_window.height());
 
-    // Instead of setting "renderType: Text.NativeRendering" every time
-    // we can set it here once :)
+    // Instead of setting "renderType: Text.NativeRendering" every time  we can set it here once
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_window.setSource(QUrl("qrc:/Wallpaper.qml"));

@@ -79,12 +79,8 @@ if(WIN32)
     add_subdirectory(ScreenPlaySysInfo)
 endif()
 
-#if(APPLE)
-#add_custom_target(CopyDependencies DEPENDS ScreenPlay)
-#add_custom_command(TARGET CopyDependencies POST_BUILD
-#  COMMAND "ScreenPlayWallpaper" -E copy_directory
-#     "$<TARGET_FILE:ScreenPlayWallpaper>"
-#     "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/$<TARGET_FILE_NAME:ScreenPlayWallpaper>/"
-#  COMMENT "Copying into ScreenPlay.app bundle")
-#endif()
-
+message(STATUS "[PROJECT] VCPKG_TARGET_TRIPLET = ${VCPKG_TARGET_TRIPLET}")
+message(STATUS "[PROJECT] CMAKE_TOOLCHAIN_FILE = ${CMAKE_TOOLCHAIN_FILE}")
+message(STATUS "[PROJECT] CMAKE_PREFIX_PATH    = ${CMAKE_PREFIX_PATH}")
+message(STATUS "[PROJECT] QT_VERSION_MAJOR     = ${QT_VERSION_MAJOR}.${QT_VERSION_MINOR}.${QT_VERSION_PATCH} ")
+message(STATUS "[PROJECT] Qt6_FOUND     = ${Qt6_FOUND}")

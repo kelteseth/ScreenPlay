@@ -1,5 +1,7 @@
 #include "shaderlibrary.h"
 
+#include <QFile>
+
 /*!
     \module ScreenPlayShader
     \title ScreenPlayShader

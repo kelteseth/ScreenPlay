@@ -584,7 +584,7 @@ bool CreateImportVideo::createWallpaperVideo()
         if (tmpOut.contains("Conversion failed!")) {
             emit createWallpaperStateChanged(ImportVideoState::ConvertingVideoError);
         }
-        const auto tmpList = tmpOut.split(QRegExp("\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
+        const auto tmpList = tmpOut.split(QRegularExpression("\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
 
         if (tmpList.length() > 2) {
             bool ok = false;

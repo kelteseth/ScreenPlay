@@ -47,7 +47,12 @@
 #include <QUrl>
 #include <QtGlobal>
 #include <QtQml>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 #include <QtWebEngine>
+#else
+#include <QtWebEngineCore>
+#endif
+
 #include <QtSvg>
 
 #include "src/create.h"

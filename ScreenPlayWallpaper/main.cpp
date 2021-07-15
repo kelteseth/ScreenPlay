@@ -3,7 +3,12 @@
 #include <QStringList>
 #include <QVector>
 #include <QtGlobal>
-#include <QtWebEngine/QtWebEngine>
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
+#include <QtWebEngine>
+#else
+#include <QtWebEngineQuick>
+#endif
+
 
 #include "ScreenPlayUtil/util.h"
 
@@ -19,7 +24,13 @@ int main(int argc, char* argv[])
 {
     //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QtWebEngine::initialize();
+#else
+
+    QtWebEngineQuick::initialize();
+
+#endif
 
     QApplication app(argc, argv);
 

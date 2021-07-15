@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
-import QtGraphicalEffects 1.0
+import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl 2.12
 import ScreenPlay 1.0
 import "../Workshop"
@@ -79,7 +79,7 @@ Rectangle {
             state: "inactive"
             name: "Create"
             iconSource: "qrc:/assets/icons/icon_plus.svg"
-            onPageClicked: root.onPageChanged(name)
+            onPageClicked: (name)=> {root.onPageChanged(name)}
         }
 
         NavigationItem {
@@ -88,7 +88,7 @@ Rectangle {
             state: "inactive"
             name: "Workshop"
             iconSource: "qrc:/assets/icons/icon_steam.svg"
-            onPageClicked: root.onPageChanged(name)
+            onPageClicked: (name)=> {root.onPageChanged(name)}
         }
 
         NavigationItem {
@@ -98,7 +98,7 @@ Rectangle {
             name: "Installed"
             amount: ScreenPlay.installedListModel.count
             iconSource: "qrc:/assets/icons/icon_installed.svg"
-            onPageClicked: root.onPageChanged(name)
+            onPageClicked: (name)=> {root.onPageChanged(name)}
         }
 
         NavigationItem {
@@ -107,7 +107,7 @@ Rectangle {
             state: "inactive"
             name: "Community"
             iconSource: "qrc:/assets/icons/icon_community.svg"
-            onPageClicked: root.onPageChanged(name)
+            onPageClicked: (name)=> {root.onPageChanged(name)}
         }
 
         NavigationItem {
@@ -116,7 +116,7 @@ Rectangle {
             state: "inactive"
             name: "Settings"
             iconSource: "qrc:/assets/icons/icon_settings.svg"
-            onPageClicked: root.onPageChanged(name)
+            onPageClicked: (name)=> {root.onPageChanged(name)}
         }
 
     }
