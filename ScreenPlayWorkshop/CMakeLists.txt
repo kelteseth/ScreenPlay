@@ -83,15 +83,35 @@ endif()
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qmldir COPYONLY)
 
 
-add_custom_command(
-    TARGET workshopplugin POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    ${steam_bin}
-    ${CMAKE_BINARY_DIR}/bin/ )
+if(APPLE)
+    set(workshop_install_dir ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/Workshop)
 
-add_custom_command(
-    TARGET workshopplugin POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_if_different
-    ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt
-    ${CMAKE_BINARY_DIR}/bin/ )
+    add_custom_target(build-time-make-directory
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E make_directory ${workshop_install_dir})
+
+    add_custom_command(TARGET workshopplugin
+        POST_BUILD
+        COMMENT "Copying into ScreenPlay.app bundle"
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qmldir
+                ${workshop_install_dir})
+    add_custom_command(TARGET workshopplugin
+        POST_BUILD
+        COMMENT "Copying into ScreenPlay.app bundle"
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libworkshopplugin.dylib
+                ${workshop_install_dir})
+else()
+    add_custom_command(
+        TARGET workshopplugin POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${steam_bin}
+        ${CMAKE_BINARY_DIR}/bin/ )
+
+    add_custom_command(
+        TARGET workshopplugin POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt
+        ${CMAKE_BINARY_DIR}/bin/ )
+endif()
+
 
