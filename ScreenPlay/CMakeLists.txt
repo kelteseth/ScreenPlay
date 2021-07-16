@@ -114,7 +114,8 @@ else()
                    WebSockets
                    Svg
                    LinguistTools
-                   WebEngine)
+                   WebEngine
+                   QuickCompiler)
 
     if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
         qt_add_resources(qml qml.qrc assets.qrc)

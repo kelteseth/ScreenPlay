@@ -6,7 +6,10 @@ project(ScreenPlay LANGUAGES CXX)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
-option(SCREENPLAY_FOSS "" true)
+
+set(SCREENPLAY_STEAM ON)
+
+file(MAKE_DIRECTORY ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
 set(CMAKE_CXX_STANDARD 20)
 
@@ -27,12 +30,7 @@ if(APPLE)
     set(THREADS_PREFER_PTHREAD_FLAG ON)
 endif()
 
-if(${SCREENPLAY_FOSS})
-    set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlay-vcpkg")
-else()
-    set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../../ScreenPlay-vcpkg")
-endif()
-
+set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlay-vcpkg")
 set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
 
 find_package(Git REQUIRED)
@@ -74,6 +72,10 @@ add_subdirectory(ScreenPlayShader)
 add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlayUtil)
+
+if(${SCREENPLAY_STEAM})
+add_subdirectory(ScreenPlayWorkshop)
+endif()
 
 if(WIN32)
     add_subdirectory(ScreenPlaySysInfo)
