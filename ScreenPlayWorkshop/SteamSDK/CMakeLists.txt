@@ -56,8 +56,7 @@ set(HEADER
     # CUSTOM
     public/steam/steam_qt_enums_generated.h
     # ENDCUSTOM
-  )
-
+)
 
 add_library(${PROJECT_NAME} STATIC ${HEADER})
 target_include_directories(${PROJECT_NAME} PUBLIC public/)

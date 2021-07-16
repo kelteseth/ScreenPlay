@@ -74,7 +74,7 @@ add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlayUtil)
 
 if(${SCREENPLAY_STEAM})
-add_subdirectory(ScreenPlayWorkshop)
+    add_subdirectory(ScreenPlayWorkshop)
 endif()
 
 if(WIN32)

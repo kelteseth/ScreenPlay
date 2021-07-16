@@ -3,26 +3,18 @@ add_subdirectory(SteamSDK)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 20)
 
-
 find_package(
     QT NAMES Qt6 Qt5
-    COMPONENTS Quick
-    QML
-    Widgets
-    Gui
+    COMPONENTS Quick QML Widgets Gui
     REQUIRED)
 
 find_package(
-  Qt${QT_VERSION_MAJOR}
-  COMPONENTS Quick
-             QML
-             Widgets
-             Gui
-  REQUIRED)
+    Qt${QT_VERSION_MAJOR}
+    COMPONENTS Quick QML Widgets Gui
+    REQUIRED)
 
 add_library(
-    workshopplugin
-    SHARED
+    workshopplugin SHARED
     src/steamapiwrapper.h
     src/steamapiwrapper.cpp
     src/steamworkshoplistmodel.h
@@ -44,8 +36,7 @@ add_library(
     src/steamqmlimageprovider.cpp
     src/steamqmlimageprovider.h
     qmldir
-    ${qml_resources}
-)
+    ${qml_resources})
 
 set_target_properties(workshopplugin PROPERTIES CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/workshop)
 set_target_properties(workshopplugin PROPERTIES CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/workshop)
@@ -54,64 +45,51 @@ set_target_properties(workshopplugin PROPERTIES CMAKE_ARCHIVE_OUTPUT_DIRECTORY $
 set(steam_lib_path "${CMAKE_CURRENT_SOURCE_DIR}/SteamSDK/redistributable_bin/")
 
 if(WIN32)
-  set(steam_lib "${steam_lib_path}/win64/steam_api64.lib")
+    set(steam_lib "${steam_lib_path}/win64/steam_api64.lib")
 elseif(APPLE)
-  set(steam_lib "${steam_lib_path}/osx/libsteam_api.dylib")
+    set(steam_lib "${steam_lib_path}/osx/libsteam_api.dylib")
 elseif(UNIX)
-  set(steam_lib "${steam_lib_path}/linux64/libsteam_api.so")
+    set(steam_lib "${steam_lib_path}/linux64/libsteam_api.so")
 endif()
 
-target_link_libraries(
-    workshopplugin
-    PRIVATE
-        Qt${QT_VERSION_MAJOR}::Core
-        Qt${QT_VERSION_MAJOR}::Quick
-        ${steam_lib}
-        ScreenPlayUtil
-        SteamSDK
-)
+target_link_libraries(workshopplugin PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick ${steam_lib} ScreenPlayUtil SteamSDK)
 
 if(WIN32)
-  set(steam_bin "${steam_lib_path}/win64/steam_api64.dll")
+    set(steam_bin "${steam_lib_path}/win64/steam_api64.dll")
 elseif(APPLE)
-  set(steam_bin "${steam_lib_path}/osx/libsteam_api.dylib")
+    set(steam_bin "${steam_lib_path}/osx/libsteam_api.dylib")
 elseif(UNIX)
-  set(steam_bin "${steam_lib_path}/linux64/libsteam_api.so")
+    set(steam_bin "${steam_lib_path}/linux64/libsteam_api.so")
 endif()
 
-
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qmldir COPYONLY)
-
 
 if(APPLE)
     set(workshop_install_dir ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/Workshop)
 
-    add_custom_target(build-time-make-directory
+    add_custom_target(
+        build-time-make-directory
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E make_directory ${workshop_install_dir})
 
-    add_custom_command(TARGET workshopplugin
+    add_custom_command(
+        TARGET workshopplugin
         POST_BUILD
         COMMENT "Copying into ScreenPlay.app bundle"
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qmldir
-                ${workshop_install_dir})
-    add_custom_command(TARGET workshopplugin
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qmldir ${workshop_install_dir})
+    add_custom_command(
+        TARGET workshopplugin
         POST_BUILD
         COMMENT "Copying into ScreenPlay.app bundle"
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libworkshopplugin.dylib
-                ${workshop_install_dir})
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libworkshopplugin.dylib ${workshop_install_dir})
 else()
     add_custom_command(
-        TARGET workshopplugin POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${steam_bin}
-        ${CMAKE_BINARY_DIR}/bin/ )
+        TARGET workshopplugin
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${steam_bin} ${CMAKE_BINARY_DIR}/bin/)
 
     add_custom_command(
-        TARGET workshopplugin POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-        ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt
-        ${CMAKE_BINARY_DIR}/bin/ )
+        TARGET workshopplugin
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/)
 endif()
-
-

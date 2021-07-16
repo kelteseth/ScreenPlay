@@ -20,28 +20,6 @@ endif()
 set(src main.cpp src/basewindow.cpp)
 set(headers src/basewindow.h)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-    qt_add_resources(resources SPWResources.qrc)
-else()
-    qtquick_compiler_add_resources(resources SPWResources.qrc)
-endif()
-
-add_executable(${PROJECT_NAME} ${src} ${headers} ${src_plattform} ${headers_plattform} ${resources})
-
-if(WIN32)
-    # Disable console window on Windows
-    # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
-    set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
-    target_link_libraries(${PROJECT_NAME} PRIVATE shcore.lib)
-endif()
-
-if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
-    target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")
-endif()
-
-target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySDK ScreenPlayUtil)
-
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
     find_package(
         Qt${QT_VERSION_MAJOR}
@@ -55,6 +33,15 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
                    WebEngineQuick
                    WebChannel
                    Positioning)
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+        qt_add_resources(resources SPWResources.qrc)
+    else()
+        qtquick_compiler_add_resources(resources SPWResources.qrc)
+    endif()
+
+    add_executable(${PROJECT_NAME} ${src} ${headers} ${src_plattform} ${headers_plattform} ${resources})
+
     target_link_libraries(
         ${PROJECT_NAME}
         PRIVATE Qt${QT_VERSION_MAJOR}::Quick
@@ -75,6 +62,15 @@ else()
                    WebSockets
                    Svg
                    WebEngine)
+
+    if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+        qt_add_resources(resources SPWResources.qrc)
+    else()
+        qtquick_compiler_add_resources(resources SPWResources.qrc)
+    endif()
+
+    add_executable(${PROJECT_NAME} ${src} ${headers} ${src_plattform} ${headers_plattform} ${resources})
+
     target_link_libraries(
         ${PROJECT_NAME}
         PRIVATE Qt${QT_VERSION_MAJOR}::Quick
@@ -84,4 +80,18 @@ else()
                 Qt${QT_VERSION_MAJOR}::WebSockets
                 Qt${QT_VERSION_MAJOR}::Svg
                 Qt5::WebEngine)
+endif()
+
+target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySDK ScreenPlayUtil)
+
+if(WIN32)
+    # Disable console window on Windows
+    # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
+    set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
+    target_link_libraries(${PROJECT_NAME} PRIVATE shcore.lib)
+endif()
+
+if(APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
+    target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")
 endif()
