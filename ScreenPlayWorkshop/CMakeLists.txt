@@ -3,9 +3,6 @@ add_subdirectory(SteamSDK)
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 20)
 
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/workshop)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/workshop)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/workshop)
 
 find_package(
     QT NAMES Qt6 Qt5
@@ -49,6 +46,10 @@ add_library(
     qmldir
     ${qml_resources}
 )
+
+set_target_properties(workshopplugin PROPERTIES CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/workshop)
+set_target_properties(workshopplugin PROPERTIES CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/workshop)
+set_target_properties(workshopplugin PROPERTIES CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/workshop)
 
 set(steam_lib_path "${CMAKE_CURRENT_SOURCE_DIR}/SteamSDK/redistributable_bin/")
 
