@@ -1170,9 +1170,8 @@
         <translation>Gửi báo cáo lỗi ẩn danh và số liệu thống kê</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="99"/>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!</source>
-        <translation>Giúp chúng tôi làm ScreenPlay nhanh hơn và ổn định hơn. Tất cả các dữ liệu thu thập được đều được ẩn danh tuyệt đối và chỉ sử dụng cho mục đích lập trình ư.d!</translation>
+        <translation type="vanished">Giúp chúng tôi làm ScreenPlay nhanh hơn và ổn định hơn. Tất cả các dữ liệu thu thập được đều được ẩn danh tuyệt đối và chỉ sử dụng cho mục đích lập trình ư.d!</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="110"/>
@@ -1287,6 +1286,11 @@
     <message>
         <location filename="../qml/Settings/Settings.qml" line="176"/>
         <source>Chinese - Simplified</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="99"/>
+        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1586,6 +1590,123 @@
     <message>
         <location filename="../qml/Common/Dialogs/SteamNotAvailable.qml" line="11"/>
         <source>Could not load steam integration!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SteamProfile</name>
+    <message>
+        <location filename="../qml/Workshop/SteamProfile.qml" line="78"/>
+        <location filename="../qml/Workshop/SteamProfile.qml" line="138"/>
+        <source>Back</source>
+        <translation type="unfinished">Quay lại</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamProfile.qml" line="160"/>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>SteamWorkshop</name>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="151"/>
+        <source>Loading</source>
+        <translation type="unfinished">Đang tải</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="163"/>
+        <source>Download now!</source>
+        <translation type="unfinished">Tải xuống ngay!</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="168"/>
+        <source>Downloading...</source>
+        <translation type="unfinished">Đang tải xuống...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="176"/>
+        <source>Details</source>
+        <translation type="unfinished">Chi tiết</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="202"/>
+        <source>Open In Steam</source>
+        <translation type="unfinished">Mở trên Steam</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="286"/>
+        <source>Profile</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="305"/>
+        <source>Search for Wallpaper and Widgets...</source>
+        <translation type="unfinished">Tìm hình nền &amp; cảnh...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="349"/>
+        <source>Open Workshop in Steam</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="373"/>
+        <source>Ranked By Vote</source>
+        <translation type="unfinished">Xếp hạng bởi số phiếu.</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="376"/>
+        <source>Publication Date</source>
+        <translation type="unfinished">Ngày tải lên</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="379"/>
+        <source>Ranked By Trend</source>
+        <translation type="unfinished">Xếp hạng bởi trend</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="382"/>
+        <source>Favorited By Friends</source>
+        <translation type="unfinished">Được yêu thích bởi bạn bè</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="385"/>
+        <source>Created By Friends</source>
+        <translation type="unfinished">Tạo bởi bạn bè</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="388"/>
+        <source>Created By Followed Users</source>
+        <translation type="unfinished">Tạo bởi người đã theo dỗi</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="391"/>
+        <source>Not Yet Rated</source>
+        <translation type="unfinished">Chưa được xếp hạng</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="394"/>
+        <source>Total VotesAsc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="397"/>
+        <source>Votes Up</source>
+        <translation type="unfinished">Số phiếu đang lên cao</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="400"/>
+        <source>Total Unique Subscriptions</source>
+        <translation type="unfinished">Tổng số đăng ký duy nhất</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="449"/>
+        <source>Back</source>
+        <translation type="unfinished">Quay lại</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="473"/>
+        <source>Forward</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2347,106 +2468,69 @@
 <context>
     <name>Workshop</name>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="171"/>
         <source>Loading</source>
-        <translation>Đang tải</translation>
+        <translation type="vanished">Đang tải</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="183"/>
         <source>Download now!</source>
-        <translation>Tải xuống ngay!</translation>
+        <translation type="vanished">Tải xuống ngay!</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="188"/>
         <source>Downloading...</source>
-        <translation>Đang tải xuống...</translation>
+        <translation type="vanished">Đang tải xuống...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="196"/>
         <source>Details</source>
-        <translation>Chi tiết</translation>
+        <translation type="vanished">Chi tiết</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="222"/>
         <source>Open In Steam</source>
-        <translation>Mở trên Steam</translation>
+        <translation type="vanished">Mở trên Steam</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="281"/>
         <source>Search for Wallpaper and Widgets...</source>
-        <translation>Tìm hình nền &amp; cảnh...</translation>
+        <translation type="vanished">Tìm hình nền &amp; cảnh...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="347"/>
-        <source>Open Workshop in Steam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="359"/>
-        <source>Open GameHub in Steam</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="383"/>
         <source>Ranked By Vote</source>
-        <translation>Xếp hạng bởi số phiếu.</translation>
+        <translation type="vanished">Xếp hạng bởi số phiếu.</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="386"/>
         <source>Publication Date</source>
-        <translation>Ngày tải lên</translation>
+        <translation type="vanished">Ngày tải lên</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="389"/>
         <source>Ranked By Trend</source>
-        <translation>Xếp hạng bởi trend</translation>
+        <translation type="vanished">Xếp hạng bởi trend</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="392"/>
         <source>Favorited By Friends</source>
-        <translation>Được yêu thích bởi bạn bè</translation>
+        <translation type="vanished">Được yêu thích bởi bạn bè</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="395"/>
         <source>Created By Friends</source>
-        <translation>Tạo bởi bạn bè</translation>
+        <translation type="vanished">Tạo bởi bạn bè</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="398"/>
         <source>Created By Followed Users</source>
-        <translation>Tạo bởi người đã theo dỗi</translation>
+        <translation type="vanished">Tạo bởi người đã theo dỗi</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="401"/>
         <source>Not Yet Rated</source>
-        <translation>Chưa được xếp hạng</translation>
+        <translation type="vanished">Chưa được xếp hạng</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="404"/>
-        <source>Total VotesAsc</source>
-        <translatorcomment>????</translatorcomment>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="407"/>
         <source>Votes Up</source>
         <translatorcomment>?????</translatorcomment>
-        <translation>Số phiếu đang lên cao</translation>
+        <translation type="vanished">Số phiếu đang lên cao</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="410"/>
         <source>Total Unique Subscriptions</source>
-        <translation>Tổng số đăng ký duy nhất</translation>
+        <translation type="vanished">Tổng số đăng ký duy nhất</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="460"/>
         <source>Back</source>
-        <translation type="unfinished">Quay lại</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="484"/>
-        <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="obsolete">Quay lại</translation>
     </message>
 </context>
 <context>

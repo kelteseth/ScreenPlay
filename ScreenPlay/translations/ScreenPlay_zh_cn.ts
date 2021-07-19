@@ -928,11 +928,6 @@
         <translation>发送匿名崩溃报告和统计数据</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="99"/>
-        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!</source>
-        <translation>帮助我们，让ScreenPlay更快更稳定。所有被收集的数据完全匿名，且只用于开发。</translation>
-    </message>
-    <message>
         <location filename="../qml/Settings/Settings.qml" line="110"/>
         <source>Set save location</source>
         <translation>设置保存位置</translation>
@@ -966,6 +961,11 @@
         <location filename="../qml/Settings/Settings.qml" line="73"/>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
         <translation>ScreenPlay将在操作系统启动时启动，并会设置您的桌面。</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="99"/>
+        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
+        <translation>帮助我们让 ScreenPlay 更快更稳定。所有被收集的数据完全匿名，而且仅用于开发用途！我们使用&lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; 收集与分析数据。&lt;b&gt;感谢他们&lt;/b&gt; 为我们提供对开源项目免费而优质的服务！</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="116"/>
@@ -1333,6 +1333,123 @@
         <location filename="../qml/Common/Dialogs/SteamNotAvailable.qml" line="11"/>
         <source>Could not load steam integration!</source>
         <translation>无法加载steam集成！</translation>
+    </message>
+</context>
+<context>
+    <name>SteamProfile</name>
+    <message>
+        <location filename="../qml/Workshop/SteamProfile.qml" line="78"/>
+        <location filename="../qml/Workshop/SteamProfile.qml" line="138"/>
+        <source>Back</source>
+        <translation>返回</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamProfile.qml" line="160"/>
+        <source>Forward</source>
+        <translation>前进</translation>
+    </message>
+</context>
+<context>
+    <name>SteamWorkshop</name>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="151"/>
+        <source>Loading</source>
+        <translation>加载中</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="163"/>
+        <source>Download now!</source>
+        <translation>开始下载！</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="168"/>
+        <source>Downloading...</source>
+        <translation>下载中...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="176"/>
+        <source>Details</source>
+        <translation>查看详情</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="202"/>
+        <source>Open In Steam</source>
+        <translation>在Steam打开</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="286"/>
+        <source>Profile</source>
+        <translation>配置</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="305"/>
+        <source>Search for Wallpaper and Widgets...</source>
+        <translation>搜索壁纸和物件...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="349"/>
+        <source>Open Workshop in Steam</source>
+        <translation>在Steam中打开创意工坊</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="373"/>
+        <source>Ranked By Vote</source>
+        <translation>评分最好</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="376"/>
+        <source>Publication Date</source>
+        <translation>发布日期</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="379"/>
+        <source>Ranked By Trend</source>
+        <translation>评分趋势</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="382"/>
+        <source>Favorited By Friends</source>
+        <translation>好友收藏</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="385"/>
+        <source>Created By Friends</source>
+        <translation>好友创建</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="388"/>
+        <source>Created By Followed Users</source>
+        <translation>已关注的</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="391"/>
+        <source>Not Yet Rated</source>
+        <translation>尚未评分</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="394"/>
+        <source>Total VotesAsc</source>
+        <translation>按总票数升序</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="397"/>
+        <source>Votes Up</source>
+        <translation>评分上升</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="400"/>
+        <source>Total Unique Subscriptions</source>
+        <translation>总订阅量</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="449"/>
+        <source>Back</source>
+        <translation>返回</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="473"/>
+        <source>Forward</source>
+        <translation>前进</translation>
     </message>
 </context>
 <context>
@@ -2084,109 +2201,6 @@
         <location filename="../qml/Create/Wizards/WizardPage.qml" line="101"/>
         <source>Saving...</source>
         <translation>保存中...</translation>
-    </message>
-</context>
-<context>
-    <name>Workshop</name>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="171"/>
-        <source>Loading</source>
-        <translation>加载中</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="183"/>
-        <source>Download now!</source>
-        <translation>开始下载！</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="188"/>
-        <source>Downloading...</source>
-        <translation>下载中...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="196"/>
-        <source>Details</source>
-        <translation>查看详情</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="222"/>
-        <source>Open In Steam</source>
-        <translation>在Steam打开</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="281"/>
-        <source>Search for Wallpaper and Widgets...</source>
-        <translation>搜索壁纸和物件...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="347"/>
-        <source>Open Workshop in Steam</source>
-        <translation>在Steam中打开创意工坊</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="359"/>
-        <source>Open GameHub in Steam</source>
-        <translation>在Steam中打开游戏社区</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="383"/>
-        <source>Ranked By Vote</source>
-        <translation>评分最好</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="386"/>
-        <source>Publication Date</source>
-        <translation>发布日期</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="389"/>
-        <source>Ranked By Trend</source>
-        <translation>评分趋势</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="392"/>
-        <source>Favorited By Friends</source>
-        <translation>好友收藏</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="395"/>
-        <source>Created By Friends</source>
-        <translation>好友创建</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="398"/>
-        <source>Created By Followed Users</source>
-        <translation>已关注的</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="401"/>
-        <source>Not Yet Rated</source>
-        <translation>尚未评分</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="404"/>
-        <source>Total VotesAsc</source>
-        <translation>按总票数升序</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="407"/>
-        <source>Votes Up</source>
-        <translation>评分上升</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="410"/>
-        <source>Total Unique Subscriptions</source>
-        <translation>总订阅量</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="460"/>
-        <source>Back</source>
-        <translation>返回</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="484"/>
-        <source>Forward</source>
-        <translation>前进</translation>
     </message>
 </context>
 <context>
