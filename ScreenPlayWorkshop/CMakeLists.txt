@@ -38,9 +38,11 @@ add_library(
     qmldir
     ${qml_resources})
 
-set_target_properties(workshopplugin PROPERTIES CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/workshop)
-set_target_properties(workshopplugin PROPERTIES CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/workshop)
-set_target_properties(workshopplugin PROPERTIES CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/workshop)
+set(WORKSHOP_PLUGIN_DIR ${CMAKE_BINARY_DIR}/bin/workshop)
+file(MAKE_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
+set_target_properties(workshopplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
+set_target_properties(workshopplugin PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
+set_target_properties(workshopplugin PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
 
 set(steam_lib_path "${CMAKE_CURRENT_SOURCE_DIR}/SteamSDK/redistributable_bin/")
 
@@ -62,8 +64,6 @@ elseif(UNIX)
     set(steam_bin "${steam_lib_path}/linux64/libsteam_api.so")
 endif()
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qmldir COPYONLY)
-
 if(APPLE)
     set(workshop_install_dir ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/Workshop)
 
@@ -83,13 +83,7 @@ if(APPLE)
         COMMENT "Copying into ScreenPlay.app bundle"
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libworkshopplugin.dylib ${workshop_install_dir})
 else()
-    add_custom_command(
-        TARGET workshopplugin
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${steam_bin} ${CMAKE_BINARY_DIR}/bin/)
-
-    add_custom_command(
-        TARGET workshopplugin
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qmldir           ${WORKSHOP_PLUGIN_DIR}/qmldir COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt  ${CMAKE_BINARY_DIR}/bin/steam_appid.txt  COPYONLY)
+    configure_file(${steam_bin}                                 ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 endif()
