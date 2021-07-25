@@ -98,7 +98,7 @@ build:linux_debug:
         - mkdir Qt
         - aqt install --outputdir Qt/ 5.15.2 linux desktop
         - cd Tools
-        - wget https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
+        - wget -q  https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
         - python3 setup.py
         - python3 build.py -t debug
 
@@ -125,7 +125,7 @@ build:linux_release:
         - mkdir Qt
         - aqt install --outputdir Qt/ 5.15.2 linux desktop
         - cd Tools
-        - wget https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
+        - wget -q https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
         - python3 setup.py
         - python3 build.py -t release
     artifacts:
