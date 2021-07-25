@@ -21,15 +21,6 @@ elseif(APPLE)
     set(VCPKG_ARCH "x64-osx")
 endif()
 
-# Assume built-in pthreads on MacOS https://stackoverflow.com/questions/54587052/cmake-on-mac-could-not-find-threads-missing-threads-found
-if(APPLE)
-    set(CMAKE_THREAD_LIBS_INIT "-lpthread")
-    set(CMAKE_HAVE_THREADS_LIBRARY 1)
-    set(CMAKE_USE_WIN32_THREADS_INIT 0)
-    set(CMAKE_USE_PTHREADS_INIT 1)
-    set(THREADS_PREFER_PTHREAD_FLAG ON)
-endif()
-
 set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlay-vcpkg")
 set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
 
@@ -80,13 +71,4 @@ endif()
 if(WIN32)
     add_subdirectory(ScreenPlaySysInfo)
 endif()
-
-#if(APPLE)
-#add_custom_target(CopyDependencies DEPENDS ScreenPlay)
-#add_custom_command(TARGET CopyDependencies POST_BUILD
-#  COMMAND "ScreenPlayWallpaper" -E copy_directory
-#     "$<TARGET_FILE:ScreenPlayWallpaper>"
-#     "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/$<TARGET_FILE_NAME:ScreenPlayWallpaper>/"
-#  COMMENT "Copying into ScreenPlay.app bundle")
-#endif()
 

@@ -75,15 +75,30 @@ if(APPLE)
     add_custom_command(
         TARGET workshopplugin
         POST_BUILD
-        COMMENT "Copying into ScreenPlay.app bundle"
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/qmldir ${workshop_install_dir})
+        COMMENT "Copying qmldir info into ScreenPlay.app bundle"
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${workshop_install_dir})
+
     add_custom_command(
         TARGET workshopplugin
         POST_BUILD
-        COMMENT "Copying into ScreenPlay.app bundle"
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/libworkshopplugin.dylib ${workshop_install_dir})
+        COMMENT "Copying workshop plugin into ScreenPlay.app bundle"
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Workshop/libworkshopplugin.dylib ${workshop_install_dir})
+
+    add_custom_command(
+        TARGET workshopplugin
+        POST_BUILD
+        COMMENT "Copying steam library into ScreenPlay.app bundle"
+        COMMAND ${CMAKE_COMMAND} -E copy ${steam_bin} ${workshop_install_dir})
+
+    add_custom_command(
+        TARGET workshopplugin
+        POST_BUILD
+        COMMENT "Copying steam_appid.txt into ScreenPlay.app bundle"
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt  ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
+
 else()
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qmldir           ${WORKSHOP_PLUGIN_DIR}/qmldir COPYONLY)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt  ${CMAKE_BINARY_DIR}/bin/steam_appid.txt  COPYONLY)
     configure_file(${steam_bin}                                 ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 endif()
+

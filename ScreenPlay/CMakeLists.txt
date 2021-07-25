@@ -62,6 +62,9 @@ set(l10n
     translations/ScreenPlay_ru.ts
     translations/ScreenPlay_vi.ts)
 
+# Needed on macos
+find_package(Threads REQUIRED)
+
 set_source_files_properties(${l10n} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/translations")
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -95,6 +98,7 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
                 benchmark::benchmark_main
                 doctest::doctest
                 sentry::sentry
+                Threads::Threads
                 Qt${QT_VERSION_MAJOR}::Quick
                 Qt${QT_VERSION_MAJOR}::Gui
                 Qt${QT_VERSION_MAJOR}::Widgets
@@ -133,6 +137,7 @@ else()
                 benchmark::benchmark_main
                 doctest::doctest
                 sentry::sentry
+                Threads::Threads
                 Qt${QT_VERSION_MAJOR}::Quick
                 Qt${QT_VERSION_MAJOR}::Gui
                 Qt${QT_VERSION_MAJOR}::Widgets

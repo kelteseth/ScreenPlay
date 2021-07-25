@@ -96,6 +96,7 @@ print("deploy_command: %s" % deploy_command)
 process = subprocess.run(cmake_configure_command,  capture_output=True,shell=True)
 
 if process.returncode != 0:
+    print("deploy_command error: %s" % process.stderr)
     sys.exit(process.returncode)
 
 os.system("cmake --build . --target all")
