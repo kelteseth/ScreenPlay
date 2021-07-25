@@ -93,14 +93,14 @@ build:linux_debug:
         - apt update -y
         # Otherwise libglib2 needs interaction
         - export  DEBIAN_FRONTEND=noninteractive
-        - apt install apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - apt install pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install aqtinstall
         - mkdir Qt
         - aqt install --outputdir Qt/ 5.15.2 linux desktop
         - cd Tools
         - wget https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
-        - python setup.py
-        - python build.py -t debug
+        - python3 setup.py
+        - python3 build.py -t debug
 
     artifacts:
         expire_in: "4 weeks"
@@ -120,14 +120,14 @@ build:linux_release:
         - apt update -y
         # Otherwise libglib2 needs interaction
         - export  DEBIAN_FRONTEND=noninteractive
-        - apt install apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - apt install pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install aqtinstall
         - mkdir Qt
         - aqt install --outputdir Qt/ 5.15.2 linux desktop
         - cd Tools
         - wget https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
-        - python setup.py
-        - python build.py -t release
+        - python3 setup.py
+        - python3 build.py -t release
     artifacts:
         expire_in: "4 weeks"
         paths:
