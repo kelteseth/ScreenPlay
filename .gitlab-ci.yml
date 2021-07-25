@@ -115,8 +115,7 @@ build:linux_release:
     stage: build
     allow_failure: true
     image:
-        name: darkmattercoder/qt-build:5.15.1
-        entrypoint: [""]
+        name: ubuntu:20.04
     tags:
         - gitlab-org-docker
     needs:
