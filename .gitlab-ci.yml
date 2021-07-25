@@ -122,7 +122,7 @@ build:linux_release:
     needs:
         - check
     script:
-         - apt update -y
+        - apt update -y
         # Otherwise libglib2 needs interaction
         - export  DEBIAN_FRONTEND=noninteractive
         - apt install apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip -y
