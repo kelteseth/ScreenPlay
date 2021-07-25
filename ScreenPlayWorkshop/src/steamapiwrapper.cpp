@@ -24,5 +24,4 @@ bool setItemTags(const QVariant& updateHandle, const QStringList tags)
     return SteamUGC()->SetItemTags(updateHandle.toULongLong(), pTags);
 }
 
-
 }

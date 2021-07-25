@@ -17,8 +17,8 @@ struct ItemUpdateData {
     QString m_preview;
     QMap<QString, QString> m_keyValueTag; //add new key-value tags for the item. Note that there can be multiple values for a tag.
     QString m_changeNote;
-    QPair<QString,ScreenPlayWorkshopSteamEnums::EItemPreviewType> m_previewFile;
-    QPair<QString,ScreenPlayWorkshopSteamEnums::EItemPreviewType> m_previewVideo;
+    QPair<QString, ScreenPlayWorkshopSteamEnums::EItemPreviewType> m_previewFile;
+    QPair<QString, ScreenPlayWorkshopSteamEnums::EItemPreviewType> m_previewVideo;
 
     const char* title() const { return m_title.toUtf8().data(); }
     const char* description() const { return m_description.toUtf8().data(); }

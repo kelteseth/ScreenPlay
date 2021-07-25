@@ -201,7 +201,7 @@ public slots:
             QFile defaultPListFile(":/assets/macos/" + plistFileName);
             defaultPListFile.open(QIODevice::ReadOnly);
             QString settingsPlistContent = defaultPListFile.readAll();
-            if(!settingsPlistContent.contains("{{SCREENPLAY_PATH}}")){
+            if (!settingsPlistContent.contains("{{SCREENPLAY_PATH}}")) {
                 qCritical() << "Unable to load plist settings template from qrc to set autostart!";
             }
 
@@ -211,12 +211,12 @@ public slots:
             workingDir.cdUp();
             const QString screenPlayPath = QUrl::fromUserInput(workingDir.path() + "/ScreenPlay.app/Contents/MacOS/ScreenPlay").toLocalFile();
             settingsPlistContent.replace("{{SCREENPLAY_PATH}}", screenPlayPath);
-            settingsPlistContent.replace("{{SCREENPLAY_AUTOSTART}}", autostart ? "true":"false");
+            settingsPlistContent.replace("{{SCREENPLAY_AUTOSTART}}", autostart ? "true" : "false");
 
             const QString homePath = QDir::homePath();
             QFile settingsPlist(homePath + "/Library/LaunchAgents/" + plistFileName);
             if (settingsPlist.exists()) {
-                if(!settingsPlist.remove()){
+                if (!settingsPlist.remove()) {
                     qCritical() << "Unable to remove: " << settingsPlist;
                 }
             }

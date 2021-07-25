@@ -69,7 +69,6 @@ void SteamAccount::onAvatarImageLoaded(AvatarImageLoaded_t* avatarImage)
         return;
     }
 
-
     QImage avatar {
         imageData.data(),
         static_cast<int>(width),
