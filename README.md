@@ -27,9 +27,7 @@ Windows only, Linux and MacOS next.
 <br>
 
 <a href="https://www.youtube.com/watch?v=q-J2fTWDxw8">
-
-![Preview](.gitlab/media/preview.webp)
-
+<img  src="https://gitlab.com/kelteseth/ScreenPlay/-/raw/master/.gitlab/media/preview.webp">
 </a> 
 <p>Click gif to see the Steam Early Access Trailer (YouTube)</p>
 </div>
