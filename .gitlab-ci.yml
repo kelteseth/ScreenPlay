@@ -93,7 +93,7 @@ build:linux_debug:
         - apt update -y
         # Otherwise libglib2 needs interaction
         - export  DEBIAN_FRONTEND=noninteractive
-        - apt install git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - apt install curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install aqtinstall
         - mkdir Qt
         - aqt install --outputdir Qt/ 5.15.2 linux desktop
@@ -120,7 +120,7 @@ build:linux_release:
         - apt update -y
         # Otherwise libglib2 needs interaction
         - export  DEBIAN_FRONTEND=noninteractive
-        - apt install git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - apt install curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install aqtinstall
         - mkdir Qt
         - aqt install --outputdir Qt/ 5.15.2 linux desktop
