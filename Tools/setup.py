@@ -40,6 +40,7 @@ if __name__ == "__main__":
         "curl",
         "sentry-native",
         "doctest",
+        "benchmark",
     ]
 
     vcpkg_triplet = ""
