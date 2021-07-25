@@ -94,11 +94,10 @@ if(APPLE)
         TARGET workshopplugin
         POST_BUILD
         COMMENT "Copying steam_appid.txt into ScreenPlay.app bundle"
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt  ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
+        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
 
 else()
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qmldir           ${WORKSHOP_PLUGIN_DIR}/qmldir COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt  ${CMAKE_BINARY_DIR}/bin/steam_appid.txt  COPYONLY)
-    configure_file(${steam_bin}                                 ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${WORKSHOP_PLUGIN_DIR}/qmldir COPYONLY)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
+    configure_file(${steam_bin} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 endif()
-
