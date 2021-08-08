@@ -4,8 +4,11 @@ import sys
 import subprocess
 import shutil
 import argparse
+from execute_util import execute
 
 # Based on https://gist.github.com/l2m2/0d3146c53c767841c6ba8c4edbeb4c2c
+
+
 def vs_env_dict():
     vsvar32 = 'C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat'
     cmd = [vsvar32, '&&', 'set']
@@ -17,7 +20,6 @@ def vs_env_dict():
         raise ValueError(stderr.decode("mbcs"))
     output = stdout.decode("mbcs").split("\r\n")
     return dict((e[0].upper(), e[1]) for e in [p.rstrip().split("=", 1) for p in output] if len(e) == 2)
-
 
 
 # MAIN
@@ -40,20 +42,22 @@ cmake_build_type = ""
 executable_file_ending = ""
 deploy_command = ""
 
+
 if platform == "win32":
     print("Loading MSVC env variables via vsvars32.bat")
     cmake_build_type = args.build_type
-    windows_msvc =  "msvc2019_64"
+    windows_msvc = "msvc2019_64"
     executable_file_ending = ".exe"
     deploy_command = "windeployqt.exe --{type}  --qmldir ../../{app}/qml {app}{executable_file_ending}"
     dict = vs_env_dict()
-    dict["PATH"] = dict["PATH"] + ";C:\\Qt\\" + qt_version + "\\" + windows_msvc + "\\bin;C:\\Qt\\Tools\\QtCreator\\bin"
+    dict["PATH"] = dict["PATH"] + ";C:\\Qt\\" + qt_version + \
+        "\\" + windows_msvc + "\\bin;C:\\Qt\\Tools\\QtCreator\\bin"
     os.environ.update(dict)
     cmake_prefix_path = "c:/Qt/" + qt_version + "/" + windows_msvc
     cmake_target_triplet = "x64-windows"
 elif platform == "darwin":
     cmake_prefix_path = "~/Qt/" + qt_version + "/clang_64"
-    deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml "
+    deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app} "
     cmake_target_triplet = "x64-osx"
 elif platform == "linux":
     deploy_command = "cqtdeployer -qmldir ../../{app}/qml -bin {app}"
@@ -64,7 +68,8 @@ elif platform == "linux":
 cwd = os.getcwd()
 root_path = os.path.abspath((cwd+"/../"))
 os.chdir(root_path)
-cmake_toolchain_file = ("'{root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake'").format(root_path=root_path)
+cmake_toolchain_file = (
+    "'{root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake'").format(root_path=root_path)
 print("cmake_toolchain_file: %s " % cmake_toolchain_file)
 
 build_folder = "build-" + cmake_target_triplet + "-" + args.build_type
@@ -90,39 +95,47 @@ cmake_configure_command = """cmake ../
     triplet=cmake_target_triplet,
     toolchain=cmake_toolchain_file).replace("\n", "")
 
-print("cmake_configure_command: %s" % cmake_configure_command)
-print("deploy_command: %s" % deploy_command)
-
-process = subprocess.run(cmake_configure_command,  capture_output=True,shell=True)
-
-if process.returncode != 0:
-    print("deploy_command error: %s" % process.stderr)
-    sys.exit(process.returncode)
-
-os.system("cmake --build . --target all")
+execute(cmake_configure_command)
+execute("cmake --build . --target all")
 os.chdir("bin")
 
-os.system((deploy_command).format(
-  type=cmake_build_type,
-  prefix_path=cmake_prefix_path,
-  app="ScreenPlay",
-  executable_file_ending=executable_file_ending))
+execute(deploy_command.format(
+    type=cmake_build_type,
+    prefix_path=cmake_prefix_path,
+    app="ScreenPlay",
+    executable_file_ending=executable_file_ending))
 
-os.system((deploy_command).format(
-  type=cmake_build_type,
-  prefix_path=cmake_prefix_path,
-  app="ScreenPlayWidget",
-  executable_file_ending=executable_file_ending))
+execute(deploy_command.format(
+    type=cmake_build_type,
+    prefix_path=cmake_prefix_path,
+    app="ScreenPlayWidget",
+    executable_file_ending=executable_file_ending))
 
-os.system((deploy_command).format(
-  type=cmake_build_type,
-  prefix_path=cmake_prefix_path,
-  app="ScreenPlayWallpaper",
-  executable_file_ending=executable_file_ending))
+execute(deploy_command.format(
+    type=cmake_build_type,
+    prefix_path=cmake_prefix_path,
+    app="ScreenPlayWallpaper",
+    executable_file_ending=executable_file_ending))
+
+if platform == "darwin":
+    execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" \"ScreenPlay.app/\"")
+    execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" \"ScreenPlayWallpaper.app/\"")
+    execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" \"ScreenPlayWidget.app/\"")
+
+    execute("codesign --verify --verbose  \"ScreenPlay.app/\"")
+    execute("codesign --verify --verbose  \"ScreenPlayWallpaper.app/\"")
+    execute("codesign --verify --verbose  \"ScreenPlayWidget.app/\"")
+
+    execute("xcnotary notarize ScreenPlay.app -d kelteseth@gmail.com -k ScreenPlay")
+    execute("xcnotary notarize ScreenPlayWallpaper.app -d kelteseth@gmail.com -k ScreenPlay")
+    execute("xcnotary notarize ScreenPlayWidget.app -d kelteseth@gmail.com -k ScreenPlay")
+
+    execute("spctl --assess --verbose  \"ScreenPlay.app/\"")
+    execute("spctl --assess --verbose  \"ScreenPlayWallpaper.app/\"")
+    execute("spctl --assess --verbose  \"ScreenPlayWidget.app/\"")
 
 
-
-file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".exp",
+file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".dylib", ".exp",
                 ".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
 
 for filename in os.listdir(os.getcwd()):
