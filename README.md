@@ -16,9 +16,6 @@ Dev. Docs   [![pipeline status](https://gitlab.com/kelteseth/ScreenPlayDeveloper
 <br><br>
 User Chat (Discord)
 <a href="https://discord.com/invite/JBMmZbgc?utm_source=Discord%20Widget&utm_medium=Connect">![Discord](https://img.shields.io/discord/516635043435773970?style=for-the-badge)</a>
-Developer Chat [![Gitter](https://badges.gitter.im/ScreenPlayApp/community.svg)](https://gitter.im/ScreenPlayApp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
-
 
 <br>
 ScreenPlay is an open source cross platform app for displaying Video Wallpaper, Widgets and AppDrawer. It is written in modern C++20/Qt5/QML. Binaries with workshop support are available for Windows and soon Linux & MacOSX via <a href="https://store.steampowered.com/app/672870/ScreenPlay/">Steam</a>.  Join our community: <a href="https://screen-play.app/">Homepage</a> - <a href="https://forum.screen-play.app/">Forum</a>
@@ -30,9 +27,7 @@ Windows only, Linux and MacOS next.
 <br>
 
 <a href="https://www.youtube.com/watch?v=q-J2fTWDxw8">
-
-![Preview](.gitlab/media/preview.gif)
-
+<img  src="https://gitlab.com/kelteseth/ScreenPlay/-/raw/master/.gitlab/media/preview.webp">
 </a> 
 <p>Click gif to see the Steam Early Access Trailer (YouTube)</p>
 </div>

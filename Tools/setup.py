@@ -40,6 +40,7 @@ if __name__ == "__main__":
         "curl",
         "sentry-native",
         "doctest",
+        "benchmark",
     ]
 
     vcpkg_triplet = ""
@@ -61,7 +62,7 @@ if __name__ == "__main__":
         vcpkg_triplet = "x64-osx"
     elif sys.platform == "linux":
         vcpkg_command = "./vcpkg"
-        vcpkg_packages_list.append("infoware[opencl]")
+        #vcpkg_packages_list.append("infoware[opengl]")
         execute("chmod +x bootstrap-vcpkg.sh", vcpkg_path)
         execute("./bootstrap-vcpkg.sh", vcpkg_path, False)
         execute("chmod +x vcpkg", vcpkg_path)

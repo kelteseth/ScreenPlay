@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 #elif defined(Q_OS_LINUX)
         LinuxWindow window({ 0 }, "test", "appid", "1", "fill", false);
 #elif defined(Q_OS_OSX)
-        MacWindow window({ 0 }, "test", "appID=test", "1", "fill","videoWallpaper", true, true);
+        MacWindow window({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
 #endif
         return app.exec();
     }
@@ -89,14 +89,14 @@ int main(int argc, char* argv[])
         checkWallpaperVisible);
 #elif defined(Q_OS_OSX)
     MacWindow window(
-                activeScreensList.value(),
-                projectFilePath,
-                appID,
-                volume,
-                fillmode,
-                type,
-                checkWallpaperVisible,
-                debugMode);
+        activeScreensList.value(),
+        projectFilePath,
+        appID,
+        volume,
+        fillmode,
+        type,
+        checkWallpaperVisible,
+        debugMode);
 #endif
 
     return app.exec();
