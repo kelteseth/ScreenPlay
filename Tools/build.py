@@ -25,9 +25,9 @@ def vs_env_dict():
 # MAIN
 parser = argparse.ArgumentParser(description='Build and Package ScreenPlay')
 parser.add_argument('-t', action="store", dest="build_type",
-                    description="Build type. This is either debug or release.")
+                    help="Build type. This is either debug or release.")
 parser.add_argument('-s', action="store", dest="sign_build",
-                    description="Enable if you want to sign the apps. This is macos only for now.")
+                    help="Enable if you want to sign the apps. This is macos only for now.")
 args = parser.parse_args()
 
 if not args.build_type:
@@ -90,6 +90,7 @@ cmake_configure_command = """cmake ../
  -DCMAKE_BUILD_TYPE={type}
  -DCMAKE_TOOLCHAIN_FILE={toolchain}
  -DVCPKG_TARGET_TRIPLET={triplet}
+ -DSCREENPLAY_STEAM_DEPLOY=ON
  -G "CodeBlocks - Ninja"
  -B.
   """.format(
