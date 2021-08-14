@@ -35,43 +35,41 @@
 #include "app.h"
 #include <QApplication>
 #include <QCommandLineParser>
+#include <QCoreApplication>
 #include <QDebug>
-#include <QtWebEngine/QtWebEngine>
-#include <sentry.h>
+#include <QDir>
+#include <QGuiApplication>
+#include <QtTest>
+#include <QtWebEngine>
 #define DOCTEST_CONFIG_IMPLEMENT
 #define DOCTEST_CONFIG_SUPER_FAST_ASSERTS
 #include <doctest/doctest.h>
 
-int main(int argc, char* argv[])
+class ScreenPlayTest : public QObject {
+    Q_OBJECT
+
+private slots:
+    void main_test();
+
+private:
+    QQuickWindow* m_window = nullptr;
+};
+
+void ScreenPlayTest::main_test()
 {
     Q_INIT_RESOURCE(ScreenPlayQML);
     Q_INIT_RESOURCE(ScreenPlayAssets);
 
-    QtWebEngine::initialize();
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-
-    QApplication qtGuiApp(argc, argv);
-
-    // Unit tests
-    doctest::Context context;
-    context.setOption("abort-after", 5); // stop test execution after 5 failed assertions
-    context.setOption("order-by", "name"); // sort the test cases by their name
-    context.setOption("no-breaks", true); // don't break in the debugger when assertions fail
-    context.setOption("no-run", true); // No tests are executed by default
-    context.applyCommandLine(argc, argv); // Every setOption call after applyCommandLine overrides the command line arguments
-    const int testResult = context.run();
-    if (context.shouldExit())
-        return testResult;
+//    QtWebEngine::initialize();
+//    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+//    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     ScreenPlay::App app;
+    app.init();
 
-    if (app.m_isAnotherScreenPlayInstanceRunning) {
-        return 0;
-    } else {
-        app.init();
-        const int status = qtGuiApp.exec();
-        sentry_shutdown();
-        return status;
-    }
+    QTest::qWait(10000);
 }
+
+QTEST_MAIN(ScreenPlayTest)
+
+#include "tst_main.moc"

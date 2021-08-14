@@ -14,7 +14,6 @@ find_package(CURL CONFIG REQUIRED)
 find_package(sentry CONFIG REQUIRED)
 
 set(src
-    main.cpp
     app.cpp
     src/globalvariables.cpp
     src/createimportvideo.cpp
@@ -67,86 +66,56 @@ find_package(Threads REQUIRED)
 
 set_source_files_properties(${l10n} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/translations")
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    find_package(
-        Qt${QT_VERSION_MAJOR}
-        COMPONENTS Core
-                   Quick
-                   Gui
-                   Widgets
-                   WebSockets
-                   Svg
-                   WebEngineCore
-                   WebEngineQuick
-                   WebChannel
-                   Positioning
-                   LinguistTools)
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-        qt_add_resources(qml qml.qrc assets.qrc)
-    else()
-        qtquick_compiler_add_resources(qml qml.qrc assets.qrc)
-    endif()
+find_package(
+    Qt${QT_VERSION_MAJOR}
+    COMPONENTS Core
+               Quick
+               Gui
+               Widgets
+               WebSockets
+               Svg
+               LinguistTools
+               WebEngine
+               QuickCompiler
+               Test)
 
-    add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml} ${fonts})
-
-    target_link_libraries(
-        ${PROJECT_NAME}
-        PRIVATE ScreenPlaySDK
-                ScreenPlayUtil
-                benchmark::benchmark
-                benchmark::benchmark_main
-                doctest::doctest
-                sentry::sentry
-                Threads::Threads
-                Qt${QT_VERSION_MAJOR}::Quick
-                Qt${QT_VERSION_MAJOR}::Gui
-                Qt${QT_VERSION_MAJOR}::Widgets
-                Qt${QT_VERSION_MAJOR}::Core
-                Qt${QT_VERSION_MAJOR}::WebSockets
-                Qt${QT_VERSION_MAJOR}::Svg
-                Qt6::WebEngineCore
-                Qt6::WebEngineQuick)
-    qt_add_translation(qmFiles ${l10n})
+if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+    qt_add_resources(resources ScreenPlayAssets.qrc ScreenPlayQML.qrc)
 else()
-    find_package(
-        Qt${QT_VERSION_MAJOR}
-        COMPONENTS Core
-                   Quick
-                   Gui
-                   Widgets
-                   WebSockets
-                   Svg
-                   LinguistTools
-                   WebEngine
-                   QuickCompiler)
-
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-        qt_add_resources(qml qml.qrc assets.qrc)
-    else()
-        qtquick_compiler_add_resources(qml qml.qrc assets.qrc)
-    endif()
-
-    add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml} ${fonts})
-
-    target_link_libraries(
-        ${PROJECT_NAME}
-        PRIVATE ScreenPlaySDK
-                ScreenPlayUtil
-                benchmark::benchmark
-                benchmark::benchmark_main
-                doctest::doctest
-                sentry::sentry
-                Threads::Threads
-                Qt${QT_VERSION_MAJOR}::Quick
-                Qt${QT_VERSION_MAJOR}::Gui
-                Qt${QT_VERSION_MAJOR}::Widgets
-                Qt${QT_VERSION_MAJOR}::Core
-                Qt${QT_VERSION_MAJOR}::WebSockets
-                Qt${QT_VERSION_MAJOR}::Svg
-                Qt5::WebEngine)
-    qt5_add_translation(qmFiles ${l10n})
+    qtquick_compiler_add_resources(resources ScreenPlayAssets.qrc ScreenPlayQML.qrc)
 endif()
+
+add_library(ScreenPlayLib ${src} ${headers} ${resources} ${resources} ${fonts})
+
+target_include_directories(ScreenPlayLib PUBLIC ./ src/ )
+
+
+target_link_libraries(
+    ScreenPlayLib
+    PUBLIC ScreenPlaySDK
+            ScreenPlayUtil
+            benchmark::benchmark
+            benchmark::benchmark_main
+            doctest::doctest
+            sentry::sentry
+            Threads::Threads
+            Qt${QT_VERSION_MAJOR}::Quick
+            Qt${QT_VERSION_MAJOR}::Gui
+            Qt${QT_VERSION_MAJOR}::Widgets
+            Qt${QT_VERSION_MAJOR}::Core
+            Qt${QT_VERSION_MAJOR}::WebSockets
+            Qt${QT_VERSION_MAJOR}::Svg
+            Qt5::WebEngine)
+
+add_executable(tst_ScreenPlay  tests/tst_main.cpp)
+target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt5::Test)
+
+add_executable(${PROJECT_NAME}  main.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
+
+qt5_add_translation(qmFiles ${l10n})
+
 
 qt_add_big_resources(fonts fonts.qrc)
 
