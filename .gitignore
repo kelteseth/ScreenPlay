@@ -91,3 +91,4 @@ _deps
 .cmake/**
 /Common/ffmpeg/*
 /Docs/html/screenplay.index
+/ContentBuilder/**
