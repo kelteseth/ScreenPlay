@@ -40,6 +40,7 @@ add_library(
 
 set(WORKSHOP_PLUGIN_DIR ${CMAKE_BINARY_DIR}/bin/workshop)
 file(MAKE_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
+
 set_target_properties(workshopplugin PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
 set_target_properties(workshopplugin PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
 set_target_properties(workshopplugin PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
@@ -90,14 +91,18 @@ if(APPLE)
         COMMENT "Copying steam library into ScreenPlay.app bundle"
         COMMAND ${CMAKE_COMMAND} -E copy ${steam_bin} ${workshop_install_dir})
 
-    add_custom_command(
-        TARGET workshopplugin
-        POST_BUILD
-        COMMENT "Copying steam_appid.txt into ScreenPlay.app bundle"
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
+    if(NOT SCREENPLAY_STEAM_DEPLOY)
+        add_custom_command(
+            TARGET workshopplugin
+            POST_BUILD
+            COMMENT "Copying steam_appid.txt into ScreenPlay.app bundle. This is for development only!"
+            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
+    endif()
 
 else()
+    if(NOT SCREENPLAY_STEAM_DEPLOY)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
+    endif()
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${WORKSHOP_PLUGIN_DIR}/qmldir COPYONLY)
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
     configure_file(${steam_bin} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 endif()

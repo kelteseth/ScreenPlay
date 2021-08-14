@@ -195,6 +195,11 @@ void App::init()
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
+
+#ifdef Q_OS_MACOS
+    // Needed for macos .app files
+    m_mainWindowEngine->addPluginPath(QGuiApplication::instance()->applicationDirPath());
+#endif
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     // Must be called last to display a error message on startup by the qml engine
