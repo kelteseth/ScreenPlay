@@ -1,12 +1,12 @@
 <RCC>
     <qresource prefix="/">
-        <file>Wallpaper.qml</file>
-        <file>Test.qml</file>
         <file>dot.png</file>
         <file>qtquickcontrols2.conf</file>
-        <file>WebView.qml</file>
         <file>index.html</file>
-        <file>GifWallpaper.qml</file>
-        <file>WebsiteWallpaper.qml</file>
+        <file>qml/GifWallpaper.qml</file>
+        <file>qml/Test.qml</file>
+        <file>qml/Wallpaper.qml</file>
+        <file>qml/WebsiteWallpaper.qml</file>
+        <file>qml/WebView.qml</file>
     </qresource>
 </RCC>

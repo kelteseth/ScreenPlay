@@ -1,10 +1,10 @@
 <RCC>
     <qresource prefix="/">
         <file>assets/image/noisy-texture-3.png</file>
-        <file>test.qml</file>
-        <file>Widget.qml</file>
         <file>assets/icons/baseline-close-24px.svg</file>
         <file>assets/icons/baseline-opacity-24px.svg</file>
         <file>assets/icons/baseline-settings-20px.svg</file>
+        <file>qml/Test.qml</file>
+        <file>qml/Widget.qml</file>
     </qresource>
 </RCC>
