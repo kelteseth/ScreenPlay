@@ -24,11 +24,14 @@ def vs_env_dict():
 
 # MAIN
 parser = argparse.ArgumentParser(description='Build and Package ScreenPlay')
-parser.add_argument('-t', action="store", dest="build_type")
+parser.add_argument('-t', action="store", dest="build_type",
+                    description="Build type. This is either debug or release.")
+parser.add_argument('-s', action="store", dest="sign_build",
+                    description="Enable if you want to sign the apps. This is macos only for now.")
 args = parser.parse_args()
 
 if not args.build_type:
-    print("Build type argument is missing (release,debug). Example: python build.py -t release")
+    print("Build type argument is missing (release,debug). Example: python build.py -t release -s=True")
     sys.exit(1)
 
 qt_version = "5.15.2"
@@ -117,7 +120,7 @@ execute(deploy_command.format(
     app="ScreenPlayWallpaper",
     executable_file_ending=executable_file_ending))
 
-if platform == "darwin":
+if platform == "darwin" and args.sign_build:
     execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" \"ScreenPlay.app/\"")
     execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" \"ScreenPlayWallpaper.app/\"")
     execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" \"ScreenPlayWidget.app/\"")
