@@ -15,17 +15,36 @@ SteamWorkshop::SteamWorkshop(AppId_t appID, QObject* parent)
 
 bool SteamWorkshop::init()
 {
-    if (SteamAPI_RestartAppIfNecessary(m_appID)) {
-        qWarning() << "SteamAPI_RestartAppIfNecessary with appID" << m_appID;
-        m_steamErrorRestart = true;
-        return false;
-    }
-
-    //IF THE FAMILY SHARING IS ENABLED THIS WILL FAIL ! #13
+    // https://partner.steamgames.com/doc/sdk/api#SteamAPI_Init
+    // A return of false indicates one of the following conditions:
+    // - The Steam client isn't running. A running Steam client is required to provide implementations of the various Steamworks interfaces.
+    // - The Steam client couldn't determine the App ID of game. If you're running your application from the executable or debugger directly
+    //   then you must have a steam_appid.txt in your game directory next to the executable, with your app ID in it and nothing else.
+    //   Steam will look for this file in the current working directory. If you are running your executable from a different directory
+    //   you may need to relocate the steam_appid.txt file.
+    // - Your application is not running under the same OS user context as the Steam client, such as a different user or administration access level.
+    // - Ensure that you own a license for the App ID on the currently active Steam account. Your game must show up in your Steam library.
+    // - Your App ID is not completely set up, i.e. in Release State: Unavailable, or it's missing default packages.
+    // If you're running into initialization issues then see the Debugging the Steamworks API documentation to learn about the various methods of debugging the Steamworks API.
+    // IF THE FAMILY SHARING IS ENABLED THIS WILL FAIL ! #13
     if (!SteamAPI_Init()) {
+        qWarning() << "SteamAPI_Init failed";
         m_steamErrorAPIInit = true;
         return false;
     }
+
+
+    // https://partner.steamgames.com/doc/sdk/api#SteamAPI_RestartAppIfNecessary
+    // checks if your executable was launched through Steam and relaunches it through Steam if it wasn't.
+    // This is optional but highly recommended as the Steam context associated with your application (including your App ID) will not be set up if the user launches the executable directly. If this occurs then SteamAPI_Init will fail and you will be unable to use the Steamworks API.
+    // If you choose to use this then it should be the first Steamworks function call you make, right before SteamAPI_Init.
+    // If this returns true then it starts the Steam client if required and launches your game again through it, and you should quit your process as soon as possible. This effectively runs steam://run/<AppID> so it may not relaunch the exact executable that called this function (for example, if you were running from your debugger). It will always relaunch from the version installed in your Steam library folder.
+    // Otherwise, if it returns false, then your game was launched by the Steam client and no action needs to be taken. One exception is if a steam_appid.txt file is present then this will return false regardless. This allows you to develop and test without launching your game through the Steam client. Make sure to remove the steam_appid.txt file when uploading the game to your Steam depot!
+    if (SteamAPI_RestartAppIfNecessary(m_appID)) {
+        qWarning() << "SteamAPI_RestartAppIfNecessary failed";
+        m_steamErrorRestart = true;
+    }
+
 
     QObject::connect(&m_pollTimer, &QTimer::timeout, this, []() { SteamAPI_RunCallbacks(); });
     m_pollTimer.start(100);
