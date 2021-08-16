@@ -26,18 +26,8 @@ public:
     SteamWorkshop* steamWorkshop() const { return m_steamWorkshop.get(); }
 
 public slots:
-    void aaa()
-    {
-
-        qDebug() << "aaaaaaaaaaaaaaaaaaaa";
-    }
     bool init()
     {
-        qInfo() << "steamWorkshop init";
-        if (!steamWorkshop()) {
-
-            qInfo() << "steamWorkshop NOT VALID!";
-        }
         return steamWorkshop()->init();
     }
 
