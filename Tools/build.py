@@ -91,6 +91,7 @@ cmake_configure_command = """cmake ../
  -DCMAKE_TOOLCHAIN_FILE={toolchain}
  -DVCPKG_TARGET_TRIPLET={triplet}
  -DSCREENPLAY_STEAM_DEPLOY=ON
+ -DSCREENPLAY_STEAM=ON
  -G "CodeBlocks - Ninja"
  -B.
   """.format(
