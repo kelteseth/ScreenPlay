@@ -2,6 +2,7 @@ import os
 import sys
 import argparse
 from execute_util import execute
+from download_ffmpeg import download_prebuild_ffmpeg
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(
@@ -60,6 +61,7 @@ if __name__ == "__main__":
         execute("./bootstrap-vcpkg.sh", vcpkg_path, False)
         execute("chmod +x vcpkg", vcpkg_path)
         vcpkg_triplet = "x64-osx"
+        download_prebuild_ffmpeg()
     elif sys.platform == "linux":
         vcpkg_command = "./vcpkg"
         #vcpkg_packages_list.append("infoware[opengl]")

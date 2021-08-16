@@ -24,13 +24,19 @@ def download_and_extract(file_base_path, name):
     print("Delete tmp file: ", path_and_filename)
     os.remove(path_and_filename) 
 
-ffmpeg_7zip_name  = 'ffmpeg-4.4.zip'
-ffprobe_7zip_name = 'ffprobe-4.4.zip'
-current_path = os.path.join(os.path.abspath(os.getcwd()),"")
-extraction_path = os.path.abspath(os.path.join(current_path, "../Common/ffmpeg"))
+def download_prebuild_ffmpeg():
+    ffmpeg_7zip_name  = 'ffmpeg-4.4.zip'
+    ffprobe_7zip_name = 'ffprobe-4.4.zip'
+    current_path = os.path.join(os.path.abspath(os.getcwd()),"")
+    extraction_path = os.path.abspath(os.path.join(current_path, "../Common/ffmpeg"))
 
-if not os.path.exists(extraction_path):
-    os.makedirs(extraction_path)
+    if not os.path.exists(extraction_path):
+        os.makedirs(extraction_path)
 
-download_and_extract(current_path, ffmpeg_7zip_name)
-download_and_extract(current_path, ffprobe_7zip_name)
+    download_and_extract(current_path, ffmpeg_7zip_name)
+    download_and_extract(current_path, ffprobe_7zip_name)
+
+
+if __name__ == "__main__":
+    download_prebuild_ffmpeg()
+
