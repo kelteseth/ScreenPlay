@@ -123,7 +123,7 @@ execute(deploy_command.format(
     executable_file_ending=executable_file_ending))
 
 if platform == "darwin" and args.sign_build:
-    execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" \"ScreenPlay.app/\"")
+    execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" --entitlements \"../../ScreenPlay/entitlements.plist\" \"ScreenPlay.app/\"")
     execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" \"ScreenPlayWallpaper.app/\"")
     execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" \"ScreenPlayWidget.app/\"")
 
