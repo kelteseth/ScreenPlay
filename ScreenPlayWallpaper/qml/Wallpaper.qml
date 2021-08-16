@@ -3,8 +3,6 @@ import QtQuick 2.14
 import QtQuick.Controls 2.14
 import ScreenPlayWallpaper 1.0
 import ScreenPlay.Enums.InstalledType 1.0
-import ScreenPlay.Shader 1.0
-import "ShaderWrapper" as ShaderWrapper
 
 Rectangle {
     id: root
