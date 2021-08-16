@@ -1909,27 +1909,27 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/SteamWorkshop.qml" line="394"/>
         <source>Total VotesAsc</source>
-        <translation type="obsolete"></translation>
+        <translation type="obsolete">Abstimmungs Anzahl Absteigend</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/SteamWorkshop.qml" line="397"/>
         <source>Votes Up</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abstimmungs Anzahl Steigend</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/SteamWorkshop.qml" line="400"/>
         <source>Total Unique Subscriptions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anzahl Einzigartiger Abonnennts</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/SteamWorkshop.qml" line="449"/>
         <source>Back</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zurück</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/SteamWorkshop.qml" line="473"/>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vor</translation>
     </message>
 </context>
 <context>
@@ -1960,12 +1960,12 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Common/TextField.qml" line="36"/>
         <source>Label</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Beschriftung</translation>
     </message>
     <message>
         <location filename="../qml/Common/TextField.qml" line="98"/>
         <source>*Required</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">*Benötigt</translation>
     </message>
 </context>
 <context>
@@ -2013,7 +2013,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="60"/>
         <source>Upload Wallpaper/Widgets to Steam</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lade Wallpaper/Widget auf Steam hoch</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="142"/>
@@ -2023,12 +2023,12 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="157"/>
         <source>Upload Selected Projects</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Lade ausgewähltes Projekt hoch</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProject.qml" line="216"/>
         <source>Finish</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Beenden</translation>
     </message>
 </context>
 <context>
@@ -2036,17 +2036,17 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="114"/>
         <source>Type: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Typ: </translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="122"/>
         <source>Open Folder</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Öffne Ordner</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="136"/>
         <source>Invalid Project!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ungültiges Projekt</translation>
     </message>
 </context>
 <context>
@@ -2054,177 +2054,177 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="33"/>
         <source>Fail</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fehler</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="36"/>
         <source>No Connection</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keine Verbindung</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="39"/>
         <source>Invalid Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Falsches Passwort</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="42"/>
         <source>Logged In Elsewhere</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Woanders Eingelogged</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="45"/>
         <source>Invalid Protocol Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Falsche Protokoll Version</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="48"/>
         <source>Invalid Param</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Falsche Parameter</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="51"/>
         <source>File Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Datei nicht gefunden</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="54"/>
         <source>Busy</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Beschäftigt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="57"/>
         <source>Invalid State</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ungültiger Status</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="60"/>
         <source>Invalid Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ungültiger Name</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="63"/>
         <source>Invalid Email</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ungültige Email</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="66"/>
         <source>Duplicate Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Doppelter Name</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="69"/>
         <source>Access Denied</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zugriff verweigert</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="72"/>
         <source>Timeout</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Auszeit</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="75"/>
         <source>Banned</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gebannt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="78"/>
         <source>Account Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Account nicht gefunden</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="81"/>
         <source>Invalid SteamID</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ungültige Steam ID</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="84"/>
         <source>Service Unavailable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Service nicht Verfügbar</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="87"/>
         <source>Not Logged On</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nicht angemeldet</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="90"/>
         <source>Pending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ausstehend</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="93"/>
         <source>Encryption Failure</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verschlüsselungsfehler</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="96"/>
         <source>Insufficient Privilege</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Unzureichende Berechtigung</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="99"/>
         <source>Limit Exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Limit überschritten</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="102"/>
         <source>Revoked</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wiederrufen</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="105"/>
         <source>Expired</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abgelaufen</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="108"/>
         <source>Already Redeemed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bereits eingelöst</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="111"/>
         <source>Duplicate Request</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Doppelte anfrage</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="114"/>
         <source>Already Owned</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bereits vergeben</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="117"/>
         <source>IP Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">IP nicht gefunden</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="120"/>
         <source>Persist Failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anhalten fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="123"/>
         <source>Locking Failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sperren fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="126"/>
         <source>Logon Session Replaced</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anmeldesitzung ersetzt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="129"/>
         <source>Connect Failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Verbindung gescheitert</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="132"/>
         <source>Handshake Failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Handshake fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="135"/>
         <source>IO Failure</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">IO Fehler</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="138"/>
@@ -2234,82 +2234,82 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="141"/>
         <source>Shopping Cart Not Found</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Warenkorb nicht gefunden</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="144"/>
         <source>Blocked</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Blockiert</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="147"/>
         <source>Ignored</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ignoriert</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="150"/>
         <source>No Match</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keine Übereinstimmung</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="153"/>
         <source>Account Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Account deaktiviert</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="156"/>
         <source>Service ReadOnly</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Schreibgeschützter Dienst</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="159"/>
         <source>Account Not Featured</source>
-        <translation type="unfinished"></translation>
+        <translation type="Account nicht unterstützt"></translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="162"/>
         <source>Administrator OK</source>
-        <translation type="unfinished"></translation>
+        <translation type="finished"></translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="165"/>
         <source>Content Version</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Inhaltsversion</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="168"/>
         <source>Try Another CM</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Versuch ein anderen CM</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="171"/>
         <source>Password Required T oKick Session</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Passwort benötigt zum beenden der Sitzung</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="174"/>
         <source>Already Logged In Elsewhere</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bereits woanders eingeloggt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="177"/>
         <source>Suspended</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gesperrt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="180"/>
         <source>Cancelled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abgebrochen</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="183"/>
         <source>Data Corruption</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Datenkorruption</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="186"/>
         <source>Disk Full</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Festplatte voll</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="189"/>
@@ -2319,22 +2319,22 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="192"/>
         <source>Password Unset</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Passwort aufheben</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="195"/>
         <source>External Account Unlinked</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Externe Accountverknüpfung aufheben</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="198"/>
         <source>PSN Ticket Invalid</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ungültiges PSN Ticket</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="201"/>
         <source>External Account Already Linked</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Externer Account ist bereits verbunden</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="204"/>
@@ -2344,77 +2344,77 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="207"/>
         <source>Illegal Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nicht unterstütztes Passwort</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="210"/>
         <source>Same As Previous Value</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Gleicher wert wie vorheriger</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="213"/>
         <source>Account Logon Denied</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Anmeldung verweigert</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="216"/>
         <source>Cannot Use Old Password</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Du kannst dein altes Passwort nicht benutzen</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="219"/>
         <source>Invalid Login AuthCode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Falscher Login AuthCode</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="222"/>
         <source>Account Logon Denied No Mail</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Account anmeldung abgelehnt, keine Mail</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="225"/>
         <source>Hardware Not Capable Of IPT</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Hardware ist nicht IPT fähig</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="228"/>
         <source>IPT Init Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">IPT Init Fehler</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="231"/>
         <source>Parental Control Restricted</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kindersicherung eingeschränkt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="234"/>
         <source>Facebook Query Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Facebook-Abfragefehler</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="237"/>
         <source>Expired Login Auth Code</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abgelaufener Login Auth Code</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="240"/>
         <source>IP Login Restriction Failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">IP-Anmeldebeschränkung fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="243"/>
         <source>Account Locked Down</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Account gesperrt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="246"/>
         <source>Account Logon Denied Verified Email Required</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Account anmeldung abgelehnt, Verifizierte E-Mail erforderlich</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="249"/>
         <source>No MatchingURL</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keine passende URL</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="252"/>
@@ -2424,52 +2424,52 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="255"/>
         <source>Require Password ReEntry</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Passwort erneurt eintragen</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="258"/>
         <source>Value Out Of Range</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wert außerhalb des Bereichs</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="261"/>
         <source>Unexpecte Error</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Unerwarteter Fehler</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="264"/>
         <source>Disabled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Deaktiviert</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="267"/>
         <source>Invalid CEG Submission</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ungültige CEG-Einreichung</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="270"/>
         <source>Restricted Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eingeschränktes Gerät</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="273"/>
         <source>Region Locked</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Region gesperrt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="276"/>
         <source>Rate Limit Exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Frequenzgrenze überschritten</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="279"/>
         <source>Account Login Denied Need Two Factor</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Accountanmeldung verweigert zwei Faktor Auth benötigt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="282"/>
         <source>Item Deleted</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">item gelöscht</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="285"/>
@@ -2479,147 +2479,147 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="288"/>
         <source>Two Factor Code Mismatch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zwei Faktor Code stimmt nicht überein</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="291"/>
         <source>Two Factor Activation Code Mismatch</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zwei Faktor Code stimmt nicht überein</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="294"/>
         <source>Account Associated To Multiple Partners</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Account ist mehreren Partnern zugeordnet</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="297"/>
         <source>Not Modified</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nicht modifiziert</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="300"/>
         <source>No Mobile Device</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kein Mobilgerät</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="303"/>
         <source>Time Not Synced</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zeit nicht synchronisiert</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="306"/>
         <source>Sms Code Failed</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">SMS-Code fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="309"/>
         <source>Account Limit Exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kontolimit überschritten</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="312"/>
         <source>Account Activity Limit Exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Kontoaktivitätslimit überschritten</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="315"/>
         <source>Phone Activity Limit Exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Telefonaktivitätslimit überschritten</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="318"/>
         <source>Refund To Wallet</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Rückerstattung an Wallet</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="321"/>
         <source>Email Send Failure</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">E-Mail-Sendefehler</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="324"/>
         <source>Not Settled</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nicht geklärt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="327"/>
         <source>Need Captcha</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Captcha benötigt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="330"/>
         <source>GSLT Denied</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GSLT abgelehnt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="333"/>
         <source>GS Owner Denied</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GS besitzer abgelehnt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="336"/>
         <source>Invalid Item Type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ungültiger Item Typ</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="339"/>
         <source>IP Banned</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">IP Gebannt</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="342"/>
         <source>GSLT Expired</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">GSLT Abgelaufen</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="345"/>
         <source>Insufficient Funds</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Unzureichende Mittel</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="348"/>
         <source>Too Many Pending</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Zu viele ausstehend</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="351"/>
         <source>No Site Licenses Found</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Keine Site-Lizenzen gefunden</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="354"/>
         <source>WG Network Send Exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">WG-Netzwerk senden überschritten</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="357"/>
         <source>Account Not Friends</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Account nicht befreundet</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="360"/>
         <source>Limited User Account</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eingeschränktes Benutzerkonto</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="363"/>
         <source>Cant Remove Item</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"><Item kann nicht Entfernt werden/translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="366"/>
         <source>Account Deleted</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Account gelöscht</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="369"/>
         <source>Existing User Cancelled License</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Benutzer hat Lizenz Annulliert</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="372"/>
         <source>Community Cooldown</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Community-Abklingzeit</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="464"/>
@@ -2629,7 +2629,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="483"/>
         <source>Upload Progress: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Upload-Fortschritt: </translation>
     </message>
 </context>
 <context>
@@ -2637,7 +2637,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="30"/>
         <source>Create a Website Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erstelle ein Website Wallpaper</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="35"/>
@@ -2647,12 +2647,12 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="45"/>
         <source>Wallpaper name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Wallpaper Name</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="54"/>
         <source>Created By</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erstellt von</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="63"/>
@@ -2667,7 +2667,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="93"/>
         <source>Preview Image</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Vorschaubild</translation>
     </message>
 </context>
 <context>
@@ -2680,7 +2680,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Create/Wizards/WizardPage.qml" line="101"/>
         <source>Saving...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Speichern...</translation>
     </message>
 </context>
 <context>
@@ -2688,12 +2688,12 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="298"/>
         <source>Successfully subscribed to Workshop Item!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Erfolgreich Steam Workshop Item Abonniert!</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/WorkshopItem.qml" line="401"/>
         <source>Download complete!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Download abgeschlossen!</translation>
     </message>
 </context>
 <context>
