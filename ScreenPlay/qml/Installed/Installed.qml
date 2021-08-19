@@ -247,7 +247,7 @@ Item {
         }
 
         MenuItem {
-            text: qsTr("Deinstall Item")
+            text: enabled ?  qsTr("Remove Item") : qsTr("Remove via Workshop")
             icon.source: "qrc:/assets/icons/icon_delete.svg"
             enabled: contextMenu.publishedFileID === 0
             onClicked: {
@@ -256,13 +256,12 @@ Item {
         }
 
         MenuItem {
-            id: miWorkshop
-
-            text: qsTr("Open workshop Page")
+            text: qsTr("Open Workshop Page")
             enabled: contextMenu.publishedFileID !== 0
             icon.source: "qrc:/assets/icons/icon_steam.svg"
             onClicked: {
-                Qt.openUrlExternally("steam://url/CommunityFilePage/" + publishedFileID);
+                print(contextMenu.publishedFileID)
+                Qt.openUrlExternally("steam://url/CommunityFilePage/" + contextMenu.publishedFileID);
             }
         }
 
