@@ -26,9 +26,12 @@ Windows only, Linux and MacOS next.
 <br>
 <br>
 
+<!-- This works only on gitlab -->
 ![](https://gitlab.com/kelteseth/ScreenPlay/-/raw/master/.gitlab/media/preview.webp)
+<!-- This works only on github -->
+![](/.gitlab/media/preview.webp)
 
-<a href="https://www.youtube.com/watch?v=q-J2fTWDxw8"><p>Click  to see the Steam Early Access Trailer (YouTube)</p></a> 
+<a href="https://www.youtube.com/watch?v=q-J2fTWDxw8"><p>Watch the Steam Early Access Trailer (YouTube)</p></a> 
 </div>
 
 
