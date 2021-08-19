@@ -92,7 +92,7 @@ Here are some ways you can contribute:
 | Feature                	    | Windows 	    | Linux 	        | MacOS 	|
 |------------------------	    |---------	    |-------	        |-------	|
 | __ScreenPlay Main App__       | ✔       	    | ✔     	        | ✔     	|
-| __Steam Binaries__            | ✔       	    | ❌     	        | ❌     	|
+| __Steam Binaries__            | ✔       	    | ❌     	        | ✔    	|
 | __Wallpaper__                 | ✔       	    | ❓ Help Needed for Gnome/KDE/etc!               | ✔    |
 | __Widgets__                   | ✔       	    | ✔   	| ✔    	|
 | __Multilanguage (EN,DE,RU,FR,ES,KO,VI,CH_ZN,PT_BR🆕)__              | ✔            	| ✔     	        |  ✔     	|
