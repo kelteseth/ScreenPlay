@@ -614,7 +614,7 @@ bool CreateImportVideo::createWallpaperVideo()
     if (m_codec == "av1")
         args.append("libaom-av1");
     args.append("-b:v");
-    args.append("3000k");
+    args.append("13000k");
     args.append("-threads");
     args.append(QString::number(QThread::idealThreadCount()));
     qInfo() << "threads" << QThread::idealThreadCount() << "m_quality" << m_quality;
@@ -657,7 +657,7 @@ bool CreateImportVideo::createWallpaperVideo()
     if (m_codec == "av1")
         args.append("libaom-av1");
     args.append("-b:v");
-    args.append("3000k");
+    args.append("13000k");
     args.append("-threads");
     args.append(QString::number(QThread::idealThreadCount()));
     args.append("-speed");
