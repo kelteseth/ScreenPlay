@@ -27,11 +27,23 @@ parser.add_argument('-u', action="store", dest="steam_username", required=True,
                     help="Steam Username.")
 parser.add_argument('-p', action="store", dest="steam_password", required=True,
                     help="Steam Password.")
-parser.add_argument('-c', action="store", dest="vdf_config_name", required=True,
+parser.add_argument('-c', action="store", dest="vdf_config_name",
                     help="Name to the .vdf config. This will use the .vdf files from the steamcmd folder.")
 args = parser.parse_args()
 
-abs_vdf_path = os.path.abspath("steamcmd/"+args.vdf_config_name)
+vdf_config_name = ""
+if not args.vdf_config_name:
+    if platform == "win32":
+        vdf_config_name = "app_build_windows.vdf"
+    elif platform == "darwin":
+        vdf_config_name = "app_build_mac.vdf"
+    elif platform == "linux":
+        vdf_config_name = "app_build_linux.vdf"
+    print("No vdf config provided, using default: " + vdf_config_name)
+else:
+    vdf_config_name = args.vdf_config_name
+
+abs_vdf_path = os.path.abspath("steamcmd/" + vdf_config_name)
 
 if not os.path.isfile(abs_vdf_path):
     print("Incorrect vdf name")
@@ -54,11 +66,11 @@ if os.path.isdir(tmp_steam_config_dir):
 
 os.mkdir(tmp_steam_config_dir)
 
-f = open(os.path.abspath(tmp_steam_config_dir + "/" + args.vdf_config_name), "w")
+f = open(os.path.abspath(tmp_steam_config_dir + "/" + vdf_config_name), "w")
 f.write(config_content)
 f.close()
 
-tmp_steam_config_path = "\"" + os.path.abspath(tmp_steam_config_foldername + args.vdf_config_name) +  "\"" 
+tmp_steam_config_path = "\"" + os.path.abspath(tmp_steam_config_foldername + vdf_config_name) +  "\"" 
 
 print("Execute steamcmd on: " + tmp_steam_config_path)
 execute("steamcmd +login {username} {password} +run_app_build {config} +quit".format(username=steam_username, password=steam_password, config=tmp_steam_config_path))
