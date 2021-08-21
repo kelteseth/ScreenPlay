@@ -60,7 +60,7 @@ if platform == "win32":
     cmake_target_triplet = "x64-windows"
 elif platform == "darwin":
     cmake_prefix_path = "~/Qt/" + qt_version + "/clang_64"
-    deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app} "
+    deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml "
     cmake_target_triplet = "x64-osx"
 elif platform == "linux":
     deploy_command = "cqtdeployer -qmldir ../../{app}/qml -bin {app}"
