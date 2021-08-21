@@ -52,7 +52,7 @@ set(headers
 
 list(
     APPEND
-    L10N
+    L10N_LIST
     # cmake-format: sortable
      ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_de.ts
      ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_zh_cn.ts
@@ -65,7 +65,7 @@ list(
      ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_vi.ts)
 
 include(QtUpdateTranslations)
-ibh_qt_update_translations("${CMAKE_CURRENT_SOURCE_DIR}/Src" "${L10N}")
+qt_update_translations("${CMAKE_CURRENT_SOURCE_DIR}/qml" "${L10N_LIST}")
 
 # Needed on macos
 find_package(Threads REQUIRED)
