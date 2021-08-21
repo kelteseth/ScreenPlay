@@ -6,6 +6,7 @@ import argparse
 from sys import platform
 from execute_util import execute
 from datetime import datetime
+from shutil import copyfile
 import subprocess
 
 
@@ -32,13 +33,17 @@ parser.add_argument('-c', action="store", dest="vdf_config_name",
 args = parser.parse_args()
 
 vdf_config_name = ""
+depot_config_name = ""
 if not args.vdf_config_name:
     if platform == "win32":
         vdf_config_name = "app_build_windows.vdf"
+        depot_config_name = "depot_build_linux.vdf"
     elif platform == "darwin":
         vdf_config_name = "app_build_mac.vdf"
+        depot_config_name = "depot_build_mac.vdf"
     elif platform == "linux":
         vdf_config_name = "app_build_linux.vdf"
+        depot_config_name = "depot_build_linux.vdf"
     print("No vdf config provided, using default: " + vdf_config_name)
 else:
     vdf_config_name = args.vdf_config_name
@@ -70,10 +75,14 @@ f = open(os.path.abspath(tmp_steam_config_dir + "/" + vdf_config_name), "w")
 f.write(config_content)
 f.close()
 
+# We also must copy the depot file
+abs_depot_path = os.path.abspath("steamcmd/" + depot_config_name)
+copyfile(abs_depot_path, tmp_steam_config_dir + "/" + depot_config_name)
+
 tmp_steam_config_path = "\"" + os.path.abspath(tmp_steam_config_foldername + vdf_config_name) +  "\"" 
 
 print("Execute steamcmd on: " + tmp_steam_config_path)
-execute("steamcmd +login {username} {password} +run_app_build {config} +quit".format(username=steam_username, password=steam_password, config=tmp_steam_config_path))
+execute("steamcmd +login {username} {password} +run_app_build {config} +quit".format(username=args.steam_username, password=args.steam_password, config=tmp_steam_config_path))
 
 print("Deleting tmp config")
 shutil.rmtree(tmp_steam_config_dir)
