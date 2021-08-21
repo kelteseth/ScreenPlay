@@ -838,16 +838,29 @@
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="250"/>
+        <source>Remove Item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Installed/Installed.qml" line="250"/>
+        <source>Remove via Workshop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Installed/Installed.qml" line="259"/>
+        <source>Open Workshop Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Deinstall Item</source>
-        <translation>Gỡ bỏ</translation>
+        <translation type="vanished">Gỡ bỏ</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="261"/>
         <source>Open workshop Page</source>
-        <translation>Mở trang Workshop</translation>
+        <translation type="vanished">Mở trang Workshop</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="276"/>
+        <location filename="../qml/Installed/Installed.qml" line="275"/>
         <source>Are you sure you want to delete this item?</source>
         <translation type="unfinished"></translation>
     </message>

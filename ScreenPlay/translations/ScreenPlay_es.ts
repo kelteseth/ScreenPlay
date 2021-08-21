@@ -995,16 +995,25 @@ si instaló ScreenPlay vía Steam!
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="250"/>
-        <source>Deinstall Item</source>
+        <source>Remove Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="261"/>
-        <source>Open workshop Page</source>
-        <translation type="unfinished">Taller abierto Página</translation>
+        <location filename="../qml/Installed/Installed.qml" line="250"/>
+        <source>Remove via Workshop</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="276"/>
+        <location filename="../qml/Installed/Installed.qml" line="259"/>
+        <source>Open Workshop Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open workshop Page</source>
+        <translation type="obsolete">Taller abierto Página</translation>
+    </message>
+    <message>
+        <location filename="../qml/Installed/Installed.qml" line="275"/>
         <source>Are you sure you want to delete this item?</source>
         <translation type="unfinished"></translation>
     </message>

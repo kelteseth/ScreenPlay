@@ -932,16 +932,25 @@ Steam을 통해 설치하셨을때의 기본 위치입니다!
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="250"/>
-        <source>Deinstall Item</source>
+        <source>Remove Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="261"/>
-        <source>Open workshop Page</source>
-        <translation type="unfinished">워크샵 페이지 열기</translation>
+        <location filename="../qml/Installed/Installed.qml" line="250"/>
+        <source>Remove via Workshop</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="276"/>
+        <location filename="../qml/Installed/Installed.qml" line="259"/>
+        <source>Open Workshop Page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open workshop Page</source>
+        <translation type="obsolete">워크샵 페이지 열기</translation>
+    </message>
+    <message>
+        <location filename="../qml/Installed/Installed.qml" line="275"/>
         <source>Are you sure you want to delete this item?</source>
         <translation type="unfinished"></translation>
     </message>
