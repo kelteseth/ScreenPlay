@@ -11,10 +11,8 @@ ScreenPlay [![pipeline status](https://gitlab.com/kelteseth/ScreenPlay/badges/ma
 <a href="https://twitter.com/kelteseth">![Twitter Follow](https://img.shields.io/twitter/follow/kelteseth?style=for-the-badge)</a>
 <a href="https://www.reddit.com/r/ScreenPlayApp/">![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/screenplayapp?style=for-the-badge)</a>
 <br><br>
-用户交流 (Discord，英语)
+用户聊天群 (Discord，英语)
 <a href="https://discord.com/invite/JBMmZbgc?utm_source=Discord%20Widget&utm_medium=Connect">![Discord](https://img.shields.io/discord/516635043435773970?style=for-the-badge)</a>
-开发者交流（英语） [![Gitter](https://badges.gitter.im/ScreenPlayApp/community.svg)](https://gitter.im/ScreenPlayApp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
 
 
 <br>
@@ -22,21 +20,21 @@ ScreenPlay 是一款开源、跨平台，显示视频壁纸，部件，应用抽
 带有创意工坊支持的二进制（在 Windows ，以及不久的 Linux 及 MacOSX 可用）可以通过<a href="https://store.steampowered.com/app/672870/ScreenPlay/">Steam</a>获取。加入我们（英语）：<a href="https://screen-play.app/">首页</a> - <a href="https://forum.screen-play.app/">论坛</a>
 
 <br> 
-<h3><a href="https://store.steampowered.com/app/672870/ScreenPlay/">✨通过Steam下载ScreenPlay</a> - <a href="https://steamcommunity.com/app/672870/workshop/">Steam 创意工坊，获取壁纸与部件✨</a></h3> 
-仅支持Windows，Linux 和 MacOS 在做了
+<h3><a href="https://store.steampowered.com/app/672870/ScreenPlay/">✨通过Steam下载ScreenPlay✨</a> <br><br> <a href="https://www.patreon.com/ScreenPlayApp">🚀于 Patreon 支持 ScreenPlay 🚀</a></h3> 
+支持Windows 与 MacOS。Linux支持敬请期待！
 <br>
 <br>
+
+<!-- This works only on gitlab -->
+![](https://gitlab.com/kelteseth/ScreenPlay/-/raw/master/.gitlab/media/preview.webp)
+<!-- This works only on github -->
+![](/.gitlab/media/preview.webp)
 
 <a href="https://www.youtube.com/watch?v=q-J2fTWDxw8">
-
-![预览](.gitlab/media/preview.gif)
-
-</a> 
-<p>点击gif，查看尽早访问预告片！ (YouTube)</p>
+<p>查看提前访问预告片 (YouTube)</p>
 </div>
 
-# 重要议题
-* [对Windows显示器缩放的支持目前有问题。所有显示器必须被设为100%！](https://gitlab.com/kelteseth/ScreenPlay/-/issues/125)
+# 重要问题
 * [KDE 支持](https://gitlab.com/kelteseth/ScreenPlay/-/issues/111)
 * [MacOS 支持](https://gitlab.com/kelteseth/ScreenPlay/-/issues/130)
 
@@ -58,16 +56,16 @@ ScreenPlay 是一款开源、跨平台，显示视频壁纸，部件，应用抽
 
 * [部件引导](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/widgets/) - 通用引导，如何创建部件。
 ScreenPlay使用易于学习的 QML 语言。无需任何编程知识！
-* [Storage Widget](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_Storage/). Display your drives and usage.
+* [存储部件](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_Storage/) 显示您的设备及使用情况
 * [CPU 占用部件](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_CPU/) 显示您当前的CPU使用情况
-* [RSS订阅部件](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_RSS/) 以RSS部件显示新闻，
+* [RSS订阅部件](https://kelteseth.gitlab.io/ScreenPlayDocs/widgets/example_RSS/) 用RSS部件显示新闻
 
 
 # 一般贡献
 
 每个人都可以贡献代码，设计，文档以及翻译。更多信息见[贡献引导](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/contribute)。也请查阅 [Collaboration Guidelines](Docs/CodeOfConduct.md).
 
-这里是一些您贡献的方式：
+这里是一些贡献的方式：
 * 通过使用预发布版本/ master分支或者Steam每夜构建。
 * 通过 [添加/修复翻译](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/translations/)
 * by [设计 UI/UX](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/contribute/#design)
@@ -88,10 +86,10 @@ ScreenPlay使用易于学习的 QML 语言。无需任何编程知识！
  * [ScreenPlay project overview](Docs/ProjectOverview.md)
  * [Developer C++ Classes Documentation](https://kelteseth.gitlab.io/ScreenPlayDeveloperDocs/)
 
-# Platform support
+# 平台支持
 
-* ❌ Not working/Not implemented
-* ❓ Only partially implemented/Not tested, help needed
+* ❌ 不工作 / 尚未实现
+* ❓ 部分实现 / 尚未测试，需要帮助
 
 <div align="center">
 
@@ -106,9 +104,9 @@ ScreenPlay使用易于学习的 QML 语言。无需任何编程知识！
 </div>
 
 因为每个操作系统有它自己的桌面环境，我们需要分别适配 ScreenPlayWindow 到各个平台。
-目前功能最完好的是Windows 10。Windows 7下也可用，但有[错误的coordinates](https://gitlab.com/kelteseth/ScreenPlay/issues/34). MacOS has some basic wallpaper functionality but no maintainer. For Linux we sadly have no support for any desktop environments at the moment, except basic KDE support.
+目前功能最完好的是Windows 10。Windows 7下也可用，但有[错误的coordinates](https://gitlab.com/kelteseth/ScreenPlay/issues/34)。MacOS 有了一定的基本壁纸功能，但是没有人维护。对于linux，很抱歉，我们尚未支持任何桌面环境，除了 KDE 的基本支持。
 
-__If you want to help and add new desktop environments look at ScreenPlayWallpaper/src folder__
+__如果您想要帮助我们，添加新的桌面环境，请于 ScreenPlayWallpaper/src 文件夹查看__
 
 * [BaseWindow](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/ScreenPlayWallpaper/src/basewindow.h) baseclass for:
     * [LinuxWindow](https://gitlab.com/kelteseth/ScreenPlay/blob/dev/ScreenPlayWallpaper/src/linuxwindow.h)
@@ -119,7 +117,7 @@ __If you want to help and add new desktop environments look at ScreenPlayWallpap
 
 | 平台                	     | Windows 10  |   Gnome	         | KDE 	           	        | MacOS  	|
 |------------------------	     |-------	   |---------	     |-------	                | -------	|
-| __壁纸__                  | ✔           |❌ Help Needed!  | ❓ [基本实现](https://gitlab.com/kelteseth/ScreenPlay/-/tree/master/ScreenPlayWallpaper/kde/ScreenPlay)   | ❓ [基本实现](https://gitlab.com/kelteseth/ScreenPlay/-/blob/master/ScreenPlayWallpaper/src/MacBridge.mm)     	|
+| __壁纸__                  | ✔           |❌ 需要帮助！ | ❓ [基本实现](https://gitlab.com/kelteseth/ScreenPlay/-/tree/master/ScreenPlayWallpaper/kde/ScreenPlay)   | ❓ [基本实现](https://gitlab.com/kelteseth/ScreenPlay/-/blob/master/ScreenPlayWallpaper/src/MacBridge.mm) 	|
 
 
 </div>
