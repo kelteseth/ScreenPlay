@@ -50,22 +50,25 @@ set(headers
     src/create.h
     src/wizards.h)
 
-set(l10n
-    translations/ScreenPlay_de.ts
-    translations/ScreenPlay_zh_cn.ts
-    translations/ScreenPlay_pt_br.ts
-    translations/ScreenPlay_en.ts
-    translations/ScreenPlay_es.ts
-    translations/ScreenPlay_fr.ts
-    translations/ScreenPlay_ko.ts
-    translations/ScreenPlay_ru.ts
-    translations/ScreenPlay_vi.ts)
+list(
+    APPEND
+    L10N
+    # cmake-format: sortable
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_de.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_zh_cn.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_pt_br.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_en.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_es.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_fr.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ko.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ru.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_vi.ts)
+
+include(QtUpdateTranslations)
+ibh_qt_update_translations("${CMAKE_CURRENT_SOURCE_DIR}/Src" "${L10N}")
 
 # Needed on macos
 find_package(Threads REQUIRED)
-
-set_source_files_properties(${l10n} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/translations")
-
 
 find_package(
     Qt${QT_VERSION_MAJOR}

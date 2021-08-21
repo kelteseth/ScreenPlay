@@ -11,6 +11,9 @@ option(SCREENPLAY_STEAM_DEPLOY OFF "Steam build settings. Disables steam_app.txt
 option(SCREENPLAY_STEAM ON "For FOSS distribution so we do not bundle proprietary code.")
 option(TESTS_ENABLED OFF)
 
+# Add our *.cmake diretory to the CMAKE_MODULE_PATH, so that our includes are found
+set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/Cmake" ${CMAKE_MODULE_PATH})
+
 
 file(MAKE_DIRECTORY ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 
@@ -70,6 +73,7 @@ add_subdirectory(ScreenPlayShader)
 add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlayUtil)
+add_subdirectory(CMake)
 
 if(${SCREENPLAY_STEAM})
     add_subdirectory(ScreenPlayWorkshop)
