@@ -37,7 +37,7 @@ depot_config_name = ""
 if not args.vdf_config_name:
     if platform == "win32":
         vdf_config_name = "app_build_windows.vdf"
-        depot_config_name = "depot_build_linux.vdf"
+        depot_config_name = "depot_build_windows.vdf"
     elif platform == "darwin":
         vdf_config_name = "app_build_mac.vdf"
         depot_config_name = "depot_build_mac.vdf"
