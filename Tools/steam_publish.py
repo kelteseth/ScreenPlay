@@ -18,8 +18,8 @@ def get_git_revision_short_hash():
     return subprocess.check_output(['git', 'rev-parse', '--short', 'HEAD'])
 
 
-def get_git_branch_hash():
-    return subprocess.check_output(['git', 'branch', '--show-current'])
+def get_git_commit_text():
+    return subprocess.check_output(['git', 'log', '-1', '--pretty=%B'])
 
 
 # MAIN
@@ -58,10 +58,10 @@ file = open(abs_vdf_path, "r")
 
 config_content = file.read()
 git_hash = get_git_revision_short_hash().decode("utf-8").replace("\n", "")
-git_branch = get_git_branch_hash().decode("utf-8").replace("\n", "")
+git_commit_text = get_git_commit_text().decode("utf-8").replace("\n", "")
 current_date_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
 
-build_description = "- git hash: " + git_hash + ", branch: " +  git_branch + " - upload datetime: " + current_date_time
+build_description = "- git hash: " + git_hash + ", commit: " +  git_commit_text + " - upload datetime: " + current_date_time
 config_content = config_content.replace("{{BUILD_DESCRIPTION}}", build_description)
 tmp_steam_config_foldername = "tmp_steam_config/"
 tmp_steam_config_dir = os.path.abspath(tmp_steam_config_foldername)
