@@ -1,7 +1,7 @@
 "appbuild"
 {
    "appid"   "672870"
-   "desc" "CI Build mac" 
+   "desc" "CI Build mac {{BUILD_DESCRIPTION}}" 
    "buildoutput" "../../ContentBuilder/output" // build output folder for .log, .csm & .csd files, relative to location of this file
    "contentroot" "../../" // root content folder, relative to location of this file
    "setlive"   "internal" // branch to set live after successful build, none if empty
