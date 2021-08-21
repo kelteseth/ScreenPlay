@@ -75,22 +75,22 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
         break;
     }
 
-    m_createImportVideoThread = new QThread(this);
-    m_createImportVideo = new CreateImportVideo(videoPath, workingDir(), target_codec, quality);
-    connect(m_createImportVideo, &CreateImportVideo::processOutput, this, [this](QString text) {
+    m_createImportVideoThread = std::make_unique<QThread>();
+    m_createImportVideo = std::make_unique<CreateImportVideo>(videoPath, workingDir(), target_codec, quality);
+    connect(m_createImportVideo.get(), &CreateImportVideo::processOutput, this, [this](QString text) {
         appendFfmpegOutput(text + "\n");
     });
 
-    connect(m_createImportVideo, &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged);
-    connect(m_createImportVideo, &CreateImportVideo::progressChanged, this, &Create::setProgress);
-    connect(m_createImportVideoThread, &QThread::started, m_createImportVideo, &CreateImportVideo::process);
-    connect(m_createImportVideo, &CreateImportVideo::abortAndCleanup, this, &Create::abortAndCleanup);
+    connect(m_createImportVideo.get(), &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged);
+    connect(m_createImportVideo.get(), &CreateImportVideo::progressChanged, this, &Create::setProgress);
+    connect(m_createImportVideoThread.get(), &QThread::started, m_createImportVideo.get(), &CreateImportVideo::process);
+    connect(m_createImportVideo.get(), &CreateImportVideo::abortAndCleanup, this, &Create::abortAndCleanup);
 
-    connect(m_createImportVideo, &CreateImportVideo::finished, m_createImportVideoThread, &QThread::quit);
-    connect(m_createImportVideo, &CreateImportVideo::finished, m_createImportVideo, &QObject::deleteLater);
-    connect(m_createImportVideoThread, &QThread::finished, m_createImportVideoThread, &QObject::deleteLater);
+    connect(m_createImportVideo.get(), &CreateImportVideo::finished, m_createImportVideoThread.get(), &QThread::quit);
+    connect(m_createImportVideo.get(), &CreateImportVideo::finished, m_createImportVideo.get(), &QObject::deleteLater);
+    connect(m_createImportVideoThread.get(), &QThread::finished, m_createImportVideoThread.get(), &QObject::deleteLater);
 
-    m_createImportVideo->moveToThread(m_createImportVideoThread);
+    m_createImportVideo->moveToThread(m_createImportVideoThread.get());
     m_createImportVideoThread->start();
 }
 
@@ -160,6 +160,10 @@ void Create::saveWallpaper(QString title, QString description, QString filePath,
     }
 
     emit createWallpaperStateChanged(CreateImportVideo::ImportVideoState::CreateProjectFileFinished);
+
+    m_createImportVideoThread->quit();
+    m_createImportVideoThread->wait();
+    m_createImportVideoThread.reset();
 }
 
 /*!
@@ -170,17 +174,14 @@ void Create::abortAndCleanup()
     qWarning() << "Abort and Cleanup!";
 
     if (m_createImportVideo == nullptr || m_createImportVideoThread == nullptr) {
-        qDebug() << m_createImportVideo << m_createImportVideoThread;
+        qDebug() << "Invalid thread pointer. Cancel abort!";
         return;
     }
-
-    //    disconnect(m_createImportVideo);
-    //    disconnect(m_createImportVideoThread);
 
     // Save to export path before aborting to be able to cleanup the tmp folder
     QString tmpExportPath = m_createImportVideo->m_exportPath;
 
-    connect(m_createImportVideoThread, &QThread::finished, this, [=]() {
+    connect(m_createImportVideoThread.get(), &QThread::finished, this, [=]() {
         QDir exportPath(tmpExportPath);
         qWarning() << "Abort and Cleanup!" << exportPath;
         if (exportPath.exists()) {
@@ -193,10 +194,12 @@ void Create::abortAndCleanup()
         } else {
             qDebug() << "Could not cleanup and delete: " << exportPath;
         }
-        m_createImportVideo = nullptr;
-        m_createImportVideoThread = nullptr;
+        m_createImportVideo.reset();
+        m_createImportVideoThread.reset();
     });
-    m_createImportVideoThread->requestInterruption();
+
+    m_createImportVideoThread->quit();
+    m_createImportVideoThread->wait();
 }
 
 }

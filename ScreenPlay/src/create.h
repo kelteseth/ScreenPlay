@@ -145,8 +145,8 @@ public slots:
     }
 
 private:
-    CreateImportVideo* m_createImportVideo { nullptr };
-    QThread* m_createImportVideoThread { nullptr };
+    std::unique_ptr<CreateImportVideo> m_createImportVideo;
+    std::unique_ptr<QThread> m_createImportVideoThread;
 
     const std::shared_ptr<GlobalVariables> m_globalVariables;
 
