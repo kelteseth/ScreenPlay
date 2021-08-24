@@ -12,7 +12,7 @@ option(SCREENPLAY_STEAM ON "For FOSS distribution so we do not bundle proprietar
 option(TESTS_ENABLED OFF)
 
 # Add our *.cmake diretory to the CMAKE_MODULE_PATH, so that our includes are found
-set(CMAKE_MODULE_PATH "${PROJECT_SOURCE_DIR}/Cmake" ${CMAKE_MODULE_PATH})
+set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 
 
 file(MAKE_DIRECTORY ${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
