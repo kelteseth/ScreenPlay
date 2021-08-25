@@ -101,7 +101,7 @@ public slots:
     QVariantMap get(const QString& folderId) const;
 
     void loadInstalledContent();
-    void append(const QJsonObject&, const QString&, const QDateTime& lastModified);
+    void append(const QJsonObject&, const QString&, const QDateTime& lastModified,const QDateTime& birthTime);
     void reset();
     void init();
     bool deinstallItemAt(const int index);

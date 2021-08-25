@@ -144,10 +144,10 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
 /*!
     \brief Append an ProjectFile to the list.
 */
-void InstalledListModel::append(const QJsonObject& obj, const QString& folderName, const QDateTime& lastModified)
+void InstalledListModel::append(const QJsonObject& obj, const QString& folderName, const QDateTime& lastModified,const QDateTime& birthTime)
 {
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
-    m_screenPlayFiles.append(ProjectFile(obj, folderName, m_globalVariables->localStoragePath(), lastModified));
+    m_screenPlayFiles.append(ProjectFile(obj, folderName, m_globalVariables->localStoragePath(), lastModified, birthTime));
     endInsertRows();
 }
 
@@ -176,12 +176,14 @@ void InstalledListModel::loadInstalledContent()
 
                 if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString())) {
                     if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString(), Qt::CaseInsensitive)) {
-                        append(*obj, item.baseName(), item.lastModified());
+                        append(*obj, item.baseName(), item.lastModified(),item.birthTime());
                     }
+
 
                     counter += 1;
                 }
             }
+
         }
         setCount(counter);
         emit installedLoadingFinished();

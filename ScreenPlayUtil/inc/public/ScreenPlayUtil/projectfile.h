@@ -42,6 +42,7 @@
 #include <QUrl>
 #include <QVariant>
 #include <QVariantList>
+#include <QDateTime>
 
 #include "ScreenPlayUtil/util.h"
 
@@ -58,7 +59,8 @@ struct ProjectFile {
         const QJsonObject& obj,
         const QString& folderName,
         const QUrl& absolutePath,
-        const QDateTime& lastModified)
+        const QDateTime& lastModified,
+        const QDateTime& birthTime)
     {
 
         if (obj.contains("description"))
@@ -100,6 +102,8 @@ struct ProjectFile {
 
         m_folderId = folderName;
 
+
+
         if (!obj.contains("type"))
             return;
 
@@ -115,6 +119,7 @@ struct ProjectFile {
         }
         m_searchType = ScreenPlayUtil::getSearchTypeFromInstalledType(m_type);
         m_lastModified = lastModified;
+        m_birthTime = birthTime;
     }
 
     ProjectFile() { }
@@ -136,5 +141,6 @@ struct ProjectFile {
     InstalledType::InstalledType m_type = InstalledType::InstalledType::Unknown;
     SearchType::SearchType m_searchType = SearchType::SearchType::All;
     QDateTime m_lastModified;
+    QDateTime m_birthTime;
 };
 }
