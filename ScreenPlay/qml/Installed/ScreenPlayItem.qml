@@ -17,7 +17,8 @@ Item {
     property var publishedFileID: 0
     property int itemIndex
     property bool isScrolling: false
-
+    property bool isNew:false
+     Component.onCompleted:print(isNew)
     signal openContextMenu(point position)
 
     width: 320
@@ -187,6 +188,11 @@ Item {
                     left: parent.left
                     bottom: parent.bottom
                 }
+
+            }
+            Text {
+                text: qsTr("New")
+                visible: root.isNew
 
             }
 

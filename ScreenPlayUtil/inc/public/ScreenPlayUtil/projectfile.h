@@ -59,8 +59,7 @@ struct ProjectFile {
         const QJsonObject& obj,
         const QString& folderName,
         const QUrl& absolutePath,
-        const QDateTime& lastModified,
-        const QDateTime& birthTime)
+        const bool isNew)
     {
 
         if (obj.contains("description"))
@@ -118,8 +117,7 @@ struct ProjectFile {
             m_preview = m_previewGIF;
         }
         m_searchType = ScreenPlayUtil::getSearchTypeFromInstalledType(m_type);
-        m_lastModified = lastModified;
-        m_birthTime = birthTime;
+        m_isNew = isNew;
     }
 
     ProjectFile() { }
@@ -140,7 +138,6 @@ struct ProjectFile {
 
     InstalledType::InstalledType m_type = InstalledType::InstalledType::Unknown;
     SearchType::SearchType m_searchType = SearchType::SearchType::All;
-    QDateTime m_lastModified;
-    QDateTime m_birthTime;
+    bool m_isNew = false;
 };
 }
