@@ -190,12 +190,29 @@ Item {
                 }
 
             }
-            Text {
-                text: qsTr("New")
+            Rectangle{
+               x:259.5 ; y:8 ; width: 59; height: 28
+               radius: 5
+                color: "lightblue"
+                 transform: Rotation { origin.x: 30; origin.y: 30; }
+                anchors
+                {
+                    right: root.right
+                    left:root.right
+                }
+
+            Text
+            {
+                font.family:"Comic Sans Ms";font.pointSize: 11; font.bold: true;font.italic: true
+                color: "grey"
+                text: qsTr("New!")
+                anchors{
+                    centerIn: parent
+                }
+
                 visible: root.isNew
-
             }
-
+               }
         }
 
         OpacityMask {
