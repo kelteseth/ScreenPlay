@@ -141,8 +141,8 @@ Item {
 
             title: qsTr("Please choose a file")
             onAccepted: {
-                root.file = fileDialog.file;
-                txtName.text = fileDialog.file.toString();
+                root.file = fileDialog.fileUrl;
+                txtName.text = fileDialog.fileUrl.toString();
             }
         }
 

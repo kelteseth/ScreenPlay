@@ -196,8 +196,8 @@ Item {
             fileMode: FileDialog.OpenFile
             nameFilters: ["Images (*.png *.jpg)"]
             onAccepted: {
-                imageSource = fileDialog.file;
-                txtName.text = fileDialog.file.toString().replace(/^.*[\\\/]/, '');
+                imageSource = fileDialog.fileUrl;
+                txtName.text = fileDialog.fileUrl.toString().replace(/^.*[\\\/]/, '');
             }
         }
 
