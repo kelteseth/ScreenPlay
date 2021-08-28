@@ -36,7 +36,7 @@ int main(int argc, char* argv[])
         WinWindow window1({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
         //WinWindow window1({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/_tmp_171806", "appID=test", "1", "fill", "videoWallpaper", true, true);
 #elif defined(Q_OS_LINUX)
-        LinuxWindow window({ 0 }, "test", "appid", "1", "fill", false);
+        LinuxWindow window({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", false, true);
 #elif defined(Q_OS_OSX)
         MacWindow window({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
 #endif
@@ -82,11 +82,13 @@ int main(int argc, char* argv[])
 #elif defined(Q_OS_LINUX)
     LinuxWindow window(
         activeScreensList.value(),
-        projectPath,
+        projectFilePath,
         appID,
-        fillmode,
         volume,
-        checkWallpaperVisible);
+        fillmode,
+        type,
+        checkWallpaperVisible,
+        debugMode);
 #elif defined(Q_OS_OSX)
     MacWindow window(
         activeScreensList.value(),

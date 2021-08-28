@@ -1,14 +1,27 @@
 #include "linuxwindow.h"
 
-LinuxWindow::LinuxWindow(QVector<int> activeScreensList, QString projectPath, QString id, QString volume, const QString fillmode, const bool checkWallpaperVisible, QObject* parent)
-    : BaseWindow(projectPath, activeScreensList, checkWallpaperVisible)
+LinuxWindow::LinuxWindow(
+    const QVector<int>& activeScreensList,
+    const QString& projectFilePath,
+    const QString& appID,
+    const QString& volume,
+    const QString& fillmode,
+    const QString& type,
+    const bool checkWallpaperVisible,
+    const bool debugMode,
+    QObject* parent)
+    : BaseWindow(
+        activeScreensList,
+        projectFilePath,
+        type,
+        checkWallpaperVisible,
+        appID,
+        debugMode)
 {
     m_window.setWidth(1920);
     m_window.setHeight(1080);
 
     m_window.show();
-
-    setAppID(id);
 
     bool ok = false;
     float volumeParsed = volume.toFloat(&ok);

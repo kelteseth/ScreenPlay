@@ -140,9 +140,15 @@ void Settings::writeJsonFileFromResource(const QString& filename)
 void Settings::setupWidgetAndWindowPaths()
 {
     QDir workingDir(QGuiApplication::applicationDirPath());
+
 #ifdef Q_OS_WIN
     m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + ScreenPlayUtil::executableBinEnding()));
     m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + ScreenPlayUtil::executableBinEnding()));
+#endif
+
+#ifdef Q_OS_LINUX
+    m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget"));
+    m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper"));
 #endif
 
 #ifdef Q_OS_OSX
@@ -157,9 +163,11 @@ void Settings::setupWidgetAndWindowPaths()
 #endif
 
     if (!QFileInfo::exists(m_globalVariables->widgetExecutablePath().toString())) {
+        qInfo() << "widgetExecutablePath:" << m_globalVariables->widgetExecutablePath().toString();
         qFatal("widget executable not found!");
     }
     if (!QFileInfo::exists(m_globalVariables->wallpaperExecutablePath().toString())) {
+        qInfo() << "wallpaperExecutablePath:" << m_globalVariables->wallpaperExecutablePath().toString();
         qFatal("wallpaper executable not found!");
     }
 }
