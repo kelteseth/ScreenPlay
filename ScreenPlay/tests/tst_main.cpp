@@ -33,6 +33,7 @@
 ****************************************************************************/
 
 #include "app.h"
+#include "create.h"
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -49,25 +50,128 @@ class ScreenPlayTest : public QObject {
     Q_OBJECT
 
 private slots:
-    void main_test();
+    void initTestCase()
+    {
+        Q_INIT_RESOURCE(ScreenPlayQML);
+        Q_INIT_RESOURCE(ScreenPlayAssets);
+
+        app.init();
+        m_window = qobject_cast<QQuickWindow*>(app.mainWindowEngine()->rootObjects().first());
+        QVERIFY(m_window);
+        QVERIFY(QTest::qWaitForWindowExposed(m_window));
+
+        QTest::qWait(1000);
+    }
+    void import_convert_video();
 
 private:
     QQuickWindow* m_window = nullptr;
+    ScreenPlay::App app;
 };
 
-void ScreenPlayTest::main_test()
+/*!
+ *  For some reason a direct findChild does not work for item
+ *  delegates.
+ *  https://stackoverflow.com/questions/36767512/how-to-access-qml-listview-delegate-items-from-c
+ *
+ */
+QQuickItem* findItemDelegate(QQuickItem* listView)
 {
-    Q_INIT_RESOURCE(ScreenPlayQML);
-    Q_INIT_RESOURCE(ScreenPlayAssets);
+    if (!listView->property("contentItem").isValid())
+        return {};
 
-//    QtWebEngine::initialize();
-//    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-//    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+    auto contentItem = listView->property("contentItem").value<QQuickItem*>();
+    auto contentItemChildren = contentItem->childItems();
+    QQuickItem* videoImportConvertButton {};
+    for (auto childItem : contentItemChildren) {
+        if (childItem->objectName() == "videoImportConvert")
+            return childItem;
+    }
+    return {};
+}
 
-    ScreenPlay::App app;
-    app.init();
+void clickItem(QQuickItem* item)
+{
+    QQuickWindow* itemWindow = item->window();
+    QVERIFY(itemWindow);
+    auto centre = item->mapToScene(QPoint(item->width() / 2, item->height() / 2)).toPoint();
+    qInfo() << "click_:" << centre;
+    QTest::mouseClick(itemWindow, Qt::LeftButton, Qt::NoModifier, centre);
+}
 
-    QTest::qWait(10000);
+void ScreenPlayTest::import_convert_video()
+{
+
+    using namespace ScreenPlay;
+    auto* createTab = m_window->findChild<QQuickItem*>("Create");
+    QVERIFY(createTab);
+    clickItem(createTab);
+    QTest::qWait(300);
+    auto* stackView = m_window->findChild<QQuickItem*>("stackView");
+    QVERIFY(stackView);
+    QVERIFY(stackView->property("currentItem").isValid());
+    auto* createView = qvariant_cast<QQuickItem*>(stackView->property("currentItem"));
+    QVERIFY(createView);
+    QTest::qWait(300);
+    auto* wizardsListView = m_window->findChild<QQuickItem*>("wizardsListView");
+    QVERIFY(wizardsListView);
+    QQuickItem* videoImportConvertButton = findItemDelegate(wizardsListView);
+    QVERIFY(videoImportConvertButton);
+    clickItem(videoImportConvertButton);
+    QTest::qWait(300);
+
+    auto* createWallpaperInit = m_window->findChild<QQuickItem*>("createWallpaperInit");
+    QVERIFY(createWallpaperInit);
+
+    QVERIFY(QMetaObject::invokeMethod(createWallpaperInit,
+        QString("startConvert").toLatin1().constData(),
+        Qt::ConnectionType::AutoConnection,
+        Q_ARG(QVariant, "file:///D:/Video Loop/bbb.mp4"),
+        Q_ARG(QVariant, 1))); // VideoCodec::VP9
+
+    QTest::qWait(1000);
+    // Wait for Create::createWallpaperStart
+    {
+        ImportVideoState::ImportVideoState status = ImportVideoState::ImportVideoState::Idle;
+        QObject::connect(app.create(), &Create::createWallpaperStateChanged, this, [&status](ImportVideoState::ImportVideoState state) {
+            status = state;
+        });
+
+        while (true) {
+            QSignalSpy videoConvertFinishSpy(app.create(), &Create::createWallpaperStateChanged);
+            if (status == ImportVideoState::ImportVideoState::Finished || status == ImportVideoState::ImportVideoState::Failed) {
+                QVERIFY(status == ImportVideoState::ImportVideoState::Finished);
+                QTest::qWait(1000); // Wait for the ui to process the event
+                break;
+            }
+            videoConvertFinishSpy.wait();
+        }
+    }
+
+    QTest::qWait(1000);
+    auto* btnSave = m_window->findChild<QQuickItem*>("btnSave");
+    QVERIFY(btnSave);
+    clickItem(btnSave);
+
+    // Wait for Create::saveWallpaper
+    {
+        ImportVideoState::ImportVideoState status = ImportVideoState::ImportVideoState::Idle;
+        QObject::connect(app.create(), &Create::createWallpaperStateChanged, this, [&status](ImportVideoState::ImportVideoState state) {
+            status = state;
+        });
+
+        while (true) {
+            QSignalSpy videoConvertFinishSpy(app.create(), &Create::createWallpaperStateChanged);
+            if (status == ImportVideoState::ImportVideoState::CreateProjectFileFinished || status == ImportVideoState::ImportVideoState::CreateProjectFileError || status == ImportVideoState::ImportVideoState::CopyFilesError) {
+                QVERIFY(status == ImportVideoState::ImportVideoState::CreateProjectFileFinished);
+                QTest::qWait(1000); // Wait for the ui to process the event
+                break;
+            }
+            videoConvertFinishSpy.wait();
+        }
+    }
+
+    QTest::qWait(1000);
 }
 
 QTEST_MAIN(ScreenPlayTest)

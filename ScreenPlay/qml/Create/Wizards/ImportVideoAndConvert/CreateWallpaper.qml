@@ -21,12 +21,14 @@ Item {
         clip: true
 
         CreateWallpaperInit {
-            onNext: {
+            onNext: startConvert(filePath,codec);
+            function startConvert(filePath,codec){
                 root.wizardStarted();
                 swipeView.currentIndex = 1;
                 createWallpaperVideoImportConvert.codec = codec;
                 createWallpaperVideoImportConvert.filePath = filePath;
                 ScreenPlay.create.createWallpaperStart(filePath, codec, quality);
+
             }
         }
 

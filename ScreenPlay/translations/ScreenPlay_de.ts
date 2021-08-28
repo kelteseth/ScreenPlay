@@ -129,12 +129,12 @@
 <context>
     <name>CreateWallpaperInit</name>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="31"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="32"/>
         <source>Import any video type</source>
         <translation type="unfinished">Importiere jedes Video</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="37"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="38"/>
         <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
@@ -142,22 +142,22 @@
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="52"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="53"/>
         <source>Set your preffered video codec:</source>
         <translation type="unfinished">Bevorzugte Video-Kodierung Festlegen</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="97"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="98"/>
         <source>Quality slider. Lower value means better quality.</source>
         <translation type="unfinished">Qualitäts-Regler. Niedriger wert heißt niedrige Qualität</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="112"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="113"/>
         <source>Open Documentation</source>
         <translation type="unfinished">Öffne Documentation</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="130"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="132"/>
         <source>Select file</source>
         <translation type="unfinished">Datei auswählen</translation>
     </message>
@@ -263,7 +263,7 @@
         <translation type="unfinished">Speichern</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="382"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="381"/>
         <source>Save Wallpaper...</source>
         <translation type="unfinished">Speicher Wallpaper...</translation>
     </message>
@@ -560,7 +560,7 @@
         <translation type="unfinished">Speichern</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="375"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="374"/>
         <source>Save Wallpaper...</source>
         <translation type="unfinished">Speicher Wallpaper...</translation>
     </message>
@@ -1299,47 +1299,47 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
         <translation type="unfinished">Abonniere</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="116"/>
+        <location filename="../qml/Create/Sidebar.qml" line="119"/>
         <source>Tools Overview</source>
         <translation type="unfinished">Werkzeugeübersicht</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="123"/>
+        <location filename="../qml/Create/Sidebar.qml" line="126"/>
         <source>Video import and convert (all types)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="130"/>
+        <location filename="../qml/Create/Sidebar.qml" line="133"/>
         <source>Video Import (.webm)</source>
         <translation type="unfinished">Importiere Video (.webm)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="137"/>
+        <location filename="../qml/Create/Sidebar.qml" line="140"/>
         <source>GIF Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="144"/>
+        <location filename="../qml/Create/Sidebar.qml" line="147"/>
         <source>QML Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="151"/>
+        <location filename="../qml/Create/Sidebar.qml" line="154"/>
         <source>HTML5 Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="158"/>
+        <location filename="../qml/Create/Sidebar.qml" line="161"/>
         <source>Website Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="165"/>
+        <location filename="../qml/Create/Sidebar.qml" line="168"/>
         <source>QML Widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="172"/>
+        <location filename="../qml/Create/Sidebar.qml" line="175"/>
         <source>HTML Widget</source>
         <translation type="unfinished"></translation>
     </message>

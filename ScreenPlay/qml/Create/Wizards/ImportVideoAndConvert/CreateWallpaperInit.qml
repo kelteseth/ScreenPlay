@@ -10,6 +10,7 @@ import "../../../Common" as Common
 
 Item {
     id: root
+    objectName: "createWallpaperInit"
 
     property int quality: sliderQuality.slider.value
 
@@ -127,6 +128,7 @@ Item {
     }
 
     Button {
+        objectName: "createWallpaperInitFileSelectButton"
         text: qsTr("Select file")
         highlighted: true
         font.family: ScreenPlay.settings.font

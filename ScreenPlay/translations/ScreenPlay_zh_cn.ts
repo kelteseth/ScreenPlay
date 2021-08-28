@@ -113,12 +113,12 @@
 <context>
     <name>CreateWallpaperInit</name>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="31"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="32"/>
         <source>Import any video type</source>
         <translation>导入任何视频类型</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="37"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="38"/>
         <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
@@ -127,22 +127,22 @@
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="52"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="53"/>
         <source>Set your preffered video codec:</source>
         <translation>设置您偏好的视频编码格式：</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="97"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="98"/>
         <source>Quality slider. Lower value means better quality.</source>
         <translation>质量滑条，更小的值意味着更好的质量。</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="112"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="113"/>
         <source>Open Documentation</source>
         <translation>打开文档</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="130"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="132"/>
         <source>Select file</source>
         <translation>选择文件</translation>
     </message>
@@ -248,7 +248,7 @@
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="382"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="381"/>
         <source>Save Wallpaper...</source>
         <translation>保存壁纸...</translation>
     </message>
@@ -545,7 +545,7 @@
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="375"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="374"/>
         <source>Save Wallpaper...</source>
         <translation>保存壁纸...</translation>
     </message>
@@ -1279,42 +1279,47 @@
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="116"/>
+        <location filename="../qml/Create/Sidebar.qml" line="119"/>
         <source>Tools Overview</source>
         <translation>工具概览</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="128"/>
+        <location filename="../qml/Create/Sidebar.qml" line="126"/>
+        <source>Video import and convert (all types)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Sidebar.qml" line="133"/>
         <source>Video Import (.webm)</source>
         <translation>视频导入 (.webm)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="134"/>
+        <location filename="../qml/Create/Sidebar.qml" line="140"/>
         <source>GIF Wallpaper</source>
         <translation>GIF 壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="140"/>
+        <location filename="../qml/Create/Sidebar.qml" line="147"/>
         <source>QML Wallpaper</source>
         <translation>QML 壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="146"/>
+        <location filename="../qml/Create/Sidebar.qml" line="154"/>
         <source>HTML5 Wallpaper</source>
         <translation>HTML5 壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="152"/>
+        <location filename="../qml/Create/Sidebar.qml" line="161"/>
         <source>Website Wallpaper</source>
         <translation>网页壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="158"/>
+        <location filename="../qml/Create/Sidebar.qml" line="168"/>
         <source>QML Widget</source>
         <translation>QML 部件</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="164"/>
+        <location filename="../qml/Create/Sidebar.qml" line="175"/>
         <source>HTML Widget</source>
         <translation>HTML 部件</translation>
     </message>

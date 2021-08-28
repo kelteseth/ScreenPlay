@@ -11,6 +11,7 @@ import ScreenPlay.QMLUtilities 1.0
 
 Rectangle {
     id: root
+    objectName: "createSidebar"
 
     property bool expanded: false
     property alias listView: listView
@@ -87,6 +88,7 @@ Rectangle {
             */
 
         id: listView
+        objectName: "wizardsListView"
 
         anchors.fill: parent
         anchors.margins: 20
@@ -119,9 +121,10 @@ Rectangle {
             }
 
             ListElement {
-                headline: "Video import and convert (all types)"
+                headline: qsTr("Video import and convert (all types)")
                 source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
                 category: "Video Wallpaper"
+                objectName: "videoImportConvert"
             }
 
             ListElement {
@@ -193,7 +196,7 @@ Rectangle {
 
         delegate: Button {
             id: listItem
-
+            objectName: model.objectName
             width: listView.width - 40
             height: 45
             highlighted: ListView.isCurrentItem

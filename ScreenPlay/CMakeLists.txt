@@ -35,6 +35,7 @@ set(headers
     app.h
     src/globalvariables.h
     src/createimportvideo.h
+    src/createimportstates.h
     src/installedlistmodel.h
     src/monitorlistmodel.h
     src/screenplaywallpaper.h

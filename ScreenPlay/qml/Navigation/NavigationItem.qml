@@ -5,6 +5,7 @@ import ScreenPlay 1.0
 
 Item {
     id: navigationItem
+    objectName: txt.text
 
     property string iconSource: "qrc:/assets/icons/icon_installed.svg"
     property alias name: txt.text

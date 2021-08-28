@@ -105,7 +105,7 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-
+        objectName: "stackView"
         property int duration: 300
 
         anchors {

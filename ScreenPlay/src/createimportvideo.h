@@ -47,9 +47,9 @@
 #include <QProcess>
 #include <QScopeGuard>
 #include <QString>
-#include <QThread>
 #include <QtMath>
 
+#include "createimportstates.h"
 #include "util.h"
 
 namespace ScreenPlay {
@@ -59,46 +59,7 @@ class CreateImportVideo : public QObject {
     Q_PROPERTY(float progress READ progress WRITE setProgress NOTIFY progressChanged)
 
 public:
-    CreateImportVideo() { }
-    CreateImportVideo(QObject* parent = nullptr);
-    explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, const QString& codec, const int quality, QObject* parent = nullptr);
-
-    enum class ImportVideoState {
-        Idle,
-        Started,
-        AnalyseVideo,
-        AnalyseVideoFinished,
-        AnalyseVideoError,
-        AnalyseVideoHasNoVideoStreamError,
-        ConvertingPreviewVideo,
-        ConvertingPreviewVideoFinished,
-        ConvertingPreviewVideoError,
-        ConvertingPreviewGif,
-        ConvertingPreviewGifFinished, //10
-        ConvertingPreviewGifError,
-        ConvertingPreviewImage,
-        ConvertingPreviewImageFinished,
-        ConvertingPreviewImageError,
-        ConvertingPreviewImageThumbnail,
-        ConvertingPreviewImageThumbnailFinished,
-        ConvertingPreviewImageThumbnailError,
-        ConvertingAudio,
-        ConvertingAudioFinished,
-        ConvertingAudioError, //20
-        ConvertingVideo,
-        ConvertingVideoFinished,
-        ConvertingVideoError,
-        CopyFiles,
-        CopyFilesFinished,
-        CopyFilesError,
-        CreateProjectFile,
-        CreateProjectFileFinished,
-        CreateProjectFileError,
-        AbortCleanupError, //30
-        CreateTmpFolderError,
-        Finished,
-    };
-    Q_ENUM(ImportVideoState)
+    explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, const QString& codec, const int quality, std::atomic<bool>& interrupt);
 
     float progress() const { return m_progress; }
 
@@ -128,16 +89,13 @@ public:
     };
 
 signals:
-    void createWallpaperStateChanged(CreateImportVideo::ImportVideoState state);
+    void createWallpaperStateChanged(ImportVideoState::ImportVideoState state);
     void processOutput(QString text);
     void finished();
     void abortAndCleanup();
     void progressChanged(float progress);
 
 public slots:
-    void process();
-    void processGif();
-
     bool createWallpaperInfo();
     bool createWallpaperVideoPreview();
     bool createWallpaperGifPreview();
@@ -170,6 +128,7 @@ private:
     QString m_ffprobeExecutable;
     QString m_ffmpegExecutable;
     std::unique_ptr<QProcess> m_process;
+    std::atomic<bool>& m_interrupt;
 };
 }
-Q_DECLARE_METATYPE(ScreenPlay::CreateImportVideo::ImportVideoState)
+Q_DECLARE_METATYPE(ScreenPlay::ImportVideoState::ImportVideoState)
