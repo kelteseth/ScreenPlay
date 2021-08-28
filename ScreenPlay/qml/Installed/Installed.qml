@@ -85,6 +85,7 @@ Item {
 
     GridView {
         id: gridView
+        objectName: "gridView"
 
         property bool isDragging: false
         property bool isScrolling: gridView.verticalVelocity != 0
@@ -202,7 +203,7 @@ Item {
 
         delegate: ScreenPlayItem {
             id: delegate
-
+            objectName: "installedItem" + index
             focus: true
             customTitle: m_title
             type: m_type

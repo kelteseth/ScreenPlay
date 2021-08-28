@@ -61,11 +61,18 @@ private slots:
         QVERIFY(QTest::qWaitForWindowExposed(m_window));
 
         QTest::qWait(1000);
+        m_installedSidebar = m_window->findChild<QQuickItem*>("installedSidebar");
+        QVERIFY(m_installedSidebar);
+
+        QTest::qWait(1000);
     }
+
+    void start_shutdown_wallpaper();
     void import_convert_video();
 
 private:
     QQuickWindow* m_window = nullptr;
+    QQuickItem* m_installedSidebar = nullptr;
     ScreenPlay::App app;
 };
 
@@ -75,7 +82,7 @@ private:
  *  https://stackoverflow.com/questions/36767512/how-to-access-qml-listview-delegate-items-from-c
  *
  */
-QQuickItem* findItemDelegate(QQuickItem* listView)
+QQuickItem* findItemDelegate(QQuickItem* listView, const QString objectName)
 {
     if (!listView->property("contentItem").isValid())
         return {};
@@ -84,7 +91,7 @@ QQuickItem* findItemDelegate(QQuickItem* listView)
     auto contentItemChildren = contentItem->childItems();
     QQuickItem* videoImportConvertButton {};
     for (auto childItem : contentItemChildren) {
-        if (childItem->objectName() == "videoImportConvert")
+        if (childItem->objectName() == objectName)
             return childItem;
     }
     return {};
@@ -115,7 +122,7 @@ void ScreenPlayTest::import_convert_video()
     QTest::qWait(300);
     auto* wizardsListView = m_window->findChild<QQuickItem*>("wizardsListView");
     QVERIFY(wizardsListView);
-    QQuickItem* videoImportConvertButton = findItemDelegate(wizardsListView);
+    QQuickItem* videoImportConvertButton = findItemDelegate(wizardsListView, "videoImportConvert");
     QVERIFY(videoImportConvertButton);
     clickItem(videoImportConvertButton);
     QTest::qWait(300);
@@ -172,6 +179,36 @@ void ScreenPlayTest::import_convert_video()
     }
 
     QTest::qWait(1000);
+}
+
+void ScreenPlayTest::start_shutdown_wallpaper()
+{
+    QTest::qWait(1000);
+    auto* stackView = m_window->findChild<QQuickItem*>("stackView");
+    QVERIFY(stackView);
+    QVERIFY(stackView->property("currentItem").isValid());
+    auto* installedView = qvariant_cast<QQuickItem*>(stackView->property("currentItem"));
+    QVERIFY(installedView);
+    QTest::qWait(1000);
+    auto* gridView = m_window->findChild<QQuickItem*>("gridView");
+    QVERIFY(gridView);
+    const QString installedListItemIndex = "0";
+    auto* firstInstalledItem = findItemDelegate(gridView, "installedItem" + installedListItemIndex);
+    QVERIFY(firstInstalledItem);
+    clickItem(firstInstalledItem);
+    auto* monitorSelection = m_installedSidebar->findChild<QQuickItem*>("monitorSelection");
+    QVERIFY(monitorSelection);
+    QTest::qWait(1000);
+    QVERIFY(QMetaObject::invokeMethod(monitorSelection,
+        QString("selectOnly").toLatin1().constData(),
+        Qt::ConnectionType::AutoConnection,
+        Q_ARG(QVariant, 0))); // First monitor
+
+    QTest::qWait(1000);
+    auto* btnSetWallpaper = m_installedSidebar->findChild<QQuickItem*>("btnSetWallpaper");
+    QVERIFY(btnSetWallpaper);
+    clickItem(btnSetWallpaper);
+    QTest::qWait(10000);
 }
 
 QTEST_MAIN(ScreenPlayTest)

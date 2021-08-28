@@ -263,6 +263,7 @@ Item {
 
                     MonitorSelection {
                         id: monitorSelection
+                        objectName: "monitorSelection"
 
                         height: 180
                         Layout.fillWidth: true
@@ -347,6 +348,7 @@ Item {
 
             Button {
                 id: btnSetWallpaper
+                objectName: "btnSetWallpaper"
 
                 Material.background: Material.accent
                 Material.foreground: "white"

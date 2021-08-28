@@ -172,6 +172,7 @@ ApplicationWindow {
 
     Installed.Sidebar {
         id: sidebar
+        objectName: "installedSidebar"
 
         navHeight: nav.height
 
