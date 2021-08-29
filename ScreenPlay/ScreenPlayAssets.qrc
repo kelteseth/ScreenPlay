@@ -130,5 +130,6 @@
         <file>assets/icons/brand_reddit.svg</file>
         <file>assets/icons/steam_default_avatar.png</file>
         <file>assets/macos/app.screenplay.plist</file>
+        <file>assets/icons/item_banner_new.svg</file>
     </qresource>
 </RCC>

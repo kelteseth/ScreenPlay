@@ -17,7 +17,8 @@ Item {
     property var publishedFileID: 0
     property int itemIndex
     property bool isScrolling: false
-
+    property bool isNew:false
+    Component.onCompleted:print(isNew)
     signal openContextMenu(point position)
 
     width: 320
@@ -189,7 +190,26 @@ Item {
                 }
 
             }
+            Image {
+                id: new_banner
+                source: "qrc:/assets/icons/item_banner_new.svg"
+                visible: root.isNew
 
+                Text
+                {
+
+                    font.family:"Helvetica";font.bold: true;font.pointSize:9.5; font.italic: true
+                    color: "#AAffffff"
+                    text: qsTr("NEW")
+                    anchors{
+                        right: new_banner.right
+                        top: new_banner.TopLeft
+
+                    }
+                     transform:  Rotation{ origin.y:12; angle:45}
+                    visible: root.isNew
+                }
+            }
         }
 
         OpacityMask {
