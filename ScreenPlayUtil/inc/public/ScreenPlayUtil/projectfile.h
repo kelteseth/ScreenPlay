@@ -34,6 +34,7 @@
 
 #pragma once
 
+#include <QDateTime>
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -42,7 +43,6 @@
 #include <QUrl>
 #include <QVariant>
 #include <QVariantList>
-#include <QDateTime>
 
 #include "ScreenPlayUtil/util.h"
 
@@ -59,7 +59,8 @@ struct ProjectFile {
         const QJsonObject& obj,
         const QString& folderName,
         const QUrl& absolutePath,
-        const bool isNew)
+        const bool isNew,
+        const QDateTime& lastModified)
     {
 
         if (obj.contains("description"))
@@ -101,8 +102,6 @@ struct ProjectFile {
 
         m_folderId = folderName;
 
-
-
         if (!obj.contains("type"))
             return;
 
@@ -118,6 +117,7 @@ struct ProjectFile {
         }
         m_searchType = ScreenPlayUtil::getSearchTypeFromInstalledType(m_type);
         m_isNew = isNew;
+        m_lastModified = lastModified;
     }
 
     ProjectFile() { }
@@ -139,5 +139,6 @@ struct ProjectFile {
     InstalledType::InstalledType m_type = InstalledType::InstalledType::Unknown;
     SearchType::SearchType m_searchType = SearchType::SearchType::All;
     bool m_isNew = false;
+    QDateTime m_lastModified;
 };
 }

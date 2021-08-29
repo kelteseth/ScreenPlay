@@ -17,24 +17,24 @@ Item {
     property var publishedFileID: 0
     property int itemIndex
     property bool isScrolling: false
-    property bool isNew:false
-    Component.onCompleted:print(isNew)
+    property bool isNew: false
+
     signal openContextMenu(point position)
 
     width: 320
     height: 180
     onTypeChanged: {
         if (JSUtil.isWidget(type)) {
-            icnType.source = "qrc:/assets/icons/icon_widgets.svg";
-            return ;
+            icnType.source = "qrc:/assets/icons/icon_widgets.svg"
+            return
         }
         if (JSUtil.isScene(type)) {
-            icnType.source = "qrc:/assets/icons/icon_code.svg";
-            return ;
+            icnType.source = "qrc:/assets/icons/icon_code.svg"
+            return
         }
         if (JSUtil.isVideo(type)) {
-            icnType.source = "qrc:/assets/icons/icon_movie.svg";
-            return ;
+            icnType.source = "qrc:/assets/icons/icon_movie.svg"
+            return
         }
     }
 
@@ -42,11 +42,11 @@ Item {
         running: true
         onTriggered: showAnim.start()
         interval: {
-            var itemIndexMax = itemIndex;
+            var itemIndexMax = itemIndex
             if (itemIndex > 30)
-                itemIndexMax = 3;
+                itemIndexMax = 3
 
-            5 * itemIndexMax * Math.random();
+            5 * itemIndexMax * Math.random()
         }
     }
 
@@ -79,7 +79,6 @@ Item {
                 duration: 200
                 easing.type: Easing.OutCirc
             }
-
         }
 
         OpacityAnimator {
@@ -89,7 +88,6 @@ Item {
             duration: 800
             easing.type: Easing.OutCirc
         }
-
     }
 
     RectangularGlow {
@@ -108,7 +106,6 @@ Item {
             top: parent.top
             topMargin: 3
         }
-
     }
 
     Item {
@@ -175,7 +172,6 @@ Item {
                     left: parent.left
                     margins: 10
                 }
-
             }
 
             Rectangle {
@@ -188,26 +184,30 @@ Item {
                     left: parent.left
                     bottom: parent.bottom
                 }
-
             }
             Image {
-                id: new_banner
+                id: newBanner
                 source: "qrc:/assets/icons/item_banner_new.svg"
                 visible: root.isNew
 
-                Text
-                {
-
-                    font.family:"Helvetica";font.bold: true;font.pointSize:9.5; font.italic: true
-                    color: "#AAffffff"
+                Text {
+                    font.family: ScreenPlay.settings.font
+                    font.bold: true
+                    font.pointSize: 10
+                    color: "white"
                     text: qsTr("NEW")
-                    anchors{
-                        right: new_banner.right
-                        top: new_banner.TopLeft
-
-                    }
-                     transform:  Rotation{ origin.y:12; angle:45}
+                    smooth: true
+                    antialiasing: true
                     visible: root.isNew
+                    anchors {
+                        right: newBanner.right
+                        top: newBanner.top
+                        rightMargin: 3
+                        topMargin: 10
+                    }
+                    transform: Rotation {
+                        angle: 45
+                    }
                 }
             }
         }
@@ -223,25 +223,23 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onEntered: {
-                    root.state = "hover";
-                    screenPlayItemImage.state = "hover";
-                    screenPlayItemImage.enter();
+                    root.state = "hover"
+                    screenPlayItemImage.state = "hover"
+                    screenPlayItemImage.enter()
                 }
                 onExited: {
-                    root.state = "";
-                    screenPlayItemImage.state = "loaded";
-                    screenPlayItemImage.exit();
+                    root.state = ""
+                    screenPlayItemImage.state = "loaded"
+                    screenPlayItemImage.exit()
                 }
                 onClicked: {
                     if (mouse.button === Qt.LeftButton)
-                        ScreenPlay.util.setSidebarItem(root.screenId, root.type);
+                        ScreenPlay.util.setSidebarItem(root.screenId, root.type)
                     else if (mouse.button === Qt.RightButton)
-                        root.openContextMenu(Qt.point(mouseX, mouseY));
+                        root.openContextMenu(Qt.point(mouseX, mouseY))
                 }
             }
-
         }
-
     }
 
     transitions: [
@@ -276,7 +274,6 @@ Item {
                 from: 0.6
                 to: 1
             }
-
         },
         Transition {
             from: "hover"
@@ -309,7 +306,6 @@ Item {
                 from: 1
                 to: 0.5
             }
-
         }
     ]
 }
