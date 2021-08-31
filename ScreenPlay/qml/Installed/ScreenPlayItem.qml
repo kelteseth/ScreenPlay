@@ -185,28 +185,30 @@ Item {
                     bottom: parent.bottom
                 }
             }
-            Image {
-                id: newBanner
-                source: "qrc:/assets/icons/item_banner_new.svg"
+            Rectangle {
+
+                width: 130
+                height: 15
+                x: 250
+                y: -20
+                smooth: true
+                color: "orange"
+                transform: Rotation {
+                    angle: 45
+                }
                 visible: root.isNew
 
                 Text {
                     font.family: ScreenPlay.settings.font
                     font.bold: true
-                    font.pointSize: 10
+                    font.pointSize: 8.5
                     color: "white"
                     text: qsTr("NEW")
                     smooth: true
                     antialiasing: true
                     visible: root.isNew
                     anchors {
-                        right: newBanner.right
-                        top: newBanner.top
-                        rightMargin: 3
-                        topMargin: 10
-                    }
-                    transform: Rotation {
-                        angle: 45
+                        centerIn: parent
                     }
                 }
             }
