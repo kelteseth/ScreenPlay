@@ -174,25 +174,18 @@ Item {
                 }
             }
 
-            Rectangle {
-                color: "#AAffffff"
-                height: 30
-                visible: false
 
-                anchors {
-                    right: parent.right
-                    left: parent.left
-                    bottom: parent.bottom
+            Rectangle {
+
+                width: 120
+                height: 20
+                anchors{
+                    top:parent.top
+                    right:parent.right
+                    rightMargin: -60
+                    topMargin: -20
                 }
-            }
-            Rectangle {
-
-                width: 130
-                height: 15
-                x: 250
-                y: -20
-                smooth: true
-                color: "orange"
+                color: Material.color(Material.Orange)
                 transform: Rotation {
                     angle: 45
                 }
@@ -200,16 +193,14 @@ Item {
 
                 Text {
                     font.family: ScreenPlay.settings.font
-                    font.bold: true
-                    font.pointSize: 8.5
+                    font.pointSize: 9
+                    renderType: Text.QtRendering
                     color: "white"
                     text: qsTr("NEW")
                     smooth: true
                     antialiasing: true
                     visible: root.isNew
-                    anchors {
-                        centerIn: parent
-                    }
+                    anchors.centerIn: parent
                 }
             }
         }
