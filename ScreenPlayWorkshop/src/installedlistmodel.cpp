@@ -82,7 +82,7 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
 void InstalledListModel::append(const QJsonObject& obj, const QString& folderName, const QDateTime& lastModified)
 {
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
-    m_screenPlayFiles.append(ScreenPlay::ProjectFile(obj, folderName, m_absoluteStoragePath, lastModified));
+    m_screenPlayFiles.append(ScreenPlay::ProjectFile(obj, folderName, m_absoluteStoragePath, false, lastModified));
     endInsertRows();
 }
 

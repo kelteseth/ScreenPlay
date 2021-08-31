@@ -89,6 +89,7 @@ public:
         Tags,
         SearchType,
         LastModified,
+        IsNew,
     };
     Q_ENUM(ScreenPlayItem)
 
@@ -101,7 +102,7 @@ public slots:
     QVariantMap get(const QString& folderId) const;
 
     void loadInstalledContent();
-    void append(const QJsonObject&, const QString&, const QDateTime& lastModified);
+    void append(const QJsonObject&, const QString&, const bool isNew, const QDateTime& lastModified);
     void reset();
     void init();
     bool deinstallItemAt(const int index);

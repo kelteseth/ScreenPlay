@@ -17,6 +17,7 @@ Item {
     property var publishedFileID: 0
     property int itemIndex
     property bool isScrolling: false
+    property bool isNew: false
 
     signal openContextMenu(point position)
 
@@ -24,16 +25,16 @@ Item {
     height: 180
     onTypeChanged: {
         if (JSUtil.isWidget(type)) {
-            icnType.source = "qrc:/assets/icons/icon_widgets.svg";
-            return ;
+            icnType.source = "qrc:/assets/icons/icon_widgets.svg"
+            return
         }
         if (JSUtil.isScene(type)) {
-            icnType.source = "qrc:/assets/icons/icon_code.svg";
-            return ;
+            icnType.source = "qrc:/assets/icons/icon_code.svg"
+            return
         }
         if (JSUtil.isVideo(type)) {
-            icnType.source = "qrc:/assets/icons/icon_movie.svg";
-            return ;
+            icnType.source = "qrc:/assets/icons/icon_movie.svg"
+            return
         }
     }
 
@@ -41,11 +42,11 @@ Item {
         running: true
         onTriggered: showAnim.start()
         interval: {
-            var itemIndexMax = itemIndex;
+            var itemIndexMax = itemIndex
             if (itemIndex > 30)
-                itemIndexMax = 3;
+                itemIndexMax = 3
 
-            5 * itemIndexMax * Math.random();
+            5 * itemIndexMax * Math.random()
         }
     }
 
@@ -78,7 +79,6 @@ Item {
                 duration: 200
                 easing.type: Easing.OutCirc
             }
-
         }
 
         OpacityAnimator {
@@ -88,7 +88,6 @@ Item {
             duration: 800
             easing.type: Easing.OutCirc
         }
-
     }
 
     RectangularGlow {
@@ -107,7 +106,6 @@ Item {
             top: parent.top
             topMargin: 3
         }
-
     }
 
     Item {
@@ -174,22 +172,37 @@ Item {
                     left: parent.left
                     margins: 10
                 }
-
             }
+
 
             Rectangle {
-                color: "#AAffffff"
-                height: 30
-                visible: false
 
-                anchors {
-                    right: parent.right
-                    left: parent.left
-                    bottom: parent.bottom
+                width: 120
+                height: 20
+                anchors{
+                    top:parent.top
+                    right:parent.right
+                    rightMargin: -60
+                    topMargin: -20
                 }
+                color: Material.color(Material.Orange)
+                transform: Rotation {
+                    angle: 45
+                }
+                visible: root.isNew
 
+                Text {
+                    font.family: ScreenPlay.settings.font
+                    font.pointSize: 9
+                    renderType: Text.QtRendering
+                    color: "white"
+                    text: qsTr("NEW")
+                    smooth: true
+                    antialiasing: true
+                    visible: root.isNew
+                    anchors.centerIn: parent
+                }
             }
-
         }
 
         OpacityMask {
@@ -203,25 +216,23 @@ Item {
                 cursorShape: Qt.PointingHandCursor
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onEntered: {
-                    root.state = "hover";
-                    screenPlayItemImage.state = "hover";
-                    screenPlayItemImage.enter();
+                    root.state = "hover"
+                    screenPlayItemImage.state = "hover"
+                    screenPlayItemImage.enter()
                 }
                 onExited: {
-                    root.state = "";
-                    screenPlayItemImage.state = "loaded";
-                    screenPlayItemImage.exit();
+                    root.state = ""
+                    screenPlayItemImage.state = "loaded"
+                    screenPlayItemImage.exit()
                 }
                 onClicked: {
                     if (mouse.button === Qt.LeftButton)
-                        ScreenPlay.util.setSidebarItem(root.screenId, root.type);
+                        ScreenPlay.util.setSidebarItem(root.screenId, root.type)
                     else if (mouse.button === Qt.RightButton)
-                        root.openContextMenu(Qt.point(mouseX, mouseY));
+                        root.openContextMenu(Qt.point(mouseX, mouseY))
                 }
             }
-
         }
-
     }
 
     transitions: [
@@ -256,7 +267,6 @@ Item {
                 from: 0.6
                 to: 1
             }
-
         },
         Transition {
             from: "hover"
@@ -289,7 +299,6 @@ Item {
                 from: 1
                 to: 0.5
             }
-
         }
     ]
 }

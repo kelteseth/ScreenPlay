@@ -207,6 +207,7 @@ Item {
             focus: true
             customTitle: m_title
             type: m_type
+            isNew: m_isNew
             screenId: m_folderId
             absoluteStoragePath: m_absoluteStoragePath
             publishedFileID: m_publishedFileID

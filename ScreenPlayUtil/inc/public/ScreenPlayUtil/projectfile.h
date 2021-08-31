@@ -34,6 +34,7 @@
 
 #pragma once
 
+#include <QDateTime>
 #include <QDebug>
 #include <QJsonArray>
 #include <QJsonObject>
@@ -58,6 +59,7 @@ struct ProjectFile {
         const QJsonObject& obj,
         const QString& folderName,
         const QUrl& absolutePath,
+        const bool isNew,
         const QDateTime& lastModified)
     {
 
@@ -114,6 +116,7 @@ struct ProjectFile {
             m_preview = m_previewGIF;
         }
         m_searchType = ScreenPlayUtil::getSearchTypeFromInstalledType(m_type);
+        m_isNew = isNew;
         m_lastModified = lastModified;
     }
 
@@ -135,6 +138,7 @@ struct ProjectFile {
 
     InstalledType::InstalledType m_type = InstalledType::InstalledType::Unknown;
     SearchType::SearchType m_searchType = SearchType::SearchType::All;
+    bool m_isNew = false;
     QDateTime m_lastModified;
 };
 }
