@@ -52,6 +52,7 @@ void Create::reset()
     setProgress(0.);
     setWorkingDir({});
 }
+
 /*!
     \brief Starts the process.
 */
@@ -60,18 +61,19 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
     reset();
     videoPath = ScreenPlayUtil::toLocal(videoPath);
 
-    const QDir dir(m_globalVariables->localStoragePath().toLocalFile());
+    const QDir installedDir = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString());
 
     // Create a temp dir so we can later alter it to the workshop id
-    const auto folderName = QString("_tmp_" + QTime::currentTime().toString()).replace(":", "");
+    const QDateTime date = QDateTime::currentDateTime();
+    const auto folderName = date.toString("ddMMyyyyhhmmss");
+    setWorkingDir(installedDir.path() + "/" + folderName);
 
-    if (!dir.mkdir(folderName)) {
+    if (!installedDir.mkdir(folderName)) {
+        qInfo() << "Unable to create folder with name: " << folderName << " at: " << installedDir;
         emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CreateTmpFolderError);
         emit abortCreateWallpaper();
         return;
     }
-
-    setWorkingDir(dir.path() + "/" + folderName);
 
     QString target_codec;
     switch (codec) {
@@ -116,12 +118,15 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
             return;
         }
 
-        qInfo() << "createWallpaperVideoPreview()";
-        if (!import.createWallpaperVideoPreview() || m_interrupt) {
-            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
-            emit import.abortAndCleanup();
+        // Skip preview convert for webm
+        if (!import.m_isWebm) {
+            qInfo() << "createWallpaperVideoPreview()";
+            if (!import.createWallpaperVideoPreview() || m_interrupt) {
+                emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+                emit import.abortAndCleanup();
 
-            return;
+                return;
+            }
         }
 
         qInfo() << "createWallpaperGifPreview()";
