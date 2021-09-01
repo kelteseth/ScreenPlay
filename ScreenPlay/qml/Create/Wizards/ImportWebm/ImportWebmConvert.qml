@@ -80,6 +80,7 @@ Item {
                 txtConvert.text = "";
                 conversionFinishedSuccessful = true;
                 busyIndicator.running = false;
+                btnExit.enabled = false;
                 root.checkCanSave();
                 break;
             }
