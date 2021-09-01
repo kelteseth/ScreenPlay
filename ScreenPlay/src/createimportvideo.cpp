@@ -349,7 +349,11 @@ bool CreateImportVideo::createWallpaperGifPreview()
     args.append("-y");
     args.append("-stats");
     args.append("-i");
-    args.append(m_exportPath + "/preview.webm");
+    if (m_isWebm) {
+        args.append(m_videoPath);
+    } else {
+        args.append(m_exportPath + "/preview.webm");
+    }
     args.append("-filter_complex");
     args.append("[0:v] fps=12,scale=w=480:h=-1,split [a][b];[a] palettegen=stats_mode=single [p];[b][p] paletteuse=new=1");
     args.append(m_exportPath + "/preview.gif");
