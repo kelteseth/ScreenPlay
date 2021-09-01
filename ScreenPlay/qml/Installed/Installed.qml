@@ -248,7 +248,6 @@ Item {
                 // Set the menu to the current item informations
                 contextMenu.publishedFileID = delegate.publishedFileID;
                 contextMenu.absoluteStoragePath = delegate.absoluteStoragePath;
-                deleteDialog.currentItemIndex = itemIndex;
                 const pos = delegate.mapToItem(root, position.x, position.y);
                 // Disable duplicate opening. The can happen if we
                 // call popup when we are in the closing animtion.
