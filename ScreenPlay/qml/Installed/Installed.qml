@@ -13,6 +13,7 @@ Item {
 
     property bool refresh: false
     property bool enabled: true
+    property Sidebar sidebar
 
     signal setNavigationItem(var pos)
     signal setSidebarActive(var active)
@@ -102,6 +103,36 @@ Item {
         onDragStarted: isDragging = true
         onDragEnded: isDragging = false
         model: ScreenPlay.installedListFilter
+        removeDisplaced: Transition {
+            SequentialAnimation {
+                PauseAnimation {
+                    duration: 150
+                }
+                NumberAnimation {
+                    properties: "x,y"
+                    duration: 250
+                    easing.type: Easing.InOutQuart
+                }
+            }
+        }
+
+        remove: Transition {
+            SequentialAnimation {
+
+                NumberAnimation {
+                    property: "opacity"
+                    to: 0
+                    duration: 200
+                    easing.type: Easing.InOutQuart
+                }
+                NumberAnimation {
+                    properties: "y"
+                    to: 100
+                    duration: 200
+                    easing.type: Easing.InOutQuart
+                }
+            }
+        }
         onContentYChanged: {
             if (contentY <= -180)
                 gridView.headerItem.isVisible = true;
@@ -262,8 +293,8 @@ Item {
             enabled: contextMenu.publishedFileID !== 0
             icon.source: "qrc:/assets/icons/icon_steam.svg"
             onClicked: {
-                print(contextMenu.publishedFileID)
-                Qt.openUrlExternally("steam://url/CommunityFilePage/" + contextMenu.publishedFileID);
+                Qt.openUrlExternally(
+                            "steam://url/CommunityFilePage/" + contextMenu.publishedFileID)
             }
         }
 
@@ -271,15 +302,16 @@ Item {
 
     Dialog {
         id: deleteDialog
-
-        property int currentItemIndex: 0
-
         title: qsTr("Are you sure you want to delete this item?")
         standardButtons: Dialog.Ok | Dialog.Cancel
         modal: true
         dim: true
         anchors.centerIn: Overlay.overlay
-        onAccepted: ScreenPlay.installedListModel.deinstallItemAt(currentItemIndex)
+        onAccepted: {
+            root.sidebar.clear()
+            ScreenPlay.installedListModel.deinstallItemAt(
+                        contextMenu.absoluteStoragePath)
+        }
     }
 
     Navigation {

@@ -99,13 +99,13 @@ public:
     }
 
 public slots:
-    QVariantMap get(const QString& folderId) const;
+    QVariantMap get(const QString& folderName) const;
 
     void loadInstalledContent();
     void append(const QJsonObject&, const QString&, const bool isNew, const QDateTime& lastModified);
     void reset();
     void init();
-    bool deinstallItemAt(const int index);
+    void deinstallItemAt(const QString& absoluteStoragePath);
 
     void setCount(int count)
     {
@@ -124,6 +124,7 @@ private:
     QFileSystemWatcher m_fileSystemWatcher;
     QVector<ProjectFile> m_screenPlayFiles;
     int m_count { 0 };
+    QFuture<void> m_loadContentFuture;
 
     const std::shared_ptr<GlobalVariables>& m_globalVariables;
 };

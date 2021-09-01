@@ -34,11 +34,17 @@ ApplicationWindow {
     function switchPage(name) {
         if (nav.currentNavigationName === name) {
             if (name === "Installed")
-                ScreenPlay.installedListModel.reset();
-
+                ScreenPlay.installedListModel.reset()
         }
-        stackView.replace("qrc:/qml/" + name + "/" + name + ".qml");
-        sidebar.state = "inactive";
+
+        if (name === "Installed") {
+            stackView.replace("qrc:/qml/" + name + "/" + name + ".qml", {
+                                  "sidebar": sidebar
+                              })
+            return
+        }
+        stackView.replace("qrc:/qml/" + name + "/" + name + ".qml")
+        sidebar.state = "inactive"
     }
 
     color: Material.theme === Material.Dark ? Qt.darker(Material.background) : Material.background
