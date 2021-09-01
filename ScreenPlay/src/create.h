@@ -100,7 +100,7 @@ signals:
 public slots:
     void cancel();
 
-    void createWallpaperStart(QString videoPath, Create::VideoCodec codec, const int quality = 50);
+    void createWallpaperStart(QString videoPath, Create::VideoCodec codec = Create::VideoCodec::VP9, const int quality = 50);
 
     void saveWallpaper(const QString title,
         const QString description,
