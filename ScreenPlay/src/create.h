@@ -95,6 +95,7 @@ signals:
     void ffmpegOutputChanged(QString ffmpegOutput);
     void widgetCreatedSuccessful(QString path);
     void htmlWallpaperCreatedSuccessful(QString path);
+    void finished();
 
 public slots:
     void cancel();

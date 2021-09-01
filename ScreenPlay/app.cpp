@@ -173,6 +173,8 @@ void App::init()
     }
 
     m_create = make_unique<Create>(m_globalVariables);
+    QObject::connect(m_create.get(), &Create::finished, m_installedListModel.get(), &InstalledListModel::reset);
+
     m_wizards = make_unique<Wizards>(m_globalVariables);
 
     // When the installed storage path changed

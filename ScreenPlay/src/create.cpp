@@ -237,6 +237,7 @@ void Create::saveWallpaper(
     }
 
     emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CreateProjectFileFinished);
+    emit finished();
 }
 
 /*!
