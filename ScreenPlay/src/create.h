@@ -82,7 +82,6 @@ public:
     };
     Q_ENUM(VideoCodec)
 
-
     float progress() const { return m_progress; }
     QString workingDir() const { return m_workingDir; }
     QString ffmpegOutput() const { return m_ffmpegOutput; }

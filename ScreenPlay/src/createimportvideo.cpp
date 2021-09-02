@@ -597,7 +597,7 @@ bool CreateImportVideo::createWallpaperVideo()
     args.append("-pass");
     args.append("2");
     const QFileInfo file(m_videoPath);
-    const QString convertedFileAbsolutePath { m_exportPath + "/" + file.baseName() + ".webm" };
+    const QString convertedFileAbsolutePath { m_exportPath + "/" + file.completeBaseName() + ".webm" };
     args.append(convertedFileAbsolutePath);
 
     const QString ffmpegOutput = waitForFinished(args);

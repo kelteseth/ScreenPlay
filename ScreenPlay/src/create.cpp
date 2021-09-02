@@ -222,7 +222,7 @@ void Create::saveWallpaper(
     obj.insert("title", title);
     obj.insert("youtube", youtube);
     obj.insert("videoCodec", codec == Create::VideoCodec::VP8 ? "vp8" : "vp9");
-    obj.insert("file", filePathFile.baseName() + ".webm");
+    obj.insert("file", filePathFile.completeBaseName() + ".webm");
     obj.insert("previewGIF", "preview.gif");
     obj.insert("previewWEBM", "preview.webm");
     obj.insert("preview", previewImageFile.exists() ? previewImageFile.fileName() : "preview.jpg");
