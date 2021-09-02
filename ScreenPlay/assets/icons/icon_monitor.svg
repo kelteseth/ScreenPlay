@@ -1,1 +1,10 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd"><svg width="100%" height="100%" viewBox="0 0 22 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:1.41421;"><path id="display" d="M0,0l0,13.701l21.922,0l0,-13.701l-21.922,0Zm20.552,12.331l-19.182,0l0,-10.961l19.182,0l0,10.961Zm-6.166,2.74l-6.85,0l-0.685,2.741l-1.371,1.37l10.961,0l-1.37,-1.37l-0.685,-2.741Z" style="fill:#626262;fill-rule:nonzero;"/></svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg width="100%" height="100%" viewBox="0 0 28 24" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" xmlns:serif="http://www.serif.com/" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <g id="Artboard1" transform="matrix(1.27726,0,0,1.25117,0,0)">
+        <rect x="0" y="0" width="21.922" height="19.182" style="fill:none;"/>
+        <g id="display" transform="matrix(0.914274,0,0,1,0,0)">
+            <path d="M0,0L0,15.099L23.977,15.099L23.977,0L0,0ZM22.607,13.729L1.37,13.729L1.37,1.37L22.607,1.37L22.607,13.729ZM14.103,15.005L9.875,15.005L9.453,17.812L8.607,19.182L15.371,19.182L14.525,17.812L14.103,15.005Z" style="fill:rgb(98,98,98);fill-rule:nonzero;"/>
+        </g>
+    </g>
+</svg>
