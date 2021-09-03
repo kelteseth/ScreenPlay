@@ -60,7 +60,7 @@ if platform == "win32":
     cmake_target_triplet = "x64-windows"
 elif platform == "darwin":
     cmake_prefix_path = "~/Qt/" + qt_version + "/clang_64"
-    deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml "
+    deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app}"
     cmake_target_triplet = "x64-osx"
 elif platform == "linux":
     deploy_command = "cqtdeployer -qmldir ../../{app}/qml -bin {app}"
@@ -75,21 +75,22 @@ cmake_toolchain_file = (
     "'{root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake'").format(root_path=root_path)
 print("cmake_toolchain_file: %s " % cmake_toolchain_file)
 
-build_folder = "build-" + cmake_target_triplet + "-" + args.build_type
+build_folder = root_path + "/build-" + cmake_target_triplet + "-" + args.build_type
 
 if os.path.isdir(build_folder):
-    print("Remove previous build folder")
+    print("Remove previous build folder: " + build_folder)
     shutil.rmtree(build_folder)
 
 
 os.mkdir(build_folder)
-os.chdir(root_path + "/" + build_folder)
+os.chdir(build_folder)
 
 cmake_configure_command = """cmake ../
  -DCMAKE_PREFIX_PATH={prefix_path}
  -DCMAKE_BUILD_TYPE={type}
  -DCMAKE_TOOLCHAIN_FILE={toolchain}
  -DVCPKG_TARGET_TRIPLET={triplet}
+ -DTESTS_ENABLED=OFF
  -DSCREENPLAY_STEAM_DEPLOY=ON
  -DSCREENPLAY_STEAM=ON
  -G "CodeBlocks - Ninja"
@@ -123,13 +124,16 @@ execute(deploy_command.format(
     executable_file_ending=executable_file_ending))
 
 if platform == "darwin" and args.sign_build:
-    execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" --entitlements \"../../ScreenPlay/entitlements.plist\" \"ScreenPlay.app/\"")
-    execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" \"ScreenPlayWallpaper.app/\"")
-    execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --options \"runtime\" \"ScreenPlayWidget.app/\"")
+    print("Remove workshop build folder (macos only).")
+    shutil.rmtree(build_folder + "/bin/workshop")
 
-    execute("codesign --verify --verbose  \"ScreenPlay.app/\"")
-    execute("codesign --verify --verbose  \"ScreenPlayWallpaper.app/\"")
-    execute("codesign --verify --verbose  \"ScreenPlayWidget.app/\"")
+    execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --entitlements \"../../ScreenPlay/entitlements.plist\"  --deep \"ScreenPlay.app/\"")
+    execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlayWallpaper.app/\"")
+    execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlayWidget.app/\"")
+
+    execute("codesign --verify --verbose=4  \"ScreenPlay.app/\"")
+    execute("codesign --verify --verbose=4  \"ScreenPlayWallpaper.app/\"")
+    execute("codesign --verify --verbose=4  \"ScreenPlayWidget.app/\"")
 
     execute("xcnotary notarize ScreenPlay.app -d kelteseth@gmail.com -k ScreenPlay")
     execute("xcnotary notarize ScreenPlayWallpaper.app -d kelteseth@gmail.com -k ScreenPlay")
