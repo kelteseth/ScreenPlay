@@ -63,3 +63,8 @@ void MacWindow::destroyThis()
 {
     QCoreApplication::quit();
 }
+
+void MacWindow::clearComponentCache()
+{
+    m_window.engine()->clearComponentCache();
+}
