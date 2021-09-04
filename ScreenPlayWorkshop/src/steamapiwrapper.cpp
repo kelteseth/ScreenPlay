@@ -1,4 +1,3 @@
-#pragma once
 #include <QByteArray>
 #include <QJsonArray>
 #include <QString>

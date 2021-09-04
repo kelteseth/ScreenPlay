@@ -121,6 +121,42 @@ void SteamWorkshop::onRequestItemDetailReturned(SteamUGCQueryCompleted_t* pCallb
     }
 }
 
+bool SteamWorkshop::steamErrorAPIInit() const
+{
+    return m_steamErrorAPIInit;
+}
+
+void SteamWorkshop::setSteamErrorAPIInit(bool newSteamErrorAPIInit)
+{
+    if (m_steamErrorAPIInit == newSteamErrorAPIInit)
+        return;
+    m_steamErrorAPIInit = newSteamErrorAPIInit;
+    emit steamErrorAPIInitChanged();
+}
+
+void SteamWorkshop::resetSteamErrorAPIInit()
+{
+    setSteamErrorAPIInit({}); // TODO: Adapt to use your actual default value
+}
+
+bool SteamWorkshop::steamErrorRestart() const
+{
+    return m_steamErrorRestart;
+}
+
+void SteamWorkshop::setSteamErrorRestart(bool newSteamErrorRestart)
+{
+    if (m_steamErrorRestart == newSteamErrorRestart)
+        return;
+    m_steamErrorRestart = newSteamErrorRestart;
+    emit steamErrorRestartChanged();
+}
+
+void SteamWorkshop::resetSteamErrorRestart()
+{
+    setSteamErrorRestart({}); // TODO: Adapt to use your actual default value
+}
+
 void SteamWorkshop::requestUserItems()
 {
     if (!checkOnline())
