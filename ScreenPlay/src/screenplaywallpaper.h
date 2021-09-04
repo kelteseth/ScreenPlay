@@ -66,8 +66,8 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
+    // Default constructor for qml engine
     ScreenPlayWallpaper() { }
-    ~ScreenPlayWallpaper();
 
     explicit ScreenPlayWallpaper(
         const QVector<int>& screenNumber,

@@ -10,14 +10,6 @@ namespace ScreenPlay {
     This class is only for managing the QProcess to an extern ScreenPlayWallpaper!
 */
 
-/*!
-    \brief Destructor for ScreenPlayWallpaper.
-*/
-ScreenPlayWallpaper::~ScreenPlayWallpaper()
-{
-    m_connection->close();
-    qInfo() << "Remove wallpaper " << m_appID;
-}
 
 /*!
     \brief  Constructor for ScreenPlayWallpaper.
