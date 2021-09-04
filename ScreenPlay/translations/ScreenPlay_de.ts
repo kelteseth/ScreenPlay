@@ -183,47 +183,47 @@
 <context>
     <name>CreateWallpaperVideoImportConvert</name>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="47"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="48"/>
         <source>Generating preview image...</source>
         <translation type="unfinished">Erzeuge Vorschaubild...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="50"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="51"/>
         <source>Generating preview thumbnail image...</source>
         <translation type="unfinished">Erzeuge Vorschau-Miniaturbild...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="57"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="58"/>
         <source>Generating 5 second preview video...</source>
         <translation type="unfinished">Generiere ein 5-Sekunden-Vorschau-Video...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="60"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="61"/>
         <source>Generating preview gif...</source>
         <translation type="unfinished">Generiere Vorschau-Gif...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="69"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="70"/>
         <source>Converting Audio...</source>
         <translation type="unfinished">Konvertiere Audio...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="72"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="73"/>
         <source>Converting Video... This can take some time!</source>
         <translation type="unfinished">Video wird umgewandelt... Das kann etwas dauern!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="75"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="77"/>
         <source>Converting Video ERROR!</source>
         <translation type="unfinished">Konvertieren nicht erfolgreich!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="78"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="80"/>
         <source>Analyse Video ERROR!</source>
         <translation type="unfinished">Analyse des Videos schlug Fehl!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="106"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="108"/>
         <source>Convert a video to a wallpaper</source>
         <translation type="unfinished">Konvertiere ein Video in ein Hintergrund Live Wallpaper</translation>
     </message>
@@ -233,37 +233,37 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="221"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="219"/>
         <source>Generating preview video...</source>
         <translation type="unfinished">Generiere Vorschau-Video...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="281"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="275"/>
         <source>Name (required!)</source>
         <translation type="unfinished">Name (erforderlich!)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="295"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="289"/>
         <source>Description</source>
         <translation type="unfinished">Beschreibung</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="303"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="297"/>
         <source>Youtube URL</source>
         <translation type="unfinished">YouTube-URL</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="334"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="327"/>
         <source>Abort</source>
         <translation type="unfinished">Abbrechen</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="347"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="340"/>
         <source>Save</source>
         <translation type="unfinished">Speichern</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="381"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="377"/>
         <source>Save Wallpaper...</source>
         <translation type="unfinished">Speicher Wallpaper...</translation>
     </message>
@@ -475,52 +475,52 @@
 <context>
     <name>ImportWebmConvert</name>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="42"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="43"/>
         <source>AnalyseVideo...</source>
         <translation type="unfinished">Analysiere Video...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="45"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="46"/>
         <source>Generating preview image...</source>
         <translation type="unfinished">Erzeuge Vorschaubild...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="48"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="49"/>
         <source>Generating preview thumbnail image...</source>
         <translation type="unfinished">Erzeuge Vorschau-Miniaturbild...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="55"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="56"/>
         <source>Generating 5 second preview video...</source>
         <translation type="unfinished">Generiere ein 5-Sekunden-Vorschau-Video...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="58"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="59"/>
         <source>Generating preview gif...</source>
         <translation type="unfinished">Generiere Vorschau-Gif...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="67"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="68"/>
         <source>Converting Audio...</source>
         <translation type="unfinished">Konvertiere Audio...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="70"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="71"/>
         <source>Converting Video... This can take some time!</source>
         <translation type="unfinished">Video wird umgewandelt... Das kann etwas dauern!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="73"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="74"/>
         <source>Converting Video ERROR!</source>
         <translation type="unfinished">Konvertieren nicht erfolgreich!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="76"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="77"/>
         <source>Analyse Video ERROR!</source>
         <translation type="unfinished">Analyse des Videos schlug Fehl!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="104"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="105"/>
         <source>Import a video to a wallpaper</source>
         <translation type="unfinished">Importiere ein Video zu ein Wallpaper</translation>
     </message>
@@ -530,37 +530,37 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="214"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="215"/>
         <source>Generating preview video...</source>
         <translation type="unfinished">Generiere Vorschau-Video...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="274"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="275"/>
         <source>Name (required!)</source>
         <translation type="unfinished">Name (erforderlich!)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="288"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="289"/>
         <source>Description</source>
         <translation type="unfinished">Beschreibung</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="296"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="297"/>
         <source>Youtube URL</source>
         <translation type="unfinished">YouTube-URL</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="327"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="328"/>
         <source>Abort</source>
         <translation type="unfinished">Abbrechen</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="340"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="341"/>
         <source>Save</source>
         <translation type="unfinished">Speichern</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="374"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="375"/>
         <source>Save Wallpaper...</source>
         <translation type="unfinished">Speicher Wallpaper...</translation>
     </message>
@@ -601,43 +601,43 @@
 <context>
     <name>Installed</name>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="130"/>
+        <location filename="../qml/Installed/Installed.qml" line="131"/>
         <source>Refreshing!</source>
         <translation type="unfinished">Aktualisiere!</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="133"/>
-        <location filename="../qml/Installed/Installed.qml" line="148"/>
+        <location filename="../qml/Installed/Installed.qml" line="134"/>
+        <location filename="../qml/Installed/Installed.qml" line="149"/>
         <source>Pull to refresh!</source>
         <translation type="unfinished">Drücken zum aktualisieren!</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="178"/>
+        <location filename="../qml/Installed/Installed.qml" line="179"/>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
         <translation type="unfinished">Holen dir mehr Wallpaper und Widgets über den Steam-Workshop!</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="242"/>
+        <location filename="../qml/Installed/Installed.qml" line="244"/>
         <source>Open containing folder</source>
         <translation type="unfinished">Enthaltenden Ordner öffnen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="250"/>
+        <location filename="../qml/Installed/Installed.qml" line="252"/>
         <source>Remove Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="250"/>
+        <location filename="../qml/Installed/Installed.qml" line="252"/>
         <source>Remove via Workshop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="259"/>
+        <location filename="../qml/Installed/Installed.qml" line="261"/>
         <source>Open Workshop Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="275"/>
+        <location filename="../qml/Installed/Installed.qml" line="277"/>
         <source>Are you sure you want to delete this item?</source>
         <translation type="unfinished">Bist du dir sicher dass du dieses Item löschen möchtest?</translation>
     </message>
@@ -915,6 +915,14 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
         <location filename="../qml/Monitors/SaveNotification.qml" line="39"/>
         <source>Profile saved successfully!</source>
         <translation type="unfinished">Profil erfolgreich gespeichert!</translation>
+    </message>
+</context>
+<context>
+    <name>ScreenPlayItem</name>
+    <message>
+        <location filename="../qml/Installed/ScreenPlayItem.qml" line="206"/>
+        <source>NEW</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1214,37 +1222,37 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
         <translation type="unfinished">Wähle einen Monitor zur Anzeige des Inhalts</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="287"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="288"/>
         <source>Set Volume</source>
         <translation type="unfinished">Audiolautstärke einstellen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="306"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="307"/>
         <source>Fill Mode</source>
         <translation type="unfinished">Füll-Modus</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="325"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="326"/>
         <source>Stretch</source>
         <translation type="unfinished">Strecken</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="328"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="329"/>
         <source>Fill</source>
         <translation type="unfinished">Ausfüllen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="331"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="332"/>
         <source>Contain</source>
         <translation type="unfinished">Enthält</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="334"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="335"/>
         <source>Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="337"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="338"/>
         <source>Scale-Down</source>
         <translation type="unfinished">Runter-Skallieren</translation>
     </message>
@@ -1299,47 +1307,47 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
         <translation type="unfinished">Abonniere</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="119"/>
+        <location filename="../qml/Create/Sidebar.qml" line="118"/>
         <source>Tools Overview</source>
         <translation type="unfinished">Werkzeugeübersicht</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="126"/>
+        <location filename="../qml/Create/Sidebar.qml" line="124"/>
         <source>Video import and convert (all types)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="133"/>
+        <location filename="../qml/Create/Sidebar.qml" line="131"/>
         <source>Video Import (.webm)</source>
         <translation type="unfinished">Importiere Video (.webm)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="140"/>
+        <location filename="../qml/Create/Sidebar.qml" line="137"/>
         <source>GIF Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="147"/>
+        <location filename="../qml/Create/Sidebar.qml" line="143"/>
         <source>QML Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="154"/>
+        <location filename="../qml/Create/Sidebar.qml" line="149"/>
         <source>HTML5 Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="161"/>
+        <location filename="../qml/Create/Sidebar.qml" line="155"/>
         <source>Website Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="168"/>
+        <location filename="../qml/Create/Sidebar.qml" line="161"/>
         <source>QML Widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="175"/>
+        <location filename="../qml/Create/Sidebar.qml" line="167"/>
         <source>HTML Widget</source>
         <translation type="unfinished"></translation>
     </message>

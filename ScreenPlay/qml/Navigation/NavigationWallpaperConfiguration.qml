@@ -49,7 +49,6 @@ Item {
 
                 target: bg
             }
-
         }
 
         Behavior on contentWidth {
@@ -84,7 +83,8 @@ Item {
             source: "qrc:/assets/icons/icon_monitor.svg"
             layer {
                 effect: ColorOverlay {
-                    color:root.active ?  Material.color(Material.Orange) : Material.iconDisabledColor
+                    color: root.active ? Material.color(
+                                             Material.Orange) : Material.iconDisabledColor
                 }
             }
 
@@ -101,7 +101,8 @@ Item {
                       + ScreenPlay.screenPlayManager.activeWidgetsCounter
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                color:root.active ?  Material.color(Material.Orange) : Material.iconDisabledColor
+                color: root.active ? Material.color(
+                                         Material.Orange) : Material.iconDisabledColor
                 font.pointSize: 10
                 font.bold: true
                 font.family: ScreenPlay.settings.font

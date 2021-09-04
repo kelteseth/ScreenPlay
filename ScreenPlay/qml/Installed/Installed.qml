@@ -266,24 +266,28 @@ Item {
 
     Menu {
         id: contextMenu
+        objectName: "installedItemContextMenu"
 
         property var publishedFileID: 0
         property url absoluteStoragePath
 
         MenuItem {
             text: qsTr("Open containing folder")
+            objectName: "openFolder"
             icon.source: "qrc:/assets/icons/icon_folder_open.svg"
             onClicked: {
-                ScreenPlay.util.openFolderInExplorer(contextMenu.absoluteStoragePath);
+                ScreenPlay.util.openFolderInExplorer(
+                            contextMenu.absoluteStoragePath)
             }
         }
 
         MenuItem {
-            text: enabled ?  qsTr("Remove Item") : qsTr("Remove via Workshop")
+            text: enabled ? qsTr("Remove Item") : qsTr("Remove via Workshop")
+            objectName: enabled ? "removeItem" : "removeWorkshopItem"
             icon.source: "qrc:/assets/icons/icon_delete.svg"
             enabled: contextMenu.publishedFileID === 0
             onClicked: {
-                deleteDialog.open();
+                deleteDialog.open()
             }
         }
 
@@ -296,7 +300,6 @@ Item {
                             "steam://url/CommunityFilePage/" + contextMenu.publishedFileID)
             }
         }
-
     }
 
     Dialog {
@@ -321,7 +324,5 @@ Item {
             right: parent.right
             left: parent.left
         }
-
     }
-
 }

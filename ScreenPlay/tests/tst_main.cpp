@@ -97,20 +97,20 @@ QQuickItem* findItemDelegate(QQuickItem* listView, const QString objectName)
     return {};
 }
 
-void clickItem(QQuickItem* item)
+void clickItem(QQuickItem* item, Qt::MouseButton button = Qt::LeftButton)
 {
     QQuickWindow* itemWindow = item->window();
     QVERIFY(itemWindow);
     auto centre = item->mapToScene(QPoint(item->width() / 2, item->height() / 2)).toPoint();
     qInfo() << "click_:" << centre;
-    QTest::mouseClick(itemWindow, Qt::LeftButton, Qt::NoModifier, centre);
+    QTest::mouseClick(itemWindow, button, Qt::NoModifier, centre);
 }
 
 void ScreenPlayTest::import_convert_video()
 {
 
     using namespace ScreenPlay;
-    auto* createTab = m_window->findChild<QQuickItem*>("Create");
+    auto* createTab = m_window->findChild<QQuickItem*>("createTab");
     QVERIFY(createTab);
     clickItem(createTab);
     QTest::qWait(300);
@@ -179,6 +179,24 @@ void ScreenPlayTest::import_convert_video()
     }
 
     QTest::qWait(1000);
+    auto* installedTab = m_window->findChild<QQuickItem*>("installedTab");
+    QVERIFY(installedTab);
+    clickItem(installedTab);
+    QTest::qWait(1000);
+
+    auto* gridView = m_window->findChild<QQuickItem*>("gridView");
+    QVERIFY(gridView);
+    const QString installedListItemIndex = "0";
+    auto* firstInstalledItem = findItemDelegate(gridView, "installedItem" + installedListItemIndex);
+    QVERIFY(firstInstalledItem);
+    clickItem(firstInstalledItem, Qt::RightButton);
+    QTest::qWait(1000);
+    auto* installedItemContextMenu = m_window->findChild<QQuickItem*>("installedItemContextMenu");
+    QVERIFY(installedItemContextMenu);
+
+    auto* removeItem = findItemDelegate(installedItemContextMenu, "removeItem");
+    QVERIFY(removeItem);
+    clickItem(removeItem);
 }
 
 void ScreenPlayTest::start_shutdown_wallpaper()

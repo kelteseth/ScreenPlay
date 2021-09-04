@@ -175,82 +175,82 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="47"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="48"/>
         <source>Generating preview image...</source>
         <translation>Đang tạo ra ảnh xem trước...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="50"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="51"/>
         <source>Generating preview thumbnail image...</source>
         <translation>Đang tạo ra hình thu nhỏ xem trước...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="57"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="58"/>
         <source>Generating 5 second preview video...</source>
         <translation>Đang tao ra video 5 giây xem trước...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="60"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="61"/>
         <source>Generating preview gif...</source>
         <translation>Đang tạo ra gif xem trước...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="69"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="70"/>
         <source>Converting Audio...</source>
         <translation>Đang chuyển đổi dạng âm thanh...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="72"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="73"/>
         <source>Converting Video... This can take some time!</source>
         <translation>Đang chuyển đổi dạng video... Việc này có thể tốn kha khá thời gian!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="75"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="77"/>
         <source>Converting Video ERROR!</source>
         <translation>Đã có lỗi xảy ra khi chuyển đổi dạng video!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="78"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="80"/>
         <source>Analyse Video ERROR!</source>
         <translation>Đã có lỗi xảy ra khi đang xử lý video!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="106"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="108"/>
         <source>Convert a video to a wallpaper</source>
         <translation>Chuyển đổi một video sang ảnh động</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="221"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="219"/>
         <source>Generating preview video...</source>
         <translation>Đang tạo ra video xem trước...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="281"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="275"/>
         <source>Name (required!)</source>
         <translation>Tên (bắt buộc!)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="295"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="289"/>
         <source>Description</source>
         <translation>Mô tả</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="303"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="297"/>
         <source>Youtube URL</source>
         <translation>Link YouTube</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="334"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="327"/>
         <source>Abort</source>
         <translation>Hủy bỏ</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="347"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="340"/>
         <source>Save</source>
         <translation>Lưu</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="381"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="377"/>
         <source>Save Wallpaper...</source>
         <translation>Lưu hình nền...</translation>
     </message>
@@ -468,88 +468,88 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="42"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="43"/>
         <source>AnalyseVideo...</source>
         <translation>Đang xử lý video...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="45"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="46"/>
         <source>Generating preview image...</source>
         <translation>Đang tạo ra ảnh xem trước...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="48"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="49"/>
         <source>Generating preview thumbnail image...</source>
         <translation>Đang tạo ra hình thu nhỏ xem trước...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="55"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="56"/>
         <source>Generating 5 second preview video...</source>
         <translation>Đang tao ra video 5 giây xem trước...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="58"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="59"/>
         <source>Generating preview gif...</source>
         <translation>Đang tạo ra gif xem trước...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="67"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="68"/>
         <source>Converting Audio...</source>
         <translation>Đang chuyển đổi dạng âm thanh...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="70"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="71"/>
         <source>Converting Video... This can take some time!</source>
         <translation>Đang chuyển đổi dạng video... Việc này có thể tốn kha khá thời gian!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="73"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="74"/>
         <source>Converting Video ERROR!</source>
         <translation>Đã có lỗi xảy ra khi chuyển đổi dạng video!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="76"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="77"/>
         <source>Analyse Video ERROR!</source>
         <translation>Đã có lỗi xảy ra khi đang xử lý video!</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="104"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="105"/>
         <source>Import a video to a wallpaper</source>
         <translatorcomment>google translate xD</translatorcomment>
         <translation>Nhập một video vào hình nền</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="214"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="215"/>
         <source>Generating preview video...</source>
         <translation>Đang tạo ra video xem trước...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="274"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="275"/>
         <source>Name (required!)</source>
         <translation>Tên (bắt buộc!)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="288"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="289"/>
         <source>Description</source>
         <translation>Mô tả</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="296"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="297"/>
         <source>Youtube URL</source>
         <translation>Link YouTube</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="327"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="328"/>
         <source>Abort</source>
         <translation>Hủy bỏ</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="340"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="341"/>
         <source>Save</source>
         <translation>Lưu</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="374"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="375"/>
         <source>Save Wallpaper...</source>
         <translation>Lưu hình nền...</translation>
     </message>
@@ -595,43 +595,43 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="130"/>
+        <location filename="../qml/Installed/Installed.qml" line="131"/>
         <source>Refreshing!</source>
         <translation>Đang làm mới!</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="133"/>
-        <location filename="../qml/Installed/Installed.qml" line="148"/>
+        <location filename="../qml/Installed/Installed.qml" line="134"/>
+        <location filename="../qml/Installed/Installed.qml" line="149"/>
         <source>Pull to refresh!</source>
         <translation>Kéo xuống để làm mới!</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="178"/>
+        <location filename="../qml/Installed/Installed.qml" line="179"/>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
         <translation>Lấy thêm nhiều hình nền &amp; widgets từ Steam Workshop!</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="242"/>
+        <location filename="../qml/Installed/Installed.qml" line="244"/>
         <source>Open containing folder</source>
         <translation>Mở thư mục chứa hình nền.</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="250"/>
+        <location filename="../qml/Installed/Installed.qml" line="252"/>
         <source>Remove Item</source>
         <translation>Xóa hình nền</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="250"/>
+        <location filename="../qml/Installed/Installed.qml" line="252"/>
         <source>Remove via Workshop</source>
         <translation>Xóa nhờ Workshop</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="259"/>
+        <location filename="../qml/Installed/Installed.qml" line="261"/>
         <source>Open Workshop Page</source>
         <translation>Mở trang workshop</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="275"/>
+        <location filename="../qml/Installed/Installed.qml" line="277"/>
         <source>Are you sure you want to delete this item?</source>
         <translation>Bạn có chắc chắn muốn xóa hình nền này không?</translation>
     </message>
@@ -908,6 +908,14 @@
         <location filename="../qml/Monitors/SaveNotification.qml" line="39"/>
         <source>Profile saved successfully!</source>
         <translation>Đã lưu cấu hình thành công!</translation>
+    </message>
+</context>
+<context>
+    <name>ScreenPlayItem</name>
+    <message>
+        <location filename="../qml/Installed/ScreenPlayItem.qml" line="206"/>
+        <source>NEW</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1195,47 +1203,47 @@
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="119"/>
+        <location filename="../qml/Create/Sidebar.qml" line="118"/>
         <source>Tools Overview</source>
         <translation>Tổng quan về công cụ</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="126"/>
+        <location filename="../qml/Create/Sidebar.qml" line="124"/>
         <source>Video import and convert (all types)</source>
         <translation>Nhập video và chuyển đổi (tất cả các loại)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="133"/>
+        <location filename="../qml/Create/Sidebar.qml" line="131"/>
         <source>Video Import (.webm)</source>
         <translation>Nhập video (.webm)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="140"/>
+        <location filename="../qml/Create/Sidebar.qml" line="137"/>
         <source>GIF Wallpaper</source>
         <translation>Hình nền GIF</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="147"/>
+        <location filename="../qml/Create/Sidebar.qml" line="143"/>
         <source>QML Wallpaper</source>
         <translation>Hình nền QML</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="154"/>
+        <location filename="../qml/Create/Sidebar.qml" line="149"/>
         <source>HTML5 Wallpaper</source>
         <translation>Hình nền HTML5</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="161"/>
+        <location filename="../qml/Create/Sidebar.qml" line="155"/>
         <source>Website Wallpaper</source>
         <translation>Trang chủ của hình nền</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="168"/>
+        <location filename="../qml/Create/Sidebar.qml" line="161"/>
         <source>QML Widget</source>
         <translation>Widget QML</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="175"/>
+        <location filename="../qml/Create/Sidebar.qml" line="167"/>
         <source>HTML Widget</source>
         <translation>Widget HTML</translation>
     </message>
@@ -1260,37 +1268,37 @@
         <translation>Chọn một màn hình để hiển thị nội dung</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="287"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="288"/>
         <source>Set Volume</source>
         <translation>Chỉnh âm lượng</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="306"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="307"/>
         <source>Fill Mode</source>
         <translation>Cách lấp đầy</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="325"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="326"/>
         <source>Stretch</source>
         <translation>Kéo dài</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="328"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="329"/>
         <source>Fill</source>
         <translation>Lấp đầy</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="331"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="332"/>
         <source>Contain</source>
         <translation>Chứa đựng</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="334"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="335"/>
         <source>Cover</source>
         <translation>Bao phủ</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="337"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="338"/>
         <source>Scale-Down</source>
         <translation>Giảm tỉ lệ</translation>
     </message>

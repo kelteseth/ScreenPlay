@@ -200,9 +200,10 @@ void InstalledListModel::append(const QJsonObject& obj, const QString& folderNam
 */
 void InstalledListModel::loadInstalledContent()
 {
-    qInfo() << "loadInstalledContent";
-    if (m_loadContentFuture.isRunning())
+    if (m_loadContentFuture.isRunning()) {
+        qInfo() << "loadInstalledContent is already running. Skip.";
         return;
+    }
 
     m_loadContentFuture = QtConcurrent::run([this]() {
         QFileInfoList list = QDir(m_globalVariables->localStoragePath().toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
