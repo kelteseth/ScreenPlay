@@ -1,4 +1,5 @@
 from sys import platform
+from concurrent.futures import ThreadPoolExecutor
 import os
 import sys
 import subprocess
@@ -20,6 +21,14 @@ def vs_env_dict():
         raise ValueError(stderr.decode("mbcs"))
     output = stdout.decode("mbcs").split("\r\n")
     return dict((e[0].upper(), e[1]) for e in [p.rstrip().split("=", 1) for p in output] if len(e) == 2)
+
+# Based on  https://stackoverflow.com/questions/7207309/how-to-run-functions-in-parallel
+def run_io_tasks_in_parallel(tasks):
+    with ThreadPoolExecutor() as executor:
+        running_tasks = [executor.submit(task) for task in tasks]
+        for running_task in running_tasks:
+            running_task.result()
+
 
 
 # MAIN
@@ -135,9 +144,11 @@ if platform == "darwin" and args.sign_build:
     execute("codesign --verify --verbose=4  \"ScreenPlayWallpaper.app/\"")
     execute("codesign --verify --verbose=4  \"ScreenPlayWidget.app/\"")
 
-    execute("xcnotary notarize ScreenPlay.app -d kelteseth@gmail.com -k ScreenPlay")
-    execute("xcnotary notarize ScreenPlayWallpaper.app -d kelteseth@gmail.com -k ScreenPlay")
-    execute("xcnotary notarize ScreenPlayWidget.app -d kelteseth@gmail.com -k ScreenPlay")
+    run_io_tasks_in_parallel([
+         lambda: execute("xcnotary notarize ScreenPlay.app -d kelteseth@gmail.com -k ScreenPlay"),
+         lambda: execute("xcnotary notarize ScreenPlayWallpaper.app -d kelteseth@gmail.com -k ScreenPlay"),
+         lambda: execute("xcnotary notarize ScreenPlayWidget.app -d kelteseth@gmail.com -k ScreenPlay")
+    ])
 
     execute("spctl --assess --verbose  \"ScreenPlay.app/\"")
     execute("spctl --assess --verbose  \"ScreenPlayWallpaper.app/\"")
