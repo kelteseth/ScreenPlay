@@ -11,7 +11,9 @@ Item {
 
     Connections {
         function onQmlExit() {
-            Widget.setWindowBlur(0);
+            if(Qt.platform.os === "windows")
+                Widget.setWindowBlur(0);
+
             animFadeOut.start();
         }
 
@@ -136,7 +138,8 @@ Item {
         onEntered: imgClose.opacity = 1
         onExited: imgClose.opacity = 0.15
         onClicked: {
-            Widget.setWindowBlur(0);
+            if(Qt.platform.os === "windows")
+                Widget.setWindowBlur(0);
             animFadeOut.start();
         }
 
