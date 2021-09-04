@@ -90,7 +90,12 @@ void ScreenPlayManager::init(
         });
     }
 
-    loadProfiles();
+    // Reset to default settings if we are unable to load
+    // the existing one
+    if (!loadProfiles()) {
+        qInfo() << "Reset default profiles.json at:" << m_globalVariables->localSettingsPath();
+        m_settings->writeJsonFileFromResource("profiles");
+    }
 }
 
 /*!
@@ -559,6 +564,20 @@ bool ScreenPlayManager::loadProfiles()
         if (wallpaper.toObject().value("name").toString() != "default")
             continue;
 
+        // Dry run to check if the config is outdated. This is when a wallpaper is configured
+        // but no longer available.
+        for (QJsonValueRef wallpaper : wallpaper.toObject().value("wallpaper").toArray()) {
+            QJsonObject wallpaperObj = wallpaper.toObject();
+
+            if (wallpaperObj.empty())
+                continue;
+
+            const QString absolutePath = wallpaperObj.value("absolutePath").toString();
+            if (!QFile(absolutePath).exists()) {
+                qWarning() << "Specified file does not exist! This means the profiles.json is no longer valid.";
+                return false;
+            }
+        }
         for (QJsonValueRef wallpaper : wallpaper.toObject().value("wallpaper").toArray()) {
             QJsonObject wallpaperObj = wallpaper.toObject();
 
