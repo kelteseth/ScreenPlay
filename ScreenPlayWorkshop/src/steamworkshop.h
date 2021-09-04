@@ -48,6 +48,8 @@ class SteamWorkshop : public QObject {
     Q_PROPERTY(SteamWorkshopListModel* workshopProfileListModel READ workshopProfileListModel WRITE setWorkshopProfileListModel NOTIFY workshopProfileListModelChanged)
     Q_PROPERTY(UploadListModel* uploadListModel READ uploadListModel NOTIFY uploadListModelChanged)
     Q_PROPERTY(SteamAccount* steamAccount READ steamAccount WRITE setSteamAccount NOTIFY steamAccountChanged)
+    Q_PROPERTY(bool steamErrorRestart READ steamErrorRestart WRITE setSteamErrorRestart RESET resetSteamErrorRestart NOTIFY steamErrorRestartChanged)
+    Q_PROPERTY(bool steamErrorAPIInit READ steamErrorAPIInit WRITE setSteamErrorAPIInit RESET resetSteamErrorAPIInit NOTIFY steamErrorAPIInitChanged)
 
 public:
     SteamWorkshop()
@@ -71,6 +73,14 @@ public:
     SteamAccount* steamAccount() const { return m_steamAccount.get(); }
     SteamWorkshopListModel* workshopListModel() const { return m_workshopListModel.get(); }
     SteamWorkshopListModel* workshopProfileListModel() const { return m_workshopProfileListModel.get(); }
+
+    bool steamErrorRestart() const;
+    void setSteamErrorRestart(bool newSteamErrorRestart);
+    void resetSteamErrorRestart();
+
+    bool steamErrorAPIInit() const;
+    void setSteamErrorAPIInit(bool newSteamErrorAPIInit);
+    void resetSteamErrorAPIInit();
 
 public slots:
     bool checkOnline();
@@ -174,6 +184,10 @@ signals:
         const QVariant publishedFileId);
 
     void workshopProfileListModelChanged(SteamWorkshopListModel*);
+
+    void steamErrorRestartChanged();
+
+    void steamErrorAPIInitChanged();
 
 private:
     void onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);

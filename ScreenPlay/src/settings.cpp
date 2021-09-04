@@ -153,9 +153,13 @@ void Settings::setupWidgetAndWindowPaths()
 
 #ifdef Q_OS_OSX
 
-    workingDir.cdUp();
-    workingDir.cdUp();
-    workingDir.cdUp();
+    // ScreenPlayTest is not bundled in an .app so the working directory
+    // the the same as the executable.
+    if (QFileInfo(QCoreApplication::applicationFilePath()).fileName() != "tst_ScreenPlay") {
+        workingDir.cdUp();
+        workingDir.cdUp();
+        workingDir.cdUp();
+    }
 
     m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
     m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
@@ -164,11 +168,11 @@ void Settings::setupWidgetAndWindowPaths()
 
     if (!QFileInfo::exists(m_globalVariables->widgetExecutablePath().toString())) {
         qInfo() << "widgetExecutablePath:" << m_globalVariables->widgetExecutablePath().toString();
-        qFatal("widget executable not found!");
+        qCritical("widget executable not found!");
     }
     if (!QFileInfo::exists(m_globalVariables->wallpaperExecutablePath().toString())) {
         qInfo() << "wallpaperExecutablePath:" << m_globalVariables->wallpaperExecutablePath().toString();
-        qFatal("wallpaper executable not found!");
+        qCritical("wallpaper executable not found!");
     }
 }
 

@@ -55,6 +55,7 @@ private slots:
         Q_INIT_RESOURCE(ScreenPlayQML);
         Q_INIT_RESOURCE(ScreenPlayAssets);
 
+
         app.init();
         m_window = qobject_cast<QQuickWindow*>(app.mainWindowEngine()->rootObjects().first());
         QVERIFY(m_window);
@@ -130,10 +131,13 @@ void ScreenPlayTest::import_convert_video()
     auto* createWallpaperInit = m_window->findChild<QQuickItem*>("createWallpaperInit");
     QVERIFY(createWallpaperInit);
 
+    const QString originalVideoPath = QString(SOURCE_DIR) + "/ScreenPlay/assets/tests/video_import.mp4";
+    qInfo() << originalVideoPath;
+
     QVERIFY(QMetaObject::invokeMethod(createWallpaperInit,
         QString("startConvert").toLatin1().constData(),
         Qt::ConnectionType::AutoConnection,
-        Q_ARG(QVariant, "file:///D:/Video Loop/bbb.mp4"),
+        Q_ARG(QVariant, originalVideoPath),
         Q_ARG(QVariant, 1))); // VideoCodec::VP9
 
     QTest::qWait(1000);
