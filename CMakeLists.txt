@@ -60,6 +60,7 @@ execute_process(
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 add_compile_definitions(COMPILE_INFO="${BUILD_DATE} + ${GIT_COMMIT_HASH}")
+add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 
 if(UNIX AND NOT APPLE)
     # Fixes QWebEngine linker errors on Ubuntu 20.04
@@ -83,6 +84,7 @@ if(WIN32)
     add_subdirectory(ScreenPlaySysInfo)
 endif()
 
+message(STATUS "[DEFINE] SOURCE_DIR               = ${SOURCE_DIR}")
 message(STATUS "[DEFINE] BUILD_DATE               = ${BUILD_DATE}")
 message(STATUS "[DEFINE] GIT_COMMIT_HASH          = ${GIT_COMMIT_HASH}")
 message(STATUS "[PROJECT] CMAKE_TOOLCHAIN_FILE    = ${CMAKE_TOOLCHAIN_FILE}")

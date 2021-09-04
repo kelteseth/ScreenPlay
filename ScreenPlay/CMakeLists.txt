@@ -172,6 +172,21 @@ if(APPLE)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe
                 ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
 
+    # tst_ScreenPlay needs ffmpeg in the base path
+    if(${TESTS_ENABLED})
+        add_custom_command(
+            TARGET ${PROJECT_NAME}
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffmpeg
+                    ${CMAKE_BINARY_DIR}/bin/)
+
+        add_custom_command(
+            TARGET ${PROJECT_NAME}
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe
+                    ${CMAKE_BINARY_DIR}/bin/)
+    endif()
+
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
