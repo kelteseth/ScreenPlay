@@ -45,6 +45,7 @@
 #include "projectsettingslistmodel.h"
 #include "sdkconnection.h"
 #include "util.h"
+#include "settings.h"
 
 namespace ScreenPlay {
 
@@ -76,11 +77,14 @@ public:
         const QString& absolutePath,
         const QString& previewImage,
         const QString& file,
-        const float volume, const float playbackRate,
+        const float volume,
+        const float playbackRate,
         const FillMode::FillMode fillMode,
-        const InstalledType::InstalledType type, const QJsonObject& properties,
-        const bool checkWallpaperVisible,
+        const InstalledType::InstalledType type,
+        const QJsonObject& properties,
+        const std::shared_ptr<Settings>& settings,
         QObject* parent = nullptr);
+
 
     bool start();
 
@@ -227,6 +231,7 @@ public slots:
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     std::unique_ptr<SDKConnection> m_connection;
+    const std::shared_ptr<Settings> m_settings;
 
     ProjectSettingsListModel m_projectSettingsListModel;
     QVector<int> m_screenNumber;
