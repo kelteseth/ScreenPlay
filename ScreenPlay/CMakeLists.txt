@@ -84,11 +84,8 @@ find_package(
                WebEngineCore
                Test)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-    qt_add_resources(resources ScreenPlayAssets.qrc ScreenPlayQML.qrc)
-else()
-    qtquick_compiler_add_resources(resources ScreenPlayAssets.qrc ScreenPlayQML.qrc)
-endif()
+
+qt_add_resources(resources ScreenPlayAssets.qrc ScreenPlayQML.qrc)
 
 add_library(ScreenPlayLib ${src} ${headers} ${resources} ${resources} ${fonts})
 

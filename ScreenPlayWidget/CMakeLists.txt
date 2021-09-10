@@ -22,11 +22,7 @@ find_package(
                WebChannel
                Positioning)
 
-if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-    qt_add_resources(resources SPWidgetResources.qrc)
-else()
-    qtquick_compiler_add_resources(resources SPWidgetResources.qrc)
-endif()
+qt_add_resources(resources SPWidgetResources.qrc)
 
 add_executable(${PROJECT_NAME} ${src} ${headers} ${resources})
 
