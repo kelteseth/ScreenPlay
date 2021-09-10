@@ -94,8 +94,7 @@ Rectangle {
             if (oldType === InstalledType.VideoWallpaper)
                 return ;
 
-            imgCover.state = "showDefaultBackgroundImage";
-            loader.source = "qrc:/qml/WebView.qml";
+            loader.source = "qrc:/qml/MultimediaView.qml";
         }
 
         target: Wallpaper

@@ -41,7 +41,7 @@ Item {
         anchors.fill: parent
         url: "qrc:/index.html"
         backgroundColor: "transparent"
-        onJavaScriptConsoleMessage: print(lineNumber, message)
+        onJavaScriptConsoleMessage:(lineNumber, message)=> print(lineNumber, message)
         onLoadProgressChanged: {
             if ((loadProgress === 100)) {
                 if (Wallpaper.type === InstalledType.VideoWallpaper)
