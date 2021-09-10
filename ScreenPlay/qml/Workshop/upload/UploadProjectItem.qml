@@ -1,9 +1,9 @@
-import QtQuick 2.13
-import QtQuick.Controls 2.13
+import QtQuick
+import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
-import QtQuick.Controls.Material 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls.Material.impl 2.12
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import QtQuick.Controls.Material.impl
 
 Page {
     // Everyting that is not OK is a fail. See steam_qt_enums_generated.h

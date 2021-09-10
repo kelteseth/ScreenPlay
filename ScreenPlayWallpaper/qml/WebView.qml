@@ -1,5 +1,5 @@
 import QtQuick 2.0
-import QtWebEngine 1.8
+import QtWebEngine
 import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlayWallpaper 1.0
 

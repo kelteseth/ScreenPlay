@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtWebEngine 1.8
+import QtQuick
+import QtQuick.Controls
+import QtWebEngine
 import ScreenPlayWidget 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 
@@ -18,7 +18,7 @@ Item {
         }
 
         function onQmlSceneValueReceived(key, value) {
-            var obj2 = 'import QtQuick 2.14; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }';
+            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }';
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err");
             newObject.destroy(10000);
         }

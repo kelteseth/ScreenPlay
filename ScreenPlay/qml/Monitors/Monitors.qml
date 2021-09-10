@@ -1,9 +1,9 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
+import QtQuick
+import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
-import QtQuick.Controls.Material 2.2
-import QtQuick.Layouts 1.3
-import QtQuick.Controls.Material.impl 2.12
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 import "../Common/" as SP

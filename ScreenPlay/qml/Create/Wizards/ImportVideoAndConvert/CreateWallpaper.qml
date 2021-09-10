@@ -1,17 +1,17 @@
-import QtQuick 2.12
+import QtQuick
 import Qt5Compat.GraphicalEffects
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.3
-import QtQuick.Layouts 1.12
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 
 Item {
     id: root
 
-    signal wizardStarted()
-    signal wizardExited()
-    signal next()
+    signal wizardStarted
+    signal wizardExited
+    signal next
 
     SwipeView {
         id: swipeView
@@ -21,26 +21,25 @@ Item {
         clip: true
 
         CreateWallpaperInit {
-            onNext: startConvert(filePath,codec);
-            function startConvert(filePath,codec){
-                root.wizardStarted();
-                swipeView.currentIndex = 1;
-                createWallpaperVideoImportConvert.codec = codec;
-                createWallpaperVideoImportConvert.filePath = filePath;
-                ScreenPlay.create.createWallpaperStart(filePath, codec, quality);
+            onNext: (filePath, codec) => {
+                         startConvert(filePath, codec)
+                    }
 
-            }
+        function startConvert(filePath, codec) {
+            root.wizardStarted()
+            swipeView.currentIndex = 1
+            createWallpaperVideoImportConvert.codec = codec
+            createWallpaperVideoImportConvert.filePath = filePath
+            ScreenPlay.create.createWallpaperStart(filePath, codec, quality)
         }
-
-        CreateWallpaperVideoImportConvert {
-            id: createWallpaperVideoImportConvert
-
-            onAbort: root.wizardExited()
-        }
-
-        CreateWallpaperResult {
-        }
-
     }
 
+    CreateWallpaperVideoImportConvert {
+        id: createWallpaperVideoImportConvert
+
+        onAbort: root.wizardExited()
+    }
+
+    CreateWallpaperResult {}
+}
 }

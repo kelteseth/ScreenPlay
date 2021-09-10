@@ -1,8 +1,7 @@
-import QtQuick 2.14
-import QtQuick.Controls 2.14
+import QtQuick
+import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
+import QtQuick.Controls.Material
 import ScreenPlay 1.0
 
 Rectangle {

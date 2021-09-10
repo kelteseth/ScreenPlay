@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
-import QtQuick.Dialogs 1.2
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Dialogs
 import ScreenPlay 1.0
 
 /*!

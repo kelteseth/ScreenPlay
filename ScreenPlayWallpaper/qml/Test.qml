@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Particles 2.12
 import QtQuick.Shapes 1.12
 import ScreenPlayWallpaper 1.0

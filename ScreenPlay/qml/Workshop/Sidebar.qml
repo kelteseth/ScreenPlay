@@ -1,9 +1,9 @@
-import QtQuick 2.12
+import QtQuick
 import Qt5Compat.GraphicalEffects
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.11
-import QtWebEngine 1.8
-import QtQuick.Controls.Material 2.2
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtWebEngine
+import QtQuick.Controls.Material
 import Workshop 1.0
 import ScreenPlay 1.0
 
@@ -24,24 +24,24 @@ Drawer {
     function setWorkshopItem(publishedFileID, imgUrl, videoPreview, subscriptionCount) {
         if (root.publishedFileID === publishedFileID) {
             if (!root.visible)
-                root.open();
+                root.open()
             else
-                root.close();
-            return ;
+                root.close()
+            return
         }
-        webView.opacity = 0;
-        root.publishedFileID = publishedFileID;
-        root.imgUrl = imgUrl;
-        root.subscriptionCount = subscriptionCount;
-        root.videoPreview = videoPreview;
-        root.subscribed = false;
-        txtVotesUp.highlighted = false;
-        txtVotesDown.highlighted = false;
+        webView.opacity = 0
+        root.publishedFileID = publishedFileID
+        root.imgUrl = imgUrl
+        root.subscriptionCount = subscriptionCount
+        root.videoPreview = videoPreview
+        root.subscribed = false
+        txtVotesUp.highlighted = false
+        txtVotesDown.highlighted = false
         if (!root.visible)
-            root.open();
+            root.open()
 
-        steamWorkshop.requestWorkshopItemDetails(publishedFileID);
-        webView.setVideo();
+        steamWorkshop.requestWorkshopItemDetails(publishedFileID)
+        webView.setVideo()
     }
 
     edge: Qt.RightEdge
@@ -51,43 +51,43 @@ Drawer {
     width: 400
     interactive: false
     Component.onCompleted: {
-        WebEngine.settings.localContentCanAccessFileUrls = true;
-        WebEngine.settings.localContentCanAccessRemoteUrls = true;
-        WebEngine.settings.allowRunningInsecureContent = true;
-        WebEngine.settings.accelerated2dCanvasEnabled = true;
-        WebEngine.settings.javascriptCanOpenWindows = false;
-        WebEngine.settings.showScrollBars = false;
-        WebEngine.settings.playbackRequiresUserGesture = false;
-        WebEngine.settings.focusOnNavigationEnabled = true;
+        WebEngine.settings.localContentCanAccessFileUrls = true
+        WebEngine.settings.localContentCanAccessRemoteUrls = true
+        WebEngine.settings.allowRunningInsecureContent = true
+        WebEngine.settings.accelerated2dCanvasEnabled = true
+        WebEngine.settings.javascriptCanOpenWindows = false
+        WebEngine.settings.showScrollBars = false
+        WebEngine.settings.playbackRequiresUserGesture = false
+        WebEngine.settings.focusOnNavigationEnabled = true
     }
 
     Connections {
         function onRequestItemDetailReturned(title, tags, steamIDOwner, description, votesUp, votesDown, url, fileSize, publishedFileId) {
-            tagListModel.clear();
+            tagListModel.clear()
             // Even if the tags array is empty it still contains
             // one empty string, resulting in an empty button
             if (tags.length > 1) {
                 for (var i in tags) {
                     tagListModel.append({
-                        "name": tags[i]
-                    });
+                                            "name": tags[i]
+                                        })
                 }
-                rpTagList.model = tagListModel;
+                rpTagList.model = tagListModel
             } else {
-                rpTagList.model = null;
+                rpTagList.model = null
             }
-            txtTitle.text = title;
-            const size = Math.floor((1000 * ((fileSize / 1024) / 1000)) / 1000);
-            txtFileSize.text = qsTr("Size: ") + size + qsTr(" MB");
-            pbVotes.to = votesDown + votesUp;
-            pbVotes.value = votesUp;
-            txtVotesDown.text = votesDown;
-            txtVotesUp.text = votesUp;
+            txtTitle.text = title
+            const size = Math.floor((1000 * ((fileSize / 1024) / 1000)) / 1000)
+            txtFileSize.text = qsTr("Size: ") + size + qsTr(" MB")
+            pbVotes.to = votesDown + votesUp
+            pbVotes.value = votesUp
+            txtVotesDown.text = votesDown
+            txtVotesUp.text = votesUp
             if (description === "")
-                description = qsTr("No description...");
+                description = qsTr("No description...")
 
-            txtDescription.text = description;
-            pbVotes.hoverText = votesUp + " / " + votesDown;
+            txtDescription.text = description
+            pbVotes.hoverText = votesUp + " / " + votesDown
         }
 
         target: steamWorkshop
@@ -112,22 +112,23 @@ Drawer {
             property bool ready: false
 
             function getUpdateVideoCommand() {
-                let src = "";
-                src += "var video = document.getElementById('video');\n";
-                src += "video.src = '" + root.videoPreview + "';\n";
+                let src = ""
+                src += "var video = document.getElementById('video');\n"
+                src += "video.src = '" + root.videoPreview + "';\n"
                 // Incase a workshop item has no gif preview
-                src += "video.poster = '" + root.videoPreview + "';\n";
-                src += "video.play();\n";
-                return src;
+                src += "video.poster = '" + root.videoPreview + "';\n"
+                src += "video.play();\n"
+                return src
             }
 
             function setVideo() {
                 if (!root.videoPreview.toString().startsWith("https"))
-                    return ;
+                    return
 
-                webView.runJavaScript(getUpdateVideoCommand(), function(result) {
-                    webView.opacity = 1;
-                });
+                webView.runJavaScript(getUpdateVideoCommand(),
+                                      function (result) {
+                                          webView.opacity = 1
+                                      })
             }
 
             anchors.fill: parent
@@ -139,9 +140,7 @@ Drawer {
                 NumberAnimation {
                     duration: 200
                 }
-
             }
-
         }
 
         LinearGradient {
@@ -166,9 +165,7 @@ Drawer {
                     position: 1
                     color: "#00000000"
                 }
-
             }
-
         }
 
         Text {
@@ -189,7 +186,6 @@ Drawer {
                 margins: 20
                 left: parent.left
             }
-
         }
 
         MouseArea {
@@ -210,9 +206,7 @@ Drawer {
                 fillMode: Image.PreserveAspectFit
                 anchors.centerIn: parent
             }
-
         }
-
     }
 
     ColumnLayout {
@@ -248,9 +242,9 @@ Drawer {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you like the content")
                         onClicked: {
-                            steamWorkshop.vote(root.publishedFileID, true);
-                            txtVotesUp.highlighted = true;
-                            txtVotesDown.highlighted = false;
+                            steamWorkshop.vote(root.publishedFileID, true)
+                            txtVotesUp.highlighted = true
+                            txtVotesDown.highlighted = false
                         }
                     }
 
@@ -263,12 +257,11 @@ Drawer {
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you do not like the content")
                         onClicked: {
-                            steamWorkshop.vote(root.publishedFileID, false);
-                            txtVotesUp.highlighted = false;
-                            txtVotesDown.highlighted = true;
+                            steamWorkshop.vote(root.publishedFileID, false)
+                            txtVotesUp.highlighted = false
+                            txtVotesDown.highlighted = true
                         }
                     }
-
                 }
 
                 ProgressBar {
@@ -281,7 +274,6 @@ Drawer {
                     ToolTip.visible: hovered
                     ToolTip.text: hoverText
                 }
-
             }
 
             Flickable {
@@ -314,11 +306,8 @@ Drawer {
                             font.family: ScreenPlay.settings.font
                             onClicked: root.tagClicked(txtTags.text)
                         }
-
                     }
-
                 }
-
             }
 
             RowLayout {
@@ -347,7 +336,6 @@ Drawer {
                     font.pointSize: 11
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                 }
-
             }
 
             Rectangle {
@@ -373,13 +361,9 @@ Drawer {
                         font.pointSize: 12
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                     }
-
                 }
-
             }
-
         }
-
     }
 
     RowLayout {
@@ -400,7 +384,8 @@ Drawer {
             icon.source: "qrc:/assets/icons/icon_open_in_new.svg"
             height: 25
             text: qsTr("Open In Steam")
-            onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + root.publishedFileID)
+            onClicked: Qt.openUrlExternally(
+                           "steam://url/CommunityFilePage/" + root.publishedFileID)
         }
 
         Button {
@@ -411,15 +396,15 @@ Drawer {
             icon.source: "qrc:/assets/icons/icon_download.svg"
             text: root.subscribed ? qsTr("Subscribed!") : qsTr("Subscribe")
             onClicked: {
-                root.subscribed = true;
-                root.steamWorkshop.subscribeItem(root.publishedFileID);
+                root.subscribed = true
+                root.steamWorkshop.subscribeItem(root.publishedFileID)
             }
         }
-
     }
 
     background: Rectangle {
-        color: Material.theme === Material.Light ? "white" : Qt.darker(Material.background)
+        color: Material.theme === Material.Light ? "white" : Qt.darker(
+                                                       Material.background)
         opacity: 0.95
     }
 
@@ -428,7 +413,6 @@ Drawer {
             velocity: 10
             easing.type: Easing.InOutQuart
         }
-
     }
 
     exit: Transition {
@@ -436,7 +420,5 @@ Drawer {
             velocity: 10
             easing.type: Easing.InOutQuart
         }
-
     }
-
 }

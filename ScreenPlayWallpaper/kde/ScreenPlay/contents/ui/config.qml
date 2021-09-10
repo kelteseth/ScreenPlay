@@ -1,6 +1,6 @@
-import QtQuick 2.11
-import QtQuick.Controls 2.4 as QQC
-import QtQuick.Window 2.0
+import QtQuick
+import QtQuick.Controls as QQC
+import QtQuick.Window
 import Qt5Compat.GraphicalEffects
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.wallpapers.image 2.0 as Wallpaper

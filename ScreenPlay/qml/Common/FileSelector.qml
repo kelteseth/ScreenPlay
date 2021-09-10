@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
-import Qt.labs.platform 1.1
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Dialogs
 import ScreenPlay 1.0
 
 /*!
@@ -141,8 +141,8 @@ Item {
 
             title: qsTr("Please choose a file")
             onAccepted: {
-                root.file = fileDialog.fileUrl;
-                txtName.text = fileDialog.fileUrl.toString();
+                root.file = fileDialog.currentFile ;
+                txtName.text = fileDialog.currentFile.toString();
             }
         }
 

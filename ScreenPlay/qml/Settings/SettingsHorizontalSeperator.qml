@@ -1,5 +1,5 @@
-import QtQuick 2.12
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls.Material
 
 Item {
     property real customWidth: parent.width

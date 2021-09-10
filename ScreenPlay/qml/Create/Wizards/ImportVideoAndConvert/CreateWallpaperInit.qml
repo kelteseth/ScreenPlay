@@ -1,9 +1,9 @@
-import QtQuick 2.12
+import QtQuick
 import Qt5Compat.GraphicalEffects
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.3
-import QtQuick.Layouts 1.12
-import Qt.labs.platform 1.1
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import QtQuick.Dialogs
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import "../../../Common" as Common
@@ -141,7 +141,7 @@ Item {
 
             nameFilters: ["Video files (*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv)"]
             onAccepted: {
-                root.next(fileDialogImportVideo.fileUrl, model.get(comboBoxCodec.currentIndex).value);
+                root.next(fileDialogImportVideo.currentFile , model.get(comboBoxCodec.currentIndex).value);
             }
         }
 

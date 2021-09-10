@@ -1,5 +1,5 @@
-import QtQuick 2.14
-import QtWebEngine 1.8
+import QtQuick
+import QtWebEngine
 import ScreenPlayWallpaper 1.0
 
 Item {

@@ -1,6 +1,6 @@
-import QtQuick 2.14
+import QtQuick
 import Qt5Compat.GraphicalEffects
-import QtQuick.Controls.Material 2.3
+import QtQuick.Controls.Material
 
 /*!
    \qmltype Close Icon

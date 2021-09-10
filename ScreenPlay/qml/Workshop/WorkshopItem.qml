@@ -1,7 +1,7 @@
-import QtQuick 2.12
+import QtQuick
 import Qt5Compat.GraphicalEffects
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Material 2.2
+import QtQuick.Controls
+import QtQuick.Controls.Material
 import Workshop 1.0
 import ScreenPlay 1.0
 
