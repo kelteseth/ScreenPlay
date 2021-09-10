@@ -18,7 +18,7 @@ ScreenPlay::SDKConnection::SDKConnection(QLocalSocket* socket, QObject* parent)
 {
     m_socket = socket;
     connect(m_socket, &QLocalSocket::readyRead, this, &SDKConnection::readyRead);
-    connect(m_socket, &QLocalSocket::errorOccurred, this, [](QLocalSocket::LocalSocketError socketError){
+    connect(m_socket, &QLocalSocket::errorOccurred, this, [](QLocalSocket::LocalSocketError socketError) {
         qInfo() << "Localsocket error:" << socketError;
     });
 }

@@ -34,11 +34,17 @@ ApplicationWindow {
     function switchPage(name) {
         if (nav.currentNavigationName === name) {
             if (name === "Installed")
-                ScreenPlay.installedListModel.reset();
+                ScreenPlay.installedListModel.reset()
+        }
+
+        if (name === "Installed") {
+            stackView.replace("qrc:/qml/" + name + "/" + name + ".qml", {
+                                  "sidebar": sidebar
+                              })
             return
         }
-        stackView.replace("qrc:/qml/" + name + "/" + name + ".qml");
-        sidebar.state = "inactive";
+        stackView.replace("qrc:/qml/" + name + "/" + name + ".qml")
+        sidebar.state = "inactive"
     }
 
     color: Material.theme === Material.Dark ? Qt.darker(Material.background) : Material.background
@@ -105,7 +111,7 @@ ApplicationWindow {
 
     StackView {
         id: stackView
-
+        objectName: "stackView"
         property int duration: 300
 
         anchors {
@@ -172,6 +178,7 @@ ApplicationWindow {
 
     Installed.Sidebar {
         id: sidebar
+        objectName: "installedSidebar"
 
         navHeight: nav.height
 

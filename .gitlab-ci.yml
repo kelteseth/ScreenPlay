@@ -13,8 +13,8 @@ check:
     script:
         - cd Tools
         - pip install cmakelang
-        - python format_cmake.py
-        - python format_cpp.py
+        - python clang_format.py
+        - python cmake_format.py
 
 build:windows_debug:
     stage: build
@@ -84,23 +84,24 @@ build:linux_debug:
     stage: build
     allow_failure: true
     image:
-        name: darkmattercoder/qt-build:5.15.2
-        entrypoint: [""]
+        name: ubuntu:20.04
     tags:
         - gitlab-org-docker
     needs:
         - check
     script:
-        - sudo apt-get update -y
-        - sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common  -y
-        - sudo snap install cqtdeployer
-        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
-        - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic-rc main' -y
-        - sudo apt-get update -y
-        - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - apt update -y
+        # Otherwise libglib2 needs interaction
+        - export  DEBIAN_FRONTEND=noninteractive
+        - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - pip3 install aqtinstall
+        - mkdir Qt
+        - aqt install --outputdir Qt/ 5.15.2 linux desktop
         - cd Tools
-        - python setup.py
-        - python build.py -t debug
+        - wget -q  https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
+        - python3 setup.py
+        - python3 build.py -t debug
+
     artifacts:
         expire_in: "4 weeks"
         paths:
@@ -110,24 +111,23 @@ build:linux_release:
     stage: build
     allow_failure: true
     image:
-        name: darkmattercoder/qt-build:5.15.1
-        entrypoint: [""]
+        name: ubuntu:20.04
     tags:
         - gitlab-org-docker
     needs:
         - check
     script:
-        - sudo apt-get update -y
-        - sudo apt-get install apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common snapd -y
-        - sudo /etc/init.d/snapd start
-        - sudo snap install cqtdeployer
-        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
-        - sudo apt-add-repository 'deb https://apt.kitware.com/ubuntu/ bionic-rc main' -y
-        - sudo apt-get update -y
-        - sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - apt update -y
+        # Otherwise libglib2 needs interaction
+        - export  DEBIAN_FRONTEND=noninteractive
+        - apt install mesa-common-dev  curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - pip3 install aqtinstall
+        - mkdir Qt
+        - aqt install --outputdir Qt/ 5.15.2 linux desktop
         - cd Tools
-        - python setup.py
-        - python build.py -t release
+        - wget -q https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
+        - python3 setup.py
+        - python3 build.py -t release
     artifacts:
         expire_in: "4 weeks"
         paths:

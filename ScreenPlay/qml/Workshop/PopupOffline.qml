@@ -15,6 +15,9 @@ Popup {
     anchors.centerIn: Overlay.overlay
     dim: true
 
+    property ScreenPlayWorkshop workshop
+    property SteamWorkshop steam
+
     Text {
         id: txtOffline
 
@@ -22,7 +25,7 @@ Popup {
         font.family: ScreenPlay.settings.font
         font.pointSize: 21
         color: Material.foreground
-        text: qsTr("You need to run Steam for this :)")
+        text: qsTr("You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2").arg(steam.steamErrorRestart).arg(steam.steamErrorAPIInit)
     }
 
     Button {

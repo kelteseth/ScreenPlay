@@ -71,9 +71,7 @@ class Create : public QObject {
     Q_PROPERTY(QString ffmpegOutput READ ffmpegOutput WRITE appendFfmpegOutput NOTIFY ffmpegOutputChanged)
 
 public:
-    explicit Create(
-        const std::shared_ptr<GlobalVariables>& globalVariables,
-        QObject* parent = nullptr);
+    explicit Create(const std::shared_ptr<GlobalVariables>& globalVariables);
 
     Create();
 
@@ -85,32 +83,31 @@ public:
     Q_ENUM(VideoCodec)
 
     float progress() const { return m_progress; }
-
     QString workingDir() const { return m_workingDir; }
-
     QString ffmpegOutput() const { return m_ffmpegOutput; }
 
 signals:
-    void createWallpaperStateChanged(CreateImportVideo::ImportVideoState state);
+    void createWallpaperStateChanged(ImportVideoState::ImportVideoState state);
     void progressChanged(float progress);
     void abortCreateWallpaper();
     void workingDirChanged(QString workingDir);
     void ffmpegOutputChanged(QString ffmpegOutput);
     void widgetCreatedSuccessful(QString path);
     void htmlWallpaperCreatedSuccessful(QString path);
+    void finished();
 
 public slots:
+    void cancel();
 
-    void createWallpaperStart(QString videoPath, Create::VideoCodec codec, const int quality = 50);
+    void createWallpaperStart(QString videoPath, Create::VideoCodec codec = Create::VideoCodec::VP9, const int quality = 50);
 
-    void saveWallpaper(
-        QString title,
-        QString description,
+    void saveWallpaper(const QString title,
+        const QString description,
         QString filePath,
         QString previewImagePath,
-        QString youtube,
-        ScreenPlay::Create::VideoCodec codec,
-        QVector<QString> tags);
+        const QString youtube,
+        const ScreenPlay::Create::VideoCodec codec,
+        const QVector<QString> tags);
 
     void abortAndCleanup();
 
@@ -145,13 +142,18 @@ public slots:
     }
 
 private:
-    CreateImportVideo* m_createImportVideo { nullptr };
-    QThread* m_createImportVideoThread { nullptr };
+    void init();
+    void reset();
 
+private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
 
     float m_progress { 0.0F };
     QString m_workingDir;
     QString m_ffmpegOutput;
+
+    std::atomic<bool> m_interrupt;
+    QFuture<void> m_createImportFuture;
+    QFutureWatcher<void> m_createImportFutureWatcher;
 };
 }

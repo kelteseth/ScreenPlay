@@ -1,4 +1,5 @@
 #include "installedlistmodel.h"
+#include <QDebug>
 
 namespace ScreenPlay {
 
@@ -44,27 +45,65 @@ void InstalledListModel::init()
 
 /*!
     \brief Deleted the item from the local storage and removes it from the
-    installed list.
+    installed list. We wait for the qml engine to free all resources before
+    we proceed. This like the preview.gif will be in use when clicking on an item
 */
-bool InstalledListModel::deinstallItemAt(const int index)
+void InstalledListModel::deinstallItemAt(const QString& absoluteStoragePath)
 {
-    if (index < 0 || index >= m_screenPlayFiles.count()) {
-        qWarning() << "remove folder error, invalid index " << index;
-        return false;
-    }
+    QTimer::singleShot(1000, this, [this, absoluteStoragePath]() {
+        int index = -1;
+        for (int i = 0; i < m_screenPlayFiles.size(); ++i) {
+            if (m_screenPlayFiles.at(i).m_absoluteStoragePath.toString() == absoluteStoragePath) {
+                index = i;
+                break;
+            }
+        }
 
-    beginRemoveRows(QModelIndex(), index, index);
-    const QString path = QUrl::fromUserInput(m_screenPlayFiles.at(index).m_absoluteStoragePath.toString()).toLocalFile();
+        if (index < 0 || index >= m_screenPlayFiles.count()) {
+            qWarning() << "Remove folder error, invalid index " << index;
+            return;
+        }
 
-    QDir dir(path);
-    const bool success = dir.removeRecursively();
+        beginRemoveRows(QModelIndex(), index, index);
+        m_screenPlayFiles.removeAt(index);
+        endRemoveRows();
 
-    if (!success)
-        qWarning() << "Could not remove folder: " << m_screenPlayFiles.at(index).m_absoluteStoragePath.toString();
+        const QString path = ScreenPlayUtil::toLocal(absoluteStoragePath);
 
-    m_screenPlayFiles.removeAt(index);
-    endRemoveRows();
-    return success;
+        QDir dir(path);
+        bool success = true;
+        if (!dir.exists()) {
+            qWarning() << "Directory does not exist!" << dir;
+            return;
+        }
+
+        // We must pause the QFileSystemWatcher to not trigger
+        // a reload for every removed file
+        m_fileSystemWatcher.blockSignals(true);
+        for (auto& item : dir.entryInfoList(QDir::Files)) {
+            if (!QFile::remove(item.absoluteFilePath())) {
+                qWarning() << "Unable to remove file:" << item;
+                success = false;
+                break;
+            }
+        }
+
+        if (!success) {
+            qWarning() << "Could not remove folder content at: " << path;
+            loadInstalledContent();
+        }
+
+        if (!dir.rmdir(path)) {
+            qWarning() << "Could not remove folder at: " << path;
+            return;
+        }
+
+        // Add delay to the watcher, because it was trigger by
+        // something when enabling after the removal.
+        QTimer::singleShot(3000, this, [this]() {
+            m_fileSystemWatcher.blockSignals(false);
+        });
+    });
 }
 
 /*!
@@ -111,13 +150,15 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(row).m_publishedFileID;
         case static_cast<int>(ScreenPlayItem::Tags):
             return m_screenPlayFiles.at(row).m_tags;
+        case static_cast<int>(ScreenPlayItem::IsNew):
+            return m_screenPlayFiles.at(row).m_isNew;
         case static_cast<int>(ScreenPlayItem::LastModified):
             return m_screenPlayFiles.at(row).m_lastModified;
         case static_cast<int>(ScreenPlayItem::SearchType):
             return QVariant::fromValue(m_screenPlayFiles.at(row).m_searchType);
-        default:
-            return QVariant();
         }
+
+    qWarning() << "Unable to fetch value for row type:" << role;
     return QVariant();
 }
 
@@ -137,26 +178,34 @@ QHash<int, QByteArray> InstalledListModel::roleNames() const
         { static_cast<int>(ScreenPlayItem::PublishedFileID), "m_publishedFileID" },
         { static_cast<int>(ScreenPlayItem::Tags), "m_tags" },
         { static_cast<int>(ScreenPlayItem::SearchType), "m_searchType" },
-        { static_cast<int>(ScreenPlayItem::LastModified), "m_lastModified" },
+        { static_cast<int>(ScreenPlayItem::IsNew), "m_isNew" },
+        { static_cast<int>(ScreenPlayItem::LastModified), "m_lastModified" }
     };
 }
 
 /*!
     \brief Append an ProjectFile to the list.
 */
-void InstalledListModel::append(const QJsonObject& obj, const QString& folderName, const QDateTime& lastModified)
+void InstalledListModel::append(const QJsonObject& obj, const QString& folderName, const bool isNew, const QDateTime& lastModified)
 {
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
-    m_screenPlayFiles.append(ProjectFile(obj, folderName, m_globalVariables->localStoragePath(), lastModified));
+    m_screenPlayFiles.append(ProjectFile(obj, folderName, m_globalVariables->localStoragePath(), isNew, lastModified));
     endInsertRows();
 }
 
 /*!
-    \brief Loads all installed content. Skips projects.json without a "type" field.
+    \brief Loads all installed content.
+           - Skips if the loadContentFuture is already running.
+           - Skips projects.json without a "type" field.
 */
 void InstalledListModel::loadInstalledContent()
 {
-    QtConcurrent::run([this]() {
+    if (m_loadContentFuture.isRunning()) {
+        qInfo() << "loadInstalledContent is already running. Skip.";
+        return;
+    }
+
+    m_loadContentFuture = QtConcurrent::run([this]() {
         QFileInfoList list = QDir(m_globalVariables->localStoragePath().toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
         int counter = 0;
 
@@ -165,6 +214,11 @@ void InstalledListModel::loadInstalledContent()
 
             if (!QFile::exists(absoluteFilePath))
                 continue;
+
+            bool isNew = false;
+
+            if (item.birthTime().date() == QDateTime::currentDateTime().date())
+                isNew = true;
 
             if (auto obj = ScreenPlayUtil::openJsonFileToObject(absoluteFilePath)) {
 
@@ -176,7 +230,7 @@ void InstalledListModel::loadInstalledContent()
 
                 if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString())) {
                     if (ScreenPlayUtil::getAvailableTypes().contains(obj->value("type").toString(), Qt::CaseInsensitive)) {
-                        append(*obj, item.baseName(), item.lastModified());
+                        append(*obj, item.baseName(), isNew, item.lastModified());
                     }
 
                     counter += 1;
@@ -189,26 +243,33 @@ void InstalledListModel::loadInstalledContent()
 }
 
 /*!
-    \brief .
+    \brief Used for receiving values from qml. One must add all new fields
+           when adding new roles to this model.
 */
-QVariantMap InstalledListModel::get(const QString& folderId) const
+QVariantMap InstalledListModel::get(const QString& folderName) const
 {
 
     if (m_screenPlayFiles.count() == 0)
         return {};
 
-    QVariantMap map;
-    for (int i = 0; i < m_screenPlayFiles.count(); i++) {
+    const QString localInstalledPath = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString());
 
-        if (m_screenPlayFiles[i].m_folderId == folderId) {
-            map.insert("m_title", m_screenPlayFiles[i].m_title);
-            map.insert("m_preview", m_screenPlayFiles[i].m_preview);
-            map.insert("m_previewGIF", m_screenPlayFiles[i].m_previewGIF);
-            map.insert("m_file", m_screenPlayFiles[i].m_file);
-            map.insert("m_type", QVariant::fromValue(m_screenPlayFiles[i].m_type));
-            map.insert("m_absoluteStoragePath", m_screenPlayFiles[i].m_absoluteStoragePath);
-            map.insert("m_publishedFileID", m_screenPlayFiles[i].m_publishedFileID);
-            map.insert("m_lastModified", m_screenPlayFiles[i].m_lastModified);
+    if (!QDir(localInstalledPath + "/" + folderName).exists()) {
+        return {};
+    }
+
+    for (const auto& item : m_screenPlayFiles) {
+        if (item.m_folderId == folderName) {
+            QVariantMap map;
+            map.insert("m_title", item.m_title);
+            map.insert("m_preview", item.m_preview);
+            map.insert("m_previewGIF", item.m_previewGIF);
+            map.insert("m_file", item.m_file);
+            map.insert("m_type", QVariant::fromValue(item.m_type));
+            map.insert("m_absoluteStoragePath", item.m_absoluteStoragePath);
+            map.insert("m_publishedFileID", item.m_publishedFileID);
+            map.insert("m_isNew", item.m_isNew);
+            map.insert("m_lastModified", item.m_lastModified);
             return map;
         }
     }
@@ -217,7 +278,7 @@ QVariantMap InstalledListModel::get(const QString& folderId) const
 }
 
 /*!
-    \brief .
+    \brief Removes all entires and loads it again.
 */
 void InstalledListModel::reset()
 {

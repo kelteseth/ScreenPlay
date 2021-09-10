@@ -51,10 +51,9 @@
 
 int main(int argc, char* argv[])
 {
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    QtWebEngine::initialize();
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
-#endif
+    Q_INIT_RESOURCE(ScreenPlayQML);
+    Q_INIT_RESOURCE(ScreenPlayAssets);
+
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication qtGuiApp(argc, argv);

@@ -13,6 +13,7 @@ Item {
 
     property bool refresh: false
     property bool enabled: true
+    property Sidebar sidebar
 
     signal setNavigationItem(var pos)
     signal setSidebarActive(var active)
@@ -85,6 +86,7 @@ Item {
 
     GridView {
         id: gridView
+        objectName: "gridView"
 
         property bool isDragging: false
         property bool isScrolling: gridView.verticalVelocity != 0
@@ -101,6 +103,36 @@ Item {
         onDragStarted: isDragging = true
         onDragEnded: isDragging = false
         model: ScreenPlay.installedListFilter
+        removeDisplaced: Transition {
+            SequentialAnimation {
+                PauseAnimation {
+                    duration: 150
+                }
+                NumberAnimation {
+                    properties: "x,y"
+                    duration: 250
+                    easing.type: Easing.InOutQuart
+                }
+            }
+        }
+
+        remove: Transition {
+            SequentialAnimation {
+
+                NumberAnimation {
+                    property: "opacity"
+                    to: 0
+                    duration: 200
+                    easing.type: Easing.InOutQuart
+                }
+                NumberAnimation {
+                    properties: "y"
+                    to: 100
+                    duration: 200
+                    easing.type: Easing.InOutQuart
+                }
+            }
+        }
         onContentYChanged: {
             if (contentY <= -180)
                 gridView.headerItem.isVisible = true;
@@ -202,10 +234,11 @@ Item {
 
         delegate: ScreenPlayItem {
             id: delegate
-
+            objectName: "installedItem" + index
             focus: true
             customTitle: m_title
             type: m_type
+            isNew: m_isNew
             screenId: m_folderId
             absoluteStoragePath: m_absoluteStoragePath
             publishedFileID: m_publishedFileID
@@ -215,7 +248,6 @@ Item {
                 // Set the menu to the current item informations
                 contextMenu.publishedFileID = delegate.publishedFileID;
                 contextMenu.absoluteStoragePath = delegate.absoluteStoragePath;
-                deleteDialog.currentItemIndex = itemIndex;
                 const pos = delegate.mapToItem(root, position.x, position.y);
                 // Disable duplicate opening. The can happen if we
                 // call popup when we are in the closing animtion.
@@ -234,51 +266,54 @@ Item {
 
     Menu {
         id: contextMenu
+        objectName: "installedItemContextMenu"
 
         property var publishedFileID: 0
         property url absoluteStoragePath
 
         MenuItem {
             text: qsTr("Open containing folder")
+            objectName: "openFolder"
             icon.source: "qrc:/assets/icons/icon_folder_open.svg"
             onClicked: {
-                ScreenPlay.util.openFolderInExplorer(contextMenu.absoluteStoragePath);
+                ScreenPlay.util.openFolderInExplorer(
+                            contextMenu.absoluteStoragePath)
             }
         }
 
         MenuItem {
-            text: qsTr("Deinstall Item")
+            text: enabled ? qsTr("Remove Item") : qsTr("Remove via Workshop")
+            objectName: enabled ? "removeItem" : "removeWorkshopItem"
             icon.source: "qrc:/assets/icons/icon_delete.svg"
             enabled: contextMenu.publishedFileID === 0
             onClicked: {
-                deleteDialog.open();
+                deleteDialog.open()
             }
         }
 
         MenuItem {
-            id: miWorkshop
-
-            text: qsTr("Open workshop Page")
+            text: qsTr("Open Workshop Page")
             enabled: contextMenu.publishedFileID !== 0
             icon.source: "qrc:/assets/icons/icon_steam.svg"
             onClicked: {
-                Qt.openUrlExternally("steam://url/CommunityFilePage/" + publishedFileID);
+                Qt.openUrlExternally(
+                            "steam://url/CommunityFilePage/" + contextMenu.publishedFileID)
             }
         }
-
     }
 
     Dialog {
         id: deleteDialog
-
-        property int currentItemIndex: 0
-
         title: qsTr("Are you sure you want to delete this item?")
         standardButtons: Dialog.Ok | Dialog.Cancel
         modal: true
         dim: true
         anchors.centerIn: Overlay.overlay
-        onAccepted: ScreenPlay.installedListModel.deinstallItemAt(currentItemIndex)
+        onAccepted: {
+            root.sidebar.clear()
+            ScreenPlay.installedListModel.deinstallItemAt(
+                        contextMenu.absoluteStoragePath)
+        }
     }
 
     Navigation {
@@ -289,7 +324,5 @@ Item {
             right: parent.right
             left: parent.left
         }
-
     }
-
 }

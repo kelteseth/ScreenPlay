@@ -189,6 +189,15 @@ WinWindow::WinWindow(
     connect(sdk(), &ScreenPlaySDK::incommingMessage, this, &WinWindow::messageReceived);
     connect(sdk(), &ScreenPlaySDK::replaceWallpaper, this, &WinWindow::replaceWallpaper);
     connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);
+    connect(
+        &m_window, &QQuickView::statusChanged,
+        this, [](auto status) {
+            if (status == QQuickView::Status::Error) {
+                qInfo() << status;
+                QCoreApplication::exit(-1);
+            }
+        },
+        Qt::QueuedConnection);
 
     const auto screens = QApplication::screens();
     for (const auto& screen : screens) {
@@ -480,7 +489,7 @@ void WinWindow::configureWindowGeometry()
     // Instead of setting "renderType: Text.NativeRendering" every time  we can set it here once
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.setSource(QUrl("qrc:/Wallpaper.qml"));
+    m_window.setSource(QUrl("qrc:/qml/Wallpaper.qml"));
     m_window.hide();
 }
 

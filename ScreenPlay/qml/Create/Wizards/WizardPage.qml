@@ -65,7 +65,7 @@ FocusScope {
 
         Button {
             id: btnSave
-
+            objectName: "btnSave"
             text: qsTr("Save")
             enabled: root.ready
             Material.background: Material.accent

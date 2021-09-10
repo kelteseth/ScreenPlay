@@ -37,6 +37,7 @@
 #include <QApplication>
 #include <QDebug>
 #include <QFile>
+#include <QFileSystemWatcher>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonParseError>
@@ -50,7 +51,6 @@
 #include <QWindow>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
-#include <QFileSystemWatcher>
 
 #ifdef Q_OS_WIN
 #include <QFileSystemWatcher>

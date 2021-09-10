@@ -73,7 +73,7 @@ public slots:
     void setVisible(bool show) override;
     void destroyThis() override;
     void terminate();
-    void clearComponentCache();
+    void clearComponentCache() override;
 
     void setWindowsDesktopProperties(WindowsDesktopProperties* windowsDesktopProperties)
     {

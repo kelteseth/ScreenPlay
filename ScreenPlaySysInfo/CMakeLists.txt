@@ -5,13 +5,9 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
 find_package(infoware CONFIG REQUIRED)
-find_package(
-    QT NAMES Qt6 Qt5
-    COMPONENTS Quick Core
-    REQUIRED)
 
 find_package(
-    Qt${QT_VERSION_MAJOR}
+    Qt6
     COMPONENTS Quick Core
     REQUIRED)
 
@@ -40,7 +36,7 @@ add_library(${PROJECT_NAME} SHARED ${src} ${headers})
 set(URI "ScreenPlay/Sysinfo")
 string(REPLACE "." "/" TARGETPATH ${URI})
 if(NOT DEFINED QT_QMAKE_EXECUTABLE)
-    get_target_property(QT_QMAKE_EXECUTABLE Qt${QT_VERSION_MAJOR}::qmake IMPORTED_LOCATION)
+    get_target_property(QT_QMAKE_EXECUTABLE Qt6::qmake IMPORTED_LOCATION)
     if(NOT QT_QMAKE_EXECUTABLE)
         message(FATAL_ERROR "Cannot find qmake")
     endif()
@@ -61,4 +57,4 @@ add_custom_command(
     POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ScreenPlaySysInfo> ${DESTDIR}/$<TARGET_FILE_NAME:ScreenPlaySysInfo>)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick infoware)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick infoware)

@@ -49,7 +49,7 @@ WidgetWindow::WidgetWindow(
 #endif
 
     if (projectPath == "test") {
-        setProjectSourceFileAbsolute({ "qrc:/test.qml" });
+        setProjectSourceFileAbsolute({ "qrc:/qml/Test.qml" });
         setType(ScreenPlay::InstalledType::InstalledType::QMLWidget);
     } else {
         setProjectPath(projectPath);
@@ -71,7 +71,7 @@ WidgetWindow::WidgetWindow(
 
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
-    m_window.setSource(QUrl("qrc:/Widget.qml"));
+    m_window.setSource(QUrl("qrc:/qml/Widget.qml"));
     m_window.setPosition(m_position);
     m_window.show();
 

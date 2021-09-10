@@ -66,8 +66,8 @@ class ScreenPlayWallpaper : public QObject {
     Q_PROPERTY(InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
 
 public:
+    // Default constructor needed for qml engine
     ScreenPlayWallpaper() { }
-    ~ScreenPlayWallpaper();
 
     explicit ScreenPlayWallpaper(
         const QVector<int>& screenNumber,
@@ -127,6 +127,7 @@ signals:
     void error(const QString& msg);
 
 public slots:
+    void messageQuit();
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
     void processError(QProcess::ProcessError error);
     bool setWallpaperValue(const QString& key, const QString& value, const bool save = false);

@@ -11,6 +11,7 @@ import ScreenPlay.QMLUtilities 1.0
 
 Rectangle {
     id: root
+    objectName: "createSidebar"
 
     property bool expanded: false
     property alias listView: listView
@@ -24,6 +25,8 @@ Rectangle {
     color: Material.background
 
     ListView {
+
+
         /*
             ListElement {
                 headline: qsTr("QML Particle Wallpaper")
@@ -85,8 +88,8 @@ Rectangle {
                 category: "Example Widget"
             }
             */
-
         id: listView
+        objectName: "wizardsListView"
 
         anchors.fill: parent
         anchors.margins: 20
@@ -97,15 +100,15 @@ Rectangle {
             id: loaderConnections
 
             function onWizardStarted() {
-                root.expanded = false;
+                root.expanded = false
             }
 
             function onWizardExited() {
-                root.expanded = true;
-                stackView.clear(StackView.PushTransition);
-                stackView.push("qrc:/qml/Create/StartInfo.qml");
-                listView.currentIndex = 0;
-                ScreenPlay.util.setNavigationActive(true);
+                root.expanded = true
+                stackView.clear(StackView.PushTransition)
+                stackView.push("qrc:/qml/Create/StartInfo.qml")
+                listView.currentIndex = 0
+                ScreenPlay.util.setNavigationActive(true)
             }
 
             ignoreUnknownSignals: true
@@ -116,56 +119,64 @@ Rectangle {
                 headline: qsTr("Tools Overview")
                 source: "qrc:/qml/Create/StartInfo.qml"
                 category: "Home"
+                objectName: ""
             }
 
             ListElement {
-                headline: "Video import and convert (all types)"
+                headline: qsTr("Video import and convert (all types)")
                 source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
                 category: "Video Wallpaper"
+                objectName: "videoImportConvert"
             }
 
             ListElement {
                 headline: qsTr("Video Import (.webm)")
                 source: "qrc:/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
                 category: "Video Wallpaper"
+                objectName: ""
             }
 
             ListElement {
                 headline: qsTr("GIF Wallpaper")
                 source: "qrc:/qml/Create/Wizards/GifWallpaper.qml"
                 category: "Video Wallpaper"
+                objectName: ""
             }
 
             ListElement {
                 headline: qsTr("QML Wallpaper")
                 source: "qrc:/qml/Create/Wizards/QMLWallpaper.qml"
                 category: "Code Wallpaper"
+                objectName: ""
             }
 
             ListElement {
                 headline: qsTr("HTML5 Wallpaper")
                 source: "qrc:/qml/Create/Wizards/HTMLWallpaper.qml"
                 category: "Code Wallpaper"
+                objectName: ""
             }
 
             ListElement {
                 headline: qsTr("Website Wallpaper")
                 source: "qrc:/qml/Create/Wizards/WebsiteWallpaper.qml"
                 category: "Code Wallpaper"
+                objectName: ""
             }
 
             ListElement {
                 headline: qsTr("QML Widget")
                 source: "qrc:/qml/Create/Wizards/QMLWidget.qml"
                 category: "Code Widgets"
+                objectName: ""
             }
 
             ListElement {
                 headline: qsTr("HTML Widget")
                 source: "qrc:/qml/Create/Wizards/HTMLWidget.qml"
                 category: "Code Widgets"
+                objectName: ""
             }
-
         }
 
         ScrollBar.vertical: ScrollBar {
@@ -186,25 +197,22 @@ Rectangle {
                     left: parent.left
                     bottomMargin: 10
                 }
-
             }
-
         }
 
         delegate: Button {
             id: listItem
-
+            objectName: model.objectName
             width: listView.width - 40
             height: 45
             highlighted: ListView.isCurrentItem
             text: headline
             onClicked: {
-                listView.currentIndex = index;
-                const item = stackView.push(source);
-                loaderConnections.target = item;
+                listView.currentIndex = index
+                const item = stackView.push(source)
+                loaderConnections.target = item
             }
         }
-
     }
 
     layer.effect: ElevationEffect {
@@ -220,7 +228,6 @@ Rectangle {
                 anchors.leftMargin: 0
                 opacity: 1
             }
-
         },
         State {
             name: "inactive"
@@ -230,7 +237,6 @@ Rectangle {
                 opacity: 0
                 anchors.leftMargin: -root.width
             }
-
         }
     ]
     transitions: [
@@ -249,9 +255,7 @@ Rectangle {
                     duration: 300
                     easing.type: Easing.OutCubic
                 }
-
             }
-
         }
     ]
 }

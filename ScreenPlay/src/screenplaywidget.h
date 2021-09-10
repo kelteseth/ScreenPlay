@@ -69,7 +69,6 @@ public:
         const QString& absolutePath,
         const QString& previewImage, const QJsonObject& properties,
         const InstalledType::InstalledType type);
-    ~ScreenPlayWidget();
 
     bool start();
 
@@ -86,6 +85,7 @@ public:
     ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
 
 public slots:
+    void messageQuit();
     QJsonObject getActiveSettingsJson();
 
     void setPreviewImage(QString previewImage)

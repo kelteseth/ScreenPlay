@@ -150,6 +150,7 @@ public slots:
     virtual void destroyThis() { }
     virtual void setVisible(bool show) { Q_UNUSED(show) }
     virtual void messageReceived(QString key, QString value) final;
+    virtual void clearComponentCache() {}
     virtual void replaceWallpaper(
         const QString absolutePath,
         const QString file,
@@ -357,31 +358,31 @@ private:
 private:
     bool m_checkWallpaperVisible { false };
     bool m_visualsPaused { false };
-
     bool m_loops { true };
     bool m_isPlaying { true };
     bool m_muted { false };
     bool m_canFade { false };
+    bool m_debugMode { false };
 
     float m_volume { 1.0f };
     float m_playbackRate { 1.0f };
     float m_currentTime { 0.0f };
 
+    QString m_contentBasePath;
+    QString m_projectPath;
+    QString m_projectSourceFile;
     QString m_appID;
-
-    ScreenPlay::InstalledType::InstalledType m_type = ScreenPlay::InstalledType::InstalledType::Unknown;
     QString m_OSVersion;
     QString m_fillMode;
+
     int m_width { 0 };
     int m_height { 0 };
+
+    ScreenPlay::InstalledType::InstalledType m_type = ScreenPlay::InstalledType::InstalledType::Unknown;
     QVector<int> m_activeScreensList;
     QFileSystemWatcher m_fileSystemWatcher;
     QTimer m_liveReloadLimiter;
     QSysInfo m_sysinfo;
-    bool m_debugMode = false;
     std::unique_ptr<ScreenPlaySDK> m_sdk;
-    QString m_contentBasePath;
-    QString m_projectPath;
-    QString m_projectSourceFile;
     QUrl m_projectSourceFileAbsolute;
 };

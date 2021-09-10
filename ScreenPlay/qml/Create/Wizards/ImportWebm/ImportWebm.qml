@@ -26,7 +26,7 @@ Item {
                 swipeView.currentIndex = 1;
                 createWallpaperVideoImportConvert.filePath = filePath;
                 ScreenPlay.util.setNavigationActive(false);
-                ScreenPlay.create.createWallpaperStart(filePath, Create.VP9);
+                ScreenPlay.create.createWallpaperStart(filePath);
             }
         }
 

@@ -10,12 +10,14 @@ Item {
     id: root
 
     ScreenPlayWorkshop {
-        id: workshop
+        id: ws
+
         Component.onCompleted: {
-            if (online) {
+            const success = ws.init();
+            if(success){
                 stackView.push("qrc:/qml/Workshop/SteamWorkshop.qml", {
-                                   "workshop": workshop,
-                                   "steam": workshop.steamWorkshop
+                                   "workshop": ws,
+                                   "steam": ws.steamWorkshop
                                })
             } else {
                 popupOffline.open()
@@ -25,6 +27,8 @@ Item {
 
     PopupOffline {
         id: popupOffline
+        workshop: ws
+        steam: ws.steamWorkshop
     }
 
     StackView {
@@ -37,8 +41,8 @@ Item {
             ignoreUnknownSignals: true
             function onOpenSteamProfile(){
                 stackView.push("qrc:/qml/Workshop/SteamProfile.qml", {
-                                      "workshop": workshop,
-                                      "steam": workshop.steamWorkshop
+                                      "workshop": ws,
+                                      "steam": ws.steamWorkshop
                                   })
             }
             function onRequestWorkshopMainPage(){

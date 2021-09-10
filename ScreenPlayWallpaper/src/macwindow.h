@@ -65,6 +65,7 @@ signals:
 public slots:
     void setVisible(bool show) override;
     void destroyThis() override;
+    void clearComponentCache() override;
 
 private:
     QQuickView m_window;

@@ -28,6 +28,14 @@ Item {
         return -1;
     }
 
+    // This is used for removing wallpaper. We need to clear
+    // the preview image/gif so we can release the file for deletion.
+    function clear(){
+        image.source = ""
+        txtHeadline.text = ""
+        root.state = "inactive"
+    }
+
     width: 400
     state: "inactive"
     onContentFolderNameChanged: {
@@ -47,8 +55,10 @@ Item {
         btnSetWallpaper.enabled = false;
     }
 
+
     Connections {
         function onSetSidebarItem(folderName, type) {
+
             // Toggle sidebar if clicked on the same content twice
             if (root.contentFolderName === folderName && root.state !== "inactive") {
                 root.state = "inactive";
@@ -151,10 +161,12 @@ Item {
 
                 AnimatedImage {
                     id: image
-
+                    // Do NOT enable async image loading!
+                    // Otherwhise it will still hold the file
+                    // when calling InstalledListModel::deinstallItemAt
+                    asynchronous: false
                     playing: true
                     fillMode: Image.PreserveAspectCrop
-                    asynchronous: true
                     anchors.fill: parent
                     onStatusChanged: {
                         if (image.status === Image.Error)
@@ -262,6 +274,7 @@ Item {
 
                     MonitorSelection {
                         id: monitorSelection
+                        objectName: "monitorSelection"
 
                         height: 180
                         Layout.fillWidth: true
@@ -346,6 +359,7 @@ Item {
 
             Button {
                 id: btnSetWallpaper
+                objectName: "btnSetWallpaper"
 
                 Material.background: Material.accent
                 Material.foreground: "white"

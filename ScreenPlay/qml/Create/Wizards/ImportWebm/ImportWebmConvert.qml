@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.12
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
+import ScreenPlay.Enums.ImportVideoState 1.0
 import "../../../Common" as Common
 
 Item {
@@ -38,47 +39,48 @@ Item {
     Connections {
         function onCreateWallpaperStateChanged(state) {
             switch (state) {
-            case CreateImportVideo.AnalyseVideo:
+            case ImportVideoState.AnalyseVideo:
                 txtConvert.text = qsTr("AnalyseVideo...");
                 break;
-            case CreateImportVideo.ConvertingPreviewImage:
+            case ImportVideoState.ConvertingPreviewImage:
                 txtConvert.text = qsTr("Generating preview image...");
                 break;
-            case CreateImportVideo.ConvertingPreviewThumbnailImage:
+            case ImportVideoState.ConvertingPreviewThumbnailImage:
                 txtConvert.text = qsTr("Generating preview thumbnail image...");
                 break;
-            case CreateImportVideo.ConvertingPreviewImageFinished:
+            case ImportVideoState.ConvertingPreviewImageFinished:
                 imgPreview.source = "file:///" + ScreenPlay.create.workingDir + "/preview.jpg";
                 imgPreview.visible = true;
                 break;
-            case CreateImportVideo.ConvertingPreviewVideo:
+            case ImportVideoState.ConvertingPreviewVideo:
                 txtConvert.text = qsTr("Generating 5 second preview video...");
                 break;
-            case CreateImportVideo.ConvertingPreviewGif:
+            case ImportVideoState.ConvertingPreviewGif:
                 txtConvert.text = qsTr("Generating preview gif...");
                 break;
-            case CreateImportVideo.ConvertingPreviewGifFinished:
+            case ImportVideoState.ConvertingPreviewGifFinished:
                 gifPreview.source = "file:///" + ScreenPlay.create.workingDir + "/preview.gif";
                 imgPreview.visible = false;
                 gifPreview.visible = true;
                 gifPreview.playing = true;
                 break;
-            case CreateImportVideo.ConvertingAudio:
+            case ImportVideoState.ConvertingAudio:
                 txtConvert.text = qsTr("Converting Audio...");
                 break;
-            case CreateImportVideo.ConvertingVideo:
+            case ImportVideoState.ConvertingVideo:
                 txtConvert.text = qsTr("Converting Video... This can take some time!");
                 break;
-            case CreateImportVideo.ConvertingVideoError:
+            case ImportVideoState.ConvertingVideoError:
                 txtConvert.text = qsTr("Converting Video ERROR!");
                 break;
-            case CreateImportVideo.AnalyseVideoError:
+            case ImportVideoState.AnalyseVideoError:
                 txtConvert.text = qsTr("Analyse Video ERROR!");
                 break;
-            case CreateImportVideo.Finished:
+            case ImportVideoState.Finished:
                 txtConvert.text = "";
                 conversionFinishedSuccessful = true;
                 busyIndicator.running = false;
+                btnExit.enabled = false;
                 root.checkCanSave();
                 break;
             }
@@ -330,13 +332,13 @@ Item {
                 font.family: ScreenPlay.settings.font
                 onClicked: {
                     root.exit();
-                    ScreenPlay.create.abortAndCleanup();
+                    ScreenPlay.create.cancel();
                 }
             }
 
             Button {
                 id: btnSave
-
+                objectName: "btnSave"
                 text: qsTr("Save")
                 enabled: false
                 Material.background: Material.accent
@@ -347,7 +349,6 @@ Item {
                         btnSave.enabled = false;
                         ScreenPlay.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, Create.VP9, textFieldTags.getTags());
                         savePopup.open();
-                        ScreenPlay.installedListModel.reset();
                     }
                 }
             }

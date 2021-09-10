@@ -16,9 +16,6 @@ Dev. Docs   [![pipeline status](https://gitlab.com/kelteseth/ScreenPlayDeveloper
 <br><br>
 User Chat (Discord)
 <a href="https://discord.com/invite/JBMmZbgc?utm_source=Discord%20Widget&utm_medium=Connect">![Discord](https://img.shields.io/discord/516635043435773970?style=for-the-badge)</a>
-Developer Chat [![Gitter](https://badges.gitter.im/ScreenPlayApp/community.svg)](https://gitter.im/ScreenPlayApp/community?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
-
-
 
 <br>
 ScreenPlay is an open source cross platform app for displaying Video Wallpaper, Widgets and AppDrawer. It is written in modern C++20/Qt5/QML. Binaries with workshop support are available for Windows and soon Linux & MacOSX via <a href="https://store.steampowered.com/app/672870/ScreenPlay/">Steam</a>.  Join our community: <a href="https://screen-play.app/">Homepage</a> - <a href="https://forum.screen-play.app/">Forum</a>
@@ -29,13 +26,15 @@ Windows only, Linux and MacOS next.
 <br>
 <br>
 
-<a href="https://www.youtube.com/watch?v=q-J2fTWDxw8">
+<!-- This works only on gitlab -->
+![](https://gitlab.com/kelteseth/ScreenPlay/-/raw/master/.gitlab/media/preview.webp)
+<!-- This works only on github -->
+![](/.gitlab/media/preview.webp)
 
-![Preview](.gitlab/media/preview.gif)
-
-</a> 
-<p>Click gif to see the Steam Early Access Trailer (YouTube)</p>
+<a href="https://www.youtube.com/watch?v=q-J2fTWDxw8"><p>Watch the Steam Early Access Trailer (YouTube)</p></a> 
 </div>
+
+
 
 # Important Issues
 * [Implement KDE Support](https://gitlab.com/kelteseth/ScreenPlay/-/issues/111)
@@ -97,7 +96,7 @@ Here are some ways you can contribute:
 | Feature                	    | Windows 	    | Linux 	        | MacOS 	|
 |------------------------	    |---------	    |-------	        |-------	|
 | __ScreenPlay Main App__       | ✔       	    | ✔     	        | ✔     	|
-| __Steam Binaries__            | ✔       	    | ❌     	        | ❌     	|
+| __Steam Binaries__            | ✔       	    | ❌     	        | ✔    	|
 | __Wallpaper__                 | ✔       	    | ❓ Help Needed for Gnome/KDE/etc!               | ✔    |
 | __Widgets__                   | ✔       	    | ✔   	| ✔    	|
 | __Multilanguage (EN,DE,RU,FR,ES,KO,VI,CH_ZN,PT_BR🆕)__              | ✔            	| ✔     	        |  ✔     	|

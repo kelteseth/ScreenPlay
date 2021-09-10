@@ -11,16 +11,6 @@ namespace ScreenPlay {
 */
 
 /*!
-    \brief Destructor for ScreenPlayWallpaper.
-*/
-ScreenPlayWallpaper::~ScreenPlayWallpaper()
-{
-    m_connection->close();
-    qInfo() << "Remove wallpaper " << m_appID;
-
-}
-
-/*!
     \brief  Constructor for ScreenPlayWallpaper.
 */
 ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
@@ -144,6 +134,15 @@ QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
     return obj;
 }
 
+/*!
+    \brief Sends command quit to the wallpaper.
+*/
+void ScreenPlayWallpaper::messageQuit()
+{
+    QJsonObject obj;
+    obj.insert("command", "quit");
+    m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+}
 /*!
     \brief Prints the exit code if != 0.
 */

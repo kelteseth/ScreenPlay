@@ -5,6 +5,7 @@ import QtQuick.Controls.Material 2.3
 import QtQuick.Layouts 1.12
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
+import ScreenPlay.Enums.ImportVideoState 1.0
 import "../../../Common" as Common
 
 Item {
@@ -15,86 +16,88 @@ Item {
     property var codec: Create.VP8
     property string filePath
 
-    signal abort()
-    signal save()
+    signal abort
+    signal save
 
     function cleanup() {
-        ScreenPlay.create.abortAndCleanup();
+        ScreenPlay.create.cancel()
     }
 
     function basename(str) {
-        let filenameWithExtentions = (str.slice(str.lastIndexOf("/") + 1));
-        let filename = filenameWithExtentions.split('.').slice(0, -1).join('.');
-        return filename;
+        let filenameWithExtentions = (str.slice(str.lastIndexOf("/") + 1))
+        let filename = filenameWithExtentions.split('.').slice(0, -1).join('.')
+        return filename
     }
 
     function checkCanSave() {
         if (canSave && conversionFinishedSuccessful)
-            btnSave.enabled = true;
+            btnSave.enabled = true
         else
-            btnSave.enabled = false;
+            btnSave.enabled = false
     }
 
     onCanSaveChanged: root.checkCanSave()
     onFilePathChanged: {
-        textFieldName.text = basename(filePath);
+        textFieldName.text = basename(filePath)
     }
 
     Connections {
         function onCreateWallpaperStateChanged(state) {
             switch (state) {
-            case CreateImportVideo.ConvertingPreviewImage:
-                txtConvert.text = qsTr("Generating preview image...");
-                break;
-            case CreateImportVideo.ConvertingPreviewThumbnailImage:
-                txtConvert.text = qsTr("Generating preview thumbnail image...");
-                break;
-            case CreateImportVideo.ConvertingPreviewImageFinished:
-                imgPreview.source = "file:///" + ScreenPlay.create.workingDir + "/preview.jpg";
-                imgPreview.visible = true;
-                break;
-            case CreateImportVideo.ConvertingPreviewVideo:
-                txtConvert.text = qsTr("Generating 5 second preview video...");
-                break;
-            case CreateImportVideo.ConvertingPreviewGif:
-                txtConvert.text = qsTr("Generating preview gif...");
-                break;
-            case CreateImportVideo.ConvertingPreviewGifFinished:
-                gifPreview.source = "file:///" + ScreenPlay.create.workingDir + "/preview.gif";
-                imgPreview.visible = false;
-                gifPreview.visible = true;
-                gifPreview.playing = true;
-                break;
-            case CreateImportVideo.ConvertingAudio:
-                txtConvert.text = qsTr("Converting Audio...");
-                break;
-            case CreateImportVideo.ConvertingVideo:
-                txtConvert.text = qsTr("Converting Video... This can take some time!");
-                break;
-            case CreateImportVideo.ConvertingVideoError:
-                txtConvert.text = qsTr("Converting Video ERROR!");
-                break;
-            case CreateImportVideo.AnalyseVideoError:
-                txtConvert.text = qsTr("Analyse Video ERROR!");
-                break;
-            case CreateImportVideo.Finished:
-                txtConvert.text = "";
-                conversionFinishedSuccessful = true;
-                busyIndicator.running = false;
-                root.checkCanSave();
-                break;
+            case ImportVideoState.ConvertingPreviewImage:
+                txtConvert.text = qsTr("Generating preview image...")
+                break
+            case ImportVideoState.ConvertingPreviewThumbnailImage:
+                txtConvert.text = qsTr("Generating preview thumbnail image...")
+                break
+            case ImportVideoState.ConvertingPreviewImageFinished:
+                imgPreview.source = "file:///" + ScreenPlay.create.workingDir + "/preview.jpg"
+                imgPreview.visible = true
+                break
+            case ImportVideoState.ConvertingPreviewVideo:
+                txtConvert.text = qsTr("Generating 5 second preview video...")
+                break
+            case ImportVideoState.ConvertingPreviewGif:
+                txtConvert.text = qsTr("Generating preview gif...")
+                break
+            case ImportVideoState.ConvertingPreviewGifFinished:
+                gifPreview.source = "file:///" + ScreenPlay.create.workingDir + "/preview.gif"
+                imgPreview.visible = false
+                gifPreview.visible = true
+                gifPreview.playing = true
+                break
+            case ImportVideoState.ConvertingAudio:
+                txtConvert.text = qsTr("Converting Audio...")
+                break
+            case ImportVideoState.ConvertingVideo:
+                txtConvert.text = qsTr(
+                            "Converting Video... This can take some time!")
+                break
+            case ImportVideoState.ConvertingVideoError:
+                txtConvert.text = qsTr("Converting Video ERROR!")
+                break
+            case ImportVideoState.AnalyseVideoError:
+                txtConvert.text = qsTr("Analyse Video ERROR!")
+                break
+            case ImportVideoState.Finished:
+                txtConvert.text = ""
+                conversionFinishedSuccessful = true
+                busyIndicator.running = false
+                btnExit.enabled = false;
+                root.checkCanSave()
+                break
             }
         }
 
         function onProgressChanged(progress) {
-            var percentage = Math.floor(progress * 100);
+            var percentage = Math.floor(progress * 100)
             if (percentage > 100 || progress > 0.95)
-                percentage = 100;
+                percentage = 100
 
             if (percentage === NaN)
-                print(progress, percentage);
+                print(progress, percentage)
 
-            txtConvertNumber.text = percentage + "%";
+            txtConvertNumber.text = percentage + "%"
         }
 
         target: ScreenPlay.create
@@ -116,7 +119,6 @@ Item {
             margins: 40
             bottomMargin: 0
         }
-
     }
 
     Item {
@@ -186,9 +188,7 @@ Item {
                         position: 1
                         color: "#00000000"
                     }
-
                 }
-
             }
 
             BusyIndicator {
@@ -211,7 +211,6 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: 40
                 }
-
             }
 
             Text {
@@ -227,9 +226,7 @@ Item {
                     bottom: parent.bottom
                     bottomMargin: 20
                 }
-
             }
-
         }
 
         Common.ImageSelector {
@@ -243,9 +240,7 @@ Item {
                 left: parent.left
                 bottom: parent.bottom
             }
-
         }
-
     }
 
     Item {
@@ -283,9 +278,9 @@ Item {
                 Layout.fillWidth: true
                 onTextChanged: {
                     if (textFieldName.text.length >= 3)
-                        canSave = true;
+                        canSave = true
                     else
-                        canSave = false;
+                        canSave = false
                 }
             }
 
@@ -311,7 +306,6 @@ Item {
                 width: parent.width
                 Layout.fillWidth: true
             }
-
         }
 
         Row {
@@ -336,14 +330,14 @@ Item {
                 Material.foreground: "white"
                 font.family: ScreenPlay.settings.font
                 onClicked: {
-                    root.abort();
-                    ScreenPlay.create.abortAndCleanup();
+                    root.abort()
+                    ScreenPlay.create.cancel()
                 }
             }
 
             Button {
                 id: btnSave
-
+                objectName: "btnSave"
                 text: qsTr("Save")
                 enabled: false
                 Material.background: Material.accent
@@ -351,16 +345,18 @@ Item {
                 font.family: ScreenPlay.settings.font
                 onClicked: {
                     if (conversionFinishedSuccessful) {
-                        btnSave.enabled = false;
-                        ScreenPlay.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, codec, textFieldTags.getTags());
-                        savePopup.open();
-                        ScreenPlay.installedListModel.reset();
+                        btnSave.enabled = false
+                        ScreenPlay.create.saveWallpaper(
+                                    textFieldName.text,
+                                    textFieldDescription.text, root.filePath,
+                                    previewSelector.imageSource,
+                                    textFieldYoutubeURL.text, codec,
+                                    textFieldTags.getTags())
+                        savePopup.open()
                     }
                 }
             }
-
         }
-
     }
 
     Popup {
@@ -392,12 +388,10 @@ Item {
 
             interval: 1000 + Math.random() * 1000
             onTriggered: {
-                savePopup.close();
-                ScreenPlay.util.setNavigationActive(true);
-                ScreenPlay.util.setNavigation("Installed");
+                savePopup.close()
+                ScreenPlay.util.setNavigationActive(true)
+                ScreenPlay.util.setNavigation("Installed")
             }
         }
-
     }
-
 }

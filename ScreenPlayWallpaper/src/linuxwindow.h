@@ -50,7 +50,16 @@
 class LinuxWindow : public BaseWindow {
     Q_OBJECT
 public:
-    explicit LinuxWindow(QVector<int> activeScreensList, QString projectPath, QString id, QString volume, const QString fillmode, const bool checkWallpaperVisible, QObject* parent = nullptr);
+    explicit LinuxWindow(
+        const QVector<int>& activeScreensList,
+        const QString& projectFilePath,
+        const QString& appID,
+        const QString& volume,
+        const QString& fillmode,
+        const QString& type,
+        const bool checkWallpaperVisible,
+        const bool debugMode,
+        QObject* parent = nullptr);
 
 signals:
 

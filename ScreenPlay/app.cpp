@@ -58,7 +58,7 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.13.3");
+    QGuiApplication::setApplicationVersion("0.14.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
@@ -173,6 +173,8 @@ void App::init()
     }
 
     m_create = make_unique<Create>(m_globalVariables);
+    QObject::connect(m_create.get(), &Create::finished, m_installedListModel.get(), &InstalledListModel::reset);
+
     m_wizards = make_unique<Wizards>(m_globalVariables);
 
     // When the installed storage path changed
@@ -195,6 +197,11 @@ void App::init()
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
+
+#ifdef Q_OS_MACOS
+    // Needed for macos .app files
+    m_mainWindowEngine->addPluginPath(QGuiApplication::instance()->applicationDirPath());
+#endif
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
 
     // Must be called last to display a error message on startup by the qml engine

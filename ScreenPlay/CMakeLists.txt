@@ -14,7 +14,6 @@ find_package(CURL CONFIG REQUIRED)
 find_package(sentry CONFIG REQUIRED)
 
 set(src
-    main.cpp
     app.cpp
     src/globalvariables.cpp
     src/createimportvideo.cpp
@@ -36,6 +35,7 @@ set(headers
     app.h
     src/globalvariables.h
     src/createimportvideo.h
+    src/createimportstates.h
     src/installedlistmodel.h
     src/monitorlistmodel.h
     src/screenplaywallpaper.h
@@ -51,96 +51,74 @@ set(headers
     src/create.h
     src/wizards.h)
 
-set(l10n
-    translations/ScreenPlay_de.ts
-    translations/ScreenPlay_zh_cn.ts
-    translations/ScreenPlay_pt_br.ts
-    translations/ScreenPlay_en.ts
-    translations/ScreenPlay_es.ts
-    translations/ScreenPlay_fr.ts
-    translations/ScreenPlay_ko.ts
-    translations/ScreenPlay_ru.ts
-    translations/ScreenPlay_vi.ts)
+list(
+    APPEND
+    L10N_LIST
+    # cmake-format: sortable
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_de.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_zh_cn.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_pt_br.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_en.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_es.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_fr.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ko.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ru.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_vi.ts)
 
-set_source_files_properties(${l10n} PROPERTIES OUTPUT_LOCATION "${CMAKE_CURRENT_SOURCE_DIR}/translations")
+include(QtUpdateTranslations)
+qt_update_translations("${CMAKE_CURRENT_SOURCE_DIR}/qml" "${L10N_LIST}")
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    find_package(
-        Qt${QT_VERSION_MAJOR}
-        COMPONENTS Core
-                   Quick
-                   Gui
-                   Widgets
-                   WebSockets
-                   Svg
-                   WebEngineCore
-                   WebEngineQuick
-                   WebChannel
-                   Positioning
-                   LinguistTools)
+# Needed on macos
+find_package(Threads REQUIRED)
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-        qt_add_resources(qml qml.qrc assets.qrc)
-    else()
-        qtquick_compiler_add_resources(qml qml.qrc assets.qrc)
-    endif()
+find_package(
+    Qt6
+    COMPONENTS Core
+               Quick
+               Gui
+               Widgets
+               WebSockets
+               Svg
+               LinguistTools
+               WebEngineQuick
+               WebEngineCore
+               Test)
 
-    add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml} ${fonts})
-
-    target_link_libraries(
-        ${PROJECT_NAME}
-        PRIVATE ScreenPlaySDK
-                ScreenPlayUtil
-                benchmark::benchmark
-                benchmark::benchmark_main
-                doctest::doctest
-                sentry::sentry
-                Qt${QT_VERSION_MAJOR}::Quick
-                Qt${QT_VERSION_MAJOR}::Gui
-                Qt${QT_VERSION_MAJOR}::Widgets
-                Qt${QT_VERSION_MAJOR}::Core
-                Qt${QT_VERSION_MAJOR}::WebSockets
-                Qt${QT_VERSION_MAJOR}::Svg
-                Qt6::WebEngineCore
-                Qt6::WebEngineQuick)
-    qt_add_translation(qmFiles ${l10n})
+if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
+    qt_add_resources(resources ScreenPlayAssets.qrc ScreenPlayQML.qrc)
 else()
-    find_package(
-        Qt${QT_VERSION_MAJOR}
-        COMPONENTS Core
-                   Quick
-                   Gui
-                   Widgets
-                   WebSockets
-                   Svg
-                   LinguistTools
-                   WebEngine)
-
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-        qt_add_resources(qml qml.qrc assets.qrc)
-    else()
-        qtquick_compiler_add_resources(qml qml.qrc assets.qrc)
-    endif()
-
-    add_executable(${PROJECT_NAME} ${src} ${headers} ${resources} ${qml} ${fonts})
-
-    target_link_libraries(
-        ${PROJECT_NAME}
-        PRIVATE ScreenPlaySDK
-                ScreenPlayUtil
-                benchmark::benchmark
-                benchmark::benchmark_main
-                doctest::doctest
-                sentry::sentry
-                Qt${QT_VERSION_MAJOR}::Quick
-                Qt${QT_VERSION_MAJOR}::Gui
-                Qt${QT_VERSION_MAJOR}::Widgets
-                Qt${QT_VERSION_MAJOR}::Core
-                Qt${QT_VERSION_MAJOR}::WebSockets
-                Qt${QT_VERSION_MAJOR}::Svg
-                Qt5::WebEngine)
-    qt5_add_translation(qmFiles ${l10n})
+    qtquick_compiler_add_resources(resources ScreenPlayAssets.qrc ScreenPlayQML.qrc)
 endif()
+
+add_library(ScreenPlayLib ${src} ${headers} ${resources} ${resources} ${fonts})
+
+target_include_directories(ScreenPlayLib PUBLIC ./ src/)
+
+target_link_libraries(
+    ScreenPlayLib
+    PUBLIC ScreenPlaySDK
+           ScreenPlayUtil
+           benchmark::benchmark
+           benchmark::benchmark_main
+           doctest::doctest
+           sentry::sentry
+           Threads::Threads
+           Qt6::Quick
+           Qt6::Gui
+           Qt6::Widgets
+           Qt6::Core
+           Qt6::WebSockets
+           Qt6::Svg
+           Qt6::WebEngineQuick
+           Qt6::WebEngineCore)
+
+add_executable(tst_ScreenPlay tests/tst_main.cpp)
+target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt6::Test)
+
+add_executable(${PROJECT_NAME} main.cpp)
+target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
+
+qt_add_translation(qmFiles ${l10n})
 
 qt_add_big_resources(fonts fonts.qrc)
 
@@ -192,6 +170,19 @@ if(APPLE)
         POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe
                 ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
+
+    # tst_ScreenPlay needs ffmpeg in the base path
+    if(${TESTS_ENABLED})
+        add_custom_command(
+            TARGET ${PROJECT_NAME}
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffmpeg ${CMAKE_BINARY_DIR}/bin/)
+
+        add_custom_command(
+            TARGET ${PROJECT_NAME}
+            POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe ${CMAKE_BINARY_DIR}/bin/)
+    endif()
 
     add_custom_command(
         TARGET ${PROJECT_NAME}

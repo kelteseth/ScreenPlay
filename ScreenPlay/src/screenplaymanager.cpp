@@ -90,7 +90,12 @@ void ScreenPlayManager::init(
         });
     }
 
-    loadProfiles();
+    // Reset to default settings if we are unable to load
+    // the existing one
+    if (!loadProfiles()) {
+        qInfo() << "Reset default profiles.json at:" << m_globalVariables->localSettingsPath();
+        m_settings->writeJsonFileFromResource("profiles");
+    }
 }
 
 /*!
@@ -418,10 +423,11 @@ bool ScreenPlayManager::removeWallpaper(const QString& appID)
         std::remove_if(
             m_screenPlayWallpapers.begin(),
             m_screenPlayWallpapers.end(),
-            [this, appID](auto& wallpaper) {
+            [this, appID](std::shared_ptr<ScreenPlayWallpaper>& wallpaper) {
                 if (wallpaper->appID() != appID) {
                     return false;
                 }
+                wallpaper->messageQuit();
 
                 qInfo() << "Remove wallpaper " << wallpaper->file() << "at monitor " << wallpaper->screenNumber();
 
@@ -452,11 +458,13 @@ bool ScreenPlayManager::removeWidget(const QString& appID)
         std::remove_if(
             m_screenPlayWidgets.begin(),
             m_screenPlayWidgets.end(),
-            [this, appID](auto& widget) {
+            [this, appID](std::shared_ptr<ScreenPlayWidget>& widget) {
                 if (widget->appID() != appID) {
                     qInfo() << "No match " << widget->appID();
                     return false;
                 }
+
+                widget->messageQuit();
 
                 qInfo() << "Remove widget " << appID;
 
@@ -558,6 +566,21 @@ bool ScreenPlayManager::loadProfiles()
         // TODO right now we limit ourself to one default profile
         if (wallpaper.toObject().value("name").toString() != "default")
             continue;
+
+        // Dry run to check if the config is outdated. This is when a wallpaper is configured
+        // but no longer available.
+        for (QJsonValueRef wallpaper : wallpaper.toObject().value("wallpaper").toArray()) {
+            QJsonObject wallpaperObj = wallpaper.toObject();
+
+            if (wallpaperObj.empty())
+                continue;
+
+            const QString absolutePath = wallpaperObj.value("absolutePath").toString();
+            if (!QFile(absolutePath).exists()) {
+                qWarning() << "Specified file does not exist! This means the profiles.json is no longer valid.";
+                return false;
+            }
+        }
 
         for (QJsonValueRef wallpaper : wallpaper.toObject().value("wallpaper").toArray()) {
             QJsonObject wallpaperObj = wallpaper.toObject();

@@ -16,10 +16,12 @@
         <string>${PRODUCT_NAME}</string>
         <key>CFBundlePackageType</key>
         <string>APPL</string>
-        <key>CFBundleVersion</key>
-        <string>1.0</string>
         <key>CFBundleDisplayName</key>
         <string>ScreenPlayWallpaper</string>
+        <key>CFBundleVersion</key>
+        <string>0.14</string>
+        <key>CFBundleShortVersionString</key>
+        <string>0.14</string>
         <key>NSUIElement</key>
         <string>1</string>
         <key>LSUIElement</key>

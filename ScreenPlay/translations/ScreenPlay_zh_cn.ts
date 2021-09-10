@@ -89,7 +89,7 @@
     <message>
         <location filename="../qml/Community/Community.qml" line="56"/>
         <source>Issue List</source>
-        <translation>问题列表</translation>
+        <translation>议题列表</translation>
     </message>
     <message>
         <location filename="../qml/Community/Community.qml" line="62"/>
@@ -99,7 +99,7 @@
     <message>
         <location filename="../qml/Community/Community.qml" line="68"/>
         <source>Steam Workshop</source>
-        <translation>创意工坊</translation>
+        <translation>Steam 创意工坊</translation>
     </message>
 </context>
 <context>
@@ -107,42 +107,42 @@
     <message>
         <location filename="../qml/Community/CommunityNavItem.qml" line="57"/>
         <source>Open in browser</source>
-        <translation>在浏览器打开</translation>
+        <translation>在浏览器中打开</translation>
     </message>
 </context>
 <context>
     <name>CreateWallpaperInit</name>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="31"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="32"/>
         <source>Import any video type</source>
-        <translation>导入任意视频类型</translation>
+        <translation>导入任何视频类型</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="37"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="38"/>
         <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-        <translation>根据您的PC配置，最好转换您的壁纸到某种视频编码。如果性能都不好，您也可以尝试一个QML壁纸！支持的视频格式如下：
+        <translation>取决于您的PC配置，最好将您的壁纸转换为特定的视频编码格式。如果它们的性能都不好，您还可以尝试 QML 壁纸！已支持的视频格式有：
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="52"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="53"/>
         <source>Set your preffered video codec:</source>
-        <translation>设置您偏好的视频编解码器：</translation>
+        <translation>设置您偏好的视频编码格式：</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="97"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="98"/>
         <source>Quality slider. Lower value means better quality.</source>
-        <translation>质量滑条 更低的值意味着更好的质量</translation>
+        <translation>质量滑条，更小的值意味着更好的质量。</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="112"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="113"/>
         <source>Open Documentation</source>
         <translation>打开文档</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="130"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="132"/>
         <source>Select file</source>
         <translation>选择文件</translation>
     </message>
@@ -157,7 +157,7 @@
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="91"/>
         <source>Copy text to clipboard</source>
-        <translation>复制文本至剪贴板</translation>
+        <translation>复制到剪贴板</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="102"/>
@@ -168,89 +168,89 @@
 <context>
     <name>CreateWallpaperVideoImportConvert</name>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="47"/>
-        <source>Generating preview image...</source>
-        <translation>正在生成预览图...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="50"/>
-        <source>Generating preview thumbnail image...</source>
-        <translation>正在生成预览缩略图...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="57"/>
-        <source>Generating 5 second preview video...</source>
-        <translation>正在生成五秒预览视频...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="60"/>
-        <source>Generating preview gif...</source>
-        <translation>正在生成预览gif...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="69"/>
-        <source>Converting Audio...</source>
-        <translation>正在转换音频...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="72"/>
-        <source>Converting Video... This can take some time!</source>
-        <translation>正在转换视频... 这可能需要一些时间！</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="75"/>
-        <source>Converting Video ERROR!</source>
-        <translation>转换视频错误！</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="78"/>
-        <source>Analyse Video ERROR!</source>
-        <translation>解析视频出错！</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="106"/>
-        <source>Convert a video to a wallpaper</source>
-        <translation>转换视频为壁纸</translation>
-    </message>
-    <message>
         <location filename="../qml/Create/Wizards/CreateWallpaper/CreateWallpaperVideoImportConvert.qml" line="198"/>
         <source></source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="221"/>
-        <source>Generating preview video...</source>
-        <translation>正在生成预览视频...</translation>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="48"/>
+        <source>Generating preview image...</source>
+        <translation>生成预览图...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="281"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="51"/>
+        <source>Generating preview thumbnail image...</source>
+        <translation>生成预览缩略图...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="58"/>
+        <source>Generating 5 second preview video...</source>
+        <translation>生成5秒预览视频...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="61"/>
+        <source>Generating preview gif...</source>
+        <translation>生成预览GIF...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="70"/>
+        <source>Converting Audio...</source>
+        <translation>转换音频...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="73"/>
+        <source>Converting Video... This can take some time!</source>
+        <translation>转换视频... 这可能需要一些时间！</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="77"/>
+        <source>Converting Video ERROR!</source>
+        <translation>转换视频出错！</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="80"/>
+        <source>Analyse Video ERROR!</source>
+        <translation>分析视频出错！</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="108"/>
+        <source>Convert a video to a wallpaper</source>
+        <translation>将视频转换为壁纸</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="219"/>
+        <source>Generating preview video...</source>
+        <translation>生成预览视频...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="275"/>
         <source>Name (required!)</source>
         <translation>名称（必选）</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="295"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="289"/>
         <source>Description</source>
         <translation>简介</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="303"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="297"/>
         <source>Youtube URL</source>
-        <translation>Youtube链接</translation>
+        <translation>Youtube 链接</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="334"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="327"/>
         <source>Abort</source>
-        <translation>取消</translation>
+        <translation>中止</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="347"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="340"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="382"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="377"/>
         <source>Save Wallpaper...</source>
-        <translation>正在保存壁纸...</translation>
+        <translation>保存壁纸...</translation>
     </message>
 </context>
 <context>
@@ -268,7 +268,7 @@
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="66"/>
         <source>Current Video Time</source>
-        <translation>当前视频时间</translation>
+        <translation>目前视频时间</translation>
     </message>
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="83"/>
@@ -298,7 +298,7 @@
     <message>
         <location filename="../qml/Monitors/DefaultVideoControls.qml" line="114"/>
         <source>Scale_Down</source>
-        <translation>裁剪</translation>
+        <translation>裁切</translation>
     </message>
 </context>
 <context>
@@ -324,17 +324,17 @@
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="26"/>
         <source>Import a Gif Wallpaper</source>
-        <translation>导入GIF壁纸</translation>
+        <translation>导入 GIF 壁纸</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="82"/>
         <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
-        <translation>将一个gif文件拖到这里，或者使用下面的&apos;选择文件&apos;</translation>
+        <translation>拖放一个 *.gif 文件到这里，或者使用下面的 &apos;选择文件&apos;。</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="105"/>
         <source>Select your gif</source>
-        <translation>选择您的GIF</translation>
+        <translation>选择您的 GIF</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="120"/>
@@ -344,7 +344,7 @@
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="127"/>
         <source>Wallpaper name</source>
-        <translation>壁纸名</translation>
+        <translation>壁纸名称</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="135"/>
@@ -362,7 +362,7 @@
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="29"/>
         <source>Create a HTML Wallpaper</source>
-        <translation>创建一个HTML壁纸</translation>
+        <translation>创建 HTML 壁纸</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="34"/>
@@ -372,12 +372,12 @@
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="44"/>
         <source>Wallpaper name</source>
-        <translation>壁纸名</translation>
+        <translation>壁纸名称</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="53"/>
         <source>Created By</source>
-        <translation>由…创建</translation>
+        <translation>作者</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="62"/>
@@ -400,7 +400,7 @@
     <message>
         <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="20"/>
         <source>Create a HTML widget</source>
-        <translation>创建一个HTML部件</translation>
+        <translation>创建 HTML 部件</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="74"/>
@@ -410,7 +410,7 @@
     <message>
         <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="82"/>
         <source>Widget name</source>
-        <translation>部件名</translation>
+        <translation>部件名称</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="90"/>
@@ -436,7 +436,7 @@
     <message>
         <location filename="../qml/Common/HeadlineSection.qml" line="6"/>
         <source>Headline Section</source>
-        <translation>标题段</translation>
+        <translation>摘要</translation>
     </message>
 </context>
 <context>
@@ -444,7 +444,7 @@
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="118"/>
         <source>Set your own preview image</source>
-        <translation>选择您自己的预览图</translation>
+        <translation>设置您的预览图</translation>
     </message>
     <message>
         <location filename="../qml/Common/ImageSelector.qml" line="159"/>
@@ -460,94 +460,94 @@
 <context>
     <name>ImportWebmConvert</name>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="42"/>
-        <source>AnalyseVideo...</source>
-        <translation>分析视频...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="45"/>
-        <source>Generating preview image...</source>
-        <translation>正在生成预览图...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="48"/>
-        <source>Generating preview thumbnail image...</source>
-        <translation>正在生成预览缩略图...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="55"/>
-        <source>Generating 5 second preview video...</source>
-        <translation>正在生成五秒预览视频...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="58"/>
-        <source>Generating preview gif...</source>
-        <translation>正在生成预览gif...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="67"/>
-        <source>Converting Audio...</source>
-        <translation>正在转换音频...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="70"/>
-        <source>Converting Video... This can take some time!</source>
-        <translation>正在转换视频... 这可能需要一些时间！</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="73"/>
-        <source>Converting Video ERROR!</source>
-        <translation>转换视频错误！</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="76"/>
-        <source>Analyse Video ERROR!</source>
-        <translation>分析视频出错！</translation>
-    </message>
-    <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="104"/>
-        <source>Import a video to a wallpaper</source>
-        <translation>导入视频到壁纸</translation>
-    </message>
-    <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="189"/>
         <source></source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="214"/>
-        <source>Generating preview video...</source>
-        <translation>正在生成预览视频...</translation>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="43"/>
+        <source>AnalyseVideo...</source>
+        <translation>分析视频...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="274"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="46"/>
+        <source>Generating preview image...</source>
+        <translation>生成预览图...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="49"/>
+        <source>Generating preview thumbnail image...</source>
+        <translation>生成预览缩略图...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="56"/>
+        <source>Generating 5 second preview video...</source>
+        <translation>生成5秒预览视频...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="59"/>
+        <source>Generating preview gif...</source>
+        <translation>生成预览 GIF...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="68"/>
+        <source>Converting Audio...</source>
+        <translation>转换音频...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="71"/>
+        <source>Converting Video... This can take some time!</source>
+        <translation>转换视频... 这可能需要一些时间！</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="74"/>
+        <source>Converting Video ERROR!</source>
+        <translation>转换视频出错！</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="77"/>
+        <source>Analyse Video ERROR!</source>
+        <translation>分析视频出错！</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="105"/>
+        <source>Import a video to a wallpaper</source>
+        <translation>将视频导入为壁纸</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="215"/>
+        <source>Generating preview video...</source>
+        <translation>生成预览视频...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="275"/>
         <source>Name (required!)</source>
         <translation>名称（必选）</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="288"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="289"/>
         <source>Description</source>
         <translation>简介</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="296"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="297"/>
         <source>Youtube URL</source>
-        <translation>Youtube链接</translation>
+        <translation>Youtube 链接</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="327"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="328"/>
         <source>Abort</source>
-        <translation>取消</translation>
+        <translation>中止</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="340"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="341"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="375"/>
         <source>Save Wallpaper...</source>
-        <translation>正在保存壁纸...</translation>
+        <translation>保存壁纸...</translation>
     </message>
 </context>
 <context>
@@ -555,17 +555,17 @@
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="32"/>
         <source>Import a .webm video</source>
-        <translation>导入一个webm视频</translation>
+        <translation>导入 .webm 视频</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="48"/>
         <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-        <translation>导入webm时，我们可以跳过漫长的转换过程。当您对&apos;ideo导入和转换（所有类型）&apos;的ScreenPlay导入器得到的结果不满意时，您也可以使用免费开源的HandBrake!</translation>
+        <translation>导入webm时，我们可以跳过漫长的转换过程。当您对&apos;导入和转换（所有类型）&apos; ScreenPlay 得到的结果不满意时，您还可以使用免费开源的HandBrake!</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="74"/>
         <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-        <translation>无效文件类型。必须是有效的VP8/VP9（*.webm）！</translation>
+        <translation>文件类型无效。必须是 VP8 / VP9（*.webm）！</translation>
     </message>
     <message>
         <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="97"/>
@@ -586,38 +586,43 @@
 <context>
     <name>Installed</name>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="130"/>
+        <location filename="../qml/Installed/Installed.qml" line="131"/>
         <source>Refreshing!</source>
         <translation>刷新中！</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="133"/>
-        <location filename="../qml/Installed/Installed.qml" line="148"/>
+        <location filename="../qml/Installed/Installed.qml" line="134"/>
+        <location filename="../qml/Installed/Installed.qml" line="149"/>
         <source>Pull to refresh!</source>
         <translation>下拉以刷新！</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="178"/>
+        <location filename="../qml/Installed/Installed.qml" line="179"/>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
         <translation>从创意工坊获取更多壁纸和物件！</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="242"/>
+        <location filename="../qml/Installed/Installed.qml" line="244"/>
         <source>Open containing folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="250"/>
-        <source>Deinstall Item</source>
-        <translation>卸载</translation>
+        <location filename="../qml/Installed/Installed.qml" line="252"/>
+        <source>Remove Item</source>
+        <translation>删除物品</translation>
+    </message>
+    <message>
+        <location filename="../qml/Installed/Installed.qml" line="252"/>
+        <source>Remove via Workshop</source>
+        <translation>从创意工坊中删除</translation>
     </message>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="261"/>
-        <source>Open workshop Page</source>
+        <source>Open Workshop Page</source>
         <translation>打开创意工坊页面</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="276"/>
+        <location filename="../qml/Installed/Installed.qml" line="277"/>
         <source>Are you sure you want to delete this item?</source>
         <translation>您确定要删除此物品？</translation>
     </message>
@@ -893,6 +898,14 @@
     </message>
 </context>
 <context>
+    <name>ScreenPlayItem</name>
+    <message>
+        <location filename="../qml/Installed/ScreenPlayItem.qml" line="206"/>
+        <source>NEW</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Search</name>
     <message>
         <location filename="../qml/Common/Search.qml" line="33"/>
@@ -928,11 +941,6 @@
         <translation>发送匿名崩溃报告和统计数据</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="99"/>
-        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes!</source>
-        <translation>帮助我们，让ScreenPlay更快更稳定。所有被收集的数据完全匿名，且只用于开发。</translation>
-    </message>
-    <message>
         <location filename="../qml/Settings/Settings.qml" line="110"/>
         <source>Set save location</source>
         <translation>设置保存位置</translation>
@@ -966,6 +974,11 @@
         <location filename="../qml/Settings/Settings.qml" line="73"/>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
         <translation>ScreenPlay将在操作系统启动时启动，并会设置您的桌面。</translation>
+    </message>
+    <message>
+        <location filename="../qml/Settings/Settings.qml" line="99"/>
+        <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
+        <translation>帮助我们让 ScreenPlay 更快更稳定。所有被收集的数据完全匿名，而且仅用于开发用途！我们使用&lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; 收集与分析数据。&lt;b&gt;感谢他们&lt;/b&gt; 为我们提供对开源项目免费而优质的服务！</translation>
     </message>
     <message>
         <location filename="../qml/Settings/Settings.qml" line="116"/>
@@ -1189,37 +1202,37 @@
         <translation>选择显示此内容的显示器</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="287"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="288"/>
         <source>Set Volume</source>
         <translation>设置音量</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="306"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="307"/>
         <source>Fill Mode</source>
         <translation>填充模式</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="325"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="326"/>
         <source>Stretch</source>
         <translation>拉伸</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="328"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="329"/>
         <source>Fill</source>
         <translation>填充</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="331"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="332"/>
         <source>Contain</source>
         <translation>适应</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="334"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="335"/>
         <source>Cover</source>
         <translation>平铺</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="337"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="338"/>
         <source>Scale-Down</source>
         <translation>裁剪</translation>
     </message>
@@ -1274,42 +1287,47 @@
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="116"/>
+        <location filename="../qml/Create/Sidebar.qml" line="118"/>
         <source>Tools Overview</source>
         <translation>工具概览</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="128"/>
+        <location filename="../qml/Create/Sidebar.qml" line="124"/>
+        <source>Video import and convert (all types)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Sidebar.qml" line="131"/>
         <source>Video Import (.webm)</source>
         <translation>视频导入 (.webm)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="134"/>
+        <location filename="../qml/Create/Sidebar.qml" line="137"/>
         <source>GIF Wallpaper</source>
         <translation>GIF 壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="140"/>
+        <location filename="../qml/Create/Sidebar.qml" line="143"/>
         <source>QML Wallpaper</source>
         <translation>QML 壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="146"/>
+        <location filename="../qml/Create/Sidebar.qml" line="149"/>
         <source>HTML5 Wallpaper</source>
         <translation>HTML5 壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="152"/>
+        <location filename="../qml/Create/Sidebar.qml" line="155"/>
         <source>Website Wallpaper</source>
         <translation>网页壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="158"/>
+        <location filename="../qml/Create/Sidebar.qml" line="161"/>
         <source>QML Widget</source>
         <translation>QML 部件</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="164"/>
+        <location filename="../qml/Create/Sidebar.qml" line="167"/>
         <source>HTML Widget</source>
         <translation>HTML 部件</translation>
     </message>
@@ -1333,6 +1351,123 @@
         <location filename="../qml/Common/Dialogs/SteamNotAvailable.qml" line="11"/>
         <source>Could not load steam integration!</source>
         <translation>无法加载steam集成！</translation>
+    </message>
+</context>
+<context>
+    <name>SteamProfile</name>
+    <message>
+        <location filename="../qml/Workshop/SteamProfile.qml" line="78"/>
+        <location filename="../qml/Workshop/SteamProfile.qml" line="138"/>
+        <source>Back</source>
+        <translation>返回</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamProfile.qml" line="160"/>
+        <source>Forward</source>
+        <translation>前进</translation>
+    </message>
+</context>
+<context>
+    <name>SteamWorkshop</name>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="151"/>
+        <source>Loading</source>
+        <translation>加载中</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="163"/>
+        <source>Download now!</source>
+        <translation>开始下载！</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="168"/>
+        <source>Downloading...</source>
+        <translation>下载中...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="176"/>
+        <source>Details</source>
+        <translation>查看详情</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="202"/>
+        <source>Open In Steam</source>
+        <translation>在Steam打开</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="286"/>
+        <source>Profile</source>
+        <translation>配置</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="305"/>
+        <source>Search for Wallpaper and Widgets...</source>
+        <translation>搜索壁纸和物件...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="349"/>
+        <source>Open Workshop in Steam</source>
+        <translation>在Steam中打开创意工坊</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="373"/>
+        <source>Ranked By Vote</source>
+        <translation>评分最好</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="376"/>
+        <source>Publication Date</source>
+        <translation>发布日期</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="379"/>
+        <source>Ranked By Trend</source>
+        <translation>评分趋势</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="382"/>
+        <source>Favorited By Friends</source>
+        <translation>好友收藏</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="385"/>
+        <source>Created By Friends</source>
+        <translation>好友创建</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="388"/>
+        <source>Created By Followed Users</source>
+        <translation>已关注的</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="391"/>
+        <source>Not Yet Rated</source>
+        <translation>尚未评分</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="394"/>
+        <source>Total VotesAsc</source>
+        <translation>按总票数升序</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="397"/>
+        <source>Votes Up</source>
+        <translation>评分上升</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="400"/>
+        <source>Total Unique Subscriptions</source>
+        <translation>总订阅量</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="449"/>
+        <source>Back</source>
+        <translation>返回</translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="473"/>
+        <source>Forward</source>
+        <translation>前进</translation>
     </message>
 </context>
 <context>
@@ -2084,109 +2219,6 @@
         <location filename="../qml/Create/Wizards/WizardPage.qml" line="101"/>
         <source>Saving...</source>
         <translation>保存中...</translation>
-    </message>
-</context>
-<context>
-    <name>Workshop</name>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="171"/>
-        <source>Loading</source>
-        <translation>加载中</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="183"/>
-        <source>Download now!</source>
-        <translation>开始下载！</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="188"/>
-        <source>Downloading...</source>
-        <translation>下载中...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="196"/>
-        <source>Details</source>
-        <translation>查看详情</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="222"/>
-        <source>Open In Steam</source>
-        <translation>在Steam打开</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="281"/>
-        <source>Search for Wallpaper and Widgets...</source>
-        <translation>搜索壁纸和物件...</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="347"/>
-        <source>Open Workshop in Steam</source>
-        <translation>在Steam中打开创意工坊</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="359"/>
-        <source>Open GameHub in Steam</source>
-        <translation>在Steam中打开游戏社区</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="383"/>
-        <source>Ranked By Vote</source>
-        <translation>评分最好</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="386"/>
-        <source>Publication Date</source>
-        <translation>发布日期</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="389"/>
-        <source>Ranked By Trend</source>
-        <translation>评分趋势</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="392"/>
-        <source>Favorited By Friends</source>
-        <translation>好友收藏</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="395"/>
-        <source>Created By Friends</source>
-        <translation>好友创建</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="398"/>
-        <source>Created By Followed Users</source>
-        <translation>已关注的</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="401"/>
-        <source>Not Yet Rated</source>
-        <translation>尚未评分</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="404"/>
-        <source>Total VotesAsc</source>
-        <translation>按总票数升序</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="407"/>
-        <source>Votes Up</source>
-        <translation>评分上升</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="410"/>
-        <source>Total Unique Subscriptions</source>
-        <translation>总订阅量</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="460"/>
-        <source>Back</source>
-        <translation>返回</translation>
-    </message>
-    <message>
-        <location filename="../qml/Workshop/Workshop.qml" line="484"/>
-        <source>Forward</source>
-        <translation>前进</translation>
     </message>
 </context>
 <context>

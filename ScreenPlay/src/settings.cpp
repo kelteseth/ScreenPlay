@@ -140,16 +140,26 @@ void Settings::writeJsonFileFromResource(const QString& filename)
 void Settings::setupWidgetAndWindowPaths()
 {
     QDir workingDir(QGuiApplication::applicationDirPath());
+
 #ifdef Q_OS_WIN
     m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget" + ScreenPlayUtil::executableBinEnding()));
     m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper" + ScreenPlayUtil::executableBinEnding()));
 #endif
 
+#ifdef Q_OS_LINUX
+    m_globalVariables->setWidgetExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWidget"));
+    m_globalVariables->setWallpaperExecutablePath(QUrl(workingDir.path() + "/ScreenPlayWallpaper"));
+#endif
+
 #ifdef Q_OS_OSX
 
-    workingDir.cdUp();
-    workingDir.cdUp();
-    workingDir.cdUp();
+    // ScreenPlayTest is not bundled in an .app so the working directory
+    // the the same as the executable.
+    if (QFileInfo(QCoreApplication::applicationFilePath()).fileName() != "tst_ScreenPlay") {
+        workingDir.cdUp();
+        workingDir.cdUp();
+        workingDir.cdUp();
+    }
 
     m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
     m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
@@ -157,10 +167,12 @@ void Settings::setupWidgetAndWindowPaths()
 #endif
 
     if (!QFileInfo::exists(m_globalVariables->widgetExecutablePath().toString())) {
-        qFatal("widget executable not found!");
+        qInfo() << "widgetExecutablePath:" << m_globalVariables->widgetExecutablePath().toString();
+        qCritical("widget executable not found!");
     }
     if (!QFileInfo::exists(m_globalVariables->wallpaperExecutablePath().toString())) {
-        qFatal("wallpaper executable not found!");
+        qInfo() << "wallpaperExecutablePath:" << m_globalVariables->wallpaperExecutablePath().toString();
+        qCritical("wallpaper executable not found!");
     }
 }
 

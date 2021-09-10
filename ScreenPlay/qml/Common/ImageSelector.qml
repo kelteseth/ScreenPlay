@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Controls.Material 2.12
-import Qt.labs.platform 1.1
+import QtQuick.Dialogs 1.2
 import ScreenPlay 1.0
 
 /*!
@@ -193,11 +193,10 @@ Item {
             id: fileDialog
 
             title: "Please choose a file"
-            fileMode: FileDialog.OpenFile
             nameFilters: ["Images (*.png *.jpg)"]
             onAccepted: {
-                imageSource = fileDialog.file;
-                txtName.text = fileDialog.file.toString().replace(/^.*[\\\/]/, '');
+                imageSource = fileDialog.fileUrl;
+                txtName.text = fileDialog.fileUrl.toString().replace(/^.*[\\\/]/, '');
             }
         }
 

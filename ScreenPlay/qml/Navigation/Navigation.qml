@@ -80,6 +80,7 @@ Rectangle {
             name: "Create"
             iconSource: "qrc:/assets/icons/icon_plus.svg"
             onPageClicked: (name)=> {root.onPageChanged(name)}
+            objectName: "createTab"
         }
 
         NavigationItem {
@@ -89,6 +90,7 @@ Rectangle {
             name: "Workshop"
             iconSource: "qrc:/assets/icons/icon_steam.svg"
             onPageClicked: (name)=> {root.onPageChanged(name)}
+            objectName: "workshopTab"
         }
 
         NavigationItem {
@@ -99,6 +101,7 @@ Rectangle {
             amount: ScreenPlay.installedListModel.count
             iconSource: "qrc:/assets/icons/icon_installed.svg"
             onPageClicked: (name)=> {root.onPageChanged(name)}
+            objectName: "installedTab"
         }
 
         NavigationItem {
@@ -108,6 +111,7 @@ Rectangle {
             name: "Community"
             iconSource: "qrc:/assets/icons/icon_community.svg"
             onPageClicked: (name)=> {root.onPageChanged(name)}
+            objectName: "communityTab"
         }
 
         NavigationItem {
@@ -117,6 +121,7 @@ Rectangle {
             name: "Settings"
             iconSource: "qrc:/assets/icons/icon_settings.svg"
             onPageClicked: (name)=> {root.onPageChanged(name)}
+            objectName: "settingsTab"
         }
 
     }
