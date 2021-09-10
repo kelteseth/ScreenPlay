@@ -12,7 +12,8 @@ Rectangle {
     function init() {
         switch (Wallpaper.type) {
         case InstalledType.VideoWallpaper:
-            loader.source = "qrc:/MultimediaView.qml";
+            loader.source = "qrc:/qml/MultimediaView.qml";
+            fadeIn();
             break;
         case InstalledType.HTMLWallpaper:
             loader.setSource("qrc:/qml/WebView.qml", {

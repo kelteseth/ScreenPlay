@@ -1,21 +1,24 @@
 import QtQuick 2.0
 import QtMultimedia
+import ScreenPlayWallpaper 1.0
 
 VideoOutput {
-    id:root
+    id: root
     MediaPlayer {
         id: mediaPlayer
         videoOutput: root
-        //volume: Wallpaper.volume
-        //source: Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
-        source: Qt.resolvedUrl("C:/Users/Eli/Videos/videoplayback.webm")
-        Component.onCompleted: mediaPlayer.play()
-        //loops: true
-        onErrorOccurred: function(error, errorString) {
-            if (MediaPlayer.NoError !== error) {
-                console.log("[qmlvideo] VideoItem.onError error " + error + " errorString " + errorString)
-                root.fatalError()
-            }
+        // volume: Wallpaper.volume
+        source: Wallpaper.projectSourceFileAbsolute
+        Component.onCompleted: {
+            print("play", source)
+            mediaPlayer.play()
+        }
+
+        // loops: MediaPlayer.Infinite
+        onErrorOccurred: function (error, errorString) {
+            console.log("[qmlvideo] VideoItem.onError error " + error
+                        + " errorString " + errorString)
+            root.fatalError()
         }
     }
 }
