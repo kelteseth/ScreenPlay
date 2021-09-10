@@ -96,7 +96,7 @@ build:linux_debug:
         - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install aqtinstall
         - mkdir Qt
-        - aqt install --outputdir Qt/ 5.15.2 linux desktop
+        - aqt install --outputdir Qt/ 6.2.0 linux desktop
         - cd Tools
         - wget -q  https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
         - python3 setup.py
@@ -123,7 +123,7 @@ build:linux_release:
         - apt install mesa-common-dev  curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install aqtinstall
         - mkdir Qt
-        - aqt install --outputdir Qt/ 5.15.2 linux desktop
+        - aqt install --outputdir Qt/ 6.2.0 linux desktop
         - cd Tools
         - wget -q https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
         - python3 setup.py
