@@ -63,9 +63,7 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
     }
 
     QTextStream out(&configTmp);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    out.setCodec("UTF-8");
-#endif
+    out.setEncoding(QStringConverter::Utf8);
     out << QJsonDocument(object).toJson();
 
     configTmp.close();
@@ -255,9 +253,7 @@ bool Util::writeSettings(const QJsonObject& obj, const QString& absolutePath)
     }
 
     QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    out.setCodec("UTF-8");
-#endif
+    out.setEncoding(QStringConverter::Utf8);
     QJsonDocument doc(obj);
 
     out << doc.toJson();
@@ -278,9 +274,7 @@ bool Util::writeFile(const QString& text, const QString& absolutePath)
     }
 
     QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    out.setCodec("UTF-8");
-#endif
+    out.setEncoding(QStringConverter::Utf8);
     out << text;
 
     file.close();
@@ -300,9 +294,7 @@ bool Util::writeFileFromQrc(const QString& qrcPath, const QString& absolutePath)
     }
 
     QTextStream out(&file);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-    out.setCodec("UTF-8");
-#endif
+    out.setEncoding(QStringConverter::Utf8);
 
     QFile qrc(qrcPath);
     qrc.open(QIODevice::ReadOnly);

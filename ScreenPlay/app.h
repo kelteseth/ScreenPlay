@@ -47,8 +47,8 @@
 #include <QUrl>
 #include <QtGlobal>
 #include <QtQml>
-#include <QtWebEngineCore>
 #include <QtSvg>
+#include <QtWebEngineCore>
 
 #include "src/create.h"
 #include "src/globalvariables.h"

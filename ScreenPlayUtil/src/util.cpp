@@ -61,9 +61,7 @@ bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& o
     }
 
     QTextStream out(&configTmp);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-out.setCodec("UTF-8");
-#endif
+    out.setEncoding(QStringConverter::Utf8);
     out << QJsonDocument(object).toJson();
 
     configTmp.close();

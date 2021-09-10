@@ -213,42 +213,42 @@
         <translation>分析视频出错！</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="108"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="109"/>
         <source>Convert a video to a wallpaper</source>
         <translation>将视频转换为壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="219"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="220"/>
         <source>Generating preview video...</source>
         <translation>生成预览视频...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="275"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="276"/>
         <source>Name (required!)</source>
         <translation>名称（必选）</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="289"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="290"/>
         <source>Description</source>
         <translation>简介</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="297"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="298"/>
         <source>Youtube URL</source>
         <translation>Youtube 链接</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="327"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="328"/>
         <source>Abort</source>
         <translation>中止</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="340"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="341"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="377"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="378"/>
         <source>Save Wallpaper...</source>
         <translation>保存壁纸...</translation>
     </message>
@@ -510,42 +510,42 @@
         <translation>分析视频出错！</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="105"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="106"/>
         <source>Import a video to a wallpaper</source>
         <translation>将视频导入为壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="215"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="216"/>
         <source>Generating preview video...</source>
         <translation>生成预览视频...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="275"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="276"/>
         <source>Name (required!)</source>
         <translation>名称（必选）</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="289"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="290"/>
         <source>Description</source>
         <translation>简介</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="297"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="298"/>
         <source>Youtube URL</source>
         <translation>Youtube 链接</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="328"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="329"/>
         <source>Abort</source>
         <translation>中止</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="341"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="342"/>
         <source>Save</source>
         <translation>保存</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="375"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="376"/>
         <source>Save Wallpaper...</source>
         <translation>保存壁纸...</translation>
     </message>
@@ -586,43 +586,43 @@
 <context>
     <name>Installed</name>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="131"/>
+        <location filename="../qml/Installed/Installed.qml" line="162"/>
         <source>Refreshing!</source>
         <translation>刷新中！</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="134"/>
-        <location filename="../qml/Installed/Installed.qml" line="149"/>
+        <location filename="../qml/Installed/Installed.qml" line="165"/>
+        <location filename="../qml/Installed/Installed.qml" line="180"/>
         <source>Pull to refresh!</source>
         <translation>下拉以刷新！</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="179"/>
+        <location filename="../qml/Installed/Installed.qml" line="210"/>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
         <translation>从创意工坊获取更多壁纸和物件！</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="244"/>
+        <location filename="../qml/Installed/Installed.qml" line="275"/>
         <source>Open containing folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="252"/>
+        <location filename="../qml/Installed/Installed.qml" line="285"/>
         <source>Remove Item</source>
         <translation>删除物品</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="252"/>
+        <location filename="../qml/Installed/Installed.qml" line="285"/>
         <source>Remove via Workshop</source>
         <translation>从创意工坊中删除</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="261"/>
+        <location filename="../qml/Installed/Installed.qml" line="295"/>
         <source>Open Workshop Page</source>
         <translation>打开创意工坊页面</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="277"/>
+        <location filename="../qml/Installed/Installed.qml" line="307"/>
         <source>Are you sure you want to delete this item?</source>
         <translation>您确定要删除此物品？</translation>
     </message>
@@ -777,12 +777,12 @@
 <context>
     <name>NavigationWallpaperConfiguration</name>
     <message>
-        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="78"/>
+        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
         <source>Configurate active Wallpaper or Widgets</source>
         <translation>设置活动壁纸或物件</translation>
     </message>
     <message>
-        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="80"/>
+        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
         <source>No active Wallpaper or Widgets</source>
         <translation>没有活动壁纸或物件</translation>
     </message>
@@ -790,12 +790,12 @@
 <context>
     <name>PopupOffline</name>
     <message>
-        <location filename="../qml/Workshop/PopupOffline.qml" line="25"/>
-        <source>You need to run Steam for this :)</source>
-        <translation>使用此功能需运行Steam :)</translation>
+        <location filename="../qml/Workshop/PopupOffline.qml" line="28"/>
+        <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/PopupOffline.qml" line="30"/>
+        <location filename="../qml/Workshop/PopupOffline.qml" line="33"/>
         <source>Back</source>
         <translation>返回</translation>
     </message>
@@ -900,7 +900,7 @@
 <context>
     <name>ScreenPlayItem</name>
     <message>
-        <location filename="../qml/Installed/ScreenPlayItem.qml" line="206"/>
+        <location filename="../qml/Installed/ScreenPlayItem.qml" line="199"/>
         <source>NEW</source>
         <translation type="unfinished"></translation>
     </message>
@@ -951,22 +951,22 @@
         <translation>选择位置</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="139"/>
+        <location filename="../qml/Settings/Settings.qml" line="137"/>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
         <translation>注意：修改此目录并不影响创意工坊的下载路径。ScreenPlay仅支持单个内容文件夹！</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="161"/>
+        <location filename="../qml/Settings/Settings.qml" line="159"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="162"/>
+        <location filename="../qml/Settings/Settings.qml" line="160"/>
         <source>Set the ScreenPlay UI Language</source>
         <translation>设置ScreenPlay界面语言</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="243"/>
+        <location filename="../qml/Settings/Settings.qml" line="241"/>
         <source>Performance</source>
         <translation>性能</translation>
     </message>
@@ -986,192 +986,192 @@
         <translation>您的存储路径是空的！</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="170"/>
+        <location filename="../qml/Settings/Settings.qml" line="168"/>
         <source>English</source>
         <translation>英语</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="173"/>
+        <location filename="../qml/Settings/Settings.qml" line="171"/>
         <source>German</source>
         <translation>德语</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="176"/>
+        <location filename="../qml/Settings/Settings.qml" line="174"/>
         <source>Chinese - Simplified</source>
         <translation>中文（简体）</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="179"/>
+        <location filename="../qml/Settings/Settings.qml" line="177"/>
         <source>Russian</source>
         <translation>俄语</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="182"/>
+        <location filename="../qml/Settings/Settings.qml" line="180"/>
         <source>French</source>
         <translation>法语</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="185"/>
+        <location filename="../qml/Settings/Settings.qml" line="183"/>
         <source>Spanish</source>
         <translation>西班牙语</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="188"/>
+        <location filename="../qml/Settings/Settings.qml" line="186"/>
         <source>Korean</source>
         <translation>韩语</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="191"/>
+        <location filename="../qml/Settings/Settings.qml" line="189"/>
         <source>Vietnamese</source>
         <translation>越南语</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="194"/>
+        <location filename="../qml/Settings/Settings.qml" line="192"/>
         <source>Portuguese (Brazil)</source>
         <translation>英语（巴西）</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="210"/>
+        <location filename="../qml/Settings/Settings.qml" line="208"/>
         <source>Theme</source>
         <translation>主题</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="211"/>
+        <location filename="../qml/Settings/Settings.qml" line="209"/>
         <source>Switch dark/light theme</source>
         <translation>切换到暗/亮主题</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="219"/>
+        <location filename="../qml/Settings/Settings.qml" line="217"/>
         <source>System Default</source>
         <translation>跟随系统</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="222"/>
+        <location filename="../qml/Settings/Settings.qml" line="220"/>
         <source>Dark</source>
         <translation>暗</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="225"/>
+        <location filename="../qml/Settings/Settings.qml" line="223"/>
         <source>Light</source>
         <translation>亮</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="262"/>
+        <location filename="../qml/Settings/Settings.qml" line="260"/>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
         <translation>当其他应用程序在前台时，暂停壁纸视频渲染</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="263"/>
+        <location filename="../qml/Settings/Settings.qml" line="261"/>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
         <translation>我们禁用视频渲染（不是音频）以获得最佳性能。如果您有问题，可以在此处禁用此行为。 需要重启壁纸！</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="276"/>
+        <location filename="../qml/Settings/Settings.qml" line="274"/>
         <source>Default Fill Mode</source>
         <translation>默认填充模式</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="277"/>
+        <location filename="../qml/Settings/Settings.qml" line="275"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
         <translation>设置此属性可定义视频的缩放方式以适应目标区域。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="286"/>
+        <location filename="../qml/Settings/Settings.qml" line="284"/>
         <source>Stretch</source>
         <translation>拉伸</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="289"/>
+        <location filename="../qml/Settings/Settings.qml" line="287"/>
         <source>Fill</source>
         <translation>填充</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="292"/>
+        <location filename="../qml/Settings/Settings.qml" line="290"/>
         <source>Contain</source>
         <translation>适应</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="295"/>
+        <location filename="../qml/Settings/Settings.qml" line="293"/>
         <source>Cover</source>
         <translation>平铺</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="298"/>
+        <location filename="../qml/Settings/Settings.qml" line="296"/>
         <source>Scale-Down</source>
         <translation>裁剪</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="313"/>
+        <location filename="../qml/Settings/Settings.qml" line="311"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="345"/>
+        <location filename="../qml/Settings/Settings.qml" line="343"/>
         <source>Thank you for using ScreenPlay</source>
         <translation>感谢您的使用</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="363"/>
+        <location filename="../qml/Settings/Settings.qml" line="361"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
         <translation>您好，我是Elias Steurer，也叫Kelteseth，我是ScreenPlay的开发者。感谢您使用我的软件。您可以在这里关注我，接收ScreenPlay的更新。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="473"/>
+        <location filename="../qml/Settings/Settings.qml" line="471"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="474"/>
+        <location filename="../qml/Settings/Settings.qml" line="472"/>
         <source>ScreenPlay Build Version </source>
         <translation>ScreenPlay编译版本 </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="475"/>
+        <location filename="../qml/Settings/Settings.qml" line="473"/>
         <source>Open Changelog</source>
         <translation>打开更改日志。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="483"/>
+        <location filename="../qml/Settings/Settings.qml" line="481"/>
         <source>Third Party Software</source>
         <translation>第三方软件</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="484"/>
+        <location filename="../qml/Settings/Settings.qml" line="482"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation>ScreenPlay离不开一些人的帮助。非常感谢你们：</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="485"/>
+        <location filename="../qml/Settings/Settings.qml" line="483"/>
         <source>Licenses</source>
         <translation>许可证</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="509"/>
+        <location filename="../qml/Settings/Settings.qml" line="507"/>
         <source>Logs</source>
         <translation>日志</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="510"/>
+        <location filename="../qml/Settings/Settings.qml" line="508"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation>如果您的ScreenPlay出错，这是个很好的查错方式。它显示所有的日志和运行时警告。</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="511"/>
+        <location filename="../qml/Settings/Settings.qml" line="509"/>
         <source>Show Logs</source>
         <translation>显示日志</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="527"/>
+        <location filename="../qml/Settings/Settings.qml" line="525"/>
         <source>Data Protection</source>
         <translation>数据保护</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="528"/>
+        <location filename="../qml/Settings/Settings.qml" line="526"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation>我们使用您的数据提升ScreenPlay的体验。我们承诺不出售或分享这些匿名信息！</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="529"/>
+        <location filename="../qml/Settings/Settings.qml" line="527"/>
         <source>Privacy</source>
         <translation>隐私</translation>
     </message>
@@ -1187,57 +1187,57 @@
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="68"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="77"/>
         <source>Set Widget</source>
         <translation>设置物件</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="199"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="210"/>
         <source>Headline</source>
         <translation>标题</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="257"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="268"/>
         <source>Select a Monitor to display the content</source>
         <translation>选择显示此内容的显示器</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="288"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="299"/>
         <source>Set Volume</source>
         <translation>设置音量</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="307"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="318"/>
         <source>Fill Mode</source>
         <translation>填充模式</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="326"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="337"/>
         <source>Stretch</source>
         <translation>拉伸</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="329"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="340"/>
         <source>Fill</source>
         <translation>填充</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="332"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="343"/>
         <source>Contain</source>
         <translation>适应</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="335"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="346"/>
         <source>Cover</source>
         <translation>平铺</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="338"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="349"/>
         <source>Scale-Down</source>
         <translation>裁剪</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="65"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="74"/>
         <source>Set Wallpaper</source>
         <translation>设置壁纸</translation>
     </message>
@@ -1287,47 +1287,47 @@
         <translation>订阅</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="118"/>
+        <location filename="../qml/Create/Sidebar.qml" line="119"/>
         <source>Tools Overview</source>
         <translation>工具概览</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="124"/>
+        <location filename="../qml/Create/Sidebar.qml" line="126"/>
         <source>Video import and convert (all types)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="131"/>
+        <location filename="../qml/Create/Sidebar.qml" line="133"/>
         <source>Video Import (.webm)</source>
         <translation>视频导入 (.webm)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="137"/>
+        <location filename="../qml/Create/Sidebar.qml" line="140"/>
         <source>GIF Wallpaper</source>
         <translation>GIF 壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="143"/>
+        <location filename="../qml/Create/Sidebar.qml" line="147"/>
         <source>QML Wallpaper</source>
         <translation>QML 壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="149"/>
+        <location filename="../qml/Create/Sidebar.qml" line="154"/>
         <source>HTML5 Wallpaper</source>
         <translation>HTML5 壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="155"/>
+        <location filename="../qml/Create/Sidebar.qml" line="161"/>
         <source>Website Wallpaper</source>
         <translation>网页壁纸</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="161"/>
+        <location filename="../qml/Create/Sidebar.qml" line="168"/>
         <source>QML Widget</source>
         <translation>QML 部件</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="167"/>
+        <location filename="../qml/Create/Sidebar.qml" line="175"/>
         <source>HTML Widget</source>
         <translation>HTML 部件</translation>
     </message>

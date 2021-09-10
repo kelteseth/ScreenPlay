@@ -216,16 +216,14 @@ public slots:
             const QString homePath = QDir::homePath();
             QFile settingsPlist(homePath + "/Library/LaunchAgents/" + plistFileName);
             if (settingsPlist.exists()) {
-                if(!settingsPlist.remove()){
+                if (!settingsPlist.remove()) {
                     qCritical() << "Unable to remove: " << settingsPlist.fileName();
                 }
             }
 
             settingsPlist.open(QIODevice::WriteOnly | QIODevice::Truncate);
             QTextStream out(&settingsPlist);
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-            out.setCodec("UTF-8");
-#endif
+            out.setEncoding(QStringConverter::Utf8);
             out << settingsPlistContent;
             settingsPlist.flush();
             settingsPlist.close();

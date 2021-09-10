@@ -1,12 +1,13 @@
 #include <QApplication>
 #include <QQmlApplicationEngine>
 #include <QStringList>
+#include <QtWebEngineQuick>
 
 #include "src/widgetwindow.h"
 
 int main(int argc, char* argv[])
 {
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QtWebEngineQuick::initialize();
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication app(argc, argv);

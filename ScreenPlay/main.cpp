@@ -36,13 +36,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
-#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
-#include <QtWebEngine>
-#else
-#include <QtWebEngineCore>
-#endif
-
-
+#include <QtWebEngineQuick>
 
 #include <sentry.h>
 #define DOCTEST_CONFIG_IMPLEMENT
@@ -54,6 +48,7 @@ int main(int argc, char* argv[])
     Q_INIT_RESOURCE(ScreenPlayQML);
     Q_INIT_RESOURCE(ScreenPlayAssets);
 
+    QtWebEngineQuick::initialize();
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication qtGuiApp(argc, argv);

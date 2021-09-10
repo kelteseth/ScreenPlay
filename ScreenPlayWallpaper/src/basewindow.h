@@ -150,7 +150,7 @@ public slots:
     virtual void destroyThis() { }
     virtual void setVisible(bool show) { Q_UNUSED(show) }
     virtual void messageReceived(QString key, QString value) final;
-    virtual void clearComponentCache() {}
+    virtual void clearComponentCache() { }
     virtual void replaceWallpaper(
         const QString absolutePath,
         const QString file,
