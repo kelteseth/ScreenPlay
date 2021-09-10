@@ -10,7 +10,6 @@ namespace ScreenPlay {
     This class is only for managing the QProcess to an extern ScreenPlayWallpaper!
 */
 
-
 /*!
     \brief  Constructor for ScreenPlayWallpaper.
 */
@@ -135,6 +134,15 @@ QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
     return obj;
 }
 
+/*!
+    \brief Sends command quit to the wallpaper.
+*/
+void ScreenPlayWallpaper::messageQuit()
+{
+    QJsonObject obj;
+    obj.insert("command", "quit");
+    m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+}
 /*!
     \brief Prints the exit code if != 0.
 */

@@ -70,10 +70,14 @@ bool ScreenPlayWidget::start()
     return success;
 }
 
-ScreenPlayWidget::~ScreenPlayWidget()
+/*!
+    \brief Sends command quit to the widget.
+*/
+void ScreenPlayWidget::messageQuit()
 {
-    qInfo() << "Remove widget " << m_appID;
-    m_connection->close();
+    QJsonObject obj;
+    obj.insert("command", "quit");
+    m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
 }
 
 /*!

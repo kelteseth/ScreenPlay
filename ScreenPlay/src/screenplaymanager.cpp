@@ -423,10 +423,11 @@ bool ScreenPlayManager::removeWallpaper(const QString& appID)
         std::remove_if(
             m_screenPlayWallpapers.begin(),
             m_screenPlayWallpapers.end(),
-            [this, appID](auto& wallpaper) {
+            [this, appID](std::shared_ptr<ScreenPlayWallpaper>& wallpaper) {
                 if (wallpaper->appID() != appID) {
                     return false;
                 }
+                wallpaper->messageQuit();
 
                 qInfo() << "Remove wallpaper " << wallpaper->file() << "at monitor " << wallpaper->screenNumber();
 
@@ -457,11 +458,13 @@ bool ScreenPlayManager::removeWidget(const QString& appID)
         std::remove_if(
             m_screenPlayWidgets.begin(),
             m_screenPlayWidgets.end(),
-            [this, appID](auto& widget) {
+            [this, appID](std::shared_ptr<ScreenPlayWidget>& widget) {
                 if (widget->appID() != appID) {
                     qInfo() << "No match " << widget->appID();
                     return false;
                 }
+
+                widget->messageQuit();
 
                 qInfo() << "Remove widget " << appID;
 
@@ -578,6 +581,7 @@ bool ScreenPlayManager::loadProfiles()
                 return false;
             }
         }
+
         for (QJsonValueRef wallpaper : wallpaper.toObject().value("wallpaper").toArray()) {
             QJsonObject wallpaperObj = wallpaper.toObject();
 
