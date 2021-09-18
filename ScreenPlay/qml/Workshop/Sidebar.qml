@@ -78,7 +78,7 @@ Drawer {
             }
             txtTitle.text = title
             const size = Math.floor((1000 * ((fileSize / 1024) / 1000)) / 1000)
-            txtFileSize.text = qsTr("Size: ") + size + qsTr(" MB")
+            txtFileSize.text = qsTr("Size: ") + size + " MB"
             pbVotes.to = votesDown + votesUp
             pbVotes.value = votesUp
             txtVotesDown.text = votesDown
