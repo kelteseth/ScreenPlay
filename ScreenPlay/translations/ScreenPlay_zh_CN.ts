@@ -6,17 +6,17 @@
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="345"/>
       <source>Red</source>
-      <translation>红</translation>
+      <translation type="unfinished">Red</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="364"/>
       <source>Green</source>
-      <translation>绿</translation>
+      <translation type="unfinished">Green</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="383"/>
       <source>Blue</source>
-      <translation>蓝</translation>
+      <translation type="unfinished">Blue</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="572"/>
@@ -61,7 +61,7 @@
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="723"/>
       <source>Alpha:</source>
-      <translation>透明度:</translation>
+      <translation type="unfinished">Alpha:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="740"/>
@@ -74,32 +74,32 @@
     <message>
       <location filename="../qml/Community/Community.qml" line="38"/>
       <source>News</source>
-      <translation>新闻</translation>
+      <translation type="unfinished">News</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="44"/>
       <source>Wiki</source>
-      <translation>维基</translation>
+      <translation type="unfinished">Wiki</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="50"/>
       <source>Forum</source>
-      <translation>论坛</translation>
+      <translation type="unfinished">Forum</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="56"/>
       <source>Issue List</source>
-      <translation>议题列表</translation>
+      <translation type="unfinished">Issue List</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="62"/>
       <source>Contribute</source>
-      <translation>贡献</translation>
+      <translation type="unfinished">Contribute</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="68"/>
       <source>Steam Workshop</source>
-      <translation>Steam 创意工坊</translation>
+      <translation type="unfinished">Steam Workshop</translation>
     </message>
   </context>
   <context>
@@ -107,7 +107,7 @@
     <message>
       <location filename="../qml/Community/CommunityNavItem.qml" line="57"/>
       <source>Open in browser</source>
-      <translation>在浏览器中打开</translation>
+      <translation type="unfinished">Open in browser</translation>
     </message>
   </context>
   <context>
@@ -115,36 +115,36 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="32"/>
       <source>Import any video type</source>
-      <translation>导入任何视频类型</translation>
+      <translation type="unfinished">Import any video type</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="38"/>
       <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-      <translation>取决于您的PC配置，最好将您的壁纸转换为特定的视频编码格式。如果它们的性能都不好，您还可以尝试 QML 壁纸！已支持的视频格式有：
+      <translation type="unfinished">Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="53"/>
       <source>Set your preffered video codec:</source>
-      <translation>设置您偏好的视频编码格式：</translation>
+      <translation type="unfinished">Set your preffered video codec:</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="98"/>
       <source>Quality slider. Lower value means better quality.</source>
-      <translation>质量滑条，更小的值意味着更好的质量。</translation>
+      <translation type="unfinished">Quality slider. Lower value means better quality.</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="113"/>
       <source>Open Documentation</source>
-      <translation>打开文档</translation>
+      <translation type="unfinished">Open Documentation</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="132"/>
       <source>Select file</source>
-      <translation>选择文件</translation>
+      <translation type="unfinished">Select file</translation>
     </message>
   </context>
   <context>
@@ -152,17 +152,17 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="18"/>
       <source>An error occurred!</source>
-      <translation>发生错误！</translation>
+      <translation type="unfinished">An error occurred!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="91"/>
       <source>Copy text to clipboard</source>
-      <translation>复制到剪贴板</translation>
+      <translation type="unfinished">Copy text to clipboard</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="102"/>
       <source>Back to create and send an error report!</source>
-      <translation>返回以创建并发送错误报告！</translation>
+      <translation type="unfinished">Back to create and send an error report!</translation>
     </message>
   </context>
   <context>
@@ -175,82 +175,82 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="48"/>
       <source>Generating preview image...</source>
-      <translation>生成预览图...</translation>
+      <translation type="unfinished">Generating preview image...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="51"/>
       <source>Generating preview thumbnail image...</source>
-      <translation>生成预览缩略图...</translation>
+      <translation type="unfinished">Generating preview thumbnail image...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="58"/>
       <source>Generating 5 second preview video...</source>
-      <translation>生成5秒预览视频...</translation>
+      <translation type="unfinished">Generating 5 second preview video...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="61"/>
       <source>Generating preview gif...</source>
-      <translation>生成预览GIF...</translation>
+      <translation type="unfinished">Generating preview gif...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="70"/>
       <source>Converting Audio...</source>
-      <translation>转换音频...</translation>
+      <translation type="unfinished">Converting Audio...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="73"/>
       <source>Converting Video... This can take some time!</source>
-      <translation>转换视频... 这可能需要一些时间！</translation>
+      <translation type="unfinished">Converting Video... This can take some time!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="77"/>
       <source>Converting Video ERROR!</source>
-      <translation>转换视频出错！</translation>
+      <translation type="unfinished">Converting Video ERROR!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="80"/>
       <source>Analyse Video ERROR!</source>
-      <translation>分析视频出错！</translation>
+      <translation type="unfinished">Analyse Video ERROR!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="109"/>
       <source>Convert a video to a wallpaper</source>
-      <translation>将视频转换为壁纸</translation>
+      <translation type="unfinished">Convert a video to a wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="220"/>
       <source>Generating preview video...</source>
-      <translation>生成预览视频...</translation>
+      <translation type="unfinished">Generating preview video...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="276"/>
       <source>Name (required!)</source>
-      <translation>名称（必选）</translation>
+      <translation type="unfinished">Name (required!)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="290"/>
       <source>Description</source>
-      <translation>简介</translation>
+      <translation type="unfinished">Description</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="298"/>
       <source>Youtube URL</source>
-      <translation>Youtube 链接</translation>
+      <translation type="unfinished">Youtube URL</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="328"/>
       <source>Abort</source>
-      <translation>中止</translation>
+      <translation type="unfinished">Abort</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="341"/>
       <source>Save</source>
-      <translation>保存</translation>
+      <translation type="unfinished">Save</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="378"/>
       <source>Save Wallpaper...</source>
-      <translation>保存壁纸...</translation>
+      <translation type="unfinished">Save Wallpaper...</translation>
     </message>
   </context>
   <context>
@@ -258,47 +258,47 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="41"/>
       <source>Volume</source>
-      <translation>音量</translation>
+      <translation type="unfinished">Volume</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="54"/>
       <source>Playback rate</source>
-      <translation>播放速度</translation>
+      <translation type="unfinished">Playback rate</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="66"/>
       <source>Current Video Time</source>
-      <translation>目前视频时间</translation>
+      <translation type="unfinished">Current Video Time</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="83"/>
       <source>Fill Mode</source>
-      <translation>填充模式</translation>
+      <translation type="unfinished">Fill Mode</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="102"/>
       <source>Stretch</source>
-      <translation>拉伸</translation>
+      <translation type="unfinished">Stretch</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="105"/>
       <source>Fill</source>
-      <translation>填充</translation>
+      <translation type="unfinished">Fill</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="108"/>
       <source>Contain</source>
-      <translation>适应</translation>
+      <translation type="unfinished">Contain</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="111"/>
       <source>Cover</source>
-      <translation>平铺</translation>
+      <translation type="unfinished">Cover</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="114"/>
       <source>Scale_Down</source>
-      <translation>裁切</translation>
+      <translation type="unfinished">Scale_Down</translation>
     </message>
   </context>
   <context>
@@ -306,17 +306,17 @@
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="103"/>
       <source>Clear</source>
-      <translation>清空</translation>
+      <translation type="unfinished">Clear</translation>
     </message>
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="123"/>
       <source>Select File</source>
-      <translation>选择文件</translation>
+      <translation type="unfinished">Select File</translation>
     </message>
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="142"/>
       <source>Please choose a file</source>
-      <translation>请选择文件</translation>
+      <translation type="unfinished">Please choose a file</translation>
     </message>
   </context>
   <context>
@@ -324,37 +324,37 @@
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="26"/>
       <source>Import a Gif Wallpaper</source>
-      <translation>导入 GIF 壁纸</translation>
+      <translation type="unfinished">Import a Gif Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="82"/>
       <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
-      <translation>拖放一个 *.gif 文件到这里，或者使用下面的 &apos;选择文件&apos;。</translation>
+      <translation type="unfinished">Drop a *.gif file here or use &apos;Select file&apos; below.</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="105"/>
       <source>Select your gif</source>
-      <translation>选择您的 GIF</translation>
+      <translation type="unfinished">Select your gif</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="120"/>
       <source>General</source>
-      <translation>常规</translation>
+      <translation type="unfinished">General</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="127"/>
       <source>Wallpaper name</source>
-      <translation>壁纸名称</translation>
+      <translation type="unfinished">Wallpaper name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="135"/>
       <source>Created By</source>
-      <translation>作者</translation>
+      <translation type="unfinished">Created By</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="145"/>
       <source>Tags</source>
-      <translation>标签</translation>
+      <translation type="unfinished">Tags</translation>
     </message>
   </context>
   <context>
@@ -362,37 +362,37 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="29"/>
       <source>Create a HTML Wallpaper</source>
-      <translation>创建 HTML 壁纸</translation>
+      <translation type="unfinished">Create a HTML Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="34"/>
       <source>General</source>
-      <translation>常规</translation>
+      <translation type="unfinished">General</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="44"/>
       <source>Wallpaper name</source>
-      <translation>壁纸名称</translation>
+      <translation type="unfinished">Wallpaper name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="53"/>
       <source>Created By</source>
-      <translation>作者</translation>
+      <translation type="unfinished">Created By</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="62"/>
       <source>Description</source>
-      <translation>简介</translation>
+      <translation type="unfinished">Description</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="70"/>
       <source>License &amp; Tags</source>
-      <translation>许可证 &amp; 标签</translation>
+      <translation type="unfinished">License &amp; Tags</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="93"/>
       <source>Preview Image</source>
-      <translation>预览图</translation>
+      <translation type="unfinished">Preview Image</translation>
     </message>
   </context>
   <context>
@@ -400,27 +400,27 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="20"/>
       <source>Create a HTML widget</source>
-      <translation>创建 HTML 部件</translation>
+      <translation type="unfinished">Create a HTML widget</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="74"/>
       <source>General</source>
-      <translation>常规</translation>
+      <translation type="unfinished">General</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="82"/>
       <source>Widget name</source>
-      <translation>部件名称</translation>
+      <translation type="unfinished">Widget name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="90"/>
       <source>Created by</source>
-      <translation>作者</translation>
+      <translation type="unfinished">Created by</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="98"/>
       <source>Tags</source>
-      <translation>标签</translation>
+      <translation type="unfinished">Tags</translation>
     </message>
   </context>
   <context>
@@ -428,7 +428,7 @@
     <message>
       <location filename="../qml/Common/Headline.qml" line="17"/>
       <source>Headline</source>
-      <translation>标题</translation>
+      <translation type="unfinished">Headline</translation>
     </message>
   </context>
   <context>
@@ -436,7 +436,7 @@
     <message>
       <location filename="../qml/Common/HeadlineSection.qml" line="6"/>
       <source>Headline Section</source>
-      <translation>摘要</translation>
+      <translation type="unfinished">Headline Section</translation>
     </message>
   </context>
   <context>
@@ -444,17 +444,17 @@
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="118"/>
       <source>Set your own preview image</source>
-      <translation>设置您的预览图</translation>
+      <translation type="unfinished">Set your own preview image</translation>
     </message>
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="159"/>
       <source>Clear</source>
-      <translation>清空</translation>
+      <translation type="unfinished">Clear</translation>
     </message>
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="176"/>
       <source>Select Preview Image</source>
-      <translation>选择预览图</translation>
+      <translation type="unfinished">Select Preview Image</translation>
     </message>
   </context>
   <context>
@@ -467,87 +467,87 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="43"/>
       <source>AnalyseVideo...</source>
-      <translation>分析视频...</translation>
+      <translation type="unfinished">AnalyseVideo...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="46"/>
       <source>Generating preview image...</source>
-      <translation>生成预览图...</translation>
+      <translation type="unfinished">Generating preview image...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="49"/>
       <source>Generating preview thumbnail image...</source>
-      <translation>生成预览缩略图...</translation>
+      <translation type="unfinished">Generating preview thumbnail image...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="56"/>
       <source>Generating 5 second preview video...</source>
-      <translation>生成5秒预览视频...</translation>
+      <translation type="unfinished">Generating 5 second preview video...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="59"/>
       <source>Generating preview gif...</source>
-      <translation>生成预览 GIF...</translation>
+      <translation type="unfinished">Generating preview gif...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="68"/>
       <source>Converting Audio...</source>
-      <translation>转换音频...</translation>
+      <translation type="unfinished">Converting Audio...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="71"/>
       <source>Converting Video... This can take some time!</source>
-      <translation>转换视频... 这可能需要一些时间！</translation>
+      <translation type="unfinished">Converting Video... This can take some time!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="74"/>
       <source>Converting Video ERROR!</source>
-      <translation>转换视频出错！</translation>
+      <translation type="unfinished">Converting Video ERROR!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="77"/>
       <source>Analyse Video ERROR!</source>
-      <translation>分析视频出错！</translation>
+      <translation type="unfinished">Analyse Video ERROR!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="106"/>
       <source>Import a video to a wallpaper</source>
-      <translation>将视频导入为壁纸</translation>
+      <translation type="unfinished">Import a video to a wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="216"/>
       <source>Generating preview video...</source>
-      <translation>生成预览视频...</translation>
+      <translation type="unfinished">Generating preview video...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="276"/>
       <source>Name (required!)</source>
-      <translation>名称（必选）</translation>
+      <translation type="unfinished">Name (required!)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="290"/>
       <source>Description</source>
-      <translation>简介</translation>
+      <translation type="unfinished">Description</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="298"/>
       <source>Youtube URL</source>
-      <translation>Youtube 链接</translation>
+      <translation type="unfinished">Youtube URL</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="329"/>
       <source>Abort</source>
-      <translation>中止</translation>
+      <translation type="unfinished">Abort</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="342"/>
       <source>Save</source>
-      <translation>保存</translation>
+      <translation type="unfinished">Save</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="376"/>
       <source>Save Wallpaper...</source>
-      <translation>保存壁纸...</translation>
+      <translation type="unfinished">Save Wallpaper...</translation>
     </message>
   </context>
   <context>
@@ -555,32 +555,32 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="32"/>
       <source>Import a .webm video</source>
-      <translation>导入 .webm 视频</translation>
+      <translation type="unfinished">Import a .webm video</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="48"/>
       <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-      <translation>导入webm时，我们可以跳过漫长的转换过程。当您对&apos;导入和转换（所有类型）&apos; ScreenPlay 得到的结果不满意时，您还可以使用免费开源的HandBrake!</translation>
+      <translation type="unfinished">When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="74"/>
       <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-      <translation>文件类型无效。必须是 VP8 / VP9（*.webm）！</translation>
+      <translation type="unfinished">Invalid file type. Must be valid VP8 or VP9 (*.webm)!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="97"/>
       <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-      <translation>将一个webm文件拖到这里，或者使用下面的&apos;选择文件&apos;</translation>
+      <translation type="unfinished">Drop a *.webm file here or use &apos;Select file&apos; below.</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="140"/>
       <source>Open Documentation</source>
-      <translation>打开文档</translation>
+      <translation type="unfinished">Open Documentation</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="159"/>
       <source>Select file</source>
-      <translation>选择文件</translation>
+      <translation type="unfinished">Select file</translation>
     </message>
   </context>
   <context>
@@ -593,43 +593,43 @@
     <message>
       <location filename="../qml/Installed/Installed.qml" line="162"/>
       <source>Refreshing!</source>
-      <translation>刷新中！</translation>
+      <translation type="unfinished">Refreshing!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="165"/>
       <location filename="../qml/Installed/Installed.qml" line="180"/>
       <source>Pull to refresh!</source>
-      <translation>下拉以刷新！</translation>
+      <translation type="unfinished">Pull to refresh!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="210"/>
       <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-      <translation>从创意工坊获取更多壁纸和物件！</translation>
+      <translation type="unfinished">Get more Wallpaper &amp; Widgets via the Steam workshop!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="275"/>
       <source>Open containing folder</source>
-      <translation>打开文件夹</translation>
+      <translation type="unfinished">Open containing folder</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="285"/>
       <source>Remove Item</source>
-      <translation>删除物品</translation>
+      <translation type="unfinished">Remove Item</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="285"/>
       <source>Remove via Workshop</source>
-      <translation>从创意工坊中删除</translation>
+      <translation type="unfinished">Remove via Workshop</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="295"/>
       <source>Open Workshop Page</source>
-      <translation>打开创意工坊页面</translation>
+      <translation type="unfinished">Open Workshop Page</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="307"/>
       <source>Are you sure you want to delete this item?</source>
-      <translation>您确定要删除此物品？</translation>
+      <translation type="unfinished">Are you sure you want to delete this item?</translation>
     </message>
   </context>
   <context>
@@ -637,12 +637,12 @@
     <message>
       <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="79"/>
       <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-      <translation>从创意工坊免费获取物件和壁纸</translation>
+      <translation type="unfinished">Get free Widgets and Wallpaper via the Steam Workshop</translation>
     </message>
     <message>
       <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="115"/>
       <source>Browse the Steam Workshop</source>
-      <translation>浏览创意工坊</translation>
+      <translation type="unfinished">Browse the Steam Workshop</translation>
     </message>
   </context>
   <context>
@@ -650,38 +650,38 @@
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="17"/>
       <source>License</source>
-      <translation>许可证</translation>
+      <translation type="unfinished">License</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="36"/>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</source>
-      <translation>分享 — 复制与重分发这个素材，以任何媒介或格式。改动 — 为了任何目的，甚至是商业目的，对材料进行改编、改造和发展。</translation>
+      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="43"/>
       <location filename="../qml/Common/LicenseSelector.qml" line="64"/>
       <source>You grant other to remix your work and change the license to their linking.</source>
-      <translation>您授权他人对您的作品进行再创作，并更改其链接的许可证。</translation>
+      <translation type="unfinished">You grant other to remix your work and change the license to their linking.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="50"/>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </source>
-      <translation>分享 — 复制与重分发这个素材，以任何媒介或格式。改动 — 对材料进行改编、改造和发展。不允许商业使用！</translation>
+      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="57"/>
       <source>You allow everyone to do anything with your work.</source>
-      <translation>您允许所有人对您的作品做任何事。</translation>
+      <translation type="unfinished">You allow everyone to do anything with your work.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="71"/>
       <source>You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</source>
-      <translation>您授权他人对您的作品进行改编，但必须保持在GPLv3下发行。我们建议所有的代码壁纸都使用这个许可证!</translation>
+      <translation type="unfinished">You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="78"/>
       <source>You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</source>
-      <translation>您不分享任何权限，没有人可以使用或改编它（不推荐）。这也可用于计入他人的作品。</translation>
+      <translation type="unfinished">You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</translation>
     </message>
   </context>
   <context>
@@ -690,8 +690,8 @@
       <location filename="../qml/Common/Dialogs/MonitorConfiguration.qml" line="38"/>
       <source>Your monitor setup changed!
  Please configure your wallpaper again.</source>
-      <translation>您的显示器设置已更改！
- 请重新配置您的壁纸。</translation>
+      <translation type="unfinished">Your monitor setup changed!
+ Please configure your wallpaper again.</translation>
     </message>
   </context>
   <context>
@@ -699,28 +699,28 @@
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="60"/>
       <source>Wallpaper Configuration</source>
-      <translation>壁纸配置</translation>
+      <translation type="unfinished">Wallpaper Configuration</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="130"/>
       <source>Remove selected</source>
-      <translation>移除已选择</translation>
+      <translation type="unfinished">Remove selected</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="145"/>
       <location filename="../qml/Monitors/Monitors.qml" line="161"/>
       <source>Remove </source>
-      <translation>移除</translation>
+      <translation type="unfinished">Remove </translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="145"/>
       <source>Wallpapers</source>
-      <translation>壁纸</translation>
+      <translation type="unfinished">Wallpapers</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="161"/>
       <source>Widgets</source>
-      <translation>物件</translation>
+      <translation type="unfinished">Widgets</translation>
     </message>
   </context>
   <context>
@@ -728,12 +728,12 @@
     <message>
       <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="143"/>
       <source>Set color</source>
-      <translation>设置颜色</translation>
+      <translation type="unfinished">Set color</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="174"/>
       <source>Please choose a color</source>
-      <translation>请选择颜色</translation>
+      <translation type="unfinished">Please choose a color</translation>
     </message>
   </context>
   <context>
@@ -741,42 +741,42 @@
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="61"/>
       <source>All</source>
-      <translation>全部</translation>
+      <translation type="unfinished">All</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="80"/>
       <source>Scenes</source>
-      <translation>场景</translation>
+      <translation type="unfinished">Scenes</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="99"/>
       <source>Videos</source>
-      <translation>视频</translation>
+      <translation type="unfinished">Videos</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="118"/>
       <source>Widgets</source>
-      <translation>物件</translation>
+      <translation type="unfinished">Widgets</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="164"/>
       <source>Install Date Ascending</source>
-      <translation>安装日期↓</translation>
+      <translation type="unfinished">Install Date Ascending</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="164"/>
       <source>Install Date Descending</source>
-      <translation>安装日期↑</translation>
+      <translation type="unfinished">Install Date Descending</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Navigation.qml" line="41"/>
       <source> Subscribed items: </source>
-      <translation>已订阅：</translation>
+      <translation type="unfinished"> Subscribed items: </translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Navigation.qml" line="89"/>
       <source>Upload to the Steam Workshop</source>
-      <translation>上传到创意工坊</translation>
+      <translation type="unfinished">Upload to the Steam Workshop</translation>
     </message>
   </context>
   <context>
@@ -784,12 +784,12 @@
     <message>
       <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
       <source>Configurate active Wallpaper or Widgets</source>
-      <translation>设置活动壁纸或物件</translation>
+      <translation type="unfinished">Configurate active Wallpaper or Widgets</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
       <source>No active Wallpaper or Widgets</source>
-      <translation>没有活动壁纸或物件</translation>
+      <translation type="unfinished">No active Wallpaper or Widgets</translation>
     </message>
   </context>
   <context>
@@ -802,7 +802,7 @@
     <message>
       <location filename="../qml/Workshop/PopupOffline.qml" line="33"/>
       <source>Back</source>
-      <translation>返回</translation>
+      <translation type="unfinished">Back</translation>
     </message>
   </context>
   <context>
@@ -810,22 +810,22 @@
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="25"/>
       <source>You Need to Agree To The Steam Subscriber Agreement First</source>
-      <translation>您应先同意Steam订阅者协议</translation>
+      <translation type="unfinished">You Need to Agree To The Steam Subscriber Agreement First</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="32"/>
       <source>REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</source>
-      <translation>需要网络连接与免费Steam帐号以激活。注意：产品提供的前提是您接受Steam用户协议（SSA）。您必须通过网络注册一个Steam账户并接受SSA来激活该产品。购买前请打开https://store.steampowered.com/subscriber_agreement/ 查看SSA。如果您不同意SSA的规定，您应该根据零售商的退货政策将本游戏原封不动地退回。</translation>
+      <translation type="unfinished">REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="49"/>
       <source>View The Steam Subscriber Agreement</source>
-      <translation>查看Steam订阅者协议</translation>
+      <translation type="unfinished">View The Steam Subscriber Agreement</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="56"/>
       <source>Accept Steam Workshop Agreement</source>
-      <translation>接受Steam创意工坊协议</translation>
+      <translation type="unfinished">Accept Steam Workshop Agreement</translation>
     </message>
   </context>
   <context>
@@ -833,37 +833,37 @@
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="29"/>
       <source>Create a QML Wallpaper</source>
-      <translation>创建一个QML壁纸</translation>
+      <translation type="unfinished">Create a QML Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="34"/>
       <source>General</source>
-      <translation>常规</translation>
+      <translation type="unfinished">General</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="44"/>
       <source>Wallpaper name</source>
-      <translation>壁纸名</translation>
+      <translation type="unfinished">Wallpaper name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="53"/>
       <source>Created By</source>
-      <translation>作者</translation>
+      <translation type="unfinished">Created By</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="62"/>
       <source>Description</source>
-      <translation>简介</translation>
+      <translation type="unfinished">Description</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="70"/>
       <source>License &amp; Tags</source>
-      <translation>许可证 &amp; 标签</translation>
+      <translation type="unfinished">License &amp; Tags</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="93"/>
       <source>Preview Image</source>
-      <translation>预览图</translation>
+      <translation type="unfinished">Preview Image</translation>
     </message>
   </context>
   <context>
@@ -871,27 +871,27 @@
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="20"/>
       <source>Create a QML widget</source>
-      <translation>创建一个QML部件</translation>
+      <translation type="unfinished">Create a QML widget</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="74"/>
       <source>General</source>
-      <translation>常规</translation>
+      <translation type="unfinished">General</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="82"/>
       <source>Widget name</source>
-      <translation>部件名</translation>
+      <translation type="unfinished">Widget name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="90"/>
       <source>Created by</source>
-      <translation>作者</translation>
+      <translation type="unfinished">Created by</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="98"/>
       <source>Tags</source>
-      <translation>标签</translation>
+      <translation type="unfinished">Tags</translation>
     </message>
   </context>
   <context>
@@ -899,7 +899,7 @@
     <message>
       <location filename="../qml/Monitors/SaveNotification.qml" line="39"/>
       <source>Profile saved successfully!</source>
-      <translation>配置保存成功！</translation>
+      <translation type="unfinished">Profile saved successfully!</translation>
     </message>
   </context>
   <context>
@@ -915,7 +915,7 @@
     <message>
       <location filename="../qml/Common/Search.qml" line="33"/>
       <source>Search for Wallpaper &amp; Widgets</source>
-      <translation>搜索壁纸和物件...</translation>
+      <translation type="unfinished">Search for Wallpaper &amp; Widgets</translation>
     </message>
   </context>
   <context>
@@ -923,262 +923,262 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="54"/>
       <source>General</source>
-      <translation>常规</translation>
+      <translation type="unfinished">General</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="72"/>
       <source>Autostart</source>
-      <translation>自启动</translation>
+      <translation type="unfinished">Autostart</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="73"/>
       <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-      <translation>ScreenPlay将在操作系统启动时启动，并会设置您的桌面。</translation>
+      <translation type="unfinished">ScreenPlay will start with Windows and will setup your Desktop every time for you.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="84"/>
       <source>High priority Autostart</source>
-      <translation>高优先级自启动</translation>
+      <translation type="unfinished">High priority Autostart</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="86"/>
       <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-      <translation>这个选项赋予ScreenPlay比其他应用程序更高的自启动优先级。</translation>
+      <translation type="unfinished">This options grants ScreenPlay a higher autostart priority than other apps.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="98"/>
       <source>Send anonymous crash reports and statistics</source>
-      <translation>发送匿名崩溃报告和统计数据</translation>
+      <translation type="unfinished">Send anonymous crash reports and statistics</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="99"/>
       <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-      <translation>帮助我们让 ScreenPlay 更快更稳定。所有被收集的数据完全匿名，而且仅用于开发用途！我们使用&lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; 收集与分析数据。&lt;b&gt;感谢他们&lt;/b&gt; 为我们提供对开源项目免费而优质的服务！</translation>
+      <translation type="unfinished">Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="110"/>
       <source>Set save location</source>
-      <translation>设置保存位置</translation>
+      <translation type="unfinished">Set save location</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="111"/>
       <source>Set location</source>
-      <translation>选择位置</translation>
+      <translation type="unfinished">Set location</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="116"/>
       <source>Your storage path is empty!</source>
-      <translation>您的存储路径是空的！</translation>
+      <translation type="unfinished">Your storage path is empty!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="139"/>
       <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-      <translation>注意：修改此目录并不影响创意工坊的下载路径。ScreenPlay仅支持单个内容文件夹！</translation>
+      <translation type="unfinished">Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="161"/>
       <source>Language</source>
-      <translation>语言</translation>
+      <translation type="unfinished">Language</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="162"/>
       <source>Set the ScreenPlay UI Language</source>
-      <translation>设置ScreenPlay界面语言</translation>
+      <translation type="unfinished">Set the ScreenPlay UI Language</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="170"/>
       <source>English</source>
-      <translation>英语</translation>
+      <translation type="unfinished">English</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="173"/>
       <source>German</source>
-      <translation>德语</translation>
+      <translation type="unfinished">German</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="176"/>
       <source>Chinese - Simplified</source>
-      <translation>中文（简体）</translation>
+      <translation type="unfinished">Chinese - Simplified</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="179"/>
       <source>Russian</source>
-      <translation>俄语</translation>
+      <translation type="unfinished">Russian</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="182"/>
       <source>French</source>
-      <translation>法语</translation>
+      <translation type="unfinished">French</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="185"/>
       <source>Spanish</source>
-      <translation>西班牙语</translation>
+      <translation type="unfinished">Spanish</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="188"/>
       <source>Korean</source>
-      <translation>韩语</translation>
+      <translation type="unfinished">Korean</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="191"/>
       <source>Vietnamese</source>
-      <translation>越南语</translation>
+      <translation type="unfinished">Vietnamese</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="194"/>
       <source>Portuguese (Brazil)</source>
-      <translation>英语（巴西）</translation>
+      <translation type="unfinished">Portuguese (Brazil)</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="210"/>
       <source>Theme</source>
-      <translation>主题</translation>
+      <translation type="unfinished">Theme</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="211"/>
       <source>Switch dark/light theme</source>
-      <translation>切换到暗/亮主题</translation>
+      <translation type="unfinished">Switch dark/light theme</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="219"/>
       <source>System Default</source>
-      <translation>跟随系统</translation>
+      <translation type="unfinished">System Default</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="222"/>
       <source>Dark</source>
-      <translation>暗</translation>
+      <translation type="unfinished">Dark</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="225"/>
       <source>Light</source>
-      <translation>亮</translation>
+      <translation type="unfinished">Light</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="243"/>
       <source>Performance</source>
-      <translation>性能</translation>
+      <translation type="unfinished">Performance</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="262"/>
       <source>Pause wallpaper video rendering while another app is in the foreground</source>
-      <translation>当其他应用程序在前台时，暂停壁纸视频渲染</translation>
+      <translation type="unfinished">Pause wallpaper video rendering while another app is in the foreground</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="263"/>
       <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-      <translation>我们禁用视频渲染（不是音频）以获得最佳性能。如果您有问题，可以在此处禁用此行为。 需要重启壁纸！</translation>
+      <translation type="unfinished">We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="276"/>
       <source>Default Fill Mode</source>
-      <translation>默认填充模式</translation>
+      <translation type="unfinished">Default Fill Mode</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="277"/>
       <source>Set this property to define how the video is scaled to fit the target area.</source>
-      <translation>设置此属性可定义视频的缩放方式以适应目标区域。</translation>
+      <translation type="unfinished">Set this property to define how the video is scaled to fit the target area.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="286"/>
       <source>Stretch</source>
-      <translation>拉伸</translation>
+      <translation type="unfinished">Stretch</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="289"/>
       <source>Fill</source>
-      <translation>填充</translation>
+      <translation type="unfinished">Fill</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="292"/>
       <source>Contain</source>
-      <translation>适应</translation>
+      <translation type="unfinished">Contain</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="295"/>
       <source>Cover</source>
-      <translation>平铺</translation>
+      <translation type="unfinished">Cover</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="298"/>
       <source>Scale-Down</source>
-      <translation>裁剪</translation>
+      <translation type="unfinished">Scale-Down</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="313"/>
       <source>About</source>
-      <translation>关于</translation>
+      <translation type="unfinished">About</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="345"/>
       <source>Thank you for using ScreenPlay</source>
-      <translation>感谢您的使用</translation>
+      <translation type="unfinished">Thank you for using ScreenPlay</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="363"/>
       <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-      <translation>您好，我是Elias Steurer，也叫Kelteseth，我是ScreenPlay的开发者。感谢您使用我的软件。您可以在这里关注我，接收ScreenPlay的更新。</translation>
+      <translation type="unfinished">Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="473"/>
       <source>Version</source>
-      <translation>版本</translation>
+      <translation type="unfinished">Version</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="474"/>
       <source>ScreenPlay Build Version </source>
-      <translation>ScreenPlay编译版本 </translation>
+      <translation type="unfinished">ScreenPlay Build Version </translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="475"/>
       <source>Open Changelog</source>
-      <translation>打开更改日志。</translation>
+      <translation type="unfinished">Open Changelog</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="483"/>
       <source>Third Party Software</source>
-      <translation>第三方软件</translation>
+      <translation type="unfinished">Third Party Software</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="484"/>
       <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-      <translation>ScreenPlay离不开一些人的帮助。非常感谢你们：</translation>
+      <translation type="unfinished">ScreenPlay would not be possible without the work of others. A big thank you to: </translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="485"/>
       <source>Licenses</source>
-      <translation>许可证</translation>
+      <translation type="unfinished">Licenses</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="509"/>
       <source>Logs</source>
-      <translation>日志</translation>
+      <translation type="unfinished">Logs</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="510"/>
       <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-      <translation>如果您的ScreenPlay出错，这是个很好的查错方式。它显示所有的日志和运行时警告。</translation>
+      <translation type="unfinished">If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="511"/>
       <source>Show Logs</source>
-      <translation>显示日志</translation>
+      <translation type="unfinished">Show Logs</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="527"/>
       <source>Data Protection</source>
-      <translation>数据保护</translation>
+      <translation type="unfinished">Data Protection</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="528"/>
       <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-      <translation>我们使用您的数据提升ScreenPlay的体验。我们承诺不出售或分享这些匿名信息！</translation>
+      <translation type="unfinished">We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="529"/>
       <source>Privacy</source>
-      <translation>隐私</translation>
+      <translation type="unfinished">Privacy</translation>
     </message>
   </context>
   <context>
@@ -1186,7 +1186,7 @@
     <message>
       <location filename="../qml/Settings/SettingsExpander.qml" line="65"/>
       <source>Copy text to clipboard</source>
-      <translation>复制文本至剪贴板</translation>
+      <translation type="unfinished">Copy text to clipboard</translation>
     </message>
   </context>
   <context>
@@ -1194,7 +1194,7 @@
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="119"/>
       <source>Tools Overview</source>
-      <translation>工具概览</translation>
+      <translation type="unfinished">Tools Overview</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="126"/>
@@ -1204,137 +1204,137 @@
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="133"/>
       <source>Video Import (.webm)</source>
-      <translation>视频导入 (.webm)</translation>
+      <translation type="unfinished">Video Import (.webm)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="140"/>
       <source>GIF Wallpaper</source>
-      <translation>GIF 壁纸</translation>
+      <translation type="unfinished">GIF Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="147"/>
       <source>QML Wallpaper</source>
-      <translation>QML 壁纸</translation>
+      <translation type="unfinished">QML Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="154"/>
       <source>HTML5 Wallpaper</source>
-      <translation>HTML5 壁纸</translation>
+      <translation type="unfinished">HTML5 Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="161"/>
       <source>Website Wallpaper</source>
-      <translation>网页壁纸</translation>
+      <translation type="unfinished">Website Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="168"/>
       <source>QML Widget</source>
-      <translation>QML 部件</translation>
+      <translation type="unfinished">QML Widget</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="175"/>
       <source>HTML Widget</source>
-      <translation>HTML 部件</translation>
+      <translation type="unfinished">HTML Widget</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="75"/>
       <source>Set Wallpaper</source>
-      <translation>设置壁纸</translation>
+      <translation type="unfinished">Set Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="78"/>
       <source>Set Widget</source>
-      <translation>设置物件</translation>
+      <translation type="unfinished">Set Widget</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="211"/>
       <source>Headline</source>
-      <translation>标题</translation>
+      <translation type="unfinished">Headline</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="269"/>
       <source>Select a Monitor to display the content</source>
-      <translation>选择显示此内容的显示器</translation>
+      <translation type="unfinished">Select a Monitor to display the content</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="300"/>
       <source>Set Volume</source>
-      <translation>设置音量</translation>
+      <translation type="unfinished">Set Volume</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="319"/>
       <source>Fill Mode</source>
-      <translation>填充模式</translation>
+      <translation type="unfinished">Fill Mode</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="338"/>
       <source>Stretch</source>
-      <translation>拉伸</translation>
+      <translation type="unfinished">Stretch</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="341"/>
       <source>Fill</source>
-      <translation>填充</translation>
+      <translation type="unfinished">Fill</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="344"/>
       <source>Contain</source>
-      <translation>适应</translation>
+      <translation type="unfinished">Contain</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="347"/>
       <source>Cover</source>
-      <translation>平铺</translation>
+      <translation type="unfinished">Cover</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="350"/>
       <source>Scale-Down</source>
-      <translation>裁剪</translation>
+      <translation type="unfinished">Scale-Down</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="81"/>
       <source>Size: </source>
-      <translation>大小：</translation>
+      <translation type="unfinished">Size: </translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="81"/>
       <source> MB</source>
-      <translation> 兆字节</translation>
+      <translation type="unfinished"> MB</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="87"/>
       <source>No description...</source>
-      <translation>没有简介...</translation>
+      <translation type="unfinished">No description...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="249"/>
       <source>Click here if you like the content</source>
-      <translation>如果您喜欢它，点这里！</translation>
+      <translation type="unfinished">Click here if you like the content</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="264"/>
       <source>Click here if you do not like the content</source>
-      <translation>如果您不喜欢它，点这里</translation>
+      <translation type="unfinished">Click here if you do not like the content</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="334"/>
       <source>Subscribtions: </source>
-      <translation>订阅：</translation>
+      <translation type="unfinished">Subscribtions: </translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="402"/>
       <source>Open In Steam</source>
-      <translation>在Steam打开</translation>
+      <translation type="unfinished">Open In Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="412"/>
       <source>Subscribed!</source>
-      <translation>已订阅！</translation>
+      <translation type="unfinished">Subscribed!</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="412"/>
       <source>Subscribe</source>
-      <translation>订阅</translation>
+      <translation type="unfinished">Subscribe</translation>
     </message>
   </context>
   <context>
@@ -1342,12 +1342,12 @@
     <message>
       <location filename="../qml/Create/StartInfo.qml" line="19"/>
       <source>Free Tools to create wallpaper</source>
-      <translation>免费的壁纸创建工具</translation>
+      <translation type="unfinished">Free Tools to create wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/StartInfo.qml" line="36"/>
       <source>Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!</source>
-      <translation>下面你可以找到ScreenPlay所提供的以外的工具来创建wallaper。</translation>
+      <translation type="unfinished">Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!</translation>
     </message>
   </context>
   <context>
@@ -1355,7 +1355,7 @@
     <message>
       <location filename="../qml/Common/Dialogs/SteamNotAvailable.qml" line="11"/>
       <source>Could not load steam integration!</source>
-      <translation>无法加载steam集成！</translation>
+      <translation type="unfinished">Could not load steam integration!</translation>
     </message>
   </context>
   <context>
@@ -1364,12 +1364,12 @@
       <location filename="../qml/Workshop/SteamProfile.qml" line="78"/>
       <location filename="../qml/Workshop/SteamProfile.qml" line="138"/>
       <source>Back</source>
-      <translation>返回</translation>
+      <translation type="unfinished">Back</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamProfile.qml" line="160"/>
       <source>Forward</source>
-      <translation>前进</translation>
+      <translation type="unfinished">Forward</translation>
     </message>
   </context>
   <context>
@@ -1377,32 +1377,32 @@
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="151"/>
       <source>Loading</source>
-      <translation>加载中</translation>
+      <translation type="unfinished">Loading</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="163"/>
       <source>Download now!</source>
-      <translation>开始下载！</translation>
+      <translation type="unfinished">Download now!</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="168"/>
       <source>Downloading...</source>
-      <translation>下载中...</translation>
+      <translation type="unfinished">Downloading...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="176"/>
       <source>Details</source>
-      <translation>查看详情</translation>
+      <translation type="unfinished">Details</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="202"/>
       <source>Open In Steam</source>
-      <translation>在Steam打开</translation>
+      <translation type="unfinished">Open In Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="286"/>
       <source>Profile</source>
-      <translation>配置</translation>
+      <translation type="unfinished">Profile</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="299"/>
@@ -1412,72 +1412,72 @@
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="317"/>
       <source>Search for Wallpaper and Widgets...</source>
-      <translation>搜索壁纸和物件...</translation>
+      <translation type="unfinished">Search for Wallpaper and Widgets...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="361"/>
       <source>Open Workshop in Steam</source>
-      <translation>在Steam中打开创意工坊</translation>
+      <translation type="unfinished">Open Workshop in Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="385"/>
       <source>Ranked By Vote</source>
-      <translation>评分最好</translation>
+      <translation type="unfinished">Ranked By Vote</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="388"/>
       <source>Publication Date</source>
-      <translation>发布日期</translation>
+      <translation type="unfinished">Publication Date</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="391"/>
       <source>Ranked By Trend</source>
-      <translation>评分趋势</translation>
+      <translation type="unfinished">Ranked By Trend</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="394"/>
       <source>Favorited By Friends</source>
-      <translation>好友收藏</translation>
+      <translation type="unfinished">Favorited By Friends</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="397"/>
       <source>Created By Friends</source>
-      <translation>好友创建</translation>
+      <translation type="unfinished">Created By Friends</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="400"/>
       <source>Created By Followed Users</source>
-      <translation>已关注的</translation>
+      <translation type="unfinished">Created By Followed Users</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="403"/>
       <source>Not Yet Rated</source>
-      <translation>尚未评分</translation>
+      <translation type="unfinished">Not Yet Rated</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="406"/>
       <source>Total VotesAsc</source>
-      <translation>按总票数升序</translation>
+      <translation type="unfinished">Total VotesAsc</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="409"/>
       <source>Votes Up</source>
-      <translation>评分上升</translation>
+      <translation type="unfinished">Votes Up</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="412"/>
       <source>Total Unique Subscriptions</source>
-      <translation>总订阅量</translation>
+      <translation type="unfinished">Total Unique Subscriptions</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="461"/>
       <source>Back</source>
-      <translation>返回</translation>
+      <translation type="unfinished">Back</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="485"/>
       <source>Forward</source>
-      <translation>前进</translation>
+      <translation type="unfinished">Forward</translation>
     </message>
   </context>
   <context>
@@ -1485,22 +1485,22 @@
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="22"/>
       <source>Save</source>
-      <translation>保存</translation>
+      <translation type="unfinished">Save</translation>
     </message>
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="25"/>
       <source>Add tag</source>
-      <translation>添加标签</translation>
+      <translation type="unfinished">Add tag</translation>
     </message>
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="132"/>
       <source>Cancel</source>
-      <translation>取消</translation>
+      <translation type="unfinished">Cancel</translation>
     </message>
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="155"/>
       <source>Add Tag</source>
-      <translation>添加标签</translation>
+      <translation type="unfinished">Add Tag</translation>
     </message>
   </context>
   <context>
@@ -1508,12 +1508,12 @@
     <message>
       <location filename="../qml/Common/TextField.qml" line="36"/>
       <source>Label</source>
-      <translation>标识</translation>
+      <translation type="unfinished">Label</translation>
     </message>
     <message>
       <location filename="../qml/Common/TextField.qml" line="98"/>
       <source>*Required</source>
-      <translation>*必要的</translation>
+      <translation type="unfinished">*Required</translation>
     </message>
   </context>
   <context>
@@ -1521,39 +1521,39 @@
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="10"/>
       <source>ScreenPlay - Double click to change you settings.</source>
-      <translation>ScreenPlay - 双击以改变设置</translation>
+      <translation type="unfinished">ScreenPlay - Double click to change you settings.</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="29"/>
       <source>Open ScreenPlay</source>
-      <translation>打开ScreenPlay</translation>
+      <translation type="unfinished">Open ScreenPlay</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="40"/>
       <location filename="../qml/Common/TrayIcon.qml" line="44"/>
       <source>Mute all</source>
-      <translation>关闭全部提醒</translation>
+      <translation type="unfinished">Mute all</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="48"/>
       <source>Unmute all</source>
-      <translation>开启全部提醒</translation>
+      <translation type="unfinished">Unmute all</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="59"/>
       <location filename="../qml/Common/TrayIcon.qml" line="63"/>
       <source>Pause all</source>
-      <translation>暂停全部</translation>
+      <translation type="unfinished">Pause all</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="67"/>
       <source>Play all</source>
-      <translation>播放全部</translation>
+      <translation type="unfinished">Play all</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="74"/>
       <source>Quit</source>
-      <translation>退出</translation>
+      <translation type="unfinished">Quit</translation>
     </message>
   </context>
   <context>
@@ -1561,22 +1561,22 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="60"/>
       <source>Upload Wallpaper/Widgets to Steam</source>
-      <translation>上传 壁纸/物件 到Steam</translation>
+      <translation type="unfinished">Upload Wallpaper/Widgets to Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="142"/>
       <source>Abort</source>
-      <translation>取消</translation>
+      <translation type="unfinished">Abort</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="157"/>
       <source>Upload Selected Projects</source>
-      <translation>上传所选项目</translation>
+      <translation type="unfinished">Upload Selected Projects</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="216"/>
       <source>Finish</source>
-      <translation>结束</translation>
+      <translation type="unfinished">Finish</translation>
     </message>
   </context>
   <context>
@@ -1584,17 +1584,17 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="114"/>
       <source>Type: </source>
-      <translation>类型：</translation>
+      <translation type="unfinished">Type: </translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="122"/>
       <source>Open Folder</source>
-      <translation>打开文件夹</translation>
+      <translation type="unfinished">Open Folder</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="136"/>
       <source>Invalid Project!</source>
-      <translation>无效的项目！</translation>
+      <translation type="unfinished">Invalid Project!</translation>
     </message>
   </context>
   <context>
@@ -1602,582 +1602,582 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="33"/>
       <source>Fail</source>
-      <translation>失败</translation>
+      <translation type="unfinished">Fail</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="36"/>
       <source>No Connection</source>
-      <translation>没有连接</translation>
+      <translation type="unfinished">No Connection</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="39"/>
       <source>Invalid Password</source>
-      <translation>密码错误</translation>
+      <translation type="unfinished">Invalid Password</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="42"/>
       <source>Logged In Elsewhere</source>
-      <translation>在其他地方登录了</translation>
+      <translation type="unfinished">Logged In Elsewhere</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="45"/>
       <source>Invalid Protocol Version</source>
-      <translation>无效协议版本</translation>
+      <translation type="unfinished">Invalid Protocol Version</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="48"/>
       <source>Invalid Param</source>
-      <translation>参数无效</translation>
+      <translation type="unfinished">Invalid Param</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="51"/>
       <source>File Not Found</source>
-      <translation>文件未找到</translation>
+      <translation type="unfinished">File Not Found</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="54"/>
       <source>Busy</source>
-      <translation>繁忙</translation>
+      <translation type="unfinished">Busy</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="57"/>
       <source>Invalid State</source>
-      <translation>状态无效</translation>
+      <translation type="unfinished">Invalid State</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="60"/>
       <source>Invalid Name</source>
-      <translation>名称无效</translation>
+      <translation type="unfinished">Invalid Name</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="63"/>
       <source>Invalid Email</source>
-      <translation>邮箱无效</translation>
+      <translation type="unfinished">Invalid Email</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="66"/>
       <source>Duplicate Name</source>
-      <translation>重复名称</translation>
+      <translation type="unfinished">Duplicate Name</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="69"/>
       <source>Access Denied</source>
-      <translation>拒绝访问</translation>
+      <translation type="unfinished">Access Denied</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="72"/>
       <source>Timeout</source>
-      <translation>超时</translation>
+      <translation type="unfinished">Timeout</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="75"/>
       <source>Banned</source>
-      <translation>被禁止</translation>
+      <translation type="unfinished">Banned</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="78"/>
       <source>Account Not Found</source>
-      <translation>账户未找到</translation>
+      <translation type="unfinished">Account Not Found</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="81"/>
       <source>Invalid SteamID</source>
-      <translation>SteamID无效</translation>
+      <translation type="unfinished">Invalid SteamID</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="84"/>
       <source>Service Unavailable</source>
-      <translation>服务不可用</translation>
+      <translation type="unfinished">Service Unavailable</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="87"/>
       <source>Not Logged On</source>
-      <translation>未登录</translation>
+      <translation type="unfinished">Not Logged On</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="90"/>
       <source>Pending</source>
-      <translation>待处理</translation>
+      <translation type="unfinished">Pending</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="93"/>
       <source>Encryption Failure</source>
-      <translation>加密失败</translation>
+      <translation type="unfinished">Encryption Failure</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="96"/>
       <source>Insufficient Privilege</source>
-      <translation>权限不足</translation>
+      <translation type="unfinished">Insufficient Privilege</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="99"/>
       <source>Limit Exceeded</source>
-      <translation>超出限制</translation>
+      <translation type="unfinished">Limit Exceeded</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="102"/>
       <source>Revoked</source>
-      <translation>被撤回</translation>
+      <translation type="unfinished">Revoked</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="105"/>
       <source>Expired</source>
-      <translation>已过期</translation>
+      <translation type="unfinished">Expired</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="108"/>
       <source>Already Redeemed</source>
-      <translation>已兑换</translation>
+      <translation type="unfinished">Already Redeemed</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="111"/>
       <source>Duplicate Request</source>
-      <translation>重复请求</translation>
+      <translation type="unfinished">Duplicate Request</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="114"/>
       <source>Already Owned</source>
-      <translation>已拥有</translation>
+      <translation type="unfinished">Already Owned</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="117"/>
       <source>IP Not Found</source>
-      <translation>未找到IP</translation>
+      <translation type="unfinished">IP Not Found</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="120"/>
       <source>Persist Failed</source>
-      <translation>持续失败</translation>
+      <translation type="unfinished">Persist Failed</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="123"/>
       <source>Locking Failed</source>
-      <translation>锁定失败</translation>
+      <translation type="unfinished">Locking Failed</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="126"/>
       <source>Logon Session Replaced</source>
-      <translation>登录会话被覆盖</translation>
+      <translation type="unfinished">Logon Session Replaced</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="129"/>
       <source>Connect Failed</source>
-      <translation>连接失败</translation>
+      <translation type="unfinished">Connect Failed</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="132"/>
       <source>Handshake Failed</source>
-      <translation>握手失败</translation>
+      <translation type="unfinished">Handshake Failed</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="135"/>
       <source>IO Failure</source>
-      <translation>输入输出失败</translation>
+      <translation type="unfinished">IO Failure</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="138"/>
       <source>Remote Disconnect</source>
-      <translation>远程断开连接</translation>
+      <translation type="unfinished">Remote Disconnect</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="141"/>
       <source>Shopping Cart Not Found</source>
-      <translation>未找到购物车</translation>
+      <translation type="unfinished">Shopping Cart Not Found</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="144"/>
       <source>Blocked</source>
-      <translation>受阻</translation>
+      <translation type="unfinished">Blocked</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="147"/>
       <source>Ignored</source>
-      <translation>已忽略</translation>
+      <translation type="unfinished">Ignored</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="150"/>
       <source>No Match</source>
-      <translation>无匹配</translation>
+      <translation type="unfinished">No Match</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="153"/>
       <source>Account Disabled</source>
-      <translation>账号已禁用</translation>
+      <translation type="unfinished">Account Disabled</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="156"/>
       <source>Service ReadOnly</source>
-      <translation>服务只读</translation>
+      <translation type="unfinished">Service ReadOnly</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="159"/>
       <source>Account Not Featured</source>
-      <translation>账号未显示</translation>
+      <translation type="unfinished">Account Not Featured</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="162"/>
       <source>Administrator OK</source>
-      <translation>管理员确定</translation>
+      <translation type="unfinished">Administrator OK</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="165"/>
       <source>Content Version</source>
-      <translation>内容版本</translation>
+      <translation type="unfinished">Content Version</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="168"/>
       <source>Try Another CM</source>
-      <translation>尝试其他内容管理器</translation>
+      <translation type="unfinished">Try Another CM</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="171"/>
       <source>Password Required T oKick Session</source>
-      <translation>需要密码才能启动会话</translation>
+      <translation type="unfinished">Password Required T oKick Session</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="174"/>
       <source>Already Logged In Elsewhere</source>
-      <translation>已在其他地方登录</translation>
+      <translation type="unfinished">Already Logged In Elsewhere</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="177"/>
       <source>Suspended</source>
-      <translation>已挂起</translation>
+      <translation type="unfinished">Suspended</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="180"/>
       <source>Cancelled</source>
-      <translation>已取消</translation>
+      <translation type="unfinished">Cancelled</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="183"/>
       <source>Data Corruption</source>
-      <translation>数据损坏</translation>
+      <translation type="unfinished">Data Corruption</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="186"/>
       <source>Disk Full</source>
-      <translation>磁盘满</translation>
+      <translation type="unfinished">Disk Full</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="189"/>
       <source>Remote Call Failed</source>
-      <translation>远程调用失败</translation>
+      <translation type="unfinished">Remote Call Failed</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="192"/>
       <source>Password Unset</source>
-      <translation>解除密码</translation>
+      <translation type="unfinished">Password Unset</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="195"/>
       <source>External Account Unlinked</source>
-      <translation>外部账户未链接</translation>
+      <translation type="unfinished">External Account Unlinked</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="198"/>
       <source>PSN Ticket Invalid</source>
-      <translation>PSN令牌无效</translation>
+      <translation type="unfinished">PSN Ticket Invalid</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="201"/>
       <source>External Account Already Linked</source>
-      <translation>外部账户已链接</translation>
+      <translation type="unfinished">External Account Already Linked</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="204"/>
       <source>Remote File Conflict</source>
-      <translation>远程文件冲突</translation>
+      <translation type="unfinished">Remote File Conflict</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="207"/>
       <source>Illegal Password</source>
-      <translation>非法密码</translation>
+      <translation type="unfinished">Illegal Password</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="210"/>
       <source>Same As Previous Value</source>
-      <translation>与旧值相同</translation>
+      <translation type="unfinished">Same As Previous Value</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="213"/>
       <source>Account Logon Denied</source>
-      <translation>帐户登录被拒绝</translation>
+      <translation type="unfinished">Account Logon Denied</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="216"/>
       <source>Cannot Use Old Password</source>
-      <translation>不可使用旧密码</translation>
+      <translation type="unfinished">Cannot Use Old Password</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="219"/>
       <source>Invalid Login AuthCode</source>
-      <translation>无效的登录授权码</translation>
+      <translation type="unfinished">Invalid Login AuthCode</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="222"/>
       <source>Account Logon Denied No Mail</source>
-      <translation>帐户登录被拒绝：没有邮件</translation>
+      <translation type="unfinished">Account Logon Denied No Mail</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="225"/>
       <source>Hardware Not Capable Of IPT</source>
-      <translation>硬件不支持身份保护技术</translation>
+      <translation type="unfinished">Hardware Not Capable Of IPT</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="228"/>
       <source>IPT Init Error</source>
-      <translation>身份保护技术初始化失败</translation>
+      <translation type="unfinished">IPT Init Error</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="231"/>
       <source>Parental Control Restricted</source>
-      <translation>家长控制限制</translation>
+      <translation type="unfinished">Parental Control Restricted</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="234"/>
       <source>Facebook Query Error</source>
-      <translation>Facebook查询错误</translation>
+      <translation type="unfinished">Facebook Query Error</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="237"/>
       <source>Expired Login Auth Code</source>
-      <translation>过期的登录授权码</translation>
+      <translation type="unfinished">Expired Login Auth Code</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="240"/>
       <source>IP Login Restriction Failed</source>
-      <translation>IP登录限制失败</translation>
+      <translation type="unfinished">IP Login Restriction Failed</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="243"/>
       <source>Account Locked Down</source>
-      <translation>帐户被锁定</translation>
+      <translation type="unfinished">Account Locked Down</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="246"/>
       <source>Account Logon Denied Verified Email Required</source>
-      <translation>帐户登录被拒绝：需验证电子邮件</translation>
+      <translation type="unfinished">Account Logon Denied Verified Email Required</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="249"/>
       <source>No MatchingURL</source>
-      <translation>没有匹配网址</translation>
+      <translation type="unfinished">No MatchingURL</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="252"/>
       <source>Bad Response</source>
-      <translation>坏响应</translation>
+      <translation type="unfinished">Bad Response</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="255"/>
       <source>Require Password ReEntry</source>
-      <translation>要求重新输入密码</translation>
+      <translation type="unfinished">Require Password ReEntry</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="258"/>
       <source>Value Out Of Range</source>
-      <translation>值超出范围</translation>
+      <translation type="unfinished">Value Out Of Range</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="261"/>
       <source>Unexpecte Error</source>
-      <translation>意外错误</translation>
+      <translation type="unfinished">Unexpecte Error</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="264"/>
       <source>Disabled</source>
-      <translation>已禁用</translation>
+      <translation type="unfinished">Disabled</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="267"/>
       <source>Invalid CEG Submission</source>
-      <translation>无效的CEG提交</translation>
+      <translation type="unfinished">Invalid CEG Submission</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="270"/>
       <source>Restricted Device</source>
-      <translation>受限设备</translation>
+      <translation type="unfinished">Restricted Device</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="273"/>
       <source>Region Locked</source>
-      <translation>地区锁定</translation>
+      <translation type="unfinished">Region Locked</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="276"/>
       <source>Rate Limit Exceeded</source>
-      <translation>超出比率限制</translation>
+      <translation type="unfinished">Rate Limit Exceeded</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="279"/>
       <source>Account Login Denied Need Two Factor</source>
-      <translation>账户登录被拒绝：需要两步验证</translation>
+      <translation type="unfinished">Account Login Denied Need Two Factor</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="282"/>
       <source>Item Deleted</source>
-      <translation>物品已删除</translation>
+      <translation type="unfinished">Item Deleted</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="285"/>
       <source>Account Login Denied Throttle</source>
-      <translation>帐户登录被拒绝</translation>
+      <translation type="unfinished">Account Login Denied Throttle</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="288"/>
       <source>Two Factor Code Mismatch</source>
-      <translation>两步验证码不匹配</translation>
+      <translation type="unfinished">Two Factor Code Mismatch</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="291"/>
       <source>Two Factor Activation Code Mismatch</source>
-      <translation>两步验证激活码不匹配</translation>
+      <translation type="unfinished">Two Factor Activation Code Mismatch</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="294"/>
       <source>Account Associated To Multiple Partners</source>
-      <translation>帐户已关联到多个合作伙伴</translation>
+      <translation type="unfinished">Account Associated To Multiple Partners</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="297"/>
       <source>Not Modified</source>
-      <translation>未修改</translation>
+      <translation type="unfinished">Not Modified</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="300"/>
       <source>No Mobile Device</source>
-      <translation>没有移动设备</translation>
+      <translation type="unfinished">No Mobile Device</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="303"/>
       <source>Time Not Synced</source>
-      <translation>时间未同步</translation>
+      <translation type="unfinished">Time Not Synced</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="306"/>
       <source>Sms Code Failed</source>
-      <translation>短信验证码失败</translation>
+      <translation type="unfinished">Sms Code Failed</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="309"/>
       <source>Account Limit Exceeded</source>
-      <translation>超出账户限制</translation>
+      <translation type="unfinished">Account Limit Exceeded</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="312"/>
       <source>Account Activity Limit Exceeded</source>
-      <translation>超出账户活动限制</translation>
+      <translation type="unfinished">Account Activity Limit Exceeded</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="315"/>
       <source>Phone Activity Limit Exceeded</source>
-      <translation>超出电话活动限制</translation>
+      <translation type="unfinished">Phone Activity Limit Exceeded</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="318"/>
       <source>Refund To Wallet</source>
-      <translation>退款到钱包</translation>
+      <translation type="unfinished">Refund To Wallet</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="321"/>
       <source>Email Send Failure</source>
-      <translation>邮件发送失败</translation>
+      <translation type="unfinished">Email Send Failure</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="324"/>
       <source>Not Settled</source>
-      <translation>未解决</translation>
+      <translation type="unfinished">Not Settled</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="327"/>
       <source>Need Captcha</source>
-      <translation>需要验证</translation>
+      <translation type="unfinished">Need Captcha</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="330"/>
       <source>GSLT Denied</source>
-      <translation>服务器令牌拒绝</translation>
+      <translation type="unfinished">GSLT Denied</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="333"/>
       <source>GS Owner Denied</source>
-      <translation>服务器所有者拒绝</translation>
+      <translation type="unfinished">GS Owner Denied</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="336"/>
       <source>Invalid Item Type</source>
-      <translation>无效的物品类型</translation>
+      <translation type="unfinished">Invalid Item Type</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="339"/>
       <source>IP Banned</source>
-      <translation>IP被禁用</translation>
+      <translation type="unfinished">IP Banned</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="342"/>
       <source>GSLT Expired</source>
-      <translation>服务器令牌过期</translation>
+      <translation type="unfinished">GSLT Expired</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="345"/>
       <source>Insufficient Funds</source>
-      <translation>资金不足</translation>
+      <translation type="unfinished">Insufficient Funds</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="348"/>
       <source>Too Many Pending</source>
-      <translation>提交中太多</translation>
+      <translation type="unfinished">Too Many Pending</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="351"/>
       <source>No Site Licenses Found</source>
-      <translation>无网站证书</translation>
+      <translation type="unfinished">No Site Licenses Found</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="354"/>
       <source>WG Network Send Exceeded</source>
-      <translation>蠕虫守护网络发送超限</translation>
+      <translation type="unfinished">WG Network Send Exceeded</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="357"/>
       <source>Account Not Friends</source>
-      <translation>帐户不是好友</translation>
+      <translation type="unfinished">Account Not Friends</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="360"/>
       <source>Limited User Account</source>
-      <translation>受限账户</translation>
+      <translation type="unfinished">Limited User Account</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="363"/>
       <source>Cant Remove Item</source>
-      <translation>无法移除物品</translation>
+      <translation type="unfinished">Cant Remove Item</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="366"/>
       <source>Account Deleted</source>
-      <translation>账户已删除</translation>
+      <translation type="unfinished">Account Deleted</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="369"/>
       <source>Existing User Cancelled License</source>
-      <translation>现有用户已取消许可证</translation>
+      <translation type="unfinished">Existing User Cancelled License</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="372"/>
       <source>Community Cooldown</source>
-      <translation>社区降温</translation>
+      <translation type="unfinished">Community Cooldown</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="464"/>
       <source>Status:</source>
-      <translation>状态：</translation>
+      <translation type="unfinished">Status:</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="483"/>
       <source>Upload Progress: </source>
-      <translation>上传进度：</translation>
+      <translation type="unfinished">Upload Progress: </translation>
     </message>
   </context>
   <context>
@@ -2185,37 +2185,37 @@
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="30"/>
       <source>Create a Website Wallpaper</source>
-      <translation>创建一个网站壁纸</translation>
+      <translation type="unfinished">Create a Website Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="35"/>
       <source>General</source>
-      <translation>常规</translation>
+      <translation type="unfinished">General</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="45"/>
       <source>Wallpaper name</source>
-      <translation>壁纸名</translation>
+      <translation type="unfinished">Wallpaper name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="54"/>
       <source>Created By</source>
-      <translation>作者</translation>
+      <translation type="unfinished">Created By</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="63"/>
       <source>Description</source>
-      <translation>简介</translation>
+      <translation type="unfinished">Description</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="79"/>
       <source>Tags</source>
-      <translation>标签</translation>
+      <translation type="unfinished">Tags</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="93"/>
       <source>Preview Image</source>
-      <translation>预览图</translation>
+      <translation type="unfinished">Preview Image</translation>
     </message>
   </context>
   <context>
@@ -2223,12 +2223,12 @@
     <message>
       <location filename="../qml/Create/Wizards/WizardPage.qml" line="69"/>
       <source>Save</source>
-      <translation>保存</translation>
+      <translation type="unfinished">Save</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WizardPage.qml" line="101"/>
       <source>Saving...</source>
-      <translation>保存中...</translation>
+      <translation type="unfinished">Saving...</translation>
     </message>
   </context>
   <context>
@@ -2236,12 +2236,12 @@
     <message>
       <location filename="../qml/Workshop/WorkshopItem.qml" line="298"/>
       <source>Successfully subscribed to Workshop Item!</source>
-      <translation>成功订阅创意工坊物品！</translation>
+      <translation type="unfinished">Successfully subscribed to Workshop Item!</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/WorkshopItem.qml" line="401"/>
       <source>Download complete!</source>
-      <translation>下载完成！</translation>
+      <translation type="unfinished">Download complete!</translation>
     </message>
   </context>
   <context>
@@ -2249,7 +2249,7 @@
     <message>
       <location filename="../qml/Community/XMLNewsfeed.qml" line="71"/>
       <source>News &amp; Patchnotes</source>
-      <translation>新闻和更改日志</translation>
+      <translation type="unfinished">News &amp; Patchnotes</translation>
     </message>
   </context>
 </TS>
