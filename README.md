@@ -4,7 +4,7 @@
 <div align="center">
 <br>
 
-ScreenPlay: [![pipeline status](https://gitlab.com/kelteseth/ScreenPlay/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlay/-/commits/master) Docs: [![pipeline status](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/-/commits/master) <a href="https://twitter.com/kelteseth">![Twitter Follow](https://img.shields.io/twitter/follow/kelteseth?style=for-the-badge)</a> <a href="https://www.reddit.com/r/ScreenPlayApp/">![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/screenplayapp?style=for-the-badge)</a>  <a href="https://discord.com/invite/4sY9d4f2DM">![Discord](https://img.shields.io/discord/516635043435773970?style=for-the-badge)</a>
+ScreenPlay: [![pipeline status](https://gitlab.com/kelteseth/ScreenPlay/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlay/-/commits/master) Docs: [![pipeline status](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/badges/master/pipeline.svg)](https://gitlab.com/kelteseth/ScreenPlayDeveloperDocs/-/commits/master) [![Crowdin](https://badges.crowdin.net/screenplay/localized.svg)](https://crowdin.com/project/screenplay) <a href="https://twitter.com/kelteseth">![Twitter Follow](https://img.shields.io/twitter/follow/kelteseth?style=for-the-badge)</a> <a href="https://www.reddit.com/r/ScreenPlayApp/">![Subreddit subscribers](https://img.shields.io/reddit/subreddit-subscribers/screenplayapp?style=for-the-badge)</a>  <a href="https://discord.com/invite/4sY9d4f2DM">![Discord](https://img.shields.io/discord/516635043435773970?style=for-the-badge)</a>
 
 <h3><a href="https://store.steampowered.com/app/672870/ScreenPlay/">✨Download ScreenPlay✨</a> </h3>
 
