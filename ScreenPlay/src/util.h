@@ -72,6 +72,8 @@ T QStringToEnum(const QString& key, const T defaultValue)
 
     if (ok) {
         return wantedEnum;
+    } else {
+        qWarning() << "Unable to convert QStringToEnum. Key: " << key;
     }
 
     return defaultValue;

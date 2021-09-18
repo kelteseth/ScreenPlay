@@ -115,13 +115,6 @@
         <file>legal/lgpl-2.1.txt</file>
         <file>profiles.json</file>
         <file>qtquickcontrols2.conf</file>
-        <file>translations/ScreenPlay_de.qm</file>
-        <file>translations/ScreenPlay_en.qm</file>
-        <file>translations/ScreenPlay_es.qm</file>
-        <file>translations/ScreenPlay_fr.qm</file>
-        <file>translations/ScreenPlay_ko.qm</file>
-        <file>translations/ScreenPlay_ru.qm</file>
-        <file>translations/ScreenPlay_vi.qm</file>
         <file>translations/ScreenPlay_zh_cn.qm</file>
         <file>assets/images/Early_Access.png</file>
         <file>translations/ScreenPlay_pt_br.qm</file>
@@ -131,5 +124,23 @@
         <file>assets/icons/steam_default_avatar.png</file>
         <file>assets/macos/app.screenplay.plist</file>
         <file>assets/icons/item_banner_new.svg</file>
+        <file>translations/ScreenPlay_de_DE.qm</file>
+        <file>translations/ScreenPlay_es_ES.qm</file>
+        <file>translations/ScreenPlay_fr_FR.qm</file>
+        <file>translations/ScreenPlay_ko_KR.qm</file>
+        <file>translations/ScreenPlay_pt_BR.qm</file>
+        <file>translations/ScreenPlay_ru_RU.qm</file>
+        <file>translations/ScreenPlay_vi_VN.qm</file>
+        <file>translations/ScreenPlay_zh_CN.qm</file>
+        <file>translations/ScreenPlay_.qm</file>
+        <file>translations/ScreenPlay_.ts</file>
+        <file>translations/ScreenPlay_de_DE.ts</file>
+        <file>translations/ScreenPlay_es_ES.ts</file>
+        <file>translations/ScreenPlay_fr_FR.ts</file>
+        <file>translations/ScreenPlay_ko_KR.ts</file>
+        <file>translations/ScreenPlay_pt_BR.ts</file>
+        <file>translations/ScreenPlay_ru_RU.ts</file>
+        <file>translations/ScreenPlay_vi_VN.ts</file>
+        <file>translations/ScreenPlay_zh_CN.ts</file>
     </qresource>
 </RCC>

@@ -166,32 +166,32 @@ Item {
 
                         comboBox {
                             model: [{
-                                "value": Settings.En,
-                                "text": qsTr("English")
+                                "value": Settings.En_US,
+                                "text": "English"
                             }, {
-                                "value": Settings.De,
-                                "text": qsTr("German")
+                                "value": Settings.De_DE,
+                                "text": "German"
                             }, {
                                 "value": Settings.Zh_CN,
-                                "text": qsTr("Chinese - Simplified")
+                                "text": "Chinese - Simplified"
                             }, {
-                                "value": Settings.Ru,
-                                "text": qsTr("Russian")
+                                "value": Settings.Ru_RU,
+                                "text": "Russian"
                             }, {
-                                "value": Settings.Fr,
-                                "text": qsTr("French")
+                                "value": Settings.Fr_FR,
+                                "text": "French"
                             }, {
-                                "value": Settings.Es,
-                                "text": qsTr("Spanish")
+                                "value": Settings.Es_ES,
+                                "text": "Spanish"
                             }, {
-                                "value": Settings.Ko,
-                                "text": qsTr("Korean")
+                                "value": Settings.Ko_KR,
+                                "text": "Korean"
                             }, {
-                                "value": Settings.Vi,
-                                "text": qsTr("Vietnamese")
+                                "value": Settings.Vi_VN,
+                                "text": "Vietnamese"
                             }, {
                                 "value": Settings.Pt_BR,
-                                "text": qsTr("Portuguese (Brazil)")
+                                "text": "Portuguese (Brazil)"
                             }]
                             onActivated: {
                                 ScreenPlay.settings.setLanguage(settingsLanguage.comboBox.currentValue);

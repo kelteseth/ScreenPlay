@@ -55,15 +55,15 @@ list(
     APPEND
     L10N_LIST
     # cmake-format: sortable
-     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_de.ts
-     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_zh_cn.ts
-     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_pt_br.ts
-     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_en.ts
-     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_es.ts
-     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_fr.ts
-     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ko.ts
-     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ru.ts
-     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_vi.ts)
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_de_DE.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_zh_CN.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_pt_BR.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_es_ES.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_fr_FR.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ko_KR.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ru_RU.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_vi_VN.ts)
 
 include(QtUpdateTranslations)
 qt_update_translations("${CMAKE_CURRENT_SOURCE_DIR}/qml" "${L10N_LIST}")

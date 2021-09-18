@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ko_KR">
+<TS version="2.1" language="fr">
 <context>
     <name>ColorPicker</name>
     <message>
@@ -111,22 +111,6 @@
     </message>
 </context>
 <context>
-    <name>CreateImport</name>
-    <message>
-        <location filename="../qml/Create/CreateImport.qml" line="137"/>
-        <source></source>
-        <translation></translation>
-    </message>
-</context>
-<context>
-    <name>CreateUpload</name>
-    <message>
-        <location filename="../qml/Create/CreateUpload.qml" line="219"/>
-        <source></source>
-        <translation></translation>
-    </message>
-</context>
-<context>
     <name>CreateWallpaperInit</name>
     <message>
         <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="32"/>
@@ -227,42 +211,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="108"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="109"/>
         <source>Convert a video to a wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="219"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="220"/>
         <source>Generating preview video...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="275"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="276"/>
         <source>Name (required!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="289"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="290"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="297"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="298"/>
         <source>Youtube URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="327"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="328"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="340"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="341"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="377"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="378"/>
         <source>Save Wallpaper...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -524,42 +508,42 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="105"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="106"/>
         <source>Import a video to a wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="215"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="216"/>
         <source>Generating preview video...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="275"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="276"/>
         <source>Name (required!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="289"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="290"/>
         <source>Description</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="297"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="298"/>
         <source>Youtube URL</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="328"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="329"/>
         <source>Abort</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="341"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="342"/>
         <source>Save</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="375"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="376"/>
         <source>Save Wallpaper...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -605,43 +589,43 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="131"/>
+        <location filename="../qml/Installed/Installed.qml" line="162"/>
         <source>Refreshing!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="134"/>
-        <location filename="../qml/Installed/Installed.qml" line="149"/>
+        <location filename="../qml/Installed/Installed.qml" line="165"/>
+        <location filename="../qml/Installed/Installed.qml" line="180"/>
         <source>Pull to refresh!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="179"/>
+        <location filename="../qml/Installed/Installed.qml" line="210"/>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="244"/>
+        <location filename="../qml/Installed/Installed.qml" line="275"/>
         <source>Open containing folder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="252"/>
+        <location filename="../qml/Installed/Installed.qml" line="285"/>
         <source>Remove Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="252"/>
+        <location filename="../qml/Installed/Installed.qml" line="285"/>
         <source>Remove via Workshop</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="261"/>
+        <location filename="../qml/Installed/Installed.qml" line="295"/>
         <source>Open Workshop Page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="277"/>
+        <location filename="../qml/Installed/Installed.qml" line="307"/>
         <source>Are you sure you want to delete this item?</source>
         <translation type="unfinished"></translation>
     </message>
@@ -795,12 +779,12 @@
 <context>
     <name>NavigationWallpaperConfiguration</name>
     <message>
-        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="78"/>
+        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
         <source>Configurate active Wallpaper or Widgets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="80"/>
+        <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
         <source>No active Wallpaper or Widgets</source>
         <translation type="unfinished"></translation>
     </message>
@@ -808,12 +792,12 @@
 <context>
     <name>PopupOffline</name>
     <message>
-        <location filename="../qml/Workshop/PopupOffline.qml" line="25"/>
-        <source>You need to run Steam for this :)</source>
+        <location filename="../qml/Workshop/PopupOffline.qml" line="28"/>
+        <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/PopupOffline.qml" line="30"/>
+        <location filename="../qml/Workshop/PopupOffline.qml" line="33"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
@@ -918,7 +902,7 @@
 <context>
     <name>ScreenPlayItem</name>
     <message>
-        <location filename="../qml/Installed/ScreenPlayItem.qml" line="206"/>
+        <location filename="../qml/Installed/ScreenPlayItem.qml" line="199"/>
         <source>NEW</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1205,102 +1189,102 @@
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="118"/>
+        <location filename="../qml/Create/Sidebar.qml" line="119"/>
         <source>Tools Overview</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="124"/>
+        <location filename="../qml/Create/Sidebar.qml" line="126"/>
         <source>Video import and convert (all types)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="131"/>
+        <location filename="../qml/Create/Sidebar.qml" line="133"/>
         <source>Video Import (.webm)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="137"/>
+        <location filename="../qml/Create/Sidebar.qml" line="140"/>
         <source>GIF Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="143"/>
+        <location filename="../qml/Create/Sidebar.qml" line="147"/>
         <source>QML Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="149"/>
+        <location filename="../qml/Create/Sidebar.qml" line="154"/>
         <source>HTML5 Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="155"/>
+        <location filename="../qml/Create/Sidebar.qml" line="161"/>
         <source>Website Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="161"/>
+        <location filename="../qml/Create/Sidebar.qml" line="168"/>
         <source>QML Widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="167"/>
+        <location filename="../qml/Create/Sidebar.qml" line="175"/>
         <source>HTML Widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="65"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="75"/>
         <source>Set Wallpaper</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="68"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="78"/>
         <source>Set Widget</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="199"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="211"/>
         <source>Headline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="257"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="269"/>
         <source>Select a Monitor to display the content</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="288"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="300"/>
         <source>Set Volume</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="307"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="319"/>
         <source>Fill Mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="326"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="338"/>
         <source>Stretch</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="329"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="341"/>
         <source>Fill</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="332"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="344"/>
         <source>Contain</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="335"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="347"/>
         <source>Cover</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="338"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="350"/>
         <source>Scale-Down</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1418,72 +1402,77 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="305"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="299"/>
+        <source>Upload</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="317"/>
         <source>Search for Wallpaper and Widgets...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="349"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="361"/>
         <source>Open Workshop in Steam</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="373"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="385"/>
         <source>Ranked By Vote</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="376"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="388"/>
         <source>Publication Date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="379"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="391"/>
         <source>Ranked By Trend</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="382"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="394"/>
         <source>Favorited By Friends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="385"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="397"/>
         <source>Created By Friends</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="388"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="400"/>
         <source>Created By Followed Users</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="391"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="403"/>
         <source>Not Yet Rated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="394"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="406"/>
         <source>Total VotesAsc</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="397"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="409"/>
         <source>Votes Up</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="400"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="412"/>
         <source>Total Unique Subscriptions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="449"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="461"/>
         <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/SteamWorkshop.qml" line="473"/>
+        <location filename="../qml/Workshop/SteamWorkshop.qml" line="485"/>
         <source>Forward</source>
         <translation type="unfinished"></translation>
     </message>
