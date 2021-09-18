@@ -6,67 +6,67 @@
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="345"/>
       <source>Red</source>
-      <translation type="unfinished">Red</translation>
+      <translation>Rot</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="364"/>
       <source>Green</source>
-      <translation type="unfinished">Green</translation>
+      <translation>Grün</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="383"/>
       <source>Blue</source>
-      <translation type="unfinished">Blue</translation>
+      <translation>Blau</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="572"/>
       <source>RGB</source>
-      <translation type="unfinished">RGB</translation>
+      <translation>RGB</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="590"/>
       <source>HSV</source>
-      <translation type="unfinished">HSV</translation>
+      <translation>HSV</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="617"/>
       <source>R:</source>
-      <translation type="unfinished">R:</translation>
+      <translation>R:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="634"/>
       <source>G:</source>
-      <translation type="unfinished">G:</translation>
+      <translation>G:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="651"/>
       <source>B:</source>
-      <translation type="unfinished">B:</translation>
+      <translation>B:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="668"/>
       <source>H:</source>
-      <translation type="unfinished">H:</translation>
+      <translation>H:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="685"/>
       <source>S:</source>
-      <translation type="unfinished">S:</translation>
+      <translation>S:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="702"/>
       <source>V:</source>
-      <translation type="unfinished">V:</translation>
+      <translation>V:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="723"/>
       <source>Alpha:</source>
-      <translation type="unfinished">Alpha:</translation>
+      <translation>Alpha</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="740"/>
       <source>#</source>
-      <translation type="unfinished">#</translation>
+      <translation>#</translation>
     </message>
   </context>
   <context>
@@ -74,32 +74,32 @@
     <message>
       <location filename="../qml/Community/Community.qml" line="38"/>
       <source>News</source>
-      <translation type="unfinished">News</translation>
+      <translation>Neuigkeiten</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="44"/>
       <source>Wiki</source>
-      <translation type="unfinished">Wiki</translation>
+      <translation>Wiki</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="50"/>
       <source>Forum</source>
-      <translation type="unfinished">Forum</translation>
+      <translation>Forum</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="56"/>
       <source>Issue List</source>
-      <translation type="unfinished">Issue List</translation>
+      <translation>Fehler Liste</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="62"/>
       <source>Contribute</source>
-      <translation type="unfinished">Contribute</translation>
+      <translation>Beitragen</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="68"/>
       <source>Steam Workshop</source>
-      <translation type="unfinished">Steam Workshop</translation>
+      <translation>Steam Workshop</translation>
     </message>
   </context>
   <context>
@@ -107,7 +107,7 @@
     <message>
       <location filename="../qml/Community/CommunityNavItem.qml" line="57"/>
       <source>Open in browser</source>
-      <translation type="unfinished">Open in browser</translation>
+      <translation>Öffne in</translation>
     </message>
   </context>
   <context>
@@ -115,36 +115,35 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="32"/>
       <source>Import any video type</source>
-      <translation type="unfinished">Import any video type</translation>
+      <translation>Importiere Video jeden Typs</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="38"/>
       <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-      <translation type="unfinished">Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
-
+      <translation>Je nach deiner PC Konfiguaration ist es besser dein Wallpaper mit einem Spezifischen Video Kodierer zu Konvertieren. Wenn allerdings beides schlecht läuft kannst du ein QML Wallpaper Probieren! Unterstützte Video-Formate sind:
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="53"/>
       <source>Set your preffered video codec:</source>
-      <translation type="unfinished">Set your preffered video codec:</translation>
+      <translation>Bevorzugte Video-Kodierung Festlegen</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="98"/>
       <source>Quality slider. Lower value means better quality.</source>
-      <translation type="unfinished">Quality slider. Lower value means better quality.</translation>
+      <translation>Qualitäts-Regler. Niedriger wert heißt niedrige Qualität</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="113"/>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>Öffne Documentation</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="132"/>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Datei auswählen</translation>
     </message>
   </context>
   <context>
@@ -152,17 +151,17 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="18"/>
       <source>An error occurred!</source>
-      <translation type="unfinished">An error occurred!</translation>
+      <translation>Es ist ein Fehler aufgetreten!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="91"/>
       <source>Copy text to clipboard</source>
-      <translation type="unfinished">Copy text to clipboard</translation>
+      <translation>Kopiere den Text in die Zwischenablage</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="102"/>
       <source>Back to create and send an error report!</source>
-      <translation type="unfinished">Back to create and send an error report!</translation>
+      <translation>Zurück zum Erstellen und einen Fehlerbericht senden!</translation>
     </message>
   </context>
   <context>
@@ -175,82 +174,82 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="48"/>
       <source>Generating preview image...</source>
-      <translation type="unfinished">Generating preview image...</translation>
+      <translation>Erzeuge Vorschaubild...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="51"/>
       <source>Generating preview thumbnail image...</source>
-      <translation type="unfinished">Generating preview thumbnail image...</translation>
+      <translation>Erzeuge Vorschau-Miniaturbild...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="58"/>
       <source>Generating 5 second preview video...</source>
-      <translation type="unfinished">Generating 5 second preview video...</translation>
+      <translation>Generiere ein 5-Sekunden-Vorschau-Video...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="61"/>
       <source>Generating preview gif...</source>
-      <translation type="unfinished">Generating preview gif...</translation>
+      <translation>Generiere Vorschau-Gif...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="70"/>
       <source>Converting Audio...</source>
-      <translation type="unfinished">Converting Audio...</translation>
+      <translation>Konvertiere Audio...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="73"/>
       <source>Converting Video... This can take some time!</source>
-      <translation type="unfinished">Converting Video... This can take some time!</translation>
+      <translation>Video wird umgewandelt... Das kann etwas dauern!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="77"/>
       <source>Converting Video ERROR!</source>
-      <translation type="unfinished">Converting Video ERROR!</translation>
+      <translation>Konvertieren nicht erfolgreich!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="80"/>
       <source>Analyse Video ERROR!</source>
-      <translation type="unfinished">Analyse Video ERROR!</translation>
+      <translation>Analyse des Videos schlug Fehl!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="109"/>
       <source>Convert a video to a wallpaper</source>
-      <translation type="unfinished">Convert a video to a wallpaper</translation>
+      <translation>Konvertiere ein Video in ein Hintergrund Live Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="220"/>
       <source>Generating preview video...</source>
-      <translation type="unfinished">Generating preview video...</translation>
+      <translation>Generiere Vorschau-Video...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="276"/>
       <source>Name (required!)</source>
-      <translation type="unfinished">Name (required!)</translation>
+      <translation>Name (erforderlich!)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="290"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Beschreibung</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="298"/>
       <source>Youtube URL</source>
-      <translation type="unfinished">Youtube URL</translation>
+      <translation>YouTube-URL</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="328"/>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Abbrechen</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="341"/>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Speichern</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="378"/>
       <source>Save Wallpaper...</source>
-      <translation type="unfinished">Save Wallpaper...</translation>
+      <translation>Speicher Wallpaper...</translation>
     </message>
   </context>
   <context>
@@ -258,37 +257,37 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="41"/>
       <source>Volume</source>
-      <translation type="unfinished">Volume</translation>
+      <translation>Lautstärke</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="54"/>
       <source>Playback rate</source>
-      <translation type="unfinished">Playback rate</translation>
+      <translation>Wiedergabegeschwindigkeit</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="66"/>
       <source>Current Video Time</source>
-      <translation type="unfinished">Current Video Time</translation>
+      <translation>Aktuelle Videozeit</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="83"/>
       <source>Fill Mode</source>
-      <translation type="unfinished">Fill Mode</translation>
+      <translation>Füll-Modus</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="102"/>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>Strecken</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="105"/>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Ausfüllen</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="108"/>
       <source>Contain</source>
-      <translation type="unfinished">Contain</translation>
+      <translation>Enthält</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="111"/>
@@ -298,7 +297,7 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="114"/>
       <source>Scale_Down</source>
-      <translation type="unfinished">Scale_Down</translation>
+      <translation>Runter Skallieren</translation>
     </message>
   </context>
   <context>
@@ -306,17 +305,17 @@
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="103"/>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Leeren</translation>
     </message>
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="123"/>
       <source>Select File</source>
-      <translation type="unfinished">Select File</translation>
+      <translation>Datei auswählen</translation>
     </message>
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="142"/>
       <source>Please choose a file</source>
-      <translation type="unfinished">Please choose a file</translation>
+      <translation>Bitte Wählen Sie eine Datei aus</translation>
     </message>
   </context>
   <context>
@@ -324,37 +323,37 @@
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="26"/>
       <source>Import a Gif Wallpaper</source>
-      <translation type="unfinished">Import a Gif Wallpaper</translation>
+      <translation>Importiere ein GIF Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="82"/>
       <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
-      <translation type="unfinished">Drop a *.gif file here or use &apos;Select file&apos; below.</translation>
+      <translation>Ziehe eine .gif Datei hierher und benutze &apos;Datei auswählen&apos; darunter.</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="105"/>
       <source>Select your gif</source>
-      <translation type="unfinished">Select your gif</translation>
+      <translation>Wähle dein GIF aus</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="120"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Allgemein</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="127"/>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Wallpaper Name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="135"/>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Erstellt von</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="145"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Schlagwörter</translation>
     </message>
   </context>
   <context>
@@ -362,37 +361,37 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="29"/>
       <source>Create a HTML Wallpaper</source>
-      <translation type="unfinished">Create a HTML Wallpaper</translation>
+      <translation>Erstelle ein HTML Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="34"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Allgemein</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="44"/>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Wallpaper Name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="53"/>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Erstellt von</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="62"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Beschreibung</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="70"/>
       <source>License &amp; Tags</source>
-      <translation type="unfinished">License &amp; Tags</translation>
+      <translation>Lizenz &amp; Schlagwörter</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="93"/>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Vorschau Bild</translation>
     </message>
   </context>
   <context>
@@ -400,27 +399,27 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="20"/>
       <source>Create a HTML widget</source>
-      <translation type="unfinished">Create a HTML widget</translation>
+      <translation>Erstelle ein HTML Widget</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="74"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Allgemein</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="82"/>
       <source>Widget name</source>
-      <translation type="unfinished">Widget name</translation>
+      <translation>Widget Name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="90"/>
       <source>Created by</source>
-      <translation type="unfinished">Created by</translation>
+      <translation>Erstellt von</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="98"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Schlagwörter</translation>
     </message>
   </context>
   <context>
@@ -428,7 +427,7 @@
     <message>
       <location filename="../qml/Common/Headline.qml" line="17"/>
       <source>Headline</source>
-      <translation type="unfinished">Headline</translation>
+      <translation>Überschrift</translation>
     </message>
   </context>
   <context>
@@ -436,7 +435,7 @@
     <message>
       <location filename="../qml/Common/HeadlineSection.qml" line="6"/>
       <source>Headline Section</source>
-      <translation type="unfinished">Headline Section</translation>
+      <translation>Überschrift auswahl</translation>
     </message>
   </context>
   <context>
@@ -444,17 +443,17 @@
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="118"/>
       <source>Set your own preview image</source>
-      <translation type="unfinished">Set your own preview image</translation>
+      <translation>Setze dein eigenes Vorschaubild</translation>
     </message>
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="159"/>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Leeren</translation>
     </message>
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="176"/>
       <source>Select Preview Image</source>
-      <translation type="unfinished">Select Preview Image</translation>
+      <translation>Wähle ein Vorschaubild</translation>
     </message>
   </context>
   <context>
@@ -467,87 +466,87 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="43"/>
       <source>AnalyseVideo...</source>
-      <translation type="unfinished">AnalyseVideo...</translation>
+      <translation>Analysiere Video...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="46"/>
       <source>Generating preview image...</source>
-      <translation type="unfinished">Generating preview image...</translation>
+      <translation>Erzeuge Vorschaubild...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="49"/>
       <source>Generating preview thumbnail image...</source>
-      <translation type="unfinished">Generating preview thumbnail image...</translation>
+      <translation>Erzeuge Vorschau-Miniaturbild...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="56"/>
       <source>Generating 5 second preview video...</source>
-      <translation type="unfinished">Generating 5 second preview video...</translation>
+      <translation>Generiere ein 5-Sekunden-Vorschau-Video...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="59"/>
       <source>Generating preview gif...</source>
-      <translation type="unfinished">Generating preview gif...</translation>
+      <translation>Generiere Vorschau-Gif...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="68"/>
       <source>Converting Audio...</source>
-      <translation type="unfinished">Converting Audio...</translation>
+      <translation>Konvertiere Audio...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="71"/>
       <source>Converting Video... This can take some time!</source>
-      <translation type="unfinished">Converting Video... This can take some time!</translation>
+      <translation>Video wird umgewandelt... Das kann etwas dauern!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="74"/>
       <source>Converting Video ERROR!</source>
-      <translation type="unfinished">Converting Video ERROR!</translation>
+      <translation>Konvertieren nicht erfolgreich!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="77"/>
       <source>Analyse Video ERROR!</source>
-      <translation type="unfinished">Analyse Video ERROR!</translation>
+      <translation>Analyse des Videos schlug Fehl!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="106"/>
       <source>Import a video to a wallpaper</source>
-      <translation type="unfinished">Import a video to a wallpaper</translation>
+      <translation>Importiere ein Video zu ein Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="216"/>
       <source>Generating preview video...</source>
-      <translation type="unfinished">Generating preview video...</translation>
+      <translation>Generiere Vorschau-Video...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="276"/>
       <source>Name (required!)</source>
-      <translation type="unfinished">Name (required!)</translation>
+      <translation>Name (erforderlich!)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="290"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Beschreibung</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="298"/>
       <source>Youtube URL</source>
-      <translation type="unfinished">Youtube URL</translation>
+      <translation>YouTube-URL</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="329"/>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Abbrechen</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="342"/>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Speichern</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="376"/>
       <source>Save Wallpaper...</source>
-      <translation type="unfinished">Save Wallpaper...</translation>
+      <translation>Speicher Wallpaper...</translation>
     </message>
   </context>
   <context>
@@ -555,32 +554,32 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="32"/>
       <source>Import a .webm video</source>
-      <translation type="unfinished">Import a .webm video</translation>
+      <translation>Importiere ein .webm Video</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="48"/>
       <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-      <translation type="unfinished">When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</translation>
+      <translation>Wenn WEBM importiert wird, kann die lange Umwandlungszeit übersprungen werden. Wenn du nicht mit dem Ergebnis von dem ScreenPlay importierer zu frieden bis &apos; Video Importierer und Convertierer&apos; kannst du auch den gratis und Open Source konvertierer HandBreak benutzen!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="74"/>
       <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-      <translation type="unfinished">Invalid file type. Must be valid VP8 or VP9 (*.webm)!</translation>
+      <translation>Ungültiger Dateityp. Es muss ein gültiger VP8 oder Vp9 (*.webm) typ sein!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="97"/>
       <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-      <translation type="unfinished">Drop a *.webm file here or use &apos;Select file&apos; below.</translation>
+      <translation>Lass hier eine *.webm Datei fallen oder benutze &apos;Datei auswählen&apos; darunter</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="140"/>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>Öffne Dokumentation</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="159"/>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Datei auswählen</translation>
     </message>
   </context>
   <context>
@@ -593,23 +592,23 @@
     <message>
       <location filename="../qml/Installed/Installed.qml" line="162"/>
       <source>Refreshing!</source>
-      <translation type="unfinished">Refreshing!</translation>
+      <translation>Aktualisiere!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="165"/>
       <location filename="../qml/Installed/Installed.qml" line="180"/>
       <source>Pull to refresh!</source>
-      <translation type="unfinished">Pull to refresh!</translation>
+      <translation>Drücken zum aktualisieren!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="210"/>
       <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-      <translation type="unfinished">Get more Wallpaper &amp; Widgets via the Steam workshop!</translation>
+      <translation>Holen dir mehr Wallpaper und Widgets über den Steam-Workshop!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="275"/>
       <source>Open containing folder</source>
-      <translation type="unfinished">Open containing folder</translation>
+      <translation>Enthaltenden Ordner öffnen</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="285"/>
@@ -629,7 +628,7 @@
     <message>
       <location filename="../qml/Installed/Installed.qml" line="307"/>
       <source>Are you sure you want to delete this item?</source>
-      <translation type="unfinished">Are you sure you want to delete this item?</translation>
+      <translation>Bist du dir sicher dass du dieses Item löschen möchtest?</translation>
     </message>
   </context>
   <context>
@@ -637,12 +636,12 @@
     <message>
       <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="79"/>
       <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-      <translation type="unfinished">Get free Widgets and Wallpaper via the Steam Workshop</translation>
+      <translation>Hole dir kostenlose Widgets und Wallpaper via Steam</translation>
     </message>
     <message>
       <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="115"/>
       <source>Browse the Steam Workshop</source>
-      <translation type="unfinished">Browse the Steam Workshop</translation>
+      <translation>Stöbere durch den Steam Workshop</translation>
     </message>
   </context>
   <context>
@@ -650,12 +649,12 @@
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="17"/>
       <source>License</source>
-      <translation type="unfinished">License</translation>
+      <translation>Lizenz</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="36"/>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</source>
-      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</translation>
+      <translation>Teilen - kopieren und teilen in jeglicher art. Anpassen - remixen, Transformieren, und gebaut auf dem Material das für jeden Zweck, auch kommerziell.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="43"/>
@@ -690,8 +689,8 @@
       <location filename="../qml/Common/Dialogs/MonitorConfiguration.qml" line="38"/>
       <source>Your monitor setup changed!
  Please configure your wallpaper again.</source>
-      <translation type="unfinished">Your monitor setup changed!
- Please configure your wallpaper again.</translation>
+      <translation>Deine Bildschirm aufstellung hat sich geändert!
+Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     </message>
   </context>
   <context>
@@ -699,28 +698,28 @@
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="60"/>
       <source>Wallpaper Configuration</source>
-      <translation type="unfinished">Wallpaper Configuration</translation>
+      <translation>Wallpaper Konfiguration</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="130"/>
       <source>Remove selected</source>
-      <translation type="unfinished">Remove selected</translation>
+      <translation>Die Auswahl entfernen</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="145"/>
       <location filename="../qml/Monitors/Monitors.qml" line="161"/>
       <source>Remove </source>
-      <translation type="unfinished">Remove </translation>
+      <translation>Entferne </translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="145"/>
       <source>Wallpapers</source>
-      <translation type="unfinished">Wallpapers</translation>
+      <translation>Hintergründe</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="161"/>
       <source>Widgets</source>
-      <translation type="unfinished">Widgets</translation>
+      <translation>Widgets</translation>
     </message>
   </context>
   <context>
@@ -728,12 +727,12 @@
     <message>
       <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="143"/>
       <source>Set color</source>
-      <translation type="unfinished">Set color</translation>
+      <translation>Farbe Festlegen</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="174"/>
       <source>Please choose a color</source>
-      <translation type="unfinished">Please choose a color</translation>
+      <translation>Bitte wähle eine Farbe aus</translation>
     </message>
   </context>
   <context>
@@ -741,42 +740,42 @@
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="61"/>
       <source>All</source>
-      <translation type="unfinished">All</translation>
+      <translation>Alles</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="80"/>
       <source>Scenes</source>
-      <translation type="unfinished">Scenes</translation>
+      <translation>Szenen</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="99"/>
       <source>Videos</source>
-      <translation type="unfinished">Videos</translation>
+      <translation>Videos</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="118"/>
       <source>Widgets</source>
-      <translation type="unfinished">Widgets</translation>
+      <translation>Widgets</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="164"/>
       <source>Install Date Ascending</source>
-      <translation type="unfinished">Install Date Ascending</translation>
+      <translation>Installationsdatum aufsteigend</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="164"/>
       <source>Install Date Descending</source>
-      <translation type="unfinished">Install Date Descending</translation>
+      <translation>Installationsdatum absteigend</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Navigation.qml" line="41"/>
       <source> Subscribed items: </source>
-      <translation type="unfinished"> Subscribed items: </translation>
+      <translation>Abonnierte Inhalte: </translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Navigation.qml" line="89"/>
       <source>Upload to the Steam Workshop</source>
-      <translation type="unfinished">Upload to the Steam Workshop</translation>
+      <translation>Zum Steam Workshop Hochladen</translation>
     </message>
   </context>
   <context>
@@ -784,12 +783,12 @@
     <message>
       <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
       <source>Configurate active Wallpaper or Widgets</source>
-      <translation type="unfinished">Configurate active Wallpaper or Widgets</translation>
+      <translation>Konfiguriere aktive Wallpaper oder Widgets</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
       <source>No active Wallpaper or Widgets</source>
-      <translation type="unfinished">No active Wallpaper or Widgets</translation>
+      <translation>Keine aktiven Wallpaper oder Widgets</translation>
     </message>
   </context>
   <context>
@@ -802,7 +801,7 @@
     <message>
       <location filename="../qml/Workshop/PopupOffline.qml" line="33"/>
       <source>Back</source>
-      <translation type="unfinished">Back</translation>
+      <translation>Zurück</translation>
     </message>
   </context>
   <context>
@@ -810,7 +809,7 @@
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="25"/>
       <source>You Need to Agree To The Steam Subscriber Agreement First</source>
-      <translation type="unfinished">You Need to Agree To The Steam Subscriber Agreement First</translation>
+      <translation>Du musst zuerst zu den Steam-Abonnentenvertrag zustimmen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="32"/>
@@ -820,12 +819,12 @@
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="49"/>
       <source>View The Steam Subscriber Agreement</source>
-      <translation type="unfinished">View The Steam Subscriber Agreement</translation>
+      <translation>Siehe dir den Steam-Abonnentenvertrag</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="56"/>
       <source>Accept Steam Workshop Agreement</source>
-      <translation type="unfinished">Accept Steam Workshop Agreement</translation>
+      <translation>Aktzeptiere den Steam-Abonnentenvertrag</translation>
     </message>
   </context>
   <context>
@@ -833,37 +832,37 @@
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="29"/>
       <source>Create a QML Wallpaper</source>
-      <translation type="unfinished">Create a QML Wallpaper</translation>
+      <translation>Erstelle ein QML Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="34"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Allgemein</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="44"/>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Wallpaper Name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="53"/>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Erstellt von</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="62"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Beschreibung</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="70"/>
       <source>License &amp; Tags</source>
-      <translation type="unfinished">License &amp; Tags</translation>
+      <translation>Lizenz &amp; Schlagwörter</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="93"/>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Vorschaubild</translation>
     </message>
   </context>
   <context>
@@ -871,27 +870,27 @@
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="20"/>
       <source>Create a QML widget</source>
-      <translation type="unfinished">Create a QML widget</translation>
+      <translation>Erstelle ein QML Widget</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="74"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Allgemein</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="82"/>
       <source>Widget name</source>
-      <translation type="unfinished">Widget name</translation>
+      <translation>Widget Name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="90"/>
       <source>Created by</source>
-      <translation type="unfinished">Created by</translation>
+      <translation>Erstellt von</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="98"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Schlagwörter</translation>
     </message>
   </context>
   <context>
@@ -899,7 +898,7 @@
     <message>
       <location filename="../qml/Monitors/SaveNotification.qml" line="39"/>
       <source>Profile saved successfully!</source>
-      <translation type="unfinished">Profile saved successfully!</translation>
+      <translation>Profil erfolgreich gespeichert!</translation>
     </message>
   </context>
   <context>
@@ -915,7 +914,7 @@
     <message>
       <location filename="../qml/Common/Search.qml" line="33"/>
       <source>Search for Wallpaper &amp; Widgets</source>
-      <translation type="unfinished">Search for Wallpaper &amp; Widgets</translation>
+      <translation>Suche nach Wallpaper &amp; Widgets</translation>
     </message>
   </context>
   <context>
@@ -923,7 +922,7 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="54"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Allgemein</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="72"/>
@@ -933,22 +932,22 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="73"/>
       <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-      <translation type="unfinished">ScreenPlay will start with Windows and will setup your Desktop every time for you.</translation>
+      <translation>ScreenPlay startet mit Windows und richtet deinen Desktop jedes Mal für dich ein.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="84"/>
       <source>High priority Autostart</source>
-      <translation type="unfinished">High priority Autostart</translation>
+      <translation>Hohe Priorität für Autostart</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="86"/>
       <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-      <translation type="unfinished">This options grants ScreenPlay a higher autostart priority than other apps.</translation>
+      <translation>Diese Option gewährt ScreenPlay eine höhere Autostartpriorität als anderen Anwendungen.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="98"/>
       <source>Send anonymous crash reports and statistics</source>
-      <translation type="unfinished">Send anonymous crash reports and statistics</translation>
+      <translation>Sende anonyme Absturzberichte und Statistiken</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="99"/>
@@ -958,12 +957,12 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="110"/>
       <source>Set save location</source>
-      <translation type="unfinished">Set save location</translation>
+      <translation>Speicherort auswählen</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="111"/>
       <source>Set location</source>
-      <translation type="unfinished">Set location</translation>
+      <translation>Standort auswählen</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="116"/>
@@ -973,17 +972,17 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="139"/>
       <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-      <translation type="unfinished">Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</translation>
+      <translation>Wichtig: Eine Änderung dieses Verzeichnisses hat keine Auswirkungen auf den Download-Pfad des Workshops. ScreenPlay unterstützt nur ein Verzeichnis!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="161"/>
       <source>Language</source>
-      <translation type="unfinished">Language</translation>
+      <translation>Sprache</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="162"/>
       <source>Set the ScreenPlay UI Language</source>
-      <translation type="unfinished">Set the ScreenPlay UI Language</translation>
+      <translation>Wähle die Sprache des Programms aus</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="170"/>
@@ -993,7 +992,7 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="173"/>
       <source>German</source>
-      <translation type="unfinished">German</translation>
+      <translation>Deutsch</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="176"/>
@@ -1033,67 +1032,67 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="210"/>
       <source>Theme</source>
-      <translation type="unfinished">Theme</translation>
+      <translation>Thema</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="211"/>
       <source>Switch dark/light theme</source>
-      <translation type="unfinished">Switch dark/light theme</translation>
+      <translation>Wechsle Dunkles/Helles Design</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="219"/>
       <source>System Default</source>
-      <translation type="unfinished">System Default</translation>
+      <translation>System Standard</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="222"/>
       <source>Dark</source>
-      <translation type="unfinished">Dark</translation>
+      <translation>Dunkel</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="225"/>
       <source>Light</source>
-      <translation type="unfinished">Light</translation>
+      <translation>Hell</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="243"/>
       <source>Performance</source>
-      <translation type="unfinished">Performance</translation>
+      <translation>Leistung</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="262"/>
       <source>Pause wallpaper video rendering while another app is in the foreground</source>
-      <translation type="unfinished">Pause wallpaper video rendering while another app is in the foreground</translation>
+      <translation>Pausiere Wallpaper Video Rendering wenn eine andere App im Vordergrund ist</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="263"/>
       <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-      <translation type="unfinished">We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</translation>
+      <translation>Wir deaktivieren das Video Rendering (Aber nicht die Sounds) für die beste Leistung. Wenn du damit probleme haben solltest kannst dieses Verhalten hier ausschalten. Ein Neustart wird aber von Nöten sein!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="276"/>
       <source>Default Fill Mode</source>
-      <translation type="unfinished">Default Fill Mode</translation>
+      <translation>Standard-Füllmodus</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="277"/>
       <source>Set this property to define how the video is scaled to fit the target area.</source>
-      <translation type="unfinished">Set this property to define how the video is scaled to fit the target area.</translation>
+      <translation>Lege diese Eigenschaft fest, um zu definieren, wie das Video skaliert wird, damit es in den Zielbereich passt.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="286"/>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>Strecken</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="289"/>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Ausfüllen</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="292"/>
       <source>Contain</source>
-      <translation type="unfinished">Contain</translation>
+      <translation>Enthält</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="295"/>
@@ -1103,52 +1102,52 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="298"/>
       <source>Scale-Down</source>
-      <translation type="unfinished">Scale-Down</translation>
+      <translation>Runter Skallieren</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="313"/>
       <source>About</source>
-      <translation type="unfinished">About</translation>
+      <translation>Über</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="345"/>
       <source>Thank you for using ScreenPlay</source>
-      <translation type="unfinished">Thank you for using ScreenPlay</translation>
+      <translation>Danke, dass du ScreenPlay verwendest</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="363"/>
       <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-      <translation type="unfinished">Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</translation>
+      <translation>Moin, ich bin Elias Steurer, auch bekannt als Kelteseth und ich bin der Entwickler von ScreenPlay. Danke, dass du meine Software nutzt. Du kannst mir hier folgen, um Updates über ScreenPlay zu erhalten:</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="473"/>
       <source>Version</source>
-      <translation type="unfinished">Version</translation>
+      <translation>Version</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="474"/>
       <source>ScreenPlay Build Version </source>
-      <translation type="unfinished">ScreenPlay Build Version </translation>
+      <translation>ScreenPlay-Build-Version </translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="475"/>
       <source>Open Changelog</source>
-      <translation type="unfinished">Open Changelog</translation>
+      <translation>Changelog öffnen</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="483"/>
       <source>Third Party Software</source>
-      <translation type="unfinished">Third Party Software</translation>
+      <translation>Software von Drittanbietern</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="484"/>
       <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-      <translation type="unfinished">ScreenPlay would not be possible without the work of others. A big thank you to: </translation>
+      <translation>ScreenPlay wäre ohne die Arbeit anderer nicht möglich. Ein großes Dankeschön dafür geht an: </translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="485"/>
       <source>Licenses</source>
-      <translation type="unfinished">Licenses</translation>
+      <translation>Lizenzen</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="509"/>
@@ -1158,27 +1157,27 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="510"/>
       <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-      <translation type="unfinished">If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</translation>
+      <translation>Wenn den ScreenPlay sich falsch verhält, ist hier eine gute Möglichkeit, nach Antworten zu suchen. Hier werden alle Protokolle und Warnungen während der Laufzeit angezeigt.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="511"/>
       <source>Show Logs</source>
-      <translation type="unfinished">Show Logs</translation>
+      <translation>Zeige Logs</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="527"/>
       <source>Data Protection</source>
-      <translation type="unfinished">Data Protection</translation>
+      <translation>Datenschutz</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="528"/>
       <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-      <translation type="unfinished">We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</translation>
+      <translation>Wir verwenden deine Daten sehr sorgfältig, um ScreenPlay zu verbessern. Wir verkaufen oder teilen diese (anonymen) Informationen nicht mit anderen!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="529"/>
       <source>Privacy</source>
-      <translation type="unfinished">Privacy</translation>
+      <translation>Datenschutz</translation>
     </message>
   </context>
   <context>
@@ -1186,7 +1185,7 @@
     <message>
       <location filename="../qml/Settings/SettingsExpander.qml" line="65"/>
       <source>Copy text to clipboard</source>
-      <translation type="unfinished">Copy text to clipboard</translation>
+      <translation>Kopiere den Text in die Zwischenablage</translation>
     </message>
   </context>
   <context>
@@ -1194,7 +1193,7 @@
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="119"/>
       <source>Tools Overview</source>
-      <translation type="unfinished">Tools Overview</translation>
+      <translation>Werkzeugeübersicht</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="126"/>
@@ -1204,7 +1203,7 @@
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="133"/>
       <source>Video Import (.webm)</source>
-      <translation type="unfinished">Video Import (.webm)</translation>
+      <translation>Importiere Video (.webm)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="140"/>
@@ -1239,7 +1238,7 @@
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="75"/>
       <source>Set Wallpaper</source>
-      <translation type="unfinished">Set Wallpaper</translation>
+      <translation>Wallpaper Festlegen</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="78"/>
@@ -1249,37 +1248,37 @@
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="211"/>
       <source>Headline</source>
-      <translation type="unfinished">Headline</translation>
+      <translation>Überschrift</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="269"/>
       <source>Select a Monitor to display the content</source>
-      <translation type="unfinished">Select a Monitor to display the content</translation>
+      <translation>Wähle einen Monitor zur Anzeige des Inhalts</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="300"/>
       <source>Set Volume</source>
-      <translation type="unfinished">Set Volume</translation>
+      <translation>Audiolautstärke einstellen</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="319"/>
       <source>Fill Mode</source>
-      <translation type="unfinished">Fill Mode</translation>
+      <translation>Füll-Modus</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="338"/>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>Strecken</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="341"/>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Ausfüllen</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="344"/>
       <source>Contain</source>
-      <translation type="unfinished">Contain</translation>
+      <translation>Enthält</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="347"/>
@@ -1289,12 +1288,12 @@
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="350"/>
       <source>Scale-Down</source>
-      <translation type="unfinished">Scale-Down</translation>
+      <translation>Runter-Skallieren</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="81"/>
       <source>Size: </source>
-      <translation type="unfinished">Size: </translation>
+      <translation>Größe: </translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="81"/>
@@ -1304,37 +1303,37 @@
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="87"/>
       <source>No description...</source>
-      <translation type="unfinished">No description...</translation>
+      <translation>Leine Beschreibung...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="249"/>
       <source>Click here if you like the content</source>
-      <translation type="unfinished">Click here if you like the content</translation>
+      <translation>Klicke hier wenn du den Inhalt magst</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="264"/>
       <source>Click here if you do not like the content</source>
-      <translation type="unfinished">Click here if you do not like the content</translation>
+      <translation>Klicke hier wenn du den Inhalt nicht magst</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="334"/>
       <source>Subscribtions: </source>
-      <translation type="unfinished">Subscribtions: </translation>
+      <translation>Abonnements</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="402"/>
       <source>Open In Steam</source>
-      <translation type="unfinished">Open In Steam</translation>
+      <translation>Öffne in Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="412"/>
       <source>Subscribed!</source>
-      <translation type="unfinished">Subscribed!</translation>
+      <translation>Abonniert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="412"/>
       <source>Subscribe</source>
-      <translation type="unfinished">Subscribe</translation>
+      <translation>Abonniere</translation>
     </message>
   </context>
   <context>
@@ -1342,12 +1341,12 @@
     <message>
       <location filename="../qml/Create/StartInfo.qml" line="19"/>
       <source>Free Tools to create wallpaper</source>
-      <translation type="unfinished">Free Tools to create wallpaper</translation>
+      <translation>Gratis App zur Erstellung von Hintergünden</translation>
     </message>
     <message>
       <location filename="../qml/Create/StartInfo.qml" line="36"/>
       <source>Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!</source>
-      <translation type="unfinished">Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!</translation>
+      <translation>Darunter findest du Apps die über ScreenPlay hinaus Wallpaper für dich erstellen können!</translation>
     </message>
   </context>
   <context>
@@ -1355,7 +1354,7 @@
     <message>
       <location filename="../qml/Common/Dialogs/SteamNotAvailable.qml" line="11"/>
       <source>Could not load steam integration!</source>
-      <translation type="unfinished">Could not load steam integration!</translation>
+      <translation>Konnte Steam integration nicht Laden!</translation>
     </message>
   </context>
   <context>
@@ -1364,12 +1363,12 @@
       <location filename="../qml/Workshop/SteamProfile.qml" line="78"/>
       <location filename="../qml/Workshop/SteamProfile.qml" line="138"/>
       <source>Back</source>
-      <translation type="unfinished">Back</translation>
+      <translation>Zurück</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamProfile.qml" line="160"/>
       <source>Forward</source>
-      <translation type="unfinished">Forward</translation>
+      <translation>Vor</translation>
     </message>
   </context>
   <context>
@@ -1377,17 +1376,17 @@
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="151"/>
       <source>Loading</source>
-      <translation type="unfinished">Loading</translation>
+      <translation>laden</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="163"/>
       <source>Download now!</source>
-      <translation type="unfinished">Download now!</translation>
+      <translation>Jetzt Downloaden!</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="168"/>
       <source>Downloading...</source>
-      <translation type="unfinished">Downloading...</translation>
+      <translation>Am Herunterladen...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="176"/>
@@ -1397,12 +1396,12 @@
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="202"/>
       <source>Open In Steam</source>
-      <translation type="unfinished">Open In Steam</translation>
+      <translation>Öffne in Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="286"/>
       <source>Profile</source>
-      <translation type="unfinished">Profile</translation>
+      <translation>Profil</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="299"/>
@@ -1412,72 +1411,72 @@
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="317"/>
       <source>Search for Wallpaper and Widgets...</source>
-      <translation type="unfinished">Search for Wallpaper and Widgets...</translation>
+      <translation>Suche nach Hintergründen und Widgets...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="361"/>
       <source>Open Workshop in Steam</source>
-      <translation type="unfinished">Open Workshop in Steam</translation>
+      <translation>Öffne Workshop in Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="385"/>
       <source>Ranked By Vote</source>
-      <translation type="unfinished">Ranked By Vote</translation>
+      <translation>Nach Bewertungen sortieren</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="388"/>
       <source>Publication Date</source>
-      <translation type="unfinished">Publication Date</translation>
+      <translation>Veröffentlichungs Datum</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="391"/>
       <source>Ranked By Trend</source>
-      <translation type="unfinished">Ranked By Trend</translation>
+      <translation>Nach Trends sortieren</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="394"/>
       <source>Favorited By Friends</source>
-      <translation type="unfinished">Favorited By Friends</translation>
+      <translation>Von Freunden Favorisiert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="397"/>
       <source>Created By Friends</source>
-      <translation type="unfinished">Created By Friends</translation>
+      <translation>Von Freunden erstellt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="400"/>
       <source>Created By Followed Users</source>
-      <translation type="unfinished">Created By Followed Users</translation>
+      <translation>Von Gefolgten Benutzern erstellt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="403"/>
       <source>Not Yet Rated</source>
-      <translation type="unfinished">Not Yet Rated</translation>
+      <translation>Noch nicht Bewertet</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="406"/>
       <source>Total VotesAsc</source>
-      <translation type="unfinished">Total VotesAsc</translation>
+      <translation>Abstimmungs Anzahl Absteigend</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="409"/>
       <source>Votes Up</source>
-      <translation type="unfinished">Votes Up</translation>
+      <translation>Abstimmungs Anzahl Steigend</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="412"/>
       <source>Total Unique Subscriptions</source>
-      <translation type="unfinished">Total Unique Subscriptions</translation>
+      <translation>Anzahl Einzigartiger Abonnennts</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="461"/>
       <source>Back</source>
-      <translation type="unfinished">Back</translation>
+      <translation>Zurück</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="485"/>
       <source>Forward</source>
-      <translation type="unfinished">Forward</translation>
+      <translation>Vor</translation>
     </message>
   </context>
   <context>
@@ -1485,22 +1484,22 @@
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="22"/>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Speichern</translation>
     </message>
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="25"/>
       <source>Add tag</source>
-      <translation type="unfinished">Add tag</translation>
+      <translation>Tag hinzufügen</translation>
     </message>
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="132"/>
       <source>Cancel</source>
-      <translation type="unfinished">Cancel</translation>
+      <translation>Abbrechen</translation>
     </message>
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="155"/>
       <source>Add Tag</source>
-      <translation type="unfinished">Add Tag</translation>
+      <translation>Tag hinzufügen</translation>
     </message>
   </context>
   <context>
@@ -1508,12 +1507,12 @@
     <message>
       <location filename="../qml/Common/TextField.qml" line="36"/>
       <source>Label</source>
-      <translation type="unfinished">Label</translation>
+      <translation>Beschriftung</translation>
     </message>
     <message>
       <location filename="../qml/Common/TextField.qml" line="98"/>
       <source>*Required</source>
-      <translation type="unfinished">*Required</translation>
+      <translation>*Benötigt</translation>
     </message>
   </context>
   <context>
@@ -1521,39 +1520,39 @@
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="10"/>
       <source>ScreenPlay - Double click to change you settings.</source>
-      <translation type="unfinished">ScreenPlay - Double click to change you settings.</translation>
+      <translation>ScreenPlay - Doppelklicke, um deine Einstellungen zu ändern.</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="29"/>
       <source>Open ScreenPlay</source>
-      <translation type="unfinished">Open ScreenPlay</translation>
+      <translation>Öffne ScreenPlay</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="40"/>
       <location filename="../qml/Common/TrayIcon.qml" line="44"/>
       <source>Mute all</source>
-      <translation type="unfinished">Mute all</translation>
+      <translation>Alles stummschalten</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="48"/>
       <source>Unmute all</source>
-      <translation type="unfinished">Unmute all</translation>
+      <translation>Alle Stummschaltungen aufheben</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="59"/>
       <location filename="../qml/Common/TrayIcon.qml" line="63"/>
       <source>Pause all</source>
-      <translation type="unfinished">Pause all</translation>
+      <translation>Alles pausieren</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="67"/>
       <source>Play all</source>
-      <translation type="unfinished">Play all</translation>
+      <translation>Alles abspielen</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="74"/>
       <source>Quit</source>
-      <translation type="unfinished">Quit</translation>
+      <translation>Beenden</translation>
     </message>
   </context>
   <context>
@@ -1561,22 +1560,22 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="60"/>
       <source>Upload Wallpaper/Widgets to Steam</source>
-      <translation type="unfinished">Upload Wallpaper/Widgets to Steam</translation>
+      <translation>Lade Wallpaper/Widget auf Steam hoch</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="142"/>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Abbrechen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="157"/>
       <source>Upload Selected Projects</source>
-      <translation type="unfinished">Upload Selected Projects</translation>
+      <translation>Lade ausgewähltes Projekt hoch</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="216"/>
       <source>Finish</source>
-      <translation type="unfinished">Finish</translation>
+      <translation>Beenden</translation>
     </message>
   </context>
   <context>
@@ -1584,17 +1583,17 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="114"/>
       <source>Type: </source>
-      <translation type="unfinished">Type: </translation>
+      <translation>Typ: </translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="122"/>
       <source>Open Folder</source>
-      <translation type="unfinished">Open Folder</translation>
+      <translation>Öffne Ordner</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="136"/>
       <source>Invalid Project!</source>
-      <translation type="unfinished">Invalid Project!</translation>
+      <translation>Ungültiges Projekt</translation>
     </message>
   </context>
   <context>
@@ -1602,177 +1601,177 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="33"/>
       <source>Fail</source>
-      <translation type="unfinished">Fail</translation>
+      <translation>Fehler</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="36"/>
       <source>No Connection</source>
-      <translation type="unfinished">No Connection</translation>
+      <translation>Keine Verbindung</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="39"/>
       <source>Invalid Password</source>
-      <translation type="unfinished">Invalid Password</translation>
+      <translation>Falsches Passwort</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="42"/>
       <source>Logged In Elsewhere</source>
-      <translation type="unfinished">Logged In Elsewhere</translation>
+      <translation>Woanders Eingelogged</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="45"/>
       <source>Invalid Protocol Version</source>
-      <translation type="unfinished">Invalid Protocol Version</translation>
+      <translation>Falsche Protokoll Version</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="48"/>
       <source>Invalid Param</source>
-      <translation type="unfinished">Invalid Param</translation>
+      <translation>Falsche Parameter</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="51"/>
       <source>File Not Found</source>
-      <translation type="unfinished">File Not Found</translation>
+      <translation>Datei nicht gefunden</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="54"/>
       <source>Busy</source>
-      <translation type="unfinished">Busy</translation>
+      <translation>Beschäftigt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="57"/>
       <source>Invalid State</source>
-      <translation type="unfinished">Invalid State</translation>
+      <translation>ungültiger Status</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="60"/>
       <source>Invalid Name</source>
-      <translation type="unfinished">Invalid Name</translation>
+      <translation>ungültiger Name</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="63"/>
       <source>Invalid Email</source>
-      <translation type="unfinished">Invalid Email</translation>
+      <translation>ungültige Email</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="66"/>
       <source>Duplicate Name</source>
-      <translation type="unfinished">Duplicate Name</translation>
+      <translation>Doppelter Name</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="69"/>
       <source>Access Denied</source>
-      <translation type="unfinished">Access Denied</translation>
+      <translation>Zugriff verweigert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="72"/>
       <source>Timeout</source>
-      <translation type="unfinished">Timeout</translation>
+      <translation>Auszeit</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="75"/>
       <source>Banned</source>
-      <translation type="unfinished">Banned</translation>
+      <translation>Gebannt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="78"/>
       <source>Account Not Found</source>
-      <translation type="unfinished">Account Not Found</translation>
+      <translation>Account nicht gefunden</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="81"/>
       <source>Invalid SteamID</source>
-      <translation type="unfinished">Invalid SteamID</translation>
+      <translation>ungültige Steam ID</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="84"/>
       <source>Service Unavailable</source>
-      <translation type="unfinished">Service Unavailable</translation>
+      <translation>Service nicht Verfügbar</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="87"/>
       <source>Not Logged On</source>
-      <translation type="unfinished">Not Logged On</translation>
+      <translation>Nicht angemeldet</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="90"/>
       <source>Pending</source>
-      <translation type="unfinished">Pending</translation>
+      <translation>Ausstehend</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="93"/>
       <source>Encryption Failure</source>
-      <translation type="unfinished">Encryption Failure</translation>
+      <translation>Verschlüsselungsfehler</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="96"/>
       <source>Insufficient Privilege</source>
-      <translation type="unfinished">Insufficient Privilege</translation>
+      <translation>Unzureichende Berechtigung</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="99"/>
       <source>Limit Exceeded</source>
-      <translation type="unfinished">Limit Exceeded</translation>
+      <translation>Limit überschritten</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="102"/>
       <source>Revoked</source>
-      <translation type="unfinished">Revoked</translation>
+      <translation>Wiederrufen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="105"/>
       <source>Expired</source>
-      <translation type="unfinished">Expired</translation>
+      <translation>Abgelaufen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="108"/>
       <source>Already Redeemed</source>
-      <translation type="unfinished">Already Redeemed</translation>
+      <translation>Bereits eingelöst</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="111"/>
       <source>Duplicate Request</source>
-      <translation type="unfinished">Duplicate Request</translation>
+      <translation>Doppelte anfrage</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="114"/>
       <source>Already Owned</source>
-      <translation type="unfinished">Already Owned</translation>
+      <translation>Bereits vergeben</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="117"/>
       <source>IP Not Found</source>
-      <translation type="unfinished">IP Not Found</translation>
+      <translation>IP nicht gefunden</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="120"/>
       <source>Persist Failed</source>
-      <translation type="unfinished">Persist Failed</translation>
+      <translation>Anhalten fehlgeschlagen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="123"/>
       <source>Locking Failed</source>
-      <translation type="unfinished">Locking Failed</translation>
+      <translation>Sperren fehlgeschlagen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="126"/>
       <source>Logon Session Replaced</source>
-      <translation type="unfinished">Logon Session Replaced</translation>
+      <translation>Anmeldesitzung ersetzt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="129"/>
       <source>Connect Failed</source>
-      <translation type="unfinished">Connect Failed</translation>
+      <translation>Verbindung gescheitert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="132"/>
       <source>Handshake Failed</source>
-      <translation type="unfinished">Handshake Failed</translation>
+      <translation>Handshake fehlgeschlagen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="135"/>
       <source>IO Failure</source>
-      <translation type="unfinished">IO Failure</translation>
+      <translation>IO Fehler</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="138"/>
@@ -1782,32 +1781,32 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="141"/>
       <source>Shopping Cart Not Found</source>
-      <translation type="unfinished">Shopping Cart Not Found</translation>
+      <translation>Warenkorb nicht gefunden</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="144"/>
       <source>Blocked</source>
-      <translation type="unfinished">Blocked</translation>
+      <translation>Blockiert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="147"/>
       <source>Ignored</source>
-      <translation type="unfinished">Ignored</translation>
+      <translation>Ignoriert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="150"/>
       <source>No Match</source>
-      <translation type="unfinished">No Match</translation>
+      <translation>Keine Übereinstimmung</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="153"/>
       <source>Account Disabled</source>
-      <translation type="unfinished">Account Disabled</translation>
+      <translation>Account deaktiviert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="156"/>
       <source>Service ReadOnly</source>
-      <translation type="unfinished">Service ReadOnly</translation>
+      <translation>Schreibgeschützter Dienst</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="159"/>
@@ -1822,42 +1821,42 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="165"/>
       <source>Content Version</source>
-      <translation type="unfinished">Content Version</translation>
+      <translation>Inhaltsversion</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="168"/>
       <source>Try Another CM</source>
-      <translation type="unfinished">Try Another CM</translation>
+      <translation>Versuch ein anderen CM</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="171"/>
       <source>Password Required T oKick Session</source>
-      <translation type="unfinished">Password Required T oKick Session</translation>
+      <translation>Passwort benötigt zum beenden der Sitzung</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="174"/>
       <source>Already Logged In Elsewhere</source>
-      <translation type="unfinished">Already Logged In Elsewhere</translation>
+      <translation>Bereits woanders eingeloggt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="177"/>
       <source>Suspended</source>
-      <translation type="unfinished">Suspended</translation>
+      <translation>Gesperrt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="180"/>
       <source>Cancelled</source>
-      <translation type="unfinished">Cancelled</translation>
+      <translation>Abgebrochen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="183"/>
       <source>Data Corruption</source>
-      <translation type="unfinished">Data Corruption</translation>
+      <translation>Datenkorruption</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="186"/>
       <source>Disk Full</source>
-      <translation type="unfinished">Disk Full</translation>
+      <translation>Festplatte voll</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="189"/>
@@ -1867,22 +1866,22 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="192"/>
       <source>Password Unset</source>
-      <translation type="unfinished">Password Unset</translation>
+      <translation>Passwort aufheben</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="195"/>
       <source>External Account Unlinked</source>
-      <translation type="unfinished">External Account Unlinked</translation>
+      <translation>Externe Accountverknüpfung aufheben</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="198"/>
       <source>PSN Ticket Invalid</source>
-      <translation type="unfinished">PSN Ticket Invalid</translation>
+      <translation>ungültiges PSN Ticket</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="201"/>
       <source>External Account Already Linked</source>
-      <translation type="unfinished">External Account Already Linked</translation>
+      <translation>Externer Account ist bereits verbunden</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="204"/>
@@ -1892,77 +1891,77 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="207"/>
       <source>Illegal Password</source>
-      <translation type="unfinished">Illegal Password</translation>
+      <translation>Nicht unterstütztes Passwort</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="210"/>
       <source>Same As Previous Value</source>
-      <translation type="unfinished">Same As Previous Value</translation>
+      <translation>Gleicher wert wie vorheriger</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="213"/>
       <source>Account Logon Denied</source>
-      <translation type="unfinished">Account Logon Denied</translation>
+      <translation>Anmeldung verweigert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="216"/>
       <source>Cannot Use Old Password</source>
-      <translation type="unfinished">Cannot Use Old Password</translation>
+      <translation>Du kannst dein altes Passwort nicht benutzen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="219"/>
       <source>Invalid Login AuthCode</source>
-      <translation type="unfinished">Invalid Login AuthCode</translation>
+      <translation>Falscher Login AuthCode</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="222"/>
       <source>Account Logon Denied No Mail</source>
-      <translation type="unfinished">Account Logon Denied No Mail</translation>
+      <translation>Account anmeldung abgelehnt, keine Mail</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="225"/>
       <source>Hardware Not Capable Of IPT</source>
-      <translation type="unfinished">Hardware Not Capable Of IPT</translation>
+      <translation>Hardware ist nicht IPT fähig</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="228"/>
       <source>IPT Init Error</source>
-      <translation type="unfinished">IPT Init Error</translation>
+      <translation>IPT Init Fehler</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="231"/>
       <source>Parental Control Restricted</source>
-      <translation type="unfinished">Parental Control Restricted</translation>
+      <translation>Kindersicherung eingeschränkt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="234"/>
       <source>Facebook Query Error</source>
-      <translation type="unfinished">Facebook Query Error</translation>
+      <translation>Facebook-Abfragefehler</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="237"/>
       <source>Expired Login Auth Code</source>
-      <translation type="unfinished">Expired Login Auth Code</translation>
+      <translation>Abgelaufener Login Auth Code</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="240"/>
       <source>IP Login Restriction Failed</source>
-      <translation type="unfinished">IP Login Restriction Failed</translation>
+      <translation>IP-Anmeldebeschränkung fehlgeschlagen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="243"/>
       <source>Account Locked Down</source>
-      <translation type="unfinished">Account Locked Down</translation>
+      <translation>Account gesperrt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="246"/>
       <source>Account Logon Denied Verified Email Required</source>
-      <translation type="unfinished">Account Logon Denied Verified Email Required</translation>
+      <translation>Account anmeldung abgelehnt, Verifizierte E-Mail erforderlich</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="249"/>
       <source>No MatchingURL</source>
-      <translation type="unfinished">No MatchingURL</translation>
+      <translation>Keine passende URL</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="252"/>
@@ -1972,52 +1971,52 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="255"/>
       <source>Require Password ReEntry</source>
-      <translation type="unfinished">Require Password ReEntry</translation>
+      <translation>Passwort erneurt eintragen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="258"/>
       <source>Value Out Of Range</source>
-      <translation type="unfinished">Value Out Of Range</translation>
+      <translation>Wert außerhalb des Bereichs</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="261"/>
       <source>Unexpecte Error</source>
-      <translation type="unfinished">Unexpecte Error</translation>
+      <translation>Unerwarteter Fehler</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="264"/>
       <source>Disabled</source>
-      <translation type="unfinished">Disabled</translation>
+      <translation>Deaktiviert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="267"/>
       <source>Invalid CEG Submission</source>
-      <translation type="unfinished">Invalid CEG Submission</translation>
+      <translation>Ungültige CEG-Einreichung</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="270"/>
       <source>Restricted Device</source>
-      <translation type="unfinished">Restricted Device</translation>
+      <translation>Eingeschränktes Gerät</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="273"/>
       <source>Region Locked</source>
-      <translation type="unfinished">Region Locked</translation>
+      <translation>Region gesperrt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="276"/>
       <source>Rate Limit Exceeded</source>
-      <translation type="unfinished">Rate Limit Exceeded</translation>
+      <translation>Frequenzgrenze überschritten</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="279"/>
       <source>Account Login Denied Need Two Factor</source>
-      <translation type="unfinished">Account Login Denied Need Two Factor</translation>
+      <translation>Accountanmeldung verweigert zwei Faktor Auth benötigt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="282"/>
       <source>Item Deleted</source>
-      <translation type="unfinished">Item Deleted</translation>
+      <translation>item gelöscht</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="285"/>
@@ -2027,147 +2026,147 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="288"/>
       <source>Two Factor Code Mismatch</source>
-      <translation type="unfinished">Two Factor Code Mismatch</translation>
+      <translation>Zwei Faktor Code stimmt nicht überein</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="291"/>
       <source>Two Factor Activation Code Mismatch</source>
-      <translation type="unfinished">Two Factor Activation Code Mismatch</translation>
+      <translation>Zwei Faktor Code stimmt nicht überein</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="294"/>
       <source>Account Associated To Multiple Partners</source>
-      <translation type="unfinished">Account Associated To Multiple Partners</translation>
+      <translation>Account ist mehreren Partnern zugeordnet</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="297"/>
       <source>Not Modified</source>
-      <translation type="unfinished">Not Modified</translation>
+      <translation>Nicht modifiziert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="300"/>
       <source>No Mobile Device</source>
-      <translation type="unfinished">No Mobile Device</translation>
+      <translation>Kein Mobilgerät</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="303"/>
       <source>Time Not Synced</source>
-      <translation type="unfinished">Time Not Synced</translation>
+      <translation>Zeit nicht synchronisiert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="306"/>
       <source>Sms Code Failed</source>
-      <translation type="unfinished">Sms Code Failed</translation>
+      <translation>SMS-Code fehlgeschlagen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="309"/>
       <source>Account Limit Exceeded</source>
-      <translation type="unfinished">Account Limit Exceeded</translation>
+      <translation>Kontolimit überschritten</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="312"/>
       <source>Account Activity Limit Exceeded</source>
-      <translation type="unfinished">Account Activity Limit Exceeded</translation>
+      <translation>Kontoaktivitätslimit überschritten</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="315"/>
       <source>Phone Activity Limit Exceeded</source>
-      <translation type="unfinished">Phone Activity Limit Exceeded</translation>
+      <translation>Telefonaktivitätslimit überschritten</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="318"/>
       <source>Refund To Wallet</source>
-      <translation type="unfinished">Refund To Wallet</translation>
+      <translation>Rückerstattung an Wallet</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="321"/>
       <source>Email Send Failure</source>
-      <translation type="unfinished">Email Send Failure</translation>
+      <translation>E-Mail-Sendefehler</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="324"/>
       <source>Not Settled</source>
-      <translation type="unfinished">Not Settled</translation>
+      <translation>Nicht geklärt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="327"/>
       <source>Need Captcha</source>
-      <translation type="unfinished">Need Captcha</translation>
+      <translation>Captcha benötigt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="330"/>
       <source>GSLT Denied</source>
-      <translation type="unfinished">GSLT Denied</translation>
+      <translation>GSLT abgelehnt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="333"/>
       <source>GS Owner Denied</source>
-      <translation type="unfinished">GS Owner Denied</translation>
+      <translation>GS besitzer abgelehnt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="336"/>
       <source>Invalid Item Type</source>
-      <translation type="unfinished">Invalid Item Type</translation>
+      <translation>Ungültiger Item Typ</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="339"/>
       <source>IP Banned</source>
-      <translation type="unfinished">IP Banned</translation>
+      <translation>IP Gebannt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="342"/>
       <source>GSLT Expired</source>
-      <translation type="unfinished">GSLT Expired</translation>
+      <translation>GSLT Abgelaufen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="345"/>
       <source>Insufficient Funds</source>
-      <translation type="unfinished">Insufficient Funds</translation>
+      <translation>Unzureichende Mittel</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="348"/>
       <source>Too Many Pending</source>
-      <translation type="unfinished">Too Many Pending</translation>
+      <translation>Zu viele ausstehend</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="351"/>
       <source>No Site Licenses Found</source>
-      <translation type="unfinished">No Site Licenses Found</translation>
+      <translation>Keine Site-Lizenzen gefunden</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="354"/>
       <source>WG Network Send Exceeded</source>
-      <translation type="unfinished">WG Network Send Exceeded</translation>
+      <translation>WG-Netzwerk senden überschritten</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="357"/>
       <source>Account Not Friends</source>
-      <translation type="unfinished">Account Not Friends</translation>
+      <translation>Account nicht befreundet</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="360"/>
       <source>Limited User Account</source>
-      <translation type="unfinished">Limited User Account</translation>
+      <translation>Eingeschränktes Benutzerkonto</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="363"/>
       <source>Cant Remove Item</source>
-      <translation type="unfinished">Cant Remove Item</translation>
+      <translation>Item kann nicht Entfernt werden</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="366"/>
       <source>Account Deleted</source>
-      <translation type="unfinished">Account Deleted</translation>
+      <translation>Account gelöscht</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="369"/>
       <source>Existing User Cancelled License</source>
-      <translation type="unfinished">Existing User Cancelled License</translation>
+      <translation>Benutzer hat Lizenz Annulliert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="372"/>
       <source>Community Cooldown</source>
-      <translation type="unfinished">Community Cooldown</translation>
+      <translation>Community-Abklingzeit</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="464"/>
@@ -2177,7 +2176,7 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="483"/>
       <source>Upload Progress: </source>
-      <translation type="unfinished">Upload Progress: </translation>
+      <translation>Upload-Fortschritt: </translation>
     </message>
   </context>
   <context>
@@ -2185,37 +2184,37 @@
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="30"/>
       <source>Create a Website Wallpaper</source>
-      <translation type="unfinished">Create a Website Wallpaper</translation>
+      <translation>Erstelle ein Website Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="35"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Allgemein</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="45"/>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Wallpaper Name</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="54"/>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Erstellt von</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="63"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Beschreibung</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="79"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Schlagwörter</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WebsiteWallpaper.qml" line="93"/>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Vorschaubild</translation>
     </message>
   </context>
   <context>
@@ -2223,12 +2222,12 @@
     <message>
       <location filename="../qml/Create/Wizards/WizardPage.qml" line="69"/>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Speichern</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/WizardPage.qml" line="101"/>
       <source>Saving...</source>
-      <translation type="unfinished">Saving...</translation>
+      <translation>Speichern...</translation>
     </message>
   </context>
   <context>
@@ -2236,12 +2235,12 @@
     <message>
       <location filename="../qml/Workshop/WorkshopItem.qml" line="298"/>
       <source>Successfully subscribed to Workshop Item!</source>
-      <translation type="unfinished">Successfully subscribed to Workshop Item!</translation>
+      <translation>Erfolgreich Steam Workshop Item Abonniert!</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/WorkshopItem.qml" line="401"/>
       <source>Download complete!</source>
-      <translation type="unfinished">Download complete!</translation>
+      <translation>Download abgeschlossen!</translation>
     </message>
   </context>
   <context>
@@ -2249,7 +2248,7 @@
     <message>
       <location filename="../qml/Community/XMLNewsfeed.qml" line="71"/>
       <source>News &amp; Patchnotes</source>
-      <translation type="unfinished">News &amp; Patchnotes</translation>
+      <translation>Neuigkeiten &amp; Patchnotes</translation>
     </message>
   </context>
 </TS>
