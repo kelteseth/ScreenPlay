@@ -6,27 +6,27 @@
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="345"/>
       <source>Red</source>
-      <translation type="unfinished">Red</translation>
+      <translation>빨강</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="364"/>
       <source>Green</source>
-      <translation type="unfinished">Green</translation>
+      <translation>초록</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="383"/>
       <source>Blue</source>
-      <translation type="unfinished">Blue</translation>
+      <translation>파랑</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="572"/>
       <source>RGB</source>
-      <translation type="unfinished">RGB</translation>
+      <translation>RGB</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="590"/>
       <source>HSV</source>
-      <translation type="unfinished">HSV</translation>
+      <translation>HSV</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="617"/>
@@ -61,7 +61,7 @@
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="723"/>
       <source>Alpha:</source>
-      <translation type="unfinished">Alpha:</translation>
+      <translation>알파:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="740"/>
@@ -74,22 +74,22 @@
     <message>
       <location filename="../qml/Community/Community.qml" line="38"/>
       <source>News</source>
-      <translation type="unfinished">News</translation>
+      <translation>새소식</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="44"/>
       <source>Wiki</source>
-      <translation type="unfinished">Wiki</translation>
+      <translation>위키</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="50"/>
       <source>Forum</source>
-      <translation type="unfinished">Forum</translation>
+      <translation>게시판</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="56"/>
       <source>Issue List</source>
-      <translation type="unfinished">Issue List</translation>
+      <translation>이슈 목록</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="62"/>
@@ -99,7 +99,7 @@
     <message>
       <location filename="../qml/Community/Community.qml" line="68"/>
       <source>Steam Workshop</source>
-      <translation type="unfinished">Steam Workshop</translation>
+      <translation>스팀 창작마당</translation>
     </message>
   </context>
   <context>
@@ -107,7 +107,7 @@
     <message>
       <location filename="../qml/Community/CommunityNavItem.qml" line="57"/>
       <source>Open in browser</source>
-      <translation type="unfinished">Open in browser</translation>
+      <translation>브라우저에서 열기</translation>
     </message>
   </context>
   <context>
@@ -139,12 +139,12 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="113"/>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>문서 열기</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="132"/>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>파일 선택</translation>
     </message>
   </context>
   <context>
@@ -152,17 +152,17 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="18"/>
       <source>An error occurred!</source>
-      <translation type="unfinished">An error occurred!</translation>
+      <translation>에러 발생</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="91"/>
       <source>Copy text to clipboard</source>
-      <translation type="unfinished">Copy text to clipboard</translation>
+      <translation>텍스트를 클립보드에 복사</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="102"/>
       <source>Back to create and send an error report!</source>
-      <translation type="unfinished">Back to create and send an error report!</translation>
+      <translation>에러 보고서를 전송하고 만들기 로 돌아가기</translation>
     </message>
   </context>
   <context>
@@ -175,32 +175,32 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="48"/>
       <source>Generating preview image...</source>
-      <translation type="unfinished">Generating preview image...</translation>
+      <translation>미리보기 이미지 생성중...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="51"/>
       <source>Generating preview thumbnail image...</source>
-      <translation type="unfinished">Generating preview thumbnail image...</translation>
+      <translation>미리보기 썸네일 이미지 생성중...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="58"/>
       <source>Generating 5 second preview video...</source>
-      <translation type="unfinished">Generating 5 second preview video...</translation>
+      <translation>5초 미리보기 비디오 생성중...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="61"/>
       <source>Generating preview gif...</source>
-      <translation type="unfinished">Generating preview gif...</translation>
+      <translation>미리보기 GIF 생성중...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="70"/>
       <source>Converting Audio...</source>
-      <translation type="unfinished">Converting Audio...</translation>
+      <translation>오디오 변환중...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="73"/>
       <source>Converting Video... This can take some time!</source>
-      <translation type="unfinished">Converting Video... This can take some time!</translation>
+      <translation>비디오 변환중... 시간이 좀 걸릴 수 있습니다!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="77"/>
@@ -278,7 +278,7 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="102"/>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>늘리기</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="105"/>
@@ -415,12 +415,12 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="90"/>
       <source>Created by</source>
-      <translation type="unfinished">Created by</translation>
+      <translation>만든이</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="98"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>태그</translation>
     </message>
   </context>
   <context>
@@ -454,7 +454,7 @@
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="176"/>
       <source>Select Preview Image</source>
-      <translation type="unfinished">Select Preview Image</translation>
+      <translation>미리보기 이미지 선택</translation>
     </message>
   </context>
   <context>
@@ -532,17 +532,17 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="298"/>
       <source>Youtube URL</source>
-      <translation type="unfinished">Youtube URL</translation>
+      <translation>유튜브 URL</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="329"/>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>중단</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="342"/>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>저장</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="376"/>
@@ -575,12 +575,12 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="140"/>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>문서 열기</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="159"/>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>파일 선택</translation>
     </message>
   </context>
   <context>
@@ -593,7 +593,7 @@
     <message>
       <location filename="../qml/Installed/Installed.qml" line="162"/>
       <source>Refreshing!</source>
-      <translation type="unfinished">Refreshing!</translation>
+      <translation>새로고침 중</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="165"/>
@@ -624,7 +624,7 @@
     <message>
       <location filename="../qml/Installed/Installed.qml" line="295"/>
       <source>Open Workshop Page</source>
-      <translation type="unfinished">Open Workshop Page</translation>
+      <translation>창작마당 페이지 열기</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="307"/>
@@ -650,7 +650,7 @@
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="17"/>
       <source>License</source>
-      <translation type="unfinished">License</translation>
+      <translation>라이센스</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="36"/>
