@@ -292,7 +292,7 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="111"/>
       <source>Cover</source>
-      <translation type="unfinished">Cover</translation>
+      <translation>Cover</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="114"/>
@@ -613,17 +613,17 @@
     <message>
       <location filename="../qml/Installed/Installed.qml" line="285"/>
       <source>Remove Item</source>
-      <translation type="unfinished">Remove Item</translation>
+      <translation>Item entfernen</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="285"/>
       <source>Remove via Workshop</source>
-      <translation type="unfinished">Remove via Workshop</translation>
+      <translation>Über den Workshop entfernen</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="295"/>
       <source>Open Workshop Page</source>
-      <translation type="unfinished">Open Workshop Page</translation>
+      <translation>Workshop öffnen</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="307"/>
@@ -660,27 +660,27 @@
       <location filename="../qml/Common/LicenseSelector.qml" line="43"/>
       <location filename="../qml/Common/LicenseSelector.qml" line="64"/>
       <source>You grant other to remix your work and change the license to their linking.</source>
-      <translation type="unfinished">You grant other to remix your work and change the license to their linking.</translation>
+      <translation>Sie gestatten anderen, Ihr Werk neu zu mixen und die Lizenz auf deren Ermessen zu ändern.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="50"/>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </source>
-      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </translation>
+      <translation>Teilen — Kopieren und Weitergeben des Materials in jedem Medium oder Format. Geändert — Remix, transformiere und baue auf dem Material. Du darfst es nicht kommerziell verwenden! </translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="57"/>
       <source>You allow everyone to do anything with your work.</source>
-      <translation type="unfinished">You allow everyone to do anything with your work.</translation>
+      <translation>Du erlaubst allen, alles mit deiner Arbeit zu tun.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="71"/>
       <source>You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</source>
-      <translation type="unfinished">You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</translation>
+      <translation>Du gewährst anderen das Recht auf Remix deiner Arbeit, aber es muss unter der GPLv3 Lizenz verbleiben. Wir empfehlen diese Lizenz für alle Code-Wallpaper!</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="78"/>
       <source>You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</source>
-      <translation type="unfinished">You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</translation>
+      <translation>Du teilst keine Rechte und niemand darf sie benutzen oder neu verwenden (Nicht empfohlen). Es kann auch verwendet werden, um Werke andere zu kreditieren.</translation>
     </message>
   </context>
   <context>
@@ -796,7 +796,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Workshop/PopupOffline.qml" line="28"/>
       <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
-      <translation type="unfinished">You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
+      <translation>Du musst Steam ausführen, um dies zu tun. SteamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/PopupOffline.qml" line="33"/>
@@ -906,7 +906,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Installed/ScreenPlayItem.qml" line="199"/>
       <source>NEW</source>
-      <translation type="unfinished">NEW</translation>
+      <translation>NEU</translation>
     </message>
   </context>
   <context>
@@ -927,7 +927,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="72"/>
       <source>Autostart</source>
-      <translation type="unfinished">Autostart</translation>
+      <translation>Autostart</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="73"/>
@@ -952,7 +952,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="99"/>
       <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-      <translation type="unfinished">Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</translation>
+      <translation>Helfen Sie uns, ScreenPlay schneller und stabiler zu machen. Alle gesammelten Daten sind rein anonym und werden nur für Entwicklungszwecke verwendet! Wir benutzen &lt;a href=&quot;https://sentry.io&quot;&gt;Sentry. o&lt;/a&gt; um diese Daten zu sammeln und zu analysieren. Ein &lt;b&gt;großes Dankeschön an sie&lt;/b&gt; für die kostenlose Premium-Unterstützung für Open Source Projekte!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="110"/>
@@ -967,7 +967,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="116"/>
       <source>Your storage path is empty!</source>
-      <translation type="unfinished">Your storage path is empty!</translation>
+      <translation>Dein Speicherpfad ist leer!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="139"/>
@@ -987,7 +987,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="170"/>
       <source>English</source>
-      <translation type="unfinished">English</translation>
+      <translation>English</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="173"/>
@@ -997,37 +997,37 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="176"/>
       <source>Chinese - Simplified</source>
-      <translation type="unfinished">Chinese - Simplified</translation>
+      <translation>Chinese - Simplified</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="179"/>
       <source>Russian</source>
-      <translation type="unfinished">Russian</translation>
+      <translation>Russian</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="182"/>
       <source>French</source>
-      <translation type="unfinished">French</translation>
+      <translation>French</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="185"/>
       <source>Spanish</source>
-      <translation type="unfinished">Spanish</translation>
+      <translation>Spanish</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="188"/>
       <source>Korean</source>
-      <translation type="unfinished">Korean</translation>
+      <translation>Korean</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="191"/>
       <source>Vietnamese</source>
-      <translation type="unfinished">Vietnamese</translation>
+      <translation>Vietnamese</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="194"/>
       <source>Portuguese (Brazil)</source>
-      <translation type="unfinished">Portuguese (Brazil)</translation>
+      <translation>Portuguese (Brazil)</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="210"/>
@@ -1097,7 +1097,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="295"/>
       <source>Cover</source>
-      <translation type="unfinished">Cover</translation>
+      <translation>Cover</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="298"/>
@@ -1152,7 +1152,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="509"/>
       <source>Logs</source>
-      <translation type="unfinished">Logs</translation>
+      <translation>Protokolle</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="510"/>
@@ -1198,7 +1198,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="126"/>
       <source>Video import and convert (all types)</source>
-      <translation type="unfinished">Video import and convert (all types)</translation>
+      <translation>Video importieren und konvertieren (alle Typen)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="133"/>
@@ -1208,32 +1208,32 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="140"/>
       <source>GIF Wallpaper</source>
-      <translation type="unfinished">GIF Wallpaper</translation>
+      <translation>GIF Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="147"/>
       <source>QML Wallpaper</source>
-      <translation type="unfinished">QML Wallpaper</translation>
+      <translation>QML Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="154"/>
       <source>HTML5 Wallpaper</source>
-      <translation type="unfinished">HTML5 Wallpaper</translation>
+      <translation>HTML5 Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="161"/>
       <source>Website Wallpaper</source>
-      <translation type="unfinished">Website Wallpaper</translation>
+      <translation>Website Wallpaper</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="168"/>
       <source>QML Widget</source>
-      <translation type="unfinished">QML Widget</translation>
+      <translation>QML Widget</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="175"/>
       <source>HTML Widget</source>
-      <translation type="unfinished">HTML Widget</translation>
+      <translation>HTML Widget</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="75"/>
@@ -1243,7 +1243,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="78"/>
       <source>Set Widget</source>
-      <translation type="unfinished">Set Widget</translation>
+      <translation>Widget wählen</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="211"/>
@@ -1283,7 +1283,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="347"/>
       <source>Cover</source>
-      <translation type="unfinished">Cover</translation>
+      <translation>Cover</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="350"/>
@@ -1391,7 +1391,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="176"/>
       <source>Details</source>
-      <translation type="unfinished">Details</translation>
+      <translation>Details</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="202"/>
@@ -1406,7 +1406,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="299"/>
       <source>Upload</source>
-      <translation type="unfinished">Upload</translation>
+      <translation>Upload</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshop.qml" line="317"/>
@@ -1886,7 +1886,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="204"/>
       <source>Remote File Conflict</source>
-      <translation type="unfinished">Remote File Conflict</translation>
+      <translation>Entfernter Dateikonflikt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="207"/>
@@ -1966,7 +1966,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="252"/>
       <source>Bad Response</source>
-      <translation type="unfinished">Bad Response</translation>
+      <translation>Ungültige Antwort</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="255"/>
@@ -2021,7 +2021,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="285"/>
       <source>Account Login Denied Throttle</source>
-      <translation type="unfinished">Account Login Denied Throttle</translation>
+      <translation>Account Anmeldung abgelehnt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="288"/>
@@ -2171,7 +2171,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="464"/>
       <source>Status:</source>
-      <translation type="unfinished">Status:</translation>
+      <translation>Status:</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="483"/>
