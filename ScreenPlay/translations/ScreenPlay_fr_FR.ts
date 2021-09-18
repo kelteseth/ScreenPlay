@@ -6,22 +6,22 @@
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="345"/>
       <source>Red</source>
-      <translation type="unfinished">Red</translation>
+      <translation>Rouge</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="364"/>
       <source>Green</source>
-      <translation type="unfinished">Green</translation>
+      <translation>Vert</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="383"/>
       <source>Blue</source>
-      <translation type="unfinished">Blue</translation>
+      <translation>Bleu</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="572"/>
       <source>RGB</source>
-      <translation type="unfinished">RGB</translation>
+      <translation>RGB</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="590"/>
@@ -31,42 +31,42 @@
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="617"/>
       <source>R:</source>
-      <translation type="unfinished">R:</translation>
+      <translation>R :</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="634"/>
       <source>G:</source>
-      <translation type="unfinished">G:</translation>
+      <translation>G :</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="651"/>
       <source>B:</source>
-      <translation type="unfinished">B:</translation>
+      <translation>B :</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="668"/>
       <source>H:</source>
-      <translation type="unfinished">H:</translation>
+      <translation>H :</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="685"/>
       <source>S:</source>
-      <translation type="unfinished">S:</translation>
+      <translation>S :</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="702"/>
       <source>V:</source>
-      <translation type="unfinished">V:</translation>
+      <translation>V :</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="723"/>
       <source>Alpha:</source>
-      <translation type="unfinished">Alpha:</translation>
+      <translation>Alpha :</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="740"/>
       <source>#</source>
-      <translation type="unfinished">#</translation>
+      <translation>#</translation>
     </message>
   </context>
   <context>
@@ -74,32 +74,32 @@
     <message>
       <location filename="../qml/Community/Community.qml" line="38"/>
       <source>News</source>
-      <translation type="unfinished">News</translation>
+      <translation>Actualités</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="44"/>
       <source>Wiki</source>
-      <translation type="unfinished">Wiki</translation>
+      <translation>Wiki</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="50"/>
       <source>Forum</source>
-      <translation type="unfinished">Forum</translation>
+      <translation>Forum</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="56"/>
       <source>Issue List</source>
-      <translation type="unfinished">Issue List</translation>
+      <translation>Liste des problèmes</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="62"/>
       <source>Contribute</source>
-      <translation type="unfinished">Contribute</translation>
+      <translation>Contribuer</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="68"/>
       <source>Steam Workshop</source>
-      <translation type="unfinished">Steam Workshop</translation>
+      <translation>Steam Workshop</translation>
     </message>
   </context>
   <context>
@@ -107,7 +107,7 @@
     <message>
       <location filename="../qml/Community/CommunityNavItem.qml" line="57"/>
       <source>Open in browser</source>
-      <translation type="unfinished">Open in browser</translation>
+      <translation>Ouvrir dans le navigateur</translation>
     </message>
   </context>
   <context>
@@ -115,36 +115,36 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="32"/>
       <source>Import any video type</source>
-      <translation type="unfinished">Import any video type</translation>
+      <translation>Importer n’importe quel type de vidéo</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="38"/>
       <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-      <translation type="unfinished">Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
+      <translation>Selon la configuration de votre PC, il est préférable de convertir votre fond d'écran vers un codec vidéo spécifique. Si les deux ont de mauvaises performances, vous pouvez aussi essayer un fond d'écran QML! Les formats vidéo pris en charge sont : 
 
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
+*.mp4 *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="53"/>
       <source>Set your preffered video codec:</source>
-      <translation type="unfinished">Set your preffered video codec:</translation>
+      <translation>Définissez votre codec vidéo préféré :</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="98"/>
       <source>Quality slider. Lower value means better quality.</source>
-      <translation type="unfinished">Quality slider. Lower value means better quality.</translation>
+      <translation>Curseur de qualité. Une valeur plus faible signifie une meilleure qualité.</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="113"/>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>Ouvrir la documentation</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="132"/>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Sélectionner un fichier</translation>
     </message>
   </context>
   <context>
@@ -152,17 +152,17 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="18"/>
       <source>An error occurred!</source>
-      <translation type="unfinished">An error occurred!</translation>
+      <translation>Une erreur est survenue !</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="91"/>
       <source>Copy text to clipboard</source>
-      <translation type="unfinished">Copy text to clipboard</translation>
+      <translation>Copier le texte dans le presse-papiers</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="102"/>
       <source>Back to create and send an error report!</source>
-      <translation type="unfinished">Back to create and send an error report!</translation>
+      <translation>Retour à la création et envoyer un rapport d’erreur !</translation>
     </message>
   </context>
   <context>
@@ -175,32 +175,32 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="48"/>
       <source>Generating preview image...</source>
-      <translation type="unfinished">Generating preview image...</translation>
+      <translation>Génération de l'image d'aperçu...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="51"/>
       <source>Generating preview thumbnail image...</source>
-      <translation type="unfinished">Generating preview thumbnail image...</translation>
+      <translation>Génération de la miniature de l’aperçu...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="58"/>
       <source>Generating 5 second preview video...</source>
-      <translation type="unfinished">Generating 5 second preview video...</translation>
+      <translation>Génération d’une vidéo d’aperçu de 5 secondes...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="61"/>
       <source>Generating preview gif...</source>
-      <translation type="unfinished">Generating preview gif...</translation>
+      <translation>Génération de l’aperçu gif...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="70"/>
       <source>Converting Audio...</source>
-      <translation type="unfinished">Converting Audio...</translation>
+      <translation>Conversion de l’audio...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="73"/>
       <source>Converting Video... This can take some time!</source>
-      <translation type="unfinished">Converting Video... This can take some time!</translation>
+      <translation>Conversion de la vidéo... Cela peut prendre un certain temps !</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="77"/>
