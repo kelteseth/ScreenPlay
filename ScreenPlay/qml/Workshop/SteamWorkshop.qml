@@ -287,6 +287,18 @@ Item {
                         onClicked: root.openSteamProfile()
                     }
 
+                    Button {
+                        id: btnSteamUpload
+
+                        anchors {
+                            verticalCenter: parent.verticalCenter
+                            left: btnSteamProfile.right
+                            leftMargin: 20
+                        }
+
+                        text: qsTr("Upload")
+                        onClicked: popupUploadProject.open()
+                    }
 
                     Item {
                         id: searchWrapper
@@ -296,7 +308,7 @@ Item {
 
                         anchors {
                             verticalCenter: parent.verticalCenter
-                            left: btnSteamProfile.right
+                            left: btnSteamUpload.right
                             leftMargin: 20
                         }
 
