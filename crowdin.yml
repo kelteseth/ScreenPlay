@@ -1,15 +1,3 @@
 files:
-  - source: /ScreenPlay/
-    ignore:
-      - /ScreenPlay/assets/
-      - /ScreenPlay/legal/
-      - /ScreenPlay/tests/
-      - /ScreenPlay/translations/
-      - '*.qrc'
-      - '*.json'
-      - '*.conf'
-      - '*.rc'
-      - '*.txt'
-      - .clang-format
-      - '*.plist'
+  - source: /ScreenPlay/translations/ScreenPlay_.ts
     translation: /ScreenPlay/translations/ScreenPlay_%locale_with_underscore%.ts
