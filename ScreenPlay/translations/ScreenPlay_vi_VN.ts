@@ -1862,127 +1862,127 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="189"/>
       <source>Remote Call Failed</source>
-      <translation type="unfinished">Remote Call Failed</translation>
+      <translation>Gọi từ xa không thành công</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="192"/>
       <source>Password Unset</source>
-      <translation type="unfinished">Password Unset</translation>
+      <translation>Mật khẩu chưa được đặt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="195"/>
       <source>External Account Unlinked</source>
-      <translation type="unfinished">External Account Unlinked</translation>
+      <translation>Tài khoản bên ngoài chưa được liên kết</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="198"/>
       <source>PSN Ticket Invalid</source>
-      <translation type="unfinished">PSN Ticket Invalid</translation>
+      <translation>Phiếu PSN không hợp lệ</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="201"/>
       <source>External Account Already Linked</source>
-      <translation type="unfinished">External Account Already Linked</translation>
+      <translation>Tài khoản bên ngoài dã được liên kết rồi</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="204"/>
       <source>Remote File Conflict</source>
-      <translation type="unfinished">Remote File Conflict</translation>
+      <translation>Tệp ở máy chủ bị xung đột</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="207"/>
       <source>Illegal Password</source>
-      <translation type="unfinished">Illegal Password</translation>
+      <translation>Mật khẩu không hợp lệ</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="210"/>
       <source>Same As Previous Value</source>
-      <translation type="unfinished">Same As Previous Value</translation>
+      <translation>Đặt giống như giá trị trước</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="213"/>
       <source>Account Logon Denied</source>
-      <translation type="unfinished">Account Logon Denied</translation>
+      <translation>Đăng nhập bị từ chối</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="216"/>
       <source>Cannot Use Old Password</source>
-      <translation type="unfinished">Cannot Use Old Password</translation>
+      <translation>Không thể sử dụng mật khẩu cũ</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="219"/>
       <source>Invalid Login AuthCode</source>
-      <translation type="unfinished">Invalid Login AuthCode</translation>
+      <translation>Mã xác minh đăng nhập không hợp lệ</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="222"/>
       <source>Account Logon Denied No Mail</source>
-      <translation type="unfinished">Account Logon Denied No Mail</translation>
+      <translation>Đăng nhập thất bại, không có thư</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="225"/>
       <source>Hardware Not Capable Of IPT</source>
-      <translation type="unfinished">Hardware Not Capable Of IPT</translation>
+      <translation>Phần cứng không hỗ trợ IPT</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="228"/>
       <source>IPT Init Error</source>
-      <translation type="unfinished">IPT Init Error</translation>
+      <translation>Lỗi bắt đầu IPT</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="231"/>
       <source>Parental Control Restricted</source>
-      <translation type="unfinished">Parental Control Restricted</translation>
+      <translation>Kiểm soát của phụ huynh bị hạn chế</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="234"/>
       <source>Facebook Query Error</source>
-      <translation type="unfinished">Facebook Query Error</translation>
+      <translation>Kết nối Facebook lỗi</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="237"/>
       <source>Expired Login Auth Code</source>
-      <translation type="unfinished">Expired Login Auth Code</translation>
+      <translation>Mã đăng nhập đã hết hạn</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="240"/>
       <source>IP Login Restriction Failed</source>
-      <translation type="unfinished">IP Login Restriction Failed</translation>
+      <translation>Hạn chế đăng nhập IP không thành công</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="243"/>
       <source>Account Locked Down</source>
-      <translation type="unfinished">Account Locked Down</translation>
+      <translation>Tài khoản đã bị khóa</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="246"/>
       <source>Account Logon Denied Verified Email Required</source>
-      <translation type="unfinished">Account Logon Denied Verified Email Required</translation>
+      <translation>Đăng nhập thất bại, yêu cầu xác thực mail</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="249"/>
       <source>No MatchingURL</source>
-      <translation type="unfinished">No MatchingURL</translation>
+      <translation>Không có địa chỉ nào phù hợp</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="252"/>
       <source>Bad Response</source>
-      <translation type="unfinished">Bad Response</translation>
+      <translation>Phản hồi xấu</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="255"/>
       <source>Require Password ReEntry</source>
-      <translation type="unfinished">Require Password ReEntry</translation>
+      <translation>Yêu cầu nhập lại mật khâu</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="258"/>
       <source>Value Out Of Range</source>
-      <translation type="unfinished">Value Out Of Range</translation>
+      <translation>Giá trị quá vùng</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="261"/>
       <source>Unexpecte Error</source>
-      <translation type="unfinished">Unexpecte Error</translation>
+      <translation>Lỗi Bất Thường</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="264"/>
@@ -2087,97 +2087,97 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="324"/>
       <source>Not Settled</source>
-      <translation type="unfinished">Not Settled</translation>
+      <translation>Chưa được giải quyết</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="327"/>
       <source>Need Captcha</source>
-      <translation type="unfinished">Need Captcha</translation>
+      <translation>Cần captcha</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="330"/>
       <source>GSLT Denied</source>
-      <translation type="unfinished">GSLT Denied</translation>
+      <translation>Mã đăng nhập máy chủ bị từ chối</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="333"/>
       <source>GS Owner Denied</source>
-      <translation type="unfinished">GS Owner Denied</translation>
+      <translation>Máy chủ bị từ chối</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="336"/>
       <source>Invalid Item Type</source>
-      <translation type="unfinished">Invalid Item Type</translation>
+      <translation>Kiểu mặt hàng không hợp lệ</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="339"/>
       <source>IP Banned</source>
-      <translation type="unfinished">IP Banned</translation>
+      <translation>IP đã bị cấm</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="342"/>
       <source>GSLT Expired</source>
-      <translation type="unfinished">GSLT Expired</translation>
+      <translation>Mã đăng nhập máy chủ đã hết hạn</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="345"/>
       <source>Insufficient Funds</source>
-      <translation type="unfinished">Insufficient Funds</translation>
+      <translation>Không đủ tiền</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="348"/>
       <source>Too Many Pending</source>
-      <translation type="unfinished">Too Many Pending</translation>
+      <translation>Có quá nhiều mặt hàng đang chờ</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="351"/>
       <source>No Site Licenses Found</source>
-      <translation type="unfinished">No Site Licenses Found</translation>
+      <translation>Không tìm thấy giấy phép trang web</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="354"/>
       <source>WG Network Send Exceeded</source>
-      <translation type="unfinished">WG Network Send Exceeded</translation>
+      <translation>Đã vượt quá quá trình gửi mạng WG</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="357"/>
       <source>Account Not Friends</source>
-      <translation type="unfinished">Account Not Friends</translation>
+      <translation>Tài khoản không phải bạn bè</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="360"/>
       <source>Limited User Account</source>
-      <translation type="unfinished">Limited User Account</translation>
+      <translation>Tài khoản bị giới hạn</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="363"/>
       <source>Cant Remove Item</source>
-      <translation type="unfinished">Cant Remove Item</translation>
+      <translation>Không thể xóa mặt hàng</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="366"/>
       <source>Account Deleted</source>
-      <translation type="unfinished">Account Deleted</translation>
+      <translation>Tài khoản đã bị xóa</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="369"/>
       <source>Existing User Cancelled License</source>
-      <translation type="unfinished">Existing User Cancelled License</translation>
+      <translation>Người dùng hiện tại đã bị hủy giấy phép</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="372"/>
       <source>Community Cooldown</source>
-      <translation type="unfinished">Community Cooldown</translation>
+      <translation>Community Cooldown</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="464"/>
       <source>Status:</source>
-      <translation type="unfinished">Status:</translation>
+      <translation>Trạng thái:</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="483"/>
       <source>Upload Progress: </source>
-      <translation type="unfinished">Upload Progress: </translation>
+      <translation>Quá trình tải lên: </translation>
     </message>
   </context>
   <context>
