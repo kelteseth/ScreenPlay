@@ -1,3 +1,3 @@
 files:
-  - source: /ScreenPlay/translations/ScreenPlay_en.ts
+  - source: /ScreenPlay/translations/
     translation: /ScreenPlay/translations/ScreenPlay_%two_letters_code%.ts
