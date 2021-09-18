@@ -168,7 +168,7 @@ Page {
             errorText = qsTr("Try Another CM");
             break;
         case SteamEnums.K_EResultPasswordRequiredToKickSession:
-            errorText = qsTr("Password Required T oKick Session");
+            errorText = qsTr("Password Required To Kick Session");
             break;
         case SteamEnums.K_EResultAlreadyLoggedInElsewhere:
             errorText = qsTr("Already Logged In Elsewhere");
