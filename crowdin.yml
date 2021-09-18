@@ -1,0 +1,3 @@
+files:
+  - source: /ScreenPlay
+    translation: /ScreenPlay/translations/ScreenPlay_%two_letters_code%.ts
