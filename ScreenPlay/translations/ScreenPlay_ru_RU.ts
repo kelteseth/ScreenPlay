@@ -74,12 +74,12 @@
     <message>
       <location filename="../qml/Community/Community.qml" line="38"/>
       <source>News</source>
-      <translation type="unfinished">News</translation>
+      <translation>Новости</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="44"/>
       <source>Wiki</source>
-      <translation type="unfinished">Wiki</translation>
+      <translation>Википедия</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="50"/>
