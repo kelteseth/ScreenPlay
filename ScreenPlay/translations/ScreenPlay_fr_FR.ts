@@ -240,12 +240,12 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="328"/>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Annuler</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="341"/>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Sauvegarder</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="378"/>
@@ -258,12 +258,12 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="41"/>
       <source>Volume</source>
-      <translation type="unfinished">Volume</translation>
+      <translation>Volume</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="54"/>
       <source>Playback rate</source>
-      <translation type="unfinished">Playback rate</translation>
+      <translation>Vitesse de lecture</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="66"/>
@@ -273,22 +273,22 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="83"/>
       <source>Fill Mode</source>
-      <translation type="unfinished">Fill Mode</translation>
+      <translation>Mode d'affichage</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="102"/>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>Étirer</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="105"/>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Remplir</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="108"/>
       <source>Contain</source>
-      <translation type="unfinished">Contain</translation>
+      <translation>Contenir</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="111"/>
@@ -298,7 +298,7 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="114"/>
       <source>Scale_Down</source>
-      <translation type="unfinished">Scale_Down</translation>
+      <translation>Réduire</translation>
     </message>
   </context>
   <context>
@@ -306,17 +306,17 @@
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="103"/>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Effacer</translation>
     </message>
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="123"/>
       <source>Select File</source>
-      <translation type="unfinished">Select File</translation>
+      <translation>Sélectionner un fichier</translation>
     </message>
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="142"/>
       <source>Please choose a file</source>
-      <translation type="unfinished">Please choose a file</translation>
+      <translation>Veuillez choisir un fichier</translation>
     </message>
   </context>
   <context>
@@ -324,37 +324,37 @@
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="26"/>
       <source>Import a Gif Wallpaper</source>
-      <translation type="unfinished">Import a Gif Wallpaper</translation>
+      <translation>Importer un fond d'écran Gif</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="82"/>
       <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
-      <translation type="unfinished">Drop a *.gif file here or use &apos;Select file&apos; below.</translation>
+      <translation>Déposez un fichier *.gif ici ou utilisez &apos;Sélectionner un fichier&apos; ci-dessous.</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="105"/>
       <source>Select your gif</source>
-      <translation type="unfinished">Select your gif</translation>
+      <translation>Sélectionnez votre gif</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="120"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Général</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="127"/>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Nom du fond d'écran</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="135"/>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Créé par</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="145"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Tags</translation>
     </message>
   </context>
   <context>
@@ -362,37 +362,37 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="29"/>
       <source>Create a HTML Wallpaper</source>
-      <translation type="unfinished">Create a HTML Wallpaper</translation>
+      <translation>Créer un fond d'écran HTML</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="34"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Général</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="44"/>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Nom du fond d'écran</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="53"/>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Créé par</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="62"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Description</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="70"/>
       <source>License &amp; Tags</source>
-      <translation type="unfinished">License &amp; Tags</translation>
+      <translation>Licence &amp; Tags</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="93"/>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Aperçu de l'image</translation>
     </message>
   </context>
   <context>
@@ -400,27 +400,27 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="20"/>
       <source>Create a HTML widget</source>
-      <translation type="unfinished">Create a HTML widget</translation>
+      <translation>Créer un widget HTML</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="74"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Général</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="82"/>
       <source>Widget name</source>
-      <translation type="unfinished">Widget name</translation>
+      <translation>Nom du Widget</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="90"/>
       <source>Created by</source>
-      <translation type="unfinished">Created by</translation>
+      <translation>Créé par</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="98"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Tags</translation>
     </message>
   </context>
   <context>
@@ -444,17 +444,17 @@
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="118"/>
       <source>Set your own preview image</source>
-      <translation type="unfinished">Set your own preview image</translation>
+      <translation>Définissez votre image d'aperçu</translation>
     </message>
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="159"/>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Effacer</translation>
     </message>
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="176"/>
       <source>Select Preview Image</source>
-      <translation type="unfinished">Select Preview Image</translation>
+      <translation>Sélectionner l'image d'aperçu</translation>
     </message>
   </context>
   <context>
@@ -472,12 +472,12 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="46"/>
       <source>Generating preview image...</source>
-      <translation type="unfinished">Generating preview image...</translation>
+      <translation>Génération de l'image d'aperçu...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="49"/>
       <source>Generating preview thumbnail image...</source>
-      <translation type="unfinished">Generating preview thumbnail image...</translation>
+      <translation>Génération de la miniature de l’aperçu...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="56"/>
