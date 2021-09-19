@@ -56,6 +56,7 @@ list(
     L10N_LIST
     # cmake-format: sortable
      ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_tr_TR.ts
      ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_de_DE.ts
      ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_zh_CN.ts
      ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_pt_BR.ts

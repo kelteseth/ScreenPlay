@@ -124,6 +124,7 @@ public:
         Vi_VN,
         Pt_BR,
         Zh_CN,
+        Tr_TR,
     };
     Q_ENUM(Language)
 
