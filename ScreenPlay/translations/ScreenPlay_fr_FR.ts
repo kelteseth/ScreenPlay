@@ -575,12 +575,12 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="140"/>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>Ouvrir la documentation</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="159"/>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Sélectionner un fichier</translation>
     </message>
   </context>
   <context>
@@ -593,7 +593,7 @@
     <message>
       <location filename="../qml/Installed/Installed.qml" line="162"/>
       <source>Refreshing!</source>
-      <translation type="unfinished">Refreshing!</translation>
+      <translation>Actualisation!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="165"/>
@@ -604,32 +604,32 @@
     <message>
       <location filename="../qml/Installed/Installed.qml" line="210"/>
       <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-      <translation type="unfinished">Get more Wallpaper &amp; Widgets via the Steam workshop!</translation>
+      <translation>Obtenez plus de fonds d'écran et de widgets via le Steam Workshop!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="275"/>
       <source>Open containing folder</source>
-      <translation type="unfinished">Open containing folder</translation>
+      <translation>Ouvrir le dossier source</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="285"/>
       <source>Remove Item</source>
-      <translation type="unfinished">Remove Item</translation>
+      <translation>Supprimer l'élément</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="285"/>
       <source>Remove via Workshop</source>
-      <translation type="unfinished">Remove via Workshop</translation>
+      <translation>Retirer via le Workshop</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="295"/>
       <source>Open Workshop Page</source>
-      <translation type="unfinished">Open Workshop Page</translation>
+      <translation>Ouvrir la page du Workshop</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="307"/>
       <source>Are you sure you want to delete this item?</source>
-      <translation type="unfinished">Are you sure you want to delete this item?</translation>
+      <translation>Êtes-vous sûr de vouloir supprimer cet élément?</translation>
     </message>
   </context>
   <context>
@@ -637,12 +637,12 @@
     <message>
       <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="79"/>
       <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-      <translation type="unfinished">Get free Widgets and Wallpaper via the Steam Workshop</translation>
+      <translation>Obtenez des Widgets et des fonds d'écran gratuits via le Steam Workshop</translation>
     </message>
     <message>
       <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="115"/>
       <source>Browse the Steam Workshop</source>
-      <translation type="unfinished">Browse the Steam Workshop</translation>
+      <translation>Parcourir le Steam Workshop</translation>
     </message>
   </context>
   <context>
@@ -650,28 +650,28 @@
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="17"/>
       <source>License</source>
-      <translation type="unfinished">License</translation>
+      <translation>Licence</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="36"/>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</source>
-      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</translation>
+      <translation>Partager — copier et redistribuer le matériel sous n'importe quel support ou format. Adapter — remixer, transformer et construire à partir du matériel dans n'importe quel but, même commercial.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="43"/>
       <location filename="../qml/Common/LicenseSelector.qml" line="64"/>
       <source>You grant other to remix your work and change the license to their linking.</source>
-      <translation type="unfinished">You grant other to remix your work and change the license to their linking.</translation>
+      <translation>Vous permettez aux autres utilisateurs de réutiliser et altérer votre travail et de changer la licence à leur souhait.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="50"/>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </source>
-      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </translation>
+      <translation>Partager — copier et redistribuer le matériel sous n'importe quel support ou format. Adapter — remixer, transformer et construire à partir du matériel. L'usage commercial n'est pas autorisé! </translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="57"/>
       <source>You allow everyone to do anything with your work.</source>
-      <translation type="unfinished">You allow everyone to do anything with your work.</translation>
+      <translation>Vous autorisez tout le monde à faire quoi que ce soit avec votre travail.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="71"/>
