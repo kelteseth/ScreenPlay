@@ -49,7 +49,7 @@ Everyone can contribute with code, design, documentation or translation. Visit o
 
 Here are some ways you can contribute:
 * by using prerelease versions / master branch or the Steam nightly builds
-* by [adding/fixing translation](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/translations/)
+* by [adding/fixing translation](https://crowdin.com/project/screenplay)
 * by [designing UI/UX](https://kelteseth.gitlab.io/ScreenPlayDocs/contribute/contribute/#design)
 * by [creating example HTML/QML/Javascript content](https://kelteseth.gitlab.io/ScreenPlayDocs/)
 * by [reporting bugs](https://gitlab.com/kelteseth/ScreenPlay/-/issues)
