@@ -681,7 +681,7 @@
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="78"/>
       <source>You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</source>
-      <translation type="unfinished">You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</translation>
+      <translation>Hiçbir hakkı paylaşmıyorsunuz ve hiç kimsenin onu kullanmasına veya remiks yapmasına izin verilmiyor (Tavsiye edilmez). Başkalarının çalışmasına kredi vermek için de kullanılabilir.</translation>
     </message>
   </context>
   <context>
@@ -690,8 +690,8 @@
       <location filename="../qml/Common/Dialogs/MonitorConfiguration.qml" line="38"/>
       <source>Your monitor setup changed!
  Please configure your wallpaper again.</source>
-      <translation type="unfinished">Your monitor setup changed!
- Please configure your wallpaper again.</translation>
+      <translation>Monitör kurulumunuz değişti!
+ Lütfen duvar kağıdınızı yeniden yapılandırın.</translation>
     </message>
   </context>
   <context>
@@ -699,28 +699,28 @@
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="60"/>
       <source>Wallpaper Configuration</source>
-      <translation type="unfinished">Wallpaper Configuration</translation>
+      <translation>Duvar Kağıdı Yapılandırması</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="130"/>
       <source>Remove selected</source>
-      <translation type="unfinished">Remove selected</translation>
+      <translation>Seçilenleri kaldır</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="145"/>
       <location filename="../qml/Monitors/Monitors.qml" line="161"/>
       <source>Remove </source>
-      <translation type="unfinished">Remove </translation>
+      <translation>Kaldır </translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="145"/>
       <source>Wallpapers</source>
-      <translation type="unfinished">Wallpapers</translation>
+      <translation>Duvar kağıtları</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="161"/>
       <source>Widgets</source>
-      <translation type="unfinished">Widgets</translation>
+      <translation>Widget’lar</translation>
     </message>
   </context>
   <context>
@@ -728,12 +728,12 @@
     <message>
       <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="143"/>
       <source>Set color</source>
-      <translation type="unfinished">Set color</translation>
+      <translation>Renk seç</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="174"/>
       <source>Please choose a color</source>
-      <translation type="unfinished">Please choose a color</translation>
+      <translation>Lütfen renk seçin</translation>
     </message>
   </context>
   <context>
@@ -741,42 +741,42 @@
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="61"/>
       <source>All</source>
-      <translation type="unfinished">All</translation>
+      <translation>Hepsi</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="80"/>
       <source>Scenes</source>
-      <translation type="unfinished">Scenes</translation>
+      <translation>Sahneler</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="99"/>
       <source>Videos</source>
-      <translation type="unfinished">Videos</translation>
+      <translation>Videolar</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="118"/>
       <source>Widgets</source>
-      <translation type="unfinished">Widgets</translation>
+      <translation>Widget’lar</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="164"/>
       <source>Install Date Ascending</source>
-      <translation type="unfinished">Install Date Ascending</translation>
+      <translation>Artan Kurulum Tarihi</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="164"/>
       <source>Install Date Descending</source>
-      <translation type="unfinished">Install Date Descending</translation>
+      <translation>Azalan Kurulum Tarihi</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Navigation.qml" line="41"/>
       <source> Subscribed items: </source>
-      <translation type="unfinished"> Subscribed items: </translation>
+      <translation> Abone olunan öğeler:</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Navigation.qml" line="89"/>
       <source>Upload to the Steam Workshop</source>
-      <translation type="unfinished">Upload to the Steam Workshop</translation>
+      <translation>Steam Atölyesine yükleyin</translation>
     </message>
   </context>
   <context>
@@ -784,12 +784,12 @@
     <message>
       <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
       <source>Configurate active Wallpaper or Widgets</source>
-      <translation type="unfinished">Configurate active Wallpaper or Widgets</translation>
+      <translation>Aktif Duvar Kağıdını veya Widget'ları yapılandırın</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
       <source>No active Wallpaper or Widgets</source>
-      <translation type="unfinished">No active Wallpaper or Widgets</translation>
+      <translation>Aktif Duvar Kağıdı veya Widget yok</translation>
     </message>
   </context>
   <context>
@@ -797,12 +797,12 @@
     <message>
       <location filename="../qml/Workshop/PopupOffline.qml" line="28"/>
       <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
-      <translation type="unfinished">You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
+      <translation>Bunun için Steam'i çalıştırmanız gerekiyor. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/PopupOffline.qml" line="33"/>
       <source>Back</source>
-      <translation type="unfinished">Back</translation>
+      <translation>Geri</translation>
     </message>
   </context>
   <context>
@@ -810,22 +810,22 @@
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="25"/>
       <source>You Need to Agree To The Steam Subscriber Agreement First</source>
-      <translation type="unfinished">You Need to Agree To The Steam Subscriber Agreement First</translation>
+      <translation>Öncelikle Steam Abonelik Sözleşmesini Kabul Etmeniz Gerekiyor</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="32"/>
       <source>REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</source>
-      <translation type="unfinished">REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</translation>
+      <translation>ETKİNLEŞTİRMEK İÇİN İNTERNET BAĞLANTISI VE ÜCRETSİZ BUHAR HESABI GEREKTİRİR. Uyarı: Ürün, Steam Abonelik Sözleşmesini (SSA) kabul etmenize tabi olarak sunulur. Bu ürünü bir Steam hesabına kaydolarak ve SSA'yı kabul ederek İnternet üzerinden etkinleştirmelisiniz. Satın almadan önce SSA'yı görüntülemek için lütfen https://store.steampowered.com/subscriber_agreement/ adresini ziyaret edin. SSA hükümlerini kabul etmiyorsanız, bu oyunu açılmadan satıcınıza iade politikalarına uygun olarak iade etmelisiniz.</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="49"/>
       <source>View The Steam Subscriber Agreement</source>
-      <translation type="unfinished">View The Steam Subscriber Agreement</translation>
+      <translation>Steam Abonelik Sözleşmesini Görüntüle</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="56"/>
       <source>Accept Steam Workshop Agreement</source>
-      <translation type="unfinished">Accept Steam Workshop Agreement</translation>
+      <translation>Steam Atölye Sözleşmesini Kabul Edin</translation>
     </message>
   </context>
   <context>
@@ -833,37 +833,37 @@
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="29"/>
       <source>Create a QML Wallpaper</source>
-      <translation type="unfinished">Create a QML Wallpaper</translation>
+      <translation>Bir QML Duvar Kağıdı Oluşturun</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="34"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Genel</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="44"/>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Duvar Kağıdı adı</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="53"/>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Oluşturan</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="62"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Açıklama</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="70"/>
       <source>License &amp; Tags</source>
-      <translation type="unfinished">License &amp; Tags</translation>
+      <translation>Lisans &amp; Etiketler</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="93"/>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Resim Önizleme</translation>
     </message>
   </context>
   <context>
@@ -871,27 +871,27 @@
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="20"/>
       <source>Create a QML widget</source>
-      <translation type="unfinished">Create a QML widget</translation>
+      <translation>Bir QML widget'ı oluşturun</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="74"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Genel</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="82"/>
       <source>Widget name</source>
-      <translation type="unfinished">Widget name</translation>
+      <translation>Widget adı</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="90"/>
       <source>Created by</source>
-      <translation type="unfinished">Created by</translation>
+      <translation>Oluşturan</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="98"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Etiketler</translation>
     </message>
   </context>
   <context>
@@ -899,7 +899,7 @@
     <message>
       <location filename="../qml/Monitors/SaveNotification.qml" line="39"/>
       <source>Profile saved successfully!</source>
-      <translation type="unfinished">Profile saved successfully!</translation>
+      <translation>Profil başarıyla kaydedildi!</translation>
     </message>
   </context>
   <context>
@@ -907,7 +907,7 @@
     <message>
       <location filename="../qml/Installed/ScreenPlayItem.qml" line="199"/>
       <source>NEW</source>
-      <translation type="unfinished">NEW</translation>
+      <translation>YENİ</translation>
     </message>
   </context>
   <context>
@@ -915,7 +915,7 @@
     <message>
       <location filename="../qml/Common/Search.qml" line="33"/>
       <source>Search for Wallpaper &amp; Widgets</source>
-      <translation type="unfinished">Search for Wallpaper &amp; Widgets</translation>
+      <translation>Duvar Kağıdı ve Widget'ları Ara</translation>
     </message>
   </context>
   <context>
@@ -923,27 +923,27 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="54"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Genel</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="72"/>
       <source>Autostart</source>
-      <translation type="unfinished">Autostart</translation>
+      <translation>Otomatik başlatma</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="73"/>
       <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-      <translation type="unfinished">ScreenPlay will start with Windows and will setup your Desktop every time for you.</translation>
+      <translation>ScreenPlay, Windows ile başlayacak ve her seferinde sizin için Masaüstünüzü kuracaktır.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="84"/>
       <source>High priority Autostart</source>
-      <translation type="unfinished">High priority Autostart</translation>
+      <translation>Yüksek öncelikli Otomatik başlatma</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="86"/>
       <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-      <translation type="unfinished">This options grants ScreenPlay a higher autostart priority than other apps.</translation>
+      <translation>Bu seçenekler, ScreenPlay'e diğer uygulamalardan daha yüksek bir otomatik başlatma önceliği verir.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="98"/>
