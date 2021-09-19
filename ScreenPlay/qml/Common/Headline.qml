@@ -14,7 +14,7 @@ Item {
 
         font.pointSize: 18
         color: Material.primaryTextColor
-        text: qsTr("Headline")
+        text: "Headline"
         font.capitalization: Font.Capitalize
         font.family: ScreenPlay.settings.font
     }
