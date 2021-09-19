@@ -245,17 +245,9 @@ void Settings::setupLanguage()
 {
     QString langCode;
     if (m_qSettings.value("Language").isNull()) {
-        auto localeList = QLocale::system().uiLanguages();
-
-        // Like En-us, De-de
-        QStringList localeSplits = localeList.at(0).split("-");
-        langCode = localeSplits.at(0);
-
-        // Ether De, En, Ru, Fr...
-        if (langCode.length() != 2) {
-            qWarning() << "Could not parse locale of value " << langCode;
-            return;
-        }
+        langCode = QLocale::system().name();
+        // QML enum begin with uppercase: de_DE -> De_DE
+        langCode = langCode.replace(0, 1, langCode.at(0).toUpper());
     } else {
         langCode = m_qSettings.value("Language").toString();
     }
