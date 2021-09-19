@@ -51,6 +51,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     setDesktopEnvironment(DesktopEnvironment::KDE);
 #endif
 
+
     qRegisterMetaType<Settings::Language>("Settings::Language");
     qRegisterMetaType<Settings::Theme>("Settings::Theme");
     qRegisterMetaType<Settings::DesktopEnvironment>("Settings::DesktopEnvironment");
@@ -102,6 +103,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     setupWidgetAndWindowPaths();
     setGitBuildHash(COMPILE_INFO);
+    setSteamVersion((QString(SCREENPLAY_STEAM) == "OFF" ? false : true));
 }
 
 /*!

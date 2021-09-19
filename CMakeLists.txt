@@ -61,6 +61,7 @@ execute_process(
 
 add_compile_definitions(COMPILE_INFO="${BUILD_DATE} + ${GIT_COMMIT_HASH}")
 add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
+add_compile_definitions(SCREENPLAY_STEAM="${SCREENPLAY_STEAM}")
 
 if(UNIX AND NOT APPLE)
     # Fixes QWebEngine linker errors on Ubuntu 20.04

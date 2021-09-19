@@ -120,11 +120,7 @@ add_executable(${PROJECT_NAME}  main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
 
 qt5_add_translation(qmFiles ${l10n})
-
-
 qt_add_big_resources(fonts fonts.qrc)
-
-target_compile_definitions(${PROJECT_NAME} PRIVATE "GIT_VERSION=${GIT_VERSION}")
 
 if(WIN32)
     # Icon
