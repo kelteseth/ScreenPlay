@@ -517,7 +517,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="216"/>
       <source>Generating preview video...</source>
-      <translation type="unfinished">Generating preview video...</translation>
+      <translation>Génération de la vidéo d'aperçu...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="276"/>
