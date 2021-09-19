@@ -6,67 +6,67 @@
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="345"/>
       <source>Red</source>
-      <translation type="unfinished">Red</translation>
+      <translation>Kırmızı</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="364"/>
       <source>Green</source>
-      <translation type="unfinished">Green</translation>
+      <translation>Yeşil</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="383"/>
       <source>Blue</source>
-      <translation type="unfinished">Blue</translation>
+      <translation>Mavi</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="572"/>
       <source>RGB</source>
-      <translation type="unfinished">RGB</translation>
+      <translation>RGB</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="590"/>
       <source>HSV</source>
-      <translation type="unfinished">HSV</translation>
+      <translation>HSV</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="617"/>
       <source>R:</source>
-      <translation type="unfinished">R:</translation>
+      <translation>R:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="634"/>
       <source>G:</source>
-      <translation type="unfinished">G:</translation>
+      <translation>G:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="651"/>
       <source>B:</source>
-      <translation type="unfinished">B:</translation>
+      <translation>B:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="668"/>
       <source>H:</source>
-      <translation type="unfinished">H:</translation>
+      <translation>H:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="685"/>
       <source>S:</source>
-      <translation type="unfinished">S:</translation>
+      <translation>S:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="702"/>
       <source>V:</source>
-      <translation type="unfinished">V:</translation>
+      <translation>V:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="723"/>
       <source>Alpha:</source>
-      <translation type="unfinished">Alpha:</translation>
+      <translation>Şeffaflık:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="740"/>
       <source>#</source>
-      <translation type="unfinished">#</translation>
+      <translation>#</translation>
     </message>
   </context>
   <context>
@@ -74,32 +74,32 @@
     <message>
       <location filename="../qml/Community/Community.qml" line="38"/>
       <source>News</source>
-      <translation type="unfinished">News</translation>
+      <translation>Yenilikler</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="44"/>
       <source>Wiki</source>
-      <translation type="unfinished">Wiki</translation>
+      <translation>Wiki</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="50"/>
       <source>Forum</source>
-      <translation type="unfinished">Forum</translation>
+      <translation>Forum</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="56"/>
       <source>Issue List</source>
-      <translation type="unfinished">Issue List</translation>
+      <translation>Sorun Listesi</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="62"/>
       <source>Contribute</source>
-      <translation type="unfinished">Contribute</translation>
+      <translation>Bağış yap</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="68"/>
       <source>Steam Workshop</source>
-      <translation type="unfinished">Steam Workshop</translation>
+      <translation>Steam Atölyesi</translation>
     </message>
   </context>
   <context>
@@ -107,7 +107,7 @@
     <message>
       <location filename="../qml/Community/CommunityNavItem.qml" line="57"/>
       <source>Open in browser</source>
-      <translation type="unfinished">Open in browser</translation>
+      <translation>Tarayıcıda aç</translation>
     </message>
   </context>
   <context>
@@ -115,36 +115,36 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="32"/>
       <source>Import any video type</source>
-      <translation type="unfinished">Import any video type</translation>
+      <translation>Video içe aktarın</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="38"/>
       <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-      <translation type="unfinished">Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
+      <translation>PC yapılandırmanıza bağlı olarak, duvar kağıdınızı belirli bir video codec bileşenine dönüştürmek daha iyidir. Her ikisinin de performansı kötüyse, bir QML duvar kağıdını da deneyebilirsiniz! Desteklenen video biçimleri şunlardır:
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="53"/>
       <source>Set your preffered video codec:</source>
-      <translation type="unfinished">Set your preffered video codec:</translation>
+      <translation>Tercih ettiğiniz video codec bileşenini ayarlayın:</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="98"/>
       <source>Quality slider. Lower value means better quality.</source>
-      <translation type="unfinished">Quality slider. Lower value means better quality.</translation>
+      <translation>Kalite kaydırıcısı. Daha düşük değer, daha iyi kalite anlamına gelir.</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="113"/>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>Belgeyi Aç</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="132"/>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Dosya seç</translation>
     </message>
   </context>
   <context>
@@ -152,17 +152,17 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="18"/>
       <source>An error occurred!</source>
-      <translation type="unfinished">An error occurred!</translation>
+      <translation>Bir hata oluştu!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="91"/>
       <source>Copy text to clipboard</source>
-      <translation type="unfinished">Copy text to clipboard</translation>
+      <translation>Metni panoya kopyala</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="102"/>
       <source>Back to create and send an error report!</source>
-      <translation type="unfinished">Back to create and send an error report!</translation>
+      <translation>Bir hata raporu oluşturmak ve göndermek için geri dönün!</translation>
     </message>
   </context>
   <context>
@@ -175,82 +175,82 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="48"/>
       <source>Generating preview image...</source>
-      <translation type="unfinished">Generating preview image...</translation>
+      <translation>Önizleme oluşturuluyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="51"/>
       <source>Generating preview thumbnail image...</source>
-      <translation type="unfinished">Generating preview thumbnail image...</translation>
+      <translation>Önizleme küçük resmi oluşturuluyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="58"/>
       <source>Generating 5 second preview video...</source>
-      <translation type="unfinished">Generating 5 second preview video...</translation>
+      <translation>5 saniyelik önizleme videosu oluşturuluyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="61"/>
       <source>Generating preview gif...</source>
-      <translation type="unfinished">Generating preview gif...</translation>
+      <translation>Özizleme gifi oluşturuluyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="70"/>
       <source>Converting Audio...</source>
-      <translation type="unfinished">Converting Audio...</translation>
+      <translation>Ses Dönüştürülüyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="73"/>
       <source>Converting Video... This can take some time!</source>
-      <translation type="unfinished">Converting Video... This can take some time!</translation>
+      <translation>Video dönüştürülüyor... Biraz zaman alabilir!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="77"/>
       <source>Converting Video ERROR!</source>
-      <translation type="unfinished">Converting Video ERROR!</translation>
+      <translation>Video Dönüştürülürken Hata Oluştu!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="80"/>
       <source>Analyse Video ERROR!</source>
-      <translation type="unfinished">Analyse Video ERROR!</translation>
+      <translation>Video Hatasını Analiz Edin!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="109"/>
       <source>Convert a video to a wallpaper</source>
-      <translation type="unfinished">Convert a video to a wallpaper</translation>
+      <translation>Bir videoyu duvar kağıdına dönüştürün</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="220"/>
       <source>Generating preview video...</source>
-      <translation type="unfinished">Generating preview video...</translation>
+      <translation>Önizleme videosu oluşturuluyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="276"/>
       <source>Name (required!)</source>
-      <translation type="unfinished">Name (required!)</translation>
+      <translation>İsim (gerekli)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="290"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Açıklama</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="298"/>
       <source>Youtube URL</source>
-      <translation type="unfinished">Youtube URL</translation>
+      <translation>YouTube URL</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="328"/>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>İptal</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="341"/>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Kaydet</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="378"/>
       <source>Save Wallpaper...</source>
-      <translation type="unfinished">Save Wallpaper...</translation>
+      <translation>Duvar kağıdını kaydet...</translation>
     </message>
   </context>
   <context>
@@ -258,47 +258,47 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="41"/>
       <source>Volume</source>
-      <translation type="unfinished">Volume</translation>
+      <translation>Ses Düzeyi</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="54"/>
       <source>Playback rate</source>
-      <translation type="unfinished">Playback rate</translation>
+      <translation>Oynatma oranını ayarla</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="66"/>
       <source>Current Video Time</source>
-      <translation type="unfinished">Current Video Time</translation>
+      <translation>Geçerli Video Zamanı</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="83"/>
       <source>Fill Mode</source>
-      <translation type="unfinished">Fill Mode</translation>
+      <translation>Doldurma Kipi</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="102"/>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>Esnet</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="105"/>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Doldur</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="108"/>
       <source>Contain</source>
-      <translation type="unfinished">Contain</translation>
+      <translation>İçeren</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="111"/>
       <source>Cover</source>
-      <translation type="unfinished">Cover</translation>
+      <translation>Kapak</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="114"/>
       <source>Scale_Down</source>
-      <translation type="unfinished">Scale_Down</translation>
+      <translation>Ölçek_Düşür</translation>
     </message>
   </context>
   <context>
@@ -306,17 +306,17 @@
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="103"/>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Temizle</translation>
     </message>
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="123"/>
       <source>Select File</source>
-      <translation type="unfinished">Select File</translation>
+      <translation>Dosya Seç</translation>
     </message>
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="142"/>
       <source>Please choose a file</source>
-      <translation type="unfinished">Please choose a file</translation>
+      <translation>Lütfen bir dosya seçiniz</translation>
     </message>
   </context>
   <context>
@@ -324,37 +324,37 @@
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="26"/>
       <source>Import a Gif Wallpaper</source>
-      <translation type="unfinished">Import a Gif Wallpaper</translation>
+      <translation>Bir Gif Duvar Kağıdını İçe Aktarın</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="82"/>
       <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
-      <translation type="unfinished">Drop a *.gif file here or use &apos;Select file&apos; below.</translation>
+      <translation>Bir *.gif dosyasını sürükleyin &apos; Ya da Dosyayı seçin &apos;</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="105"/>
       <source>Select your gif</source>
-      <translation type="unfinished">Select your gif</translation>
+      <translation>Gif seç</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="120"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Genel</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="127"/>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Duvar Kağıdı adı</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="135"/>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Oluşturan</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="145"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Etiketler</translation>
     </message>
   </context>
   <context>
@@ -362,37 +362,37 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="29"/>
       <source>Create a HTML Wallpaper</source>
-      <translation type="unfinished">Create a HTML Wallpaper</translation>
+      <translation>HTML Duvar Kağıdı Oluşturun</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="34"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Genel</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="44"/>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Duvar Kağıdı adı</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="53"/>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Oluşturan</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="62"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Açıklama</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="70"/>
       <source>License &amp; Tags</source>
-      <translation type="unfinished">License &amp; Tags</translation>
+      <translation>Lisans &amp; Etiketler</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="93"/>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Resim Önizleme</translation>
     </message>
   </context>
   <context>
@@ -400,27 +400,27 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="20"/>
       <source>Create a HTML widget</source>
-      <translation type="unfinished">Create a HTML widget</translation>
+      <translation>Bir HTML widget'ı oluşturun</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="74"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Genel</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="82"/>
       <source>Widget name</source>
-      <translation type="unfinished">Widget name</translation>
+      <translation>Widget adı</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="90"/>
       <source>Created by</source>
-      <translation type="unfinished">Created by</translation>
+      <translation>Oluşturan</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="98"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Etiketler</translation>
     </message>
   </context>
   <context>
@@ -428,7 +428,7 @@
     <message>
       <location filename="../qml/Common/Headline.qml" line="17"/>
       <source>Headline</source>
-      <translation type="unfinished">Headline</translation>
+      <translation>Başlık</translation>
     </message>
   </context>
   <context>
@@ -436,7 +436,7 @@
     <message>
       <location filename="../qml/Common/HeadlineSection.qml" line="6"/>
       <source>Headline Section</source>
-      <translation type="unfinished">Headline Section</translation>
+      <translation>Başlık Bölümü</translation>
     </message>
   </context>
   <context>
@@ -444,17 +444,17 @@
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="118"/>
       <source>Set your own preview image</source>
-      <translation type="unfinished">Set your own preview image</translation>
+      <translation>Kendi önizleme resminizi ayarlayın</translation>
     </message>
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="159"/>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Temizle</translation>
     </message>
     <message>
       <location filename="../qml/Common/ImageSelector.qml" line="176"/>
       <source>Select Preview Image</source>
-      <translation type="unfinished">Select Preview Image</translation>
+      <translation>Önizleme Resminizi Seçin</translation>
     </message>
   </context>
   <context>
@@ -467,87 +467,87 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="43"/>
       <source>AnalyseVideo...</source>
-      <translation type="unfinished">AnalyseVideo...</translation>
+      <translation>VideoAnaliz...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="46"/>
       <source>Generating preview image...</source>
-      <translation type="unfinished">Generating preview image...</translation>
+      <translation>Önizleme oluşturuluyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="49"/>
       <source>Generating preview thumbnail image...</source>
-      <translation type="unfinished">Generating preview thumbnail image...</translation>
+      <translation>Önizleme küçük resmi oluşturuluyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="56"/>
       <source>Generating 5 second preview video...</source>
-      <translation type="unfinished">Generating 5 second preview video...</translation>
+      <translation>5 saniyelik önizleme videosu oluşturuluyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="59"/>
       <source>Generating preview gif...</source>
-      <translation type="unfinished">Generating preview gif...</translation>
+      <translation>Özizleme gifi oluşturuluyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="68"/>
       <source>Converting Audio...</source>
-      <translation type="unfinished">Converting Audio...</translation>
+      <translation>Ses Dönüştürülüyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="71"/>
       <source>Converting Video... This can take some time!</source>
-      <translation type="unfinished">Converting Video... This can take some time!</translation>
+      <translation>Video dönüştürülüyor... Biraz zaman alabilir!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="74"/>
       <source>Converting Video ERROR!</source>
-      <translation type="unfinished">Converting Video ERROR!</translation>
+      <translation>Video Dönüştürülürken Hata Oluştu!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="77"/>
       <source>Analyse Video ERROR!</source>
-      <translation type="unfinished">Analyse Video ERROR!</translation>
+      <translation>Video Hatasını Analiz Edin!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="106"/>
       <source>Import a video to a wallpaper</source>
-      <translation type="unfinished">Import a video to a wallpaper</translation>
+      <translation>Bir videoyu duvar kağıdına aktarın</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="216"/>
       <source>Generating preview video...</source>
-      <translation type="unfinished">Generating preview video...</translation>
+      <translation>Önizleme videosu oluşturuluyor...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="276"/>
       <source>Name (required!)</source>
-      <translation type="unfinished">Name (required!)</translation>
+      <translation>İsim (gerekli)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="290"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Açıklama</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="298"/>
       <source>Youtube URL</source>
-      <translation type="unfinished">Youtube URL</translation>
+      <translation>YouTube URL</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="329"/>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>İptal</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="342"/>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Kaydet</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="376"/>
       <source>Save Wallpaper...</source>
-      <translation type="unfinished">Save Wallpaper...</translation>
+      <translation>Duvar kağıdını kaydet...</translation>
     </message>
   </context>
   <context>
@@ -555,32 +555,32 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="32"/>
       <source>Import a .webm video</source>
-      <translation type="unfinished">Import a .webm video</translation>
+      <translation>.webm uzantılı bir videoyu içe aktarın</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="48"/>
       <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-      <translation type="unfinished">When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</translation>
+      <translation>Webm'yi içe aktarırken uzun dönüşümü atlayabiliriz. &apos; Video içe aktarma ve dönüştürmeden (tüm türler) ScreenPlay içe aktarıcı ile tatmin edici olmayan sonuçlar aldığınızda, ücretsiz ve açık kaynaklı El Freni aracılığıyla da dönüştürebilirsiniz! &apos;</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="74"/>
       <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-      <translation type="unfinished">Invalid file type. Must be valid VP8 or VP9 (*.webm)!</translation>
+      <translation>Geçersiz dosya türü. Geçerli VP8 veya VP9 (*.webm) olmalıdır!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="97"/>
       <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-      <translation type="unfinished">Drop a *.webm file here or use &apos;Select file&apos; below.</translation>
+      <translation>Bir *.webm dosyasını sürükleyin &apos; Ya da Dosyayı seçin &apos;</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="140"/>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>Belgeyi Aç</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="159"/>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Dosya seç</translation>
     </message>
   </context>
   <context>
@@ -593,43 +593,43 @@
     <message>
       <location filename="../qml/Installed/Installed.qml" line="162"/>
       <source>Refreshing!</source>
-      <translation type="unfinished">Refreshing!</translation>
+      <translation>Yenileniyor!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="165"/>
       <location filename="../qml/Installed/Installed.qml" line="180"/>
       <source>Pull to refresh!</source>
-      <translation type="unfinished">Pull to refresh!</translation>
+      <translation>Yenilemek için çek!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="210"/>
       <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-      <translation type="unfinished">Get more Wallpaper &amp; Widgets via the Steam workshop!</translation>
+      <translation>Steam atölyesi aracılığıyla daha fazla Duvar Kağıdı ve Widget edinin!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="275"/>
       <source>Open containing folder</source>
-      <translation type="unfinished">Open containing folder</translation>
+      <translation>İçeren klasörü aç</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="285"/>
       <source>Remove Item</source>
-      <translation type="unfinished">Remove Item</translation>
+      <translation>Öğeyi Kaldır</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="285"/>
       <source>Remove via Workshop</source>
-      <translation type="unfinished">Remove via Workshop</translation>
+      <translation>Atölye ile Kaldır</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="295"/>
       <source>Open Workshop Page</source>
-      <translation type="unfinished">Open Workshop Page</translation>
+      <translation>Atölyeyi Aç</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="307"/>
       <source>Are you sure you want to delete this item?</source>
-      <translation type="unfinished">Are you sure you want to delete this item?</translation>
+      <translation>Bu öğeyi silmek istediğinizden emin misiniz?</translation>
     </message>
   </context>
   <context>
@@ -637,12 +637,12 @@
     <message>
       <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="79"/>
       <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-      <translation type="unfinished">Get free Widgets and Wallpaper via the Steam Workshop</translation>
+      <translation>Steam Atölyesi aracılığıyla ücretsiz Widget'lar ve Duvar Kağıdı alın</translation>
     </message>
     <message>
       <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="115"/>
       <source>Browse the Steam Workshop</source>
-      <translation type="unfinished">Browse the Steam Workshop</translation>
+      <translation>Steam Atölyesine Göz Atın</translation>
     </message>
   </context>
   <context>
@@ -650,33 +650,33 @@
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="17"/>
       <source>License</source>
-      <translation type="unfinished">License</translation>
+      <translation>Lisans</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="36"/>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</source>
-      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</translation>
+      <translation>Paylaş — materyali herhangi bir ortamda veya biçimde kopyalayın ve yeniden dağıtın. Uyarlayın - ticari olarak bile olsa herhangi bir amaç için malzemeyi yeniden karıştırın, dönüştürün ve üzerine inşa edin.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="43"/>
       <location filename="../qml/Common/LicenseSelector.qml" line="64"/>
       <source>You grant other to remix your work and change the license to their linking.</source>
-      <translation type="unfinished">You grant other to remix your work and change the license to their linking.</translation>
+      <translation>Başkalarına çalışmanızı yeniden düzenlemeleri ve bağlantılarının lisansını değiştirmeleri için izin veriyorsunuz.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="50"/>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </source>
-      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </translation>
+      <translation>Paylaş — materyali herhangi bir ortamda veya biçimde kopyalayın ve yeniden dağıtın. Uyarlayın - ticari olarak bile olsa herhangi bir amaç için malzemeyi yeniden karıştırın, dönüştürün ve üzerine inşa edin!</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="57"/>
       <source>You allow everyone to do anything with your work.</source>
-      <translation type="unfinished">You allow everyone to do anything with your work.</translation>
+      <translation>Herkesin işinizle ilgili her şeyi yapmasına izin veriyorsunuz.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="71"/>
       <source>You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</source>
-      <translation type="unfinished">You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</translation>
+      <translation>Başkalarına çalışmanızı yeniden düzenlemeleri için izin veriyorsunuz, ancak çalışmanızın GPLv3 kapsamında kalması gerekiyor. Bu lisansı tüm kod duvar kağıtları için öneriyoruz!</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="78"/>
@@ -973,147 +973,147 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="139"/>
       <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-      <translation type="unfinished">Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</translation>
+      <translation>Önemli: Bu dizini değiştirmenin atölye indirme yolu üzerinde hiçbir etkisi yoktur. ScreenPlay yalnızca bir içerik klasörüne sahip olmayı destekler!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="161"/>
       <source>Language</source>
-      <translation type="unfinished">Language</translation>
+      <translation>Dil</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="162"/>
       <source>Set the ScreenPlay UI Language</source>
-      <translation type="unfinished">Set the ScreenPlay UI Language</translation>
+      <translation>ScreenPlay Arayüz Dilini Ayarlayın</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="170"/>
       <source>English</source>
-      <translation type="unfinished">English</translation>
+      <translation>İngilizce</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="173"/>
       <source>German</source>
-      <translation type="unfinished">German</translation>
+      <translation>Almanca</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="176"/>
       <source>Chinese - Simplified</source>
-      <translation type="unfinished">Chinese - Simplified</translation>
+      <translation>Basitleştirilmiş Çince</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="179"/>
       <source>Russian</source>
-      <translation type="unfinished">Russian</translation>
+      <translation>Rusça</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="182"/>
       <source>French</source>
-      <translation type="unfinished">French</translation>
+      <translation>Fransızca</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="185"/>
       <source>Spanish</source>
-      <translation type="unfinished">Spanish</translation>
+      <translation>İspanyolca</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="188"/>
       <source>Korean</source>
-      <translation type="unfinished">Korean</translation>
+      <translation>Korece</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="191"/>
       <source>Vietnamese</source>
-      <translation type="unfinished">Vietnamese</translation>
+      <translation>Vietnamca</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="194"/>
       <source>Portuguese (Brazil)</source>
-      <translation type="unfinished">Portuguese (Brazil)</translation>
+      <translation>Portekizce (Brezilya)</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="210"/>
       <source>Theme</source>
-      <translation type="unfinished">Theme</translation>
+      <translation>Tema</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="211"/>
       <source>Switch dark/light theme</source>
-      <translation type="unfinished">Switch dark/light theme</translation>
+      <translation>Koyu/Açık temayı değiştir</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="219"/>
       <source>System Default</source>
-      <translation type="unfinished">System Default</translation>
+      <translation>Sistem Varsayılanı</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="222"/>
       <source>Dark</source>
-      <translation type="unfinished">Dark</translation>
+      <translation>Karanlık</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="225"/>
       <source>Light</source>
-      <translation type="unfinished">Light</translation>
+      <translation>Aydınlık</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="243"/>
       <source>Performance</source>
-      <translation type="unfinished">Performance</translation>
+      <translation>Performans</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="262"/>
       <source>Pause wallpaper video rendering while another app is in the foreground</source>
-      <translation type="unfinished">Pause wallpaper video rendering while another app is in the foreground</translation>
+      <translation>Başka bir uygulama ön plandayken duvar kağıdı video oluşturmayı duraklatın</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="263"/>
       <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-      <translation type="unfinished">We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</translation>
+      <translation>En iyi performans için video oluşturmayı (sesi değil!) devre dışı bırakıyoruz. Sorun yaşıyorsanız, bu davranışı buradan devre dışı bırakabilirsiniz. Duvar kağıdının yeniden başlatılması gerekiyor!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="276"/>
       <source>Default Fill Mode</source>
-      <translation type="unfinished">Default Fill Mode</translation>
+      <translation>Varsayılan Doldurma Modu</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="277"/>
       <source>Set this property to define how the video is scaled to fit the target area.</source>
-      <translation type="unfinished">Set this property to define how the video is scaled to fit the target area.</translation>
+      <translation>Videonun hedef alana sığacak şekilde nasıl ölçeklendirileceğini tanımlamak için bu özelliği ayarlayın.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="286"/>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>Esnet</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="289"/>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Doldur</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="292"/>
       <source>Contain</source>
-      <translation type="unfinished">Contain</translation>
+      <translation>İçeren</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="295"/>
       <source>Cover</source>
-      <translation type="unfinished">Cover</translation>
+      <translation>Kapak</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="298"/>
       <source>Scale-Down</source>
-      <translation type="unfinished">Scale-Down</translation>
+      <translation>Ölçek-Düşür</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="313"/>
       <source>About</source>
-      <translation type="unfinished">About</translation>
+      <translation>Hakkında</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="345"/>
       <source>Thank you for using ScreenPlay</source>
-      <translation type="unfinished">Thank you for using ScreenPlay</translation>
+      <translation>ScreePlay'i kullandığınız için teşekkür ederiz!</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="363"/>
