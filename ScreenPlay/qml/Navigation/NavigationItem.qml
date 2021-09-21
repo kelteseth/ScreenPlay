@@ -7,7 +7,8 @@ Item {
     id: navigationItem
 
     property string iconSource: "qrc:/assets/icons/icon_installed.svg"
-    property alias name: txt.text
+    property string name
+    property alias text: txt.text
     property alias amount: txtAmount.text
     property bool enabled: true
 

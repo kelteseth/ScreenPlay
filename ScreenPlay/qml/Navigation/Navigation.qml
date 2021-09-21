@@ -78,6 +78,7 @@ Rectangle {
 
             state: "inactive"
             name: "Create"
+            text: qsTr("Create")
             iconSource: "qrc:/assets/icons/icon_plus.svg"
             onPageClicked: root.onPageChanged(name)
             objectName: "createTab"
@@ -88,6 +89,7 @@ Rectangle {
 
             state: "inactive"
             name: "Workshop"
+            text: qsTr("Workshop")
             iconSource: "qrc:/assets/icons/icon_steam.svg"
             onPageClicked: root.onPageChanged(name)
             objectName: "workshopTab"
@@ -98,6 +100,7 @@ Rectangle {
 
             state: "active"
             name: "Installed"
+            text: qsTr("Installed")
             amount: ScreenPlay.installedListModel.count
             iconSource: "qrc:/assets/icons/icon_installed.svg"
             onPageClicked: root.onPageChanged(name)
@@ -109,6 +112,7 @@ Rectangle {
 
             state: "inactive"
             name: "Community"
+            text: qsTr("Community")
             iconSource: "qrc:/assets/icons/icon_community.svg"
             onPageClicked: root.onPageChanged(name)
             objectName: "communityTab"
@@ -119,6 +123,7 @@ Rectangle {
 
             state: "inactive"
             name: "Settings"
+            text: qsTr("Settings")
             iconSource: "qrc:/assets/icons/icon_settings.svg"
             onPageClicked: root.onPageChanged(name)
             objectName: "settingsTab"
