@@ -115,7 +115,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="32"/>
       <source>Import any video type</source>
-      <translation type="unfinished">Import any video type</translation>
+      <translation>Importeer elk video type</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="38"/>
