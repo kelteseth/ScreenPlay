@@ -49,9 +49,15 @@ void SteamWorkshopItem::uploadItemToWorkshop(CreateItemResult_t* pCallback, bool
         return;
     }
 
-    QString absoluteContentPath = m_absolutePath.toString();
+    const QString absoluteContentPath = ScreenPlayUtil::toLocal(m_absolutePath.toString());
 
     auto jsonObjectOpt = ScreenPlayUtil::openJsonFileToObject(absoluteContentPath + "/project.json");
+
+    if (!jsonObjectOpt.has_value()) {
+        qWarning() << "Unable to load project file";
+        emit removeThis(this);
+        return;
+    }
 
     auto jsonObject = jsonObjectOpt.value();
     QString preview = absoluteContentPath + "/" + jsonObject.value("preview").toString();

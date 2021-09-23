@@ -33,7 +33,6 @@ bool SteamWorkshop::init()
         return false;
     }
 
-
     // https://partner.steamgames.com/doc/sdk/api#SteamAPI_RestartAppIfNecessary
     // checks if your executable was launched through Steam and relaunches it through Steam if it wasn't.
     // This is optional but highly recommended as the Steam context associated with your application (including your App ID) will not be set up if the user launches the executable directly. If this occurs then SteamAPI_Init will fail and you will be unable to use the Steamworks API.
@@ -44,7 +43,6 @@ bool SteamWorkshop::init()
         qWarning() << "SteamAPI_RestartAppIfNecessary failed";
         m_steamErrorRestart = true;
     }
-
 
     QObject::connect(&m_pollTimer, &QTimer::timeout, this, []() { SteamAPI_RunCallbacks(); });
     m_pollTimer.start(100);
@@ -229,8 +227,6 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
 
 bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listModel, SteamUGCQueryCompleted_t* pCallback)
 {
-
-    qDebug() << "queryWorkshopItemFromHandle " << pCallback->m_unNumResultsReturned << pCallback->m_unTotalMatchingResults;
 
     SteamUGCDetails_t details;
     const int urlLength = 200;

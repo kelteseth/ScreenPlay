@@ -7,22 +7,31 @@ Rectangle {
 
     property string backgroundImage: ""
     property int imageOffsetTop: 0
+    property int stackViewDepth: 0
+    onStackViewDepthChanged:  {
+        if (stackViewDepth > 1) {
+            root.state = "backgroundBlur"
+            return true
+        }
+        root.state = "backgroundImage"
+        return false
+    }
 
     color: "#161C1D"
     onImageOffsetTopChanged: {
         if ((imageOffsetTop * -1) >= 200) {
-            root.state = "backgroundColor";
+            root.state = "backgroundColor"
         } else {
             if (root.state !== "backgroundImage")
-                root.state = "backgroundImage";
-
+                root.state = "backgroundImage"
         }
     }
+
     onBackgroundImageChanged: {
         if (backgroundImage === "")
-            root.state = "";
+            root.state = ""
         else
-            root.state = "backgroundImage";
+            root.state = "backgroundImage"
     }
 
     Image {
@@ -68,11 +77,8 @@ Rectangle {
                     position: 1
                     color: "#161C1D"
                 }
-
             }
-
         }
-
     }
 
     MaskedBlur {
@@ -113,7 +119,6 @@ Rectangle {
                 target: blur
                 opacity: 0
             }
-
         },
         State {
             name: "backgroundImage"
@@ -131,8 +136,8 @@ Rectangle {
             PropertyChanges {
                 target: blur
                 opacity: 0
+                radius: 16
             }
-
         },
         State {
             name: "backgroundColor"
@@ -150,8 +155,27 @@ Rectangle {
             PropertyChanges {
                 target: blur
                 opacity: 1
+                radius: 16
+            }
+        },
+        State {
+            name: "backgroundBlur"
+
+            PropertyChanges {
+                target: bgImage
+                opacity: 1
             }
 
+            PropertyChanges {
+                target: bgColor
+                opacity: 0.85
+            }
+
+            PropertyChanges {
+                target: blur
+                opacity: 1
+                radius: 64
+            }
         }
     ]
     transitions: [
@@ -166,7 +190,6 @@ Rectangle {
                 easing.type: Easing.InOutQuart
                 property: "opacity"
             }
-
         },
         Transition {
             from: "backgroundImage"
@@ -179,7 +202,25 @@ Rectangle {
                 easing.type: Easing.InOutQuart
                 property: "opacity"
             }
+        },
+        Transition {
+            from: "backgroundImage"
+            to: "backgroundBlur"
+            reversible: true
 
+            PropertyAnimation {
+                targets: [bgImage, bgColor, blur]
+                duration: 300
+                easing.type: Easing.InOutQuart
+                property: "opacity"
+            }
+
+            PropertyAnimation {
+                target: blur
+                duration: 300
+                easing.type: Easing.InOutQuart
+                property: "radius"
+            }
         }
     ]
 }

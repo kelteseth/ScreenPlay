@@ -4,9 +4,9 @@ import QtGraphicalEffects 1.0
 import QtQuick.Controls.Material 2.12
 import QtQuick.Layouts 1.12
 import QtQuick.Controls.Material.impl 2.12
+import Workshop 1.0
 
 Page {
-    // Everyting that is not OK is a fail. See steam_qt_enums_generated.h
 
     id: root
 
@@ -20,6 +20,7 @@ Page {
     anchors.centerIn: parent
     padding: 20
     onPreviewImagePathChanged: img.source = Qt.resolvedUrl("file:///" + previewImagePath)
+    // Everyting that is not OK is a fail. See steam_qt_enums_generated.h
     onSteamStatusChanged: {
         let errorText;
         switch (steamStatus) {

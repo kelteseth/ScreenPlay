@@ -11,12 +11,11 @@ import "../Common" as Common
 Item {
     id: root
 
-    property ScreenPlayWorkshop workshop
-    property SteamWorkshop steam
+    property ScreenPlayWorkshop screenPlayWorkshop
+    property SteamWorkshop steamWorkshop
 
-    signal requestWorkshopMainPage
-
-    Component.onCompleted: steam.requestUserItems()
+    signal requestBack
+    Component.onCompleted: steamWorkshop.requestUserItems()
 
     Flickable {
         id: scrollView
@@ -48,7 +47,7 @@ Item {
                     width: 70
                     height: 70
                     Component.onCompleted: {
-                        steam.steamAccount.loadAvatar()
+                        root.steamWorkshop.steamAccount.loadAvatar()
                     }
 
                     Connections {
@@ -57,7 +56,7 @@ Item {
                             avatarPlaceholder.opacity = 0
                         }
 
-                        target: steam.steamAccount
+                        target: root.steamWorkshop.steamAccount
                     }
                     Image {
                         id: avatarPlaceholder
@@ -67,7 +66,7 @@ Item {
                 }
 
                 Text {
-                    text: steam.steamAccount.username
+                    text: root.steamWorkshop.steamAccount.username
                     font.pointSize: 12
                     color: "white"
                     font.family: ScreenPlay.settings.font
@@ -76,7 +75,7 @@ Item {
 
                 Button {
                     text: qsTr("Back")
-                    onClicked: root.requestWorkshopMainPage()
+                    onClicked: root.requestBack()
                 }
             }
         }
@@ -90,7 +89,7 @@ Item {
             cellHeight: 190
             height: contentHeight
             interactive: false
-            model: root.steam.workshopProfileListModel
+            model: root.steamWorkshop.workshopProfileListModel
             boundsBehavior: Flickable.StopAtBounds
 
             anchors {
@@ -108,7 +107,7 @@ Item {
                 additionalPreviewUrl: m_additionalPreviewUrl
                 subscriptionCount: m_subscriptionCount
                 itemIndex: index
-                steamWorkshop: root.steam
+                steamWorkshop: root.steamWorkshop
                 //            onClicked: {
                 //                sidebar.setWorkshopItem(publishedFileID, imgUrl,
                 //                                        additionalPreviewUrl,
@@ -136,10 +135,10 @@ Item {
 
                     Layout.alignment: Qt.AlignVCenter
                     text: qsTr("Back")
-                    enabled: root.steam.workshopProfileListModel.currentPage > 1
+                    enabled: root.steamWorkshop.workshopProfileListModel.currentPage > 1
                     onClicked: {
-                        root.steam.workshopProfileListModel.setCurrentPage(
-                                    root.steam.workshopProfileListModel.currentPage - 1)
+                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(
+                                    root.steamWorkshop.workshopProfileListModel.currentPage - 1)
                     }
                 }
 
@@ -147,8 +146,8 @@ Item {
                     id: txtPage
 
                     Layout.alignment: Qt.AlignVCenter
-                    text: root.steam.workshopProfileListModel.currentPage + "/"
-                          + root.steam.workshopProfileListModel.pages
+                    text: root.steamWorkshop.workshopProfileListModel.currentPage
+                          + "/" + root.steamWorkshop.workshopProfileListModel.pages
                     font.family: ScreenPlay.settings.font
                     color: Material.primaryTextColor
                 }
@@ -158,11 +157,11 @@ Item {
 
                     Layout.alignment: Qt.AlignVCenter
                     text: qsTr("Forward")
-                    enabled: root.steam.workshopProfileListModel.currentPage
-                             <= root.steam.workshopProfileListModel.pages - 1
+                    enabled: root.steamWorkshop.workshopProfileListModel.currentPage
+                             <= root.steamWorkshop.workshopProfileListModel.pages - 1
                     onClicked: {
-                        root.steam.workshopProfileListModel.setCurrentPage(
-                                    root.steam.workshopProfileListModel.currentPage + 1)
+                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(
+                                    root.steamWorkshop.workshopProfileListModel.currentPage + 1)
                     }
                 }
 

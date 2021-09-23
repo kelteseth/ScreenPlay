@@ -92,5 +92,7 @@
         <file>qml/Create/StartInfoLinkImage.qml</file>
         <file>qml/Workshop/SteamProfile.qml</file>
         <file>qml/Workshop/SteamWorkshop.qml</file>
+        <file>qml/Workshop/Forum.qml</file>
+        <file>qml/Workshop/SteamWorkshopStartPage.qml</file>
     </qresource>
 </RCC>
