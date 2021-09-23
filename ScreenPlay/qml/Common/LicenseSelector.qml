@@ -40,7 +40,7 @@ ColumnLayout {
 
                 ListElement {
                     name: "Creative Commons - Attribution 4.0"
-                    description: qsTr("You grant other to remix your work and change the license to their linking.")
+                    description: qsTr("You grant other to remix your work and change the license to their liking.")
                     tldrlegal: "https://tldrlegal.com/license/creative-commons-attribution-4.0-international-(cc-by-4)"
                     licenseFile: "License_CC_Attribution_4.0.txt"
                 }
@@ -61,7 +61,7 @@ ColumnLayout {
 
                 ListElement {
                     name: "Open Source - Apache License 2.0"
-                    description: qsTr("You grant other to remix your work and change the license to their linking.")
+                    description: qsTr("You grant other to remix your work and change the license to their liking.")
                     tldrlegal: "https://tldrlegal.com/license/apache-license-2.0-(apache-2.0)"
                     licenseFile: "License_Apache_2.0.txt"
                 }
