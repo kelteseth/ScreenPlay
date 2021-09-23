@@ -320,6 +320,24 @@
     </message>
   </context>
   <context>
+    <name>Forum</name>
+    <message>
+      <location filename="../qml/Workshop/Forum.qml" line="35"/>
+      <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
+      <translation type="unfinished">Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</translation>
+    </message>
+    <message>
+      <location filename="../qml/Workshop/Forum.qml" line="44"/>
+      <source>Install Steam Version</source>
+      <translation type="unfinished">Install Steam Version</translation>
+    </message>
+    <message>
+      <location filename="../qml/Workshop/Forum.qml" line="48"/>
+      <source>Open In Browser</source>
+      <translation type="unfinished">Open In Browser</translation>
+    </message>
+  </context>
+  <context>
     <name>GifWallpaper</name>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="26"/>
@@ -421,14 +439,6 @@
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="98"/>
       <source>Tags</source>
       <translation>Thẻ</translation>
-    </message>
-  </context>
-  <context>
-    <name>Headline</name>
-    <message>
-      <location filename="../qml/Common/Headline.qml" line="17"/>
-      <source>Headline</source>
-      <translation>Tiêu đề</translation>
     </message>
   </context>
   <context>
@@ -660,8 +670,8 @@
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="43"/>
       <location filename="../qml/Common/LicenseSelector.qml" line="64"/>
-      <source>You grant other to remix your work and change the license to their linking.</source>
-      <translation>Bạn cấp cho người khác để phối lại tác phẩm của bạn và thay đổi giấy phép thành liên kết của họ.</translation>
+      <source>You grant other to remix your work and change the license to their liking.</source>
+      <translation type="unfinished">You grant other to remix your work and change the license to their liking.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="50"/>
@@ -777,6 +787,31 @@
       <location filename="../qml/Workshop/Navigation.qml" line="89"/>
       <source>Upload to the Steam Workshop</source>
       <translation>Tải lên Steam Workshop</translation>
+    </message>
+    <message>
+      <location filename="../qml/Navigation/Navigation.qml" line="81"/>
+      <source>Create</source>
+      <translation type="unfinished">Create</translation>
+    </message>
+    <message>
+      <location filename="../qml/Navigation/Navigation.qml" line="92"/>
+      <source>Workshop</source>
+      <translation type="unfinished">Workshop</translation>
+    </message>
+    <message>
+      <location filename="../qml/Navigation/Navigation.qml" line="103"/>
+      <source>Installed</source>
+      <translation type="unfinished">Installed</translation>
+    </message>
+    <message>
+      <location filename="../qml/Navigation/Navigation.qml" line="115"/>
+      <source>Community</source>
+      <translation type="unfinished">Community</translation>
+    </message>
+    <message>
+      <location filename="../qml/Navigation/Navigation.qml" line="126"/>
+      <source>Settings</source>
+      <translation type="unfinished">Settings</translation>
     </message>
   </context>
   <context>
@@ -986,197 +1021,152 @@
       <translation>Đặt ngôn ngữ của ScreenPlay</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="170"/>
-      <source>English</source>
-      <translation>Tiếng Anh</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="173"/>
-      <source>German</source>
-      <translation>Tiếng Đức</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="176"/>
-      <source>Chinese - Simplified</source>
-      <translation>Tiếng Trung - Giản thể</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="179"/>
-      <source>Russian</source>
-      <translation>Tiếng Nga</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="182"/>
-      <source>French</source>
-      <translation>Tiếng Pháp</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="185"/>
-      <source>Spanish</source>
-      <translation>Tiếng Tây Ban Nha</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="188"/>
-      <source>Korean</source>
-      <translation>Tiếng Hàn Quốc</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="191"/>
-      <source>Vietnamese</source>
-      <translation>Tiếng Việt</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="194"/>
-      <source>Portuguese (Brazil)</source>
-      <translation>Tiếng Bồ Đào Nha (Brazil)</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="210"/>
+      <location filename="../qml/Settings/Settings.qml" line="216"/>
       <source>Theme</source>
       <translation>Chủ đề</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="211"/>
+      <location filename="../qml/Settings/Settings.qml" line="217"/>
       <source>Switch dark/light theme</source>
       <translation>Chuyển chủ để sáng/tôí</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="219"/>
+      <location filename="../qml/Settings/Settings.qml" line="225"/>
       <source>System Default</source>
       <translation>Mặc định theo hệ thống</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="222"/>
+      <location filename="../qml/Settings/Settings.qml" line="228"/>
       <source>Dark</source>
       <translation>Tối</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="225"/>
+      <location filename="../qml/Settings/Settings.qml" line="231"/>
       <source>Light</source>
       <translation>Sáng</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="243"/>
+      <location filename="../qml/Settings/Settings.qml" line="249"/>
       <source>Performance</source>
       <translation>Hiệu suất</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="262"/>
+      <location filename="../qml/Settings/Settings.qml" line="268"/>
       <source>Pause wallpaper video rendering while another app is in the foreground</source>
       <translation>Tạm dừng ảnh nền video khi có một ứng dụng khác đang mở phía trước</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="263"/>
+      <location filename="../qml/Settings/Settings.qml" line="269"/>
       <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
       <translation>Chúng tôi tắt hiển thị video (không phải âm thanh!) Để có hiệu suất tốt nhất. Nếu bạn gặp sự cố, bạn có thể vô hiệu hóa hành vi này tại đây. Yêu cầu khởi động lại hình nền!</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="276"/>
+      <location filename="../qml/Settings/Settings.qml" line="282"/>
       <source>Default Fill Mode</source>
       <translation>Cách lấp đầy mặc định</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="277"/>
+      <location filename="../qml/Settings/Settings.qml" line="283"/>
       <source>Set this property to define how the video is scaled to fit the target area.</source>
       <translation>Đặt thuộc tính này để xác định cách chia tỷ lệ video để phù hợp với khu vực mục tiêu.</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="286"/>
+      <location filename="../qml/Settings/Settings.qml" line="292"/>
       <source>Stretch</source>
       <translation>Kéo dài</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="289"/>
+      <location filename="../qml/Settings/Settings.qml" line="295"/>
       <source>Fill</source>
       <translation>Lấp đầy</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="292"/>
+      <location filename="../qml/Settings/Settings.qml" line="298"/>
       <source>Contain</source>
       <translation>Chứa đựng</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="295"/>
+      <location filename="../qml/Settings/Settings.qml" line="301"/>
       <source>Cover</source>
       <translation>Bao phủ</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="298"/>
+      <location filename="../qml/Settings/Settings.qml" line="304"/>
       <source>Scale-Down</source>
       <translation>Giảm tỉ lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="313"/>
+      <location filename="../qml/Settings/Settings.qml" line="319"/>
       <source>About</source>
       <translation>Về ứng dụng</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="345"/>
+      <location filename="../qml/Settings/Settings.qml" line="351"/>
       <source>Thank you for using ScreenPlay</source>
       <translation>Cảm ơn bạn vì đã sử dụng ScreenPlay</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="363"/>
+      <location filename="../qml/Settings/Settings.qml" line="369"/>
       <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
       <translation>Chào, tôi là Elias Steurer hay được biết đến là Kelteseth và tôi là người phát triển của ScreenPlay. Cảm ơn bạn đã sử dụng phần mềm của tôi. Bạn có thể theo dõi tôi để nhận được những cập nhật về ScreenPlay tại:</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="473"/>
+      <location filename="../qml/Settings/Settings.qml" line="479"/>
       <source>Version</source>
       <translation>Phiên bản</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="474"/>
+      <location filename="../qml/Settings/Settings.qml" line="480"/>
       <source>ScreenPlay Build Version </source>
       <translation>Bản dựng của ScreenPlay </translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="475"/>
+      <location filename="../qml/Settings/Settings.qml" line="481"/>
       <source>Open Changelog</source>
       <translation>Mở nhật kí thay đổi</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="483"/>
+      <location filename="../qml/Settings/Settings.qml" line="489"/>
       <source>Third Party Software</source>
       <translation>Phần mềm của bên thứ ba</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="484"/>
+      <location filename="../qml/Settings/Settings.qml" line="490"/>
       <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
       <translation>ScreenPlay sẽ không thể có được nếu như không có thành quả của những người khác. Một lời cảm ơn lớn đến: </translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="485"/>
+      <location filename="../qml/Settings/Settings.qml" line="491"/>
       <source>Licenses</source>
       <translation>Bản quyền</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="509"/>
+      <location filename="../qml/Settings/Settings.qml" line="515"/>
       <source>Logs</source>
       <translation>Nhật kí</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="510"/>
+      <location filename="../qml/Settings/Settings.qml" line="516"/>
       <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
       <translation>Nếu ScreenPlay của bạn hoạt động sai thì đây là một cách tốt để tìm câu trả lời. Ở đây hiện tất cả các nhật kí và cảnh báo trong khi chạy</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="511"/>
+      <location filename="../qml/Settings/Settings.qml" line="517"/>
       <source>Show Logs</source>
       <translation>Hiện nhật kí</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="527"/>
+      <location filename="../qml/Settings/Settings.qml" line="533"/>
       <source>Data Protection</source>
       <translation>Bảo vệ dữ liệu</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="528"/>
+      <location filename="../qml/Settings/Settings.qml" line="534"/>
       <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
       <translation>Chúng tôi sử dụng dữ liệu của bạn rất cẩn thận để cải thiện ScreenPlay. Chúng tôi không bán hoặc chia sẻ thông tin này (ẩn danh) với người khác!</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="529"/>
+      <location filename="../qml/Settings/Settings.qml" line="535"/>
       <source>Privacy</source>
       <translation>Quyền riêng tư</translation>
     </message>
@@ -1361,123 +1351,123 @@
   <context>
     <name>SteamProfile</name>
     <message>
-      <location filename="../qml/Workshop/SteamProfile.qml" line="78"/>
-      <location filename="../qml/Workshop/SteamProfile.qml" line="138"/>
+      <location filename="../qml/Workshop/SteamProfile.qml" line="77"/>
+      <location filename="../qml/Workshop/SteamProfile.qml" line="137"/>
       <source>Back</source>
       <translation>Quay lại</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamProfile.qml" line="160"/>
+      <location filename="../qml/Workshop/SteamProfile.qml" line="159"/>
       <source>Forward</source>
       <translation>Tiếp tục</translation>
     </message>
   </context>
   <context>
-    <name>SteamWorkshop</name>
+    <name>SteamWorkshopStartPage</name>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="151"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="138"/>
       <source>Loading</source>
-      <translation>Đang tải</translation>
+      <translation type="unfinished">Loading</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="163"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="150"/>
       <source>Download now!</source>
-      <translation>Tải về ngay!</translation>
+      <translation type="unfinished">Download now!</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="168"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="155"/>
       <source>Downloading...</source>
-      <translation>Đang tải xuống...</translation>
+      <translation type="unfinished">Downloading...</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="176"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="163"/>
       <source>Details</source>
-      <translation>Chi tiết</translation>
+      <translation type="unfinished">Details</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="202"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="189"/>
       <source>Open In Steam</source>
-      <translation>Mở trong Steam</translation>
+      <translation type="unfinished">Open In Steam</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="286"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="273"/>
       <source>Profile</source>
-      <translation>Hồ sơ</translation>
+      <translation type="unfinished">Profile</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="299"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="292"/>
       <source>Upload</source>
-      <translation>Tải lên</translation>
+      <translation type="unfinished">Upload</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="317"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="316"/>
       <source>Search for Wallpaper and Widgets...</source>
-      <translation>Tìm hình nền &amp; widgets...</translation>
+      <translation type="unfinished">Search for Wallpaper and Widgets...</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="361"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="360"/>
       <source>Open Workshop in Steam</source>
-      <translation>Mở workshop trong Steam</translation>
+      <translation type="unfinished">Open Workshop in Steam</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="385"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="384"/>
       <source>Ranked By Vote</source>
-      <translation>Xếp hạng theo bình chọn</translation>
+      <translation type="unfinished">Ranked By Vote</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="388"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="387"/>
       <source>Publication Date</source>
-      <translation>Ngày xuất bản</translation>
+      <translation type="unfinished">Publication Date</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="391"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="390"/>
       <source>Ranked By Trend</source>
-      <translation>Xếp hạng theo xu hướng</translation>
+      <translation type="unfinished">Ranked By Trend</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="394"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="393"/>
       <source>Favorited By Friends</source>
-      <translation>Được yêu thích bởỉ bạn bè</translation>
+      <translation type="unfinished">Favorited By Friends</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="397"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="396"/>
       <source>Created By Friends</source>
-      <translation>Được tạo bởi bạn bè</translation>
+      <translation type="unfinished">Created By Friends</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="400"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="399"/>
       <source>Created By Followed Users</source>
-      <translation>Được tạo bởi những người đã theo dõi</translation>
+      <translation type="unfinished">Created By Followed Users</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="403"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="402"/>
       <source>Not Yet Rated</source>
-      <translation>Chưa được đánh giá</translation>
+      <translation type="unfinished">Not Yet Rated</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="406"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="405"/>
       <source>Total VotesAsc</source>
-      <translation>Tổng lượt bình chọn</translation>
+      <translation type="unfinished">Total VotesAsc</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="409"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="408"/>
       <source>Votes Up</source>
-      <translation>Bình chọn</translation>
+      <translation type="unfinished">Votes Up</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="412"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="411"/>
       <source>Total Unique Subscriptions</source>
-      <translation>Tổng số đăng ký</translation>
+      <translation type="unfinished">Total Unique Subscriptions</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="461"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="461"/>
       <source>Back</source>
-      <translation>Quay lại</translation>
+      <translation type="unfinished">Back</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="485"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="485"/>
       <source>Forward</source>
-      <translation>Tiếp tục</translation>
+      <translation type="unfinished">Forward</translation>
     </message>
   </context>
   <context>
@@ -1559,22 +1549,22 @@
   <context>
     <name>UploadProject</name>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProject.qml" line="60"/>
+      <location filename="../qml/Workshop/upload/UploadProject.qml" line="31"/>
       <source>Upload Wallpaper/Widgets to Steam</source>
       <translation>Tải hình nền/widgets lên Steam</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProject.qml" line="142"/>
+      <location filename="../qml/Workshop/upload/UploadProject.qml" line="113"/>
       <source>Abort</source>
       <translation>Hủy bỏ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProject.qml" line="157"/>
+      <location filename="../qml/Workshop/upload/UploadProject.qml" line="128"/>
       <source>Upload Selected Projects</source>
       <translation>Tải lên dự án đã chọn</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProject.qml" line="216"/>
+      <location filename="../qml/Workshop/upload/UploadProject.qml" line="187"/>
       <source>Finish</source>
       <translation>Xong</translation>
     </message>
@@ -1600,582 +1590,582 @@
   <context>
     <name>UploadProjectItem</name>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="33"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="34"/>
       <source>Fail</source>
       <translation>Thất bại</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="36"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="37"/>
       <source>No Connection</source>
       <translation>Không có kết nối</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="39"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="40"/>
       <source>Invalid Password</source>
       <translation>Sai mật khẩu</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="42"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="43"/>
       <source>Logged In Elsewhere</source>
       <translation>Đã được đăng nhập từ nơi khác</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="45"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="46"/>
       <source>Invalid Protocol Version</source>
       <translation>Phiên bản giao thức không hợp lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="48"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="49"/>
       <source>Invalid Param</source>
       <translation>Tham số không hợp lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="51"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="52"/>
       <source>File Not Found</source>
       <translation>Không tìm thấy tập tin</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="54"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="55"/>
       <source>Busy</source>
       <translation>Đang bận</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="57"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="58"/>
       <source>Invalid State</source>
       <translation>Trạng thái không hợp lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="60"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="61"/>
       <source>Invalid Name</source>
       <translation>Tên không hợp lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="63"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="64"/>
       <source>Invalid Email</source>
       <translation>Email không hợp lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="66"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="67"/>
       <source>Duplicate Name</source>
       <translation>Tên bị trùng</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="69"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="70"/>
       <source>Access Denied</source>
       <translation>Không có quyền truy cập</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="72"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="73"/>
       <source>Timeout</source>
       <translation>Hết hạn</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="75"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="76"/>
       <source>Banned</source>
       <translation>Đã bị cấm</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="78"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="79"/>
       <source>Account Not Found</source>
       <translation>Không tìm thấy tài khoản</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="81"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="82"/>
       <source>Invalid SteamID</source>
       <translation>ID Steam không hợp lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="84"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="85"/>
       <source>Service Unavailable</source>
       <translation>Dịch vụ không khả dụng</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="87"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="88"/>
       <source>Not Logged On</source>
       <translation>Chưa đăng nhập</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="90"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="91"/>
       <source>Pending</source>
       <translation>Đang chờ xử lý</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="93"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="94"/>
       <source>Encryption Failure</source>
       <translation>Lỗi mã hóa</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="96"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="97"/>
       <source>Insufficient Privilege</source>
       <translation>Không đủ quyền truy cập</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="99"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="100"/>
       <source>Limit Exceeded</source>
       <translation>Quá giới hạn</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="102"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="103"/>
       <source>Revoked</source>
       <translation>Đã thu hồi</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="105"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="106"/>
       <source>Expired</source>
       <translation>Đã hết hạn</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="108"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="109"/>
       <source>Already Redeemed</source>
       <translation>Đã quy đổi rồi</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="111"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="112"/>
       <source>Duplicate Request</source>
       <translation>Yêu cầu bị trùng</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="114"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="115"/>
       <source>Already Owned</source>
       <translation>Đã sở hữu</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="117"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="118"/>
       <source>IP Not Found</source>
       <translation>Không tìm thấy IP</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="120"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="121"/>
       <source>Persist Failed</source>
       <translation>Chờ đợi thất bại</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="123"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="124"/>
       <source>Locking Failed</source>
       <translation>Khóa thất bại</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="126"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="127"/>
       <source>Logon Session Replaced</source>
       <translation>Phiên đăng nhập đã được thay thế</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="129"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="130"/>
       <source>Connect Failed</source>
       <translation>Kết nối thất bại</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="132"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="133"/>
       <source>Handshake Failed</source>
       <translation>Handshake thất bại</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="135"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="136"/>
       <source>IO Failure</source>
       <translation>Lỗi I/O</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="138"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="139"/>
       <source>Remote Disconnect</source>
       <translation>Ngắt kết nối từ xa</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="141"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="142"/>
       <source>Shopping Cart Not Found</source>
       <translation>Không tìm thấy giỏ hàng</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="144"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="145"/>
       <source>Blocked</source>
       <translation>Đã bị chặn</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="147"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="148"/>
       <source>Ignored</source>
       <translation>Đã bỏ qua</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="150"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="151"/>
       <source>No Match</source>
       <translation>Không có kết quả nào phù hợp</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="153"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="154"/>
       <source>Account Disabled</source>
       <translation>Tài khoản bị vô hiệu hóa</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="156"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="157"/>
       <source>Service ReadOnly</source>
       <translation>Dịch vụ chỉ đọc</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="159"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="160"/>
       <source>Account Not Featured</source>
       <translation>Tài khoản không nổi bật</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="162"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="163"/>
       <source>Administrator OK</source>
       <translation>Quyền quản trị viên OK</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="165"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="166"/>
       <source>Content Version</source>
       <translation>Phiên bản nội dung</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="168"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="169"/>
       <source>Try Another CM</source>
       <translation>Hãy thử một cách khác</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="171"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="172"/>
       <source>Password Required T oKick Session</source>
       <translation>Cần mật khẩu để thoát phiên khác</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="174"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="175"/>
       <source>Already Logged In Elsewhere</source>
       <translation>Đã được đăng nhập từ nơi khác</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="177"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="178"/>
       <source>Suspended</source>
       <translation>Đã tạm ngưng</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="180"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="181"/>
       <source>Cancelled</source>
       <translation>Đã hủy</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="183"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="184"/>
       <source>Data Corruption</source>
       <translation>Dữ liệu bị hỏng</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="186"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="187"/>
       <source>Disk Full</source>
       <translation>Ổ đĩa đầy</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="189"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="190"/>
       <source>Remote Call Failed</source>
       <translation>Gọi từ xa không thành công</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="192"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="193"/>
       <source>Password Unset</source>
       <translation>Mật khẩu chưa được đặt</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="195"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="196"/>
       <source>External Account Unlinked</source>
       <translation>Tài khoản bên ngoài chưa được liên kết</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="198"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="199"/>
       <source>PSN Ticket Invalid</source>
       <translation>Phiếu PSN không hợp lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="201"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="202"/>
       <source>External Account Already Linked</source>
       <translation>Tài khoản bên ngoài dã được liên kết rồi</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="204"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="205"/>
       <source>Remote File Conflict</source>
       <translation>Tệp ở máy chủ bị xung đột</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="207"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="208"/>
       <source>Illegal Password</source>
       <translation>Mật khẩu không hợp lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="210"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="211"/>
       <source>Same As Previous Value</source>
       <translation>Đặt giống như giá trị trước</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="213"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="214"/>
       <source>Account Logon Denied</source>
       <translation>Đăng nhập bị từ chối</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="216"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="217"/>
       <source>Cannot Use Old Password</source>
       <translation>Không thể sử dụng mật khẩu cũ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="219"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="220"/>
       <source>Invalid Login AuthCode</source>
       <translation>Mã xác minh đăng nhập không hợp lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="222"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="223"/>
       <source>Account Logon Denied No Mail</source>
       <translation>Đăng nhập thất bại, không có thư</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="225"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="226"/>
       <source>Hardware Not Capable Of IPT</source>
       <translation>Phần cứng không hỗ trợ IPT</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="228"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="229"/>
       <source>IPT Init Error</source>
       <translation>Lỗi bắt đầu IPT</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="231"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="232"/>
       <source>Parental Control Restricted</source>
       <translation>Kiểm soát của phụ huynh bị hạn chế</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="234"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="235"/>
       <source>Facebook Query Error</source>
       <translation>Kết nối Facebook lỗi</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="237"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="238"/>
       <source>Expired Login Auth Code</source>
       <translation>Mã đăng nhập đã hết hạn</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="240"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="241"/>
       <source>IP Login Restriction Failed</source>
       <translation>Hạn chế đăng nhập IP không thành công</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="243"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="244"/>
       <source>Account Locked Down</source>
       <translation>Tài khoản đã bị khóa</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="246"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="247"/>
       <source>Account Logon Denied Verified Email Required</source>
       <translation>Đăng nhập thất bại, yêu cầu xác thực mail</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="249"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="250"/>
       <source>No MatchingURL</source>
       <translation>Không có địa chỉ nào phù hợp</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="252"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="253"/>
       <source>Bad Response</source>
       <translation>Phản hồi xấu</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="255"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="256"/>
       <source>Require Password ReEntry</source>
       <translation>Yêu cầu nhập lại mật khâu</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="258"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="259"/>
       <source>Value Out Of Range</source>
       <translation>Giá trị quá vùng</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="261"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="262"/>
       <source>Unexpecte Error</source>
       <translation>Lỗi Bất Thường</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="264"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="265"/>
       <source>Disabled</source>
       <translation>Đã vô hiệu</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="267"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="268"/>
       <source>Invalid CEG Submission</source>
       <translation>Hồ sơ CEG không hợp lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="270"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="271"/>
       <source>Restricted Device</source>
       <translation>Thiết bị bị giới hạn</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="273"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="274"/>
       <source>Region Locked</source>
       <translation>Vùng bị khóa</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="276"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="277"/>
       <source>Rate Limit Exceeded</source>
       <translation>Vượt quá giới hạn truy cập</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="279"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="280"/>
       <source>Account Login Denied Need Two Factor</source>
       <translation>Đăng nhập thất bại, cần 2FA</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="282"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="283"/>
       <source>Item Deleted</source>
       <translation>Mặt hàng đã xóa</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="285"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="286"/>
       <source>Account Login Denied Throttle</source>
       <translation>Đăng nhập thất bại</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="288"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="289"/>
       <source>Two Factor Code Mismatch</source>
       <translation>Mã 2FA không đúng</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="291"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="292"/>
       <source>Two Factor Activation Code Mismatch</source>
       <translation>Mã 2FA không đúng</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="294"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="295"/>
       <source>Account Associated To Multiple Partners</source>
       <translation>Tài khoản được liên kết với nhiều đối tác</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="297"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="298"/>
       <source>Not Modified</source>
       <translation>Chưa chỉnh sửa</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="300"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="301"/>
       <source>No Mobile Device</source>
       <translation>Không có điện thoại</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="303"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="304"/>
       <source>Time Not Synced</source>
       <translation>Chưa đồng bộ thời gian</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="306"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="307"/>
       <source>Sms Code Failed</source>
       <translation>Gửi mã code SMS thất bại</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="309"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="310"/>
       <source>Account Limit Exceeded</source>
       <translation>Đã vượt quá giới hạn tài khoản</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="312"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="313"/>
       <source>Account Activity Limit Exceeded</source>
       <translation>Đã vượt quá giới hạn hoạt động của tài khoản</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="315"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="316"/>
       <source>Phone Activity Limit Exceeded</source>
       <translation>Đã vượt quá giới hạn hoạt động của điện thoại</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="318"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="319"/>
       <source>Refund To Wallet</source>
       <translation>Hoàn tiền vào ví</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="321"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="322"/>
       <source>Email Send Failure</source>
       <translation>Gửi Thư Thất bại</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="324"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="325"/>
       <source>Not Settled</source>
       <translation>Chưa được giải quyết</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="327"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="328"/>
       <source>Need Captcha</source>
       <translation>Cần captcha</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="330"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="331"/>
       <source>GSLT Denied</source>
       <translation>Mã đăng nhập máy chủ bị từ chối</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="333"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="334"/>
       <source>GS Owner Denied</source>
       <translation>Máy chủ bị từ chối</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="336"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="337"/>
       <source>Invalid Item Type</source>
       <translation>Kiểu mặt hàng không hợp lệ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="339"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="340"/>
       <source>IP Banned</source>
       <translation>IP đã bị cấm</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="342"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="343"/>
       <source>GSLT Expired</source>
       <translation>Mã đăng nhập máy chủ đã hết hạn</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="345"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="346"/>
       <source>Insufficient Funds</source>
       <translation>Không đủ tiền</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="348"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="349"/>
       <source>Too Many Pending</source>
       <translation>Có quá nhiều mặt hàng đang chờ</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="351"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="352"/>
       <source>No Site Licenses Found</source>
       <translation>Không tìm thấy giấy phép trang web</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="354"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="355"/>
       <source>WG Network Send Exceeded</source>
       <translation>Đã vượt quá quá trình gửi mạng WG</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="357"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="358"/>
       <source>Account Not Friends</source>
       <translation>Tài khoản không phải bạn bè</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="360"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="361"/>
       <source>Limited User Account</source>
       <translation>Tài khoản bị giới hạn</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="363"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="364"/>
       <source>Cant Remove Item</source>
       <translation>Không thể xóa mặt hàng</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="366"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="367"/>
       <source>Account Deleted</source>
       <translation>Tài khoản đã bị xóa</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="369"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="370"/>
       <source>Existing User Cancelled License</source>
       <translation>Người dùng hiện tại đã bị hủy giấy phép</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="372"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="373"/>
       <source>Community Cooldown</source>
       <translation>Community Cooldown</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="464"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="465"/>
       <source>Status:</source>
       <translation>Trạng thái:</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="483"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="484"/>
       <source>Upload Progress: </source>
       <translation>Quá trình tải lên: </translation>
     </message>
