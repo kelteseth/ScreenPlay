@@ -320,6 +320,24 @@
     </message>
   </context>
   <context>
+    <name>Forum</name>
+    <message>
+      <location filename="../qml/Workshop/Forum.qml" line="35"/>
+      <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
+      <translation type="unfinished">Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</translation>
+    </message>
+    <message>
+      <location filename="../qml/Workshop/Forum.qml" line="44"/>
+      <source>Install Steam Version</source>
+      <translation type="unfinished">Install Steam Version</translation>
+    </message>
+    <message>
+      <location filename="../qml/Workshop/Forum.qml" line="48"/>
+      <source>Open In Browser</source>
+      <translation type="unfinished">Open In Browser</translation>
+    </message>
+  </context>
+  <context>
     <name>GifWallpaper</name>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="26"/>
@@ -421,14 +439,6 @@
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="98"/>
       <source>Tags</source>
       <translation>标签</translation>
-    </message>
-  </context>
-  <context>
-    <name>Headline</name>
-    <message>
-      <location filename="../qml/Common/Headline.qml" line="17"/>
-      <source>Headline</source>
-      <translation>标题</translation>
     </message>
   </context>
   <context>
@@ -660,8 +670,8 @@
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="43"/>
       <location filename="../qml/Common/LicenseSelector.qml" line="64"/>
-      <source>You grant other to remix your work and change the license to their linking.</source>
-      <translation>您授权他人对您的作品进行再创作，并更改其链接的许可证。</translation>
+      <source>You grant other to remix your work and change the license to their liking.</source>
+      <translation type="unfinished">You grant other to remix your work and change the license to their liking.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="50"/>
@@ -777,6 +787,31 @@
       <location filename="../qml/Workshop/Navigation.qml" line="89"/>
       <source>Upload to the Steam Workshop</source>
       <translation>上传到创意工坊</translation>
+    </message>
+    <message>
+      <location filename="../qml/Navigation/Navigation.qml" line="81"/>
+      <source>Create</source>
+      <translation type="unfinished">Create</translation>
+    </message>
+    <message>
+      <location filename="../qml/Navigation/Navigation.qml" line="92"/>
+      <source>Workshop</source>
+      <translation type="unfinished">Workshop</translation>
+    </message>
+    <message>
+      <location filename="../qml/Navigation/Navigation.qml" line="103"/>
+      <source>Installed</source>
+      <translation type="unfinished">Installed</translation>
+    </message>
+    <message>
+      <location filename="../qml/Navigation/Navigation.qml" line="115"/>
+      <source>Community</source>
+      <translation type="unfinished">Community</translation>
+    </message>
+    <message>
+      <location filename="../qml/Navigation/Navigation.qml" line="126"/>
+      <source>Settings</source>
+      <translation type="unfinished">Settings</translation>
     </message>
   </context>
   <context>
@@ -986,197 +1021,152 @@
       <translation>设置ScreenPlay界面语言</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="170"/>
-      <source>English</source>
-      <translation>英语</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="173"/>
-      <source>German</source>
-      <translation>德语</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="176"/>
-      <source>Chinese - Simplified</source>
-      <translation>中文（简体）</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="179"/>
-      <source>Russian</source>
-      <translation>俄语</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="182"/>
-      <source>French</source>
-      <translation>法语</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="185"/>
-      <source>Spanish</source>
-      <translation>西班牙语</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="188"/>
-      <source>Korean</source>
-      <translation>韩语</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="191"/>
-      <source>Vietnamese</source>
-      <translation>越南语</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="194"/>
-      <source>Portuguese (Brazil)</source>
-      <translation>英语（巴西）</translation>
-    </message>
-    <message>
-      <location filename="../qml/Settings/Settings.qml" line="210"/>
+      <location filename="../qml/Settings/Settings.qml" line="216"/>
       <source>Theme</source>
       <translation>主题</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="211"/>
+      <location filename="../qml/Settings/Settings.qml" line="217"/>
       <source>Switch dark/light theme</source>
       <translation>切换到暗/亮主题</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="219"/>
+      <location filename="../qml/Settings/Settings.qml" line="225"/>
       <source>System Default</source>
       <translation>跟随系统</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="222"/>
+      <location filename="../qml/Settings/Settings.qml" line="228"/>
       <source>Dark</source>
       <translation>暗</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="225"/>
+      <location filename="../qml/Settings/Settings.qml" line="231"/>
       <source>Light</source>
       <translation>亮</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="243"/>
+      <location filename="../qml/Settings/Settings.qml" line="249"/>
       <source>Performance</source>
       <translation>性能</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="262"/>
+      <location filename="../qml/Settings/Settings.qml" line="268"/>
       <source>Pause wallpaper video rendering while another app is in the foreground</source>
       <translation>当其他应用程序在前台时，暂停壁纸视频渲染</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="263"/>
+      <location filename="../qml/Settings/Settings.qml" line="269"/>
       <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
       <translation>我们禁用视频渲染（不是音频）以获得最佳性能。如果您有问题，可以在此处禁用此行为。 需要重启壁纸！</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="276"/>
+      <location filename="../qml/Settings/Settings.qml" line="282"/>
       <source>Default Fill Mode</source>
       <translation>默认填充模式</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="277"/>
+      <location filename="../qml/Settings/Settings.qml" line="283"/>
       <source>Set this property to define how the video is scaled to fit the target area.</source>
       <translation>设置此属性可定义视频的缩放方式以适应目标区域。</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="286"/>
+      <location filename="../qml/Settings/Settings.qml" line="292"/>
       <source>Stretch</source>
       <translation>拉伸</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="289"/>
+      <location filename="../qml/Settings/Settings.qml" line="295"/>
       <source>Fill</source>
       <translation>填充</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="292"/>
+      <location filename="../qml/Settings/Settings.qml" line="298"/>
       <source>Contain</source>
       <translation>适应</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="295"/>
+      <location filename="../qml/Settings/Settings.qml" line="301"/>
       <source>Cover</source>
       <translation>平铺</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="298"/>
+      <location filename="../qml/Settings/Settings.qml" line="304"/>
       <source>Scale-Down</source>
       <translation>裁剪</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="313"/>
+      <location filename="../qml/Settings/Settings.qml" line="319"/>
       <source>About</source>
       <translation>关于</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="345"/>
+      <location filename="../qml/Settings/Settings.qml" line="351"/>
       <source>Thank you for using ScreenPlay</source>
       <translation>感谢您的使用</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="363"/>
+      <location filename="../qml/Settings/Settings.qml" line="369"/>
       <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
       <translation>您好，我是Elias Steurer，也叫Kelteseth，我是ScreenPlay的开发者。感谢您使用我的软件。您可以在这里关注我，接收ScreenPlay的更新。</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="473"/>
+      <location filename="../qml/Settings/Settings.qml" line="479"/>
       <source>Version</source>
       <translation>版本</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="474"/>
+      <location filename="../qml/Settings/Settings.qml" line="480"/>
       <source>ScreenPlay Build Version </source>
       <translation>ScreenPlay编译版本 </translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="475"/>
+      <location filename="../qml/Settings/Settings.qml" line="481"/>
       <source>Open Changelog</source>
       <translation>打开更改日志。</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="483"/>
+      <location filename="../qml/Settings/Settings.qml" line="489"/>
       <source>Third Party Software</source>
       <translation>第三方软件</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="484"/>
+      <location filename="../qml/Settings/Settings.qml" line="490"/>
       <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
       <translation>ScreenPlay离不开一些人的帮助。非常感谢你们：</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="485"/>
+      <location filename="../qml/Settings/Settings.qml" line="491"/>
       <source>Licenses</source>
       <translation>许可证</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="509"/>
+      <location filename="../qml/Settings/Settings.qml" line="515"/>
       <source>Logs</source>
       <translation>日志</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="510"/>
+      <location filename="../qml/Settings/Settings.qml" line="516"/>
       <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
       <translation>如果您的ScreenPlay出错，这是个很好的查错方式。它显示所有的日志和运行时警告。</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="511"/>
+      <location filename="../qml/Settings/Settings.qml" line="517"/>
       <source>Show Logs</source>
       <translation>显示日志</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="527"/>
+      <location filename="../qml/Settings/Settings.qml" line="533"/>
       <source>Data Protection</source>
       <translation>数据保护</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="528"/>
+      <location filename="../qml/Settings/Settings.qml" line="534"/>
       <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
       <translation>我们使用您的数据提升ScreenPlay的体验。我们承诺不出售或分享这些匿名信息！</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="529"/>
+      <location filename="../qml/Settings/Settings.qml" line="535"/>
       <source>Privacy</source>
       <translation>隐私</translation>
     </message>
@@ -1361,123 +1351,123 @@
   <context>
     <name>SteamProfile</name>
     <message>
-      <location filename="../qml/Workshop/SteamProfile.qml" line="78"/>
-      <location filename="../qml/Workshop/SteamProfile.qml" line="138"/>
+      <location filename="../qml/Workshop/SteamProfile.qml" line="77"/>
+      <location filename="../qml/Workshop/SteamProfile.qml" line="137"/>
       <source>Back</source>
       <translation>返回</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamProfile.qml" line="160"/>
+      <location filename="../qml/Workshop/SteamProfile.qml" line="159"/>
       <source>Forward</source>
       <translation>前进</translation>
     </message>
   </context>
   <context>
-    <name>SteamWorkshop</name>
+    <name>SteamWorkshopStartPage</name>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="151"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="138"/>
       <source>Loading</source>
-      <translation>加载中</translation>
+      <translation type="unfinished">Loading</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="163"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="150"/>
       <source>Download now!</source>
-      <translation>开始下载！</translation>
+      <translation type="unfinished">Download now!</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="168"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="155"/>
       <source>Downloading...</source>
-      <translation>下载中...</translation>
+      <translation type="unfinished">Downloading...</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="176"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="163"/>
       <source>Details</source>
-      <translation>查看详情</translation>
+      <translation type="unfinished">Details</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="202"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="189"/>
       <source>Open In Steam</source>
-      <translation>在Steam打开</translation>
+      <translation type="unfinished">Open In Steam</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="286"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="273"/>
       <source>Profile</source>
-      <translation>配置</translation>
+      <translation type="unfinished">Profile</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="299"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="292"/>
       <source>Upload</source>
       <translation type="unfinished">Upload</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="317"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="316"/>
       <source>Search for Wallpaper and Widgets...</source>
-      <translation>搜索壁纸和物件...</translation>
+      <translation type="unfinished">Search for Wallpaper and Widgets...</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="361"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="360"/>
       <source>Open Workshop in Steam</source>
-      <translation>在Steam中打开创意工坊</translation>
+      <translation type="unfinished">Open Workshop in Steam</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="385"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="384"/>
       <source>Ranked By Vote</source>
-      <translation>评分最好</translation>
+      <translation type="unfinished">Ranked By Vote</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="388"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="387"/>
       <source>Publication Date</source>
-      <translation>发布日期</translation>
+      <translation type="unfinished">Publication Date</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="391"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="390"/>
       <source>Ranked By Trend</source>
-      <translation>评分趋势</translation>
+      <translation type="unfinished">Ranked By Trend</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="394"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="393"/>
       <source>Favorited By Friends</source>
-      <translation>好友收藏</translation>
+      <translation type="unfinished">Favorited By Friends</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="397"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="396"/>
       <source>Created By Friends</source>
-      <translation>好友创建</translation>
+      <translation type="unfinished">Created By Friends</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="400"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="399"/>
       <source>Created By Followed Users</source>
-      <translation>已关注的</translation>
+      <translation type="unfinished">Created By Followed Users</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="403"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="402"/>
       <source>Not Yet Rated</source>
-      <translation>尚未评分</translation>
+      <translation type="unfinished">Not Yet Rated</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="406"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="405"/>
       <source>Total VotesAsc</source>
-      <translation>按总票数升序</translation>
+      <translation type="unfinished">Total VotesAsc</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="409"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="408"/>
       <source>Votes Up</source>
-      <translation>评分上升</translation>
+      <translation type="unfinished">Votes Up</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="412"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="411"/>
       <source>Total Unique Subscriptions</source>
-      <translation>总订阅量</translation>
+      <translation type="unfinished">Total Unique Subscriptions</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="461"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="461"/>
       <source>Back</source>
-      <translation>返回</translation>
+      <translation type="unfinished">Back</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/SteamWorkshop.qml" line="485"/>
+      <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="485"/>
       <source>Forward</source>
-      <translation>前进</translation>
+      <translation type="unfinished">Forward</translation>
     </message>
   </context>
   <context>
@@ -1559,22 +1549,22 @@
   <context>
     <name>UploadProject</name>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProject.qml" line="60"/>
+      <location filename="../qml/Workshop/upload/UploadProject.qml" line="31"/>
       <source>Upload Wallpaper/Widgets to Steam</source>
       <translation>上传 壁纸/物件 到Steam</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProject.qml" line="142"/>
+      <location filename="../qml/Workshop/upload/UploadProject.qml" line="113"/>
       <source>Abort</source>
       <translation>取消</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProject.qml" line="157"/>
+      <location filename="../qml/Workshop/upload/UploadProject.qml" line="128"/>
       <source>Upload Selected Projects</source>
       <translation>上传所选项目</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProject.qml" line="216"/>
+      <location filename="../qml/Workshop/upload/UploadProject.qml" line="187"/>
       <source>Finish</source>
       <translation>结束</translation>
     </message>
@@ -1600,582 +1590,582 @@
   <context>
     <name>UploadProjectItem</name>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="33"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="34"/>
       <source>Fail</source>
       <translation>失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="36"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="37"/>
       <source>No Connection</source>
       <translation>没有连接</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="39"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="40"/>
       <source>Invalid Password</source>
       <translation>密码错误</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="42"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="43"/>
       <source>Logged In Elsewhere</source>
       <translation>在其他地方登录了</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="45"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="46"/>
       <source>Invalid Protocol Version</source>
       <translation>无效协议版本</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="48"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="49"/>
       <source>Invalid Param</source>
       <translation>参数无效</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="51"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="52"/>
       <source>File Not Found</source>
       <translation>文件未找到</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="54"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="55"/>
       <source>Busy</source>
       <translation>繁忙</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="57"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="58"/>
       <source>Invalid State</source>
       <translation>状态无效</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="60"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="61"/>
       <source>Invalid Name</source>
       <translation>名称无效</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="63"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="64"/>
       <source>Invalid Email</source>
       <translation>邮箱无效</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="66"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="67"/>
       <source>Duplicate Name</source>
       <translation>重复名称</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="69"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="70"/>
       <source>Access Denied</source>
       <translation>拒绝访问</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="72"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="73"/>
       <source>Timeout</source>
       <translation>超时</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="75"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="76"/>
       <source>Banned</source>
       <translation>被禁止</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="78"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="79"/>
       <source>Account Not Found</source>
       <translation>账户未找到</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="81"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="82"/>
       <source>Invalid SteamID</source>
       <translation>SteamID无效</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="84"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="85"/>
       <source>Service Unavailable</source>
       <translation>服务不可用</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="87"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="88"/>
       <source>Not Logged On</source>
       <translation>未登录</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="90"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="91"/>
       <source>Pending</source>
       <translation>待处理</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="93"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="94"/>
       <source>Encryption Failure</source>
       <translation>加密失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="96"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="97"/>
       <source>Insufficient Privilege</source>
       <translation>权限不足</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="99"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="100"/>
       <source>Limit Exceeded</source>
       <translation>超出限制</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="102"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="103"/>
       <source>Revoked</source>
       <translation>被撤回</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="105"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="106"/>
       <source>Expired</source>
       <translation>已过期</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="108"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="109"/>
       <source>Already Redeemed</source>
       <translation>已兑换</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="111"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="112"/>
       <source>Duplicate Request</source>
       <translation>重复请求</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="114"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="115"/>
       <source>Already Owned</source>
       <translation>已拥有</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="117"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="118"/>
       <source>IP Not Found</source>
       <translation>未找到IP</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="120"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="121"/>
       <source>Persist Failed</source>
       <translation>持续失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="123"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="124"/>
       <source>Locking Failed</source>
       <translation>锁定失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="126"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="127"/>
       <source>Logon Session Replaced</source>
       <translation>登录会话被覆盖</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="129"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="130"/>
       <source>Connect Failed</source>
       <translation>连接失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="132"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="133"/>
       <source>Handshake Failed</source>
       <translation>握手失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="135"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="136"/>
       <source>IO Failure</source>
       <translation>输入输出失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="138"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="139"/>
       <source>Remote Disconnect</source>
       <translation>远程断开连接</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="141"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="142"/>
       <source>Shopping Cart Not Found</source>
       <translation>未找到购物车</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="144"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="145"/>
       <source>Blocked</source>
       <translation>受阻</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="147"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="148"/>
       <source>Ignored</source>
       <translation>已忽略</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="150"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="151"/>
       <source>No Match</source>
       <translation>无匹配</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="153"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="154"/>
       <source>Account Disabled</source>
       <translation>账号已禁用</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="156"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="157"/>
       <source>Service ReadOnly</source>
       <translation>服务只读</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="159"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="160"/>
       <source>Account Not Featured</source>
       <translation>账号未显示</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="162"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="163"/>
       <source>Administrator OK</source>
       <translation>管理员确定</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="165"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="166"/>
       <source>Content Version</source>
       <translation>内容版本</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="168"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="169"/>
       <source>Try Another CM</source>
       <translation>尝试其他内容管理器</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="171"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="172"/>
       <source>Password Required T oKick Session</source>
       <translation>需要密码才能启动会话</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="174"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="175"/>
       <source>Already Logged In Elsewhere</source>
       <translation>已在其他地方登录</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="177"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="178"/>
       <source>Suspended</source>
       <translation>已挂起</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="180"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="181"/>
       <source>Cancelled</source>
       <translation>已取消</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="183"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="184"/>
       <source>Data Corruption</source>
       <translation>数据损坏</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="186"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="187"/>
       <source>Disk Full</source>
       <translation>磁盘满</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="189"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="190"/>
       <source>Remote Call Failed</source>
       <translation>远程调用失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="192"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="193"/>
       <source>Password Unset</source>
       <translation>解除密码</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="195"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="196"/>
       <source>External Account Unlinked</source>
       <translation>外部账户未链接</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="198"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="199"/>
       <source>PSN Ticket Invalid</source>
       <translation>PSN令牌无效</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="201"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="202"/>
       <source>External Account Already Linked</source>
       <translation>外部账户已链接</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="204"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="205"/>
       <source>Remote File Conflict</source>
       <translation>远程文件冲突</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="207"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="208"/>
       <source>Illegal Password</source>
       <translation>非法密码</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="210"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="211"/>
       <source>Same As Previous Value</source>
       <translation>与旧值相同</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="213"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="214"/>
       <source>Account Logon Denied</source>
       <translation>帐户登录被拒绝</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="216"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="217"/>
       <source>Cannot Use Old Password</source>
       <translation>不可使用旧密码</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="219"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="220"/>
       <source>Invalid Login AuthCode</source>
       <translation>无效的登录授权码</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="222"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="223"/>
       <source>Account Logon Denied No Mail</source>
       <translation>帐户登录被拒绝：没有邮件</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="225"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="226"/>
       <source>Hardware Not Capable Of IPT</source>
       <translation>硬件不支持身份保护技术</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="228"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="229"/>
       <source>IPT Init Error</source>
       <translation>身份保护技术初始化失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="231"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="232"/>
       <source>Parental Control Restricted</source>
       <translation>家长控制限制</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="234"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="235"/>
       <source>Facebook Query Error</source>
       <translation>Facebook查询错误</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="237"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="238"/>
       <source>Expired Login Auth Code</source>
       <translation>过期的登录授权码</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="240"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="241"/>
       <source>IP Login Restriction Failed</source>
       <translation>IP登录限制失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="243"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="244"/>
       <source>Account Locked Down</source>
       <translation>帐户被锁定</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="246"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="247"/>
       <source>Account Logon Denied Verified Email Required</source>
       <translation>帐户登录被拒绝：需验证电子邮件</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="249"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="250"/>
       <source>No MatchingURL</source>
       <translation>没有匹配网址</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="252"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="253"/>
       <source>Bad Response</source>
       <translation>坏响应</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="255"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="256"/>
       <source>Require Password ReEntry</source>
       <translation>要求重新输入密码</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="258"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="259"/>
       <source>Value Out Of Range</source>
       <translation>值超出范围</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="261"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="262"/>
       <source>Unexpecte Error</source>
       <translation>意外错误</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="264"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="265"/>
       <source>Disabled</source>
       <translation>已禁用</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="267"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="268"/>
       <source>Invalid CEG Submission</source>
       <translation>无效的CEG提交</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="270"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="271"/>
       <source>Restricted Device</source>
       <translation>受限设备</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="273"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="274"/>
       <source>Region Locked</source>
       <translation>地区锁定</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="276"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="277"/>
       <source>Rate Limit Exceeded</source>
       <translation>超出比率限制</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="279"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="280"/>
       <source>Account Login Denied Need Two Factor</source>
       <translation>账户登录被拒绝：需要两步验证</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="282"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="283"/>
       <source>Item Deleted</source>
       <translation>物品已删除</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="285"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="286"/>
       <source>Account Login Denied Throttle</source>
       <translation>帐户登录被拒绝</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="288"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="289"/>
       <source>Two Factor Code Mismatch</source>
       <translation>两步验证码不匹配</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="291"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="292"/>
       <source>Two Factor Activation Code Mismatch</source>
       <translation>两步验证激活码不匹配</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="294"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="295"/>
       <source>Account Associated To Multiple Partners</source>
       <translation>帐户已关联到多个合作伙伴</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="297"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="298"/>
       <source>Not Modified</source>
       <translation>未修改</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="300"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="301"/>
       <source>No Mobile Device</source>
       <translation>没有移动设备</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="303"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="304"/>
       <source>Time Not Synced</source>
       <translation>时间未同步</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="306"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="307"/>
       <source>Sms Code Failed</source>
       <translation>短信验证码失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="309"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="310"/>
       <source>Account Limit Exceeded</source>
       <translation>超出账户限制</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="312"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="313"/>
       <source>Account Activity Limit Exceeded</source>
       <translation>超出账户活动限制</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="315"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="316"/>
       <source>Phone Activity Limit Exceeded</source>
       <translation>超出电话活动限制</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="318"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="319"/>
       <source>Refund To Wallet</source>
       <translation>退款到钱包</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="321"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="322"/>
       <source>Email Send Failure</source>
       <translation>邮件发送失败</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="324"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="325"/>
       <source>Not Settled</source>
       <translation>未解决</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="327"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="328"/>
       <source>Need Captcha</source>
       <translation>需要验证</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="330"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="331"/>
       <source>GSLT Denied</source>
       <translation>服务器令牌拒绝</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="333"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="334"/>
       <source>GS Owner Denied</source>
       <translation>服务器所有者拒绝</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="336"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="337"/>
       <source>Invalid Item Type</source>
       <translation>无效的物品类型</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="339"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="340"/>
       <source>IP Banned</source>
       <translation>IP被禁用</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="342"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="343"/>
       <source>GSLT Expired</source>
       <translation>服务器令牌过期</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="345"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="346"/>
       <source>Insufficient Funds</source>
       <translation>资金不足</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="348"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="349"/>
       <source>Too Many Pending</source>
       <translation>提交中太多</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="351"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="352"/>
       <source>No Site Licenses Found</source>
       <translation>无网站证书</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="354"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="355"/>
       <source>WG Network Send Exceeded</source>
       <translation>蠕虫守护网络发送超限</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="357"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="358"/>
       <source>Account Not Friends</source>
       <translation>帐户不是好友</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="360"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="361"/>
       <source>Limited User Account</source>
       <translation>受限账户</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="363"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="364"/>
       <source>Cant Remove Item</source>
       <translation>无法移除物品</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="366"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="367"/>
       <source>Account Deleted</source>
       <translation>账户已删除</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="369"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="370"/>
       <source>Existing User Cancelled License</source>
       <translation>现有用户已取消许可证</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="372"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="373"/>
       <source>Community Cooldown</source>
       <translation>社区降温</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="464"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="465"/>
       <source>Status:</source>
       <translation>状态：</translation>
     </message>
     <message>
-      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="483"/>
+      <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="484"/>
       <source>Upload Progress: </source>
       <translation>上传进度：</translation>
     </message>
