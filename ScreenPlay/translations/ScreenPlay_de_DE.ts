@@ -323,17 +323,17 @@
     <message>
       <location filename="../qml/Workshop/Forum.qml" line="35"/>
       <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
-      <translation type="unfinished">Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</translation>
+      <translation>Du kannst Wallpaper und Widgets aus unserem Forum manuell herunterladen. Wenn du den Steam Workshop-Inhalt herunterladen möchtest, musst du ScreenPlay via Steam installieren.</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Forum.qml" line="44"/>
       <source>Install Steam Version</source>
-      <translation type="unfinished">Install Steam Version</translation>
+      <translation>Steam Version installieren</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Forum.qml" line="48"/>
       <source>Open In Browser</source>
-      <translation type="unfinished">Open In Browser</translation>
+      <translation>Im Browser öffnen</translation>
     </message>
   </context>
   <context>
@@ -670,7 +670,7 @@
       <location filename="../qml/Common/LicenseSelector.qml" line="43"/>
       <location filename="../qml/Common/LicenseSelector.qml" line="64"/>
       <source>You grant other to remix your work and change the license to their liking.</source>
-      <translation type="unfinished">You grant other to remix your work and change the license to their liking.</translation>
+      <translation>Sie gestatten anderen, Ihr Werk neu zu mixen und die Lizenz auf deren Ermessen zu ändern.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="50"/>
@@ -790,27 +790,27 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Navigation/Navigation.qml" line="81"/>
       <source>Create</source>
-      <translation type="unfinished">Create</translation>
+      <translation>Erstellen</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/Navigation.qml" line="92"/>
       <source>Workshop</source>
-      <translation type="unfinished">Workshop</translation>
+      <translation>Workshop</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/Navigation.qml" line="103"/>
       <source>Installed</source>
-      <translation type="unfinished">Installed</translation>
+      <translation>Installiert</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/Navigation.qml" line="115"/>
       <source>Community</source>
-      <translation type="unfinished">Community</translation>
+      <translation>Community</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/Navigation.qml" line="126"/>
       <source>Settings</source>
-      <translation type="unfinished">Settings</translation>
+      <translation>Einstellungen</translation>
     </message>
   </context>
   <context>
@@ -1371,102 +1371,102 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="150"/>
       <source>Download now!</source>
-      <translation type="unfinished">Download now!</translation>
+      <translation>Jetzt herunterladen!</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="155"/>
       <source>Downloading...</source>
-      <translation type="unfinished">Downloading...</translation>
+      <translation>Herunterladen...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="163"/>
       <source>Details</source>
-      <translation type="unfinished">Details</translation>
+      <translation>Details</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="189"/>
       <source>Open In Steam</source>
-      <translation type="unfinished">Open In Steam</translation>
+      <translation>In Steam öffnen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="273"/>
       <source>Profile</source>
-      <translation type="unfinished">Profile</translation>
+      <translation>Profil</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="292"/>
       <source>Upload</source>
-      <translation type="unfinished">Upload</translation>
+      <translation>Hochladen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="316"/>
       <source>Search for Wallpaper and Widgets...</source>
-      <translation type="unfinished">Search for Wallpaper and Widgets...</translation>
+      <translation>Suche nach Wallpaper &amp; Widgets...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="360"/>
       <source>Open Workshop in Steam</source>
-      <translation type="unfinished">Open Workshop in Steam</translation>
+      <translation>Im Steam Workshop öffnen</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="384"/>
       <source>Ranked By Vote</source>
-      <translation type="unfinished">Ranked By Vote</translation>
+      <translation>Nach Bewertungen sortieren</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="387"/>
       <source>Publication Date</source>
-      <translation type="unfinished">Publication Date</translation>
+      <translation>Nach Veröffentlichungs Datum sortieren</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="390"/>
       <source>Ranked By Trend</source>
-      <translation type="unfinished">Ranked By Trend</translation>
+      <translation>Nach Trends sortieren</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="393"/>
       <source>Favorited By Friends</source>
-      <translation type="unfinished">Favorited By Friends</translation>
+      <translation>Von Freunden Favorisiert</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="396"/>
       <source>Created By Friends</source>
-      <translation type="unfinished">Created By Friends</translation>
+      <translation>Von Freunden erstellt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="399"/>
       <source>Created By Followed Users</source>
-      <translation type="unfinished">Created By Followed Users</translation>
+      <translation>Von gefolgten Benutzern erstellt</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="402"/>
       <source>Not Yet Rated</source>
-      <translation type="unfinished">Not Yet Rated</translation>
+      <translation>Noch nicht Bewertet</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="405"/>
       <source>Total VotesAsc</source>
-      <translation type="unfinished">Total VotesAsc</translation>
+      <translation>Abstimmungs Anzahl Absteigend</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="408"/>
       <source>Votes Up</source>
-      <translation type="unfinished">Votes Up</translation>
+      <translation>Abstimmungs Anzahl Steigend</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="411"/>
       <source>Total Unique Subscriptions</source>
-      <translation type="unfinished">Total Unique Subscriptions</translation>
+      <translation>Anzahl einzigartiger Abonnenten</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="461"/>
       <source>Back</source>
-      <translation type="unfinished">Back</translation>
+      <translation>Zurück</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="485"/>
       <source>Forward</source>
-      <translation type="unfinished">Forward</translation>
+      <translation>Vor</translation>
     </message>
   </context>
   <context>
