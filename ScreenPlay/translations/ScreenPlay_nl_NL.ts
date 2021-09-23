@@ -129,7 +129,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="53"/>
       <source>Set your preffered video codec:</source>
-      <translation type="unfinished">Set your preffered video codec:</translation>
+      <translation>Stel je gewenst videocodec in:</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="98"/>
