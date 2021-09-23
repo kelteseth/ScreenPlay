@@ -193,11 +193,11 @@ Item {
                                 "value": Settings.Pt_BR,
                                 "text": "Portuguese (Brazil)"
                             }, {
-                                    "value": Settings.Tr_TR,
-                                    "text": "Turkish"
+                                "value": Settings.Tr_TR,
+                                "text": "Turkish"
                             }, {
-                                    "value": Settings.Nl_NL,
-                                    "text": "Dutch"
+                                "value": Settings.Nl_NL,
+                                "text": "Dutch"
                             }]
                             onActivated: {
                                 ScreenPlay.settings.setLanguage(settingsLanguage.comboBox.currentValue);
