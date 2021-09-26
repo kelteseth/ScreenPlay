@@ -228,8 +228,6 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
 bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listModel, SteamUGCQueryCompleted_t* pCallback)
 {
 
-    qDebug() << "queryWorkshopItemFromHandle " << pCallback->m_unNumResultsReturned << pCallback->m_unTotalMatchingResults;
-
     SteamUGCDetails_t details;
     const int urlLength = 200;
     char url[urlLength];

@@ -559,7 +559,6 @@ bool ScreenPlayManager::loadProfiles()
         return false;
     }
 
-    qInfo() << "Loading profiles " << activeProfilesTmp.size();
     bool containsInvalidData = false;
     for (const QJsonValueRef wallpaper : activeProfilesTmp) {
 

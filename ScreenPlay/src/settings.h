@@ -115,15 +115,17 @@ public:
     };
 
     enum class Language {
-        En,
-        De,
-        Ru,
-        Fr,
-        Es,
-        Ko,
-        Vi,
+        En_US,
+        De_DE,
+        Ru_RU,
+        Fr_FR,
+        Es_ES,
+        Ko_KR,
+        Vi_VN,
         Pt_BR,
         Zh_CN,
+        Tr_TR,
+        Nl_NL,
     };
     Q_ENUM(Language)
 
@@ -402,6 +404,7 @@ public slots:
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
     void initInstalledPath();
+    QString fixLanguageCode(const QString& languageCode);
 
 private:
     QSettings m_qSettings;
@@ -419,7 +422,7 @@ private:
     QString m_gitBuildHash;
     QString m_decoder;
     ScreenPlay::FillMode::FillMode m_videoFillMode { ScreenPlay::FillMode::FillMode::Cover };
-    Language m_language { Language::En };
+    Language m_language { Language::En_US };
     Theme m_theme { Theme::System };
     QString m_font { "Roboto" };
     bool m_steamVersion { false };

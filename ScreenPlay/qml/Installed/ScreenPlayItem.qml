@@ -2,7 +2,6 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import QtQuick.Controls
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 import "../Common/Util.js" as JSUtil

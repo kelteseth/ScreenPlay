@@ -1,0 +1,3 @@
+files:
+  - source: /ScreenPlay/translations/ScreenPlay_.ts
+    translation: /ScreenPlay/translations/ScreenPlay_%locale_with_underscore%.ts

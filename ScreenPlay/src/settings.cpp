@@ -102,6 +102,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     setupWidgetAndWindowPaths();
     setGitBuildHash(COMPILE_INFO);
+    setSteamVersion(!(QString(SCREENPLAY_STEAM).compare("OFF", Qt::CaseInsensitive) ? false : true));
 }
 
 /*!
@@ -194,7 +195,6 @@ void Settings::restoreDefault(const QString& appConfigLocation, const QString& s
 void Settings::initInstalledPath()
 {
     //If empty use steam workshop location
-    qInfo() << m_qSettings.value("ScreenPlayContentPath").toString();
     if (QString(m_qSettings.value("ScreenPlayContentPath").toString()).isEmpty()) {
 
         /*
@@ -246,22 +246,14 @@ void Settings::setupLanguage()
 {
     QString langCode;
     if (m_qSettings.value("Language").isNull()) {
-        auto localeList = QLocale::system().uiLanguages();
-
-        // Like En-us, De-de
-        QStringList localeSplits = localeList.at(0).split("-");
-        langCode = localeSplits.at(0);
-
-        // Ether De, En, Ru, Fr...
-        if (langCode.length() != 2) {
-            qWarning() << "Could not parse locale of value " << langCode;
-            return;
-        }
+        langCode = QLocale::system().name();
+        // QML enum begin with uppercase: de_DE -> De_DE
+        langCode = langCode.replace(0, 1, langCode.at(0).toUpper());
     } else {
         langCode = m_qSettings.value("Language").toString();
     }
 
-    setLanguage(QStringToEnum<Language>(langCode, Language::En));
+    setLanguage(QStringToEnum<Language>(langCode, Language::En_US));
     retranslateUI();
 }
 
@@ -272,17 +264,16 @@ void Settings::setupLanguage()
 */
 bool Settings::retranslateUI()
 {
-    auto* app = static_cast<QApplication*>(QApplication::instance());
-    QString langCode = QVariant::fromValue(language()).toString();
-    langCode = langCode.toLower();
-    QFile tsFile;
+    QString langCode = fixLanguageCode(QVariant::fromValue(language()).toString());
 
+    QFile tsFile;
     if (tsFile.exists(":/translations/ScreenPlay_" + langCode + ".qm")) {
         m_translator.load(":/translations/ScreenPlay_" + langCode + ".qm");
+        auto* app = static_cast<QApplication*>(QApplication::instance());
         app->installTranslator(&m_translator);
         emit requestRetranslation();
 
-        if (language() == Settings::Language::Ko) {
+        if (language() == Settings::Language::Ko_KR) {
             setFont("Noto Sans CJK KR Regular");
         } else {
             setFont("Roboto");
@@ -292,4 +283,19 @@ bool Settings::retranslateUI()
     qWarning() << tsFile.fileName() << ", cannot be loaded width langCode " << langCode;
     return false;
 }
+
+/*!
+   \brief We must translate between qml langauge code and real ones.
+*/
+QString Settings::fixLanguageCode(const QString& languageCode)
+{
+    QString langCode = languageCode;
+    // QML enums must begin with uppercase, but our code begin with lowercase
+    langCode = langCode.replace(0, 1, langCode.at(0).toLower());
+    // For US we use the default .ts file without langauge code
+    if (langCode == "en_US")
+        langCode = "";
+    return langCode;
+}
+
 }

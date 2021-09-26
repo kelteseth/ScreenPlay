@@ -55,15 +55,17 @@ list(
     APPEND
     L10N_LIST
     # cmake-format: sortable
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_de.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_zh_cn.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_pt_br.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_en.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_es.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_fr.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ko.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ru.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_vi.ts)
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_tr_TR.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_nl_NL.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_de_DE.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_zh_CN.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_pt_BR.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_es_ES.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_fr_FR.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ko_KR.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ru_RU.ts
+     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_vi_VN.ts)
 
 include(QtUpdateTranslations)
 qt_update_translations("${CMAKE_CURRENT_SOURCE_DIR}/qml" "${L10N_LIST}")
@@ -109,8 +111,10 @@ target_link_libraries(
            Qt6::WebEngineQuick
            Qt6::WebEngineCore)
 
-add_executable(tst_ScreenPlay tests/tst_main.cpp)
-target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt6::Test)
+if(${TESTS_ENABLED})
+    add_executable(tst_ScreenPlay tests/tst_main.cpp)
+    target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt6::Test)
+endif()
 
 add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
@@ -118,8 +122,6 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
 qt_add_translation(qmFiles ${l10n})
 
 qt_add_big_resources(fonts fonts.qrc)
-
-target_compile_definitions(${PROJECT_NAME} PRIVATE "GIT_VERSION=${GIT_VERSION}")
 
 if(WIN32)
     # Icon

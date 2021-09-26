@@ -237,5 +237,5 @@ void BaseWindow::setupLiveReloading()
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, timeoutLambda);
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, timeoutLambda);
     QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
-    m_fileSystemWatcher.addPaths({ projectPath() });
+    m_fileSystemWatcher.addPaths({ QUrl::fromUserInput(projectPath()).toLocalFile() });
 }

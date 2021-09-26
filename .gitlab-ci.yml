@@ -16,22 +16,6 @@ check:
         - python clang_format.py
         - python cmake_format.py
 
-build:windows_debug:
-    stage: build
-    tags:
-        - vs2019
-        - windows10
-    needs:
-        - check
-    script:
-        - cd Tools
-        - python setup.py
-        - python build.py -t debug
-    artifacts:
-        expire_in: "4 weeks"
-        paths:
-            - build-x64-windows-debug/bin/
-
 build:windows_release:
     stage: build
     tags:
@@ -42,27 +26,28 @@ build:windows_release:
     script:
         - cd Tools
         - python setup.py
-        - python build.py -t release
+        - python build.py -t release  -steam=False
     artifacts:
         expire_in: "4 weeks"
         paths:
             - build-x64-windows-release/bin/
 
-build:osx_debug:
+build:windows_release_steam:
     stage: build
-    allow_failure: true
     tags:
-        - osx
+        - vs2019
+        - windows10
     needs:
         - check
     script:
         - cd Tools
-        - python3 setup.py
-        - python3 build.py -t debug
+        - python setup.py
+        - python build.py -t release -steam=True
     artifacts:
         expire_in: "4 weeks"
         paths:
-            - build-x64-osx-debug/bin/
+            - build-x64-windows-release/bin/
+
 
 build:osx_release:
     stage: build
@@ -74,38 +59,27 @@ build:osx_release:
     script:
         - cd Tools
         - python3 setup.py
-        - python3 build.py -t release
+        - python3 build.py -t release -steam=False
     artifacts:
         expire_in: "4 weeks"
         paths:
             - build-x64-osx-release/bin/
 
-build:linux_debug:
+build:osx_release_steam:
     stage: build
     allow_failure: true
-    image:
-        name: ubuntu:20.04
     tags:
-        - gitlab-org-docker
+        - osx
     needs:
         - check
     script:
-        - apt update -y
-        # Otherwise libglib2 needs interaction
-        - export  DEBIAN_FRONTEND=noninteractive
-        - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip  build-essential libgl1-mesa-dev lld ninja-build cmake -y
-        - pip3 install aqtinstall
-        - mkdir Qt
-        - aqt install --outputdir Qt/ 6.2.0 linux desktop
         - cd Tools
-        - wget -q  https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
         - python3 setup.py
-        - python3 build.py -t debug
-
+        - python3 build.py -t release -steam=True
     artifacts:
         expire_in: "4 weeks"
         paths:
-            - build-x64-linux-debug/bin/
+            - build-x64-osx-release/bin/
 
 build:linux_release:
     stage: build
@@ -127,28 +101,11 @@ build:linux_release:
         - cd Tools
         - wget -q https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
         - python3 setup.py
-        - python3 build.py -t release
+        - python3 build.py -t release -steam=False
     artifacts:
         expire_in: "4 weeks"
         paths:
             - build-x64-linux-release/bin/
-
-test:windows_debug:
-    stage: test
-    tags:
-        - windows10
-        - vs2019
-    dependencies:
-        - build:windows_debug
-    needs:
-        - build:windows_debug
-    script:
-        - ./build-x64-windows-debug/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
-    artifacts:
-        expire_in: "4 weeks"
-        when: always
-        reports:
-            junit: test-report-junit.xml
 
 test:windows_release:
     stage: test

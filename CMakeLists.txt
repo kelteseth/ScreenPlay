@@ -7,7 +7,6 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-option(SCREENPLAY_STEAM_DEPLOY OFF "Steam build settings. Disables steam_app.txt copy step, that is only needed for development.")
 option(SCREENPLAY_STEAM ON "For FOSS distribution so we do not bundle proprietary code.")
 option(TESTS_ENABLED OFF)
 
@@ -59,6 +58,7 @@ execute_process(
 
 add_compile_definitions(COMPILE_INFO="${BUILD_DATE} + ${GIT_COMMIT_HASH}")
 add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
+add_compile_definitions(SCREENPLAY_STEAM="${SCREENPLAY_STEAM}")
 
 if(UNIX AND NOT APPLE)
     # Fixes QWebEngine linker errors on Ubuntu 20.04
@@ -85,11 +85,10 @@ endif()
 message(STATUS "[DEFINE] SOURCE_DIR               = ${SOURCE_DIR}")
 message(STATUS "[DEFINE] BUILD_DATE               = ${BUILD_DATE}")
 message(STATUS "[DEFINE] GIT_COMMIT_HASH          = ${GIT_COMMIT_HASH}")
+message(STATUS "[OPTION] SCREENPLAY_STEAM         = ${SCREENPLAY_STEAM}")
+message(STATUS "[OPTION] TESTS_ENABLED            = ${TESTS_ENABLED}")
 message(STATUS "[PROJECT] CMAKE_TOOLCHAIN_FILE    = ${CMAKE_TOOLCHAIN_FILE}")
 message(STATUS "[PROJECT] VCPKG_PATH              = ${VCPKG_PATH}")
 message(STATUS "[PROJECT] VCPKG_ARCH              = ${VCPKG_ARCH}")
 message(STATUS "[PROJECT] CMAKE_PREFIX_PATH       = ${CMAKE_PREFIX_PATH}")
 message(STATUS "[PROJECT] VCPKG_TARGET_TRIPLET    = ${VCPKG_TARGET_TRIPLET}")
-message(STATUS "[OPTION] SCREENPLAY_STEAM_DEPLOY  = ${SCREENPLAY_STEAM_DEPLOY}")
-message(STATUS "[OPTION] SCREENPLAY_STEAM         = ${SCREENPLAY_STEAM}")
-message(STATUS "[OPTION] TESTS_ENABLED            = ${TESTS_ENABLED}")

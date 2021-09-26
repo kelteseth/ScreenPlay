@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts 
 import QtQuick.Controls.Material
-import QtQuick.Particles 2.0
+import QtQuick.Particles
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0

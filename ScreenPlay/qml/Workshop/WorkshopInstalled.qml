@@ -1,6 +1,5 @@
 import QtQuick
 import QtQuick.Controls
-import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import Workshop 1.0 as SP
 

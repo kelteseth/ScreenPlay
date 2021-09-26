@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0

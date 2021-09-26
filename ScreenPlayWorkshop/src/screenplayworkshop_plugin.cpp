@@ -2,7 +2,6 @@
 
 void ScreenPlayWorkshopPlugin::registerTypes(const char* uri)
 {
-    qInfo() << "void ScreenPlayWorkshopPlugin::registerTypes(const char* uri)";
     qRegisterMetaType<ScreenPlayWorkshop::SteamQMLImageProvider*>("SteamQMLImageProvider*");
     qmlRegisterType<ScreenPlayWorkshop::SteamQMLImageProvider>("Workshop", 1, 0, "SteamImage");
 

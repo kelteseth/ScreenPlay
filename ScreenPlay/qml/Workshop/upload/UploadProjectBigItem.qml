@@ -63,9 +63,9 @@ Item {
 
             Image {
                 id: screenPlayItemImage
-
+                asynchronous: true
                 width: 400
-                source: Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.preview)
+                source: root.preview !== "" ? Qt.resolvedUrl(root.absoluteStoragePath + "/" + root.preview) : ""
 
                 anchors {
                     top: parent.top
