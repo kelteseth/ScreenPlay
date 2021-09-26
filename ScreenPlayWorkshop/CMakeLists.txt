@@ -91,7 +91,7 @@ if(APPLE)
         COMMENT "Copying steam library into ScreenPlay.app bundle"
         COMMAND ${CMAKE_COMMAND} -E copy ${steam_bin} ${workshop_install_dir})
 
-    if(NOT ${SCREENPLAY_STEAM})
+    if(${SCREENPLAY_STEAM})
         add_custom_command(
             TARGET workshopplugin
             POST_BUILD
@@ -100,7 +100,7 @@ if(APPLE)
     endif()
 
 else()
-    if(NOT ${SCREENPLAY_STEAM})
+    if(${SCREENPLAY_STEAM})
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
     endif()
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${WORKSHOP_PLUGIN_DIR}/qmldir COPYONLY)

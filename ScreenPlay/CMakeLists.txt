@@ -116,7 +116,7 @@ target_link_libraries(
 
 if(${TESTS_ENABLED})
     add_executable(tst_ScreenPlay  tests/tst_main.cpp)
-target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt5::Test)
+    target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt5::Test)
 endif()
 
 add_executable(${PROJECT_NAME}  main.cpp)

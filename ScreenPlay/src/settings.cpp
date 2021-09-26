@@ -102,7 +102,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     setupWidgetAndWindowPaths();
     setGitBuildHash(COMPILE_INFO);
-    setSteamVersion((QString(SCREENPLAY_STEAM).compare("OFF", Qt::CaseInsensitive) ? false : true));
+    setSteamVersion(!(QString(SCREENPLAY_STEAM).compare("OFF", Qt::CaseInsensitive) ? false : true));
 }
 
 /*!
