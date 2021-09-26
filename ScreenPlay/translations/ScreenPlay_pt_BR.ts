@@ -665,23 +665,23 @@
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="36"/>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</source>
-      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</translation>
+      <translation>Share — copie e redistribua o material por qualquer meio ou formato. Adapte — modifique, transforme e desenvolva o material para qualquer propósito, mesmo comercialmente.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="43"/>
       <location filename="../qml/Common/LicenseSelector.qml" line="64"/>
       <source>You grant other to remix your work and change the license to their liking.</source>
-      <translation type="unfinished">You grant other to remix your work and change the license to their liking.</translation>
+      <translation>Você permite que outros modifiquem seu trabalho e alterem a licença livremente.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="50"/>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </source>
-      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </translation>
+      <translation>Share — copie e redistribua o material por qualquer meio ou formato. Adapte — modifique, transforme e desenvolva o material. Você não está permitido a usar isso comercialmente! </translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="57"/>
       <source>You allow everyone to do anything with your work.</source>
-      <translation type="unfinished">You allow everyone to do anything with your work.</translation>
+      <translation>Você permite que todos façam qualquer coisa com seu trabalho.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="71"/>
