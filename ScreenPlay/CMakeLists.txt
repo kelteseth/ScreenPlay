@@ -114,8 +114,10 @@ target_link_libraries(
             Qt${QT_VERSION_MAJOR}::Svg
             Qt5::WebEngine)
 
-add_executable(tst_ScreenPlay  tests/tst_main.cpp)
+if(${TESTS_ENABLED})
+    add_executable(tst_ScreenPlay  tests/tst_main.cpp)
 target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt5::Test)
+endif()
 
 add_executable(${PROJECT_NAME}  main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
