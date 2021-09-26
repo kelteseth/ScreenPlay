@@ -35,12 +35,14 @@ def run_io_tasks_in_parallel(tasks):
 parser = argparse.ArgumentParser(description='Build and Package ScreenPlay')
 parser.add_argument('-t', action="store", dest="build_type",
                     help="Build type. This is either debug or release.")
-parser.add_argument('-s', action="store", dest="sign_build",
-                    help="Enable if you want to sign the apps. This is macos only for now.")
+parser.add_argument('-sign', action="store", dest="sign_build",
+                   help="Enable if you want to sign the apps. This is macos only for now.")
+parser.add_argument('-steam', action="store", dest="steam_build",
+                    help="Enable if you want to build the Steam workshop plugin.")
 args = parser.parse_args()
 
 if not args.build_type:
-    print("Build type argument is missing (release,debug). Example: python build.py -t release -s=True")
+    print("Build type argument is missing (release,debug). Example: python build.py -t release -steam=True")
     sys.exit(1)
 
 qt_version = "5.15.2"
@@ -100,15 +102,15 @@ cmake_configure_command = """cmake ../
  -DCMAKE_TOOLCHAIN_FILE={toolchain}
  -DVCPKG_TARGET_TRIPLET={triplet}
  -DTESTS_ENABLED=OFF
- -DSCREENPLAY_STEAM_DEPLOY=ON
- -DSCREENPLAY_STEAM=ON
+ -DSCREENPLAY_STEAM={steam}
  -G "CodeBlocks - Ninja"
  -B.
   """.format(
     type=args.build_type,
     prefix_path=cmake_prefix_path,
     triplet=cmake_target_triplet,
-    toolchain=cmake_toolchain_file).replace("\n", "")
+    toolchain=cmake_toolchain_file,
+    steam=args.steam_build).replace("\n", "")
 
 execute(cmake_configure_command)
 execute("cmake --build . --target all")
