@@ -202,7 +202,6 @@ Item {
                 id: txtConvertNumber
 
                 color: "white"
-                text: qsTr("")
                 font.pointSize: 21
                 font.family: ScreenPlay.settings.font
 

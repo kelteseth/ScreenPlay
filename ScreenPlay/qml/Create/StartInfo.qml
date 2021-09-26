@@ -16,7 +16,7 @@ Item {
     Common.Headline {
         id: headline
 
-        text: qsTr("Free Tools to create wallpaper")
+        text: qsTr("Free tools to help you to create wallpaper")
 
         anchors {
             top: parent.top
@@ -33,7 +33,7 @@ Item {
         color: Material.primaryTextColor
         font.pointSize: 12
         font.family: ScreenPlay.settings.font
-        text: qsTr("Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!")
+        text: qsTr("Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!")
 
         anchors {
             top: headline.bottom

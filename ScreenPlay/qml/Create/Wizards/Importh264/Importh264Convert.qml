@@ -346,7 +346,7 @@ Item {
                 onClicked: {
                     if (conversionFinishedSuccessful) {
                         btnSave.enabled = false;
-                        ScreenPlay.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, Create.VP9, textFieldTags.getTags());
+                        ScreenPlay.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, Create.H264, textFieldTags.getTags());
                         savePopup.open();
                     }
                 }

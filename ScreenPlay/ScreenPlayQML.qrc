@@ -94,5 +94,8 @@
         <file>qml/Workshop/SteamWorkshop.qml</file>
         <file>qml/Workshop/Forum.qml</file>
         <file>qml/Workshop/SteamWorkshopStartPage.qml</file>
+        <file>qml/Create/Wizards/Importh264/Importh264.qml</file>
+        <file>qml/Create/Wizards/Importh264/Importh264Convert.qml</file>
+        <file>qml/Create/Wizards/Importh264/Importh264Init.qml</file>
     </qresource>
 </RCC>

@@ -25,69 +25,6 @@ Rectangle {
     color: Material.background
 
     ListView {
-
-
-        /*
-            ListElement {
-                headline: qsTr("QML Particle Wallpaper")
-                source: ""
-                category: "Example Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("Countdown Clock Wallpaper")
-                source: ""
-                category: "Example Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("QML Water Shader Wallpaper")
-                source: ""
-                category: "Example Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("QML Shadertoy Shader Wallpaper")
-                source: ""
-                category: "Example Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("QML Lightning Shader Wallpaper")
-                source: ""
-                category: "Example Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("Clock Widget")
-                source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                category: "Example Widget"
-            }
-
-            ListElement {
-                headline: qsTr("CPU Widget")
-                source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                category: "Example Widget"
-            }
-
-            ListElement {
-                headline: qsTr("Storage Widget")
-                source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                category: "Example Widget"
-            }
-
-            ListElement {
-                headline: qsTr("RAM Widget")
-                source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                category: "Example Widget"
-            }
-
-            ListElement {
-                headline: qsTr("XKCD Widget")
-                source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                category: "Example Widget"
-            }
-            */
         id: listView
         objectName: "wizardsListView"
 
@@ -130,7 +67,14 @@ Rectangle {
             }
 
             ListElement {
-                headline: qsTr("Video Import (.webm)")
+                headline: qsTr("Video Import h264 (.mp4)")
+                source: "qrc:/qml/Create/Wizards/Importh264/Importh264.qml"
+                category: "Video Wallpaper"
+                objectName: ""
+            }
+
+            ListElement {
+                headline: qsTr("Video Import VP8 & VP9 (.webm)")
                 source: "qrc:/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
                 category: "Video Wallpaper"
                 objectName: ""
