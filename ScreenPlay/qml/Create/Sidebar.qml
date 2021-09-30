@@ -60,13 +60,6 @@ Rectangle {
             }
 
             ListElement {
-                headline: qsTr("Video import and convert (all types)")
-                source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
-                category: "Video Wallpaper"
-                objectName: "videoImportConvert"
-            }
-
-            ListElement {
                 headline: qsTr("Video Import h264 (.mp4)")
                 source: "qrc:/qml/Create/Wizards/Importh264/Importh264.qml"
                 category: "Video Wallpaper"
@@ -78,6 +71,13 @@ Rectangle {
                 source: "qrc:/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
                 category: "Video Wallpaper"
                 objectName: ""
+            }
+
+            ListElement {
+                headline: qsTr("Video import (all types)")
+                source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
+                category: "Video Wallpaper"
+                objectName: "videoImportConvert"
             }
 
             ListElement {

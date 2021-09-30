@@ -15,7 +15,6 @@ Item {
         font.pointSize: 18
         color: Material.primaryTextColor
         text: "Headline"
-        font.capitalization: Font.Capitalize
         font.family: ScreenPlay.settings.font
     }
 
