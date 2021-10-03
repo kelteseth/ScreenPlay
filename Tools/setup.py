@@ -37,7 +37,7 @@ if __name__ == "__main__":
     execute("git checkout {}".format(vcpkg_version), vcpkg_path)
 
     vcpkg_packages_list = [
-        "openssl-unix",
+        "openssl",
         "curl",
         "sentry-native",
         "doctest",

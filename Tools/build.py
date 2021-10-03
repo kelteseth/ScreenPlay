@@ -156,6 +156,17 @@ if platform == "darwin" and args.sign_build:
     execute("spctl --assess --verbose  \"ScreenPlayWallpaper.app/\"")
     execute("spctl --assess --verbose  \"ScreenPlayWidget.app/\"")
 
+# Some dlls like openssl do no longer get copied automatically.
+# Lets just copy all of them into bin.
+if platform == "win32":
+    vcpkg_bin_path = os.path.abspath(("{root_path}/../ScreenPlay-vcpkg/installed/x64-windows/bin").format(root_path=root_path))
+    print(vcpkg_bin_path)
+    for basename in os.listdir(vcpkg_bin_path):
+        if basename.endswith('.dll'):
+            pathname = os.path.join(vcpkg_bin_path, basename)
+            print(pathname, os.getcwd())
+            if os.path.isfile(pathname):
+                shutil.copy2(pathname, os.getcwd())
 
 file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".dylib", ".exp",
                 ".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
