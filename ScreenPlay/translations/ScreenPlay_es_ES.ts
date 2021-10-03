@@ -122,9 +122,9 @@
       <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-      <translation type="unfinished">Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
+      <translation>Dependiendo de la configuración de tu PC, es mejor convertir tu fondo de pantalla a un códec de vídeo específico. Si ambos tienen un mal rendimiento también puedes probar un fondo de pantalla QML. Los formatos de vídeo soportados son: 
 
-*.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
+*. p4 *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="53"/>
@@ -152,12 +152,12 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="18"/>
       <source>An error occurred!</source>
-      <translation type="unfinished">An error occurred!</translation>
+      <translation>¡Ha ocurrido un Error!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="91"/>
       <source>Copy text to clipboard</source>
-      <translation type="unfinished">Copy text to clipboard</translation>
+      <translation>Copiar texto al portapapeles</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml" line="102"/>
@@ -195,7 +195,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="70"/>
       <source>Converting Audio...</source>
-      <translation type="unfinished">Converting Audio...</translation>
+      <translation>Convirtiendo Audio...</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="73"/>
@@ -225,12 +225,12 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="276"/>
       <source>Name (required!)</source>
-      <translation type="unfinished">Name (required!)</translation>
+      <translation>Nombre (requerido!)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="290"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Descripción</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="298"/>
@@ -240,7 +240,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="328"/>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Abortar</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="341"/>
@@ -258,7 +258,7 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="41"/>
       <source>Volume</source>
-      <translation type="unfinished">Volume</translation>
+      <translation>Volumen</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="54"/>
@@ -311,12 +311,12 @@
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="123"/>
       <source>Select File</source>
-      <translation type="unfinished">Select File</translation>
+      <translation>Seleccionar Archivo</translation>
     </message>
     <message>
       <location filename="../qml/Common/FileSelector.qml" line="142"/>
       <source>Please choose a file</source>
-      <translation type="unfinished">Please choose a file</translation>
+      <translation>Por favor seleccione un archivo</translation>
     </message>
   </context>
   <context>
@@ -324,7 +324,7 @@
     <message>
       <location filename="../qml/Workshop/Forum.qml" line="35"/>
       <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
-      <translation type="unfinished">Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</translation>
+      <translation>Descargue Fondos y Widgets de nuestros foros manualmente. Si quieres descargar contenido de Steam Workshop tienes que instalar ScreenPlay a través de Steam.</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Forum.qml" line="44"/>
@@ -334,7 +334,7 @@
     <message>
       <location filename="../qml/Workshop/Forum.qml" line="48"/>
       <source>Open In Browser</source>
-      <translation type="unfinished">Open In Browser</translation>
+      <translation>Abre en el Navegador</translation>
     </message>
   </context>
   <context>
@@ -342,7 +342,7 @@
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="26"/>
       <source>Import a Gif Wallpaper</source>
-      <translation type="unfinished">Import a Gif Wallpaper</translation>
+      <translation>Importar Fondo Gif</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="82"/>
@@ -400,7 +400,7 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="62"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Descripción</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="70"/>
@@ -423,7 +423,7 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="74"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>General</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="82"/>
@@ -433,12 +433,12 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="90"/>
       <source>Created by</source>
-      <translation type="unfinished">Created by</translation>
+      <translation>Creado por </translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="98"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Etiquetas</translation>
     </message>
   </context>
   <context>
