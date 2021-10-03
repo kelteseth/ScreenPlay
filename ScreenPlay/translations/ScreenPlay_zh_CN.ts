@@ -1021,152 +1021,152 @@
       <translation>设置ScreenPlay界面语言</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="216"/>
+      <location filename="../qml/Settings/Settings.qml" line="219"/>
       <source>Theme</source>
       <translation>主题</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="217"/>
+      <location filename="../qml/Settings/Settings.qml" line="220"/>
       <source>Switch dark/light theme</source>
       <translation>切换到暗/亮主题</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="225"/>
+      <location filename="../qml/Settings/Settings.qml" line="228"/>
       <source>System Default</source>
       <translation>跟随系统</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="228"/>
+      <location filename="../qml/Settings/Settings.qml" line="231"/>
       <source>Dark</source>
       <translation>暗</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="231"/>
+      <location filename="../qml/Settings/Settings.qml" line="234"/>
       <source>Light</source>
       <translation>亮</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="249"/>
+      <location filename="../qml/Settings/Settings.qml" line="252"/>
       <source>Performance</source>
       <translation>性能</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="268"/>
+      <location filename="../qml/Settings/Settings.qml" line="271"/>
       <source>Pause wallpaper video rendering while another app is in the foreground</source>
       <translation>当其他应用程序在前台时，暂停壁纸视频渲染</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="269"/>
+      <location filename="../qml/Settings/Settings.qml" line="272"/>
       <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
       <translation>我们禁用视频渲染（不是音频）以获得最佳性能。如果您有问题，可以在此处禁用此行为。 需要重启壁纸！</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="282"/>
+      <location filename="../qml/Settings/Settings.qml" line="285"/>
       <source>Default Fill Mode</source>
       <translation>默认填充模式</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="283"/>
+      <location filename="../qml/Settings/Settings.qml" line="286"/>
       <source>Set this property to define how the video is scaled to fit the target area.</source>
       <translation>设置此属性可定义视频的缩放方式以适应目标区域。</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="292"/>
+      <location filename="../qml/Settings/Settings.qml" line="295"/>
       <source>Stretch</source>
       <translation>拉伸</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="295"/>
+      <location filename="../qml/Settings/Settings.qml" line="298"/>
       <source>Fill</source>
       <translation>填充</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="298"/>
+      <location filename="../qml/Settings/Settings.qml" line="301"/>
       <source>Contain</source>
       <translation>适应</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="301"/>
+      <location filename="../qml/Settings/Settings.qml" line="304"/>
       <source>Cover</source>
       <translation>平铺</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="304"/>
+      <location filename="../qml/Settings/Settings.qml" line="307"/>
       <source>Scale-Down</source>
       <translation>裁剪</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="319"/>
+      <location filename="../qml/Settings/Settings.qml" line="322"/>
       <source>About</source>
       <translation>关于</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="351"/>
+      <location filename="../qml/Settings/Settings.qml" line="354"/>
       <source>Thank you for using ScreenPlay</source>
       <translation>感谢您的使用</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="369"/>
+      <location filename="../qml/Settings/Settings.qml" line="372"/>
       <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
       <translation>您好，我是Elias Steurer，也叫Kelteseth，我是ScreenPlay的开发者。感谢您使用我的软件。您可以在这里关注我，接收ScreenPlay的更新。</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="479"/>
+      <location filename="../qml/Settings/Settings.qml" line="482"/>
       <source>Version</source>
       <translation>版本</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="480"/>
+      <location filename="../qml/Settings/Settings.qml" line="483"/>
       <source>ScreenPlay Build Version </source>
       <translation>ScreenPlay编译版本 </translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="481"/>
+      <location filename="../qml/Settings/Settings.qml" line="484"/>
       <source>Open Changelog</source>
       <translation>打开更改日志。</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="489"/>
+      <location filename="../qml/Settings/Settings.qml" line="492"/>
       <source>Third Party Software</source>
       <translation>第三方软件</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="490"/>
+      <location filename="../qml/Settings/Settings.qml" line="493"/>
       <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
       <translation>ScreenPlay离不开一些人的帮助。非常感谢你们：</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="491"/>
+      <location filename="../qml/Settings/Settings.qml" line="494"/>
       <source>Licenses</source>
       <translation>许可证</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="515"/>
+      <location filename="../qml/Settings/Settings.qml" line="518"/>
       <source>Logs</source>
       <translation>日志</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="516"/>
+      <location filename="../qml/Settings/Settings.qml" line="519"/>
       <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
       <translation>如果您的ScreenPlay出错，这是个很好的查错方式。它显示所有的日志和运行时警告。</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="517"/>
+      <location filename="../qml/Settings/Settings.qml" line="520"/>
       <source>Show Logs</source>
       <translation>显示日志</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="533"/>
+      <location filename="../qml/Settings/Settings.qml" line="536"/>
       <source>Data Protection</source>
       <translation>数据保护</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="534"/>
+      <location filename="../qml/Settings/Settings.qml" line="537"/>
       <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
       <translation>我们使用您的数据提升ScreenPlay的体验。我们承诺不出售或分享这些匿名信息！</translation>
     </message>
     <message>
-      <location filename="../qml/Settings/Settings.qml" line="535"/>
+      <location filename="../qml/Settings/Settings.qml" line="538"/>
       <source>Privacy</source>
       <translation>隐私</translation>
     </message>
