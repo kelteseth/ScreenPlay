@@ -80,7 +80,14 @@ WizardPage {
                         font.family: ScreenPlay.settings.font
                         font.pointSize: 13
                         text: qsTr("Drop a *.gif file here or use 'Select file' below.")
-                        anchors.centerIn: parent
+                        verticalAlignment: Text.AlignVCenter
+                        horizontalAlignment: Text.AlignHCenter
+                        wrapMode: Text.WrapAtWordBoundaryOrAnywhere
+                        width: parent.width
+                        anchors{
+                            fill: parent
+                            margins: 40
+                        }
                     }
 
                     AnimatedImage {
