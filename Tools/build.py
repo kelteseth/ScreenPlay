@@ -45,6 +45,11 @@ if not args.build_type:
     print("Build type argument is missing (release,debug). Example: python build.py -t release -steam=True")
     sys.exit(1)
 
+steam_build = "OFF"
+if args.steam_build:
+    if args.steam_build:
+        steam_build =  "ON"
+
 qt_version = "5.15.2"
 print("Starting build with type %s. Qt Version: %s" %
       (args.build_type, qt_version))
@@ -110,7 +115,7 @@ cmake_configure_command = """cmake ../
     prefix_path=cmake_prefix_path,
     triplet=cmake_target_triplet,
     toolchain=cmake_toolchain_file,
-    steam=args.steam_build).replace("\n", "")
+    steam=steam_build).replace("\n", "")
 
 execute(cmake_configure_command)
 execute("cmake --build . --target all")
