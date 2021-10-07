@@ -283,17 +283,17 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="105"/>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Riempimento schermo</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="108"/>
       <source>Contain</source>
-      <translation type="unfinished">Contain</translation>
+      <translation>Proporzioni mantenute (barre nere)</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="111"/>
       <source>Cover</source>
-      <translation type="unfinished">Cover</translation>
+      <translation>Taglia</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="114"/>
@@ -1063,7 +1063,7 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="285"/>
       <source>Default Fill Mode</source>
-      <translation type="unfinished">Default Fill Mode</translation>
+      <translation>Modalità riempimento predefinita</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="286"/>
@@ -1108,17 +1108,17 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="372"/>
       <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-      <translation type="unfinished">Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</translation>
+      <translation>Ciao, sono Elias Steurer conosciuto anche come Kelteseth e sono lo sviluppatore di ScreenPlay. Grazie per aver utilizzato il mio software. Puoi seguirmi per ricevere aggiornamenti su ScreenPlay qui:</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="482"/>
       <source>Version</source>
-      <translation type="unfinished">Version</translation>
+      <translation>Versione</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="483"/>
       <source>ScreenPlay Build Version </source>
-      <translation type="unfinished">ScreenPlay Build Version </translation>
+      <translation>Versione Build di ScreenPlay </translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="484"/>
@@ -1274,7 +1274,7 @@
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="347"/>
       <source>Cover</source>
-      <translation type="unfinished">Cover</translation>
+      <translation>Taglia</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="350"/>
@@ -1392,62 +1392,62 @@
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="273"/>
       <source>Profile</source>
-      <translation type="unfinished">Profile</translation>
+      <translation>Profilo</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="292"/>
       <source>Upload</source>
-      <translation type="unfinished">Upload</translation>
+      <translation>Carica</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="316"/>
       <source>Search for Wallpaper and Widgets...</source>
-      <translation type="unfinished">Search for Wallpaper and Widgets...</translation>
+      <translation>Cerca sfondi &amp; widget...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="360"/>
       <source>Open Workshop in Steam</source>
-      <translation type="unfinished">Open Workshop in Steam</translation>
+      <translation>Apri Workshop in Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="384"/>
       <source>Ranked By Vote</source>
-      <translation type="unfinished">Ranked By Vote</translation>
+      <translation>Ordinati per voto</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="387"/>
       <source>Publication Date</source>
-      <translation type="unfinished">Publication Date</translation>
+      <translation>Data di pubblicazione</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="390"/>
       <source>Ranked By Trend</source>
-      <translation type="unfinished">Ranked By Trend</translation>
+      <translation>Classificato Per Tendenza</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="393"/>
       <source>Favorited By Friends</source>
-      <translation type="unfinished">Favorited By Friends</translation>
+      <translation>Preferiti da Amici</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="396"/>
       <source>Created By Friends</source>
-      <translation type="unfinished">Created By Friends</translation>
+      <translation>Creati da Amici</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="399"/>
       <source>Created By Followed Users</source>
-      <translation type="unfinished">Created By Followed Users</translation>
+      <translation>Creati da Utenti Seguiti</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="402"/>
       <source>Not Yet Rated</source>
-      <translation type="unfinished">Not Yet Rated</translation>
+      <translation>Non Ancora Votati</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="405"/>
       <source>Total VotesAsc</source>
-      <translation type="unfinished">Total VotesAsc</translation>
+      <translation>Totale Voti Asc</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="408"/>
@@ -1462,12 +1462,12 @@
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="461"/>
       <source>Back</source>
-      <translation type="unfinished">Back</translation>
+      <translation>Indietro</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="485"/>
       <source>Forward</source>
-      <translation type="unfinished">Forward</translation>
+      <translation>Avanti</translation>
     </message>
   </context>
   <context>
@@ -1475,22 +1475,22 @@
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="22"/>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Salva</translation>
     </message>
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="25"/>
       <source>Add tag</source>
-      <translation type="unfinished">Add tag</translation>
+      <translation>Aggiungi tag</translation>
     </message>
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="132"/>
       <source>Cancel</source>
-      <translation type="unfinished">Cancel</translation>
+      <translation>Annulla</translation>
     </message>
     <message>
       <location filename="../qml/Common/TagSelector.qml" line="155"/>
       <source>Add Tag</source>
-      <translation type="unfinished">Add Tag</translation>
+      <translation>Aggiungi tag</translation>
     </message>
   </context>
   <context>
@@ -1498,12 +1498,12 @@
     <message>
       <location filename="../qml/Common/TextField.qml" line="36"/>
       <source>Label</source>
-      <translation type="unfinished">Label</translation>
+      <translation>Etichetta</translation>
     </message>
     <message>
       <location filename="../qml/Common/TextField.qml" line="98"/>
       <source>*Required</source>
-      <translation type="unfinished">*Required</translation>
+      <translation>Obbligatorio</translation>
     </message>
   </context>
   <context>
@@ -1511,39 +1511,39 @@
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="10"/>
       <source>ScreenPlay - Double click to change you settings.</source>
-      <translation type="unfinished">ScreenPlay - Double click to change you settings.</translation>
+      <translation>ScreenPlay - Doppio clic per modificare le impostazioni.</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="29"/>
       <source>Open ScreenPlay</source>
-      <translation type="unfinished">Open ScreenPlay</translation>
+      <translation>Apri ScreenPlay</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="40"/>
       <location filename="../qml/Common/TrayIcon.qml" line="44"/>
       <source>Mute all</source>
-      <translation type="unfinished">Mute all</translation>
+      <translation>Silenzia tutti</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="48"/>
       <source>Unmute all</source>
-      <translation type="unfinished">Unmute all</translation>
+      <translation>Desilenzia tutti</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="59"/>
       <location filename="../qml/Common/TrayIcon.qml" line="63"/>
       <source>Pause all</source>
-      <translation type="unfinished">Pause all</translation>
+      <translation>Metti tutti in pausa</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="67"/>
       <source>Play all</source>
-      <translation type="unfinished">Play all</translation>
+      <translation>Riproduci tutti</translation>
     </message>
     <message>
       <location filename="../qml/Common/TrayIcon.qml" line="74"/>
       <source>Quit</source>
-      <translation type="unfinished">Quit</translation>
+      <translation>Esci</translation>
     </message>
   </context>
   <context>
@@ -1551,22 +1551,22 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="31"/>
       <source>Upload Wallpaper/Widgets to Steam</source>
-      <translation type="unfinished">Upload Wallpaper/Widgets to Steam</translation>
+      <translation>Carica Sfondo/Widget su Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="113"/>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Interrompi</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="128"/>
       <source>Upload Selected Projects</source>
-      <translation type="unfinished">Upload Selected Projects</translation>
+      <translation>Carica Progetti Selezionati</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProject.qml" line="187"/>
       <source>Finish</source>
-      <translation type="unfinished">Finish</translation>
+      <translation>Termina</translation>
     </message>
   </context>
   <context>
@@ -1574,17 +1574,17 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="114"/>
       <source>Type: </source>
-      <translation type="unfinished">Type: </translation>
+      <translation>Tipo: </translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="122"/>
       <source>Open Folder</source>
-      <translation type="unfinished">Open Folder</translation>
+      <translation>Apri cartella</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectBigItem.qml" line="136"/>
       <source>Invalid Project!</source>
-      <translation type="unfinished">Invalid Project!</translation>
+      <translation>Progetto non valido!</translation>
     </message>
   </context>
   <context>
@@ -1592,22 +1592,22 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="34"/>
       <source>Fail</source>
-      <translation type="unfinished">Fail</translation>
+      <translation>Errore</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="37"/>
       <source>No Connection</source>
-      <translation type="unfinished">No Connection</translation>
+      <translation>Nessuna connessione</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="40"/>
       <source>Invalid Password</source>
-      <translation type="unfinished">Invalid Password</translation>
+      <translation>Password non valida</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="43"/>
       <source>Logged In Elsewhere</source>
-      <translation type="unfinished">Logged In Elsewhere</translation>
+      <translation>Già collegato altrove</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="46"/>
@@ -1862,7 +1862,7 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="196"/>
       <source>External Account Unlinked</source>
-      <translation type="unfinished">External Account Unlinked</translation>
+      <translation>Account Esterno Non Collegato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="199"/>
@@ -1872,32 +1872,32 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="202"/>
       <source>External Account Already Linked</source>
-      <translation type="unfinished">External Account Already Linked</translation>
+      <translation>Account Esterno Già Collegato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="205"/>
       <source>Remote File Conflict</source>
-      <translation type="unfinished">Remote File Conflict</translation>
+      <translation>Conflitto File Remoto</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="208"/>
       <source>Illegal Password</source>
-      <translation type="unfinished">Illegal Password</translation>
+      <translation>Password non valida</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="211"/>
       <source>Same As Previous Value</source>
-      <translation type="unfinished">Same As Previous Value</translation>
+      <translation>Valore uguale al precedente</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="214"/>
       <source>Account Logon Denied</source>
-      <translation type="unfinished">Account Logon Denied</translation>
+      <translation>Accesso Account Negato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="217"/>
       <source>Cannot Use Old Password</source>
-      <translation type="unfinished">Cannot Use Old Password</translation>
+      <translation>Impossibile Usare Vecchia Password</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="220"/>
@@ -1907,22 +1907,22 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="223"/>
       <source>Account Logon Denied No Mail</source>
-      <translation type="unfinished">Account Logon Denied No Mail</translation>
+      <translation>Accesso Account Negato Nessuna Mail</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="226"/>
       <source>Hardware Not Capable Of IPT</source>
-      <translation type="unfinished">Hardware Not Capable Of IPT</translation>
+      <translation>Hardware non compatibile con IPT</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="229"/>
       <source>IPT Init Error</source>
-      <translation type="unfinished">IPT Init Error</translation>
+      <translation>Errore Init IPT</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="232"/>
       <source>Parental Control Restricted</source>
-      <translation type="unfinished">Parental Control Restricted</translation>
+      <translation>Limitato da Parental Control</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="235"/>
@@ -1942,17 +1942,17 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="244"/>
       <source>Account Locked Down</source>
-      <translation type="unfinished">Account Locked Down</translation>
+      <translation>Account bloccato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="247"/>
       <source>Account Logon Denied Verified Email Required</source>
-      <translation type="unfinished">Account Logon Denied Verified Email Required</translation>
+      <translation>Accesso Account Negato Verifica Email Richiesta</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="250"/>
       <source>No MatchingURL</source>
-      <translation type="unfinished">No MatchingURL</translation>
+      <translation>Nessun URL Corrispondente</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="253"/>
@@ -1962,22 +1962,22 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="256"/>
       <source>Require Password ReEntry</source>
-      <translation type="unfinished">Require Password ReEntry</translation>
+      <translation>Richiesta Reinserimento Password</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="259"/>
       <source>Value Out Of Range</source>
-      <translation type="unfinished">Value Out Of Range</translation>
+      <translation>Valore fuori dall'intervallo</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="262"/>
       <source>Unexpecte Error</source>
-      <translation type="unfinished">Unexpecte Error</translation>
+      <translation>Errore inatteso</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="265"/>
       <source>Disabled</source>
-      <translation type="unfinished">Disabled</translation>
+      <translation>Disabilitato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="268"/>
@@ -1987,27 +1987,27 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="271"/>
       <source>Restricted Device</source>
-      <translation type="unfinished">Restricted Device</translation>
+      <translation>Dispositivo Limitato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="274"/>
       <source>Region Locked</source>
-      <translation type="unfinished">Region Locked</translation>
+      <translation>Blocco regionale</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="277"/>
       <source>Rate Limit Exceeded</source>
-      <translation type="unfinished">Rate Limit Exceeded</translation>
+      <translation>Limite di richieste superato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="280"/>
       <source>Account Login Denied Need Two Factor</source>
-      <translation type="unfinished">Account Login Denied Need Two Factor</translation>
+      <translation>Login Account Negato Necessaria Autenticazione Due Fattori</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="283"/>
       <source>Item Deleted</source>
-      <translation type="unfinished">Item Deleted</translation>
+      <translation>Elemento eliminato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="286"/>
@@ -2017,87 +2017,87 @@
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="289"/>
       <source>Two Factor Code Mismatch</source>
-      <translation type="unfinished">Two Factor Code Mismatch</translation>
+      <translation>Codice A Due Fattori Non Corrispondente</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="292"/>
       <source>Two Factor Activation Code Mismatch</source>
-      <translation type="unfinished">Two Factor Activation Code Mismatch</translation>
+      <translation>Codice Di Attivazione A Due Fattori Non Corrispondente</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="295"/>
       <source>Account Associated To Multiple Partners</source>
-      <translation type="unfinished">Account Associated To Multiple Partners</translation>
+      <translation>Account Associato A Partner Multipli</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="298"/>
       <source>Not Modified</source>
-      <translation type="unfinished">Not Modified</translation>
+      <translation>Non modificato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="301"/>
       <source>No Mobile Device</source>
-      <translation type="unfinished">No Mobile Device</translation>
+      <translation>Nessun Dispositivo Mobile</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="304"/>
       <source>Time Not Synced</source>
-      <translation type="unfinished">Time Not Synced</translation>
+      <translation>Tempo Non Sincronizzato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="307"/>
       <source>Sms Code Failed</source>
-      <translation type="unfinished">Sms Code Failed</translation>
+      <translation>Codice Sms Fallito</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="310"/>
       <source>Account Limit Exceeded</source>
-      <translation type="unfinished">Account Limit Exceeded</translation>
+      <translation>Limite Account Superato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="313"/>
       <source>Account Activity Limit Exceeded</source>
-      <translation type="unfinished">Account Activity Limit Exceeded</translation>
+      <translation>Limite Attività Dell'Account Superato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="316"/>
       <source>Phone Activity Limit Exceeded</source>
-      <translation type="unfinished">Phone Activity Limit Exceeded</translation>
+      <translation>Limita Attività Telefono Superato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="319"/>
       <source>Refund To Wallet</source>
-      <translation type="unfinished">Refund To Wallet</translation>
+      <translation>Rimborso Al Portafoglio</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="322"/>
       <source>Email Send Failure</source>
-      <translation type="unfinished">Email Send Failure</translation>
+      <translation>Errore nell'invio della mail</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="325"/>
       <source>Not Settled</source>
-      <translation type="unfinished">Not Settled</translation>
+      <translation>Non Risolto</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="328"/>
       <source>Need Captcha</source>
-      <translation type="unfinished">Need Captcha</translation>
+      <translation>Captcha Richiesto</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="331"/>
       <source>GSLT Denied</source>
-      <translation type="unfinished">GSLT Denied</translation>
+      <translation>GSLT Negato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="334"/>
       <source>GS Owner Denied</source>
-      <translation type="unfinished">GS Owner Denied</translation>
+      <translation>Proprietario GS Negato</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="337"/>
       <source>Invalid Item Type</source>
-      <translation type="unfinished">Invalid Item Type</translation>
+      <translation>Tipo oggetto non valido</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="340"/>
