@@ -1269,7 +1269,7 @@
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="344"/>
       <source>Contain</source>
-      <translation type="unfinished">Contain</translation>
+      <translation>Proporzioni mantenute (barre nere)</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="347"/>
