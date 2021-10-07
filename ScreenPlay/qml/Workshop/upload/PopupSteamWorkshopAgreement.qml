@@ -54,9 +54,8 @@ Popup {
                 id: btnAgree
 
                 text: qsTr("Accept Steam Workshop Agreement")
+                Material.accent: Material.color(Material.Orange)
                 highlighted: true
-                Material.background: Material.accent
-                Material.foreground: "white"
                 onClicked: {
                     Qt.openUrlExternally("https://steamcommunity.com/sharedfiles/workshoplegalagreement");
                     root.close();

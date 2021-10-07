@@ -8,28 +8,29 @@ Item {
     id: root
 
     function getTags() {
-        var array = [];
+        var array = []
         for (var i = 0; i < listModel.count; i++) {
-            array.push(listModel.get(i)._name);
+            array.push(listModel.get(i)._name)
         }
-        return array;
+        return array
     }
 
     height: 70
     implicitWidth: 200
     onStateChanged: {
         if (root.state === "add") {
-            btnAdd.text = qsTr("Save");
-            textField.focus = true;
+            btnAdd.text = qsTr("Save")
+            textField.focus = true
         } else {
-            btnAdd.text = qsTr("Add tag");
+            btnAdd.text = qsTr("Add tag")
         }
     }
 
     Rectangle {
         id: rectangle
 
-        color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
+        color: Material.theme === Material.Light ? Material.background : Qt.darker(
+                                                       Material.background)
         radius: 3
         clip: true
 
@@ -59,14 +60,12 @@ Item {
 
                 Connections {
                     function onRemoveThis() {
-                        listModel.remove(itemIndex);
+                        listModel.remove(itemIndex)
                     }
 
                     target: delegate
                 }
-
             }
-
         }
 
         ListModel {
@@ -83,7 +82,9 @@ Item {
             radius: 3
             height: parent.height - 20
             width: 200
-            color: Material.theme === Material.Light ? Qt.lighter(Material.background) : Material.background
+            color: Material.theme
+                   === Material.Light ? Qt.lighter(
+                                            Material.background) : Material.background
 
             anchors {
                 top: parent.top
@@ -102,7 +103,6 @@ Item {
                     position: 1
                     color: "#FF000000"
                 }
-
             }
 
             TextField {
@@ -112,8 +112,7 @@ Item {
                 color: Material.primaryTextColor
                 onTextChanged: {
                     if (textField.length >= 10)
-                        textField.text = textField.text;
-
+                        textField.text = textField.text
                 }
 
                 anchors {
@@ -121,9 +120,7 @@ Item {
                     rightMargin: 15
                     leftMargin: 15
                 }
-
             }
-
         }
 
         Button {
@@ -133,12 +130,12 @@ Item {
             opacity: 0
             height: parent.height - 20
             enabled: false
-            Material.background: Material.Red
-            Material.foreground: "white"
+            Material.accent: Material.color(Material.Red)
+            highlighted: true
             font.family: ScreenPlay.settings.font
             onClicked: {
-                root.state = "";
-                textField.clear();
+                root.state = ""
+                textField.clear()
             }
 
             anchors {
@@ -146,7 +143,6 @@ Item {
                 rightMargin: 10
                 verticalCenter: parent.verticalCenter
             }
-
         }
 
         Button {
@@ -154,18 +150,18 @@ Item {
 
             text: qsTr("Add Tag")
             height: parent.height - 20
-            Material.background: Material.LightGreen
-            Material.foreground: "white"
+            Material.accent: Material.color(Material.LightGreen)
+            highlighted: true
             font.family: ScreenPlay.settings.font
             onClicked: {
                 if (root.state === "add") {
                     listModel.append({
-                        "_name": textField.text
-                    });
-                    textField.clear();
-                    root.state = "";
+                                         "_name": textField.text
+                                     })
+                    textField.clear()
+                    root.state = ""
                 } else {
-                    root.state = "add";
+                    root.state = "add"
                 }
             }
 
@@ -174,9 +170,7 @@ Item {
                 rightMargin: 10
                 verticalCenter: parent.verticalCenter
             }
-
         }
-
     }
 
     states: [
@@ -195,7 +189,6 @@ Item {
                 opacity: 1
                 enabled: true
             }
-
         }
     ]
     transitions: [
@@ -209,7 +202,6 @@ Item {
                 duration: 200
                 easing.type: Easing.OutQuart
             }
-
         }
     ]
 }

@@ -327,8 +327,8 @@ Item {
                 id: btnExit
 
                 text: qsTr("Abort")
-                Material.background: Material.Red
-                Material.foreground: "white"
+                Material.accent: Material.color(Material.Red)
+                highlighted: true
                 font.family: ScreenPlay.settings.font
                 onClicked: {
                     root.exit();
