@@ -324,17 +324,17 @@
     <message>
       <location filename="../qml/Workshop/Forum.qml" line="35"/>
       <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
-      <translation type="unfinished">Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</translation>
+      <translation>Téléchargez manuellement des fond d'écran et des widgets depuis notre forum. Si vous voulez télécharger du contenu Steam Workshop, vous devez installer ScreenPlay via Steam.</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Forum.qml" line="44"/>
       <source>Install Steam Version</source>
-      <translation type="unfinished">Install Steam Version</translation>
+      <translation>Installer la version Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Forum.qml" line="48"/>
       <source>Open In Browser</source>
-      <translation type="unfinished">Open In Browser</translation>
+      <translation>Ouvrir dans le navigateur</translation>
     </message>
   </context>
   <context>
@@ -522,7 +522,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="106"/>
       <source>Import a video to a wallpaper</source>
-      <translation type="unfinished">Import a video to a wallpaper</translation>
+      <translation>Convertir une vidéo en fond d'écran</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="216"/>
@@ -570,17 +570,17 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="48"/>
       <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-      <translation type="unfinished">When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</translation>
+      <translation>Lors de l'importation de webm, vous pouvez ignorer l'étape de conversion. Lorsque vous obtenez des résultats insatisfaisants avec l'importateur de ScreenPlay via &apos;import et conversion de vidéo (tous types)&apos; vous pouvez convertir au format webm via le logiciel HandBrake. Il est gratuit et open source!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="74"/>
       <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-      <translation type="unfinished">Invalid file type. Must be valid VP8 or VP9 (*.webm)!</translation>
+      <translation>Type de fichier invalide. Doit être un VP8 ou VP9 (*.webm)!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="97"/>
       <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-      <translation type="unfinished">Drop a *.webm file here or use &apos;Select file&apos; below.</translation>
+      <translation>Déposez un fichier *.webm ici ou utilisez &apos;Sélectionner un fichier&apos; ci-dessous.</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="140"/>
@@ -609,7 +609,7 @@
       <location filename="../qml/Installed/Installed.qml" line="165"/>
       <location filename="../qml/Installed/Installed.qml" line="180"/>
       <source>Pull to refresh!</source>
-      <translation type="unfinished">Pull to refresh!</translation>
+      <translation>Faire glisser pour actualiser!</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Installed.qml" line="210"/>
@@ -671,7 +671,7 @@
       <location filename="../qml/Common/LicenseSelector.qml" line="43"/>
       <location filename="../qml/Common/LicenseSelector.qml" line="64"/>
       <source>You grant other to remix your work and change the license to their liking.</source>
-      <translation type="unfinished">You grant other to remix your work and change the license to their liking.</translation>
+      <translation>Vous permettez aux autres utilisateurs de réutiliser et altérer votre travail et de changer la licence selon leur souhait.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="50"/>
@@ -686,7 +686,7 @@
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="71"/>
       <source>You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</source>
-      <translation type="unfinished">You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</translation>
+      <translation>Vous permettez aux autres utilisateurs de réutiliser et altérer votre travail, mais il doit rester sous licence GPLv3. Nous recommandons cette licence pour tout les fonds d'écrans codé.</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="78"/>
@@ -700,8 +700,8 @@
       <location filename="../qml/Common/Dialogs/MonitorConfiguration.qml" line="38"/>
       <source>Your monitor setup changed!
  Please configure your wallpaper again.</source>
-      <translation type="unfinished">Your monitor setup changed!
- Please configure your wallpaper again.</translation>
+      <translation>La configuration de votre écran a changé!
+ Veuillez configurer votre fond d'écran à nouveau.</translation>
     </message>
   </context>
   <context>
@@ -709,28 +709,28 @@
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="60"/>
       <source>Wallpaper Configuration</source>
-      <translation type="unfinished">Wallpaper Configuration</translation>
+      <translation>Configuration du fond d'écran</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="130"/>
       <source>Remove selected</source>
-      <translation type="unfinished">Remove selected</translation>
+      <translation>Retirer l'écran sélectionné</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="145"/>
       <location filename="../qml/Monitors/Monitors.qml" line="161"/>
       <source>Remove </source>
-      <translation type="unfinished">Remove </translation>
+      <translation>Retirer </translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="145"/>
       <source>Wallpapers</source>
-      <translation type="unfinished">Wallpapers</translation>
+      <translation>Fonds d’écran</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/Monitors.qml" line="161"/>
       <source>Widgets</source>
-      <translation type="unfinished">Widgets</translation>
+      <translation>Widgets</translation>
     </message>
   </context>
   <context>
@@ -738,12 +738,12 @@
     <message>
       <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="143"/>
       <source>Set color</source>
-      <translation type="unfinished">Set color</translation>
+      <translation>Définir la couleur</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/MonitorsProjectSettingItem.qml" line="174"/>
       <source>Please choose a color</source>
-      <translation type="unfinished">Please choose a color</translation>
+      <translation>Veuillez choisir une couleur</translation>
     </message>
   </context>
   <context>
@@ -751,7 +751,7 @@
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="61"/>
       <source>All</source>
-      <translation type="unfinished">All</translation>
+      <translation>Tout</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="80"/>
