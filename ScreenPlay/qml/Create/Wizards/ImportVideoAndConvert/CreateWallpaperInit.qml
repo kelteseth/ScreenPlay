@@ -111,8 +111,8 @@ Item {
 
     Button {
         text: qsTr("Open Documentation")
-        Material.background: Material.LightGreen
-        Material.foreground: "white"
+        Material.accent: Material.color(Material.LightGreen)
+        highlighted: true
         icon.source: "qrc:/assets/icons/icon_document.svg"
         icon.color: "white"
         icon.width: 16

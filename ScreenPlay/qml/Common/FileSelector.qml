@@ -30,7 +30,7 @@ Item {
     property alias placeHolderText: txtPlaceholder.text
     property alias fileDialog: fileDialog
 
-    height: 70
+    height: 65
     implicitWidth: 300
     state: "nothingSelected"
     onFileChanged: {
@@ -59,7 +59,6 @@ Item {
 
             clip: true
             font.pointSize: 12
-            font.capitalization: Font.Capitalize
             font.family: ScreenPlay.settings.font
             wrapMode: Text.WordWrap
             color: Material.secondaryTextColor

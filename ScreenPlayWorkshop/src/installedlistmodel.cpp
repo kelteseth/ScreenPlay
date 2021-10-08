@@ -94,10 +94,6 @@ void InstalledListModel::loadInstalledContent()
 
         for (const auto& item : list) {
 
-            // _tml_ is the folder name when creation via wizard
-            if (!item.baseName().contains("_tmp_"))
-                continue;
-
             const QString absoluteFilePath = m_absoluteStoragePath.toLocalFile() + "/" + item.baseName() + "/project.json";
 
             if (!QFile::exists(absoluteFilePath))

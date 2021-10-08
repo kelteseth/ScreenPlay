@@ -170,6 +170,9 @@ Item {
                                 "value": Settings.De_DE,
                                 "text": "German"
                             }, {
+                                "value": Settings.It_IT,
+                                "text": "Italian"
+                            }, {
                                 "value": Settings.Zh_CN,
                                 "text": "Chinese - Simplified"
                             }, {

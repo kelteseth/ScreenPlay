@@ -146,5 +146,7 @@
         <file>translations/ScreenPlay_tr_TR.ts</file>
         <file>translations/ScreenPlay_nl_NL.qm</file>
         <file>translations/ScreenPlay_nl_NL.ts</file>
+        <file>translations/ScreenPlay_it_IT.qm</file>
+        <file>translations/ScreenPlay_it_IT.ts</file>
     </qresource>
 </RCC>

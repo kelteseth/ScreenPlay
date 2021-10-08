@@ -148,8 +148,8 @@ Item {
 
                         Button {
                             text: qsTr("Download now!")
-                            Material.background: Material.accent
-                            Material.foreground: "white"
+                            Material.accent: Material.color(Material.Orange)
+                            highlighted: true
                             icon.source: "qrc:/assets/icons/icon_download.svg"
                             onClicked: {
                                 text = qsTr("Downloading...")
@@ -161,8 +161,8 @@ Item {
 
                         Button {
                             text: qsTr("Details")
-                            Material.background: Material.accent
-                            Material.foreground: "white"
+                            Material.accent: Material.color(Material.Orange)
+                            highlighted: true
                             icon.source: "qrc:/assets/icons/icon_info.svg"
                             visible: false
                             onClicked: {
