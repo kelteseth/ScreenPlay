@@ -67,7 +67,7 @@ Rectangle {
         }
 
         function onQmlSceneValueReceived(key, value) {
-            var obj2 = 'import QtQuick 2.0; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }';
+            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }';
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err");
             newObject.destroy(10000);
         }

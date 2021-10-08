@@ -4,7 +4,7 @@
  * (THE BSD 2-CLAUSE LICENSE)
  */
 
-import QtQuick 2.0
+import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 

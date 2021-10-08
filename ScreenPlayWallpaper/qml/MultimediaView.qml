@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick
 import QtMultimedia
 import ScreenPlayWallpaper 1.0
 
