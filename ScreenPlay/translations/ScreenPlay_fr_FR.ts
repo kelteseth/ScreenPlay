@@ -756,62 +756,62 @@
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="80"/>
       <source>Scenes</source>
-      <translation type="unfinished">Scenes</translation>
+      <translation>Scènes</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="99"/>
       <source>Videos</source>
-      <translation type="unfinished">Videos</translation>
+      <translation>Vidéos</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="118"/>
       <source>Widgets</source>
-      <translation type="unfinished">Widgets</translation>
+      <translation>Widgets</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="164"/>
       <source>Install Date Ascending</source>
-      <translation type="unfinished">Install Date Ascending</translation>
+      <translation>Date d'installation croissante</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Navigation.qml" line="164"/>
       <source>Install Date Descending</source>
-      <translation type="unfinished">Install Date Descending</translation>
+      <translation>Date d'installation décroissante</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Navigation.qml" line="41"/>
       <source> Subscribed items: </source>
-      <translation type="unfinished"> Subscribed items: </translation>
+      <translation> Éléments souscrits : </translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Navigation.qml" line="89"/>
       <source>Upload to the Steam Workshop</source>
-      <translation type="unfinished">Upload to the Steam Workshop</translation>
+      <translation>Uploader sur le Steam Workshop</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/Navigation.qml" line="81"/>
       <source>Create</source>
-      <translation type="unfinished">Create</translation>
+      <translation>Créer</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/Navigation.qml" line="92"/>
       <source>Workshop</source>
-      <translation type="unfinished">Workshop</translation>
+      <translation>Workshop</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/Navigation.qml" line="103"/>
       <source>Installed</source>
-      <translation type="unfinished">Installed</translation>
+      <translation>Installé</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/Navigation.qml" line="115"/>
       <source>Community</source>
-      <translation type="unfinished">Community</translation>
+      <translation>Communauté</translation>
     </message>
     <message>
       <location filename="../qml/Navigation/Navigation.qml" line="126"/>
       <source>Settings</source>
-      <translation type="unfinished">Settings</translation>
+      <translation>Paramètres</translation>
     </message>
   </context>
   <context>
@@ -832,12 +832,12 @@
     <message>
       <location filename="../qml/Workshop/PopupOffline.qml" line="28"/>
       <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
-      <translation type="unfinished">You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
+      <translation>Vous devez exécuter Steam pour cela. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/PopupOffline.qml" line="33"/>
       <source>Back</source>
-      <translation type="unfinished">Back</translation>
+      <translation>Précédent</translation>
     </message>
   </context>
   <context>
@@ -845,22 +845,22 @@
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="25"/>
       <source>You Need to Agree To The Steam Subscriber Agreement First</source>
-      <translation type="unfinished">You Need to Agree To The Steam Subscriber Agreement First</translation>
+      <translation>Vous devez d'abord accepter l'Accord de Souscription Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="32"/>
       <source>REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</source>
-      <translation type="unfinished">REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</translation>
+      <translation>REQUIÈRE UNE CONNEXION INTERNET ET UN COMPTE STEAM GRATUIT POUR L'ACTIVATION. Avertissement: Produit offert sous réserve de votre acceptation de l'Accord de Souscription Steam (ASS). Vous devez activer ce produit via Internet en vous enregistrant sur un compte Steam et en acceptant l'ASS. Veuillez consulter https://store.steampowered.com/subscriber_agreement/ pour consulter l'ASS avant l'achat. Si vous n'êtes pas d'accord avec les dispositions de l'ASS, vous devriez retourner ce jeu non ouvert à votre détaillant conformément à leur politique de retour.</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="49"/>
       <source>View The Steam Subscriber Agreement</source>
-      <translation type="unfinished">View The Steam Subscriber Agreement</translation>
+      <translation>Voir l'Accord de Souscription Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/upload/PopupSteamWorkshopAgreement.qml" line="56"/>
       <source>Accept Steam Workshop Agreement</source>
-      <translation type="unfinished">Accept Steam Workshop Agreement</translation>
+      <translation>Accepter l'Accord de Souscription Steam</translation>
     </message>
   </context>
   <context>
@@ -868,37 +868,37 @@
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="29"/>
       <source>Create a QML Wallpaper</source>
-      <translation type="unfinished">Create a QML Wallpaper</translation>
+      <translation>Créer un fond d'écran QML</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="34"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Général</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="44"/>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Nom du fond d'écran</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="53"/>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Créé par</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="62"/>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Description</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="70"/>
       <source>License &amp; Tags</source>
-      <translation type="unfinished">License &amp; Tags</translation>
+      <translation>Licence &amp; Tags</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWallpaper.qml" line="93"/>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Image d'aperçu</translation>
     </message>
   </context>
   <context>
@@ -906,7 +906,7 @@
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="20"/>
       <source>Create a QML widget</source>
-      <translation type="unfinished">Create a QML widget</translation>
+      <translation>Créer un widget QML</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="74"/>
@@ -1148,27 +1148,27 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="519"/>
       <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-      <translation type="unfinished">If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</translation>
+      <translation>Si ScreenPlay ne fonctionne pas correctement, c'est une bonne façon de chercher des réponses. Cela montre tous les logs et les avertissements émis pendant l'exécution.</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="520"/>
       <source>Show Logs</source>
-      <translation type="unfinished">Show Logs</translation>
+      <translation>Afficher les logs</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="536"/>
       <source>Data Protection</source>
-      <translation type="unfinished">Data Protection</translation>
+      <translation>Protection des données</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="537"/>
       <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-      <translation type="unfinished">We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</translation>
+      <translation>Nous utilisons vos données exclusivement pour améliorer ScreenPlay. Nous ne vendons pas ou ne partageons pas ces données (anonyme) avec d'autres !</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="538"/>
       <source>Privacy</source>
-      <translation type="unfinished">Privacy</translation>
+      <translation>Confidentialité</translation>
     </message>
   </context>
   <context>
@@ -1176,7 +1176,7 @@
     <message>
       <location filename="../qml/Settings/SettingsExpander.qml" line="65"/>
       <source>Copy text to clipboard</source>
-      <translation type="unfinished">Copy text to clipboard</translation>
+      <translation>Copier le texte dans le presse-papiers</translation>
     </message>
   </context>
   <context>
@@ -1189,52 +1189,52 @@
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="126"/>
       <source>Video import and convert (all types)</source>
-      <translation type="unfinished">Video import and convert (all types)</translation>
+      <translation>Importation et conversion de vidéos (tous types)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="133"/>
       <source>Video Import (.webm)</source>
-      <translation type="unfinished">Video Import (.webm)</translation>
+      <translation>Importation de vidéos (.webm)</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="140"/>
       <source>GIF Wallpaper</source>
-      <translation type="unfinished">GIF Wallpaper</translation>
+      <translation>Fond d'écran GIF</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="147"/>
       <source>QML Wallpaper</source>
-      <translation type="unfinished">QML Wallpaper</translation>
+      <translation>Fond d'écran QML</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="154"/>
       <source>HTML5 Wallpaper</source>
-      <translation type="unfinished">HTML5 Wallpaper</translation>
+      <translation>Fond d'écran HTML5</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="161"/>
       <source>Website Wallpaper</source>
-      <translation type="unfinished">Website Wallpaper</translation>
+      <translation>Fond d'écran Site web</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="168"/>
       <source>QML Widget</source>
-      <translation type="unfinished">QML Widget</translation>
+      <translation>Widget QML</translation>
     </message>
     <message>
       <location filename="../qml/Create/Sidebar.qml" line="175"/>
       <source>HTML Widget</source>
-      <translation type="unfinished">HTML Widget</translation>
+      <translation>Widget HTML</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="75"/>
       <source>Set Wallpaper</source>
-      <translation type="unfinished">Set Wallpaper</translation>
+      <translation>Définir le fond d'écran</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="78"/>
       <source>Set Widget</source>
-      <translation type="unfinished">Set Widget</translation>
+      <translation>Définir le Widget</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="211"/>
@@ -1244,47 +1244,47 @@
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="269"/>
       <source>Select a Monitor to display the content</source>
-      <translation type="unfinished">Select a Monitor to display the content</translation>
+      <translation>Sélectionnez un écran pour afficher le contenu</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="300"/>
       <source>Set Volume</source>
-      <translation type="unfinished">Set Volume</translation>
+      <translation>Régler le volume</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="319"/>
       <source>Fill Mode</source>
-      <translation type="unfinished">Fill Mode</translation>
+      <translation>Mode de remplissage</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="338"/>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>Étirer</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="341"/>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Remplir</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="344"/>
       <source>Contain</source>
-      <translation type="unfinished">Contain</translation>
+      <translation>Contenir</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="347"/>
       <source>Cover</source>
-      <translation type="unfinished">Cover</translation>
+      <translation>Couvrir</translation>
     </message>
     <message>
       <location filename="../qml/Installed/Sidebar.qml" line="350"/>
       <source>Scale-Down</source>
-      <translation type="unfinished">Scale-Down</translation>
+      <translation>Réduire</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="81"/>
       <source>Size: </source>
-      <translation type="unfinished">Size: </translation>
+      <translation>Taille : </translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="81"/>
@@ -1294,37 +1294,37 @@
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="87"/>
       <source>No description...</source>
-      <translation type="unfinished">No description...</translation>
+      <translation>Pas de description ...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="249"/>
       <source>Click here if you like the content</source>
-      <translation type="unfinished">Click here if you like the content</translation>
+      <translation>Cliquez ici si vous aimez le contenu</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="264"/>
       <source>Click here if you do not like the content</source>
-      <translation type="unfinished">Click here if you do not like the content</translation>
+      <translation>Cliquez ici si vous n'aimez pas le contenu</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="334"/>
       <source>Subscribtions: </source>
-      <translation type="unfinished">Subscribtions: </translation>
+      <translation>Abonnements : </translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="402"/>
       <source>Open In Steam</source>
-      <translation type="unfinished">Open In Steam</translation>
+      <translation>Ouvrir dans Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="412"/>
       <source>Subscribed!</source>
-      <translation type="unfinished">Subscribed!</translation>
+      <translation>Abonné!</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/Sidebar.qml" line="412"/>
       <source>Subscribe</source>
-      <translation type="unfinished">Subscribe</translation>
+      <translation>S'abonner</translation>
     </message>
   </context>
   <context>
@@ -1332,12 +1332,12 @@
     <message>
       <location filename="../qml/Create/StartInfo.qml" line="19"/>
       <source>Free Tools to create wallpaper</source>
-      <translation type="unfinished">Free Tools to create wallpaper</translation>
+      <translation>Outils gratuits pour créer un fond d'écran</translation>
     </message>
     <message>
       <location filename="../qml/Create/StartInfo.qml" line="36"/>
       <source>Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!</source>
-      <translation type="unfinished">Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!</translation>
+      <translation>Ci-dessous vous pouvez trouver des outils pour créer des fond d'écran en dehors des outils fournis pour vous par ScreenPlay!</translation>
     </message>
   </context>
   <context>
@@ -1345,7 +1345,7 @@
     <message>
       <location filename="../qml/Common/Dialogs/SteamNotAvailable.qml" line="11"/>
       <source>Could not load steam integration!</source>
-      <translation type="unfinished">Could not load steam integration!</translation>
+      <translation>Impossible de charger l'intégration Steam!</translation>
     </message>
   </context>
   <context>
@@ -1354,12 +1354,12 @@
       <location filename="../qml/Workshop/SteamProfile.qml" line="77"/>
       <location filename="../qml/Workshop/SteamProfile.qml" line="137"/>
       <source>Back</source>
-      <translation type="unfinished">Back</translation>
+      <translation>Précédent</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamProfile.qml" line="159"/>
       <source>Forward</source>
-      <translation type="unfinished">Forward</translation>
+      <translation>Suivant</translation>
     </message>
   </context>
   <context>
@@ -1367,52 +1367,52 @@
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="138"/>
       <source>Loading</source>
-      <translation type="unfinished">Loading</translation>
+      <translation>Chargement</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="150"/>
       <source>Download now!</source>
-      <translation type="unfinished">Download now!</translation>
+      <translation>Télécharger maintenant!</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="155"/>
       <source>Downloading...</source>
-      <translation type="unfinished">Downloading...</translation>
+      <translation>Téléchargement...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="163"/>
       <source>Details</source>
-      <translation type="unfinished">Details</translation>
+      <translation>Détails</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="189"/>
       <source>Open In Steam</source>
-      <translation type="unfinished">Open In Steam</translation>
+      <translation>Ouvrir dans Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="273"/>
       <source>Profile</source>
-      <translation type="unfinished">Profile</translation>
+      <translation>Profil</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="292"/>
       <source>Upload</source>
-      <translation type="unfinished">Upload</translation>
+      <translation>Uploader</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="316"/>
       <source>Search for Wallpaper and Widgets...</source>
-      <translation type="unfinished">Search for Wallpaper and Widgets...</translation>
+      <translation>Recherche de fond d'écran et de widgets...</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="360"/>
       <source>Open Workshop in Steam</source>
-      <translation type="unfinished">Open Workshop in Steam</translation>
+      <translation>Ouvrir le Workshop dans Steam</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="384"/>
       <source>Ranked By Vote</source>
-      <translation type="unfinished">Ranked By Vote</translation>
+      <translation>Classé par vote</translation>
     </message>
     <message>
       <location filename="../qml/Workshop/SteamWorkshopStartPage.qml" line="387"/>
