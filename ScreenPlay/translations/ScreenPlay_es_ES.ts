@@ -11,12 +11,12 @@
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="364"/>
       <source>Green</source>
-      <translation type="unfinished">Green</translation>
+      <translation>Verde</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="383"/>
       <source>Blue</source>
-      <translation type="unfinished">Blue</translation>
+      <translation>Azul</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="572"/>
@@ -56,7 +56,7 @@
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="702"/>
       <source>V:</source>
-      <translation type="unfinished">V:</translation>
+      <translation>V:</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="723"/>
@@ -74,7 +74,7 @@
     <message>
       <location filename="../qml/Community/Community.qml" line="38"/>
       <source>News</source>
-      <translation type="unfinished">News</translation>
+      <translation>Noticias</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="44"/>
@@ -84,17 +84,17 @@
     <message>
       <location filename="../qml/Community/Community.qml" line="50"/>
       <source>Forum</source>
-      <translation type="unfinished">Forum</translation>
+      <translation>Foro</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="56"/>
       <source>Issue List</source>
-      <translation type="unfinished">Issue List</translation>
+      <translation>Lista de Problemas</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="62"/>
       <source>Contribute</source>
-      <translation type="unfinished">Contribute</translation>
+      <translation>Contribuir</translation>
     </message>
     <message>
       <location filename="../qml/Community/Community.qml" line="68"/>
@@ -107,7 +107,7 @@
     <message>
       <location filename="../qml/Community/CommunityNavItem.qml" line="57"/>
       <source>Open in browser</source>
-      <translation type="unfinished">Open in browser</translation>
+      <translation>Abrir en el navegador</translation>
     </message>
   </context>
   <context>
@@ -115,7 +115,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="32"/>
       <source>Import any video type</source>
-      <translation type="unfinished">Import any video type</translation>
+      <translation>Importar cualquier tipo de vídeo</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="38"/>
@@ -129,22 +129,22 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="53"/>
       <source>Set your preffered video codec:</source>
-      <translation type="unfinished">Set your preffered video codec:</translation>
+      <translation>Establezca su códec de vídeo predeterminado:</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="98"/>
       <source>Quality slider. Lower value means better quality.</source>
-      <translation type="unfinished">Quality slider. Lower value means better quality.</translation>
+      <translation>Deslizador de calidad. Un valor más bajo significa una mejor calidad.</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="113"/>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>Abrir documentación</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml" line="132"/>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Seleccionar archivo</translation>
     </message>
   </context>
   <context>
@@ -200,7 +200,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="73"/>
       <source>Converting Video... This can take some time!</source>
-      <translation type="unfinished">Converting Video... This can take some time!</translation>
+      <translation>Convirtiendo vídeo... ¡Esto puede tardar un poco!</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="77"/>
@@ -235,7 +235,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="298"/>
       <source>Youtube URL</source>
-      <translation type="unfinished">Youtube URL</translation>
+      <translation>URL de YouTube</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="328"/>
@@ -245,7 +245,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="341"/>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Guardar</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="378"/>
@@ -263,7 +263,7 @@
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="54"/>
       <source>Playback rate</source>
-      <translation type="unfinished">Playback rate</translation>
+      <translation>Velocidad de reproducción</translation>
     </message>
     <message>
       <location filename="../qml/Monitors/DefaultVideoControls.qml" line="66"/>
@@ -357,7 +357,7 @@
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="120"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>General</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="127"/>
@@ -367,12 +367,12 @@
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="135"/>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Creado por</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="145"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Etiquetas</translation>
     </message>
   </context>
   <context>
@@ -385,12 +385,12 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="34"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>General</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="44"/>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Nombre del fondo</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="53"/>
@@ -410,7 +410,7 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWallpaper.qml" line="93"/>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Imagen de previsualización</translation>
     </message>
   </context>
   <context>
@@ -418,7 +418,7 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="20"/>
       <source>Create a HTML widget</source>
-      <translation type="unfinished">Create a HTML widget</translation>
+      <translation>Crear un widget HTML</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="74"/>
@@ -428,7 +428,7 @@
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="82"/>
       <source>Widget name</source>
-      <translation type="unfinished">Widget name</translation>
+      <translation>Nombre del widget</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/HTMLWidget.qml" line="90"/>
@@ -552,7 +552,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="342"/>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Guardar</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="376"/>
@@ -565,7 +565,7 @@
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="32"/>
       <source>Import a .webm video</source>
-      <translation type="unfinished">Import a .webm video</translation>
+      <translation>Importar un vídeo .webm</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmInit.qml" line="48"/>
@@ -660,7 +660,7 @@
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="17"/>
       <source>License</source>
-      <translation type="unfinished">License</translation>
+      <translation>Licencia</translation>
     </message>
     <message>
       <location filename="../qml/Common/LicenseSelector.qml" line="36"/>
