@@ -26,7 +26,7 @@
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="590"/>
       <source>HSV</source>
-      <translation type="unfinished">HSV</translation>
+      <translation>TSV</translation>
     </message>
     <message>
       <location filename="../qml/Common/ColorPicker.qml" line="617"/>
@@ -446,7 +446,7 @@
     <message>
       <location filename="../qml/Common/HeadlineSection.qml" line="6"/>
       <source>Headline Section</source>
-      <translation type="unfinished">Headline Section</translation>
+      <translation>Section de titre</translation>
     </message>
   </context>
   <context>
@@ -911,7 +911,7 @@
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="74"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Général</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="82"/>
