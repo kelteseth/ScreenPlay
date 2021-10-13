@@ -824,7 +824,7 @@
     <message>
       <location filename="../qml/Navigation/NavigationWallpaperConfiguration.qml" line="68"/>
       <source>No active Wallpaper or Widgets</source>
-      <translation type="unfinished">No active Wallpaper or Widgets</translation>
+      <translation>Pas de fond d'écran ou de widgets actifs</translation>
     </message>
   </context>
   <context>
@@ -916,17 +916,17 @@
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="82"/>
       <source>Widget name</source>
-      <translation type="unfinished">Widget name</translation>
+      <translation>Nom du Widget</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="90"/>
       <source>Created by</source>
-      <translation type="unfinished">Created by</translation>
+      <translation>Créé par</translation>
     </message>
     <message>
       <location filename="../qml/Create/Wizards/QMLWidget.qml" line="98"/>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Tags</translation>
     </message>
   </context>
   <context>
@@ -934,7 +934,7 @@
     <message>
       <location filename="../qml/Monitors/SaveNotification.qml" line="39"/>
       <source>Profile saved successfully!</source>
-      <translation type="unfinished">Profile saved successfully!</translation>
+      <translation>Profil enregistré avec succès!</translation>
     </message>
   </context>
   <context>
@@ -942,7 +942,7 @@
     <message>
       <location filename="../qml/Installed/ScreenPlayItem.qml" line="199"/>
       <source>NEW</source>
-      <translation type="unfinished">NEW</translation>
+      <translation>NOUVEAU</translation>
     </message>
   </context>
   <context>
@@ -950,7 +950,7 @@
     <message>
       <location filename="../qml/Common/Search.qml" line="33"/>
       <source>Search for Wallpaper &amp; Widgets</source>
-      <translation type="unfinished">Search for Wallpaper &amp; Widgets</translation>
+      <translation>Recherche de fond d'écran et de widgets</translation>
     </message>
   </context>
   <context>
@@ -958,12 +958,12 @@
     <message>
       <location filename="../qml/Settings/Settings.qml" line="54"/>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Général</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="72"/>
       <source>Autostart</source>
-      <translation type="unfinished">Autostart</translation>
+      <translation>Démarrage automatique</translation>
     </message>
     <message>
       <location filename="../qml/Settings/Settings.qml" line="73"/>
