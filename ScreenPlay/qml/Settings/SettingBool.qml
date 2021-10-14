@@ -54,7 +54,7 @@ Item {
         text: settingsBool.description
         wrapMode: Text.WordWrap
         linkColor: Material.color(Material.Orange)
-        onLinkActivated: Qt.openUrlExternally(link)
+        onLinkActivated: (link) => Qt.openUrlExternally(link)
         color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
         font.family: ScreenPlay.settings.font
         verticalAlignment: Text.AlignVCenter

@@ -208,12 +208,4 @@ Item {
         }
     }
 
-    PageIndicator {
-        id: indicator
-
-        count: view.count
-        currentIndex: view.currentIndex
-        anchors.bottom: view.bottom
-        anchors.horizontalCenter: parent.horizontalCenter
-    }
 }
