@@ -1,0 +1,7 @@
+<RCC>
+    <qresource prefix="/">
+        <file>dot.png</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>index.html</file>
+    </qresource>
+</RCC>

@@ -12,11 +12,11 @@ Rectangle {
     function init() {
         switch (Wallpaper.type) {
         case InstalledType.VideoWallpaper:
-            loader.source = "qrc:/qml/MultimediaView.qml";
+            loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml";
             fadeIn();
             break;
         case InstalledType.HTMLWallpaper:
-            loader.setSource("qrc:/qml/WebView.qml", {
+            loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebView.qml", {
                 "url": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
             });
             break;
@@ -25,13 +25,13 @@ Rectangle {
             fadeIn();
             break;
         case InstalledType.WebsiteWallpaper:
-            loader.setSource("qrc:/qml/WebsiteWallpaper.qml", {
+            loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
                 "url": Wallpaper.projectSourceFileAbsolute
             });
             fadeIn();
             break;
         case InstalledType.GifWallpaper:
-            loader.setSource("qrc:/qml/GifWallpaper.qml", {
+            loader.setSource("qrc:/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
                 "source": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
             });
             fadeIn();
@@ -94,7 +94,7 @@ Rectangle {
             if (oldType === InstalledType.VideoWallpaper)
                 return ;
 
-            loader.source = "qrc:/qml/MultimediaView.qml";
+            loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml";
         }
 
         target: Wallpaper

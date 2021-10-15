@@ -38,12 +38,12 @@ ApplicationWindow {
         }
 
         if (name === "Installed") {
-            stackView.replace("qrc:/qml/" + name + "/" + name + ".qml", {
+            stackView.replace("qrc:/ScreenPlay/qml/" + name + "/" + name + ".qml", {
                                   "sidebar": sidebar
                               })
             return
         }
-        stackView.replace("qrc:/qml/" + name + "/" + name + ".qml")
+        stackView.replace("qrc:/ScreenPlay/qml/" + name + "/" + name + ".qml")
         sidebar.state = "inactive"
     }
 

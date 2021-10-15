@@ -45,8 +45,7 @@
 
 int main(int argc, char* argv[])
 {
-    Q_INIT_RESOURCE(ScreenPlayQML);
-    Q_INIT_RESOURCE(ScreenPlayAssets);
+    Q_INIT_RESOURCE(Resources);
 
     QtWebEngineQuick::initialize();
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);

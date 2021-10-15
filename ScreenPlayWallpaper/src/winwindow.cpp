@@ -489,7 +489,7 @@ void WinWindow::configureWindowGeometry()
     // Instead of setting "renderType: Text.NativeRendering" every time  we can set it here once
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.setSource(QUrl("qrc:/qml/Wallpaper.qml"));
+    m_window.setSource(QUrl("qrc:/ScreenPlayWallpaper/qml/Wallpaper.qml"));
     m_window.hide();
 }
 

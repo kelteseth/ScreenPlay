@@ -9,48 +9,27 @@ find_package(
     COMPONENTS Quick Core
     REQUIRED)
 
-set(src screenplayshader_plugin.cpp shaderlibrary.cpp)
+set(SOURCES # cmake-format: sortable
+            screenplayshader_plugin.cpp shaderlibrary.cpp)
 
-set(headers screenplayshader_plugin.h shaderlibrary.h)
+set(HEADER # cmake-format: sortable
+           screenplayshader_plugin.h shaderlibrary.h)
 
-set(shader shader.qrc)
+qt_add_resources(RESOURCES Resources.qrc)
 
-add_library(${PROJECT_NAME} SHARED ${src} ${headers} ${shader})
+add_library(${PROJECT_NAME} SHARED ${SOURCES} ${HEADER} ${RESOURCES})
 
-target_include_directories(${PROJECT_NAME} PUBLIC inc)
+qt_add_qml_module(
+    ${PROJECT_NAME}
+    URI
+    ${PROJECT_NAME}
+    VERSION
+    1.0
+    QML_FILES
+    ShadertoyShader.qml)
 
-# QML module deployment
-set(URI "ScreenPlay/Shader")
-string(REPLACE "." "/" TARGETPATH ${URI})
-if(NOT DEFINED QT_QMAKE_EXECUTABLE)
-    get_target_property(QT_QMAKE_EXECUTABLE Qt6::qmake IMPORTED_LOCATION)
-    if(NOT QT_QMAKE_EXECUTABLE)
-        message(FATAL_ERROR "Cannot find qmake")
-    endif()
-endif()
+target_include_directories(${PROJECT_NAME} PRIVATE inc)
 
-execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_QML OUTPUT_VARIABLE QT_INSTALL_QML_RAW)
-string(STRIP ${QT_INSTALL_QML_RAW} QT_INSTALL_QML)
-set(DESTDIR "${QT_INSTALL_QML}/${TARGETPATH}")
-message("DESTDIR ${DESTDIR}")
-
-file(MAKE_DIRECTORY ${DESTDIR})
-
-configure_file(qmldir ${DESTDIR} COPYONLY)
-
-if(APPLE)
-    add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
-        COMMENT "Copying into ScreenPlay.app bundle"
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_BINARY_DIR}/bin/$<TARGET_FILE_NAME:${PROJECT_NAME}>
-                ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/$<TARGET_FILE_NAME:${PROJECT_NAME}>)
-else()
-    # Copies ScreenPlayShader.* into qt qml plugins folder
-    add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ScreenPlayShader> ${DESTDIR}/$<TARGET_FILE_NAME:ScreenPlayShader>)
-endif()
+target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick Qt6::Gui)
