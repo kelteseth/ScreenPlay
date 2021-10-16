@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(
     Qt6
-    COMPONENTS Quick QML Widgets Gui
+    COMPONENTS Quick  Widgets Gui
     REQUIRED)
 
 set(SOURCES
@@ -99,6 +99,5 @@ else()
     if(${SCREENPLAY_STEAM})
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
     endif()
-    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${WORKSHOP_PLUGIN_DIR}/qmldir COPYONLY)
     configure_file(${STEAM_BIN} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
 endif()
