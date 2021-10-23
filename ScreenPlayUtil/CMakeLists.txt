@@ -9,13 +9,17 @@ find_package(
     COMPONENTS Core
     REQUIRED)
 
-set(SOURCES src/util.cpp src/contenttypes.cpp)
+set(SOURCES # cmake-format: sortable
+            src/util.cpp src/contenttypes.cpp)
 
-set(HEADER inc/public/ScreenPlayUtil/util.h inc/public/ScreenPlayUtil/contenttypes.h inc/public/ScreenPlayUtil/projectfile.h)
+set(HEADER # cmake-format: sortable
+           inc/public/ScreenPlayUtil/util.h inc/public/ScreenPlayUtil/contenttypes.h inc/public/ScreenPlayUtil/projectfile.h)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADER})
+
 target_include_directories(
     ${PROJECT_NAME}
     PUBLIC inc/public/
     PRIVATE src/)
+
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core)

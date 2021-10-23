@@ -14,7 +14,7 @@ Item {
         id: screenPlayWorkshop
         Component.onCompleted: {
             if (screenPlayWorkshop.init()) {
-                stackView.push("qrc:/qml/Workshop/SteamWorkshopStartPage.qml", {
+                stackView.push("qrc:/ScreenPlay/qml/Workshop/SteamWorkshopStartPage.qml", {
                                    "stackView": stackView,
                                    "screenPlayWorkshop": screenPlayWorkshop,
                                    "steamWorkshop": screenPlayWorkshop.steamWorkshop,

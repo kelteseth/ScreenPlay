@@ -71,7 +71,7 @@ WidgetWindow::WidgetWindow(
 
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
-    m_window.setSource(QUrl("qrc:/qml/Widget.qml"));
+    m_window.setSource(QUrl("qrc:/ScreenPlayWidget/qml/Widget.qml"));
     m_window.setPosition(m_position);
     m_window.show();
 

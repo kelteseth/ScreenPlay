@@ -39,7 +39,7 @@ Item {
         id: webView
 
         anchors.fill: parent
-        url: "qrc:/index.html"
+        url: "qrc:/ScreenPlayWallpaper/index.html"
         backgroundColor: "transparent"
         onJavaScriptConsoleMessage:(lineNumber, message)=> print(lineNumber, message)
         onLoadProgressChanged: {

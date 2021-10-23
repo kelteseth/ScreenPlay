@@ -14,7 +14,7 @@ Item {
 
     Component.onCompleted: {
         wizardContentWrapper.state = "in";
-        stackView.push("qrc:/qml/Create/StartInfo.qml");
+        stackView.push("qrc:/ScreenPlay/qml/Create/StartInfo.qml");
     }
 
     Sidebar {

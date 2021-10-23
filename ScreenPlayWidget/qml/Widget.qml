@@ -115,7 +115,7 @@ Item {
 
         anchors.fill: parent
         hoverEnabled: true
-        onPressed: {
+        onPressed: (mouse)=>{
             clickPos = {
                 "x": mouse.x,
                 "y": mouse.y

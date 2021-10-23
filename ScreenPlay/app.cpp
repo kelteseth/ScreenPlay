@@ -58,7 +58,7 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.14.0");
+    QGuiApplication::setApplicationVersion("0.15.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
@@ -202,7 +202,7 @@ void App::init()
     // Needed for macos .app files
     m_mainWindowEngine->addPluginPath(QGuiApplication::instance()->applicationDirPath());
 #endif
-    m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
+    m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/ScreenPlay/main.qml")));
 
     // Must be called last to display a error message on startup by the qml engine
     m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_settings);

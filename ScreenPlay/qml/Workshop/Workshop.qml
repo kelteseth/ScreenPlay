@@ -11,9 +11,9 @@ Item {
 
     Component.onCompleted: {
         if (ScreenPlay.settings.steamVersion) {
-            workshopLoader.setSource("qrc:/qml/Workshop/SteamWorkshop.qml")
+            workshopLoader.setSource("qrc:/ScreenPlay/qml/Workshop/SteamWorkshop.qml")
         } else {
-            workshopLoader.setSource("qrc:/qml/Workshop/Forum.qml")
+            workshopLoader.setSource("qrc:/ScreenPlay/qml/Workshop/Forum.qml")
         }
     }
 

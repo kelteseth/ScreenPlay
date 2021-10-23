@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="de" sourcelanguage="en">
+<TS version="2.1" language="de_DE" sourcelanguage="en">
 <context>
     <name>ColorPicker</name>
     <message>
@@ -217,37 +217,37 @@
         <translation>Konvertiere ein Video in ein Hintergrund Live Wallpaper</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="220"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="219"/>
         <source>Generating preview video...</source>
         <translation>Generiere Vorschau-Video...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="276"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="275"/>
         <source>Name (required!)</source>
         <translation>Name (erforderlich!)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="290"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="289"/>
         <source>Description</source>
         <translation>Beschreibung</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="298"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="297"/>
         <source>Youtube URL</source>
         <translation>YouTube-URL</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="328"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="327"/>
         <source>Abort</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="341"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="340"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="378"/>
+        <location filename="../qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml" line="377"/>
         <source>Save Wallpaper...</source>
         <translation>Speicher Wallpaper...</translation>
     </message>
@@ -303,17 +303,17 @@
 <context>
     <name>FileSelector</name>
     <message>
-        <location filename="../qml/Common/FileSelector.qml" line="103"/>
+        <location filename="../qml/Common/FileSelector.qml" line="102"/>
         <source>Clear</source>
         <translation>Leeren</translation>
     </message>
     <message>
-        <location filename="../qml/Common/FileSelector.qml" line="123"/>
+        <location filename="../qml/Common/FileSelector.qml" line="122"/>
         <source>Select File</source>
         <translation>Datei auswählen</translation>
     </message>
     <message>
-        <location filename="../qml/Common/FileSelector.qml" line="142"/>
+        <location filename="../qml/Common/FileSelector.qml" line="141"/>
         <source>Please choose a file</source>
         <translation>Bitte Wählen Sie eine Datei aus</translation>
     </message>
@@ -339,37 +339,37 @@
 <context>
     <name>GifWallpaper</name>
     <message>
-        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="26"/>
+        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="25"/>
         <source>Import a Gif Wallpaper</source>
         <translation>Importiere ein GIF Wallpaper</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="82"/>
+        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="81"/>
         <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
         <translation>Ziehe eine .gif Datei hierher und benutze &apos;Datei auswählen&apos; darunter.</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="105"/>
+        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="111"/>
         <source>Select your gif</source>
         <translation>Wähle dein GIF aus</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="120"/>
+        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="126"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="127"/>
+        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="133"/>
         <source>Wallpaper name</source>
         <translation>Wallpaper Name</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="135"/>
+        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="141"/>
         <source>Created By</source>
         <translation>Erstellt von</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="145"/>
+        <location filename="../qml/Create/Wizards/GifWallpaper.qml" line="151"/>
         <source>Tags</source>
         <translation>Schlagwörter</translation>
     </message>
@@ -524,37 +524,37 @@
         <translation>Importiere ein Video zu ein Wallpaper</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="216"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="215"/>
         <source>Generating preview video...</source>
         <translation>Generiere Vorschau-Video...</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="276"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="275"/>
         <source>Name (required!)</source>
         <translation>Name (erforderlich!)</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="290"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="289"/>
         <source>Description</source>
         <translation>Beschreibung</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="298"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="297"/>
         <source>Youtube URL</source>
         <translation>YouTube-URL</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="329"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="328"/>
         <source>Abort</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="342"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="341"/>
         <source>Save</source>
         <translation>Speichern</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="376"/>
+        <location filename="../qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml" line="375"/>
         <source>Save Wallpaper...</source>
         <translation>Speicher Wallpaper...</translation>
     </message>
@@ -593,6 +593,127 @@
     </message>
 </context>
 <context>
+    <name>Importh264Convert</name>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="43"/>
+        <source>AnalyseVideo...</source>
+        <translation type="unfinished">Analysiere Video...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="46"/>
+        <source>Generating preview image...</source>
+        <translation type="unfinished">Erzeuge Vorschaubild...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="49"/>
+        <source>Generating preview thumbnail image...</source>
+        <translation type="unfinished">Erzeuge Vorschau-Miniaturbild...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="56"/>
+        <source>Generating 5 second preview video...</source>
+        <translation type="unfinished">Generiere ein 5-Sekunden-Vorschau-Video...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="59"/>
+        <source>Generating preview gif...</source>
+        <translation type="unfinished">Generiere Vorschau-Gif...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="68"/>
+        <source>Converting Audio...</source>
+        <translation type="unfinished">Konvertiere Audio...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="71"/>
+        <source>Converting Video... This can take some time!</source>
+        <translation type="unfinished">Video wird umgewandelt... Das kann etwas dauern!</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="74"/>
+        <source>Converting Video ERROR!</source>
+        <translation type="unfinished">Konvertieren nicht erfolgreich!</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="77"/>
+        <source>Analyse Video ERROR!</source>
+        <translation type="unfinished">Analyse des Videos schlug Fehl!</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="106"/>
+        <source>Import a video to a wallpaper</source>
+        <translation type="unfinished">Importiere ein Video zu ein Wallpaper</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="215"/>
+        <source>Generating preview video...</source>
+        <translation type="unfinished">Generiere Vorschau-Video...</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="275"/>
+        <source>Name (required!)</source>
+        <translation type="unfinished">Name (erforderlich!)</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="289"/>
+        <source>Description</source>
+        <translation type="unfinished">Beschreibung</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="297"/>
+        <source>Youtube URL</source>
+        <translation type="unfinished">YouTube-URL</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="328"/>
+        <source>Abort</source>
+        <translation type="unfinished">Abbrechen</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="341"/>
+        <source>Save</source>
+        <translation type="unfinished">Speichern</translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Convert.qml" line="375"/>
+        <source>Save Wallpaper...</source>
+        <translation type="unfinished">Speicher Wallpaper...</translation>
+    </message>
+</context>
+<context>
+    <name>Importh264Init</name>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Init.qml" line="32"/>
+        <source>Import a .mp4 video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Init.qml" line="48"/>
+        <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Init.qml" line="76"/>
+        <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Init.qml" line="100"/>
+        <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Init.qml" line="121"/>
+        <source>Open Documentation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Wizards/Importh264/Importh264Init.qml" line="140"/>
+        <source>Select file</source>
+        <translation type="unfinished">Datei auswählen</translation>
+    </message>
+</context>
+<context>
     <name>Installed</name>
     <message>
         <location filename="../qml/Installed/Installed.qml" line="329"/>
@@ -600,43 +721,43 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="162"/>
+        <location filename="../qml/Installed/Installed.qml" line="161"/>
         <source>Refreshing!</source>
         <translation>Aktualisiere!</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="165"/>
-        <location filename="../qml/Installed/Installed.qml" line="180"/>
+        <location filename="../qml/Installed/Installed.qml" line="164"/>
+        <location filename="../qml/Installed/Installed.qml" line="179"/>
         <source>Pull to refresh!</source>
         <translation>Drücken zum aktualisieren!</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="210"/>
+        <location filename="../qml/Installed/Installed.qml" line="209"/>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
         <translation>Holen dir mehr Wallpaper und Widgets über den Steam-Workshop!</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="275"/>
+        <location filename="../qml/Installed/Installed.qml" line="274"/>
         <source>Open containing folder</source>
         <translation>Enthaltenden Ordner öffnen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="285"/>
+        <location filename="../qml/Installed/Installed.qml" line="284"/>
         <source>Remove Item</source>
         <translation>Item entfernen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="285"/>
+        <location filename="../qml/Installed/Installed.qml" line="284"/>
         <source>Remove via Workshop</source>
         <translation>Über den Workshop entfernen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="295"/>
+        <location filename="../qml/Installed/Installed.qml" line="294"/>
         <source>Open Workshop Page</source>
         <translation>Workshop öffnen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Installed.qml" line="307"/>
+        <location filename="../qml/Installed/Installed.qml" line="306"/>
         <source>Are you sure you want to delete this item?</source>
         <translation>Bist du dir sicher dass du dieses Item löschen möchtest?</translation>
     </message>
@@ -644,12 +765,12 @@
 <context>
     <name>InstalledWelcomeScreen</name>
     <message>
-        <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="79"/>
+        <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="78"/>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
         <translation>Hole dir kostenlose Widgets und Wallpaper via Steam</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="115"/>
+        <location filename="../qml/Installed/InstalledWelcomeScreen.qml" line="114"/>
         <source>Browse the Steam Workshop</source>
         <translation>Stöbere durch den Steam Workshop</translation>
     </message>
@@ -748,32 +869,32 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
 <context>
     <name>Navigation</name>
     <message>
-        <location filename="../qml/Installed/Navigation.qml" line="61"/>
+        <location filename="../qml/Installed/Navigation.qml" line="60"/>
         <source>All</source>
         <translation>Alles</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Navigation.qml" line="80"/>
+        <location filename="../qml/Installed/Navigation.qml" line="79"/>
         <source>Scenes</source>
         <translation>Szenen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Navigation.qml" line="99"/>
+        <location filename="../qml/Installed/Navigation.qml" line="98"/>
         <source>Videos</source>
         <translation>Videos</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Navigation.qml" line="118"/>
+        <location filename="../qml/Installed/Navigation.qml" line="117"/>
         <source>Widgets</source>
         <translation>Widgets</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Navigation.qml" line="164"/>
+        <location filename="../qml/Installed/Navigation.qml" line="163"/>
         <source>Install Date Ascending</source>
         <translation>Installationsdatum aufsteigend</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Navigation.qml" line="164"/>
+        <location filename="../qml/Installed/Navigation.qml" line="163"/>
         <source>Install Date Descending</source>
         <translation>Installationsdatum absteigend</translation>
     </message>
@@ -939,7 +1060,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
 <context>
     <name>ScreenPlayItem</name>
     <message>
-        <location filename="../qml/Installed/ScreenPlayItem.qml" line="199"/>
+        <location filename="../qml/Installed/ScreenPlayItem.qml" line="198"/>
         <source>NEW</source>
         <translation>NEU</translation>
     </message>
@@ -1005,167 +1126,167 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
         <translation>Dein Speicherpfad ist leer!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="139"/>
+        <location filename="../qml/Settings/Settings.qml" line="137"/>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
         <translation>Wichtig: Eine Änderung dieses Verzeichnisses hat keine Auswirkungen auf den Download-Pfad des Workshops. ScreenPlay unterstützt nur ein Verzeichnis!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="161"/>
+        <location filename="../qml/Settings/Settings.qml" line="159"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="162"/>
+        <location filename="../qml/Settings/Settings.qml" line="160"/>
         <source>Set the ScreenPlay UI Language</source>
         <translation>Wähle die Sprache des Programms aus</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="219"/>
+        <location filename="../qml/Settings/Settings.qml" line="217"/>
         <source>Theme</source>
         <translation>Thema</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="220"/>
+        <location filename="../qml/Settings/Settings.qml" line="218"/>
         <source>Switch dark/light theme</source>
         <translation>Wechsle Dunkles/Helles Design</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="228"/>
+        <location filename="../qml/Settings/Settings.qml" line="226"/>
         <source>System Default</source>
         <translation>System Standard</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="231"/>
+        <location filename="../qml/Settings/Settings.qml" line="229"/>
         <source>Dark</source>
         <translation>Dunkel</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="234"/>
+        <location filename="../qml/Settings/Settings.qml" line="232"/>
         <source>Light</source>
         <translation>Hell</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="252"/>
+        <location filename="../qml/Settings/Settings.qml" line="250"/>
         <source>Performance</source>
         <translation>Leistung</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="271"/>
+        <location filename="../qml/Settings/Settings.qml" line="269"/>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
         <translation>Pausiere Wallpaper Video Rendering wenn eine andere App im Vordergrund ist</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="272"/>
+        <location filename="../qml/Settings/Settings.qml" line="270"/>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
         <translation>Wir deaktivieren das Video Rendering (Aber nicht die Sounds) für die beste Leistung. Wenn du damit probleme haben solltest kannst dieses Verhalten hier ausschalten. Ein Neustart wird aber von Nöten sein!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="285"/>
+        <location filename="../qml/Settings/Settings.qml" line="283"/>
         <source>Default Fill Mode</source>
         <translation>Standard-Füllmodus</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="286"/>
+        <location filename="../qml/Settings/Settings.qml" line="284"/>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
         <translation>Lege diese Eigenschaft fest, um zu definieren, wie das Video skaliert wird, damit es in den Zielbereich passt.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="295"/>
+        <location filename="../qml/Settings/Settings.qml" line="293"/>
         <source>Stretch</source>
         <translation>Strecken</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="298"/>
+        <location filename="../qml/Settings/Settings.qml" line="296"/>
         <source>Fill</source>
         <translation>Ausfüllen</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="301"/>
+        <location filename="../qml/Settings/Settings.qml" line="299"/>
         <source>Contain</source>
         <translation>Enthält</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="304"/>
+        <location filename="../qml/Settings/Settings.qml" line="302"/>
         <source>Cover</source>
         <translation>Cover</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="307"/>
+        <location filename="../qml/Settings/Settings.qml" line="305"/>
         <source>Scale-Down</source>
         <translation>Runter Skallieren</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="322"/>
+        <location filename="../qml/Settings/Settings.qml" line="320"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="354"/>
+        <location filename="../qml/Settings/Settings.qml" line="352"/>
         <source>Thank you for using ScreenPlay</source>
         <translation>Danke, dass du ScreenPlay verwendest</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="372"/>
+        <location filename="../qml/Settings/Settings.qml" line="370"/>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
         <translation>Moin, ich bin Elias Steurer, auch bekannt als Kelteseth und ich bin der Entwickler von ScreenPlay. Danke, dass du meine Software nutzt. Du kannst mir hier folgen, um Updates über ScreenPlay zu erhalten:</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="482"/>
+        <location filename="../qml/Settings/Settings.qml" line="480"/>
         <source>Version</source>
         <translation>Version</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="483"/>
+        <location filename="../qml/Settings/Settings.qml" line="481"/>
         <source>ScreenPlay Build Version </source>
         <translation>ScreenPlay-Build-Version </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="484"/>
+        <location filename="../qml/Settings/Settings.qml" line="482"/>
         <source>Open Changelog</source>
         <translation>Changelog öffnen</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="492"/>
+        <location filename="../qml/Settings/Settings.qml" line="490"/>
         <source>Third Party Software</source>
         <translation>Software von Drittanbietern</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="493"/>
+        <location filename="../qml/Settings/Settings.qml" line="491"/>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
         <translation>ScreenPlay wäre ohne die Arbeit anderer nicht möglich. Ein großes Dankeschön dafür geht an: </translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="494"/>
+        <location filename="../qml/Settings/Settings.qml" line="492"/>
         <source>Licenses</source>
         <translation>Lizenzen</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="518"/>
+        <location filename="../qml/Settings/Settings.qml" line="516"/>
         <source>Logs</source>
         <translation>Protokolle</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="519"/>
+        <location filename="../qml/Settings/Settings.qml" line="517"/>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
         <translation>Wenn den ScreenPlay sich falsch verhält, ist hier eine gute Möglichkeit, nach Antworten zu suchen. Hier werden alle Protokolle und Warnungen während der Laufzeit angezeigt.</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="520"/>
+        <location filename="../qml/Settings/Settings.qml" line="518"/>
         <source>Show Logs</source>
         <translation>Zeige Logs</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="536"/>
+        <location filename="../qml/Settings/Settings.qml" line="534"/>
         <source>Data Protection</source>
         <translation>Datenschutz</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="537"/>
+        <location filename="../qml/Settings/Settings.qml" line="535"/>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
         <translation>Wir verwenden deine Daten sehr sorgfältig, um ScreenPlay zu verbessern. Wir verkaufen oder teilen diese (anonymen) Informationen nicht mit anderen!</translation>
     </message>
     <message>
-        <location filename="../qml/Settings/Settings.qml" line="538"/>
+        <location filename="../qml/Settings/Settings.qml" line="536"/>
         <source>Privacy</source>
         <translation>Datenschutz</translation>
     </message>
@@ -1173,7 +1294,7 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
 <context>
     <name>SettingsExpander</name>
     <message>
-        <location filename="../qml/Settings/SettingsExpander.qml" line="65"/>
+        <location filename="../qml/Settings/SettingsExpander.qml" line="64"/>
         <source>Copy text to clipboard</source>
         <translation>Kopiere den Text in die Zwischenablage</translation>
     </message>
@@ -1181,102 +1302,107 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
 <context>
     <name>Sidebar</name>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="119"/>
+        <location filename="../qml/Create/Sidebar.qml" line="56"/>
         <source>Tools Overview</source>
         <translation>Werkzeugeübersicht</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="126"/>
-        <source>Video import and convert (all types)</source>
-        <translation>Video importieren und konvertieren (alle Typen)</translation>
+        <location filename="../qml/Create/Sidebar.qml" line="63"/>
+        <source>Video Import h264 (.mp4)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="133"/>
-        <source>Video Import (.webm)</source>
-        <translation>Importiere Video (.webm)</translation>
+        <location filename="../qml/Create/Sidebar.qml" line="70"/>
+        <source>Video Import VP8 &amp; VP9 (.webm)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="140"/>
+        <location filename="../qml/Create/Sidebar.qml" line="77"/>
+        <source>Video import (all types)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qml/Create/Sidebar.qml" line="84"/>
         <source>GIF Wallpaper</source>
         <translation>GIF Wallpaper</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="147"/>
+        <location filename="../qml/Create/Sidebar.qml" line="91"/>
         <source>QML Wallpaper</source>
         <translation>QML Wallpaper</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="154"/>
+        <location filename="../qml/Create/Sidebar.qml" line="98"/>
         <source>HTML5 Wallpaper</source>
         <translation>HTML5 Wallpaper</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="161"/>
+        <location filename="../qml/Create/Sidebar.qml" line="105"/>
         <source>Website Wallpaper</source>
         <translation>Website Wallpaper</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="168"/>
+        <location filename="../qml/Create/Sidebar.qml" line="112"/>
         <source>QML Widget</source>
         <translation>QML Widget</translation>
     </message>
     <message>
-        <location filename="../qml/Create/Sidebar.qml" line="175"/>
+        <location filename="../qml/Create/Sidebar.qml" line="119"/>
         <source>HTML Widget</source>
         <translation>HTML Widget</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="75"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="74"/>
         <source>Set Wallpaper</source>
         <translation>Wallpaper Festlegen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="78"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="77"/>
         <source>Set Widget</source>
         <translation>Widget wählen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="211"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="210"/>
         <source>Headline</source>
         <translation>Überschrift</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="269"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="268"/>
         <source>Select a Monitor to display the content</source>
         <translation>Wähle einen Monitor zur Anzeige des Inhalts</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="300"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="299"/>
         <source>Set Volume</source>
         <translation>Audiolautstärke einstellen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="319"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="318"/>
         <source>Fill Mode</source>
         <translation>Füll-Modus</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="338"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="337"/>
         <source>Stretch</source>
         <translation>Strecken</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="341"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="340"/>
         <source>Fill</source>
         <translation>Ausfüllen</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="344"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="343"/>
         <source>Contain</source>
         <translation>Enthält</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="347"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="346"/>
         <source>Cover</source>
         <translation>Cover</translation>
     </message>
     <message>
-        <location filename="../qml/Installed/Sidebar.qml" line="350"/>
+        <location filename="../qml/Installed/Sidebar.qml" line="349"/>
         <source>Scale-Down</source>
         <translation>Runter-Skallieren</translation>
     </message>
@@ -1286,42 +1412,37 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
         <translation>Größe: </translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="81"/>
-        <source> MB</source>
-        <translation type="unfinished"> MB</translation>
-    </message>
-    <message>
         <location filename="../qml/Workshop/Sidebar.qml" line="87"/>
         <source>No description...</source>
         <translation>Leine Beschreibung...</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="249"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="243"/>
         <source>Click here if you like the content</source>
         <translation>Klicke hier wenn du den Inhalt magst</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="264"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="258"/>
         <source>Click here if you do not like the content</source>
         <translation>Klicke hier wenn du den Inhalt nicht magst</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="334"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="323"/>
         <source>Subscribtions: </source>
         <translation>Abonnements</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="402"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="386"/>
         <source>Open In Steam</source>
         <translation>Öffne in Steam</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="412"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="397"/>
         <source>Subscribed!</source>
         <translation>Abonniert</translation>
     </message>
     <message>
-        <location filename="../qml/Workshop/Sidebar.qml" line="412"/>
+        <location filename="../qml/Workshop/Sidebar.qml" line="397"/>
         <source>Subscribe</source>
         <translation>Abonniere</translation>
     </message>
@@ -1330,13 +1451,13 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <name>StartInfo</name>
     <message>
         <location filename="../qml/Create/StartInfo.qml" line="19"/>
-        <source>Free Tools to create wallpaper</source>
-        <translation>Gratis App zur Erstellung von Hintergünden</translation>
+        <source>Free tools to help you to create wallpaper</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/Create/StartInfo.qml" line="36"/>
-        <source>Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!</source>
-        <translation>Darunter findest du Apps die über ScreenPlay hinaus Wallpaper für dich erstellen können!</translation>
+        <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1482,12 +1603,12 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
         <translation>Tag hinzufügen</translation>
     </message>
     <message>
-        <location filename="../qml/Common/TagSelector.qml" line="132"/>
+        <location filename="../qml/Common/TagSelector.qml" line="129"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../qml/Common/TagSelector.qml" line="155"/>
+        <location filename="../qml/Common/TagSelector.qml" line="151"/>
         <source>Add Tag</source>
         <translation>Tag hinzufügen</translation>
     </message>
@@ -1820,8 +1941,8 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="172"/>
-        <source>Password Required T oKick Session</source>
-        <translation>Passwort benötigt zum beenden der Sitzung</translation>
+        <source>Password Required To Kick Session</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../qml/Workshop/upload/UploadProjectItem.qml" line="175"/>

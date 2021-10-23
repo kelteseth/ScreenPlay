@@ -22,16 +22,16 @@ Rectangle {
                 // macOS only supports h264 via the native Qt MM
                 if(Wallpaper.videoCodec === VideoCodec.VP8 || Wallpaper.videoCodec === VideoCodec.VP9){
                     print(Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute))
-                     loader.source = "qrc:/qml/MultimediaWebView.qml";
+                     loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml";
                     print(loader.status)
                 }else {
-                    loader.source = "qrc:/qml/MultimediaView.qml";
+                    loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml";
                 }
             }
             fadeIn();
             break;
         case InstalledType.HTMLWallpaper:
-            loader.setSource("qrc:/qml/WebView.qml", {
+            loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebView.qml", {
                 "url": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
             });
             break;
@@ -40,13 +40,13 @@ Rectangle {
             fadeIn();
             break;
         case InstalledType.WebsiteWallpaper:
-            loader.setSource("qrc:/qml/WebsiteWallpaper.qml", {
+            loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
                 "url": Wallpaper.projectSourceFileAbsolute
             });
             fadeIn();
             break;
         case InstalledType.GifWallpaper:
-            loader.setSource("qrc:/qml/GifWallpaper.qml", {
+            loader.setSource("qrc:/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
                 "source": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
             });
             fadeIn();
@@ -109,7 +109,7 @@ Rectangle {
             if (oldType === InstalledType.VideoWallpaper)
                 return ;
 
-            loader.source = "qrc:/qml/MultimediaView.qml";
+            loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml";
         }
 
         target: Wallpaper

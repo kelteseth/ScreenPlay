@@ -72,7 +72,7 @@ Item {
         active: false
         z: 99
         anchors.fill: parent
-        source: "qrc:/qml/Installed/InstalledWelcomeScreen.qml"
+        source: "qrc:/ScreenPlay/qml/Installed/InstalledWelcomeScreen.qml"
     }
 
     Connections {
