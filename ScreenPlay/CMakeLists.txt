@@ -185,7 +185,9 @@ qt_add_big_resources(FONTS fonts.qrc)
 
 add_library(ScreenPlayLib ${SOURCES} ${HEADER} ${RESOURCES} ${FONTS})
 
-target_include_directories(ScreenPlayLib PUBLIC ./ src/)
+target_include_directories(ScreenPlayLib PUBLIC ./ src/ ${LibArchive_INCLUDE_DIRS})
+
+find_package(LibArchive REQUIRED)
 
 target_link_libraries(
     ScreenPlayLib
@@ -203,7 +205,8 @@ target_link_libraries(
            Qt6::WebSockets
            Qt6::Svg
            Qt6::WebEngineQuick
-           Qt6::WebEngineCore)
+           Qt6::WebEngineCore
+           ${LibArchive_LIBRARIES})
 
 if(${TESTS_ENABLED})
     add_executable(tst_ScreenPlay tests/tst_main.cpp)

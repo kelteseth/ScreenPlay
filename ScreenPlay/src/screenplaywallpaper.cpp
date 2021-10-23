@@ -24,7 +24,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const FillMode::FillMode fillMode,
     const InstalledType::InstalledType type,
     const QJsonObject& properties,
-    const bool checkWallpaperVisible,
+    const std::shared_ptr<Settings>& settings,
     QObject* parent)
     : QObject(parent)
     , m_globalVariables { globalVariables }
@@ -37,6 +37,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     , m_file { file }
     , m_volume { volume }
     , m_playbackRate { playbackRate }
+    , m_settings { settings }
 {
 
     QJsonObject projectSettingsListModelProperties;
@@ -81,7 +82,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
         QString::number(static_cast<double>(volume)),
         QVariant::fromValue(fillMode).toString(),
         QVariant::fromValue(type).toString(),
-        QString::number(checkWallpaperVisible),
+        QString::number(m_settings->checkWallpaperVisible()),
         // Fixes issue 84 media key overlay
         " --disable-features=HardwareMediaKeyHandling"
     };

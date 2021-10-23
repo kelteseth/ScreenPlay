@@ -53,8 +53,15 @@ CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& ex
 
 void CreateImportVideo::setupFFMPEG()
 {
+
+#ifdef Q_OS_LINUX
+    // Use system ffmpeg
+    m_ffprobeExecutable = "ffprobe";
+    m_ffmpegExecutable = "ffmpeg";
+#else
     m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe" + ScreenPlayUtil::executableBinEnding();
     m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg" + ScreenPlayUtil::executableBinEnding();
+#endif
 
     if (!QFileInfo::exists(m_ffprobeExecutable)) {
         qFatal("FFPROBE executable not found!");
@@ -126,10 +133,9 @@ bool CreateImportVideo::createWallpaperInfo()
     }
 
     if (obj->empty()) {
-        qWarning() << "Error! File could not be parsed.";
+        qCritical() << "Error! File could not be parsed.";
         emit processOutput("Error! File could not be parsed.");
         emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::AnalyseVideoError);
-
         return false;
     }
 

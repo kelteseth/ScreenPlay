@@ -87,6 +87,18 @@ void ScreenPlayManager::init(
         QObject::connect(m_websocketServer.get(), &QWebSocketServer::newConnection, this, [this]() {
             qInfo() << "New Websocket Connection";
             auto* socket = m_websocketServer->nextPendingConnection();
+            QObject::connect(socket, &QWebSocket::textMessageReceived, this, [this](const QString &message) {
+                 qInfo() << "Message:" << message;
+            });
+            QObject::connect(socket, &QWebSocket::disconnected, this, [this,socket]() {
+                 m_connections.removeOne(socket);
+                 qInfo() << "Disconnected connection count: " << m_connections.count();
+            });
+
+
+            m_connections.push_back(socket);
+            socket->sendTextMessage("asdasd");
+            socket->flush();
         });
     }
 
@@ -137,6 +149,22 @@ bool ScreenPlayManager::createWallpaper(
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
     const QString appID = ScreenPlayUtil::generateRandomString();
 
+    if(m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE){
+        if(m_connections.empty())
+            return false;
+
+        QJsonObject msg;
+        msg.insert("command", "replace");
+        msg.insert("absolutePath", path);
+        msg.insert("type", static_cast<int>(type));
+        msg.insert("fillMode", static_cast<int>(fillMode));
+        msg.insert("volume", volume);
+        msg.insert("file", file);
+
+        m_connections.first()->sendTextMessage(QJsonDocument(msg).toJson());
+        m_connections.first()->flush();
+    }
+
     // Only support remove wallpaper that spans over 1 monitor
     if (monitorIndex.length() == 1) {
         int i = 0;
@@ -172,14 +200,16 @@ bool ScreenPlayManager::createWallpaper(
         fillMode,
         type,
         properties,
-        m_settings->checkWallpaperVisible());
+        m_settings);
 
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestClose, this, &ScreenPlayManager::removeWallpaper);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::error, this, &ScreenPlayManager::displayErrorPopup);
-    if (!wallpaper->start()) {
-        return false;
-    }
+      if(m_settings->desktopEnvironment() != Settings::DesktopEnvironment::KDE){
+        if (!wallpaper->start()) {
+            return false;
+        }
+      }
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperMonitor(wallpaper, monitorIndex);
     increaseActiveWallpaperCounter();

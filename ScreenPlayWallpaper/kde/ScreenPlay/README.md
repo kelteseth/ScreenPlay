@@ -6,6 +6,8 @@ Will not work because KDE uses the kpluginindex.json (that is actually a bz2 fil
 
 #### Installation
 ```
+sudo apt install qml-module-qt-websockets qtwebengine5-*
+
 plasmapkg2 --install ScreenPlay
 ```
 
@@ -21,3 +23,6 @@ Because Wallpaper and Widgets are already a different application we can extend 
 1. Open Desktop Settings
     - Select Wallpaper type ScreenPlay
 
+```
+plasmapkg2 --upgrade ScreenPlay ; kquitapp5 plasmashell;  kstart5 plasmashell
+```

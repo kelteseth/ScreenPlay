@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     vcpkg_path = os.path.join(project_source_parent_path, "ScreenPlay-vcpkg")
     print("vcpkg_path: ", vcpkg_path)
-    vcpkg_version = "9172179c513aa84308e48b8dd0e3df90acec7204"  # Master 25.06.2021
+    vcpkg_version = "c1bd850c629977b98b71bd7a6ab6b7949a5f07e6"  # Master 25.06.2021
     print("Build vcpkg ", vcpkg_version)
     execute("git fetch", vcpkg_path)
     execute("git checkout {}".format(vcpkg_version), vcpkg_path)
@@ -42,6 +42,7 @@ if __name__ == "__main__":
         "sentry-native",
         "doctest",
         "benchmark",
+        "libarchive",
     ]
 
     vcpkg_triplet = ""
