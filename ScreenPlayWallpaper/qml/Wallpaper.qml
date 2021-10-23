@@ -3,16 +3,31 @@ import QtQuick
 import QtQuick.Controls
 import ScreenPlayWallpaper 1.0
 import ScreenPlay.Enums.InstalledType 1.0
+import ScreenPlay.Enums.VideoCodec 1.0
 
 Rectangle {
     id: root
+    onStateChanged: print(state)
 
     property bool canFadeByWallpaperFillMode: true
 
     function init() {
+        print("init")
         switch (Wallpaper.type) {
         case InstalledType.VideoWallpaper:
-            loader.source = "qrc:/qml/MultimediaView.qml";
+            if(Wallpaper.videoCodec === VideoCodec.Unknown){
+                Wallpaper.terminate()
+            }
+            if(Qt.platform.os === "osx") {
+                // macOS only supports h264 via the native Qt MM
+                if(Wallpaper.videoCodec === VideoCodec.VP8 || Wallpaper.videoCodec === VideoCodec.VP9){
+                    print(Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute))
+                     loader.source = "qrc:/qml/MultimediaWebView.qml";
+                    print(loader.status)
+                }else {
+                    loader.source = "qrc:/qml/MultimediaView.qml";
+                }
+            }
             fadeIn();
             break;
         case InstalledType.HTMLWallpaper:
@@ -106,11 +121,11 @@ Rectangle {
         anchors.fill: parent
         // QML Engine deadlocks in 5.15.2 when a loader cannot load
         // an item. QApplication::quit(); waits for the destruction forever.
-        asynchronous: true
+        //asynchronous: true
         onStatusChanged: {
             if (loader.status === Loader.Error) {
                 loader.source = "";
-                Wallpaper.terminate();
+               // Wallpaper.terminate();
             }
         }
 
