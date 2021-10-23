@@ -182,6 +182,7 @@ private:
     std::shared_ptr<Settings> m_settings;
     std::unique_ptr<QLocalServer> m_server;
     std::unique_ptr<QWebSocketServer> m_websocketServer;
+    QVector<QWebSocket*> m_connections;
 
     QVector<std::shared_ptr<ScreenPlayWallpaper>> m_screenPlayWallpapers;
     QVector<std::shared_ptr<ScreenPlayWidget>> m_screenPlayWidgets;
