@@ -139,6 +139,12 @@ QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 */
 void ScreenPlayWallpaper::messageQuit()
 {
+    // When the wallpaper never connected, this is invalid
+    if (!m_connection) {
+        qCritical() << "Cannot request quit, wallpaper never connected!";
+        return;
+    }
+
     QJsonObject obj;
     obj.insert("command", "quit");
     m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
