@@ -97,7 +97,6 @@ void ScreenPlayManager::init(
 
 
             m_connections.push_back(socket);
-            socket->sendTextMessage("asdasd");
             socket->flush();
         });
     }
