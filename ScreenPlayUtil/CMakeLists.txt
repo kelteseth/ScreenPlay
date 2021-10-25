@@ -10,12 +10,15 @@ find_package(
     REQUIRED)
 
 set(SOURCES # cmake-format: sortable
-            src/util.cpp src/contenttypes.cpp)
+            src/util.cpp src/contenttypes.cpp inc/public/ScreenPlayUtil/httpfileserver.cpp)
 
 set(HEADER # cmake-format: sortable
-           inc/public/ScreenPlayUtil/util.h inc/public/ScreenPlayUtil/contenttypes.h inc/public/ScreenPlayUtil/projectfile.h)
+           inc/public/ScreenPlayUtil/util.h inc/public/ScreenPlayUtil/httpfileserver.h  inc/public/ScreenPlayUtil/contenttypes.h inc/public/ScreenPlayUtil/projectfile.h)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADER})
+
+find_path(CPP_HTTPLIB_INCLUDE_DIRS "httplib.h")
+target_include_directories(${PROJECT_NAME} PUBLIC ${CPP_HTTPLIB_INCLUDE_DIRS})
 
 target_include_directories(
     ${PROJECT_NAME}

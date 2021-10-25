@@ -41,6 +41,12 @@ BaseWindow::BaseWindow(
         "InstalledType",
         "Error: only enums");
 
+    qmlRegisterUncreatableMetaObject(ScreenPlay::VideoCodec::staticMetaObject,
+        "ScreenPlay.Enums.VideoCodec",
+        1, 0,
+        "VideoCodec",
+        "Error: only enums");
+
     qmlRegisterType<BaseWindow>("ScreenPlay.Wallpaper", 1, 0, "Wallpaper");
 
     if (!appID.contains("appID=")) {
@@ -76,8 +82,33 @@ BaseWindow::BaseWindow(
         QApplication::exit(-4);
     }
 
+
+
     if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(project.value("type").toString())) {
         setType(typeOpt.value());
+
+        if (!project.contains("videoCodec") ) {
+            qWarning("No videoCodec was specified inside the json object!");
+         //  QApplication::exit(-4);
+            const QString filename = project.value("file").toString();
+            qInfo() << filename;
+            if(filename.endsWith(".mp4")){
+                setVideoCodec(ScreenPlay::VideoCodec::VideoCodec::H264);
+            } else  if(filename.endsWith(".webm")){
+                setVideoCodec(ScreenPlay::VideoCodec::VideoCodec::VP8);
+            }
+        } else {
+            if(this->type() == ScreenPlay::InstalledType::InstalledType::VideoWallpaper){
+                if (auto videoCodecOpt = ScreenPlayUtil::getVideoCodecFromString(project.value("videoCodec").toString())) {
+                    setVideoCodec(videoCodecOpt.value());
+                } else {
+                    qCritical() << "Cannot parse Wallpaper video codec from value" << project.value("type");
+                }
+
+            }
+        }
+
+
     } else {
         qCritical() << "Cannot parse Wallpaper type from value" << project.value("type");
     }
@@ -238,4 +269,17 @@ void BaseWindow::setupLiveReloading()
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, timeoutLambda);
     QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
     m_fileSystemWatcher.addPaths({ QUrl::fromUserInput(projectPath()).toLocalFile() });
+}
+
+ScreenPlay::VideoCodec::VideoCodec BaseWindow::videoCodec() const
+{
+    return m_videoCodec;
+}
+
+void BaseWindow::setVideoCodec(ScreenPlay::VideoCodec::VideoCodec newVideoCodec)
+{
+    if (m_videoCodec == newVideoCodec)
+        return;
+    m_videoCodec = newVideoCodec;
+    emit videoCodecChanged();
 }

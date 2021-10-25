@@ -43,6 +43,7 @@ if __name__ == "__main__":
         "doctest",
         "benchmark",
         "libarchive",
+        "cpp-httplib"
     ]
 
     vcpkg_triplet = ""

@@ -91,6 +91,7 @@ public:
     Q_PROPERTY(float currentTime READ currentTime WRITE setCurrentTime NOTIFY currentTimeChanged)
 
     Q_PROPERTY(ScreenPlay::InstalledType::InstalledType type READ type WRITE setType NOTIFY typeChanged)
+    Q_PROPERTY(ScreenPlay::VideoCodec::VideoCodec videoCodec READ videoCodec WRITE setVideoCodec NOTIFY videoCodecChanged)
     Q_PROPERTY(QString OSVersion READ OSVersion WRITE setOSVersion NOTIFY OSVersionChanged)
 
     Q_PROPERTY(ScreenPlaySDK* sdk READ sdk WRITE setSdk NOTIFY sdkChanged)
@@ -116,6 +117,9 @@ public:
     const QString& projectPath() const { return m_projectPath; }
     const QString& projectSourceFile() const { return m_projectSourceFile; }
     const QUrl& projectSourceFileAbsolute() const { return m_projectSourceFileAbsolute; }
+
+    ScreenPlay::VideoCodec::VideoCodec videoCodec() const;
+    void setVideoCodec(ScreenPlay::VideoCodec::VideoCodec newVideoCodec);
 
 signals:
     void qmlExit();
@@ -145,6 +149,8 @@ signals:
     void projectPathChanged(const QString& rojectPath);
     void projectSourceFileChanged(const QString& projectSourceFile);
     void projectSourceFileAbsoluteChanged(const QUrl& rojectSourceFileAbsolute);
+
+    void videoCodecChanged();
 
 public slots:
     virtual void destroyThis() { }
@@ -385,4 +391,5 @@ private:
     QSysInfo m_sysinfo;
     std::unique_ptr<ScreenPlaySDK> m_sdk;
     QUrl m_projectSourceFileAbsolute;
+    ScreenPlay::VideoCodec::VideoCodec m_videoCodec = ScreenPlay::VideoCodec::VideoCodec::Unknown;
 };

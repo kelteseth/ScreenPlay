@@ -266,6 +266,33 @@ std::optional<ScreenPlay::InstalledType::InstalledType> getInstalledTypeFromStri
     return std::nullopt;
 }
 
+
+/*!
+    \brief Maps the video codec type from a QString to an enum. Used for parsing the project.json.
+*/
+std::optional<ScreenPlay::VideoCodec::VideoCodec> getVideoCodecFromString(const QString &type)
+{
+    if(type.isEmpty())
+        return std::nullopt;
+
+    if(type.contains("vp8",Qt::CaseInsensitive))
+        return ScreenPlay::VideoCodec::VideoCodec::VP8;
+
+    if(type.contains("vp9",Qt::CaseInsensitive))
+        return ScreenPlay::VideoCodec::VideoCodec::VP9;
+
+    if(type.contains("av1",Qt::CaseInsensitive))
+        return ScreenPlay::VideoCodec::VideoCodec::AV1;
+
+    if(type.contains("h264",Qt::CaseInsensitive))
+        return ScreenPlay::VideoCodec::VideoCodec::H264;
+
+    if(type.contains("h265",Qt::CaseInsensitive))
+        return ScreenPlay::VideoCodec::VideoCodec::H264;
+
+    return std::nullopt;
+}
+
 /*!
     \brief Converts the given \a url string to a local file path.
 */
@@ -367,5 +394,6 @@ std::optional<QVector<int>> parseStringToIntegerList(const QString string)
 
     return list;
 }
+
 
 }

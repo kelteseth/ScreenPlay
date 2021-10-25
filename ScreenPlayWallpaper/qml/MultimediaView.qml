@@ -13,11 +13,4 @@ Video {
         if (Wallpaper.loops)
             root.play()
     }
-
-    //loops: MediaPlayer.Infinite
-    //        onErrorOccurred: function (error, errorString) {
-    //            console.log("[qmlvideo] VideoItem.onError error " + error
-    //                        + " errorString " + errorString)
-    //            root.fatalError()
-    //        }
 }

@@ -71,12 +71,6 @@ if(APPLE)
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
-        COMMENT "Copying qmldir info into ScreenPlay.app bundle"
-        COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/qmldir ${workshop_install_dir})
-
-    add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
         COMMENT "Copying workshop plugin into ScreenPlay.app bundle"
         COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/Workshop/libworkshopplugin.dylib ${workshop_install_dir})
 
