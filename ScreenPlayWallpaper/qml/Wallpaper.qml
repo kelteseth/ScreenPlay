@@ -12,45 +12,43 @@ Rectangle {
     property bool canFadeByWallpaperFillMode: true
 
     function init() {
-        print("init")
         switch (Wallpaper.type) {
         case InstalledType.VideoWallpaper:
-            if(Wallpaper.videoCodec === VideoCodec.Unknown){
+            if (Wallpaper.videoCodec === VideoCodec.Unknown) {
                 Wallpaper.terminate()
             }
-            if(Qt.platform.os === "osx") {
-                // macOS only supports h264 via the native Qt MM
-                if(Wallpaper.videoCodec === VideoCodec.VP8 || Wallpaper.videoCodec === VideoCodec.VP9){
-                    print(Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute))
-                     loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml";
-                    print(loader.status)
-                }else {
-                    loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml";
-                }
+            // macOS only supports h264 via the native Qt MM
+            if (Wallpaper.videoCodec === VideoCodec.VP8
+                    || Wallpaper.videoCodec === VideoCodec.VP9) {
+                loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml"
+            } else {
+                loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
             }
-            fadeIn();
-            break;
+            break
         case InstalledType.HTMLWallpaper:
             loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebView.qml", {
-                "url": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
-            });
-            break;
+                                 "url": Qt.resolvedUrl(
+                                            Wallpaper.projectSourceFileAbsolute)
+                             })
+            break
         case InstalledType.QMLWallpaper:
-            loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute);
-            fadeIn();
-            break;
+            loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
+            fadeIn()
+            break
         case InstalledType.WebsiteWallpaper:
-            loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
-                "url": Wallpaper.projectSourceFileAbsolute
-            });
-            fadeIn();
-            break;
+            loader.setSource(
+                        "qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
+                            "url": Wallpaper.projectSourceFileAbsolute
+                        })
+            fadeIn()
+            break
         case InstalledType.GifWallpaper:
             loader.setSource("qrc:/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
-                "source": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
-            });
-            fadeIn();
-            break;
+                                 "source": Qt.resolvedUrl(
+                                               Wallpaper.projectSourceFileAbsolute)
+                             })
+            fadeIn()
+            break
         }
     }
 
