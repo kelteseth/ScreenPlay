@@ -18,12 +18,13 @@ Rectangle {
                 Wallpaper.terminate()
             }
             // macOS only supports h264 via the native Qt MM
-            if (Wallpaper.videoCodec === VideoCodec.VP8
-                    || Wallpaper.videoCodec === VideoCodec.VP9) {
+            if (Qt.platform === "osx" && (Wallpaper.videoCodec === VideoCodec.VP8
+                    || Wallpaper.videoCodec === VideoCodec.VP9)) {
                 loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml"
             } else {
                 loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
             }
+            fadeIn()
             break
         case InstalledType.HTMLWallpaper:
             loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebView.qml", {
