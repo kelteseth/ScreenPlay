@@ -71,6 +71,12 @@ target_link_libraries(
 if(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")
+    add_custom_command(
+        TARGET ${PROJECT_NAME}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/index.html
+                ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME}.app/Contents/MacOS/)
+
 endif()
 
 if(WIN32)
