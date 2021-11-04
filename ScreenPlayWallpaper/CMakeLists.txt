@@ -71,6 +71,12 @@ target_link_libraries(
 if(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")
+    add_custom_command(
+        TARGET ${PROJECT_NAME}
+        POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/index.html
+                ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME}.app/Contents/MacOS/)
+
 endif()
 
 if(WIN32)
@@ -78,4 +84,5 @@ if(WIN32)
     # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
     target_link_libraries(${PROJECT_NAME} PRIVATE shcore.lib)
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/index.html ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/index.html COPYONLY)
 endif()

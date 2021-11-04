@@ -3,13 +3,14 @@ import QtWebEngine
 import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlayWallpaper 1.0
 
+
 /*!
   * The native macOS multimedia stack does not support VP8/VP9. For this we must use the WebEngine.
   */
 Item {
     id: root
 
-    signal requestFadeIn()
+    signal requestFadeIn
 
     function getSetVideoCommand() {
         // TODO 30:
@@ -40,14 +41,11 @@ Item {
     WebEngineView {
         id: webView
         anchors.fill: parent
-     //   url:"https://www.google.de"
-        url: "qrc:/index.html"
-        onJavaScriptConsoleMessage:(lineNumber, message)=> print(lineNumber, message)
+        url: Qt.resolvedUrl("file://"+ Wallpaper.getApplicationPath() + "/index.html")
+        onJavaScriptConsoleMessage: (lineNumber, message) => print(lineNumber,
+                                                                   message)
         onLoadProgressChanged: {
             if (loadProgress === 100) {
-                loadHtml("")
-                requestFadeIn()
-                return
                 webView.runJavaScript(root.getSetVideoCommand(),
                                       function (result) {
                                           requestFadeIn()
@@ -55,8 +53,6 @@ Item {
             }
         }
     }
-
-
 
     Text {
         id: txtVisualsPaused
