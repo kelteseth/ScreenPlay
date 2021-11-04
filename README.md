@@ -9,7 +9,7 @@ ScreenPlay: [![pipeline status](https://gitlab.com/kelteseth/ScreenPlay/badges/m
 <h3><a href="http://gitlab.com/kelteseth/ScreenPlay/-/jobs/artifacts/master/download?job=build:windows_release">✨💻 Download ScreenPlay Windows directly✨</a> </h3>
 <h3><a href="http://gitlab.com/kelteseth/ScreenPlay/-/jobs/artifacts/master/download?job=build:osx_release">✨🍏 Download ScreenPlay macOS (unsigned) directly✨</a> </h3>
 
-<!-- This works only on gitlab --> ![](https://gitlab.com/kelteseth/ScreenPlay/-/raw/master/.gitlab/media/preview.webp) ![](/.gitlab/media/preview.webp) <!-- This works only on github -->
+![](/.gitlab/media/preview.webp) 
 
 <a href="https://www.youtube.com/watch?v=q-J2fTWDxw8"><p>Watch the Steam Early Access Trailer (YouTube)</p></a> 
 
