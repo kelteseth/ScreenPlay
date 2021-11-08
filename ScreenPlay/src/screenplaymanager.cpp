@@ -83,7 +83,8 @@ void ScreenPlayManager::init(
 
     if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
         m_websocketServer = std::make_unique<QWebSocketServer>(QStringLiteral("ScreenPlayWebSocket"), QWebSocketServer::SslMode::NonSecureMode);
-        m_websocketServer->listen(QHostAddress::Any, m_webSocketPort);
+       const bool success = m_websocketServer->listen(QHostAddress::Any, m_webSocketPort);
+       qInfo() << "Open Websocket:" << success << "port:" <<m_webSocketPort;
         QObject::connect(m_websocketServer.get(), &QWebSocketServer::newConnection, this, [this]() {
             qInfo() << "New Websocket Connection";
             auto* socket = m_websocketServer->nextPendingConnection();
@@ -97,7 +98,7 @@ void ScreenPlayManager::init(
 
 
             m_connections.push_back(socket);
-            socket->flush();
+           // socket->flush();
         });
     }
 
@@ -127,6 +128,7 @@ bool ScreenPlayManager::createWallpaper(
     const QJsonObject& properties,
     const bool saveToProfilesConfigFile)
 {
+
     const int screenCount = QGuiApplication::screens().count();
 
     QJsonArray monitors;
@@ -283,6 +285,16 @@ bool ScreenPlayManager::removeAllWallpapers()
             return false;
         }
     }
+     if(m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE){
+         for(auto& connection : m_connections){
+             QJsonObject obj;
+             obj.insert("command", "quit");
+             connection->sendTextMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+            connection->flush();
+            connection->close();
+         }
+
+     }
 
     emit requestSaveProfiles();
 
@@ -456,6 +468,8 @@ bool ScreenPlayManager::removeWallpaper(const QString& appID)
                 if (wallpaper->appID() != appID) {
                     return false;
                 }
+                if(m_settings->desktopEnvironment() == Settings::DesktopEnvironment::Windows ||
+                        m_settings->desktopEnvironment() == Settings::DesktopEnvironment::OSX)
                 wallpaper->messageQuit();
 
                 qInfo() << "Remove wallpaper " << wallpaper->file() << "at monitor " << wallpaper->screenNumber();
