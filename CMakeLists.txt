@@ -7,7 +7,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-option(SCREENPLAY_STEAM ON "For FOSS distribution so we do not bundle proprietary code.")
+option(SCREENPLAY_STEAM  "For FOSS distribution so we do not bundle proprietary code." ON)
 option(TESTS_ENABLED OFF)
 
 # Add our *.cmake diretory to the CMAKE_MODULE_PATH, so that our includes are found
