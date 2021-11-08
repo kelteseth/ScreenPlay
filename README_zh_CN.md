@@ -25,10 +25,8 @@ ScreenPlay 是一款开源、跨平台，显示视频壁纸，部件，应用抽
 <br>
 <br>
 
-<!-- This works only on gitlab -->
-![](https://gitlab.com/kelteseth/ScreenPlay/-/raw/master/.gitlab/media/preview.webp)
-<!-- This works only on github -->
-![](/.gitlab/media/preview.webp)
+
+![](/.gitlab/media/preview.webp) 
 
 <a href="https://www.youtube.com/watch?v=q-J2fTWDxw8">
 <p>查看提前访问预告片 (YouTube)</p>
