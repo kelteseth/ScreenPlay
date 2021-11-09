@@ -19,6 +19,7 @@
 #include <QVariantList>
 #include <QVector>
 #include <QtConcurrent/QtConcurrent>
+#include <QtQml>
 
 #include "ScreenPlayUtil/projectfile.h"
 #include "ScreenPlayUtil/util.h"
@@ -33,6 +34,7 @@ namespace ScreenPlayWorkshop {
 class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
 
+    QML_NAMED_ELEMENT(InstalledListModel)
     Q_PROPERTY(QUrl absoluteStoragePath READ absoluteStoragePath WRITE setabsoluteStoragePath NOTIFY absoluteStoragePathChanged)
 
 public:

@@ -4,6 +4,7 @@ import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
 import Workshop 1.0
+import WorkshopEnums 1.0
 import ScreenPlay 1.0
 import "upload/"
 import "../Common" as Common

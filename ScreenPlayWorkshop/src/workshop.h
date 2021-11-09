@@ -14,7 +14,7 @@ namespace ScreenPlayWorkshop {
 
 class Workshop : public QQuickItem {
     Q_OBJECT
-
+    QML_NAMED_ELEMENT(ScreenPlayWorkshop)
     Q_PROPERTY(InstalledListModel* installedListModel READ installedListModel NOTIFY installedListModelChanged)
     Q_PROPERTY(SteamWorkshop* steamWorkshop READ steamWorkshop NOTIFY steamWorkshopChanged)
 

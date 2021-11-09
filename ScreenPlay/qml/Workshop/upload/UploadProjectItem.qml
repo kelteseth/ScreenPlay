@@ -4,7 +4,8 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
-import Workshop
+import Workshop 1.0
+import WorkshopEnums 1.0
 
 Page {
 

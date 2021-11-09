@@ -1,4 +1,4 @@
-project(workshopplugin LANGUAGES CXX)
+project(ScreenPlayWorkshop LANGUAGES CXX)
 
 add_subdirectory(SteamSDK)
 
@@ -16,7 +16,6 @@ set(SOURCES
     src/steamworkshopitem.cpp
     src/workshop.cpp
     src/installedlistmodel.cpp
-    src/screenplayworkshop_plugin.cpp
     src/steamworkshop.cpp
     src/steamworkshoplistmodel.cpp
     src/steamaccount.cpp
@@ -31,19 +30,22 @@ set(HEADER
     src/workshop.h
     src/workshopitem.h
     src/installedlistmodel.h
-    src/screenplayworkshop_plugin.h
     src/steamworkshop.h
     src/steamaccount.h
     src/steamqmlimageprovider.h)
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES} ${HEADER})
+qt_add_qml_module(
+    ${PROJECT_NAME}
+    OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/Workshop
+    URI "Workshop"
+    SOURCES  ${SOURCES} ${HEADER}
+    VERSION
+    1.0)
 
-set(WORKSHOP_PLUGIN_DIR ${CMAKE_BINARY_DIR}/bin/workshop)
-file(MAKE_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
 
-set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
-set_target_properties(${PROJECT_NAME} PROPERTIES RUNTIME_OUTPUT_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
-set_target_properties(${PROJECT_NAME} PROPERTIES ARCHIVE_OUTPUT_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
+# Needed by the automatic generated target missing includes
+# https://github.com/qt/qtdeclarative/blob/7a7064e14f094e843e1ee832cc927e86f887621a/src/qml/Qt6QmlMacros.cmake#L2042
+target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 set(STEAM_LIB_PATH "${CMAKE_CURRENT_SOURCE_DIR}/SteamSDK/redistributable_bin/")
 
