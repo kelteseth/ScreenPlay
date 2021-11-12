@@ -101,7 +101,8 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     initInstalledPath();
 
     setupWidgetAndWindowPaths();
-    setGitBuildHash(COMPILE_INFO);
+    const QString qtVersion = QString("Qt Version: %1.%2.%3").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH);
+    setGitBuildHash(COMPILE_INFO + qtVersion);
     setSteamVersion(!(QString(SCREENPLAY_STEAM).compare("OFF", Qt::CaseInsensitive) ? false : true));
 }
 
@@ -194,7 +195,7 @@ void Settings::restoreDefault(const QString& appConfigLocation, const QString& s
 
 void Settings::initInstalledPath()
 {
-    //If empty use steam workshop location
+    // If empty use steam workshop location
     if (QString(m_qSettings.value("ScreenPlayContentPath").toString()).isEmpty()) {
 
         /*
