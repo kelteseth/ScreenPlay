@@ -267,8 +267,12 @@ bool Settings::retranslateUI()
     QString langCode = fixLanguageCode(QVariant::fromValue(language()).toString());
 
     QFile tsFile;
-    if (tsFile.exists(":/translations/ScreenPlay_" + langCode + ".qm")) {
-        m_translator.load(":/translations/ScreenPlay_" + langCode + ".qm");
+    const QString qmPath = ":/translations/ScreenPlay_" + langCode + ".qm";
+    if (tsFile.exists(qmPath)) {
+        if (!m_translator.load(qmPath)) {
+            qWarning() << "Unable to load translation file: " << qmPath;
+            return false;
+        }
         auto* app = static_cast<QApplication*>(QApplication::instance());
         app->installTranslator(&m_translator);
         emit requestRetranslation();
