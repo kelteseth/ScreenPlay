@@ -39,7 +39,7 @@ set(SOURCES ${SOURCES} main.cpp src/basewindow.cpp)
 set(HEADER ${HEADER} src/basewindow.h)
 
 set(QML # cmake-format: sortable
-        qml/GifWallpaper.qml qml/Test.qml qml/Wallpaper.qml qml/WebsiteWallpaper.qml qml/WebView.qml qml/MultimediaView.qml qml/MultimediaWebView.qml)
+        qml/GifWallpaper.qml qml/Test.qml qml/Wallpaper.qml qml/WebsiteWallpaper.qml qml/MultimediaView.qml qml/MultimediaWebView.qml)
 
 qt_add_resources(RESOURCES Resources.qrc)
 

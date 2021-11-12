@@ -27,7 +27,7 @@ Rectangle {
             fadeIn()
             break
         case InstalledType.HTMLWallpaper:
-            loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebView.qml", {
+            loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
                                  "url": Qt.resolvedUrl(
                                             Wallpaper.projectSourceFileAbsolute)
                              })
@@ -100,7 +100,7 @@ Rectangle {
         }
 
         // This function only gets called here (the same function
-        // is inside the WebView.qml) when the previous Wallpaper type
+        // is inside the MultimediaWebView.qml) when the previous Wallpaper type
         // was not a video
         function onReloadVideo(oldType) {
             // We need to check if the old type

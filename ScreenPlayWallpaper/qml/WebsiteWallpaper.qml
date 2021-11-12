@@ -24,7 +24,7 @@ Item {
         id: webView
 
         anchors.fill: parent
-        url: root.url
+        url: Qt.resolvedUrl(root.url)
         onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
             if ((loadProgress === 100))
