@@ -1,6 +1,5 @@
-import QtQuick 2.13
-import QtGraphicalEffects 1.0
-import Workshop 1.0
+import QtQuick
+import Qt5Compat.GraphicalEffects
 
 Rectangle {
     id: root
@@ -45,7 +44,7 @@ Rectangle {
         id: bgImage
 
         height: bgImage.sourceSize.height
-        fillMode: Image.PreserveAspectCrop
+        //fillMode: Image.PreserveAspectCrop
         opacity: 0
         source: root.backgroundImage
 
@@ -81,15 +80,13 @@ Rectangle {
         }
     }
 
-    MaskedBlur {
+    FastBlur {
         id: blur
 
         anchors.fill: bgImage
         source: bgImage
-        maskSource: maskSource
         radius: 16
         cached: true
-        samples: 24
         opacity: 0
     }
 

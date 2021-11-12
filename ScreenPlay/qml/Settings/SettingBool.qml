@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Layouts 1.12
-import QtQuick.Controls.Material 2.2
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
 import ScreenPlay 1.0
 
 Item {
@@ -54,7 +54,7 @@ Item {
         text: settingsBool.description
         wrapMode: Text.WordWrap
         linkColor: Material.color(Material.Orange)
-        onLinkActivated: Qt.openUrlExternally(link)
+        onLinkActivated: (link) => Qt.openUrlExternally(link)
         color: Material.theme === Material.Light ? Qt.lighter(Material.foreground) : Qt.darker(Material.foreground)
         font.family: ScreenPlay.settings.font
         verticalAlignment: Text.AlignVCenter

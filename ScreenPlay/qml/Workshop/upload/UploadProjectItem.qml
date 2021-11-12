@@ -1,10 +1,11 @@
-import QtQuick 2.13
-import QtQuick.Controls 2.13
-import QtGraphicalEffects 1.0
-import QtQuick.Controls.Material 2.12
-import QtQuick.Layouts 1.12
-import QtQuick.Controls.Material.impl 2.12
+import QtQuick
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import QtQuick.Controls.Material.impl
 import Workshop 1.0
+import WorkshopEnums 1.0
 
 Page {
 
@@ -169,7 +170,7 @@ Page {
             errorText = qsTr("Try Another CM");
             break;
         case SteamEnums.K_EResultPasswordRequiredToKickSession:
-            errorText = qsTr("Password Required T oKick Session");
+            errorText = qsTr("Password Required To Kick Session");
             break;
         case SteamEnums.K_EResultAlreadyLoggedInElsewhere:
             errorText = qsTr("Already Logged In Elsewhere");

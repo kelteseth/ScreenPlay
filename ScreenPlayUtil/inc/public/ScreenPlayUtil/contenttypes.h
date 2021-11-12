@@ -102,4 +102,27 @@ namespace InstalledType {
     Q_ENUM_NS(InstalledType)
 
 }
+
+/*!
+    \namespace ScreenPlay::InstalledType
+    \inmodule ScreenPlayUtil
+    \brief When changing the enum, one also needs to change:
+         GlobalVariables::getAvailableWallpaper
+         GlobalVariables::getAvailableWidgets
+         Common/Util.js isWallpaper() and isWidget()
+         ScreenPlayWallpaper: BaseWindow::parseWallpaperType()
+*/
+namespace VideoCodec {
+    Q_NAMESPACE
+
+    enum class VideoCodec {
+        Unknown,
+        VP8,
+        VP9,
+        AV1,
+        H264,
+        H265
+    };
+    Q_ENUM_NS(VideoCodec)
+}
 }

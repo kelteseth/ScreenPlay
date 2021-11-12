@@ -1,7 +1,7 @@
-import QtQuick 2.12
+import QtQuick
 import QtQuick.Controls.Material 2.0 as QQCM
-import QtQuick.Layouts 1.12
-import QtQuick.Controls 2.2 as QQC
+import QtQuick.Layouts
+import QtQuick.Controls as QQC
 import ScreenPlay 1.0
 
 Item {

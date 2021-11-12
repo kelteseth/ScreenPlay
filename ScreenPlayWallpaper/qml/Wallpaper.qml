@@ -1,40 +1,55 @@
-import QtQml 2.14
-import QtQuick 2.14
-import QtQuick.Controls 2.14
+import QtQml
+import QtQuick
+import QtQuick.Controls
 import ScreenPlayWallpaper 1.0
 import ScreenPlay.Enums.InstalledType 1.0
+import ScreenPlay.Enums.VideoCodec 1.0
 
 Rectangle {
     id: root
+    onStateChanged: print(state)
 
     property bool canFadeByWallpaperFillMode: true
 
     function init() {
         switch (Wallpaper.type) {
         case InstalledType.VideoWallpaper:
-            loader.source = "qrc:/qml/WebView.qml";
-            break;
+            if (Wallpaper.videoCodec === VideoCodec.Unknown) {
+                Wallpaper.terminate()
+            }
+            // macOS only supports h264 via the native Qt MM
+            if (Qt.platform === "osx" && (Wallpaper.videoCodec === VideoCodec.VP8
+                    || Wallpaper.videoCodec === VideoCodec.VP9)) {
+                loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml"
+            } else {
+                loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
+            }
+            fadeIn()
+            break
         case InstalledType.HTMLWallpaper:
-            loader.setSource("qrc:/qml/WebView.qml", {
-                "url": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
-            });
-            break;
+            loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
+                                 "url": Qt.resolvedUrl(
+                                            Wallpaper.projectSourceFileAbsolute)
+                             })
+            break
         case InstalledType.QMLWallpaper:
-            loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute);
-            fadeIn();
-            break;
+            loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
+            fadeIn()
+            break
         case InstalledType.WebsiteWallpaper:
-            loader.setSource("qrc:/qml/WebsiteWallpaper.qml", {
-                "url": Wallpaper.projectSourceFileAbsolute
-            });
-            fadeIn();
-            break;
+            loader.setSource(
+                        "qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
+                            "url": Wallpaper.projectSourceFileAbsolute
+                        })
+            fadeIn()
+            break
         case InstalledType.GifWallpaper:
-            loader.setSource("qrc:/qml/GifWallpaper.qml", {
-                "source": Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
-            });
-            fadeIn();
-            break;
+            loader.setSource("qrc:/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
+                                 "source": Qt.resolvedUrl(
+                                               Wallpaper.projectSourceFileAbsolute)
+                             })
+            fadeIn()
+            break
         }
     }
 
@@ -66,7 +81,7 @@ Rectangle {
         }
 
         function onQmlSceneValueReceived(key, value) {
-            var obj2 = 'import QtQuick 2.0; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }';
+            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }';
             var newObject = Qt.createQmlObject(obj2.toString(), root, "err");
             newObject.destroy(10000);
         }
@@ -85,7 +100,7 @@ Rectangle {
         }
 
         // This function only gets called here (the same function
-        // is inside the WebView.qml) when the previous Wallpaper type
+        // is inside the MultimediaWebView.qml) when the previous Wallpaper type
         // was not a video
         function onReloadVideo(oldType) {
             // We need to check if the old type
@@ -93,8 +108,7 @@ Rectangle {
             if (oldType === InstalledType.VideoWallpaper)
                 return ;
 
-            imgCover.state = "showDefaultBackgroundImage";
-            loader.source = "qrc:/qml/WebView.qml";
+            loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml";
         }
 
         target: Wallpaper
@@ -106,11 +120,11 @@ Rectangle {
         anchors.fill: parent
         // QML Engine deadlocks in 5.15.2 when a loader cannot load
         // an item. QApplication::quit(); waits for the destruction forever.
-        asynchronous: true
+        //asynchronous: true
         onStatusChanged: {
             if (loader.status === Loader.Error) {
                 loader.source = "";
-                Wallpaper.terminate();
+               // Wallpaper.terminate();
             }
         }
 

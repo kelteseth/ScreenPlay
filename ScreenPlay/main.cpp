@@ -36,7 +36,8 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
-#include <QtWebEngine/QtWebEngine>
+#include <QtWebEngineQuick>
+
 #include <sentry.h>
 #define DOCTEST_CONFIG_IMPLEMENT
 #define DOCTEST_CONFIG_SUPER_FAST_ASSERTS
@@ -44,11 +45,9 @@
 
 int main(int argc, char* argv[])
 {
-    Q_INIT_RESOURCE(ScreenPlayQML);
-    Q_INIT_RESOURCE(ScreenPlayAssets);
+    Q_INIT_RESOURCE(Resources);
 
-    QtWebEngine::initialize();
-    QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
+    QtWebEngineQuick::initialize();
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication qtGuiApp(argc, argv);

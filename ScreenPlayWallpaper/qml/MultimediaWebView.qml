@@ -1,12 +1,14 @@
-import QtQuick 2.0
-import QtWebEngine 1.8
+import QtQuick
+import QtWebEngine
 import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlayWallpaper 1.0
 
+
+/*!
+  * The native macOS multimedia stack does not support VP8/VP9. For this we must use the WebEngine.
+  */
 Item {
     id: root
-
-    property alias url: webView.url
 
     signal requestFadeIn
 
@@ -21,6 +23,7 @@ Item {
         src += "videoPlayer.volume = " + Wallpaper.volume + ";"
         src += "videoPlayer.setAttribute('style', 'object-fit :" + Wallpaper.fillMode + ";');"
         src += "videoPlayer.play();"
+        print(src)
         return src
     }
 
@@ -37,20 +40,16 @@ Item {
 
     WebEngineView {
         id: webView
-
         anchors.fill: parent
-        url: "qrc:/index.html"
-        backgroundColor: "transparent"
-        onJavaScriptConsoleMessage: print(lineNumber, message)
+        url: Qt.resolvedUrl("file://"+ Wallpaper.getApplicationPath() + "/index.html")
+        onJavaScriptConsoleMessage: (lineNumber, message) => print(lineNumber,
+                                                                   message)
         onLoadProgressChanged: {
-            if ((loadProgress === 100)) {
-                if (Wallpaper.type === InstalledType.VideoWallpaper)
-                    webView.runJavaScript(root.getSetVideoCommand(),
-                                          function (result) {
-                                              requestFadeIn()
-                                          })
-                else
-                    requestFadeIn()
+            if (loadProgress === 100) {
+                webView.runJavaScript(root.getSetVideoCommand(),
+                                      function (result) {
+                                          requestFadeIn()
+                                      })
             }
         }
     }

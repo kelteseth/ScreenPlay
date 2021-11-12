@@ -1,8 +1,8 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
-import QtGraphicalEffects 1.0
-import QtQuick.Controls.Material.impl 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0
 import "../Workshop"
 import "../Common"
@@ -80,7 +80,7 @@ Rectangle {
             name: "Create"
             text: qsTr("Create")
             iconSource: "qrc:/assets/icons/icon_plus.svg"
-            onPageClicked: root.onPageChanged(name)
+            onPageClicked: (name)=> {root.onPageChanged(name)}
             objectName: "createTab"
         }
 
@@ -91,7 +91,7 @@ Rectangle {
             name: "Workshop"
             text: qsTr("Workshop")
             iconSource: "qrc:/assets/icons/icon_steam.svg"
-            onPageClicked: root.onPageChanged(name)
+            onPageClicked: (name)=> {root.onPageChanged(name)}
             objectName: "workshopTab"
         }
 
@@ -103,7 +103,7 @@ Rectangle {
             text: qsTr("Installed")
             amount: ScreenPlay.installedListModel.count
             iconSource: "qrc:/assets/icons/icon_installed.svg"
-            onPageClicked: root.onPageChanged(name)
+            onPageClicked: (name)=> {root.onPageChanged(name)}
             objectName: "installedTab"
         }
 
@@ -114,7 +114,7 @@ Rectangle {
             name: "Community"
             text: qsTr("Community")
             iconSource: "qrc:/assets/icons/icon_community.svg"
-            onPageClicked: root.onPageChanged(name)
+            onPageClicked: (name)=> {root.onPageChanged(name)}
             objectName: "communityTab"
         }
 
@@ -125,7 +125,7 @@ Rectangle {
             name: "Settings"
             text: qsTr("Settings")
             iconSource: "qrc:/assets/icons/icon_settings.svg"
-            onPageClicked: root.onPageChanged(name)
+            onPageClicked: (name)=> {root.onPageChanged(name)}
             objectName: "settingsTab"
         }
 

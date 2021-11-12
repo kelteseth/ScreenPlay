@@ -96,6 +96,7 @@ private:
     bool searchWorkerWindowToParentTo();
     void configureWindowGeometry();
     float getScaling(const int monitorIndex);
+    bool hasWindowScaling();
 
 private slots:
     void checkForFullScreenWindow();

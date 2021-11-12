@@ -1,10 +1,9 @@
-import QtQuick 2.12
-import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.12
-import QtQuick.Extras 1.4
-import QtQuick.Layouts 1.12
-import QtQuick.Controls.Material 2.12
-import QtQuick.Controls.Material.impl 2.12
+import QtQuick
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
+import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0
 import ScreenPlay.Enums.FillMode 1.0
 import ScreenPlay.Enums.InstalledType 1.0

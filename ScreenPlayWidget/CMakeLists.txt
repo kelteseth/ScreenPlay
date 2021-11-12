@@ -4,74 +4,53 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
-find_package(QT NAMES Qt6 Qt5 COMPONENTS Core)
-set(src main.cpp src/widgetwindow.cpp)
+set(SOURCES # cmake-format: sortable
+            main.cpp src/widgetwindow.cpp)
 
-set(headers src/widgetwindow.h)
+set(HEADER # cmake-format: sortable
+           src/widgetwindow.h)
 
-if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
-    find_package(
-        Qt${QT_VERSION_MAJOR}
-        COMPONENTS Core
-                   Quick
-                   Gui
-                   Widgets
-                   WebSockets
-                   Svg
-                   WebEngineCore
-                   WebEngineQuick
-                   WebChannel
-                   Positioning)
+set(QML # cmake-format: sortable
+        qml/Test.qml qml/Widget.qml)
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-        qt_add_resources(resources SPWidgetResources.qrc)
-    else()
-        qtquick_compiler_add_resources(resources SPWidgetResources.qrc)
-    endif()
+find_package(
+    Qt6
+    COMPONENTS Core
+               Quick
+               Gui
+               Widgets
+               WebSockets
+               Svg
+               WebEngineCore
+               WebEngineQuick
+               WebChannel
+               Positioning)
 
-    add_executable(${PROJECT_NAME} ${src} ${headers} ${resources})
+qt_add_resources(RESOURCES Resources.qrc)
 
-    target_link_libraries(
-        ${PROJECT_NAME}
-        PRIVATE Qt${QT_VERSION_MAJOR}::Quick
-                Qt${QT_VERSION_MAJOR}::Gui
-                Qt${QT_VERSION_MAJOR}::Widgets
-                Qt${QT_VERSION_MAJOR}::Core
-                Qt${QT_VERSION_MAJOR}::WebSockets
-                Qt${QT_VERSION_MAJOR}::Svg
-                Qt6::WebEngineCore
-                Qt6::WebEngineQuick)
-else()
-    find_package(
-        Qt${QT_VERSION_MAJOR}
-        COMPONENTS Core
-                   Quick
-                   Gui
-                   Widgets
-                   WebSockets
-                   Svg
-                   WebEngine)
+qt_add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER} ${RESOURCES})
 
-    if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR CMAKE_BUILD_TYPE STREQUAL "RelWithDebInfo")
-        qt_add_resources(resources SPWidgetResources.qrc)
-    else()
-        qtquick_compiler_add_resources(resources SPWidgetResources.qrc)
-    endif()
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE ScreenPlaySDK
+            ScreenPlayUtil
+            Qt6::Quick
+            Qt6::Gui
+            Qt6::Widgets
+            Qt6::Core
+            Qt6::WebSockets
+            Qt6::Svg
+            Qt6::WebEngineCore
+            Qt6::WebEngineQuick)
 
-    add_executable(${PROJECT_NAME} ${src} ${headers} ${resources})
-
-    target_link_libraries(
-        ${PROJECT_NAME}
-        PRIVATE Qt${QT_VERSION_MAJOR}::Quick
-                Qt${QT_VERSION_MAJOR}::Gui
-                Qt${QT_VERSION_MAJOR}::Widgets
-                Qt${QT_VERSION_MAJOR}::Core
-                Qt${QT_VERSION_MAJOR}::WebSockets
-                Qt${QT_VERSION_MAJOR}::Svg
-                Qt5::WebEngine)
-endif()
-
-target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySDK ScreenPlayUtil)
+qt_add_qml_module(
+    ${PROJECT_NAME}
+    URI
+    ${PROJECT_NAME}
+    VERSION
+    1.0
+    QML_FILES
+    ${QML})
 
 if(WIN32)
     # Disable console window on Windows

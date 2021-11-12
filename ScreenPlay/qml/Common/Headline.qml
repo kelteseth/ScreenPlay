@@ -1,5 +1,5 @@
-import QtQuick 2.14
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls.Material
 import ScreenPlay 1.0
 
 Item {
@@ -15,7 +15,6 @@ Item {
         font.pointSize: 18
         color: Material.primaryTextColor
         text: "Headline"
-        font.capitalization: Font.Capitalize
         font.family: ScreenPlay.settings.font
     }
 

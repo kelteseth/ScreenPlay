@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
 import QtQuick.Particles 2.12
 import QtQuick.Shapes 1.12
 import ScreenPlayWallpaper 1.0
@@ -19,7 +19,7 @@ Rectangle {
     //Image
     property real imgOpacity: 0.75
 
-    signal requestFadeIn()
+    signal requestFadeIn
 
     anchors.fill: parent
     color: Material.color(Material.Grey, Material.Shade800)
@@ -28,15 +28,15 @@ Rectangle {
     Component.onCompleted: root.requestFadeIn()
 
     MouseArea {
-        // setPosition()
 
+        // setPosition()
         id: ma
 
         function setPosition() {
-            attractor.pointX = mouseX - 25;
-            attractor.pointY = mouseY - 25;
-            mouseDot.x = mouseX - mouseDot.center;
-            mouseDot.y = mouseY - mouseDot.center;
+            attractor.pointX = mouseX - 25
+            attractor.pointY = mouseY - 25
+            mouseDot.x = mouseX - mouseDot.center
+            mouseDot.y = mouseY - mouseDot.center
         }
 
         anchors.fill: parent
@@ -44,13 +44,14 @@ Rectangle {
         propagateComposedEvents: true
         hoverEnabled: true
         Component.onCompleted: {
-            attractor.pointX = parent.width * 0.5;
-            attractor.pointY = parent.height * 0.5;
+            attractor.pointX = parent.width * 0.5
+            attractor.pointY = parent.height * 0.5
         }
         onPositionChanged: {
-            setPosition();
+            setPosition()
         }
         onClicked: {
+
         }
     }
 
@@ -104,7 +105,6 @@ Rectangle {
             magnitudeVariation: 25
             angleVariation: 10
         }
-
     }
 
     ImageParticle {
@@ -132,7 +132,6 @@ Rectangle {
             bottom: txtButtonConter.top
             bottomMargin: 20
         }
-
     }
 
     Text {
@@ -152,7 +151,6 @@ Rectangle {
             bottom: name.top
             bottomMargin: 20
         }
-
     }
 
     Text {
@@ -181,10 +179,10 @@ Rectangle {
             highlighted: true
             text: qsTr("Click me! - 1")
             onClicked: {
-                focus = false;
-                focus = true;
-                print("Button Clicked!");
-                txtButtonConter.counter = txtButtonConter.counter - 1;
+                focus = false
+                focus = true
+                print("Button Clicked!")
+                txtButtonConter.counter = txtButtonConter.counter - 1
             }
         }
 
@@ -192,10 +190,10 @@ Rectangle {
             highlighted: true
             text: qsTr("Exit Wallpaper")
             onClicked: {
-                focus = false;
-                focus = true;
-                print("Exit Wallpaper");
-                Wallpaper.terminate();
+                focus = false
+                focus = true
+                print("Exit Wallpaper")
+                Wallpaper.terminate()
             }
         }
 
@@ -204,24 +202,32 @@ Rectangle {
             focusPolicy: Qt.ClickFocus
             text: qsTr("Click me! +1")
             onClicked: {
-                print("Button Clicked!");
-                txtButtonConter.counter = txtButtonConter.counter + 1;
+                print("Button Clicked!")
+                txtButtonConter.counter = txtButtonConter.counter + 1
             }
         }
-
     }
 
-    WebView {
+    //    WebView {
+    //        width: 1000
+    //        height: 400
+    //        url: "https://screen-play.app"
+
+    //        anchors {
+    //            horizontalCenter: parent.horizontalCenter
+    //            bottom: parent.bottom
+    //            bottomMargin: 50
+    //        }
+
+    //    }
+    MultimediaView {
         width: 1000
         height: 400
-        url: "https://screen-play.app"
 
         anchors {
             horizontalCenter: parent.horizontalCenter
             bottom: parent.bottom
             bottomMargin: 50
         }
-
     }
-
 }

@@ -1,7 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.3
-import QtQuick.Controls.Styles 1.4
-import QtGraphicalEffects 1.0
+import QtQuick
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
 import Workshop 1.0 as SP
 
 Item {
@@ -36,7 +35,7 @@ Item {
         active: false
         z: 99
         anchors.fill: parent
-        source: "qrc:/qml/Installed/InstalledUserHelper.qml"
+        source: "qrc:/ScreenPlay/qml/Installed/InstalledUserHelper.qml"
     }
 
     transitions: [

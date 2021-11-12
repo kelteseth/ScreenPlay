@@ -38,6 +38,21 @@ CreateImportVideo::CreateImportVideo(
     m_videoPath = videoPath;
     m_exportPath = exportPath;
     m_codec = codec;
+    setupFFMPEG();
+}
+
+CreateImportVideo::CreateImportVideo(const QString& videoPath, const QString& exportPath, std::atomic<bool>& interrupt)
+    : QObject(nullptr)
+    , m_quality(0)
+    , m_interrupt(interrupt)
+{
+    m_videoPath = videoPath;
+    m_exportPath = exportPath;
+    setupFFMPEG();
+}
+
+void CreateImportVideo::setupFFMPEG()
+{
     m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe" + ScreenPlayUtil::executableBinEnding();
     m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg" + ScreenPlayUtil::executableBinEnding();
 
@@ -506,7 +521,7 @@ bool CreateImportVideo::createWallpaperVideo()
         if (tmpOut.contains("Conversion failed!")) {
             emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::ConvertingVideoError);
         }
-        const auto tmpList = tmpOut.split(QRegExp("\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
+        const auto tmpList = tmpOut.split(QRegularExpression("\\s+"), Qt::SplitBehaviorFlags::SkipEmptyParts);
 
         if (tmpList.length() > 2) {
             bool ok = false;

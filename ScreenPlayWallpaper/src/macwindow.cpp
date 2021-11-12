@@ -46,7 +46,7 @@ MacWindow::MacWindow(
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::Desktop);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
-    m_window.setSource(QUrl("qrc:/qml/Wallpaper.qml"));
+    m_window.setSource(QUrl("qrc:/ScreenPlayWallpaper/qml/Wallpaper.qml"));
 
     MacIntegration* macIntegration = new MacIntegration(this);
     macIntegration->SetBackgroundLevel(&m_window);

@@ -1,8 +1,7 @@
-import QtQuick 2.14
-import QtQuick.Controls 2.14
-import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import QtQuick.Controls
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material
 import ScreenPlay 1.0
 
 Rectangle {
@@ -168,15 +167,15 @@ Rectangle {
 
     }
 
-    layer.effect: InnerShadow {
-        cached: true
-        fast: true
-        smooth: true
-        radius: 32
-        spread: 0.8
-        verticalOffset: 3
-        color: "#55000000"
-    }
+//    layer.effect: InnerShadow {
+//        cached: true
+//        fast: true
+//        smooth: true
+//        radius: 32
+//        spread: 0.8
+//        verticalOffset: 3
+//        color: "#55000000"
+//    }
     // Width of the Sidebar or Space that should be used
 
 }

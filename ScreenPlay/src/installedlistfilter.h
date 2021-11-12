@@ -34,7 +34,7 @@
 
 #pragma once
 
-#include <QRegExp>
+#include <QRegularExpression>
 #include <QSortFilterProxyModel>
 #include <memory>
 

@@ -101,7 +101,8 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     initInstalledPath();
 
     setupWidgetAndWindowPaths();
-    setGitBuildHash(COMPILE_INFO);
+    const QString qtVersion = QString("Qt Version: %1.%2.%3").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH);
+    setGitBuildHash(COMPILE_INFO + qtVersion);
     setSteamVersion(!(QString(SCREENPLAY_STEAM).compare("OFF", Qt::CaseInsensitive) ? false : true));
 }
 
@@ -194,7 +195,7 @@ void Settings::restoreDefault(const QString& appConfigLocation, const QString& s
 
 void Settings::initInstalledPath()
 {
-    //If empty use steam workshop location
+    // If empty use steam workshop location
     if (QString(m_qSettings.value("ScreenPlayContentPath").toString()).isEmpty()) {
 
         /*
@@ -267,8 +268,12 @@ bool Settings::retranslateUI()
     QString langCode = fixLanguageCode(QVariant::fromValue(language()).toString());
 
     QFile tsFile;
-    if (tsFile.exists(":/translations/ScreenPlay_" + langCode + ".qm")) {
-        m_translator.load(":/translations/ScreenPlay_" + langCode + ".qm");
+    const QString qmPath = ":/translations/ScreenPlay_" + langCode + ".qm";
+    if (tsFile.exists(qmPath)) {
+        if (!m_translator.load(qmPath)) {
+            qWarning() << "Unable to load translation file: " << qmPath;
+            return false;
+        }
         auto* app = static_cast<QApplication*>(QApplication::instance());
         app->installTranslator(&m_translator);
         emit requestRetranslation();

@@ -3,7 +3,7 @@
 #include <QStringList>
 #include <QVector>
 #include <QtGlobal>
-#include <QtWebEngine/QtWebEngine>
+#include <QtWebEngineQuick>
 
 #include "ScreenPlayUtil/util.h"
 
@@ -17,9 +17,8 @@
 
 int main(int argc, char* argv[])
 {
-    //QApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
-    QtWebEngine::initialize();
+    QtWebEngineQuick::initialize();
 
     QApplication app(argc, argv);
 
@@ -33,8 +32,8 @@ int main(int argc, char* argv[])
     // For testing purposes when starting the ScreenPlayWallpaper directly.
     if (argumentList.length() == 1) {
 #if defined(Q_OS_WIN)
-        WinWindow window1({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
-        //WinWindow window1({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/_tmp_171806", "appID=test", "1", "fill", "videoWallpaper", true, true);
+        //WinWindow window1({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
+        WinWindow window1({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2453869686", "appID=test", "1", "fill", "videoWallpaper", true, true);
 #elif defined(Q_OS_LINUX)
         LinuxWindow window({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", false, true);
 #elif defined(Q_OS_OSX)

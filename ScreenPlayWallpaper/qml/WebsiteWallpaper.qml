@@ -1,5 +1,5 @@
-import QtQuick 2.14
-import QtWebEngine 1.8
+import QtQuick
+import QtWebEngine
 import ScreenPlayWallpaper 1.0
 
 Item {
@@ -24,7 +24,7 @@ Item {
         id: webView
 
         anchors.fill: parent
-        url: root.url
+        url: Qt.resolvedUrl(root.url)
         onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
             if ((loadProgress === 100))

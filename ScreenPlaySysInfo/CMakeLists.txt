@@ -5,17 +5,14 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
 find_package(infoware CONFIG REQUIRED)
+
 find_package(
-    QT NAMES Qt6 Qt5
+    Qt6
     COMPONENTS Quick Core
     REQUIRED)
 
-find_package(
-    Qt${QT_VERSION_MAJOR}
-    COMPONENTS Quick Core
-    REQUIRED)
-
-set(src
+set(SOURCES
+    # cmake-format: sortable
     screenplaysysinfo_plugin.cpp
     sysinfo.cpp
     cpu.cpp
@@ -24,7 +21,8 @@ set(src
     uptime.cpp
     gpu.cpp)
 
-set(headers
+set(HEADER
+    # cmake-format: sortable
     screenplaysysinfo_plugin.h
     sysinfo.h
     cpu.h
@@ -34,31 +32,10 @@ set(headers
     uptime.h
     gpu.h)
 
-add_library(${PROJECT_NAME} SHARED ${src} ${headers})
+add_library(${PROJECT_NAME} SHARED ${SOURCES} ${HEADER})
 
-# QML module deployment
-set(URI "ScreenPlay/Sysinfo")
-string(REPLACE "." "/" TARGETPATH ${URI})
-if(NOT DEFINED QT_QMAKE_EXECUTABLE)
-    get_target_property(QT_QMAKE_EXECUTABLE Qt${QT_VERSION_MAJOR}::qmake IMPORTED_LOCATION)
-    if(NOT QT_QMAKE_EXECUTABLE)
-        message(FATAL_ERROR "Cannot find qmake")
-    endif()
-endif()
+qt_add_qml_module(${PROJECT_NAME} URI ${PROJECT_NAME} VERSION 1.0)
 
-execute_process(COMMAND ${QT_QMAKE_EXECUTABLE} -query QT_INSTALL_QML OUTPUT_VARIABLE QT_INSTALL_QML_RAW)
-string(STRIP ${QT_INSTALL_QML_RAW} QT_INSTALL_QML)
-set(DESTDIR "${QT_INSTALL_QML}/${TARGETPATH}")
-message("DESTDIR ${DESTDIR}")
+target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-file(MAKE_DIRECTORY ${DESTDIR})
-
-configure_file(qmldir ${DESTDIR} COPYONLY)
-
-# Copies ScreenPlaySysInfo.* into qt qml plugins folder
-add_custom_command(
-    TARGET ${PROJECT_NAME}
-    POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:ScreenPlaySysInfo> ${DESTDIR}/$<TARGET_FILE_NAME:ScreenPlaySysInfo>)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt${QT_VERSION_MAJOR}::Core Qt${QT_VERSION_MAJOR}::Quick infoware)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick infoware)

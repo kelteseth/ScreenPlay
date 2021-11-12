@@ -1,6 +1,6 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Controls.Material 2.3
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
 import ScreenPlay 1.0
 
 Item {

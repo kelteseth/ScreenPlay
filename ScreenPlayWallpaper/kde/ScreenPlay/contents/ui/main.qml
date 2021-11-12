@@ -1,8 +1,8 @@
-import QtQuick 2.11
-import QtGraphicalEffects 1.0
-import QtQuick.Window 2.0
+import QtQuick
+import Qt5Compat.GraphicalEffects
+import QtQuick.Window
 import Qt.WebSockets 1.15
-import QtWebEngine 1.8
+import QtWebEngine
 
 Rectangle {
     id: root

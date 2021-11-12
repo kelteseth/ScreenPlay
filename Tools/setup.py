@@ -42,6 +42,7 @@ if __name__ == "__main__":
         "sentry-native",
         "doctest",
         "benchmark",
+        "cpp-httplib"
     ]
 
     vcpkg_triplet = ""

@@ -45,12 +45,12 @@ if not args.build_type:
     print("Build type argument is missing (release,debug). Example: python build.py -t release -steam=True")
     sys.exit(1)
 
+qt_version = "6.2.0"
 steam_build = "OFF"
 if args.steam_build:
     if args.steam_build:
         steam_build =  "ON"
 
-qt_version = "5.15.2"
 print("Starting build with type %s. Qt Version: %s" %
       (args.build_type, qt_version))
 

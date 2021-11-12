@@ -1,5 +1,7 @@
 #include "app.h"
 
+#include "steam/steam_qt_enums_generated.h"
+
 namespace ScreenPlay {
 /*!
     \module ScreenPlay
@@ -58,7 +60,7 @@ App::App()
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
-    QGuiApplication::setApplicationVersion("0.14.0");
+    QGuiApplication::setApplicationVersion("0.15.0");
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
     QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
@@ -95,6 +97,16 @@ App::App()
     qRegisterMetaType<InstalledListFilter*>();
     qRegisterMetaType<MonitorListModel*>();
     qRegisterMetaType<ProfileListModel*>();
+
+
+    // TODO: This is a workaround because I don't know how to
+    //       init this in the ScreenPlayWorkshop plugin.
+    //       Move to workshop plugin.
+    qmlRegisterUncreatableMetaObject(ScreenPlayWorkshopSteamEnums::staticMetaObject,
+        "WorkshopEnums",
+        1, 0,
+        "SteamEnums",
+        "Error: only enums");
 
     // Registers the enums from globalvariables.
     // Apparently this is the only way for qml to work
@@ -202,7 +214,7 @@ void App::init()
     // Needed for macos .app files
     m_mainWindowEngine->addPluginPath(QGuiApplication::instance()->applicationDirPath());
 #endif
-    m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/main.qml")));
+    m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/ScreenPlay/main.qml")));
 
     // Must be called last to display a error message on startup by the qml engine
     m_screenPlayManager->init(m_globalVariables, m_monitorListModel, m_settings);

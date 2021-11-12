@@ -40,8 +40,8 @@
 #include <QDebug>
 #include <QDir>
 #include <QGuiApplication>
+#include <QQuickItem>
 #include <QtTest>
-#include <QtWebEngine>
 #define DOCTEST_CONFIG_IMPLEMENT
 #define DOCTEST_CONFIG_SUPER_FAST_ASSERTS
 #include <doctest/doctest.h>
@@ -54,7 +54,6 @@ private slots:
     {
         Q_INIT_RESOURCE(ScreenPlayQML);
         Q_INIT_RESOURCE(ScreenPlayAssets);
-
 
         app.init();
         m_window = qobject_cast<QQuickWindow*>(app.mainWindowEngine()->rootObjects().first());

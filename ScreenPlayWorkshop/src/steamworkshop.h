@@ -13,6 +13,7 @@
 #include <QTimer>
 #include <QUrl>
 #include <QtConcurrent/QtConcurrent>
+#include <QtQml>
 
 // Steam
 #include "cstring"
@@ -40,6 +41,7 @@ struct SteamItemUpdate {
 class SteamWorkshop : public QObject {
     Q_OBJECT
 
+    QML_NAMED_ELEMENT(SteamWorkshop)
     Q_PROPERTY(bool online READ online WRITE setOnline NOTIFY onlineChanged)
     Q_PROPERTY(unsigned long long itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
     Q_PROPERTY(unsigned long long bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)

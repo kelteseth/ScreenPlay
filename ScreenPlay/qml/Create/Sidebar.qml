@@ -1,10 +1,10 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.12
-import QtQuick.Controls.Material 2.12
-import QtQuick.Particles 2.0
-import QtGraphicalEffects 1.0
-import QtQuick.Controls.Material.impl 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
+import QtQuick.Particles
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
@@ -25,69 +25,6 @@ Rectangle {
     color: Material.background
 
     ListView {
-
-
-        /*
-            ListElement {
-                headline: qsTr("QML Particle Wallpaper")
-                source: ""
-                category: "Example Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("Countdown Clock Wallpaper")
-                source: ""
-                category: "Example Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("QML Water Shader Wallpaper")
-                source: ""
-                category: "Example Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("QML Shadertoy Shader Wallpaper")
-                source: ""
-                category: "Example Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("QML Lightning Shader Wallpaper")
-                source: ""
-                category: "Example Wallpaper"
-            }
-
-            ListElement {
-                headline: qsTr("Clock Widget")
-                source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                category: "Example Widget"
-            }
-
-            ListElement {
-                headline: qsTr("CPU Widget")
-                source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                category: "Example Widget"
-            }
-
-            ListElement {
-                headline: qsTr("Storage Widget")
-                source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                category: "Example Widget"
-            }
-
-            ListElement {
-                headline: qsTr("RAM Widget")
-                source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                category: "Example Widget"
-            }
-
-            ListElement {
-                headline: qsTr("XKCD Widget")
-                source: "qrc:/qml/Create/Wizards/CreateEmptyWidget/CreateEmptyWidget.qml"
-                category: "Example Widget"
-            }
-            */
         id: listView
         objectName: "wizardsListView"
 
@@ -106,7 +43,7 @@ Rectangle {
             function onWizardExited() {
                 root.expanded = true
                 stackView.clear(StackView.PushTransition)
-                stackView.push("qrc:/qml/Create/StartInfo.qml")
+                stackView.push("qrc:/ScreenPlay/qml/Create/StartInfo.qml")
                 listView.currentIndex = 0
                 ScreenPlay.util.setNavigationActive(true)
             }
@@ -117,63 +54,70 @@ Rectangle {
         model: ListModel {
             ListElement {
                 headline: qsTr("Tools Overview")
-                source: "qrc:/qml/Create/StartInfo.qml"
+                source: "qrc:/ScreenPlay/qml/Create/StartInfo.qml"
                 category: "Home"
                 objectName: ""
             }
 
             ListElement {
-                headline: qsTr("Video import and convert (all types)")
-                source: "qrc:/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
-                category: "Video Wallpaper"
-                objectName: "videoImportConvert"
-            }
-
-            ListElement {
-                headline: qsTr("Video Import (.webm)")
-                source: "qrc:/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
+                headline: qsTr("Video Import h264 (.mp4)")
+                source: "qrc:/ScreenPlay/qml/Create/Wizards/Importh264/Importh264.qml"
                 category: "Video Wallpaper"
                 objectName: ""
             }
 
             ListElement {
+                headline: qsTr("Video Import VP8 & VP9 (.webm)")
+                source: "qrc:/ScreenPlay/qml/Create/Wizards/ImportWebm/ImportWebm.qml"
+                category: "Video Wallpaper"
+                objectName: ""
+            }
+
+            ListElement {
+                headline: qsTr("Video import (all types)")
+                source: "qrc:/ScreenPlay/qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml"
+                category: "Video Wallpaper"
+                objectName: "videoImportConvert"
+            }
+
+            ListElement {
                 headline: qsTr("GIF Wallpaper")
-                source: "qrc:/qml/Create/Wizards/GifWallpaper.qml"
+                source: "qrc:/ScreenPlay/qml/Create/Wizards/GifWallpaper.qml"
                 category: "Video Wallpaper"
                 objectName: ""
             }
 
             ListElement {
                 headline: qsTr("QML Wallpaper")
-                source: "qrc:/qml/Create/Wizards/QMLWallpaper.qml"
+                source: "qrc:/ScreenPlay/qml/Create/Wizards/QMLWallpaper.qml"
                 category: "Code Wallpaper"
                 objectName: ""
             }
 
             ListElement {
                 headline: qsTr("HTML5 Wallpaper")
-                source: "qrc:/qml/Create/Wizards/HTMLWallpaper.qml"
+                source: "qrc:/ScreenPlay/qml/Create/Wizards/HTMLWallpaper.qml"
                 category: "Code Wallpaper"
                 objectName: ""
             }
 
             ListElement {
                 headline: qsTr("Website Wallpaper")
-                source: "qrc:/qml/Create/Wizards/WebsiteWallpaper.qml"
+                source: "qrc:/ScreenPlay/qml/Create/Wizards/WebsiteWallpaper.qml"
                 category: "Code Wallpaper"
                 objectName: ""
             }
 
             ListElement {
                 headline: qsTr("QML Widget")
-                source: "qrc:/qml/Create/Wizards/QMLWidget.qml"
+                source: "qrc:/ScreenPlay/qml/Create/Wizards/QMLWidget.qml"
                 category: "Code Widgets"
                 objectName: ""
             }
 
             ListElement {
                 headline: qsTr("HTML Widget")
-                source: "qrc:/qml/Create/Wizards/HTMLWidget.qml"
+                source: "qrc:/ScreenPlay/qml/Create/Wizards/HTMLWidget.qml"
                 category: "Code Widgets"
                 objectName: ""
             }

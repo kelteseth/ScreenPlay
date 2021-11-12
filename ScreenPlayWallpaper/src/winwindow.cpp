@@ -107,8 +107,8 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
     if (type == QMouseEvent::Type::MouseButtonPress) {
     }
     QTimer::singleShot(100, [&]() {
-        //auto eventPress = QMouseEvent(QMouseEvent::Type::MouseButtonPress, g_LastMousePosition, mouseButton, mouseButtons, {});
-        //qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventPress) << g_globalOffset.x() << g_globalOffset.y();
+        // auto eventPress = QMouseEvent(QMouseEvent::Type::MouseButtonPress, g_LastMousePosition, mouseButton, mouseButtons, {});
+        // qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventPress) << g_globalOffset.x() << g_globalOffset.y();
         auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, mouseButton, mouseButtons, {});
         QApplication::sendEvent(g_winGlobalHook, &eventRelease);
     });
@@ -175,6 +175,13 @@ WinWindow::WinWindow(
     connect(this, &BaseWindow::reloadQML, this, [this]() {
         clearComponentCache();
     });
+    connect(
+        &m_window, &QQuickView::statusChanged,
+        this, [](auto status) {
+            if (status == QQuickView::Status::Error)
+                QCoreApplication::exit(-1);
+        },
+        Qt::QueuedConnection);
     connect(guiAppInst, &QApplication::screenAdded, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QApplication::screenRemoved, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QApplication::primaryScreenChanged, this, &WinWindow::configureWindowGeometry);
@@ -217,14 +224,8 @@ WinWindow::WinWindow(
     qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
 
     configureWindowGeometry();
-    bool hasWindowScaling = false;
-    for (int i = 0; i < screens.count(); i++) {
-        if (getScaling(i) != 1) {
-            hasWindowScaling = true;
-            break;
-        }
-    }
-    if (hasWindowScaling) {
+
+    if (hasWindowScaling()) {
         qInfo() << "Monitor with scaling detected!";
         configureWindowGeometry();
     }
@@ -289,45 +290,27 @@ BOOL CALLBACK GetMonitorByIndex(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMo
 */
 void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
+
     const QRect screenRect = QApplication::screens().at(activeScreen)->geometry();
-
-    const float scaling = 1; //getScaling(activeScreen);
-    for (int i = 0; i < QApplication::screens().count(); i++) {
-        //   qInfo() << i << "scaling " << getScaling(i) << QApplication::screens().at(i)->geometry();
-    }
-
-    // qInfo() << activeScreen << "Monitor 0" << getScaling(0) << QApplication::screens().at(0)->geometry();
-    // qInfo() << activeScreen << "Monitor 1" << getScaling(1) << QApplication::screens().at(1)->geometry();
-
-    WinMonitorStats Monitors;
-    int width = std::abs(Monitors.rcMonitors[activeScreen].right - Monitors.rcMonitors[activeScreen].left);
-    int height = std::abs(Monitors.rcMonitors[activeScreen].top - Monitors.rcMonitors[activeScreen].bottom);
-    //qInfo() << "scaling " << scaling << width << height << " activeScreen " << activeScreen;
-    //qInfo() << "scaling " << scaling << screenRect.width() << screenRect.height() << " activeScreen " << activeScreen;
-
     const int boderWidth = 2;
-    const int borderOffset = -1;
-    // Needs to be set like to this work. I do not know why...
-    if (!SetWindowPos(
-            m_windowHandle,
-            nullptr,
-            Monitors.rcMonitors[activeScreen].left + borderOffset,
-            Monitors.rcMonitors[activeScreen].top + borderOffset,
-            width + boderWidth,
-            height + boderWidth,
-            SWP_HIDEWINDOW)) {
-        qFatal("Could not set window pos");
-    }
+    const float scaling = getScaling(activeScreen);
+    const auto width = screenRect.width() * scaling + boderWidth;
+    const auto height = screenRect.height() * scaling + boderWidth;
 
-    if (!SetWindowPos(
-            m_windowHandle,
-            nullptr,
-            screenRect.x() + m_zeroPoint.x() + borderOffset,
-            screenRect.y() + m_zeroPoint.y() + borderOffset,
-            screenRect.width() * scaling + boderWidth,
-            screenRect.height() * scaling + boderWidth,
-            SWP_HIDEWINDOW)) {
-        qFatal("Could not set window pos");
+    const int borderOffset = -1;
+    const int x = screenRect.x() + m_zeroPoint.x() + borderOffset;
+    const int y = screenRect.y() + m_zeroPoint.y() + borderOffset;
+
+    qInfo() << QString("Setup window activeScreen: %1 scaling: %2 x: %3 y: %4 width: %5 height: %6").arg(activeScreen).arg(scaling).arg(x).arg(y).arg(width).arg(height);
+
+    {
+        // Must be called twice for some reason when window has scaling...
+        if (!SetWindowPos(m_windowHandle, nullptr, x, y, width, height, SWP_HIDEWINDOW)) {
+            qFatal("Could not set window pos");
+        }
+        if (!SetWindowPos(m_windowHandle, nullptr, x, y, width, height, SWP_HIDEWINDOW)) {
+            qFatal("Could not set window pos");
+        }
     }
 
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
@@ -400,43 +383,47 @@ bool WinWindow::searchWorkerWindowToParentTo()
 }
 
 /*!
-  \brief Reads the logicalDotsPerInch and mapps them to scaling factors.
+  \brief Reads the physicalDotsPerInch and mapps them to scaling factors.
          This is needed to detect if the user has different monitors with
          different scaling factors.
 
-         screen->logicalDotsPerInch()
-         100% -> 96  -> 1
+         screen->physicalDotsPerInch()
+         100% -> 109  -> 1
          125% -> 120 -> 1.25
-         150% -> 144 -> 1.5
+         150% -> 161 -> 1.5
          ...
 */
 float WinWindow::getScaling(const int monitorIndex)
 {
     QScreen* screen = QApplication::screens().at(monitorIndex);
-    const int factor = screen->logicalDotsPerInch();
+    const int factor = screen->physicalDotsPerInch();
     switch (factor) {
-    case 96:
+    case 72:
         return 1;
-    case 120:
-        return 1.25;
-    case 144:
+    case 107:
         return 1.5;
-    case 168:
-        return 1.75;
-    case 192:
-        return 2;
-    case 216:
-        return 2.25;
-    case 240:
-        return 2.5;
-    case 288:
-        return 3;
-    case 336:
-        return 3.5;
+
+    case 109:
+        return 1;
+    case 161:
+        return 1;
     default:
         qWarning() << "Monitor with factor: " << factor << " detected! This is not supported!";
         return 1;
     }
+}
+/*!
+   \brief Returns true of at least one monitor has active scaling enabled.
+*/
+bool WinWindow::hasWindowScaling()
+{
+    const auto screens = QApplication::screens();
+    for (int i = 0; i < screens.count(); i++) {
+        if (getScaling(i) != 1) {
+            return true;
+        }
+    }
+    return false;
 }
 
 /*!
@@ -445,7 +432,7 @@ float WinWindow::getScaling(const int monitorIndex)
 */
 void WinWindow::configureWindowGeometry()
 {
-    ShowWindow(m_windowHandle, SW_HIDE);
+    setVisible(false);
 
     if (!searchWorkerWindowToParentTo()) {
         qFatal("No worker window found");
@@ -479,11 +466,10 @@ void WinWindow::configureWindowGeometry()
     setWidth(m_window.width());
     setHeight(m_window.height());
 
-    // Instead of setting "renderType: Text.NativeRendering" every time
-    // we can set it here once :)
+    // Instead of setting "renderType: Text.NativeRendering" every time  we can set it here once
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.setSource(QUrl("qrc:/qml/Wallpaper.qml"));
+    m_window.setSource(QUrl("qrc:/ScreenPlayWallpaper/qml/Wallpaper.qml"));
     m_window.hide();
 }
 

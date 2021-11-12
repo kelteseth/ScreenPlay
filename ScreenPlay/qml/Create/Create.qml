@@ -1,10 +1,10 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.15
-import QtQuick.Layouts 1.12
-import QtQuick.Controls.Material 2.12
-import QtQuick.Particles 2.0
-import QtGraphicalEffects 1.0
-import QtQuick.Controls.Material.impl 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Controls.Material
+import QtQuick.Particles
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
@@ -14,7 +14,7 @@ Item {
 
     Component.onCompleted: {
         wizardContentWrapper.state = "in";
-        stackView.push("qrc:/qml/Create/StartInfo.qml");
+        stackView.push("qrc:/ScreenPlay/qml/Create/StartInfo.qml");
     }
 
     Sidebar {

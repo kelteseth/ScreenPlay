@@ -1,14 +1,14 @@
-import QtQuick 2.0
-import Qt.labs.platform 1.0
+import QtQuick
+import Qt.labs.platform 1.1
 import ScreenPlay 1.0
 
 SystemTrayIcon {
     id: root
 
     visible: true
-    iconSource: "qrc:/assets/icons/app.ico"
+    icon.source: "qrc:/assets/icons/app.ico"
     tooltip: qsTr("ScreenPlay - Double click to change you settings.")
-    onActivated: {
+    onActivated: (reason)=>{
         switch (reason) {
         case SystemTrayIcon.Unknown:
             break;

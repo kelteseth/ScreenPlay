@@ -1,7 +1,7 @@
-import QtQuick 2.12
-import QtQuick.Controls.Material 2.12
-import QtGraphicalEffects 1.0
-import QtQuick.Particles 2.0
+import QtQuick
+import QtQuick.Controls.Material
+import Qt5Compat.GraphicalEffects
+import QtQuick.Particles
 
 Rectangle {
     id: element

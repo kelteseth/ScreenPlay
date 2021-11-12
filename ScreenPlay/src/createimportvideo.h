@@ -60,6 +60,7 @@ class CreateImportVideo : public QObject {
 
 public:
     explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, const QString& codec, const int quality, std::atomic<bool>& interrupt);
+    explicit CreateImportVideo(const QString& videoPath, const QString& exportPath, std::atomic<bool>& interrupt);
 
     float progress() const { return m_progress; }
 
@@ -124,7 +125,9 @@ private:
 
     bool analyzeWebmReadFrames(const QJsonObject& obj);
     bool analyzeVideo(const QJsonObject& obj);
+    void setupFFMPEG();
 
+private:
     QString m_ffprobeExecutable;
     QString m_ffmpegExecutable;
     std::unique_ptr<QProcess> m_process;

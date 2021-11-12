@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick
 
 MouseArea {
     anchors.fill: parent

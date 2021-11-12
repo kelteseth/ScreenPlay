@@ -1,10 +1,10 @@
-import QtQuick 2.12
-import QtQuick.Controls 2.12
-import QtQuick.Layouts 1.15
-import QtQuick.Controls.Material 2.12
-import QtQuick.Particles 2.0
-import QtGraphicalEffects 1.0
-import QtQuick.Controls.Material.impl 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts 
+import QtQuick.Controls.Material
+import QtQuick.Particles
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
@@ -16,7 +16,7 @@ Item {
     Common.Headline {
         id: headline
 
-        text: qsTr("Free Tools to create wallpaper")
+        text: qsTr("Free tools to help you to create wallpaper")
 
         anchors {
             top: parent.top
@@ -33,7 +33,7 @@ Item {
         color: Material.primaryTextColor
         font.pointSize: 12
         font.family: ScreenPlay.settings.font
-        text: qsTr("Below you can find tools to create wallaper beyond the tools that ScreenPlay provides for you!")
+        text: qsTr("Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!")
 
         anchors {
             top: headline.bottom

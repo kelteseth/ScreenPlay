@@ -1,9 +1,8 @@
-import QtQuick 2.14
-import QtQuick.Controls 2.14
-import QtQuick.Controls.Material 2.12
-import QtQuick.Controls.Styles 1.4
-import QtGraphicalEffects 1.0
-import QtQuick.Controls.Material.impl 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlay.Enums.SearchType 1.0
@@ -73,7 +72,7 @@ Item {
         active: false
         z: 99
         anchors.fill: parent
-        source: "qrc:/qml/Installed/InstalledWelcomeScreen.qml"
+        source: "qrc:/ScreenPlay/qml/Installed/InstalledWelcomeScreen.qml"
     }
 
     Connections {
@@ -244,7 +243,7 @@ Item {
             publishedFileID: m_publishedFileID
             itemIndex: index
             isScrolling: gridView.isScrolling
-            onOpenContextMenu: {
+            onOpenContextMenu: (position)=>{
                 // Set the menu to the current item informations
                 contextMenu.publishedFileID = delegate.publishedFileID;
                 contextMenu.absoluteStoragePath = delegate.absoluteStoragePath;

@@ -169,6 +169,91 @@ void Create::createWallpaperStart(QString videoPath, Create::VideoCodec codec, c
     m_createImportFutureWatcher.setFuture(m_createImportFuture);
 }
 
+void Create::importH264(QString videoPath)
+{
+    reset();
+    videoPath = ScreenPlayUtil::toLocal(videoPath);
+
+    const QDir installedDir = ScreenPlayUtil::toLocal(m_globalVariables->localStoragePath().toString());
+
+    // Create a temp dir so we can later alter it to the workshop id
+    const QDateTime date = QDateTime::currentDateTime();
+    const auto folderName = date.toString("ddMMyyyyhhmmss");
+    setWorkingDir(installedDir.path() + "/" + folderName);
+
+    if (!installedDir.mkdir(folderName)) {
+        qInfo() << "Unable to create folder with name: " << folderName << " at: " << installedDir;
+        emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CreateTmpFolderError);
+        emit abortCreateWallpaper();
+        return;
+    }
+
+    m_createImportFuture = QtConcurrent::run(QThreadPool::globalInstance(), [videoPath, this]() {
+        CreateImportVideo import(videoPath, workingDir(), m_interrupt);
+        QObject::connect(&import, &CreateImportVideo::createWallpaperStateChanged, this, &Create::createWallpaperStateChanged, Qt::ConnectionType::QueuedConnection);
+        QObject::connect(&import, &CreateImportVideo::abortAndCleanup, this, &Create::abortAndCleanup, Qt::ConnectionType::QueuedConnection);
+        QObject::connect(
+            &import, &CreateImportVideo::processOutput, this, [this](const QString text) {
+                appendFfmpegOutput(text + "\n");
+            },
+            Qt::ConnectionType::QueuedConnection);
+
+        if (!import.createWallpaperInfo() || m_interrupt) {
+            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit import.abortAndCleanup();
+            return;
+        }
+
+        qInfo() << "createWallpaperImageThumbnailPreview()";
+        if (!import.createWallpaperImageThumbnailPreview() || m_interrupt) {
+            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit import.abortAndCleanup();
+            return;
+        }
+
+        qInfo() << "createWallpaperImagePreview()";
+        if (!import.createWallpaperImagePreview() || m_interrupt) {
+            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit import.abortAndCleanup();
+            return;
+        }
+
+        // Skip preview convert for webm
+        if (!import.createWallpaperVideoPreview() || m_interrupt) {
+            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit import.abortAndCleanup();
+            return;
+        }
+
+        qInfo() << "createWallpaperGifPreview()";
+        if (!import.createWallpaperGifPreview() || m_interrupt) {
+            emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+            emit import.abortAndCleanup();
+            return;
+        }
+
+        // If the video has no audio we can skip the extraction
+        if (!import.m_skipAudio) {
+            qInfo() << "extractWallpaperAudio()";
+            if (!import.extractWallpaperAudio() || m_interrupt) {
+                emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Failed);
+                emit import.abortAndCleanup();
+                return;
+            }
+        }
+
+        emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::Finished);
+        return;
+    });
+
+    QObject::connect(&m_createImportFutureWatcher, &QFutureWatcherBase::finished, this, [this]() {
+        if (m_interrupt)
+            abortAndCleanup();
+    });
+
+    m_createImportFutureWatcher.setFuture(m_createImportFuture);
+}
+
 /*!
     \brief When converting of the wallpaper steps where successful.
 */
@@ -207,7 +292,7 @@ void Create::saveWallpaper(
     }
 
     QFileInfo filePathFile(filePath);
-    if (filePath.endsWith(".webm")) {
+    if (filePath.endsWith(".webm") || filePath.endsWith(".mp4")) {
         if (!QFile::copy(filePath, m_workingDir + "/" + filePathFile.fileName())) {
             qDebug() << "Could not copy" << filePath << " to " << m_workingDir + "/" + filePathFile.fileName();
             emit createWallpaperStateChanged(ImportVideoState::ImportVideoState::CopyFilesError);
@@ -221,8 +306,8 @@ void Create::saveWallpaper(
     obj.insert("description", description);
     obj.insert("title", title);
     obj.insert("youtube", youtube);
-    obj.insert("videoCodec", codec == Create::VideoCodec::VP8 ? "vp8" : "vp9");
-    obj.insert("file", filePathFile.completeBaseName() + ".webm");
+    obj.insert("videoCodec", QVariant::fromValue<VideoCodec>(codec).toString());
+    obj.insert("file", filePathFile.completeBaseName() + (codec == VideoCodec::H264 ? ".mp4" : ".webm"));
     obj.insert("previewGIF", "preview.gif");
     obj.insert("previewWEBM", "preview.webm");
     obj.insert("preview", previewImageFile.exists() ? previewImageFile.fileName() : "preview.jpg");

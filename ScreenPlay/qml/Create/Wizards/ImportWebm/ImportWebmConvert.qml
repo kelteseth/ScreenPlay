@@ -1,8 +1,8 @@
-import QtQuick 2.12
-import QtGraphicalEffects 1.0
-import QtQuick.Controls 2.2
-import QtQuick.Controls.Material 2.3
-import QtQuick.Layouts 1.12
+import QtQuick
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.Enums.ImportVideoState 1.0
@@ -197,7 +197,6 @@ Item {
                 id: txtConvertNumber
 
                 color: "white"
-                text: qsTr("")
                 font.pointSize: 21
                 font.family: ScreenPlay.settings.font
 

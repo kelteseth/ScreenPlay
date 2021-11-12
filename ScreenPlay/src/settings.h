@@ -220,13 +220,13 @@ public slots:
             QFile settingsPlist(homePath + "/Library/LaunchAgents/" + plistFileName);
             if (settingsPlist.exists()) {
                 if (!settingsPlist.remove()) {
-                    qCritical() << "Unable to remove: " << settingsPlist;
+                    qCritical() << "Unable to remove: " << settingsPlist.fileName();
                 }
             }
 
             settingsPlist.open(QIODevice::WriteOnly | QIODevice::Truncate);
             QTextStream out(&settingsPlist);
-            out.setCodec("UTF-8");
+            out.setEncoding(QStringConverter::Utf8);
             out << settingsPlistContent;
             settingsPlist.flush();
             settingsPlist.close();

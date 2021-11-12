@@ -44,6 +44,7 @@ namespace ScreenPlayUtil {
 QJsonArray fillArray(const QVector<QString>& items);
 ScreenPlay::SearchType::SearchType getSearchTypeFromInstalledType(const ScreenPlay::InstalledType::InstalledType type);
 std::optional<ScreenPlay::InstalledType::InstalledType> getInstalledTypeFromString(const QString& type);
+std::optional<ScreenPlay::VideoCodec::VideoCodec> getVideoCodecFromString(const QString& type);
 std::optional<QJsonObject> parseQByteArrayToQJsonObject(const QByteArray& byteArray);
 std::optional<QJsonObject> openJsonFileToObject(const QString& path);
 std::optional<QString> openJsonFileToString(const QString& path);

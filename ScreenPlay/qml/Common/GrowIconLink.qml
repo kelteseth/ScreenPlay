@@ -1,6 +1,6 @@
-import QtQuick 2.0
-import QtGraphicalEffects 1.0
-import QtQuick.Controls.Material 2.12
+import QtQuick
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material
 
 Rectangle {
     id: root

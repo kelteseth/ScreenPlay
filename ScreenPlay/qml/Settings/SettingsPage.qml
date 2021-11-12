@@ -1,10 +1,9 @@
-import QtQuick 2.14
-import QtQuick.Controls 2.14
-import QtQuick.Controls.Material 2.12
-import QtQuick.Dialogs 1.2
-import QtQuick.Layouts 1.3
-import QtGraphicalEffects 1.0
-import QtQuick.Controls.Material.impl 2.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import QtQuick.Layouts
+import Qt5Compat.GraphicalEffects
+import QtQuick.Controls.Material.impl
 
 Page {
     width: parent.width

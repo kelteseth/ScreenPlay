@@ -115,9 +115,7 @@
         <file>legal/lgpl-2.1.txt</file>
         <file>profiles.json</file>
         <file>qtquickcontrols2.conf</file>
-        <file>translations/ScreenPlay_zh_cn.qm</file>
         <file>assets/images/Early_Access.png</file>
-        <file>translations/ScreenPlay_pt_br.qm</file>
         <file>assets/icons/icon_sort-up-solid.svg</file>
         <file>assets/icons/icon_sort-down-solid.svg</file>
         <file>assets/icons/brand_reddit.svg</file>
@@ -148,5 +146,7 @@
         <file>translations/ScreenPlay_nl_NL.ts</file>
         <file>translations/ScreenPlay_it_IT.qm</file>
         <file>translations/ScreenPlay_it_IT.ts</file>
+        <file>qml/Create/WizardsFiles/HTMLWallpaperMain.html</file>
+        <file>qml/Create/WizardsFiles/HTMLWidgetMain.html</file>
     </qresource>
 </RCC>

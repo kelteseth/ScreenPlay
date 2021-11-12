@@ -1,9 +1,10 @@
-import QtQuick 2.13
-import QtQuick.Controls 2.13
-import QtQuick.Controls.Material 2.13
-import QtGraphicalEffects 1.0
-import QtQuick.Layouts 1.12
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Controls.Material
+import Qt5Compat.GraphicalEffects
+import QtQuick.Layouts
 import Workshop 1.0
+import WorkshopEnums 1.0
 import ScreenPlay 1.0
 import "upload/"
 import "../Common" as Common
@@ -273,7 +274,7 @@ Item {
                         text: qsTr("Profile")
                         onClicked: {
                             stackView.push(
-                                        "qrc:/qml/Workshop/SteamProfile.qml", {
+                                        "qrc:/ScreenPlay/qml/Workshop/SteamProfile.qml", {
                                             "screenPlayWorkshop": root.screenPlayWorkshop,
                                             "steamWorkshop": root.steamWorkshop
                                         })
@@ -292,7 +293,7 @@ Item {
                         text: qsTr("Upload")
                         onClicked: {
                             stackView.push(
-                                        "qrc:/qml/Workshop/upload/UploadProject.qml", {
+                                        "qrc:/ScreenPlay/qml/Workshop/upload/UploadProject.qml", {
                                             "screenPlayWorkshop": root.screenPlayWorkshop,
                                             "steamWorkshop": root.steamWorkshop
                                         })
