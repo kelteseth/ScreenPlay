@@ -18,10 +18,16 @@ Rectangle {
                 Wallpaper.terminate()
             }
             // macOS only supports h264 via the native Qt MM
-            if (Qt.platform === "osx" && (Wallpaper.videoCodec === VideoCodec.VP8
-                    || Wallpaper.videoCodec === VideoCodec.VP9)) {
-                loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml"
-            } else {
+            if (Qt.platform.os === "osx") {
+                if ((Wallpaper.videoCodec === VideoCodec.VP8
+                     || Wallpaper.videoCodec === VideoCodec.VP9)) {
+                    loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml"
+                } else {
+                    loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
+                }
+            }
+
+            if (Qt.platform.os === "windows") {
                 loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
             }
             fadeIn()
