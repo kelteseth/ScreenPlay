@@ -17,6 +17,7 @@ Rectangle {
             if (Wallpaper.videoCodec === VideoCodec.Unknown) {
                 Wallpaper.terminate()
             }
+            
             // macOS only supports h264 via the native Qt MM
             if (Qt.platform.os === "osx") {
                 if ((Wallpaper.videoCodec === VideoCodec.VP8
