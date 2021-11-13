@@ -204,7 +204,7 @@ target_link_libraries(
            Qt6::Svg
            Qt6::WebEngineQuick
            Qt6::WebEngineCore
-           SteamSDK)
+           SteamSDKQtEnums)
 
 if(${TESTS_ENABLED})
     add_executable(tst_ScreenPlay tests/tst_main.cpp)

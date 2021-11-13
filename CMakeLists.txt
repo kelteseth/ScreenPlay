@@ -76,6 +76,9 @@ add_subdirectory(CMake)
 
 if(${SCREENPLAY_STEAM})
     add_subdirectory(ScreenPlayWorkshop)
+else()
+    # Only add target SteamSDKQtEnums
+    add_subdirectory(ScreenPlayWorkshop/SteamSDK)
 endif()
 
 if(WIN32)
