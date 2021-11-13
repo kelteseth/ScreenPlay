@@ -174,6 +174,11 @@ void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
 */
 bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value, const bool save)
 {
+    if (!m_connection) {
+        qWarning() << "Cannot set value for unconnected wallpaper!";
+        return false;
+    }
+
     QJsonObject obj;
     obj.insert(key, value);
 
