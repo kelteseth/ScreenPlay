@@ -478,7 +478,7 @@ Item {
                     SettingsButton {
                         icon.source: "qrc:/assets/icons/icon_launch.svg"
                         headline: qsTr("Version")
-                        description: qsTr("ScreenPlay Build Version ") + ScreenPlay.settings.gitBuildHash
+                        description: qsTr("ScreenPlay Build Version \n") + ScreenPlay.settings.gitBuildHash
                         buttonText: qsTr("Open Changelog")
                         onButtonPressed: Qt.openUrlExternally("https://gitlab.com/kelteseth/ScreenPlay/-/releases")
                     }

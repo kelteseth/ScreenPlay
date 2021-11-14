@@ -17,17 +17,24 @@ Rectangle {
             if (Wallpaper.videoCodec === VideoCodec.Unknown) {
                 Wallpaper.terminate()
             }
+            
             // macOS only supports h264 via the native Qt MM
-            if (Qt.platform === "osx" && (Wallpaper.videoCodec === VideoCodec.VP8
-                    || Wallpaper.videoCodec === VideoCodec.VP9)) {
-                loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml"
-            } else {
+            if (Qt.platform.os === "osx") {
+                if ((Wallpaper.videoCodec === VideoCodec.VP8
+                     || Wallpaper.videoCodec === VideoCodec.VP9)) {
+                    loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml"
+                } else {
+                    loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
+                }
+            }
+
+            if (Qt.platform.os === "windows") {
                 loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
             }
             fadeIn()
             break
         case InstalledType.HTMLWallpaper:
-            loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebView.qml", {
+            loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
                                  "url": Qt.resolvedUrl(
                                             Wallpaper.projectSourceFileAbsolute)
                              })
@@ -100,7 +107,7 @@ Rectangle {
         }
 
         // This function only gets called here (the same function
-        // is inside the WebView.qml) when the previous Wallpaper type
+        // is inside the MultimediaWebView.qml) when the previous Wallpaper type
         // was not a video
         function onReloadVideo(oldType) {
             // We need to check if the old type

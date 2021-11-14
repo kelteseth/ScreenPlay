@@ -39,7 +39,7 @@ set(SOURCES ${SOURCES} main.cpp src/basewindow.cpp)
 set(HEADER ${HEADER} src/basewindow.h)
 
 set(QML # cmake-format: sortable
-        qml/GifWallpaper.qml qml/Test.qml qml/Wallpaper.qml qml/WebsiteWallpaper.qml qml/WebView.qml qml/MultimediaView.qml qml/MultimediaWebView.qml)
+        qml/GifWallpaper.qml qml/Test.qml qml/Wallpaper.qml qml/WebsiteWallpaper.qml qml/MultimediaView.qml qml/MultimediaWebView.qml)
 
 qt_add_resources(RESOURCES Resources.qrc)
 
@@ -83,6 +83,5 @@ if(WIN32)
     # Disable console window on Windows
     # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
-    target_link_libraries(${PROJECT_NAME} PRIVATE shcore.lib)
     configure_file(${CMAKE_CURRENT_SOURCE_DIR}/index.html ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/index.html COPYONLY)
 endif()

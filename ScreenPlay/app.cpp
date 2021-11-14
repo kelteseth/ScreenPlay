@@ -1,5 +1,7 @@
 #include "app.h"
 
+#include "steam/steam_qt_enums_generated.h"
+
 namespace ScreenPlay {
 /*!
     \module ScreenPlay
@@ -95,6 +97,16 @@ App::App()
     qRegisterMetaType<InstalledListFilter*>();
     qRegisterMetaType<MonitorListModel*>();
     qRegisterMetaType<ProfileListModel*>();
+
+
+    // TODO: This is a workaround because I don't know how to
+    //       init this in the ScreenPlayWorkshop plugin.
+    //       Move to workshop plugin.
+    qmlRegisterUncreatableMetaObject(ScreenPlayWorkshopSteamEnums::staticMetaObject,
+        "WorkshopEnums",
+        1, 0,
+        "SteamEnums",
+        "Error: only enums");
 
     // Registers the enums from globalvariables.
     // Apparently this is the only way for qml to work

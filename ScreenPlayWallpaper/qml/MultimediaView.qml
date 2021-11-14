@@ -6,7 +6,7 @@ Item {
     id: root
     anchors.fill: parent
     property bool loops: Wallpaper.loops
-    property bool isWindows: Qt.platform === "windows"
+    property bool isWindows: Qt.platform.os === "windows"
     signal requestFadeIn
 
     MediaPlayer {

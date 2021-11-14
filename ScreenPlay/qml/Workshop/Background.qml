@@ -1,6 +1,5 @@
 import QtQuick
 import Qt5Compat.GraphicalEffects
-import Workshop 1.0
 
 Rectangle {
     id: root

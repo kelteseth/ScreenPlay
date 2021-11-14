@@ -5,10 +5,12 @@
 #include <QSGNode>
 #include <QSGSimpleTextureNode>
 #include <QSGTexture>
+#include <QtQml>
 
 namespace ScreenPlayWorkshop {
 class SteamQMLImageProvider : public QQuickItem {
     Q_OBJECT
+    QML_NAMED_ELEMENT(SteamImage)
 
 public:
     SteamQMLImageProvider(QQuickItem* parent);
@@ -28,7 +30,6 @@ public:
         node->setRect(boundingRect());
         return node;
     }
-
 public slots:
     void setImage(QImage image)
     {

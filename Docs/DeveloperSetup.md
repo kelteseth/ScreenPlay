@@ -5,7 +5,7 @@
 ``` bash
 git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git ScreenPlay
 ```
-4. Download the latest __Qt 5.15.x__ for you platform. Earlier versions are not supported!
+4. Download the latest __Qt 6.2.x__ for you platform. Earlier versions are not supported!
     1. [Install instructions Windows](#windows)
     1. [Install instructions Linux](#linux)
     1. [Install instructions MacOSX](#macosx)
@@ -15,10 +15,9 @@ cd Tools
 py setup.py
 ```
    * This will install these dependencies via __vcpkg__
-      * openSSL 1.1.1d
+      * openSSL
       * sentry-native
       * doctest
-      * benchmark
       * infoware
 
 <div>
@@ -26,7 +25,7 @@ py setup.py
 </div>
 
 5. Open __QtCreator__ and open the settings `Tools -> Options`
-6. Clone an existing kit like `Qt 6.2.0 MSVC2019 64bit` and add `ScreenPlay` to the new kit name
+6. Clone an existing kit like `Qt 6.2.1 MSVC2019 64bit` and add `ScreenPlay` to the new kit name
 5. Edit CMake variables amd add CMAKE_TOOLCHAIN_FILE and VCPKG_TARGET_TRIPLET
     * `Kits -> <Your_Kit> -> CMake Configuration`
     
@@ -54,9 +53,9 @@ VCPKG_TARGET_TRIPLET:STRING=x64-osx
 1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 6.2.0
+        - Qt 6.2.1
             - MSVC 2019 64-bit
-            - ALL Additional Libraries
+            - **ALL Additional Libraries**
             - Qt Quick 3d
             - Qt 5 Compatibility Module
             - Qt Shader Tools
@@ -80,9 +79,9 @@ sudo zypper install -t pattern devel_basis
 1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 6.2.0
+        - Qt 6.2.1
             - GCC
-            - ALL Additional Libraries
+            - **ALL Additional Libraries**
             - Qt Quick 3d
             - Qt 5 Compatibility Module
             - Qt Shader Tools
@@ -95,9 +94,9 @@ sudo zypper install -t pattern devel_basis
 1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 6.2.0
+        - Qt 6.2.1
             - Qt WebEngine
-            - ALL Additional Libraries
+            - **ALL Additional Libraries**
             - Qt Quick 3d
             - Qt 5 Compatibility Module
             - Qt Shader Tools
