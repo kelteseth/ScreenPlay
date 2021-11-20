@@ -135,6 +135,41 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
 */
 void MonitorListModel::loadMonitors()
 {
+
+#ifdef Q_OS_WIN
+    QModelIndex index;
+    ScreenPlayUtil::WinMonitorStats monitors;
+
+    // This offset lets us center the monitor selection view in the center
+    int offsetX = 0;
+    int offsetY = 0;
+    for (int i = 0; i < monitors.iMonitors.size(); i++) {
+        const int x = monitors.rcMonitors[i].left;
+        const int y = monitors.rcMonitors[i].top;
+        if (x < 0) {
+            offsetX += (x * -1);
+        }
+        if (y < 0) {
+            offsetY += (y * -1);
+        }
+    }
+
+    for (int i = 0; i < monitors.iMonitors.size(); i++) {
+        const int width = std::abs(monitors.rcMonitors[i].right - monitors.rcMonitors[i].left);
+        const int height = std::abs(monitors.rcMonitors[i].top - monitors.rcMonitors[i].bottom);
+        const int x = monitors.rcMonitors[i].left;
+        const int y = monitors.rcMonitors[i].top;
+        QRect availableVirtualGeometry(
+            x + offsetX,
+            y + offsetY,
+            width,
+            height);
+        beginInsertRows(index, m_monitorList.size(), m_monitorList.size());
+        m_monitorList.append(Monitor { i, availableVirtualGeometry, QApplication::screens().at(i) });
+        endInsertRows();
+    }
+#else
+    QModelIndex index;
     int offsetX = 0;
     int offsetY = 0;
 
@@ -148,7 +183,6 @@ void MonitorListModel::loadMonitors()
         }
     }
 
-    QModelIndex index;
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
 
@@ -166,6 +200,7 @@ void MonitorListModel::loadMonitors()
         m_monitorList.append(Monitor { i, availableVirtualGeometry, screen });
         endInsertRows();
     }
+#endif
 
     emit monitorReloadCompleted();
 }

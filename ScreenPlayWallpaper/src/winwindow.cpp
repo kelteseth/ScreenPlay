@@ -258,11 +258,11 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
     const float scaling = getScaling(activeScreen);
     const int borderOffset = -1;
 
-    ScreenPlayUtil::WinMonitorStats Monitors;
-    const int width = std::abs(Monitors.rcMonitors[activeScreen].right - Monitors.rcMonitors[activeScreen].left);
-    const int height = std::abs(Monitors.rcMonitors[activeScreen].top - Monitors.rcMonitors[activeScreen].bottom);
-    const int x = Monitors.rcMonitors[activeScreen].left + m_zeroPoint.x() + borderOffset;
-    const int y = Monitors.rcMonitors[activeScreen].top + m_zeroPoint.y() + borderOffset;
+    ScreenPlayUtil::WinMonitorStats monitors;
+    const int width = std::abs(monitors.rcMonitors[activeScreen].right - monitors.rcMonitors[activeScreen].left);
+    const int height = std::abs(monitors.rcMonitors[activeScreen].top - monitors.rcMonitors[activeScreen].bottom);
+    const int x = monitors.rcMonitors[activeScreen].left + m_zeroPoint.x() + borderOffset;
+    const int y = monitors.rcMonitors[activeScreen].top + m_zeroPoint.y() + borderOffset;
     qInfo() << QString("Setup window activeScreen: %1 scaling: %2 x: %3 y: %4 width: %5 height: %6").arg(activeScreen).arg(scaling).arg(x).arg(y).arg(width).arg(height);
 
     {
