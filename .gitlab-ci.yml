@@ -2,7 +2,6 @@ stages:
     - check
     - build
     - test
-    - benchmark
 
 check:
     stage: check
