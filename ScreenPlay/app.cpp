@@ -1,6 +1,7 @@
 #include "app.h"
 
 #include "steam/steam_qt_enums_generated.h"
+#include <QProcessEnvironment>
 
 namespace ScreenPlay {
 /*!
@@ -235,4 +236,42 @@ void App::exit()
     QApplication::instance()->quit();
 }
 
+/*!
+   \brief
+*/
+bool App::setupKDE()
+{
+    QProcessEnvironment env;
+    qInfo() << qgetenv("KDE_FULL_SESSION");
+    qInfo() << qgetenv("DESKTOP_SESSION");
+    qInfo() << qgetenv("XDG_CURRENT_DESKTOP");
+
+    QProcess plasmaShellVersionProcess;
+    plasmaShellVersionProcess.start("plasmashell",{"--version"});
+    plasmaShellVersionProcess.waitForFinished();
+    QString versionOut =  plasmaShellVersionProcess.readAll();
+    if(!versionOut.contains("plasmashell ")){
+        qWarning() << "Unable to read plasma shell version";
+        return false;
+    }
+
+    const QString basePath = QDir(QDir::homePath() + "/.local/share/plasma/wallpapers/ScreenPlay/").canonicalPath();
+    const QFileInfo wallpaperMetadata(basePath + "/metadata.desktop");
+    if (wallpaperMetadata.exists()) {
+        const QString appPath = QGuiApplication::instance()->applicationDirPath() + "/kde";
+
+        process.setWorkingDirectory(appPath);
+        process.start("plasmapkg2", { "--upgrade", "ScreenPlay" });
+        process.waitForFinished();
+        process.terminate();
+        qInfo() << process.readAllStandardError() << process.readAllStandardOutput();
+        process.start("kquitapp5", { "plasmashell" });
+        process.waitForFinished();
+        process.terminate();
+        qInfo() << process.readAllStandardError() << process.readAllStandardOutput();
+        process.startDetached("kstart5", { "plasmashell" });
+        qInfo() << process.readAllStandardError() << process.readAllStandardOutput();
+    }
+    return true;
+}
 }

@@ -215,6 +215,8 @@ public slots:
         m_wizards.reset(wizards);
         emit wizardsChanged(m_wizards.get());
     }
+private:
+    bool setupKDE();
 
 private:
     QPluginLoader m_workshopPlugin;
@@ -234,5 +236,6 @@ private:
     std::shared_ptr<MonitorListModel> m_monitorListModel;
     std::shared_ptr<ProfileListModel> m_profileListModel;
     std::shared_ptr<InstalledListFilter> m_installedListFilter;
+    QProcess process;
 };
 }
