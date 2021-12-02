@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(
     Qt6
-    COMPONENTS Quick QML Widgets Gui
+    COMPONENTS Quick Widgets Gui
     REQUIRED)
 
 set(SOURCES
