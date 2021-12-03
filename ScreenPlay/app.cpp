@@ -287,7 +287,7 @@ bool App::setupKDE()
             return false;
         }
 
-        if (installedVersionNumber < currentVersionNumber)
+        if (installedVersionNumber <= currentVersionNumber)
             return true;
 
         qInfo() << "Upgrade ScreenPlay KDE Wallpaper";
