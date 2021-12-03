@@ -45,7 +45,7 @@ if not args.build_type:
     print("Build type argument is missing (release,debug). Example: python build.py -t release -steam=True")
     sys.exit(1)
 
-qt_version = "6.2.1"
+qt_version = "6.2.2"
 steam_build = "OFF"
 if args.steam_build:
     if args.steam_build:
@@ -182,3 +182,6 @@ for filename in os.listdir(os.getcwd()):
             full_file_path = os.path.join(os.getcwd(), filename)
             print("Remove: %s" % full_file_path)
             os.remove(full_file_path)
+
+os.chdir("..")
+execute("cpack")

@@ -1,0 +1,9 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+<Package>
+    <DisplayName>Register a file extension</DisplayName>
+    <Description>Register a randomly generated file extension to open with notepad.exe</Description>
+    <Version>1.0.0-1</Version>
+    <ReleaseDate>2020-01-01</ReleaseDate>
+    <Default>true</Default>
+    <Script>installscript.qs</Script>
+</Package>
