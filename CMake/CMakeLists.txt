@@ -1,6 +1,7 @@
 project(CMake)
 
 set(FILES # cmake-format: sortable
+          CopyRecursive.cmake
           QtUpdateTranslations.cmake)
 
 add_custom_target(

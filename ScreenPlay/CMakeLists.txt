@@ -186,8 +186,6 @@ add_library(ScreenPlayLib ${SOURCES} ${HEADER} ${RESOURCES} ${FONTS})
 
 target_include_directories(ScreenPlayLib PUBLIC ./ src/ ${LibArchive_INCLUDE_DIRS})
 
-find_package(LibArchive REQUIRED)
-
 target_link_libraries(
     ScreenPlayLib
     PUBLIC ScreenPlaySDK
