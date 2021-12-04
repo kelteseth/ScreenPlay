@@ -102,55 +102,57 @@ message(STATUS "[PROJECT] CMAKE_TOOLCHAIN_FILE       = ${CMAKE_TOOLCHAIN_FILE}")
 message(STATUS "[PROJECT] VCPKG_PATH                 = ${VCPKG_PATH}")
 message(STATUS "[PROJECT] VCPKG_TARGET_TRIPLET       = ${VCPKG_TARGET_TRIPLET}")
 message(STATUS "[PROJECT] CMAKE_PREFIX_PATH          = ${CMAKE_PREFIX_PATH}")
-
+message(STATUS "[PROJECT] CPACK_GENERATOR            = ${CPACK_GENERATOR}")
 
 if(${SCREENPLAY_CREATE_INSTALLER})
 
+    # Hardcoded Qt paths that are used by the QtMaintanance tool for now...
+    if(WIN32)
+        set(CPACK_IFW_ROOT "C:/Qt/Tools/QtInstallerFramework/4.2")
+    elseif(UNIX AND NOT APPLE)
+        set(CPACK_IFW_ROOT "$ENV{HOME}/Qt/Tools/QtInstallerFramework/4.2")
+    endif()
 
     set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
     set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-Installer")
     set(CPACK_PACKAGE_VENDOR "Elias Steurer")
     set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_DESCRIPTION}")
-
-    set(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}")
-    set(CPACK_PACKAGE_DIRECTORY "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}")
+    set(CPACK_PACKAGE_DIRECTORY "${CMAKE_BINARY_DIR}")
 
     # Ensures that contents written to the CPack configuration files is escaped properly.
     set(CPACK_VERBATIM_VARIABLES TRUE)
-
     set(CPACK_GENERATOR IFW)
 
     set(CPACK_IFW_PACKAGE_START_MENU_DIRECTORY "") # empty => default is install to top-level (?)
-    set(CPACK_IFW_TARGET_DIRECTORY "@HomeDir@/${CMAKE_PROJECT_NAME}")
+    set(CPACK_IFW_TARGET_DIRECTORY "@HomeDir@/Apps/${CMAKE_PROJECT_NAME}")
     set(CPACK_IFW_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/ScreenPlay/assets/icons/app.ico")
     set(CPACK_IFW_PACKAGE_WINDOW_ICON "${CMAKE_CURRENT_SOURCE_DIR}/ScreenPlay/assets/icons/app.ico")
+    set(CPACK_IFW_PACKAGE_CONTROL_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Tools/Installer/installscript.qs")
 
     set(CPACK_COMPONENTS_GROUPING IGNORE)
     set(CPACK_IFW_PACKAGE_GROUP ScreenPlay)
-
-    # Install Windows Universal CRT libs for app-local deployment
-    set(CMAKE_INSTALL_UCRT_LIBRARIES TRUE)
-    set(CPACK_IFW_PACKAGE_CONTROL_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Tools/Installer/installscript.qs")
-
     set(CPACK_IFW_VERBOSE ON)
 
     include(CPack)
     include(CPackIFW)
 
+    # Install all files from /bin
     install(
         DIRECTORY "${CMAKE_BINARY_DIR}/bin/"
         COMPONENT ScreenPlay
-        DESTINATION "/")
+        DESTINATION ".")
 
     cpack_add_component(
-        K3000
+        ScreenPlay
         DISPLAY_NAME "ScreenPlay"
         DESCRIPTION "This installs ScreenPlay.")
 
     cpack_ifw_configure_component(
-        ScreenPlay FORCED_INSTALLATION
+        ScreenPlayApp
+        FORCED_INSTALLATION
         NAME "ScreenPlay"
-        DESCRIPTION "Welcome to the ScreenPlay installer."
+        VERSION ${PROJECT_VERSION} # Version of component
+        DESCRIPTION "Welcome to the K3000 installer."
         # Gets ignored and I do not know why
         SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Tools/Installer/installscript.qs"
         CHECKABLE FALSE)
