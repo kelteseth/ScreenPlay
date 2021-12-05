@@ -341,7 +341,8 @@ bool ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const Q
 bool ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
 {
     for (auto& wallpaper : m_screenPlayWallpapers) {
-        return setWallpaperValue(wallpaper->appID(), key, value);
+        if (!wallpaper->setWallpaperValue(key, value, true))
+            return false;
     }
     return true;
 }
