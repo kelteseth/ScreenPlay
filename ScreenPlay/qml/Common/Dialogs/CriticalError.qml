@@ -9,7 +9,7 @@ import ScreenPlay 1.0
 Dialog {
     id: root
 
-    property Window mainWindow
+    property ApplicationWindow window
     property string message
 
     modal: true
@@ -22,7 +22,7 @@ Dialog {
     Connections {
         function onDisplayErrorPopup(msg) {
             root.message = msg;
-            root.mainWindow.show();
+            root.window.show();
             root.open();
         }
 

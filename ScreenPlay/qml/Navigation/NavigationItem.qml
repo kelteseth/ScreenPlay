@@ -24,7 +24,6 @@ Item {
     width: txtAmount.paintedWidth + txt.paintedWidth + icon.paintedWidth + 40
     height: 60
     state: "inactive"
-    clip: true
     onEnabledChanged: {
         if (!enabled) {
             navigationItem.width = 0;
@@ -74,7 +73,7 @@ Item {
             anchors.left: txtAmount.right
             anchors.leftMargin: navigationItem.amount == "" ? 0 : 5
             text: "name"
-            font.pointSize: 14
+            font.pointSize: 12
             color: Material.primaryTextColor
             anchors.verticalCenter: parent.verticalCenter
             font.family: ScreenPlay.settings.font
