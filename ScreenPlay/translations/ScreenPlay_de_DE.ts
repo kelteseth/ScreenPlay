@@ -760,16 +760,30 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
-</context>
-<context>
-    <name>NavigationWallpaperConfiguration</name>
     <message>
-        <source>Configurate active Wallpaper or Widgets</source>
-        <translation>Konfiguriere aktive Wallpaper oder Widgets</translation>
+        <source>Mute/Unmute all Wallpaper</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No active Wallpaper or Widgets</source>
-        <translation>Keine aktiven Wallpaper oder Widgets</translation>
+        <source>Pause/Play all Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize to Tray</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit ScreenPlay? 
+This will shut down all Wallpaper and Widgets.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1008,10 +1022,6 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
         <translation>Version</translation>
     </message>
     <message>
-        <source>ScreenPlay Build Version </source>
-        <translation>ScreenPlay-Build-Version </translation>
-    </message>
-    <message>
         <source>Open Changelog</source>
         <translation>Changelog öffnen</translation>
     </message>
@@ -1050,6 +1060,11 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <source>Privacy</source>
         <translation>Datenschutz</translation>
+    </message>
+    <message>
+        <source>ScreenPlay Build Version 
+</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

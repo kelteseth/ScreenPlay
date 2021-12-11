@@ -170,6 +170,9 @@ Item {
                                 "value": Settings.De_DE,
                                 "text": "German"
                             }, {
+                                "value": Settings.Pl_PL,
+                                "text": "Polish"
+                            }, {
                                 "value": Settings.It_IT,
                                 "text": "Italian"
                             }, {

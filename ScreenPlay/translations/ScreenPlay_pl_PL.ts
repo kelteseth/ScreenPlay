@@ -1,139 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="fr_FR" sourcelanguage="en">
+<TS version="2.1" language="pl_PL">
 <context>
     <name>ColorPicker</name>
     <message>
         <source>Red</source>
-        <translation>Rouge</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Green</source>
-        <translation>Vert</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Blue</source>
-        <translation>Bleu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>RGB</source>
-        <translation>RGB</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>HSV</source>
-        <translation type="unfinished">HSV</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>R:</source>
-        <translation>R :</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>G:</source>
-        <translation>G :</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>B:</source>
-        <translation>B :</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>H:</source>
-        <translation>H :</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>S:</source>
-        <translation>S :</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>V:</source>
-        <translation>V :</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Alpha:</source>
-        <translation>Alpha :</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>#</source>
-        <translation>#</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Community</name>
     <message>
         <source>News</source>
-        <translation>Actualités</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wiki</source>
-        <translation>Wiki</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation>Forum</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Issue List</source>
-        <translation>Liste des problèmes</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Contribute</source>
-        <translation>Contribuer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Steam Workshop</source>
-        <translation>Steam Workshop</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CommunityNavItem</name>
     <message>
         <source>Open in browser</source>
-        <translation>Ouvrir dans le navigateur</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CreateWallpaperInit</name>
     <message>
         <source>Import any video type</source>
-        <translation>Importer n’importe quel type de vidéo</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-        <translation>Selon la configuration de votre PC, il est préférable de convertir votre fond d&apos;écran vers un codec vidéo spécifique. Si les deux ont de mauvaises performances, vous pouvez aussi essayer un fond d&apos;écran QML! Les formats vidéo pris en charge sont : 
-
-*.mp4 *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set your preffered video codec:</source>
-        <translation>Définissez votre codec vidéo préféré :</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Quality slider. Lower value means better quality.</source>
-        <translation>Curseur de qualité. Une valeur plus faible signifie une meilleure qualité.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open Documentation</source>
-        <translation>Ouvrir la documentation</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select file</source>
-        <translation>Sélectionner un fichier</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>CreateWallpaperResult</name>
     <message>
         <source>An error occurred!</source>
-        <translation>Une erreur est survenue !</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Copy text to clipboard</source>
-        <translation>Copier le texte dans le presse-papiers</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Back to create and send an error report!</source>
-        <translation>Retour à la création et envoyer un rapport d’erreur !</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -144,243 +142,243 @@
     </message>
     <message>
         <source>Generating preview image...</source>
-        <translation>Génération de l&apos;image d&apos;aperçu...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating preview thumbnail image...</source>
-        <translation>Génération de la miniature de l’aperçu...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating 5 second preview video...</source>
-        <translation>Génération d’une vidéo d’aperçu de 5 secondes...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating preview gif...</source>
-        <translation>Génération de l’aperçu gif...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Converting Audio...</source>
-        <translation>Conversion de l’audio...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Converting Video... This can take some time!</source>
-        <translation>Conversion de la vidéo... Cela peut prendre un certain temps !</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Converting Video ERROR!</source>
-        <translation>Erreur de conversion de la vidéo !</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Analyse Video ERROR!</source>
-        <translation>Erreur d&apos;Analyse Vidéo !</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Convert a video to a wallpaper</source>
-        <translation>Convertir une vidéo en fond d&apos;écran</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating preview video...</source>
-        <translation>Génération de la vidéo d&apos;aperçu...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Name (required!)</source>
-        <translation>Nom (requis!)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Description</source>
-        <translation>Description</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Youtube URL</source>
-        <translation>URL Youtube&#xa0;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Abort</source>
-        <translation>Annuler</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Sauvegarder</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save Wallpaper...</source>
-        <translation>Enregistrer le fond d&apos;écran</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>DefaultVideoControls</name>
     <message>
         <source>Volume</source>
-        <translation>Volume</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Playback rate</source>
-        <translation>Vitesse de lecture</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Current Video Time</source>
-        <translation>Progression de la vidéo en cours</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fill Mode</source>
-        <translation>Mode d&apos;affichage</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Stretch</source>
-        <translation>Étirer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fill</source>
-        <translation>Remplir</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Contain</source>
-        <translation>Contenir</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation>Couvrir</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scale_Down</source>
-        <translation>Réduire</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>FileSelector</name>
     <message>
         <source>Clear</source>
-        <translation>Effacer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select File</source>
-        <translation>Sélectionner un fichier</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please choose a file</source>
-        <translation>Veuillez choisir un fichier</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Forum</name>
     <message>
         <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
-        <translation type="unfinished">Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Install Steam Version</source>
-        <translation type="unfinished">Install Steam Version</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open In Browser</source>
-        <translation type="unfinished">Open In Browser</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>GifWallpaper</name>
     <message>
         <source>Import a Gif Wallpaper</source>
-        <translation>Importer un fond d&apos;écran Gif</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
-        <translation>Déposez un fichier *.gif ici ou utilisez &apos;Sélectionner un fichier&apos; ci-dessous.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select your gif</source>
-        <translation>Sélectionnez votre gif</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>General</source>
-        <translation>Général</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation>Nom du fond d&apos;écran</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation>Créé par</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation>Tags</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>HTMLWallpaper</name>
     <message>
         <source>Create a HTML Wallpaper</source>
-        <translation>Créer un fond d&apos;écran HTML</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>General</source>
-        <translation>Général</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation>Nom du fond d&apos;écran</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation>Créé par</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Description</source>
-        <translation>Description</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>License &amp; Tags</source>
-        <translation>Licence &amp; Tags</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation>Aperçu de l&apos;image</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>HTMLWidget</name>
     <message>
         <source>Create a HTML widget</source>
-        <translation>Créer un widget HTML</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>General</source>
-        <translation>Général</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Widget name</source>
-        <translation>Nom du Widget</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Created by</source>
-        <translation>Créé par</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation>Tags</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>HeadlineSection</name>
     <message>
         <source>Headline Section</source>
-        <translation type="unfinished">Headline Section</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImageSelector</name>
     <message>
         <source>Set your own preview image</source>
-        <translation>Définissez votre image d&apos;aperçu</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Clear</source>
-        <translation>Effacer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select Preview Image</source>
-        <translation>Sélectionner l&apos;image d&apos;aperçu</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -391,117 +389,117 @@
     </message>
     <message>
         <source>AnalyseVideo...</source>
-        <translation>AnalyseVidéo...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating preview image...</source>
-        <translation>Génération de l&apos;image d&apos;aperçu...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating preview thumbnail image...</source>
-        <translation>Génération de la miniature de l’aperçu...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating 5 second preview video...</source>
-        <translation>Génération d’une vidéo d’aperçu de 5 secondes...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating preview gif...</source>
-        <translation>Génération du Gif d’aperçu...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Converting Audio...</source>
-        <translation>Conversion de l’audio...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Converting Video... This can take some time!</source>
-        <translation>Conversion de vidéo... Cela peut prendre du temps!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Converting Video ERROR!</source>
-        <translation>Erreur de conversion vidéo !</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Analyse Video ERROR!</source>
-        <translation>Erreur d&apos;Analyse Vidéo !</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Import a video to a wallpaper</source>
-        <translation type="unfinished">Import a video to a wallpaper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating preview video...</source>
-        <translation>Génération de la vidéo d&apos;aperçu...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Name (required!)</source>
-        <translation>Nom (requis!)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Description</source>
-        <translation>Description</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Youtube URL</source>
-        <translation>URL Youtube&#xa0;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Abort</source>
-        <translation>Annuler</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save</source>
-        <translation>Enregistrer</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Save Wallpaper...</source>
-        <translation>Enregistrer le fond d&apos;écran</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ImportWebmInit</name>
     <message>
         <source>Import a .webm video</source>
-        <translation>Importer une vidéo .webm</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-        <translation type="unfinished">When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-        <translation type="unfinished">Invalid file type. Must be valid VP8 or VP9 (*.webm)!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished">Drop a *.webm file here or use &apos;Select file&apos; below.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open Documentation</source>
-        <translation>Ouvrir la documentation</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select file</source>
-        <translation>Sélectionner un fichier</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Importh264Convert</name>
     <message>
         <source>AnalyseVideo...</source>
-        <translation type="unfinished">AnalyseVidéo...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating preview image...</source>
-        <translation type="unfinished">Génération de l&apos;image d&apos;aperçu...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished">Génération de la miniature de l’aperçu...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating 5 second preview video...</source>
-        <translation type="unfinished">Génération d’une vidéo d’aperçu de 5 secondes...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating preview gif...</source>
@@ -509,7 +507,7 @@
     </message>
     <message>
         <source>Converting Audio...</source>
-        <translation type="unfinished">Conversion de l’audio...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Converting Video... This can take some time!</source>
@@ -521,27 +519,27 @@
     </message>
     <message>
         <source>Analyse Video ERROR!</source>
-        <translation type="unfinished">Erreur d&apos;Analyse Vidéo !</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Import a video to a wallpaper</source>
-        <translation type="unfinished">Import a video to a wallpaper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Generating preview video...</source>
-        <translation type="unfinished">Génération de la vidéo d&apos;aperçu...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Name (required!)</source>
-        <translation type="unfinished">Nom (requis!)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Youtube URL</source>
-        <translation type="unfinished">URL Youtube&#xa0;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Abort</source>
@@ -553,7 +551,7 @@
     </message>
     <message>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished">Enregistrer le fond d&apos;écran</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -576,11 +574,11 @@
     </message>
     <message>
         <source>Open Documentation</source>
-        <translation type="unfinished">Ouvrir la documentation</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select file</source>
-        <translation type="unfinished">Sélectionner un fichier</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -591,77 +589,77 @@
     </message>
     <message>
         <source>Refreshing!</source>
-        <translation>Actualisation!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pull to refresh!</source>
-        <translation type="unfinished">Pull to refresh!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-        <translation>Obtenez plus de fonds d&apos;écran et de widgets via le Steam Workshop!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open containing folder</source>
-        <translation>Ouvrir le dossier source</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove Item</source>
-        <translation>Supprimer l&apos;élément</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove via Workshop</source>
-        <translation>Retirer via le Workshop</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open Workshop Page</source>
-        <translation>Ouvrir la page du Workshop</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Are you sure you want to delete this item?</source>
-        <translation>Êtes-vous sûr de vouloir supprimer cet élément?</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>InstalledWelcomeScreen</name>
     <message>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-        <translation>Obtenez des Widgets et des fonds d&apos;écran gratuits via le Steam Workshop</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Browse the Steam Workshop</source>
-        <translation>Parcourir le Steam Workshop</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>LicenseSelector</name>
     <message>
         <source>License</source>
-        <translation>Licence</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</source>
-        <translation>Partager — copier et redistribuer le matériel sous n&apos;importe quel support ou format. Adapter — remixer, transformer et construire à partir du matériel dans n&apos;importe quel but, même commercial.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You grant other to remix your work and change the license to their liking.</source>
-        <translation type="unfinished">You grant other to remix your work and change the license to their liking.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </source>
-        <translation>Partager — copier et redistribuer le matériel sous n&apos;importe quel support ou format. Adapter — remixer, transformer et construire à partir du matériel. L&apos;usage commercial n&apos;est pas autorisé! </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You allow everyone to do anything with your work.</source>
-        <translation>Vous autorisez tout le monde à faire quoi que ce soit avec votre travail.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</source>
-        <translation type="unfinished">You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</source>
-        <translation type="unfinished">You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -669,97 +667,96 @@
     <message>
         <source>Your monitor setup changed!
  Please configure your wallpaper again.</source>
-        <translation type="unfinished">Your monitor setup changed!
- Please configure your wallpaper again.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Monitors</name>
     <message>
         <source>Wallpaper Configuration</source>
-        <translation type="unfinished">Wallpaper Configuration</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Remove selected</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remove </source>
-        <translation type="unfinished">Remove </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wallpapers</source>
-        <translation type="unfinished">Wallpapers</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Widgets</source>
-        <translation type="unfinished">Widgets</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>MonitorsProjectSettingItem</name>
     <message>
         <source>Set color</source>
-        <translation type="unfinished">Set color</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Please choose a color</source>
-        <translation type="unfinished">Please choose a color</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Navigation</name>
     <message>
         <source>All</source>
-        <translation type="unfinished">All</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="unfinished">Scenes</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Widgets</source>
-        <translation type="unfinished">Widgets</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Install Date Ascending</source>
-        <translation type="unfinished">Install Date Ascending</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Install Date Descending</source>
-        <translation type="unfinished">Install Date Descending</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source> Subscribed items: </source>
-        <translation type="unfinished"> Subscribed items: </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Upload to the Steam Workshop</source>
-        <translation type="unfinished">Upload to the Steam Workshop</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Create</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Workshop</source>
-        <translation type="unfinished">Workshop</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Installed</source>
-        <translation type="unfinished">Installed</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Community</source>
-        <translation type="unfinished">Community</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Settings</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mute/Unmute all Wallpaper</source>
@@ -791,276 +788,276 @@ This will shut down all Wallpaper and Widgets.</source>
     <name>PopupOffline</name>
     <message>
         <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
-        <translation type="unfinished">You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Back</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>PopupSteamWorkshopAgreement</name>
     <message>
         <source>You Need to Agree To The Steam Subscriber Agreement First</source>
-        <translation type="unfinished">You Need to Agree To The Steam Subscriber Agreement First</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</source>
-        <translation type="unfinished">REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>View The Steam Subscriber Agreement</source>
-        <translation type="unfinished">View The Steam Subscriber Agreement</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Accept Steam Workshop Agreement</source>
-        <translation type="unfinished">Accept Steam Workshop Agreement</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QMLWallpaper</name>
     <message>
         <source>Create a QML Wallpaper</source>
-        <translation type="unfinished">Create a QML Wallpaper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>License &amp; Tags</source>
-        <translation type="unfinished">License &amp; Tags</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished">Preview Image</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>QMLWidget</name>
     <message>
         <source>Create a QML widget</source>
-        <translation type="unfinished">Create a QML widget</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Widget name</source>
-        <translation type="unfinished">Widget name</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Created by</source>
-        <translation type="unfinished">Created by</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SaveNotification</name>
     <message>
         <source>Profile saved successfully!</source>
-        <translation type="unfinished">Profile saved successfully!</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ScreenPlayItem</name>
     <message>
         <source>NEW</source>
-        <translation type="unfinished">NEW</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Search</name>
     <message>
         <source>Search for Wallpaper &amp; Widgets</source>
-        <translation type="unfinished">Search for Wallpaper &amp; Widgets</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Settings</name>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Autostart</source>
-        <translation type="unfinished">Autostart</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-        <translation type="unfinished">ScreenPlay will start with Windows and will setup your Desktop every time for you.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>High priority Autostart</source>
-        <translation type="unfinished">High priority Autostart</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-        <translation type="unfinished">This options grants ScreenPlay a higher autostart priority than other apps.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Send anonymous crash reports and statistics</source>
-        <translation type="unfinished">Send anonymous crash reports and statistics</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-        <translation type="unfinished">Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set save location</source>
-        <translation type="unfinished">Set save location</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set location</source>
-        <translation type="unfinished">Set location</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Your storage path is empty!</source>
-        <translation type="unfinished">Your storage path is empty!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-        <translation type="unfinished">Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished">Language</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set the ScreenPlay UI Language</source>
-        <translation type="unfinished">Set the ScreenPlay UI Language</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Theme</source>
-        <translation type="unfinished">Theme</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Switch dark/light theme</source>
-        <translation type="unfinished">Switch dark/light theme</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>System Default</source>
-        <translation type="unfinished">System Default</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Dark</source>
-        <translation type="unfinished">Dark</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Light</source>
-        <translation type="unfinished">Light</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Performance</source>
-        <translation type="unfinished">Performance</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
-        <translation type="unfinished">Pause wallpaper video rendering while another app is in the foreground</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-        <translation type="unfinished">We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Default Fill Mode</source>
-        <translation type="unfinished">Default Fill Mode</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set this property to define how the video is scaled to fit the target area.</source>
-        <translation type="unfinished">Set this property to define how the video is scaled to fit the target area.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Stretch</source>
-        <translation type="unfinished">Stretch</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fill</source>
-        <translation type="unfinished">Fill</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scale-Down</source>
-        <translation type="unfinished">Scale-Down</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished">About</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Thank you for using ScreenPlay</source>
-        <translation type="unfinished">Thank you for using ScreenPlay</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-        <translation type="unfinished">Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Version</source>
-        <translation type="unfinished">Version</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open Changelog</source>
-        <translation type="unfinished">Open Changelog</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Third Party Software</source>
-        <translation type="unfinished">Third Party Software</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation type="unfinished">ScreenPlay would not be possible without the work of others. A big thank you to: </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Licenses</source>
-        <translation type="unfinished">Licenses</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Logs</source>
-        <translation type="unfinished">Logs</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation type="unfinished">If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Show Logs</source>
-        <translation type="unfinished">Show Logs</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Data Protection</source>
-        <translation type="unfinished">Data Protection</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation type="unfinished">We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Privacy</source>
-        <translation type="unfinished">Privacy</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>ScreenPlay Build Version 
@@ -1072,14 +1069,14 @@ This will shut down all Wallpaper and Widgets.</source>
     <name>SettingsExpander</name>
     <message>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished">Copy text to clipboard</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Sidebar</name>
     <message>
         <source>Tools Overview</source>
-        <translation type="unfinished">Tools Overview</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Video Import h264 (.mp4)</source>
@@ -1095,103 +1092,103 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>GIF Wallpaper</source>
-        <translation type="unfinished">GIF Wallpaper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>QML Wallpaper</source>
-        <translation type="unfinished">QML Wallpaper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>HTML5 Wallpaper</source>
-        <translation type="unfinished">HTML5 Wallpaper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Website Wallpaper</source>
-        <translation type="unfinished">Website Wallpaper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>QML Widget</source>
-        <translation type="unfinished">QML Widget</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>HTML Widget</source>
-        <translation type="unfinished">HTML Widget</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set Wallpaper</source>
-        <translation type="unfinished">Set Wallpaper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set Widget</source>
-        <translation type="unfinished">Set Widget</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Headline</source>
-        <translation type="unfinished">Headline</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select a Monitor to display the content</source>
-        <translation type="unfinished">Select a Monitor to display the content</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Set Volume</source>
-        <translation type="unfinished">Set Volume</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fill Mode</source>
-        <translation type="unfinished">Fill Mode</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Stretch</source>
-        <translation type="unfinished">Stretch</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Fill</source>
-        <translation type="unfinished">Fill</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Scale-Down</source>
-        <translation type="unfinished">Scale-Down</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Size: </source>
-        <translation type="unfinished">Size: </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No description...</source>
-        <translation type="unfinished">No description...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Click here if you like the content</source>
-        <translation type="unfinished">Click here if you like the content</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Click here if you do not like the content</source>
-        <translation type="unfinished">Click here if you do not like the content</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Subscribtions: </source>
-        <translation type="unfinished">Subscribtions: </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open In Steam</source>
-        <translation type="unfinished">Open In Steam</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Subscribed!</source>
-        <translation type="unfinished">Subscribed!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation type="unfinished">Subscribe</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1209,387 +1206,387 @@ This will shut down all Wallpaper and Widgets.</source>
     <name>SteamNotAvailable</name>
     <message>
         <source>Could not load steam integration!</source>
-        <translation type="unfinished">Could not load steam integration!</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SteamProfile</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Back</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Forward</source>
-        <translation type="unfinished">Forward</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>SteamWorkshopStartPage</name>
     <message>
         <source>Loading</source>
-        <translation type="unfinished">Loading</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download now!</source>
-        <translation type="unfinished">Download now!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Downloading...</source>
-        <translation type="unfinished">Downloading...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished">Details</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open In Steam</source>
-        <translation type="unfinished">Open In Steam</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation type="unfinished">Profile</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Upload</source>
-        <translation type="unfinished">Upload</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Search for Wallpaper and Widgets...</source>
-        <translation type="unfinished">Search for Wallpaper and Widgets...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open Workshop in Steam</source>
-        <translation type="unfinished">Open Workshop in Steam</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ranked By Vote</source>
-        <translation type="unfinished">Ranked By Vote</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Publication Date</source>
-        <translation type="unfinished">Publication Date</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ranked By Trend</source>
-        <translation type="unfinished">Ranked By Trend</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Favorited By Friends</source>
-        <translation type="unfinished">Favorited By Friends</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Created By Friends</source>
-        <translation type="unfinished">Created By Friends</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Created By Followed Users</source>
-        <translation type="unfinished">Created By Followed Users</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Not Yet Rated</source>
-        <translation type="unfinished">Not Yet Rated</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Total VotesAsc</source>
-        <translation type="unfinished">Total VotesAsc</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Votes Up</source>
-        <translation type="unfinished">Votes Up</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Total Unique Subscriptions</source>
-        <translation type="unfinished">Total Unique Subscriptions</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Back</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Forward</source>
-        <translation type="unfinished">Forward</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TagSelector</name>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Save</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add tag</source>
-        <translation type="unfinished">Add tag</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="unfinished">Cancel</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Add Tag</source>
-        <translation type="unfinished">Add Tag</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TextField</name>
     <message>
         <source>Label</source>
-        <translation type="unfinished">Label</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>*Required</source>
-        <translation type="unfinished">*Required</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>TrayIcon</name>
     <message>
         <source>ScreenPlay - Double click to change you settings.</source>
-        <translation type="unfinished">ScreenPlay - Double click to change you settings.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open ScreenPlay</source>
-        <translation type="unfinished">Open ScreenPlay</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Mute all</source>
-        <translation type="unfinished">Mute all</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unmute all</source>
-        <translation type="unfinished">Unmute all</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pause all</source>
-        <translation type="unfinished">Pause all</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Play all</source>
-        <translation type="unfinished">Play all</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Quit</source>
-        <translation type="unfinished">Quit</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>UploadProject</name>
     <message>
         <source>Upload Wallpaper/Widgets to Steam</source>
-        <translation type="unfinished">Upload Wallpaper/Widgets to Steam</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Abort</source>
-        <translation type="unfinished">Abort</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Upload Selected Projects</source>
-        <translation type="unfinished">Upload Selected Projects</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Finish</source>
-        <translation type="unfinished">Finish</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>UploadProjectBigItem</name>
     <message>
         <source>Type: </source>
-        <translation type="unfinished">Type: </translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Open Folder</source>
-        <translation type="unfinished">Open Folder</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid Project!</source>
-        <translation type="unfinished">Invalid Project!</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>UploadProjectItem</name>
     <message>
         <source>Fail</source>
-        <translation type="unfinished">Fail</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No Connection</source>
-        <translation type="unfinished">No Connection</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid Password</source>
-        <translation type="unfinished">Invalid Password</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Logged In Elsewhere</source>
-        <translation type="unfinished">Logged In Elsewhere</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid Protocol Version</source>
-        <translation type="unfinished">Invalid Protocol Version</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid Param</source>
-        <translation type="unfinished">Invalid Param</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>File Not Found</source>
-        <translation type="unfinished">File Not Found</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Busy</source>
-        <translation type="unfinished">Busy</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid State</source>
-        <translation type="unfinished">Invalid State</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid Name</source>
-        <translation type="unfinished">Invalid Name</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid Email</source>
-        <translation type="unfinished">Invalid Email</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Duplicate Name</source>
-        <translation type="unfinished">Duplicate Name</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Access Denied</source>
-        <translation type="unfinished">Access Denied</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Timeout</source>
-        <translation type="unfinished">Timeout</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Banned</source>
-        <translation type="unfinished">Banned</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Not Found</source>
-        <translation type="unfinished">Account Not Found</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid SteamID</source>
-        <translation type="unfinished">Invalid SteamID</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Service Unavailable</source>
-        <translation type="unfinished">Service Unavailable</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Not Logged On</source>
-        <translation type="unfinished">Not Logged On</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Pending</source>
-        <translation type="unfinished">Pending</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Encryption Failure</source>
-        <translation type="unfinished">Encryption Failure</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Insufficient Privilege</source>
-        <translation type="unfinished">Insufficient Privilege</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Limit Exceeded</source>
-        <translation type="unfinished">Limit Exceeded</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Revoked</source>
-        <translation type="unfinished">Revoked</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Expired</source>
-        <translation type="unfinished">Expired</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Already Redeemed</source>
-        <translation type="unfinished">Already Redeemed</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Duplicate Request</source>
-        <translation type="unfinished">Duplicate Request</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Already Owned</source>
-        <translation type="unfinished">Already Owned</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>IP Not Found</source>
-        <translation type="unfinished">IP Not Found</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Persist Failed</source>
-        <translation type="unfinished">Persist Failed</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Locking Failed</source>
-        <translation type="unfinished">Locking Failed</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Logon Session Replaced</source>
-        <translation type="unfinished">Logon Session Replaced</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Connect Failed</source>
-        <translation type="unfinished">Connect Failed</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Handshake Failed</source>
-        <translation type="unfinished">Handshake Failed</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>IO Failure</source>
-        <translation type="unfinished">IO Failure</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remote Disconnect</source>
-        <translation type="unfinished">Remote Disconnect</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Shopping Cart Not Found</source>
-        <translation type="unfinished">Shopping Cart Not Found</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Blocked</source>
-        <translation type="unfinished">Blocked</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Ignored</source>
-        <translation type="unfinished">Ignored</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No Match</source>
-        <translation type="unfinished">No Match</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Disabled</source>
-        <translation type="unfinished">Account Disabled</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Service ReadOnly</source>
-        <translation type="unfinished">Service ReadOnly</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Not Featured</source>
-        <translation type="unfinished">Account Not Featured</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Administrator OK</source>
-        <translation type="unfinished">Administrator OK</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Content Version</source>
-        <translation type="unfinished">Content Version</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Try Another CM</source>
-        <translation type="unfinished">Try Another CM</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Password Required To Kick Session</source>
@@ -1597,339 +1594,339 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>Already Logged In Elsewhere</source>
-        <translation type="unfinished">Already Logged In Elsewhere</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Suspended</source>
-        <translation type="unfinished">Suspended</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cancelled</source>
-        <translation type="unfinished">Cancelled</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Data Corruption</source>
-        <translation type="unfinished">Data Corruption</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disk Full</source>
-        <translation type="unfinished">Disk Full</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remote Call Failed</source>
-        <translation type="unfinished">Remote Call Failed</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Password Unset</source>
-        <translation type="unfinished">Password Unset</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>External Account Unlinked</source>
-        <translation type="unfinished">External Account Unlinked</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>PSN Ticket Invalid</source>
-        <translation type="unfinished">PSN Ticket Invalid</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>External Account Already Linked</source>
-        <translation type="unfinished">External Account Already Linked</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Remote File Conflict</source>
-        <translation type="unfinished">Remote File Conflict</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Illegal Password</source>
-        <translation type="unfinished">Illegal Password</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Same As Previous Value</source>
-        <translation type="unfinished">Same As Previous Value</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Logon Denied</source>
-        <translation type="unfinished">Account Logon Denied</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cannot Use Old Password</source>
-        <translation type="unfinished">Cannot Use Old Password</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid Login AuthCode</source>
-        <translation type="unfinished">Invalid Login AuthCode</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Logon Denied No Mail</source>
-        <translation type="unfinished">Account Logon Denied No Mail</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Hardware Not Capable Of IPT</source>
-        <translation type="unfinished">Hardware Not Capable Of IPT</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>IPT Init Error</source>
-        <translation type="unfinished">IPT Init Error</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Parental Control Restricted</source>
-        <translation type="unfinished">Parental Control Restricted</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Facebook Query Error</source>
-        <translation type="unfinished">Facebook Query Error</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Expired Login Auth Code</source>
-        <translation type="unfinished">Expired Login Auth Code</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>IP Login Restriction Failed</source>
-        <translation type="unfinished">IP Login Restriction Failed</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Locked Down</source>
-        <translation type="unfinished">Account Locked Down</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Logon Denied Verified Email Required</source>
-        <translation type="unfinished">Account Logon Denied Verified Email Required</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No MatchingURL</source>
-        <translation type="unfinished">No MatchingURL</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Bad Response</source>
-        <translation type="unfinished">Bad Response</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Require Password ReEntry</source>
-        <translation type="unfinished">Require Password ReEntry</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Value Out Of Range</source>
-        <translation type="unfinished">Value Out Of Range</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Unexpecte Error</source>
-        <translation type="unfinished">Unexpecte Error</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Disabled</source>
-        <translation type="unfinished">Disabled</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid CEG Submission</source>
-        <translation type="unfinished">Invalid CEG Submission</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Restricted Device</source>
-        <translation type="unfinished">Restricted Device</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Region Locked</source>
-        <translation type="unfinished">Region Locked</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Rate Limit Exceeded</source>
-        <translation type="unfinished">Rate Limit Exceeded</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Login Denied Need Two Factor</source>
-        <translation type="unfinished">Account Login Denied Need Two Factor</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Item Deleted</source>
-        <translation type="unfinished">Item Deleted</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Login Denied Throttle</source>
-        <translation type="unfinished">Account Login Denied Throttle</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Two Factor Code Mismatch</source>
-        <translation type="unfinished">Two Factor Code Mismatch</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Two Factor Activation Code Mismatch</source>
-        <translation type="unfinished">Two Factor Activation Code Mismatch</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Associated To Multiple Partners</source>
-        <translation type="unfinished">Account Associated To Multiple Partners</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Not Modified</source>
-        <translation type="unfinished">Not Modified</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No Mobile Device</source>
-        <translation type="unfinished">No Mobile Device</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Time Not Synced</source>
-        <translation type="unfinished">Time Not Synced</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Sms Code Failed</source>
-        <translation type="unfinished">Sms Code Failed</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Limit Exceeded</source>
-        <translation type="unfinished">Account Limit Exceeded</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Activity Limit Exceeded</source>
-        <translation type="unfinished">Account Activity Limit Exceeded</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Phone Activity Limit Exceeded</source>
-        <translation type="unfinished">Phone Activity Limit Exceeded</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Refund To Wallet</source>
-        <translation type="unfinished">Refund To Wallet</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Email Send Failure</source>
-        <translation type="unfinished">Email Send Failure</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Not Settled</source>
-        <translation type="unfinished">Not Settled</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Need Captcha</source>
-        <translation type="unfinished">Need Captcha</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>GSLT Denied</source>
-        <translation type="unfinished">GSLT Denied</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>GS Owner Denied</source>
-        <translation type="unfinished">GS Owner Denied</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Invalid Item Type</source>
-        <translation type="unfinished">Invalid Item Type</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>IP Banned</source>
-        <translation type="unfinished">IP Banned</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>GSLT Expired</source>
-        <translation type="unfinished">GSLT Expired</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Insufficient Funds</source>
-        <translation type="unfinished">Insufficient Funds</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Too Many Pending</source>
-        <translation type="unfinished">Too Many Pending</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>No Site Licenses Found</source>
-        <translation type="unfinished">No Site Licenses Found</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>WG Network Send Exceeded</source>
-        <translation type="unfinished">WG Network Send Exceeded</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Not Friends</source>
-        <translation type="unfinished">Account Not Friends</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Limited User Account</source>
-        <translation type="unfinished">Limited User Account</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Cant Remove Item</source>
-        <translation type="unfinished">Cant Remove Item</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Account Deleted</source>
-        <translation type="unfinished">Account Deleted</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Existing User Cancelled License</source>
-        <translation type="unfinished">Existing User Cancelled License</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Community Cooldown</source>
-        <translation type="unfinished">Community Cooldown</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Status:</source>
-        <translation type="unfinished">Status:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Upload Progress: </source>
-        <translation type="unfinished">Upload Progress: </translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>WebsiteWallpaper</name>
     <message>
         <source>Create a Website Wallpaper</source>
-        <translation type="unfinished">Create a Website Wallpaper</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished">Preview Image</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>WizardPage</name>
     <message>
         <source>Save</source>
-        <translation type="unfinished">Save</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Saving...</source>
-        <translation type="unfinished">Saving...</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>WorkshopItem</name>
     <message>
         <source>Successfully subscribed to Workshop Item!</source>
-        <translation type="unfinished">Successfully subscribed to Workshop Item!</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Download complete!</source>
-        <translation type="unfinished">Download complete!</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>XMLNewsfeed</name>
     <message>
         <source>News &amp; Patchnotes</source>
-        <translation type="unfinished">News &amp; Patchnotes</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

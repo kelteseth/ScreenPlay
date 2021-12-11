@@ -761,16 +761,30 @@
         <source>Settings</source>
         <translation type="unfinished">Settings</translation>
     </message>
-</context>
-<context>
-    <name>NavigationWallpaperConfiguration</name>
     <message>
-        <source>Configurate active Wallpaper or Widgets</source>
-        <translation type="unfinished">Configurate active Wallpaper or Widgets</translation>
+        <source>Mute/Unmute all Wallpaper</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>No active Wallpaper or Widgets</source>
-        <translation type="unfinished">No active Wallpaper or Widgets</translation>
+        <source>Pause/Play all Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configure Wallpaper</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize to Tray</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit ScreenPlay? 
+This will shut down all Wallpaper and Widgets.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1009,10 +1023,6 @@
         <translation type="unfinished">Version</translation>
     </message>
     <message>
-        <source>ScreenPlay Build Version </source>
-        <translation type="unfinished">ScreenPlay Build Version </translation>
-    </message>
-    <message>
         <source>Open Changelog</source>
         <translation type="unfinished">Open Changelog</translation>
     </message>
@@ -1051,6 +1061,11 @@
     <message>
         <source>Privacy</source>
         <translation type="unfinished">Privacy</translation>
+    </message>
+    <message>
+        <source>ScreenPlay Build Version 
+</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
