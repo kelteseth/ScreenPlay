@@ -482,7 +482,7 @@
     </message>
     <message>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Wybierz plik</translation>
     </message>
   </context>
   <context>
