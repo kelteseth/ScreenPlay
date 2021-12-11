@@ -85,21 +85,19 @@ BaseWindow::BaseWindow(
     if (auto typeOpt = ScreenPlayUtil::getInstalledTypeFromString(project.value("type").toString())) {
         setType(typeOpt.value());
 
-        if (!project.contains("videoCodec")) {
+        if (this->type() == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
+            if (auto videoCodecOpt = ScreenPlayUtil::getVideoCodecFromString(project.value("videoCodec").toString())) {
+                setVideoCodec(videoCodecOpt.value());
+            } else {
+                qCritical() << "Cannot parse Wallpaper video codec from value" << project.value("type");
+            }
+        } else if (!project.contains("videoCodec") && this->type() == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
             qWarning("No videoCodec was specified inside the json object!");
             const QString filename = project.value("file").toString();
             if (filename.endsWith(".mp4")) {
                 setVideoCodec(ScreenPlay::VideoCodec::VideoCodec::H264);
             } else if (filename.endsWith(".webm")) {
                 setVideoCodec(ScreenPlay::VideoCodec::VideoCodec::VP8);
-            }
-        } else {
-            if (this->type() == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
-                if (auto videoCodecOpt = ScreenPlayUtil::getVideoCodecFromString(project.value("videoCodec").toString())) {
-                    setVideoCodec(videoCodecOpt.value());
-                } else {
-                    qCritical() << "Cannot parse Wallpaper video codec from value" << project.value("type");
-                }
             }
         }
 

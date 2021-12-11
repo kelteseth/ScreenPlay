@@ -41,6 +41,7 @@ void InstalledListModel::init()
 
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::directoryChanged, this, reloadLambda);
     QObject::connect(&m_fileSystemWatcher, &QFileSystemWatcher::fileChanged, this, reloadLambda);
+    loadInstalledContent();
 }
 
 /*!

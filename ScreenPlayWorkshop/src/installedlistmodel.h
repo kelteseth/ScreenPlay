@@ -89,6 +89,8 @@ signals:
 private:
     QVector<ScreenPlay::ProjectFile> m_screenPlayFiles;
     QUrl m_absoluteStoragePath;
+    QFuture<void> m_loadContentFuture;
+    QFutureWatcher<void> m_loadContentFutureWatcher;
 };
 
 }
