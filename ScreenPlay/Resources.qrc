@@ -150,5 +150,7 @@
         <file>qml/Create/WizardsFiles/HTMLWidgetMain.html</file>
         <file>assets/icons/icon_minimize.svg</file>
         <file>assets/icons/icon_video_settings_black_24dp.svg</file>
+        <file>qml/Create/WizardsFiles/QMLWallpaperMain.qml</file>
+        <file>qml/Create/WizardsFiles/QMLWidgetMain.qml</file>
     </qresource>
 </RCC>
