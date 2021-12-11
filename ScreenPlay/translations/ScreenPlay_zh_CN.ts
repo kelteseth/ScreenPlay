@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="zh-CN" sourcelanguage="en">
+<TS version="2.1" language="zh_CN" sourcelanguage="en">
   <context>
     <name>ColorPicker</name>
     <message>
@@ -761,16 +761,31 @@
       <source>Settings</source>
       <translation type="unfinished">Settings</translation>
     </message>
-  </context>
-  <context>
-    <name>NavigationWallpaperConfiguration</name>
     <message>
-      <source>Configurate active Wallpaper or Widgets</source>
-      <translation>设置活动壁纸或物件</translation>
+      <source>Mute/Unmute all Wallpaper</source>
+      <translation type="unfinished">Mute/Unmute all Wallpaper</translation>
     </message>
     <message>
-      <source>No active Wallpaper or Widgets</source>
-      <translation>没有活动壁纸或物件</translation>
+      <source>Pause/Play all Wallpaper</source>
+      <translation type="unfinished">Pause/Play all Wallpaper</translation>
+    </message>
+    <message>
+      <source>Configure Wallpaper</source>
+      <translation type="unfinished">Configure Wallpaper</translation>
+    </message>
+    <message>
+      <source>Minimize to Tray</source>
+      <translation type="unfinished">Minimize to Tray</translation>
+    </message>
+    <message>
+      <source>Exit</source>
+      <translation type="unfinished">Exit</translation>
+    </message>
+    <message>
+      <source>Are you sure you want to exit ScreenPlay? 
+This will shut down all Wallpaper and Widgets.</source>
+      <translation type="unfinished">Are you sure you want to exit ScreenPlay? 
+This will shut down all Wallpaper and Widgets.</translation>
     </message>
   </context>
   <context>
@@ -1009,10 +1024,6 @@
       <translation>版本</translation>
     </message>
     <message>
-      <source>ScreenPlay Build Version </source>
-      <translation>ScreenPlay编译版本 </translation>
-    </message>
-    <message>
       <source>Open Changelog</source>
       <translation>打开更改日志。</translation>
     </message>
@@ -1051,6 +1062,12 @@
     <message>
       <source>Privacy</source>
       <translation>隐私</translation>
+    </message>
+    <message>
+      <source>ScreenPlay Build Version 
+</source>
+      <translation type="unfinished">ScreenPlay Build Version 
+</translation>
     </message>
   </context>
   <context>
