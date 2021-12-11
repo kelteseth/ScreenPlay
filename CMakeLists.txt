@@ -32,6 +32,7 @@ endif()
 set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlay-vcpkg")
 set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
 
+
 find_package(Git REQUIRED)
 if(WIN32)
     set(date_command "CMD")

@@ -55,8 +55,7 @@ qt_add_qml_module(
     OUTPUT_DIRECTORY ${WORKSHOP_PLUGIN_DIR}
     URI "Workshop"
     SOURCES  ${SOURCES} ${HEADER}
-    VERSION
-    1.0)
+    VERSION 1.0)
 
 if(APPLE)
     if(${SCREENPLAY_STEAM})

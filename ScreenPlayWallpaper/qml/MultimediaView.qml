@@ -6,11 +6,14 @@ Item {
     id: root
     anchors.fill: parent
     property bool loops: Wallpaper.loops
+    property bool isPlaying: Wallpaper.isPlaying
+    onIsPlayingChanged: isPlaying ? mediaPlayer.play() : mediaPlayer.pause()
     property bool isWindows: Qt.platform.os === "windows"
     signal requestFadeIn
 
     MediaPlayer {
         id: mediaPlayer
+
 
         source: Wallpaper.projectSourceFileAbsolute
         Component.onCompleted: {

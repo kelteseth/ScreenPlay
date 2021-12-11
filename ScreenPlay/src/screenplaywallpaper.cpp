@@ -208,7 +208,13 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
 {
     m_connection = std::move(connection);
     qInfo() << "[3/3] SDKConnection (Wallpaper) saved!";
+    setIsConnected(true);
 
+    QObject::connect(m_connection.get(), &SDKConnection::disconnected, this, [this]() {
+        setIsConnected(false);
+        qInfo() << "disconnecetd;";
+
+    });
     QTimer::singleShot(1000, this, [this]() {
         if (playbackRate() != 1.0) {
             setWallpaperValue("playbackRate", QString::number(playbackRate()), false);
@@ -239,8 +245,10 @@ void ScreenPlayWallpaper::replace(
     const InstalledType::InstalledType type,
     const bool checkWallpaperVisible)
 {
-    if (!m_connection)
+    if (!m_connection) {
+        qWarning() << "Cannot replace for unconnected wallpaper!";
         return;
+    }
 
     m_previewImage = previewImage;
     m_type = type;

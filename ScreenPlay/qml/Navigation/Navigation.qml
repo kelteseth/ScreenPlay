@@ -152,8 +152,16 @@ Rectangle {
             rightMargin: 10
             bottom: parent.bottom
         }
+
         property bool contentActive: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
                                      || ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
+
+        onContentActiveChanged: {
+            if(!contentActive){
+                miMuteAll.isMuted = false
+                miStopAll.isPlaying = false
+            }
+        }
 
         ToolButton {
             id: miMuteAll
@@ -162,18 +170,23 @@ Rectangle {
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             enabled: quickActionRow.contentActive
+
+            onClicked: isMuted = !isMuted
             property bool isMuted: false
-            onClicked: {
+            onIsMutedChanged: {
                 if (miMuteAll.isMuted) {
-                    isMuted = false;
+                    isMuted = false
                     miMuteAll.icon.source = "qrc:/assets/icons/icon_volume.svg"
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted", "false");
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted",
+                                                                      "false")
                 } else {
-                    isMuted = true;
+                    isMuted = true
                     miMuteAll.icon.source = "qrc:/assets/icons/icon_volume_mute.svg"
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted", "true");
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted",
+                                                                      "true")
                 }
             }
+
             hoverEnabled: true
             ToolTip.text: qsTr("Mute/Unmute all Wallpaper")
             ToolTip.visible: hovered
@@ -187,18 +200,20 @@ Rectangle {
             icon.height: root.iconHeight
 
             property bool isPlaying: false
-
-            onClicked: {
+            onIsPlayingChanged:{
                 if (miStopAll.isPlaying) {
-                    isPlaying = false;
+                    isPlaying = false
                     miStopAll.icon.source = "qrc:/assets/icons/icon_pause.svg"
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue("isPlaying", "true");
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                                "isPlaying", "true")
                 } else {
-                    isPlaying = true;
+                    isPlaying = true
                     miStopAll.icon.source = "qrc:/assets/icons/icon_play.svg"
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue("isPlaying", "false");
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                                "isPlaying", "false")
                 }
             }
+            onClicked: isPlaying = !isPlaying
             hoverEnabled: true
             ToolTip.text: qsTr("Pause/Play all Wallpaper")
             ToolTip.visible: hovered

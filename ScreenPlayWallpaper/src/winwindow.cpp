@@ -285,20 +285,43 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 */
 void WinWindow::setupWallpaperForAllScreens()
 {
+    ScreenPlayUtil::WinMonitorStats monitors;
     QRect rect;
-    for (int i = 0; i < QApplication::screens().count(); i++) {
-        QScreen* screenTmp = QApplication::screens().at(i);
-        rect.setWidth(rect.width() + screenTmp->geometry().width());
-        rect.setHeight(rect.height() + screenTmp->geometry().height());
+    for (int i = 0; i < monitors.iMonitors.size(); i++) {
+        const int width = std::abs(monitors.rcMonitors[i].right - monitors.rcMonitors[i].left);
+        const int height = std::abs(monitors.rcMonitors[i].top - monitors.rcMonitors[i].bottom);
+        qInfo() << width << height;
+        rect.setWidth(rect.width() + width);
+        rect.setHeight(rect.height() + height);
     }
-    m_window.setHeight(rect.height());
-    m_window.setWidth(rect.width());
-    if (!SetWindowPos(m_windowHandle, HWND_TOPMOST, 0, 0, rect.width(), rect.height(), SWP_NOSIZE | SWP_NOMOVE)) {
+    int offsetX = 0;
+    int offsetY = 0;
+    for (int i = 0; i < monitors.iMonitors.size(); i++) {
+        const int x = monitors.rcMonitors[i].left;
+        const int y = monitors.rcMonitors[i].top;
+        qInfo() << x << y;
+        if (x < offsetX) {
+            offsetX = x;
+        }
+        if (y < offsetY) {
+            offsetY += y;
+        }
+    }
+    if (!SetWindowPos(m_windowHandle, nullptr, offsetX, offsetY, rect.width(), rect.height(), SWP_NOSIZE | SWP_NOMOVE)) {
+        qFatal("Could not set window pos: ");
+    }
+    if (!SetWindowPos(m_windowHandle, nullptr, offsetX, offsetY, rect.width(), rect.height(), SWP_NOSIZE | SWP_NOMOVE)) {
         qFatal("Could not set window pos: ");
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
         qFatal("Could not attach to parent window");
     }
+    qInfo() << rect.width() << rect.height() << offsetX << offsetY;
+    m_window.setHeight(rect.height());
+    m_window.setWidth(rect.width());
+    m_window.setY(offsetY);
+    m_window.setX(offsetX+1920);
+    qInfo() << m_window.geometry();
 }
 
 /*!

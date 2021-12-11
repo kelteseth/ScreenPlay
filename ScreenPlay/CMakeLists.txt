@@ -71,7 +71,6 @@ set(QML
     qml/Monitors/MonitorsProjectSettingItem.qml
     qml/Navigation/Navigation.qml
     qml/Navigation/NavigationItem.qml
-    qml/Navigation/NavigationWallpaperConfiguration.qml
     qml/Monitors/DefaultVideoControls.qml
     qml/Common/TagSelector.qml
     qml/Common/Tag.qml
