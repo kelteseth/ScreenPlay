@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="it" sourcelanguage="en">
+<TS version="2.1" language="it_IT" sourcelanguage="en">
   <context>
     <name>ColorPicker</name>
     <message>
@@ -761,16 +761,31 @@
       <source>Settings</source>
       <translation>Impostazioni</translation>
     </message>
-  </context>
-  <context>
-    <name>NavigationWallpaperConfiguration</name>
     <message>
-      <source>Configurate active Wallpaper or Widgets</source>
-      <translation>Configura Sfondi o Widgets attivi</translation>
+      <source>Mute/Unmute all Wallpaper</source>
+      <translation type="unfinished">Mute/Unmute all Wallpaper</translation>
     </message>
     <message>
-      <source>No active Wallpaper or Widgets</source>
-      <translation>Nessuno Sfondo o Widget attivi</translation>
+      <source>Pause/Play all Wallpaper</source>
+      <translation type="unfinished">Pause/Play all Wallpaper</translation>
+    </message>
+    <message>
+      <source>Configure Wallpaper</source>
+      <translation type="unfinished">Configure Wallpaper</translation>
+    </message>
+    <message>
+      <source>Minimize to Tray</source>
+      <translation type="unfinished">Minimize to Tray</translation>
+    </message>
+    <message>
+      <source>Exit</source>
+      <translation type="unfinished">Exit</translation>
+    </message>
+    <message>
+      <source>Are you sure you want to exit ScreenPlay? 
+This will shut down all Wallpaper and Widgets.</source>
+      <translation type="unfinished">Are you sure you want to exit ScreenPlay? 
+This will shut down all Wallpaper and Widgets.</translation>
     </message>
   </context>
   <context>
@@ -1009,10 +1024,6 @@
       <translation>Versione</translation>
     </message>
     <message>
-      <source>ScreenPlay Build Version </source>
-      <translation>Versione Build di ScreenPlay </translation>
-    </message>
-    <message>
       <source>Open Changelog</source>
       <translation>Apri Changelog</translation>
     </message>
@@ -1051,6 +1062,12 @@
     <message>
       <source>Privacy</source>
       <translation>Privacy</translation>
+    </message>
+    <message>
+      <source>ScreenPlay Build Version 
+</source>
+      <translation type="unfinished">ScreenPlay Build Version 
+</translation>
     </message>
   </context>
   <context>
