@@ -700,30 +700,30 @@
     <name>MonitorsProjectSettingItem</name>
     <message>
       <source>Set color</source>
-      <translation type="unfinished">Set color</translation>
+      <translation>Ustaw kolor</translation>
     </message>
     <message>
       <source>Please choose a color</source>
-      <translation type="unfinished">Please choose a color</translation>
+      <translation>Należy wybrać kolor</translation>
     </message>
   </context>
   <context>
     <name>Navigation</name>
     <message>
       <source>All</source>
-      <translation type="unfinished">All</translation>
+      <translation>Wszystko</translation>
     </message>
     <message>
       <source>Scenes</source>
-      <translation type="unfinished">Scenes</translation>
+      <translation>Sceny</translation>
     </message>
     <message>
       <source>Videos</source>
-      <translation type="unfinished">Videos</translation>
+      <translation>Filmy</translation>
     </message>
     <message>
       <source>Widgets</source>
-      <translation type="unfinished">Widgets</translation>
+      <translation>Widżety</translation>
     </message>
     <message>
       <source>Install Date Ascending</source>
@@ -739,47 +739,47 @@
     </message>
     <message>
       <source>Upload to the Steam Workshop</source>
-      <translation type="unfinished">Upload to the Steam Workshop</translation>
+      <translation>Prześlij do Warsztatu Steam</translation>
     </message>
     <message>
       <source>Create</source>
-      <translation type="unfinished">Create</translation>
+      <translation>Utwórz</translation>
     </message>
     <message>
       <source>Workshop</source>
-      <translation type="unfinished">Workshop</translation>
+      <translation>Warsztat</translation>
     </message>
     <message>
       <source>Installed</source>
-      <translation type="unfinished">Installed</translation>
+      <translation>Zainstalowane</translation>
     </message>
     <message>
       <source>Community</source>
-      <translation type="unfinished">Community</translation>
+      <translation>Społeczność</translation>
     </message>
     <message>
       <source>Settings</source>
-      <translation type="unfinished">Settings</translation>
+      <translation>Ustawienia</translation>
     </message>
     <message>
       <source>Mute/Unmute all Wallpaper</source>
-      <translation type="unfinished">Mute/Unmute all Wallpaper</translation>
+      <translation>Wycisz/Anuluj wyciszenie wszystkich tapet</translation>
     </message>
     <message>
       <source>Pause/Play all Wallpaper</source>
-      <translation type="unfinished">Pause/Play all Wallpaper</translation>
+      <translation>Wstrzymaj/Odtwórz wszystkie tapety</translation>
     </message>
     <message>
       <source>Configure Wallpaper</source>
-      <translation type="unfinished">Configure Wallpaper</translation>
+      <translation>Konfiguruj tapetę</translation>
     </message>
     <message>
       <source>Minimize to Tray</source>
-      <translation type="unfinished">Minimize to Tray</translation>
+      <translation>Minimalizuj do paska zadań</translation>
     </message>
     <message>
       <source>Exit</source>
-      <translation type="unfinished">Exit</translation>
+      <translation>Wyjdź</translation>
     </message>
     <message>
       <source>Are you sure you want to exit ScreenPlay? 
