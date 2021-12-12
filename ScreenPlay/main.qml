@@ -38,7 +38,7 @@ ApplicationWindow {
         }
 
         if (name === "Installed") {
-            stackView.replace("qrc:/ScreenPlay/qml/" + name + "/" + name + ".qml", {
+            stackView.replace("qrc:/ScreenPlay/qml/Installed/Installed.qml", {
                                   "sidebar": sidebar
                               })
             return
@@ -71,7 +71,9 @@ ApplicationWindow {
     }
     Component.onCompleted: {
         setTheme(ScreenPlay.settings.theme);
-        switchPage("Installed");
+        stackView.push("qrc:/ScreenPlay/qml/Installed/Installed.qml", {
+                              "sidebar": sidebar
+                          })
         if (!ScreenPlay.settings.silentStart)
             root.show();
 

@@ -12,7 +12,7 @@ import "../Common"
 Rectangle {
     id: root
 
-    property string currentNavigationName: ""
+    property string currentNavigationName: "Installed"
     property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity]
     property bool navActive: true
     property ApplicationWindow window
