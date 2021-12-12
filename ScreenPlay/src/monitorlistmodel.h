@@ -58,17 +58,17 @@ namespace ScreenPlay {
 struct Monitor {
 
     Monitor(
-        const int number,
-        const QRect& availableGeometry,
+        const int index,
+        const QRect& geometry,
         QScreen* screen)
     {
-        m_number = number;
-        m_availableGeometry = availableGeometry;
+        m_index = index;
+        m_geometry = geometry;
         m_screen = screen;
     }
 
-    QRect m_availableGeometry;
-    int m_number { 0 };
+    int m_index { 0 };
+    QRect m_geometry;
     QScreen* m_screen { nullptr };
     std::shared_ptr<ScreenPlayWallpaper> m_activeWallpaper { nullptr };
 };
@@ -81,15 +81,8 @@ public:
 
     enum class MonitorRole {
         AppID = Qt::UserRole,
-        MonitorID,
-        Name,
-        Size,
-        AvailableGeometry,
-        AvailableVirtualGeometry,
-        Number,
+        Index,
         Geometry,
-        Model,
-        Manufacturer,
         PreviewImage,
         InstalledType,
     };
@@ -114,7 +107,7 @@ public slots:
     void reset();
     void clearActiveWallpaper();
     void closeWallpaper(const QString& appID);
-    QRect getAbsoluteDesktopSize() const;
+    QRect absoluteDesktopSize() const;
 
     void screenAdded(QScreen* screen)
     {
