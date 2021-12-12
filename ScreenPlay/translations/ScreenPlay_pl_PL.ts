@@ -784,26 +784,26 @@
     <message>
       <source>Are you sure you want to exit ScreenPlay? 
 This will shut down all Wallpaper and Widgets.</source>
-      <translation type="unfinished">Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</translation>
+      <translation>Czy na pewno chcesz zamknąć ScreenPlay? 
+Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
   </context>
   <context>
     <name>PopupOffline</name>
     <message>
       <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
-      <translation type="unfinished">You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
+      <translation>Ta funkcja wymaga uruchomienia Steam. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
     </message>
     <message>
       <source>Back</source>
-      <translation type="unfinished">Back</translation>
+      <translation>Wstecz</translation>
     </message>
   </context>
   <context>
     <name>PopupSteamWorkshopAgreement</name>
     <message>
       <source>You Need to Agree To The Steam Subscriber Agreement First</source>
-      <translation type="unfinished">You Need to Agree To The Steam Subscriber Agreement First</translation>
+      <translation>Należy zaakceptować Umowę użytkownika Steam</translation>
     </message>
     <message>
       <source>REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</source>
@@ -811,7 +811,7 @@ This will shut down all Wallpaper and Widgets.</translation>
     </message>
     <message>
       <source>View The Steam Subscriber Agreement</source>
-      <translation type="unfinished">View The Steam Subscriber Agreement</translation>
+      <translation>Wyświetl Umowę użytkownika Steam</translation>
     </message>
     <message>
       <source>Accept Steam Workshop Agreement</source>
@@ -822,102 +822,102 @@ This will shut down all Wallpaper and Widgets.</translation>
     <name>QMLWallpaper</name>
     <message>
       <source>Create a QML Wallpaper</source>
-      <translation type="unfinished">Create a QML Wallpaper</translation>
+      <translation>Utwórz tapetę QML</translation>
     </message>
     <message>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Ogólne</translation>
     </message>
     <message>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Nazwa tapety</translation>
     </message>
     <message>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Utworzone przez</translation>
     </message>
     <message>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Opis</translation>
     </message>
     <message>
       <source>License &amp; Tags</source>
-      <translation type="unfinished">License &amp; Tags</translation>
+      <translation>Licencja i znaczniki</translation>
     </message>
     <message>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Obraz podglądu</translation>
     </message>
   </context>
   <context>
     <name>QMLWidget</name>
     <message>
       <source>Create a QML widget</source>
-      <translation type="unfinished">Create a QML widget</translation>
+      <translation>Utwórz widżet QML</translation>
     </message>
     <message>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Ogólne</translation>
     </message>
     <message>
       <source>Widget name</source>
-      <translation type="unfinished">Widget name</translation>
+      <translation>Nazwa widżetu</translation>
     </message>
     <message>
       <source>Created by</source>
-      <translation type="unfinished">Created by</translation>
+      <translation>Utworzone przez</translation>
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Znaczniki</translation>
     </message>
   </context>
   <context>
     <name>SaveNotification</name>
     <message>
       <source>Profile saved successfully!</source>
-      <translation type="unfinished">Profile saved successfully!</translation>
+      <translation>Profil zapisany pomyślnie!</translation>
     </message>
   </context>
   <context>
     <name>ScreenPlayItem</name>
     <message>
       <source>NEW</source>
-      <translation type="unfinished">NEW</translation>
+      <translation>NOWE</translation>
     </message>
   </context>
   <context>
     <name>Search</name>
     <message>
       <source>Search for Wallpaper &amp; Widgets</source>
-      <translation type="unfinished">Search for Wallpaper &amp; Widgets</translation>
+      <translation>Szukaj tapet i widżetów</translation>
     </message>
   </context>
   <context>
     <name>Settings</name>
     <message>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Ogólne</translation>
     </message>
     <message>
       <source>Autostart</source>
-      <translation type="unfinished">Autostart</translation>
+      <translation>Autostart</translation>
     </message>
     <message>
       <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-      <translation type="unfinished">ScreenPlay will start with Windows and will setup your Desktop every time for you.</translation>
+      <translation>ScreenPlay zostanie uruchomione przy starcie systemu Windows i ustawi dla Ciebie tapetę za każdym razem.</translation>
     </message>
     <message>
       <source>High priority Autostart</source>
-      <translation type="unfinished">High priority Autostart</translation>
+      <translation>Wysoki priorytet autostartu</translation>
     </message>
     <message>
       <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-      <translation type="unfinished">This options grants ScreenPlay a higher autostart priority than other apps.</translation>
+      <translation>Ta opcja nadaje ScreenPlay wyższy priorytet autostartu w porównaniu do innych aplikacji.</translation>
     </message>
     <message>
       <source>Send anonymous crash reports and statistics</source>
-      <translation type="unfinished">Send anonymous crash reports and statistics</translation>
+      <translation>Wysyłaj anonimowe raporty o awariach oraz statystyki</translation>
     </message>
     <message>
       <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
@@ -953,7 +953,7 @@ This will shut down all Wallpaper and Widgets.</translation>
     </message>
     <message>
       <source>Switch dark/light theme</source>
-      <translation type="unfinished">Switch dark/light theme</translation>
+      <translation>Zmień motyw na jasny/ciemny</translation>
     </message>
     <message>
       <source>System Default</source>
@@ -1021,15 +1021,15 @@ This will shut down all Wallpaper and Widgets.</translation>
     </message>
     <message>
       <source>Version</source>
-      <translation type="unfinished">Version</translation>
+      <translation>Wersja</translation>
     </message>
     <message>
       <source>Open Changelog</source>
-      <translation type="unfinished">Open Changelog</translation>
+      <translation>Wyświetl listę zmian</translation>
     </message>
     <message>
       <source>Third Party Software</source>
-      <translation type="unfinished">Third Party Software</translation>
+      <translation>Oprogramowanie zewnętrzne</translation>
     </message>
     <message>
       <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
@@ -1037,23 +1037,23 @@ This will shut down all Wallpaper and Widgets.</translation>
     </message>
     <message>
       <source>Licenses</source>
-      <translation type="unfinished">Licenses</translation>
+      <translation>Licencje</translation>
     </message>
     <message>
       <source>Logs</source>
-      <translation type="unfinished">Logs</translation>
+      <translation>Rejestry</translation>
     </message>
     <message>
       <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-      <translation type="unfinished">If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</translation>
+      <translation>Tutaj znajdziesz wyjaśnienie, jeśli ScreenPlay nie działa poprawnie. Wyświetla wszystkie rejestry oraz ostrzeżenia podczas działania.</translation>
     </message>
     <message>
       <source>Show Logs</source>
-      <translation type="unfinished">Show Logs</translation>
+      <translation>Pokaż rejestry</translation>
     </message>
     <message>
       <source>Data Protection</source>
-      <translation type="unfinished">Data Protection</translation>
+      <translation>Ochrona danych</translation>
     </message>
     <message>
       <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
@@ -1061,12 +1061,12 @@ This will shut down all Wallpaper and Widgets.</translation>
     </message>
     <message>
       <source>Privacy</source>
-      <translation type="unfinished">Privacy</translation>
+      <translation>Prywatność</translation>
     </message>
     <message>
       <source>ScreenPlay Build Version 
 </source>
-      <translation type="unfinished">ScreenPlay Build Version 
+      <translation>Wersja kompilacji ScreenPlay
 </translation>
     </message>
   </context>
@@ -1074,38 +1074,38 @@ This will shut down all Wallpaper and Widgets.</translation>
     <name>SettingsExpander</name>
     <message>
       <source>Copy text to clipboard</source>
-      <translation type="unfinished">Copy text to clipboard</translation>
+      <translation>Kopiuj tekst do schowka</translation>
     </message>
   </context>
   <context>
     <name>Sidebar</name>
     <message>
       <source>Tools Overview</source>
-      <translation type="unfinished">Tools Overview</translation>
+      <translation>Przegląd narzędzi</translation>
     </message>
     <message>
       <source>Video Import h264 (.mp4)</source>
-      <translation type="unfinished">Video Import h264 (.mp4)</translation>
+      <translation>Importuj film h264 (.mp4)</translation>
     </message>
     <message>
       <source>Video Import VP8 &amp; VP9 (.webm)</source>
-      <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
+      <translation>Importuj film VP8 lub VP9 (.webm)</translation>
     </message>
     <message>
       <source>Video import (all types)</source>
-      <translation type="unfinished">Video import (all types)</translation>
+      <translation>Importuj film (dowolny typ)</translation>
     </message>
     <message>
       <source>GIF Wallpaper</source>
-      <translation type="unfinished">GIF Wallpaper</translation>
+      <translation>Tapeta GIF</translation>
     </message>
     <message>
       <source>QML Wallpaper</source>
-      <translation type="unfinished">QML Wallpaper</translation>
+      <translation>Tapeta QML</translation>
     </message>
     <message>
       <source>HTML5 Wallpaper</source>
-      <translation type="unfinished">HTML5 Wallpaper</translation>
+      <translation>Tapeta HTML5</translation>
     </message>
     <message>
       <source>Website Wallpaper</source>
