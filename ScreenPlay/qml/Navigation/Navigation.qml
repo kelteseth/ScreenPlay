@@ -138,8 +138,8 @@ Rectangle {
         anchors.centerIn: quickActionRow
         width: quickActionRow.width + 5
         height: quickActionRow.height - 16
-        color: "transparent"
-        border.color: Material.iconDisabledColor
+        color: Material.theme === Material.Light ? Material.background : "#242424"
+        border.color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(Material.background)
         border.width: 1
         radius: 3
     }
@@ -231,7 +231,7 @@ Rectangle {
             }
 
         Rectangle  {
-            color: Material.iconDisabledColor
+            color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(Material.background)
             height: quickActionRowBackground.height
             width: 1
         }
