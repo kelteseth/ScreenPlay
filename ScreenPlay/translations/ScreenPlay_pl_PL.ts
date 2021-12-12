@@ -568,7 +568,7 @@
     </message>
     <message>
       <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
-      <translation type="unfinished">Invalid file type. Must be valid h264 (*.mp4)!</translation>
+      <translation>Nieprawidłowy typ pliku. Należy użyć prawidłowy plik h264 (*.mp4)!</translation>
     </message>
     <message>
       <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
@@ -576,11 +576,11 @@
     </message>
     <message>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>Otwórz dokumentację</translation>
     </message>
     <message>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Wybierz plik</translation>
     </message>
   </context>
   <context>
@@ -591,11 +591,11 @@
     </message>
     <message>
       <source>Refreshing!</source>
-      <translation type="unfinished">Refreshing!</translation>
+      <translation>Odświeżanie!</translation>
     </message>
     <message>
       <source>Pull to refresh!</source>
-      <translation type="unfinished">Pull to refresh!</translation>
+      <translation>Przesuń, aby odświeżyć!</translation>
     </message>
     <message>
       <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
