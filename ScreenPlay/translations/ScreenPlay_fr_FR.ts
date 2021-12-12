@@ -21,7 +21,7 @@
     </message>
     <message>
         <source>HSV</source>
-        <translation type="unfinished">HSV</translation>
+        <translation>TSV</translation>
     </message>
     <message>
         <source>R:</source>
@@ -265,15 +265,15 @@
     <name>Forum</name>
     <message>
         <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
-        <translation type="unfinished">Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</translation>
+        <translation>Téléchargez manuellement des fond d&apos;écran et des widgets depuis notre forum. Si vous voulez télécharger du contenu Steam Workshop, vous devez installer ScreenPlay via Steam.</translation>
     </message>
     <message>
         <source>Install Steam Version</source>
-        <translation type="unfinished">Install Steam Version</translation>
+        <translation>Installer la version Steam</translation>
     </message>
     <message>
         <source>Open In Browser</source>
-        <translation type="unfinished">Open In Browser</translation>
+        <translation>Ouvrir dans le navigateur</translation>
     </message>
 </context>
 <context>
@@ -365,7 +365,7 @@
     <name>HeadlineSection</name>
     <message>
         <source>Headline Section</source>
-        <translation type="unfinished">Headline Section</translation>
+        <translation>Section de titre</translation>
     </message>
 </context>
 <context>
@@ -427,7 +427,7 @@
     </message>
     <message>
         <source>Import a video to a wallpaper</source>
-        <translation type="unfinished">Import a video to a wallpaper</translation>
+        <translation>Convertir une vidéo en fond d&apos;écran</translation>
     </message>
     <message>
         <source>Generating preview video...</source>
@@ -466,15 +466,15 @@
     </message>
     <message>
         <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-        <translation type="unfinished">When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</translation>
+        <translation>Lors de l&apos;importation de webm, vous pouvez ignorer l&apos;étape de conversion. Lorsque vous obtenez des résultats insatisfaisants avec l&apos;importateur de ScreenPlay via &apos;import et conversion de vidéo (tous types)&apos; vous pouvez convertir au format webm via le logiciel HandBrake. Il est gratuit et open source!</translation>
     </message>
     <message>
         <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-        <translation type="unfinished">Invalid file type. Must be valid VP8 or VP9 (*.webm)!</translation>
+        <translation>Type de fichier invalide. Doit être un VP8 ou VP9 (*.webm)!</translation>
     </message>
     <message>
         <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished">Drop a *.webm file here or use &apos;Select file&apos; below.</translation>
+        <translation>Déposez un fichier *.webm ici ou utilisez &apos;Sélectionner un fichier&apos; ci-dessous.</translation>
     </message>
     <message>
         <source>Open Documentation</source>
@@ -489,39 +489,39 @@
     <name>Importh264Convert</name>
     <message>
         <source>AnalyseVideo...</source>
-        <translation type="unfinished">AnalyseVidéo...</translation>
+        <translation type="unfinished">AnalyseVideo...</translation>
     </message>
     <message>
         <source>Generating preview image...</source>
-        <translation type="unfinished">Génération de l&apos;image d&apos;aperçu...</translation>
+        <translation type="unfinished">Generating preview image...</translation>
     </message>
     <message>
         <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished">Génération de la miniature de l’aperçu...</translation>
+        <translation type="unfinished">Generating preview thumbnail image...</translation>
     </message>
     <message>
         <source>Generating 5 second preview video...</source>
-        <translation type="unfinished">Génération d’une vidéo d’aperçu de 5 secondes...</translation>
+        <translation type="unfinished">Generating 5 second preview video...</translation>
     </message>
     <message>
         <source>Generating preview gif...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Generating preview gif...</translation>
     </message>
     <message>
         <source>Converting Audio...</source>
-        <translation type="unfinished">Conversion de l’audio...</translation>
+        <translation type="unfinished">Converting Audio...</translation>
     </message>
     <message>
         <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Converting Video... This can take some time!</translation>
     </message>
     <message>
         <source>Converting Video ERROR!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Converting Video ERROR!</translation>
     </message>
     <message>
         <source>Analyse Video ERROR!</source>
-        <translation type="unfinished">Erreur d&apos;Analyse Vidéo !</translation>
+        <translation type="unfinished">Analyse Video ERROR!</translation>
     </message>
     <message>
         <source>Import a video to a wallpaper</source>
@@ -529,11 +529,11 @@
     </message>
     <message>
         <source>Generating preview video...</source>
-        <translation type="unfinished">Génération de la vidéo d&apos;aperçu...</translation>
+        <translation type="unfinished">Generating preview video...</translation>
     </message>
     <message>
         <source>Name (required!)</source>
-        <translation type="unfinished">Nom (requis!)</translation>
+        <translation type="unfinished">Name (required!)</translation>
     </message>
     <message>
         <source>Description</source>
@@ -541,46 +541,46 @@
     </message>
     <message>
         <source>Youtube URL</source>
-        <translation type="unfinished">URL Youtube&#xa0;</translation>
+        <translation type="unfinished">Youtube URL</translation>
     </message>
     <message>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abort</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Save</translation>
     </message>
     <message>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished">Enregistrer le fond d&apos;écran</translation>
+        <translation type="unfinished">Save Wallpaper...</translation>
     </message>
 </context>
 <context>
     <name>Importh264Init</name>
     <message>
         <source>Import a .mp4 video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Import a .mp4 video</translation>
     </message>
     <message>
         <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</translation>
     </message>
     <message>
         <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Invalid file type. Must be valid h264 (*.mp4)!</translation>
     </message>
     <message>
         <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Drop a *.mp4 file here or use &apos;Select file&apos; below.</translation>
     </message>
     <message>
         <source>Open Documentation</source>
-        <translation type="unfinished">Ouvrir la documentation</translation>
+        <translation type="unfinished">Open Documentation</translation>
     </message>
     <message>
         <source>Select file</source>
-        <translation type="unfinished">Sélectionner un fichier</translation>
+        <translation type="unfinished">Select file</translation>
     </message>
 </context>
 <context>
@@ -595,7 +595,7 @@
     </message>
     <message>
         <source>Pull to refresh!</source>
-        <translation type="unfinished">Pull to refresh!</translation>
+        <translation>Faire glisser pour actualiser!</translation>
     </message>
     <message>
         <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
@@ -645,7 +645,7 @@
     </message>
     <message>
         <source>You grant other to remix your work and change the license to their liking.</source>
-        <translation type="unfinished">You grant other to remix your work and change the license to their liking.</translation>
+        <translation>Vous permettez aux autres utilisateurs de réutiliser et altérer votre travail et de changer la licence selon leur souhait.</translation>
     </message>
     <message>
         <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </source>
@@ -657,7 +657,7 @@
     </message>
     <message>
         <source>You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</source>
-        <translation type="unfinished">You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</translation>
+        <translation>Vous permettez aux autres utilisateurs de réutiliser et altérer votre travail, mais il doit rester sous licence GPLv3. Nous recommandons cette licence pour tout les fonds d&apos;écrans codé.</translation>
     </message>
     <message>
         <source>You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</source>
@@ -669,238 +669,239 @@
     <message>
         <source>Your monitor setup changed!
  Please configure your wallpaper again.</source>
-        <translation type="unfinished">Your monitor setup changed!
- Please configure your wallpaper again.</translation>
+        <translation>La configuration de votre écran a changé!
+ Veuillez configurer votre fond d&apos;écran à nouveau.</translation>
     </message>
 </context>
 <context>
     <name>Monitors</name>
     <message>
         <source>Wallpaper Configuration</source>
-        <translation type="unfinished">Wallpaper Configuration</translation>
+        <translation>Configuration du fond d&apos;écran</translation>
     </message>
     <message>
         <source>Remove selected</source>
-        <translation type="unfinished">Remove selected</translation>
+        <translation>Retirer l&apos;écran sélectionné</translation>
     </message>
     <message>
         <source>Remove </source>
-        <translation type="unfinished">Remove </translation>
+        <translation>Retirer </translation>
     </message>
     <message>
         <source>Wallpapers</source>
-        <translation type="unfinished">Wallpapers</translation>
+        <translation>Fonds d’écran</translation>
     </message>
     <message>
         <source>Widgets</source>
-        <translation type="unfinished">Widgets</translation>
+        <translation>Widgets</translation>
     </message>
 </context>
 <context>
     <name>MonitorsProjectSettingItem</name>
     <message>
         <source>Set color</source>
-        <translation type="unfinished">Set color</translation>
+        <translation>Définir la couleur</translation>
     </message>
     <message>
         <source>Please choose a color</source>
-        <translation type="unfinished">Please choose a color</translation>
+        <translation>Veuillez choisir une couleur</translation>
     </message>
 </context>
 <context>
     <name>Navigation</name>
     <message>
         <source>All</source>
-        <translation type="unfinished">All</translation>
+        <translation>Tout</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="unfinished">Scenes</translation>
+        <translation>Scènes</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Videos</translation>
+        <translation>Vidéos</translation>
     </message>
     <message>
         <source>Widgets</source>
-        <translation type="unfinished">Widgets</translation>
+        <translation>Widgets</translation>
     </message>
     <message>
         <source>Install Date Ascending</source>
-        <translation type="unfinished">Install Date Ascending</translation>
+        <translation>Date d&apos;installation croissante</translation>
     </message>
     <message>
         <source>Install Date Descending</source>
-        <translation type="unfinished">Install Date Descending</translation>
+        <translation>Date d&apos;installation décroissante</translation>
     </message>
     <message>
         <source> Subscribed items: </source>
-        <translation type="unfinished"> Subscribed items: </translation>
+        <translation> Éléments souscrits : </translation>
     </message>
     <message>
         <source>Upload to the Steam Workshop</source>
-        <translation type="unfinished">Upload to the Steam Workshop</translation>
+        <translation>Uploader sur le Steam Workshop</translation>
     </message>
     <message>
         <source>Create</source>
-        <translation type="unfinished">Create</translation>
+        <translation>Créer</translation>
     </message>
     <message>
         <source>Workshop</source>
-        <translation type="unfinished">Workshop</translation>
+        <translation>Workshop</translation>
     </message>
     <message>
         <source>Installed</source>
-        <translation type="unfinished">Installed</translation>
+        <translation>Installé</translation>
     </message>
     <message>
         <source>Community</source>
-        <translation type="unfinished">Community</translation>
+        <translation>Communauté</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished">Settings</translation>
+        <translation>Paramètres</translation>
     </message>
     <message>
         <source>Mute/Unmute all Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mute/Unmute all Wallpaper</translation>
     </message>
     <message>
         <source>Pause/Play all Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Pause/Play all Wallpaper</translation>
     </message>
     <message>
         <source>Configure Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Configure Wallpaper</translation>
     </message>
     <message>
         <source>Minimize to Tray</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Minimize to Tray</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Exit</translation>
     </message>
     <message>
         <source>Are you sure you want to exit ScreenPlay? 
 This will shut down all Wallpaper and Widgets.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Are you sure you want to exit ScreenPlay? 
+This will shut down all Wallpaper and Widgets.</translation>
     </message>
 </context>
 <context>
     <name>PopupOffline</name>
     <message>
         <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
-        <translation type="unfinished">You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
+        <translation>Vous devez exécuter Steam pour cela. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Back</translation>
+        <translation>Précédent</translation>
     </message>
 </context>
 <context>
     <name>PopupSteamWorkshopAgreement</name>
     <message>
         <source>You Need to Agree To The Steam Subscriber Agreement First</source>
-        <translation type="unfinished">You Need to Agree To The Steam Subscriber Agreement First</translation>
+        <translation>Vous devez d&apos;abord accepter l&apos;Accord de Souscription Steam</translation>
     </message>
     <message>
         <source>REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</source>
-        <translation type="unfinished">REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</translation>
+        <translation>REQUIÈRE UNE CONNEXION INTERNET ET UN COMPTE STEAM GRATUIT POUR L&apos;ACTIVATION. Avertissement: Produit offert sous réserve de votre acceptation de l&apos;Accord de Souscription Steam (ASS). Vous devez activer ce produit via Internet en vous enregistrant sur un compte Steam et en acceptant l&apos;ASS. Veuillez consulter https://store.steampowered.com/subscriber_agreement/ pour consulter l&apos;ASS avant l&apos;achat. Si vous n&apos;êtes pas d&apos;accord avec les dispositions de l&apos;ASS, vous devriez retourner ce jeu non ouvert à votre détaillant conformément à leur politique de retour.</translation>
     </message>
     <message>
         <source>View The Steam Subscriber Agreement</source>
-        <translation type="unfinished">View The Steam Subscriber Agreement</translation>
+        <translation>Voir l&apos;Accord de Souscription Steam</translation>
     </message>
     <message>
         <source>Accept Steam Workshop Agreement</source>
-        <translation type="unfinished">Accept Steam Workshop Agreement</translation>
+        <translation>Accepter l&apos;Accord de Souscription Steam</translation>
     </message>
 </context>
 <context>
     <name>QMLWallpaper</name>
     <message>
         <source>Create a QML Wallpaper</source>
-        <translation type="unfinished">Create a QML Wallpaper</translation>
+        <translation>Créer un fond d&apos;écran QML</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>Général</translation>
     </message>
     <message>
         <source>Wallpaper name</source>
-        <translation type="unfinished">Wallpaper name</translation>
+        <translation>Nom du fond d&apos;écran</translation>
     </message>
     <message>
         <source>Created By</source>
-        <translation type="unfinished">Created By</translation>
+        <translation>Créé par</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished">Description</translation>
+        <translation>Description</translation>
     </message>
     <message>
         <source>License &amp; Tags</source>
-        <translation type="unfinished">License &amp; Tags</translation>
+        <translation>Licence &amp; Tags</translation>
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished">Preview Image</translation>
+        <translation>Image d&apos;aperçu</translation>
     </message>
 </context>
 <context>
     <name>QMLWidget</name>
     <message>
         <source>Create a QML widget</source>
-        <translation type="unfinished">Create a QML widget</translation>
+        <translation>Créer un widget QML</translation>
     </message>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>Général</translation>
     </message>
     <message>
         <source>Widget name</source>
-        <translation type="unfinished">Widget name</translation>
+        <translation>Nom du Widget</translation>
     </message>
     <message>
         <source>Created by</source>
-        <translation type="unfinished">Created by</translation>
+        <translation>Créé par</translation>
     </message>
     <message>
         <source>Tags</source>
-        <translation type="unfinished">Tags</translation>
+        <translation>Tags</translation>
     </message>
 </context>
 <context>
     <name>SaveNotification</name>
     <message>
         <source>Profile saved successfully!</source>
-        <translation type="unfinished">Profile saved successfully!</translation>
+        <translation>Profil enregistré avec succès!</translation>
     </message>
 </context>
 <context>
     <name>ScreenPlayItem</name>
     <message>
         <source>NEW</source>
-        <translation type="unfinished">NEW</translation>
+        <translation>NOUVEAU</translation>
     </message>
 </context>
 <context>
     <name>Search</name>
     <message>
         <source>Search for Wallpaper &amp; Widgets</source>
-        <translation type="unfinished">Search for Wallpaper &amp; Widgets</translation>
+        <translation>Recherche de fond d&apos;écran et de widgets</translation>
     </message>
 </context>
 <context>
     <name>Settings</name>
     <message>
         <source>General</source>
-        <translation type="unfinished">General</translation>
+        <translation>Général</translation>
     </message>
     <message>
         <source>Autostart</source>
-        <translation type="unfinished">Autostart</translation>
+        <translation>Démarrage automatique</translation>
     </message>
     <message>
         <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
@@ -1044,35 +1045,36 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-        <translation type="unfinished">If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</translation>
+        <translation>Si ScreenPlay ne fonctionne pas correctement, c&apos;est une bonne façon de chercher des réponses. Cela montre tous les logs et les avertissements émis pendant l&apos;exécution.</translation>
     </message>
     <message>
         <source>Show Logs</source>
-        <translation type="unfinished">Show Logs</translation>
+        <translation>Afficher les logs</translation>
     </message>
     <message>
         <source>Data Protection</source>
-        <translation type="unfinished">Data Protection</translation>
+        <translation>Protection des données</translation>
     </message>
     <message>
         <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-        <translation type="unfinished">We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</translation>
+        <translation>Nous utilisons vos données exclusivement pour améliorer ScreenPlay. Nous ne vendons pas ou ne partageons pas ces données (anonyme) avec d&apos;autres !</translation>
     </message>
     <message>
         <source>Privacy</source>
-        <translation type="unfinished">Privacy</translation>
+        <translation>Confidentialité</translation>
     </message>
     <message>
         <source>ScreenPlay Build Version 
 </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ScreenPlay Build Version 
+</translation>
     </message>
 </context>
 <context>
     <name>SettingsExpander</name>
     <message>
         <source>Copy text to clipboard</source>
-        <translation type="unfinished">Copy text to clipboard</translation>
+        <translation>Copier le texte dans le presse-papiers</translation>
     </message>
 </context>
 <context>
@@ -1083,47 +1085,47 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>Video Import h264 (.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video Import h264 (.mp4)</translation>
     </message>
     <message>
         <source>Video Import VP8 &amp; VP9 (.webm)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
     </message>
     <message>
         <source>Video import (all types)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video import (all types)</translation>
     </message>
     <message>
         <source>GIF Wallpaper</source>
-        <translation type="unfinished">GIF Wallpaper</translation>
+        <translation>Fond d&apos;écran GIF</translation>
     </message>
     <message>
         <source>QML Wallpaper</source>
-        <translation type="unfinished">QML Wallpaper</translation>
+        <translation>Fond d&apos;écran QML</translation>
     </message>
     <message>
         <source>HTML5 Wallpaper</source>
-        <translation type="unfinished">HTML5 Wallpaper</translation>
+        <translation>Fond d&apos;écran HTML5</translation>
     </message>
     <message>
         <source>Website Wallpaper</source>
-        <translation type="unfinished">Website Wallpaper</translation>
+        <translation>Fond d&apos;écran Site web</translation>
     </message>
     <message>
         <source>QML Widget</source>
-        <translation type="unfinished">QML Widget</translation>
+        <translation>Widget QML</translation>
     </message>
     <message>
         <source>HTML Widget</source>
-        <translation type="unfinished">HTML Widget</translation>
+        <translation>Widget HTML</translation>
     </message>
     <message>
         <source>Set Wallpaper</source>
-        <translation type="unfinished">Set Wallpaper</translation>
+        <translation>Définir le fond d&apos;écran</translation>
     </message>
     <message>
         <source>Set Widget</source>
-        <translation type="unfinished">Set Widget</translation>
+        <translation>Définir le Widget</translation>
     </message>
     <message>
         <source>Headline</source>
@@ -1131,139 +1133,139 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>Select a Monitor to display the content</source>
-        <translation type="unfinished">Select a Monitor to display the content</translation>
+        <translation>Sélectionnez un écran pour afficher le contenu</translation>
     </message>
     <message>
         <source>Set Volume</source>
-        <translation type="unfinished">Set Volume</translation>
+        <translation>Régler le volume</translation>
     </message>
     <message>
         <source>Fill Mode</source>
-        <translation type="unfinished">Fill Mode</translation>
+        <translation>Mode de remplissage</translation>
     </message>
     <message>
         <source>Stretch</source>
-        <translation type="unfinished">Stretch</translation>
+        <translation>Étirer</translation>
     </message>
     <message>
         <source>Fill</source>
-        <translation type="unfinished">Fill</translation>
+        <translation>Remplir</translation>
     </message>
     <message>
         <source>Contain</source>
-        <translation type="unfinished">Contain</translation>
+        <translation>Contenir</translation>
     </message>
     <message>
         <source>Cover</source>
-        <translation type="unfinished">Cover</translation>
+        <translation>Couvrir</translation>
     </message>
     <message>
         <source>Scale-Down</source>
-        <translation type="unfinished">Scale-Down</translation>
+        <translation>Réduire</translation>
     </message>
     <message>
         <source>Size: </source>
-        <translation type="unfinished">Size: </translation>
+        <translation>Taille : </translation>
     </message>
     <message>
         <source>No description...</source>
-        <translation type="unfinished">No description...</translation>
+        <translation>Pas de description ...</translation>
     </message>
     <message>
         <source>Click here if you like the content</source>
-        <translation type="unfinished">Click here if you like the content</translation>
+        <translation>Cliquez ici si vous aimez le contenu</translation>
     </message>
     <message>
         <source>Click here if you do not like the content</source>
-        <translation type="unfinished">Click here if you do not like the content</translation>
+        <translation>Cliquez ici si vous n&apos;aimez pas le contenu</translation>
     </message>
     <message>
         <source>Subscribtions: </source>
-        <translation type="unfinished">Subscribtions: </translation>
+        <translation>Abonnements : </translation>
     </message>
     <message>
         <source>Open In Steam</source>
-        <translation type="unfinished">Open In Steam</translation>
+        <translation>Ouvrir dans Steam</translation>
     </message>
     <message>
         <source>Subscribed!</source>
-        <translation type="unfinished">Subscribed!</translation>
+        <translation>Abonné!</translation>
     </message>
     <message>
         <source>Subscribe</source>
-        <translation type="unfinished">Subscribe</translation>
+        <translation>S&apos;abonner</translation>
     </message>
 </context>
 <context>
     <name>StartInfo</name>
     <message>
         <source>Free tools to help you to create wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Free tools to help you to create wallpaper</translation>
     </message>
     <message>
         <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</translation>
     </message>
 </context>
 <context>
     <name>SteamNotAvailable</name>
     <message>
         <source>Could not load steam integration!</source>
-        <translation type="unfinished">Could not load steam integration!</translation>
+        <translation>Impossible de charger l&apos;intégration Steam!</translation>
     </message>
 </context>
 <context>
     <name>SteamProfile</name>
     <message>
         <source>Back</source>
-        <translation type="unfinished">Back</translation>
+        <translation>Précédent</translation>
     </message>
     <message>
         <source>Forward</source>
-        <translation type="unfinished">Forward</translation>
+        <translation>Suivant</translation>
     </message>
 </context>
 <context>
     <name>SteamWorkshopStartPage</name>
     <message>
         <source>Loading</source>
-        <translation type="unfinished">Loading</translation>
+        <translation>Chargement</translation>
     </message>
     <message>
         <source>Download now!</source>
-        <translation type="unfinished">Download now!</translation>
+        <translation>Télécharger maintenant!</translation>
     </message>
     <message>
         <source>Downloading...</source>
-        <translation type="unfinished">Downloading...</translation>
+        <translation>Téléchargement...</translation>
     </message>
     <message>
         <source>Details</source>
-        <translation type="unfinished">Details</translation>
+        <translation>Détails</translation>
     </message>
     <message>
         <source>Open In Steam</source>
-        <translation type="unfinished">Open In Steam</translation>
+        <translation>Ouvrir dans Steam</translation>
     </message>
     <message>
         <source>Profile</source>
-        <translation type="unfinished">Profile</translation>
+        <translation>Profil</translation>
     </message>
     <message>
         <source>Upload</source>
-        <translation type="unfinished">Upload</translation>
+        <translation>Uploader</translation>
     </message>
     <message>
         <source>Search for Wallpaper and Widgets...</source>
-        <translation type="unfinished">Search for Wallpaper and Widgets...</translation>
+        <translation>Recherche de fond d&apos;écran et de widgets...</translation>
     </message>
     <message>
         <source>Open Workshop in Steam</source>
-        <translation type="unfinished">Open Workshop in Steam</translation>
+        <translation>Ouvrir le Workshop dans Steam</translation>
     </message>
     <message>
         <source>Ranked By Vote</source>
-        <translation type="unfinished">Ranked By Vote</translation>
+        <translation>Classé par vote</translation>
     </message>
     <message>
         <source>Publication Date</source>
@@ -1593,7 +1595,7 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>Password Required To Kick Session</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Password Required To Kick Session</translation>
     </message>
     <message>
         <source>Already Logged In Elsewhere</source>
