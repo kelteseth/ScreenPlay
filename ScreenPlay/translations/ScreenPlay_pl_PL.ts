@@ -470,11 +470,11 @@
     </message>
     <message>
       <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
-      <translation type="unfinished">Invalid file type. Must be valid VP8 or VP9 (*.webm)!</translation>
+      <translation>Nieprawidłowy typ pliku. Należy wybrać plik VP8 lub VP9 (*.webm)!</translation>
     </message>
     <message>
       <source>Drop a *.webm file here or use &apos;Select file&apos; below.</source>
-      <translation type="unfinished">Drop a *.webm file here or use &apos;Select file&apos; below.</translation>
+      <translation>Przeciągnij tutaj plik *.webm lub naciśnij &apos;Wybierz plik&apos;.</translation>
     </message>
     <message>
       <source>Open Documentation</source>
