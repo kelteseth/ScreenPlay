@@ -1559,11 +1559,11 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Blocked</source>
-      <translation type="unfinished">Blocked</translation>
+      <translation>Zablokowane</translation>
     </message>
     <message>
       <source>Ignored</source>
-      <translation type="unfinished">Ignored</translation>
+      <translation>Ignorowane</translation>
     </message>
     <message>
       <source>No Match</source>
@@ -1587,7 +1587,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Content Version</source>
-      <translation type="unfinished">Content Version</translation>
+      <translation>Wersja treści</translation>
     </message>
     <message>
       <source>Try Another CM</source>
@@ -1603,11 +1603,11 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Suspended</source>
-      <translation type="unfinished">Suspended</translation>
+      <translation>Wstrzymane</translation>
     </message>
     <message>
       <source>Cancelled</source>
-      <translation type="unfinished">Cancelled</translation>
+      <translation>Anulowane</translation>
     </message>
     <message>
       <source>Data Corruption</source>
@@ -1623,11 +1623,11 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Password Unset</source>
-      <translation type="unfinished">Password Unset</translation>
+      <translation>Nie ustawiono hasła</translation>
     </message>
     <message>
       <source>External Account Unlinked</source>
-      <translation type="unfinished">External Account Unlinked</translation>
+      <translation>Odłączone konto zewnętrzne</translation>
     </message>
     <message>
       <source>PSN Ticket Invalid</source>
@@ -1635,7 +1635,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>External Account Already Linked</source>
-      <translation type="unfinished">External Account Already Linked</translation>
+      <translation>Konto zewnętrzne już połączone</translation>
     </message>
     <message>
       <source>Remote File Conflict</source>
@@ -1643,7 +1643,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Illegal Password</source>
-      <translation type="unfinished">Illegal Password</translation>
+      <translation>Niedopuszczalne hasło</translation>
     </message>
     <message>
       <source>Same As Previous Value</source>
@@ -1655,11 +1655,11 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Cannot Use Old Password</source>
-      <translation type="unfinished">Cannot Use Old Password</translation>
+      <translation>Nie można użyć poprzedniego hasła</translation>
     </message>
     <message>
       <source>Invalid Login AuthCode</source>
-      <translation type="unfinished">Invalid Login AuthCode</translation>
+      <translation>Nieprawidłowe logowanie AuthCode</translation>
     </message>
     <message>
       <source>Account Logon Denied No Mail</source>
@@ -1751,11 +1751,11 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Two Factor Code Mismatch</source>
-      <translation type="unfinished">Two Factor Code Mismatch</translation>
+      <translation>Błędny kod uwierzytelniania dwuskładnikowego</translation>
     </message>
     <message>
       <source>Two Factor Activation Code Mismatch</source>
-      <translation type="unfinished">Two Factor Activation Code Mismatch</translation>
+      <translation>Błędny kod aktywacyjny uwierzytelniania dwuskładnikowego</translation>
     </message>
     <message>
       <source>Account Associated To Multiple Partners</source>
@@ -1767,7 +1767,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>No Mobile Device</source>
-      <translation type="unfinished">No Mobile Device</translation>
+      <translation>Brak urządzenia mobilnego</translation>
     </message>
     <message>
       <source>Time Not Synced</source>
@@ -1775,7 +1775,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Sms Code Failed</source>
-      <translation type="unfinished">Sms Code Failed</translation>
+      <translation>Błąd wysyłania kodu SMS</translation>
     </message>
     <message>
       <source>Account Limit Exceeded</source>
@@ -1819,7 +1819,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>IP Banned</source>
-      <translation type="unfinished">IP Banned</translation>
+      <translation>Zbanowany adres IP</translation>
     </message>
     <message>
       <source>GSLT Expired</source>
@@ -1867,11 +1867,11 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Status:</source>
-      <translation type="unfinished">Status:</translation>
+      <translation>Status:</translation>
     </message>
     <message>
       <source>Upload Progress: </source>
-      <translation type="unfinished">Upload Progress: </translation>
+      <translation>Postęp przesyłania: </translation>
     </message>
   </context>
   <context>
@@ -1882,56 +1882,56 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Ogólne</translation>
     </message>
     <message>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Nazwa tapety</translation>
     </message>
     <message>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Utworzone przez</translation>
     </message>
     <message>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Opis</translation>
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Znaczniki</translation>
     </message>
     <message>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Obraz podglądu</translation>
     </message>
   </context>
   <context>
     <name>WizardPage</name>
     <message>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Zapisz</translation>
     </message>
     <message>
       <source>Saving...</source>
-      <translation type="unfinished">Saving...</translation>
+      <translation>Zapisywanie...</translation>
     </message>
   </context>
   <context>
     <name>WorkshopItem</name>
     <message>
       <source>Successfully subscribed to Workshop Item!</source>
-      <translation type="unfinished">Successfully subscribed to Workshop Item!</translation>
+      <translation>Pomyślnie subskrybujesz element z Warsztatu!</translation>
     </message>
     <message>
       <source>Download complete!</source>
-      <translation type="unfinished">Download complete!</translation>
+      <translation>Pobieranie ukończone!</translation>
     </message>
   </context>
   <context>
     <name>XMLNewsfeed</name>
     <message>
       <source>News &amp; Patchnotes</source>
-      <translation type="unfinished">News &amp; Patchnotes</translation>
+      <translation>Aktualności i lista zmian</translation>
     </message>
   </context>
 </TS>
