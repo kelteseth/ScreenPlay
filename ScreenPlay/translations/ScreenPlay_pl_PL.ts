@@ -435,34 +435,34 @@
     </message>
     <message>
       <source>Name (required!)</source>
-      <translation type="unfinished">Name (required!)</translation>
+      <translation>Nazwa (wymagane!)</translation>
     </message>
     <message>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Opis</translation>
     </message>
     <message>
       <source>Youtube URL</source>
-      <translation type="unfinished">Youtube URL</translation>
+      <translation>Adres URL YouTube</translation>
     </message>
     <message>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Przerwij</translation>
     </message>
     <message>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Zapisz</translation>
     </message>
     <message>
       <source>Save Wallpaper...</source>
-      <translation type="unfinished">Save Wallpaper...</translation>
+      <translation>Zapisz tapetę...</translation>
     </message>
   </context>
   <context>
     <name>ImportWebmInit</name>
     <message>
       <source>Import a .webm video</source>
-      <translation type="unfinished">Import a .webm video</translation>
+      <translation>Importuj film .webm</translation>
     </message>
     <message>
       <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
@@ -478,7 +478,7 @@
     </message>
     <message>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>Otwórz dokumentację</translation>
     </message>
     <message>
       <source>Select file</source>
@@ -560,11 +560,11 @@
     <name>Importh264Init</name>
     <message>
       <source>Import a .mp4 video</source>
-      <translation type="unfinished">Import a .mp4 video</translation>
+      <translation>Importuj film .mp4</translation>
     </message>
     <message>
       <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-      <translation type="unfinished">ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</translation>
+      <translation>ScreenPlay V0.15 i nowsze mogą odtwarzać pliki *.mp4 (znane również jako h264). Może to poprawić wydajność na starszych systemach.</translation>
     </message>
     <message>
       <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
@@ -572,7 +572,7 @@
     </message>
     <message>
       <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
-      <translation type="unfinished">Drop a *.mp4 file here or use &apos;Select file&apos; below.</translation>
+      <translation>Przeciągnij tutaj plik *.mp4 lub naciśnij &apos;Wybierz plik&apos;.</translation>
     </message>
     <message>
       <source>Open Documentation</source>
@@ -599,7 +599,7 @@
     </message>
     <message>
       <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-      <translation type="unfinished">Get more Wallpaper &amp; Widgets via the Steam workshop!</translation>
+      <translation>Więcej tapet oraz widżetów dostępne przez Warsztat Steam!</translation>
     </message>
     <message>
       <source>Open containing folder</source>
@@ -619,7 +619,7 @@
     </message>
     <message>
       <source>Are you sure you want to delete this item?</source>
-      <translation type="unfinished">Are you sure you want to delete this item?</translation>
+      <translation>Czy na pewno chcesz usunąć ten element?</translation>
     </message>
   </context>
   <context>
@@ -637,7 +637,7 @@
     <name>LicenseSelector</name>
     <message>
       <source>License</source>
-      <translation type="unfinished">License</translation>
+      <translation>Licencja</translation>
     </message>
     <message>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</source>
@@ -681,19 +681,19 @@
     </message>
     <message>
       <source>Remove selected</source>
-      <translation type="unfinished">Remove selected</translation>
+      <translation>Usuń wybrane</translation>
     </message>
     <message>
       <source>Remove </source>
-      <translation type="unfinished">Remove </translation>
+      <translation>Usuń </translation>
     </message>
     <message>
       <source>Wallpapers</source>
-      <translation type="unfinished">Wallpapers</translation>
+      <translation>Tapety</translation>
     </message>
     <message>
       <source>Widgets</source>
-      <translation type="unfinished">Widgets</translation>
+      <translation>Widżety</translation>
     </message>
   </context>
   <context>
@@ -727,15 +727,15 @@
     </message>
     <message>
       <source>Install Date Ascending</source>
-      <translation type="unfinished">Install Date Ascending</translation>
+      <translation>Data instalacji: rosnąco</translation>
     </message>
     <message>
       <source>Install Date Descending</source>
-      <translation type="unfinished">Install Date Descending</translation>
+      <translation>Data instalacji: malejąco</translation>
     </message>
     <message>
       <source> Subscribed items: </source>
-      <translation type="unfinished"> Subscribed items: </translation>
+      <translation> Subskrybowane: </translation>
     </message>
     <message>
       <source>Upload to the Steam Workshop</source>
@@ -1165,53 +1165,53 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Size: </source>
-      <translation type="unfinished">Size: </translation>
+      <translation>Rozmiar: </translation>
     </message>
     <message>
       <source>No description...</source>
-      <translation type="unfinished">No description...</translation>
+      <translation>Brak opisu...</translation>
     </message>
     <message>
       <source>Click here if you like the content</source>
-      <translation type="unfinished">Click here if you like the content</translation>
+      <translation>Naciśnij tutaj, jeśli lubisz tę treść</translation>
     </message>
     <message>
       <source>Click here if you do not like the content</source>
-      <translation type="unfinished">Click here if you do not like the content</translation>
+      <translation>Naciśnij tutaj, jeśli nie lubisz tej treści</translation>
     </message>
     <message>
       <source>Subscribtions: </source>
-      <translation type="unfinished">Subscribtions: </translation>
+      <translation>Subskrypcje: </translation>
     </message>
     <message>
       <source>Open In Steam</source>
-      <translation type="unfinished">Open In Steam</translation>
+      <translation>Otwórz w Steam</translation>
     </message>
     <message>
       <source>Subscribed!</source>
-      <translation type="unfinished">Subscribed!</translation>
+      <translation>Subskrybujesz!</translation>
     </message>
     <message>
       <source>Subscribe</source>
-      <translation type="unfinished">Subscribe</translation>
+      <translation>Subskrybuj</translation>
     </message>
   </context>
   <context>
     <name>StartInfo</name>
     <message>
       <source>Free tools to help you to create wallpaper</source>
-      <translation type="unfinished">Free tools to help you to create wallpaper</translation>
+      <translation>Bezpłatne narzędzia ułatwiające tworzenie tapety</translation>
     </message>
     <message>
       <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
-      <translation type="unfinished">Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</translation>
+      <translation>Poniżej znajdziesz dodatkowe narzędzia do tworzenia tapety poza tymi, które oferuje dla Ciebie ScreenPlay!</translation>
     </message>
   </context>
   <context>
     <name>SteamNotAvailable</name>
     <message>
       <source>Could not load steam integration!</source>
-      <translation type="unfinished">Could not load steam integration!</translation>
+      <translation>Błąd wczytywania integracji Steam!</translation>
     </message>
   </context>
   <context>
@@ -1269,7 +1269,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Publication Date</source>
-      <translation type="unfinished">Publication Date</translation>
+      <translation>Data publikacji</translation>
     </message>
     <message>
       <source>Ranked By Trend</source>
@@ -1277,15 +1277,15 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Favorited By Friends</source>
-      <translation type="unfinished">Favorited By Friends</translation>
+      <translation>Lubiane przez znajomych</translation>
     </message>
     <message>
       <source>Created By Friends</source>
-      <translation type="unfinished">Created By Friends</translation>
+      <translation>Utworzone przez znajomych</translation>
     </message>
     <message>
       <source>Created By Followed Users</source>
-      <translation type="unfinished">Created By Followed Users</translation>
+      <translation>Utworzone przez obserwowane osoby</translation>
     </message>
     <message>
       <source>Not Yet Rated</source>
@@ -1305,56 +1305,56 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Back</source>
-      <translation type="unfinished">Back</translation>
+      <translation>Wstecz</translation>
     </message>
     <message>
       <source>Forward</source>
-      <translation type="unfinished">Forward</translation>
+      <translation>Dalej</translation>
     </message>
   </context>
   <context>
     <name>TagSelector</name>
     <message>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Zapisz</translation>
     </message>
     <message>
       <source>Add tag</source>
-      <translation type="unfinished">Add tag</translation>
+      <translation>Dodaj znacznik</translation>
     </message>
     <message>
       <source>Cancel</source>
-      <translation type="unfinished">Cancel</translation>
+      <translation>Anuluj</translation>
     </message>
     <message>
       <source>Add Tag</source>
-      <translation type="unfinished">Add Tag</translation>
+      <translation>Dodaj znacznik</translation>
     </message>
   </context>
   <context>
     <name>TextField</name>
     <message>
       <source>Label</source>
-      <translation type="unfinished">Label</translation>
+      <translation>Etykieta</translation>
     </message>
     <message>
       <source>*Required</source>
-      <translation type="unfinished">*Required</translation>
+      <translation>*Wymagane</translation>
     </message>
   </context>
   <context>
     <name>TrayIcon</name>
     <message>
       <source>ScreenPlay - Double click to change you settings.</source>
-      <translation type="unfinished">ScreenPlay - Double click to change you settings.</translation>
+      <translation>ScreenPlay - naciśnij dwukrotnie, aby zmienić ustawienia.</translation>
     </message>
     <message>
       <source>Open ScreenPlay</source>
-      <translation type="unfinished">Open ScreenPlay</translation>
+      <translation>Otwórz ScreenPlay</translation>
     </message>
     <message>
       <source>Mute all</source>
-      <translation type="unfinished">Mute all</translation>
+      <translation>Wycisz wszystkie</translation>
     </message>
     <message>
       <source>Unmute all</source>
@@ -1362,45 +1362,45 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Pause all</source>
-      <translation type="unfinished">Pause all</translation>
+      <translation>Wstrzymaj wszystkie</translation>
     </message>
     <message>
       <source>Play all</source>
-      <translation type="unfinished">Play all</translation>
+      <translation>Odtwórz wszystkie</translation>
     </message>
     <message>
       <source>Quit</source>
-      <translation type="unfinished">Quit</translation>
+      <translation>Wyjdź</translation>
     </message>
   </context>
   <context>
     <name>UploadProject</name>
     <message>
       <source>Upload Wallpaper/Widgets to Steam</source>
-      <translation type="unfinished">Upload Wallpaper/Widgets to Steam</translation>
+      <translation>Prześlij tapetę/widżet do Steam</translation>
     </message>
     <message>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Przerwij</translation>
     </message>
     <message>
       <source>Upload Selected Projects</source>
-      <translation type="unfinished">Upload Selected Projects</translation>
+      <translation>Prześlij wybrane projekty</translation>
     </message>
     <message>
       <source>Finish</source>
-      <translation type="unfinished">Finish</translation>
+      <translation>Zakończ</translation>
     </message>
   </context>
   <context>
     <name>UploadProjectBigItem</name>
     <message>
       <source>Type: </source>
-      <translation type="unfinished">Type: </translation>
+      <translation>Typ: </translation>
     </message>
     <message>
       <source>Open Folder</source>
-      <translation type="unfinished">Open Folder</translation>
+      <translation>Otwórz folder</translation>
     </message>
     <message>
       <source>Invalid Project!</source>
