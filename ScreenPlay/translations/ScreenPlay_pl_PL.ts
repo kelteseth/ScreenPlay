@@ -49,7 +49,7 @@
     </message>
     <message>
       <source>Alpha:</source>
-      <translation type="unfinished">Alpha:</translation>
+      <translation>Alfa:</translation>
     </message>
     <message>
       <source>#</source>
@@ -172,7 +172,7 @@
     </message>
     <message>
       <source>Analyse Video ERROR!</source>
-      <translation>BŁĄD analizowania wideo!</translation>
+      <translation>BŁĄD analizowania filmu!</translation>
     </message>
     <message>
       <source>Convert a video to a wallpaper</source>
@@ -223,7 +223,7 @@
     </message>
     <message>
       <source>Fill Mode</source>
-      <translation>Wypełnienie</translation>
+      <translation type="unfinished">Fill Mode</translation>
     </message>
     <message>
       <source>Stretch</source>
@@ -265,7 +265,7 @@
     <name>Forum</name>
     <message>
       <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
-      <translation type="unfinished">Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</translation>
+      <translation>Pobierz ręcznie tapety i widżety z naszego forum. Jeśli chcesz pobierać treści z Warsztatu Steam, należy zainstalować ScreenPlay przez Steam.</translation>
     </message>
     <message>
       <source>Install Steam Version</source>
@@ -391,7 +391,7 @@
     </message>
     <message>
       <source>AnalyseVideo...</source>
-      <translation>Analizuj film...</translation>
+      <translation>Analizowanie filmu...</translation>
     </message>
     <message>
       <source>Generating preview image...</source>
@@ -423,11 +423,11 @@
     </message>
     <message>
       <source>Analyse Video ERROR!</source>
-      <translation type="unfinished">Analyse Video ERROR!</translation>
+      <translation>BŁĄD analizowania filmu!</translation>
     </message>
     <message>
       <source>Import a video to a wallpaper</source>
-      <translation type="unfinished">Import a video to a wallpaper</translation>
+      <translation>Importowanie filmu jako tapetę</translation>
     </message>
     <message>
       <source>Generating preview video...</source>
@@ -466,7 +466,7 @@
     </message>
     <message>
       <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-      <translation type="unfinished">When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</translation>
+      <translation>Importowanie pliku webm pozwala na ominięcie czasochłonnej konwersji. Jeśli rezultat importera ScreenPlay po użyciu opcji &apos;importuj i konwertuj film (dowolny typ)&apos; nie będzie dla Ciebie satysfakcjonujący, możesz przekonwertować film korzystając z bezpłatnego programu o otwartym źródle o nazwie HandBrake!</translation>
     </message>
     <message>
       <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
@@ -489,7 +489,7 @@
     <name>Importh264Convert</name>
     <message>
       <source>AnalyseVideo...</source>
-      <translation type="unfinished">AnalyseVideo...</translation>
+      <translation>Analizowanie filmu...</translation>
     </message>
     <message>
       <source>Generating preview image...</source>
@@ -521,11 +521,11 @@
     </message>
     <message>
       <source>Analyse Video ERROR!</source>
-      <translation type="unfinished">Analyse Video ERROR!</translation>
+      <translation>BŁĄD analizowania filmu!</translation>
     </message>
     <message>
       <source>Import a video to a wallpaper</source>
-      <translation type="unfinished">Import a video to a wallpaper</translation>
+      <translation>Importowanie filmu jako tapetę</translation>
     </message>
     <message>
       <source>Generating preview video...</source>
@@ -937,7 +937,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-      <translation type="unfinished">Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</translation>
+      <translation>Uwaga: Zmiana tego katalogu nie ma wpływu na ścieżkę pobierania z warsztatu. ScreenPlay wspiera posiadanie tylko jednego folderu na treść!</translation>
     </message>
     <message>
       <source>Language</source>
