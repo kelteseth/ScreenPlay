@@ -1113,23 +1113,23 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>QML Widget</source>
-      <translation type="unfinished">QML Widget</translation>
+      <translation>Widżet QML</translation>
     </message>
     <message>
       <source>HTML Widget</source>
-      <translation type="unfinished">HTML Widget</translation>
+      <translation>Widżet HTML</translation>
     </message>
     <message>
       <source>Set Wallpaper</source>
-      <translation type="unfinished">Set Wallpaper</translation>
+      <translation>Ustaw tapetę</translation>
     </message>
     <message>
       <source>Set Widget</source>
-      <translation type="unfinished">Set Widget</translation>
+      <translation>Ustaw widżet</translation>
     </message>
     <message>
       <source>Headline</source>
-      <translation type="unfinished">Headline</translation>
+      <translation>Nagłówek</translation>
     </message>
     <message>
       <source>Select a Monitor to display the content</source>
@@ -1404,42 +1404,42 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Invalid Project!</source>
-      <translation type="unfinished">Invalid Project!</translation>
+      <translation>Nieprawidłowy projekt!</translation>
     </message>
   </context>
   <context>
     <name>UploadProjectItem</name>
     <message>
       <source>Fail</source>
-      <translation type="unfinished">Fail</translation>
+      <translation>Niepowodzenie</translation>
     </message>
     <message>
       <source>No Connection</source>
-      <translation type="unfinished">No Connection</translation>
+      <translation>Brak połączenia</translation>
     </message>
     <message>
       <source>Invalid Password</source>
-      <translation type="unfinished">Invalid Password</translation>
+      <translation>Nieprawidłowe hasło</translation>
     </message>
     <message>
       <source>Logged In Elsewhere</source>
-      <translation type="unfinished">Logged In Elsewhere</translation>
+      <translation>Zalogowano w innym miejscu</translation>
     </message>
     <message>
       <source>Invalid Protocol Version</source>
-      <translation type="unfinished">Invalid Protocol Version</translation>
+      <translation>Nieprawidłowa wersja protokołu</translation>
     </message>
     <message>
       <source>Invalid Param</source>
-      <translation type="unfinished">Invalid Param</translation>
+      <translation>Nieprawidłowy parametr</translation>
     </message>
     <message>
       <source>File Not Found</source>
-      <translation type="unfinished">File Not Found</translation>
+      <translation>Nie znaleziono pliku</translation>
     </message>
     <message>
       <source>Busy</source>
-      <translation type="unfinished">Busy</translation>
+      <translation>Zajęte</translation>
     </message>
     <message>
       <source>Invalid State</source>
@@ -1447,43 +1447,43 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Invalid Name</source>
-      <translation type="unfinished">Invalid Name</translation>
+      <translation>Nieprawidłowa nazwa</translation>
     </message>
     <message>
       <source>Invalid Email</source>
-      <translation type="unfinished">Invalid Email</translation>
+      <translation>Nieprawidłowy adres e-mail</translation>
     </message>
     <message>
       <source>Duplicate Name</source>
-      <translation type="unfinished">Duplicate Name</translation>
+      <translation>Duplikat nazwy</translation>
     </message>
     <message>
       <source>Access Denied</source>
-      <translation type="unfinished">Access Denied</translation>
+      <translation>Odmowa dostępu</translation>
     </message>
     <message>
       <source>Timeout</source>
-      <translation type="unfinished">Timeout</translation>
+      <translation>Upłynął limit czasu</translation>
     </message>
     <message>
       <source>Banned</source>
-      <translation type="unfinished">Banned</translation>
+      <translation>Zbanowano</translation>
     </message>
     <message>
       <source>Account Not Found</source>
-      <translation type="unfinished">Account Not Found</translation>
+      <translation>Nie znaleziono konta</translation>
     </message>
     <message>
       <source>Invalid SteamID</source>
-      <translation type="unfinished">Invalid SteamID</translation>
+      <translation>Nieprawidłowe SteamID</translation>
     </message>
     <message>
       <source>Service Unavailable</source>
-      <translation type="unfinished">Service Unavailable</translation>
+      <translation>Usługa jest niedostępna</translation>
     </message>
     <message>
       <source>Not Logged On</source>
-      <translation type="unfinished">Not Logged On</translation>
+      <translation>Nie zalogowano</translation>
     </message>
     <message>
       <source>Pending</source>
@@ -1491,11 +1491,11 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Encryption Failure</source>
-      <translation type="unfinished">Encryption Failure</translation>
+      <translation>Błąd szyfrowania</translation>
     </message>
     <message>
       <source>Insufficient Privilege</source>
-      <translation type="unfinished">Insufficient Privilege</translation>
+      <translation>Brak uprawnień</translation>
     </message>
     <message>
       <source>Limit Exceeded</source>
