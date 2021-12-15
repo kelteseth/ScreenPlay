@@ -615,7 +615,7 @@
     </message>
     <message>
       <source>Open Workshop Page</source>
-      <translation type="unfinished">Open Workshop Page</translation>
+      <translation>Otwórz stronę Warsztatu</translation>
     </message>
     <message>
       <source>Are you sure you want to delete this item?</source>
@@ -630,7 +630,7 @@
     </message>
     <message>
       <source>Browse the Steam Workshop</source>
-      <translation type="unfinished">Browse the Steam Workshop</translation>
+      <translation>Przeglądaj Warsztat Steam</translation>
     </message>
   </context>
   <context>
@@ -641,27 +641,27 @@
     </message>
     <message>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</source>
-      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material for any purpose, even commercially.</translation>
+      <translation>Udostępnianie — możesz kopiować i rozpowszechniać ten materiał w dowolnym formacie na dowolnym nośniku danych. Dostosowywanie — możesz poprawiać, przekształcać oraz używać tego materiału jako bazy pod inne prace w dowolnym celu, nawet komercyjnie.</translation>
     </message>
     <message>
       <source>You grant other to remix your work and change the license to their liking.</source>
-      <translation type="unfinished">You grant other to remix your work and change the license to their liking.</translation>
+      <translation>Pozwalasz innym osobom na przekształcanie Twojej treści oraz zmienianie licencji w razie potrzeby.</translation>
     </message>
     <message>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </source>
-      <translation type="unfinished">Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </translation>
+      <translation>Udostępnianie — możesz kopiować i rozpowszechniać ten materiał w dowolnym formacie na dowolnym nośniku danych. Dostosowywanie — możesz poprawiać, przekształcać oraz używać tego materiału jako bazy pod inne prace. Nie możesz używać tego materiału komercyjnie! </translation>
     </message>
     <message>
       <source>You allow everyone to do anything with your work.</source>
-      <translation type="unfinished">You allow everyone to do anything with your work.</translation>
+      <translation>Pozwalasz każdemu robić cokolwiek chce z Twoją treścią.</translation>
     </message>
     <message>
       <source>You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</source>
-      <translation type="unfinished">You grant other to remix your work but it must remain under the GPLv3. We recommend this license for all code wallpaper!</translation>
+      <translation>Pozwalasz innym osobom na przekształcanie Twojej treści, ale musi pozostać na licencji GPLv3. Zalecamy wybranie tej licencji dla wszystkich tapet napisanych kodem!</translation>
     </message>
     <message>
       <source>You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</source>
-      <translation type="unfinished">You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.</translation>
+      <translation>Zastrzegasz sobie wszystkie prawa i nie pozwalasz nikomu na przekształcanie tej treści (nie zalecane). Możesz użyć tej opcji, aby uznać prawa innych osób.</translation>
     </message>
   </context>
   <context>
@@ -669,15 +669,15 @@
     <message>
       <source>Your monitor setup changed!
  Please configure your wallpaper again.</source>
-      <translation type="unfinished">Your monitor setup changed!
- Please configure your wallpaper again.</translation>
+      <translation>Konfiguracja Twojego monitora uległa zmianie!
+ Należy ponownie skonfigurować tapetę.</translation>
     </message>
   </context>
   <context>
     <name>Monitors</name>
     <message>
       <source>Wallpaper Configuration</source>
-      <translation type="unfinished">Wallpaper Configuration</translation>
+      <translation>Konfiguracja tapety</translation>
     </message>
     <message>
       <source>Remove selected</source>
@@ -815,7 +815,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Accept Steam Workshop Agreement</source>
-      <translation type="unfinished">Accept Steam Workshop Agreement</translation>
+      <translation>Zaakceptuj Umowę użytkownika Warsztatu Steam</translation>
     </message>
   </context>
   <context>
@@ -1009,11 +1009,11 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>About</source>
-      <translation type="unfinished">About</translation>
+      <translation>Informacje</translation>
     </message>
     <message>
       <source>Thank you for using ScreenPlay</source>
-      <translation type="unfinished">Thank you for using ScreenPlay</translation>
+      <translation>Dziękujemy za wypróbowanie ScreenPlay</translation>
     </message>
     <message>
       <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
