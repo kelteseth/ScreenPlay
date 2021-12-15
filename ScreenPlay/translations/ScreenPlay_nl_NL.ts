@@ -110,7 +110,7 @@
     </message>
     <message>
       <source>Quality slider. Lower value means better quality.</source>
-      <translation type="unfinished">Quality slider. Lower value means better quality.</translation>
+      <translation>Kwaliteit schuifregelaar. Lagere waarde betekent betere kwaliteit.</translation>
     </message>
     <message>
       <source>Open Documentation</source>
@@ -118,18 +118,18 @@
     </message>
     <message>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Selecteer bestand</translation>
     </message>
   </context>
   <context>
     <name>CreateWallpaperResult</name>
     <message>
       <source>An error occurred!</source>
-      <translation type="unfinished">An error occurred!</translation>
+      <translation>Er is een fout opgetreden!</translation>
     </message>
     <message>
       <source>Copy text to clipboard</source>
-      <translation type="unfinished">Copy text to clipboard</translation>
+      <translation>Kopieer tekst naar klembord</translation>
     </message>
     <message>
       <source>Back to create and send an error report!</source>
@@ -144,94 +144,94 @@
     </message>
     <message>
       <source>Generating preview image...</source>
-      <translation type="unfinished">Generating preview image...</translation>
+      <translation>Voorbeeld afbeelding aan het genereren...</translation>
     </message>
     <message>
       <source>Generating preview thumbnail image...</source>
-      <translation type="unfinished">Generating preview thumbnail image...</translation>
+      <translation>Voorbeeld miniatuurafbeelding aan het genereren...</translation>
     </message>
     <message>
       <source>Generating 5 second preview video...</source>
-      <translation type="unfinished">Generating 5 second preview video...</translation>
+      <translation>5 seconden voorbeeldvideo aan het genereren...</translation>
     </message>
     <message>
       <source>Generating preview gif...</source>
-      <translation type="unfinished">Generating preview gif...</translation>
+      <translation>Voorbeeld gif aan het genereren...</translation>
     </message>
     <message>
       <source>Converting Audio...</source>
-      <translation type="unfinished">Converting Audio...</translation>
+      <translation>Audio aan het converteren...</translation>
     </message>
     <message>
       <source>Converting Video... This can take some time!</source>
-      <translation type="unfinished">Converting Video... This can take some time!</translation>
+      <translation>Video aan het converteren... Dit kan even duren!</translation>
     </message>
     <message>
       <source>Converting Video ERROR!</source>
-      <translation type="unfinished">Converting Video ERROR!</translation>
+      <translation>Video Converteren FOUT!</translation>
     </message>
     <message>
       <source>Analyse Video ERROR!</source>
-      <translation type="unfinished">Analyse Video ERROR!</translation>
+      <translation>Video Analyse FOUT!</translation>
     </message>
     <message>
       <source>Convert a video to a wallpaper</source>
-      <translation type="unfinished">Convert a video to a wallpaper</translation>
+      <translation>Converteer een video naar een achtergrond</translation>
     </message>
     <message>
       <source>Generating preview video...</source>
-      <translation type="unfinished">Generating preview video...</translation>
+      <translation>Voorbeeldvideo aan het genereren...</translation>
     </message>
     <message>
       <source>Name (required!)</source>
-      <translation type="unfinished">Name (required!)</translation>
+      <translation>Naam (verplicht!)</translation>
     </message>
     <message>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Beschrijving</translation>
     </message>
     <message>
       <source>Youtube URL</source>
-      <translation type="unfinished">Youtube URL</translation>
+      <translation>Youtube URL</translation>
     </message>
     <message>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Breek af</translation>
     </message>
     <message>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Sla op</translation>
     </message>
     <message>
       <source>Save Wallpaper...</source>
-      <translation type="unfinished">Save Wallpaper...</translation>
+      <translation>Sla achtergrond op...</translation>
     </message>
   </context>
   <context>
     <name>DefaultVideoControls</name>
     <message>
       <source>Volume</source>
-      <translation type="unfinished">Volume</translation>
+      <translation>Volume</translation>
     </message>
     <message>
       <source>Playback rate</source>
-      <translation type="unfinished">Playback rate</translation>
+      <translation>Afspeelsnelheid</translation>
     </message>
     <message>
       <source>Current Video Time</source>
-      <translation type="unfinished">Current Video Time</translation>
+      <translation>Huidige Videotijd</translation>
     </message>
     <message>
       <source>Fill Mode</source>
-      <translation type="unfinished">Fill Mode</translation>
+      <translation>Vulmodus</translation>
     </message>
     <message>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>Rek uit</translation>
     </message>
     <message>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Vul</translation>
     </message>
     <message>
       <source>Contain</source>
@@ -239,26 +239,26 @@
     </message>
     <message>
       <source>Cover</source>
-      <translation type="unfinished">Cover</translation>
+      <translation>Dek</translation>
     </message>
     <message>
       <source>Scale_Down</source>
-      <translation type="unfinished">Scale_Down</translation>
+      <translation>Schaal_Omlaag</translation>
     </message>
   </context>
   <context>
     <name>FileSelector</name>
     <message>
       <source>Clear</source>
-      <translation type="unfinished">Clear</translation>
+      <translation>Wis</translation>
     </message>
     <message>
       <source>Select File</source>
-      <translation type="unfinished">Select File</translation>
+      <translation>Selecteer bestand</translation>
     </message>
     <message>
       <source>Please choose a file</source>
-      <translation type="unfinished">Please choose a file</translation>
+      <translation>Kies een bestand</translation>
     </message>
   </context>
   <context>
@@ -300,42 +300,42 @@
     </message>
     <message>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Gemaakt door</translation>
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Tags</translation>
     </message>
   </context>
   <context>
     <name>HTMLWallpaper</name>
     <message>
       <source>Create a HTML Wallpaper</source>
-      <translation type="unfinished">Create a HTML Wallpaper</translation>
+      <translation>Maak een HTML Achtergrond</translation>
     </message>
     <message>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Algemeen</translation>
     </message>
     <message>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Achtergrond naam</translation>
     </message>
     <message>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Gemaakt door</translation>
     </message>
     <message>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Beschrijving</translation>
     </message>
     <message>
       <source>License &amp; Tags</source>
-      <translation type="unfinished">License &amp; Tags</translation>
+      <translation>Licentie &amp; Tags</translation>
     </message>
     <message>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Voorbeeldafbeelding</translation>
     </message>
   </context>
   <context>
