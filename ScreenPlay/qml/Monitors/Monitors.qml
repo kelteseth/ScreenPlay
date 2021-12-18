@@ -83,7 +83,7 @@ Popup {
                 monitorWithoutContentSelectable: false
                 availableWidth: width - 20
                 availableHeight: 150
-                function onRequestProjectSettings() {
+                onRequestProjectSettings: ( index,  installedType,  appID) => {
                     if (installedType === InstalledType.VideoWallpaper) {
                         videoControlWrapper.state = "visible";
                         customPropertiesGridView.visible = false;
