@@ -59,17 +59,14 @@ struct Monitor {
 
     Monitor(
         const int index,
-        const QRect& geometry,
-        QScreen* screen)
+        const QRect& geometry)
     {
         m_index = index;
         m_geometry = geometry;
-        m_screen = screen;
     }
 
     int m_index { 0 };
     QRect m_geometry;
-    QScreen* m_screen { nullptr };
     std::shared_ptr<ScreenPlayWallpaper> m_activeWallpaper { nullptr };
 };
 

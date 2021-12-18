@@ -82,7 +82,7 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
         case MonitorRole::Index:
             return m_monitorList.at(row).m_index;
         case MonitorRole::Geometry:
-            return m_monitorList.at(row).m_screen->geometry();
+            return m_monitorList.at(row).m_geometry;
         case MonitorRole::InstalledType:
             if (m_monitorList.at(row).m_activeWallpaper) {
                 return static_cast<int>(m_monitorList.at(row).m_activeWallpaper->type());
@@ -138,7 +138,7 @@ void MonitorListModel::loadMonitors()
             width,
             height);
         beginInsertRows(index, m_monitorList.size(), m_monitorList.size());
-        m_monitorList.append(Monitor { i, geometry, QApplication::screens().at(i) });
+        m_monitorList.append(Monitor { i, geometry });
         endInsertRows();
     }
 #else
