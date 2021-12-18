@@ -42,6 +42,7 @@ if(WIN32)
     set(STEAM_BIN "${STEAM_LIB_PATH}/win64/steam_api64.dll")
 elseif(APPLE)
     set(WORKSHOP_PLUGIN_DIR ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/Workshop)
+    set(MACOS_FRAMEWORKS_DIR ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/Frameworks/)
     set(STEAM_LIB "${STEAM_LIB_PATH}/osx/libsteam_api.dylib")
     set(STEAM_BIN ${STEAM_LIB})
 elseif(UNIX)
@@ -50,37 +51,34 @@ elseif(UNIX)
     set(STEAM_BIN ${STEAM_LIB})
 endif()
 
+add_library(${PROJECT_NAME} SHARED ${SOURCES} ${HEADER})
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick ${STEAM_LIB} ScreenPlayUtil SteamSDK)
+
 qt_add_qml_module(
     ${PROJECT_NAME}
-    OUTPUT_DIRECTORY ${WORKSHOP_PLUGIN_DIR}
+    OUTPUT_DIRECTORY
+    ${WORKSHOP_PLUGIN_DIR}
     URI "Workshop"
     SOURCES  ${SOURCES} ${HEADER}
     VERSION
     1.0)
 
-if(APPLE)
-    if(${SCREENPLAY_STEAM})
-        add_custom_command(
-            TARGET ${PROJECT_NAME}
-            POST_BUILD
-            COMMENT "Copying steam_appid.txt into ScreenPlay.app bundle. This is for development only!"
-            COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt
-                    ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
 
-        add_custom_command(
-            TARGET ${PROJECT_NAME}
-            POST_BUILD
-            COMMENT "Copying libsteam_api.dylib into ScreenPlay.app bundle."
-            COMMAND ${CMAKE_COMMAND} -E copy ${STEAM_LIB}
-                    ${WORKSHOP_PLUGIN_DIR})
-    endif()
-else()
-    if(${SCREENPLAY_STEAM})
-        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
-        configure_file(${STEAM_BIN} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+if(${SCREENPLAY_STEAM})
+    if(APPLE)
+            file(MAKE_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
+            file(MAKE_DIRECTORY ${MACOS_FRAMEWORKS_DIR})
+
+            configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/ COPYONLY)
+            configure_file(${STEAM_BIN} ${WORKSHOP_PLUGIN_DIR} COPYONLY)
+
+            set_target_properties(${PROJECT_NAME} PROPERTIES
+                     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/Workshop)
+    else()
+            configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
+            configure_file(${STEAM_BIN} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
     endif()
 endif()
-
 
 # Needed by the automatic generated target missing includes
 # https://github.com/qt/qtdeclarative/blob/7a7064e14f094e843e1ee832cc927e86f887621a/src/qml/Qt6QmlMacros.cmake#L2042

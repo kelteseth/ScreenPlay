@@ -49,8 +49,7 @@ if not args.build_type:
 qt_version = "6.2.1"
 steam_build = "OFF"
 if args.steam_build:
-    if args.steam_build:
-        steam_build = "ON"
+    steam_build = "ON"
 
 print("Starting build with type %s. Qt Version: %s" %
       (args.build_type, qt_version))
@@ -142,9 +141,6 @@ execute(deploy_command.format(
     executable_file_ending=executable_file_ending))
 
 if platform == "darwin" and args.sign_build:
-    print("Remove workshop build folder (macos only).")
-    shutil.rmtree(build_folder + "/bin/workshop")
-
     execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --entitlements \"../../ScreenPlay/entitlements.plist\"  --deep \"ScreenPlay.app/\"")
     execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlayWallpaper.app/\"")
     execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlayWidget.app/\"")
