@@ -94,6 +94,10 @@ void ScreenPlay::SDKConnection::readyRead()
 */
 bool ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 {
+    if (!m_socket) {
+        qWarning() << "Unable to write to unconnected socket wit message: " << message;
+        return false;
+    }
     m_socket->write(message);
     return m_socket->waitForBytesWritten();
 }

@@ -54,12 +54,11 @@
 namespace ScreenPlayUtil {
 #if defined(Q_OS_WIN)
 struct WinMonitorStats {
-    std::vector<int> iMonitors;
-    std::vector<HMONITOR> hMonitors;
-    std::vector<HDC> hdcMonitors;
-    std::vector<RECT> rcMonitors;
-    std::vector<DEVICE_SCALE_FACTOR> scaleFactor;
-    std::vector<std::pair<UINT, UINT>> sizes;
+
+    WinMonitorStats()
+    {
+        EnumDisplayMonitors(NULL, NULL, MonitorEnum, (LPARAM)this);
+    }
 
     static BOOL CALLBACK MonitorEnum(HMONITOR hMon, HDC hdc, LPRECT lprcMonitor,
         LPARAM pData)
@@ -77,10 +76,19 @@ struct WinMonitorStats {
         pThis->hdcMonitors.push_back(hdc);
         pThis->rcMonitors.push_back(*lprcMonitor);
         pThis->iMonitors.push_back(pThis->hdcMonitors.size());
+
+        //qInfo() << std::abs(lprcMonitor->right - lprcMonitor->left) << std::abs(lprcMonitor->top - lprcMonitor->bottom);
+
         return TRUE;
     }
 
-    WinMonitorStats() { EnumDisplayMonitors(0, 0, MonitorEnum, (LPARAM)this); }
+    std::vector<int> iMonitors;
+    std::vector<HMONITOR> hMonitors;
+    std::vector<HDC> hdcMonitors;
+    std::vector<RECT> rcMonitors;
+    std::vector<DEVICE_SCALE_FACTOR> scaleFactor;
+    std::vector<std::pair<UINT, UINT>> sizes;
+    int index = 0;
 };
 #endif
 QJsonArray fillArray(const QVector<QString>& items);
