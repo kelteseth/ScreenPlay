@@ -1,10 +1,12 @@
 import QtQuick
-import Qt.labs.platform 1.1
+import QtQuick.Window
+import Qt.labs.platform
 import ScreenPlay 1.0
 
 SystemTrayIcon {
     id: root
 
+    property var window
     visible: true
     icon.source: "qrc:/assets/icons/app.ico"
     tooltip: qsTr("ScreenPlay - Double click to change you settings.")

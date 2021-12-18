@@ -49,33 +49,19 @@
 #include <QTimer>
 #include <QtGlobal>
 
-class ScreenPlaySDK : public QQuickItem {
+class ScreenPlaySDK : public QObject {
     Q_OBJECT
-    Q_DISABLE_COPY(ScreenPlaySDK)
 
 public:
-    ScreenPlaySDK(QQuickItem* parent = nullptr);
-    ScreenPlaySDK(const QString& appID, const QString& type, QQuickItem* parent = nullptr);
+    ScreenPlaySDK(const QString& appID, const QString& type);
     ~ScreenPlaySDK();
-
     Q_PROPERTY(QString type READ type WRITE setType NOTIFY typeChanged)
     Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
     Q_PROPERTY(QString appID READ appID WRITE setAppID NOTIFY appIDChanged)
 
-    QString type() const
-    {
-        return m_type;
-    }
-
-    bool isConnected() const
-    {
-        return m_isConnected;
-    }
-
-    QString appID() const
-    {
-        return m_appID;
-    }
+    QString type() const { return m_type; }
+    bool isConnected() const { return m_isConnected; }
+    QString appID() const { return m_appID; }
 
 public slots:
     void sendMessage(const QJsonObject& obj);
@@ -140,7 +126,7 @@ signals:
 private:
     QLocalSocket m_socket;
 
-    QString m_type = "undefined";
+    QString m_type;
     bool m_isConnected = false;
 
     QString m_appID;

@@ -117,6 +117,7 @@ public:
     enum class Language {
         En_US,
         De_DE,
+        Pl_PL,
         It_IT,
         Ru_RU,
         Fr_FR,

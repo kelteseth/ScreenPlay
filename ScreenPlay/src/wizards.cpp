@@ -270,7 +270,7 @@ void Wizards::createGifWallpaper(
     const QString& file,
     const QVector<QString>& tags)
 {
-    QtConcurrent::run([=]() {
+    auto con = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {

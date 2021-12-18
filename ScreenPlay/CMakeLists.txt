@@ -71,7 +71,6 @@ set(QML
     qml/Monitors/MonitorsProjectSettingItem.qml
     qml/Navigation/Navigation.qml
     qml/Navigation/NavigationItem.qml
-    qml/Navigation/NavigationWallpaperConfiguration.qml
     qml/Monitors/DefaultVideoControls.qml
     qml/Common/TagSelector.qml
     qml/Common/Tag.qml
@@ -146,6 +145,7 @@ list(
     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_it_IT.ts
     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_nl_NL.ts
     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_de_DE.ts
+    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_pl_PL.ts
     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_zh_CN.ts
     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_pt_BR.ts
     ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_es_ES.ts
@@ -204,7 +204,7 @@ target_link_libraries(
            Qt6::Svg
            Qt6::WebEngineQuick
            Qt6::WebEngineCore
-           SteamSDK)
+           SteamSDKQtEnums)
 
 if(${TESTS_ENABLED})
     add_executable(tst_ScreenPlay tests/tst_main.cpp)

@@ -1,41 +1,8 @@
 #include "winwindow.h"
-#include "WinUser.h"
 #include "qqml.h"
-#include <ShellScalingApi.h>
 #include <algorithm>
 #include <iostream>
 #include <vector>
-#include <windows.h>
-
-struct WinMonitorStats {
-    std::vector<int> iMonitors;
-    std::vector<HMONITOR> hMonitors;
-    std::vector<HDC> hdcMonitors;
-    std::vector<RECT> rcMonitors;
-    std::vector<DEVICE_SCALE_FACTOR> scaleFactor;
-    std::vector<std::pair<UINT, UINT>> sizes;
-
-    static BOOL CALLBACK MonitorEnum(HMONITOR hMon, HDC hdc, LPRECT lprcMonitor,
-        LPARAM pData)
-    {
-        WinMonitorStats* pThis = reinterpret_cast<WinMonitorStats*>(pData);
-        auto scaleFactor = DEVICE_SCALE_FACTOR::DEVICE_SCALE_FACTOR_INVALID;
-        GetScaleFactorForMonitor(hMon, &scaleFactor);
-
-        UINT x = 0;
-        UINT y = 0;
-        GetDpiForMonitor(hMon, MONITOR_DPI_TYPE::MDT_RAW_DPI, &x, &y);
-        pThis->sizes.push_back({ x, y });
-        pThis->scaleFactor.push_back(scaleFactor);
-        pThis->hMonitors.push_back(hMon);
-        pThis->hdcMonitors.push_back(hdc);
-        pThis->rcMonitors.push_back(*lprcMonitor);
-        pThis->iMonitors.push_back(pThis->hdcMonitors.size());
-        return TRUE;
-    }
-
-    WinMonitorStats() { EnumDisplayMonitors(0, 0, MonitorEnum, (LPARAM)this); }
-};
 
 /*!
   \brief Searches for the worker window for our window to parent to.
@@ -225,11 +192,6 @@ WinWindow::WinWindow(
 
     configureWindowGeometry();
 
-    if (hasWindowScaling()) {
-        qInfo() << "Monitor with scaling detected!";
-        configureWindowGeometry();
-    }
-
     // We do not support autopause for multi monitor wallpaper
     if (this->activeScreensList().length() == 1) {
         if (checkWallpaperVisible) {
@@ -294,13 +256,13 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
     const QRect screenRect = QApplication::screens().at(activeScreen)->geometry();
     const int boderWidth = 2;
     const float scaling = getScaling(activeScreen);
-    const auto width = screenRect.width() * scaling + boderWidth;
-    const auto height = screenRect.height() * scaling + boderWidth;
-
     const int borderOffset = -1;
-    const int x = screenRect.x() + m_zeroPoint.x() + borderOffset;
-    const int y = screenRect.y() + m_zeroPoint.y() + borderOffset;
 
+    ScreenPlayUtil::WinMonitorStats monitors;
+    const int width = std::abs(monitors.rcMonitors[activeScreen].right - monitors.rcMonitors[activeScreen].left);
+    const int height = std::abs(monitors.rcMonitors[activeScreen].top - monitors.rcMonitors[activeScreen].bottom);
+    const int x = monitors.rcMonitors[activeScreen].left + m_zeroPoint.x() + borderOffset;
+    const int y = monitors.rcMonitors[activeScreen].top + m_zeroPoint.y() + borderOffset;
     qInfo() << QString("Setup window activeScreen: %1 scaling: %2 x: %3 y: %4 width: %5 height: %6").arg(activeScreen).arg(scaling).arg(x).arg(y).arg(width).arg(height);
 
     {
@@ -323,20 +285,43 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 */
 void WinWindow::setupWallpaperForAllScreens()
 {
+    ScreenPlayUtil::WinMonitorStats monitors;
     QRect rect;
-    for (int i = 0; i < QApplication::screens().count(); i++) {
-        QScreen* screenTmp = QApplication::screens().at(i);
-        rect.setWidth(rect.width() + screenTmp->geometry().width());
-        rect.setHeight(rect.height() + screenTmp->geometry().height());
+    for (int i = 0; i < monitors.iMonitors.size(); i++) {
+        const int width = std::abs(monitors.rcMonitors[i].right - monitors.rcMonitors[i].left);
+        const int height = std::abs(monitors.rcMonitors[i].top - monitors.rcMonitors[i].bottom);
+        qInfo() << width << height;
+        rect.setWidth(rect.width() + width);
+        rect.setHeight(rect.height() + height);
     }
-    m_window.setHeight(rect.height());
-    m_window.setWidth(rect.width());
-    if (!SetWindowPos(m_windowHandle, HWND_TOPMOST, 0, 0, rect.width(), rect.height(), SWP_NOSIZE | SWP_NOMOVE)) {
+    int offsetX = 0;
+    int offsetY = 0;
+    for (int i = 0; i < monitors.iMonitors.size(); i++) {
+        const int x = monitors.rcMonitors[i].left;
+        const int y = monitors.rcMonitors[i].top;
+        qInfo() << x << y;
+        if (x < offsetX) {
+            offsetX = x;
+        }
+        if (y < offsetY) {
+            offsetY += y;
+        }
+    }
+    if (!SetWindowPos(m_windowHandle, nullptr, offsetX, offsetY, rect.width(), rect.height(), SWP_NOSIZE | SWP_NOMOVE)) {
+        qFatal("Could not set window pos: ");
+    }
+    if (!SetWindowPos(m_windowHandle, nullptr, offsetX, offsetY, rect.width(), rect.height(), SWP_NOSIZE | SWP_NOMOVE)) {
         qFatal("Could not set window pos: ");
     }
     if (SetParent(m_windowHandle, m_windowHandleWorker) == nullptr) {
         qFatal("Could not attach to parent window");
     }
+    qInfo() << rect.width() << rect.height() << offsetX << offsetY;
+    m_window.setHeight(rect.height());
+    m_window.setWidth(rect.width());
+    m_window.setY(offsetY);
+    m_window.setX(offsetX+1920);
+    qInfo() << m_window.geometry();
 }
 
 /*!

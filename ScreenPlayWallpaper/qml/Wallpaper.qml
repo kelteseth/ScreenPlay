@@ -17,20 +17,30 @@ Rectangle {
             if (Wallpaper.videoCodec === VideoCodec.Unknown) {
                 Wallpaper.terminate()
             }
+            
             // macOS only supports h264 via the native Qt MM
-            if (Qt.platform.os === "osx" && (Wallpaper.videoCodec === VideoCodec.VP8
-                    || Wallpaper.videoCodec === VideoCodec.VP9)) {
-                loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml"
-            } else {
+            if (Qt.platform.os === "osx") {
+                if ((Wallpaper.videoCodec === VideoCodec.VP8
+                     || Wallpaper.videoCodec === VideoCodec.VP9)) {
+                    loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml"
+                } else {
+                    loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
+                }
+            }
+
+            if (Qt.platform.os === "windows") {
                 loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
             }
+
+            print(loader.source)
             fadeIn()
             break
         case InstalledType.HTMLWallpaper:
-            loader.setSource("qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
-                                 "url": Qt.resolvedUrl(
-                                            Wallpaper.projectSourceFileAbsolute)
-                             })
+            loader.setSource(
+                        "qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
+                            "url": Qt.resolvedUrl(
+                                       Wallpaper.projectSourceFileAbsolute)
+                        })
             break
         case InstalledType.QMLWallpaper:
             loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
@@ -54,49 +64,50 @@ Rectangle {
     }
 
     function fadeIn() {
-        Wallpaper.setVisible(true);
+        Wallpaper.setVisible(true)
         if (canFadeByWallpaperFillMode && Wallpaper.canFade)
-            imgCover.state = "hideDefaultBackgroundImage";
+            imgCover.state = "hideDefaultBackgroundImage"
         else
-            imgCover.opacity = 0;
+            imgCover.opacity = 0
     }
 
     anchors.fill: parent
     color: {
         if (Qt.platform.os !== "windows")
-            return "black";
+            return "black"
         else
-            return Wallpaper.windowsDesktopProperties.color;
+            return Wallpaper.windowsDesktopProperties.color
     }
     Component.onCompleted: {
-        init();
+        init()
     }
 
     Connections {
         function onQmlExit() {
             if (canFadeByWallpaperFillMode && Wallpaper.canFade)
-                imgCover.state = "exit";
+                imgCover.state = "exit"
             else
-                Wallpaper.terminate();
+                Wallpaper.terminate()
         }
 
         function onQmlSceneValueReceived(key, value) {
-            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }';
-            var newObject = Qt.createQmlObject(obj2.toString(), root, "err");
-            newObject.destroy(10000);
+            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.'
+                    + key + ' = ' + value + '; }'
+            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
+            newObject.destroy(10000)
         }
 
         // Replace wallpaper with QML Scene
         function onReloadQML(oldType) {
-            loader.sourceComponent = undefined;
-            loader.source = "";
-            Wallpaper.clearComponentCache();
-            loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute);
+            loader.sourceComponent = undefined
+            loader.source = ""
+            Wallpaper.clearComponentCache()
+            loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
         }
 
         // Replace wallpaper with GIF
         function onReloadGIF(oldType) {
-            init();
+            init()
         }
 
         // This function only gets called here (the same function
@@ -106,9 +117,9 @@ Rectangle {
             // We need to check if the old type
             // was also Video not get called twice
             if (oldType === InstalledType.VideoWallpaper)
-                return ;
+                return
 
-            loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml";
+            loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
         }
 
         target: Wallpaper
@@ -123,20 +134,19 @@ Rectangle {
         //asynchronous: true
         onStatusChanged: {
             if (loader.status === Loader.Error) {
-                loader.source = "";
-               // Wallpaper.terminate();
+                loader.source = ""
+                // Wallpaper.terminate();
             }
         }
 
         Connections {
             function onRequestFadeIn() {
-                fadeIn();
+                fadeIn()
             }
 
             ignoreUnknownSignals: true
             target: loader.item
         }
-
     }
 
     Image {
@@ -147,40 +157,41 @@ Rectangle {
         sourceSize.height: Wallpaper.height
         source: {
             if (Qt.platform.os === "windows")
-                return Qt.resolvedUrl("file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath);
+                return Qt.resolvedUrl(
+                            "file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath)
             else
                 return ""
         }
-        
+
         Component.onCompleted: {
             if (Qt.platform.os !== "windows") {
-                root.canFadeByWallpaperFillMode = false;
-                return ;
+                root.canFadeByWallpaperFillMode = false
+                return
             }
             switch (Wallpaper.windowsDesktopProperties.wallpaperStyle) {
             case 10:
-                imgCover.fillMode = Image.PreserveAspectCrop;
-                break;
+                imgCover.fillMode = Image.PreserveAspectCrop
+                break
             case 6:
-                imgCover.fillMode = Image.PreserveAspectFit;
-                break;
+                imgCover.fillMode = Image.PreserveAspectFit
+                break
             case 2:
-                break;
+                break
             case 0:
                 if (desktopProperties.isTiled) {
                     // Tiled
-                    imgCover.fillMode = Image.Tile;
+                    imgCover.fillMode = Image.Tile
                 } else {
                     // Center
-                    imgCover.fillMode = Image.PreserveAspectFit;
-                    imgCover.anchors.centerIn = parent;
-                    imgCover.width = sourceSize.width;
-                    imgCover.height = sourceSize.height;
+                    imgCover.fillMode = Image.PreserveAspectFit
+                    imgCover.anchors.centerIn = parent
+                    imgCover.width = sourceSize.width
+                    imgCover.height = sourceSize.height
                 }
-                break;
+                break
             case 22:
-                root.canFadeByWallpaperFillMode = false;
-                break;
+                root.canFadeByWallpaperFillMode = false
+                break
             }
         }
 
@@ -199,7 +210,6 @@ Rectangle {
                     target: imgCover
                     opacity: 1
                 }
-
             },
             State {
                 name: "hideDefaultBackgroundImage"
@@ -208,7 +218,6 @@ Rectangle {
                     target: imgCover
                     opacity: 0
                 }
-
             },
             State {
                 name: "exit"
@@ -217,7 +226,6 @@ Rectangle {
                     target: imgCover
                     opacity: 1
                 }
-
             }
         ]
         transitions: [
@@ -236,9 +244,7 @@ Rectangle {
                         duration: 600
                         property: "opacity"
                     }
-
                 }
-
             },
             Transition {
                 from: "hideDefaultBackgroundImage"
@@ -255,9 +261,7 @@ Rectangle {
                     ScriptAction {
                         script: Wallpaper.terminate()
                     }
-
                 }
-
             }
         ]
     }
@@ -287,7 +291,12 @@ Rectangle {
             }
 
             Text {
-                text: "projectSourceFileAbsolute " + Wallpaper.projectSourceFileAbsolute
+                text: "getApplicationPath " + Wallpaper.getApplicationPath()
+                font.pointSize: 14
+            }
+
+            Text {
+                text: "projectSourceFileAbsolute " + Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
                 font.pointSize: 14
             }
 
@@ -324,9 +333,10 @@ Rectangle {
             Text {
                 text: {
                     if (Qt.platform.os === "windows")
-                    return "imgCover.source " + Qt.resolvedUrl("file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath)
-                    else 
-                    return ""
+                        return "imgCover.source " + Qt.resolvedUrl(
+                                    "file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath)
+                    else
+                        return ""
                 }
                 font.pointSize: 14
             }
@@ -335,13 +345,10 @@ Rectangle {
                 text: "imgCover.status " + imgCover.status
                 font.pointSize: 14
             }
-
         }
 
         background: Rectangle {
             opacity: 0.5
         }
-
     }
-
 }

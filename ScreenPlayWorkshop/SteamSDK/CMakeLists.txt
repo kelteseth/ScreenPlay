@@ -50,11 +50,17 @@ set(HEADER
     public/steam/steamps3params.h
     public/steam/steamtypes.h
     public/steam/steamuniverse.h
-    # CUSTOM
-    public/steam/steam_qt_enums_generated.h
-    # ENDCUSTOM
 )
 
-add_library(${PROJECT_NAME} STATIC ${HEADER})
-target_include_directories(${PROJECT_NAME} PUBLIC public/)
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core)
+
+if(${SCREENPLAY_STEAM})
+    add_library(${PROJECT_NAME} STATIC ${HEADER})
+    target_include_directories(${PROJECT_NAME} PUBLIC public/)
+    target_link_libraries(${PROJECT_NAME})
+endif()
+
+# We allaways need the generated enums as a workaround to register these enums in app.cpp.
+# Registering in the ScreenPlayWorkshop plugin does not work for some reason.
+add_library(SteamSDKQtEnums STATIC public/steam/steam_qt_enums_generated.h)
+target_include_directories(SteamSDKQtEnums PUBLIC public/)
+target_link_libraries(SteamSDKQtEnums PRIVATE Qt6::Core)

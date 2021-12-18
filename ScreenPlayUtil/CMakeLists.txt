@@ -26,3 +26,8 @@ target_include_directories(
     PRIVATE src/)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core)
+
+if(WIN32)
+    # Used for query windows monitor data
+    target_link_libraries(${PROJECT_NAME} PUBLIC shcore.lib)
+endif()

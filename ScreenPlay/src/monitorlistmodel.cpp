@@ -37,15 +37,8 @@ QHash<int, QByteArray> MonitorListModel::roleNames() const
 {
     static const QHash<int, QByteArray> roles {
         { static_cast<int>(MonitorRole::AppID), "m_appID" },
-        { static_cast<int>(MonitorRole::MonitorID), "m_monitorID" },
-        { static_cast<int>(MonitorRole::Name), "m_name" },
-        { static_cast<int>(MonitorRole::Size), "m_size" },
-        { static_cast<int>(MonitorRole::AvailableGeometry), "m_availableGeometry" },
-        { static_cast<int>(MonitorRole::AvailableVirtualGeometry), "m_availableVirtualGeometry" },
-        { static_cast<int>(MonitorRole::Number), "m_number" },
+        { static_cast<int>(MonitorRole::Index), "m_index" },
         { static_cast<int>(MonitorRole::Geometry), "m_geometry" },
-        { static_cast<int>(MonitorRole::Model), "m_model" },
-        { static_cast<int>(MonitorRole::Manufacturer), "m_manufacturer" },
         { static_cast<int>(MonitorRole::PreviewImage), "m_previewImage" },
         { static_cast<int>(MonitorRole::InstalledType), "m_installedType" },
     };
@@ -86,32 +79,10 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
             } else {
                 return QVariant("");
             }
-        case MonitorRole::MonitorID: {
-            QScreen* screen = m_monitorList.at(row).m_screen;
-
-            QVariant id = QString::number(screen->size().width())
-                + "x" + QString::number(screen->size().height())
-                + "_" + QString::number(screen->availableGeometry().x())
-                + "x" + QString::number(screen->availableGeometry().y());
-
-            return id;
-        }
-        case MonitorRole::Name:
-            return m_monitorList.at(row).m_screen->name();
-        case MonitorRole::Size:
-            return m_monitorList.at(row).m_screen->size();
-        case MonitorRole::AvailableGeometry:
-            return m_monitorList.at(row).m_availableGeometry;
-        case MonitorRole::AvailableVirtualGeometry:
-            return m_monitorList.at(row).m_screen->availableVirtualGeometry();
-        case MonitorRole::Number:
-            return m_monitorList.at(row).m_number;
+        case MonitorRole::Index:
+            return m_monitorList.at(row).m_index;
         case MonitorRole::Geometry:
-            return m_monitorList.at(row).m_screen->geometry();
-        case MonitorRole::Model:
-            return m_monitorList.at(row).m_screen->model();
-        case MonitorRole::Manufacturer:
-            return m_monitorList.at(row).m_screen->manufacturer();
+            return m_monitorList.at(row).m_geometry;
         case MonitorRole::InstalledType:
             if (m_monitorList.at(row).m_activeWallpaper) {
                 return static_cast<int>(m_monitorList.at(row).m_activeWallpaper->type());
@@ -135,6 +106,43 @@ QVariant MonitorListModel::data(const QModelIndex& index, int role) const
 */
 void MonitorListModel::loadMonitors()
 {
+
+#ifdef Q_OS_WIN
+    QModelIndex index;
+    ScreenPlayUtil::WinMonitorStats monitors;
+
+    // This offset lets us center the monitor selection view in the center
+    int offsetX = 0;
+    int offsetY = 0;
+    const int moinitorCount = monitors.iMonitors.size();
+
+    for (int i = 0; i < moinitorCount; i++) {
+        const int x = monitors.rcMonitors[i].left;
+        const int y = monitors.rcMonitors[i].top;
+        if (x < 0) {
+            offsetX += (x * -1);
+        }
+        if (y < 0) {
+            offsetY += (y * -1);
+        }
+    }
+
+    for (int i = 0; i < moinitorCount; i++) {
+        const int width = std::abs(monitors.rcMonitors[i].right - monitors.rcMonitors[i].left);
+        const int height = std::abs(monitors.rcMonitors[i].top - monitors.rcMonitors[i].bottom);
+        const int x = monitors.rcMonitors[i].left;
+        const int y = monitors.rcMonitors[i].top;
+        QRect geometry(
+            x + offsetX,
+            y + offsetY,
+            width,
+            height);
+        beginInsertRows(index, m_monitorList.size(), m_monitorList.size());
+        m_monitorList.append(Monitor { i, geometry });
+        endInsertRows();
+    }
+#else
+    QModelIndex index;
     int offsetX = 0;
     int offsetY = 0;
 
@@ -148,7 +156,6 @@ void MonitorListModel::loadMonitors()
         }
     }
 
-    QModelIndex index;
     for (int i = 0; i < QApplication::screens().count(); i++) {
         QScreen* screen = QApplication::screens().at(i);
 
@@ -166,6 +173,7 @@ void MonitorListModel::loadMonitors()
         m_monitorList.append(Monitor { i, availableVirtualGeometry, screen });
         endInsertRows();
     }
+#endif
 
     emit monitorReloadCompleted();
 }
@@ -216,7 +224,7 @@ void MonitorListModel::closeWallpaper(const QString& appID)
  * \brief MonitorListModel::getAbsoluteDesktopSize
  * \return
  */
-QRect MonitorListModel::getAbsoluteDesktopSize() const
+QRect MonitorListModel::absoluteDesktopSize() const
 {
     auto* app = static_cast<QApplication*>(QGuiApplication::instance());
     return app->screens().at(0)->availableVirtualGeometry();
@@ -248,7 +256,7 @@ void MonitorListModel::setWallpaperMonitor(const std::shared_ptr<ScreenPlayWallp
 std::optional<QString> MonitorListModel::getAppIDByMonitorIndex(const int index) const
 {
     for (auto& monitor : m_monitorList) {
-        if (monitor.m_number == index && monitor.m_activeWallpaper) {
+        if (monitor.m_index == index && monitor.m_activeWallpaper) {
             return { monitor.m_activeWallpaper->appID() };
         }
     }

@@ -32,8 +32,8 @@ int main(int argc, char* argv[])
     // For testing purposes when starting the ScreenPlayWallpaper directly.
     if (argumentList.length() == 1) {
 #if defined(Q_OS_WIN)
-        //WinWindow window1({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
-        WinWindow window1({ 0 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/2453869686", "appID=test", "1", "fill", "videoWallpaper", true, true);
+        // WinWindow window1({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
+        WinWindow window1({ 0, 1, 2 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/hordemp4", "appID=test", "1", "fill", "videoWallpaper", true, true);
 #elif defined(Q_OS_LINUX)
         LinuxWindow window({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", false, true);
 #elif defined(Q_OS_OSX)

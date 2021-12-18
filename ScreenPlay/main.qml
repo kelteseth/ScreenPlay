@@ -15,18 +15,18 @@ import "qml/Workshop" as Workshop
 import "qml/Community" as Community
 
 ApplicationWindow {
-    id: window
+    id: root
 
     function setTheme(theme) {
         switch (theme) {
         case Settings.System:
-            window.Material.theme = Material.System;
+            root.Material.theme = Material.System;
             break;
         case Settings.Dark:
-            window.Material.theme = Material.Dark;
+            root.Material.theme = Material.Dark;
             break;
         case Settings.Light:
-            window.Material.theme = Material.Light;
+            root.Material.theme = Material.Light;
             break;
         }
     }
@@ -38,7 +38,7 @@ ApplicationWindow {
         }
 
         if (name === "Installed") {
-            stackView.replace("qrc:/ScreenPlay/qml/" + name + "/" + name + ".qml", {
+            stackView.replace("qrc:/ScreenPlay/qml/Installed/Installed.qml", {
                                   "sidebar": sidebar
                               })
             return
@@ -59,15 +59,23 @@ ApplicationWindow {
     // https://bugreports.qt.io/browse/QTBUG-86047
     Material.accent: Material.color(Material.Orange)
     onVisibilityChanged: {
-        if (window.visibility === 2)
+        if (root.visibility === 2)
             ScreenPlay.installedListModel.reset();
 
     }
+    onClosing: {
+        if (ScreenPlay.screenPlayManager.activeWallpaperCounter === 0
+                && ScreenPlay.screenPlayManager.activeWidgetsCounter === 0) {
+            Qt.quit()
+        }
+    }
     Component.onCompleted: {
         setTheme(ScreenPlay.settings.theme);
-        switchPage("Installed");
+        stackView.push("qrc:/ScreenPlay/qml/Installed/Installed.qml", {
+                              "sidebar": sidebar
+                          })
         if (!ScreenPlay.settings.silentStart)
-            window.show();
+            root.show();
 
     }
 
@@ -89,7 +97,7 @@ ApplicationWindow {
 
     Connections {
         function onRequestRaise() {
-            window.show();
+            root.show();
         }
 
         target: ScreenPlay.screenPlayManager
@@ -103,10 +111,11 @@ ApplicationWindow {
     }
 
     Dialogs.CriticalError {
-        mainWindow: window
+        window: root
     }
 
     Common.TrayIcon {
+        window: root
     }
 
     StackView {
@@ -192,6 +201,7 @@ ApplicationWindow {
 
     Navigation.Navigation {
         id: nav
+        window: root
 
         onChangePage: (name)=>  {
             monitors.close();

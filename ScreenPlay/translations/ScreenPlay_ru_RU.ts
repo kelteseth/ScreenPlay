@@ -493,35 +493,35 @@
     </message>
     <message>
         <source>Generating preview image...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Generating preview image...</translation>
     </message>
     <message>
         <source>Generating preview thumbnail image...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Generating preview thumbnail image...</translation>
     </message>
     <message>
         <source>Generating 5 second preview video...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Generating 5 second preview video...</translation>
     </message>
     <message>
         <source>Generating preview gif...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Generating preview gif...</translation>
     </message>
     <message>
         <source>Converting Audio...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Converting Audio...</translation>
     </message>
     <message>
         <source>Converting Video... This can take some time!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Converting Video... This can take some time!</translation>
     </message>
     <message>
         <source>Converting Video ERROR!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Converting Video ERROR!</translation>
     </message>
     <message>
         <source>Analyse Video ERROR!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Analyse Video ERROR!</translation>
     </message>
     <message>
         <source>Import a video to a wallpaper</source>
@@ -529,58 +529,58 @@
     </message>
     <message>
         <source>Generating preview video...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Generating preview video...</translation>
     </message>
     <message>
         <source>Name (required!)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Name (required!)</translation>
     </message>
     <message>
         <source>Description</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Description</translation>
     </message>
     <message>
         <source>Youtube URL</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Youtube URL</translation>
     </message>
     <message>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Abort</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Save</translation>
     </message>
     <message>
         <source>Save Wallpaper...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Save Wallpaper...</translation>
     </message>
 </context>
 <context>
     <name>Importh264Init</name>
     <message>
         <source>Import a .mp4 video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Import a .mp4 video</translation>
     </message>
     <message>
         <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</translation>
     </message>
     <message>
         <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Invalid file type. Must be valid h264 (*.mp4)!</translation>
     </message>
     <message>
         <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Drop a *.mp4 file here or use &apos;Select file&apos; below.</translation>
     </message>
     <message>
         <source>Open Documentation</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Open Documentation</translation>
     </message>
     <message>
         <source>Select file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Select file</translation>
     </message>
 </context>
 <context>
@@ -761,16 +761,31 @@
         <source>Settings</source>
         <translation type="unfinished">Settings</translation>
     </message>
-</context>
-<context>
-    <name>NavigationWallpaperConfiguration</name>
     <message>
-        <source>Configurate active Wallpaper or Widgets</source>
-        <translation type="unfinished">Configurate active Wallpaper or Widgets</translation>
+        <source>Mute/Unmute all Wallpaper</source>
+        <translation type="unfinished">Mute/Unmute all Wallpaper</translation>
     </message>
     <message>
-        <source>No active Wallpaper or Widgets</source>
-        <translation type="unfinished">No active Wallpaper or Widgets</translation>
+        <source>Pause/Play all Wallpaper</source>
+        <translation type="unfinished">Pause/Play all Wallpaper</translation>
+    </message>
+    <message>
+        <source>Configure Wallpaper</source>
+        <translation type="unfinished">Configure Wallpaper</translation>
+    </message>
+    <message>
+        <source>Minimize to Tray</source>
+        <translation type="unfinished">Minimize to Tray</translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished">Exit</translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit ScreenPlay? 
+This will shut down all Wallpaper and Widgets.</source>
+        <translation type="unfinished">Are you sure you want to exit ScreenPlay? 
+This will shut down all Wallpaper and Widgets.</translation>
     </message>
 </context>
 <context>
@@ -1009,10 +1024,6 @@
         <translation type="unfinished">Version</translation>
     </message>
     <message>
-        <source>ScreenPlay Build Version </source>
-        <translation type="unfinished">ScreenPlay Build Version </translation>
-    </message>
-    <message>
         <source>Open Changelog</source>
         <translation type="unfinished">Open Changelog</translation>
     </message>
@@ -1052,6 +1063,12 @@
         <source>Privacy</source>
         <translation type="unfinished">Privacy</translation>
     </message>
+    <message>
+        <source>ScreenPlay Build Version 
+</source>
+        <translation type="unfinished">ScreenPlay Build Version 
+</translation>
+    </message>
 </context>
 <context>
     <name>SettingsExpander</name>
@@ -1068,15 +1085,15 @@
     </message>
     <message>
         <source>Video Import h264 (.mp4)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video Import h264 (.mp4)</translation>
     </message>
     <message>
         <source>Video Import VP8 &amp; VP9 (.webm)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
     </message>
     <message>
         <source>Video import (all types)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Video import (all types)</translation>
     </message>
     <message>
         <source>GIF Wallpaper</source>
@@ -1183,11 +1200,11 @@
     <name>StartInfo</name>
     <message>
         <source>Free tools to help you to create wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Free tools to help you to create wallpaper</translation>
     </message>
     <message>
         <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</translation>
     </message>
 </context>
 <context>
@@ -1578,7 +1595,7 @@
     </message>
     <message>
         <source>Password Required To Kick Session</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Password Required To Kick Session</translation>
     </message>
     <message>
         <source>Already Logged In Elsewhere</source>

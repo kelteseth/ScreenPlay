@@ -15,16 +15,8 @@ static ScreenPlaySDK* global_sdkPtr = nullptr;
     \brief  .
 */
 
-ScreenPlaySDK::ScreenPlaySDK(QQuickItem* parent)
-    : QQuickItem(parent)
-{
-}
-
-ScreenPlaySDK::ScreenPlaySDK(
-    const QString& appID,
-    const QString& type,
-    QQuickItem* parent)
-    : QQuickItem(parent)
+ScreenPlaySDK::ScreenPlaySDK(const QString& appID, const QString& type)
+    : QObject(nullptr)
     , m_type { type }
     , m_appID { appID }
 {

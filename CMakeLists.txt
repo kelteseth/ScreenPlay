@@ -32,6 +32,7 @@ endif()
 set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlay-vcpkg")
 set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
 
+
 find_package(Git REQUIRED)
 if(WIN32)
     set(date_command "CMD")
@@ -56,7 +57,7 @@ execute_process(
     OUTPUT_VARIABLE GIT_COMMIT_HASH
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 
-add_compile_definitions(COMPILE_INFO="${BUILD_DATE} + ${GIT_COMMIT_HASH}")
+add_compile_definitions(COMPILE_INFO="Build Date: ${BUILD_DATE}. Git Hash: ${GIT_COMMIT_HASH}. ")
 add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 add_compile_definitions(SCREENPLAY_STEAM="${SCREENPLAY_STEAM}")
 
@@ -76,6 +77,9 @@ add_subdirectory(CMake)
 
 if(${SCREENPLAY_STEAM})
     add_subdirectory(ScreenPlayWorkshop)
+else()
+    # Only add target SteamSDKQtEnums
+    add_subdirectory(ScreenPlayWorkshop/SteamSDK)
 endif()
 
 if(WIN32)

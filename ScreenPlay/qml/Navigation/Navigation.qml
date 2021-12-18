@@ -1,5 +1,7 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Window
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
@@ -10,56 +12,57 @@ import "../Common"
 Rectangle {
     id: root
 
-    property string currentNavigationName: ""
+    property string currentNavigationName: "Installed"
     property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity]
     property bool navActive: true
+    property ApplicationWindow window
+    property int iconWidth: 16
+    property int iconHeight: iconWidth
 
     signal changePage(string name)
 
     function setActive(active) {
-        navActive = active;
+        navActive = active
         if (active)
-            root.state = "enabled";
+            root.state = "enabled"
         else
-            root.state = "disabled";
+            root.state = "disabled"
     }
 
     function setNavigation(name) {
-        var i = 0;
+        var i = 0
         for (; i < navArray.length; i++) {
             if (navArray[i].name === name) {
-                navArray[i].state = "active";
-                root.currentNavigationName = name;
+                navArray[i].state = "active"
+                root.currentNavigationName = name
             } else {
-                navArray[i].state = "inactive";
+                navArray[i].state = "inactive"
             }
         }
     }
 
     function onPageChanged(name) {
         if (!navActive)
-            return ;
+            return
 
-        root.changePage(name);
-        setNavigation(name);
+        root.changePage(name)
+        setNavigation(name)
     }
 
     height: 60
-    clip: true
     width: 1366
     color: Material.theme === Material.Light ? "white" : Material.background
     layer.enabled: true
 
-    MouseHoverBlocker {
-    }
+    MouseHoverBlocker {}
 
     Connections {
         function onRequestNavigationActive(isActive) {
-            setActive(isActive);
+            setActive(isActive)
         }
 
         function onRequestNavigation(nav) {
-            onPageChanged(nav);
+            onPageChanged(nav)
         }
 
         target: ScreenPlay.util
@@ -128,10 +131,145 @@ Rectangle {
             onPageClicked: (name)=> {root.onPageChanged(name)}
             objectName: "settingsTab"
         }
-
     }
 
-    NavigationWallpaperConfiguration {
+    Rectangle {
+        id:quickActionRowBackground
+        anchors.centerIn: quickActionRow
+        width: quickActionRow.width + 5
+        height: quickActionRow.height - 16
+        color: Material.theme === Material.Light ? Material.background : "#242424"
+        border.color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(Material.background)
+        border.width: 1
+        radius: 3
+    }
+
+    RowLayout {
+        id: quickActionRow
+        anchors {
+            top: parent.top
+            right: parent.right
+            rightMargin: 10
+            bottom: parent.bottom
+        }
+
+        property bool contentActive: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
+                                     || ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
+
+        onContentActiveChanged: {
+            if(!contentActive){
+                miMuteAll.isMuted = false
+                miStopAll.isPlaying = false
+            }
+        }
+
+        ToolButton {
+            id: miMuteAll
+            Layout.alignment: Qt.AlignVCenter
+            icon.source: "qrc:/assets/icons/icon_volume.svg"
+            icon.width: root.iconWidth
+            icon.height: root.iconHeight
+            enabled: quickActionRow.contentActive
+
+            onClicked: isMuted = !isMuted
+            property bool isMuted: false
+            onIsMutedChanged: {
+                if (miMuteAll.isMuted) {
+                    miMuteAll.icon.source = "qrc:/assets/icons/icon_volume.svg"
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted",
+                                                                      "false")
+                } else {
+                    miMuteAll.icon.source = "qrc:/assets/icons/icon_volume_mute.svg"
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted",
+                                                                      "true")
+                }
+            }
+
+            hoverEnabled: true
+            ToolTip.text: qsTr("Mute/Unmute all Wallpaper")
+            ToolTip.visible: hovered
+        }
+        ToolButton {
+            id: miStopAll
+            enabled: quickActionRow.contentActive
+            Layout.alignment: Qt.AlignVCenter
+            icon.source: "qrc:/assets/icons/icon_pause.svg"
+            icon.width: root.iconWidth
+            icon.height: root.iconHeight
+            onClicked: isPlaying = !isPlaying
+            property bool isPlaying: true
+            onIsPlayingChanged:{
+                if (miStopAll.isPlaying) {
+                    miStopAll.icon.source = "qrc:/assets/icons/icon_pause.svg"
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                                "isPlaying", "true")
+                } else {
+                    miStopAll.icon.source = "qrc:/assets/icons/icon_play.svg"
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                                "isPlaying", "false")
+                }
+            }
+            hoverEnabled: true
+            ToolTip.text: qsTr("Pause/Play all Wallpaper")
+            ToolTip.visible: hovered
+        }
+        ToolButton {
+                id: miConfig
+                Layout.alignment: Qt.AlignVCenter
+                icon.source: "qrc:/assets/icons/icon_video_settings_black_24dp.svg"
+                icon.width: root.iconWidth
+                icon.height: root.iconHeight
+                onClicked: ScreenPlay.util.setToggleWallpaperConfiguration()
+                hoverEnabled: true
+                ToolTip.text: qsTr("Configure Wallpaper")
+                ToolTip.visible: hovered
+            }
+
+        Rectangle  {
+            color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(Material.background)
+            height: quickActionRowBackground.height
+            width: 1
+        }
+
+        ToolButton {
+            id: miMinimize
+            Layout.alignment: Qt.AlignVCenter
+            icon.source: "qrc:/assets/icons/icon_minimize.svg"
+            icon.width: root.iconWidth
+            icon.height: root.iconHeight
+            onClicked: root.window.hide()
+            hoverEnabled: true
+            ToolTip.text: qsTr("Minimize to Tray")
+            ToolTip.visible: hovered
+        }
+        ToolButton {
+            id: miquit
+            Layout.alignment: Qt.AlignVCenter
+            icon.source: "qrc:/assets/icons/icon_close.svg"
+            icon.width: root.iconWidth
+            icon.height: root.iconHeight
+            onClicked: {
+                if(ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
+                        && ScreenPlay.screenPlayManager.activeWidgetsCounter > 0){
+                    Qt.quit()
+                    return
+                }
+                dialog.open()
+            }
+            hoverEnabled: true
+            ToolTip.text: qsTr("Exit")
+            ToolTip.visible: hovered
+        }
+
+        Dialog {
+            id: dialog
+            anchors.centerIn: Overlay.overlay
+            title: qsTr("Are you sure you want to exit ScreenPlay? \nThis will shut down all Wallpaper and Widgets.")
+            standardButtons: Dialog.Ok | Dialog.Cancel
+            onAccepted: Qt.quit()
+        }
+
+
     }
 
     layer.effect: ElevationEffect {
@@ -149,7 +287,6 @@ Rectangle {
                 target: row
                 opacity: 0.3
             }
-
         }
     ]
     transitions: [
@@ -161,7 +298,6 @@ Rectangle {
                 target: row
                 duration: 300
             }
-
         }
     ]
 }

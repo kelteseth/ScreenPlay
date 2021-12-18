@@ -78,6 +78,7 @@ public:
     QString type() const { return m_type; }
 
 signals:
+    void disconnected();
     void requestCloseAt(int at);
     void appIDChanged(QString appID);
     void monitorChanged(QVector<int> monitor);
