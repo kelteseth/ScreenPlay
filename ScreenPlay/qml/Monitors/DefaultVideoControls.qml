@@ -114,7 +114,7 @@ ColumnLayout {
                 "text": qsTr("Scale_Down")
             }]
             onActivated: {
-                ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(activeMonitorIndex, "fillmode", settingsComboBox.currentText);
+                ScreenPlay.screenPlayManager.setWallpaperFillModeAtMonitorIndex(activeMonitorIndex,settingsComboBox.currentValue);
             }
         }
 

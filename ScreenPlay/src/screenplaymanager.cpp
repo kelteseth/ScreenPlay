@@ -336,6 +336,22 @@ bool ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const Q
 }
 
 /*!
+  \brief Set a wallpaper \a fillmode at a given \a index and converts the qml enum (int)
+         into the c++ enum class value.
+*/
+bool ScreenPlayManager::setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode)
+{
+    const auto fillModeTyped =  static_cast<FillMode::FillMode>(fillmode);
+
+    if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
+        return setWallpaperValue(*appID, "fillmode", QVariant::fromValue<FillMode::FillMode>(fillModeTyped).toString());
+    }
+
+    qWarning() << "Could net get appID from m_monitorListModel!";
+    return false;
+}
+
+/*!
   \brief Convenient function to set a \a value at a given \a index and \a key for all wallaper. For exmaple used to mute all wallpaper.
 */
 bool ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
