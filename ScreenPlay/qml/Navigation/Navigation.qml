@@ -175,12 +175,10 @@ Rectangle {
             property bool isMuted: false
             onIsMutedChanged: {
                 if (miMuteAll.isMuted) {
-                    isMuted = false
                     miMuteAll.icon.source = "qrc:/assets/icons/icon_volume.svg"
                     ScreenPlay.screenPlayManager.setAllWallpaperValue("muted",
                                                                       "false")
                 } else {
-                    isMuted = true
                     miMuteAll.icon.source = "qrc:/assets/icons/icon_volume_mute.svg"
                     ScreenPlay.screenPlayManager.setAllWallpaperValue("muted",
                                                                       "true")
@@ -198,22 +196,19 @@ Rectangle {
             icon.source: "qrc:/assets/icons/icon_pause.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
-
-            property bool isPlaying: false
+            onClicked: isPlaying = !isPlaying
+            property bool isPlaying: true
             onIsPlayingChanged:{
                 if (miStopAll.isPlaying) {
-                    isPlaying = false
                     miStopAll.icon.source = "qrc:/assets/icons/icon_pause.svg"
                     ScreenPlay.screenPlayManager.setAllWallpaperValue(
                                 "isPlaying", "true")
                 } else {
-                    isPlaying = true
                     miStopAll.icon.source = "qrc:/assets/icons/icon_play.svg"
                     ScreenPlay.screenPlayManager.setAllWallpaperValue(
                                 "isPlaying", "false")
                 }
             }
-            onClicked: isPlaying = !isPlaying
             hoverEnabled: true
             ToolTip.text: qsTr("Pause/Play all Wallpaper")
             ToolTip.visible: hovered
