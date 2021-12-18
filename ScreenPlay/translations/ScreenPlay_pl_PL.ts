@@ -219,7 +219,7 @@
     </message>
     <message>
       <source>Current Video Time</source>
-      <translation type="unfinished">Current Video Time</translation>
+      <translation>Moment filmu</translation>
     </message>
     <message>
       <source>Fill Mode</source>
@@ -603,15 +603,15 @@
     </message>
     <message>
       <source>Open containing folder</source>
-      <translation type="unfinished">Open containing folder</translation>
+      <translation>Otwórz lokalizację pliku</translation>
     </message>
     <message>
       <source>Remove Item</source>
-      <translation type="unfinished">Remove Item</translation>
+      <translation>Usuń element</translation>
     </message>
     <message>
       <source>Remove via Workshop</source>
-      <translation type="unfinished">Remove via Workshop</translation>
+      <translation>Usuń poprzez Warsztat</translation>
     </message>
     <message>
       <source>Open Workshop Page</source>
