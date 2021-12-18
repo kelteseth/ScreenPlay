@@ -249,8 +249,8 @@ Rectangle {
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: {
-                if(ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
-                        && ScreenPlay.screenPlayManager.activeWidgetsCounter > 0){
+                if(ScreenPlay.screenPlayManager.activeWallpaperCounter === 0
+                        && ScreenPlay.screenPlayManager.activeWidgetsCounter === 0){
                     Qt.quit()
                     return
                 }

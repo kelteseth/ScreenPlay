@@ -17,7 +17,7 @@ Rectangle {
     property alias background: root.color
     property alias radius: root.radius
 
-    signal requestProjectSettings(int index, var installedType, string appID)
+    signal requestProjectSettings(var index, var installedType, var appID)
 
     function selectOnly(index) {
         for (var i = 0; i < rp.count; i++) {
@@ -142,7 +142,7 @@ Rectangle {
                 previewImage: m_previewImage
                 installedType: m_installedType
                 monitorWithoutContentSelectable: root.monitorWithoutContentSelectable
-                onMonitorSelected: root.selectMonitorAt(delegate.index)
+                onMonitorSelected: (index) => root.selectMonitorAt(index)
             }
 
         }

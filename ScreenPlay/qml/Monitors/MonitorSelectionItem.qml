@@ -75,13 +75,6 @@ Item {
             fillMode: Image.PreserveAspectCrop
         }
 
-        Text {
-            font.pointSize: 14
-            text: root.index
-            anchors.centerIn: parent
-            color: "white"
-        }
-
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
@@ -89,7 +82,7 @@ Item {
             onClicked: {
                 if (monitorWithoutContentSelectable) {
                     monitorSelected(index);
-                    return ;
+                    return
                 }
                 if (root.hasContent && !root.monitorWithoutContentSelectable)
                     monitorSelected(index);
