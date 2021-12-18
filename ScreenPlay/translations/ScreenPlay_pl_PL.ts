@@ -626,7 +626,7 @@
     <name>InstalledWelcomeScreen</name>
     <message>
       <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-      <translation type="unfinished">Get free Widgets and Wallpaper via the Steam Workshop</translation>
+      <translation>Uzyskaj bezpłatne widżety i tapety poprzez Warsztat Steam</translation>
     </message>
     <message>
       <source>Browse the Steam Workshop</source>
@@ -807,7 +807,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</source>
-      <translation type="unfinished">REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</translation>
+      <translation>DO AKTYWACJI WYMAGANE JEST POŁĄCZENIE Z INTERNETEM ORAZ BEZPŁATNE KONTO STEAM. Uwaga: Oferowany produkt podlega Twojej akceptacji Umowy użytkownika Steam (dalej "Umowa"). Należy aktywować ten produkt przez Internet rejestrując konto Steam oraz akceptująć Umowę. Odwiedź https://store.steampowered.com/subscriber_agreement/, aby zapoznać się z Umową przed zakupem. Jeśli nie zgadzasz się z warunkami Umowy, należy zwrócić tę grę w stanie nieotwartym do Twojego sprzedawcy zgodnie z jego warunkami zwrotów.</translation>
     </message>
     <message>
       <source>View The Steam Subscriber Agreement</source>
@@ -981,19 +981,19 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Default Fill Mode</source>
-      <translation type="unfinished">Default Fill Mode</translation>
+      <translation>Domyślny tryb wypełniania</translation>
     </message>
     <message>
       <source>Set this property to define how the video is scaled to fit the target area.</source>
-      <translation type="unfinished">Set this property to define how the video is scaled to fit the target area.</translation>
+      <translation>To ustawienie określa, w jaki sposób film jest skalowany, aby dopasować go do obszaru docelowego.</translation>
     </message>
     <message>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>Rozciągnięcie</translation>
     </message>
     <message>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Wypełnienie</translation>
     </message>
     <message>
       <source>Contain</source>
@@ -1017,7 +1017,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-      <translation type="unfinished">Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</translation>
+      <translation>Cześć, nazywam się Elias Steurer znany również jako Kelteseth i jestem programistą ScreenPlay. Dziękuję Ci za wypróbowanie mojego oprogramowania. Obserwuj mnie, aby być na bieżąco z aktualizacjami ScreenPlay:</translation>
     </message>
     <message>
       <source>Version</source>
@@ -1057,7 +1057,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-      <translation type="unfinished">We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</translation>
+      <translation>Bardzo ostrożnie używamy danych w celu rozwoju ScreenPlay. Nie sprzedajemy oraz nie udostępniamy tych (anonimowych) informacji osobom trzecim!</translation>
     </message>
     <message>
       <source>Privacy</source>
@@ -1141,15 +1141,15 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Fill Mode</source>
-      <translation type="unfinished">Fill Mode</translation>
+      <translation>Tryb wypełnienia</translation>
     </message>
     <message>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>Rozciągnięcie</translation>
     </message>
     <message>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Wypełnienie</translation>
     </message>
     <message>
       <source>Contain</source>
@@ -1265,7 +1265,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Ranked By Vote</source>
-      <translation type="unfinished">Ranked By Vote</translation>
+      <translation>Ilość głosów</translation>
     </message>
     <message>
       <source>Publication Date</source>
@@ -1273,7 +1273,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Ranked By Trend</source>
-      <translation type="unfinished">Ranked By Trend</translation>
+      <translation>Popularność</translation>
     </message>
     <message>
       <source>Favorited By Friends</source>
@@ -1289,19 +1289,19 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Not Yet Rated</source>
-      <translation type="unfinished">Not Yet Rated</translation>
+      <translation>Bez ocen</translation>
     </message>
     <message>
       <source>Total VotesAsc</source>
-      <translation type="unfinished">Total VotesAsc</translation>
+      <translation>Ilość głosów: rosnąco</translation>
     </message>
     <message>
       <source>Votes Up</source>
-      <translation type="unfinished">Votes Up</translation>
+      <translation>Głosy pozytywne</translation>
     </message>
     <message>
       <source>Total Unique Subscriptions</source>
-      <translation type="unfinished">Total Unique Subscriptions</translation>
+      <translation>Łącznie unikalnych subskrypcji</translation>
     </message>
     <message>
       <source>Back</source>
@@ -1803,7 +1803,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
       <source>Need Captcha</source>
-      <translation type="unfinished">Need Captcha</translation>
+      <translation>Wymagana Captcha</translation>
     </message>
     <message>
       <source>GSLT Denied</source>
