@@ -38,10 +38,35 @@ Item {
     VideoOutput {
         id: vo
         anchors.fill: parent
+
     }
 
     AudioOutput {
         id: ao
         volume: Wallpaper.volume
+        muted: Wallpaper.muted
+    }
+
+    Connections {
+        function onFillModeChanged(fillMode) {
+            if(fillMode === "stretch"){
+                vo.fillMode = VideoOutput.Stretch
+                return
+            }
+            if(fillMode === "fill"){
+                vo.fillMode = VideoOutput.PreserveAspectFit
+                return
+            }
+            if(fillMode === "contain" || fillMode === "cover" || fillMode === "scale-down"){
+                vo.fillMode = VideoOutput.PreserveAspectCrop
+            }
+        }
+
+        function onCurrentTimeChanged(currentTime) {
+            mediaPlayer.position = currentTime * mediaPlayer.duration
+        }
+
+
+        target: Wallpaper
     }
 }
