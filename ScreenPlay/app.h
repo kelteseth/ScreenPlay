@@ -64,7 +64,6 @@
 #include <memory>
 #include <sentry.h>
 
-class ScreenPlayWorkshopPlugin;
 
 namespace ScreenPlay {
 
@@ -217,7 +216,6 @@ public slots:
     }
 
 private:
-    QPluginLoader m_workshopPlugin;
     QNetworkAccessManager m_networkAccessManager;
     QElapsedTimer m_continuousIntegrationMetricsTimer;
     std::unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;

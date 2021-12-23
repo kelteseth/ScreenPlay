@@ -23,6 +23,8 @@ def vs_env_dict():
     return dict((e[0].upper(), e[1]) for e in [p.rstrip().split("=", 1) for p in output] if len(e) == 2)
 
 # Based on  https://stackoverflow.com/questions/7207309/how-to-run-functions-in-parallel
+
+
 def run_io_tasks_in_parallel(tasks):
     with ThreadPoolExecutor() as executor:
         running_tasks = [executor.submit(task) for task in tasks]
@@ -30,13 +32,12 @@ def run_io_tasks_in_parallel(tasks):
             running_task.result()
 
 
-
 # MAIN
 parser = argparse.ArgumentParser(description='Build and Package ScreenPlay')
 parser.add_argument('-t', action="store", dest="build_type",
                     help="Build type. This is either debug or release.")
 parser.add_argument('-sign', action="store", dest="sign_build",
-                   help="Enable if you want to sign the apps. This is macos only for now.")
+                    help="Enable if you want to sign the apps. This is macos only for now.")
 parser.add_argument('-steam', action="store", dest="steam_build",
                     help="Enable if you want to build the Steam workshop plugin.")
 args = parser.parse_args()
@@ -48,8 +49,7 @@ if not args.build_type:
 qt_version = "6.2.1"
 steam_build = "OFF"
 if args.steam_build:
-    if args.steam_build:
-        steam_build =  "ON"
+    steam_build = "ON"
 
 print("Starting build with type %s. Qt Version: %s" %
       (args.build_type, qt_version))
@@ -75,7 +75,7 @@ if platform == "win32":
     cmake_prefix_path = "c:/Qt/" + qt_version + "/" + windows_msvc
     cmake_target_triplet = "x64-windows"
 elif platform == "darwin":
-    cmake_prefix_path = "~/Qt/" + qt_version + "/clang_64"
+    cmake_prefix_path = "~/Qt/" + qt_version + "/macos"
     deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app}"
     cmake_target_triplet = "x64-osx"
 elif platform == "linux":
@@ -91,7 +91,8 @@ cmake_toolchain_file = (
     "'{root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake'").format(root_path=root_path)
 print("cmake_toolchain_file: %s " % cmake_toolchain_file)
 
-build_folder = root_path + "/build-" + cmake_target_triplet + "-" + args.build_type
+build_folder = root_path + "/build-" + \
+    cmake_target_triplet + "-" + args.build_type
 
 if os.path.isdir(build_folder):
     print("Remove previous build folder: " + build_folder)
@@ -140,9 +141,6 @@ execute(deploy_command.format(
     executable_file_ending=executable_file_ending))
 
 if platform == "darwin" and args.sign_build:
-    print("Remove workshop build folder (macos only).")
-    shutil.rmtree(build_folder + "/bin/workshop")
-
     execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --entitlements \"../../ScreenPlay/entitlements.plist\"  --deep \"ScreenPlay.app/\"")
     execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlayWallpaper.app/\"")
     execute("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlayWidget.app/\"")
@@ -152,9 +150,12 @@ if platform == "darwin" and args.sign_build:
     execute("codesign --verify --verbose=4  \"ScreenPlayWidget.app/\"")
 
     run_io_tasks_in_parallel([
-         lambda: execute("xcnotary notarize ScreenPlay.app -d kelteseth@gmail.com -k ScreenPlay"),
-         lambda: execute("xcnotary notarize ScreenPlayWallpaper.app -d kelteseth@gmail.com -k ScreenPlay"),
-         lambda: execute("xcnotary notarize ScreenPlayWidget.app -d kelteseth@gmail.com -k ScreenPlay")
+        lambda: execute(
+            "xcnotary notarize ScreenPlay.app -d kelteseth@gmail.com -k ScreenPlay"),
+        lambda: execute(
+            "xcnotary notarize ScreenPlayWallpaper.app -d kelteseth@gmail.com -k ScreenPlay"),
+        lambda: execute(
+            "xcnotary notarize ScreenPlayWidget.app -d kelteseth@gmail.com -k ScreenPlay")
     ])
 
     execute("spctl --assess --verbose  \"ScreenPlay.app/\"")
@@ -164,7 +165,8 @@ if platform == "darwin" and args.sign_build:
 # Some dlls like openssl do no longer get copied automatically.
 # Lets just copy all of them into bin.
 if platform == "win32":
-    vcpkg_bin_path = os.path.abspath(("{root_path}/../ScreenPlay-vcpkg/installed/x64-windows/bin").format(root_path=root_path))
+    vcpkg_bin_path = os.path.abspath(
+        ("{root_path}/../ScreenPlay-vcpkg/installed/x64-windows/bin").format(root_path=root_path))
     print(vcpkg_bin_path)
     for basename in os.listdir(vcpkg_bin_path):
         if basename.endswith('.dll'):
