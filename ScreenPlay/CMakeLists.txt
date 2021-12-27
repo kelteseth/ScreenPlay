@@ -176,8 +176,6 @@ find_package(
                WebSockets
                Svg
                LinguistTools
-               WebEngineQuick
-               WebEngineCore
                Test)
 
 qt_add_resources(RESOURCES Resources.qrc)
@@ -202,8 +200,6 @@ target_link_libraries(
            Qt6::Core
            Qt6::WebSockets
            Qt6::Svg
-           Qt6::WebEngineQuick
-           Qt6::WebEngineCore
            SteamSDKQtEnums)
 
 if(${TESTS_ENABLED})

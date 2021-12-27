@@ -9,6 +9,7 @@ TabButton {
     property url openLink
 
     height: parent.height
+    onClicked: Qt.openUrlExternally(control.openLink)
 
     contentItem: Item {
         anchors.fill: parent

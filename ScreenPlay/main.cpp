@@ -36,7 +36,6 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
-#include <QtWebEngineQuick>
 
 #include <sentry.h>
 #define DOCTEST_CONFIG_IMPLEMENT
@@ -46,9 +45,6 @@
 int main(int argc, char* argv[])
 {
     Q_INIT_RESOURCE(Resources);
-
-    QtWebEngineQuick::initialize();
-    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
     QApplication qtGuiApp(argc, argv);
 
