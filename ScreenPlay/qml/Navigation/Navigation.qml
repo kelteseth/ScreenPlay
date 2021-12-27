@@ -54,7 +54,28 @@ Rectangle {
     color: Material.theme === Material.Light ? "white" : Material.background
     layer.enabled: true
 
-    MouseHoverBlocker {}
+    MouseArea {
+        id: mouseArea
+
+        property var clickPos
+
+        anchors.fill: parent
+        hoverEnabled: true
+        onPressed: (mouse)=>{
+            clickPos = {
+                "x": mouse.x,
+                "y": mouse.y
+            };
+        }
+        onPositionChanged: {
+            if (mouseArea.pressed){
+                let pos = ScreenPlay.cursorPos();
+                window.setX(pos.x - clickPos.x)
+                window.setY(pos.y - clickPos.y)
+            }
+
+        }
+    }
 
     Connections {
         function onRequestNavigationActive(isActive) {
@@ -267,6 +288,7 @@ Rectangle {
             title: qsTr("Are you sure you want to exit ScreenPlay? \nThis will shut down all Wallpaper and Widgets.")
             standardButtons: Dialog.Ok | Dialog.Cancel
             onAccepted: Qt.quit()
+            modal: true
         }
 
 

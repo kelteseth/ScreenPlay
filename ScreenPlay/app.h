@@ -117,6 +117,8 @@ public slots:
     QString version() const;
     void exit();
 
+    QPointF cursorPos() { return QCursor::pos(); }
+
     void setGlobalVariables(GlobalVariables* globalVariables)
     {
         if (m_globalVariables.get() == globalVariables)
