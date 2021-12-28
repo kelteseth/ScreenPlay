@@ -71,16 +71,16 @@
       <translation>Forum</translation>
     </message>
     <message>
-      <source>Issue List</source>
-      <translation>Liste des problèmes</translation>
-    </message>
-    <message>
       <source>Contribute</source>
       <translation>Contribuer</translation>
     </message>
     <message>
       <source>Steam Workshop</source>
       <translation>Steam Workshop</translation>
+    </message>
+    <message>
+      <source>Issue Tracker</source>
+      <translation type="unfinished">Issue Tracker</translation>
     </message>
   </context>
   <context>
@@ -684,16 +684,16 @@
       <translation>Retirer l'écran sélectionné</translation>
     </message>
     <message>
-      <source>Remove </source>
-      <translation>Retirer </translation>
-    </message>
-    <message>
       <source>Wallpapers</source>
       <translation>Fonds d’écran</translation>
     </message>
     <message>
       <source>Widgets</source>
       <translation>Widgets</translation>
+    </message>
+    <message>
+      <source>Remove all </source>
+      <translation type="unfinished">Remove all </translation>
     </message>
   </context>
   <context>
