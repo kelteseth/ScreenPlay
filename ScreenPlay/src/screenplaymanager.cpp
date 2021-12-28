@@ -382,7 +382,7 @@ ScreenPlayWallpaper* ScreenPlayManager::getWallpaperByAppID(const QString& appID
 */
 void ScreenPlayManager::newConnection()
 {
-    qInfo() << "[1/3] SDKConnection incomming";
+    qInfo() << "[1/4] SDKConnection incomming";
     auto connection = std::make_unique<SDKConnection>(m_server->nextPendingConnection());
     QObject::connect(connection.get(), &SDKConnection::requestRaise, this, &ScreenPlayManager::requestRaise);
 
@@ -409,7 +409,7 @@ void ScreenPlayManager::newConnection()
 
         for (int i = 0; i < m_screenPlayWallpapers.size(); ++i) {
             if (m_screenPlayWallpapers.at(i)->appID() == matchingConnection->appID()) {
-                qInfo() << "Matching Wallpaper found!";
+                qInfo() << "[3/4] Matching Wallpaper found!";
                 m_screenPlayWallpapers.at(i)->setSDKConnection(std::move(matchingConnection));
                 return;
             }
@@ -417,7 +417,7 @@ void ScreenPlayManager::newConnection()
 
         for (int i = 0; i < m_screenPlayWidgets.size(); ++i) {
             if (m_screenPlayWidgets.at(i)->appID() == matchingConnection->appID()) {
-                qInfo() << "Matching Widget found!";
+                qInfo() << "[3/4] Matching Widget found!";
                 m_screenPlayWidgets.at(i)->setSDKConnection(std::move(matchingConnection));
                 return;
             }
@@ -444,13 +444,15 @@ bool ScreenPlayManager::removeWallpaper(const QString& appID)
                 if (wallpaper->appID() != appID) {
                     return false;
                 }
-                wallpaper->messageQuit();
+
 
                 qInfo() << "Remove wallpaper " << wallpaper->file() << "at monitor " << wallpaper->screenNumber();
 
                 // The MonitorListModel contains a shared_ptr of this object that needs to be removed
                 // for shared_ptr to release the object.
                 m_monitorListModel->setWallpaperMonitor({}, wallpaper->screenNumber());
+
+                wallpaper->close();
 
                 decreaseActiveWallpaperCounter();
 
@@ -481,7 +483,7 @@ bool ScreenPlayManager::removeWidget(const QString& appID)
                     return false;
                 }
 
-                widget->messageQuit();
+                widget->close();
 
                 qInfo() << "Remove widget " << appID;
 
