@@ -71,16 +71,16 @@
       <translation>论坛</translation>
     </message>
     <message>
-      <source>Issue List</source>
-      <translation>议题列表</translation>
-    </message>
-    <message>
       <source>Contribute</source>
       <translation>贡献</translation>
     </message>
     <message>
       <source>Steam Workshop</source>
       <translation>Steam 创意工坊</translation>
+    </message>
+    <message>
+      <source>Issue Tracker</source>
+      <translation type="unfinished">Issue Tracker</translation>
     </message>
   </context>
   <context>
@@ -684,16 +684,16 @@
       <translation>移除已选择</translation>
     </message>
     <message>
-      <source>Remove </source>
-      <translation>移除</translation>
-    </message>
-    <message>
       <source>Wallpapers</source>
       <translation>壁纸</translation>
     </message>
     <message>
       <source>Widgets</source>
       <translation>物件</translation>
+    </message>
+    <message>
+      <source>Remove all </source>
+      <translation type="unfinished">Remove all </translation>
     </message>
   </context>
   <context>
