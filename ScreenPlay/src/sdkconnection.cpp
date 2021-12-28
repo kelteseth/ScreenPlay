@@ -64,7 +64,7 @@ void ScreenPlay::SDKConnection::readyRead()
             qCritical() << "Wallpaper type not found. Expected: " << ScreenPlayUtil::getAvailableTypes() << " got: " << msg;
         }
 
-        qInfo() << "[2/3] SDKConnection parsed with type: " << m_type << " connected with AppID:" << m_appID;
+        qInfo() << "[2/4] SDKConnection parsed with type: " << m_type << " connected with AppID:" << m_appID;
 
         emit appConnected(this);
 
@@ -108,28 +108,15 @@ bool ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 */
 bool ScreenPlay::SDKConnection::close()
 {
+    if (!m_socket){
+        qWarning() << "Cannot close invalid socket.";
+        return false;
+    }
 
     qInfo() << "Close " << m_type << m_appID << m_socket->state();
+    m_socket->disconnectFromServer();
+    m_socket->close();
 
-    QJsonObject obj;
-    obj.insert("command", QJsonValue("quit"));
-    QByteArray command = QJsonDocument(obj).toJson();
-
-    m_socket->write(command);
-    if (!m_socket->waitForBytesWritten()) {
-        qWarning("Faild to send quit command to app");
-        return false;
-    }
-
-    if (m_socket->state() == QLocalSocket::ConnectedState) {
-        m_socket->disconnectFromServer();
-        m_socket->close();
-
-        qInfo() << "### Destroy APPID:\t " << m_appID << " State: " << m_socket->state();
-    } else {
-        qWarning() << "Cannot disconnect  app " << m_appID << " with the state:" << m_socket->state();
-        return false;
-    }
-    return true;
+    return m_socket->state() == QLocalSocket::UnconnectedState;
 }
 }

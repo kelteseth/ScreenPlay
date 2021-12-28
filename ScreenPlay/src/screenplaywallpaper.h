@@ -132,7 +132,7 @@ signals:
     void isConnectedChanged(bool isConnected);
 
 public slots:
-    void messageQuit();
+    void close();
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
     void processError(QProcess::ProcessError error);
     bool setWallpaperValue(const QString& key, const QString& value, const bool save = false);
@@ -256,6 +256,9 @@ private:
     float m_playbackRate { 1.0f };
     QTimer m_pingAliveTimer;
     QStringList m_appArgumentsList;
-    bool m_isConnected;
+    bool m_isConnected  { false };
+    // There are still cases where we can access the current item
+    // while exiting. This flag is to ignore all setWallpaperValue calls
+    bool m_isExiting  { false };
 };
 }

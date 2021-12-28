@@ -73,11 +73,15 @@ bool ScreenPlayWidget::start()
 /*!
     \brief Sends command quit to the widget.
 */
-void ScreenPlayWidget::messageQuit()
+void ScreenPlayWidget::close()
 {
-    QJsonObject obj;
-    obj.insert("command", "quit");
-    m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+    // When the wallpaper never connected, this is invalid
+    if (!m_connection) {
+        qCritical() << "Cannot request quit, widget never connected!";
+        return;
+    }
+
+    m_connection->close();
 }
 
 /*!

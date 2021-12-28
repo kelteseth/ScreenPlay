@@ -163,14 +163,8 @@ void MonitorListModel::loadMonitors()
         if (screen->geometry().width() == 0 || screen->geometry().height() == 0)
             continue;
 
-        QRect availableVirtualGeometry(
-            screen->geometry().x() + offsetX,
-            screen->geometry().y() + offsetY,
-            screen->geometry().width(),
-            screen->geometry().height());
-
         beginInsertRows(index, m_monitorList.size(), m_monitorList.size());
-        m_monitorList.append(Monitor { i, availableVirtualGeometry, screen });
+        m_monitorList.append(Monitor { i, screen->geometry() });
         endInsertRows();
     }
 #endif

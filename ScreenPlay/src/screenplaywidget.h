@@ -85,7 +85,7 @@ public:
     ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
 
 public slots:
-    void messageQuit();
+    void close();
     QJsonObject getActiveSettingsJson();
 
     void setPreviewImage(QString previewImage)
