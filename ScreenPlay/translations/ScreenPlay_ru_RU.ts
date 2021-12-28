@@ -71,16 +71,16 @@
       <translation>Форум</translation>
     </message>
     <message>
-      <source>Issue List</source>
-      <translation>Список проблем</translation>
-    </message>
-    <message>
       <source>Contribute</source>
       <translation>Внести вклад</translation>
     </message>
     <message>
       <source>Steam Workshop</source>
       <translation>Мастерская Steam</translation>
+    </message>
+    <message>
+      <source>Issue Tracker</source>
+      <translation type="unfinished">Issue Tracker</translation>
     </message>
   </context>
   <context>
@@ -684,16 +684,16 @@
       <translation type="unfinished">Remove selected</translation>
     </message>
     <message>
-      <source>Remove </source>
-      <translation type="unfinished">Remove </translation>
-    </message>
-    <message>
       <source>Wallpapers</source>
       <translation type="unfinished">Wallpapers</translation>
     </message>
     <message>
       <source>Widgets</source>
       <translation type="unfinished">Widgets</translation>
+    </message>
+    <message>
+      <source>Remove all </source>
+      <translation type="unfinished">Remove all </translation>
     </message>
   </context>
   <context>
