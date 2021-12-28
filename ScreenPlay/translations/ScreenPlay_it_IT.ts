@@ -71,16 +71,16 @@
         <translation>Forum</translation>
     </message>
     <message>
-        <source>Issue List</source>
-        <translation>Lista Problemi</translation>
-    </message>
-    <message>
         <source>Contribute</source>
         <translation>Contribuisci</translation>
     </message>
     <message>
         <source>Steam Workshop</source>
         <translation>Steam Workshop</translation>
+    </message>
+    <message>
+        <source>Issue Tracker</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -684,16 +684,16 @@
         <translation>Rimuovi selezionati</translation>
     </message>
     <message>
-        <source>Remove </source>
-        <translation>Rimuovi </translation>
-    </message>
-    <message>
         <source>Wallpapers</source>
         <translation>Sfondi</translation>
     </message>
     <message>
         <source>Widgets</source>
         <translation>Widgets</translation>
+    </message>
+    <message>
+        <source>Remove all </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

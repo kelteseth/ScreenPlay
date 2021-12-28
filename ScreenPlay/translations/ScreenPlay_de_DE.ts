@@ -71,16 +71,16 @@
         <translation>Forum</translation>
     </message>
     <message>
-        <source>Issue List</source>
-        <translation>Fehler Liste</translation>
-    </message>
-    <message>
         <source>Contribute</source>
         <translation>Beitragen</translation>
     </message>
     <message>
         <source>Steam Workshop</source>
         <translation>Steam Workshop</translation>
+    </message>
+    <message>
+        <source>Issue Tracker</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -683,16 +683,16 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
         <translation>Die Auswahl entfernen</translation>
     </message>
     <message>
-        <source>Remove </source>
-        <translation>Entferne </translation>
-    </message>
-    <message>
         <source>Wallpapers</source>
         <translation>Hintergründe</translation>
     </message>
     <message>
         <source>Widgets</source>
         <translation>Widgets</translation>
+    </message>
+    <message>
+        <source>Remove all </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

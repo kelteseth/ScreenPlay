@@ -71,16 +71,16 @@
         <translation>게시판</translation>
     </message>
     <message>
-        <source>Issue List</source>
-        <translation>이슈 목록</translation>
-    </message>
-    <message>
         <source>Contribute</source>
         <translation type="unfinished">Contribute</translation>
     </message>
     <message>
         <source>Steam Workshop</source>
         <translation>스팀 창작마당</translation>
+    </message>
+    <message>
+        <source>Issue Tracker</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -684,16 +684,16 @@
         <translation type="unfinished">Remove selected</translation>
     </message>
     <message>
-        <source>Remove </source>
-        <translation type="unfinished">Remove </translation>
-    </message>
-    <message>
         <source>Wallpapers</source>
         <translation type="unfinished">Wallpapers</translation>
     </message>
     <message>
         <source>Widgets</source>
         <translation type="unfinished">Widgets</translation>
+    </message>
+    <message>
+        <source>Remove all </source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
