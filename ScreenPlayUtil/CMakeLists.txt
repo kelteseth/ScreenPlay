@@ -12,8 +12,10 @@ find_package(
 set(SOURCES # cmake-format: sortable
             src/util.cpp src/contenttypes.cpp inc/public/ScreenPlayUtil/httpfileserver.cpp)
 
-set(HEADER # cmake-format: sortable
-           inc/public/ScreenPlayUtil/util.h inc/public/ScreenPlayUtil/httpfileserver.h  inc/public/ScreenPlayUtil/contenttypes.h inc/public/ScreenPlayUtil/projectfile.h)
+set(HEADER
+    # cmake-format: sortable
+    inc/public/ScreenPlayUtil/util.h inc/public/ScreenPlayUtil/httpfileserver.h inc/public/ScreenPlayUtil/contenttypes.h
+    inc/public/ScreenPlayUtil/projectfile.h)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADER})
 

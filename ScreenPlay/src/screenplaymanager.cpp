@@ -83,10 +83,21 @@ void ScreenPlayManager::init(
 
     if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
         m_websocketServer = std::make_unique<QWebSocketServer>(QStringLiteral("ScreenPlayWebSocket"), QWebSocketServer::SslMode::NonSecureMode);
-        m_websocketServer->listen(QHostAddress::Any, m_webSocketPort);
+        const bool success = m_websocketServer->listen(QHostAddress::Any, m_webSocketPort);
+        qInfo() << "Open Websocket:" << success << "port:" << m_webSocketPort;
         QObject::connect(m_websocketServer.get(), &QWebSocketServer::newConnection, this, [this]() {
             qInfo() << "New Websocket Connection";
             auto* socket = m_websocketServer->nextPendingConnection();
+            QObject::connect(socket, &QWebSocket::textMessageReceived, this, [this](const QString& message) {
+                qInfo() << "Message:" << message;
+            });
+            QObject::connect(socket, &QWebSocket::disconnected, this, [this, socket]() {
+                m_connections.removeOne(socket);
+                qInfo() << "Disconnected connection count: " << m_connections.count();
+            });
+
+            m_connections.push_back(socket);
+            // socket->flush();
         });
     }
 
@@ -116,6 +127,7 @@ bool ScreenPlayManager::createWallpaper(
     const QJsonObject& properties,
     const bool saveToProfilesConfigFile)
 {
+
     const int screenCount = QGuiApplication::screens().count();
 
     QJsonArray monitors;
@@ -136,6 +148,22 @@ bool ScreenPlayManager::createWallpaper(
 
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
     const QString appID = ScreenPlayUtil::generateRandomString();
+
+    if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
+        if (m_connections.empty())
+            return false;
+
+        QJsonObject msg;
+        msg.insert("command", "replace");
+        msg.insert("absolutePath", path);
+        msg.insert("type", static_cast<int>(type));
+        msg.insert("fillMode", static_cast<int>(fillMode));
+        msg.insert("volume", volume);
+        msg.insert("file", file);
+
+        m_connections.first()->sendTextMessage(QJsonDocument(msg).toJson());
+        m_connections.first()->flush();
+    }
 
     // Only support remove wallpaper that spans over 1 monitor
     if (monitorIndex.length() == 1) {
@@ -172,13 +200,15 @@ bool ScreenPlayManager::createWallpaper(
         fillMode,
         type,
         properties,
-        m_settings->checkWallpaperVisible());
+        m_settings);
 
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestClose, this, &ScreenPlayManager::removeWallpaper);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::error, this, &ScreenPlayManager::displayErrorPopup);
-    if (!wallpaper->start()) {
-        return false;
+    if (m_settings->desktopEnvironment() != Settings::DesktopEnvironment::KDE) {
+        if (!wallpaper->start()) {
+            return false;
+        }
     }
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperMonitor(wallpaper, monitorIndex);
@@ -252,6 +282,15 @@ bool ScreenPlayManager::removeAllWallpapers()
     for (const auto& appID : appIDs) {
         if (!removeWallpaper(appID)) {
             return false;
+        }
+    }
+    if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
+        for (auto& connection : m_connections) {
+            QJsonObject obj;
+            obj.insert("command", "quit");
+            connection->sendTextMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+            connection->flush();
+            connection->close();
         }
     }
 
@@ -341,7 +380,7 @@ bool ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const Q
 */
 bool ScreenPlayManager::setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode)
 {
-    const auto fillModeTyped =  static_cast<FillMode::FillMode>(fillmode);
+    const auto fillModeTyped = static_cast<FillMode::FillMode>(fillmode);
 
     if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
         return setWallpaperValue(*appID, "fillmode", QVariant::fromValue<FillMode::FillMode>(fillModeTyped).toString());
@@ -445,6 +484,8 @@ bool ScreenPlayManager::removeWallpaper(const QString& appID)
                     return false;
                 }
 
+                if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::Windows || m_settings->desktopEnvironment() == Settings::DesktopEnvironment::OSX)
+                    wallpaper->messageKDECloseWallpaper();
 
                 qInfo() << "Remove wallpaper " << wallpaper->file() << "at monitor " << wallpaper->screenNumber();
 

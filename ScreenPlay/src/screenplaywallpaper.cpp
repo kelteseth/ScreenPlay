@@ -24,7 +24,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     const FillMode::FillMode fillMode,
     const InstalledType::InstalledType type,
     const QJsonObject& properties,
-    const bool checkWallpaperVisible,
+    const std::shared_ptr<Settings>& settings,
     QObject* parent)
     : QObject(parent)
     , m_globalVariables { globalVariables }
@@ -37,6 +37,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
     , m_file { file }
     , m_volume { volume }
     , m_playbackRate { playbackRate }
+    , m_settings { settings }
 {
 
     QJsonObject projectSettingsListModelProperties;
@@ -81,7 +82,7 @@ ScreenPlayWallpaper::ScreenPlayWallpaper(const QVector<int>& screenNumber,
         QString::number(static_cast<double>(volume)),
         QVariant::fromValue(fillMode).toString(),
         QVariant::fromValue(type).toString(),
-        QString::number(checkWallpaperVisible),
+        QString::number(m_settings->checkWallpaperVisible()),
         // Fixes issue 84 media key overlay
         " --disable-features=HardwareMediaKeyHandling"
     };
@@ -145,10 +146,9 @@ void ScreenPlayWallpaper::close()
         return;
     }
 
-    if(m_connection->close()){
+    if (m_connection->close()) {
         m_isExiting = true;
     }
-
 }
 /*!
     \brief Prints the exit code if != 0.
@@ -175,7 +175,7 @@ void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
 */
 bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value, const bool save)
 {
-    if(m_isExiting)
+    if (m_isExiting)
         return false;
 
     if (!m_connection) {
@@ -249,7 +249,7 @@ void ScreenPlayWallpaper::replace(
     const bool checkWallpaperVisible)
 {
 
-    if(m_isExiting)
+    if (m_isExiting)
         return;
 
     if (!m_connection) {

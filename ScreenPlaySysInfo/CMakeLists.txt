@@ -34,10 +34,14 @@ set(HEADER
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES} ${HEADER})
 
-qt_add_qml_module(${PROJECT_NAME}
-    OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/SysInfo
-    URI ${PROJECT_NAME}
-    VERSION 1.0)
+qt_add_qml_module(
+    ${PROJECT_NAME}
+    OUTPUT_DIRECTORY
+    ${CMAKE_BINARY_DIR}/bin/SysInfo
+    URI
+    ${PROJECT_NAME}
+    VERSION
+    1.0)
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 

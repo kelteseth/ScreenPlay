@@ -1,6 +1,8 @@
 #include "app.h"
 
 #include "steam/steam_qt_enums_generated.h"
+#include <QProcessEnvironment>
+#include <QVersionNumber>
 
 namespace ScreenPlay {
 /*!
@@ -97,7 +99,6 @@ App::App()
     qRegisterMetaType<InstalledListFilter*>();
     qRegisterMetaType<MonitorListModel*>();
     qRegisterMetaType<ProfileListModel*>();
-
 
     // TODO: This is a workaround because I don't know how to
     //       init this in the ScreenPlayWorkshop plugin.
@@ -211,6 +212,10 @@ void App::init()
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
     QGuiApplication::instance()->addLibraryPath(QGuiApplication::instance()->applicationDirPath());
 
+    if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
+        setupKDE();
+    }
+
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/ScreenPlay/main.qml")));
 
     // Must be called last to display a error message on startup by the qml engine
@@ -232,4 +237,72 @@ void App::exit()
     QApplication::instance()->quit();
 }
 
+/*!
+   \brief
+*/
+bool App::setupKDE()
+{
+    QProcessEnvironment env;
+    qInfo() << qgetenv("KDE_FULL_SESSION");
+    qInfo() << qgetenv("DESKTOP_SESSION");
+    qInfo() << qgetenv("XDG_CURRENT_DESKTOP");
+
+    QProcess plasmaShellVersionProcess;
+    plasmaShellVersionProcess.start("plasmashell", { "--version" });
+    plasmaShellVersionProcess.waitForFinished();
+    QString versionOut = plasmaShellVersionProcess.readAll();
+    if (!versionOut.contains("plasmashell ")) {
+        qWarning() << "Unable to read plasma shell version";
+        return false;
+    }
+
+    const QString kdeWallpaperPath = QDir(QDir::homePath() + "/.local/share/plasma/wallpapers/ScreenPlay/").canonicalPath();
+    const QFileInfo installedWallpaperMetadata(kdeWallpaperPath + "/metadata.desktop");
+    const QString appKdeWallapperPath = QGuiApplication::instance()->applicationDirPath() + "/kde";
+    const QFileInfo currentWallpaperMetadata(appKdeWallapperPath + "/ScreenPlay/metadata.desktop");
+
+    if (!installedWallpaperMetadata.exists()) {
+        process.setWorkingDirectory(appKdeWallapperPath);
+        process.start("plasmapkg2", { "--install", "ScreenPlay" });
+        process.waitForFinished();
+        process.terminate();
+        qInfo() << "Install ScreenPlay KDE Wallpaper";
+    } else {
+        QSettings installedWallpaperSettings(installedWallpaperMetadata.absoluteFilePath(), QSettings::Format::IniFormat);
+        installedWallpaperSettings.beginGroup("Desktop Entry");
+        const QString installedWallpaperVersion = installedWallpaperSettings.value("Version").toString();
+        installedWallpaperSettings.endGroup();
+        const QVersionNumber installedVersionNumber = QVersionNumber::fromString(installedWallpaperVersion);
+
+        QSettings currentWallpaperSettings(currentWallpaperMetadata.absoluteFilePath(), QSettings::Format::IniFormat);
+        currentWallpaperSettings.beginGroup("Desktop Entry");
+        const QString currentWallpaperVersion = currentWallpaperSettings.value("Version").toString();
+        currentWallpaperSettings.endGroup();
+        const QVersionNumber currentVersionNumber = QVersionNumber::fromString(installedWallpaperVersion);
+
+        if (installedVersionNumber.isNull() || currentVersionNumber.isNull()) {
+            qCritical() << "Unable to parse version number from:" << currentWallpaperVersion << installedWallpaperVersion;
+            return false;
+        }
+
+        if (installedVersionNumber <= currentVersionNumber)
+            return true;
+
+        qInfo() << "Upgrade ScreenPlay KDE Wallpaper";
+        process.setWorkingDirectory(appKdeWallapperPath);
+        process.start("plasmapkg2", { "--upgrade", "ScreenPlay" });
+        process.waitForFinished();
+        process.terminate();
+        qInfo() << process.readAllStandardError() << process.readAllStandardOutput();
+    }
+
+    qInfo() << "Restart KDE ";
+    process.start("kquitapp5", { "plasmashell" });
+    process.waitForFinished();
+    process.terminate();
+    qInfo() << process.readAllStandardError() << process.readAllStandardOutput();
+    process.startDetached("kstart5", { "plasmashell" });
+    qInfo() << process.readAllStandardError() << process.readAllStandardOutput();
+    return true;
+}
 }

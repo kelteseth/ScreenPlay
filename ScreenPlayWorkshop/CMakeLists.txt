@@ -7,7 +7,7 @@ set(CMAKE_CXX_STANDARD 20)
 
 find_package(
     Qt6
-    COMPONENTS Quick QML Widgets Gui
+    COMPONENTS Quick Widgets Gui
     REQUIRED)
 
 set(SOURCES
@@ -58,24 +58,27 @@ qt_add_qml_module(
     ${PROJECT_NAME}
     OUTPUT_DIRECTORY
     ${WORKSHOP_PLUGIN_DIR}
-    URI "Workshop"
-    SOURCES  ${SOURCES} ${HEADER}
-    VERSION 1.0)
-
+    URI
+    "Workshop"
+    SOURCES
+    ${SOURCES}
+    ${HEADER}
+    VERSION
+    1.0)
 
 if(${SCREENPLAY_STEAM})
     if(APPLE)
-            file(MAKE_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
-            file(MAKE_DIRECTORY ${MACOS_FRAMEWORKS_DIR})
+        file(MAKE_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
+        file(MAKE_DIRECTORY ${MACOS_FRAMEWORKS_DIR})
 
-            configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/ COPYONLY)
-            configure_file(${STEAM_BIN} ${WORKSHOP_PLUGIN_DIR} COPYONLY)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/ COPYONLY)
+        configure_file(${STEAM_BIN} ${WORKSHOP_PLUGIN_DIR} COPYONLY)
 
-            set_target_properties(${PROJECT_NAME} PROPERTIES
-                     LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/Workshop)
+        set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY
+                                                         ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/Workshop)
     else()
-            configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
-            configure_file(${STEAM_BIN} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
+        configure_file(${STEAM_BIN} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
     endif()
 endif()
 

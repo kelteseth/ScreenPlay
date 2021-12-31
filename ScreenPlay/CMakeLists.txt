@@ -160,7 +160,6 @@ qt_update_translations("${CMAKE_CURRENT_SOURCE_DIR}/qml" "${L10N_LIST}")
 # Needed on macos
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
-find_package(benchmark CONFIG REQUIRED)
 find_package(doctest CONFIG REQUIRED)
 
 # CURL must be included before sentry because sentry needs the module and does not include it itself on macos...
@@ -183,14 +182,10 @@ qt_add_big_resources(FONTS fonts.qrc)
 
 add_library(ScreenPlayLib ${SOURCES} ${HEADER} ${RESOURCES} ${FONTS})
 
-target_include_directories(ScreenPlayLib PUBLIC ./ src/)
-
 target_link_libraries(
     ScreenPlayLib
     PUBLIC ScreenPlaySDK
            ScreenPlayUtil
-           benchmark::benchmark
-           benchmark::benchmark_main
            doctest::doctest
            sentry::sentry
            Threads::Threads

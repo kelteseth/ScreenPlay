@@ -320,7 +320,7 @@ void WinWindow::setupWallpaperForAllScreens()
     m_window.setHeight(rect.height());
     m_window.setWidth(rect.width());
     m_window.setY(offsetY);
-    m_window.setX(offsetX+1920);
+    m_window.setX(offsetX + 1920);
     qInfo() << m_window.geometry();
 }
 

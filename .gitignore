@@ -95,3 +95,4 @@ _deps
 /Common/ffmpeg/*
 /Docs/html/screenplay.index
 /ContentBuilder/**
+/aqtinstall.log

@@ -31,7 +31,7 @@ py setup.py
     
 Append this:
 ``` bash
-CMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/../ScreenPlay-vcpkg/vcpkg/scripts/buildsystems/vcpkg.cmake
+CMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake
 # Only _one_ of these lines that match your OS:
 VCPKG_TARGET_TRIPLET:STRING=x64-windows
 VCPKG_TARGET_TRIPLET:STRING=x64-linux
@@ -67,7 +67,7 @@ VCPKG_TARGET_TRIPLET:STRING=x64-osx
 1. Install dependencies for your distro:
 ``` bash
 # Debian/Ubuntu
-sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake
+sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake git curl pkg-config ffmpeg qml-module-qt-websockets qtwebengine5-*
 
 # Fedora/RHEL/CentOS (yum)
 sudo yum groupinstall "C Development Tools and Libraries"

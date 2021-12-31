@@ -108,7 +108,7 @@ bool ScreenPlay::SDKConnection::sendMessage(const QByteArray& message)
 */
 bool ScreenPlay::SDKConnection::close()
 {
-    if (!m_socket){
+    if (!m_socket) {
         qWarning() << "Cannot close invalid socket.";
         return false;
     }

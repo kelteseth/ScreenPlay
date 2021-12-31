@@ -31,7 +31,7 @@ if __name__ == "__main__":
 
     vcpkg_path = os.path.join(project_source_parent_path, "ScreenPlay-vcpkg")
     print("vcpkg_path: ", vcpkg_path)
-    vcpkg_version = "9172179c513aa84308e48b8dd0e3df90acec7204"  # Master 25.06.2021
+    vcpkg_version = "5ddd7f0"  # Master 02.12.2021
     print("Build vcpkg ", vcpkg_version)
     execute("git fetch", vcpkg_path)
     execute("git checkout {}".format(vcpkg_version), vcpkg_path)
@@ -41,7 +41,6 @@ if __name__ == "__main__":
         "curl",
         "sentry-native",
         "doctest",
-        "benchmark",
         "cpp-httplib"
     ]
 

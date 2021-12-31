@@ -68,6 +68,11 @@ target_link_libraries(
             Qt6::WebEngineCore
             Qt6::WebEngineQuick)
 
+if(UNIX AND NOT APPLE)
+    include(CopyRecursive)
+    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/kde/ScreenPlay ${CMAKE_BINARY_DIR}/bin/kde/ScreenPlay "*")
+endif()
+
 if(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
     target_link_libraries(${PROJECT_NAME} PRIVATE "-framework Cocoa")

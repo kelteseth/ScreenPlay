@@ -46,24 +46,9 @@ LinuxWindow::LinuxWindow(
     setHeight(m_window.height());
 
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.rootContext()->setContextProperty("window", this);
-    //m_window.rootContext()->setContextProperty("desktopProperties", &m_windowsDesktopProperties);
-    // Instead of setting "renderType: Text.NativeRendering" every time
-    // we can set it here once :)
-
+    qmlRegisterSingletonInstance<LinuxWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
-    m_window.setSource(QUrl("qrc:/mainWindow.qml"));
-
-    // WARNING: Setting Window flags must be called *here*!
-    Qt::WindowFlags flags = m_window.flags();
-    m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::Desktop);
-
-    m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
-    m_window.rootContext()->setContextProperty("window", this);
-    // Instead of setting "renderType: Text.NativeRendering" every time
-    // we can set it here once :)
-    m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
-    m_window.setSource(QUrl("qrc:/Wallpaper.qml"));
+    m_window.setSource(QUrl("qrc:/ScreenPlayWallpaper/qml/Wallpaper.qml"));
 }
 
 void LinuxWindow::setupWallpaperForOneScreen(int activeScreen)

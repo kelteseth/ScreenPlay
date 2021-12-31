@@ -40,16 +40,27 @@ parser.add_argument('-sign', action="store", dest="sign_build",
                     help="Enable if you want to sign the apps. This is macos only for now.")
 parser.add_argument('-steam', action="store", dest="steam_build",
                     help="Enable if you want to build the Steam workshop plugin.")
+parser.add_argument('-tests', action="store", dest="build_tests",
+                    help="Build tests.")             
+parser.add_argument('-installer', action="store", dest="create_installer",
+                    help="Create a installer.")
 args = parser.parse_args()
 
 if not args.build_type:
     print("Build type argument is missing (release,debug). Example: python build.py -t release -steam=True")
     sys.exit(1)
 
-qt_version = "6.2.1"
+qt_version = "6.2.2"
 steam_build = "OFF"
+build_tests = "OFF"
+create_installer = "OFF"
+
 if args.steam_build:
-    steam_build = "ON"
+    steam_build =  "ON"
+if args.build_tests:
+    build_tests =  "ON"
+if args.create_installer:
+    create_installer =  "ON"
 
 print("Starting build with type %s. Qt Version: %s" %
       (args.build_type, qt_version))
@@ -79,7 +90,7 @@ elif platform == "darwin":
     deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app}"
     cmake_target_triplet = "x64-osx"
 elif platform == "linux":
-    deploy_command = "cqtdeployer -qmldir ../../{app}/qml -bin {app}"
+    deploy_command = "cqtdeployer -qmlDir ../../{app}/qml -bin {app}"
     cmake_prefix_path = "~/Qt/" + qt_version + "/gcc_64"
     cmake_target_triplet = "x64-linux"
 
@@ -98,7 +109,6 @@ if os.path.isdir(build_folder):
     print("Remove previous build folder: " + build_folder)
     shutil.rmtree(build_folder)
 
-
 os.mkdir(build_folder)
 os.chdir(build_folder)
 
@@ -107,8 +117,9 @@ cmake_configure_command = """cmake ../
  -DCMAKE_BUILD_TYPE={type}
  -DCMAKE_TOOLCHAIN_FILE={toolchain}
  -DVCPKG_TARGET_TRIPLET={triplet}
- -DTESTS_ENABLED=OFF
  -DSCREENPLAY_STEAM={steam}
+ -DSCREENPLAY_TESTS={tests}
+ -DSCREENPLAY_CREATE_INSTALLER={installer}
  -G "CodeBlocks - Ninja"
  -B.
   """.format(
@@ -116,7 +127,10 @@ cmake_configure_command = """cmake ../
     prefix_path=cmake_prefix_path,
     triplet=cmake_target_triplet,
     toolchain=cmake_toolchain_file,
-    steam=steam_build).replace("\n", "")
+    steam=steam_build,
+    tests = build_tests,
+    installer= create_installer
+    ).replace("\n", "")
 
 execute(cmake_configure_command)
 execute("cmake --build . --target all")
@@ -184,3 +198,7 @@ for filename in os.listdir(os.getcwd()):
             full_file_path = os.path.join(os.getcwd(), filename)
             print("Remove: %s" % full_file_path)
             os.remove(full_file_path)
+
+if args.create_installer:
+    os.chdir("..")
+    execute("cpack")

@@ -44,6 +44,7 @@
 #include "globalvariables.h"
 #include "projectsettingslistmodel.h"
 #include "sdkconnection.h"
+#include "settings.h"
 #include "util.h"
 
 namespace ScreenPlay {
@@ -78,10 +79,12 @@ public:
         const QString& absolutePath,
         const QString& previewImage,
         const QString& file,
-        const float volume, const float playbackRate,
+        const float volume,
+        const float playbackRate,
         const FillMode::FillMode fillMode,
-        const InstalledType::InstalledType type, const QJsonObject& properties,
-        const bool checkWallpaperVisible,
+        const InstalledType::InstalledType type,
+        const QJsonObject& properties,
+        const std::shared_ptr<Settings>& settings,
         QObject* parent = nullptr);
 
     bool start();
@@ -124,6 +127,7 @@ signals:
     void volumeChanged(float volume);
     void isLoopingChanged(bool isLooping);
     void playbackRateChanged(float playbackRate);
+    void messageKDECloseWallpaper();
 
     void requestSave();
     void requestClose(const QString& appID);
@@ -241,6 +245,7 @@ public slots:
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     std::unique_ptr<SDKConnection> m_connection;
+    const std::shared_ptr<Settings> m_settings;
 
     ProjectSettingsListModel m_projectSettingsListModel;
     QVector<int> m_screenNumber;
@@ -256,9 +261,9 @@ private:
     float m_playbackRate { 1.0f };
     QTimer m_pingAliveTimer;
     QStringList m_appArgumentsList;
-    bool m_isConnected  { false };
+    bool m_isConnected { false };
     // There are still cases where we can access the current item
     // while exiting. This flag is to ignore all setWallpaperValue calls
-    bool m_isExiting  { false };
+    bool m_isExiting { false };
 };
 }
