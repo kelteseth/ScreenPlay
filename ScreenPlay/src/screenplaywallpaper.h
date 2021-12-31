@@ -44,13 +44,15 @@
 #include "globalvariables.h"
 #include "projectsettingslistmodel.h"
 #include "sdkconnection.h"
-#include "util.h"
 #include "settings.h"
+#include "util.h"
 
 namespace ScreenPlay {
 
 class ScreenPlayWallpaper : public QObject {
     Q_OBJECT
+
+    Q_PROPERTY(bool isConnected READ isConnected WRITE setIsConnected NOTIFY isConnectedChanged)
 
     Q_PROPERTY(QVector<int> screenNumber READ screenNumber WRITE setScreenNumber NOTIFY screenNumberChanged)
 
@@ -85,7 +87,6 @@ public:
         const std::shared_ptr<Settings>& settings,
         QObject* parent = nullptr);
 
-
     bool start();
 
     void replace(
@@ -112,6 +113,7 @@ public:
     bool isLooping() const { return m_isLooping; }
     ProjectSettingsListModel* getProjectSettingsListModel() { return &m_projectSettingsListModel; }
     float playbackRate() const { return m_playbackRate; }
+    bool isConnected() const { return m_isConnected; }
 
 signals:
     void screenNumberChanged(QVector<int> screenNumber);
@@ -125,13 +127,16 @@ signals:
     void volumeChanged(float volume);
     void isLoopingChanged(bool isLooping);
     void playbackRateChanged(float playbackRate);
+    void messageKDECloseWallpaper();
 
     void requestSave();
     void requestClose(const QString& appID);
     void error(const QString& msg);
 
+    void isConnectedChanged(bool isConnected);
+
 public slots:
-    void messageQuit();
+    void close();
     void processExit(int exitCode, QProcess::ExitStatus exitStatus);
     void processError(QProcess::ProcessError error);
     bool setWallpaperValue(const QString& key, const QString& value, const bool save = false);
@@ -229,6 +234,14 @@ public slots:
         emit playbackRateChanged(m_playbackRate);
     }
 
+    void setIsConnected(bool isConnected)
+    {
+        if (m_isConnected == isConnected)
+            return;
+        m_isConnected = isConnected;
+        emit isConnectedChanged(m_isConnected);
+    }
+
 private:
     const std::shared_ptr<GlobalVariables> m_globalVariables;
     std::unique_ptr<SDKConnection> m_connection;
@@ -248,5 +261,9 @@ private:
     float m_playbackRate { 1.0f };
     QTimer m_pingAliveTimer;
     QStringList m_appArgumentsList;
+    bool m_isConnected { false };
+    // There are still cases where we can access the current item
+    // while exiting. This flag is to ignore all setWallpaperValue calls
+    bool m_isExiting { false };
 };
 }

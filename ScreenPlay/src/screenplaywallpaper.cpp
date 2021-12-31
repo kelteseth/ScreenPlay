@@ -138,7 +138,7 @@ QJsonObject ScreenPlayWallpaper::getActiveSettingsJson()
 /*!
     \brief Sends command quit to the wallpaper.
 */
-void ScreenPlayWallpaper::messageQuit()
+void ScreenPlayWallpaper::close()
 {
     // When the wallpaper never connected, this is invalid
     if (!m_connection) {
@@ -146,9 +146,9 @@ void ScreenPlayWallpaper::messageQuit()
         return;
     }
 
-    QJsonObject obj;
-    obj.insert("command", "quit");
-    m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+    if (m_connection->close()) {
+        m_isExiting = true;
+    }
 }
 /*!
     \brief Prints the exit code if != 0.
@@ -175,6 +175,9 @@ void ScreenPlayWallpaper::processError(QProcess::ProcessError error)
 */
 bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& value, const bool save)
 {
+    if (m_isExiting)
+        return false;
+
     if (!m_connection) {
         qWarning() << "Cannot set value for unconnected wallpaper!";
         return false;
@@ -208,8 +211,13 @@ bool ScreenPlayWallpaper::setWallpaperValue(const QString& key, const QString& v
 void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connection)
 {
     m_connection = std::move(connection);
-    qInfo() << "[3/3] SDKConnection (Wallpaper) saved!";
+    qInfo() << "[4/4] SDKConnection (Wallpaper) saved!";
+    setIsConnected(true);
 
+    QObject::connect(m_connection.get(), &SDKConnection::disconnected, this, [this]() {
+        setIsConnected(false);
+        qInfo() << "disconnecetd;";
+    });
     QTimer::singleShot(1000, this, [this]() {
         if (playbackRate() != 1.0) {
             setWallpaperValue("playbackRate", QString::number(playbackRate()), false);
@@ -240,8 +248,14 @@ void ScreenPlayWallpaper::replace(
     const InstalledType::InstalledType type,
     const bool checkWallpaperVisible)
 {
-    if (!m_connection)
+
+    if (m_isExiting)
         return;
+
+    if (!m_connection) {
+        qWarning() << "Cannot replace for unconnected wallpaper!";
+        return;
+    }
 
     m_previewImage = previewImage;
     m_type = type;

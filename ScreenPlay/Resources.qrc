@@ -148,5 +148,11 @@
         <file>translations/ScreenPlay_it_IT.ts</file>
         <file>qml/Create/WizardsFiles/HTMLWallpaperMain.html</file>
         <file>qml/Create/WizardsFiles/HTMLWidgetMain.html</file>
+        <file>assets/icons/icon_minimize.svg</file>
+        <file>assets/icons/icon_video_settings_black_24dp.svg</file>
+        <file>qml/Create/WizardsFiles/QMLWallpaperMain.qml</file>
+        <file>qml/Create/WizardsFiles/QMLWidgetMain.qml</file>
+        <file>translations/ScreenPlay_pl_PL.qm</file>
+        <file>translations/ScreenPlay_pl_PL.ts</file>
     </qresource>
 </RCC>

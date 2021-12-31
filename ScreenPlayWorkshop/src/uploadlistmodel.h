@@ -103,16 +103,16 @@ public slots:
             emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int> { static_cast<int>(UploadListModelRole::UploadProgressRole) });
         });
         QObject::connect(item.get(), &SteamWorkshopItem::nameChanged, this, [this]() {
-            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int>  { static_cast<int>(UploadListModelRole::NameRole) });
+            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int> { static_cast<int>(UploadListModelRole::NameRole) });
         });
         QObject::connect(item.get(), &SteamWorkshopItem::absolutePreviewImagePathChanged, this, [this]() {
-            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int>  { static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath) });
+            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int> { static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath) });
         });
         QObject::connect(item.get(), &SteamWorkshopItem::uploadComplete, this, [this](bool successful) {
-            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int>  { static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath) });
+            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int> { static_cast<int>(UploadListModelRole::AbsolutePreviewImagePath) });
         });
         QObject::connect(item.get(), &SteamWorkshopItem::statusChanged, this, [this](ScreenPlayWorkshopSteamEnums::EResult status) {
-            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int>  { static_cast<int>(UploadListModelRole::Status) });
+            emit this->dataChanged(index(0, 0), index(rowCount() - 1, 0), QVector<int> { static_cast<int>(UploadListModelRole::Status) });
 
             // Check if all items are
 

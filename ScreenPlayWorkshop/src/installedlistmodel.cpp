@@ -88,8 +88,10 @@ void InstalledListModel::append(const QJsonObject& obj, const QString& folderNam
 
 void InstalledListModel::loadInstalledContent()
 {
+    if (m_loadContentFutureWatcher.isRunning())
+        return;
 
-    QtConcurrent::run([this]() {
+    m_loadContentFuture = QtConcurrent::run([this]() {
         QFileInfoList list = QDir(m_absoluteStoragePath.toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
 
         for (const auto& item : list) {
@@ -117,6 +119,7 @@ void InstalledListModel::loadInstalledContent()
 
         emit installedLoadingFinished();
     });
+    m_loadContentFutureWatcher.setFuture(m_loadContentFuture);
 }
 
 QVariantMap InstalledListModel::get(QString folderId)

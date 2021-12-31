@@ -83,7 +83,7 @@ Popup {
                 monitorWithoutContentSelectable: false
                 availableWidth: width - 20
                 availableHeight: 150
-                function onRequestProjectSettings() {
+                onRequestProjectSettings: ( index,  installedType,  appID) => {
                     if (installedType === InstalledType.VideoWallpaper) {
                         videoControlWrapper.state = "visible";
                         customPropertiesGridView.visible = false;
@@ -92,7 +92,9 @@ Popup {
                     } else {
                         videoControlWrapper.state = "hidden";
                         customPropertiesGridView.visible = true;
-                        ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(index);
+                        if(!ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(index)){
+                            console.warn("Unable to get requested settings from index: ", index)
+                        }
                     }
                     activeMonitorIndex = index;
                 }
@@ -126,12 +128,11 @@ Popup {
 
                 Button {
                     id: btnRemoveSelectedWallpaper
-
-                    text: qsTr("Remove selected")
                     Material.background: Material.accent
-                    Material.foreground: "white"
+                    highlighted: true
+                    text: qsTr("Remove selected")
                     font.family: ScreenPlay.settings.font
-                    enabled: monitorSelection.activeMonitors.length == 1
+                    enabled: monitorSelection.activeMonitors.length == 1 && ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
                         if (!ScreenPlay.screenPlayManager.removeWallpaperAt(monitorSelection.activeMonitors[0]))
                             print("Unable to close singel wallpaper");
@@ -142,9 +143,9 @@ Popup {
                 Button {
                     id: btnRemoveAllWallpape
 
-                    text: qsTr("Remove ") + ScreenPlay.screenPlayManager.activeWallpaperCounter + " " + qsTr("Wallpapers")
+                    text: qsTr("Remove all ") + ScreenPlay.screenPlayManager.activeWallpaperCounter + " " + qsTr("Wallpapers")
                     Material.background: Material.accent
-                    Material.foreground: "white"
+                    highlighted: true
                     font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
@@ -158,9 +159,10 @@ Popup {
                 Button {
                     id: btnRemoveAllWidgets
 
-                    text: qsTr("Remove ") + ScreenPlay.screenPlayManager.activeWidgetsCounter + " " + qsTr("Widgets")
+                    text: qsTr("Remove all ") + ScreenPlay.screenPlayManager.activeWidgetsCounter + " " + qsTr("Widgets")
                     Material.background: Material.accent
-                    Material.foreground: "white"
+                    Material.foreground: Material.primaryTextColor
+                    highlighted: true
                     font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
                     onClicked: {

@@ -17,7 +17,6 @@ Item {
         flickDeceleration: 5000
         cellHeight: 250
         cellWidth: 450
-        clip: true
         model: feedModel
 
         anchors {

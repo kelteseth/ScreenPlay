@@ -116,6 +116,7 @@ public slots:
 
     bool requestProjectSettingsAtMonitorIndex(const int index);
     bool setWallpaperValueAtMonitorIndex(const int index, const QString& key, const QString& value);
+    bool setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode);
     bool setAllWallpaperValue(const QString& key, const QString& value);
     bool setWallpaperValue(const QString& appID, const QString& key, const QString& value);
     ScreenPlayWallpaper* getWallpaperByAppID(const QString& appID) const;

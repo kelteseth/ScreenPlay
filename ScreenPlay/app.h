@@ -48,7 +48,6 @@
 #include <QtGlobal>
 #include <QtQml>
 #include <QtSvg>
-#include <QtWebEngineCore>
 
 #include "src/create.h"
 #include "src/globalvariables.h"
@@ -63,8 +62,6 @@
 
 #include <memory>
 #include <sentry.h>
-
-class ScreenPlayWorkshopPlugin;
 
 namespace ScreenPlay {
 
@@ -118,6 +115,8 @@ signals:
 public slots:
     QString version() const;
     void exit();
+
+    QPointF cursorPos() { return QCursor::pos(); }
 
     void setGlobalVariables(GlobalVariables* globalVariables)
     {
@@ -215,11 +214,11 @@ public slots:
         m_wizards.reset(wizards);
         emit wizardsChanged(m_wizards.get());
     }
+
 private:
     bool setupKDE();
 
 private:
-    QPluginLoader m_workshopPlugin;
     QNetworkAccessManager m_networkAccessManager;
     QElapsedTimer m_continuousIntegrationMetricsTimer;
     std::unique_ptr<QQmlApplicationEngine> m_mainWindowEngine;

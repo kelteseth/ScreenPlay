@@ -7,11 +7,14 @@ import ScreenPlay.Enums.InstalledType 1.0
 Item {
     id: root
 
-    property rect monitorSize: Qt.rect(0, 0, 0, 0)
-    property string monitorModel
-    property string monitorManufacturer
-    property string monitorName
-    property string monitorID
+    property rect geometry
+    onGeometryChanged: {
+        root.width = geometry.width
+        root.height = geometry.height
+        root.x = geometry.x
+        root.y = geometry.y
+    }
+
     property string previewImage
     property string appID
     property var installedType: InstalledType.QMLWallpaper
@@ -34,7 +37,7 @@ Item {
     }
 
     Text {
-        text: monitorSize.width + "x" + monitorSize.height
+        text: geometry.width + "x" + geometry.height
         color: Material.foreground
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
@@ -72,13 +75,6 @@ Item {
             fillMode: Image.PreserveAspectCrop
         }
 
-        Text {
-            font.pointSize: 14
-            text: root.index
-            anchors.centerIn: parent
-            color: "white"
-        }
-
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
@@ -86,7 +82,7 @@ Item {
             onClicked: {
                 if (monitorWithoutContentSelectable) {
                     monitorSelected(index);
-                    return ;
+                    return
                 }
                 if (root.hasContent && !root.monitorWithoutContentSelectable)
                     monitorSelected(index);

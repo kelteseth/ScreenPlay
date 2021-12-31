@@ -210,14 +210,12 @@ void App::init()
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "ScreenPlay", this);
+    QGuiApplication::instance()->addLibraryPath(QGuiApplication::instance()->applicationDirPath());
 
-#ifdef Q_OS_MACOS
-    // Needed for macos .app files
-    m_mainWindowEngine->addPluginPath(QGuiApplication::instance()->applicationDirPath());
-#endif
     if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
         setupKDE();
     }
+
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/ScreenPlay/main.qml")));
 
     // Must be called last to display a error message on startup by the qml engine

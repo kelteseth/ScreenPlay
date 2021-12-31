@@ -200,12 +200,12 @@ void InstalledListModel::append(const QJsonObject& obj, const QString& folderNam
 */
 void InstalledListModel::loadInstalledContent()
 {
-    if (m_loadContentFuture.isRunning()) {
+    if (m_isLoading) {
         qInfo() << "loadInstalledContent is already running. Skip.";
         return;
     }
-
-    m_loadContentFuture = QtConcurrent::run([this]() {
+    m_isLoading = true;
+    auto unused = QtConcurrent::run([this]() {
         QFileInfoList list = QDir(m_globalVariables->localStoragePath().toLocalFile()).entryInfoList(QDir::NoDotAndDotDot | QDir::AllDirs);
         int counter = 0;
 
@@ -239,6 +239,7 @@ void InstalledListModel::loadInstalledContent()
         }
         setCount(counter);
         emit installedLoadingFinished();
+        m_isLoading = false;
     });
 }
 

@@ -3,7 +3,6 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
-import QtWebEngine
 import ScreenPlay 1.0
 
 
@@ -51,15 +50,4 @@ Item {
         }
     }
 
-    WebEngineView {
-        id: webView
-        anchors {
-            top: navWrapper.bottom
-            right: parent.right
-            bottom: parent.bottom
-            left: parent.left
-        }
-        url:"https://forum.screen-play.app/category/5/wallpaper"
-
-    }
 }

@@ -4,16 +4,24 @@ import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
 import ScreenPlay 1.0
-import QtWebEngine
 
 Item {
     id: root
+
+    XMLNewsfeed {
+        anchors {
+            top: navWrapper.bottom
+            right: parent.right
+            bottom: parent.bottom
+            left: parent.left
+        }
+    }
 
     Rectangle {
         id: navWrapper
 
         color: Material.theme === Material.Light ? "white" : Material.background
-        height: 50
+        height: 60
 
         anchors {
             top: parent.top
@@ -21,60 +29,72 @@ Item {
             left: parent.left
         }
 
-        TabBar {
+        RowLayout {
             id: nav
 
             height: parent.height
-            currentIndex: 0
 
             anchors {
                 top: parent.top
                 left: parent.left
+                leftMargin: 20
                 bottom: parent.bottom
-                right: parent.right
             }
 
-            CommunityNavItem {
+            Button {
                 text: qsTr("News")
-                openLink: "https://screen-play.app/blog/"
+                onClicked: Qt.openUrlExternally("https://screen-play.app/blog/")
                 icon.source: "qrc:/assets/icons/icon_document.svg"
+                icon.width: 14
+                icon.height: 14
+                Layout.alignment: Qt.AlignVCenter
             }
 
-            CommunityNavItem {
+            Button {
                 text: qsTr("Wiki")
-                openLink: "https://kelteseth.gitlab.io/ScreenPlayDocs/"
+                onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/")
                 icon.source: "qrc:/assets/icons/icon_help_center.svg"
+                icon.width: 14
+                icon.height: 14
+                Layout.alignment: Qt.AlignVCenter
             }
 
-            CommunityNavItem {
+            Button {
                 text: qsTr("Forum")
-                openLink: "https://forum.screen-play.app/"
+                onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
                 icon.source: "qrc:/assets/icons/icon_forum.svg"
+                icon.width: 14
+                icon.height: 14
+                Layout.alignment: Qt.AlignVCenter
             }
 
-            CommunityNavItem {
-                text: qsTr("Issue List")
-                openLink: "https://gitlab.com/kelteseth/ScreenPlay/-/issues"
+            Button {
+                text: qsTr("Issue Tracker")
+                onClicked: Qt.openUrlExternally("https://gitlab.com/kelteseth/ScreenPlay/-/issues")
                 icon.source: "qrc:/assets/icons/icon_report_problem.svg"
+                icon.width: 14
+                icon.height: 14
+                Layout.alignment: Qt.AlignVCenter
             }
 
-            CommunityNavItem {
+            Button {
                 text: qsTr("Contribute")
-                openLink: "https://gitlab.com/kelteseth/ScreenPlay#general-contributing"
+                onClicked: Qt.openUrlExternally("https://gitlab.com/kelteseth/ScreenPlay#general-contributing")
                 icon.source: "qrc:/assets/icons/icon_supervisor_account.svg"
+                icon.width: 14
+                icon.height: 14
+                Layout.alignment: Qt.AlignVCenter
             }
 
-            CommunityNavItem {
+            Button {
                 text: qsTr("Steam Workshop")
-                openLink: "steam://url/GameHub/672870"
+                onClicked: Qt.openUrlExternally("steam://url/GameHub/672870")
                 icon.source: "qrc:/assets/icons/icon_steam.svg"
+                icon.width: 14
+                icon.height: 14
+                Layout.alignment: Qt.AlignVCenter
             }
-
-            background: Item {
-            }
-
         }
-
     }
 
     LinearGradient {
@@ -99,90 +119,8 @@ Item {
                 position: 1
                 color: "transparent"
             }
-
         }
-
     }
 
-    SwipeView {
-        id: swipeView
-
-        currentIndex: nav.currentIndex
-
-        anchors {
-            top: navWrapper.bottom
-            right: parent.right
-            bottom: parent.bottom
-            left: parent.left
-        }
-
-        XMLNewsfeed {
-        }
-
-        Repeater {
-            id: repeater
-
-            Loader {
-                active: SwipeView.isCurrentItem || SwipeView.isNextItem || SwipeView.isPreviousItem
-                asynchronous: true
-
-                sourceComponent: Item {
-                    Component.onCompleted: timer.start()
-
-                    Timer {
-                        id: timer
-
-                        interval: 200
-                        onTriggered: webView.url = webModel.get(index + 1).url
-                    }
-
-                    WebEngineView {
-                        id: webView
-
-                        anchors.fill: parent
-                    }
-
-                }
-
-            }
-
-            model: ListModel {
-                id: webModel
-
-                ListElement {
-                    url: "https://screen-play.app/blog/"
-                }
-
-                ListElement {
-                    url: "https://kelteseth.gitlab.io/ScreenPlayDocs/"
-                }
-
-                ListElement {
-                    url: "https://forum.screen-play.app/"
-                }
-
-                ListElement {
-                    url: "https://gitlab.com/kelteseth/ScreenPlay/-/issues"
-                }
-
-                ListElement {
-                    url: "https://gitlab.com/kelteseth/ScreenPlay#general-contributing"
-                }
-
-                ListElement {
-                    url: "https://steamcommunity.com/app/672870/workshop/"
-                }
-
-            }
-
-        }
-
-    }
-
-    Binding {
-        target: nav
-        property: "currentIndex"
-        value: swipeView.currentIndex
-    }
 
 }

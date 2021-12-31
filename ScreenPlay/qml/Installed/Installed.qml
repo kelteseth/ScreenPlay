@@ -91,8 +91,8 @@ Item {
         property bool isScrolling: gridView.verticalVelocity != 0
 
         boundsBehavior: Flickable.DragOverBounds
-        maximumFlickVelocity: 2500
-        flickDeceleration: 500
+        maximumFlickVelocity: 5000
+        flickDeceleration: 5000
         anchors.fill: parent
         cellWidth: 340
         cellHeight: 200

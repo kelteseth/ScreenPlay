@@ -17,7 +17,7 @@ Rectangle {
     property alias background: root.color
     property alias radius: root.radius
 
-    signal requestProjectSettings(int index, var installedType, string appID)
+    signal requestProjectSettings(var index, var installedType, var appID)
 
     function selectOnly(index) {
         for (var i = 0; i < rp.count; i++) {
@@ -62,7 +62,7 @@ Rectangle {
     }
 
     function resize() {
-        var absoluteDesktopSize = ScreenPlay.monitorListModel.getAbsoluteDesktopSize();
+        var absoluteDesktopSize = ScreenPlay.monitorListModel.absoluteDesktopSize();
         var isWidthGreaterThanHeight = false;
         var windowsDelta = 0;
         if (absoluteDesktopSize.width < absoluteDesktopSize.height) {
@@ -135,22 +135,14 @@ Rectangle {
             delegate: MonitorSelectionItem {
                 id: delegate
 
-                monitorID: m_monitorID
-                monitorName: m_name
                 appID: m_appID
-                height: m_availableGeometry.height
-                width: m_availableGeometry.width
-                x: m_availableGeometry.x
-                y: m_availableGeometry.y
-                monitorManufacturer: m_manufacturer
-                monitorModel: m_model
-                monitorSize: m_availableGeometry
+                geometry: m_geometry
                 fontSize: root.fontSize
-                index: m_number
+                index: m_index
                 previewImage: m_previewImage
                 installedType: m_installedType
                 monitorWithoutContentSelectable: root.monitorWithoutContentSelectable
-                onMonitorSelected: root.selectMonitorAt(delegate.index)
+                onMonitorSelected: (index) => root.selectMonitorAt(index)
             }
 
         }
@@ -167,15 +159,5 @@ Rectangle {
 
     }
 
-//    layer.effect: InnerShadow {
-//        cached: true
-//        fast: true
-//        smooth: true
-//        radius: 32
-//        spread: 0.8
-//        verticalOffset: 3
-//        color: "#55000000"
-//    }
-    // Width of the Sidebar or Space that should be used
 
 }

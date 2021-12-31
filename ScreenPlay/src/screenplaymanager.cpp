@@ -83,22 +83,21 @@ void ScreenPlayManager::init(
 
     if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
         m_websocketServer = std::make_unique<QWebSocketServer>(QStringLiteral("ScreenPlayWebSocket"), QWebSocketServer::SslMode::NonSecureMode);
-       const bool success = m_websocketServer->listen(QHostAddress::Any, m_webSocketPort);
-       qInfo() << "Open Websocket:" << success << "port:" <<m_webSocketPort;
+        const bool success = m_websocketServer->listen(QHostAddress::Any, m_webSocketPort);
+        qInfo() << "Open Websocket:" << success << "port:" << m_webSocketPort;
         QObject::connect(m_websocketServer.get(), &QWebSocketServer::newConnection, this, [this]() {
             qInfo() << "New Websocket Connection";
             auto* socket = m_websocketServer->nextPendingConnection();
-            QObject::connect(socket, &QWebSocket::textMessageReceived, this, [this](const QString &message) {
-                 qInfo() << "Message:" << message;
+            QObject::connect(socket, &QWebSocket::textMessageReceived, this, [this](const QString& message) {
+                qInfo() << "Message:" << message;
             });
-            QObject::connect(socket, &QWebSocket::disconnected, this, [this,socket]() {
-                 m_connections.removeOne(socket);
-                 qInfo() << "Disconnected connection count: " << m_connections.count();
+            QObject::connect(socket, &QWebSocket::disconnected, this, [this, socket]() {
+                m_connections.removeOne(socket);
+                qInfo() << "Disconnected connection count: " << m_connections.count();
             });
-
 
             m_connections.push_back(socket);
-           // socket->flush();
+            // socket->flush();
         });
     }
 
@@ -150,8 +149,8 @@ bool ScreenPlayManager::createWallpaper(
     const QString path = QUrl::fromUserInput(absoluteStoragePath).toLocalFile();
     const QString appID = ScreenPlayUtil::generateRandomString();
 
-    if(m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE){
-        if(m_connections.empty())
+    if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
+        if (m_connections.empty())
             return false;
 
         QJsonObject msg;
@@ -206,11 +205,11 @@ bool ScreenPlayManager::createWallpaper(
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestSave, this, &ScreenPlayManager::requestSaveProfiles);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::requestClose, this, &ScreenPlayManager::removeWallpaper);
     QObject::connect(wallpaper.get(), &ScreenPlayWallpaper::error, this, &ScreenPlayManager::displayErrorPopup);
-      if(m_settings->desktopEnvironment() != Settings::DesktopEnvironment::KDE){
+    if (m_settings->desktopEnvironment() != Settings::DesktopEnvironment::KDE) {
         if (!wallpaper->start()) {
             return false;
         }
-      }
+    }
     m_screenPlayWallpapers.append(wallpaper);
     m_monitorListModel->setWallpaperMonitor(wallpaper, monitorIndex);
     increaseActiveWallpaperCounter();
@@ -285,16 +284,15 @@ bool ScreenPlayManager::removeAllWallpapers()
             return false;
         }
     }
-     if(m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE){
-         for(auto& connection : m_connections){
-             QJsonObject obj;
-             obj.insert("command", "quit");
-             connection->sendTextMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+    if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
+        for (auto& connection : m_connections) {
+            QJsonObject obj;
+            obj.insert("command", "quit");
+            connection->sendTextMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
             connection->flush();
             connection->close();
-         }
-
-     }
+        }
+    }
 
     emit requestSaveProfiles();
 
@@ -377,12 +375,29 @@ bool ScreenPlayManager::setWallpaperValueAtMonitorIndex(const int index, const Q
 }
 
 /*!
+  \brief Set a wallpaper \a fillmode at a given \a index and converts the qml enum (int)
+         into the c++ enum class value.
+*/
+bool ScreenPlayManager::setWallpaperFillModeAtMonitorIndex(const int index, const int fillmode)
+{
+    const auto fillModeTyped = static_cast<FillMode::FillMode>(fillmode);
+
+    if (auto appID = m_monitorListModel->getAppIDByMonitorIndex(index)) {
+        return setWallpaperValue(*appID, "fillmode", QVariant::fromValue<FillMode::FillMode>(fillModeTyped).toString());
+    }
+
+    qWarning() << "Could net get appID from m_monitorListModel!";
+    return false;
+}
+
+/*!
   \brief Convenient function to set a \a value at a given \a index and \a key for all wallaper. For exmaple used to mute all wallpaper.
 */
 bool ScreenPlayManager::setAllWallpaperValue(const QString& key, const QString& value)
 {
     for (auto& wallpaper : m_screenPlayWallpapers) {
-        return setWallpaperValue(wallpaper->appID(), key, value);
+        if (!wallpaper->setWallpaperValue(key, value, true))
+            return false;
     }
     return true;
 }
@@ -406,7 +421,7 @@ ScreenPlayWallpaper* ScreenPlayManager::getWallpaperByAppID(const QString& appID
 */
 void ScreenPlayManager::newConnection()
 {
-    qInfo() << "[1/3] SDKConnection incomming";
+    qInfo() << "[1/4] SDKConnection incomming";
     auto connection = std::make_unique<SDKConnection>(m_server->nextPendingConnection());
     QObject::connect(connection.get(), &SDKConnection::requestRaise, this, &ScreenPlayManager::requestRaise);
 
@@ -433,7 +448,7 @@ void ScreenPlayManager::newConnection()
 
         for (int i = 0; i < m_screenPlayWallpapers.size(); ++i) {
             if (m_screenPlayWallpapers.at(i)->appID() == matchingConnection->appID()) {
-                qInfo() << "Matching Wallpaper found!";
+                qInfo() << "[3/4] Matching Wallpaper found!";
                 m_screenPlayWallpapers.at(i)->setSDKConnection(std::move(matchingConnection));
                 return;
             }
@@ -441,7 +456,7 @@ void ScreenPlayManager::newConnection()
 
         for (int i = 0; i < m_screenPlayWidgets.size(); ++i) {
             if (m_screenPlayWidgets.at(i)->appID() == matchingConnection->appID()) {
-                qInfo() << "Matching Widget found!";
+                qInfo() << "[3/4] Matching Widget found!";
                 m_screenPlayWidgets.at(i)->setSDKConnection(std::move(matchingConnection));
                 return;
             }
@@ -468,15 +483,17 @@ bool ScreenPlayManager::removeWallpaper(const QString& appID)
                 if (wallpaper->appID() != appID) {
                     return false;
                 }
-                if(m_settings->desktopEnvironment() == Settings::DesktopEnvironment::Windows ||
-                        m_settings->desktopEnvironment() == Settings::DesktopEnvironment::OSX)
-                wallpaper->messageQuit();
+
+                if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::Windows || m_settings->desktopEnvironment() == Settings::DesktopEnvironment::OSX)
+                    wallpaper->messageKDECloseWallpaper();
 
                 qInfo() << "Remove wallpaper " << wallpaper->file() << "at monitor " << wallpaper->screenNumber();
 
                 // The MonitorListModel contains a shared_ptr of this object that needs to be removed
                 // for shared_ptr to release the object.
                 m_monitorListModel->setWallpaperMonitor({}, wallpaper->screenNumber());
+
+                wallpaper->close();
 
                 decreaseActiveWallpaperCounter();
 
@@ -507,7 +524,7 @@ bool ScreenPlayManager::removeWidget(const QString& appID)
                     return false;
                 }
 
-                widget->messageQuit();
+                widget->close();
 
                 qInfo() << "Remove widget " << appID;
 

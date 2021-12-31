@@ -2,7 +2,6 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Layouts
-import QtWebEngine
 import QtQuick.Controls.Material
 import Workshop 1.0
 import ScreenPlay 1.0
@@ -29,7 +28,6 @@ Drawer {
                 root.close()
             return
         }
-        webView.opacity = 0
         root.publishedFileID = publishedFileID
         root.imgUrl = imgUrl
         root.subscriptionCount = subscriptionCount
@@ -41,7 +39,6 @@ Drawer {
             root.open()
 
         steamWorkshop.requestWorkshopItemDetails(publishedFileID)
-        webView.setVideo()
     }
 
     edge: Qt.RightEdge
@@ -50,16 +47,6 @@ Drawer {
     modal: false
     width: 400
     interactive: false
-    Component.onCompleted: {
-        WebEngine.settings.localContentCanAccessFileUrls = true
-        WebEngine.settings.localContentCanAccessRemoteUrls = true
-        WebEngine.settings.allowRunningInsecureContent = true
-        WebEngine.settings.accelerated2dCanvasEnabled = true
-        WebEngine.settings.javascriptCanOpenWindows = false
-        WebEngine.settings.showScrollBars = false
-        WebEngine.settings.playbackRequiresUserGesture = false
-        WebEngine.settings.focusOnNavigationEnabled = true
-    }
 
     Connections {
         function onRequestItemDetailReturned(title, tags, steamIDOwner, description, votesUp, votesDown, url, fileSize, publishedFileId) {
@@ -106,42 +93,7 @@ Drawer {
             anchors.fill: parent
         }
 
-        WebEngineView {
-            id: webView
 
-            property bool ready: false
-
-            function getUpdateVideoCommand() {
-                let src = ""
-                src += "var video = document.getElementById('video');\n"
-                src += "video.src = '" + root.videoPreview + "';\n"
-                // Incase a workshop item has no gif preview
-                src += "video.poster = '" + root.videoPreview + "';\n"
-                src += "video.play();\n"
-                return src
-            }
-
-            function setVideo() {
-                if (!root.videoPreview.toString().startsWith("https"))
-                    return
-
-                webView.runJavaScript(getUpdateVideoCommand(),
-                                      function (result) {
-                                          webView.opacity = 1
-                                      })
-            }
-
-            anchors.fill: parent
-            opacity: 0
-            url: "qrc:/assets/WorkshopPreview.html"
-            onUrlChanged: print(url)
-
-            Behavior on opacity {
-                NumberAnimation {
-                    duration: 200
-                }
-            }
-        }
 
         LinearGradient {
             height: 50
