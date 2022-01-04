@@ -12,9 +12,11 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
+option(SCREENPLAY_IFW_ROOT ""  STRING )
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
 option(SCREENPLAY_TESTS "Enables UI tests." OFF)
 option(SCREENPLAY_CREATE_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
+
 
 # Add our *.cmake diretory to the CMAKE_MODULE_PATH, so that our includes are found
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
@@ -103,17 +105,27 @@ message(STATUS "[PROJECT] CMAKE_TOOLCHAIN_FILE       = ${CMAKE_TOOLCHAIN_FILE}")
 message(STATUS "[PROJECT] VCPKG_PATH                 = ${VCPKG_PATH}")
 message(STATUS "[PROJECT] VCPKG_TARGET_TRIPLET       = ${VCPKG_TARGET_TRIPLET}")
 message(STATUS "[PROJECT] CMAKE_PREFIX_PATH          = ${CMAKE_PREFIX_PATH}")
-message(STATUS "[PROJECT] CPACK_GENERATOR            = ${CPACK_GENERATOR}")
 
 if(${SCREENPLAY_CREATE_INSTALLER})
 
-    # Hardcoded Qt paths that are used by the QtMaintanance tool for now...
-    if(WIN32)
-        set(CPACK_IFW_ROOT "C:/Qt/Tools/QtInstallerFramework/4.2")
-    elseif(UNIX AND NOT APPLE)
-        set(CPACK_IFW_ROOT "$ENV{HOME}/Qt/Tools/QtInstallerFramework/4.2")
+    message(STATUS "[INSTALLER] CPACK_GENERATOR          = ${CPACK_GENERATOR}")
+
+    if(${SCREENPLAY_IFW_ROOT} STREQUAL "")
+        # Hardcoded Qt paths that are used by the QtMaintanance tool for now...
+        if(WIN32)
+            set(SCREENPLAY_IFW_ROOT "C:/Qt/Tools/QtInstallerFramework/4.2")
+        elseif(UNIX AND NOT APPLE)
+            set(SCREENPLAY_IFW_ROOT "$ENV{HOME}/Qt/Tools/QtInstallerFramework/4.2")
+        endif()
+        message(STATUS "[CPACK_IFW_ROOT] Not set. Using hardcoded value: ${SCREENPLAY_IFW_ROOT}")
+        message(STATUS "WARNING: MAKE SURE YOU HAVE THIS EXACT VERSION INSTALLED VIA THE QTMAINTANANCE TOOL!")
+    else()
+        message(STATUS "[CPACK_IFW_ROOT]  =  ${SCREENPLAY_IFW_ROOT}")
     endif()
 
+    message(STATUS "[IFW INSTALLER ENABLED]: Configuring. This can take some time...")
+
+    set(CPACK_IFW_ROOT ${SCREENPLAY_IFW_ROOT})
     set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
     set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-Installer")
     set(CPACK_PACKAGE_VENDOR "Elias Steurer")
@@ -122,7 +134,7 @@ if(${SCREENPLAY_CREATE_INSTALLER})
 
     # Ensures that contents written to the CPack configuration files is escaped properly.
     set(CPACK_VERBATIM_VARIABLES TRUE)
-    set(CPACK_GENERATOR IFW)
+    set(CPACK_GENERATOR "IFW")
 
     set(CPACK_IFW_PACKAGE_START_MENU_DIRECTORY "") # empty => default is install to top-level (?)
     set(CPACK_IFW_TARGET_DIRECTORY "@HomeDir@/Apps/${CMAKE_PROJECT_NAME}")
@@ -141,7 +153,7 @@ if(${SCREENPLAY_CREATE_INSTALLER})
     install(
         DIRECTORY "${CMAKE_BINARY_DIR}/bin/"
         COMPONENT ScreenPlay
-        DESTINATION ".")
+        DESTINATION "/")
 
     cpack_add_component(
         ScreenPlay
@@ -158,3 +170,4 @@ if(${SCREENPLAY_CREATE_INSTALLER})
         CHECKABLE FALSE)
 
 endif()
+

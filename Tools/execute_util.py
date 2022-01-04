@@ -37,9 +37,9 @@ def execute(command, workingDir=".", ignore_error=False, use_shell=True, print_c
 
     process.communicate()
     exitCode = process.returncode
-    if exitCode and ignore_error:
-        printYellow("Ignore error ")
-        return
-
     if exitCode:
-        raise subprocess.CalledProcessError(exitCode, command)
+        if ignore_error:
+            printYellow("Ignore error {}".format(exitCode))
+        else:
+            raise subprocess.CalledProcessError(exitCode, command)
+            
