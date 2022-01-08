@@ -80,7 +80,7 @@
     </message>
     <message>
       <source>Issue Tracker</source>
-      <translation type="unfinished">Issue Tracker</translation>
+      <translation>问题跟踪器</translation>
     </message>
   </context>
   <context>
@@ -265,15 +265,15 @@
     <name>Forum</name>
     <message>
       <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
-      <translation type="unfinished">Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</translation>
+      <translation>从我们的论坛手动下载壁纸和小部件。如果您想要下载 Steam 创意工坊内容，您必须通过 Steam 安装ScreenPlay。</translation>
     </message>
     <message>
       <source>Install Steam Version</source>
-      <translation type="unfinished">Install Steam Version</translation>
+      <translation>安装 Steam 版本</translation>
     </message>
     <message>
       <source>Open In Browser</source>
-      <translation type="unfinished">Open In Browser</translation>
+      <translation>在浏览器中打开</translation>
     </message>
   </context>
   <context>
@@ -489,98 +489,98 @@
     <name>Importh264Convert</name>
     <message>
       <source>AnalyseVideo...</source>
-      <translation type="unfinished">AnalyseVideo...</translation>
+      <translation>分析视频...</translation>
     </message>
     <message>
       <source>Generating preview image...</source>
-      <translation type="unfinished">Generating preview image...</translation>
+      <translation>生成预览图...</translation>
     </message>
     <message>
       <source>Generating preview thumbnail image...</source>
-      <translation type="unfinished">Generating preview thumbnail image...</translation>
+      <translation>生成预览缩略图...</translation>
     </message>
     <message>
       <source>Generating 5 second preview video...</source>
-      <translation type="unfinished">Generating 5 second preview video...</translation>
+      <translation>生成5秒预览视频...</translation>
     </message>
     <message>
       <source>Generating preview gif...</source>
-      <translation type="unfinished">Generating preview gif...</translation>
+      <translation>生成预览GIF...</translation>
     </message>
     <message>
       <source>Converting Audio...</source>
-      <translation type="unfinished">Converting Audio...</translation>
+      <translation>正在转换音频...</translation>
     </message>
     <message>
       <source>Converting Video... This can take some time!</source>
-      <translation type="unfinished">Converting Video... This can take some time!</translation>
+      <translation>正在转换视频... 这可能需要一些时间！</translation>
     </message>
     <message>
       <source>Converting Video ERROR!</source>
-      <translation type="unfinished">Converting Video ERROR!</translation>
+      <translation>转换视频出错！</translation>
     </message>
     <message>
       <source>Analyse Video ERROR!</source>
-      <translation type="unfinished">Analyse Video ERROR!</translation>
+      <translation>分析视频出错！</translation>
     </message>
     <message>
       <source>Import a video to a wallpaper</source>
-      <translation type="unfinished">Import a video to a wallpaper</translation>
+      <translation>将视频导入为壁纸</translation>
     </message>
     <message>
       <source>Generating preview video...</source>
-      <translation type="unfinished">Generating preview video...</translation>
+      <translation>生成预览视频...</translation>
     </message>
     <message>
       <source>Name (required!)</source>
-      <translation type="unfinished">Name (required!)</translation>
+      <translation>名称 （必填）</translation>
     </message>
     <message>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>简介</translation>
     </message>
     <message>
       <source>Youtube URL</source>
-      <translation type="unfinished">Youtube URL</translation>
+      <translation>Youtube 链接</translation>
     </message>
     <message>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>中止</translation>
     </message>
     <message>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>保存</translation>
     </message>
     <message>
       <source>Save Wallpaper...</source>
-      <translation type="unfinished">Save Wallpaper...</translation>
+      <translation>保存壁纸...</translation>
     </message>
   </context>
   <context>
     <name>Importh264Init</name>
     <message>
       <source>Import a .mp4 video</source>
-      <translation type="unfinished">Import a .mp4 video</translation>
+      <translation>导入 .mp4 视频</translation>
     </message>
     <message>
       <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-      <translation type="unfinished">ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</translation>
+      <translation>ScreenPlay V0.15及以上可播放 *.mp4 (通常称为h264)，这可以提高旧系统上的性能。</translation>
     </message>
     <message>
       <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
-      <translation type="unfinished">Invalid file type. Must be valid h264 (*.mp4)!</translation>
+      <translation>文件类型无效。必须是有效的 h264 (*.mp4)！</translation>
     </message>
     <message>
       <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
-      <translation type="unfinished">Drop a *.mp4 file here or use &apos;Select file&apos; below.</translation>
+      <translation>将*.mp4文件拖入此处，或使用下面的 &apos;选择文件&apos;。</translation>
     </message>
     <message>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>打开文档</translation>
     </message>
     <message>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>选择文件</translation>
     </message>
   </context>
   <context>
@@ -645,7 +645,7 @@
     </message>
     <message>
       <source>You grant other to remix your work and change the license to their liking.</source>
-      <translation type="unfinished">You grant other to remix your work and change the license to their liking.</translation>
+      <translation>您授权他人对您的作品进行再创作，并更改其链接的许可证。</translation>
     </message>
     <message>
       <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </source>
@@ -693,7 +693,7 @@
     </message>
     <message>
       <source>Remove all </source>
-      <translation type="unfinished">Remove all </translation>
+      <translation>移除所有</translation>
     </message>
   </context>
   <context>
@@ -743,56 +743,56 @@
     </message>
     <message>
       <source>Create</source>
-      <translation type="unfinished">Create</translation>
+      <translation>创建</translation>
     </message>
     <message>
       <source>Workshop</source>
-      <translation type="unfinished">Workshop</translation>
+      <translation>创意工坊</translation>
     </message>
     <message>
       <source>Installed</source>
-      <translation type="unfinished">Installed</translation>
+      <translation>已安装</translation>
     </message>
     <message>
       <source>Community</source>
-      <translation type="unfinished">Community</translation>
+      <translation>社区</translation>
     </message>
     <message>
       <source>Settings</source>
-      <translation type="unfinished">Settings</translation>
+      <translation>设置</translation>
     </message>
     <message>
       <source>Mute/Unmute all Wallpaper</source>
-      <translation type="unfinished">Mute/Unmute all Wallpaper</translation>
+      <translation>静音/取消静音所有壁纸</translation>
     </message>
     <message>
       <source>Pause/Play all Wallpaper</source>
-      <translation type="unfinished">Pause/Play all Wallpaper</translation>
+      <translation>暂停/播放所有壁纸</translation>
     </message>
     <message>
       <source>Configure Wallpaper</source>
-      <translation type="unfinished">Configure Wallpaper</translation>
+      <translation>配置壁纸</translation>
     </message>
     <message>
       <source>Minimize to Tray</source>
-      <translation type="unfinished">Minimize to Tray</translation>
+      <translation>最小化到系统托盘</translation>
     </message>
     <message>
       <source>Exit</source>
-      <translation type="unfinished">Exit</translation>
+      <translation>退出</translation>
     </message>
     <message>
       <source>Are you sure you want to exit ScreenPlay? 
 This will shut down all Wallpaper and Widgets.</source>
-      <translation type="unfinished">Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</translation>
+      <translation>您确定要退出ScreenPlay吗？ 
+这将关闭所有壁纸和部件。</translation>
     </message>
   </context>
   <context>
     <name>PopupOffline</name>
     <message>
       <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
-      <translation type="unfinished">You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
+      <translation>您需要先运行Steam。steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
     </message>
     <message>
       <source>Back</source>
@@ -883,7 +883,7 @@ This will shut down all Wallpaper and Widgets.</translation>
     <name>ScreenPlayItem</name>
     <message>
       <source>NEW</source>
-      <translation type="unfinished">NEW</translation>
+      <translation>新</translation>
     </message>
   </context>
   <context>
@@ -1066,8 +1066,7 @@ This will shut down all Wallpaper and Widgets.</translation>
     <message>
       <source>ScreenPlay Build Version 
 </source>
-      <translation type="unfinished">ScreenPlay Build Version 
-</translation>
+      <translation>ScreenPlay构建版本</translation>
     </message>
   </context>
   <context>
@@ -1085,15 +1084,15 @@ This will shut down all Wallpaper and Widgets.</translation>
     </message>
     <message>
       <source>Video Import h264 (.mp4)</source>
-      <translation type="unfinished">Video Import h264 (.mp4)</translation>
+      <translation>视频导入 h264 (.mp4)</translation>
     </message>
     <message>
       <source>Video Import VP8 &amp; VP9 (.webm)</source>
-      <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
+      <translation>视频导入 VP8 &amp; VP9 (.webm)</translation>
     </message>
     <message>
       <source>Video import (all types)</source>
-      <translation type="unfinished">Video import (all types)</translation>
+      <translation>视频导入(所有类型)</translation>
     </message>
     <message>
       <source>GIF Wallpaper</source>
@@ -1200,11 +1199,11 @@ This will shut down all Wallpaper and Widgets.</translation>
     <name>StartInfo</name>
     <message>
       <source>Free tools to help you to create wallpaper</source>
-      <translation type="unfinished">Free tools to help you to create wallpaper</translation>
+      <translation>免费壁纸创建工具</translation>
     </message>
     <message>
       <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
-      <translation type="unfinished">Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</translation>
+      <translation>下面是一些非ScreenPlay提供的壁纸创建工具</translation>
     </message>
   </context>
   <context>
@@ -1229,87 +1228,87 @@ This will shut down all Wallpaper and Widgets.</translation>
     <name>SteamWorkshopStartPage</name>
     <message>
       <source>Loading</source>
-      <translation type="unfinished">Loading</translation>
+      <translation>加载中</translation>
     </message>
     <message>
       <source>Download now!</source>
-      <translation type="unfinished">Download now!</translation>
+      <translation>开始下载</translation>
     </message>
     <message>
       <source>Downloading...</source>
-      <translation type="unfinished">Downloading...</translation>
+      <translation>下载中...</translation>
     </message>
     <message>
       <source>Details</source>
-      <translation type="unfinished">Details</translation>
+      <translation>查看详情</translation>
     </message>
     <message>
       <source>Open In Steam</source>
-      <translation type="unfinished">Open In Steam</translation>
+      <translation>在Steam打开</translation>
     </message>
     <message>
       <source>Profile</source>
-      <translation type="unfinished">Profile</translation>
+      <translation>配置</translation>
     </message>
     <message>
       <source>Upload</source>
-      <translation type="unfinished">Upload</translation>
+      <translation>上传</translation>
     </message>
     <message>
       <source>Search for Wallpaper and Widgets...</source>
-      <translation type="unfinished">Search for Wallpaper and Widgets...</translation>
+      <translation>搜索壁纸和物件...</translation>
     </message>
     <message>
       <source>Open Workshop in Steam</source>
-      <translation type="unfinished">Open Workshop in Steam</translation>
+      <translation>在Steam中打开创意工坊</translation>
     </message>
     <message>
       <source>Ranked By Vote</source>
-      <translation type="unfinished">Ranked By Vote</translation>
+      <translation>评分最好</translation>
     </message>
     <message>
       <source>Publication Date</source>
-      <translation type="unfinished">Publication Date</translation>
+      <translation>发布日期</translation>
     </message>
     <message>
       <source>Ranked By Trend</source>
-      <translation type="unfinished">Ranked By Trend</translation>
+      <translation>评分趋势</translation>
     </message>
     <message>
       <source>Favorited By Friends</source>
-      <translation type="unfinished">Favorited By Friends</translation>
+      <translation>好友收藏</translation>
     </message>
     <message>
       <source>Created By Friends</source>
-      <translation type="unfinished">Created By Friends</translation>
+      <translation>好友创建</translation>
     </message>
     <message>
       <source>Created By Followed Users</source>
-      <translation type="unfinished">Created By Followed Users</translation>
+      <translation>已关注的</translation>
     </message>
     <message>
       <source>Not Yet Rated</source>
-      <translation type="unfinished">Not Yet Rated</translation>
+      <translation>尚未评分</translation>
     </message>
     <message>
       <source>Total VotesAsc</source>
-      <translation type="unfinished">Total VotesAsc</translation>
+      <translation>按总票数升序</translation>
     </message>
     <message>
       <source>Votes Up</source>
-      <translation type="unfinished">Votes Up</translation>
+      <translation>评分上升</translation>
     </message>
     <message>
       <source>Total Unique Subscriptions</source>
-      <translation type="unfinished">Total Unique Subscriptions</translation>
+      <translation>总订阅量</translation>
     </message>
     <message>
       <source>Back</source>
-      <translation type="unfinished">Back</translation>
+      <translation>返回</translation>
     </message>
     <message>
       <source>Forward</source>
-      <translation type="unfinished">Forward</translation>
+      <translation>前进</translation>
     </message>
   </context>
   <context>
@@ -1595,7 +1594,7 @@ This will shut down all Wallpaper and Widgets.</translation>
     </message>
     <message>
       <source>Password Required To Kick Session</source>
-      <translation type="unfinished">Password Required To Kick Session</translation>
+      <translation>启动会话需要密码</translation>
     </message>
     <message>
       <source>Already Logged In Elsewhere</source>
