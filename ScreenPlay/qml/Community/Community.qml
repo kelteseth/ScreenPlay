@@ -69,6 +69,15 @@ Item {
             }
 
             Button {
+                text: qsTr("Reddit")
+                onClicked: Qt.openUrlExternally("https://www.reddit.com/r/ScreenPlayApp/")
+                icon.source: "qrc:/assets/icons/brand_reddit.svg"
+                icon.width: 14
+                icon.height: 14
+                Layout.alignment: Qt.AlignVCenter
+            }
+
+            Button {
                 text: qsTr("Issue Tracker")
                 onClicked: Qt.openUrlExternally("https://gitlab.com/kelteseth/ScreenPlay/-/issues")
                 icon.source: "qrc:/assets/icons/icon_report_problem.svg"

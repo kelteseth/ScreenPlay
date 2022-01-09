@@ -49,10 +49,28 @@ Rectangle {
         setNavigation(name)
     }
 
-    height: 60
+    height: 89
     width: 1366
     color: Material.theme === Material.Light ? "white" : Material.background
     layer.enabled: true
+
+    Rectangle {
+        id:navBg
+        height:29
+        width:parent.width
+        color: Material.theme === Material.Light ? Material.background : "#242424"
+
+        Text {
+            id: title
+            text: qsTr("ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets").arg(ScreenPlay.version())
+            color: Material.primaryTextColor
+            anchors{
+                left:parent.left
+                leftMargin: 20
+                verticalCenter: parent.verticalCenter
+            }
+        }
+    }
 
     MouseArea {
         id: mouseArea
@@ -77,6 +95,34 @@ Rectangle {
         }
     }
 
+    RowLayout {
+        anchors {
+            top:navBg.top
+            right: navBg.right
+            bottom: navBg.bottom
+        }
+
+        WindowNavButton {
+            id: miMinimize
+            Layout.alignment: Qt.AlignVCenter
+            icon.source: "qrc:/assets/icons/icon_minimize.svg"
+            onClicked: root.window.hide()
+        }
+        WindowNavButton {
+            id: miquit
+            Layout.alignment: Qt.AlignVCenter
+            icon.source: "qrc:/assets/icons/icon_close.svg"
+            onClicked: {
+                if(ScreenPlay.screenPlayManager.activeWallpaperCounter === 0
+                        && ScreenPlay.screenPlayManager.activeWidgetsCounter === 0){
+                    Qt.quit()
+                    return
+                }
+                dialog.open()
+            }
+        }
+    }
+
     Connections {
         function onRequestNavigationActive(isActive) {
             setActive(isActive)
@@ -89,12 +135,21 @@ Rectangle {
         target: ScreenPlay.util
     }
 
+
+
+
     Row {
         id: row
+        height: 60
 
-        anchors.fill: parent
-        anchors.left: parent.left
-        anchors.leftMargin: 20
+        anchors {
+            top:parent.top
+            topMargin: navBg.height
+            right: parent.right
+            left: parent.left
+            leftMargin: 20
+        }
+
         spacing: 0
 
         NavigationItem {
@@ -165,10 +220,28 @@ Rectangle {
         radius: 3
     }
 
+
+    RowLayout {
+        anchors {
+            top: parent.top
+            topMargin: navBg.height
+            right: quickActionRow.left
+            rightMargin: 20
+            bottom: parent.bottom
+        }
+
+        ToolButton {
+            icon.source: "qrc:/assets/icons/font-awsome/patreon-brands.svg"
+            text: qsTr("Support me on Patreon!")
+            onClicked: Qt.openUrlExternally("https://www.patreon.com/ScreenPlayApp")
+        }
+    }
+
     RowLayout {
         id: quickActionRow
         anchors {
             top: parent.top
+            topMargin: navBg.height
             right: parent.right
             rightMargin: 10
             bottom: parent.bottom
@@ -234,6 +307,25 @@ Rectangle {
             ToolTip.text: qsTr("Pause/Play all Wallpaper")
             ToolTip.visible: hovered
         }
+
+        ToolButton {
+            id: miCloseAll
+            enabled: quickActionRow.contentActive
+            Layout.alignment: Qt.AlignVCenter
+            icon.source: "qrc:/assets/icons/icon_close.svg"
+            icon.width: root.iconWidth
+            icon.height: root.iconHeight
+            icon.color: Material.iconColor
+            onClicked: {
+                ScreenPlay.screenPlayManager.removeAllWallpapers()
+                ScreenPlay.screenPlayManager.removeAllWidgets()
+            }
+
+            hoverEnabled: true
+            ToolTip.text: qsTr("Close All Content")
+            ToolTip.visible: hovered
+        }
+
         ToolButton {
                 id: miConfig
                 Layout.alignment: Qt.AlignVCenter
@@ -246,41 +338,9 @@ Rectangle {
                 ToolTip.visible: hovered
             }
 
-        Rectangle  {
-            color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(Material.background)
-            height: quickActionRowBackground.height
-            width: 1
-        }
 
-        ToolButton {
-            id: miMinimize
-            Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_minimize.svg"
-            icon.width: root.iconWidth
-            icon.height: root.iconHeight
-            onClicked: root.window.hide()
-            hoverEnabled: true
-            ToolTip.text: qsTr("Minimize to Tray")
-            ToolTip.visible: hovered
-        }
-        ToolButton {
-            id: miquit
-            Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_close.svg"
-            icon.width: root.iconWidth
-            icon.height: root.iconHeight
-            onClicked: {
-                if(ScreenPlay.screenPlayManager.activeWallpaperCounter === 0
-                        && ScreenPlay.screenPlayManager.activeWidgetsCounter === 0){
-                    Qt.quit()
-                    return
-                }
-                dialog.open()
-            }
-            hoverEnabled: true
-            ToolTip.text: qsTr("Exit")
-            ToolTip.visible: hovered
-        }
+
+
 
         Dialog {
             id: dialog
