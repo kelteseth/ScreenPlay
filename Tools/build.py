@@ -89,7 +89,7 @@ if __name__ == "__main__":
 	args = parser.parse_args()
 
 	if not args.build_type:
-		print("Build type argument is missing (release, debug). E.g: python build.py -t release -steam=True")
+		print("Build type argument is missing (release, debug). E.g: python build.py -type release -steam")
 		exit(1)
 
 	root_path = Path.cwd()
