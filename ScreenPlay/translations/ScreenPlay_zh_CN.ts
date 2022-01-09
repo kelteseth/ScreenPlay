@@ -82,6 +82,10 @@
         <source>Issue Tracker</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Reddit</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>CommunityNavItem</name>
@@ -762,16 +766,20 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Minimize to Tray</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Exit</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Are you sure you want to exit ScreenPlay? 
 This will shut down all Wallpaper and Widgets.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Support me on Patreon!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close All Content</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

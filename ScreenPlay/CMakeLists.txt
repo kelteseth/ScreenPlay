@@ -137,26 +137,21 @@ set(QML
     qml/Create/Wizards/Importh264/Importh264Convert.qml
     qml/Create/Wizards/Importh264/Importh264Init.qml)
 
-list(
-    APPEND
-    L10N_LIST
+set(TS_FILES
     # cmake-format: sortable
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_tr_TR.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_it_IT.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_nl_NL.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_de_DE.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_pl_PL.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_zh_CN.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_pt_BR.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_es_ES.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_fr_FR.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ko_KR.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_ru_RU.ts
-    ${CMAKE_CURRENT_SOURCE_DIR}/translations/ScreenPlay_vi_VN.ts)
-
-include(QtUpdateTranslations)
-qt_update_translations("${CMAKE_CURRENT_SOURCE_DIR}/qml" "${L10N_LIST}")
+    translations/ScreenPlay_.ts
+    translations/ScreenPlay_tr_TR.ts
+    translations/ScreenPlay_it_IT.ts
+    translations/ScreenPlay_nl_NL.ts
+    translations/ScreenPlay_de_DE.ts
+    translations/ScreenPlay_pl_PL.ts
+    translations/ScreenPlay_zh_CN.ts
+    translations/ScreenPlay_pt_BR.ts
+    translations/ScreenPlay_es_ES.ts
+    translations/ScreenPlay_fr_FR.ts
+    translations/ScreenPlay_ko_KR.ts
+    translations/ScreenPlay_ru_RU.ts
+    translations/ScreenPlay_vi_VN.ts)
 
 # Needed on macos
 find_package(Threads REQUIRED)
@@ -180,6 +175,7 @@ find_package(
 
 qt_add_resources(RESOURCES Resources.qrc)
 qt_add_big_resources(FONTS fonts.qrc)
+
 
 add_library(ScreenPlayLib ${SOURCES} ${HEADER} ${RESOURCES} ${FONTS})
 
@@ -206,9 +202,24 @@ endif()
 qt_add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
 
+set_source_files_properties(${TS_FILES}
+    PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
+
+# qt_add_lupdate does not work for some reason. Lets do it manually:
+find_program(LUPDATE_EXECUTABLE lupdate)
+foreach(_ts_file ${TS_FILES})
+    message(STATUS "Update Translation: ${_ts_file}")
+    execute_process(COMMAND ${LUPDATE_EXECUTABLE} -noobsolete -locations none -recursive ${CMAKE_CURRENT_SOURCE_DIR}/qml -ts ${CMAKE_CURRENT_SOURCE_DIR}/${_ts_file} OUTPUT_QUIET)
+endforeach()
+
+qt_add_lrelease(
+    ${PROJECT_NAME}
+    TS_FILES
+    ${TS_FILES}
+    )
+
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-qt_add_translation(qmFiles ${l10n})
 qt_add_qml_module(
     ${PROJECT_NAME}
     URI

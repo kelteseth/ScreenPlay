@@ -122,38 +122,12 @@
         <file>assets/icons/steam_default_avatar.png</file>
         <file>assets/macos/app.screenplay.plist</file>
         <file>assets/icons/item_banner_new.svg</file>
-        <file>translations/ScreenPlay_de_DE.qm</file>
-        <file>translations/ScreenPlay_es_ES.qm</file>
-        <file>translations/ScreenPlay_fr_FR.qm</file>
-        <file>translations/ScreenPlay_ko_KR.qm</file>
-        <file>translations/ScreenPlay_pt_BR.qm</file>
-        <file>translations/ScreenPlay_ru_RU.qm</file>
-        <file>translations/ScreenPlay_vi_VN.qm</file>
-        <file>translations/ScreenPlay_zh_CN.qm</file>
-        <file>translations/ScreenPlay_.qm</file>
-        <file>translations/ScreenPlay_.ts</file>
-        <file>translations/ScreenPlay_de_DE.ts</file>
-        <file>translations/ScreenPlay_es_ES.ts</file>
-        <file>translations/ScreenPlay_fr_FR.ts</file>
-        <file>translations/ScreenPlay_ko_KR.ts</file>
-        <file>translations/ScreenPlay_pt_BR.ts</file>
-        <file>translations/ScreenPlay_ru_RU.ts</file>
-        <file>translations/ScreenPlay_vi_VN.ts</file>
-        <file>translations/ScreenPlay_zh_CN.ts</file>
-        <file>translations/ScreenPlay_tr_TR.qm</file>
-        <file>translations/ScreenPlay_tr_TR.ts</file>
-        <file>translations/ScreenPlay_nl_NL.qm</file>
-        <file>translations/ScreenPlay_nl_NL.ts</file>
-        <file>translations/ScreenPlay_it_IT.qm</file>
-        <file>translations/ScreenPlay_it_IT.ts</file>
         <file>qml/Create/WizardsFiles/HTMLWallpaperMain.html</file>
         <file>qml/Create/WizardsFiles/HTMLWidgetMain.html</file>
         <file>assets/icons/icon_minimize.svg</file>
         <file>assets/icons/icon_video_settings_black_24dp.svg</file>
         <file>qml/Create/WizardsFiles/QMLWallpaperMain.qml</file>
         <file>qml/Create/WizardsFiles/QMLWidgetMain.qml</file>
-        <file>translations/ScreenPlay_pl_PL.qm</file>
-        <file>translations/ScreenPlay_pl_PL.ts</file>
         <file>assets/icons/font-awsome/patreon-brands.svg</file>
     </qresource>
 </RCC>
