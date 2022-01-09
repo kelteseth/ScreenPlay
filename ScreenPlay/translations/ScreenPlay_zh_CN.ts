@@ -80,7 +80,7 @@
     </message>
     <message>
         <source>Issue Tracker</source>
-        <translation type="unfinished"></translation>
+        <translation>问题跟踪器</translation>
     </message>
     <message>
         <source>Reddit</source>
@@ -142,6 +142,10 @@
 </context>
 <context>
     <name>CreateWallpaperVideoImportConvert</name>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
     <message>
         <source>Generating preview image...</source>
         <translation>生成预览图...</translation>
@@ -265,15 +269,15 @@
     <name>Forum</name>
     <message>
         <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
-        <translation>从我们的社区手动下载壁纸与部件 如果您想要下载Steam创意工坊内容，您须要通过Steam安装ScreemPlay。</translation>
+        <translation>从我们的论坛手动下载壁纸和小部件。如果您想要下载 Steam 创意工坊内容，您必须通过 Steam 安装ScreenPlay。</translation>
     </message>
     <message>
         <source>Install Steam Version</source>
-        <translation>安装Steam版本</translation>
+        <translation>安装 Steam 版本</translation>
     </message>
     <message>
         <source>Open In Browser</source>
-        <translation>浏览器中打开</translation>
+        <translation>在浏览器中打开</translation>
     </message>
 </context>
 <context>
@@ -385,6 +389,10 @@
 </context>
 <context>
     <name>ImportWebmConvert</name>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
     <message>
         <source>AnalyseVideo...</source>
         <translation>分析视频...</translation>
@@ -505,11 +513,11 @@
     </message>
     <message>
         <source>Converting Audio...</source>
-        <translation>转换音频...</translation>
+        <translation>正在转换音频...</translation>
     </message>
     <message>
         <source>Converting Video... This can take some time!</source>
-        <translation>转换视频... 这可能需要一些时间！</translation>
+        <translation>正在转换视频... 这可能需要一些时间！</translation>
     </message>
     <message>
         <source>Converting Video ERROR!</source>
@@ -529,7 +537,7 @@
     </message>
     <message>
         <source>Name (required!)</source>
-        <translation>名称（必选）</translation>
+        <translation>名称 （必填）</translation>
     </message>
     <message>
         <source>Description</source>
@@ -556,19 +564,19 @@
     <name>Importh264Init</name>
     <message>
         <source>Import a .mp4 video</source>
-        <translation>导入.mp4视频</translation>
+        <translation>导入 .mp4 视频</translation>
     </message>
     <message>
         <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-        <translation>ScreenPlay V0.15以上可播放.mp4(通常称为h264)。这将提升在旧的系统上的性能.</translation>
+        <translation>ScreenPlay V0.15及以上可播放 *.mp4 (通常称为h264)，这可以提高旧系统上的性能。</translation>
     </message>
     <message>
         <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
-        <translation>无效文件类型，必须为合法的h264（.mp4）！</translation>
+        <translation>文件类型无效。必须是有效的 h264 (*.mp4)！</translation>
     </message>
     <message>
         <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
-        <translation>拖入.mp4文件到此处，或者使用下方的“选择文件”</translation>
+        <translation>将*.mp4文件拖入此处，或使用下面的 &apos;选择文件&apos;。</translation>
     </message>
     <message>
         <source>Open Documentation</source>
@@ -581,6 +589,10 @@
 </context>
 <context>
     <name>Installed</name>
+    <message>
+        <source></source>
+        <translation></translation>
+    </message>
     <message>
         <source>Refreshing!</source>
         <translation>刷新中！</translation>
@@ -637,7 +649,7 @@
     </message>
     <message>
         <source>You grant other to remix your work and change the license to their liking.</source>
-        <translation>您允许他人重制您的作品及改变许可证</translation>
+        <translation>您授权他人对您的作品进行再创作，并更改其链接的许可证。</translation>
     </message>
     <message>
         <source>Share — copy and redistribute the material in any medium or format. Adapt — remix, transform, and build upon the material. You are not allowed to use it commercially! </source>
@@ -685,7 +697,7 @@
     </message>
     <message>
         <source>Remove all </source>
-        <translation type="unfinished"></translation>
+        <translation>移除所有</translation>
     </message>
 </context>
 <context>
@@ -755,20 +767,21 @@
     </message>
     <message>
         <source>Mute/Unmute all Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>静音/取消静音所有壁纸</translation>
     </message>
     <message>
         <source>Pause/Play all Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>暂停/播放所有壁纸</translation>
     </message>
     <message>
         <source>Configure Wallpaper</source>
-        <translation type="unfinished"></translation>
+        <translation>配置壁纸</translation>
     </message>
     <message>
         <source>Are you sure you want to exit ScreenPlay? 
 This will shut down all Wallpaper and Widgets.</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要退出ScreenPlay吗？ 
+这将关闭所有壁纸和部件。</translation>
     </message>
     <message>
         <source>ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets</source>
@@ -787,7 +800,7 @@ This will shut down all Wallpaper and Widgets.</source>
     <name>PopupOffline</name>
     <message>
         <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
-        <translation>此功能需要启动Steam。 steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
+        <translation>您需要先运行Steam。steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
     </message>
     <message>
         <source>Back</source>
@@ -1019,12 +1032,6 @@ This will shut down all Wallpaper and Widgets.</source>
         <translation>版本</translation>
     </message>
     <message>
-        <source>ScreenPlay Build Version 
-</source>
-        <translation>ScreenPlay编译版本
-</translation>
-    </message>
-    <message>
         <source>Open Changelog</source>
         <translation>打开更改日志。</translation>
     </message>
@@ -1064,6 +1071,11 @@ This will shut down all Wallpaper and Widgets.</source>
         <source>Privacy</source>
         <translation>隐私</translation>
     </message>
+    <message>
+        <source>ScreenPlay Build Version 
+</source>
+        <translation>ScreenPlay构建版本</translation>
+    </message>
 </context>
 <context>
     <name>SettingsExpander</name>
@@ -1080,7 +1092,7 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>Video Import h264 (.mp4)</source>
-        <translation>视频导入 h264(.mp4)</translation>
+        <translation>视频导入 h264 (.mp4)</translation>
     </message>
     <message>
         <source>Video Import VP8 &amp; VP9 (.webm)</source>
@@ -1088,7 +1100,7 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>Video import (all types)</source>
-        <translation>视频导入 (所有类型)</translation>
+        <translation>视频导入(所有类型)</translation>
     </message>
     <message>
         <source>GIF Wallpaper</source>
@@ -1195,11 +1207,11 @@ This will shut down all Wallpaper and Widgets.</source>
     <name>StartInfo</name>
     <message>
         <source>Free tools to help you to create wallpaper</source>
-        <translation>免费的壁纸创建工具</translation>
+        <translation>免费壁纸创建工具</translation>
     </message>
     <message>
         <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
-        <translation>在下面有一些创建壁纸的工具，功能比ScreenPlay所提供的更为强大！</translation>
+        <translation>下面是一些非ScreenPlay提供的壁纸创建工具</translation>
     </message>
 </context>
 <context>
@@ -1224,7 +1236,7 @@ This will shut down all Wallpaper and Widgets.</source>
     <name>SteamWorkshopStartPage</name>
     <message>
         <source>Loading</source>
-        <translation>正在加载</translation>
+        <translation>加载中</translation>
     </message>
     <message>
         <source>Download now!</source>
@@ -1240,7 +1252,7 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>Open In Steam</source>
-        <translation>Steam中打开</translation>
+        <translation>在Steam打开</translation>
     </message>
     <message>
         <source>Profile</source>
@@ -1284,7 +1296,7 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>Not Yet Rated</source>
-        <translation>尚无评分</translation>
+        <translation>尚未评分</translation>
     </message>
     <message>
         <source>Total VotesAsc</source>
@@ -1296,11 +1308,11 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>Total Unique Subscriptions</source>
-        <translation>订阅总数</translation>
+        <translation>总订阅量</translation>
     </message>
     <message>
         <source>Back</source>
-        <translation>后退</translation>
+        <translation>返回</translation>
     </message>
     <message>
         <source>Forward</source>
@@ -1590,7 +1602,7 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>Password Required To Kick Session</source>
-        <translation>需要密码以启动会话</translation>
+        <translation>启动会话需要密码</translation>
     </message>
     <message>
         <source>Already Logged In Elsewhere</source>

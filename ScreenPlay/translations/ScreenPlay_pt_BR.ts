@@ -80,7 +80,7 @@
     </message>
     <message>
         <source>Issue Tracker</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Issue Tracker</translation>
     </message>
     <message>
         <source>Reddit</source>
@@ -697,7 +697,7 @@
     </message>
     <message>
         <source>Remove all </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Remove all </translation>
     </message>
 </context>
 <context>

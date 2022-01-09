@@ -80,7 +80,7 @@
     </message>
     <message>
         <source>Issue Tracker</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Issue Tracker</translation>
     </message>
     <message>
         <source>Reddit</source>
@@ -697,7 +697,7 @@
     </message>
     <message>
         <source>Remove all </source>
-        <translation type="unfinished"></translation>
+        <translation>Usuń wszystkie </translation>
     </message>
 </context>
 <context>
@@ -929,7 +929,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
         <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-        <translation type="unfinished">Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</translation>
+        <translation>Pomóż nam poprawić działanie oraz stabilność ScreenPlay. Wszystkie zgromadzone dane są w pełni anonimowe i używane tylko w celach rozwoju! Korzystamy z &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt;, aby gromadzić i analizować te dane. &lt;b&gt;Ogromne podziękowania dla nich&lt;/b&gt; za zapewnienie nam bezpłatnego wsparcia premium dla projektów o otwartym źródle!</translation>
     </message>
     <message>
         <source>Set save location</source>
@@ -981,11 +981,11 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
         <source>Pause wallpaper video rendering while another app is in the foreground</source>
-        <translation type="unfinished">Pause wallpaper video rendering while another app is in the foreground</translation>
+        <translation>Wstrzymaj renderowanie tapety wideo, gdy inna aplikacja jest na pierwszym planie</translation>
     </message>
     <message>
         <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-        <translation type="unfinished">We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</translation>
+        <translation>Wyłączamy renderowanie wideo (dźwięk zostaje!) dla najlepszej wydajności. W przypadku problemów, możesz wyłączyć tę funkcję tutaj. Wymaga ponownego uruchomienia tapety!</translation>
     </message>
     <message>
         <source>Default Fill Mode</source>
@@ -1041,7 +1041,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
         <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-        <translation type="unfinished">ScreenPlay would not be possible without the work of others. A big thank you to: </translation>
+        <translation>ScreenPlay nie powstałoby gdyby nie prace innych osób. Ogromne podziękowania dla: </translation>
     </message>
     <message>
         <source>Licenses</source>
@@ -1623,7 +1623,7 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     </message>
     <message>
         <source>Disk Full</source>
-        <translation type="unfinished">Disk Full</translation>
+        <translation>Brak miejsca na dysku</translation>
     </message>
     <message>
         <source>Remote Call Failed</source>
