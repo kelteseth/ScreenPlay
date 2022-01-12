@@ -84,7 +84,7 @@
     </message>
     <message>
       <source>Reddit</source>
-      <translation type="unfinished">Reddit</translation>
+      <translation>Reddit</translation>
     </message>
   </context>
   <context>
@@ -208,7 +208,7 @@
     </message>
     <message>
       <source>Save Wallpaper...</source>
-      <translation>保存壁纸...</translation>
+      <translation>保存壁纸到...</translation>
     </message>
   </context>
   <context>
@@ -785,15 +785,15 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
       <source>ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets</source>
-      <translation type="unfinished">ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets</translation>
+      <translation>ScreenPlay Alpha %1  - 开源壁纸与部件</translation>
     </message>
     <message>
       <source>Support me on Patreon!</source>
-      <translation type="unfinished">Support me on Patreon!</translation>
+      <translation>在Patreon上支持！</translation>
     </message>
     <message>
       <source>Close All Content</source>
-      <translation type="unfinished">Close All Content</translation>
+      <translation>关闭所有内容</translation>
     </message>
   </context>
   <context>
