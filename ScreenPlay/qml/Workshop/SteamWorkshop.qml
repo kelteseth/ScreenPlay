@@ -11,6 +11,8 @@ import "upload/"
 Item {
     id: root
 
+    required property var modalSource
+
     ScreenPlayWorkshop {
         id: screenPlayWorkshop
         Component.onCompleted: {
@@ -19,7 +21,8 @@ Item {
                                    "stackView": stackView,
                                    "screenPlayWorkshop": screenPlayWorkshop,
                                    "steamWorkshop": screenPlayWorkshop.steamWorkshop,
-                                   "background": background
+                                   "background": background,
+                                   "modalSource": root.modalSource
                                })
             } else {
                 popupOffline.open()
@@ -39,6 +42,7 @@ Item {
         id: popupOffline
         workshop: screenPlayWorkshop
         steam: screenPlayWorkshop.steamWorkshop
+        modalSource: root.modalSource
     }
 
     StackView {

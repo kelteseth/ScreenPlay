@@ -6,13 +6,14 @@ import "../"
 Dialog {
     id: root
     property var modalSource
+    Overlay.modal: ModalBackgroundBlur {
+        sourceItem: root.modalSource
+    }
 
     modal: true
     anchors.centerIn: Overlay.overlay
     standardButtons: Dialog.Ok
     title: qsTr("Could not load steam integration!")
 
-    Overlay.modal: ModalBackgroundBlur {
-        sourceItem: root.modalSource
-    }
+
 }

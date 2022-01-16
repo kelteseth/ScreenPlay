@@ -14,6 +14,10 @@ Popup {
     height: 400
     closePolicy: Popup.NoAutoClose
     anchors.centerIn: Overlay.overlay
+    property var modalSource
+    Overlay.modal: ModalBackgroundBlur {
+        sourceItem: root.modalSource
+    }
 
     ColumnLayout {
         anchors {

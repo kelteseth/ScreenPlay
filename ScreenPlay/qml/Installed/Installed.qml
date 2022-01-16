@@ -12,7 +12,8 @@ Item {
 
     property bool refresh: false
     property bool enabled: true
-    property Sidebar sidebar
+
+    required property Sidebar sidebar
 
     signal setNavigationItem(var pos)
     signal setSidebarActive(var active)

@@ -16,6 +16,7 @@ Item {
     property ScreenPlayWorkshop screenPlayWorkshop
     property StackView stackView
     property Background background
+    property var modalSource
 
     Component.onCompleted: {
         root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend)
@@ -51,6 +52,7 @@ Item {
 
     PopupSteamWorkshopAgreement {
         id: popupSteamWorkshopAgreement
+        modalSource: root.modalSource
     }
 
     Connections {

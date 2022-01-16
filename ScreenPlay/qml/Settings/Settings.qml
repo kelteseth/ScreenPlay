@@ -12,6 +12,8 @@ import "../Common"
 Item {
     id: root
 
+    required property var modalSource
+
     function indexOfValue(model, value) {
         for (var i = 0; i < model.length; i++) {
             let ourValue = model[i].value;

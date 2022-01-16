@@ -12,6 +12,8 @@ import ScreenPlay.QMLUtilities 1.0
 Item {
     id: root
 
+    required property var modalSource
+
     Component.onCompleted: {
         wizardContentWrapper.state = "in";
         stackView.push("qrc:/ScreenPlay/qml/Create/StartInfo.qml");
