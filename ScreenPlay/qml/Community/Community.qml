@@ -34,14 +34,13 @@ Item {
         RowLayout {
             id: nav
 
-            height: parent.height
+            anchors.fill: parent
 
-            anchors {
-                top: parent.top
-                left: parent.left
-                leftMargin: 20
-                bottom: parent.bottom
+            Item {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
             }
+
 
             Button {
                 text: qsTr("News")
@@ -110,6 +109,12 @@ Item {
                 icon.height: 14
                 Layout.alignment: Qt.AlignVCenter
             }
+
+            Item {
+                Layout.fillHeight: true
+                Layout.fillWidth: true
+            }
+
         }
     }
 
