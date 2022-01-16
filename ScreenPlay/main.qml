@@ -43,7 +43,9 @@ ApplicationWindow {
                               })
             return
         }
-        stackView.replace("qrc:/ScreenPlay/qml/" + name + "/" + name + ".qml")
+        stackView.replace("qrc:/ScreenPlay/qml/" + name + "/" + name + ".qml", {
+                              "modalSource": content
+                          })
         sidebar.state = "inactive"
     }
 

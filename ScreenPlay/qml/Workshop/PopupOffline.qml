@@ -1,9 +1,11 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import Workshop 1.0
 import ScreenPlay 1.0
+import "../Common"
 
 Popup {
     id: popupOffline
@@ -15,36 +17,62 @@ Popup {
     anchors.centerIn: Overlay.overlay
     dim: true
 
-    property ScreenPlayWorkshop workshop
-    property SteamWorkshop steam
-
-    Text {
-        id: txtOffline
-
-        anchors.centerIn: parent
-        font.family: ScreenPlay.settings.font
-        font.pointSize: 21
-        color: Material.foreground
-        text: qsTr("You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2").arg(steam.steamErrorRestart).arg(steam.steamErrorAPIInit)
-    }
-
-    Button {
-        highlighted: true
-        text: qsTr("Back")
-        onClicked: {
-            ScreenPlay.util.setNavigation("Installed");
-            popupOffline.close();
-        }
-
-        anchors {
-            horizontalCenter: parent.horizontalCenter
-            top: txtOffline.bottom
-        }
-
-    }
-
     background: Rectangle {
         color: Material.theme === Material.Light ? "white" : Material.background
     }
+    required property ScreenPlayWorkshop workshop
+    required property SteamWorkshop steam
+    required property var modalSource
+    Overlay.modal: ModalBackgroundBlur {
+        sourceItem: root.modalSource
+    }
 
+    ColumnLayout {
+        anchors.fill: parent
+        anchors.margins: 40
+        spacing: 20
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+
+        Image {
+            source: "qrc:/assets/images/steam_offline.png"
+            Layout.alignment: Qt.AlignHCenter
+        }
+
+        Text {
+            font.family: ScreenPlay.settings.font
+            font.pointSize: 16
+            horizontalAlignment: Text.AlignHCenter
+            Layout.alignment: Qt.AlignHCenter
+            color: Material.primaryTextColor
+            text: qsTr(
+                      "You need to run Steam to access the Steam Workshop").arg(
+                      steam.steamErrorRestart).arg(steam.steamErrorAPIInit)
+        }
+        Text {
+            font.family: ScreenPlay.settings.font
+            font.pointSize: 12
+            horizontalAlignment: Text.AlignHCenter
+            Layout.alignment: Qt.AlignHCenter
+            color: Material.secondaryTextColor
+            text: qsTr("Steam Error Restart: %1\nSteam Error API Init: %2").arg(
+                      steam.steamErrorRestart).arg(steam.steamErrorAPIInit)
+        }
+
+        Button {
+            highlighted: true
+            text: qsTr("Back")
+            Layout.alignment: Qt.AlignHCenter
+            onClicked: {
+                ScreenPlay.util.setNavigation("Installed")
+                popupOffline.close()
+            }
+        }
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
+        }
+    }
 }
