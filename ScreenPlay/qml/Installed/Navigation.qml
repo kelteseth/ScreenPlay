@@ -9,7 +9,7 @@ import ScreenPlay.Enums.SearchType 1.0
 import "../Common" as Common
 
 Item {
-    id: navWrapper
+    id: root
 
     state: "out"
     height: 52
@@ -182,7 +182,7 @@ Item {
             name: "out"
 
             PropertyChanges {
-                target: navWrapper
+                target: root
                 anchors.topMargin: -115
             }
 
@@ -191,7 +191,7 @@ Item {
             name: "in"
 
             PropertyChanges {
-                target: navWrapper
+                target: root
                 anchors.topMargin: 0
             }
 
@@ -203,7 +203,7 @@ Item {
             to: "in"
 
             NumberAnimation {
-                target: navWrapper
+                target: root
                 property: "anchors.topMargin"
                 duration: 400
                 easing.type: Easing.InOutQuart

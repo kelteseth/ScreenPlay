@@ -125,6 +125,7 @@ set(QML
     qml/Create/WizardsFiles/QMLWidgetMain.qml
     qml/Create/WizardsFiles/QMLWallpaperMain.qml
     qml/Common/LicenseSelector.qml
+    qml/Common/ModalBackgroundBlur.qml
     qml/Common/Util.js
     qml/Common/Dialogs/CriticalError.qml
     qml/Common/ColorPicker.qml

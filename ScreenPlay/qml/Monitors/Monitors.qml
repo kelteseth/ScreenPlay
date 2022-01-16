@@ -9,10 +9,15 @@ import ScreenPlay.Enums.InstalledType 1.0
 import "../Common/" as SP
 
 Popup {
-    id: monitors
+    id: root
 
     property string activeMonitorName: ""
     property int activeMonitorIndex
+    property var modalSource
+
+    Overlay.modal: SP.ModalBackgroundBlur {
+        sourceItem: root.modalSource
+    }
 
     width: 1000
     height: 500
@@ -26,7 +31,7 @@ Popup {
 
     Connections {
         function onRequestToggleWallpaperConfiguration() {
-            monitors.open();
+            root.open();
         }
 
         target: ScreenPlay.util
@@ -152,7 +157,7 @@ Popup {
                         if (!ScreenPlay.screenPlayManager.removeAllWallpapers())
                             print("Unable to close all wallpaper!");
 
-                        monitors.close();
+                        root.close();
                     }
                 }
 
@@ -169,7 +174,7 @@ Popup {
                         if (!ScreenPlay.screenPlayManager.removeAllWidgets())
                             print("Unable to close all widgets!");
 
-                        monitors.close();
+                        root.close();
                     }
                 }
 
@@ -195,7 +200,7 @@ Popup {
             DefaultVideoControls {
                 id: videoControlWrapper
 
-                activeMonitorIndex: monitors.activeMonitorIndex
+                activeMonitorIndex: root.activeMonitorIndex
                 state: "hidden"
                 anchors.fill: parent
                 anchors.margins: 10
@@ -246,7 +251,7 @@ Popup {
             icon.height: 16
             icon.source: "qrc:/assets/icons/font-awsome/close.svg"
             icon.color: Material.iconColor
-            onClicked: monitors.close()
+            onClicked: root.close()
 
             anchors {
                 top: parent.top
@@ -262,7 +267,7 @@ Popup {
 
             Connections {
                 function onProfilesSaved() {
-                    if (monitors.opened)
+                    if (root.opened)
                         saveNotification.open();
 
                 }

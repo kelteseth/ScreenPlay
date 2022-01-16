@@ -3,14 +3,21 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 import ScreenPlay 1.0
+import "../"
 
 Dialog {
     id: dialogMonitorConfigurationChanged
 
+    property var modalSource
     modal: true
+
     anchors.centerIn: Overlay.overlay
     standardButtons: Dialog.Ok
     contentHeight: 250
+
+    Overlay.modal: ModalBackgroundBlur {
+        sourceItem: root.modalSource
+    }
 
     Connections {
         function onMonitorConfigurationChanged() {
@@ -50,3 +57,4 @@ Dialog {
     }
 
 }
+ 

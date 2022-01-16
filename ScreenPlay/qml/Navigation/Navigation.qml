@@ -16,8 +16,10 @@ Rectangle {
     property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity]
     property bool navActive: true
     property ApplicationWindow window
+    property var modalSource
     property int iconWidth: 16
     property int iconHeight: iconWidth
+
 
     signal changePage(string name)
 
@@ -345,6 +347,10 @@ Rectangle {
         Dialog {
             id: dialog
             anchors.centerIn: Overlay.overlay
+
+            Overlay.modal: ModalBackgroundBlur {
+                sourceItem: root.modalSource
+            }
             title: qsTr("Are you sure you want to exit ScreenPlay? \nThis will shut down all Wallpaper and Widgets.")
             standardButtons: Dialog.Ok | Dialog.Cancel
             onAccepted: Qt.quit()

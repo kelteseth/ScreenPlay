@@ -5,14 +5,18 @@ import QtQuick.Controls.Material
 import QtQuick.Window
 import Qt5Compat.GraphicalEffects
 import ScreenPlay 1.0
+import "../"
 
 Dialog {
     id: root
 
     property ApplicationWindow window
     property string message
+    property var modalSource
 
-    modal: true
+    Overlay.modal: ModalBackgroundBlur {
+        sourceItem: root.modalSource
+    }
     anchors.centerIn: Overlay.overlay
     standardButtons: Dialog.Ok | Dialog.Help
     onHelpRequested: {
