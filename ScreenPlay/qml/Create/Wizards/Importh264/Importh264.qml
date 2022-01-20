@@ -9,9 +9,9 @@ import ScreenPlay.Create 1.0
 Item {
     id: root
 
-    signal wizardStarted()
-    signal wizardExited()
-    signal next()
+    signal wizardStarted
+    signal wizardExited
+    signal next
 
     SwipeView {
         id: swipeView
@@ -21,12 +21,12 @@ Item {
         clip: true
 
         Importh264Init {
-            onNext: (filePath) =>{
-                root.wizardStarted();
-                swipeView.currentIndex = 1;
-                createWallpaperVideoImportConvert.filePath = filePath;
-                ScreenPlay.util.setNavigationActive(false);
-                ScreenPlay.create.importH264(filePath);
+            onNext: function (filePath) {
+                root.wizardStarted()
+                swipeView.currentIndex = 1
+                createWallpaperVideoImportConvert.filePath = filePath
+                ScreenPlay.util.setNavigationActive(false)
+                ScreenPlay.create.importH264(filePath)
             }
         }
 
@@ -35,7 +35,5 @@ Item {
 
             onExit: root.wizardExited()
         }
-
     }
-
 }

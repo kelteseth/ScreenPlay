@@ -775,15 +775,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Support me on Patreon!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -795,11 +786,16 @@ This will shut down all Wallpaper and Widgets.</source>
 <context>
     <name>PopupOffline</name>
     <message>
-        <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
+        <source>Back</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Back</source>
+        <source>You need to run Steam to access the Steam Workshop</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Steam Error Restart: %1
+Steam Error API Init: %2</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1905,6 +1901,18 @@ This will shut down all Wallpaper and Widgets.</source>
     </message>
     <message>
         <source>Preview Image</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>WindowNavigation</name>
+    <message>
+        <source>ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to exit ScreenPlay? 
+This will shut down all Wallpaper and Widgets.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

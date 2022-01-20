@@ -83,34 +83,7 @@ ApplicationWindow {
     }
 
     Item {
-        id: content
-        anchors.fill: parent
-        anchors.margins: 1
-
-        Connections {
-            function onThemeChanged(theme) {
-                setTheme(theme)
-            }
-
-            target: ScreenPlay.settings
-        }
-
-        Connections {
-            function onRequestNavigation(nav) {
-                switchPage(nav)
-            }
-
-            target: ScreenPlay.util
-        }
-
-        Connections {
-            function onRequestRaise() {
-                root.show()
-            }
-
-            target: ScreenPlay.screenPlayManager
-        }
-
+        id: noneContentItems
         Dialogs.SteamNotAvailable {
             id: dialogSteam
             modalSource: content
@@ -125,106 +98,150 @@ ApplicationWindow {
             modalSource: content
         }
 
-        Common.TrayIcon {
-            window: root
-        }
-
-        StackView {
-            id: stackView
-            objectName: "stackView"
-            property int duration: 300
-
-            anchors {
-                top: nav.bottom
-                right: parent.right
-                bottom: parent.bottom
-                left: parent.left
-            }
-
-            replaceEnter: Transition {
-                OpacityAnimator {
-                    from: 0
-                    to: 1
-                    duration: stackView.duration
-                    easing.type: Easing.InOutQuart
-                }
-
-                ScaleAnimator {
-                    from: 0.8
-                    to: 1
-                    duration: stackView.duration
-                    easing.type: Easing.InOutQuart
-                }
-            }
-
-            replaceExit: Transition {
-                OpacityAnimator {
-                    from: 1
-                    to: 0
-                    duration: stackView.duration
-                    easing.type: Easing.InOutQuart
-                }
-
-                ScaleAnimator {
-                    from: 1
-                    to: 0.8
-                    duration: stackView.duration
-                    easing.type: Easing.InOutQuart
-                }
-            }
-        }
-
-        Connections {
-            function onSetSidebarActive(active) {
-                if (active)
-                    sidebar.state = "active"
-                else
-                    sidebar.state = "inactive"
-            }
-
-            function onSetNavigationItem(pos) {
-                if (pos === 0)
-                    nav.onPageChanged("Create")
-                else
-                    nav.onPageChanged("Workshop")
-            }
-
-            target: stackView.currentItem
-            ignoreUnknownSignals: true
-        }
-
-        Installed.Sidebar {
-            id: sidebar
-            objectName: "installedSidebar"
-            navHeight: nav.height
-
-            anchors {
-                top: parent.top
-                right: parent.right
-                bottom: parent.bottom
-            }
-        }
-
-        Navigation.Navigation {
-            id: nav
-            window: root
-            width: parent.width
-            modalSource: content
-            anchors {
-                top: parent.top
-                right: parent.right
-                left: parent.left
-            }
-
-            onChangePage: function (name) {
-                monitors.close()
-                switchPage(name)
-            }
-        }
-
         Monitors.Monitors {
             id: monitors
             modalSource: content
+        }
+        Common.TrayIcon {
+            window: root
+        }
+    }
+
+    Item {
+        anchors.fill: parent
+        anchors.margins: 1
+        Navigation.WindowNavigation {
+            id: windowNav
+            z:5
+            modalSource: content
+            width: parent.width
+            window: root
+        }
+
+        Item {
+            id: content
+            anchors {
+                top: windowNav.bottom
+                right: parent.right
+                bottom: parent.bottom
+                left: parent.left
+            }
+
+
+            Connections {
+                function onThemeChanged(theme) {
+                    setTheme(theme)
+                }
+
+                target: ScreenPlay.settings
+            }
+
+            Connections {
+                function onRequestNavigation(nav) {
+                    switchPage(nav)
+                }
+
+                target: ScreenPlay.util
+            }
+
+            Connections {
+                function onRequestRaise() {
+                    root.show()
+                }
+
+                target: ScreenPlay.screenPlayManager
+            }
+
+            StackView {
+                id: stackView
+                objectName: "stackView"
+                property int duration: 300
+
+                anchors {
+                    top: nav.bottom
+                    right: parent.right
+                    bottom: parent.bottom
+                    left: parent.left
+                }
+
+                replaceEnter: Transition {
+                    OpacityAnimator {
+                        from: 0
+                        to: 1
+                        duration: stackView.duration
+                        easing.type: Easing.InOutQuart
+                    }
+
+                    ScaleAnimator {
+                        from: 0.8
+                        to: 1
+                        duration: stackView.duration
+                        easing.type: Easing.InOutQuart
+                    }
+                }
+
+                replaceExit: Transition {
+                    OpacityAnimator {
+                        from: 1
+                        to: 0
+                        duration: stackView.duration
+                        easing.type: Easing.InOutQuart
+                    }
+
+                    ScaleAnimator {
+                        from: 1
+                        to: 0.8
+                        duration: stackView.duration
+                        easing.type: Easing.InOutQuart
+                    }
+                }
+            }
+
+            Connections {
+                function onSetSidebarActive(active) {
+                    if (active)
+                        sidebar.state = "active"
+                    else
+                        sidebar.state = "inactive"
+                }
+
+                function onSetNavigationItem(pos) {
+                    if (pos === 0)
+                        nav.onPageChanged("Create")
+                    else
+                        nav.onPageChanged("Workshop")
+                }
+
+                target: stackView.currentItem
+                ignoreUnknownSignals: true
+            }
+
+            Installed.Sidebar {
+                id: sidebar
+                objectName: "installedSidebar"
+                navHeight: nav.height
+
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    bottom: parent.bottom
+                }
+            }
+
+            Navigation.Navigation {
+                id: nav
+                modalSource: content
+                anchors {
+                    top: parent.top
+                    right: parent.right
+                    left: parent.left
+                }
+
+                onChangePage: function (name) {
+                    monitors.close()
+                    switchPage(name)
+                }
+            }
         }
     }
 

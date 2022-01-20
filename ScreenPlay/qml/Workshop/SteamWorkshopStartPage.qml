@@ -16,7 +16,7 @@ Item {
     property ScreenPlayWorkshop screenPlayWorkshop
     property StackView stackView
     property Background background
-    property var modalSource
+    property Item modalSource
 
     Component.onCompleted: {
         root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend)
@@ -314,7 +314,7 @@ Item {
                             leftMargin: 20
                         }
 
-                        TextField {
+                        Common.TextField {
                             id: tiSearch
                             placeholderText: qsTr("Search for Wallpaper and Widgets...")
                             onEditingFinished: root.steamWorkshop.searchWorkshopByText(

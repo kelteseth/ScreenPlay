@@ -22,7 +22,7 @@ Popup {
     }
     required property ScreenPlayWorkshop workshop
     required property SteamWorkshop steam
-    required property var modalSource
+    required property Item modalSource
     Overlay.modal: ModalBackgroundBlur {
         sourceItem: root.modalSource
     }

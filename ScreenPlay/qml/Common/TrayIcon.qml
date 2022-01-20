@@ -10,19 +10,19 @@ SystemTrayIcon {
     visible: true
     icon.source: "qrc:/assets/icons/app.ico"
     tooltip: qsTr("ScreenPlay - Double click to change you settings.")
-    onActivated: (reason)=>{
+    onActivated: function (reason) {
         switch (reason) {
         case SystemTrayIcon.Unknown:
-            break;
+            break
         case SystemTrayIcon.Context:
-            break;
+            break
         case SystemTrayIcon.DoubleClick:
-            window.show();
-            break;
+            window.show()
+            break
         case SystemTrayIcon.Trigger:
-            break;
+            break
         case SystemTrayIcon.MiddleClick:
-            break;
+            break
         }
     }
 
@@ -30,7 +30,7 @@ SystemTrayIcon {
         MenuItem {
             text: qsTr("Open ScreenPlay")
             onTriggered: {
-                window.show();
+                window.show()
             }
         }
 
@@ -42,13 +42,15 @@ SystemTrayIcon {
             text: qsTr("Mute all")
             onTriggered: {
                 if (miMuteAll.isMuted) {
-                    isMuted = false;
-                    miMuteAll.text = qsTr("Mute all");
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted", "true");
+                    isMuted = false
+                    miMuteAll.text = qsTr("Mute all")
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted",
+                                                                      "true")
                 } else {
-                    isMuted = true;
-                    miMuteAll.text = qsTr("Unmute all");
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted", "false");
+                    isMuted = true
+                    miMuteAll.text = qsTr("Unmute all")
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted",
+                                                                      "false")
                 }
             }
         }
@@ -61,13 +63,15 @@ SystemTrayIcon {
             text: qsTr("Pause all")
             onTriggered: {
                 if (miStopAll.isPlaying) {
-                    isPlaying = false;
-                    miStopAll.text = qsTr("Pause all");
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue("isPlaying", "true");
+                    isPlaying = false
+                    miStopAll.text = qsTr("Pause all")
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                                "isPlaying", "true")
                 } else {
-                    isPlaying = true;
-                    miStopAll.text = qsTr("Play all");
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue("isPlaying", "false");
+                    isPlaying = true
+                    miStopAll.text = qsTr("Play all")
+                    ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                                "isPlaying", "false")
                 }
             }
         }
@@ -76,7 +80,5 @@ SystemTrayIcon {
             text: qsTr("Quit")
             onTriggered: ScreenPlay.exit()
         }
-
     }
-
 }

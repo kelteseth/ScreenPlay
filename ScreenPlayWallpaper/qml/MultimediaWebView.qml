@@ -41,9 +41,12 @@ Item {
     WebEngineView {
         id: webView
         anchors.fill: parent
-        url: Qt.resolvedUrl("file://"+ Wallpaper.getApplicationPath() + "/index.html")
-        onJavaScriptConsoleMessage: (lineNumber, message) => print(lineNumber,
-                                                                   message)
+        url: Qt.resolvedUrl("file://" + Wallpaper.getApplicationPath(
+                                ) + "/index.html")
+        onJavaScriptConsoleMessage: function (lineNumber, message) {
+            print(lineNumber, message)
+        }
+
         onLoadProgressChanged: {
             if (loadProgress === 100) {
                 webView.runJavaScript(root.getSetVideoCommand(),

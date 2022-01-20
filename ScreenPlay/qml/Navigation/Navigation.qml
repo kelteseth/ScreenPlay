@@ -15,11 +15,9 @@ Rectangle {
     property string currentNavigationName: "Installed"
     property var navArray: [navCreate, navWorkshop, navInstalled, navSettings, navCommunity]
     property bool navActive: true
-    property ApplicationWindow window
-    property var modalSource
+    property Item modalSource
     property int iconWidth: 16
     property int iconHeight: iconWidth
-
 
     signal changePage(string name)
 
@@ -51,78 +49,13 @@ Rectangle {
         setNavigation(name)
     }
 
-    height: 89
+    implicitWidth: 1366
+    height: 60
     width: 1366
     color: Material.theme === Material.Light ? "white" : Material.background
     layer.enabled: true
-
-    Rectangle {
-        id:navBg
-        height:29
-        width:parent.width
-        color: Material.theme === Material.Light ? Material.background : "#242424"
-
-        Text {
-            id: title
-            text: qsTr("ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets").arg(ScreenPlay.version())
-            color: Material.primaryTextColor
-            anchors{
-                left:parent.left
-                leftMargin: 20
-                verticalCenter: parent.verticalCenter
-            }
-        }
-    }
-
-    MouseArea {
-        id: mouseArea
-
-        property var clickPos
-
-        anchors.fill: parent
-        hoverEnabled: true
-        onPressed: (mouse)=>{
-            clickPos = {
-                "x": mouse.x,
-                "y": mouse.y
-            };
-        }
-        onPositionChanged: {
-            if (mouseArea.pressed){
-                let pos = ScreenPlay.cursorPos();
-                window.setX(pos.x - clickPos.x)
-                window.setY(pos.y - clickPos.y)
-            }
-
-        }
-    }
-
-    RowLayout {
-        anchors {
-            top:navBg.top
-            right: navBg.right
-            bottom: navBg.bottom
-        }
-
-        WindowNavButton {
-            id: miMinimize
-            Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_minimize.svg"
-            onClicked: root.window.hide()
-        }
-        WindowNavButton {
-            id: miquit
-            Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_close.svg"
-            onClicked: {
-                if(ScreenPlay.screenPlayManager.activeWallpaperCounter === 0
-                        && ScreenPlay.screenPlayManager.activeWidgetsCounter === 0){
-                    Qt.quit()
-                    return
-                }
-                dialog.open()
-            }
-        }
+    layer.effect: ElevationEffect {
+        elevation: 2
     }
 
     Connections {
@@ -137,16 +70,12 @@ Rectangle {
         target: ScreenPlay.util
     }
 
-
-
-
     Row {
         id: row
         height: 60
 
         anchors {
-            top:parent.top
-            topMargin: navBg.height
+            top: parent.top
             right: parent.right
             left: parent.left
             leftMargin: 20
@@ -161,7 +90,9 @@ Rectangle {
             name: "Create"
             text: qsTr("Create")
             iconSource: "qrc:/assets/icons/icon_plus.svg"
-            onPageClicked: (name)=> {root.onPageChanged(name)}
+            onPageClicked: function (name) {
+                root.onPageChanged(name)
+            }
             objectName: "createTab"
         }
 
@@ -172,7 +103,9 @@ Rectangle {
             name: "Workshop"
             text: qsTr("Workshop")
             iconSource: "qrc:/assets/icons/icon_steam.svg"
-            onPageClicked: (name)=> {root.onPageChanged(name)}
+            onPageClicked: function (name) {
+                root.onPageChanged(name)
+            }
             objectName: "workshopTab"
         }
 
@@ -184,7 +117,9 @@ Rectangle {
             text: qsTr("Installed")
             amount: ScreenPlay.installedListModel.count
             iconSource: "qrc:/assets/icons/icon_installed.svg"
-            onPageClicked: (name)=> {root.onPageChanged(name)}
+            onPageClicked: function (name) {
+                root.onPageChanged(name)
+            }
             objectName: "installedTab"
         }
 
@@ -195,7 +130,9 @@ Rectangle {
             name: "Community"
             text: qsTr("Community")
             iconSource: "qrc:/assets/icons/icon_community.svg"
-            onPageClicked: (name)=> {root.onPageChanged(name)}
+            onPageClicked: function (name) {
+                root.onPageChanged(name)
+            }
             objectName: "communityTab"
         }
 
@@ -206,27 +143,28 @@ Rectangle {
             name: "Settings"
             text: qsTr("Settings")
             iconSource: "qrc:/assets/icons/icon_settings.svg"
-            onPageClicked: (name)=> {root.onPageChanged(name)}
+            onPageClicked: function (name) {
+                root.onPageChanged(name)
+            }
             objectName: "settingsTab"
         }
     }
 
     Rectangle {
-        id:quickActionRowBackground
+        id: quickActionRowBackground
         anchors.centerIn: quickActionRow
         width: quickActionRow.width + 5
         height: quickActionRow.height - 16
         color: Material.theme === Material.Light ? Material.background : "#242424"
-        border.color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(Material.background)
+        border.color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(
+                                                              Material.background)
         border.width: 1
         radius: 3
     }
 
-
     RowLayout {
         anchors {
             top: parent.top
-            topMargin: navBg.height
             right: quickActionRow.left
             rightMargin: 20
             bottom: parent.bottom
@@ -235,7 +173,8 @@ Rectangle {
         ToolButton {
             icon.source: "qrc:/assets/icons/font-awsome/patreon-brands.svg"
             text: qsTr("Support me on Patreon!")
-            onClicked: Qt.openUrlExternally("https://www.patreon.com/ScreenPlayApp")
+            onClicked: Qt.openUrlExternally(
+                           "https://www.patreon.com/ScreenPlayApp")
         }
     }
 
@@ -243,7 +182,6 @@ Rectangle {
         id: quickActionRow
         anchors {
             top: parent.top
-            topMargin: navBg.height
             right: parent.right
             rightMargin: 10
             bottom: parent.bottom
@@ -253,9 +191,9 @@ Rectangle {
                                      || ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
 
         onContentActiveChanged: {
-            if(!contentActive){
-                miMuteAll.isMuted = false
-                miStopAll.isPlaying = false
+            if (!contentActive) {
+                miMuteAll.soundEnabled = true
+                miStopAll.isPlaying = true
             }
         }
 
@@ -267,10 +205,10 @@ Rectangle {
             icon.height: root.iconHeight
             enabled: quickActionRow.contentActive
 
-            onClicked: isMuted = !isMuted
-            property bool isMuted: false
-            onIsMutedChanged: {
-                if (miMuteAll.isMuted) {
+            onClicked: soundEnabled = !soundEnabled
+            property bool soundEnabled: true
+            onSoundEnabledChanged: {
+                if (miMuteAll.soundEnabled) {
                     miMuteAll.icon.source = "qrc:/assets/icons/icon_volume.svg"
                     ScreenPlay.screenPlayManager.setAllWallpaperValue("muted",
                                                                       "false")
@@ -294,7 +232,7 @@ Rectangle {
             icon.height: root.iconHeight
             onClicked: isPlaying = !isPlaying
             property bool isPlaying: true
-            onIsPlayingChanged:{
+            onIsPlayingChanged: {
                 if (miStopAll.isPlaying) {
                     miStopAll.icon.source = "qrc:/assets/icons/icon_pause.svg"
                     ScreenPlay.screenPlayManager.setAllWallpaperValue(
@@ -321,6 +259,8 @@ Rectangle {
             onClicked: {
                 ScreenPlay.screenPlayManager.removeAllWallpapers()
                 ScreenPlay.screenPlayManager.removeAllWidgets()
+                miStopAll.isPlaying = true
+                miMuteAll.soundEnabled = true
             }
 
             hoverEnabled: true
@@ -329,39 +269,16 @@ Rectangle {
         }
 
         ToolButton {
-                id: miConfig
-                Layout.alignment: Qt.AlignVCenter
-                icon.source: "qrc:/assets/icons/icon_video_settings_black_24dp.svg"
-                icon.width: root.iconWidth
-                icon.height: root.iconHeight
-                onClicked: ScreenPlay.util.setToggleWallpaperConfiguration()
-                hoverEnabled: true
-                ToolTip.text: qsTr("Configure Wallpaper")
-                ToolTip.visible: hovered
-            }
-
-
-
-
-
-        Dialog {
-            id: dialog
-            anchors.centerIn: Overlay.overlay
-
-            Overlay.modal: ModalBackgroundBlur {
-                sourceItem: root.modalSource
-            }
-            title: qsTr("Are you sure you want to exit ScreenPlay? \nThis will shut down all Wallpaper and Widgets.")
-            standardButtons: Dialog.Ok | Dialog.Cancel
-            onAccepted: Qt.quit()
-            modal: true
+            id: miConfig
+            Layout.alignment: Qt.AlignVCenter
+            icon.source: "qrc:/assets/icons/icon_video_settings_black_24dp.svg"
+            icon.width: root.iconWidth
+            icon.height: root.iconHeight
+            onClicked: ScreenPlay.util.setToggleWallpaperConfiguration()
+            hoverEnabled: true
+            ToolTip.text: qsTr("Configure Wallpaper")
+            ToolTip.visible: hovered
         }
-
-
-    }
-
-    layer.effect: ElevationEffect {
-        elevation: 2
     }
 
     states: [

@@ -6,32 +6,23 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
-import "../Common/" as SP
+import "../Common/" as Common
 
-Popup {
+Common.Popup {
     id: root
 
     property string activeMonitorName: ""
     property int activeMonitorIndex
-    property var modalSource
-
-    Overlay.modal: SP.ModalBackgroundBlur {
-        sourceItem: root.modalSource
-    }
 
     width: 1000
     height: 500
-    dim: true
-    anchors.centerIn: Overlay.overlay
-    modal: true
-    focus: true
     onOpened: {
-        monitorSelection.selectMonitorAt(0);
+        monitorSelection.selectMonitorAt(0)
     }
 
     Connections {
         function onRequestToggleWallpaperConfiguration() {
-            root.open();
+            root.open()
         }
 
         target: ScreenPlay.util
@@ -75,7 +66,6 @@ Popup {
                     left: parent.left
                     leftMargin: 20
                 }
-
             }
 
             MonitorSelection {
@@ -88,20 +78,23 @@ Popup {
                 monitorWithoutContentSelectable: false
                 availableWidth: width - 20
                 availableHeight: 150
-                onRequestProjectSettings: ( index,  installedType,  appID) => {
+                onRequestProjectSettings: function (index, installedType, appID) {
                     if (installedType === InstalledType.VideoWallpaper) {
-                        videoControlWrapper.state = "visible";
-                        customPropertiesGridView.visible = false;
-                        const wallpaper = ScreenPlay.screenPlayManager.getWallpaperByAppID(appID);
-                        videoControlWrapper.wallpaper = wallpaper;
+                        videoControlWrapper.state = "visible"
+                        customPropertiesGridView.visible = false
+                        const wallpaper = ScreenPlay.screenPlayManager.getWallpaperByAppID(
+                                            appID)
+                        videoControlWrapper.wallpaper = wallpaper
                     } else {
-                        videoControlWrapper.state = "hidden";
-                        customPropertiesGridView.visible = true;
-                        if(!ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(index)){
-                            console.warn("Unable to get requested settings from index: ", index)
+                        videoControlWrapper.state = "hidden"
+                        customPropertiesGridView.visible = true
+                        if (!ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(
+                                    index)) {
+                            console.warn("Unable to get requested settings from index: ",
+                                         index)
                         }
                     }
-                    activeMonitorIndex = index;
+                    activeMonitorIndex = index
                 }
 
                 anchors {
@@ -113,12 +106,11 @@ Popup {
 
                 Connections {
                     function onProjectSettingsListModelResult(listModel) {
-                        customPropertiesGridView.projectSettingsListmodelRef = listModel;
+                        customPropertiesGridView.projectSettingsListmodelRef = listModel
                     }
 
                     target: ScreenPlay.screenPlayManager
                 }
-
             }
 
             ColumnLayout {
@@ -137,34 +129,39 @@ Popup {
                     highlighted: true
                     text: qsTr("Remove selected")
                     font.family: ScreenPlay.settings.font
-                    enabled: monitorSelection.activeMonitors.length == 1 && ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
+                    enabled: monitorSelection.activeMonitors.length == 1
+                             && ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
-                        if (!ScreenPlay.screenPlayManager.removeWallpaperAt(monitorSelection.activeMonitors[0]))
-                            print("Unable to close singel wallpaper");
-
+                        if (!ScreenPlay.screenPlayManager.removeWallpaperAt(
+                                    monitorSelection.activeMonitors[0]))
+                            print("Unable to close singel wallpaper")
                     }
                 }
 
                 Button {
                     id: btnRemoveAllWallpape
 
-                    text: qsTr("Remove all ") + ScreenPlay.screenPlayManager.activeWallpaperCounter + " " + qsTr("Wallpapers")
+                    text: qsTr("Remove all ")
+                          + ScreenPlay.screenPlayManager.activeWallpaperCounter + " " + qsTr(
+                              "Wallpapers")
                     Material.background: Material.accent
                     highlighted: true
                     font.family: ScreenPlay.settings.font
                     enabled: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
                         if (!ScreenPlay.screenPlayManager.removeAllWallpapers())
-                            print("Unable to close all wallpaper!");
+                            print("Unable to close all wallpaper!")
 
-                        root.close();
+                        root.close()
                     }
                 }
 
                 Button {
                     id: btnRemoveAllWidgets
 
-                    text: qsTr("Remove all ") + ScreenPlay.screenPlayManager.activeWidgetsCounter + " " + qsTr("Widgets")
+                    text: qsTr("Remove all ")
+                          + ScreenPlay.screenPlayManager.activeWidgetsCounter + " " + qsTr(
+                              "Widgets")
                     Material.background: Material.accent
                     Material.foreground: Material.primaryTextColor
                     highlighted: true
@@ -172,18 +169,17 @@ Popup {
                     enabled: ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
                     onClicked: {
                         if (!ScreenPlay.screenPlayManager.removeAllWidgets())
-                            print("Unable to close all widgets!");
+                            print("Unable to close all widgets!")
 
-                        root.close();
+                        root.close()
                     }
                 }
-
             }
-
         }
 
         Rectangle {
-            color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
+            color: Material.theme === Material.Light ? Material.background : Qt.darker(
+                                                           Material.background)
             radius: 3
             clip: true
 
@@ -239,9 +235,7 @@ Popup {
                     snapMode: ScrollBar.SnapOnRelease
                     policy: ScrollBar.AlwaysOn
                 }
-
             }
-
         }
 
         ToolButton {
@@ -257,7 +251,6 @@ Popup {
                 top: parent.top
                 right: parent.right
             }
-
         }
 
         SaveNotification {
@@ -268,15 +261,12 @@ Popup {
             Connections {
                 function onProfilesSaved() {
                     if (root.opened)
-                        saveNotification.open();
-
+                        saveNotification.open()
                 }
 
                 target: ScreenPlay.screenPlayManager
             }
-
         }
-
     }
 
     background: Rectangle {
@@ -288,7 +278,5 @@ Popup {
         layer.effect: ElevationEffect {
             elevation: 6
         }
-
     }
-
 }

@@ -173,14 +173,13 @@ Item {
                 }
             }
 
-
             Rectangle {
 
                 width: 120
                 height: 20
-                anchors{
-                    top:parent.top
-                    right:parent.right
+                anchors {
+                    top: parent.top
+                    right: parent.right
                     rightMargin: -60
                     topMargin: -20
                 }
@@ -224,7 +223,7 @@ Item {
                     screenPlayItemImage.state = "loaded"
                     screenPlayItemImage.exit()
                 }
-                onClicked: (mouse)=> {
+                onClicked: function (mouse) {
                     if (mouse.button === Qt.LeftButton)
                         ScreenPlay.util.setSidebarItem(root.screenId, root.type)
                     else if (mouse.button === Qt.RightButton)

@@ -119,7 +119,7 @@ Item {
         id: btnOpenDocs
 
         text: qsTr("Open Documentation")
-        Material.background: Material.LightGreen
+        Material.accent: Material.color(Material.LightGreen)
         highlighted: true
         icon.source: "qrc:/assets/icons/icon_document.svg"
         icon.color: "white"

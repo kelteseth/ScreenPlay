@@ -48,17 +48,6 @@ ColumnLayout {
         }
     }
 
-    SP.Slider {
-        id: slPlaybackRate
-
-        headline: qsTr("Playback rate")
-        slider.onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(activeMonitorIndex, "playbackRate", (Math.round(slPlaybackRate.slider.value * 100) / 100))
-        Layout.fillWidth: true
-        slider.stepSize: 0.1
-        slider.to: 1
-        Layout.leftMargin: 10
-        Layout.rightMargin: 10
-    }
 
     SP.Slider {
         id: slCurrentVideoTime
@@ -116,6 +105,11 @@ ColumnLayout {
             onActivated: {
                 ScreenPlay.screenPlayManager.setWallpaperFillModeAtMonitorIndex(activeMonitorIndex,settingsComboBox.currentValue);
             }
+        }
+
+        Item {
+            Layout.fillHeight: true
+            Layout.fillWidth: true
         }
 
     }

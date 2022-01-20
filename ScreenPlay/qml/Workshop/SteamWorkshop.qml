@@ -11,7 +11,7 @@ import "upload/"
 Item {
     id: root
 
-    required property var modalSource
+    required property Item modalSource
 
     ScreenPlayWorkshop {
         id: screenPlayWorkshop

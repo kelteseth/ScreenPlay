@@ -27,9 +27,10 @@ Item {
 
     TextField {
         id: txtSearch
-
+        placeholderTextColor: Material.secondaryTextColor
         width: 250
         height: 40
+        color: Material.secondaryTextColor
         placeholderText: qsTr("Search for Wallpaper & Widgets")
         onTextChanged: {
             if (txtSearch.text.length === 0)

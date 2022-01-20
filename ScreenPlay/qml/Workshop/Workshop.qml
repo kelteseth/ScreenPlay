@@ -9,7 +9,7 @@ import ScreenPlay
 Item {
     id: root
 
-    required property var modalSource
+    required property Item modalSource
 
     Component.onCompleted: {
         if (ScreenPlay.settings.steamVersion) {

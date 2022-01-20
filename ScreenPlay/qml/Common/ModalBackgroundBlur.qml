@@ -3,10 +3,13 @@ import Qt5Compat.GraphicalEffects
 
 FastBlur {
     id: root
-    property var sourceItem
+    property Item sourceItem
+    property bool hideSource: true
     source: ShaderEffectSource {
+        id: effectSource
         sourceItem: root.sourceItem
         live: false
+        hideSource: root.hideSource
     }
     radius: 64
     transparentBorder: true

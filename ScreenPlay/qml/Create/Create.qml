@@ -12,7 +12,7 @@ import ScreenPlay.QMLUtilities 1.0
 Item {
     id: root
 
-    required property var modalSource
+    required property Item modalSource
 
     Component.onCompleted: {
         wizardContentWrapper.state = "in";

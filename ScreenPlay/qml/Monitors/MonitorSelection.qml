@@ -22,96 +22,96 @@ Rectangle {
     function selectOnly(index) {
         for (var i = 0; i < rp.count; i++) {
             if (i === index) {
-                rp.itemAt(i).isSelected = true;
-                continue;
+                rp.itemAt(i).isSelected = true
+                continue
             }
-            rp.itemAt(i).isSelected = false;
+            rp.itemAt(i).isSelected = false
         }
     }
 
     function reset() {
         for (var i = 0; i < rp.count; i++) {
-            rp.itemAt(i).isSelected = false;
+            rp.itemAt(i).isSelected = false
         }
-        rp.itemAt(0).isSelected = true;
-        getActiveMonitors();
+        rp.itemAt(0).isSelected = true
+        getActiveMonitors()
     }
 
     function getActiveMonitors() {
-        root.activeMonitors = [];
+        root.activeMonitors = []
         for (var i = 0; i < rp.count; i++) {
             if (rp.itemAt(i).isSelected)
-                root.activeMonitors.push(rp.itemAt(i).index);
-
+                root.activeMonitors.push(rp.itemAt(i).index)
         }
         // Must be called manually. When QML properties are getting altered in js the
         // property binding breaks
-        root.activeMonitorsChanged();
-        return root.activeMonitors;
+        root.activeMonitorsChanged()
+        return root.activeMonitors
     }
 
     function selectMonitorAt(index) {
         if (!multipleMonitorsSelectable)
-            selectOnly(index);
+            selectOnly(index)
         else
-            rp.itemAt(index).isSelected = !rp.itemAt(index).isSelected;
-        getActiveMonitors();
+            rp.itemAt(index).isSelected = !rp.itemAt(index).isSelected
+        getActiveMonitors()
         if (rp.itemAt(index).hasContent)
-            root.requestProjectSettings(index, rp.itemAt(index).installedType, rp.itemAt(index).appID);
-
+            root.requestProjectSettings(index, rp.itemAt(index).installedType,
+                                        rp.itemAt(index).appID)
     }
 
     function resize() {
-        var absoluteDesktopSize = ScreenPlay.monitorListModel.absoluteDesktopSize();
-        var isWidthGreaterThanHeight = false;
-        var windowsDelta = 0;
+        var absoluteDesktopSize = ScreenPlay.monitorListModel.absoluteDesktopSize()
+        var isWidthGreaterThanHeight = false
+        var windowsDelta = 0
         if (absoluteDesktopSize.width < absoluteDesktopSize.height) {
-            windowsDelta = absoluteDesktopSize.width / absoluteDesktopSize.height;
-            isWidthGreaterThanHeight = false;
+            windowsDelta = absoluteDesktopSize.width / absoluteDesktopSize.height
+            isWidthGreaterThanHeight = false
         } else {
-            windowsDelta = absoluteDesktopSize.height / absoluteDesktopSize.width;
-            isWidthGreaterThanHeight = true;
+            windowsDelta = absoluteDesktopSize.height / absoluteDesktopSize.width
+            isWidthGreaterThanHeight = true
         }
         if (rp.count === 1)
-            availableWidth = availableWidth * 0.66;
+            availableWidth = availableWidth * 0.66
 
-        var dynamicHeight = availableWidth * windowsDelta;
-        var dynamicWidth = availableHeight * windowsDelta;
+        var dynamicHeight = availableWidth * windowsDelta
+        var dynamicWidth = availableHeight * windowsDelta
         // Delta (height/width)
-        var monitorHeightRationDelta = 0;
-        var monitorWidthRationDelta = 0;
+        var monitorHeightRationDelta = 0
+        var monitorWidthRationDelta = 0
         if (isWidthGreaterThanHeight) {
-            monitorHeightRationDelta = dynamicHeight / absoluteDesktopSize.height;
-            monitorWidthRationDelta = availableWidth / absoluteDesktopSize.width;
+            monitorHeightRationDelta = dynamicHeight / absoluteDesktopSize.height
+            monitorWidthRationDelta = availableWidth / absoluteDesktopSize.width
         } else {
-            monitorHeightRationDelta = availableHeight / absoluteDesktopSize.height;
-            monitorWidthRationDelta = dynamicWidth / absoluteDesktopSize.width;
+            monitorHeightRationDelta = availableHeight / absoluteDesktopSize.height
+            monitorWidthRationDelta = dynamicWidth / absoluteDesktopSize.width
         }
         for (var i = 0; i < rp.count; i++) {
-            rp.itemAt(i).index = i;
-            rp.itemAt(i).height = rp.itemAt(i).height * monitorHeightRationDelta;
-            rp.itemAt(i).width = rp.itemAt(i).width * monitorWidthRationDelta;
-            rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta;
-            rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta;
-            rp.contentWidth += rp.itemAt(i).width;
-            rp.contentHeight += rp.itemAt(i).height;
+            rp.itemAt(i).index = i
+            rp.itemAt(i).height = rp.itemAt(i).height * monitorHeightRationDelta
+            rp.itemAt(i).width = rp.itemAt(i).width * monitorWidthRationDelta
+            rp.itemAt(i).x = rp.itemAt(i).x * monitorWidthRationDelta
+            rp.itemAt(i).y = rp.itemAt(i).y * monitorHeightRationDelta
+            rp.contentWidth += rp.itemAt(i).width
+            rp.contentHeight += rp.itemAt(i).height
         }
-        rp.contentWidth += 200;
-        rp.contentHeight += 200;
+        rp.contentWidth += 200
+        rp.contentHeight += 200
     }
 
-    color: Material.theme === Material.Light ? Material.background : Qt.darker(Material.background)
+    color: Material.theme === Material.Light ? Material.background : Qt.darker(
+                                                   Material.background)
     height: availableHeight
     width: parent.width
     clip: true
     layer.enabled: true
     Component.onCompleted: {
-        resize();
+        resize()
     }
 
     Connections {
         function onMonitorReloadCompleted() {
-            resize();
+            resize()
         }
 
         target: ScreenPlay.monitorListModel
@@ -142,9 +142,10 @@ Rectangle {
                 previewImage: m_previewImage
                 installedType: m_installedType
                 monitorWithoutContentSelectable: root.monitorWithoutContentSelectable
-                onMonitorSelected: (index) => root.selectMonitorAt(index)
+                onMonitorSelected: function (index) {
+                    root.selectMonitorAt(index)
+                }
             }
-
         }
 
         ScrollBar.vertical: ScrollBar {
@@ -156,8 +157,5 @@ Rectangle {
             policy: ScrollBar.AlwaysOff
             snapMode: ScrollBar.SnapOnRelease
         }
-
     }
-
-
 }

@@ -3,25 +3,17 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 import ScreenPlay 1.0
-import "../"
+import "../" as Common
 
-Dialog {
-    id: dialogMonitorConfigurationChanged
+Common.Dialog {
+    id: root
 
-    property var modalSource
-    modal: true
-
-    anchors.centerIn: Overlay.overlay
     standardButtons: Dialog.Ok
     contentHeight: 250
 
-    Overlay.modal: ModalBackgroundBlur {
-        sourceItem: root.modalSource
-    }
-
     Connections {
         function onMonitorConfigurationChanged() {
-            dialogMonitorConfigurationChanged.open();
+            root.open()
         }
 
         target: ScreenPlay.monitorListModel
@@ -51,10 +43,6 @@ Dialog {
                 font.pointSize: 16
                 color: Material.primaryTextColor
             }
-
         }
-
     }
-
 }
- 

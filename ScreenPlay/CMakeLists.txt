@@ -72,9 +72,12 @@ set(QML
     qml/Navigation/Navigation.qml
     qml/Navigation/NavigationItem.qml
     qml/Navigation/WindowNavButton.qml
+    qml/Navigation/WindowNavigation.qml
     qml/Monitors/DefaultVideoControls.qml
     qml/Common/TagSelector.qml
     qml/Common/Tag.qml
+    qml/Common/Popup.qml
+    qml/Common/Dialog.qml
     qml/Common/ImageSelector.qml
     qml/Common/Slider.qml
     qml/Common/RippleEffect.qml

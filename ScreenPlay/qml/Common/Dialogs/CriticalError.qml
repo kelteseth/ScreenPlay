@@ -5,29 +5,24 @@ import QtQuick.Controls.Material
 import QtQuick.Window
 import Qt5Compat.GraphicalEffects
 import ScreenPlay 1.0
-import "../"
+import "../" as Common
 
-Dialog {
+Common.Dialog {
     id: root
 
     property ApplicationWindow window
     property string message
-    property var modalSource
-
-    Overlay.modal: ModalBackgroundBlur {
-        sourceItem: root.modalSource
-    }
-    anchors.centerIn: Overlay.overlay
     standardButtons: Dialog.Ok | Dialog.Help
     onHelpRequested: {
-        Qt.openUrlExternally("https://forum.screen-play.app/category/7/troubleshooting");
+        Qt.openUrlExternally(
+                    "https://forum.screen-play.app/category/7/troubleshooting")
     }
 
     Connections {
         function onDisplayErrorPopup(msg) {
-            root.message = msg;
-            root.window.show();
-            root.open();
+            root.message = msg
+            root.window.show()
+            root.open()
         }
 
         target: ScreenPlay.screenPlayManager
@@ -55,9 +50,7 @@ Dialog {
                     effect: ColorOverlay {
                         color: Material.color(Material.DeepOrange)
                     }
-
                 }
-
             }
 
             Text {
@@ -71,9 +64,6 @@ Dialog {
                 font.pointSize: 16
                 color: Material.primaryTextColor
             }
-
         }
-
     }
-
 }

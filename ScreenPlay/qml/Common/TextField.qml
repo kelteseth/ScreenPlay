@@ -68,6 +68,7 @@ Item {
 
         font.family: ScreenPlay.settings.font
         color: Material.secondaryTextColor
+        placeholderTextColor: Material.secondaryTextColor
         width: parent.width
         Keys.onEscapePressed: resetState()
         onTextEdited: {

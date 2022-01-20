@@ -11,24 +11,25 @@ Item {
 
     Connections {
         function onQmlExit() {
-            if(Qt.platform.os === "windows")
-                Widget.setWindowBlur(0);
+            if (Qt.platform.os === "windows")
+                Widget.setWindowBlur(0)
 
-            animFadeOut.start();
+            animFadeOut.start()
         }
 
         function onQmlSceneValueReceived(key, value) {
-            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.' + key + ' = ' + value + '; }';
-            var newObject = Qt.createQmlObject(obj2.toString(), root, "err");
-            newObject.destroy(10000);
+            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.'
+                    + key + ' = ' + value + '; }'
+            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
+            newObject.destroy(10000)
         }
 
         // Replace wallpaper with QML Scene
         function onReloadQML(oldType) {
-            loader.sourceComponent = undefined;
-            loader.source = "";
-            Widget.clearComponentCache();
-            loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute);
+            loader.sourceComponent = undefined
+            loader.source = ""
+            Widget.clearComponentCache()
+            loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute)
         }
 
         target: Widget
@@ -70,24 +71,25 @@ Item {
         Component.onCompleted: {
             switch (Widget.type) {
             case InstalledType.QMLWidget:
-                loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute);
-                break;
+                loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute)
+                break
             case InstalledType.HTMLWidget:
-                loader.sourceComponent = webViewComponent;
-                break;
+                loader.sourceComponent = webViewComponent
+                break
             }
         }
         onStatusChanged: {
             if (loader.status == Loader.Ready) {
                 if (loader.item.widgetBackground !== undefined)
-                    bgColor.color = loader.item.widgetBackground;
+                    bgColor.color = loader.item.widgetBackground
 
                 if (loader.item.widgetBackgroundOpacity !== undefined)
-                    bgColor.opacity = loader.item.widgetBackgroundOpacity;
+                    bgColor.opacity = loader.item.widgetBackgroundOpacity
 
-                if (loader.item.widgetWidth !== undefined && loader.item.widgetHeight !== undefined)
-                    Widget.setWidgetSize(loader.item.widgetWidth, loader.item.widgetHeight);
-
+                if (loader.item.widgetWidth !== undefined
+                        && loader.item.widgetHeight !== undefined)
+                    Widget.setWidgetSize(loader.item.widgetWidth,
+                                         loader.item.widgetHeight)
             }
         }
     }
@@ -102,10 +104,9 @@ Item {
             anchors.fill: parent
             onJavaScriptConsoleMessage: print(lineNumber, message)
             Component.onCompleted: {
-                webView.url = Qt.resolvedUrl(Widget.sourcePath);
+                webView.url = Qt.resolvedUrl(Widget.sourcePath)
             }
         }
-
     }
 
     MouseArea {
@@ -115,16 +116,16 @@ Item {
 
         anchors.fill: parent
         hoverEnabled: true
-        onPressed: (mouse)=>{
+        onPressed: function (mouse) {
             clickPos = {
                 "x": mouse.x,
                 "y": mouse.y
-            };
+            }
         }
         onPositionChanged: {
             if (mouseArea.pressed)
-                Widget.setPos(Widget.cursorPos().x - clickPos.x, Widget.cursorPos().y - clickPos.y);
-
+                Widget.setPos(Widget.cursorPos().x - clickPos.x,
+                              Widget.cursorPos().y - clickPos.y)
         }
     }
 
@@ -138,9 +139,9 @@ Item {
         onEntered: imgClose.opacity = 1
         onExited: imgClose.opacity = 0.15
         onClicked: {
-            if(Qt.platform.os === "windows")
-                Widget.setWindowBlur(0);
-            animFadeOut.start();
+            if (Qt.platform.os === "windows")
+                Widget.setWindowBlur(0)
+            animFadeOut.start()
         }
 
         anchors {
@@ -159,9 +160,7 @@ Item {
                 target: parent
                 duration: 300
             }
-
         }
-
     }
 
     MouseArea {
@@ -173,19 +172,17 @@ Item {
         height: width
         cursorShape: Qt.SizeFDiagCursor
         onPressed: {
-            clickPosition = Qt.point(mouseX, mouseY);
+            clickPosition = Qt.point(mouseX, mouseY)
         }
         onPositionChanged: {
             if (mouseAreaResize.pressed)
-                Widget.setWidgetSize(clickPosition.x + mouseX, clickPosition.y + mouseY);
-
+                Widget.setWidgetSize(clickPosition.x + mouseX,
+                                     clickPosition.y + mouseY)
         }
 
         anchors {
             bottom: parent.bottom
             right: parent.right
         }
-
     }
-
 }

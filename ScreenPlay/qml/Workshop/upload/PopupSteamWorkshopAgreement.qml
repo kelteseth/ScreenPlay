@@ -14,7 +14,7 @@ Popup {
     height: 400
     closePolicy: Popup.NoAutoClose
     anchors.centerIn: Overlay.overlay
-    property var modalSource
+    property Item modalSource
     Overlay.modal: ModalBackgroundBlur {
         sourceItem: root.modalSource
     }

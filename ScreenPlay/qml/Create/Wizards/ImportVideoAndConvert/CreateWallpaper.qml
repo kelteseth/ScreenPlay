@@ -21,25 +21,25 @@ Item {
         clip: true
 
         CreateWallpaperInit {
-            onNext: (filePath, codec) => {
-                         startConvert(filePath, codec)
-                    }
+            onNext: function (filePath, codec) {
+                startConvert(filePath, codec)
+            }
 
-        function startConvert(filePath, codec) {
-            root.wizardStarted()
-            swipeView.currentIndex = 1
-            createWallpaperVideoImportConvert.codec = codec
-            createWallpaperVideoImportConvert.filePath = filePath
-            ScreenPlay.create.createWallpaperStart(filePath, codec, quality)
+            function startConvert(filePath, codec) {
+                root.wizardStarted()
+                swipeView.currentIndex = 1
+                createWallpaperVideoImportConvert.codec = codec
+                createWallpaperVideoImportConvert.filePath = filePath
+                ScreenPlay.create.createWallpaperStart(filePath, codec, quality)
+            }
         }
+
+        CreateWallpaperVideoImportConvert {
+            id: createWallpaperVideoImportConvert
+
+            onAbort: root.wizardExited()
+        }
+
+        CreateWallpaperResult {}
     }
-
-    CreateWallpaperVideoImportConvert {
-        id: createWallpaperVideoImportConvert
-
-        onAbort: root.wizardExited()
-    }
-
-    CreateWallpaperResult {}
-}
 }

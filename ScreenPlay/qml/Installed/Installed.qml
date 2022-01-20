@@ -6,6 +6,7 @@ import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlay.Enums.SearchType 1.0
+import "../Common" as Common
 
 Item {
     id: root
@@ -20,24 +21,24 @@ Item {
 
     function checkIsContentInstalled() {
         if (ScreenPlay.installedListModel.count === 0) {
-            loaderHelp.active = true;
-            gridView.footerItem.isVisible = true;
-            gridView.visible = false;
-            navWrapper.visible = false;
+            loaderHelp.active = true
+            gridView.footerItem.isVisible = true
+            gridView.visible = false
+            navWrapper.visible = false
         } else {
-            loaderHelp.active = false;
-            gridView.footerItem.isVisible = false;
-            refresh = false;
-            gridView.contentY = -82;
-            gridView.visible = true;
-            navWrapper.visible = true;
+            loaderHelp.active = false
+            gridView.footerItem.isVisible = false
+            refresh = false
+            gridView.contentY = -82
+            gridView.visible = true
+            navWrapper.visible = true
         }
     }
 
     Component.onCompleted: {
-        navWrapper.state = "in";
-        ScreenPlay.installedListFilter.sortBySearchType(SearchType.All);
-        checkIsContentInstalled();
+        navWrapper.state = "in"
+        ScreenPlay.installedListFilter.sortBySearchType(SearchType.All)
+        checkIsContentInstalled()
     }
 
     Action {
@@ -47,7 +48,7 @@ Item {
 
     Connections {
         function onHelperButtonPressed(pos) {
-            setNavigationItem(pos);
+            setNavigationItem(pos)
         }
 
         target: loaderHelp.item
@@ -55,13 +56,12 @@ Item {
 
     Connections {
         function onInstalledLoadingFinished() {
-            checkIsContentInstalled();
+            checkIsContentInstalled()
         }
 
         function onCountChanged(count) {
             if (count === 0)
-                checkIsContentInstalled();
-
+                checkIsContentInstalled()
         }
 
         target: ScreenPlay.installedListModel
@@ -78,7 +78,7 @@ Item {
 
     Connections {
         function onSortChanged() {
-            gridView.positionViewAtBeginning();
+            gridView.positionViewAtBeginning()
         }
 
         target: ScreenPlay.installedListFilter
@@ -135,13 +135,12 @@ Item {
         }
         onContentYChanged: {
             if (contentY <= -180)
-                gridView.headerItem.isVisible = true;
+                gridView.headerItem.isVisible = true
             else
-                gridView.headerItem.isVisible = false;
+                gridView.headerItem.isVisible = false
             //Pull to refresh
             if (contentY <= -180 && !refresh && !isDragging)
-                ScreenPlay.installedListModel.reset();
-
+                ScreenPlay.installedListModel.reset()
         }
 
         anchors {
@@ -158,11 +157,11 @@ Item {
             opacity: 0
             onIsVisibleChanged: {
                 if (isVisible) {
-                    txtHeader.color = Material.accent;
-                    txtHeader.text = qsTr("Refreshing!");
+                    txtHeader.color = Material.accent
+                    txtHeader.text = qsTr("Refreshing!")
                 } else {
-                    txtHeader.color = "gray";
-                    txtHeader.text = qsTr("Pull to refresh!");
+                    txtHeader.color = "gray"
+                    txtHeader.text = qsTr("Pull to refresh!")
                 }
             }
 
@@ -170,7 +169,7 @@ Item {
                 interval: 150
                 running: true
                 onTriggered: {
-                    animFadeIn.start();
+                    animFadeIn.start()
                 }
             }
 
@@ -192,7 +191,6 @@ Item {
                 running: false
                 duration: 1000
             }
-
         }
 
         footer: Item {
@@ -215,7 +213,7 @@ Item {
                     interval: 400
                     running: true
                     onTriggered: {
-                        animFadeInTxtFooter.start();
+                        animFadeInTxtFooter.start()
                     }
                 }
 
@@ -227,9 +225,7 @@ Item {
                     running: false
                     duration: 1000
                 }
-
             }
-
         }
 
         delegate: ScreenPlayItem {
@@ -244,24 +240,23 @@ Item {
             publishedFileID: m_publishedFileID
             itemIndex: index
             isScrolling: gridView.isScrolling
-            onOpenContextMenu: (position)=>{
+            onOpenContextMenu: function (position) {
                 // Set the menu to the current item informations
-                contextMenu.publishedFileID = delegate.publishedFileID;
-                contextMenu.absoluteStoragePath = delegate.absoluteStoragePath;
-                const pos = delegate.mapToItem(root, position.x, position.y);
+                contextMenu.publishedFileID = delegate.publishedFileID
+                contextMenu.absoluteStoragePath = delegate.absoluteStoragePath
+                const pos = delegate.mapToItem(root, position.x, position.y)
                 // Disable duplicate opening. The can happen if we
                 // call popup when we are in the closing animtion.
                 if (contextMenu.visible || contextMenu.opened)
-                    return ;
+                    return
 
-                contextMenu.popup(pos.x, pos.y);
+                contextMenu.popup(pos.x, pos.y)
             }
         }
 
         ScrollBar.vertical: ScrollBar {
             snapMode: ScrollBar.SnapOnRelease
         }
-
     }
 
     Menu {
@@ -302,7 +297,7 @@ Item {
         }
     }
 
-    Dialog {
+    Common.Dialog {
         id: deleteDialog
         title: qsTr("Are you sure you want to delete this item?")
         standardButtons: Dialog.Ok | Dialog.Cancel

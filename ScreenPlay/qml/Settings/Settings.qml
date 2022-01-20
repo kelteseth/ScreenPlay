@@ -12,16 +12,15 @@ import "../Common"
 Item {
     id: root
 
-    required property var modalSource
+    required property Item modalSource
 
     function indexOfValue(model, value) {
         for (var i = 0; i < model.length; i++) {
-            let ourValue = model[i].value;
+            let ourValue = model[i].value
             if (value === ourValue)
-                return i;
-
+                return i
         }
-        return -1;
+        return -1
     }
 
     Flickable {
@@ -74,13 +73,12 @@ Item {
                         headline: qsTr("Autostart")
                         description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
                         isChecked: ScreenPlay.settings.autostart
-                        onCheckboxChanged: (checked) => {
-                            ScreenPlay.settings.setAutostart(checked);
+                        onCheckboxChanged: function (checked) {
+                            ScreenPlay.settings.setAutostart(checked)
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingBool {
                         headline: qsTr("High priority Autostart")
@@ -88,49 +86,47 @@ Item {
                         description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
                         isChecked: ScreenPlay.settings.highPriorityStart
                         onCheckboxChanged: {
-                            ScreenPlay.settings.setHighPriorityStart(checked);
+                            ScreenPlay.settings.setHighPriorityStart(checked)
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingBool {
                         height: 70
                         headline: qsTr("Send anonymous crash reports and statistics")
                         description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use <a href=\"https://sentry.io\">sentry.io</a> to collect and analyze this data. A <b>big thanks to them</b> for providing us with free premium support for open source projects!")
                         isChecked: ScreenPlay.settings.anonymousTelemetry
-                        onCheckboxChanged: (checked) => {
-                            ScreenPlay.settings.setAnonymousTelemetry(checked);
+                        onCheckboxChanged: function (checked) {
+                            ScreenPlay.settings.setAnonymousTelemetry(checked)
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsButton {
                         headline: qsTr("Set save location")
                         buttonText: qsTr("Set location")
                         description: {
                             // Remove file:/// so the used does not get confused
-                            let path = ScreenPlay.globalVariables.localStoragePath + "";
+                            let path = ScreenPlay.globalVariables.localStoragePath + ""
                             if (path.length === 0)
-                                return qsTr("Your storage path is empty!");
+                                return qsTr("Your storage path is empty!")
                             else
-                                return path.replace('file:///', '');
+                                return path.replace('file:///', '')
                         }
                         onButtonPressed: {
-                            folderDialogSaveLocation.open();
+                            folderDialogSaveLocation.open()
                         }
 
-                        FolderDialog  {
+                        FolderDialog {
                             id: folderDialogSaveLocation
                             folder: ScreenPlay.globalVariables.localStoragePath
                             onAccepted: {
-                                ScreenPlay.settings.setLocalStoragePath(folderDialogSaveLocation.currentFolder);
+                                ScreenPlay.settings.setLocalStoragePath(
+                                            folderDialogSaveLocation.currentFolder)
                             }
                         }
-
                     }
 
                     Text {
@@ -149,11 +145,9 @@ Item {
                             left: parent.left
                             leftMargin: 20
                         }
-
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsComboBox {
                         id: settingsLanguage
@@ -161,60 +155,61 @@ Item {
                         headline: qsTr("Language")
                         description: qsTr("Set the ScreenPlay UI Language")
                         Component.onCompleted: {
-                            settingsLanguage.comboBox.currentIndex = root.indexOfValue(settingsLanguage.comboBox.model, ScreenPlay.settings.language);
+                            settingsLanguage.comboBox.currentIndex = root.indexOfValue(
+                                        settingsLanguage.comboBox.model,
+                                        ScreenPlay.settings.language)
                         }
 
                         comboBox {
                             model: [{
-                                "value": Settings.En_US,
-                                "text": "English"
-                            }, {
-                                "value": Settings.De_DE,
-                                "text": "German"
-                            }, {
-                                "value": Settings.Pl_PL,
-                                "text": "Polish"
-                            }, {
-                                "value": Settings.It_IT,
-                                "text": "Italian"
-                            }, {
-                                "value": Settings.Zh_CN,
-                                "text": "Chinese - Simplified"
-                            }, {
-                                "value": Settings.Ru_RU,
-                                "text": "Russian"
-                            }, {
-                                "value": Settings.Fr_FR,
-                                "text": "French"
-                            }, {
-                                "value": Settings.Es_ES,
-                                "text": "Spanish"
-                            }, {
-                                "value": Settings.Ko_KR,
-                                "text": "Korean"
-                            }, {
-                                "value": Settings.Vi_VN,
-                                "text": "Vietnamese"
-                            }, {
-                                "value": Settings.Pt_BR,
-                                "text": "Portuguese (Brazil)"
-                            }, {
-                                "value": Settings.Tr_TR,
-                                "text": "Turkish"
-                            }, {
-                                "value": Settings.Nl_NL,
-                                "text": "Dutch"
-                            }]
+                                    "value": Settings.En_US,
+                                    "text": "English"
+                                }, {
+                                    "value": Settings.De_DE,
+                                    "text": "German"
+                                }, {
+                                    "value": Settings.Pl_PL,
+                                    "text": "Polish"
+                                }, {
+                                    "value": Settings.It_IT,
+                                    "text": "Italian"
+                                }, {
+                                    "value": Settings.Zh_CN,
+                                    "text": "Chinese - Simplified"
+                                }, {
+                                    "value": Settings.Ru_RU,
+                                    "text": "Russian"
+                                }, {
+                                    "value": Settings.Fr_FR,
+                                    "text": "French"
+                                }, {
+                                    "value": Settings.Es_ES,
+                                    "text": "Spanish"
+                                }, {
+                                    "value": Settings.Ko_KR,
+                                    "text": "Korean"
+                                }, {
+                                    "value": Settings.Vi_VN,
+                                    "text": "Vietnamese"
+                                }, {
+                                    "value": Settings.Pt_BR,
+                                    "text": "Portuguese (Brazil)"
+                                }, {
+                                    "value": Settings.Tr_TR,
+                                    "text": "Turkish"
+                                }, {
+                                    "value": Settings.Nl_NL,
+                                    "text": "Dutch"
+                                }]
                             onActivated: {
-                                ScreenPlay.settings.setLanguage(settingsLanguage.comboBox.currentValue);
-                                ScreenPlay.settings.retranslateUI();
+                                ScreenPlay.settings.setLanguage(
+                                            settingsLanguage.comboBox.currentValue)
+                                ScreenPlay.settings.retranslateUI()
                             }
                         }
-
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsComboBox {
                         id: settingsTheme
@@ -222,29 +217,29 @@ Item {
                         headline: qsTr("Theme")
                         description: qsTr("Switch dark/light theme")
                         Component.onCompleted: {
-                            settingsTheme.comboBox.currentIndex = root.indexOfValue(settingsTheme.comboBox.model, ScreenPlay.settings.theme);
+                            settingsTheme.comboBox.currentIndex = root.indexOfValue(
+                                        settingsTheme.comboBox.model,
+                                        ScreenPlay.settings.theme)
                         }
 
                         comboBox {
                             model: [{
-                                "value": Settings.System,
-                                "text": qsTr("System Default")
-                            }, {
-                                "value": Settings.Dark,
-                                "text": qsTr("Dark")
-                            }, {
-                                "value": Settings.Light,
-                                "text": qsTr("Light")
-                            }]
+                                    "value": Settings.System,
+                                    "text": qsTr("System Default")
+                                }, {
+                                    "value": Settings.Dark,
+                                    "text": qsTr("Dark")
+                                }, {
+                                    "value": Settings.Light,
+                                    "text": qsTr("Light")
+                                }]
                             onActivated: {
-                                ScreenPlay.settings.setTheme(settingsTheme.comboBox.currentValue);
+                                ScreenPlay.settings.setTheme(
+                                            settingsTheme.comboBox.currentValue)
                             }
                         }
-
                     }
-
                 }
-
             }
 
             SettingsPage {
@@ -274,13 +269,13 @@ Item {
                         headline: qsTr("Pause wallpaper video rendering while another app is in the foreground")
                         description: qsTr("We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!")
                         isChecked: ScreenPlay.settings.checkWallpaperVisible
-                        onCheckboxChanged: (checked) =>{
-                            ScreenPlay.settings.setCheckWallpaperVisible(checked);
+                        onCheckboxChanged: function (checked) {
+                            ScreenPlay.settings.setCheckWallpaperVisible(
+                                        checked)
                         }
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsComboBox {
                         id: cbVideoFillMode
@@ -288,33 +283,33 @@ Item {
                         headline: qsTr("Default Fill Mode")
                         description: qsTr("Set this property to define how the video is scaled to fit the target area.")
                         Component.onCompleted: {
-                            cbVideoFillMode.comboBox.currentIndex = root.indexOfValue(cbVideoFillMode.comboBox.model, ScreenPlay.settings.videoFillMode);
+                            cbVideoFillMode.comboBox.currentIndex = root.indexOfValue(
+                                        cbVideoFillMode.comboBox.model,
+                                        ScreenPlay.settings.videoFillMode)
                         }
 
                         comboBox {
-                            onActivated: ScreenPlay.settings.setVideoFillMode(cbVideoFillMode.comboBox.currentValue)
+                            onActivated: ScreenPlay.settings.setVideoFillMode(
+                                             cbVideoFillMode.comboBox.currentValue)
                             model: [{
-                                "value": FillMode.Stretch,
-                                "text": qsTr("Stretch")
-                            }, {
-                                "value": FillMode.Fill,
-                                "text": qsTr("Fill")
-                            }, {
-                                "value": FillMode.Contain,
-                                "text": qsTr("Contain")
-                            }, {
-                                "value": FillMode.Cover,
-                                "text": qsTr("Cover")
-                            }, {
-                                "value": FillMode.Scale_Down,
-                                "text": qsTr("Scale-Down")
-                            }]
+                                    "value": FillMode.Stretch,
+                                    "text": qsTr("Stretch")
+                                }, {
+                                    "value": FillMode.Fill,
+                                    "text": qsTr("Fill")
+                                }, {
+                                    "value": FillMode.Contain,
+                                    "text": qsTr("Contain")
+                                }, {
+                                    "value": FillMode.Cover,
+                                    "text": qsTr("Cover")
+                                }, {
+                                    "value": FillMode.Scale_Down,
+                                    "text": qsTr("Scale-Down")
+                                }]
                         }
-
                     }
-
                 }
-
             }
 
             SettingsPage {
@@ -348,7 +343,8 @@ Item {
 
                         Item {
                             width: parent.width
-                            height: txtHeadline.paintedHeight + txtDescriptionAbout.paintedHeight + wrapperLinks.childrenRect.height + 80
+                            height: txtHeadline.paintedHeight + txtDescriptionAbout.paintedHeight
+                                    + wrapperLinks.childrenRect.height + 80
 
                             Text {
                                 id: txtHeadline
@@ -366,7 +362,6 @@ Item {
                                     left: parent.left
                                     leftMargin: 20
                                 }
-
                             }
 
                             Text {
@@ -389,7 +384,6 @@ Item {
                                     right: imgLogoHead.left
                                     rightMargin: 60
                                 }
-
                             }
 
                             RowLayout {
@@ -432,7 +426,6 @@ Item {
                                     url: "https://www.reddit.com/r/ScreenPlayApp/"
                                     color: "#FF4500"
                                 }
-
                             }
 
                             Image {
@@ -450,7 +443,6 @@ Item {
                                     right: parent.right
                                     rightMargin: 20
                                 }
-
                             }
 
                             Image {
@@ -472,32 +464,30 @@ Item {
                                 maskSource: mask
                                 smooth: true
                             }
-
                         }
-
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsButton {
                         icon.source: "qrc:/assets/icons/icon_launch.svg"
                         headline: qsTr("Version")
-                        description: qsTr("ScreenPlay Build Version \n") + ScreenPlay.settings.gitBuildHash
+                        description: qsTr("ScreenPlay Build Version \n")
+                                     + ScreenPlay.settings.gitBuildHash
                         buttonText: qsTr("Open Changelog")
-                        onButtonPressed: Qt.openUrlExternally("https://gitlab.com/kelteseth/ScreenPlay/-/releases")
+                        onButtonPressed: Qt.openUrlExternally(
+                                             "https://gitlab.com/kelteseth/ScreenPlay/-/releases")
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsButton {
                         headline: qsTr("Third Party Software")
                         description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")
                         buttonText: qsTr("Licenses")
                         onButtonPressed: {
-                            ScreenPlay.util.requestAllLicenses();
-                            expanderCopyright.toggle();
+                            ScreenPlay.util.requestAllLicenses()
+                            expanderCopyright.toggle()
                         }
                     }
 
@@ -506,23 +496,21 @@ Item {
 
                         Connections {
                             function onAllLicenseLoaded(licensesText) {
-                                expanderCopyright.text = licensesText;
+                                expanderCopyright.text = licensesText
                             }
 
                             target: ScreenPlay.util
                         }
-
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsButton {
                         headline: qsTr("Logs")
                         description: qsTr("If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.")
                         buttonText: qsTr("Show Logs")
                         onButtonPressed: {
-                            expanderDebug.toggle();
+                            expanderDebug.toggle()
                         }
                     }
 
@@ -532,16 +520,15 @@ Item {
                         text: ScreenPlay.util.debugMessages
                     }
 
-                    SettingsHorizontalSeperator {
-                    }
+                    SettingsHorizontalSeperator {}
 
                     SettingsButton {
                         headline: qsTr("Data Protection")
                         description: qsTr("We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!")
                         buttonText: qsTr("Privacy")
                         onButtonPressed: {
-                            ScreenPlay.util.requestDataProtection();
-                            expanderDataProtection.toggle();
+                            ScreenPlay.util.requestDataProtection()
+                            expanderDataProtection.toggle()
                         }
                     }
 
@@ -550,24 +537,18 @@ Item {
 
                         Connections {
                             function onAllDataProtectionLoaded(dataProtectionText) {
-                                expanderDataProtection.text = dataProtectionText;
+                                expanderDataProtection.text = dataProtectionText
                             }
 
                             target: ScreenPlay.util
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         ScrollBar.vertical: ScrollBar {
             snapMode: ScrollBar.SnapOnRelease
         }
-
     }
-
 }
