@@ -60,7 +60,7 @@ BaseWindow::BaseWindow(
 
     if (projectFilePath == "test") {
         setType(ScreenPlay::InstalledType::InstalledType::QMLWallpaper);
-        setProjectSourceFileAbsolute({ "qrc:/ScreenPlayWallpaper/qml/Test.qml" });
+        setProjectSourceFileAbsolute({ "qrc:/ScreenPlayQmlWallpaper/qml/Test.qml" });
         setupLiveReloading();
         return;
     }

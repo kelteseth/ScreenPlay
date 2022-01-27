@@ -35,7 +35,7 @@ Item {
         active: false
         z: 99
         anchors.fill: parent
-        source: "qrc:/ScreenPlay/qml/Installed/InstalledUserHelper.qml"
+        source: "qrc:/ScreenPlayQml/qml/Installed/InstalledUserHelper.qml"
     }
 
     transitions: [

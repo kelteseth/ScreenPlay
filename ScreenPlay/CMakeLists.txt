@@ -196,6 +196,7 @@ target_link_libraries(
            Qt6::Core
            Qt6::WebSockets
            Qt6::Svg
+           ScreenPlayQmlplugin
            SteamSDKQtEnums)
 
 if(${TESTS_ENABLED})
@@ -224,10 +225,11 @@ qt_add_lrelease(
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
+qt_add_library(ScreenPlayQml STATIC)
 qt_add_qml_module(
-    ${PROJECT_NAME}
+    ScreenPlayQml
     URI
-    ${PROJECT_NAME}
+    ScreenPlayQml
     VERSION
     1.0
     QML_FILES

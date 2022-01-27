@@ -12,7 +12,7 @@ import "../Common"
 Item {
     id: root
 
-    required property Item modalSource
+    property Item modalSource
 
     function indexOfValue(model, value) {
         for (var i = 0; i < model.length; i++) {

@@ -36,6 +36,7 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
+Q_IMPORT_QML_PLUGIN(ScreenPlayQmlPlugin)
 
 #include <sentry.h>
 #define DOCTEST_CONFIG_IMPLEMENT

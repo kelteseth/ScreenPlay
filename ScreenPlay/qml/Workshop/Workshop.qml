@@ -9,16 +9,16 @@ import ScreenPlay
 Item {
     id: root
 
-    required property Item modalSource
+    property Item modalSource
 
     Component.onCompleted: {
         if (ScreenPlay.settings.steamVersion) {
             workshopLoader.setSource(
-                        "qrc:/ScreenPlay/qml/Workshop/SteamWorkshop.qml", {
+                        "qrc:/ScreenPlayQml/qml/Workshop/SteamWorkshop.qml", {
                             "modalSource": modalSource
                         })
         } else {
-            workshopLoader.setSource("qrc:/ScreenPlay/qml/Workshop/Forum.qml")
+            workshopLoader.setSource("qrc:/ScreenPlayQml/qml/Workshop/Forum.qml")
         }
     }
 

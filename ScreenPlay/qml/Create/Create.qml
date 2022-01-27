@@ -12,11 +12,11 @@ import ScreenPlay.QMLUtilities 1.0
 Item {
     id: root
 
-    required property Item modalSource
+    property Item modalSource
 
     Component.onCompleted: {
         wizardContentWrapper.state = "in";
-        stackView.push("qrc:/ScreenPlay/qml/Create/StartInfo.qml");
+        stackView.push("qrc:/ScreenPlayQml/qml/Create/StartInfo.qml");
     }
 
     Sidebar {

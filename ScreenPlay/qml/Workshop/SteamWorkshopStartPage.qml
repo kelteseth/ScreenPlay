@@ -276,7 +276,7 @@ Item {
                         text: qsTr("Profile")
                         onClicked: {
                             stackView.push(
-                                        "qrc:/ScreenPlay/qml/Workshop/SteamProfile.qml", {
+                                        "qrc:/ScreenPlayQml/qml/Workshop/SteamProfile.qml", {
                                             "screenPlayWorkshop": root.screenPlayWorkshop,
                                             "steamWorkshop": root.steamWorkshop
                                         })
@@ -295,7 +295,7 @@ Item {
                         text: qsTr("Upload")
                         onClicked: {
                             stackView.push(
-                                        "qrc:/ScreenPlay/qml/Workshop/upload/UploadProject.qml", {
+                                        "qrc:/ScreenPlayQml/qml/Workshop/upload/UploadProject.qml", {
                                             "screenPlayWorkshop": root.screenPlayWorkshop,
                                             "steamWorkshop": root.steamWorkshop
                                         })

@@ -8,7 +8,7 @@ import ScreenPlay 1.0
 Item {
     id: root
 
-    required property Item modalSource
+    property Item modalSource
 
     XMLNewsfeed {
         anchors {

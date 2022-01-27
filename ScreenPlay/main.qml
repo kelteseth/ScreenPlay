@@ -38,12 +38,12 @@ ApplicationWindow {
         }
 
         if (name === "Installed") {
-            stackView.replace("qrc:/ScreenPlay/qml/Installed/Installed.qml", {
+            stackView.replace("qrc:/ScreenPlayQml/qml/Installed/Installed.qml", {
                                   "sidebar": sidebar
                               })
             return
         }
-        stackView.replace("qrc:/ScreenPlay/qml/" + name + "/" + name + ".qml", {
+        stackView.replace("qrc:/ScreenPlayQml/qml/" + name + "/" + name + ".qml", {
                               "modalSource": content
                           })
         sidebar.state = "inactive"
@@ -58,7 +58,7 @@ ApplicationWindow {
     title: "ScreenPlay Alpha - " + ScreenPlay.version()
     minimumHeight: 450
     minimumWidth: 1050
-    flags: Qt.FramelessWindowHint | Qt.Window
+    property bool enableCustomWindowNavigation: Qt.platform.os === "windows" || Qt.platform.os === "osx"
 
     // Partial workaround for
     // https://bugreports.qt.io/browse/QTBUG-86047
@@ -74,8 +74,11 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
+        if(root.enableCustomWindowNavigation){
+            root.flags = Qt.FramelessWindowHint | Qt.Window
+        }
         setTheme(ScreenPlay.settings.theme)
-        stackView.push("qrc:/ScreenPlay/qml/Installed/Installed.qml", {
+        stackView.push("qrc:/ScreenPlayQml/qml/Installed/Installed.qml", {
                            "sidebar": sidebar
                        })
         if (!ScreenPlay.settings.silentStart)
@@ -112,6 +115,8 @@ ApplicationWindow {
         anchors.margins: 1
         Navigation.WindowNavigation {
             id: windowNav
+            enabled: root.enableCustomWindowNavigation
+            visible: enabled
             z:5
             modalSource: content
             width: parent.width
@@ -121,7 +126,7 @@ ApplicationWindow {
         Item {
             id: content
             anchors {
-                top: windowNav.bottom
+                top: root.enableCustomWindowNavigation ?  windowNav.bottom : parent.top
                 right: parent.right
                 bottom: parent.bottom
                 left: parent.left

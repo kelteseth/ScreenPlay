@@ -14,7 +14,7 @@ Item {
     property bool refresh: false
     property bool enabled: true
 
-    required property Sidebar sidebar
+    property Sidebar sidebar
 
     signal setNavigationItem(var pos)
     signal setSidebarActive(var active)
@@ -73,7 +73,7 @@ Item {
         active: false
         z: 99
         anchors.fill: parent
-        source: "qrc:/ScreenPlay/qml/Installed/InstalledWelcomeScreen.qml"
+        source: "qrc:/ScreenPlayQml/qml/Installed/InstalledWelcomeScreen.qml"
     }
 
     Connections {
@@ -89,7 +89,7 @@ Item {
         objectName: "gridView"
 
         property bool isDragging: false
-        property bool isScrolling: gridView.verticalVelocity != 0
+        property bool isScrolling: gridView.verticalVelocity !== 0
 
         boundsBehavior: Flickable.DragOverBounds
         maximumFlickVelocity: 5000
@@ -297,7 +297,7 @@ Item {
         }
     }
 
-    Common.Dialog {
+    Dialog {
         id: deleteDialog
         title: qsTr("Are you sure you want to delete this item?")
         standardButtons: Dialog.Ok | Dialog.Cancel
