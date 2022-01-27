@@ -107,67 +107,6 @@ message(STATUS "[PROJECT] VCPKG_TARGET_TRIPLET       = ${VCPKG_TARGET_TRIPLET}")
 message(STATUS "[PROJECT] CMAKE_PREFIX_PATH          = ${CMAKE_PREFIX_PATH}")
 
 if(${SCREENPLAY_CREATE_INSTALLER})
-
-    message(STATUS "[INSTALLER] CPACK_GENERATOR          = ${CPACK_GENERATOR}")
-
-    if(${SCREENPLAY_IFW_ROOT} STREQUAL "")
-        # Hardcoded Qt paths that are used by the QtMaintanance tool for now...
-        if(WIN32)
-            set(SCREENPLAY_IFW_ROOT "C:/Qt/Tools/QtInstallerFramework/4.2")
-        elseif(UNIX AND NOT APPLE)
-            set(SCREENPLAY_IFW_ROOT "$ENV{HOME}/Qt/Tools/QtInstallerFramework/4.2")
-        endif()
-        message(STATUS "[CPACK_IFW_ROOT] Not set. Using hardcoded value: ${SCREENPLAY_IFW_ROOT}")
-        message(STATUS "WARNING: MAKE SURE YOU HAVE THIS EXACT VERSION INSTALLED VIA THE QTMAINTANANCE TOOL!")
-    else()
-        message(STATUS "[CPACK_IFW_ROOT]  =  ${SCREENPLAY_IFW_ROOT}")
-    endif()
-
-    message(STATUS "[IFW INSTALLER ENABLED]: Configuring. This can take some time...")
-
-    set(CPACK_IFW_ROOT ${SCREENPLAY_IFW_ROOT})
-    set(CPACK_PACKAGE_NAME "${PROJECT_NAME}")
-    set(CPACK_PACKAGE_FILE_NAME "${CMAKE_PROJECT_NAME}-Installer")
-    set(CPACK_PACKAGE_VENDOR "Elias Steurer")
-    set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "${PROJECT_DESCRIPTION}")
-    set(CPACK_PACKAGE_DIRECTORY "${CMAKE_BINARY_DIR}")
-
-    # Ensures that contents written to the CPack configuration files is escaped properly.
-    set(CPACK_VERBATIM_VARIABLES TRUE)
-    set(CPACK_GENERATOR "IFW")
-
-    set(CPACK_IFW_PACKAGE_START_MENU_DIRECTORY "") # empty => default is install to top-level (?)
-    set(CPACK_IFW_TARGET_DIRECTORY "@HomeDir@/Apps/${CMAKE_PROJECT_NAME}")
-    set(CPACK_IFW_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/ScreenPlay/assets/icons/app.ico")
-    set(CPACK_IFW_PACKAGE_WINDOW_ICON "${CMAKE_CURRENT_SOURCE_DIR}/ScreenPlay/assets/icons/app.ico")
-    set(CPACK_IFW_PACKAGE_CONTROL_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Tools/Installer/installscript.qs")
-
-    set(CPACK_COMPONENTS_GROUPING IGNORE)
-    set(CPACK_IFW_PACKAGE_GROUP ScreenPlay)
-    set(CPACK_IFW_VERBOSE ON)
-
-    include(CPack)
-    include(CPackIFW)
-
-    # Install all files from /bin
-    install(
-        DIRECTORY "${CMAKE_BINARY_DIR}/bin/"
-        COMPONENT ScreenPlay
-        DESTINATION "/")
-
-    cpack_add_component(
-        ScreenPlay
-        DISPLAY_NAME "ScreenPlay"
-        DESCRIPTION "This installs ScreenPlay.")
-
-    cpack_ifw_configure_component(
-        ScreenPlayApp FORCED_INSTALLATION
-        NAME "ScreenPlay"
-        VERSION ${PROJECT_VERSION} # Version of component
-        DESCRIPTION "Welcome to the K3000 installer."
-        # Gets ignored and I do not know why
-        SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Tools/Installer/installscript.qs"
-        CHECKABLE FALSE)
-
+    include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/CreateIFWInstaller.cmake)
 endif()
 

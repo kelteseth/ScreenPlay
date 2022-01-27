@@ -238,9 +238,7 @@ if __name__ == "__main__":
 	if args.create_installer:
 		os.chdir(build_folder)
 		print("Running cpack at: ", os.getcwd())
-		print("SKIP INSTALLER UNTIL CMAKE OUT OF SPACE ERROR IS FIXED IN 3.23")
-		print("https://cmake.org/cmake/help/git-stage/cpack_gen/ifw.html#variable:CPACK_IFW_ARCHIVE_FORMAT")
-		#run("cpack", cwd=build_folder)
+		run("cpack", cwd=build_folder)
 
 	print("Time taken: {}s".format(time.time() - start_time))
 	

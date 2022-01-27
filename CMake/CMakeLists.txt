@@ -1,7 +1,9 @@
 project(CMake)
 
 set(FILES # cmake-format: sortable
-          CopyRecursive.cmake QtUpdateTranslations.cmake)
+          CopyRecursive.cmake
+          CreateIFWInstaller.cmake
+          QtUpdateTranslations.cmake)
 
 add_custom_target(
     ${PROJECT_NAME}

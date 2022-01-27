@@ -237,6 +237,9 @@ if(WIN32)
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
 
+    # Needed for the installscript.qs Windows entry
+    configure_file(${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/app.ico ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+
     # Disable console window on Windows
     # https://stackoverflow.com/questions/8249028/how-do-i-keep-my-qt-c-program-from-opening-a-console-in-windows
     set_property(TARGET ${PROJECT_NAME} PROPERTY WIN32_EXECUTABLE true)
