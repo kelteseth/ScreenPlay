@@ -12,7 +12,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-option(SCREENPLAY_IFW_ROOT ""  STRING )
+set(SCREENPLAY_IFW_ROOT "")
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
 option(SCREENPLAY_TESTS "Enables UI tests." OFF)
 option(SCREENPLAY_CREATE_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)

@@ -1,9 +1,9 @@
-
-if(${SCREENPLAY_IFW_ROOT} STREQUAL "")
+# Variable must be around "" to be equal!
+if("${CPACK_IFW_ROOT}" STREQUAL "")
     # Hardcoded Qt paths that are used by the QtMaintanance tool for now...
     if(WIN32)
         set(SCREENPLAY_IFW_ROOT "C:/Qt/Tools/QtInstallerFramework/4.2")
-    elseif(UNIX AND NOT APPLE)
+    elseif(UNIX)
         set(SCREENPLAY_IFW_ROOT "$ENV{HOME}/Qt/Tools/QtInstallerFramework/4.2")
     endif()
     message(STATUS "[CPACK_IFW_ROOT] Not set. Using hardcoded value: ${SCREENPLAY_IFW_ROOT}")
@@ -29,9 +29,9 @@ set(CPACK_GENERATOR "IFW")
 set(CPACK_IFW_PACKAGE_NAME "ScreenPlay")
 set(CPACK_IFW_ROOT ${SCREENPLAY_IFW_ROOT})
 set(CPACK_IFW_TARGET_DIRECTORY "@HomeDir@/Apps/ScreenPlay")
-set(CPACK_IFW_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/ScreenPlay/assets/icons/app.ico")
-set(CPACK_IFW_PACKAGE_WINDOW_ICON "${CMAKE_CURRENT_SOURCE_DIR}/ScreenPlay/assets/icons/app.ico")
-set(CPACK_IFW_PACKAGE_CONTROL_SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Tools/Installer/installscript.qs")
+set(CPACK_IFW_PACKAGE_ICON "${CMAKE_SOURCE_DIR}/ScreenPlay/assets/icons/app.ico")
+set(CPACK_IFW_PACKAGE_WINDOW_ICON "${CMAKE_SOURCE_DIR}/ScreenPlay/assets/icons/app.ico")
+set(CPACK_IFW_PACKAGE_CONTROL_SCRIPT "${CMAKE_SOURCE_DIR}/Tools/Installer/installscript.qs")
 
 set(CPACK_IFW_PACKAGE_GROUP ScreenPlay)
 set(CPACK_IFW_VERBOSE ON)
@@ -51,7 +51,7 @@ include(CPackIFW)
 install(
     DIRECTORY "${CMAKE_BINARY_DIR}/bin/"
     COMPONENT ScreenPlay
-    DESTINATION "/")
+    DESTINATION "./")
 
 cpack_add_component(
     ScreenPlay
@@ -62,7 +62,5 @@ cpack_ifw_configure_component(
     ScreenPlayApp FORCED_INSTALLATION
     NAME "ScreenPlay"
     VERSION ${PROJECT_VERSION} # Version of component
-    DESCRIPTION "Welcome to the K3000 installer."
-    # Gets ignored and I do not know why
-    SCRIPT "${CMAKE_CURRENT_SOURCE_DIR}/Tools/Installer/installscript.qs"
+    DESCRIPTION "Welcome to the ScreenPlay installer."
     CHECKABLE FALSE)
