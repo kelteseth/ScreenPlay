@@ -1,11 +1,17 @@
 # Variable must be around "" to be equal!
 if("${CPACK_IFW_ROOT}" STREQUAL "")
+
     # Hardcoded Qt paths that are used by the QtMaintanance tool for now...
     if(WIN32)
         set(SCREENPLAY_IFW_ROOT "C:/Qt/Tools/QtInstallerFramework/4.2")
     elseif(UNIX)
-        set(SCREENPLAY_IFW_ROOT "$ENV{HOME}/Qt/Tools/QtInstallerFramework/4.2")
+        if(${GITLAB_CI})
+            set(SCREENPLAY_IFW_ROOT "${CMAKE_SOURCE_DIR}/../aqt/Tools/QtInstallerFramework/4.2")
+        else()
+            set(SCREENPLAY_IFW_ROOT "$ENV{HOME}/Qt/Tools/QtInstallerFramework/4.2")
+        endif()
     endif()
+
     message(STATUS "[CPACK_IFW_ROOT] Not set. Using hardcoded value: ${SCREENPLAY_IFW_ROOT}")
     message(STATUS "WARNING: MAKE SURE YOU HAVE THIS EXACT VERSION INSTALLED VIA THE QTMAINTANANCE TOOL!")
 else()

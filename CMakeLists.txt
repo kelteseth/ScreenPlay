@@ -17,6 +17,10 @@ option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary c
 option(SCREENPLAY_TESTS "Enables UI tests." OFF)
 option(SCREENPLAY_CREATE_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 
+# Gitlab CI has many ENV variables. We use this one to check if the current build happens inside the CI
+if(DEFINED ENV{CI_COMMIT_MESSAGE})
+    set(GITLAB_CI true)
+endif()
 
 # Add our *.cmake diretory to the CMAKE_MODULE_PATH, so that our includes are found
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})

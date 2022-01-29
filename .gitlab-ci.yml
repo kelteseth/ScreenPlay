@@ -137,19 +137,17 @@ build:linux_release:
     needs:
         - check
     script:
-        - apt-get update -y
+        - apt update -y
         # Otherwise libglib2 needs interaction
         - export DEBIAN_FRONTEND=noninteractive
-        - apt-get install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install -U pip
         - pip3 install aqtinstall
-        - mkdir Qt
         - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
         - aqt install-tool -O ../aqt linux desktop tools_ifw
-        # - wget -q https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
         - curl -OL $CQTDEPLOYER_URL
         - chmod +x ./CQtDeployer_*.deb
-        - apt-get install ./CQtDeployer_*.deb -y
+        - apt install ./CQtDeployer_*.deb -y
         - python3 ./Tools/setup.py
         - python3 ./Tools/build.py -type release -steam -use-aqt -installer
     artifacts:
