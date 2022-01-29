@@ -5,7 +5,7 @@ stages:
 
 variables:
     GIT_STRATEGY: clone
-    QT_VERSION: 6.2.2
+    QT_VERSION: "6.2.2"
     PYTHON_VERSION: "3.10.1"
     CQTDEPLOYER_URL: "https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.4.10/CQtDeployer_1.5.4.10_Linux_x86_64.deb"
 
