@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
-qt_version = "6.2.2"
+qt_version = "6.2.3"
 steam_build = "OFF"
 build_tests = "OFF"
 create_installer = "OFF"
