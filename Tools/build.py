@@ -8,7 +8,7 @@ import time
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
-qt_version = "6.2.2"
+qt_version = "6.2.3"
 steam_build = "OFF"
 build_tests = "OFF"
 create_installer = "OFF"
@@ -122,11 +122,8 @@ if __name__ == "__main__":
 
 	elif platform.system() == "Linux":
 		cmake_target_triplet = "x64-linux"
-		qt_path = aqt_path.joinpath(f"{qt_version}/gcc_64") if args.use_aqt else Path(f"~/Qt/{qt_version}/gcc_64")
-		if shutil.which("cqtdeployer"):
-			deploy_command = "cqtdeployer -qmlDir ../../{app}/qml -bin {app}"
-		else:
-			print("cqtdeployer not available, build may be incomplete and incompatible with some distro (typically Ubuntu)")
+		home_path = str(Path.home())
+		qt_path = aqt_path.joinpath(f"{qt_version}/gcc_64") if args.use_aqt else Path(f"{home_path}/Qt/{qt_version}/gcc_64")
 	else:
 		raise NotImplementedError("Unsupported platform, ScreenPlay only supports Windows, macOS and Linux.")
 		
@@ -194,7 +191,43 @@ if __name__ == "__main__":
 			app="ScreenPlayWallpaper",
 			executable_file_ending=executable_file_ending), cwd=bin_dir)
 	else:
-		print("Not executing deploy commands due to missing dependencies.")
+		# just copy the folders and be done with it
+		if platform.system() == "Linux":
+			# Copy  all .so files from the qt_path lib folder into bin_dir
+			qt_lib_path = qt_path
+			for file in qt_lib_path.joinpath("lib").glob("*.so"):
+				shutil.copy(str(file), str(bin_dir))
+			
+			# Copy qt_qml_path folder content into bin_dir
+			qt_qml_path = qt_path
+			for folder in qt_qml_path.joinpath("qml").iterdir():
+				if not folder.is_file():
+					shutil.copytree(str(folder), str(bin_dir.joinpath(folder.name)))
+					print("Copied %s" % folder)
+
+
+			# Copy all plugin folder from qt_path plugins subfolder into bin_dir
+			qt_plugins_path = qt_path
+			for folder in qt_path.joinpath("plugins").iterdir():
+				if not folder.is_file():
+					shutil.copytree(str(folder), str(bin_dir.joinpath(folder.name)))
+					print("Copied %s" % folder)
+
+			# Copy all folder from qt_path translation files into bin_dir translation folder
+			qt_translations_path = qt_path
+			for folder in qt_translations_path.joinpath("translations").iterdir():
+				if not folder.is_file():
+					shutil.copytree(str(folder), str(bin_dir.joinpath("translations").joinpath(folder.name)))
+					print("Copied %s" % folder)
+
+			# Copy all  filesfrom qt_path resources folder into bin_dir folder
+			qt_resources_path = qt_path
+			for file in qt_path.joinpath("resources").glob("*"):
+				shutil.copy(str(file), str(bin_dir))
+				print("Copied %s" % file)
+
+		else:
+			print("Not executing deploy commands due to missing dependencies.")
 	
 	# Post-build
 	if platform.system() == "Darwin" and args.sign_build:
