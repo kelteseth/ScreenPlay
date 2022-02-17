@@ -19,7 +19,6 @@ cmake_build_type = ""
 executable_file_ending = ""
 deploy_command = ""
 aqt_path = ""
-ifw_root_path = ""
 cmake_bin_path = ""
 
 file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".dylib", ".exp",
@@ -138,7 +137,6 @@ if __name__ == "__main__":
 		build_tests =  "ON"
 	if args.create_installer:
 		create_installer =  "ON"
-		ifw_root_path =  ("{aqt_path}\\Tools\\QtInstallerFramework\\4.2").format(aqt_path=aqt_path)
 
 	cmake_configure_command = 'cmake ../ \
 -DCMAKE_PREFIX_PATH={prefix_path} \
@@ -148,7 +146,6 @@ if __name__ == "__main__":
 -DSCREENPLAY_STEAM={steam} \
 -DSCREENPLAY_TESTS={tests} \
 -DSCREENPLAY_CREATE_INSTALLER={installer} \
--DSCREENPLAY_IFW_ROOT:STRING={ifw} \
 -G "CodeBlocks - Ninja" \
 -B.'.format(
 		prefix_path=qt_path,
@@ -157,8 +154,7 @@ if __name__ == "__main__":
 		toolchain=cmake_toolchain_file,
 		steam=steam_build,
 		tests = build_tests,
-		installer= create_installer,
-		ifw= ifw_root_path)
+		installer= create_installer)
 
 	build_folder = root_path.joinpath(f"build-{cmake_target_triplet}-{args.build_type}")
 	clean_build_dir(build_folder)

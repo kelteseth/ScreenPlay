@@ -1,11 +1,12 @@
 stages:
     - check
     - build
+    - release
     - test
 
 variables:
     GIT_STRATEGY: clone
-    QT_VERSION: 6.2.2
+    QT_VERSION: "6.2.3"
     PYTHON_VERSION: "3.10.1"
     CQTDEPLOYER_URL: "https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.4.10/CQtDeployer_1.5.4.10_Linux_x86_64.deb"
 
@@ -51,6 +52,7 @@ build:shared_windows_release:
         expire_in: "4 weeks"
         paths:
             - build-x64-windows-release/bin/
+
 
 build:windows_release:
     stage: build
@@ -137,25 +139,169 @@ build:linux_release:
     needs:
         - check
     script:
-        - apt-get update -y
+        - apt update -y
         # Otherwise libglib2 needs interaction
         - export DEBIAN_FRONTEND=noninteractive
-        - apt-get install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install -U pip
         - pip3 install aqtinstall
-        - mkdir Qt
         - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
         - aqt install-tool -O ../aqt linux desktop tools_ifw
-        # - wget -q https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.2/CQtDeployer_1.5.2_OfflineInstaller_Linux64.run
         - curl -OL $CQTDEPLOYER_URL
         - chmod +x ./CQtDeployer_*.deb
-        - apt-get install ./CQtDeployer_*.deb -y
-        - python3 ./Tools/setup.py
-        - python3 ./Tools/build.py -type release -steam -use-aqt -installer
+        - apt install ./CQtDeployer_*.deb -y
+        - cd Tools
+        - python3 setup.py
+        - python3 build.py -type release -steam -use-aqt -installer
     artifacts:
         expire_in: "4 weeks"
         paths:
             - build-x64-linux-release/bin/
+
+release:windows_steam:
+    stage: build
+    tags:
+        - windows10
+    needs:
+        - check
+    script:
+        - python -m pip install -U pip wheel
+        - python -m pip install -U aqtinstall
+        - aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
+        - aqt install-tool -O ../aqt windows desktop tools_ifw
+        - cd Tools
+        - python setup.py
+        - python build.py -type release -use-aqt -steam
+    only:
+        - release
+    artifacts:
+        expire_in: "never"
+        paths:
+            - build-x64-windows-release/bin/
+
+release:windows_standalone:
+    stage: build
+    tags:
+        - windows10
+    needs:
+        - check
+    script:
+        - python -m pip install -U pip wheel
+        - python -m pip install -U aqtinstall
+        - aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
+        - aqt install-tool -O ../aqt windows desktop tools_ifw
+        - cd Tools
+        - python setup.py
+        - python build.py -type release -use-aqt -installer
+    only:
+        - release
+    artifacts:
+        expire_in: "never"
+        paths:
+            - build-x64-windows-release/bin/
+
+release:osx_steam:
+    stage: build
+    tags:
+        - osx
+    needs:
+        - check
+    script:
+        - pip3 install -U pip
+        - pip3 install aqtinstall
+        - aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
+        - aqt install-tool -O ../aqt mac desktop tools_ifw
+        - cd Tools
+        - python3 setup.py
+        - python3 build.py -type release -steam -use-aqt -sign
+    only:
+        - release
+    artifacts:
+        expire_in: "never"
+        paths:
+            - build-x64-osx-release/bin/
+
+release:osx_standalone:
+    stage: build
+    tags:
+        - osx
+    needs:
+        - check
+    script:
+        - pip3 install -U pip
+        - pip3 install aqtinstall
+        - aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
+        - aqt install-tool -O ../aqt mac desktop tools_ifw
+        - cd Tools
+        - python3 setup.py
+        - python3 build.py -type release -installer -use-aqt -sign
+    only:
+        - release
+    artifacts:
+        expire_in: "never"
+        paths:
+            - build-x64-osx-release/bin/
+
+release:linux_steam:
+    stage: build
+    image:
+        name: ubuntu:20.04
+    tags:
+        - gitlab-org-docker
+    needs:
+        - check
+    script:
+        - apt update -y
+        # Otherwise libglib2 needs interaction
+        - export DEBIAN_FRONTEND=noninteractive
+        - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - pip3 install -U pip
+        - pip3 install aqtinstall
+        - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
+        - aqt install-tool -O ../aqt linux desktop tools_ifw
+        - curl -OL $CQTDEPLOYER_URL
+        - chmod +x ./CQtDeployer_*.deb
+        - apt install ./CQtDeployer_*.deb -y
+        - cd Tools
+        - python3 setup.py
+        - python3 build.py -type release -steam -use-aqt
+    only:
+        - release
+    artifacts:
+        expire_in: "never"
+        paths:
+            - build-x64-linux-release/bin/
+
+release:linux_standalone:
+    stage: build
+    image:
+        name: ubuntu:20.04
+    tags:
+        - gitlab-org-docker
+    needs:
+        - check
+    script:
+        - apt update -y
+        # Otherwise libglib2 needs interaction
+        - export DEBIAN_FRONTEND=noninteractive
+        - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - pip3 install -U pip
+        - pip3 install aqtinstall
+        - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
+        - aqt install-tool -O ../aqt linux desktop tools_ifw
+        - curl -OL $CQTDEPLOYER_URL
+        - chmod +x ./CQtDeployer_*.deb
+        - apt install ./CQtDeployer_*.deb -y
+        - cd Tools
+        - python3 setup.py
+        - python3 build.py -type release -installer -use-aqt
+    only:
+        - release
+    artifacts:
+        expire_in: "never"
+        paths:
+            - build-x64-linux-release/bin/
+
 
 test:windows_release:
     stage: test
