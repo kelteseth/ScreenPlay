@@ -218,10 +218,6 @@
       <translation>Âm lượng</translation>
     </message>
     <message>
-      <source>Playback rate</source>
-      <translation>Tốc độ phát lại</translation>
-    </message>
-    <message>
       <source>Current Video Time</source>
       <translation>Thời gian video hiện tại</translation>
     </message>
@@ -730,14 +726,6 @@
       <translation>Widgets</translation>
     </message>
     <message>
-      <source>Install Date Ascending</source>
-      <translation>Ngày cài đặt tăng dần</translation>
-    </message>
-    <message>
-      <source>Install Date Descending</source>
-      <translation>Ngày cài đặt giảm dần</translation>
-    </message>
-    <message>
       <source> Subscribed items: </source>
       <translation>Những mục đã đăng ký: </translation>
     </message>
@@ -778,16 +766,6 @@
       <translation type="unfinished">Configure Wallpaper</translation>
     </message>
     <message>
-      <source>Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</source>
-      <translation type="unfinished">Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</translation>
-    </message>
-    <message>
-      <source>ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets</source>
-      <translation type="unfinished">ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets</translation>
-    </message>
-    <message>
       <source>Support me on Patreon!</source>
       <translation type="unfinished">Support me on Patreon!</translation>
     </message>
@@ -799,12 +777,18 @@ This will shut down all Wallpaper and Widgets.</translation>
   <context>
     <name>PopupOffline</name>
     <message>
-      <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
-      <translation>Bạn cần chạy Steam để làm việc này ´｡• ω •｡` ♡ steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
-    </message>
-    <message>
       <source>Back</source>
       <translation>Quay lại</translation>
+    </message>
+    <message>
+      <source>You need to run Steam to access the Steam Workshop</source>
+      <translation type="unfinished">You need to run Steam to access the Steam Workshop</translation>
+    </message>
+    <message>
+      <source>Steam Error Restart: %1
+Steam Error API Init: %2</source>
+      <translation type="unfinished">Steam Error Restart: %1
+Steam Error API Init: %2</translation>
     </message>
   </context>
   <context>
@@ -1911,6 +1895,17 @@ This will shut down all Wallpaper and Widgets.</translation>
     <message>
       <source>Preview Image</source>
       <translation>Ảnh xem trước</translation>
+    </message>
+  </context>
+  <context>
+    <name>WindowNavigation</name>
+    <message>
+      <source>ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</source>
+      <translation type="unfinished">ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</translation>
+    </message>
+    <message>
+      <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
+      <translation type="unfinished">Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</translation>
     </message>
   </context>
   <context>
