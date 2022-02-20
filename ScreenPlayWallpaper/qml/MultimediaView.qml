@@ -20,18 +20,7 @@ Item {
             mediaPlayer.play()
             root.requestFadeIn()
         }
-        loops: !root.isWindows && root.loops ? MediaPlayer.Infinite : 1
-        onPositionChanged: {
-            if (!root.isWindows)
-                return
-
-            if ((mediaPlayer.position >= mediaPlayer.duration) && root.loops) {
-                mediaPlayer.setPosition(0)
-                mediaPlayer.stop()
-                mediaPlayer.play()
-            }
-        }
-
+        loops: root.loops ? MediaPlayer.Infinite : 1
         videoOutput: vo
         audioOutput: ao
     }
