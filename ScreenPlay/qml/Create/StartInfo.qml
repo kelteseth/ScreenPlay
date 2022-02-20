@@ -51,7 +51,7 @@ Item {
         maximumFlickVelocity: 2500
         flickDeceleration: 500
         clip: true
-        cellWidth: 186
+        cellWidth: 180
         cellHeight: 280
 
         anchors {
