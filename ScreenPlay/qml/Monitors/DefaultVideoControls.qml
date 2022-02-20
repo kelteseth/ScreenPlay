@@ -27,12 +27,7 @@ ColumnLayout {
     state: "hidden"
     clip: true
     onWallpaperChanged: {
-        if (!wallpaper) {
-            slPlaybackRate.slider.value = 1;
-            return ;
-        }
         slVolume.slider.value = wallpaper.volume;
-        slPlaybackRate.slider.value = wallpaper.playbackRate;
     }
 
     SP.Slider {
