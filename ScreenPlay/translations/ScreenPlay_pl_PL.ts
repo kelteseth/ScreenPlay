@@ -218,10 +218,6 @@
       <translation>Głośność</translation>
     </message>
     <message>
-      <source>Playback rate</source>
-      <translation>Prędkość odtwarzania</translation>
-    </message>
-    <message>
       <source>Current Video Time</source>
       <translation>Moment filmu</translation>
     </message>
@@ -730,14 +726,6 @@
       <translation>Widżety</translation>
     </message>
     <message>
-      <source>Install Date Ascending</source>
-      <translation>Data instalacji: rosnąco</translation>
-    </message>
-    <message>
-      <source>Install Date Descending</source>
-      <translation>Data instalacji: malejąco</translation>
-    </message>
-    <message>
       <source> Subscribed items: </source>
       <translation> Subskrybowane: </translation>
     </message>
@@ -778,16 +766,6 @@
       <translation>Konfiguruj tapetę</translation>
     </message>
     <message>
-      <source>Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</source>
-      <translation>Czy na pewno chcesz zamknąć ScreenPlay? 
-Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
-    </message>
-    <message>
-      <source>ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets</source>
-      <translation type="unfinished">ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets</translation>
-    </message>
-    <message>
       <source>Support me on Patreon!</source>
       <translation type="unfinished">Support me on Patreon!</translation>
     </message>
@@ -799,12 +777,18 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
   <context>
     <name>PopupOffline</name>
     <message>
-      <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
-      <translation>Ta funkcja wymaga uruchomienia Steam. steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
-    </message>
-    <message>
       <source>Back</source>
       <translation>Wstecz</translation>
+    </message>
+    <message>
+      <source>You need to run Steam to access the Steam Workshop</source>
+      <translation type="unfinished">You need to run Steam to access the Steam Workshop</translation>
+    </message>
+    <message>
+      <source>Steam Error Restart: %1
+Steam Error API Init: %2</source>
+      <translation type="unfinished">Steam Error Restart: %1
+Steam Error API Init: %2</translation>
     </message>
   </context>
   <context>
@@ -1911,6 +1895,17 @@ Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
     <message>
       <source>Preview Image</source>
       <translation>Obraz podglądu</translation>
+    </message>
+  </context>
+  <context>
+    <name>WindowNavigation</name>
+    <message>
+      <source>ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</source>
+      <translation type="unfinished">ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</translation>
+    </message>
+    <message>
+      <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
+      <translation type="unfinished">Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</translation>
     </message>
   </context>
   <context>
