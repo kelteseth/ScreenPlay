@@ -30,11 +30,9 @@ Item {
         layer.effect: ElevationEffect {
             elevation: 2
         }
-
     }
 
-    Common.MouseHoverBlocker {
-    }
+    Common.MouseHoverBlocker {}
 
     Item {
         height: nav.height
@@ -66,13 +64,12 @@ Item {
                 font.weight: Font.Thin
                 icon.source: "qrc:/assets/icons/icon_installed.svg"
                 onClicked: {
-                    setSidebarActive(false);
-                    ScreenPlay.installedListFilter.sortBySearchType(SearchType.All);
+                    setSidebarActive(false)
+                    ScreenPlay.installedListFilter.sortBySearchType(
+                                SearchType.All)
                 }
 
-                background: Item {
-                }
-
+                background: Item {}
             }
 
             TabButton {
@@ -85,13 +82,12 @@ Item {
                 font.weight: Font.Thin
                 icon.source: "qrc:/assets/icons/icon_code.svg"
                 onClicked: {
-                    setSidebarActive(false);
-                    ScreenPlay.installedListFilter.sortBySearchType(SearchType.Scene);
+                    setSidebarActive(false)
+                    ScreenPlay.installedListFilter.sortBySearchType(
+                                SearchType.Scene)
                 }
 
-                background: Item {
-                }
-
+                background: Item {}
             }
 
             TabButton {
@@ -104,13 +100,12 @@ Item {
                 font.weight: Font.Thin
                 icon.source: "qrc:/assets/icons/icon_movie.svg"
                 onClicked: {
-                    setSidebarActive(false);
-                    ScreenPlay.installedListFilter.sortBySearchType(SearchType.Wallpaper);
+                    setSidebarActive(false)
+                    ScreenPlay.installedListFilter.sortBySearchType(
+                                SearchType.Wallpaper)
                 }
 
-                background: Item {
-                }
-
+                background: Item {}
             }
 
             TabButton {
@@ -123,18 +118,15 @@ Item {
                 font.weight: Font.Thin
                 icon.source: "qrc:/assets/icons/icon_widgets.svg"
                 onClicked: {
-                    setSidebarActive(false);
-                    ScreenPlay.installedListFilter.sortBySearchType(SearchType.Widget);
+                    setSidebarActive(false)
+                    ScreenPlay.installedListFilter.sortBySearchType(
+                                SearchType.Widget)
                 }
 
-                background: Item {
-                }
-
+                background: Item {}
             }
 
-            background: Item {
-            }
-
+            background: Item {}
         }
 
         Common.Search {
@@ -145,7 +137,6 @@ Item {
                 rightMargin: 10
                 top: parent.top
             }
-
         }
 
         ToolButton {
@@ -153,17 +144,21 @@ Item {
 
             property int sortOrder: Qt.DescendingOrder
 
-            icon.source: (sortOrder === Qt.AscendingOrder) ? "qrc:/assets/icons/icon_sort-down-solid.svg" : "qrc:/assets/icons/icon_sort-up-solid.svg"
+            icon.source: (btnSortOrder.sortOrder === Qt.AscendingOrder) ? "qrc:/assets/icons/icon_sort-down-solid.svg" : "qrc:/assets/icons/icon_sort-up-solid.svg"
             icon.width: 12
             icon.height: 12
             hoverEnabled: true
             ToolTip.delay: 100
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
-            ToolTip.text: (sortOrder === Qt.AscendingOrder) ? qsTr("Install Date Ascending") : qsTr("Install Date Descending")
+            ToolTip.text: (btnSortOrder.sortOrder
+                           === Qt.AscendingOrder) ? "Install Date Ascending":  "Install Date Descending"
             onClicked: {
-                sortOrder = (sortOrder === Qt.DescendingOrder) ? Qt.AscendingOrder : Qt.DescendingOrder;
-                ScreenPlay.installedListFilter.setSortOrder(sortOrder);
+                btnSortOrder.sortOrder
+                        = (btnSortOrder.sortOrder
+                           === Qt.DescendingOrder) ? Qt.AscendingOrder : Qt.DescendingOrder
+                ScreenPlay.installedListFilter.setSortOrder(
+                            btnSortOrder.sortOrder)
             }
 
             anchors {
@@ -172,9 +167,7 @@ Item {
                 top: parent.top
                 verticalCenter: parent.verticalCenter
             }
-
         }
-
     }
 
     states: [
@@ -185,7 +178,6 @@ Item {
                 target: root
                 anchors.topMargin: -115
             }
-
         },
         State {
             name: "in"
@@ -194,7 +186,6 @@ Item {
                 target: root
                 anchors.topMargin: 0
             }
-
         }
     ]
     transitions: [
@@ -208,7 +199,6 @@ Item {
                 duration: 400
                 easing.type: Easing.InOutQuart
             }
-
         }
     ]
 }
