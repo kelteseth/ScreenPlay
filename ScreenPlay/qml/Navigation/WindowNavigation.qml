@@ -85,7 +85,7 @@ Rectangle {
     Common.Dialog {
         id: dialog
         modalSource: root.modalSource
-        title: qsTr("Are you sure you want to exit ScreenPlay? \nThis will shut down all Wallpaper and Widgets.")
+        title: qsTr("Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.")
         standardButtons: Dialog.Ok | Dialog.Cancel
         onAccepted: Qt.quit()
     }
