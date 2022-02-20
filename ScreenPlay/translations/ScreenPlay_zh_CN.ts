@@ -218,10 +218,6 @@
       <translation>音量</translation>
     </message>
     <message>
-      <source>Playback rate</source>
-      <translation>播放速度</translation>
-    </message>
-    <message>
       <source>Current Video Time</source>
       <translation>目前视频时间</translation>
     </message>
@@ -730,14 +726,6 @@
       <translation>物件</translation>
     </message>
     <message>
-      <source>Install Date Ascending</source>
-      <translation>安装日期↓</translation>
-    </message>
-    <message>
-      <source>Install Date Descending</source>
-      <translation>安装日期↑</translation>
-    </message>
-    <message>
       <source> Subscribed items: </source>
       <translation>已订阅：</translation>
     </message>
@@ -778,16 +766,6 @@
       <translation>配置壁纸</translation>
     </message>
     <message>
-      <source>Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</source>
-      <translation>您确定要退出ScreenPlay吗？ 
-这将关闭所有壁纸和部件。</translation>
-    </message>
-    <message>
-      <source>ScreenPlay Alpha %1  - Open Source Wallpaper And Widgets</source>
-      <translation>ScreenPlay Alpha %1  - 开源壁纸与部件</translation>
-    </message>
-    <message>
       <source>Support me on Patreon!</source>
       <translation>在Patreon上支持！</translation>
     </message>
@@ -799,12 +777,18 @@ This will shut down all Wallpaper and Widgets.</source>
   <context>
     <name>PopupOffline</name>
     <message>
-      <source>You need to run Steam for this. steamErrorRestart: %1 - steamErrorAPIInit: %2</source>
-      <translation>您需要先运行Steam。steamErrorRestart: %1 - steamErrorAPIInit: %2</translation>
-    </message>
-    <message>
       <source>Back</source>
       <translation>返回</translation>
+    </message>
+    <message>
+      <source>You need to run Steam to access the Steam Workshop</source>
+      <translation type="unfinished">You need to run Steam to access the Steam Workshop</translation>
+    </message>
+    <message>
+      <source>Steam Error Restart: %1
+Steam Error API Init: %2</source>
+      <translation type="unfinished">Steam Error Restart: %1
+Steam Error API Init: %2</translation>
     </message>
   </context>
   <context>
@@ -1910,6 +1894,17 @@ This will shut down all Wallpaper and Widgets.</source>
     <message>
       <source>Preview Image</source>
       <translation>预览图</translation>
+    </message>
+  </context>
+  <context>
+    <name>WindowNavigation</name>
+    <message>
+      <source>ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</source>
+      <translation type="unfinished">ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</translation>
+    </message>
+    <message>
+      <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
+      <translation type="unfinished">Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</translation>
     </message>
   </context>
   <context>
