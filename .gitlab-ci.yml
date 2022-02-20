@@ -6,9 +6,8 @@ stages:
 
 variables:
     GIT_STRATEGY: clone
-    QT_VERSION: "6.2.3"
-    PYTHON_VERSION: "3.10.1"
-    CQTDEPLOYER_URL: "https://github.com/QuasarApp/CQtDeployer/releases/download/1.5.4.10/CQtDeployer_1.5.4.10_Linux_x86_64.deb"
+    QT_VERSION: 6.2.3
+    PYTHON_VERSION: 3.10.1
 
 check:
     stage: check
@@ -140,6 +139,11 @@ build:linux_release:
         - check
     script:
         - apt update -y
+        # We need cmake 3.23 to fix IFW
+        - apt install gpg wget -y
+        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+        - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal-rc main' | tee -a /etc/apt/sources.list.d/kitware.list >/dev/null
+        - apt update -y
         # Otherwise libglib2 needs interaction
         - export DEBIAN_FRONTEND=noninteractive
         - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
@@ -147,9 +151,6 @@ build:linux_release:
         - pip3 install aqtinstall
         - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
         - aqt install-tool -O ../aqt linux desktop tools_ifw
-        - curl -OL $CQTDEPLOYER_URL
-        - chmod +x ./CQtDeployer_*.deb
-        - apt install ./CQtDeployer_*.deb -y
         - cd Tools
         - python3 setup.py
         - python3 build.py -type release -steam -use-aqt -installer
@@ -252,6 +253,11 @@ release:linux_steam:
         - check
     script:
         - apt update -y
+        # We need cmake 3.23 to fix IFW
+        - apt install gpg wget -y
+        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+        - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal-rc main' | tee -a /etc/apt/sources.list.d/kitware.list >/dev/null
+        - apt update -y
         # Otherwise libglib2 needs interaction
         - export DEBIAN_FRONTEND=noninteractive
         - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
@@ -282,6 +288,11 @@ release:linux_standalone:
         - check
     script:
         - apt update -y
+        # We need cmake 3.23 to fix IFW
+        - apt install gpg wget -y
+        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
+        - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal-rc main' | tee -a /etc/apt/sources.list.d/kitware.list >/dev/null
+        - apt update -y
         # Otherwise libglib2 needs interaction
         - export DEBIAN_FRONTEND=noninteractive
         - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
@@ -289,9 +300,6 @@ release:linux_standalone:
         - pip3 install aqtinstall
         - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
         - aqt install-tool -O ../aqt linux desktop tools_ifw
-        - curl -OL $CQTDEPLOYER_URL
-        - chmod +x ./CQtDeployer_*.deb
-        - apt install ./CQtDeployer_*.deb -y
         - cd Tools
         - python3 setup.py
         - python3 build.py -type release -installer -use-aqt
