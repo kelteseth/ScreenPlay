@@ -80,11 +80,11 @@
     </message>
     <message>
       <source>Issue Tracker</source>
-      <translation type="unfinished">Issue Tracker</translation>
+      <translation>Lista problemów</translation>
     </message>
     <message>
       <source>Reddit</source>
-      <translation type="unfinished">Reddit</translation>
+      <translation>Reddit</translation>
     </message>
   </context>
   <context>
@@ -767,11 +767,11 @@
     </message>
     <message>
       <source>Support me on Patreon!</source>
-      <translation type="unfinished">Support me on Patreon!</translation>
+      <translation>Wspieraj nas na Patreon!</translation>
     </message>
     <message>
       <source>Close All Content</source>
-      <translation type="unfinished">Close All Content</translation>
+      <translation>Zamknij wszystkie treści</translation>
     </message>
   </context>
   <context>
@@ -782,7 +782,7 @@
     </message>
     <message>
       <source>You need to run Steam to access the Steam Workshop</source>
-      <translation type="unfinished">You need to run Steam to access the Steam Workshop</translation>
+      <translation>Należy uruchomić Steam, aby uzyskać dostęp do Warsztatu Steam</translation>
     </message>
     <message>
       <source>Steam Error Restart: %1
@@ -1101,7 +1101,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>Website Wallpaper</source>
-      <translation type="unfinished">Website Wallpaper</translation>
+      <translation>Strona WWW jako tapeta</translation>
     </message>
     <message>
       <source>QML Widget</source>
@@ -1350,7 +1350,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>Unmute all</source>
-      <translation type="unfinished">Unmute all</translation>
+      <translation>Wyłącz wyciszenie wszystkich</translation>
     </message>
     <message>
       <source>Pause all</source>
@@ -1539,7 +1539,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>IO Failure</source>
-      <translation type="unfinished">IO Failure</translation>
+      <translation>Błąd sprzętu</translation>
     </message>
     <message>
       <source>Remote Disconnect</source>
