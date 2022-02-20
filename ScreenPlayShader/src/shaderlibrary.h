@@ -4,6 +4,7 @@
 #include <QQuickItem>
 #include <QString>
 #include <memory>
+#include <QQmlEngine>
 
 class Shader : public QObject {
     Q_OBJECT
@@ -63,6 +64,7 @@ class ShaderLibrary : public QQuickItem {
 
     Q_PROPERTY(Shader* lightning READ lightning WRITE setLightning NOTIFY lightningChanged)
     Q_PROPERTY(Shader* water READ water WRITE setWater NOTIFY waterChanged)
+    QML_ELEMENT
 
 public:
     explicit ShaderLibrary(QQuickItem* parent = nullptr);

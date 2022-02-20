@@ -49,7 +49,9 @@
 #include <QJsonObject>
 #include <QString>
 #include <QVersionNumber>
+#include <QMetaEnum>
 #include <optional>
+#include <cmath>
 
 namespace ScreenPlayUtil {
 #if defined(Q_OS_WIN)
@@ -116,4 +118,5 @@ QStringList getAvailableFillModes();
 bool isWallpaper(const ScreenPlay::InstalledType::InstalledType type);
 bool isWidget(const ScreenPlay::InstalledType::InstalledType type);
 std::optional<QVector<int>> parseStringToIntegerList(const QString string);
+float roundDecimalPlaces(const float number);
 }

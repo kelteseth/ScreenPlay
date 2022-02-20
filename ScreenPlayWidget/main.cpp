@@ -5,6 +5,9 @@
 
 #include "src/widgetwindow.h"
 
+Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
+
 int main(int argc, char* argv[])
 {
     QtWebEngineQuick::initialize();

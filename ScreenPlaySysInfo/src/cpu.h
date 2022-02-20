@@ -38,6 +38,7 @@
 #include <QObject>
 #include <QString>
 #include <QTimer>
+#include <QQmlEngine>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>
@@ -46,9 +47,9 @@
 
 class CPU : public QObject {
     Q_OBJECT
-
     Q_PROPERTY(float usage READ usage NOTIFY usageChanged)
     Q_PROPERTY(int tickRate READ tickRate WRITE setTickRate NOTIFY tickRateChanged)
+    QML_ELEMENT
 
 public:
     explicit CPU(QObject* parent = nullptr);

@@ -64,7 +64,9 @@ qt_add_qml_module(
     ${SOURCES}
     ${HEADER}
     VERSION
-    1.0)
+    1.0
+    OUTPUT_DIRECTORY
+    ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME})
 
 if(${SCREENPLAY_STEAM})
     if(APPLE)

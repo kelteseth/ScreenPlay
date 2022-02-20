@@ -394,4 +394,10 @@ std::optional<QVector<int>> parseStringToIntegerList(const QString string)
     return list;
 }
 
+float roundDecimalPlaces(const float number)
+{
+    float big = number * 100.0;
+    return std::ceil(big * 0.01);
+}
+
 }

@@ -39,9 +39,11 @@
 #include <QStorageInfo>
 #include <QTimer>
 #include <QVector>
+#include <QQmlEngine>
 
 class Storage : public QAbstractListModel {
     Q_OBJECT
+    QML_ELEMENT
 public:
     explicit Storage(QObject* parent = nullptr);
 

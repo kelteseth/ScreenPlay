@@ -1,15 +1,16 @@
 #pragma once
 #include <QObject>
+#include <QQmlEngine>
 #include <QTimer>
 
 class Uptime : public QObject {
     Q_OBJECT
-
     Q_PROPERTY(int days READ days WRITE setDays NOTIFY daysChanged)
     Q_PROPERTY(int years READ years WRITE setYears NOTIFY yearsChanged)
     Q_PROPERTY(int hours READ hours WRITE setHours NOTIFY hoursChanged)
     Q_PROPERTY(int minutes READ minutes WRITE setMinutes NOTIFY minutesChanged)
     Q_PROPERTY(int seconds READ seconds WRITE setSeconds NOTIFY secondsChanged)
+    QML_ELEMENT
 
 public:
     Uptime(QObject* parent = nullptr);

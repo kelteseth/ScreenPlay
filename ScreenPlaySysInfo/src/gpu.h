@@ -1,5 +1,6 @@
 #pragma once
 #include <QObject>
+#include <QQmlEngine>
 
 class GPU : public QObject {
     Q_OBJECT
@@ -8,6 +9,7 @@ class GPU : public QObject {
     Q_PROPERTY(int ramSize READ ramSize WRITE setRamSize NOTIFY ramSizeChanged)
     Q_PROPERTY(int cacheSize READ cacheSize WRITE setCacheSize NOTIFY cacheSizeChanged)
     Q_PROPERTY(int maxFrequency READ maxFrequency WRITE setMaxFrequency NOTIFY maxFrequencyChanged)
+    QML_ELEMENT
 
 public:
     explicit GPU(QObject* parent = nullptr);

@@ -6,7 +6,7 @@ set(CMAKE_AUTOMOC ON)
 
 find_package(
     Qt6
-    COMPONENTS Core
+    COMPONENTS Core Quick
     REQUIRED)
 
 set(SOURCES # cmake-format: sortable
@@ -14,8 +14,18 @@ set(SOURCES # cmake-format: sortable
 
 set(HEADER
     # cmake-format: sortable
-    inc/public/ScreenPlayUtil/util.h inc/public/ScreenPlayUtil/httpfileserver.h inc/public/ScreenPlayUtil/contenttypes.h
-    inc/public/ScreenPlayUtil/projectfile.h)
+    inc/public/ScreenPlayUtil/util.h
+    inc/public/ScreenPlayUtil/httpfileserver.h
+    inc/public/ScreenPlayUtil/contenttypes.h
+    inc/public/ScreenPlayUtil/projectfile.h
+    inc/public/ScreenPlayUtil/AutoPropertyHelpers.h
+    inc/public/ScreenPlayUtil/ConstRefPropertyHelpers.h
+    inc/public/ScreenPlayUtil/EnumClassHelper.h
+    inc/public/ScreenPlayUtil/HelpersCommon.h
+    inc/public/ScreenPlayUtil/ListPropertyHelper.h
+    inc/public/ScreenPlayUtil/PropertyHelpers.h
+    inc/public/ScreenPlayUtil/PtrPropertyHelpers.h
+    inc/public/ScreenPlayUtil/SingletonHelper.h)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADER})
 
@@ -27,7 +37,7 @@ target_include_directories(
     PUBLIC inc/public/
     PRIVATE src/)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick)
 
 if(WIN32)
     # Used for query windows monitor data

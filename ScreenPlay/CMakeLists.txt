@@ -180,7 +180,6 @@ find_package(
 qt_add_resources(RESOURCES Resources.qrc)
 qt_add_big_resources(FONTS fonts.qrc)
 
-
 add_library(ScreenPlayLib ${SOURCES} ${HEADER} ${RESOURCES} ${FONTS})
 
 target_link_libraries(
@@ -197,7 +196,8 @@ target_link_libraries(
            Qt6::WebSockets
            Qt6::Svg
            ScreenPlayQmlplugin
-           SteamSDKQtEnums)
+           SteamSDKQtEnums
+           Plausibleplugin)
 
 if(${TESTS_ENABLED})
     add_executable(tst_ScreenPlay tests/tst_main.cpp)
@@ -207,27 +207,25 @@ endif()
 qt_add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
 
-set_source_files_properties(${TS_FILES}
-    PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
+set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
 
 # qt_add_lupdate does not work for some reason. Lets do it manually:
 find_program(LUPDATE_EXECUTABLE lupdate)
 foreach(_ts_file ${TS_FILES})
     message(STATUS "Update Translation: ${_ts_file}")
-    execute_process(COMMAND ${LUPDATE_EXECUTABLE} -noobsolete -locations none -recursive ${CMAKE_CURRENT_SOURCE_DIR}/qml -ts ${CMAKE_CURRENT_SOURCE_DIR}/${_ts_file} OUTPUT_QUIET)
+    execute_process(COMMAND ${LUPDATE_EXECUTABLE} -noobsolete -locations none -recursive ${CMAKE_CURRENT_SOURCE_DIR}/qml -ts
+                            ${CMAKE_CURRENT_SOURCE_DIR}/${_ts_file} OUTPUT_QUIET)
 endforeach()
 
-qt_add_lrelease(
-    ${PROJECT_NAME}
-    TS_FILES
-    ${TS_FILES}
-    )
+qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
 qt_add_library(ScreenPlayQml STATIC)
 qt_add_qml_module(
     ScreenPlayQml
+    OUTPUT_DIRECTORY
+    ${CMAKE_BINARY_DIR}/bin/ScreenPlayQml
     URI
     ScreenPlayQml
     VERSION
