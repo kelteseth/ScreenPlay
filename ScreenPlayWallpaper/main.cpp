@@ -15,7 +15,6 @@
 #include "src/macwindow.h"
 #endif
 
-
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 

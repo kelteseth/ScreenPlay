@@ -36,9 +36,9 @@
 
 #include <QDebug>
 #include <QObject>
+#include <QQmlEngine>
 #include <QString>
 #include <QTimer>
-#include <QQmlEngine>
 
 #ifdef Q_OS_WIN
 #include <qt_windows.h>

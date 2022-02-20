@@ -47,11 +47,11 @@
 #include "ScreenPlayUtil/contenttypes.h"
 #include <QJsonArray>
 #include <QJsonObject>
+#include <QMetaEnum>
 #include <QString>
 #include <QVersionNumber>
-#include <QMetaEnum>
-#include <optional>
 #include <cmath>
+#include <optional>
 
 namespace ScreenPlayUtil {
 #if defined(Q_OS_WIN)

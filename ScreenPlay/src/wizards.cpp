@@ -31,6 +31,7 @@ void Wizards::createQMLWidget(const QString& title,
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
+
     QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
