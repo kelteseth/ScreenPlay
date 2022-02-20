@@ -216,10 +216,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Playback rate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Current Video Time</source>
         <translation type="unfinished"></translation>
     </message>
@@ -724,14 +720,6 @@
     </message>
     <message>
         <source>Widgets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Install Date Ascending</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Install Date Descending</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1911,8 +1899,7 @@ Steam Error API Init: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</source>
+        <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

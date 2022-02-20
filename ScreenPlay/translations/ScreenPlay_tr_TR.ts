@@ -218,10 +218,6 @@
         <translation>Ses Düzeyi</translation>
     </message>
     <message>
-        <source>Playback rate</source>
-        <translation>Oynatma oranını ayarla</translation>
-    </message>
-    <message>
         <source>Current Video Time</source>
         <translation>Geçerli Video Zamanı</translation>
     </message>
@@ -728,14 +724,6 @@
     <message>
         <source>Widgets</source>
         <translation>Widget’lar</translation>
-    </message>
-    <message>
-        <source>Install Date Ascending</source>
-        <translation>Artan Kurulum Tarihi</translation>
-    </message>
-    <message>
-        <source>Install Date Descending</source>
-        <translation>Azalan Kurulum Tarihi</translation>
     </message>
     <message>
         <source> Subscribed items: </source>
@@ -1915,10 +1903,8 @@ Steam Error API Init: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</source>
-        <translation type="unfinished">Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</translation>
+        <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

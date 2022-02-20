@@ -218,10 +218,6 @@
         <translation>Głośność</translation>
     </message>
     <message>
-        <source>Playback rate</source>
-        <translation>Prędkość odtwarzania</translation>
-    </message>
-    <message>
         <source>Current Video Time</source>
         <translation>Moment filmu</translation>
     </message>
@@ -728,14 +724,6 @@
     <message>
         <source>Widgets</source>
         <translation>Widżety</translation>
-    </message>
-    <message>
-        <source>Install Date Ascending</source>
-        <translation>Data instalacji: rosnąco</translation>
-    </message>
-    <message>
-        <source>Install Date Descending</source>
-        <translation>Data instalacji: malejąco</translation>
     </message>
     <message>
         <source> Subscribed items: </source>
@@ -1915,10 +1903,8 @@ Steam Error API Init: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</source>
-        <translation type="unfinished">Czy na pewno chcesz zamknąć ScreenPlay? 
-Spowoduje to wyłączenie wszystkich tapet oraz widżetów.</translation>
+        <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

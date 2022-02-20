@@ -218,10 +218,6 @@
         <translation>音量</translation>
     </message>
     <message>
-        <source>Playback rate</source>
-        <translation>播放速度</translation>
-    </message>
-    <message>
         <source>Current Video Time</source>
         <translation>目前视频时间</translation>
     </message>
@@ -728,14 +724,6 @@
     <message>
         <source>Widgets</source>
         <translation>物件</translation>
-    </message>
-    <message>
-        <source>Install Date Ascending</source>
-        <translation>安装日期↓</translation>
-    </message>
-    <message>
-        <source>Install Date Descending</source>
-        <translation>安装日期↑</translation>
     </message>
     <message>
         <source> Subscribed items: </source>
@@ -1914,10 +1902,8 @@ Steam Error API Init: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</source>
-        <translation type="unfinished">您确定要退出ScreenPlay吗？ 
-这将关闭所有壁纸和部件。</translation>
+        <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

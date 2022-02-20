@@ -217,10 +217,6 @@
         <translation>Lautstärke</translation>
     </message>
     <message>
-        <source>Playback rate</source>
-        <translation>Wiedergabegeschwindigkeit</translation>
-    </message>
-    <message>
         <source>Current Video Time</source>
         <translation>Aktuelle Videozeit</translation>
     </message>
@@ -727,14 +723,6 @@ Bitte Konfiguriere deine Wallpaper noch erneut</translation>
     <message>
         <source>Widgets</source>
         <translation>Widgets</translation>
-    </message>
-    <message>
-        <source>Install Date Ascending</source>
-        <translation>Installationsdatum aufsteigend</translation>
-    </message>
-    <message>
-        <source>Install Date Descending</source>
-        <translation>Installationsdatum absteigend</translation>
     </message>
     <message>
         <source> Subscribed items: </source>
@@ -1914,10 +1902,8 @@ Steam Error API Init: %2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</source>
-        <translation type="unfinished">Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</translation>
+        <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
