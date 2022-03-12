@@ -20,19 +20,26 @@ option(tst_ScreenPlaySysInfo "Builds TextProject" ON)
 set(QML # cmake-format: sortable
         src/TestMain.qml)
 
-set(QML_PLUGIN_SOURCES # cmake-format: sortable
-                       src/sysinfo.cpp src/cpu.cpp src/ram.cpp src/storage.cpp src/uptime.cpp src/gpu.cpp src/ipaddress.cpp)
+set(QML_PLUGIN_SOURCES
+    # cmake-format: sortable
+    src/cpu.cpp
+    src/gpu.cpp
+    src/ipaddress.cpp
+    src/ram.cpp
+    src/storage.cpp
+    src/sysinfo.cpp
+    src/uptime.cpp)
 
 set(QML_PLUGIN_HEADER
     # cmake-format: sortable
-    src/sysinfo.h
     src/cpu.h
-    src/ram.h
-    src/mathhelper.h
-    src/storage.h
-    src/uptime.h
     src/gpu.h
-    src/ipaddress.h)
+    src/ipaddress.h
+    src/mathhelper.h
+    src/ram.h
+    src/storage.h
+    src/sysinfo.h
+    src/uptime.h)
 
 add_library(${PROJECT_NAME} STATIC)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick infoware)

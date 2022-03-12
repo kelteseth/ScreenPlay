@@ -7,56 +7,114 @@ set(CMAKE_AUTOMOC ON)
 set(SOURCES
     # cmake-format: sortable
     app.cpp
-    src/globalvariables.cpp
+    src/create.cpp
     src/createimportvideo.cpp
+    src/globalvariables.cpp
+    src/installedlistfilter.cpp
     src/installedlistmodel.cpp
     src/monitorlistmodel.cpp
-    src/screenplaywallpaper.cpp
-    src/screenplaywidget.cpp
-    src/settings.cpp
     src/profilelistmodel.cpp
-    src/installedlistfilter.cpp
     src/projectsettingslistmodel.cpp
     src/screenplaymanager.cpp
+    src/screenplaywallpaper.cpp
+    src/screenplaywidget.cpp
     src/sdkconnection.cpp
+    src/settings.cpp
     src/util.cpp
-    src/create.cpp
     src/wizards.cpp)
 
 set(HEADER
     # cmake-format: sortable
     app.h
-    src/globalvariables.h
-    src/createimportvideo.h
+    src/create.h
     src/createimportstates.h
+    src/createimportvideo.h
+    src/globalvariables.h
+    src/installedlistfilter.h
     src/installedlistmodel.h
     src/monitorlistmodel.h
-    src/screenplaywallpaper.h
-    src/screenplaywidget.h
-    src/settings.h
-    src/profilelistmodel.h
     src/profile.h
-    src/installedlistfilter.h
+    src/profilelistmodel.h
     src/projectsettingslistmodel.h
     src/screenplaymanager.h
+    src/screenplaywallpaper.h
+    src/screenplaywidget.h
     src/sdkconnection.h
+    src/settings.h
     src/util.h
-    src/create.h
     src/wizards.h)
 
 set(QML
     # cmake-format: sortable
     main.qml
+    qml/Common/CloseIcon.qml
+    qml/Common/ColorPicker.qml
+    qml/Common/Dialog.qml
+    qml/Common/Dialogs/CriticalError.qml
+    qml/Common/Dialogs/MonitorConfiguration.qml
+    qml/Common/Dialogs/SteamNotAvailable.qml
+    qml/Common/FileSelector.qml
+    qml/Common/Grow.qml
+    qml/Common/GrowIconLink.qml
+    qml/Common/Headline.qml
+    qml/Common/HeadlineSection.qml
+    qml/Common/ImageSelector.qml
+    qml/Common/LicenseSelector.qml
+    qml/Common/ModalBackgroundBlur.qml
+    qml/Common/MouseHoverBlocker.qml
+    qml/Common/Popup.qml
+    qml/Common/RippleEffect.qml
+    qml/Common/Search.qml
+    qml/Common/Shake.qml
+    qml/Common/Slider.qml
+    qml/Common/Tag.qml
+    qml/Common/TagSelector.qml
+    qml/Common/TextField.qml
+    qml/Common/TrayIcon.qml
+    qml/Common/Util.js
+    qml/Community/Community.qml
+    qml/Community/CommunityNavItem.qml
+    qml/Community/XMLNewsfeed.qml
     qml/Create/Create.qml
-    qml/Create/Wizard.qml
+    qml/Create/Sidebar.qml
     qml/Create/StartInfo.qml
+    qml/Create/StartInfoLinkImage.qml
+    qml/Create/Wizard.qml
+    qml/Create/Wizards/GifWallpaper.qml
+    qml/Create/Wizards/HTMLWallpaper.qml
+    qml/Create/Wizards/HTMLWidget.qml
+    qml/Create/Wizards/Importh264/Importh264.qml
+    qml/Create/Wizards/Importh264/Importh264Convert.qml
+    qml/Create/Wizards/Importh264/Importh264Init.qml
+    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml
+    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml
+    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml
+    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml
+    qml/Create/Wizards/ImportWebm/ImportWebm.qml
+    qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml
+    qml/Create/Wizards/ImportWebm/ImportWebmInit.qml
+    qml/Create/Wizards/QMLWallpaper.qml
+    qml/Create/Wizards/QMLWidget.qml
+    qml/Create/Wizards/WebsiteWallpaper.qml
+    qml/Create/Wizards/WizardPage.qml
+    qml/Create/WizardsFiles/QMLWallpaperMain.qml
+    qml/Create/WizardsFiles/QMLWidgetMain.qml
     qml/Installed/Installed.qml
+    qml/Installed/InstalledWelcomeScreen.qml
+    qml/Installed/Navigation.qml
     qml/Installed/ScreenPlayItem.qml
     qml/Installed/ScreenPlayItemImage.qml
     qml/Installed/Sidebar.qml
-    qml/Installed/InstalledWelcomeScreen.qml
-    qml/Community/Community.qml
-    qml/Community/XMLNewsfeed.qml
+    qml/Monitors/DefaultVideoControls.qml
+    qml/Monitors/Monitors.qml
+    qml/Monitors/MonitorSelection.qml
+    qml/Monitors/MonitorSelectionItem.qml
+    qml/Monitors/MonitorsProjectSettingItem.qml
+    qml/Monitors/SaveNotification.qml
+    qml/Navigation/Navigation.qml
+    qml/Navigation/NavigationItem.qml
+    qml/Navigation/WindowNavButton.qml
+    qml/Navigation/WindowNavigation.qml
     qml/Settings/SettingBool.qml
     qml/Settings/Settings.qml
     qml/Settings/SettingsButton.qml
@@ -64,98 +122,40 @@ set(QML
     qml/Settings/SettingsExpander.qml
     qml/Settings/SettingsHeader.qml
     qml/Settings/SettingsHorizontalSeperator.qml
-    qml/Workshop/Workshop.qml
-    qml/Monitors/Monitors.qml
-    qml/Monitors/MonitorSelection.qml
-    qml/Monitors/MonitorSelectionItem.qml
-    qml/Monitors/MonitorsProjectSettingItem.qml
-    qml/Navigation/Navigation.qml
-    qml/Navigation/NavigationItem.qml
-    qml/Navigation/WindowNavButton.qml
-    qml/Navigation/WindowNavigation.qml
-    qml/Monitors/DefaultVideoControls.qml
-    qml/Common/TagSelector.qml
-    qml/Common/Tag.qml
-    qml/Common/Popup.qml
-    qml/Common/Dialog.qml
-    qml/Common/ImageSelector.qml
-    qml/Common/Slider.qml
-    qml/Common/RippleEffect.qml
-    qml/Common/Shake.qml
-    qml/Common/Grow.qml
-    qml/Common/GrowIconLink.qml
-    qml/Common/CloseIcon.qml
-    qml/Common/Headline.qml
     qml/Settings/SettingsPage.qml
-    qml/Community/CommunityNavItem.qml
-    qml/Workshop/ScreenPlayItem.qml
-    qml/Workshop/ScreenPlayItemImage.qml
     qml/Workshop/Background.qml
-    qml/Workshop/WorkshopInstalled.qml
-    qml/Workshop/WorkshopItem.qml
-    qml/Workshop/Sidebar.qml
+    qml/Workshop/Forum.qml
     qml/Workshop/Navigation.qml
     qml/Workshop/PopupOffline.qml
+    qml/Workshop/ScreenPlayItem.qml
+    qml/Workshop/ScreenPlayItemImage.qml
+    qml/Workshop/Sidebar.qml
+    qml/Workshop/SteamProfile.qml
+    qml/Workshop/SteamWorkshop.qml
+    qml/Workshop/SteamWorkshopStartPage.qml
     qml/Workshop/upload/PopupSteamWorkshopAgreement.qml
     qml/Workshop/upload/UploadProject.qml
     qml/Workshop/upload/UploadProjectBigItem.qml
     qml/Workshop/upload/UploadProjectItem.qml
-    qml/Monitors/SaveNotification.qml
-    qml/Common/TrayIcon.qml
-    qml/Installed/Navigation.qml
-    qml/Common/Search.qml
-    qml/Common/MouseHoverBlocker.qml
-    qml/Create/Wizards/HTMLWallpaper.qml
-    qml/Create/Wizards/HTMLWidget.qml
-    qml/Create/Wizards/QMLWidget.qml
-    qml/Create/Wizards/QMLWallpaper.qml
-    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml
-    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml
-    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml
-    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml
-    qml/Create/Sidebar.qml
-    qml/Create/Wizards/ImportWebm/ImportWebm.qml
-    qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml
-    qml/Create/Wizards/ImportWebm/ImportWebmInit.qml
-    qml/Common/Dialogs/MonitorConfiguration.qml
-    qml/Common/Dialogs/SteamNotAvailable.qml
-    qml/Create/Wizards/WizardPage.qml
-    qml/Create/Wizards/GifWallpaper.qml
-    qml/Common/TextField.qml
-    qml/Common/HeadlineSection.qml
-    qml/Create/Wizards/WebsiteWallpaper.qml
-    qml/Common/FileSelector.qml
-    qml/Create/WizardsFiles/QMLWidgetMain.qml
-    qml/Create/WizardsFiles/QMLWallpaperMain.qml
-    qml/Common/LicenseSelector.qml
-    qml/Common/ModalBackgroundBlur.qml
-    qml/Common/Util.js
-    qml/Common/Dialogs/CriticalError.qml
-    qml/Common/ColorPicker.qml
-    qml/Create/StartInfoLinkImage.qml
-    qml/Workshop/SteamProfile.qml
-    qml/Workshop/SteamWorkshop.qml
-    qml/Workshop/Forum.qml
-    qml/Workshop/SteamWorkshopStartPage.qml
-    qml/Create/Wizards/Importh264/Importh264.qml
-    qml/Create/Wizards/Importh264/Importh264Convert.qml
-    qml/Create/Wizards/Importh264/Importh264Init.qml)
+    qml/Workshop/Workshop.qml
+    qml/Workshop/WorkshopInstalled.qml
+    qml/Workshop/WorkshopItem.qml)
 
 set(TS_FILES
     # cmake-format: sortable
     translations/ScreenPlay_.ts
-    translations/ScreenPlay_tr_TR.ts
-    translations/ScreenPlay_it_IT.ts
-    translations/ScreenPlay_nl_NL.ts
     translations/ScreenPlay_de_DE.ts
-    translations/ScreenPlay_pl_PL.ts
-    translations/ScreenPlay_zh_CN.ts
-    translations/ScreenPlay_pt_BR.ts
     translations/ScreenPlay_es_ES.ts
     translations/ScreenPlay_fr_FR.ts
+    translations/ScreenPlay_it_IT.ts
     translations/ScreenPlay_ko_KR.ts
+    translations/ScreenPlay_nl_NL.ts
+    translations/ScreenPlay_pl_PL.ts
+    translations/ScreenPlay_pt_BR.ts
     translations/ScreenPlay_ru_RU.ts
-    translations/ScreenPlay_vi_VN.ts)
+    translations/ScreenPlay_tr_TR.ts
+    translations/ScreenPlay_vi_VN.ts
+    translations/ScreenPlay_zh_CN.ts)
 
 # Needed on macos
 find_package(Threads REQUIRED)
@@ -180,7 +180,12 @@ find_package(
 qt_add_resources(RESOURCES Resources.qrc)
 qt_add_big_resources(FONTS fonts.qrc)
 
-add_library(ScreenPlayLib ${SOURCES} ${HEADER} ${RESOURCES} ${FONTS})
+add_library(
+    ScreenPlayLib
+    ${SOURCES}
+    ${HEADER}
+    ${RESOURCES}
+    ${FONTS})
 
 target_link_libraries(
     ScreenPlayLib

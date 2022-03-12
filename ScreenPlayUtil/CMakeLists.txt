@@ -10,22 +10,22 @@ find_package(
     REQUIRED)
 
 set(SOURCES # cmake-format: sortable
-            src/util.cpp src/contenttypes.cpp inc/public/ScreenPlayUtil/httpfileserver.cpp)
+            inc/public/ScreenPlayUtil/httpfileserver.cpp src/contenttypes.cpp src/util.cpp)
 
 set(HEADER
     # cmake-format: sortable
-    inc/public/ScreenPlayUtil/util.h
-    inc/public/ScreenPlayUtil/httpfileserver.h
-    inc/public/ScreenPlayUtil/contenttypes.h
-    inc/public/ScreenPlayUtil/projectfile.h
     inc/public/ScreenPlayUtil/AutoPropertyHelpers.h
     inc/public/ScreenPlayUtil/ConstRefPropertyHelpers.h
+    inc/public/ScreenPlayUtil/contenttypes.h
     inc/public/ScreenPlayUtil/EnumClassHelper.h
     inc/public/ScreenPlayUtil/HelpersCommon.h
+    inc/public/ScreenPlayUtil/httpfileserver.h
     inc/public/ScreenPlayUtil/ListPropertyHelper.h
+    inc/public/ScreenPlayUtil/projectfile.h
     inc/public/ScreenPlayUtil/PropertyHelpers.h
     inc/public/ScreenPlayUtil/PtrPropertyHelpers.h
-    inc/public/ScreenPlayUtil/SingletonHelper.h)
+    inc/public/ScreenPlayUtil/SingletonHelper.h
+    inc/public/ScreenPlayUtil/util.h)
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADER})
 

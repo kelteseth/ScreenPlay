@@ -1,7 +1,11 @@
 project(CMake)
 
-set(FILES # cmake-format: sortable
-          CopyRecursive.cmake CreateIFWInstaller.cmake FetchContentThirdParty.cmake QtUpdateTranslations.cmake)
+set(FILES
+    # cmake-format: sortable
+    CopyRecursive.cmake
+    CreateIFWInstaller.cmake
+    FetchContentThirdParty.cmake
+    QtUpdateTranslations.cmake)
 
 add_custom_target(
     ${PROJECT_NAME}

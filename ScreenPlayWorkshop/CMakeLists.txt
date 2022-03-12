@@ -12,27 +12,27 @@ find_package(
 
 set(SOURCES
     # cmake-format: sortable
-    src/steamapiwrapper.cpp
-    src/steamworkshopitem.cpp
-    src/workshop.cpp
     src/installedlistmodel.cpp
-    src/steamworkshop.cpp
-    src/steamworkshoplistmodel.cpp
     src/steamaccount.cpp
-    src/steamqmlimageprovider.cpp)
+    src/steamapiwrapper.cpp
+    src/steamqmlimageprovider.cpp
+    src/steamworkshop.cpp
+    src/steamworkshopitem.cpp
+    src/steamworkshoplistmodel.cpp
+    src/workshop.cpp)
 
 set(HEADER
     # cmake-format: sortable
+    src/installedlistmodel.h
+    src/steamaccount.h
     src/steamapiwrapper.h
+    src/steamqmlimageprovider.h
+    src/steamworkshop.h
+    src/steamworkshopitem.h
     src/steamworkshoplistmodel.h
     src/uploadlistmodel.h
-    src/steamworkshopitem.h
     src/workshop.h
-    src/workshopitem.h
-    src/installedlistmodel.h
-    src/steamworkshop.h
-    src/steamaccount.h
-    src/steamqmlimageprovider.h)
+    src/workshopitem.h)
 
 set(STEAM_LIB_PATH "${CMAKE_CURRENT_SOURCE_DIR}/SteamSDK/redistributable_bin/")
 
@@ -52,7 +52,13 @@ elseif(UNIX)
 endif()
 
 add_library(${PROJECT_NAME} SHARED ${SOURCES} ${HEADER})
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick ${STEAM_LIB} ScreenPlayUtil SteamSDK)
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE Qt6::Core
+            Qt6::Quick
+            ${STEAM_LIB}
+            ScreenPlayUtil
+            SteamSDK)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -86,7 +92,14 @@ endif()
 # https://github.com/qt/qtdeclarative/blob/7a7064e14f094e843e1ee832cc927e86f887621a/src/qml/Qt6QmlMacros.cmake#L2042
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick ${STEAM_LIB} ScreenPlayUtil SteamSDK SteamSDKQtEnums)
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE Qt6::Core
+            Qt6::Quick
+            ${STEAM_LIB}
+            ScreenPlayUtil
+            SteamSDK
+            SteamSDKQtEnums)
 
 if(${tst_ScreenPlayWorkshop})
     qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp)

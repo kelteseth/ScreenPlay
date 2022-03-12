@@ -12,27 +12,27 @@ find_package(
 # Because this is a plugin, we need this for testing and development. This can be disabled when using the plugin in your project directly.
 option(tst_ScreenPlayShader "Builds TextProject" ON)
 
-set(QML_RESOURCES # cmake-format: sortable
+set(QML_RESOURCES
+    # cmake-format: sortable
     shader/lightning.frag
     shader/lightning.vert
     shader/water.frag
-    shader/water.vert
-    )
+    shader/water.vert)
 
 # https://doc.qt.io/qt-6/qtshadertools-build.html
-qt6_add_shaders(${PROJECT_NAME} "${PROJECT_NAME}Shaders"
+qt6_add_shaders(
+    ${PROJECT_NAME}
+    "${PROJECT_NAME}Shaders"
     PREFIX
-         "/shaders"
+    "/shader"
     FILES
-        shader/lightning.frag
-        shader/lightning.vert
-        shader/water.frag
-        shader/water.vert
-)
+    lightning.frag
+    lightning.vert
+    water.frag
+    water.vert)
 
 set(QML # cmake-format: sortable
-        src/ShadertoyShader.qml
-        src/TestMain.qml)
+        src/ShadertoyShader.qml src/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES # cmake-format: sortable
                        src/shaderlibrary.cpp)

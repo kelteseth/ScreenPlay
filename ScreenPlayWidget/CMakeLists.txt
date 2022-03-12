@@ -28,7 +28,11 @@ find_package(
 
 qt_add_resources(RESOURCES Resources.qrc)
 
-qt_add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER} ${RESOURCES})
+qt_add_executable(
+    ${PROJECT_NAME}
+    ${SOURCES}
+    ${HEADER}
+    ${RESOURCES})
 
 target_link_libraries(
     ${PROJECT_NAME}

@@ -22,7 +22,7 @@ set(QML_PLUGIN_SOURCES # cmake-format: sortable
                        src/screenplayweather.cpp)
 
 set(QML_PLUGIN_HEADER # cmake-format: sortable
-                      src/screenplayweather.h src/day.h)
+                      src/day.h src/screenplayweather.h)
 
 qt_add_library(${PROJECT_NAME} STATIC)
 target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayUtil)

@@ -26,8 +26,12 @@ if(WIN32)
 elseif(APPLE)
     set(SOURCES # cmake-format: sortable
                 src/macintegration.cpp src/macwindow.cpp)
-    set(HEADER # cmake-format: sortable
-               src/macintegration.h src/macbridge.h src/macwindow.h src/MacBridge.mm)
+    set(HEADER
+        # cmake-format: sortable
+        src/macbridge.h
+        src/MacBridge.mm
+        src/macintegration.h
+        src/macwindow.h)
 elseif(UNIX)
     set(SOURCES # cmake-format: sortable
                 src/linuxwindow.cpp)
@@ -38,8 +42,14 @@ endif()
 set(SOURCES ${SOURCES} main.cpp src/basewindow.cpp)
 set(HEADER ${HEADER} src/basewindow.h)
 
-set(QML # cmake-format: sortable
-        qml/GifWallpaper.qml qml/Test.qml qml/Wallpaper.qml qml/WebsiteWallpaper.qml qml/MultimediaView.qml qml/MultimediaWebView.qml)
+set(QML
+    # cmake-format: sortable
+    qml/GifWallpaper.qml
+    qml/MultimediaView.qml
+    qml/MultimediaWebView.qml
+    qml/Test.qml
+    qml/Wallpaper.qml
+    qml/WebsiteWallpaper.qml)
 
 qt_add_resources(RESOURCES Resources.qrc)
 
