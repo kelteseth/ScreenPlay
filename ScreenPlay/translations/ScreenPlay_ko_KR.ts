@@ -782,12 +782,13 @@
     </message>
     <message>
         <source>You need to run Steam to access the Steam Workshop</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">You need to run Steam to access the Steam Workshop</translation>
     </message>
     <message>
         <source>Steam Error Restart: %1
 Steam Error API Init: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Steam Error Restart: %1
+Steam Error API Init: %2</translation>
     </message>
 </context>
 <context>
@@ -1900,11 +1901,11 @@ Steam Error API Init: %2</source>
     <name>WindowNavigation</name>
     <message>
         <source>ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</translation>
     </message>
     <message>
         <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</translation>
     </message>
 </context>
 <context>

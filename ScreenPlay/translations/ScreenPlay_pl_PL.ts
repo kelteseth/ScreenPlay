@@ -80,11 +80,11 @@
     </message>
     <message>
         <source>Issue Tracker</source>
-        <translation type="unfinished">Issue Tracker</translation>
+        <translation>Lista problemów</translation>
     </message>
     <message>
         <source>Reddit</source>
-        <translation type="unfinished">Reddit</translation>
+        <translation>Reddit</translation>
     </message>
 </context>
 <context>
@@ -767,11 +767,11 @@
     </message>
     <message>
         <source>Support me on Patreon!</source>
-        <translation type="unfinished">Support me on Patreon!</translation>
+        <translation>Wspieraj nas na Patreon!</translation>
     </message>
     <message>
         <source>Close All Content</source>
-        <translation type="unfinished">Close All Content</translation>
+        <translation>Zamknij wszystkie treści</translation>
     </message>
 </context>
 <context>
@@ -782,12 +782,13 @@
     </message>
     <message>
         <source>You need to run Steam to access the Steam Workshop</source>
-        <translation type="unfinished"></translation>
+        <translation>Należy uruchomić Steam, aby uzyskać dostęp do Warsztatu Steam</translation>
     </message>
     <message>
         <source>Steam Error Restart: %1
 Steam Error API Init: %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Steam Error Restart: %1
+Steam Error API Init: %2</translation>
     </message>
 </context>
 <context>
@@ -1100,7 +1101,7 @@ Steam Error API Init: %2</source>
     </message>
     <message>
         <source>Website Wallpaper</source>
-        <translation type="unfinished">Website Wallpaper</translation>
+        <translation>Strona WWW jako tapeta</translation>
     </message>
     <message>
         <source>QML Widget</source>
@@ -1349,7 +1350,7 @@ Steam Error API Init: %2</source>
     </message>
     <message>
         <source>Unmute all</source>
-        <translation type="unfinished">Unmute all</translation>
+        <translation>Wyłącz wyciszenie wszystkich</translation>
     </message>
     <message>
         <source>Pause all</source>
@@ -1538,7 +1539,7 @@ Steam Error API Init: %2</source>
     </message>
     <message>
         <source>IO Failure</source>
-        <translation type="unfinished">IO Failure</translation>
+        <translation>Błąd sprzętu</translation>
     </message>
     <message>
         <source>Remote Disconnect</source>
@@ -1900,11 +1901,11 @@ Steam Error API Init: %2</source>
     <name>WindowNavigation</name>
     <message>
         <source>ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</translation>
     </message>
     <message>
         <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</translation>
     </message>
 </context>
 <context>
