@@ -21,7 +21,7 @@ set(QML # cmake-format: sortable
         src/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES # cmake-format: sortable
-                       src/sysinfo.cpp src/cpu.cpp src/ram.cpp src/storage.cpp src/uptime.cpp src/gpu.cpp)
+                       src/sysinfo.cpp src/cpu.cpp src/ram.cpp src/storage.cpp src/uptime.cpp src/gpu.cpp src/ipaddress.cpp)
 
 set(QML_PLUGIN_HEADER
     # cmake-format: sortable
@@ -31,7 +31,8 @@ set(QML_PLUGIN_HEADER
     src/mathhelper.h
     src/storage.h
     src/uptime.h
-    src/gpu.h)
+    src/gpu.h
+    src/ipaddress.h)
 
 add_library(${PROJECT_NAME} STATIC)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick infoware)

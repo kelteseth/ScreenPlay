@@ -64,9 +64,7 @@ qt_add_qml_module(
     ${SOURCES}
     ${HEADER}
     VERSION
-    1.0
-    OUTPUT_DIRECTORY
-    ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME})
+    1.0)
 
 if(${SCREENPLAY_STEAM})
     if(APPLE)
@@ -89,3 +87,9 @@ endif()
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick ${STEAM_LIB} ScreenPlayUtil SteamSDK SteamSDKQtEnums)
+
+if(${tst_ScreenPlayWorkshop})
+    qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp)
+    target_link_libraries(tst_ScreenPlayWorkshop PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
+    target_compile_definitions(tst_ScreenPlayWorkshop PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+endif()
