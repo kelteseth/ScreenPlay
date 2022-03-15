@@ -1901,11 +1901,11 @@ Steam Error API Init: %2</translation>
     <name>WindowNavigation</name>
     <message>
       <source>ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</source>
-      <translation type="unfinished">ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</translation>
+      <translation>ScreenPlay Alpha %1 - Otwarte Tapety i Widżety</translation>
     </message>
     <message>
       <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
-      <translation type="unfinished">Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</translation>
+      <translation>Czy na pewno chcesz zamknąć ScreenPlay? Wyłączy to wszystkie tapety oraz widżety. Jeśli chcesz nadal odtwarzać swoją tapetę, naciśnij przycisk minimalizuj.</translation>
     </message>
   </context>
   <context>
