@@ -130,5 +130,6 @@
         <file>qml/Create/WizardsFiles/QMLWidgetMain.qml</file>
         <file>assets/icons/font-awsome/patreon-brands.svg</file>
         <file>assets/images/steam_offline.png</file>
+        <file>assets/images/scale_window_indicator.png</file>
     </qresource>
 </RCC>

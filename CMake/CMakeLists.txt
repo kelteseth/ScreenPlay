@@ -1,7 +1,7 @@
 project(CMake)
 
 set(FILES
-    # cmake-format: sortable
+    
     CopyRecursive.cmake
     CreateIFWInstaller.cmake
     FetchContentThirdParty.cmake

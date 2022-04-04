@@ -383,7 +383,8 @@ Item {
                             volume = Math.round(sliderVolume.slider.value * 100) / 100;
 
                         const screenFile = ScreenPlay.installedListModel.get(root.contentFolderName).m_file;
-                        ScreenPlay.screenPlayManager.createWallpaper(root.type, cbVideoFillMode.currentValue, absoluteStoragePath, previewImage, screenFile, activeMonitors, volume, 1, {}, true);
+                        let success =ScreenPlay.screenPlayManager.createWallpaper(root.type, cbVideoFillMode.currentValue, absoluteStoragePath, previewImage, screenFile, activeMonitors, volume, 1, {}, true);
+                        print(success)
                     }
                     if (JSUtil.isWidget(root.type))
                         ScreenPlay.screenPlayManager.createWidget(type, Qt.point(0, 0), absoluteStoragePath, previewImage, {}, true);

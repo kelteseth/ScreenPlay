@@ -2,7 +2,7 @@ project(Tools LANGUAGES CXX)
 
 file(GLOB PYTHON *.py)
 
-set(FILES # cmake-format: sortable
+set(FILES 
           Installer/installscript.qs Installer/package.xml)
 
 add_custom_target(

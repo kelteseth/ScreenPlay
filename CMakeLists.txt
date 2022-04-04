@@ -7,6 +7,8 @@ project(
     HOMEPAGE_URL "https://screen-play.app/"
     LANGUAGES CXX)
 
+
+
 # This sets cmake to compile all dlls into the main directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -14,8 +16,8 @@ set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 set(SCREENPLAY_IFW_ROOT "")
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
-option(SCREENPLAY_TESTS "Enables UI tests." OFF)
-option(SCREENPLAY_CREATE_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
+option(SCREENPLAY_TESTS "Enables UI tests." ON)
+option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 
 # Gitlab CI has many ENV variables. We use this one to check if the current build happens inside the CI
 if(DEFINED ENV{CI_COMMIT_MESSAGE})
@@ -87,13 +89,13 @@ add_subdirectory(ScreenPlayUtil)
 add_subdirectory(ScreenPlayWeather)
 add_subdirectory(CMake)
 add_subdirectory(Tools)
+
 include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/FetchContentThirdParty.cmake)
 
+# Only add target SteamSDKQtEnums
+add_subdirectory(ScreenPlayWorkshop/SteamSDK)
 if(${SCREENPLAY_STEAM})
     add_subdirectory(ScreenPlayWorkshop)
-else()
-    # Only add target SteamSDKQtEnums
-    add_subdirectory(ScreenPlayWorkshop/SteamSDK)
 endif()
 
 if(WIN32)
@@ -104,7 +106,7 @@ message(STATUS "[DEFINE] SOURCE_DIR                  = ${CMAKE_CURRENT_SOURCE_DI
 message(STATUS "[DEFINE] BUILD_DATE                  = ${BUILD_DATE}")
 message(STATUS "[DEFINE] BUILD_TYPE                  = ${CMAKE_BUILD_TYPE}")
 message(STATUS "[DEFINE] GIT_COMMIT_HASH             = ${GIT_COMMIT_HASH}")
-message(STATUS "[OPTION] SCREENPLAY_CREATE_INSTALLER = ${SCREENPLAY_CREATE_INSTALLER}")
+message(STATUS "[OPTION] SCREENPLAY_INSTALLER        = ${SCREENPLAY_INSTALLER}")
 message(STATUS "[OPTION] SCREENPLAY_STEAM            = ${SCREENPLAY_STEAM}")
 message(STATUS "[OPTION] SCREENPLAY_TESTS            = ${SCREENPLAY_TESTS}")
 message(STATUS "[PROJECT] CMAKE_TOOLCHAIN_FILE       = ${CMAKE_TOOLCHAIN_FILE}")

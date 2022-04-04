@@ -11,11 +11,16 @@ Item {
     property bool isWindows: Qt.platform.os === "windows"
     signal requestFadeIn
 
+    property string source: Wallpaper.projectSourceFileAbsolute
+    onSourceChanged: {
+        // Qt 6.3 workaround
+        mediaPlayer.stop()
+        mediaPlayer.source = Qt.resolvedUrl(root.source)
+        mediaPlayer.play()
+    }
+
     MediaPlayer {
         id: mediaPlayer
-
-
-        source: Wallpaper.projectSourceFileAbsolute
         Component.onCompleted: {
             mediaPlayer.play()
             root.requestFadeIn()

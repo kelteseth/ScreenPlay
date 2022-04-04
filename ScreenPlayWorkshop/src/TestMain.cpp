@@ -2,7 +2,7 @@
 #include <QQmlApplicationEngine>
 #include <QtQml/qqmlextensionplugin.h>
 
-Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 
 int main(int argc, char* argv[])
 {
@@ -11,7 +11,7 @@ int main(int argc, char* argv[])
     QQmlApplicationEngine engine;
     // The first subfolder is the libraryName followed by the regular
     // folder strucutre:     LibararyName/Subfolder
-    const QUrl url(u"qrc:/ScreenPlayWeather/src/TestMain.qml"_qs);
+    const QUrl url(u"qrc:/ScreenPlayWorkshop/src/TestMain.qml"_qs);
     QObject::connect(
         &engine, &QQmlApplicationEngine::objectCreated,
         &app, [url](QObject* obj, const QUrl& objUrl) {

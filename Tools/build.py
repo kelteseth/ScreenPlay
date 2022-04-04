@@ -8,39 +8,25 @@ import time
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
-qt_version = "6.2.3"
-steam_build = "OFF"
-build_tests = "OFF"
-create_installer = "OFF"
-
-qt_path = ""
-cmake_target_triplet = ""
-cmake_build_type = ""
-executable_file_ending = ""
-deploy_command = ""
-aqt_path = ""
-cmake_bin_path = ""
-
-file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".dylib", ".exp",
-				".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
-
-vcvars = "" # We support 2019 or 2022
 
 # Based on https://gist.github.com/l2m2/0d3146c53c767841c6ba8c4edbeb4c2c
 def get_vs_env_dict():
+	vcvars = "" # We support 2019 or 2022
+
 	# Hardcoded VS path
-	# check if vcvars64.bat is available
+	# check if vcvars64.bat is available.
 	msvc_2019_path = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
 	msvc_2022_path = "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
 
 	if Path(msvc_2019_path).exists():
 		vcvars = msvc_2019_path
-	elif Path(msvc_2022_path).exists():
+	# Prefer newer MSVC and override if exists
+	if Path(msvc_2022_path).exists():
 		vcvars = msvc_2022_path
 	else:
 		raise RuntimeError("No Visual Studio installation found, only 2019 and 2022 are supported.")
 
-	print("Loading MSVC env variables via {vcvars}".format(vcvars=vcvars))
+	print(f"\n\nLoading MSVC env variables via {vcvars}\n\n")
 
 	cmd = [vcvars, '&&', 'set']
 	popen = subprocess.Popen(
@@ -79,11 +65,11 @@ if __name__ == "__main__":
 						help="Absolute qt path. If not set the default path is used\Windows: C:\Qt\nLinux & macOS:~/Qt/.")
 	parser.add_argument('-sign', action="store_true", dest="sign_build",
 					help="Enable if you want to sign the apps. This is macOS only for now.")
-	parser.add_argument('-steam', action="store_true", dest="steam_build",
+	parser.add_argument('-steam', action="store_true", dest="build_steam",
 						help="Enable if you want to build the Steam workshop plugin.")
 	parser.add_argument('-tests', action="store_true", dest="build_tests",
                     help="Build tests.")             
-	parser.add_argument('-installer', action="store_true", dest="create_installer",
+	parser.add_argument('-installer', action="store_true", dest="build_installer",
                     help="Create a installer.")
 	args = parser.parse_args()
 
@@ -92,12 +78,38 @@ if __name__ == "__main__":
 		exit(1)
 
 	root_path = Path.cwd()
+	qt_version = "6.3.0"
+	qt_path = ""
+	build_steam = "OFF"
+	build_tests = "OFF"
+	build_installer = "OFF"
+	cmake_target_triplet = ""
+	cmake_build_type = ""
+	executable_file_ending = ""
+	deploy_command = ""
+	aqt_path = ""
+	cmake_bin_path = ""
+
+	remove_files_from_build_folder = [
+		".ninja_deps",
+		".ninja", 
+		".ninja_log",
+		".lib", 
+		".a", 
+		".dylib",
+		".exp",
+		".manifest", 
+		".cmake",
+		".cbp", 
+		"CMakeCache.txt", 
+		"steam_appid.txt" # This file is only needed for testing. It must not be in a release version!
+		]
 
 	if root_path.name == "Tools":
 		root_path = root_path.parent
 
 	if args.use_aqt:
-		aqt_path =  Path(("{root_path}/../aqt/").format(root_path=root_path)).resolve()
+		aqt_path =  Path(f"{root_path}/../aqt/").resolve()
 
 		if not Path(aqt_path).exists():
 			print("aqt path does not exist at %s. Please make sure you have installed aqt." % aqt_path)
@@ -127,40 +139,34 @@ if __name__ == "__main__":
 		raise NotImplementedError("Unsupported platform, ScreenPlay only supports Windows, macOS and Linux.")
 		
 	# Prepare
-	cmake_toolchain_file = ("'{root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake'").format(root_path=root_path)
+	cmake_toolchain_file = f"'{root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake'"
 	print("cmake_toolchain_file: %s " % cmake_toolchain_file)
 	print("Starting build with type %s. Qt Version: %s. Root path: %s" % (args.build_type, qt_version, root_path))
 	
-	if args.steam_build:
-		steam_build =  "ON"
+	if args.build_steam:
+		build_steam =  "OFF"
 	if args.build_tests:
-		build_tests =  "ON"
-	if args.create_installer:
-		create_installer =  "ON"
+		build_tests =  "OFF"
+	if args.build_installer:
+		build_installer =  "OFF"
 
-	cmake_configure_command = 'cmake ../ \
--DCMAKE_PREFIX_PATH={prefix_path} \
--DCMAKE_BUILD_TYPE={type} \
--DVCPKG_TARGET_TRIPLET={triplet} \
--DCMAKE_TOOLCHAIN_FILE={toolchain} \
--DSCREENPLAY_STEAM={steam} \
--DSCREENPLAY_TESTS={tests} \
--DSCREENPLAY_CREATE_INSTALLER={installer} \
+	cmake_configure_command = f'cmake ../ \
+-DCMAKE_PREFIX_PATH={qt_path} \
+-DCMAKE_BUILD_TYPE={args.build_type} \
+-DVCPKG_TARGET_TRIPLET={cmake_target_triplet} \
+-DCMAKE_TOOLCHAIN_FILE={cmake_toolchain_file} \
+-DSCREENPLAY_STEAM={build_steam} \
+-DSCREENPLAY_TESTS={build_tests} \
+-DSCREENPLAY_INSTALLER={build_installer} \
 -G "CodeBlocks - Ninja" \
--B.'.format(
-		prefix_path=qt_path,
-		type=args.build_type,
-		triplet=cmake_target_triplet,
-		toolchain=cmake_toolchain_file,
-		steam=steam_build,
-		tests = build_tests,
-		installer= create_installer)
+-B.'
 
 	build_folder = root_path.joinpath(f"build-{cmake_target_triplet}-{args.build_type}")
 	clean_build_dir(build_folder)
 
 	# Build
 	start_time = time.time()
+	print(cmake_configure_command)
 	run(cmake_configure_command, cwd=build_folder)
 	run("cmake --build . --target all", cwd=build_folder)
 
@@ -251,20 +257,20 @@ if __name__ == "__main__":
 	# Some dlls like openssl do no longer get copied automatically.
 	# Lets just copy all of them into bin.
 	if platform.system() == "Windows":
-		vcpkg_bin_path = Path(("{root_path}/../ScreenPlay-vcpkg/installed/x64-windows/bin").format(root_path=root_path)).resolve()
+		vcpkg_bin_path = Path(f"{root_path}/../ScreenPlay-vcpkg/installed/x64-windows/bin").resolve()
 		print(vcpkg_bin_path)
 		for file in vcpkg_bin_path.iterdir():
 			if file.suffix == ".dll" and file.is_file():
 				print(file, bin_dir)
 				shutil.copy2(file, bin_dir)
 
-	for file_ending in file_endings:
+	for file_ending in remove_files_from_build_folder:
 		for file in bin_dir.rglob("*" + file_ending):
 			if file.is_file():
 				print("Remove: %s" % file.resolve())
 				file.unlink()
 
-	if args.create_installer:
+	if args.build_installer:
 		os.chdir(build_folder)
 		print("Running cpack at: ", os.getcwd())
 		run("cpack", cwd=build_folder)

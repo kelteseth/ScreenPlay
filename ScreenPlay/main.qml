@@ -38,14 +38,16 @@ ApplicationWindow {
         }
 
         if (name === "Installed") {
-            stackView.replace("qrc:/ScreenPlayQml/qml/Installed/Installed.qml", {
+            stackView.replace("qrc:/ScreenPlayQml/qml/Installed/Installed.qml",
+                              {
                                   "sidebar": sidebar
                               })
             return
         }
-        stackView.replace("qrc:/ScreenPlayQml/qml/" + name + "/" + name + ".qml", {
-                              "modalSource": content
-                          })
+        stackView.replace(
+                    "qrc:/ScreenPlayQml/qml/" + name + "/" + name + ".qml", {
+                        "modalSource": content
+                    })
         sidebar.state = "inactive"
     }
 
@@ -55,10 +57,11 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 788
-    title: "ScreenPlay Alpha - " + ScreenPlay.version()
+    title: "ScreenPlay Alpha - V" + ScreenPlay.version()
     minimumHeight: 450
     minimumWidth: 1050
-    property bool enableCustomWindowNavigation: Qt.platform.os === "windows" || Qt.platform.os === "osx"
+    property bool enableCustomWindowNavigation: Qt.platform.os === "windows"
+                                                || Qt.platform.os === "osx"
 
     // Partial workaround for
     // https://bugreports.qt.io/browse/QTBUG-86047
@@ -74,7 +77,7 @@ ApplicationWindow {
         }
     }
     Component.onCompleted: {
-        if(root.enableCustomWindowNavigation){
+        if (root.enableCustomWindowNavigation) {
             root.flags = Qt.FramelessWindowHint | Qt.Window
         }
         setTheme(ScreenPlay.settings.theme)
@@ -82,7 +85,7 @@ ApplicationWindow {
                            "sidebar": sidebar
                        })
         if (!ScreenPlay.settings.silentStart)
-            root.show()
+            root.showNormal()
     }
 
     Item {
@@ -117,7 +120,7 @@ ApplicationWindow {
             id: windowNav
             enabled: root.enableCustomWindowNavigation
             visible: enabled
-            z:5
+            z: 5
             modalSource: content
             width: parent.width
             window: root
@@ -126,12 +129,11 @@ ApplicationWindow {
         Item {
             id: content
             anchors {
-                top: root.enableCustomWindowNavigation ?  windowNav.bottom : parent.top
+                top: root.enableCustomWindowNavigation ? windowNav.bottom : parent.top
                 right: parent.right
                 bottom: parent.bottom
                 left: parent.left
             }
-
 
             Connections {
                 function onThemeChanged(theme) {
@@ -287,14 +289,16 @@ ApplicationWindow {
         }
     }
 
-    Rectangle {
+    Item {
         width: 15
         height: width
-        color: "#555"
         anchors {
             right: parent.right
             bottom: parent.bottom
             margins: 1
+        }
+        Image {
+            source: "qrc:/assets/images/scale_window_indicator.png"
         }
         MouseArea {
             id: maResize

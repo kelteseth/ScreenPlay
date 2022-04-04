@@ -89,7 +89,7 @@ public:
 
     bool start();
 
-    void replace(
+    bool replace(
         const QString& absolutePath,
         const QString& previewImage,
         const QString& file,

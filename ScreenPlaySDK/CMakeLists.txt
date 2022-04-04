@@ -9,10 +9,10 @@ find_package(
     COMPONENTS Quick Network Core
     REQUIRED)
 
-set(SOURCES # cmake-format: sortable
+set(SOURCES 
             src/screenplay-sdk_plugin.cpp src/screenplaysdk.cpp)
 
-set(HEADER # cmake-format: sortable
+set(HEADER 
            inc/screenplay-sdk_plugin.h inc/screenplaysdk.h)
 
 add_library(${PROJECT_NAME} ${SOURCES} ${HEADER})

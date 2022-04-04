@@ -13,8 +13,6 @@ vcpkg_packages_list = [
     "openssl",
     "curl",
     "sentry-native",
-    "doctest",
-    "benchmark",
     "cpp-httplib"
 ]
 

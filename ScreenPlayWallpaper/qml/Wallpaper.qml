@@ -32,7 +32,6 @@ Rectangle {
                 loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
             }
 
-            print(loader.source)
             fadeIn()
             break
         case InstalledType.HTMLWallpaper:
@@ -197,7 +196,9 @@ Rectangle {
 
         anchors {
             top: parent.top
-            topMargin: -3 // To fix the offset from setupWallpaperForOneScreen
+            // To fix the offset from setupWallpaperForOneScreen
+            // but I'm not sure when it happens
+            //topMargin: -3
             left: parent.left
             right: parent.right
         }

@@ -5,7 +5,6 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
 set(SOURCES
-    # cmake-format: sortable
     app.cpp
     src/create.cpp
     src/createimportvideo.cpp
@@ -24,7 +23,6 @@ set(SOURCES
     src/wizards.cpp)
 
 set(HEADER
-    # cmake-format: sortable
     app.h
     src/create.h
     src/createimportstates.h
@@ -45,7 +43,6 @@ set(HEADER
     src/wizards.h)
 
 set(QML
-    # cmake-format: sortable
     main.qml
     qml/Common/CloseIcon.qml
     qml/Common/ColorPicker.qml
@@ -142,7 +139,6 @@ set(QML
     qml/Workshop/WorkshopItem.qml)
 
 set(TS_FILES
-    # cmake-format: sortable
     translations/ScreenPlay_.ts
     translations/ScreenPlay_de_DE.ts
     translations/ScreenPlay_es_ES.ts
@@ -160,7 +156,6 @@ set(TS_FILES
 # Needed on macos
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
-find_package(doctest CONFIG REQUIRED)
 
 # CURL must be included before sentry because sentry needs the module and does not include it itself on macos...
 find_package(CURL CONFIG REQUIRED)
@@ -191,7 +186,6 @@ target_link_libraries(
     ScreenPlayLib
     PUBLIC ScreenPlaySDK
            ScreenPlayUtil
-           doctest::doctest
            sentry::sentry
            Threads::Threads
            Qt6::Quick

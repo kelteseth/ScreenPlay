@@ -4,13 +4,13 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
-set(SOURCES # cmake-format: sortable
+set(SOURCES
             main.cpp src/widgetwindow.cpp)
 
-set(HEADER # cmake-format: sortable
+set(HEADER
            src/widgetwindow.h)
 
-set(QML # cmake-format: sortable
+set(QML
         qml/Test.qml qml/Widget.qml)
 
 find_package(
@@ -48,6 +48,10 @@ target_link_libraries(
             Qt6::Svg
             Qt6::WebEngineCore
             Qt6::WebEngineQuick)
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin)
+endif()
 
 qt_add_qml_module(
     ${PROJECT_NAME}

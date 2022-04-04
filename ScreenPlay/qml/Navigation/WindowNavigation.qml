@@ -19,7 +19,7 @@ Rectangle {
 
     Text {
         id: title
-        text: qsTr("ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets").arg(
+        text: qsTr("ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets").arg(
                   ScreenPlay.version())
         color: Material.primaryTextColor
         verticalAlignment: Text.AlignVCenter

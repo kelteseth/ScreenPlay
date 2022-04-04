@@ -9,11 +9,11 @@ find_package(
     COMPONENTS Core Quick
     REQUIRED)
 
-set(SOURCES # cmake-format: sortable
+set(SOURCES 
             inc/public/ScreenPlayUtil/httpfileserver.cpp src/contenttypes.cpp src/util.cpp)
 
 set(HEADER
-    # cmake-format: sortable
+    
     inc/public/ScreenPlayUtil/AutoPropertyHelpers.h
     inc/public/ScreenPlayUtil/ConstRefPropertyHelpers.h
     inc/public/ScreenPlayUtil/contenttypes.h
@@ -27,7 +27,7 @@ set(HEADER
     inc/public/ScreenPlayUtil/SingletonHelper.h
     inc/public/ScreenPlayUtil/util.h)
 
-add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADER})
+qt_add_library(${PROJECT_NAME} STATIC ${SOURCES} ${HEADER})
 
 find_path(CPP_HTTPLIB_INCLUDE_DIRS "httplib.h")
 target_include_directories(${PROJECT_NAME} PUBLIC ${CPP_HTTPLIB_INCLUDE_DIRS})

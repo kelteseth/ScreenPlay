@@ -14,14 +14,12 @@ find_package(
     COMPONENTS Quick Core
     REQUIRED)
 
-# Because this is a plugin, we need this for testing and development. This can be disabled when using the plugin in your project directly.
-option(tst_ScreenPlaySysInfo "Builds TextProject" ON)
 
-set(QML # cmake-format: sortable
+set(QML 
         src/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES
-    # cmake-format: sortable
+    
     src/cpu.cpp
     src/gpu.cpp
     src/ipaddress.cpp
@@ -31,7 +29,7 @@ set(QML_PLUGIN_SOURCES
     src/uptime.cpp)
 
 set(QML_PLUGIN_HEADER
-    # cmake-format: sortable
+    
     src/cpu.h
     src/gpu.h
     src/ipaddress.h
@@ -41,10 +39,13 @@ set(QML_PLUGIN_HEADER
     src/sysinfo.h
     src/uptime.h)
 
-add_library(${PROJECT_NAME} STATIC)
+qt_add_library(${PROJECT_NAME} STATIC)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick infoware)
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ole32.lib winmm.lib)
+endif()
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -60,7 +61,7 @@ qt_add_qml_module(
     ${QML_PLUGIN_SOURCES}
     ${QML_PLUGIN_HEADER})
 
-if(${tst_ScreenPlaySysInfo})
+if(${SCREENPLAY_TESTS})
     qt_add_executable(tst_ScreenPlaySysInfo src/TestMain.cpp)
     target_link_libraries(tst_ScreenPlaySysInfo PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
     target_compile_definitions(tst_ScreenPlaySysInfo PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)

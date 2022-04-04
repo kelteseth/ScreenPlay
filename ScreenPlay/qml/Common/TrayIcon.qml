@@ -6,7 +6,7 @@ import ScreenPlay 1.0
 SystemTrayIcon {
     id: root
 
-    property var window
+    property Window window
     visible: true
     icon.source: "qrc:/assets/icons/app.ico"
     tooltip: qsTr("ScreenPlay - Double click to change you settings.")

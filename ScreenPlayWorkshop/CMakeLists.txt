@@ -1,17 +1,23 @@
-project(ScreenPlayWorkshop LANGUAGES CXX)
+project(ScreenPlayWorkshop
+    VERSION 0.1
+    LANGUAGES CXX)
 
-add_subdirectory(SteamSDK)
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(
     Qt6
     COMPONENTS Quick Widgets Gui
     REQUIRED)
 
+
+set(QML
+        src/TestMain.qml)
+
 set(SOURCES
-    # cmake-format: sortable
+
     src/installedlistmodel.cpp
     src/steamaccount.cpp
     src/steamapiwrapper.cpp
@@ -22,7 +28,7 @@ set(SOURCES
     src/workshop.cpp)
 
 set(HEADER
-    # cmake-format: sortable
+
     src/installedlistmodel.h
     src/steamaccount.h
     src/steamapiwrapper.h
@@ -51,26 +57,32 @@ elseif(UNIX)
     set(STEAM_BIN ${STEAM_LIB})
 endif()
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES} ${HEADER})
+qt_add_library(${PROJECT_NAME} STATIC)
+# Needed by the automatic generated target missing includes
+# https://github.com/qt/qtdeclarative/blob/7a7064e14f094e843e1ee832cc927e86f887621a/src/qml/Qt6QmlMacros.cmake#L2042
+target_include_directories(${PROJECT_NAME} PUBLIC src/)
 target_link_libraries(
     ${PROJECT_NAME}
-    PRIVATE Qt6::Core
+    PUBLIC Qt6::Core
             Qt6::Quick
             ${STEAM_LIB}
             ScreenPlayUtil
-            SteamSDK)
+            SteamSDK
+            SteamSDKQtEnums)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
-    OUTPUT_DIRECTORY
-    ${WORKSHOP_PLUGIN_DIR}
     URI
     "Workshop"
+    OUTPUT_DIRECTORY
+    ${WORKSHOP_PLUGIN_DIR}
+    VERSION
+    1.0
+    QML_FILES
+    ${QML}
     SOURCES
     ${SOURCES}
-    ${HEADER}
-    VERSION
-    1.0)
+    ${HEADER})
 
 if(${SCREENPLAY_STEAM})
     if(APPLE)
@@ -88,21 +100,8 @@ if(${SCREENPLAY_STEAM})
     endif()
 endif()
 
-# Needed by the automatic generated target missing includes
-# https://github.com/qt/qtdeclarative/blob/7a7064e14f094e843e1ee832cc927e86f887621a/src/qml/Qt6QmlMacros.cmake#L2042
-target_include_directories(${PROJECT_NAME} PUBLIC src/)
-
-target_link_libraries(
-    ${PROJECT_NAME}
-    PRIVATE Qt6::Core
-            Qt6::Quick
-            ${STEAM_LIB}
-            ScreenPlayUtil
-            SteamSDK
-            SteamSDKQtEnums)
-
-if(${tst_ScreenPlayWorkshop})
-    qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp)
-    target_link_libraries(tst_ScreenPlayWorkshop PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
-    target_compile_definitions(tst_ScreenPlayWorkshop PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-endif()
+#if(${SCREENPLAY_TESTS})
+#    qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp)
+#    target_link_libraries(tst_ScreenPlayWorkshop PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
+#    target_compile_definitions(tst_ScreenPlayWorkshop PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+#endif()

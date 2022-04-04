@@ -75,7 +75,7 @@ Item {
         id: txtHeadline
 
         y: 80
-        text: qsTr("Get free Widgets and Wallpaper via the Steam Workshop")
+        text: ScreenPlay.settings.steamVersion ? qsTr("Get free Widgets and Wallpaper via the Steam Workshop") : qsTr("Get content via our forum")
         font.family: ScreenPlay.settings.font
         font.capitalization: Font.Capitalize
         wrapMode: Text.WordWrap

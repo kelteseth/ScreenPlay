@@ -3,25 +3,22 @@ project(
     VERSION 0.1
     LANGUAGES CXX)
 
+set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_AUTOMOC ON)
 
 find_package(
-    Qt6 6.2
+    Qt6
     COMPONENTS Core Quick
     REQUIRED)
 
-# Because this is a plugin, we need this for testing and development. This can be disabled when using the plugin in your project directly.
-option(tst_ScreenPlayWeather "Builds TextProject" ON)
-
-set(QML # cmake-format: sortable
+set(QML
         src/TestMain.qml)
 
-set(QML_PLUGIN_SOURCES # cmake-format: sortable
+set(QML_PLUGIN_SOURCES
                        src/screenplayweather.cpp)
 
-set(QML_PLUGIN_HEADER # cmake-format: sortable
+set(QML_PLUGIN_HEADER
                       src/day.h src/screenplayweather.h)
 
 qt_add_library(${PROJECT_NAME} STATIC)
@@ -42,7 +39,7 @@ qt_add_qml_module(
     ${QML_PLUGIN_SOURCES}
     ${QML_PLUGIN_HEADER})
 
-if(${tst_ScreenPlayWeather})
+if(${SCREENPLAY_TESTS})
     qt_add_executable(tst_ScreenPlayWeather src/TestMain.cpp)
     target_link_libraries(tst_ScreenPlayWeather PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
     target_compile_definitions(tst_ScreenPlayWeather PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
