@@ -195,8 +195,7 @@ target_link_libraries(
            Qt6::WebSockets
            Qt6::Svg
            ScreenPlayQmlplugin
-           SteamSDKQtEnums
-           Plausibleplugin)
+           SteamSDKQtEnums)
 
 if(${TESTS_ENABLED})
     add_executable(tst_ScreenPlay tests/tst_main.cpp)
