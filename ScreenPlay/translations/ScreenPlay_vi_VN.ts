@@ -632,6 +632,10 @@
         <source>Browse the Steam Workshop</source>
         <translation>Duyệt qua Steam Workshop</translation>
     </message>
+    <message>
+        <source>Get content via our forum</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>LicenseSelector</name>
@@ -1900,12 +1904,12 @@ Steam Error API Init: %2</translation>
 <context>
     <name>WindowNavigation</name>
     <message>
-        <source>ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</source>
-        <translation type="unfinished">ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</translation>
-    </message>
-    <message>
         <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
         <translation type="unfinished">Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</translation>
+    </message>
+    <message>
+        <source>ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
