@@ -632,6 +632,10 @@
       <source>Browse the Steam Workshop</source>
       <translation>Przeglądaj Warsztat Steam</translation>
     </message>
+    <message>
+      <source>Get content via our forum</source>
+      <translation type="unfinished">Get content via our forum</translation>
+    </message>
   </context>
   <context>
     <name>LicenseSelector</name>
@@ -1900,12 +1904,12 @@ Steam Error API Init: %2</translation>
   <context>
     <name>WindowNavigation</name>
     <message>
-      <source>ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</source>
-      <translation>ScreenPlay Alpha %1 - Otwarte Tapety i Widżety</translation>
-    </message>
-    <message>
       <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
       <translation>Czy na pewno chcesz zamknąć ScreenPlay? Wyłączy to wszystkie tapety oraz widżety. Jeśli chcesz nadal odtwarzać swoją tapetę, naciśnij przycisk minimalizuj.</translation>
+    </message>
+    <message>
+      <source>ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</source>
+      <translation type="unfinished">ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</translation>
     </message>
   </context>
   <context>
