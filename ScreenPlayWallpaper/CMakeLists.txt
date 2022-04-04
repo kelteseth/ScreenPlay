@@ -19,31 +19,24 @@ find_package(
                Positioning)
 
 if(WIN32)
-    set(SOURCES
-                src/windowsdesktopproperties.cpp src/winwindow.cpp)
-    set(HEADER
-               src/windowsdesktopproperties.h src/winwindow.h)
+    set(SOURCES src/windowsdesktopproperties.cpp src/winwindow.cpp)
+    set(HEADER src/windowsdesktopproperties.h src/winwindow.h)
 elseif(APPLE)
-    set(SOURCES
-                src/macintegration.cpp src/macwindow.cpp)
+    set(SOURCES src/macintegration.cpp src/macwindow.cpp)
     set(HEADER
-
         src/macbridge.h
         src/MacBridge.mm
         src/macintegration.h
         src/macwindow.h)
 elseif(UNIX)
-    set(SOURCES
-                src/linuxwindow.cpp)
-    set(HEADER
-               src/linuxwindow.h)
+    set(SOURCES src/linuxwindow.cpp)
+    set(HEADER src/linuxwindow.h)
 endif()
 
 set(SOURCES ${SOURCES} main.cpp src/basewindow.cpp)
 set(HEADER ${HEADER} src/basewindow.h)
 
 set(QML
-
     qml/GifWallpaper.qml
     qml/MultimediaView.qml
     qml/MultimediaWebView.qml

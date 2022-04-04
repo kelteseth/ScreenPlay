@@ -7,8 +7,6 @@ project(
     HOMEPAGE_URL "https://screen-play.app/"
     LANGUAGES CXX)
 
-
-
 # This sets cmake to compile all dlls into the main directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)

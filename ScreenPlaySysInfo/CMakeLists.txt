@@ -14,12 +14,9 @@ find_package(
     COMPONENTS Quick Core
     REQUIRED)
 
-
-set(QML 
-        src/TestMain.qml)
+set(QML src/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES
-    
     src/cpu.cpp
     src/gpu.cpp
     src/ipaddress.cpp
@@ -29,7 +26,6 @@ set(QML_PLUGIN_SOURCES
     src/uptime.cpp)
 
 set(QML_PLUGIN_HEADER
-    
     src/cpu.h
     src/gpu.h
     src/ipaddress.h

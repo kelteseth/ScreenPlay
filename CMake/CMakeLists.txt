@@ -1,7 +1,6 @@
 project(CMake)
 
 set(FILES
-    
     CopyRecursive.cmake
     CreateIFWInstaller.cmake
     FetchContentThirdParty.cmake

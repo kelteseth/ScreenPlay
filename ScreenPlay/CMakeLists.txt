@@ -70,13 +70,13 @@ set(QML
     qml/Common/TrayIcon.qml
     qml/Common/Util.js
     qml/Community/Community.qml
+    qml/Create/Wizard.qml
     qml/Community/CommunityNavItem.qml
     qml/Community/XMLNewsfeed.qml
     qml/Create/Create.qml
     qml/Create/Sidebar.qml
     qml/Create/StartInfo.qml
     qml/Create/StartInfoLinkImage.qml
-    qml/Create/Wizard.qml
     qml/Create/Wizards/GifWallpaper.qml
     qml/Create/Wizards/HTMLWallpaper.qml
     qml/Create/Wizards/HTMLWidget.qml

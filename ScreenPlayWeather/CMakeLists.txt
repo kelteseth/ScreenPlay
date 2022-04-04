@@ -12,14 +12,11 @@ find_package(
     COMPONENTS Core Quick
     REQUIRED)
 
-set(QML
-        src/TestMain.qml)
+set(QML src/TestMain.qml)
 
-set(QML_PLUGIN_SOURCES
-                       src/screenplayweather.cpp)
+set(QML_PLUGIN_SOURCES src/screenplayweather.cpp)
 
-set(QML_PLUGIN_HEADER
-                      src/day.h src/screenplayweather.h)
+set(QML_PLUGIN_HEADER src/day.h src/screenplayweather.h)
 
 qt_add_library(${PROJECT_NAME} STATIC)
 target_link_libraries(${PROJECT_NAME} PUBLIC ScreenPlayUtil)

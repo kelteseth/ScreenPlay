@@ -10,19 +10,19 @@ find_package(
     COMPONENTS Quick Core ShaderTools
     REQUIRED)
 
-set(QML 
-        src/ShadertoyShader.qml src/TestMain.qml)
+set(QML src/ShadertoyShader.qml src/TestMain.qml)
 
 qt_add_library(${PROJECT_NAME} STATIC)
 target_include_directories(${PROJECT_NAME} PUBLIC src/)
-qt6_add_shaders(${PROJECT_NAME} "shaders"
+qt6_add_shaders(
+    ${PROJECT_NAME}
+    "shaders"
     BATCHABLE
     PRECOMPILE
     PREFIX
     "/ScreenPlayShader"
     FILES
-    #shader/lightning.frag
-    #shader/lightning.vert
+    # shader/lightning.frag shader/lightning.vert
     shaders/wobble.frag
     shaders/water.frag
     shaders/water.vert)
@@ -43,13 +43,13 @@ if(${SCREENPLAY_TESTS})
         QML_FILES
         ${QML})
 
+    target_link_libraries(
+        tst_ScreenPlayShader
+        PRIVATE Qt6::Quick
+                Qt::Core
+                Qt::Gui
+                Qt::Qml
+                Qt::Quick
+                ${PROJECT_NAME})
 
-    target_link_libraries(tst_ScreenPlayShader PRIVATE
-        Qt6::Quick
-        Qt::Core
-        Qt::Gui
-        Qt::Qml
-        Qt::Quick
-        ${PROJECT_NAME})
-
- endif()
+endif()

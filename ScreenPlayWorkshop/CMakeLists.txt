@@ -1,7 +1,7 @@
-project(ScreenPlayWorkshop
+project(
+    ScreenPlayWorkshop
     VERSION 0.1
     LANGUAGES CXX)
-
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_CXX_STANDARD 20)
@@ -12,12 +12,9 @@ find_package(
     COMPONENTS Quick Widgets Gui
     REQUIRED)
 
-
-set(QML
-        src/TestMain.qml)
+set(QML src/TestMain.qml)
 
 set(SOURCES
-
     src/installedlistmodel.cpp
     src/steamaccount.cpp
     src/steamapiwrapper.cpp
@@ -28,7 +25,6 @@ set(SOURCES
     src/workshop.cpp)
 
 set(HEADER
-
     src/installedlistmodel.h
     src/steamaccount.h
     src/steamapiwrapper.h
@@ -64,11 +60,11 @@ target_include_directories(${PROJECT_NAME} PUBLIC src/)
 target_link_libraries(
     ${PROJECT_NAME}
     PUBLIC Qt6::Core
-            Qt6::Quick
-            ${STEAM_LIB}
-            ScreenPlayUtil
-            SteamSDK
-            SteamSDKQtEnums)
+           Qt6::Quick
+           ${STEAM_LIB}
+           ScreenPlayUtil
+           SteamSDK
+           SteamSDKQtEnums)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -100,8 +96,6 @@ if(${SCREENPLAY_STEAM})
     endif()
 endif()
 
-#if(${SCREENPLAY_TESTS})
-#    qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp)
-#    target_link_libraries(tst_ScreenPlayWorkshop PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
-#    target_compile_definitions(tst_ScreenPlayWorkshop PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-#endif()
+# if(${SCREENPLAY_TESTS}) qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp) target_link_libraries(tst_ScreenPlayWorkshop PRIVATE
+# Qt6::Quick ${PROJECT_NAME}plugin) target_compile_definitions(tst_ScreenPlayWorkshop PRIVATE
+# $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>) endif()

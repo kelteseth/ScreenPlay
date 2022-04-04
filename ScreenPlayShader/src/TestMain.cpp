@@ -3,7 +3,6 @@
 #include <QVersionNumber>
 #include <QtQml/qqmlextensionplugin.h>
 
-
 int main(int argc, char* argv[])
 {
     QGuiApplication app(argc, argv);

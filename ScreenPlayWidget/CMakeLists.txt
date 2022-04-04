@@ -4,14 +4,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
-set(SOURCES
-            main.cpp src/widgetwindow.cpp)
+set(SOURCES main.cpp src/widgetwindow.cpp)
 
-set(HEADER
-           src/widgetwindow.h)
+set(HEADER src/widgetwindow.h)
 
-set(QML
-        qml/Test.qml qml/Widget.qml)
+set(QML qml/Test.qml qml/Widget.qml)
 
 find_package(
     Qt6
