@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/">
+        <file>assets/Shadertoy_Bayer.png</file>
+        <file>assets/Shadertoy_Gray_Noise_Medium.png</file>
+        <file>assets/Shadertoy_Lichen.jpg</file>
+        <file>assets/test_image_andras-vas-Bd7gNnWJBkU-unsplash.jpg</file>
+    </qresource>
+</RCC>

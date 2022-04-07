@@ -8,6 +8,7 @@
 
 class Shader : public QObject {
     Q_OBJECT
+    QML_ELEMENT
 
     Q_PROPERTY(QString vertex READ vertex WRITE setVertex NOTIFY vertexChanged)
     Q_PROPERTY(QString fragment READ fragment WRITE setFragment NOTIFY fragmentChanged)

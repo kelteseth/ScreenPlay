@@ -1,7 +1,8 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
-#include <QVersionNumber>
 #include <QtQml/qqmlextensionplugin.h>
+
+Q_IMPORT_QML_PLUGIN(ScreenPlayShaderPlugin)
 
 int main(int argc, char* argv[])
 {
