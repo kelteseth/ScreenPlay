@@ -283,7 +283,7 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
 
                 // Do not change the background image on every page
                 if (i == 0 && listModel->currentPage() == 1) {
-                    emit workshopSearched();
+                    emit workshopSearchCompleted();
                 }
 
                 //                const int keyValueTagsCount = SteamUGC()->GetQueryUGCNumKeyValueTags(pCallback->m_handle, i);

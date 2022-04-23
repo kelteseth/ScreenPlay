@@ -9,6 +9,33 @@ find_package(
     COMPONENTS Core Quick
     REQUIRED)
 
+set(QML
+    qml/CloseIcon.qml
+    qml/ColorPicker.qml
+    qml/Dialog.qml
+    qml/Dialogs/CriticalError.qml
+    qml/Dialogs/MonitorConfiguration.qml
+    qml/Dialogs/SteamNotAvailable.qml
+    qml/FileSelector.qml
+    qml/Grow.qml
+    qml/GrowIconLink.qml
+    qml/Headline.qml
+    qml/HeadlineSection.qml
+    qml/ImageSelector.qml
+    qml/LicenseSelector.qml
+    qml/ModalBackgroundBlur.qml
+    qml/MouseHoverBlocker.qml
+    qml/Popup.qml
+    qml/RippleEffect.qml
+    qml/Search.qml
+    qml/Shake.qml
+    qml/Slider.qml
+    qml/Tag.qml
+    qml/TagSelector.qml
+    qml/TextField.qml
+    qml/TrayIcon.qml
+    qml/JSUtil.js)
+
 set(SOURCES inc/public/ScreenPlayUtil/httpfileserver.cpp src/contenttypes.cpp src/util.cpp)
 
 set(HEADER
@@ -30,6 +57,17 @@ qt_add_library(
     STATIC
     ${SOURCES}
     ${HEADER})
+
+qt_add_qml_module(
+    ${PROJECT_NAME}
+    OUTPUT_DIRECTORY
+    ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME}
+    URI
+    ${PROJECT_NAME}
+    VERSION
+    1.0
+    QML_FILES
+    ${QML})
 
 find_path(CPP_HTTPLIB_INCLUDE_DIRS "httplib.h")
 target_include_directories(${PROJECT_NAME} PUBLIC ${CPP_HTTPLIB_INCLUDE_DIRS})

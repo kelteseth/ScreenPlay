@@ -42,9 +42,9 @@
 #include <QGuiApplication>
 #include <QQuickItem>
 #include <QtTest>
-#define DOCTEST_CONFIG_IMPLEMENT
-#define DOCTEST_CONFIG_SUPER_FAST_ASSERTS
-#include <doctest/doctest.h>
+
+Q_IMPORT_QML_PLUGIN(ScreenPlayQmlPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 
 class ScreenPlayTest : public QObject {
     Q_OBJECT

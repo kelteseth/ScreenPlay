@@ -44,35 +44,10 @@ set(HEADER
 
 set(QML
     main.qml
-    qml/Common/CloseIcon.qml
-    qml/Common/ColorPicker.qml
-    qml/Common/Dialog.qml
-    qml/Common/Dialogs/CriticalError.qml
-    qml/Common/Dialogs/MonitorConfiguration.qml
-    qml/Common/Dialogs/SteamNotAvailable.qml
-    qml/Common/FileSelector.qml
-    qml/Common/Grow.qml
-    qml/Common/GrowIconLink.qml
-    qml/Common/Headline.qml
-    qml/Common/HeadlineSection.qml
-    qml/Common/ImageSelector.qml
-    qml/Common/LicenseSelector.qml
-    qml/Common/ModalBackgroundBlur.qml
-    qml/Common/MouseHoverBlocker.qml
-    qml/Common/Popup.qml
-    qml/Common/RippleEffect.qml
-    qml/Common/Search.qml
-    qml/Common/Shake.qml
-    qml/Common/Slider.qml
-    qml/Common/Tag.qml
-    qml/Common/TagSelector.qml
-    qml/Common/TextField.qml
-    qml/Common/TrayIcon.qml
-    qml/Common/Util.js
     qml/Community/Community.qml
-    qml/Create/Wizard.qml
     qml/Community/CommunityNavItem.qml
     qml/Community/XMLNewsfeed.qml
+    qml/Create/Wizard.qml
     qml/Create/Create.qml
     qml/Create/Sidebar.qml
     qml/Create/StartInfo.qml
@@ -120,23 +95,7 @@ set(QML
     qml/Settings/SettingsHeader.qml
     qml/Settings/SettingsHorizontalSeperator.qml
     qml/Settings/SettingsPage.qml
-    qml/Workshop/Background.qml
-    qml/Workshop/Forum.qml
-    qml/Workshop/Navigation.qml
-    qml/Workshop/PopupOffline.qml
-    qml/Workshop/ScreenPlayItem.qml
-    qml/Workshop/ScreenPlayItemImage.qml
-    qml/Workshop/Sidebar.qml
-    qml/Workshop/SteamProfile.qml
-    qml/Workshop/SteamWorkshop.qml
-    qml/Workshop/SteamWorkshopStartPage.qml
-    qml/Workshop/upload/PopupSteamWorkshopAgreement.qml
-    qml/Workshop/upload/UploadProject.qml
-    qml/Workshop/upload/UploadProjectBigItem.qml
-    qml/Workshop/upload/UploadProjectItem.qml
-    qml/Workshop/Workshop.qml
-    qml/Workshop/WorkshopInstalled.qml
-    qml/Workshop/WorkshopItem.qml)
+    qml/Workshop/Workshop.qml)
 
 set(TS_FILES
     translations/ScreenPlay_.ts
@@ -185,7 +144,6 @@ add_library(
 target_link_libraries(
     ScreenPlayLib
     PUBLIC ScreenPlaySDK
-           ScreenPlayUtil
            sentry::sentry
            Threads::Threads
            Qt6::Quick
@@ -195,12 +153,11 @@ target_link_libraries(
            Qt6::WebSockets
            Qt6::Svg
            ScreenPlayQmlplugin
+           ScreenPlayUtil
+           ScreenPlayUtilplugin
+           ScreenPlayWorkshopplugin
+           ScreenPlayWorkshop
            SteamSDKQtEnums)
-
-if(${TESTS_ENABLED})
-    add_executable(tst_ScreenPlay tests/tst_main.cpp)
-    target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt6::Test)
-endif()
 
 qt_add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
@@ -230,6 +187,11 @@ qt_add_qml_module(
     1.0
     QML_FILES
     ${QML})
+
+#if(${SCREENPLAY_TESTS})
+#    add_executable(tst_ScreenPlay tests/tst_main.cpp)
+#    target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt6::Test)
+#endif()
 
 if(WIN32)
     # Icon
@@ -282,7 +244,7 @@ if(APPLE)
                 ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
 
     # tst_ScreenPlay needs ffmpeg in the base path
-    if(${TESTS_ENABLED})
+    if(${SCREENPLAY_TESTS})
         add_custom_command(
             TARGET ${PROJECT_NAME}
             POST_BUILD

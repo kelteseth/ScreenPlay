@@ -1,5 +1,6 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
+#include <QSurfaceFormat>
 #include <QtQml/qqmlextensionplugin.h>
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayShaderPlugin)
@@ -7,7 +8,6 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayShaderPlugin)
 int main(int argc, char* argv[])
 {
     QGuiApplication app(argc, argv);
-
     QQmlApplicationEngine engine;
     // The first subfolder is the libraryName followed by the regular
     // folder strucutre:     LibararyName/Subfolder

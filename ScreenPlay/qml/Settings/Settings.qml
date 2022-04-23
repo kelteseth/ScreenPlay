@@ -7,7 +7,7 @@ import Qt5Compat.GraphicalEffects
 import ScreenPlay 1.0
 import ScreenPlay.Enums.FillMode 1.0
 import Settings 1.0
-import "../Common"
+import ScreenPlayUtil 1.0 
 
 Item {
     id: root

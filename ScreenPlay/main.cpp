@@ -36,9 +36,11 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
-Q_IMPORT_QML_PLUGIN(ScreenPlayQmlPlugin)
-
 #include <sentry.h>
+
+Q_IMPORT_QML_PLUGIN(ScreenPlayQmlPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 
 int main(int argc, char* argv[])
 {

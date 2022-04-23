@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.Enums.ImportVideoState 1.0
-import "../../../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 
 Item {
     id: root

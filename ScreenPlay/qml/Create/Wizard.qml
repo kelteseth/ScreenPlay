@@ -5,7 +5,7 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
-import "../Common"
+import ScreenPlayUtil 1.0 
 
 Item {
     id: root

@@ -6,8 +6,7 @@ import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0
-import "../Workshop"
-import "../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 
 Rectangle {
     id: root

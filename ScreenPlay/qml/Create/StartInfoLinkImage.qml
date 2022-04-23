@@ -8,7 +8,7 @@ import QtQuick.Controls.Material.impl
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
-import "../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 
 Item {
     id: delegate

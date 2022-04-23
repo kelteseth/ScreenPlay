@@ -23,7 +23,11 @@ find_package(
                WebChannel
                Positioning)
 
-qt_add_resources(RESOURCES Resources.qrc)
+set(RESOURCES
+    assets/icons/baseline-opacity-24px.svg
+    assets/icons/baseline-settings-20px.svg
+    assets/icons/baseline-close-24px.svg
+    assets/image/noisy-texture-3.png)
 
 qt_add_executable(
     ${PROJECT_NAME}
@@ -59,7 +63,9 @@ qt_add_qml_module(
     OUTPUT_DIRECTORY
     ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME}
     QML_FILES
-    ${QML})
+    ${QML}
+    RESOURCES
+    ${RESOURCES})
 
 if(WIN32)
     # Disable console window on Windows

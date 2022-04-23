@@ -5,13 +5,11 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 import ScreenPlay 1.0
 import Settings 1.0
+import ScreenPlayUtil 1.0 as Common
 import Qt5Compat.GraphicalEffects
 import "qml/Monitors" as Monitors
-import "qml/Common" as Common
-import "qml/Common/Dialogs" as Dialogs
 import "qml/Installed" as Installed
 import "qml/Navigation" as Navigation
-import "qml/Workshop" as Workshop
 import "qml/Community" as Community
 
 ApplicationWindow {
@@ -90,16 +88,16 @@ ApplicationWindow {
 
     Item {
         id: noneContentItems
-        Dialogs.SteamNotAvailable {
+        Common.SteamNotAvailable {
             id: dialogSteam
             modalSource: content
         }
 
-        Dialogs.MonitorConfiguration {
+        Common.MonitorConfiguration {
             modalSource: content
         }
 
-        Dialogs.CriticalError {
+        Common.CriticalError {
             window: root
             modalSource: content
         }
