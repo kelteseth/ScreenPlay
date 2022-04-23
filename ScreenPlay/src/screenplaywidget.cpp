@@ -1,4 +1,4 @@
-#include "screenplaywidget.h"
+#include "ScreenPlay/screenplaywidget.h"
 
 namespace ScreenPlay {
 

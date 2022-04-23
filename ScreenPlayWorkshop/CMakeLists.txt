@@ -86,7 +86,6 @@ elseif(UNIX)
     set(STEAM_BIN ${STEAM_LIB})
 endif()
 
-
 qt_add_library(${PROJECT_NAME} STATIC ${RESOURCES})
 # Needed by the automatic generated target missing includes
 # https://github.com/qt/qtdeclarative/blob/7a7064e14f094e843e1ee832cc927e86f887621a/src/qml/Qt6QmlMacros.cmake#L2042
@@ -133,13 +132,13 @@ if(${SCREENPLAY_STEAM})
 
     if(${SCREENPLAY_TESTS})
         qt_add_executable(tst_ScreenPlayWorkshop src/TestMain.cpp)
-        target_link_libraries(tst_ScreenPlayWorkshop PRIVATE
-            Qt6::Quick
-            ${PROJECT_NAME}plugin
-            ScreenPlayUtilplugin
-            SteamSDK
-            SteamSDKQtEnums)
+        target_link_libraries(
+            tst_ScreenPlayWorkshop
+            PRIVATE Qt6::Quick
+                    ${PROJECT_NAME}plugin
+                    ScreenPlayUtilplugin
+                    SteamSDK
+                    SteamSDKQtEnums)
         target_compile_definitions(tst_ScreenPlayWorkshop PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
     endif()
 endif()
-

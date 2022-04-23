@@ -35,93 +35,69 @@
 #pragma once
 
 #include <QAbstractListModel>
-#include <QApplication>
 #include <QDebug>
-#include <QRect>
-#include <QScreen>
-#include <QSize>
-#include <QString>
+#include <QDir>
+#include <QFile>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
 #include <QVector>
 
-#include "projectsettingslistmodel.h"
-#include "screenplaywallpaper.h"
-#include "screenplaywidget.h"
-
-#ifdef Q_OS_WIN
-#include <qt_windows.h>
-#endif
-#include <memory>
-#include <optional>
+#include "ScreenPlay/util.h"
 
 namespace ScreenPlay {
 
-struct Monitor {
-
-    Monitor(
-        const int index,
-        const QRect& geometry)
+struct SettingsItem {
+    SettingsItem(
+        const QString& name,
+        const QJsonObject& value)
     {
-        m_index = index;
-        m_geometry = geometry;
+        m_name = name;
+        m_isHeadline = false;
+        m_value = value;
     }
 
-    int m_index { 0 };
-    QRect m_geometry;
-    std::shared_ptr<ScreenPlayWallpaper> m_activeWallpaper { nullptr };
+    SettingsItem(
+        const QString& name)
+    {
+        m_name = name;
+        m_isHeadline = true;
+    }
+    QString m_name;
+    bool m_isHeadline;
+    QJsonObject m_value;
+    QString m_type;
+
+public:
+    void setValue(const QJsonObject& value)
+    {
+        m_value = value;
+    }
 };
 
-class MonitorListModel : public QAbstractListModel {
+class ProjectSettingsListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    explicit MonitorListModel(QObject* parent = nullptr);
-
-    enum class MonitorRole {
-        AppID = Qt::UserRole,
-        Index,
-        Geometry,
-        PreviewImage,
-        InstalledType,
-    };
-    Q_ENUM(MonitorRole)
-
-    QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    QHash<int, QByteArray> roleNames() const override;
 
-    void setWallpaperMonitor(
-        const std::shared_ptr<ScreenPlayWallpaper>& wallpaper,
-        const QVector<int> monitors);
+    enum ProjectSettingsRole {
+        NameRole = Qt::UserRole,
+        IsHeadlineRole,
+        ValueRole,
+    };
+    Q_ENUM(ProjectSettingsRole)
 
-    std::optional<QString> getAppIDByMonitorIndex(const int index) const;
-
-signals:
-    void monitorReloadCompleted();
-    void setNewActiveMonitor(int index, QString path);
-    void monitorConfigurationChanged();
+    QJsonObject getActiveSettingsJson();
+    void init(const InstalledType::InstalledType& type, const QJsonObject& properties);
+    void append(const SettingsItem&& item);
 
 public slots:
-    void reset();
-    void clearActiveWallpaper();
-    void closeWallpaper(const QString& appID);
-    QRect absoluteDesktopSize() const;
-
-    void screenAdded(QScreen* screen)
-    {
-        emit monitorConfigurationChanged();
-        reset();
-    }
-    void screenRemoved(QScreen* screen)
-    {
-        emit monitorConfigurationChanged();
-        reset();
-    }
+    void setValueAtIndex(const int row, const QString& key, const QJsonObject& value);
 
 private:
-    void loadMonitors();
-
-private:
-    QVector<Monitor> m_monitorList;
+    QVector<SettingsItem> m_projectSettings;
 };
-
 }

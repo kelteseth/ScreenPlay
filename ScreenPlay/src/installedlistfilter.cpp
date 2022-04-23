@@ -1,4 +1,4 @@
-#include "installedlistfilter.h"
+#include "ScreenPlay/installedlistfilter.h"
 
 namespace ScreenPlay {
 

@@ -1,4 +1,4 @@
-#include "globalvariables.h"
+#include "ScreenPlay/globalvariables.h"
 
 namespace ScreenPlay {
 

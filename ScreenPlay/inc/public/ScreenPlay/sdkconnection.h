@@ -47,8 +47,8 @@
 #include <QWebSocketServer>
 
 #include "ScreenPlayUtil/util.h"
-#include "globalvariables.h"
-#include "util.h"
+#include "ScreenPlay/globalvariables.h"
+#include "ScreenPlay/util.h"
 
 #include <memory>
 

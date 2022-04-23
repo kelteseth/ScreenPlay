@@ -34,33 +34,45 @@
 
 #pragma once
 
-#include <QRegularExpression>
-#include <QSortFilterProxyModel>
-#include <memory>
+#include <QAbstractListModel>
+#include <QDebug>
+#include <QDir>
+#include <QFile>
+#include <QStandardPaths>
+#include <QString>
+#include <QUrl>
+#include <QVector>
 
-#include "globalvariables.h"
-#include "installedlistmodel.h"
+#include "ScreenPlay/globalvariables.h"
+#include "ScreenPlay/profile.h"
+
+#include <memory>
 
 namespace ScreenPlay {
 
-class InstalledListFilter : public QSortFilterProxyModel {
+struct Profile;
+
+class ProfileListModel : public QAbstractListModel {
     Q_OBJECT
 
 public:
-    InstalledListFilter(const std::shared_ptr<InstalledListModel>& ilm);
+    explicit ProfileListModel(
+        const std::shared_ptr<GlobalVariables>& globalVariables,
+        QObject* parent = nullptr);
 
-public slots:
-    void sortBySearchType(const ScreenPlay::SearchType::SearchType searchType);
-    void setSortOrder(const Qt::SortOrder sortOrder);
-    void sortByName(const QString& name);
-    void resetFilter();
+    enum RoleNames {
+        NameRole = Qt::UserRole,
+        NumberRole
+    };
 
-signals:
-    void sortChanged();
+    int rowCount(const QModelIndex& parent = QModelIndex()) const override;
+    QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
+    virtual QHash<int, QByteArray> roleNames() const override;
+    bool getProfileByName(QString id, Profile* profile);
+    void append(const Profile& profile);
 
 private:
-    const std::shared_ptr<InstalledListModel> m_ilm;
-    ScreenPlay::SearchType::SearchType m_searchType = ScreenPlay::SearchType::SearchType::All;
-    Qt::SortOrder m_sortOrder = Qt::SortOrder::DescendingOrder;
+    QVector<Profile> m_profileList;
+    const std::shared_ptr<GlobalVariables>& m_globalVariables;
 };
 }

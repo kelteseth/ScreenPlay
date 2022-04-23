@@ -57,9 +57,9 @@
 #include <memory>
 
 #include "ScreenPlayUtil/util.h"
-#include "createimportvideo.h"
-#include "globalvariables.h"
-#include "util.h"
+#include "ScreenPlay/createimportvideo.h"
+#include "ScreenPlay/globalvariables.h"
+#include "ScreenPlay/util.h"
 
 namespace ScreenPlay {
 

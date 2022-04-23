@@ -5,7 +5,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
 set(SOURCES
-    app.cpp
+    src/app.cpp
     src/create.cpp
     src/createimportvideo.cpp
     src/globalvariables.cpp
@@ -23,24 +23,24 @@ set(SOURCES
     src/wizards.cpp)
 
 set(HEADER
-    app.h
-    src/create.h
-    src/createimportstates.h
-    src/createimportvideo.h
-    src/globalvariables.h
-    src/installedlistfilter.h
-    src/installedlistmodel.h
-    src/monitorlistmodel.h
-    src/profile.h
-    src/profilelistmodel.h
-    src/projectsettingslistmodel.h
-    src/screenplaymanager.h
-    src/screenplaywallpaper.h
-    src/screenplaywidget.h
-    src/sdkconnection.h
-    src/settings.h
-    src/util.h
-    src/wizards.h)
+    inc/public/ScreenPlay/app.h
+    inc/public/ScreenPlay/create.h
+    inc/public/ScreenPlay/createimportstates.h
+    inc/public/ScreenPlay/createimportvideo.h
+    inc/public/ScreenPlay/globalvariables.h
+    inc/public/ScreenPlay/installedlistfilter.h
+    inc/public/ScreenPlay/installedlistmodel.h
+    inc/public/ScreenPlay/monitorlistmodel.h
+    inc/public/ScreenPlay/profile.h
+    inc/public/ScreenPlay/profilelistmodel.h
+    inc/public/ScreenPlay/projectsettingslistmodel.h
+    inc/public/ScreenPlay/screenplaymanager.h
+    inc/public/ScreenPlay/screenplaywallpaper.h
+    inc/public/ScreenPlay/screenplaywidget.h
+    inc/public/ScreenPlay/sdkconnection.h
+    inc/public/ScreenPlay/settings.h
+    inc/public/ScreenPlay/util.h
+    inc/public/ScreenPlay/wizards.h)
 
 set(QML
     main.qml
@@ -141,6 +141,11 @@ add_library(
     ${RESOURCES}
     ${FONTS})
 
+target_include_directories(
+    ScreenPlayLib
+    PUBLIC inc/public/
+    PRIVATE src/)
+
 target_link_libraries(
     ScreenPlayLib
     PUBLIC ScreenPlaySDK
@@ -158,9 +163,16 @@ target_link_libraries(
            ScreenPlayWorkshopplugin
            ScreenPlayWorkshop
            SteamSDKQtEnums)
+target_include_directories(ScreenPlayLib PUBLIC )
 
 qt_add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
+
+if(${SCREENPLAY_TESTS})
+    add_executable(tst_ScreenPlay tests/tst_main.cpp)
+    target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt6::Test)
+endif()
+
 
 set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
 
@@ -187,11 +199,6 @@ qt_add_qml_module(
     1.0
     QML_FILES
     ${QML})
-
-#if(${SCREENPLAY_TESTS})
-#    add_executable(tst_ScreenPlay tests/tst_main.cpp)
-#    target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt6::Test)
-#endif()
 
 if(WIN32)
     # Icon

@@ -32,8 +32,8 @@
 **
 ****************************************************************************/
 
-#include "app.h"
-#include "create.h"
+#include "ScreenPlay/app.h"
+#include "ScreenPlay/create.h"
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -45,6 +45,7 @@
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayQmlPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 
 class ScreenPlayTest : public QObject {
     Q_OBJECT
@@ -52,8 +53,7 @@ class ScreenPlayTest : public QObject {
 private slots:
     void initTestCase()
     {
-        Q_INIT_RESOURCE(ScreenPlayQML);
-        Q_INIT_RESOURCE(ScreenPlayAssets);
+        Q_INIT_RESOURCE(Resources);
 
         app.init();
         m_window = qobject_cast<QQuickWindow*>(app.mainWindowEngine()->rootObjects().first());

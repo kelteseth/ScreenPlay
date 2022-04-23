@@ -41,11 +41,11 @@
 
 #include <memory>
 
-#include "globalvariables.h"
-#include "projectsettingslistmodel.h"
-#include "sdkconnection.h"
-#include "settings.h"
-#include "util.h"
+#include "ScreenPlay/globalvariables.h"
+#include "ScreenPlay/projectsettingslistmodel.h"
+#include "ScreenPlay/sdkconnection.h"
+#include "ScreenPlay/settings.h"
+#include "ScreenPlay/util.h"
 
 namespace ScreenPlay {
 

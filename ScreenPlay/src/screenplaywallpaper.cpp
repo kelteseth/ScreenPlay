@@ -1,4 +1,4 @@
-#include "screenplaywallpaper.h"
+#include "ScreenPlay/screenplaywallpaper.h"
 
 namespace ScreenPlay {
 

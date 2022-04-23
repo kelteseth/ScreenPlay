@@ -49,16 +49,16 @@
 #include <QtQml>
 #include <QtSvg>
 
-#include "src/create.h"
-#include "src/globalvariables.h"
-#include "src/installedlistfilter.h"
-#include "src/installedlistmodel.h"
-#include "src/monitorlistmodel.h"
-#include "src/profilelistmodel.h"
-#include "src/screenplaymanager.h"
-#include "src/settings.h"
-#include "src/util.h"
-#include "src/wizards.h"
+#include "ScreenPlay/create.h"
+#include "ScreenPlay/globalvariables.h"
+#include "ScreenPlay/installedlistfilter.h"
+#include "ScreenPlay/installedlistmodel.h"
+#include "ScreenPlay/monitorlistmodel.h"
+#include "ScreenPlay/profilelistmodel.h"
+#include "ScreenPlay/screenplaymanager.h"
+#include "ScreenPlay/settings.h"
+#include "ScreenPlay/util.h"
+#include "ScreenPlay/wizards.h"
 
 #include <memory>
 #include <sentry.h>

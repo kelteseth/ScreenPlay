@@ -49,8 +49,8 @@
 #include <QString>
 #include <QtMath>
 
-#include "createimportstates.h"
-#include "util.h"
+#include "ScreenPlay/createimportstates.h"
+#include "ScreenPlay/util.h"
 
 namespace ScreenPlay {
 

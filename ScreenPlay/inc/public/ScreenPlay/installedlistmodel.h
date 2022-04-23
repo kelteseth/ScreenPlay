@@ -35,69 +35,97 @@
 #pragma once
 
 #include <QAbstractListModel>
+#include <QByteArray>
+#include <QDateTime>
 #include <QDebug>
 #include <QDir>
+#include <QDirIterator>
 #include <QFile>
+#include <QFileSystemWatcher>
+#include <QFuture>
+#include <QFutureWatcher>
+#include <QHash>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QStandardPaths>
+#include <QString>
+#include <QUrl>
 #include <QVector>
+#include <QtConcurrent/QtConcurrent>
 
-#include "util.h"
+#include "ScreenPlayUtil/projectfile.h"
+#include "ScreenPlay/globalvariables.h"
+#include "ScreenPlay/profilelistmodel.h"
+#include "ScreenPlay/util.h"
+
+#include <memory>
 
 namespace ScreenPlay {
 
-struct SettingsItem {
-    SettingsItem(
-        const QString& name,
-        const QJsonObject& value)
-    {
-        m_name = name;
-        m_isHeadline = false;
-        m_value = value;
-    }
-
-    SettingsItem(
-        const QString& name)
-    {
-        m_name = name;
-        m_isHeadline = true;
-    }
-    QString m_name;
-    bool m_isHeadline;
-    QJsonObject m_value;
-    QString m_type;
-
-public:
-    void setValue(const QJsonObject& value)
-    {
-        m_value = value;
-    }
-};
-
-class ProjectSettingsListModel : public QAbstractListModel {
+class InstalledListModel : public QAbstractListModel {
     Q_OBJECT
 
+    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
+
 public:
+    explicit InstalledListModel(
+        const std::shared_ptr<GlobalVariables>& globalVariables,
+        QObject* parent = nullptr);
+
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
     QHash<int, QByteArray> roleNames() const override;
 
-    enum ProjectSettingsRole {
-        NameRole = Qt::UserRole,
-        IsHeadlineRole,
-        ValueRole,
+    enum class ScreenPlayItem {
+        Title = Qt::UserRole,
+        Type,
+        Preview,
+        PreviewGIF,
+        FolderId,
+        FileId,
+        AbsoluteStoragePath,
+        PublishedFileID,
+        Tags,
+        SearchType,
+        LastModified,
+        IsNew,
     };
-    Q_ENUM(ProjectSettingsRole)
+    Q_ENUM(ScreenPlayItem)
 
-    QJsonObject getActiveSettingsJson();
-    void init(const InstalledType::InstalledType& type, const QJsonObject& properties);
-    void append(const SettingsItem&& item);
+    int count() const
+    {
+        return m_count;
+    }
 
 public slots:
-    void setValueAtIndex(const int row, const QString& key, const QJsonObject& value);
+    QVariantMap get(const QString& folderName) const;
+
+    void loadInstalledContent();
+    void append(const QJsonObject&, const QString&, const bool isNew, const QDateTime& lastModified);
+    void reset();
+    void init();
+    void deinstallItemAt(const QString& absoluteStoragePath);
+
+    void setCount(int count)
+    {
+        if (m_count == count)
+            return;
+
+        m_count = count;
+        emit countChanged(m_count);
+    }
+
+signals:
+    void installedLoadingFinished();
+    void countChanged(int count);
 
 private:
-    QVector<SettingsItem> m_projectSettings;
+    QFileSystemWatcher m_fileSystemWatcher;
+    QVector<ProjectFile> m_screenPlayFiles;
+    int m_count { 0 };
+    std::atomic_bool m_isLoading { false };
+
+    const std::shared_ptr<GlobalVariables>& m_globalVariables;
 };
 }

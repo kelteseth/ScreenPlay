@@ -54,9 +54,9 @@
 #include <QUrl>
 #include <QtMath>
 
-#include "createimportvideo.h"
-#include "globalvariables.h"
-#include "util.h"
+#include "ScreenPlay/createimportvideo.h"
+#include "ScreenPlay/globalvariables.h"
+#include "ScreenPlay/util.h"
 
 #include <memory>
 #include <optional>

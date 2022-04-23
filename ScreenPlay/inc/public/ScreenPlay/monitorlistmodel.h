@@ -35,97 +35,93 @@
 #pragma once
 
 #include <QAbstractListModel>
-#include <QByteArray>
-#include <QDateTime>
+#include <QApplication>
 #include <QDebug>
-#include <QDir>
-#include <QDirIterator>
-#include <QFile>
-#include <QFileSystemWatcher>
-#include <QFuture>
-#include <QFutureWatcher>
-#include <QHash>
-#include <QJsonArray>
-#include <QJsonDocument>
-#include <QJsonObject>
-#include <QStandardPaths>
+#include <QRect>
+#include <QScreen>
+#include <QSize>
 #include <QString>
-#include <QUrl>
 #include <QVector>
-#include <QtConcurrent/QtConcurrent>
 
-#include "ScreenPlayUtil/projectfile.h"
-#include "globalvariables.h"
-#include "profilelistmodel.h"
-#include "util.h"
+#include "ScreenPlay/projectsettingslistmodel.h"
+#include "ScreenPlay/screenplaywallpaper.h"
+#include "ScreenPlay/screenplaywidget.h"
 
+#ifdef Q_OS_WIN
+#include <qt_windows.h>
+#endif
 #include <memory>
+#include <optional>
 
 namespace ScreenPlay {
 
-class InstalledListModel : public QAbstractListModel {
+struct Monitor {
+
+    Monitor(
+        const int index,
+        const QRect& geometry)
+    {
+        m_index = index;
+        m_geometry = geometry;
+    }
+
+    int m_index { 0 };
+    QRect m_geometry;
+    std::shared_ptr<ScreenPlayWallpaper> m_activeWallpaper { nullptr };
+};
+
+class MonitorListModel : public QAbstractListModel {
     Q_OBJECT
 
-    Q_PROPERTY(int count READ count WRITE setCount NOTIFY countChanged)
-
 public:
-    explicit InstalledListModel(
-        const std::shared_ptr<GlobalVariables>& globalVariables,
-        QObject* parent = nullptr);
+    explicit MonitorListModel(QObject* parent = nullptr);
 
+    enum class MonitorRole {
+        AppID = Qt::UserRole,
+        Index,
+        Geometry,
+        PreviewImage,
+        InstalledType,
+    };
+    Q_ENUM(MonitorRole)
+
+    QHash<int, QByteArray> roleNames() const override;
     int rowCount(const QModelIndex& parent = QModelIndex()) const override;
     QVariant data(const QModelIndex& index, int role = Qt::DisplayRole) const override;
-    QHash<int, QByteArray> roleNames() const override;
 
-    enum class ScreenPlayItem {
-        Title = Qt::UserRole,
-        Type,
-        Preview,
-        PreviewGIF,
-        FolderId,
-        FileId,
-        AbsoluteStoragePath,
-        PublishedFileID,
-        Tags,
-        SearchType,
-        LastModified,
-        IsNew,
-    };
-    Q_ENUM(ScreenPlayItem)
+    void setWallpaperMonitor(
+        const std::shared_ptr<ScreenPlayWallpaper>& wallpaper,
+        const QVector<int> monitors);
 
-    int count() const
-    {
-        return m_count;
-    }
-
-public slots:
-    QVariantMap get(const QString& folderName) const;
-
-    void loadInstalledContent();
-    void append(const QJsonObject&, const QString&, const bool isNew, const QDateTime& lastModified);
-    void reset();
-    void init();
-    void deinstallItemAt(const QString& absoluteStoragePath);
-
-    void setCount(int count)
-    {
-        if (m_count == count)
-            return;
-
-        m_count = count;
-        emit countChanged(m_count);
-    }
+    std::optional<QString> getAppIDByMonitorIndex(const int index) const;
 
 signals:
-    void installedLoadingFinished();
-    void countChanged(int count);
+    void monitorReloadCompleted();
+    void setNewActiveMonitor(int index, QString path);
+    void monitorConfigurationChanged();
+
+public slots:
+    void reset();
+    void clearActiveWallpaper();
+    void closeWallpaper(const QString& appID);
+    QRect absoluteDesktopSize() const;
+
+    void screenAdded(QScreen* screen)
+    {
+        emit monitorConfigurationChanged();
+        reset();
+    }
+    void screenRemoved(QScreen* screen)
+    {
+        emit monitorConfigurationChanged();
+        reset();
+    }
 
 private:
-    QFileSystemWatcher m_fileSystemWatcher;
-    QVector<ProjectFile> m_screenPlayFiles;
-    int m_count { 0 };
-    std::atomic_bool m_isLoading { false };
+    void loadMonitors();
 
-    const std::shared_ptr<GlobalVariables>& m_globalVariables;
+private:
+    QVector<Monitor> m_monitorList;
 };
+
 }

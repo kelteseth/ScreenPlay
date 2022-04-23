@@ -43,9 +43,9 @@
 #include <QProcess>
 
 #include "ScreenPlayUtil/util.h"
-#include "globalvariables.h"
-#include "projectsettingslistmodel.h"
-#include "sdkconnection.h"
+#include "ScreenPlay/globalvariables.h"
+#include "ScreenPlay/projectsettingslistmodel.h"
+#include "ScreenPlay/sdkconnection.h"
 
 #include <memory>
 #include <utility>

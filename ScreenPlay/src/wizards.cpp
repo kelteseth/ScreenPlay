@@ -1,4 +1,4 @@
-#include "wizards.h"
+#include "ScreenPlay/wizards.h"
 
 #include "ScreenPlayUtil/util.h"
 

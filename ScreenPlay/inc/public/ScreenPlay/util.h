@@ -54,7 +54,7 @@
 #include <qqml.h>
 
 #include "ScreenPlayUtil/util.h"
-#include "globalvariables.h"
+#include "ScreenPlay/globalvariables.h"
 
 #include <fstream>
 #include <iostream>

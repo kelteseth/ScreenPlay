@@ -32,7 +32,7 @@
 **
 ****************************************************************************/
 
-#include "app.h"
+#include "ScreenPlay/app.h"
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>

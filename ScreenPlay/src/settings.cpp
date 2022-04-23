@@ -1,4 +1,4 @@
-#include "settings.h"
+#include "ScreenPlay/settings.h"
 
 #include "ScreenPlayUtil/util.h"
 #include <QFileInfo>

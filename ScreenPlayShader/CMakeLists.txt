@@ -23,20 +23,18 @@ set(SHADER
     shaders/lightning.frag
     shaders/wobble.frag
     shaders/water.frag
-    shaders/water.vert
-)
+    shaders/water.vert)
 
 set(RESOURCES
     assets/mask_01.png
     assets/Shadertoy_Bayer.png
     assets/Shadertoy_Gray_Noise_Medium.png
     assets/Shadertoy_Lichen.jpg
-    assets/test_image_andras-vas-Bd7gNnWJBkU-unsplash.jpg
-)
+    assets/test_image_andras-vas-Bd7gNnWJBkU-unsplash.jpg)
 
 qt_add_library(${PROJECT_NAME} STATIC)
 target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick)
-target_include_directories(${PROJECT_NAME} PUBLIC src/ )
+target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -67,6 +65,6 @@ qt6_add_shaders(
 
 if(${SCREENPLAY_TESTS})
     qt_add_executable(tst_ScreenPlayShader src/TestMain.cpp)
-    target_link_libraries(tst_ScreenPlayShader PRIVATE Qt::Quick ${PROJECT_NAME}plugin )
+    target_link_libraries(tst_ScreenPlayShader PRIVATE Qt::Quick ${PROJECT_NAME}plugin)
     target_compile_definitions(tst_ScreenPlayShader PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 endif()
