@@ -7,7 +7,7 @@ from pathlib import Path
 from execute_util import execute
 from download_ffmpeg import download_prebuild_ffmpeg
 
-vcpkg_version = "1085a57da0725c19e19586025438e8c16f34c890"  # Master 31.12.2021
+vcpkg_version = "2ac61f8"  # Master 23.04.2022
 
 vcpkg_packages_list = [
     "openssl",

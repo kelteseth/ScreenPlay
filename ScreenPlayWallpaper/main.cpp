@@ -9,6 +9,7 @@
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
+Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #elif defined(Q_OS_LINUX)
 #include "src/linuxwindow.h"
 #elif defined(Q_OS_OSX)
@@ -16,7 +17,6 @@
 #endif
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
-Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 
 int main(int argc, char* argv[])
 {

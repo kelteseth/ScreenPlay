@@ -5,8 +5,11 @@
 
 #include "src/widgetwindow.h"
 
-Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
+#if defined(Q_OS_WIN)
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
+#endif
+
+Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 
 int main(int argc, char* argv[])
 {
