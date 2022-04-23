@@ -84,7 +84,6 @@ set(QML
     qml/Monitors/MonitorsProjectSettingItem.qml
     qml/Monitors/SaveNotification.qml
     qml/Navigation/Navigation.qml
-    qml/Navigation/NavigationItem.qml
     qml/Navigation/WindowNavButton.qml
     qml/Navigation/WindowNavigation.qml
     qml/Settings/SettingBool.qml
@@ -160,9 +159,16 @@ target_link_libraries(
            ScreenPlayQmlplugin
            ScreenPlayUtil
            ScreenPlayUtilplugin
-           ScreenPlayWorkshopplugin
-           ScreenPlayWorkshop
            SteamSDKQtEnums)
+
+if(${SCREENPLAY_STEAM})
+    target_compile_definitions(ScreenPlayLib PRIVATE SCREENPLAY_STEAM=1)
+    target_link_libraries(
+        ScreenPlayLib
+        PUBLIC ScreenPlayWorkshopplugin
+               ScreenPlayWorkshop)
+endif()
+
 target_include_directories(ScreenPlayLib PUBLIC )
 
 qt_add_executable(${PROJECT_NAME} main.cpp)
@@ -171,6 +177,13 @@ target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
 if(${SCREENPLAY_TESTS})
     add_executable(tst_ScreenPlay tests/tst_main.cpp)
     target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt6::Test)
+    if(${SCREENPLAY_STEAM})
+        target_compile_definitions(tst_ScreenPlay PRIVATE SCREENPLAY_STEAM=1)
+        target_link_libraries(
+            tst_ScreenPlay
+            PUBLIC ScreenPlayWorkshopplugin
+                   ScreenPlayWorkshop)
+    endif()
 endif()
 
 

@@ -14,8 +14,6 @@ Dialog {
     modal: true
     focus: true
 
-
-
     Overlay.modal: ModalBackgroundBlur {
         id: blurBg
         sourceItem: root.modalSource

@@ -40,8 +40,9 @@
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayQmlPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+#ifdef SCREENPLAY_STEAM
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
-
+#endif
 int main(int argc, char* argv[])
 {
     Q_INIT_RESOURCE(Resources);

@@ -4,7 +4,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import ScreenPlayWorkshop 1.0
-
+import ScreenPlayUtil 1.0
 
 Popup {
     id: popupOffline
@@ -22,9 +22,9 @@ Popup {
     required property ScreenPlayWorkshop workshop
     required property SteamWorkshop steam
     required property Item modalSource
-//    Overlay.modal: ModalBackgroundBlur {
-//        sourceItem: root.modalSource
-//    }
+    Overlay.modal: ModalBackgroundBlur {
+        sourceItem: root.modalSource
+    }
 
     ColumnLayout {
         anchors.fill: parent
@@ -63,7 +63,6 @@ Popup {
             text: qsTr("Back")
             Layout.alignment: Qt.AlignHCenter
             onClicked: {
-                ScreenPlay.util.setNavigation("Installed")
                 popupOffline.close()
             }
         }

@@ -83,7 +83,7 @@ ApplicationWindow {
                            "sidebar": sidebar
                        })
         if (!ScreenPlay.settings.silentStart)
-            root.showNormal()
+            root.show()
     }
 
     Item {

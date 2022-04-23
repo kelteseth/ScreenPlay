@@ -1,7 +1,7 @@
+#include "steam/steam_qt_enums_generated.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml/qqmlextensionplugin.h>
-#include "steam/steam_qt_enums_generated.h"
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 
@@ -17,7 +17,6 @@ int main(int argc, char* argv[])
         1, 0,
         "SteamEnums",
         "Error: only enums");
-
 
     QQmlApplicationEngine engine;
     // The first subfolder is the libraryName followed by the regular

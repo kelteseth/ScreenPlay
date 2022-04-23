@@ -45,8 +45,9 @@
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayQmlPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+#ifdef SCREENPLAY_STEAM
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
-
+#endif
 class ScreenPlayTest : public QObject {
     Q_OBJECT
 

@@ -8,7 +8,7 @@ project(
     LANGUAGES CXX)
 
 # This sets cmake to compile all dlls into the main directory
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -70,7 +70,6 @@ execute_process(
 
 add_compile_definitions(COMPILE_INFO="Build Date: ${BUILD_DATE}. Git Hash: ${GIT_COMMIT_HASH}. ")
 add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
-add_compile_definitions(SCREENPLAY_STEAM="${SCREENPLAY_STEAM}")
 
 if(UNIX AND NOT APPLE)
     # Fixes QWebEngine linker errors on Ubuntu 20.04
@@ -113,6 +112,6 @@ message(STATUS "[PROJECT] VCPKG_TARGET_TRIPLET       = ${VCPKG_TARGET_TRIPLET}")
 message(STATUS "[PROJECT] CMAKE_PREFIX_PATH          = ${CMAKE_PREFIX_PATH}")
 message(STATUS "[PROJECT] CMAKE_VERSION              = ${CMAKE_VERSION}")
 
-if(${SCREENPLAY_CREATE_INSTALLER})
+if(${SCREENPLAY_INSTALLER})
     include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/CreateIFWInstaller.cmake)
 endif()

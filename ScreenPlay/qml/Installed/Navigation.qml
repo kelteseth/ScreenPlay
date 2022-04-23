@@ -56,12 +56,10 @@ Item {
 
             TabButton {
                 text: qsTr("All")
-                font.family: ScreenPlay.settings.font
                 icon.height: 16
                 icon.width: 16
                 height: parent.height
                 width: implicitWidth
-                font.weight: Font.Thin
                 icon.source: "qrc:/assets/icons/icon_installed.svg"
                 onClicked: {
                     setSidebarActive(false)
@@ -76,10 +74,8 @@ Item {
                 text: qsTr("Scenes")
                 icon.height: 16
                 icon.width: 16
-                font.family: ScreenPlay.settings.font
                 width: implicitWidth
                 height: parent.height
-                font.weight: Font.Thin
                 icon.source: "qrc:/assets/icons/icon_code.svg"
                 onClicked: {
                     setSidebarActive(false)
@@ -94,10 +90,8 @@ Item {
                 text: qsTr("Videos")
                 icon.height: 16
                 icon.width: 16
-                font.family: ScreenPlay.settings.font
                 height: parent.height
                 width: implicitWidth
-                font.weight: Font.Thin
                 icon.source: "qrc:/assets/icons/icon_movie.svg"
                 onClicked: {
                     setSidebarActive(false)
@@ -112,10 +106,8 @@ Item {
                 text: qsTr("Widgets")
                 icon.height: 16
                 icon.width: 16
-                font.family: ScreenPlay.settings.font
                 height: parent.height
                 width: implicitWidth
-                font.weight: Font.Thin
                 icon.source: "qrc:/assets/icons/icon_widgets.svg"
                 onClicked: {
                     setSidebarActive(false)

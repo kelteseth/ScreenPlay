@@ -144,11 +144,11 @@ if __name__ == "__main__":
 	print("Starting build with type %s. Qt Version: %s. Root path: %s" % (args.build_type, qt_version, root_path))
 	
 	if args.build_steam:
-		build_steam =  "OFF"
+		build_steam =  "ON"
 	if args.build_tests:
-		build_tests =  "OFF"
+		build_tests =  "ON"
 	if args.build_installer:
-		build_installer =  "OFF"
+		build_installer =  "ON"
 
 	cmake_configure_command = f'cmake ../ \
 -DCMAKE_PREFIX_PATH={qt_path} \

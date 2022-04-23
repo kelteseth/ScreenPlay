@@ -69,83 +69,98 @@ Rectangle {
         target: ScreenPlay.util
     }
 
-    Row {
+    TabBar {
         id: row
-        height: 60
+        height: 50
+        currentIndex: 2
 
         anchors {
-            top: parent.top
-            right: parent.right
+            bottom: parent.bottom
             left: parent.left
             leftMargin: 20
         }
 
         spacing: 0
 
-        NavigationItem {
+        TabButton {
             id: navCreate
-
-            state: "inactive"
-            name: "Create"
             text: qsTr("Create")
-            iconSource: "qrc:/assets/icons/icon_plus.svg"
-            onPageClicked: function (name) {
-                root.onPageChanged(name)
+            icon.height: 16
+            icon.width: 16
+            font.pointSize: 12
+            height: parent.height
+            width: implicitWidth
+            icon.source: "qrc:/assets/icons/icon_plus.svg"
+            onClicked: {
+                root.onPageChanged("Create")
             }
             objectName: "createTab"
+            background: Item {}
         }
 
-        NavigationItem {
+        TabButton {
             id: navWorkshop
-
-            state: "inactive"
-            name: "Workshop"
+            enabled: ScreenPlay.settings.steamVersion
             text: qsTr("Workshop")
-            iconSource: "qrc:/assets/icons/icon_steam.svg"
-            onPageClicked: function (name) {
-                root.onPageChanged(name)
+            icon.height: 16
+            icon.width: 16
+            font.pointSize: 12
+            height: parent.height
+            width: implicitWidth
+            icon.source: "qrc:/assets/icons/icon_steam.svg"
+            onClicked: {
+                root.onPageChanged("Workshop")
             }
             objectName: "workshopTab"
+            background: Item {}
         }
 
-        NavigationItem {
+        TabButton {
             id: navInstalled
-
-            state: "active"
-            name: "Installed"
-            text: qsTr("Installed")
-            amount: ScreenPlay.installedListModel.count
-            iconSource: "qrc:/assets/icons/icon_installed.svg"
-            onPageClicked: function (name) {
-                root.onPageChanged(name)
+            text: qsTr("Installed") + " " + ScreenPlay.installedListModel.count
+            icon.height: 16
+            icon.width: 16
+            font.pointSize: 12
+            height: parent.height
+            width: implicitWidth
+            icon.source: "qrc:/assets/icons/icon_installed.svg"
+            onClicked: {
+                root.onPageChanged("Installed")
             }
             objectName: "installedTab"
+            background: Item {}
         }
 
-        NavigationItem {
+        TabButton {
             id: navCommunity
-
-            state: "inactive"
-            name: "Community"
             text: qsTr("Community")
-            iconSource: "qrc:/assets/icons/icon_community.svg"
-            onPageClicked: function (name) {
-                root.onPageChanged(name)
+            icon.height: 16
+            icon.width: 16
+            font.pointSize: 12
+            height: parent.height
+            width: implicitWidth
+            icon.source: "qrc:/assets/icons/icon_community.svg"
+            onClicked: {
+                root.onPageChanged("Community")
             }
             objectName: "communityTab"
+            background: Item {}
         }
 
-        NavigationItem {
+        TabButton {
             id: navSettings
-
-            state: "inactive"
-            name: "Settings"
             text: qsTr("Settings")
-            iconSource: "qrc:/assets/icons/icon_settings.svg"
-            onPageClicked: function (name) {
-                root.onPageChanged(name)
+            icon.height: 16
+            icon.width: 16
+            font.pointSize: 12
+            height: parent.height
+            width: implicitWidth
+            icon.source: "qrc:/assets/icons/icon_settings.svg"
+            onClicked: {
+                root.onPageChanged("Settings")
             }
             objectName: "settingsTab"
+            background: Item {}
         }
     }
 

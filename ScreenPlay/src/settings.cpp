@@ -42,8 +42,9 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 {
     const QString qtVersion = QString("Qt Version: %1.%2.%3").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH);
     setGitBuildHash(COMPILE_INFO + qtVersion);
-    setSteamVersion(!(QString(SCREENPLAY_STEAM).compare("OFF", Qt::CaseInsensitive) ? false : true));
-
+#ifdef SCREENPLAY_STEAM
+    setSteamVersion(true);
+#endif
 #ifdef Q_OS_WIN
     setDesktopEnvironment(DesktopEnvironment::Windows);
 #endif
