@@ -6,7 +6,7 @@ stages:
 
 variables:
     GIT_STRATEGY: clone
-    QT_VERSION: 6.2.3
+    QT_VERSION: 6.3.0
     PYTHON_VERSION: 3.10.1
 
 check:
