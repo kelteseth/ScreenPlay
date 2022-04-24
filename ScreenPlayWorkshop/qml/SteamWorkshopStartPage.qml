@@ -16,6 +16,7 @@ Item {
     property Background background
 
     Component.onCompleted: {
+        root.state = "searching"
         searchConnection.target = root.steamWorkshop
         root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend)
     }
@@ -26,7 +27,8 @@ Item {
     }
 
     MouseArea {
-        enabled: gridView.count === 0
+        id: rootMouseArea
+        enabled: false
         z: enabled ? 10 : 0
         cursorShape: enabled ? Qt.WaitCursor : Qt.ArrowCursor
         acceptedButtons: Qt.NoButton
@@ -38,13 +40,17 @@ Item {
     Connections {
         id: searchConnection
         ignoreUnknownSignals: true // This is needed for some reason...
-        function onWorkshopSearchCompleted() {
+        function onWorkshopBannerCompleted() {
             bannerTxt.text = root.steamWorkshop.workshopListModel.getBannerText(
                         )
             background.backgroundImage = root.steamWorkshop.workshopListModel.getBannerUrl()
             banner.bannerPublishedFileID = root.steamWorkshop.workshopListModel.getBannerID()
             bannerTxtUnderline.numberSubscriber
                     = root.steamWorkshop.workshopListModel.getBannerAmountSubscriber()
+        }
+
+        function onWorkshopSearchCompleted(itemCount) {
+            root.state = ""
         }
     }
 
@@ -314,8 +320,15 @@ Item {
                             id: tiSearch
                             placeholderTextColor: Material.secondaryTextColor
                             placeholderText: qsTr("Search for Wallpaper and Widgets...")
-                            onEditingFinished: root.steamWorkshop.searchWorkshopByText(
-                                                   tiSearch.text)
+                            onEditingFinished: {
+                                root.state = "searching"
+                                if (tiSearch.text === "")
+                                    return root.steamWorkshop.searchWorkshop(
+                                                SteamEnums.K_EUGCQuery_RankedByTrend)
+
+                                root.steamWorkshop.searchWorkshopByText(
+                                            tiSearch.text)
+                            }
                             anchors {
                                 top: parent.top
                                 right: parent.right
@@ -328,8 +341,11 @@ Item {
                         ToolButton {
                             id: tb
                             icon.source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_search.svg"
-                            onClicked: root.steamWorkshop.searchWorkshopByText(
-                                           tiSearch.text)
+                            onClicked: {
+                                root.state = "searching"
+                                root.steamWorkshop.searchWorkshopByText(
+                                            tiSearch.text)
+                            }
                             icon.width: 20
                             icon.height: 20
                             anchors {
@@ -409,6 +425,7 @@ Item {
                                 "text": qsTr("Total Unique Subscriptions")
                             }]
                         onActivated: {
+                            root.state = "searching"
                             root.steamWorkshop.searchWorkshop(
                                         cbQuerySort.currentValue)
                         }
@@ -459,6 +476,7 @@ Item {
                     text: qsTr("Back")
                     enabled: root.steamWorkshop.workshopListModel.currentPage > 1
                     onClicked: {
+                        root.state = "searching"
                         root.steamWorkshop.workshopListModel.setCurrentPage(
                                     root.steamWorkshop.workshopListModel.currentPage - 1)
                         root.steamWorkshop.searchWorkshop(
@@ -483,6 +501,7 @@ Item {
                     enabled: root.steamWorkshop.workshopListModel.currentPage
                              <= root.steamWorkshop.workshopListModel.pages - 1
                     onClicked: {
+                        root.state = "searching"
                         root.steamWorkshop.workshopListModel.setCurrentPage(
                                     root.steamWorkshop.workshopListModel.currentPage + 1)
                         root.steamWorkshop.searchWorkshop(
@@ -519,4 +538,14 @@ Item {
             sidebar.close()
         }
     }
+
+    states: [
+        State {
+            name: "searching"
+            PropertyChanges {
+                target: rootMouseArea
+                enabled: true
+            }
+        }
+    ]
 }

@@ -158,7 +158,8 @@ public slots:
     }
 
 signals:
-    void workshopSearchCompleted();
+    void workshopSearchCompleted(const int itemCount);
+    void workshopBannerCompleted();
     void workshopItemCreatedSuccessful(
         bool userNeedsToAcceptWorkshopLegalAgreement,
         int eResult,
