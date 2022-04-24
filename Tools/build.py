@@ -23,7 +23,7 @@ def get_vs_env_dict():
 	# Prefer newer MSVC and override if exists
 	if Path(msvc_2022_path).exists():
 		vcvars = msvc_2022_path
-	else:
+	if not vcvars:
 		raise RuntimeError("No Visual Studio installation found, only 2019 and 2022 are supported.")
 
 	print(f"\n\nLoading MSVC env variables via {vcvars}\n\n")
