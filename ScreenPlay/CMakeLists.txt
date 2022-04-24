@@ -216,7 +216,7 @@ qt_add_qml_module(
     ${QML})
 
 if(WIN32)
-    target_link_libraries(${PROJECT_NAME} PUBLIC sentry::sentry)
+    target_link_libraries(ScreenPlayLib PUBLIC sentry::sentry)
 
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
@@ -279,11 +279,5 @@ if(APPLE)
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe ${CMAKE_BINARY_DIR}/bin/)
     endif()
-
-    add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler
-                ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
 
 endif()

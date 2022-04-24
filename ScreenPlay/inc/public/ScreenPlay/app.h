@@ -61,7 +61,10 @@
 #include "ScreenPlay/wizards.h"
 
 #include <memory>
+
+#if defined(Q_OS_WIN)
 #include <sentry.h>
+#endif
 
 namespace ScreenPlay {
 
