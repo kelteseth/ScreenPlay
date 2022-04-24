@@ -115,9 +115,12 @@ set(TS_FILES
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
 
-# CURL must be included before sentry because sentry needs the module and does not include it itself on macos...
-find_package(CURL CONFIG REQUIRED)
-find_package(sentry CONFIG REQUIRED)
+# Make sentry win only for now because it is constantly buggy on osx
+if(WIN32)
+    # CURL must be included before sentry because sentry needs the module and does not include it itself on macos...
+    find_package(CURL CONFIG REQUIRED)
+    find_package(sentry CONFIG REQUIRED)
+endif()
 
 find_package(
     Qt6
@@ -148,7 +151,6 @@ target_include_directories(
 target_link_libraries(
     ScreenPlayLib
     PUBLIC ScreenPlaySDK
-           sentry::sentry
            Threads::Threads
            Qt6::Quick
            Qt6::Gui
@@ -214,6 +216,8 @@ qt_add_qml_module(
     ${QML})
 
 if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PUBLIC sentry::sentry)
+
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
 

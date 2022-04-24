@@ -36,13 +36,17 @@
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
+
+#if defined(Q_OS_WIN)
 #include <sentry.h>
+#endif
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayQmlPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
 #ifdef SCREENPLAY_STEAM
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 #endif
+
 int main(int argc, char* argv[])
 {
     Q_INIT_RESOURCE(Resources);
@@ -56,7 +60,9 @@ int main(int argc, char* argv[])
     } else {
         app.init();
         const int status = qtGuiApp.exec();
+#if defined(Q_OS_WIN)
         sentry_shutdown();
+#endif
         return status;
     }
 }
