@@ -54,10 +54,10 @@
 #include <QVector>
 #include <QtConcurrent/QtConcurrent>
 
-#include "ScreenPlayUtil/projectfile.h"
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlay/profilelistmodel.h"
 #include "ScreenPlay/util.h"
+#include "ScreenPlayUtil/projectfile.h"
 
 #include <memory>
 

@@ -165,13 +165,10 @@ target_link_libraries(
 
 if(${SCREENPLAY_STEAM})
     target_compile_definitions(ScreenPlayLib PRIVATE SCREENPLAY_STEAM=1)
-    target_link_libraries(
-        ScreenPlayLib
-        PUBLIC ScreenPlayWorkshopplugin
-               ScreenPlayWorkshop)
+    target_link_libraries(ScreenPlayLib PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
 endif()
 
-target_include_directories(ScreenPlayLib PUBLIC )
+target_include_directories(ScreenPlayLib PUBLIC)
 
 qt_add_executable(${PROJECT_NAME} main.cpp)
 target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
@@ -181,13 +178,9 @@ if(${SCREENPLAY_TESTS})
     target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt6::Test)
     if(${SCREENPLAY_STEAM})
         target_compile_definitions(tst_ScreenPlay PRIVATE SCREENPLAY_STEAM=1)
-        target_link_libraries(
-            tst_ScreenPlay
-            PUBLIC ScreenPlayWorkshopplugin
-                   ScreenPlayWorkshop)
+        target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
     endif()
 endif()
-
 
 set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
 
