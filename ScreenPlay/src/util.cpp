@@ -108,8 +108,10 @@ QString Util::toLocal(const QString& url)
 */
 void Util::Util::requestAllLicenses()
 {
+    if (m_requestAllLicensesFuture.isStarted())
+        return;
 
-    QtConcurrent::run([this]() {
+    m_requestAllLicensesFuture = QtConcurrent::run([this]() {
         QString tmp;
         QFile file;
         QTextStream out(&file);
@@ -154,18 +156,16 @@ void Util::Util::requestAllLicenses()
 */
 void Util::Util::requestDataProtection()
 {
-    QtConcurrent::run([this]() {
-        QString tmp;
-        QFile file;
-        QTextStream out(&file);
+    QString tmp;
+    QFile file;
+    QTextStream out(&file);
 
-        file.setFileName(":/legal/DataProtection.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        tmp += out.readAll();
-        file.close();
+    file.setFileName(":/legal/DataProtection.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    tmp += out.readAll();
+    file.close();
 
-        emit this->allDataProtectionLoaded(tmp);
-    });
+    emit this->allDataProtectionLoaded(tmp);
 }
 
 static const char*

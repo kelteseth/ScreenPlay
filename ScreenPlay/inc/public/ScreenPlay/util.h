@@ -146,6 +146,7 @@ private:
     QNetworkAccessManager* m_networkAccessManager { nullptr };
 
     QString m_debugMessages {};
+    QFuture<void> m_requestAllLicensesFuture;
 };
 
 // Used for redirect content from static logToGui to setDebugMessages
