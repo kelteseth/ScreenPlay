@@ -312,6 +312,7 @@ Item {
 
                         TextField {
                             id: tiSearch
+                            placeholderTextColor: Material.secondaryTextColor
                             placeholderText: qsTr("Search for Wallpaper and Widgets...")
                             onEditingFinished: root.steamWorkshop.searchWorkshopByText(
                                                    tiSearch.text)
