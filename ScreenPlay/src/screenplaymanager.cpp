@@ -93,10 +93,12 @@ void ScreenPlayManager::init(
             });
             QObject::connect(socket, &QWebSocket::disconnected, this, [this, socket]() {
                 m_connections.removeOne(socket);
+                setIsKDEConnected(false);
                 qInfo() << "Disconnected connection count: " << m_connections.count();
             });
 
             m_connections.push_back(socket);
+            setIsKDEConnected(true);
             // socket->flush();
         });
     }
@@ -470,6 +472,7 @@ void ScreenPlayManager::newConnection()
     m_unconnectedClients.push_back(std::move(connection));
 }
 
+
 /*!
     \brief Removes a wallpaper from the given appID. Returns true on success.
 */
@@ -726,4 +729,18 @@ TEST_CASE("Loads profiles.json")
     GlobalVariables globalVariables;
     ScreenPlayManager manager;
 }
+
+bool ScreenPlayManager::isKDEConnected() const
+{
+    return m_isKDEConnected;
+}
+
+void ScreenPlayManager::setIsKDEConnected(bool isKDEConnected)
+{
+    if (m_isKDEConnected == isKDEConnected)
+        return;
+    m_isKDEConnected = isKDEConnected;
+    emit isKDEConnectedChanged(isKDEConnected);
+}
+
 }

@@ -217,6 +217,11 @@ public slots:
 
 private:
     bool setupKDE();
+    bool isKDEInstalled();
+    void installKDEWallpaper();
+    void upgradeKDEWallpaper();
+    void restartKDE();
+    std::optional<bool> isNewestKDEWallpaperInstalled();
 
 private:
     QNetworkAccessManager m_networkAccessManager;
@@ -229,12 +234,14 @@ private:
     std::unique_ptr<Util> m_util;
 
     std::shared_ptr<GlobalVariables> m_globalVariables;
-    std::shared_ptr<Settings> m_settings;
 
+    std::shared_ptr<Settings> m_settings;
     std::shared_ptr<InstalledListModel> m_installedListModel;
     std::shared_ptr<MonitorListModel> m_monitorListModel;
     std::shared_ptr<ProfileListModel> m_profileListModel;
     std::shared_ptr<InstalledListFilter> m_installedListFilter;
-    QProcess process;
+
+    QString m_kdeWallpaperPath;
+    QString m_appKdeWallapperPath;
 };
 }

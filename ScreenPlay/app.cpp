@@ -213,6 +213,7 @@ void App::init()
     QGuiApplication::instance()->addLibraryPath(QGuiApplication::instance()->applicationDirPath());
 
     if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
+
         setupKDE();
     }
 
@@ -237,72 +238,110 @@ void App::exit()
     QApplication::instance()->quit();
 }
 
-/*!
-   \brief
-*/
-bool App::setupKDE()
+bool App::isKDEInstalled()
 {
-    QProcessEnvironment env;
-    qInfo() << qgetenv("KDE_FULL_SESSION");
-    qInfo() << qgetenv("DESKTOP_SESSION");
-    qInfo() << qgetenv("XDG_CURRENT_DESKTOP");
-
     QProcess plasmaShellVersionProcess;
     plasmaShellVersionProcess.start("plasmashell", { "--version" });
     plasmaShellVersionProcess.waitForFinished();
     QString versionOut = plasmaShellVersionProcess.readAll();
     if (!versionOut.contains("plasmashell ")) {
-        qWarning() << "Unable to read plasma shell version";
+        qWarning() << "Unable to read plasma shell version. ScreenPlay only works on KDE";
         return false;
     }
+    return true;
+}
 
-    const QString kdeWallpaperPath = QDir(QDir::homePath() + "/.local/share/plasma/wallpapers/ScreenPlay/").canonicalPath();
-    const QFileInfo installedWallpaperMetadata(kdeWallpaperPath + "/metadata.desktop");
-    const QString appKdeWallapperPath = QGuiApplication::instance()->applicationDirPath() + "/kde";
-    const QFileInfo currentWallpaperMetadata(appKdeWallapperPath + "/ScreenPlay/metadata.desktop");
+void App::installKDEWallpaper()
+{
 
-    if (!installedWallpaperMetadata.exists()) {
-        process.setWorkingDirectory(appKdeWallapperPath);
-        process.start("plasmapkg2", { "--install", "ScreenPlay" });
-        process.waitForFinished();
-        process.terminate();
-        qInfo() << "Install ScreenPlay KDE Wallpaper";
-    } else {
-        QSettings installedWallpaperSettings(installedWallpaperMetadata.absoluteFilePath(), QSettings::Format::IniFormat);
-        installedWallpaperSettings.beginGroup("Desktop Entry");
-        const QString installedWallpaperVersion = installedWallpaperSettings.value("Version").toString();
-        installedWallpaperSettings.endGroup();
-        const QVersionNumber installedVersionNumber = QVersionNumber::fromString(installedWallpaperVersion);
+    qInfo() << "Install ScreenPlay KDE Wallpaper";
+    QProcess process;
+    process.setWorkingDirectory(m_appKdeWallapperPath);
+    process.start("plasmapkg2", { "--install", "ScreenPlay" });
+    process.waitForFinished();
+    process.terminate();
+}
 
-        QSettings currentWallpaperSettings(currentWallpaperMetadata.absoluteFilePath(), QSettings::Format::IniFormat);
-        currentWallpaperSettings.beginGroup("Desktop Entry");
-        const QString currentWallpaperVersion = currentWallpaperSettings.value("Version").toString();
-        currentWallpaperSettings.endGroup();
-        const QVersionNumber currentVersionNumber = QVersionNumber::fromString(installedWallpaperVersion);
+void App::upgradeKDEWallpaper()
+{
 
-        if (installedVersionNumber.isNull() || currentVersionNumber.isNull()) {
-            qCritical() << "Unable to parse version number from:" << currentWallpaperVersion << installedWallpaperVersion;
-            return false;
-        }
+    qInfo() << "Upgrade ScreenPlay KDE Wallpaper";
+    QProcess process;
+    process.setWorkingDirectory(m_appKdeWallapperPath);
+    process.start("plasmapkg2", { "--upgrade", "ScreenPlay" });
+    process.waitForFinished();
+    process.terminate();
+    qInfo() << process.readAllStandardError() << process.readAllStandardOutput();
+}
 
-        if (installedVersionNumber <= currentVersionNumber)
-            return true;
-
-        qInfo() << "Upgrade ScreenPlay KDE Wallpaper";
-        process.setWorkingDirectory(appKdeWallapperPath);
-        process.start("plasmapkg2", { "--upgrade", "ScreenPlay" });
-        process.waitForFinished();
-        process.terminate();
-        qInfo() << process.readAllStandardError() << process.readAllStandardOutput();
-    }
-
+void App::restartKDE()
+{
     qInfo() << "Restart KDE ";
+    QProcess process;
     process.start("kquitapp5", { "plasmashell" });
     process.waitForFinished();
     process.terminate();
     qInfo() << process.readAllStandardError() << process.readAllStandardOutput();
     process.startDetached("kstart5", { "plasmashell" });
     qInfo() << process.readAllStandardError() << process.readAllStandardOutput();
-    return true;
 }
+
+std::optional<bool> App::isNewestKDEWallpaperInstalled()
+{
+
+    QFileInfo installedWallpaperMetadata(m_kdeWallpaperPath + "/metadata.desktop");
+    QSettings installedWallpaperSettings(installedWallpaperMetadata.absoluteFilePath(), QSettings::Format::IniFormat);
+    installedWallpaperSettings.beginGroup("Desktop Entry");
+    const QString installedWallpaperVersion = installedWallpaperSettings.value("Version").toString();
+    installedWallpaperSettings.endGroup();
+    const QVersionNumber installedVersionNumber = QVersionNumber::fromString(installedWallpaperVersion);
+
+    QFileInfo currentWallpaperMetadata(m_appKdeWallapperPath + "/ScreenPlay/metadata.desktop");
+    QSettings currentWallpaperSettings(currentWallpaperMetadata.absoluteFilePath(), QSettings::Format::IniFormat);
+    currentWallpaperSettings.beginGroup("Desktop Entry");
+    const QString currentWallpaperVersion = currentWallpaperSettings.value("Version").toString();
+    currentWallpaperSettings.endGroup();
+    const QVersionNumber currentVersionNumber = QVersionNumber::fromString(currentWallpaperVersion);
+
+    qInfo() << "installedVersionNumber" << installedVersionNumber << "currentVersionNumber " << currentVersionNumber;
+    if (installedVersionNumber.isNull() || currentVersionNumber.isNull()) {
+        qInfo() << "Unable to parse version number from:" << currentWallpaperVersion << installedWallpaperVersion;
+        qInfo() << "Reinstall ScreenPlay Wallpaper";
+        return std::nullopt;
+    } else {
+        return {installedVersionNumber >= currentVersionNumber};
+    }
+}
+
+/*!
+   \brief
+*/
+bool App::setupKDE()
+{
+
+    m_kdeWallpaperPath = QDir(QDir::homePath() + "/.local/share/plasma/wallpapers/ScreenPlay/").canonicalPath();
+    m_appKdeWallapperPath = QGuiApplication::instance()->applicationDirPath() + "/kde";
+
+    if (!isKDEInstalled())
+        return false;
+
+    QFileInfo installedWallpaperMetadata(m_kdeWallpaperPath + "/metadata.desktop");
+    if (!installedWallpaperMetadata.exists()) {
+        installKDEWallpaper();
+        restartKDE();
+        return true;
+    }
+    if (auto isNewer = isNewestKDEWallpaperInstalled()) {
+        if (!isNewer.value()) {
+            upgradeKDEWallpaper();
+            return true;
+        }
+
+        qInfo() << "All up to date!" << isNewer.value();
+        return true;
+    } else {
+        return false;
+    }
+}
+
 }

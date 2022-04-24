@@ -1,7 +1,7 @@
 stages:
-    - check
     - build
     - release
+    - check
     - test
 
 variables:

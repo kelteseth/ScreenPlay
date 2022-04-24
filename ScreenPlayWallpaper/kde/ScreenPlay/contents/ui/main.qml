@@ -5,6 +5,7 @@ import QtWebEngine 1.8
 import QtMultimedia 5.12
 import Qt.labs.settings 1.1
 
+import org.kde.plasma.core 2.0 as PlasmaCore
 
 Rectangle {
     id:root
@@ -22,7 +23,7 @@ Rectangle {
 
         wallpaper.type = settings.value("SP_type")
         wallpaper.fillMode = settings.value("SP_fillMode")
-        wallpaper.volume = settings.value("SP_volume")
+        //wallpaper.volume = settings.value("SP_volume")
         wallpaper.play()
     }
 
@@ -101,12 +102,21 @@ Rectangle {
         }
         Text {
             color: "white"
-            text:wallpaper.type  +  wallpaper.projectSourceFileAbsolute
+            text: "wallpaper.type: " + wallpaper.type
         }
         Text {
             color: "white"
-            text:"Actitve: " +socket.active +" status: "+ socket.status + " reconnectTimer.retryCounter : "+ reconnectTimer.retryCounter
+            text: "projectSourceFileAbsolute "  +  wallpaper.projectSourceFileAbsolute
+        }arrier
+        Text {
+            color: "white"
+            text:"reconnectTimer.retryCounter : "+ reconnectTimer.retryCounter
         }
+        Text {
+            color: "white"
+            text: "MonitorIndex: " + wallpaper.configuration.MonitorIndex
+        }
+        
     }
 
 

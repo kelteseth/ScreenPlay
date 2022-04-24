@@ -6,9 +6,9 @@
   <kcfgfile name=""/>
 
   <group name="General">
-      <entry name="StopWallpaperIfHidden" type="Bool">
-      <label>Stop Wallpaper if not visible</label>
-      <default>false</default>
+      <entry name="MonitorIndex" type="int">
+      <label>Monitor Index aaa</label>
+      <default>0</default>
     </entry>
   </group>
 
