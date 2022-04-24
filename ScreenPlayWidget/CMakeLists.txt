@@ -40,7 +40,6 @@ target_link_libraries(
     PRIVATE ScreenPlaySDK
             ScreenPlayUtil
             ScreenPlayWeatherplugin
-            ScreenPlaySysInfoplugin
             Qt6::Quick
             Qt6::Gui
             Qt6::Widgets

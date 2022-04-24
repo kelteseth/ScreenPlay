@@ -3,7 +3,9 @@
 #include <QVersionNumber>
 #include <QtQml/qqmlextensionplugin.h>
 
+#if defined(Q_OS_WIN)
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
+#endif
 
 int main(int argc, char* argv[])
 {
