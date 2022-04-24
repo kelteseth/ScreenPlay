@@ -1,6 +1,8 @@
 #include "ScreenPlay/util.h"
 
+#if defined(Q_OS_WIN)
 #include <sentry.h>
+#endif
 
 namespace ScreenPlay {
 
