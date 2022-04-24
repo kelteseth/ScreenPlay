@@ -269,7 +269,6 @@ Rectangle {
             icon.source: "qrc:/assets/icons/icon_close.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
-            icon.color: Material.iconColor
             onClicked: {
                 ScreenPlay.screenPlayManager.removeAllWallpapers()
                 ScreenPlay.screenPlayManager.removeAllWidgets()
