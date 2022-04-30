@@ -31,8 +31,6 @@ build:shared_windows_release:
     allow_failure: true
     tags:
         - shared-windows
-    needs:
-        - check
     before_script:
         # https://stackoverflow.com/a/68671843/12619313
         - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
@@ -57,8 +55,6 @@ build:windows_release:
     stage: build
     tags:
         - windows10
-    needs:
-        - check
     script:
         - python -m pip install -U pip wheel
         - python -m pip install -U aqtinstall
@@ -76,8 +72,6 @@ build:windows_release_steam:
     stage: build
     tags:
         - windows10
-    needs:
-        - check
     script:
         - python -m pip install -U pip wheel
         - python -m pip install -U aqtinstall
@@ -95,8 +89,6 @@ build:osx_release:
     stage: build
     tags:
         - osx
-    needs:
-        - check
     script:
         - pip3 install -U pip
         - pip3 install aqtinstall
@@ -114,8 +106,6 @@ build:osx_release_steam:
     stage: build
     tags:
         - osx
-    needs:
-        - check
     script:
         - pip3 install -U pip
         - pip3 install aqtinstall
@@ -135,8 +125,6 @@ build:linux_release:
         name: ubuntu:20.04
     tags:
         - gitlab-org-docker
-    needs:
-        - check
     script:
         - apt update -y
         # We need cmake 3.23 to fix IFW
@@ -163,8 +151,6 @@ release:windows_steam:
     stage: build
     tags:
         - windows10
-    needs:
-        - check
     script:
         - python -m pip install -U pip wheel
         - python -m pip install -U aqtinstall
@@ -184,8 +170,6 @@ release:windows_standalone:
     stage: build
     tags:
         - windows10
-    needs:
-        - check
     script:
         - python -m pip install -U pip wheel
         - python -m pip install -U aqtinstall
@@ -205,8 +189,6 @@ release:osx_steam:
     stage: build
     tags:
         - osx
-    needs:
-        - check
     script:
         - pip3 install -U pip
         - pip3 install aqtinstall
@@ -226,8 +208,6 @@ release:osx_standalone:
     stage: build
     tags:
         - osx
-    needs:
-        - check
     script:
         - pip3 install -U pip
         - pip3 install aqtinstall
@@ -249,8 +229,6 @@ release:linux_steam:
         name: ubuntu:20.04
     tags:
         - gitlab-org-docker
-    needs:
-        - check
     script:
         - apt update -y
         # We need cmake 3.23 to fix IFW
@@ -284,8 +262,6 @@ release:linux_standalone:
         name: ubuntu:20.04
     tags:
         - gitlab-org-docker
-    needs:
-        - check
     script:
         - apt update -y
         # We need cmake 3.23 to fix IFW
