@@ -58,27 +58,24 @@ App::App()
 
     m_continuousIntegrationMetricsTimer.start();
 
-    QGuiApplication::setWindowIcon(QIcon(":/assets/icons/app.ico"));
+    QGuiApplication::setWindowIcon(QIcon(":/qml/ScreenPlayApp/assets/icons/app.ico"));
     QGuiApplication::setOrganizationName("ScreenPlay");
     QGuiApplication::setOrganizationDomain("screen-play.app");
     QGuiApplication::setApplicationName("ScreenPlay");
     QGuiApplication::setApplicationVersion(QVersionNumber(0, 15, 0).toString());
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
-    QFontDatabase::addApplicationFont(":/assets/fonts/LibreBaskerville-Italic.ttf");
-
-    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Light.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Regular.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/Roboto-Thin.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Light.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/RobotoMono-Thin.ttf");
-
-    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Thin.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Regular.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Medium.ttf");
-    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSans-Light.ttf");
-
-    QFontDatabase::addApplicationFont(":/assets/fonts/NotoSansCJKkr-Regular.otf");
+    QFontDatabase::addApplicationFont(":/qml/ScreenPlayApp/assets/fonts/LibreBaskerville-Italic.ttf");
+    const QString fontsPath = QGuiApplication::instance()->applicationDirPath() + "/assets/fonts/";
+    const QDir fontsDir(fontsPath);
+    if (!fontsDir.isEmpty() && fontsDir.exists()) {
+        QDirIterator it(fontsPath, { "*.ttf", "*.otf" }, QDir::Files);
+        while (it.hasNext()) {
+            QFontDatabase::addApplicationFont(it.next());
+        }
+    } else {
+        qWarning() << "Unable to load font from: " << fontsPath;
+    }
 
     QQuickWindow::setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
 
@@ -191,7 +188,6 @@ void App::init()
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "App", this);
     m_mainWindowEngine->addImportPath(guiApplication->applicationDirPath() + "/qml");
     guiApplication->addLibraryPath(guiApplication->applicationDirPath());
-    qInfo() << m_mainWindowEngine->importPathList();
 
     if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
         setupKDE();

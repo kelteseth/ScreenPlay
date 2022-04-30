@@ -21,7 +21,7 @@ Rectangle {
         anchors.centerIn: parent
         visible: false
         smooth: true
-        source: "qrc:/assets/icons/icon_info.svg"
+        source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_info.svg"
     }
 
     ColorOverlay {

@@ -49,7 +49,7 @@ TabButton {
         ToolButton {
             opacity: 0.6
             width: parent.width * 0.2
-            icon.source: "qrc:/assets/icons/icon_open_in_new.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_open_in_new.svg"
             icon.width: 16
             icon.height: 16
             onClicked: Qt.openUrlExternally(control.openLink)

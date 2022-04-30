@@ -46,7 +46,7 @@ Item {
             Button {
                 text: qsTr("News")
                 onClicked: Qt.openUrlExternally("https://screen-play.app/blog/")
-                icon.source: "qrc:/assets/icons/icon_document.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_document.svg"
                 icon.width: 14
                 icon.height: 14
                 Layout.alignment: Qt.AlignVCenter
@@ -56,7 +56,7 @@ Item {
                 text: qsTr("Wiki")
                 onClicked: Qt.openUrlExternally(
                                "https://kelteseth.gitlab.io/ScreenPlayDocs/")
-                icon.source: "qrc:/assets/icons/icon_help_center.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_help_center.svg"
                 icon.width: 14
                 icon.height: 14
                 Layout.alignment: Qt.AlignVCenter
@@ -66,7 +66,7 @@ Item {
                 text: qsTr("Forum")
                 onClicked: Qt.openUrlExternally(
                                "https://forum.screen-play.app/")
-                icon.source: "qrc:/assets/icons/icon_forum.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_forum.svg"
                 icon.width: 14
                 icon.height: 14
                 Layout.alignment: Qt.AlignVCenter
@@ -76,7 +76,7 @@ Item {
                 text: qsTr("Reddit")
                 onClicked: Qt.openUrlExternally(
                                "https://www.reddit.com/r/ScreenPlayApp/")
-                icon.source: "qrc:/assets/icons/brand_reddit.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/brand_reddit.svg"
                 icon.width: 14
                 icon.height: 14
                 Layout.alignment: Qt.AlignVCenter
@@ -86,7 +86,7 @@ Item {
                 text: qsTr("Issue Tracker")
                 onClicked: Qt.openUrlExternally(
                                "https://gitlab.com/kelteseth/ScreenPlay/-/issues")
-                icon.source: "qrc:/assets/icons/icon_report_problem.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_report_problem.svg"
                 icon.width: 14
                 icon.height: 14
                 Layout.alignment: Qt.AlignVCenter
@@ -96,7 +96,7 @@ Item {
                 text: qsTr("Contribute")
                 onClicked: Qt.openUrlExternally(
                                "https://gitlab.com/kelteseth/ScreenPlay#general-contributing")
-                icon.source: "qrc:/assets/icons/icon_supervisor_account.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_supervisor_account.svg"
                 icon.width: 14
                 icon.height: 14
                 Layout.alignment: Qt.AlignVCenter
@@ -105,7 +105,7 @@ Item {
             Button {
                 text: qsTr("Steam Workshop")
                 onClicked: Qt.openUrlExternally("steam://url/GameHub/672870")
-                icon.source: "qrc:/assets/icons/icon_steam.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
                 icon.width: 14
                 icon.height: 14
                 Layout.alignment: Qt.AlignVCenter

@@ -72,7 +72,7 @@ WizardPage {
                         anchors.fill: parent
                         fillMode: Image.Tile
                         opacity: 0.2
-                        source: "qrc:/assets/images/noisy-texture-3.png"
+                        source: "qrc:/qml/ScreenPlayApp/assets/images/noisy-texture-3.png"
                     }
 
                     Text {

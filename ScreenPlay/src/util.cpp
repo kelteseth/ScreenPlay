@@ -108,7 +108,7 @@ QString Util::toLocal(const QString& url)
 */
 void Util::Util::requestAllLicenses()
 {
-    if (m_requestAllLicensesFuture.isStarted())
+    if (m_requestAllLicensesFuture.isRunning())
         return;
 
     m_requestAllLicensesFuture = QtConcurrent::run([this]() {
@@ -116,32 +116,32 @@ void Util::Util::requestAllLicenses()
         QFile file;
         QTextStream out(&file);
 
-        file.setFileName(":/legal/Font Awesome Free License.txt");
+        file.setFileName(":/qml/ScreenPlayApp/legal/Font Awesome Free License.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
 
-        file.setFileName(":/legal/gpl-3.0.txt");
+        file.setFileName(":/qml/ScreenPlayApp/legal/gpl-3.0.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
 
-        file.setFileName(":/legal/gpl-3.0.txt");
+        file.setFileName(":/qml/ScreenPlayApp/legal/gpl-3.0.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
 
-        file.setFileName(":/legal/OFL.txt");
+        file.setFileName(":/qml/ScreenPlayApp/legal/OFL.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
 
-        file.setFileName(":/legal/OpenSSL.txt");
+        file.setFileName(":/qml/ScreenPlayApp/legal/OpenSSL.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
 
-        file.setFileName(":/legal/Qt LGPLv3.txt");
+        file.setFileName(":/qml/ScreenPlayApp/legal/Qt LGPLv3.txt");
         file.open(QIODevice::ReadOnly | QIODevice::Text);
         tmp += out.readAll();
         file.close();
@@ -160,7 +160,7 @@ void Util::Util::requestDataProtection()
     QFile file;
     QTextStream out(&file);
 
-    file.setFileName(":/legal/DataProtection.txt");
+    file.setFileName(":/qml/ScreenPlayApp/legal/DataProtection.txt");
     file.open(QIODevice::ReadOnly | QIODevice::Text);
     tmp += out.readAll();
     file.close();

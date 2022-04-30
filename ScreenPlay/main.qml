@@ -297,7 +297,7 @@ ApplicationWindow {
             margins: 1
         }
         Image {
-            source: "qrc:/assets/images/scale_window_indicator.png"
+            source: "qrc:/qml/ScreenPlayApp/assets/images/scale_window_indicator.png"
         }
         MouseArea {
             id: maResize

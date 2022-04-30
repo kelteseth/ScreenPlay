@@ -61,6 +61,7 @@ qt_add_qml_module(
     1.0
     OUTPUT_DIRECTORY
     ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
+    RESOURCE_PREFIX /qml
     QML_FILES
     ${QML}
     RESOURCES

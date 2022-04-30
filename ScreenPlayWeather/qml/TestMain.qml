@@ -15,12 +15,7 @@ Window {
         id: weather
         city: "Friedrichshafen"
         onReady: {
-
             rp.model = weather.days
-            print("onReady", weather.days.count)
-            //            for (var i = 0; i < rp.count; i++) {
-            //                rp.itemAt(i).day = weather.getDay(i)
-            //            }
         }
     }
     function mapWeatherCode(code) {
@@ -31,14 +26,14 @@ Window {
         // to https://erikflowers.github.io/weather-icons/
         switch (code) {
         case 0:
-            return time + "-sunny"
+            return weather_prefix + "day-sunny"
         case 1:
         case 2:
         case 3:
             return weather_prefix + "cloud"
         case 45:
         case 48:
-            return weather_prefix + "sunny"
+            return weather_prefix + "day-sunny"
         case 51:
         case 53:
         case 55:
@@ -117,7 +112,7 @@ Window {
                     Image {
                         Layout.alignment: Qt.AlignCenter
                         horizontalAlignment: Image.AlignHCenter
-                        source: "qrc:/ScreenPlayWeather/assets/icons/" + root.mapWeatherCode(
+                        source: "qrc:/qml/ScreenPlayWeather/assets/icons/" + root.mapWeatherCode(
                                     weatherCode) + ".svg"
                     }
 

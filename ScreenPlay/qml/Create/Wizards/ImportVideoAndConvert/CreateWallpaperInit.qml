@@ -95,7 +95,7 @@ Item {
         Common.Slider {
             id: sliderQuality
 
-            iconSource: "qrc:/assets/icons/icon_settings.svg"
+            iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
             headline: qsTr("Quality slider. Lower value means better quality.")
             Layout.preferredWidth: 400
 
@@ -114,7 +114,7 @@ Item {
         text: qsTr("Open Documentation")
         Material.accent: Material.color(Material.LightGreen)
         highlighted: true
-        icon.source: "qrc:/assets/icons/icon_document.svg"
+        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_document.svg"
         icon.color: "white"
         icon.width: 16
         icon.height: 16

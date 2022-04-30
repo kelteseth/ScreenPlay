@@ -111,6 +111,140 @@ set(TS_FILES
     translations/ScreenPlay_vi_VN.ts
     translations/ScreenPlay_zh_CN.ts)
 
+set(RESOURCES
+    assets/WorkshopPreview.html
+    assets/icons/app.ico
+    assets/icons/brand_github.svg
+    assets/icons/brand_gitlab.svg
+    assets/icons/brand_twitch.svg
+    assets/icons/brand_twitter.svg
+    assets/icons/exclamation-triangle-solid.svg
+    assets/icons/font-awsome/close.svg
+    assets/icons/font-awsome/frown-o.svg
+    assets/icons/icon_arrow_left.svg
+    assets/icons/icon_arrow_right.svg
+    assets/icons/icon_build.svg
+    assets/icons/icon_cake.afdesign
+    assets/icons/icon_cake.svg
+    assets/icons/icon_close.svg
+    assets/icons/icon_code.svg
+    assets/icons/icon_community.svg
+    assets/icons/icon_delete.svg
+    assets/icons/icon_document.svg
+    assets/icons/icon_done.svg
+    assets/icons/icon_download.svg
+    assets/icons/icon_emptyWidget.svg
+    assets/icons/icon_folder_open.svg
+    assets/icons/icon_forum.svg
+    assets/icons/icon_hand_left.svg
+    assets/icons/icon_hand_right.svg
+    assets/icons/icon_heavy_metal.svg
+    assets/icons/icon_help_center.svg
+    assets/icons/icon_indicator_down.svg
+    assets/icons/icon_info.svg
+    assets/icons/icon_installed.svg
+    assets/icons/icon_launch.svg
+    assets/icons/icon_library_music.svg
+    assets/icons/icon_local_movies.svg
+    assets/icons/icon_logo_head.svg
+    assets/icons/icon_monitor.svg
+    assets/icons/icon_movie.svg
+    assets/icons/icon_multiple_images.svg
+    assets/icons/icon_new_releases.svg
+    assets/icons/icon_open_in_new.svg
+    assets/icons/icon_pause.svg
+    assets/icons/icon_people.svg
+    assets/icons/icon_play.svg
+    assets/icons/icon_plus.svg
+    assets/icons/icon_report_problem.svg
+    assets/icons/icon_scene.svg
+    assets/icons/icon_screen.svg
+    assets/icons/icon_search.svg
+    assets/icons/icon_settings.svg
+    assets/icons/icon_share.svg
+    assets/icons/icon_single_image.svg
+    assets/icons/icon_steam.svg
+    assets/icons/icon_supervisor_account.svg
+    assets/icons/icon_thumb_down.svg
+    assets/icons/icon_thumb_up.svg
+    assets/icons/icon_time.svg
+    assets/icons/icon_tv.svg
+    assets/icons/icon_upload.svg
+    assets/icons/icon_volume.svg
+    assets/icons/icon_volume_mute.svg
+    assets/icons/icon_volume_up.svg
+    assets/icons/icon_widgets.svg
+    assets/icons/icon_window.svg
+    assets/icons/monitor_setup.svg
+    assets/images/Intro.png
+    assets/images/Intro_PC.png
+    assets/images/Intro_shine.png
+    assets/images/Window.svg
+    assets/images/mask_round.svg
+    assets/images/mask_workshop.png
+    assets/images/missingPreview.png
+    assets/images/noisy-texture-3.png
+    assets/images/noisy-texture.png
+    assets/licenses/Apache2.txt
+    assets/licenses/OFL.txt
+    assets/particle/backgroundGlow.png
+    assets/particle/dot.png
+    assets/shader/movingcolorramp.fsh
+    assets/startinfo/blender.png
+    assets/startinfo/flaticon.png
+    assets/startinfo/forums.png
+    assets/startinfo/freesound.png
+    assets/startinfo/gimp.png
+    assets/startinfo/git_extentions.png
+    assets/startinfo/gitlab.png
+    assets/startinfo/godot.png
+    assets/startinfo/handbreak.png
+    assets/startinfo/inkscape.png
+    assets/startinfo/kdeenlive.png
+    assets/startinfo/krita.png
+    assets/startinfo/obs.png
+    assets/startinfo/qml_online.png
+    assets/startinfo/reddit.png
+    assets/startinfo/shadertoy.png
+    assets/startinfo/sharex.png
+    assets/startinfo/unsplash.png
+    assets/startinfo/vscode.png
+    assets/wizards/License_All_Rights_Reserved_1.0.txt
+    assets/wizards/License_Apache_2.0.txt
+    assets/wizards/License_CC0_1.0.txt
+    assets/wizards/License_CC_Attribution-NonCommercial-ShareAlike_4.0.txt
+    assets/wizards/License_CC_Attribution-ShareAlike_4.0.txt
+    assets/wizards/License_CC_Attribution_4.0.txt
+    assets/wizards/License_GPL_3.0.txt
+    assets/wizards/example_html.png
+    assets/wizards/example_qml.png
+    legal/DataProtection.txt
+    "legal/Font Awesome Free License.txt"
+    legal/OFL.txt
+    legal/OpenSSL.txt
+    "legal/Qt LGPLv3.txt"
+    legal/gpl-3.0.txt
+    legal/lgpl-2.1.txt
+    profiles.json
+    qtquickcontrols2.conf
+    assets/images/Early_Access.png
+    assets/icons/icon_sort-up-solid.svg
+    assets/icons/icon_sort-down-solid.svg
+    assets/icons/brand_reddit.svg
+    assets/icons/steam_default_avatar.png
+    assets/macos/app.screenplay.plist
+    assets/icons/item_banner_new.svg
+    qml/Create/WizardsFiles/HTMLWallpaperMain.html
+    qml/Create/WizardsFiles/HTMLWidgetMain.html
+    assets/icons/icon_minimize.svg
+    assets/icons/icon_video_settings_black_24dp.svg
+    qml/Create/WizardsFiles/QMLWallpaperMain.qml
+    qml/Create/WizardsFiles/QMLWidgetMain.qml
+    assets/icons/font-awsome/patreon-brands.svg
+    assets/images/steam_offline.png
+    assets/images/scale_window_indicator.png
+)
+
 # Needed on macos
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
@@ -133,9 +267,6 @@ find_package(
                LinguistTools
                Test)
 
-qt_add_resources(RESOURCES Resources.qrc)
-qt_add_big_resources(FONTS fonts.qrc)
-
 add_library(ScreenPlayApp STATIC)
 target_include_directories(ScreenPlayApp PUBLIC src/ inc/public/ScreenPlay)
 
@@ -153,6 +284,8 @@ qt_add_qml_module(
     SOURCES
     ${SOURCES}
     ${HEADER}
+    RESOURCES
+    ${RESOURCES}
 )
 target_link_libraries(
     ScreenPlayApp
@@ -166,9 +299,7 @@ target_link_libraries(
            Qt6::Svg
            ScreenPlayUtil
            ScreenPlayUtilplugin
-           SteamSDKQtEnums
-           ${RESOURCES}
-           ${FONTS})
+           SteamSDKQtEnums)
 
 if(${SCREENPLAY_STEAM})
     target_compile_definitions(ScreenPlayApp PRIVATE SCREENPLAY_STEAM=1)
@@ -207,6 +338,13 @@ target_include_directories(
     PUBLIC inc/public/
     PRIVATE src/)
 
+if(WIN32 OR UNIX AND NOT APPLE)
+    include(CopyRecursive)
+    set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
+    file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
+    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
+    copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
+endif()
 
 if(WIN32)
     target_link_libraries(ScreenPlayApp PUBLIC sentry::sentry)

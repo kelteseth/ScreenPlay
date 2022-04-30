@@ -200,20 +200,27 @@ void SteamWorkshop::searchWorkshop(const int enumEUGCQuery)
     if (!checkOnline())
         return;
 
-    auto searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
+    if (m_searchHandle != 0) {
+        qInfo() << "Invalid m_searchHandle";
+        return;
+    }
+
+    auto m_searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
         static_cast<EUGCQuery>(enumEUGCQuery),
         EUGCMatchingUGCType::k_EUGCMatchingUGCType_Items,
         m_appID,
         m_appID,
         m_workshopListModel->currentPage());
 
+    qInfo() << m_searchHandle;
+
     m_workshopListModel->clear();
 
     //Important: First send the request to get the Steam API Call then set the handler
-    SteamUGC()->SetReturnAdditionalPreviews(searchHandle, true);
-    SteamUGC()->SetReturnKeyValueTags(searchHandle, true);
-    SteamUGC()->SetReturnLongDescription(searchHandle, true);
-    m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(searchHandle), this, &SteamWorkshop::onWorkshopSearched);
+    SteamUGC()->SetReturnAdditionalPreviews(m_searchHandle, true);
+    SteamUGC()->SetReturnKeyValueTags(m_searchHandle, true);
+    SteamUGC()->SetReturnLongDescription(m_searchHandle, true);
+    m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(m_searchHandle), this, &SteamWorkshop::onWorkshopSearched);
 }
 
 void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
@@ -222,6 +229,8 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
         qWarning() << "onWorkshopSearched ioFailure";
         return;
     }
+
+    qInfo() << "onWorkshopSearched" << m_searchHandle;
     queryWorkshopItemFromHandle(m_workshopListModel.get(), pCallback);
 }
 
@@ -302,7 +311,10 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
         }
     }
 
+    qInfo() << m_searchHandle << pCallback->m_handle;
     SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+
+    qInfo() << m_searchHandle << pCallback->m_handle;
 
     emit workshopSearchCompleted(results);
     return true;

@@ -48,7 +48,7 @@ WizardPage {
                     Image {
                         id: imgPreview
 
-                        source: "qrc:/assets/wizards/example_qml.png"
+                        source: "qrc:/qml/ScreenPlayApp/assets/wizards/example_qml.png"
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectCrop
                     }

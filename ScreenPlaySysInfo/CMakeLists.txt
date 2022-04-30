@@ -14,7 +14,7 @@ find_package(
     COMPONENTS Quick Core
     REQUIRED)
 
-set(QML src/TestMain.qml)
+set(QML qml/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES
     src/cpu.cpp
@@ -50,7 +50,8 @@ qt_add_qml_module(
     VERSION
     1.0
     OUTPUT_DIRECTORY
-    ${CMAKE_BINARY_DIR}/bin/${PROJECT_NAME}
+    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
+    RESOURCE_PREFIX /qml
     QML_FILES
     ${QML}
     SOURCES

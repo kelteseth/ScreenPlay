@@ -54,7 +54,7 @@ void Wizards::createQMLWidget(const QString& title,
         obj.insert("type", "qmlWidget");
         obj.insert("file", "main.qml");
 
-        if (!Util::writeFileFromQrc(":/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
@@ -120,7 +120,7 @@ void Wizards::createHTMLWidget(const QString& title,
         obj.insert("type", "htmlWidget");
         obj.insert("file", "index.html");
 
-        if (!Util::writeFileFromQrc(":/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
@@ -188,7 +188,7 @@ void Wizards::createHTMLWallpaper(
         obj.insert("type", "htmlWallpaper");
         obj.insert("file", "index.html");
 
-        if (!Util::writeFileFromQrc(":/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
@@ -262,7 +262,7 @@ void Wizards::createQMLWallpaper(
             }
         }
 
-        if (!Util::writeFileFromQrc(":/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
@@ -315,7 +315,7 @@ void Wizards::createGifWallpaper(
         obj.insert("tags", ScreenPlayUtil::fillArray(tags));
         obj.insert("type", "gifWallpaper");
 
-        if (!Util::writeFileFromQrc(":/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;

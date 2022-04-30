@@ -9,7 +9,7 @@ Item {
 
     property color background: "#FFAB00"
     property string text: "HEADLINE"
-    property url image: "qrc:/assets/icons/icon_settings.svg"
+    property url image: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
 
     state: "out"
     Component.onCompleted: state = "in"

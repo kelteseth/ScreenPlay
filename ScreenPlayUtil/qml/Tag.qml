@@ -74,7 +74,7 @@ Item {
             id: name
 
             anchors.fill: parent
-            source: "qrc:/assets/icons/icon_close.svg"
+            source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_close.svg"
         }
 
     }

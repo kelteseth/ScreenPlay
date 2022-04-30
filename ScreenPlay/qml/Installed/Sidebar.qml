@@ -42,10 +42,10 @@ Item {
         txtHeadline.text = App.installedListModel.get(root.contentFolderName).m_title;
         const hasPreviewGif = App.installedListModel.get(root.contentFolderName).m_previewGIF !== undefined;
         if (!hasPreviewGif) {
-            image.source = Qt.resolvedUrl(App.GlobalVariables.localStoragePath + "/" + root.contentFolderName + "/" + App.installedListModel.get(root.contentFolderName).m_preview);
+            image.source = Qt.resolvedUrl(App.globalVariables.localStoragePath + "/" + root.contentFolderName + "/" + App.installedListModel.get(root.contentFolderName).m_preview);
             image.playing = false;
         } else {
-            image.source = Qt.resolvedUrl(App.GlobalVariables.localStoragePath + "/" + root.contentFolderName + "/" + App.installedListModel.get(root.contentFolderName).m_previewGIF);
+            image.source = Qt.resolvedUrl(App.globalVariables.localStoragePath + "/" + root.contentFolderName + "/" + App.installedListModel.get(root.contentFolderName).m_previewGIF);
             image.playing = true;
         }
         if (Common.JSUtil.isWidget(root.type) || (monitorSelection.activeMonitors.length > 0)) {
@@ -170,7 +170,7 @@ Item {
                     anchors.fill: parent
                     onStatusChanged: {
                         if (image.status === Image.Error)
-                            source = "qrc:/assets/images/missingPreview.png";
+                            source = "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png";
 
                     }
                 }
@@ -238,7 +238,7 @@ Item {
                     Image {
                         id: imgBack
 
-                        source: "qrc:/assets/icons/icon_arrow_right.svg"
+                        source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_arrow_right.svg"
                         sourceSize: Qt.size(15, 15)
                         fillMode: Image.PreserveAspectFit
                         anchors.centerIn: parent
@@ -364,12 +364,12 @@ Item {
                 Material.background: Material.accent
                 Material.foreground: "white"
                 font.family: App.settings.font
-                icon.source: "qrc:/assets/icons/icon_plus.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
                 onClicked: {
-                    const absoluteStoragePath = App.GlobalVariables.localStoragePath + "/" + root.contentFolderName;
+                    const absoluteStoragePath = App.globalVariables.localStoragePath + "/" + root.contentFolderName;
                     const previewImage = App.installedListModel.get(root.contentFolderName).m_preview;
                     if (Common.JSUtil.isWallpaper(root.type)) {
                         let activeMonitors = monitorSelection.getActiveMonitors();

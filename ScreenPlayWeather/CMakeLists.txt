@@ -12,7 +12,7 @@ find_package(
     COMPONENTS Core Quick
     REQUIRED)
 
-set(QML src/TestMain.qml)
+set(QML qml/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES src/screenplayweather.cpp)
 
@@ -249,6 +249,7 @@ qt_add_qml_module(
     ${PROJECT_NAME}
     OUTPUT_DIRECTORY
     ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
+    RESOURCE_PREFIX /qml
     VERSION
     1.0
     QML_FILES

@@ -9,7 +9,7 @@ Item {
     id: root
 
     property string headline: "dummyHeandline"
-    property string iconSource: "qrc:/assets/icons/icon_volume.svg"
+    property string iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
     property alias slider: slider
 
     height: 70

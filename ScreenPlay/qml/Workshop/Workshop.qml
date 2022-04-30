@@ -15,11 +15,11 @@ Item {
     Component.onCompleted: {
         if (App.settings.steamVersion) {
             workshopLoader.setSource(
-                        "qrc:/ScreenPlayWorkshop/qml/SteamWorkshop.qml", {
+                        "qrc:/qml/ScreenPlayWorkshop/qml/SteamWorkshop.qml", {
                             "modalSource": modalSource
                         })
         } else {
-            workshopLoader.setSource("qrc:/ScreenPlayWorkshop/qml/Forum.qml")
+            workshopLoader.setSource("qrc:/qml/ScreenPlayWorkshop/qml/Forum.qml")
         }
     }
 

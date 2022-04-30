@@ -7,6 +7,14 @@ project(
     HOMEPAGE_URL "https://screen-play.app/"
     LANGUAGES CXX)
 
+if(WIN32)
+    set(VCPKG_ARCH "x64-windows")
+elseif(UNIX AND NOT APPLE)
+    set(VCPKG_ARCH "x64-linux")
+elseif(APPLE)
+    set(VCPKG_ARCH "x64-osx")
+endif()
+
 # This sets cmake to compile all dlls into the main directory
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
@@ -35,13 +43,6 @@ endif()
 
 file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
-if(WIN32)
-    set(VCPKG_ARCH "x64-windows")
-elseif(UNIX AND NOT APPLE)
-    set(VCPKG_ARCH "x64-linux")
-elseif(APPLE)
-    set(VCPKG_ARCH "x64-osx")
-endif()
 
 add_compile_definitions(COMPILE_INFO="Build Date: ${BUILD_DATE}. Git Hash: ${GIT_COMMIT_HASH}. ")
 add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")

@@ -121,7 +121,7 @@ void Settings::writeJsonFileFromResource(const QString& filename)
     if (!directory.exists()) {
         directory.mkpath(directory.path());
     }
-    QFile defaultSettings(":/" + filename + ".json");
+    QFile defaultSettings(":/qml/ScreenPlayApp/" + filename + ".json");
 
     file.open(QIODevice::WriteOnly | QIODevice::Text);
     defaultSettings.open(QIODevice::ReadOnly | QIODevice::Text);

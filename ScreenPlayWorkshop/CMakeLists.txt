@@ -13,7 +13,7 @@ find_package(
     REQUIRED)
 
 set(QML
-    src/TestMain.qml
+    qml/TestMain.qml
     qml/Background.qml
     qml/Forum.qml
     qml/Navigation.qml
@@ -105,6 +105,7 @@ qt_add_qml_module(
     ${PROJECT_NAME}
     OUTPUT_DIRECTORY
     ${WORKSHOP_PLUGIN_DIR}
+    RESOURCE_PREFIX /qml
     VERSION
     1.0
     QML_FILES

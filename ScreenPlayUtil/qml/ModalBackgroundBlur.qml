@@ -21,7 +21,7 @@ FastBlur {
     Image {
         anchors.fill: parent
         opacity: 0.1
-        source: "qrc:/assets/images/noisy-texture-3.png"
+        source: "qrc:/qml/ScreenPlayApp/assets/images/noisy-texture-3.png"
         fillMode: Image.Tile
     }
 }

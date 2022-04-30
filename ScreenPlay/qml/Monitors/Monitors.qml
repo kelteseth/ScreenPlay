@@ -244,7 +244,7 @@ Common.Popup {
             height: width
             icon.width: 16
             icon.height: 16
-            icon.source: "qrc:/assets/icons/font-awsome/close.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/close.svg"
             icon.color: Material.iconColor
             onClicked: root.close()
 

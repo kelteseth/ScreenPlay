@@ -61,7 +61,7 @@ Item {
                 icon.width: 16
                 height: parent.height
                 width: implicitWidth
-                icon.source: "qrc:/assets/icons/icon_installed.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
                 onClicked: {
                     setSidebarActive(false)
                     App.installedListFilter.sortBySearchType(
@@ -77,7 +77,7 @@ Item {
                 icon.width: 16
                 width: implicitWidth
                 height: parent.height
-                icon.source: "qrc:/assets/icons/icon_code.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg"
                 onClicked: {
                     setSidebarActive(false)
                     App.installedListFilter.sortBySearchType(
@@ -93,7 +93,7 @@ Item {
                 icon.width: 16
                 height: parent.height
                 width: implicitWidth
-                icon.source: "qrc:/assets/icons/icon_movie.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
                 onClicked: {
                     setSidebarActive(false)
                     App.installedListFilter.sortBySearchType(
@@ -109,7 +109,7 @@ Item {
                 icon.width: 16
                 height: parent.height
                 width: implicitWidth
-                icon.source: "qrc:/assets/icons/icon_widgets.svg"
+                icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg"
                 onClicked: {
                     setSidebarActive(false)
                     App.installedListFilter.sortBySearchType(
@@ -137,7 +137,7 @@ Item {
 
             property int sortOrder: Qt.DescendingOrder
 
-            icon.source: (btnSortOrder.sortOrder === Qt.AscendingOrder) ? "qrc:/assets/icons/icon_sort-down-solid.svg" : "qrc:/assets/icons/icon_sort-up-solid.svg"
+            icon.source: (btnSortOrder.sortOrder === Qt.AscendingOrder) ? "qrc:/qml/ScreenPlayApp/assets/icons/icon_sort-down-solid.svg" : "qrc:/qml/ScreenPlayApp/assets/icons/icon_sort-up-solid.svg"
             icon.width: 12
             icon.height: 12
             hoverEnabled: true

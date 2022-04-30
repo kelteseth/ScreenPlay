@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import ScreenPlayShader 1.0
 
 Window {
     id: root
@@ -14,7 +15,7 @@ Window {
         id: img
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        source: "qrc:/ScreenPlayShader/assets/test_image_andras-vas-Bd7gNnWJBkU-unsplash.jpg"
+        source: "qrc:/qml/ScreenPlayShader/assets/test_image_andras-vas-Bd7gNnWJBkU-unsplash.jpg"
         layer.enabled: true
         layer.effect: ShaderEffect {
             property real amplitude: 0.04 * .1

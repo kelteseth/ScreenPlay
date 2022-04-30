@@ -12,7 +12,7 @@ Item {
     ToolButton {
         id: icnSearch
 
-        icon.source: "qrc:/assets/icons/icon_search.svg"
+        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_search.svg"
         height: 30
         width: 30
         icon.width: 30

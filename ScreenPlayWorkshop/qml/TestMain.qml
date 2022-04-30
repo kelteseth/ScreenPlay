@@ -13,6 +13,6 @@ Window {
 
     Loader {
         anchors.fill: parent
-        source:"qrc:/ScreenPlayWorkshop/qml/SteamWorkshop.qml"
+        source:"qrc:/qml/ScreenPlayWorkshop/qml/SteamWorkshop.qml"
     }
 }

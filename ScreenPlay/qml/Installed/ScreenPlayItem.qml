@@ -25,15 +25,15 @@ Item {
     height: 180
     onTypeChanged: {
         if (Common.JSUtil.isWidget(type)) {
-            icnType.source = "qrc:/assets/icons/icon_widgets.svg"
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg"
             return
         }
         if (Common.JSUtil.isScene(type)) {
-            icnType.source = "qrc:/assets/icons/icon_code.svg"
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg"
             return
         }
         if (Common.JSUtil.isVideo(type)) {
-            icnType.source = "qrc:/assets/icons/icon_movie.svg"
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
             return
         }
     }
@@ -118,7 +118,7 @@ Item {
         Image {
             id: mask
 
-            source: "qrc:/assets/images/Window.svg"
+            source: "qrc:/qml/ScreenPlayApp/assets/images/Window.svg"
             sourceSize: Qt.size(root.width, root.height)
             visible: false
             smooth: true
@@ -164,7 +164,7 @@ Item {
                 width: 20
                 height: 20
                 opacity: 0.25
-                source: "qrc:/assets/icons/icon_movie.svg"
+                source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
                 sourceSize: Qt.size(20, 20)
 
                 anchors {

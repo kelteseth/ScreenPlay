@@ -42,6 +42,7 @@ qt_add_qml_module(
     ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
     URI
     ${PROJECT_NAME}
+    RESOURCE_PREFIX /qml
     VERSION
     1.0
     SOURCES

@@ -212,6 +212,8 @@ private:
     UGCQueryHandle_t m_UGCRegquestItemDetailHandle = 0;
     SteamAPICall_t m_UGCRegquestItemDetailCall = 0;
 
+    UGCQueryHandle_t m_searchHandle = 0;
+
     QTimer m_pollTimer;
     QQueue<SteamItemUpdate> m_bulkUploadqueue;
 

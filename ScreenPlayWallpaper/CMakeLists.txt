@@ -44,20 +44,27 @@ set(QML
     qml/Wallpaper.qml
     qml/WebsiteWallpaper.qml)
 
-qt_add_resources(RESOURCES Resources.qrc)
+set(RESOURCES
+    dot.png
+    qtquickcontrols2.conf
+    index.html
+)
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER} ${RESOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER} )
 
 qt_add_qml_module(
     ${PROJECT_NAME}
     URI
-    ScreenPlay.Wallpaper
+    ${PROJECT_NAME}
     VERSION
     1.0
     OUTPUT_DIRECTORY
     ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
+    RESOURCE_PREFIX /qml
     QML_FILES
-    ${QML})
+    ${QML}
+    RESOURCES
+    ${RESOURCES})
 
 target_link_libraries(
     ${PROJECT_NAME}

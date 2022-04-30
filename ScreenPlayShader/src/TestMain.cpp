@@ -9,9 +9,11 @@ int main(int argc, char* argv[])
 {
     QGuiApplication app(argc, argv);
     QQmlApplicationEngine engine;
+    engine.addImportPath(QGuiApplication::instance()->applicationDirPath() + "/qml");
+
     // The first subfolder is the libraryName followed by the regular
     // folder strucutre:     LibararyName/Subfolder
-    const QUrl url(u"qrc:/ScreenPlayShader/src/TestMain.qml"_qs);
+    const QUrl url(u"qrc:/qml/ScreenPlayShader/src/TestMain.qml"_qs);
     QObject::connect(
         &engine, &QQmlApplicationEngine::objectCreated,
         &app, [url](QObject* obj, const QUrl& objUrl) {

@@ -22,21 +22,21 @@ Rectangle {
             if (Qt.platform.os === "osx") {
                 if ((Wallpaper.videoCodec === VideoCodec.VP8
                      || Wallpaper.videoCodec === VideoCodec.VP9)) {
-                    loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaWebView.qml"
+                    loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaWebView.qml"
                 } else {
-                    loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
+                    loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml"
                 }
             }
 
             if (Qt.platform.os === "windows") {
-                loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
+                loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml"
             }
 
             fadeIn()
             break
         case InstalledType.HTMLWallpaper:
             loader.setSource(
-                        "qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
+                        "qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
                             "url": Qt.resolvedUrl(
                                        Wallpaper.projectSourceFileAbsolute)
                         })
@@ -47,13 +47,13 @@ Rectangle {
             break
         case InstalledType.WebsiteWallpaper:
             loader.setSource(
-                        "qrc:/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
+                        "qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
                             "url": Wallpaper.projectSourceFileAbsolute
                         })
             fadeIn()
             break
         case InstalledType.GifWallpaper:
-            loader.setSource("qrc:/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
+            loader.setSource("qrc:/qml/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
                                  "source": Qt.resolvedUrl(
                                                Wallpaper.projectSourceFileAbsolute)
                              })
@@ -118,7 +118,7 @@ Rectangle {
             if (oldType === InstalledType.VideoWallpaper)
                 return
 
-            loader.source = "qrc:/ScreenPlayWallpaper/qml/MultimediaView.qml"
+            loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml"
         }
 
         target: Wallpaper

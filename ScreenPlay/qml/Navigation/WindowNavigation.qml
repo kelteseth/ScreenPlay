@@ -47,7 +47,7 @@ Rectangle {
         }
         onPositionChanged: {
             if (mouseArea.pressed) {
-                let pos = ScreenPlay.cursorPos()
+                let pos = App.cursorPos()
                 window.setX(pos.x - clickPos.x)
                 window.setY(pos.y - clickPos.y)
             }
@@ -64,13 +64,13 @@ Rectangle {
         WindowNavButton {
             id: miMinimize
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_minimize.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_minimize.svg"
             onClicked: root.window.hide()
         }
         WindowNavButton {
             id: miquit
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_close.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_close.svg"
             onClicked: {
                 if (App.screenPlayManager.activeWallpaperCounter === 0
                         && App.screenPlayManager.activeWidgetsCounter === 0) {

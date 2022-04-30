@@ -9,7 +9,7 @@ SystemTrayIcon {
 
     property Window window
     visible: true
-    icon.source: "qrc:/assets/icons/app.ico"
+    icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/app.ico"
     tooltip: qsTr("ScreenPlay - Double click to change you settings.")
     onActivated: function (reason) {
         switch (reason) {

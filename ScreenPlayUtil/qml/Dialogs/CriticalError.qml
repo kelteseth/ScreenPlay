@@ -42,7 +42,7 @@ Common.Dialog {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredWidth: 150
                 Layout.preferredHeight: 150
-                source: "qrc:/assets/icons/exclamation-triangle-solid.svg"
+                source: "qrc:/qml/ScreenPlayApp/assets/icons/exclamation-triangle-solid.svg"
                 fillMode: Image.PreserveAspectFit
 
                 layer {

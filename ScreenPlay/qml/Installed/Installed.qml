@@ -270,7 +270,7 @@ Item {
         MenuItem {
             text: qsTr("Open containing folder")
             objectName: "openFolder"
-            icon.source: "qrc:/assets/icons/icon_folder_open.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_folder_open.svg"
             onClicked: {
                 App.util.openFolderInExplorer(
                             contextMenu.absoluteStoragePath)
@@ -280,7 +280,7 @@ Item {
         MenuItem {
             text: enabled ? qsTr("Remove Item") : qsTr("Remove via Workshop")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
-            icon.source: "qrc:/assets/icons/icon_delete.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_delete.svg"
             enabled: contextMenu.publishedFileID === 0
             onClicked: {
                 deleteDialog.open()
@@ -290,7 +290,7 @@ Item {
         MenuItem {
             text: qsTr("Open Workshop Page")
             enabled: contextMenu.publishedFileID !== 0
-            icon.source: "qrc:/assets/icons/icon_steam.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
             onClicked: {
                 Qt.openUrlExternally(
                             "steam://url/CommunityFilePage/" + contextMenu.publishedFileID)

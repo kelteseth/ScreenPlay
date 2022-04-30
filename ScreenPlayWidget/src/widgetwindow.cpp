@@ -68,10 +68,10 @@ WidgetWindow::WidgetWindow(
             qWarning() << "Cannot parse Wallpaper type from value" << m_project.value("type");
         }
     }
-
+    m_window.engine()->addImportPath(qGuiApp->applicationDirPath() + "/qml");
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
-    m_window.setSource(QUrl("qrc:/ScreenPlayWidget/qml/Widget.qml"));
+    m_window.setSource(QUrl("qrc:/qml/ScreenPlayWidget/qml/Widget.qml"));
     m_window.setPosition(m_position);
     m_window.show();
 

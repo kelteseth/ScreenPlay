@@ -49,7 +49,6 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 
 int main(int argc, char* argv[])
 {
-    Q_INIT_RESOURCE(Resources);
 
     QApplication qtGuiApp(argc, argv);
 

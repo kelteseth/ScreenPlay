@@ -30,7 +30,7 @@ Common.Dialog {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.preferredWidth: 150
                 Layout.preferredHeight: 150
-                source: "qrc:/assets/icons/monitor_setup.svg"
+                source: "qrc:/qml/ScreenPlayApp/assets/icons/monitor_setup.svg"
                 fillMode: Image.PreserveAspectFit
             }
 

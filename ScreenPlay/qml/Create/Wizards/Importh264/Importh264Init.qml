@@ -92,7 +92,7 @@ Item {
                         anchors.fill: parent
                         fillMode: Image.Tile
                         opacity: 0.2
-                        source: "qrc:/assets/images/noisy-texture-3.png"
+                        source: "qrc:/qml/ScreenPlayApp/assets/images/noisy-texture-3.png"
                     }
 
                     Text {
@@ -122,7 +122,7 @@ Item {
         text: qsTr("Open Documentation")
         Material.accent: Material.color(Material.LightGreen)
         highlighted: true
-        icon.source: "qrc:/assets/icons/icon_document.svg"
+        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_document.svg"
         icon.color: "white"
         icon.width: 16
         icon.height: 16

@@ -91,7 +91,7 @@ Rectangle {
             font.pointSize: 12
             height: parent.height
             width: implicitWidth
-            icon.source: "qrc:/assets/icons/icon_plus.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
             onClicked: {
                 root.onPageChanged("Create")
             }
@@ -108,7 +108,7 @@ Rectangle {
             font.pointSize: 12
             height: parent.height
             width: implicitWidth
-            icon.source: "qrc:/assets/icons/icon_steam.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
             onClicked: {
                 root.onPageChanged("Workshop")
             }
@@ -124,7 +124,7 @@ Rectangle {
             font.pointSize: 12
             height: parent.height
             width: implicitWidth
-            icon.source: "qrc:/assets/icons/icon_installed.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
             onClicked: {
                 root.onPageChanged("Installed")
             }
@@ -140,7 +140,7 @@ Rectangle {
             font.pointSize: 12
             height: parent.height
             width: implicitWidth
-            icon.source: "qrc:/assets/icons/icon_community.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
             onClicked: {
                 root.onPageChanged("Community")
             }
@@ -156,7 +156,7 @@ Rectangle {
             font.pointSize: 12
             height: parent.height
             width: implicitWidth
-            icon.source: "qrc:/assets/icons/icon_settings.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
             onClicked: {
                 root.onPageChanged("Settings")
             }
@@ -186,7 +186,7 @@ Rectangle {
         }
 
         ToolButton {
-            icon.source: "qrc:/assets/icons/font-awsome/patreon-brands.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/patreon-brands.svg"
             text: qsTr("Support me on Patreon!")
             onClicked: Qt.openUrlExternally(
                            "https://www.patreon.com/ScreenPlayApp")
@@ -215,7 +215,7 @@ Rectangle {
         ToolButton {
             id: miMuteAll
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_volume.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             enabled: quickActionRow.contentActive
@@ -224,11 +224,11 @@ Rectangle {
             property bool soundEnabled: true
             onSoundEnabledChanged: {
                 if (miMuteAll.soundEnabled) {
-                    miMuteAll.icon.source = "qrc:/assets/icons/icon_volume.svg"
+                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
                     App.screenPlayManager.setAllWallpaperValue("muted",
                                                                       "false")
                 } else {
-                    miMuteAll.icon.source = "qrc:/assets/icons/icon_volume_mute.svg"
+                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg"
                     App.screenPlayManager.setAllWallpaperValue("muted",
                                                                       "true")
                 }
@@ -242,18 +242,18 @@ Rectangle {
             id: miStopAll
             enabled: quickActionRow.contentActive
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_pause.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: isPlaying = !isPlaying
             property bool isPlaying: true
             onIsPlayingChanged: {
                 if (miStopAll.isPlaying) {
-                    miStopAll.icon.source = "qrc:/assets/icons/icon_pause.svg"
+                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg"
                     App.screenPlayManager.setAllWallpaperValue(
                                 "isPlaying", "true")
                 } else {
-                    miStopAll.icon.source = "qrc:/assets/icons/icon_play.svg"
+                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_play.svg"
                     App.screenPlayManager.setAllWallpaperValue(
                                 "isPlaying", "false")
                 }
@@ -267,7 +267,7 @@ Rectangle {
             id: miCloseAll
             enabled: quickActionRow.contentActive
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_close.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_close.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: {
@@ -285,7 +285,7 @@ Rectangle {
         ToolButton {
             id: miConfig
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_video_settings_black_24dp.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings_black_24dp.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: App.util.setToggleWallpaperConfiguration()
