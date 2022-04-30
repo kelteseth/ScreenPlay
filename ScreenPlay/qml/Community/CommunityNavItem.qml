@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 
 TabButton {
@@ -33,7 +34,7 @@ TabButton {
             id: txt
 
             text: control.text
-            font.family: ScreenPlay.settings.font
+            font.family: App.settings.font
             opacity: enabled ? 1 : 0.3
             color: control.checked ? Material.accentColor : Material.primaryTextColor
             horizontalAlignment: Text.AlignHCenter

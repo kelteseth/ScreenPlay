@@ -7,14 +7,11 @@ from pathlib import Path
 from execute_util import execute
 from download_ffmpeg import download_prebuild_ffmpeg
 
-vcpkg_version = "1085a57da0725c19e19586025438e8c16f34c890"  # Master 31.12.2021
+vcpkg_version = "2ac61f8"  # Master 23.04.2022
 
 vcpkg_packages_list = [
     "openssl",
     "curl",
-    "sentry-native",
-    "doctest",
-    "benchmark",
     "cpp-httplib"
 ]
 
@@ -77,9 +74,11 @@ without the ScreenPlay-vcpkg folder (E.g. py .\setup.py --path "D:/Backup/Code/Q
     vcpkg_command = ""  
     platform_command = commands_list()
 
+    
     if system() == "Windows":
         vcpkg_command = "vcpkg.exe"
         vcpkg_packages_list.append("infoware[d3d]")
+        vcpkg_packages_list.append("sentry-native")
         if shutil.which("pwsh"):
             print("Using experimental pwsh, may not work properly.")
             platform_command.add("pwsh.exe -NoProfile -ExecutionPolicy Bypass .\scripts\\bootstrap.ps1", vcpkg_path)

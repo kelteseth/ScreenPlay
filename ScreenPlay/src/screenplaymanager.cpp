@@ -1,6 +1,5 @@
-#include "screenplaymanager.h"
+#include "ScreenPlay/screenplaymanager.h"
 #include <QScopeGuard>
-#include <doctest/doctest.h>
 
 namespace ScreenPlay {
 
@@ -173,7 +172,7 @@ bool ScreenPlayManager::createWallpaper(
         for (auto& wallpaper : m_screenPlayWallpapers) {
             if (wallpaper->screenNumber().length() == 1) {
                 if (monitors.at(0) == wallpaper->screenNumber().at(0)) {
-                    wallpaper->replace(
+                    return wallpaper->replace(
                         path,
                         previewImage,
                         file,
@@ -182,8 +181,6 @@ bool ScreenPlayManager::createWallpaper(
                         type,
                         m_settings->checkWallpaperVisible());
                     m_monitorListModel->setWallpaperMonitor(wallpaper, monitorIndex);
-
-                    return true;
                 }
             }
             i++;
@@ -722,12 +719,6 @@ bool ScreenPlayManager::loadProfiles()
         saveProfiles();
 
     return true;
-}
-
-TEST_CASE("Loads profiles.json")
-{
-    GlobalVariables globalVariables;
-    ScreenPlayManager manager;
 }
 
 bool ScreenPlayManager::isKDEConnected() const

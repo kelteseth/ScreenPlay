@@ -2,8 +2,9 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Controls
 import QtQuick.Layouts
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
-import "../../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 
 WizardPage {
     id: root
@@ -14,7 +15,7 @@ WizardPage {
         property bool ready: tfTitle.text.length >= 1 && root.file.length !== ""
 
         function create() {
-            ScreenPlay.wizards.createGifWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, root.file, tagSelector.getTags());
+            App.wizards.createGifWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, root.file, tagSelector.getTags());
         }
 
         onReadyChanged: root.ready = ready
@@ -76,7 +77,7 @@ WizardPage {
 
                     Text {
                         color: Material.primaryTextColor
-                        font.family: ScreenPlay.settings.font
+                        font.family: App.settings.font
                         font.pointSize: 13
                         text: qsTr("Drop a *.gif file here or use 'Select file' below.")
                         verticalAlignment: Text.AlignVCenter

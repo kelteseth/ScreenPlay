@@ -4,6 +4,7 @@ import Qt5Compat.GraphicalEffects
 import Qt.labs.platform 1.1
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 
 Item {
@@ -26,7 +27,7 @@ Item {
         width: 100
         font.pointSize: root.isHeadline ? 18 : 12
         anchors.verticalCenter: parent.verticalCenter
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         font.weight: Font.Normal
         color: root.isHeadline ? Qt.darker(Material.foreground) : Material.foreground
 
@@ -111,7 +112,7 @@ Item {
                             "type": "checkBox"
                         };
                         root.save(obj);
-                        ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(selectedMonitor, name, checkbox.checked);
+                        App.screenPlayManager.setWallpaperValueAtMonitorIndex(selectedMonitor, name, checkbox.checked);
                     }
 
                     anchors {
@@ -180,7 +181,7 @@ Item {
                             "type": "color"
                         };
                         root.save(obj);
-                        ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(selectedMonitor, name, tmpColor);
+                        App.screenPlayManager.setWallpaperValueAtMonitorIndex(selectedMonitor, name, tmpColor);
                     }
                 }
 
@@ -222,7 +223,7 @@ Item {
                             "stepSize": root.stepSize
                         };
                         root.save(obj);
-                        ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(selectedMonitor, name, value);
+                        App.screenPlayManager.setWallpaperValueAtMonitorIndex(selectedMonitor, name, value);
                     }
 
                     anchors {
@@ -240,7 +241,7 @@ Item {
 
                     color: Material.foreground
                     horizontalAlignment: Text.AlignRight
-                    font.family: ScreenPlay.settings.font
+                    font.family: App.settings.font
 
                     anchors {
                         right: parent.right

@@ -3,9 +3,10 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
-import "../../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 
 WizardPage {
     id: root
@@ -14,7 +15,7 @@ WizardPage {
         id: rightWrapper
 
         function create() {
-            ScreenPlay.wizards.createQMLWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags());
+            App.wizards.createQMLWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags());
         }
 
         spacing: 10

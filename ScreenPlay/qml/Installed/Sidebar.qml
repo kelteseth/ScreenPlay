@@ -4,12 +4,12 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Enums.FillMode 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 import "../Monitors"
-import "../Common" as Common
-import "../Common/Util.js" as JSUtil
+import ScreenPlayUtil 1.0 as Common
 
 Item {
     id: root
@@ -39,16 +39,16 @@ Item {
     width: 400
     state: "inactive"
     onContentFolderNameChanged: {
-        txtHeadline.text = ScreenPlay.installedListModel.get(root.contentFolderName).m_title;
-        const hasPreviewGif = ScreenPlay.installedListModel.get(root.contentFolderName).m_previewGIF !== undefined;
+        txtHeadline.text = App.installedListModel.get(root.contentFolderName).m_title;
+        const hasPreviewGif = App.installedListModel.get(root.contentFolderName).m_previewGIF !== undefined;
         if (!hasPreviewGif) {
-            image.source = Qt.resolvedUrl(ScreenPlay.globalVariables.localStoragePath + "/" + root.contentFolderName + "/" + ScreenPlay.installedListModel.get(root.contentFolderName).m_preview);
+            image.source = Qt.resolvedUrl(App.GlobalVariables.localStoragePath + "/" + root.contentFolderName + "/" + App.installedListModel.get(root.contentFolderName).m_preview);
             image.playing = false;
         } else {
-            image.source = Qt.resolvedUrl(ScreenPlay.globalVariables.localStoragePath + "/" + root.contentFolderName + "/" + ScreenPlay.installedListModel.get(root.contentFolderName).m_previewGIF);
+            image.source = Qt.resolvedUrl(App.GlobalVariables.localStoragePath + "/" + root.contentFolderName + "/" + App.installedListModel.get(root.contentFolderName).m_previewGIF);
             image.playing = true;
         }
-        if (JSUtil.isWidget(root.type) || (monitorSelection.activeMonitors.length > 0)) {
+        if (Common.JSUtil.isWidget(root.type) || (monitorSelection.activeMonitors.length > 0)) {
             btnSetWallpaper.enabled = true;
             return ;
         }
@@ -66,7 +66,7 @@ Item {
             }
             root.contentFolderName = folderName;
             root.type = type;
-            if (JSUtil.isWallpaper(root.type)) {
+            if (Common.JSUtil.isWallpaper(root.type)) {
                 if (type === InstalledType.VideoWallpaper)
                     root.state = "activeWallpaper";
                 else
@@ -78,7 +78,7 @@ Item {
             }
         }
 
-        target: ScreenPlay.util
+        target: App.util
     }
 
     Common.MouseHoverBlocker {
@@ -208,7 +208,7 @@ Item {
                     id: txtHeadline
 
                     text: qsTr("Headline")
-                    font.family: ScreenPlay.settings.font
+                    font.family: App.settings.font
                     font.weight: Font.Thin
                     verticalAlignment: Text.AlignBottom
                     font.pointSize: 16
@@ -266,7 +266,7 @@ Item {
 
                         height: 20
                         text: qsTr("Select a Monitor to display the content")
-                        font.family: ScreenPlay.settings.font
+                        font.family: App.settings.font
                         verticalAlignment: Text.AlignVCenter
                         font.pointSize: 10
                         color: "#626262"
@@ -282,7 +282,7 @@ Item {
                         availableHeight: height
                         fontSize: 11
                         onActiveMonitorsChanged: {
-                            if (JSUtil.isWidget(root.type)) {
+                            if (Common.JSUtil.isWidget(root.type)) {
                                 btnSetWallpaper.enabled = true;
                                 return ;
                             }
@@ -316,7 +316,7 @@ Item {
 
                         visible: false
                         text: qsTr("Fill Mode")
-                        font.family: ScreenPlay.settings.font
+                        font.family: App.settings.font
                         verticalAlignment: Text.AlignVCenter
                         font.pointSize: 10
                         color: "#626262"
@@ -331,7 +331,7 @@ Item {
                         Layout.fillWidth: true
                         textRole: "text"
                         valueRole: "value"
-                        font.family: ScreenPlay.settings.font
+                        font.family: App.settings.font
                         model: [{
                             "value": FillMode.Stretch,
                             "text": qsTr("Stretch")
@@ -349,7 +349,7 @@ Item {
                             "text": qsTr("Scale-Down")
                         }]
                         Component.onCompleted: {
-                            cbVideoFillMode.currentIndex = root.indexOfValue(cbVideoFillMode.model, ScreenPlay.settings.videoFillMode);
+                            cbVideoFillMode.currentIndex = root.indexOfValue(cbVideoFillMode.model, App.settings.videoFillMode);
                         }
                     }
 
@@ -363,15 +363,15 @@ Item {
 
                 Material.background: Material.accent
                 Material.foreground: "white"
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 icon.source: "qrc:/assets/icons/icon_plus.svg"
                 icon.color: "white"
                 icon.width: 16
                 icon.height: 16
                 onClicked: {
-                    const absoluteStoragePath = ScreenPlay.globalVariables.localStoragePath + "/" + root.contentFolderName;
-                    const previewImage = ScreenPlay.installedListModel.get(root.contentFolderName).m_preview;
-                    if (JSUtil.isWallpaper(root.type)) {
+                    const absoluteStoragePath = App.GlobalVariables.localStoragePath + "/" + root.contentFolderName;
+                    const previewImage = App.installedListModel.get(root.contentFolderName).m_preview;
+                    if (Common.JSUtil.isWallpaper(root.type)) {
                         let activeMonitors = monitorSelection.getActiveMonitors();
                         // TODO Alert user to choose a monitor
                         if (activeMonitors.length === 0)
@@ -382,11 +382,12 @@ Item {
                         if (type === InstalledType.VideoWallpaper)
                             volume = Math.round(sliderVolume.slider.value * 100) / 100;
 
-                        const screenFile = ScreenPlay.installedListModel.get(root.contentFolderName).m_file;
-                        ScreenPlay.screenPlayManager.createWallpaper(root.type, cbVideoFillMode.currentValue, absoluteStoragePath, previewImage, screenFile, activeMonitors, volume, 1, {}, true);
+                        const screenFile = App.installedListModel.get(root.contentFolderName).m_file;
+                        let success =App.screenPlayManager.createWallpaper(root.type, cbVideoFillMode.currentValue, absoluteStoragePath, previewImage, screenFile, activeMonitors, volume, 1, {}, true);
+                        print(success)
                     }
-                    if (JSUtil.isWidget(root.type))
-                        ScreenPlay.screenPlayManager.createWidget(type, Qt.point(0, 0), absoluteStoragePath, previewImage, {}, true);
+                    if (Common.JSUtil.isWidget(root.type))
+                        App.screenPlayManager.createWidget(type, Qt.point(0, 0), absoluteStoragePath, previewImage, {}, true);
 
                     root.state = "inactive";
                     monitorSelection.reset();

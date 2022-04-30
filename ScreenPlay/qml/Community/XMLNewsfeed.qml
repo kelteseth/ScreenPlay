@@ -4,6 +4,7 @@ import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
 import QtQml.XmlListModel
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 
 Item {
@@ -73,7 +74,7 @@ Item {
                 verticalAlignment: Text.AlignVCenter
                 horizontalAlignment: Text.AlignLeft
                 font.pointSize: 32
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 font.weight: Font.Light
 
                 anchors {
@@ -141,7 +142,7 @@ Item {
 
                     text: title
                     color: Material.primaryTextColor
-                    font.family: ScreenPlay.settings.font
+                    font.family: App.settings.font
                     font.weight: Font.Normal
                     font.pointSize: 14
                     wrapMode: Text.WordWrap
@@ -160,7 +161,7 @@ Item {
 
                     text: pubDate
                     color: Material.primaryTextColor
-                    font.family: ScreenPlay.settings.font
+                    font.family: App.settings.font
                     font.pointSize: 8
                     wrapMode: Text.WordWrap
 

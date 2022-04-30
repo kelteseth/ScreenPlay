@@ -32,8 +32,8 @@
 **
 ****************************************************************************/
 
-#include "app.h"
-#include "create.h"
+#include "ScreenPlay/app.h"
+#include "ScreenPlay/create.h"
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -42,18 +42,19 @@
 #include <QGuiApplication>
 #include <QQuickItem>
 #include <QtTest>
-#define DOCTEST_CONFIG_IMPLEMENT
-#define DOCTEST_CONFIG_SUPER_FAST_ASSERTS
-#include <doctest/doctest.h>
 
+Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+#ifdef SCREENPLAY_STEAM
+Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
+#endif
 class ScreenPlayTest : public QObject {
     Q_OBJECT
 
 private slots:
     void initTestCase()
     {
-        Q_INIT_RESOURCE(ScreenPlayQML);
-        Q_INIT_RESOURCE(ScreenPlayAssets);
+        Q_INIT_RESOURCE(Resources);
 
         app.init();
         m_window = qobject_cast<QQuickWindow*>(app.mainWindowEngine()->rootObjects().first());

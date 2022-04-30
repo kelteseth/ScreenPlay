@@ -6,7 +6,7 @@ stages:
 
 variables:
     GIT_STRATEGY: clone
-    QT_VERSION: 6.2.3
+    QT_VERSION: 6.3.0
     PYTHON_VERSION: 3.10.1
 
 check:
@@ -146,7 +146,7 @@ build:linux_release:
         - apt update -y
         # Otherwise libglib2 needs interaction
         - export DEBIAN_FRONTEND=noninteractive
-        - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - apt install mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install -U pip
         - pip3 install aqtinstall
         - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
@@ -260,7 +260,7 @@ release:linux_steam:
         - apt update -y
         # Otherwise libglib2 needs interaction
         - export DEBIAN_FRONTEND=noninteractive
-        - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - apt install mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install -U pip
         - pip3 install aqtinstall
         - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
@@ -295,7 +295,7 @@ release:linux_standalone:
         - apt update -y
         # Otherwise libglib2 needs interaction
         - export DEBIAN_FRONTEND=noninteractive
-        - apt install mesa-common-dev curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
+        - apt install mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install -U pip
         - pip3 install aqtinstall
         - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all

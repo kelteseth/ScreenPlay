@@ -1,4 +1,4 @@
-#include "settings.h"
+#include "ScreenPlay/settings.h"
 
 #include "ScreenPlayUtil/util.h"
 #include <QFileInfo>
@@ -40,6 +40,11 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     : QObject(parent)
     , m_globalVariables { globalVariables }
 {
+    const QString qtVersion = QString("Qt Version: %1.%2.%3").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH);
+    setGitBuildHash(COMPILE_INFO + qtVersion);
+#ifdef SCREENPLAY_STEAM
+    setSteamVersion(true);
+#endif
 #ifdef Q_OS_WIN
     setDesktopEnvironment(DesktopEnvironment::Windows);
 #endif
@@ -99,11 +104,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     }
 
     initInstalledPath();
-
     setupWidgetAndWindowPaths();
-    const QString qtVersion = QString("Qt Version: %1.%2.%3").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH);
-    setGitBuildHash(COMPILE_INFO + qtVersion);
-    setSteamVersion(!(QString(SCREENPLAY_STEAM).compare("OFF", Qt::CaseInsensitive) ? false : true));
 }
 
 /*!
@@ -195,8 +196,19 @@ void Settings::restoreDefault(const QString& appConfigLocation, const QString& s
 
 void Settings::initInstalledPath()
 {
-    // If empty use steam workshop location
-    if (QString(m_qSettings.value("ScreenPlayContentPath").toString()).isEmpty()) {
+    const QString contentPath = m_qSettings.value("ScreenPlayContentPath").toString();
+
+    // Steamless
+    if (!steamVersion() && contentPath.isEmpty()) {
+        const QString path = QStandardPaths::writableLocation(QStandardPaths::GenericDataLocation);
+        m_qSettings.setValue("ScreenPlayContentPath", QUrl::fromUserInput(path));
+        m_qSettings.sync();
+        m_globalVariables->setLocalStoragePath(path);
+        return;
+    }
+
+    // Steam
+    if (contentPath.isEmpty()) {
 
         /*
          * ! We must use this (ugly) method, because to stay FOSS we cannot call the steamAPI here !
@@ -233,10 +245,10 @@ void Settings::initInstalledPath()
         } else {
             qWarning() << "The following path could not be resolved to search for workshop content: " << path;
         }
-
-    } else {
-        m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(m_qSettings.value("ScreenPlayContentPath").toString()));
+        return;
     }
+
+    m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(contentPath));
 }
 
 /*!

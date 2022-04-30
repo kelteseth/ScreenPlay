@@ -4,9 +4,10 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
-import "../../../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 
 Item {
     id: root
@@ -41,7 +42,7 @@ Item {
             Layout.fillWidth: true
             font.pointSize: 13
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            font.family: ScreenPlay.settings.font
+            font.family: App.settings.font
         }
 
         ColumnLayout {
@@ -54,7 +55,7 @@ Item {
                 color: Material.primaryTextColor
                 width: parent.width
                 font.pointSize: 14
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
             }
 
             ComboBox {
@@ -69,7 +70,7 @@ Item {
                 textRole: "text"
                 valueRole: "value"
                 currentIndex: 1
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
 
                 model: ListModel {
                     id: model
@@ -117,7 +118,7 @@ Item {
         icon.color: "white"
         icon.width: 16
         icon.height: 16
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
 
         anchors {
@@ -131,7 +132,7 @@ Item {
         objectName: "createWallpaperInitFileSelectButton"
         text: qsTr("Select file")
         highlighted: true
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         onClicked: {
             fileDialogImportVideo.open();
         }

@@ -1,4 +1,4 @@
-#include "wizards.h"
+#include "ScreenPlay/wizards.h"
 
 #include "ScreenPlayUtil/util.h"
 
@@ -31,7 +31,12 @@ void Wizards::createQMLWidget(const QString& title,
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
@@ -92,7 +97,12 @@ void Wizards::createHTMLWidget(const QString& title,
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
@@ -155,7 +165,12 @@ void Wizards::createHTMLWallpaper(
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
@@ -217,7 +232,12 @@ void Wizards::createQMLWallpaper(
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
@@ -270,7 +290,12 @@ void Wizards::createGifWallpaper(
     const QString& file,
     const QVector<QString>& tags)
 {
-    auto con = QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
@@ -320,7 +345,12 @@ void Wizards::createWebsiteWallpaper(
     const QUrl& url,
     const QVector<QString>& tags)
 {
-    QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {

@@ -3,10 +3,11 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
 import ScreenPlay.Enums.SearchType 1.0
-import "../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 
 Item {
     id: root
@@ -20,7 +21,7 @@ Item {
     signal setSidebarActive(var active)
 
     function checkIsContentInstalled() {
-        if (ScreenPlay.installedListModel.count === 0) {
+        if (App.installedListModel.count === 0) {
             loaderHelp.active = true
             gridView.footerItem.isVisible = true
             gridView.visible = false
@@ -37,13 +38,13 @@ Item {
 
     Component.onCompleted: {
         navWrapper.state = "in"
-        ScreenPlay.installedListFilter.sortBySearchType(SearchType.All)
+        App.installedListFilter.sortBySearchType(SearchType.All)
         checkIsContentInstalled()
     }
 
     Action {
         shortcut: "F5"
-        onTriggered: ScreenPlay.installedListModel.reset()
+        onTriggered: App.installedListModel.reset()
     }
 
     Connections {
@@ -64,7 +65,7 @@ Item {
                 checkIsContentInstalled()
         }
 
-        target: ScreenPlay.installedListModel
+        target: App.installedListModel
     }
 
     Loader {
@@ -73,7 +74,7 @@ Item {
         active: false
         z: 99
         anchors.fill: parent
-        source: "qrc:/ScreenPlayQml/qml/Installed/InstalledWelcomeScreen.qml"
+        source: "qrc:/qml/ScreenPlayApp/qml/Installed/InstalledWelcomeScreen.qml"
     }
 
     Connections {
@@ -81,7 +82,7 @@ Item {
             gridView.positionViewAtBeginning()
         }
 
-        target: ScreenPlay.installedListFilter
+        target: App.installedListFilter
     }
 
     GridView {
@@ -102,7 +103,7 @@ Item {
         snapMode: GridView.SnapToRow
         onDragStarted: isDragging = true
         onDragEnded: isDragging = false
-        model: ScreenPlay.installedListFilter
+        model: App.installedListFilter
         removeDisplaced: Transition {
             SequentialAnimation {
                 PauseAnimation {
@@ -140,7 +141,7 @@ Item {
                 gridView.headerItem.isVisible = false
             //Pull to refresh
             if (contentY <= -180 && !refresh && !isDragging)
-                ScreenPlay.installedListModel.reset()
+                App.installedListModel.reset()
         }
 
         anchors {
@@ -177,7 +178,7 @@ Item {
                 id: txtHeader
 
                 text: qsTr("Pull to refresh!")
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 anchors.centerIn: parent
                 color: "gray"
                 font.pointSize: 18
@@ -204,7 +205,7 @@ Item {
             Text {
                 id: txtFooter
 
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 text: qsTr("Get more Wallpaper & Widgets via the Steam workshop!")
                 anchors.centerIn: parent
                 color: "gray"
@@ -271,7 +272,7 @@ Item {
             objectName: "openFolder"
             icon.source: "qrc:/assets/icons/icon_folder_open.svg"
             onClicked: {
-                ScreenPlay.util.openFolderInExplorer(
+                App.util.openFolderInExplorer(
                             contextMenu.absoluteStoragePath)
             }
         }
@@ -306,12 +307,12 @@ Item {
         anchors.centerIn: Overlay.overlay
         onAccepted: {
             root.sidebar.clear()
-            ScreenPlay.installedListModel.deinstallItemAt(
+            App.installedListModel.deinstallItemAt(
                         contextMenu.absoluteStoragePath)
         }
     }
 
-    Navigation {
+    InstalledNavigation {
         id: navWrapper
 
         anchors {

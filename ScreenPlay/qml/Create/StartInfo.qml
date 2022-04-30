@@ -5,10 +5,11 @@ import QtQuick.Controls.Material
 import QtQuick.Particles
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 import ScreenPlay.QMLUtilities 1.0
-import "../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 
 Item {
     id: root
@@ -32,7 +33,7 @@ Item {
 
         color: Material.primaryTextColor
         font.pointSize: 12
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         text: qsTr("Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!")
 
         anchors {
@@ -51,7 +52,7 @@ Item {
         maximumFlickVelocity: 2500
         flickDeceleration: 500
         clip: true
-        cellWidth: 186
+        cellWidth: 180
         cellHeight: 280
 
         anchors {

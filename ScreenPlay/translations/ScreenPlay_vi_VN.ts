@@ -95,6 +95,49 @@
     </message>
 </context>
 <context>
+    <name>CreateSidebar</name>
+    <message>
+        <source>Tools Overview</source>
+        <translation type="unfinished">Tổng quan về công cụ</translation>
+    </message>
+    <message>
+        <source>Video Import h264 (.mp4)</source>
+        <translation type="unfinished">Video Import h264 (.mp4)</translation>
+    </message>
+    <message>
+        <source>Video Import VP8 &amp; VP9 (.webm)</source>
+        <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
+    </message>
+    <message>
+        <source>Video import (all types)</source>
+        <translation type="unfinished">Video import (all types)</translation>
+    </message>
+    <message>
+        <source>GIF Wallpaper</source>
+        <translation type="unfinished">Hình nền GIF</translation>
+    </message>
+    <message>
+        <source>QML Wallpaper</source>
+        <translation type="unfinished">Hình nền QML</translation>
+    </message>
+    <message>
+        <source>HTML5 Wallpaper</source>
+        <translation type="unfinished">Hình nền HTML5</translation>
+    </message>
+    <message>
+        <source>Website Wallpaper</source>
+        <translation type="unfinished">Trang chủ của hình nền</translation>
+    </message>
+    <message>
+        <source>QML Widget</source>
+        <translation type="unfinished">Widget QML</translation>
+    </message>
+    <message>
+        <source>HTML Widget</source>
+        <translation type="unfinished">Widget HTML</translation>
+    </message>
+</context>
+<context>
     <name>CreateWallpaperInit</name>
     <message>
         <source>Import any video type</source>
@@ -218,10 +261,6 @@
         <translation>Âm lượng</translation>
     </message>
     <message>
-        <source>Playback rate</source>
-        <translation>Tốc độ phát lại</translation>
-    </message>
-    <message>
         <source>Current Video Time</source>
         <translation>Thời gian video hiện tại</translation>
     </message>
@@ -263,21 +302,6 @@
     <message>
         <source>Please choose a file</source>
         <translation>Xin hãy chọn một tệp</translation>
-    </message>
-</context>
-<context>
-    <name>Forum</name>
-    <message>
-        <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
-        <translation type="unfinished">Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</translation>
-    </message>
-    <message>
-        <source>Install Steam Version</source>
-        <translation type="unfinished">Install Steam Version</translation>
-    </message>
-    <message>
-        <source>Open In Browser</source>
-        <translation type="unfinished">Open In Browser</translation>
     </message>
 </context>
 <context>
@@ -627,6 +651,25 @@
     </message>
 </context>
 <context>
+    <name>InstalledNavigation</name>
+    <message>
+        <source>All</source>
+        <translation type="unfinished">Tất cả</translation>
+    </message>
+    <message>
+        <source>Scenes</source>
+        <translation type="unfinished">Cảnh</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">Videos</translation>
+    </message>
+    <message>
+        <source>Widgets</source>
+        <translation type="unfinished">Widgets</translation>
+    </message>
+</context>
+<context>
     <name>InstalledWelcomeScreen</name>
     <message>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
@@ -635,6 +678,10 @@
     <message>
         <source>Browse the Steam Workshop</source>
         <translation>Duyệt qua Steam Workshop</translation>
+    </message>
+    <message>
+        <source>Get content via our forum</source>
+        <translation type="unfinished">Get content via our forum</translation>
     </message>
 </context>
 <context>
@@ -714,38 +761,6 @@
 <context>
     <name>Navigation</name>
     <message>
-        <source>All</source>
-        <translation>Tất cả</translation>
-    </message>
-    <message>
-        <source>Scenes</source>
-        <translation>Cảnh</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>Videos</translation>
-    </message>
-    <message>
-        <source>Widgets</source>
-        <translation>Widgets</translation>
-    </message>
-    <message>
-        <source>Install Date Ascending</source>
-        <translation>Ngày cài đặt tăng dần</translation>
-    </message>
-    <message>
-        <source>Install Date Descending</source>
-        <translation>Ngày cài đặt giảm dần</translation>
-    </message>
-    <message>
-        <source> Subscribed items: </source>
-        <translation>Những mục đã đăng ký: </translation>
-    </message>
-    <message>
-        <source>Upload to the Steam Workshop</source>
-        <translation>Tải lên Steam Workshop</translation>
-    </message>
-    <message>
         <source>Create</source>
         <translation type="unfinished">Create</translation>
     </message>
@@ -784,41 +799,6 @@
     <message>
         <source>Close All Content</source>
         <translation type="unfinished">Close All Content</translation>
-    </message>
-</context>
-<context>
-    <name>PopupOffline</name>
-    <message>
-        <source>Back</source>
-        <translation>Quay lại</translation>
-    </message>
-    <message>
-        <source>You need to run Steam to access the Steam Workshop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Steam Error Restart: %1
-Steam Error API Init: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PopupSteamWorkshopAgreement</name>
-    <message>
-        <source>You Need to Agree To The Steam Subscriber Agreement First</source>
-        <translation>Bạn phải chấp nhận thỏa thuận người đăng ký của Steam trước</translation>
-    </message>
-    <message>
-        <source>REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</source>
-        <translation>YÊU CẦU KẾT NỐI INTERNET VÀ TÀI KHOẢN STEAM MIỄN PHÍ ĐỂ KÍCH HOẠT. Thông báo: Sản phẩm được cung cấp tùy thuộc vào việc bạn chấp nhận Thỏa thuận người đăng ký Steam (SSA). Bạn phải kích hoạt sản phẩm này qua Internet bằng cách đăng ký tài khoản Steam và chấp nhận SSA. Vui lòng xem https://store.steampowered.com/subscriber_agosystem/ để xem SSA trước khi mua. Nếu bạn không đồng ý với các quy định của SSA, bạn nên trả lại trò chơi chưa mở này cho nhà bán lẻ của bạn theo chính sách hoàn trả của họ.</translation>
-    </message>
-    <message>
-        <source>View The Steam Subscriber Agreement</source>
-        <translation>Xem thỏa thuận người đăng ký của Steam</translation>
-    </message>
-    <message>
-        <source>Accept Steam Workshop Agreement</source>
-        <translation>Chấp nhận thỏa thuận của Steam Workshop</translation>
     </message>
 </context>
 <context>
@@ -1083,46 +1063,6 @@ Steam Error API Init: %2</source>
 <context>
     <name>Sidebar</name>
     <message>
-        <source>Tools Overview</source>
-        <translation>Tổng quan về công cụ</translation>
-    </message>
-    <message>
-        <source>Video Import h264 (.mp4)</source>
-        <translation type="unfinished">Video Import h264 (.mp4)</translation>
-    </message>
-    <message>
-        <source>Video Import VP8 &amp; VP9 (.webm)</source>
-        <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
-    </message>
-    <message>
-        <source>Video import (all types)</source>
-        <translation type="unfinished">Video import (all types)</translation>
-    </message>
-    <message>
-        <source>GIF Wallpaper</source>
-        <translation>Hình nền GIF</translation>
-    </message>
-    <message>
-        <source>QML Wallpaper</source>
-        <translation>Hình nền QML</translation>
-    </message>
-    <message>
-        <source>HTML5 Wallpaper</source>
-        <translation>Hình nền HTML5</translation>
-    </message>
-    <message>
-        <source>Website Wallpaper</source>
-        <translation>Trang chủ của hình nền</translation>
-    </message>
-    <message>
-        <source>QML Widget</source>
-        <translation>Widget QML</translation>
-    </message>
-    <message>
-        <source>HTML Widget</source>
-        <translation>Widget HTML</translation>
-    </message>
-    <message>
         <source>Set Wallpaper</source>
         <translation>Đặt hình nền</translation>
     </message>
@@ -1166,38 +1106,6 @@ Steam Error API Init: %2</source>
         <source>Scale-Down</source>
         <translation>Giảm tỉ lệ</translation>
     </message>
-    <message>
-        <source>Size: </source>
-        <translation>Kích cỡ: </translation>
-    </message>
-    <message>
-        <source>No description...</source>
-        <translation>Không có mô tả...</translation>
-    </message>
-    <message>
-        <source>Click here if you like the content</source>
-        <translation>Bấm vào đây nếu như bạn thích nội dung này</translation>
-    </message>
-    <message>
-        <source>Click here if you do not like the content</source>
-        <translation>Bấm vào đây nếu như bạn không thích nội dung này</translation>
-    </message>
-    <message>
-        <source>Subscribtions: </source>
-        <translation>Đăng ký: </translation>
-    </message>
-    <message>
-        <source>Open In Steam</source>
-        <translation>Mở trong Steam</translation>
-    </message>
-    <message>
-        <source>Subscribed!</source>
-        <translation>Đã đăng kí!</translation>
-    </message>
-    <message>
-        <source>Subscribe</source>
-        <translation>Đăng kí</translation>
-    </message>
 </context>
 <context>
     <name>StartInfo</name>
@@ -1215,104 +1123,6 @@ Steam Error API Init: %2</source>
     <message>
         <source>Could not load steam integration!</source>
         <translation>Không thể tải tích hợp Steam!</translation>
-    </message>
-</context>
-<context>
-    <name>SteamProfile</name>
-    <message>
-        <source>Back</source>
-        <translation>Quay lại</translation>
-    </message>
-    <message>
-        <source>Forward</source>
-        <translation>Tiếp tục</translation>
-    </message>
-</context>
-<context>
-    <name>SteamWorkshopStartPage</name>
-    <message>
-        <source>Loading</source>
-        <translation type="unfinished">Loading</translation>
-    </message>
-    <message>
-        <source>Download now!</source>
-        <translation type="unfinished">Download now!</translation>
-    </message>
-    <message>
-        <source>Downloading...</source>
-        <translation type="unfinished">Downloading...</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation type="unfinished">Details</translation>
-    </message>
-    <message>
-        <source>Open In Steam</source>
-        <translation type="unfinished">Open In Steam</translation>
-    </message>
-    <message>
-        <source>Profile</source>
-        <translation type="unfinished">Profile</translation>
-    </message>
-    <message>
-        <source>Upload</source>
-        <translation type="unfinished">Upload</translation>
-    </message>
-    <message>
-        <source>Search for Wallpaper and Widgets...</source>
-        <translation type="unfinished">Search for Wallpaper and Widgets...</translation>
-    </message>
-    <message>
-        <source>Open Workshop in Steam</source>
-        <translation type="unfinished">Open Workshop in Steam</translation>
-    </message>
-    <message>
-        <source>Ranked By Vote</source>
-        <translation type="unfinished">Ranked By Vote</translation>
-    </message>
-    <message>
-        <source>Publication Date</source>
-        <translation type="unfinished">Publication Date</translation>
-    </message>
-    <message>
-        <source>Ranked By Trend</source>
-        <translation type="unfinished">Ranked By Trend</translation>
-    </message>
-    <message>
-        <source>Favorited By Friends</source>
-        <translation type="unfinished">Favorited By Friends</translation>
-    </message>
-    <message>
-        <source>Created By Friends</source>
-        <translation type="unfinished">Created By Friends</translation>
-    </message>
-    <message>
-        <source>Created By Followed Users</source>
-        <translation type="unfinished">Created By Followed Users</translation>
-    </message>
-    <message>
-        <source>Not Yet Rated</source>
-        <translation type="unfinished">Not Yet Rated</translation>
-    </message>
-    <message>
-        <source>Total VotesAsc</source>
-        <translation type="unfinished">Total VotesAsc</translation>
-    </message>
-    <message>
-        <source>Votes Up</source>
-        <translation type="unfinished">Votes Up</translation>
-    </message>
-    <message>
-        <source>Total Unique Subscriptions</source>
-        <translation type="unfinished">Total Unique Subscriptions</translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation type="unfinished">Back</translation>
-    </message>
-    <message>
-        <source>Forward</source>
-        <translation type="unfinished">Forward</translation>
     </message>
 </context>
 <context>
@@ -1377,507 +1187,6 @@ Steam Error API Init: %2</source>
     </message>
 </context>
 <context>
-    <name>UploadProject</name>
-    <message>
-        <source>Upload Wallpaper/Widgets to Steam</source>
-        <translation>Tải hình nền/widgets lên Steam</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>Hủy bỏ</translation>
-    </message>
-    <message>
-        <source>Upload Selected Projects</source>
-        <translation>Tải lên dự án đã chọn</translation>
-    </message>
-    <message>
-        <source>Finish</source>
-        <translation>Xong</translation>
-    </message>
-</context>
-<context>
-    <name>UploadProjectBigItem</name>
-    <message>
-        <source>Type: </source>
-        <translation>Loại: </translation>
-    </message>
-    <message>
-        <source>Open Folder</source>
-        <translation>Mở thư mục</translation>
-    </message>
-    <message>
-        <source>Invalid Project!</source>
-        <translation>Dự án không hợp lệ!</translation>
-    </message>
-</context>
-<context>
-    <name>UploadProjectItem</name>
-    <message>
-        <source>Fail</source>
-        <translation>Thất bại</translation>
-    </message>
-    <message>
-        <source>No Connection</source>
-        <translation>Không có kết nối</translation>
-    </message>
-    <message>
-        <source>Invalid Password</source>
-        <translation>Sai mật khẩu</translation>
-    </message>
-    <message>
-        <source>Logged In Elsewhere</source>
-        <translation>Đã được đăng nhập từ nơi khác</translation>
-    </message>
-    <message>
-        <source>Invalid Protocol Version</source>
-        <translation>Phiên bản giao thức không hợp lệ</translation>
-    </message>
-    <message>
-        <source>Invalid Param</source>
-        <translation>Tham số không hợp lệ</translation>
-    </message>
-    <message>
-        <source>File Not Found</source>
-        <translation>Không tìm thấy tập tin</translation>
-    </message>
-    <message>
-        <source>Busy</source>
-        <translation>Đang bận</translation>
-    </message>
-    <message>
-        <source>Invalid State</source>
-        <translation>Trạng thái không hợp lệ</translation>
-    </message>
-    <message>
-        <source>Invalid Name</source>
-        <translation>Tên không hợp lệ</translation>
-    </message>
-    <message>
-        <source>Invalid Email</source>
-        <translation>Email không hợp lệ</translation>
-    </message>
-    <message>
-        <source>Duplicate Name</source>
-        <translation>Tên bị trùng</translation>
-    </message>
-    <message>
-        <source>Access Denied</source>
-        <translation>Không có quyền truy cập</translation>
-    </message>
-    <message>
-        <source>Timeout</source>
-        <translation>Hết hạn</translation>
-    </message>
-    <message>
-        <source>Banned</source>
-        <translation>Đã bị cấm</translation>
-    </message>
-    <message>
-        <source>Account Not Found</source>
-        <translation>Không tìm thấy tài khoản</translation>
-    </message>
-    <message>
-        <source>Invalid SteamID</source>
-        <translation>ID Steam không hợp lệ</translation>
-    </message>
-    <message>
-        <source>Service Unavailable</source>
-        <translation>Dịch vụ không khả dụng</translation>
-    </message>
-    <message>
-        <source>Not Logged On</source>
-        <translation>Chưa đăng nhập</translation>
-    </message>
-    <message>
-        <source>Pending</source>
-        <translation>Đang chờ xử lý</translation>
-    </message>
-    <message>
-        <source>Encryption Failure</source>
-        <translation>Lỗi mã hóa</translation>
-    </message>
-    <message>
-        <source>Insufficient Privilege</source>
-        <translation>Không đủ quyền truy cập</translation>
-    </message>
-    <message>
-        <source>Limit Exceeded</source>
-        <translation>Quá giới hạn</translation>
-    </message>
-    <message>
-        <source>Revoked</source>
-        <translation>Đã thu hồi</translation>
-    </message>
-    <message>
-        <source>Expired</source>
-        <translation>Đã hết hạn</translation>
-    </message>
-    <message>
-        <source>Already Redeemed</source>
-        <translation>Đã quy đổi rồi</translation>
-    </message>
-    <message>
-        <source>Duplicate Request</source>
-        <translation>Yêu cầu bị trùng</translation>
-    </message>
-    <message>
-        <source>Already Owned</source>
-        <translation>Đã sở hữu</translation>
-    </message>
-    <message>
-        <source>IP Not Found</source>
-        <translation>Không tìm thấy IP</translation>
-    </message>
-    <message>
-        <source>Persist Failed</source>
-        <translation>Chờ đợi thất bại</translation>
-    </message>
-    <message>
-        <source>Locking Failed</source>
-        <translation>Khóa thất bại</translation>
-    </message>
-    <message>
-        <source>Logon Session Replaced</source>
-        <translation>Phiên đăng nhập đã được thay thế</translation>
-    </message>
-    <message>
-        <source>Connect Failed</source>
-        <translation>Kết nối thất bại</translation>
-    </message>
-    <message>
-        <source>Handshake Failed</source>
-        <translation>Handshake thất bại</translation>
-    </message>
-    <message>
-        <source>IO Failure</source>
-        <translation>Lỗi I/O</translation>
-    </message>
-    <message>
-        <source>Remote Disconnect</source>
-        <translation>Ngắt kết nối từ xa</translation>
-    </message>
-    <message>
-        <source>Shopping Cart Not Found</source>
-        <translation>Không tìm thấy giỏ hàng</translation>
-    </message>
-    <message>
-        <source>Blocked</source>
-        <translation>Đã bị chặn</translation>
-    </message>
-    <message>
-        <source>Ignored</source>
-        <translation>Đã bỏ qua</translation>
-    </message>
-    <message>
-        <source>No Match</source>
-        <translation>Không có kết quả nào phù hợp</translation>
-    </message>
-    <message>
-        <source>Account Disabled</source>
-        <translation>Tài khoản bị vô hiệu hóa</translation>
-    </message>
-    <message>
-        <source>Service ReadOnly</source>
-        <translation>Dịch vụ chỉ đọc</translation>
-    </message>
-    <message>
-        <source>Account Not Featured</source>
-        <translation>Tài khoản không nổi bật</translation>
-    </message>
-    <message>
-        <source>Administrator OK</source>
-        <translation>Quyền quản trị viên OK</translation>
-    </message>
-    <message>
-        <source>Content Version</source>
-        <translation>Phiên bản nội dung</translation>
-    </message>
-    <message>
-        <source>Try Another CM</source>
-        <translation>Hãy thử một cách khác</translation>
-    </message>
-    <message>
-        <source>Password Required To Kick Session</source>
-        <translation type="unfinished">Password Required To Kick Session</translation>
-    </message>
-    <message>
-        <source>Already Logged In Elsewhere</source>
-        <translation>Đã được đăng nhập từ nơi khác</translation>
-    </message>
-    <message>
-        <source>Suspended</source>
-        <translation>Đã tạm ngưng</translation>
-    </message>
-    <message>
-        <source>Cancelled</source>
-        <translation>Đã hủy</translation>
-    </message>
-    <message>
-        <source>Data Corruption</source>
-        <translation>Dữ liệu bị hỏng</translation>
-    </message>
-    <message>
-        <source>Disk Full</source>
-        <translation>Ổ đĩa đầy</translation>
-    </message>
-    <message>
-        <source>Remote Call Failed</source>
-        <translation>Gọi từ xa không thành công</translation>
-    </message>
-    <message>
-        <source>Password Unset</source>
-        <translation>Mật khẩu chưa được đặt</translation>
-    </message>
-    <message>
-        <source>External Account Unlinked</source>
-        <translation>Tài khoản bên ngoài chưa được liên kết</translation>
-    </message>
-    <message>
-        <source>PSN Ticket Invalid</source>
-        <translation>Phiếu PSN không hợp lệ</translation>
-    </message>
-    <message>
-        <source>External Account Already Linked</source>
-        <translation>Tài khoản bên ngoài dã được liên kết rồi</translation>
-    </message>
-    <message>
-        <source>Remote File Conflict</source>
-        <translation>Tệp ở máy chủ bị xung đột</translation>
-    </message>
-    <message>
-        <source>Illegal Password</source>
-        <translation>Mật khẩu không hợp lệ</translation>
-    </message>
-    <message>
-        <source>Same As Previous Value</source>
-        <translation>Đặt giống như giá trị trước</translation>
-    </message>
-    <message>
-        <source>Account Logon Denied</source>
-        <translation>Đăng nhập bị từ chối</translation>
-    </message>
-    <message>
-        <source>Cannot Use Old Password</source>
-        <translation>Không thể sử dụng mật khẩu cũ</translation>
-    </message>
-    <message>
-        <source>Invalid Login AuthCode</source>
-        <translation>Mã xác minh đăng nhập không hợp lệ</translation>
-    </message>
-    <message>
-        <source>Account Logon Denied No Mail</source>
-        <translation>Đăng nhập thất bại, không có thư</translation>
-    </message>
-    <message>
-        <source>Hardware Not Capable Of IPT</source>
-        <translation>Phần cứng không hỗ trợ IPT</translation>
-    </message>
-    <message>
-        <source>IPT Init Error</source>
-        <translation>Lỗi bắt đầu IPT</translation>
-    </message>
-    <message>
-        <source>Parental Control Restricted</source>
-        <translation>Kiểm soát của phụ huynh bị hạn chế</translation>
-    </message>
-    <message>
-        <source>Facebook Query Error</source>
-        <translation>Kết nối Facebook lỗi</translation>
-    </message>
-    <message>
-        <source>Expired Login Auth Code</source>
-        <translation>Mã đăng nhập đã hết hạn</translation>
-    </message>
-    <message>
-        <source>IP Login Restriction Failed</source>
-        <translation>Hạn chế đăng nhập IP không thành công</translation>
-    </message>
-    <message>
-        <source>Account Locked Down</source>
-        <translation>Tài khoản đã bị khóa</translation>
-    </message>
-    <message>
-        <source>Account Logon Denied Verified Email Required</source>
-        <translation>Đăng nhập thất bại, yêu cầu xác thực mail</translation>
-    </message>
-    <message>
-        <source>No MatchingURL</source>
-        <translation>Không có địa chỉ nào phù hợp</translation>
-    </message>
-    <message>
-        <source>Bad Response</source>
-        <translation>Phản hồi xấu</translation>
-    </message>
-    <message>
-        <source>Require Password ReEntry</source>
-        <translation>Yêu cầu nhập lại mật khâu</translation>
-    </message>
-    <message>
-        <source>Value Out Of Range</source>
-        <translation>Giá trị quá vùng</translation>
-    </message>
-    <message>
-        <source>Unexpecte Error</source>
-        <translation>Lỗi Bất Thường</translation>
-    </message>
-    <message>
-        <source>Disabled</source>
-        <translation>Đã vô hiệu</translation>
-    </message>
-    <message>
-        <source>Invalid CEG Submission</source>
-        <translation>Hồ sơ CEG không hợp lệ</translation>
-    </message>
-    <message>
-        <source>Restricted Device</source>
-        <translation>Thiết bị bị giới hạn</translation>
-    </message>
-    <message>
-        <source>Region Locked</source>
-        <translation>Vùng bị khóa</translation>
-    </message>
-    <message>
-        <source>Rate Limit Exceeded</source>
-        <translation>Vượt quá giới hạn truy cập</translation>
-    </message>
-    <message>
-        <source>Account Login Denied Need Two Factor</source>
-        <translation>Đăng nhập thất bại, cần 2FA</translation>
-    </message>
-    <message>
-        <source>Item Deleted</source>
-        <translation>Mặt hàng đã xóa</translation>
-    </message>
-    <message>
-        <source>Account Login Denied Throttle</source>
-        <translation>Đăng nhập thất bại</translation>
-    </message>
-    <message>
-        <source>Two Factor Code Mismatch</source>
-        <translation>Mã 2FA không đúng</translation>
-    </message>
-    <message>
-        <source>Two Factor Activation Code Mismatch</source>
-        <translation>Mã 2FA không đúng</translation>
-    </message>
-    <message>
-        <source>Account Associated To Multiple Partners</source>
-        <translation>Tài khoản được liên kết với nhiều đối tác</translation>
-    </message>
-    <message>
-        <source>Not Modified</source>
-        <translation>Chưa chỉnh sửa</translation>
-    </message>
-    <message>
-        <source>No Mobile Device</source>
-        <translation>Không có điện thoại</translation>
-    </message>
-    <message>
-        <source>Time Not Synced</source>
-        <translation>Chưa đồng bộ thời gian</translation>
-    </message>
-    <message>
-        <source>Sms Code Failed</source>
-        <translation>Gửi mã code SMS thất bại</translation>
-    </message>
-    <message>
-        <source>Account Limit Exceeded</source>
-        <translation>Đã vượt quá giới hạn tài khoản</translation>
-    </message>
-    <message>
-        <source>Account Activity Limit Exceeded</source>
-        <translation>Đã vượt quá giới hạn hoạt động của tài khoản</translation>
-    </message>
-    <message>
-        <source>Phone Activity Limit Exceeded</source>
-        <translation>Đã vượt quá giới hạn hoạt động của điện thoại</translation>
-    </message>
-    <message>
-        <source>Refund To Wallet</source>
-        <translation>Hoàn tiền vào ví</translation>
-    </message>
-    <message>
-        <source>Email Send Failure</source>
-        <translation>Gửi Thư Thất bại</translation>
-    </message>
-    <message>
-        <source>Not Settled</source>
-        <translation>Chưa được giải quyết</translation>
-    </message>
-    <message>
-        <source>Need Captcha</source>
-        <translation>Cần captcha</translation>
-    </message>
-    <message>
-        <source>GSLT Denied</source>
-        <translation>Mã đăng nhập máy chủ bị từ chối</translation>
-    </message>
-    <message>
-        <source>GS Owner Denied</source>
-        <translation>Máy chủ bị từ chối</translation>
-    </message>
-    <message>
-        <source>Invalid Item Type</source>
-        <translation>Kiểu mặt hàng không hợp lệ</translation>
-    </message>
-    <message>
-        <source>IP Banned</source>
-        <translation>IP đã bị cấm</translation>
-    </message>
-    <message>
-        <source>GSLT Expired</source>
-        <translation>Mã đăng nhập máy chủ đã hết hạn</translation>
-    </message>
-    <message>
-        <source>Insufficient Funds</source>
-        <translation>Không đủ tiền</translation>
-    </message>
-    <message>
-        <source>Too Many Pending</source>
-        <translation>Có quá nhiều mặt hàng đang chờ</translation>
-    </message>
-    <message>
-        <source>No Site Licenses Found</source>
-        <translation>Không tìm thấy giấy phép trang web</translation>
-    </message>
-    <message>
-        <source>WG Network Send Exceeded</source>
-        <translation>Đã vượt quá quá trình gửi mạng WG</translation>
-    </message>
-    <message>
-        <source>Account Not Friends</source>
-        <translation>Tài khoản không phải bạn bè</translation>
-    </message>
-    <message>
-        <source>Limited User Account</source>
-        <translation>Tài khoản bị giới hạn</translation>
-    </message>
-    <message>
-        <source>Cant Remove Item</source>
-        <translation>Không thể xóa mặt hàng</translation>
-    </message>
-    <message>
-        <source>Account Deleted</source>
-        <translation>Tài khoản đã bị xóa</translation>
-    </message>
-    <message>
-        <source>Existing User Cancelled License</source>
-        <translation>Người dùng hiện tại đã bị hủy giấy phép</translation>
-    </message>
-    <message>
-        <source>Community Cooldown</source>
-        <translation>Community Cooldown</translation>
-    </message>
-    <message>
-        <source>Status:</source>
-        <translation>Trạng thái:</translation>
-    </message>
-    <message>
-        <source>Upload Progress: </source>
-        <translation>Quá trình tải lên: </translation>
-    </message>
-</context>
-<context>
     <name>WebsiteWallpaper</name>
     <message>
         <source>Create a Website Wallpaper</source>
@@ -1911,14 +1220,12 @@ Steam Error API Init: %2</source>
 <context>
     <name>WindowNavigation</name>
     <message>
-        <source>ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</source>
-        <translation type="unfinished"></translation>
+        <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
+        <translation type="unfinished">Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</translation>
     </message>
     <message>
-        <source>Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</source>
-        <translation type="unfinished">Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</translation>
+        <source>ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</source>
+        <translation type="unfinished">ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</translation>
     </message>
 </context>
 <context>
@@ -1930,17 +1237,6 @@ This will shut down all Wallpaper and Widgets.</translation>
     <message>
         <source>Saving...</source>
         <translation>Đang lưu...</translation>
-    </message>
-</context>
-<context>
-    <name>WorkshopItem</name>
-    <message>
-        <source>Successfully subscribed to Workshop Item!</source>
-        <translation>Đăng ký thành công!</translation>
-    </message>
-    <message>
-        <source>Download complete!</source>
-        <translation>Tải xuống thành công!</translation>
     </message>
 </context>
 <context>

@@ -107,7 +107,7 @@ Rectangle {
         Text {
             color: "white"
             text: "projectSourceFileAbsolute "  +  wallpaper.projectSourceFileAbsolute
-        }arrier
+        }
         Text {
             color: "white"
             text:"reconnectTimer.retryCounter : "+ reconnectTimer.retryCounter

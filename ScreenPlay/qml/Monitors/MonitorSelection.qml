@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 
 Rectangle {
@@ -61,7 +62,7 @@ Rectangle {
     }
 
     function resize() {
-        var absoluteDesktopSize = ScreenPlay.monitorListModel.absoluteDesktopSize()
+        var absoluteDesktopSize = App.monitorListModel.absoluteDesktopSize()
         var isWidthGreaterThanHeight = false
         var windowsDelta = 0
         if (absoluteDesktopSize.width < absoluteDesktopSize.height) {
@@ -114,7 +115,7 @@ Rectangle {
             resize()
         }
 
-        target: ScreenPlay.monitorListModel
+        target: App.monitorListModel
     }
 
     Flickable {
@@ -130,7 +131,7 @@ Rectangle {
             property int contentWidth
             property int contentHeight
 
-            model: ScreenPlay.monitorListModel
+            model: App.monitorListModel
 
             delegate: MonitorSelectionItem {
                 id: delegate

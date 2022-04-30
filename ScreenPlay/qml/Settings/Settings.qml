@@ -4,10 +4,11 @@ import Qt.labs.platform
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Enums.FillMode 1.0
 import Settings 1.0
-import "../Common"
+import ScreenPlayUtil 1.0 
 
 Item {
     id: root
@@ -72,9 +73,9 @@ Item {
                     SettingBool {
                         headline: qsTr("Autostart")
                         description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
-                        isChecked: ScreenPlay.settings.autostart
+                        isChecked: App.settings.autostart
                         onCheckboxChanged: function (checked) {
-                            ScreenPlay.settings.setAutostart(checked)
+                            App.settings.setAutostart(checked)
                         }
                     }
 
@@ -84,9 +85,9 @@ Item {
                         headline: qsTr("High priority Autostart")
                         available: false
                         description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
-                        isChecked: ScreenPlay.settings.highPriorityStart
+                        isChecked: App.settings.highPriorityStart
                         onCheckboxChanged: {
-                            ScreenPlay.settings.setHighPriorityStart(checked)
+                            App.settings.setHighPriorityStart(checked)
                         }
                     }
 
@@ -96,9 +97,9 @@ Item {
                         height: 70
                         headline: qsTr("Send anonymous crash reports and statistics")
                         description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use <a href=\"https://sentry.io\">sentry.io</a> to collect and analyze this data. A <b>big thanks to them</b> for providing us with free premium support for open source projects!")
-                        isChecked: ScreenPlay.settings.anonymousTelemetry
+                        isChecked: App.settings.anonymousTelemetry
                         onCheckboxChanged: function (checked) {
-                            ScreenPlay.settings.setAnonymousTelemetry(checked)
+                            App.settings.setAnonymousTelemetry(checked)
                         }
                     }
 
@@ -109,7 +110,7 @@ Item {
                         buttonText: qsTr("Set location")
                         description: {
                             // Remove file:/// so the used does not get confused
-                            let path = ScreenPlay.globalVariables.localStoragePath + ""
+                            let path = App.globalVariables.localStoragePath + ""
                             if (path.length === 0)
                                 return qsTr("Your storage path is empty!")
                             else
@@ -121,9 +122,9 @@ Item {
 
                         FolderDialog {
                             id: folderDialogSaveLocation
-                            folder: ScreenPlay.globalVariables.localStoragePath
+                            folder: App.globalVariables.localStoragePath
                             onAccepted: {
-                                ScreenPlay.settings.setLocalStoragePath(
+                                App.settings.setLocalStoragePath(
                                             folderDialogSaveLocation.currentFolder)
                             }
                         }
@@ -136,7 +137,7 @@ Item {
                         color: Qt.darker(Material.foreground)
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         font.pointSize: 10
-                        font.family: ScreenPlay.settings.font
+                        font.family: App.settings.font
                         height: 30
 
                         anchors {
@@ -157,7 +158,7 @@ Item {
                         Component.onCompleted: {
                             settingsLanguage.comboBox.currentIndex = root.indexOfValue(
                                         settingsLanguage.comboBox.model,
-                                        ScreenPlay.settings.language)
+                                        App.settings.language)
                         }
 
                         comboBox {
@@ -202,9 +203,9 @@ Item {
                                     "text": "Dutch"
                                 }]
                             onActivated: {
-                                ScreenPlay.settings.setLanguage(
+                                App.settings.setLanguage(
                                             settingsLanguage.comboBox.currentValue)
-                                ScreenPlay.settings.retranslateUI()
+                                App.settings.retranslateUI()
                             }
                         }
                     }
@@ -219,7 +220,7 @@ Item {
                         Component.onCompleted: {
                             settingsTheme.comboBox.currentIndex = root.indexOfValue(
                                         settingsTheme.comboBox.model,
-                                        ScreenPlay.settings.theme)
+                                        App.settings.theme)
                         }
 
                         comboBox {
@@ -234,7 +235,7 @@ Item {
                                     "text": qsTr("Light")
                                 }]
                             onActivated: {
-                                ScreenPlay.settings.setTheme(
+                                App.settings.setTheme(
                                             settingsTheme.comboBox.currentValue)
                             }
                         }
@@ -268,9 +269,9 @@ Item {
                     SettingBool {
                         headline: qsTr("Pause wallpaper video rendering while another app is in the foreground")
                         description: qsTr("We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!")
-                        isChecked: ScreenPlay.settings.checkWallpaperVisible
+                        isChecked: App.settings.checkWallpaperVisible
                         onCheckboxChanged: function (checked) {
-                            ScreenPlay.settings.setCheckWallpaperVisible(
+                            App.settings.setCheckWallpaperVisible(
                                         checked)
                         }
                     }
@@ -285,11 +286,11 @@ Item {
                         Component.onCompleted: {
                             cbVideoFillMode.comboBox.currentIndex = root.indexOfValue(
                                         cbVideoFillMode.comboBox.model,
-                                        ScreenPlay.settings.videoFillMode)
+                                        App.settings.videoFillMode)
                         }
 
                         comboBox {
-                            onActivated: ScreenPlay.settings.setVideoFillMode(
+                            onActivated: App.settings.setVideoFillMode(
                                              cbVideoFillMode.comboBox.currentValue)
                             model: [{
                                     "value": FillMode.Stretch,
@@ -354,7 +355,7 @@ Item {
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
                                 font.pointSize: 16
-                                font.family: ScreenPlay.settings.font
+                                font.family: App.settings.font
 
                                 anchors {
                                     top: parent.top
@@ -373,7 +374,7 @@ Item {
                                 verticalAlignment: Text.AlignTop
                                 horizontalAlignment: Text.AlignLeft
                                 font.pointSize: 11
-                                font.family: ScreenPlay.settings.font
+                                font.family: App.settings.font
                                 width: parent.width * 0.6
 
                                 anchors {
@@ -473,7 +474,7 @@ Item {
                         icon.source: "qrc:/assets/icons/icon_launch.svg"
                         headline: qsTr("Version")
                         description: qsTr("ScreenPlay Build Version \n")
-                                     + ScreenPlay.settings.gitBuildHash
+                                     + App.settings.gitBuildHash
                         buttonText: qsTr("Open Changelog")
                         onButtonPressed: Qt.openUrlExternally(
                                              "https://gitlab.com/kelteseth/ScreenPlay/-/releases")
@@ -486,7 +487,7 @@ Item {
                         description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")
                         buttonText: qsTr("Licenses")
                         onButtonPressed: {
-                            ScreenPlay.util.requestAllLicenses()
+                            App.util.requestAllLicenses()
                             expanderCopyright.toggle()
                         }
                     }
@@ -499,7 +500,7 @@ Item {
                                 expanderCopyright.text = licensesText
                             }
 
-                            target: ScreenPlay.util
+                            target: App.util
                         }
                     }
 
@@ -517,7 +518,7 @@ Item {
                     SettingsExpander {
                         id: expanderDebug
 
-                        text: ScreenPlay.util.debugMessages
+                        text: App.util.debugMessages
                     }
 
                     SettingsHorizontalSeperator {}
@@ -527,7 +528,7 @@ Item {
                         description: qsTr("We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!")
                         buttonText: qsTr("Privacy")
                         onButtonPressed: {
-                            ScreenPlay.util.requestDataProtection()
+                            App.util.requestDataProtection()
                             expanderDataProtection.toggle()
                         }
                     }
@@ -540,7 +541,7 @@ Item {
                                 expanderDataProtection.text = dataProtectionText
                             }
 
-                            target: ScreenPlay.util
+                            target: App.util
                         }
                     }
                 }

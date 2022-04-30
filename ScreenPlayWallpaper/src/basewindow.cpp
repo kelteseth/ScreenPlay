@@ -60,7 +60,7 @@ BaseWindow::BaseWindow(
 
     if (projectFilePath == "test") {
         setType(ScreenPlay::InstalledType::InstalledType::QMLWallpaper);
-        setProjectSourceFileAbsolute({ "qrc:/ScreenPlayQmlWallpaper/qml/Test.qml" });
+        setProjectSourceFileAbsolute({ "qrc:/ScreenPlayAppWallpaper/qml/Test.qml" });
         setupLiveReloading();
         return;
     }
@@ -205,7 +205,7 @@ void BaseWindow::replaceWallpaper(
     if (type.contains("websiteWallpaper", Qt::CaseInsensitive)) {
         setProjectSourceFileAbsolute(file);
     } else {
-        setProjectSourceFileAbsolute(QUrl::fromLocalFile(absolutePath + "/" + file));
+        setProjectSourceFileAbsolute(QUrl::fromUserInput(absolutePath + "/" + file));
     }
 
     if (m_type == ScreenPlay::InstalledType::InstalledType::QMLWallpaper || m_type == ScreenPlay::InstalledType::InstalledType::HTMLWallpaper)

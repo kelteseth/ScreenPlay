@@ -1,4 +1,4 @@
-#include "projectsettingslistmodel.h"
+#include "ScreenPlay/projectsettingslistmodel.h"
 
 namespace ScreenPlay {
 

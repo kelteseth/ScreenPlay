@@ -5,9 +5,9 @@ import QtQuick.Window
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
-import "../Workshop"
-import "../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 
 Rectangle {
     id: root
@@ -19,8 +19,8 @@ Rectangle {
 
     Text {
         id: title
-        text: qsTr("ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets").arg(
-                  ScreenPlay.version())
+        text: qsTr("ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets").arg(
+                  App.version())
         color: Material.primaryTextColor
         verticalAlignment: Text.AlignVCenter
 
@@ -72,8 +72,8 @@ Rectangle {
             Layout.alignment: Qt.AlignVCenter
             icon.source: "qrc:/assets/icons/icon_close.svg"
             onClicked: {
-                if (ScreenPlay.screenPlayManager.activeWallpaperCounter === 0
-                        && ScreenPlay.screenPlayManager.activeWidgetsCounter === 0) {
+                if (App.screenPlayManager.activeWallpaperCounter === 0
+                        && App.screenPlayManager.activeWidgetsCounter === 0) {
                     Qt.quit()
                     return
                 }
@@ -85,7 +85,7 @@ Rectangle {
     Common.Dialog {
         id: dialog
         modalSource: root.modalSource
-        title: qsTr("Are you sure you want to exit ScreenPlay? \nThis will shut down all Wallpaper and Widgets.")
+        title: qsTr("Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.")
         standardButtons: Dialog.Ok | Dialog.Cancel
         onAccepted: Qt.quit()
     }

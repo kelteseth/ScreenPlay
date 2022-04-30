@@ -4,14 +4,11 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
-set(SOURCES # cmake-format: sortable
-            main.cpp src/widgetwindow.cpp)
+set(SOURCES main.cpp src/widgetwindow.cpp)
 
-set(HEADER # cmake-format: sortable
-           src/widgetwindow.h)
+set(HEADER src/widgetwindow.h)
 
-set(QML # cmake-format: sortable
-        qml/Test.qml qml/Widget.qml)
+set(QML qml/Test.qml qml/Widget.qml)
 
 find_package(
     Qt6
@@ -26,14 +23,23 @@ find_package(
                WebChannel
                Positioning)
 
-qt_add_resources(RESOURCES Resources.qrc)
+set(RESOURCES
+    assets/icons/baseline-opacity-24px.svg
+    assets/icons/baseline-settings-20px.svg
+    assets/icons/baseline-close-24px.svg
+    assets/image/noisy-texture-3.png)
 
-qt_add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER} ${RESOURCES})
+qt_add_executable(
+    ${PROJECT_NAME}
+    ${SOURCES}
+    ${HEADER}
+    ${RESOURCES})
 
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE ScreenPlaySDK
             ScreenPlayUtil
+            ScreenPlayWeatherplugin
             Qt6::Quick
             Qt6::Gui
             Qt6::Widgets
@@ -43,14 +49,22 @@ target_link_libraries(
             Qt6::WebEngineCore
             Qt6::WebEngineQuick)
 
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin)
+endif()
+
 qt_add_qml_module(
     ${PROJECT_NAME}
     URI
     ${PROJECT_NAME}
     VERSION
     1.0
+    OUTPUT_DIRECTORY
+    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
     QML_FILES
-    ${QML})
+    ${QML}
+    RESOURCES
+    ${RESOURCES})
 
 if(WIN32)
     # Disable console window on Windows

@@ -4,9 +4,10 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
-import "../../../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 import "../../"
 
 Item {
@@ -50,7 +51,7 @@ Item {
                     Layout.fillWidth: true
                     font.pointSize: 13
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    font.family: ScreenPlay.settings.font
+                    font.family: App.settings.font
                 }
 
                 DropArea {
@@ -67,7 +68,7 @@ Item {
                         drag.accept(Qt.LinkAction)
                     }
                     onDropped: {
-                        let file = ScreenPlay.util.toLocal(drop.urls[0])
+                        let file = App.util.toLocal(drop.urls[0])
                         bg.color = Qt.darker(Qt.darker(
                                                  Material.backgroundColor))
                         if (file.endsWith(".mp4"))
@@ -103,7 +104,7 @@ Item {
                         font.pointSize: 13
                         horizontalAlignment: Qt.AlignHCenter
                         verticalAlignment: Qt.AlignVCenter
-                        font.family: ScreenPlay.settings.font
+                        font.family: App.settings.font
 
                         anchors {
                             fill: parent
@@ -125,7 +126,7 @@ Item {
         icon.color: "white"
         icon.width: 16
         icon.height: 16
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         onClicked: Qt.openUrlExternally(
                        "https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
 
@@ -139,7 +140,7 @@ Item {
     Button {
         text: qsTr("Select file")
         highlighted: true
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         onClicked: {
             fileDialogImportVideo.open()
         }

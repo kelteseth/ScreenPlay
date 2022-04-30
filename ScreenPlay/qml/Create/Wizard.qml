@@ -3,9 +3,10 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
-import "../Common"
+import ScreenPlayUtil 1.0 
 
 Item {
     id: root
@@ -81,8 +82,8 @@ Item {
 
                 interval: 400
                 onTriggered: {
-                    ScreenPlay.util.setNavigationActive(true);
-                    ScreenPlay.util.setNavigation("Create");
+                    App.util.setNavigationActive(true);
+                    App.util.setNavigation("Create");
                 }
             }
 

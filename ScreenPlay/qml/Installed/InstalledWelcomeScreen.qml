@@ -1,8 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
-import "../Common"
+import ScreenPlayUtil 1.0 
 
 Item {
     id: installedUserHelper
@@ -75,8 +76,8 @@ Item {
         id: txtHeadline
 
         y: 80
-        text: qsTr("Get free Widgets and Wallpaper via the Steam Workshop")
-        font.family: ScreenPlay.settings.font
+        text: App.settings.steamVersion ? qsTr("Get free Widgets and Wallpaper via the Steam Workshop") : qsTr("Get content via our forum")
+        font.family: App.settings.font
         font.capitalization: Font.Capitalize
         wrapMode: Text.WordWrap
         color: "white"

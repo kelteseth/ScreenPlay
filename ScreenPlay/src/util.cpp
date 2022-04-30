@@ -1,6 +1,8 @@
-#include "util.h"
+#include "ScreenPlay/util.h"
 
+#if defined(Q_OS_WIN)
 #include <sentry.h>
+#endif
 
 namespace ScreenPlay {
 
@@ -106,8 +108,10 @@ QString Util::toLocal(const QString& url)
 */
 void Util::Util::requestAllLicenses()
 {
+    if (m_requestAllLicensesFuture.isStarted())
+        return;
 
-    QtConcurrent::run([this]() {
+    m_requestAllLicensesFuture = QtConcurrent::run([this]() {
         QString tmp;
         QFile file;
         QTextStream out(&file);
@@ -152,18 +156,16 @@ void Util::Util::requestAllLicenses()
 */
 void Util::Util::requestDataProtection()
 {
-    QtConcurrent::run([this]() {
-        QString tmp;
-        QFile file;
-        QTextStream out(&file);
+    QString tmp;
+    QFile file;
+    QTextStream out(&file);
 
-        file.setFileName(":/legal/DataProtection.txt");
-        file.open(QIODevice::ReadOnly | QIODevice::Text);
-        tmp += out.readAll();
-        file.close();
+    file.setFileName(":/legal/DataProtection.txt");
+    file.open(QIODevice::ReadOnly | QIODevice::Text);
+    tmp += out.readAll();
+    file.close();
 
-        emit this->allDataProtectionLoaded(tmp);
-    });
+    emit this->allDataProtectionLoaded(tmp);
 }
 
 static const char*
@@ -221,6 +223,7 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
     if (utilPointer != nullptr)
         utilPointer->appendDebugMessages(log);
 
+#if defined(Q_OS_WIN)
     sentry_value_t crumb
         = sentry_value_new_breadcrumb("default", qUtf8Printable(msg));
 
@@ -238,6 +241,7 @@ void Util::logToGui(QtMsgType type, const QMessageLogContext& context, const QSt
     sentry_value_set_by_key(crumb, "data", location);
 
     sentry_add_breadcrumb(crumb);
+#endif
 }
 
 /*!

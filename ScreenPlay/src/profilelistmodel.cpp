@@ -1,4 +1,4 @@
-#include "profilelistmodel.h"
+#include "ScreenPlay/profilelistmodel.h"
 
 #include <QDirIterator>
 #include <QFileInfoList>

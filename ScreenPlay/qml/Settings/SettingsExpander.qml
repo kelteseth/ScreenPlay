@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 
 Item {
@@ -32,7 +33,7 @@ Item {
             lineHeight: 1.2
             height: txtExpander.paintedHeight
             wrapMode: Text.WordWrap
-            font.family: ScreenPlay.settings.font
+            font.family: App.settings.font
 
             anchors {
                 top: parent.top
@@ -63,7 +64,7 @@ Item {
         MenuItem {
             text: qsTr("Copy text to clipboard")
             onClicked: {
-                ScreenPlay.util.copyToClipboard(txtExpander.text);
+                App.util.copyToClipboard(txtExpander.text);
             }
         }
 

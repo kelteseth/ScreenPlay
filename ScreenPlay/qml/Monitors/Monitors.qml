@@ -4,9 +4,10 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
-import "../Common/" as Common
+import ScreenPlayUtil 1.0 as Common
 
 Common.Popup {
     id: root
@@ -25,7 +26,7 @@ Common.Popup {
             root.open()
         }
 
-        target: ScreenPlay.util
+        target: App.util
     }
 
     Item {
@@ -56,7 +57,7 @@ Common.Popup {
                 text: qsTr("Wallpaper Configuration")
                 font.pointSize: 21
                 color: Material.primaryTextColor
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 font.weight: Font.Light
                 width: 400
 
@@ -82,13 +83,13 @@ Common.Popup {
                     if (installedType === InstalledType.VideoWallpaper) {
                         videoControlWrapper.state = "visible"
                         customPropertiesGridView.visible = false
-                        const wallpaper = ScreenPlay.screenPlayManager.getWallpaperByAppID(
+                        const wallpaper = App.screenPlayManager.getWallpaperByAppID(
                                             appID)
                         videoControlWrapper.wallpaper = wallpaper
                     } else {
                         videoControlWrapper.state = "hidden"
                         customPropertiesGridView.visible = true
-                        if (!ScreenPlay.screenPlayManager.requestProjectSettingsAtMonitorIndex(
+                        if (!App.screenPlayManager.requestProjectSettingsAtMonitorIndex(
                                     index)) {
                             console.warn("Unable to get requested settings from index: ",
                                          index)
@@ -109,7 +110,7 @@ Common.Popup {
                         customPropertiesGridView.projectSettingsListmodelRef = listModel
                     }
 
-                    target: ScreenPlay.screenPlayManager
+                    target: App.screenPlayManager
                 }
             }
 
@@ -128,11 +129,11 @@ Common.Popup {
                     Material.background: Material.accent
                     highlighted: true
                     text: qsTr("Remove selected")
-                    font.family: ScreenPlay.settings.font
+                    font.family: App.settings.font
                     enabled: monitorSelection.activeMonitors.length == 1
-                             && ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
+                             && App.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
-                        if (!ScreenPlay.screenPlayManager.removeWallpaperAt(
+                        if (!App.screenPlayManager.removeWallpaperAt(
                                     monitorSelection.activeMonitors[0]))
                             print("Unable to close singel wallpaper")
                     }
@@ -142,14 +143,14 @@ Common.Popup {
                     id: btnRemoveAllWallpape
 
                     text: qsTr("Remove all ")
-                          + ScreenPlay.screenPlayManager.activeWallpaperCounter + " " + qsTr(
+                          + App.screenPlayManager.activeWallpaperCounter + " " + qsTr(
                               "Wallpapers")
                     Material.background: Material.accent
                     highlighted: true
-                    font.family: ScreenPlay.settings.font
-                    enabled: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
+                    font.family: App.settings.font
+                    enabled: App.screenPlayManager.activeWallpaperCounter > 0
                     onClicked: {
-                        if (!ScreenPlay.screenPlayManager.removeAllWallpapers())
+                        if (!App.screenPlayManager.removeAllWallpapers())
                             print("Unable to close all wallpaper!")
 
                         root.close()
@@ -160,15 +161,15 @@ Common.Popup {
                     id: btnRemoveAllWidgets
 
                     text: qsTr("Remove all ")
-                          + ScreenPlay.screenPlayManager.activeWidgetsCounter + " " + qsTr(
+                          + App.screenPlayManager.activeWidgetsCounter + " " + qsTr(
                               "Widgets")
                     Material.background: Material.accent
                     Material.foreground: Material.primaryTextColor
                     highlighted: true
-                    font.family: ScreenPlay.settings.font
-                    enabled: ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
+                    font.family: App.settings.font
+                    enabled: App.screenPlayManager.activeWidgetsCounter > 0
                     onClicked: {
-                        if (!ScreenPlay.screenPlayManager.removeAllWidgets())
+                        if (!App.screenPlayManager.removeAllWidgets())
                             print("Unable to close all widgets!")
 
                         root.close()
@@ -264,7 +265,7 @@ Common.Popup {
                         saveNotification.open()
                 }
 
-                target: ScreenPlay.screenPlayManager
+                target: App.screenPlayManager
             }
         }
     }

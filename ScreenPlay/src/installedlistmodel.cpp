@@ -1,4 +1,4 @@
-#include "installedlistmodel.h"
+#include "ScreenPlay/installedlistmodel.h"
 #include <QDebug>
 
 namespace ScreenPlay {

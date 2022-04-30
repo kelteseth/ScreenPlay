@@ -5,58 +5,87 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
 set(SOURCES
-    # cmake-format: sortable
-    app.cpp
-    src/globalvariables.cpp
+    src/app.cpp
+    src/create.cpp
     src/createimportvideo.cpp
+    src/globalvariables.cpp
+    src/installedlistfilter.cpp
     src/installedlistmodel.cpp
     src/monitorlistmodel.cpp
-    src/screenplaywallpaper.cpp
-    src/screenplaywidget.cpp
-    src/settings.cpp
     src/profilelistmodel.cpp
-    src/installedlistfilter.cpp
     src/projectsettingslistmodel.cpp
     src/screenplaymanager.cpp
+    src/screenplaywallpaper.cpp
+    src/screenplaywidget.cpp
     src/sdkconnection.cpp
+    src/settings.cpp
     src/util.cpp
-    src/create.cpp
     src/wizards.cpp)
 
 set(HEADER
-    # cmake-format: sortable
-    app.h
-    src/globalvariables.h
-    src/createimportvideo.h
-    src/createimportstates.h
-    src/installedlistmodel.h
-    src/monitorlistmodel.h
-    src/screenplaywallpaper.h
-    src/screenplaywidget.h
-    src/settings.h
-    src/profilelistmodel.h
-    src/profile.h
-    src/installedlistfilter.h
-    src/projectsettingslistmodel.h
-    src/screenplaymanager.h
-    src/sdkconnection.h
-    src/util.h
-    src/create.h
-    src/wizards.h)
+    inc/public/ScreenPlay/app.h
+    inc/public/ScreenPlay/create.h
+    inc/public/ScreenPlay/createimportstates.h
+    inc/public/ScreenPlay/createimportvideo.h
+    inc/public/ScreenPlay/globalvariables.h
+    inc/public/ScreenPlay/installedlistfilter.h
+    inc/public/ScreenPlay/installedlistmodel.h
+    inc/public/ScreenPlay/monitorlistmodel.h
+    inc/public/ScreenPlay/profile.h
+    inc/public/ScreenPlay/profilelistmodel.h
+    inc/public/ScreenPlay/projectsettingslistmodel.h
+    inc/public/ScreenPlay/screenplaymanager.h
+    inc/public/ScreenPlay/screenplaywallpaper.h
+    inc/public/ScreenPlay/screenplaywidget.h
+    inc/public/ScreenPlay/sdkconnection.h
+    inc/public/ScreenPlay/settings.h
+    inc/public/ScreenPlay/util.h
+    inc/public/ScreenPlay/wizards.h)
 
 set(QML
-    # cmake-format: sortable
     main.qml
-    qml/Create/Create.qml
+    qml/Community/Community.qml
+    qml/Community/CommunityNavItem.qml
+    qml/Community/XMLNewsfeed.qml
     qml/Create/Wizard.qml
+    qml/Create/Create.qml
+    qml/Create/CreateSidebar.qml
     qml/Create/StartInfo.qml
+    qml/Create/StartInfoLinkImage.qml
+    qml/Create/Wizards/GifWallpaper.qml
+    qml/Create/Wizards/HTMLWallpaper.qml
+    qml/Create/Wizards/HTMLWidget.qml
+    qml/Create/Wizards/Importh264/Importh264.qml
+    qml/Create/Wizards/Importh264/Importh264Convert.qml
+    qml/Create/Wizards/Importh264/Importh264Init.qml
+    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml
+    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml
+    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml
+    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml
+    qml/Create/Wizards/ImportWebm/ImportWebm.qml
+    qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml
+    qml/Create/Wizards/ImportWebm/ImportWebmInit.qml
+    qml/Create/Wizards/QMLWallpaper.qml
+    qml/Create/Wizards/QMLWidget.qml
+    qml/Create/Wizards/WebsiteWallpaper.qml
+    qml/Create/Wizards/WizardPage.qml
+    qml/Create/WizardsFiles/QMLWallpaperMain.qml
+    qml/Create/WizardsFiles/QMLWidgetMain.qml
     qml/Installed/Installed.qml
+    qml/Installed/InstalledWelcomeScreen.qml
+    qml/Installed/InstalledNavigation.qml
     qml/Installed/ScreenPlayItem.qml
     qml/Installed/ScreenPlayItemImage.qml
     qml/Installed/Sidebar.qml
-    qml/Installed/InstalledWelcomeScreen.qml
-    qml/Community/Community.qml
-    qml/Community/XMLNewsfeed.qml
+    qml/Monitors/DefaultVideoControls.qml
+    qml/Monitors/Monitors.qml
+    qml/Monitors/MonitorSelection.qml
+    qml/Monitors/MonitorSelectionItem.qml
+    qml/Monitors/MonitorsProjectSettingItem.qml
+    qml/Monitors/SaveNotification.qml
+    qml/Navigation/Navigation.qml
+    qml/Navigation/WindowNavButton.qml
+    qml/Navigation/WindowNavigation.qml
     qml/Settings/SettingBool.qml
     qml/Settings/Settings.qml
     qml/Settings/SettingsButton.qml
@@ -64,107 +93,34 @@ set(QML
     qml/Settings/SettingsExpander.qml
     qml/Settings/SettingsHeader.qml
     qml/Settings/SettingsHorizontalSeperator.qml
-    qml/Workshop/Workshop.qml
-    qml/Monitors/Monitors.qml
-    qml/Monitors/MonitorSelection.qml
-    qml/Monitors/MonitorSelectionItem.qml
-    qml/Monitors/MonitorsProjectSettingItem.qml
-    qml/Navigation/Navigation.qml
-    qml/Navigation/NavigationItem.qml
-    qml/Navigation/WindowNavButton.qml
-    qml/Navigation/WindowNavigation.qml
-    qml/Monitors/DefaultVideoControls.qml
-    qml/Common/TagSelector.qml
-    qml/Common/Tag.qml
-    qml/Common/Popup.qml
-    qml/Common/Dialog.qml
-    qml/Common/ImageSelector.qml
-    qml/Common/Slider.qml
-    qml/Common/RippleEffect.qml
-    qml/Common/Shake.qml
-    qml/Common/Grow.qml
-    qml/Common/GrowIconLink.qml
-    qml/Common/CloseIcon.qml
-    qml/Common/Headline.qml
     qml/Settings/SettingsPage.qml
-    qml/Community/CommunityNavItem.qml
-    qml/Workshop/ScreenPlayItem.qml
-    qml/Workshop/ScreenPlayItemImage.qml
-    qml/Workshop/Background.qml
-    qml/Workshop/WorkshopInstalled.qml
-    qml/Workshop/WorkshopItem.qml
-    qml/Workshop/Sidebar.qml
-    qml/Workshop/Navigation.qml
-    qml/Workshop/PopupOffline.qml
-    qml/Workshop/upload/PopupSteamWorkshopAgreement.qml
-    qml/Workshop/upload/UploadProject.qml
-    qml/Workshop/upload/UploadProjectBigItem.qml
-    qml/Workshop/upload/UploadProjectItem.qml
-    qml/Monitors/SaveNotification.qml
-    qml/Common/TrayIcon.qml
-    qml/Installed/Navigation.qml
-    qml/Common/Search.qml
-    qml/Common/MouseHoverBlocker.qml
-    qml/Create/Wizards/HTMLWallpaper.qml
-    qml/Create/Wizards/HTMLWidget.qml
-    qml/Create/Wizards/QMLWidget.qml
-    qml/Create/Wizards/QMLWallpaper.qml
-    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaper.qml
-    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperInit.qml
-    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperResult.qml
-    qml/Create/Wizards/ImportVideoAndConvert/CreateWallpaperVideoImportConvert.qml
-    qml/Create/Sidebar.qml
-    qml/Create/Wizards/ImportWebm/ImportWebm.qml
-    qml/Create/Wizards/ImportWebm/ImportWebmConvert.qml
-    qml/Create/Wizards/ImportWebm/ImportWebmInit.qml
-    qml/Common/Dialogs/MonitorConfiguration.qml
-    qml/Common/Dialogs/SteamNotAvailable.qml
-    qml/Create/Wizards/WizardPage.qml
-    qml/Create/Wizards/GifWallpaper.qml
-    qml/Common/TextField.qml
-    qml/Common/HeadlineSection.qml
-    qml/Create/Wizards/WebsiteWallpaper.qml
-    qml/Common/FileSelector.qml
-    qml/Create/WizardsFiles/QMLWidgetMain.qml
-    qml/Create/WizardsFiles/QMLWallpaperMain.qml
-    qml/Common/LicenseSelector.qml
-    qml/Common/ModalBackgroundBlur.qml
-    qml/Common/Util.js
-    qml/Common/Dialogs/CriticalError.qml
-    qml/Common/ColorPicker.qml
-    qml/Create/StartInfoLinkImage.qml
-    qml/Workshop/SteamProfile.qml
-    qml/Workshop/SteamWorkshop.qml
-    qml/Workshop/Forum.qml
-    qml/Workshop/SteamWorkshopStartPage.qml
-    qml/Create/Wizards/Importh264/Importh264.qml
-    qml/Create/Wizards/Importh264/Importh264Convert.qml
-    qml/Create/Wizards/Importh264/Importh264Init.qml)
+    qml/Workshop/Workshop.qml)
 
 set(TS_FILES
-    # cmake-format: sortable
     translations/ScreenPlay_.ts
-    translations/ScreenPlay_tr_TR.ts
-    translations/ScreenPlay_it_IT.ts
-    translations/ScreenPlay_nl_NL.ts
     translations/ScreenPlay_de_DE.ts
-    translations/ScreenPlay_pl_PL.ts
-    translations/ScreenPlay_zh_CN.ts
-    translations/ScreenPlay_pt_BR.ts
     translations/ScreenPlay_es_ES.ts
     translations/ScreenPlay_fr_FR.ts
+    translations/ScreenPlay_it_IT.ts
     translations/ScreenPlay_ko_KR.ts
+    translations/ScreenPlay_nl_NL.ts
+    translations/ScreenPlay_pl_PL.ts
+    translations/ScreenPlay_pt_BR.ts
     translations/ScreenPlay_ru_RU.ts
-    translations/ScreenPlay_vi_VN.ts)
+    translations/ScreenPlay_tr_TR.ts
+    translations/ScreenPlay_vi_VN.ts
+    translations/ScreenPlay_zh_CN.ts)
 
 # Needed on macos
 find_package(Threads REQUIRED)
 find_package(OpenSSL REQUIRED)
-find_package(doctest CONFIG REQUIRED)
 
-# CURL must be included before sentry because sentry needs the module and does not include it itself on macos...
-find_package(CURL CONFIG REQUIRED)
-find_package(sentry CONFIG REQUIRED)
+# Make sentry win only for now because it is constantly buggy on osx
+if(WIN32)
+    # CURL must be included before sentry because sentry needs the module and does not include it itself on macos...
+    find_package(CURL CONFIG REQUIRED)
+    find_package(sentry CONFIG REQUIRED)
+endif()
 
 find_package(
     Qt6
@@ -180,15 +136,27 @@ find_package(
 qt_add_resources(RESOURCES Resources.qrc)
 qt_add_big_resources(FONTS fonts.qrc)
 
+add_library(ScreenPlayApp STATIC)
+target_include_directories(ScreenPlayApp PUBLIC src/ inc/public/ScreenPlay)
 
-add_library(ScreenPlayLib ${SOURCES} ${HEADER} ${RESOURCES} ${FONTS})
-
+qt_add_qml_module(
+    ScreenPlayApp
+    URI
+    ScreenPlayApp
+    OUTPUT_DIRECTORY
+    ${SCREENPLAY_QML_MODULES_PATH}/ScreenPlayApp
+    RESOURCE_PREFIX /qml
+    VERSION
+    1.0
+    QML_FILES
+    ${QML}
+    SOURCES
+    ${SOURCES}
+    ${HEADER}
+)
 target_link_libraries(
-    ScreenPlayLib
+    ScreenPlayApp
     PUBLIC ScreenPlaySDK
-           ScreenPlayUtil
-           doctest::doctest
-           sentry::sentry
            Threads::Threads
            Qt6::Quick
            Qt6::Gui
@@ -196,46 +164,53 @@ target_link_libraries(
            Qt6::Core
            Qt6::WebSockets
            Qt6::Svg
-           ScreenPlayQmlplugin
-           SteamSDKQtEnums)
+           ScreenPlayUtil
+           ScreenPlayUtilplugin
+           SteamSDKQtEnums
+           ${RESOURCES}
+           ${FONTS})
 
-if(${TESTS_ENABLED})
-    add_executable(tst_ScreenPlay tests/tst_main.cpp)
-    target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayLib Qt6::Test)
+if(${SCREENPLAY_STEAM})
+    target_compile_definitions(ScreenPlayApp PRIVATE SCREENPLAY_STEAM=1)
+    target_link_libraries(ScreenPlayApp PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
 endif()
 
 qt_add_executable(${PROJECT_NAME} main.cpp)
-target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayLib)
+target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlayApp ScreenPlayAppplugin)
 
-set_source_files_properties(${TS_FILES}
-    PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
+if(${SCREENPLAY_TESTS})
+    add_executable(tst_ScreenPlay tests/tst_main.cpp)
+    target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayApp ScreenPlayAppplugin Qt6::Test)
+    if(${SCREENPLAY_STEAM})
+        target_compile_definitions(tst_ScreenPlay PRIVATE SCREENPLAY_STEAM=1)
+        target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
+    endif()
+endif()
+
+set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
 
 # qt_add_lupdate does not work for some reason. Lets do it manually:
 find_program(LUPDATE_EXECUTABLE lupdate)
 foreach(_ts_file ${TS_FILES})
     message(STATUS "Update Translation: ${_ts_file}")
-    execute_process(COMMAND ${LUPDATE_EXECUTABLE} -noobsolete -locations none -recursive ${CMAKE_CURRENT_SOURCE_DIR}/qml -ts ${CMAKE_CURRENT_SOURCE_DIR}/${_ts_file} OUTPUT_QUIET)
+    execute_process(COMMAND ${LUPDATE_EXECUTABLE} -noobsolete -locations none -recursive ${CMAKE_CURRENT_SOURCE_DIR}/qml -ts
+                            ${CMAKE_CURRENT_SOURCE_DIR}/${_ts_file} OUTPUT_QUIET)
 endforeach()
 
-qt_add_lrelease(
-    ${PROJECT_NAME}
-    TS_FILES
-    ${TS_FILES}
-    )
+qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES})
 
 target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 
-qt_add_library(ScreenPlayQml STATIC)
-qt_add_qml_module(
-    ScreenPlayQml
-    URI
-    ScreenPlayQml
-    VERSION
-    1.0
-    QML_FILES
-    ${QML})
+
+target_include_directories(
+    ScreenPlayApp
+    PUBLIC inc/public/
+    PRIVATE src/)
+
 
 if(WIN32)
+    target_link_libraries(ScreenPlayApp PUBLIC sentry::sentry)
+
     # Icon
     target_sources(${PROJECT_NAME} PRIVATE ScreenPlay.rc)
 
@@ -252,7 +227,8 @@ if(WIN32)
         configure_file(${filename} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
     endforeach()
 
-    configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_BINARY_DIR}/bin/ COPYONLY)
+    configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
+    configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/zlib1.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
 
 endif()
 
@@ -286,7 +262,7 @@ if(APPLE)
                 ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
 
     # tst_ScreenPlay needs ffmpeg in the base path
-    if(${TESTS_ENABLED})
+    if(${SCREENPLAY_TESTS})
         add_custom_command(
             TARGET ${PROJECT_NAME}
             POST_BUILD
@@ -297,11 +273,5 @@ if(APPLE)
             POST_BUILD
             COMMAND ${CMAKE_COMMAND} -E copy_if_different ${CMAKE_CURRENT_SOURCE_DIR}/../Common/ffmpeg/ffprobe ${CMAKE_BINARY_DIR}/bin/)
     endif()
-
-    add_custom_command(
-        TARGET ${PROJECT_NAME}
-        POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler
-                ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/)
 
 endif()

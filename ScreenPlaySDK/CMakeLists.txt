@@ -9,14 +9,17 @@ find_package(
     COMPONENTS Quick Network Core
     REQUIRED)
 
-set(SOURCES # cmake-format: sortable
-            src/screenplay-sdk_plugin.cpp src/screenplaysdk.cpp)
+set(SOURCES src/screenplay-sdk_plugin.cpp src/screenplaysdk.cpp)
 
-set(HEADER # cmake-format: sortable
-           inc/screenplay-sdk_plugin.h inc/screenplaysdk.h)
+set(HEADER inc/screenplay-sdk_plugin.h inc/screenplaysdk.h)
 
 add_library(${PROJECT_NAME} ${SOURCES} ${HEADER})
 
 target_include_directories(${PROJECT_NAME} PUBLIC inc)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick Qt6::Gui Qt6::Network)
+target_link_libraries(
+    ${PROJECT_NAME}
+    PRIVATE Qt6::Core
+            Qt6::Quick
+            Qt6::Gui
+            Qt6::Network)

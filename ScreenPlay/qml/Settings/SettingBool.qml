@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 
 Item {
@@ -31,7 +32,7 @@ Item {
 
         color: Material.foreground
         text: settingsBool.headline
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         font.pointSize: 12
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
@@ -60,7 +61,7 @@ Item {
         color: Material.theme === Material.Light ? Qt.lighter(
                                                        Material.foreground) : Qt.darker(
                                                        Material.foreground)
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         font.pointSize: 10

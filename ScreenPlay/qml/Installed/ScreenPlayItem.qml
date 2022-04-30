@@ -2,9 +2,10 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Enums.InstalledType 1.0
-import "../Common/Util.js" as JSUtil
+import ScreenPlayUtil 1.0 as Common
 
 Item {
     id: root
@@ -23,15 +24,15 @@ Item {
     width: 320
     height: 180
     onTypeChanged: {
-        if (JSUtil.isWidget(type)) {
+        if (Common.JSUtil.isWidget(type)) {
             icnType.source = "qrc:/assets/icons/icon_widgets.svg"
             return
         }
-        if (JSUtil.isScene(type)) {
+        if (Common.JSUtil.isScene(type)) {
             icnType.source = "qrc:/assets/icons/icon_code.svg"
             return
         }
-        if (JSUtil.isVideo(type)) {
+        if (Common.JSUtil.isVideo(type)) {
             icnType.source = "qrc:/assets/icons/icon_movie.svg"
             return
         }
@@ -137,7 +138,7 @@ Item {
 
             Text {
                 text: root.customTitle
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 font.pointSize: 16
                 visible: !screenPlayItemImage.visible
                 color: Material.primaryTextColor
@@ -190,7 +191,7 @@ Item {
                 visible: root.isNew
 
                 Text {
-                    font.family: ScreenPlay.settings.font
+                    font.family: App.settings.font
                     font.pointSize: 9
                     renderType: Text.QtRendering
                     color: "white"
@@ -225,7 +226,7 @@ Item {
                 }
                 onClicked: function (mouse) {
                     if (mouse.button === Qt.LeftButton)
-                        ScreenPlay.util.setSidebarItem(root.screenId, root.type)
+                        App.util.setSidebarItem(root.screenId, root.type)
                     else if (mouse.button === Qt.RightButton)
                         root.openContextMenu(Qt.point(mouseX, mouseY))
                 }

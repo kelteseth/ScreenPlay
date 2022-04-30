@@ -1,4 +1,4 @@
-#include "screenplaywallpaper.h"
+#include "ScreenPlay/screenplaywallpaper.h"
 
 namespace ScreenPlay {
 
@@ -239,7 +239,7 @@ void ScreenPlayWallpaper::setSDKConnection(std::unique_ptr<SDKConnection> connec
 /*!
     \brief Replaces the current wallpaper with the given one.
 */
-void ScreenPlayWallpaper::replace(
+bool ScreenPlayWallpaper::replace(
     const QString& absolutePath,
     const QString& previewImage,
     const QString& file,
@@ -250,11 +250,11 @@ void ScreenPlayWallpaper::replace(
 {
 
     if (m_isExiting)
-        return;
+        return false;
 
     if (!m_connection) {
         qWarning() << "Cannot replace for unconnected wallpaper!";
-        return;
+        return false;
     }
 
     m_previewImage = previewImage;
@@ -272,8 +272,9 @@ void ScreenPlayWallpaper::replace(
     obj.insert("file", file);
     obj.insert("checkWallpaperVisible", checkWallpaperVisible);
 
-    m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
+    const bool success = m_connection->sendMessage(QJsonDocument(obj).toJson(QJsonDocument::Compact));
     emit requestSave();
+    return success;
 }
 
 }

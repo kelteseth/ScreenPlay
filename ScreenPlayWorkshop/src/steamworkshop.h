@@ -40,8 +40,8 @@ struct SteamItemUpdate {
 
 class SteamWorkshop : public QObject {
     Q_OBJECT
+    QML_ELEMENT
 
-    QML_NAMED_ELEMENT(SteamWorkshop)
     Q_PROPERTY(bool online READ online WRITE setOnline NOTIFY onlineChanged)
     Q_PROPERTY(unsigned long long itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
     Q_PROPERTY(unsigned long long bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)
@@ -158,7 +158,8 @@ public slots:
     }
 
 signals:
-    void workshopSearched();
+    void workshopSearchCompleted(const int itemCount);
+    void workshopBannerCompleted();
     void workshopItemCreatedSuccessful(
         bool userNeedsToAcceptWorkshopLegalAgreement,
         int eResult,

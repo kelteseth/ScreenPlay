@@ -246,7 +246,9 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
 
     if (totalResults <= 0 || results <= 0) {
         qWarning() << "Invalid result count. Aborting! totalResults:" << totalResults << "results " << results;
-        return {};
+        SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+        emit workshopSearchCompleted(0);
+        return false;
     }
 
     const float maxResultsPerPage = 50;
@@ -283,7 +285,7 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
 
                 // Do not change the background image on every page
                 if (i == 0 && listModel->currentPage() == 1) {
-                    emit workshopSearched();
+                    emit workshopBannerCompleted();
                 }
 
                 //                const int keyValueTagsCount = SteamUGC()->GetQueryUGCNumKeyValueTags(pCallback->m_handle, i);
@@ -301,6 +303,8 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
     }
 
     SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
+
+    emit workshopSearchCompleted(results);
     return true;
 }
 

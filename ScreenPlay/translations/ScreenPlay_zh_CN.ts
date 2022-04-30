@@ -95,6 +95,49 @@
     </message>
 </context>
 <context>
+    <name>CreateSidebar</name>
+    <message>
+        <source>Tools Overview</source>
+        <translation type="unfinished">工具概览</translation>
+    </message>
+    <message>
+        <source>Video Import h264 (.mp4)</source>
+        <translation type="unfinished">视频导入 h264 (.mp4)</translation>
+    </message>
+    <message>
+        <source>Video Import VP8 &amp; VP9 (.webm)</source>
+        <translation type="unfinished">视频导入 VP8 &amp; VP9 (.webm)</translation>
+    </message>
+    <message>
+        <source>Video import (all types)</source>
+        <translation type="unfinished">视频导入(所有类型)</translation>
+    </message>
+    <message>
+        <source>GIF Wallpaper</source>
+        <translation type="unfinished">GIF 壁纸</translation>
+    </message>
+    <message>
+        <source>QML Wallpaper</source>
+        <translation type="unfinished">QML 壁纸</translation>
+    </message>
+    <message>
+        <source>HTML5 Wallpaper</source>
+        <translation type="unfinished">HTML5 壁纸</translation>
+    </message>
+    <message>
+        <source>Website Wallpaper</source>
+        <translation type="unfinished">网页壁纸</translation>
+    </message>
+    <message>
+        <source>QML Widget</source>
+        <translation type="unfinished">QML 部件</translation>
+    </message>
+    <message>
+        <source>HTML Widget</source>
+        <translation type="unfinished">HTML 部件</translation>
+    </message>
+</context>
+<context>
     <name>CreateWallpaperInit</name>
     <message>
         <source>Import any video type</source>
@@ -218,10 +261,6 @@
         <translation>音量</translation>
     </message>
     <message>
-        <source>Playback rate</source>
-        <translation>播放速度</translation>
-    </message>
-    <message>
         <source>Current Video Time</source>
         <translation>目前视频时间</translation>
     </message>
@@ -263,21 +302,6 @@
     <message>
         <source>Please choose a file</source>
         <translation>请选择文件</translation>
-    </message>
-</context>
-<context>
-    <name>Forum</name>
-    <message>
-        <source>Download Wallpaper and Widgets from our forums manually. If you want to download Steam Workshop content you have to install ScreenPlay via Steam.</source>
-        <translation>从我们的论坛手动下载壁纸和小部件。如果您想要下载 Steam 创意工坊内容，您必须通过 Steam 安装ScreenPlay。</translation>
-    </message>
-    <message>
-        <source>Install Steam Version</source>
-        <translation>安装 Steam 版本</translation>
-    </message>
-    <message>
-        <source>Open In Browser</source>
-        <translation>在浏览器中打开</translation>
     </message>
 </context>
 <context>
@@ -627,6 +651,25 @@
     </message>
 </context>
 <context>
+    <name>InstalledNavigation</name>
+    <message>
+        <source>All</source>
+        <translation type="unfinished">全部</translation>
+    </message>
+    <message>
+        <source>Scenes</source>
+        <translation type="unfinished">场景</translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished">视频</translation>
+    </message>
+    <message>
+        <source>Widgets</source>
+        <translation type="unfinished">物件</translation>
+    </message>
+</context>
+<context>
     <name>InstalledWelcomeScreen</name>
     <message>
         <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
@@ -635,6 +678,10 @@
     <message>
         <source>Browse the Steam Workshop</source>
         <translation>浏览创意工坊</translation>
+    </message>
+    <message>
+        <source>Get content via our forum</source>
+        <translation type="unfinished">Get content via our forum</translation>
     </message>
 </context>
 <context>
@@ -714,38 +761,6 @@
 <context>
     <name>Navigation</name>
     <message>
-        <source>All</source>
-        <translation>全部</translation>
-    </message>
-    <message>
-        <source>Scenes</source>
-        <translation>场景</translation>
-    </message>
-    <message>
-        <source>Videos</source>
-        <translation>视频</translation>
-    </message>
-    <message>
-        <source>Widgets</source>
-        <translation>物件</translation>
-    </message>
-    <message>
-        <source>Install Date Ascending</source>
-        <translation>安装日期↓</translation>
-    </message>
-    <message>
-        <source>Install Date Descending</source>
-        <translation>安装日期↑</translation>
-    </message>
-    <message>
-        <source> Subscribed items: </source>
-        <translation>已订阅：</translation>
-    </message>
-    <message>
-        <source>Upload to the Steam Workshop</source>
-        <translation>上传到创意工坊</translation>
-    </message>
-    <message>
         <source>Create</source>
         <translation>创建</translation>
     </message>
@@ -784,41 +799,6 @@
     <message>
         <source>Close All Content</source>
         <translation>关闭所有内容</translation>
-    </message>
-</context>
-<context>
-    <name>PopupOffline</name>
-    <message>
-        <source>Back</source>
-        <translation>返回</translation>
-    </message>
-    <message>
-        <source>You need to run Steam to access the Steam Workshop</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Steam Error Restart: %1
-Steam Error API Init: %2</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>PopupSteamWorkshopAgreement</name>
-    <message>
-        <source>You Need to Agree To The Steam Subscriber Agreement First</source>
-        <translation>您应先同意Steam订阅者协议</translation>
-    </message>
-    <message>
-        <source>REQUIRES INTERNET CONNECTION AND FREE STEAM ACCOUNT TO ACTIVATE. Notice: Product offered subject to your acceptance of the Steam Subscriber Agreement (SSA). You must activate this product via the Internet by registering for a Steam account and accepting the SSA. Please see https://store.steampowered.com/subscriber_agreement/ to view the SSA prior to purchase. If you do not agree with the provisions of the SSA, you should return this game unopened to your retailer in accordance with their return policy.</source>
-        <translation>需要网络连接与免费Steam帐号以激活。注意：产品提供的前提是您接受Steam用户协议（SSA）。您必须通过网络注册一个Steam账户并接受SSA来激活该产品。购买前请打开https://store.steampowered.com/subscriber_agreement/ 查看SSA。如果您不同意SSA的规定，您应该根据零售商的退货政策将本游戏原封不动地退回。</translation>
-    </message>
-    <message>
-        <source>View The Steam Subscriber Agreement</source>
-        <translation>查看Steam订阅者协议</translation>
-    </message>
-    <message>
-        <source>Accept Steam Workshop Agreement</source>
-        <translation>接受Steam创意工坊协议</translation>
     </message>
 </context>
 <context>
@@ -1082,46 +1062,6 @@ Steam Error API Init: %2</source>
 <context>
     <name>Sidebar</name>
     <message>
-        <source>Tools Overview</source>
-        <translation>工具概览</translation>
-    </message>
-    <message>
-        <source>Video Import h264 (.mp4)</source>
-        <translation>视频导入 h264 (.mp4)</translation>
-    </message>
-    <message>
-        <source>Video Import VP8 &amp; VP9 (.webm)</source>
-        <translation>视频导入 VP8 &amp; VP9 (.webm)</translation>
-    </message>
-    <message>
-        <source>Video import (all types)</source>
-        <translation>视频导入(所有类型)</translation>
-    </message>
-    <message>
-        <source>GIF Wallpaper</source>
-        <translation>GIF 壁纸</translation>
-    </message>
-    <message>
-        <source>QML Wallpaper</source>
-        <translation>QML 壁纸</translation>
-    </message>
-    <message>
-        <source>HTML5 Wallpaper</source>
-        <translation>HTML5 壁纸</translation>
-    </message>
-    <message>
-        <source>Website Wallpaper</source>
-        <translation>网页壁纸</translation>
-    </message>
-    <message>
-        <source>QML Widget</source>
-        <translation>QML 部件</translation>
-    </message>
-    <message>
-        <source>HTML Widget</source>
-        <translation>HTML 部件</translation>
-    </message>
-    <message>
         <source>Set Wallpaper</source>
         <translation>设置壁纸</translation>
     </message>
@@ -1165,38 +1105,6 @@ Steam Error API Init: %2</source>
         <source>Scale-Down</source>
         <translation>裁剪</translation>
     </message>
-    <message>
-        <source>Size: </source>
-        <translation>大小：</translation>
-    </message>
-    <message>
-        <source>No description...</source>
-        <translation>没有简介...</translation>
-    </message>
-    <message>
-        <source>Click here if you like the content</source>
-        <translation>如果您喜欢它，点这里！</translation>
-    </message>
-    <message>
-        <source>Click here if you do not like the content</source>
-        <translation>如果您不喜欢它，点这里</translation>
-    </message>
-    <message>
-        <source>Subscribtions: </source>
-        <translation>订阅：</translation>
-    </message>
-    <message>
-        <source>Open In Steam</source>
-        <translation>在Steam打开</translation>
-    </message>
-    <message>
-        <source>Subscribed!</source>
-        <translation>已订阅！</translation>
-    </message>
-    <message>
-        <source>Subscribe</source>
-        <translation>订阅</translation>
-    </message>
 </context>
 <context>
     <name>StartInfo</name>
@@ -1214,104 +1122,6 @@ Steam Error API Init: %2</source>
     <message>
         <source>Could not load steam integration!</source>
         <translation>无法加载steam集成！</translation>
-    </message>
-</context>
-<context>
-    <name>SteamProfile</name>
-    <message>
-        <source>Back</source>
-        <translation>返回</translation>
-    </message>
-    <message>
-        <source>Forward</source>
-        <translation>前进</translation>
-    </message>
-</context>
-<context>
-    <name>SteamWorkshopStartPage</name>
-    <message>
-        <source>Loading</source>
-        <translation>加载中</translation>
-    </message>
-    <message>
-        <source>Download now!</source>
-        <translation>开始下载</translation>
-    </message>
-    <message>
-        <source>Downloading...</source>
-        <translation>下载中...</translation>
-    </message>
-    <message>
-        <source>Details</source>
-        <translation>查看详情</translation>
-    </message>
-    <message>
-        <source>Open In Steam</source>
-        <translation>在Steam打开</translation>
-    </message>
-    <message>
-        <source>Profile</source>
-        <translation>配置</translation>
-    </message>
-    <message>
-        <source>Upload</source>
-        <translation>上传</translation>
-    </message>
-    <message>
-        <source>Search for Wallpaper and Widgets...</source>
-        <translation>搜索壁纸和物件...</translation>
-    </message>
-    <message>
-        <source>Open Workshop in Steam</source>
-        <translation>在Steam中打开创意工坊</translation>
-    </message>
-    <message>
-        <source>Ranked By Vote</source>
-        <translation>评分最好</translation>
-    </message>
-    <message>
-        <source>Publication Date</source>
-        <translation>发布日期</translation>
-    </message>
-    <message>
-        <source>Ranked By Trend</source>
-        <translation>评分趋势</translation>
-    </message>
-    <message>
-        <source>Favorited By Friends</source>
-        <translation>好友收藏</translation>
-    </message>
-    <message>
-        <source>Created By Friends</source>
-        <translation>好友创建</translation>
-    </message>
-    <message>
-        <source>Created By Followed Users</source>
-        <translation>已关注的</translation>
-    </message>
-    <message>
-        <source>Not Yet Rated</source>
-        <translation>尚未评分</translation>
-    </message>
-    <message>
-        <source>Total VotesAsc</source>
-        <translation>按总票数升序</translation>
-    </message>
-    <message>
-        <source>Votes Up</source>
-        <translation>评分上升</translation>
-    </message>
-    <message>
-        <source>Total Unique Subscriptions</source>
-        <translation>总订阅量</translation>
-    </message>
-    <message>
-        <source>Back</source>
-        <translation>返回</translation>
-    </message>
-    <message>
-        <source>Forward</source>
-        <translation>前进</translation>
     </message>
 </context>
 <context>
@@ -1376,507 +1186,6 @@ Steam Error API Init: %2</source>
     </message>
 </context>
 <context>
-    <name>UploadProject</name>
-    <message>
-        <source>Upload Wallpaper/Widgets to Steam</source>
-        <translation>上传 壁纸/物件 到Steam</translation>
-    </message>
-    <message>
-        <source>Abort</source>
-        <translation>取消</translation>
-    </message>
-    <message>
-        <source>Upload Selected Projects</source>
-        <translation>上传所选项目</translation>
-    </message>
-    <message>
-        <source>Finish</source>
-        <translation>结束</translation>
-    </message>
-</context>
-<context>
-    <name>UploadProjectBigItem</name>
-    <message>
-        <source>Type: </source>
-        <translation>类型：</translation>
-    </message>
-    <message>
-        <source>Open Folder</source>
-        <translation>打开文件夹</translation>
-    </message>
-    <message>
-        <source>Invalid Project!</source>
-        <translation>无效的项目！</translation>
-    </message>
-</context>
-<context>
-    <name>UploadProjectItem</name>
-    <message>
-        <source>Fail</source>
-        <translation>失败</translation>
-    </message>
-    <message>
-        <source>No Connection</source>
-        <translation>没有连接</translation>
-    </message>
-    <message>
-        <source>Invalid Password</source>
-        <translation>密码错误</translation>
-    </message>
-    <message>
-        <source>Logged In Elsewhere</source>
-        <translation>在其他地方登录了</translation>
-    </message>
-    <message>
-        <source>Invalid Protocol Version</source>
-        <translation>无效协议版本</translation>
-    </message>
-    <message>
-        <source>Invalid Param</source>
-        <translation>参数无效</translation>
-    </message>
-    <message>
-        <source>File Not Found</source>
-        <translation>文件未找到</translation>
-    </message>
-    <message>
-        <source>Busy</source>
-        <translation>繁忙</translation>
-    </message>
-    <message>
-        <source>Invalid State</source>
-        <translation>状态无效</translation>
-    </message>
-    <message>
-        <source>Invalid Name</source>
-        <translation>名称无效</translation>
-    </message>
-    <message>
-        <source>Invalid Email</source>
-        <translation>邮箱无效</translation>
-    </message>
-    <message>
-        <source>Duplicate Name</source>
-        <translation>重复名称</translation>
-    </message>
-    <message>
-        <source>Access Denied</source>
-        <translation>拒绝访问</translation>
-    </message>
-    <message>
-        <source>Timeout</source>
-        <translation>超时</translation>
-    </message>
-    <message>
-        <source>Banned</source>
-        <translation>被禁止</translation>
-    </message>
-    <message>
-        <source>Account Not Found</source>
-        <translation>账户未找到</translation>
-    </message>
-    <message>
-        <source>Invalid SteamID</source>
-        <translation>SteamID无效</translation>
-    </message>
-    <message>
-        <source>Service Unavailable</source>
-        <translation>服务不可用</translation>
-    </message>
-    <message>
-        <source>Not Logged On</source>
-        <translation>未登录</translation>
-    </message>
-    <message>
-        <source>Pending</source>
-        <translation>待处理</translation>
-    </message>
-    <message>
-        <source>Encryption Failure</source>
-        <translation>加密失败</translation>
-    </message>
-    <message>
-        <source>Insufficient Privilege</source>
-        <translation>权限不足</translation>
-    </message>
-    <message>
-        <source>Limit Exceeded</source>
-        <translation>超出限制</translation>
-    </message>
-    <message>
-        <source>Revoked</source>
-        <translation>被撤回</translation>
-    </message>
-    <message>
-        <source>Expired</source>
-        <translation>已过期</translation>
-    </message>
-    <message>
-        <source>Already Redeemed</source>
-        <translation>已兑换</translation>
-    </message>
-    <message>
-        <source>Duplicate Request</source>
-        <translation>重复请求</translation>
-    </message>
-    <message>
-        <source>Already Owned</source>
-        <translation>已拥有</translation>
-    </message>
-    <message>
-        <source>IP Not Found</source>
-        <translation>未找到IP</translation>
-    </message>
-    <message>
-        <source>Persist Failed</source>
-        <translation>持续失败</translation>
-    </message>
-    <message>
-        <source>Locking Failed</source>
-        <translation>锁定失败</translation>
-    </message>
-    <message>
-        <source>Logon Session Replaced</source>
-        <translation>登录会话被覆盖</translation>
-    </message>
-    <message>
-        <source>Connect Failed</source>
-        <translation>连接失败</translation>
-    </message>
-    <message>
-        <source>Handshake Failed</source>
-        <translation>握手失败</translation>
-    </message>
-    <message>
-        <source>IO Failure</source>
-        <translation>输入输出失败</translation>
-    </message>
-    <message>
-        <source>Remote Disconnect</source>
-        <translation>远程断开连接</translation>
-    </message>
-    <message>
-        <source>Shopping Cart Not Found</source>
-        <translation>未找到购物车</translation>
-    </message>
-    <message>
-        <source>Blocked</source>
-        <translation>受阻</translation>
-    </message>
-    <message>
-        <source>Ignored</source>
-        <translation>已忽略</translation>
-    </message>
-    <message>
-        <source>No Match</source>
-        <translation>无匹配</translation>
-    </message>
-    <message>
-        <source>Account Disabled</source>
-        <translation>账号已禁用</translation>
-    </message>
-    <message>
-        <source>Service ReadOnly</source>
-        <translation>服务只读</translation>
-    </message>
-    <message>
-        <source>Account Not Featured</source>
-        <translation>账号未显示</translation>
-    </message>
-    <message>
-        <source>Administrator OK</source>
-        <translation>管理员确定</translation>
-    </message>
-    <message>
-        <source>Content Version</source>
-        <translation>内容版本</translation>
-    </message>
-    <message>
-        <source>Try Another CM</source>
-        <translation>尝试其他内容管理器</translation>
-    </message>
-    <message>
-        <source>Password Required To Kick Session</source>
-        <translation>启动会话需要密码</translation>
-    </message>
-    <message>
-        <source>Already Logged In Elsewhere</source>
-        <translation>已在其他地方登录</translation>
-    </message>
-    <message>
-        <source>Suspended</source>
-        <translation>已挂起</translation>
-    </message>
-    <message>
-        <source>Cancelled</source>
-        <translation>已取消</translation>
-    </message>
-    <message>
-        <source>Data Corruption</source>
-        <translation>数据损坏</translation>
-    </message>
-    <message>
-        <source>Disk Full</source>
-        <translation>磁盘满</translation>
-    </message>
-    <message>
-        <source>Remote Call Failed</source>
-        <translation>远程调用失败</translation>
-    </message>
-    <message>
-        <source>Password Unset</source>
-        <translation>解除密码</translation>
-    </message>
-    <message>
-        <source>External Account Unlinked</source>
-        <translation>外部账户未链接</translation>
-    </message>
-    <message>
-        <source>PSN Ticket Invalid</source>
-        <translation>PSN令牌无效</translation>
-    </message>
-    <message>
-        <source>External Account Already Linked</source>
-        <translation>外部账户已链接</translation>
-    </message>
-    <message>
-        <source>Remote File Conflict</source>
-        <translation>远程文件冲突</translation>
-    </message>
-    <message>
-        <source>Illegal Password</source>
-        <translation>非法密码</translation>
-    </message>
-    <message>
-        <source>Same As Previous Value</source>
-        <translation>与旧值相同</translation>
-    </message>
-    <message>
-        <source>Account Logon Denied</source>
-        <translation>帐户登录被拒绝</translation>
-    </message>
-    <message>
-        <source>Cannot Use Old Password</source>
-        <translation>不可使用旧密码</translation>
-    </message>
-    <message>
-        <source>Invalid Login AuthCode</source>
-        <translation>无效的登录授权码</translation>
-    </message>
-    <message>
-        <source>Account Logon Denied No Mail</source>
-        <translation>帐户登录被拒绝：没有邮件</translation>
-    </message>
-    <message>
-        <source>Hardware Not Capable Of IPT</source>
-        <translation>硬件不支持身份保护技术</translation>
-    </message>
-    <message>
-        <source>IPT Init Error</source>
-        <translation>身份保护技术初始化失败</translation>
-    </message>
-    <message>
-        <source>Parental Control Restricted</source>
-        <translation>家长控制限制</translation>
-    </message>
-    <message>
-        <source>Facebook Query Error</source>
-        <translation>Facebook查询错误</translation>
-    </message>
-    <message>
-        <source>Expired Login Auth Code</source>
-        <translation>过期的登录授权码</translation>
-    </message>
-    <message>
-        <source>IP Login Restriction Failed</source>
-        <translation>IP登录限制失败</translation>
-    </message>
-    <message>
-        <source>Account Locked Down</source>
-        <translation>帐户被锁定</translation>
-    </message>
-    <message>
-        <source>Account Logon Denied Verified Email Required</source>
-        <translation>帐户登录被拒绝：需验证电子邮件</translation>
-    </message>
-    <message>
-        <source>No MatchingURL</source>
-        <translation>没有匹配网址</translation>
-    </message>
-    <message>
-        <source>Bad Response</source>
-        <translation>坏响应</translation>
-    </message>
-    <message>
-        <source>Require Password ReEntry</source>
-        <translation>要求重新输入密码</translation>
-    </message>
-    <message>
-        <source>Value Out Of Range</source>
-        <translation>值超出范围</translation>
-    </message>
-    <message>
-        <source>Unexpecte Error</source>
-        <translation>意外错误</translation>
-    </message>
-    <message>
-        <source>Disabled</source>
-        <translation>已禁用</translation>
-    </message>
-    <message>
-        <source>Invalid CEG Submission</source>
-        <translation>无效的CEG提交</translation>
-    </message>
-    <message>
-        <source>Restricted Device</source>
-        <translation>受限设备</translation>
-    </message>
-    <message>
-        <source>Region Locked</source>
-        <translation>地区锁定</translation>
-    </message>
-    <message>
-        <source>Rate Limit Exceeded</source>
-        <translation>超出比率限制</translation>
-    </message>
-    <message>
-        <source>Account Login Denied Need Two Factor</source>
-        <translation>账户登录被拒绝：需要两步验证</translation>
-    </message>
-    <message>
-        <source>Item Deleted</source>
-        <translation>物品已删除</translation>
-    </message>
-    <message>
-        <source>Account Login Denied Throttle</source>
-        <translation>帐户登录被拒绝</translation>
-    </message>
-    <message>
-        <source>Two Factor Code Mismatch</source>
-        <translation>两步验证码不匹配</translation>
-    </message>
-    <message>
-        <source>Two Factor Activation Code Mismatch</source>
-        <translation>两步验证激活码不匹配</translation>
-    </message>
-    <message>
-        <source>Account Associated To Multiple Partners</source>
-        <translation>帐户已关联到多个合作伙伴</translation>
-    </message>
-    <message>
-        <source>Not Modified</source>
-        <translation>未修改</translation>
-    </message>
-    <message>
-        <source>No Mobile Device</source>
-        <translation>没有移动设备</translation>
-    </message>
-    <message>
-        <source>Time Not Synced</source>
-        <translation>时间未同步</translation>
-    </message>
-    <message>
-        <source>Sms Code Failed</source>
-        <translation>短信验证码失败</translation>
-    </message>
-    <message>
-        <source>Account Limit Exceeded</source>
-        <translation>超出账户限制</translation>
-    </message>
-    <message>
-        <source>Account Activity Limit Exceeded</source>
-        <translation>超出账户活动限制</translation>
-    </message>
-    <message>
-        <source>Phone Activity Limit Exceeded</source>
-        <translation>超出电话活动限制</translation>
-    </message>
-    <message>
-        <source>Refund To Wallet</source>
-        <translation>退款到钱包</translation>
-    </message>
-    <message>
-        <source>Email Send Failure</source>
-        <translation>邮件发送失败</translation>
-    </message>
-    <message>
-        <source>Not Settled</source>
-        <translation>未解决</translation>
-    </message>
-    <message>
-        <source>Need Captcha</source>
-        <translation>需要验证</translation>
-    </message>
-    <message>
-        <source>GSLT Denied</source>
-        <translation>服务器令牌拒绝</translation>
-    </message>
-    <message>
-        <source>GS Owner Denied</source>
-        <translation>服务器所有者拒绝</translation>
-    </message>
-    <message>
-        <source>Invalid Item Type</source>
-        <translation>无效的物品类型</translation>
-    </message>
-    <message>
-        <source>IP Banned</source>
-        <translation>IP被禁用</translation>
-    </message>
-    <message>
-        <source>GSLT Expired</source>
-        <translation>服务器令牌过期</translation>
-    </message>
-    <message>
-        <source>Insufficient Funds</source>
-        <translation>资金不足</translation>
-    </message>
-    <message>
-        <source>Too Many Pending</source>
-        <translation>提交中太多</translation>
-    </message>
-    <message>
-        <source>No Site Licenses Found</source>
-        <translation>无网站证书</translation>
-    </message>
-    <message>
-        <source>WG Network Send Exceeded</source>
-        <translation>蠕虫守护网络发送超限</translation>
-    </message>
-    <message>
-        <source>Account Not Friends</source>
-        <translation>帐户不是好友</translation>
-    </message>
-    <message>
-        <source>Limited User Account</source>
-        <translation>受限账户</translation>
-    </message>
-    <message>
-        <source>Cant Remove Item</source>
-        <translation>无法移除物品</translation>
-    </message>
-    <message>
-        <source>Account Deleted</source>
-        <translation>账户已删除</translation>
-    </message>
-    <message>
-        <source>Existing User Cancelled License</source>
-        <translation>现有用户已取消许可证</translation>
-    </message>
-    <message>
-        <source>Community Cooldown</source>
-        <translation>社区降温</translation>
-    </message>
-    <message>
-        <source>Status:</source>
-        <translation>状态：</translation>
-    </message>
-    <message>
-        <source>Upload Progress: </source>
-        <translation>上传进度：</translation>
-    </message>
-</context>
-<context>
     <name>WebsiteWallpaper</name>
     <message>
         <source>Create a Website Wallpaper</source>
@@ -1910,14 +1219,12 @@ Steam Error API Init: %2</source>
 <context>
     <name>WindowNavigation</name>
     <message>
-        <source>ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets</source>
-        <translation type="unfinished"></translation>
+        <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
+        <translation type="unfinished">Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</translation>
     </message>
     <message>
-        <source>Are you sure you want to exit ScreenPlay? 
-This will shut down all Wallpaper and Widgets.</source>
-        <translation type="unfinished">您确定要退出ScreenPlay吗？ 
-这将关闭所有壁纸和部件。</translation>
+        <source>ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</source>
+        <translation type="unfinished">ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</translation>
     </message>
 </context>
 <context>
@@ -1929,17 +1236,6 @@ This will shut down all Wallpaper and Widgets.</source>
     <message>
         <source>Saving...</source>
         <translation>保存中...</translation>
-    </message>
-</context>
-<context>
-    <name>WorkshopItem</name>
-    <message>
-        <source>Successfully subscribed to Workshop Item!</source>
-        <translation>成功订阅创意工坊物品！</translation>
-    </message>
-    <message>
-        <source>Download complete!</source>
-        <translation>下载完成！</translation>
     </message>
 </context>
 <context>

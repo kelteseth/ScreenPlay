@@ -1,6 +1,7 @@
 import QtQuick
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 
 Item {
@@ -80,7 +81,7 @@ Item {
                 font.pointSize: 12
                 color: "white"
                 verticalAlignment: Text.AlignTop
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
 
                 anchors {
                     top: parent.top

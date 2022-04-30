@@ -3,15 +3,16 @@ import QtQuick.Controls.Material
 import QtQuick.Controls
 import QtQuick.Layouts
 
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
-import "../../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 
 WizardPage {
     id: root
 
     sourceComponent: ColumnLayout {
         function create() {
-            ScreenPlay.wizards.createQMLWidget(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags());
+            App.wizards.createQMLWidget(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags());
         }
 
         Common.Headline {

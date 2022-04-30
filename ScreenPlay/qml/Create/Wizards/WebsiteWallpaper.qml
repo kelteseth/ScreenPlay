@@ -3,9 +3,10 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
-import "../../Common" as Common
+import ScreenPlayUtil 1.0 as Common
 
 WizardPage {
     id: root
@@ -14,7 +15,7 @@ WizardPage {
         property bool ready: tfTitle.text.length >= 1 && tfUrl.text.length > 1
 
         function create() {
-            ScreenPlay.wizards.createWebsiteWallpaper(tfTitle.text, previewSelector.imageSource, tfUrl.text, tagSelector.getTags());
+            App.wizards.createWebsiteWallpaper(tfTitle.text, previewSelector.imageSource, tfUrl.text, tagSelector.getTags());
         }
 
         spacing: 10

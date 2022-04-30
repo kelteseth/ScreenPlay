@@ -3,6 +3,7 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Create 1.0
 
@@ -25,8 +26,8 @@ Item {
                 root.wizardStarted()
                 swipeView.currentIndex = 1
                 createWallpaperVideoImportConvert.filePath = filePath
-                ScreenPlay.util.setNavigationActive(false)
-                ScreenPlay.create.createWallpaperStart(filePath)
+                App.util.setNavigationActive(false)
+                App.create.createWallpaperStart(filePath)
             }
         }
 

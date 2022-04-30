@@ -9,11 +9,14 @@
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
+Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #elif defined(Q_OS_LINUX)
 #include "src/linuxwindow.h"
 #elif defined(Q_OS_OSX)
 #include "src/macwindow.h"
 #endif
+
+Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 
 int main(int argc, char* argv[])
 {
@@ -33,7 +36,7 @@ int main(int argc, char* argv[])
     if (argumentList.length() == 1) {
 #if defined(Q_OS_WIN)
         // WinWindow window1({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", true, true);
-        WinWindow window1({ 0, 1, 2 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/hordemp4", "appID=test", "1", "fill", "videoWallpaper", true, true);
+        WinWindow window1({ 1 }, "C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/26092021185017", "appID=test", "1", "fill", "videoWallpaper", true, true);
 #elif defined(Q_OS_LINUX)
         LinuxWindow window({ 0 }, "test", "appID=test", "1", "fill", "videoWallpaper", false, true);
 #elif defined(Q_OS_OSX)

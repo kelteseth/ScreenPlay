@@ -11,27 +11,21 @@ Item {
     property bool isWindows: Qt.platform.os === "windows"
     signal requestFadeIn
 
+    property string source: Wallpaper.projectSourceFileAbsolute
+    onSourceChanged: {
+        // Qt 6.3 workaround
+        mediaPlayer.stop()
+        mediaPlayer.source = Qt.resolvedUrl(root.source)
+        mediaPlayer.play()
+    }
+
     MediaPlayer {
         id: mediaPlayer
-
-
-        source: Wallpaper.projectSourceFileAbsolute
         Component.onCompleted: {
             mediaPlayer.play()
             root.requestFadeIn()
         }
-        loops: !root.isWindows && root.loops ? MediaPlayer.Infinite : 1
-        onPositionChanged: {
-            if (!root.isWindows)
-                return
-
-            if ((mediaPlayer.position >= mediaPlayer.duration) && root.loops) {
-                mediaPlayer.setPosition(0)
-                mediaPlayer.stop()
-                mediaPlayer.play()
-            }
-        }
-
+        loops: root.loops ? MediaPlayer.Infinite : 1
         videoOutput: vo
         audioOutput: ao
     }
