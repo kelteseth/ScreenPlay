@@ -8,7 +8,7 @@ import ScreenPlayApp 1.0
 import ScreenPlay 1.0
 import ScreenPlay.Enums.FillMode 1.0
 import Settings 1.0
-import ScreenPlayUtil 1.0 
+import ScreenPlayUtil 1.0
 
 Item {
     id: root
@@ -32,6 +32,9 @@ Item {
         contentHeight: columnWrapper.childrenRect.height
         contentWidth: 800
         flickableDirection: Flickable.VerticalFlick
+        ScrollBar.vertical: ScrollBar {
+            snapMode: ScrollBar.SnapOnRelease
+        }
 
         anchors {
             top: parent.top
@@ -56,19 +59,9 @@ Item {
                     text: qsTr("General")
                 }
 
-                contentItem: Column {
-                    id: columnGeneral
-
+                Column {
+                    anchors.fill: parent
                     spacing: 20
-
-                    anchors {
-                        top: headerGeneral.bottom
-                        topMargin: 20
-                        right: parent.right
-                        left: parent.left
-                        leftMargin: 20
-                        rightMargin: 20
-                    }
 
                     SettingBool {
                         headline: qsTr("Autostart")
@@ -252,27 +245,16 @@ Item {
                     image: "qrc:/qml/ScreenPlayApp/assets/icons/icon_build.svg"
                 }
 
-                contentItem: Column {
-                    id: perfomanceWrapper
-
+                Column {
+                    anchors.fill: parent
                     spacing: 20
-
-                    anchors {
-                        top: headerPerformance.bottom
-                        topMargin: 20
-                        right: parent.right
-                        left: parent.left
-                        leftMargin: 20
-                        rightMargin: 20
-                    }
 
                     SettingBool {
                         headline: qsTr("Pause wallpaper video rendering while another app is in the foreground")
                         description: qsTr("We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!")
                         isChecked: App.settings.checkWallpaperVisible
                         onCheckboxChanged: function (checked) {
-                            App.settings.setCheckWallpaperVisible(
-                                        checked)
+                            App.settings.setCheckWallpaperVisible(checked)
                         }
                     }
 
@@ -322,19 +304,9 @@ Item {
                     image: "qrc:/qml/ScreenPlayApp/assets/icons/icon_cake.svg"
                 }
 
-                contentItem: Column {
-                    id: aboutWrapper
-
+                Column {
+                    anchors.fill: parent
                     spacing: 20
-
-                    anchors {
-                        top: headerAbout.bottom
-                        topMargin: 20
-                        right: parent.right
-                        left: parent.left
-                        leftMargin: 20
-                        rightMargin: 20
-                    }
 
                     Column {
                         id: settingsAboutrapperWrapper
@@ -473,8 +445,7 @@ Item {
                     SettingsButton {
                         icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_launch.svg"
                         headline: qsTr("Version")
-                        description: qsTr("ScreenPlay Build Version \n")
-                                     + App.settings.gitBuildHash
+                        description: qsTr("ScreenPlay Build Version \n") + App.settings.gitBuildHash
                         buttonText: qsTr("Open Changelog")
                         onButtonPressed: Qt.openUrlExternally(
                                              "https://gitlab.com/kelteseth/ScreenPlay/-/releases")
@@ -546,10 +517,6 @@ Item {
                     }
                 }
             }
-        }
-
-        ScrollBar.vertical: ScrollBar {
-            snapMode: ScrollBar.SnapOnRelease
         }
     }
 }
