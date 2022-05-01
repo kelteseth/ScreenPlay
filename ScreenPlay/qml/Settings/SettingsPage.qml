@@ -7,7 +7,7 @@ import QtQuick.Controls.Material.impl
 
 Page {
     width: parent.width
-    height: contentHeight + header.height + 30 * 3
+    height: contentHeight + header.height + 60
     Material.elevation: 4
 
     background: Rectangle {
@@ -19,7 +19,5 @@ Page {
         layer.effect: ElevationEffect {
             elevation: 4
         }
-
     }
-
 }

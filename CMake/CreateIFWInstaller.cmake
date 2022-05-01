@@ -15,7 +15,7 @@ if("${CPACK_IFW_ROOT}" STREQUAL "")
         endif()
     endif()
 
-    message(AUTHOR_WARNING "[CPACK_IFW_ROOT] Not set. Using hardcoded value: ${SCREENPLAY_IFW_ROOT} version ${SCREENPLAY_IFW_ROOT}")
+    message(AUTHOR_WARNING "[CPACK_IFW_ROOT] Not set. Using hardcoded value: ${SCREENPLAY_IFW_ROOT}")
     message(AUTHOR_WARNING "WARNING: MAKE SURE YOU HAVE THIS EXACT VERSION INSTALLED VIA THE QTMAINTANANCE TOOL!")
 else()
     message(STATUS "[CPACK_IFW_ROOT]  =  ${SCREENPLAY_IFW_ROOT}")

@@ -61,6 +61,7 @@ Item {
 
                 Column {
                     anchors.fill: parent
+                    anchors.margins: 20
                     spacing: 20
 
                     SettingBool {
@@ -247,6 +248,7 @@ Item {
 
                 Column {
                     anchors.fill: parent
+                    anchors.margins: 20
                     spacing: 20
 
                     SettingBool {
@@ -306,6 +308,7 @@ Item {
 
                 Column {
                     anchors.fill: parent
+                    anchors.margins: 20
                     spacing: 20
 
                     Column {
