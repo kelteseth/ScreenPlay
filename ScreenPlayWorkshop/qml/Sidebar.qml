@@ -150,7 +150,7 @@ Drawer {
             Image {
                 id: imgBack
 
-                source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_arrow_right.svg"
+                source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_arrow_right.svg"
                 sourceSize: Qt.size(15, 15)
                 fillMode: Image.PreserveAspectFit
                 anchors.centerIn: parent
@@ -186,7 +186,7 @@ Drawer {
                         id: txtVotesUp
 
                         Layout.fillWidth: true
-                        icon.source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_thumb_up.svg"
+                        icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_up.svg"
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you like the content")
                         onClicked: {
@@ -200,7 +200,7 @@ Drawer {
                         id: txtVotesDown
 
                         Layout.fillWidth: true
-                        icon.source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_thumb_down.svg"
+                        icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_thumb_down.svg"
                         ToolTip.visible: hovered
                         ToolTip.text: qsTr("Click here if you do not like the content")
                         onClicked: {
@@ -324,7 +324,7 @@ Drawer {
             id: btnOpenInSteam
 
             font.pointSize: 10
-            icon.source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
+            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
             height: 25
             text: qsTr("Open In Steam")
             onClicked: Qt.openUrlExternally(
@@ -336,7 +336,7 @@ Drawer {
 
             highlighted: !root.subscribed
             enabled: !root.subscribed
-            icon.source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_download.svg"
+            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
             text: root.subscribed ? qsTr("Subscribed!") : qsTr("Subscribe")
             onClicked: {
                 root.subscribed = true

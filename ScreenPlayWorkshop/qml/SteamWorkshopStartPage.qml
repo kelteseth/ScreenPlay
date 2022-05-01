@@ -154,7 +154,7 @@ Item {
                             text: qsTr("Download now!")
                             Material.accent: Material.color(Material.Orange)
                             highlighted: true
-                            icon.source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_download.svg"
+                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
                             onClicked: {
                                 text = qsTr("Downloading...")
                                 root.steamWorkshop.subscribeItem(
@@ -167,7 +167,7 @@ Item {
                             text: qsTr("Details")
                             Material.accent: Material.color(Material.Orange)
                             highlighted: true
-                            icon.source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_info.svg"
+                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_info.svg"
                             visible: false
                             onClicked: {
                                 sidebar.setWorkshopItem(publishedFileID,
@@ -261,7 +261,7 @@ Item {
                     Image {
                         id: avatarPlaceholder
                         anchors.fill: avatar
-                        source: "qrc:/ScreenPlayWorkshop/assets/images/steam_default_avatar.png"
+                        source: "qrc:/qml/ScreenPlayWorkshop/assets/images/steam_default_avatar.png"
                     }
 
                     Button {
@@ -340,7 +340,7 @@ Item {
 
                         ToolButton {
                             id: tb
-                            icon.source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_search.svg"
+                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
                             onClicked: {
                                 root.state = "searching"
                                 root.steamWorkshop.searchWorkshopByText(
@@ -377,7 +377,7 @@ Item {
                             font.capitalization: Font.Capitalize
                             onClicked: Qt.openUrlExternally(
                                            "steam://url/SteamWorkshopPage/672870")
-                            icon.source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_steam.svg"
+                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_steam.svg"
                             icon.width: 18
                             icon.height: 18
                             height: cbQuerySort.height

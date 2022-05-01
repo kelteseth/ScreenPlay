@@ -59,7 +59,7 @@ Item {
                     Image {
                         id: avatarPlaceholder
                         anchors.fill: parent
-                        source: "qrc:/ScreenPlayWorkshop/assets/images/steam_default_avatar.png"
+                        source: "qrc:/qml/ScreenPlayWorkshop/assets/images/steam_default_avatar.png"
                     }
                 }
 

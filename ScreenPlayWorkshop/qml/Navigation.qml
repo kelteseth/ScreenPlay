@@ -78,14 +78,14 @@ Rectangle {
         Image {
             id: avatarPlaceholder
             anchors.fill: avatar
-            source: "qrc:/ScreenPlayWorkshop/assets/images/steam_default_avatar.png"
+            source: "qrc:/qml/ScreenPlayWorkshop/assets/images/steam_default_avatar.png"
         }
 
         Button {
             id: btnUplaod
 
             text: qsTr("Upload to the Steam Workshop")
-            icon.source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_plus.svg"
+            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_plus.svg"
             icon.color: "white"
             icon.width: 16
             icon.height: 16

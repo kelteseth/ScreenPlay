@@ -127,7 +127,7 @@ Item {
         Image {
             id: mask
 
-            //source: "qrc:/ScreenPlayWorkshop/assets/images/Window.svg"
+            //source: "qrc:/qml/ScreenPlayWorkshop/assets/images/Window.svg"
             sourceSize: Qt.size(screenPlay.width, screenPlay.height)
             visible: false
             smooth: true
@@ -220,7 +220,7 @@ Item {
                 }
 
                 Image {
-                    source: "qrc:/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
+                    source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
                     sourceSize: Qt.size(parent.width, parent.height)
                     fillMode: Image.PreserveAspectFit
                 }
