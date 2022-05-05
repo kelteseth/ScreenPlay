@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlaySysInfo 1.0
+import ScreenPlaySysInfo
 
 Window {
     id: root

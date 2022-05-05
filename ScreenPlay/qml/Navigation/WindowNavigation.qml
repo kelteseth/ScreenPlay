@@ -5,9 +5,9 @@ import QtQuick.Window
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlayUtil as Util
 
 Rectangle {
     id: root
@@ -82,7 +82,7 @@ Rectangle {
         }
     }
 
-    Common.Dialog {
+    Util.Dialog {
         id: dialog
         modalSource: root.modalSource
         title: qsTr("Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.")

@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlayWorkshop 1.0
+import ScreenPlayWorkshop
 
 Window {
     id: root

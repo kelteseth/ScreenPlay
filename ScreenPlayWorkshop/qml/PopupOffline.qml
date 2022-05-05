@@ -3,8 +3,8 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
-import ScreenPlayWorkshop 1.0
-import ScreenPlayUtil 1.0
+import ScreenPlayWorkshop
+import ScreenPlayUtil
 
 Popup {
     id: popupOffline

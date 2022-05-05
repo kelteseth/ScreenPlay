@@ -2,8 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
+import ScreenPlayApp
+import ScreenPlay
 
 Rectangle {
     id: root
@@ -13,10 +13,17 @@ Rectangle {
     property int fontSize: 12
     property bool monitorWithoutContentSelectable: true
     property bool multipleMonitorsSelectable: false
+    property bool isSelected: false
     // We preselect the main monitor
-    property var activeMonitors: [0]
+    property var activeMonitors: []
     property alias background: root.color
     property alias radius: root.radius
+
+    Component.onCompleted: {
+        resize()
+        selectOnly(0)
+
+    }
 
     signal requestProjectSettings(var index, var installedType, var appID)
 
@@ -28,6 +35,7 @@ Rectangle {
             }
             rp.itemAt(i).isSelected = false
         }
+        getActiveMonitors()
     }
 
     function reset() {
@@ -47,6 +55,7 @@ Rectangle {
         // Must be called manually. When QML properties are getting altered in js the
         // property binding breaks
         root.activeMonitorsChanged()
+        root.isSelected = root.activeMonitors.length > 0
         return root.activeMonitors
     }
 
@@ -106,9 +115,6 @@ Rectangle {
     width: parent.width
     clip: true
     layer.enabled: true
-    Component.onCompleted: {
-        resize()
-    }
 
     Connections {
         function onMonitorReloadCompleted() {

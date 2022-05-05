@@ -5,16 +5,16 @@ import QtQuick.Controls.Material
 import QtQuick.Particles
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
-import ScreenPlay.QMLUtilities 1.0
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
+import ScreenPlay.QMLUtilities
+import ScreenPlayUtil as Util
 
 Item {
     id: root
 
-    Common.Headline {
+    Util.Headline {
         id: headline
 
         text: qsTr("Free tools to help you to create wallpaper")

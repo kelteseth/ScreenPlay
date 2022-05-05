@@ -3,11 +3,11 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlay.Enums.InstalledType 1.0
-import ScreenPlay.Enums.SearchType 1.0
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Enums.InstalledType
+import ScreenPlay.Enums.SearchType
+import ScreenPlayUtil
 
 Item {
     id: root

@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Window
 import Qt.labs.platform
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
+import ScreenPlayApp
+import ScreenPlay
 
 SystemTrayIcon {
     id: root

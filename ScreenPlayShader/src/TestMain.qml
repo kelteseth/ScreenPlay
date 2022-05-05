@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlayShader 1.0
+import ScreenPlayShader
 
 Window {
     id: root

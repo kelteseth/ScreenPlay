@@ -2,9 +2,9 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Controls
 import QtQuick.Layouts
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlayUtil as Util
 
 WizardPage {
     id: root
@@ -20,7 +20,7 @@ WizardPage {
 
         onReadyChanged: root.ready = ready
 
-        Common.Headline {
+        Util.Headline {
             id: txtHeadline
 
             text: qsTr("Import a Gif Wallpaper")
@@ -105,7 +105,7 @@ WizardPage {
                     Layout.preferredHeight: 20
                 }
 
-                Common.FileSelector {
+                Util.FileSelector {
                     id: fileSelector
 
                     Layout.fillWidth: true
@@ -123,11 +123,11 @@ WizardPage {
                 Layout.fillHeight: true
                 Layout.preferredWidth: root.width * 0.5
 
-                Common.HeadlineSection {
+                Util.HeadlineSection {
                     text: qsTr("General")
                 }
 
-                Common.TextField {
+                Util.TextField {
                     id: tfTitle
 
                     Layout.fillWidth: true
@@ -135,24 +135,24 @@ WizardPage {
                     required: true
                 }
 
-                Common.TextField {
+                Util.TextField {
                     id: tfCreatedBy
 
                     Layout.fillWidth: true
                     placeholderText: qsTr("Created By")
                 }
 
-                Common.LicenseSelector {
+                Util.LicenseSelector {
                     id: cbLicense
 
                     Layout.fillWidth: true
                 }
 
-                Common.HeadlineSection {
+                Util.HeadlineSection {
                     text: qsTr("Tags")
                 }
 
-                Common.TagSelector {
+                Util.TagSelector {
                     id: tagSelector
 
                     Layout.fillWidth: true

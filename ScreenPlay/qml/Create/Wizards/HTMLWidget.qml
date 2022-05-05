@@ -3,9 +3,9 @@ import QtQuick.Controls.Material
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlayUtil as Util
 
 WizardPage {
     id: root
@@ -15,7 +15,7 @@ WizardPage {
             App.wizards.createHTMLWidget(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags());
         }
 
-        Common.Headline {
+        Util.Headline {
             id: txtHeadline
 
             text: qsTr("Create a HTML widget")
@@ -55,7 +55,7 @@ WizardPage {
 
                 }
 
-                Common.ImageSelector {
+                Util.ImageSelector {
                     id: previewSelector
 
                     Layout.fillWidth: true
@@ -71,11 +71,11 @@ WizardPage {
                 Layout.preferredWidth: root.width * 0.5
                 Layout.alignment: Qt.AlignTop
 
-                Common.HeadlineSection {
+                Util.HeadlineSection {
                     text: qsTr("General")
                 }
 
-                Common.TextField {
+                Util.TextField {
                     id: tfTitle
 
                     Layout.fillWidth: true
@@ -84,22 +84,22 @@ WizardPage {
                     onTextChanged: root.ready = text.length >= 1
                 }
 
-                Common.TextField {
+                Util.TextField {
                     id: tfCreatedBy
 
                     Layout.fillWidth: true
                     placeholderText: qsTr("Created by")
                 }
 
-                Common.LicenseSelector {
+                Util.LicenseSelector {
                     id: cbLicense
                 }
 
-                Common.HeadlineSection {
+                Util.HeadlineSection {
                     text: qsTr("Tags")
                 }
 
-                Common.TagSelector {
+                Util.TagSelector {
                     id: tagSelector
 
                     Layout.fillWidth: true

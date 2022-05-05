@@ -3,7 +3,7 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
-import ScreenPlayWorkshop 1.0
+import ScreenPlayWorkshop
 
 Drawer {
     id: root

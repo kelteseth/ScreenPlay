@@ -4,12 +4,12 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Controls.Material.impl
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlay.Enums.InstalledType 1.0
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Enums.InstalledType
+import ScreenPlayUtil as Util
 
-Common.Popup {
+Util.Popup {
     id: root
 
     property string activeMonitorName: ""

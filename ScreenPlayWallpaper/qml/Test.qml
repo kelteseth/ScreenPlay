@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Particles 2.12
 import QtQuick.Shapes 1.12
-import ScreenPlayWallpaper 1.0
+import ScreenPlayWallpaper
 
 Rectangle {
     id: root

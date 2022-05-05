@@ -5,7 +5,7 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
 import Settings
 import ScreenPlay
-import ScreenPlayWorkshop 1.0
+import ScreenPlayWorkshop
 
 Item {
     id: root

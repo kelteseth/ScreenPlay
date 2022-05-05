@@ -2,7 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlayWeather 1.0
+import ScreenPlayWeather
 
 Window {
     id: root

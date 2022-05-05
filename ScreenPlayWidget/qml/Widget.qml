@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtWebEngine
-import ScreenPlayWidget 1.0
-import ScreenPlay.Enums.InstalledType 1.0
+import ScreenPlayWidget
+import ScreenPlay.Enums.InstalledType
 
 Item {
     id: mainWindow

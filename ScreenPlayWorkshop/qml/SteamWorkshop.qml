@@ -3,8 +3,8 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Layouts
-import ScreenPlayWorkshop 1.0
-import WorkshopEnums 1.0
+import ScreenPlayWorkshop
+import WorkshopEnums
 import "upload/"
 
 Item {

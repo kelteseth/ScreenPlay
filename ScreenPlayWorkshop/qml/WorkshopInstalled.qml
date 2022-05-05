@@ -1,7 +1,7 @@
 import QtQuick
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
-import ScreenPlayWorkshop 1.0 as SP
+import ScreenPlayWorkshop as SP
 
 Item {
     id: pageInstalled

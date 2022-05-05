@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlayWorkshop 1.0
+import ScreenPlayWorkshop
 
 Rectangle {
     id: root

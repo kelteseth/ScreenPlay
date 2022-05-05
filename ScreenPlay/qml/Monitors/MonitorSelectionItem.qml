@@ -1,9 +1,9 @@
 import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlay.Enums.InstalledType 1.0
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Enums.InstalledType
 
 Item {
     id: root

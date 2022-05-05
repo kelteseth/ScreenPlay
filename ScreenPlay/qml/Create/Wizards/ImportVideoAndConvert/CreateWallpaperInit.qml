@@ -4,11 +4,10 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
-import ScreenPlayUtil 1.0 as Common
-
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
+import ScreenPlayUtil as Util
 Item {
     id: root
     objectName: "createWallpaperInit"
@@ -27,7 +26,7 @@ Item {
             margins: 20
         }
 
-        Common.Headline {
+        Util.Headline {
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
             text: qsTr("Import any video type")
@@ -92,7 +91,7 @@ Item {
 
         }
 
-        Common.Slider {
+        Util.Slider {
             id: sliderQuality
 
             iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"

@@ -5,9 +5,9 @@ import QtQuick.Window
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlayUtil 1.0
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlayUtil
 
 Rectangle {
     id: root

@@ -1,6 +1,6 @@
 import QtQuick
 import QtMultimedia
-import ScreenPlayWallpaper 1.0
+import ScreenPlayWallpaper
 
 Item {
     id: root

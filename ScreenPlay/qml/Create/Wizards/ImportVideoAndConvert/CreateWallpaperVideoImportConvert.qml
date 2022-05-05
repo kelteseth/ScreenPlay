@@ -3,11 +3,11 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
-import ScreenPlay.Enums.ImportVideoState 1.0
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
+import ScreenPlay.Enums.ImportVideoState
+import ScreenPlayUtil as Util
 
 Item {
     id: root
@@ -229,7 +229,7 @@ Item {
             }
         }
 
-        Common.ImageSelector {
+        Util.ImageSelector {
             id: previewSelector
 
             height: 80
@@ -270,7 +270,7 @@ Item {
                 bottomMargin: 50
             }
 
-            Common.TextField {
+            Util.TextField {
                 id: textFieldName
 
                 placeholderText: qsTr("Name (required!)")
@@ -284,7 +284,7 @@ Item {
                 }
             }
 
-            Common.TextField {
+            Util.TextField {
                 id: textFieldDescription
 
                 placeholderText: qsTr("Description")
@@ -292,7 +292,7 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Common.TextField {
+            Util.TextField {
                 id: textFieldYoutubeURL
 
                 placeholderText: qsTr("Youtube URL")
@@ -300,7 +300,7 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Common.TagSelector {
+            Util.TagSelector {
                 id: textFieldTags
 
                 width: parent.width

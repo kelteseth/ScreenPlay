@@ -3,10 +3,10 @@ import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlay.Enums.FillMode 1.0
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Enums.FillMode
+import ScreenPlayUtil as Util
 
 ColumnLayout {
     id: root
@@ -31,7 +31,7 @@ ColumnLayout {
         slVolume.slider.value = wallpaper.volume;
     }
 
-    Common.Slider {
+    Util.Slider {
         id: slVolume
 
         headline: qsTr("Volume")
@@ -45,7 +45,7 @@ ColumnLayout {
     }
 
 
-    Common.Slider {
+    Util.Slider {
         id: slCurrentVideoTime
 
         headline: qsTr("Current Video Time")

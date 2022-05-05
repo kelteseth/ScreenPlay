@@ -65,7 +65,6 @@ App::App()
     QGuiApplication::setApplicationVersion(QVersionNumber(0, 15, 0).toString());
     QGuiApplication::setQuitOnLastWindowClosed(false);
 
-    QFontDatabase::addApplicationFont(":/qml/ScreenPlayApp/assets/fonts/LibreBaskerville-Italic.ttf");
     const QString fontsPath = QGuiApplication::instance()->applicationDirPath() + "/assets/fonts/";
     const QDir fontsDir(fontsPath);
     if (!fontsDir.isEmpty() && fontsDir.exists()) {

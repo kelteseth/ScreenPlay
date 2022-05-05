@@ -2,8 +2,8 @@ import QtQuick
 import QtQuick.Controls.Material 2.0 as QQCM
 import QtQuick.Layouts
 import QtQuick.Controls as QQC
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
+import ScreenPlayApp
+import ScreenPlay
 
 Item {
     id: root
@@ -28,11 +28,10 @@ Item {
             right: parent.right
             left: parent.left
         }
-
     }
 
     RowLayout {
-        spacing: 30
+        spacing: 15
 
         anchors {
             top: txtHeadline.bottom
@@ -67,12 +66,13 @@ Item {
 
             color: QQCM.Material.secondaryTextColor
             text: Math.round(slider.value * 100) / 100
+
+            Layout.preferredWidth: 20
+            Layout.preferredHeight: 20
             Layout.alignment: Qt.AlignVCenter
             font.pointSize: 12
             font.italic: true
             verticalAlignment: Text.AlignVCenter
         }
-
     }
-
 }

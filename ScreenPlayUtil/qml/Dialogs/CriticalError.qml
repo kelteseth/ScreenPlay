@@ -4,11 +4,11 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import QtQuick.Window
 import Qt5Compat.GraphicalEffects
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlayUtil as Util
 
-Common.Dialog {
+Util.Dialog {
     id: root
 
     property ApplicationWindow window

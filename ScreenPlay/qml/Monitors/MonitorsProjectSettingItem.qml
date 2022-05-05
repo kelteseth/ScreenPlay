@@ -4,8 +4,8 @@ import Qt5Compat.GraphicalEffects
 import Qt.labs.platform 1.1
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
+import ScreenPlayApp
+import ScreenPlay
 
 Item {
     id: root

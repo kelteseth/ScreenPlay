@@ -4,11 +4,11 @@ import Qt.labs.platform
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlay.Enums.FillMode 1.0
-import Settings 1.0
-import ScreenPlayUtil 1.0
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Enums.FillMode
+import Settings
+import ScreenPlayUtil
 
 Item {
     id: root

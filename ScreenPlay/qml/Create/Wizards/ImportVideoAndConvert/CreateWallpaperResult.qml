@@ -4,9 +4,9 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 
 import Qt5Compat.GraphicalEffects
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
 
 Item {
     id: wrapperError

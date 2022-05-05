@@ -1,9 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayUtil as Util
 
-Common.Dialog {
+Util.Dialog {
     id: root
 
     standardButtons: Dialog.Ok

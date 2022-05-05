@@ -3,10 +3,10 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import Settings 1.0
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayApp
+import ScreenPlay
+import Settings
+import ScreenPlayUtil
 import Qt5Compat.GraphicalEffects
 import "qml/Monitors" as Monitors
 import "qml/Installed" as Installed
@@ -37,14 +37,15 @@ ApplicationWindow {
         }
 
         if (name === "Installed") {
-            stackView.replace("qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml",
-                              {
-                                  "sidebar": sidebar
-                              })
+            stackView.replace(
+                        "qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
+                            "sidebar": sidebar
+                        })
             return
         }
         stackView.replace(
-                    "qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + ".qml", {
+                    "qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + ".qml",
+                    {
                         "modalSource": content
                     })
         sidebar.state = "inactive"
@@ -89,16 +90,16 @@ ApplicationWindow {
 
     Item {
         id: noneContentItems
-        Common.SteamNotAvailable {
+        SteamNotAvailable {
             id: dialogSteam
             modalSource: content
         }
 
-        Common.MonitorConfiguration {
+        MonitorConfiguration {
             modalSource: content
         }
 
-        Common.CriticalError {
+        CriticalError {
             window: root
             modalSource: content
         }
@@ -107,7 +108,7 @@ ApplicationWindow {
             id: monitors
             modalSource: content
         }
-        Common.TrayIcon {
+        TrayIcon {
             window: root
         }
     }

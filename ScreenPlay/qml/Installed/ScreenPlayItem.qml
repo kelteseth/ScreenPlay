@@ -2,10 +2,10 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlayApp 1.0
-import ScreenPlay 1.0
-import ScreenPlay.Enums.InstalledType 1.0
-import ScreenPlayUtil 1.0 as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Enums.InstalledType
+import ScreenPlayUtil
 
 Item {
     id: root
@@ -24,15 +24,15 @@ Item {
     width: 320
     height: 180
     onTypeChanged: {
-        if (Common.JSUtil.isWidget(type)) {
+        if (JSUtil.isWidget(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg"
             return
         }
-        if (Common.JSUtil.isScene(type)) {
+        if (JSUtil.isScene(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg"
             return
         }
-        if (Common.JSUtil.isVideo(type)) {
+        if (JSUtil.isVideo(type)) {
             icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
             return
         }
