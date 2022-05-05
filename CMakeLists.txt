@@ -102,6 +102,8 @@ if(${SCREENPLAY_INSTALLER})
     include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/CreateIFWInstaller.cmake)
 endif()
 
+list(APPEND QML_DIRS "${SCREENPLAY_QML_MODULES_PATH}")
+set(QML_IMPORT_PATH "${QML_DIRS}" CACHE STRING "Qt Creator extra qml import paths")
 
 message(STATUS "[DEFINE] SOURCE_DIR                    = ${CMAKE_CURRENT_SOURCE_DIR}")
 message(STATUS "[DEFINE] BUILD_DATE                    = ${BUILD_DATE}")
