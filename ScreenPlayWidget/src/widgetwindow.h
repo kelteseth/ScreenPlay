@@ -58,7 +58,7 @@
 #endif
 
 #include "ScreenPlayUtil/util.h"
-#include "screenplaysdk.h"
+#include "ScreenPlaySDK/screenplaysdk.h"
 #include <memory>
 
 class WidgetWindow : public QObject {

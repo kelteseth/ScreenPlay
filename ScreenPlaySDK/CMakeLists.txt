@@ -9,13 +9,13 @@ find_package(
     COMPONENTS Quick Network Core
     REQUIRED)
 
-set(SOURCES src/screenplay-sdk_plugin.cpp src/screenplaysdk.cpp)
+set(SOURCES  src/screenplaysdk.cpp)
 
-set(HEADER inc/screenplay-sdk_plugin.h inc/screenplaysdk.h)
+set(HEADER  inc/Public/ScreenPlaySDK/screenplaysdk.h)
 
 add_library(${PROJECT_NAME} ${SOURCES} ${HEADER})
 
-target_include_directories(${PROJECT_NAME} PUBLIC inc)
+target_include_directories(${PROJECT_NAME} PUBLIC inc/Public/)
 
 target_link_libraries(
     ${PROJECT_NAME}
