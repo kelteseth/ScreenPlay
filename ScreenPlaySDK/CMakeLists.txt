@@ -15,7 +15,7 @@ set(HEADER  inc/public/ScreenPlaySDK/screenplaysdk.h)
 
 add_library(${PROJECT_NAME} ${SOURCES} ${HEADER})
 
-target_include_directories(${PROJECT_NAME} PUBLIC inc/Public/)
+target_include_directories(${PROJECT_NAME} PUBLIC inc/public/)
 
 target_link_libraries(
     ${PROJECT_NAME}
