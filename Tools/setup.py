@@ -12,7 +12,8 @@ vcpkg_version = "2ac61f8"  # Master 23.04.2022
 vcpkg_packages_list = [
     "openssl",
     "curl",
-    "cpp-httplib"
+    "cpp-httplib",
+    "libarchive"
 ]
 
 class commands_list():

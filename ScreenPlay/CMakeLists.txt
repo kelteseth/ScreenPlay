@@ -299,6 +299,7 @@ target_link_libraries(
            Qt6::Svg
            ScreenPlayUtil
            ScreenPlayUtilplugin
+           QArchive
            SteamSDKQtEnums)
 
 if(${SCREENPLAY_STEAM})

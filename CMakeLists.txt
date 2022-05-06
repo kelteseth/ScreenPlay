@@ -72,6 +72,10 @@ execute_process(
     OUTPUT_VARIABLE GIT_COMMIT_HASH
     OUTPUT_STRIP_TRAILING_WHITESPACE)
 
+
+include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/FetchContentThirdParty.cmake)
+
+add_subdirectory(CMake)
 add_subdirectory(ScreenPlay)
 add_subdirectory(ScreenPlaySDK)
 add_subdirectory(ScreenPlayShader)
@@ -79,14 +83,14 @@ add_subdirectory(ScreenPlayWallpaper)
 add_subdirectory(ScreenPlayWidget)
 add_subdirectory(ScreenPlayUtil)
 add_subdirectory(ScreenPlayWeather)
-add_subdirectory(CMake)
+add_subdirectory(ThirdParty/QArchive)
 add_subdirectory(Tools)
+
 
 if(${SCREENPLAY_TESTS})
     enable_testing()
 endif()
 
-include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/FetchContentThirdParty.cmake)
 
 # Only add target SteamSDKQtEnums
 add_subdirectory(ScreenPlayWorkshop/SteamSDK)

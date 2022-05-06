@@ -97,9 +97,119 @@ void Util::openFolderInExplorer(const QString& url) const
     explorer.startDetached();
 }
 
+/*!
+  \brief Removes file///: or file:// from the url/string
+*/
 QString Util::toLocal(const QString& url)
 {
     return ScreenPlayUtil::toLocal(url);
+}
+
+/*!
+  \brief Exports a given project into a .screenplay 7Zip file.
+*/
+bool Util::exportProject(QString& contentPath, QString& exportPath)
+{
+    contentPath = ScreenPlayUtil::toLocal(contentPath);
+    exportPath = ScreenPlayUtil::toLocal(exportPath);
+
+    QDir dir(contentPath);
+    bool success = true;
+    if (!dir.exists()) {
+        qWarning() << "Directory does not exist!" << dir;
+        return false;
+    }
+    QStringList files;
+    for (auto& item : dir.entryInfoList(QDir::Files)) {
+        files.append(item.absoluteFilePath());
+    }
+    m_compressor = std::make_unique<QArchive::DiskCompressor>(exportPath);
+    m_compressor->setArchiveFormat(QArchive::SevenZipFormat);
+    m_compressor->addFiles(files);
+    /* Connect Signals with Slots (in this case lambda functions). */
+    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::started, [&]() {
+        qInfo() << "[+] Starting Compressor... ";
+    });
+    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::finished, [&]() {
+        qInfo() << "[+] Compressed File(s) Successfully!";
+
+        return;
+    });
+    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::error, [&](short code, QString file) {
+        qInfo() << "[-] An error has occured :: " << QArchive::errorCodeToString(code) << " :: " << file;
+
+        return;
+    });
+
+    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::progress, [&](QString file, int proc, int total, qint64 br, qint64 bt) {
+        qInfo() << "Progress::" << file << ":: Done ( " << proc << " / " << total << ") " << (br * 100 / bt) << "%.";
+        return;
+    });
+
+    m_compressor->start();
+    return true;
+}
+
+/*!
+  \brief Imports a given project from a .screenplay zip file.
+*/
+bool Util::importProject(QString& archivePath, QString& extractionPath)
+{
+    archivePath = ScreenPlayUtil::toLocal(archivePath);
+    extractionPath = ScreenPlayUtil::toLocal(extractionPath);
+
+    QFileInfo fileInfo(archivePath);
+    if (!fileInfo.fileName().endsWith(".screenplay")) {
+        qWarning() << "Unsupported file type: " << fileInfo.fileName() << ". We only support '.screenplay' files.";
+        return false;
+    }
+    const QString name = fileInfo.fileName().remove(".screenplay");
+
+    const auto timestamp = QDateTime::currentDateTime().toString("ddMMyyyyhhmmss-");
+    extractionPath = extractionPath + "/" + timestamp + name + "/";
+    QDir dir(extractionPath);
+
+    if (dir.exists()) {
+        qWarning() << "Directory does already exist!" << dir;
+        return false;
+    }
+
+    if (!dir.mkdir(extractionPath)) {
+        qWarning() << "Unable to create directory:" << dir;
+        return false;
+    }
+
+    m_extractor = std::make_unique<QArchive::DiskExtractor>(archivePath, extractionPath);
+
+    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::started, [&]() {
+        qInfo() << "[+] Starting Extractor... ";
+    });
+    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::finished, [&]() {
+        qInfo() << "[+] Extracted File(s) Successfully!";
+        return;
+    });
+    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::error, [&](short code) {
+        if (code == QArchive::ArchivePasswordNeeded || code == QArchive::ArchivePasswordIncorrect) {
+            return;
+        }
+        qInfo() << "[-] An error has occured :: " << QArchive::errorCodeToString(code);
+        return;
+    });
+    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::info, [&](QJsonObject info) {
+        qInfo() << "ARCHIVE CONTENTS:: " << info;
+        return;
+    });
+
+    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::progress,
+        [&](QString file, int proc, int total, qint64 br, qint64 bt) {
+            qInfo() << "Progress(" << proc << "/" << total << "): "
+                    << file << " : " << (br * 100 / bt) << "% done.";
+        });
+
+    m_extractor->setCalculateProgress(true);
+    m_extractor->getInfo();
+    m_extractor->start();
+    return true;
 }
 
 /*!

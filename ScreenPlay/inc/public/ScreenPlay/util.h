@@ -56,6 +56,10 @@
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlayUtil/util.h"
 
+#include "qarchive_enums.hpp"
+#include "qarchivediskcompressor.hpp"
+#include "qarchivediskextractor.hpp"
+
 #include <fstream>
 #include <iostream>
 #include <optional>
@@ -106,7 +110,8 @@ public slots:
     void copyToClipboard(const QString& text) const;
     void openFolderInExplorer(const QString& url) const;
     QString toLocal(const QString& url);
-
+    bool exportProject(QString& contentPath, QString& exportPath);
+    bool importProject(QString& archivePath, QString& extractionPath);
     void requestAllLicenses();
     void requestDataProtection();
 
@@ -148,6 +153,8 @@ private:
 
     QString m_debugMessages {};
     QFuture<void> m_requestAllLicensesFuture;
+    std::unique_ptr<QArchive::DiskCompressor> m_compressor;
+    std::unique_ptr<QArchive::DiskExtractor> m_extractor;
 };
 
 // Used for redirect content from static logToGui to setDebugMessages

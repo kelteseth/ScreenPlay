@@ -29,6 +29,7 @@ set(QML
     qml/RippleEffect.qml
     qml/Search.qml
     qml/Shake.qml
+    qml/FileDropAnimation.qml
     qml/Slider.qml
     qml/Tag.qml
     qml/TagSelector.qml
@@ -52,6 +53,11 @@ set(HEADER
     inc/public/ScreenPlayUtil/SingletonHelper.h
     inc/public/ScreenPlayUtil/util.h)
 
+set(RESOURCES
+    assets/icons/folder.svg
+    assets/icons/description.svg
+    assets/icons/attach_file.svg)
+
 qt_add_library(
     ${PROJECT_NAME}
     STATIC
@@ -68,7 +74,9 @@ qt_add_qml_module(
     VERSION
     1.0
     QML_FILES
-    ${QML})
+    ${QML}
+    RESOURCES
+    ${RESOURCES})
 
 find_path(CPP_HTTPLIB_INCLUDE_DIRS "httplib.h")
 target_include_directories(${PROJECT_NAME} PUBLIC ${CPP_HTTPLIB_INCLUDE_DIRS})
