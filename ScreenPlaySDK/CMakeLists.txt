@@ -11,7 +11,7 @@ find_package(
 
 set(SOURCES  src/screenplaysdk.cpp)
 
-set(HEADER  inc/Public/ScreenPlaySDK/screenplaysdk.h)
+set(HEADER  inc/public/ScreenPlaySDK/screenplaysdk.h)
 
 add_library(${PROJECT_NAME} ${SOURCES} ${HEADER})
 
