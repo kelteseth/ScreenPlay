@@ -68,6 +68,13 @@ add_compile_definitions(COMPILE_INFO="Build Date: ${BUILD_DATE}. Git Hash: ${GIT
 add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 add_compile_definitions(SCREENPLAY_STEAM="${SCREENPLAY_STEAM}")
 
+# Universal builds
+if(APPLE)
+    #set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+    #set(VCPKG_TARGET_ARCHITECTURE x86_64 arm64)
+    message(STATUS "[PROJECT] CMAKE_OSX_ARCHITECTURES    = ${CMAKE_OSX_ARCHITECTURES}")
+endif()
+
 if(UNIX AND NOT APPLE)
     # Fixes QWebEngine linker errors on Ubuntu 20.04
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -fuse-ld=gold")

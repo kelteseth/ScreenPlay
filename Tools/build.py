@@ -19,10 +19,12 @@ cmake_build_type = ""
 executable_file_ending = ""
 deploy_command = ""
 aqt_path = ""
+aqt_install_qt_packages = ""
+aqt_install_tool_packages = ""
 ifw_root_path = ""
 cmake_bin_path = ""
 
-file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".dylib", ".exp",
+file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".exp",
 				".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
 
 vcvars = "" # We support 2019 or 2022
@@ -64,7 +66,8 @@ def clean_build_dir(build_dir):
 		build_dir = Path(build_dir)
 	if build_dir.exists():
 		print(f"Remove previous build folder: {build_dir}")
-		shutil.rmtree(build_dir)
+		# ignore_errors removes also not empty folders...
+		shutil.rmtree(build_dir, ignore_errors=True)
 	build_dir.mkdir(parents=True, exist_ok=True)
 
 def run(cmd, cwd = Path.cwd()):
@@ -98,11 +101,7 @@ if __name__ == "__main__":
 		root_path = root_path.parent
 
 	if args.use_aqt:
-		aqt_path =  Path(("{root_path}/../aqt/").format(root_path=root_path)).resolve()
-
-		if not Path(aqt_path).exists():
-			print("aqt path does not exist at %s. Please make sure you have installed aqt." % aqt_path)
-			exit(2)
+		aqt_path =  Path(f"{root_path}/../aqt/").resolve()
 
 	if platform.system() == "Windows":
 		cmake_target_triplet = "x64-windows"
@@ -115,14 +114,22 @@ if __name__ == "__main__":
 		os.environ.update(vs_env_dict)
 		deploy_command = "windeployqt.exe --{type}  --qmldir ../../{app}/qml {app}{executable_file_ending}"
 
+		aqt_install_qt_packages = f"windows desktop {qt_version} win64_msvc2019_64 -m all"
+		aqt_install_tool_packages = "windows desktop tools_ifw"
+
 	elif platform.system() == "Darwin":
 		cmake_target_triplet = "x64-osx"
 		qt_path = aqt_path.joinpath(f"{qt_version}/macos") if args.use_aqt else Path(f"~/Qt/{qt_version}/macos")
 		deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app}"
 
+		aqt_install_qt_packages = f"mac desktop {qt_version} clang_64 -m all"
+		aqt_install_tool_packages = "mac desktop tools_ifw"
+
 	elif platform.system() == "Linux":
 		cmake_target_triplet = "x64-linux"
 		qt_path = aqt_path.joinpath(f"{qt_version}/gcc_64") if args.use_aqt else Path(f"~/Qt/{qt_version}/gcc_64")
+		aqt_install_qt_packages = f"linux desktop {qt_version} gcc_64 -m all"
+		aqt_install_tool_packages = "linux desktop tools_ifw"
 		if shutil.which("cqtdeployer"):
 			deploy_command = "cqtdeployer -qmlDir ../../{app}/qml -bin {app}"
 		else:
@@ -130,10 +137,19 @@ if __name__ == "__main__":
 	else:
 		raise NotImplementedError("Unsupported platform, ScreenPlay only supports Windows, macOS and Linux.")
 		
+	# Default to QtMaintainance installation.
+	if args.use_aqt:
+		print("qt_path path  %s." % qt_path)
+		if not Path(aqt_path).exists():
+			print(f"aqt path does not exist at {aqt_path}. Installing now into...")
+			run(f"aqt install-qt -O ../aqt {aqt_install_qt_packages}", cwd=root_path)
+			run(f"aqt install-tool -O ../aqt {aqt_install_tool_packages}", cwd=root_path)
+	
+			
 	# Prepare
-	cmake_toolchain_file = ("'{root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake'").format(root_path=root_path)
-	print("cmake_toolchain_file: %s " % cmake_toolchain_file)
-	print("Starting build with type %s. Qt Version: %s. Root path: %s" % (args.build_type, qt_version, root_path))
+	cmake_toolchain_file = f"'{root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake'"
+	print(f"cmake_toolchain_file: {cmake_toolchain_file}")
+	print(f"Starting build with type {args.build_type}. Qt Version: {qt_version}. Root path: {root_path}")
 	
 	if args.steam_build:
 		steam_build =  "ON"
@@ -141,27 +157,19 @@ if __name__ == "__main__":
 		build_tests =  "ON"
 	if args.create_installer:
 		create_installer =  "ON"
-		ifw_root_path =  ("{aqt_path}\\Tools\\QtInstallerFramework\\4.2").format(aqt_path=aqt_path)
+		ifw_root_path =  f"{aqt_path}\\Tools\\QtInstallerFramework\\4.2"
 
-	cmake_configure_command = 'cmake ../ \
--DCMAKE_PREFIX_PATH={prefix_path} \
--DCMAKE_BUILD_TYPE={type} \
--DVCPKG_TARGET_TRIPLET={triplet} \
--DCMAKE_TOOLCHAIN_FILE={toolchain} \
--DSCREENPLAY_STEAM={steam} \
--DSCREENPLAY_TESTS={tests} \
--DSCREENPLAY_CREATE_INSTALLER={installer} \
--DSCREENPLAY_IFW_ROOT:STRING={ifw} \
+	cmake_configure_command = f'cmake ../ \
+	-DCMAKE_PREFIX_PATH={qt_path} \
+	-DCMAKE_BUILD_TYPE={args.build_type} \
+	-DVCPKG_TARGET_TRIPLET={cmake_target_triplet} \
+	-DCMAKE_TOOLCHAIN_FILE={cmake_toolchain_file} \
+	-DSCREENPLAY_STEAM={steam_build} \
+	-DSCREENPLAY_TESTS={build_tests} \
+	-DSCREENPLAY_CREATE_INSTALLER={create_installer} \
+	-DSCREENPLAY_IFW_ROOT:STRING={ifw_root_path} \
 -G "CodeBlocks - Ninja" \
--B.'.format(
-		prefix_path=qt_path,
-		type=args.build_type,
-		triplet=cmake_target_triplet,
-		toolchain=cmake_toolchain_file,
-		steam=steam_build,
-		tests = build_tests,
-		installer= create_installer,
-		ifw= ifw_root_path)
+	-B.'
 
 	build_folder = root_path.joinpath(f"build-{cmake_target_triplet}-{args.build_type}")
 	clean_build_dir(build_folder)
@@ -198,8 +206,6 @@ if __name__ == "__main__":
 	
 	# Post-build
 	if platform.system() == "Darwin" and args.sign_build:
-		print("Remove workshop build folder (macos only).")
-		shutil.rmtree(build_folder + "/bin/workshop")
 
 		run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --entitlements \"../../ScreenPlay/entitlements.plist\"  --deep \"ScreenPlay.app/\"", cwd=bin_dir)
 		run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlayWallpaper.app/\"", cwd=bin_dir)
@@ -209,11 +215,10 @@ if __name__ == "__main__":
 		run("codesign --verify --verbose=4  \"ScreenPlayWallpaper.app/\"", cwd=bin_dir)
 		run("codesign --verify --verbose=4  \"ScreenPlayWidget.app/\"", cwd=bin_dir)
 
-		run_io_tasks_in_parallel([
-			lambda: run("xcnotary notarize ScreenPlay.app -d kelteseth@gmail.com -k ScreenPlay", cwd=bin_dir),
-			lambda: run("xcnotary notarize ScreenPlayWallpaper.app -d kelteseth@gmail.com -k ScreenPlay", cwd=bin_dir),
-			lambda: run("xcnotary notarize ScreenPlayWidget.app -d kelteseth@gmail.com -k ScreenPlay", cwd=bin_dir)
-		])
+
+		run("xcnotary notarize ScreenPlay.app -d kelteseth@gmail.com -k ScreenPlay", cwd=bin_dir),
+		run("xcnotary notarize ScreenPlayWallpaper.app -d kelteseth@gmail.com -k ScreenPlay", cwd=bin_dir),
+		run("xcnotary notarize ScreenPlayWidget.app -d kelteseth@gmail.com -k ScreenPlay", cwd=bin_dir)
 
 		run("spctl --assess --verbose  \"ScreenPlay.app/\"", cwd=bin_dir)
 		run("spctl --assess --verbose  \"ScreenPlayWallpaper.app/\"", cwd=bin_dir)
@@ -222,13 +227,13 @@ if __name__ == "__main__":
 	# Some dlls like openssl do no longer get copied automatically.
 	# Lets just copy all of them into bin.
 	if platform.system() == "Windows":
-		vcpkg_bin_path = Path(("{root_path}/../ScreenPlay-vcpkg/installed/x64-windows/bin").format(root_path=root_path)).resolve()
+		vcpkg_bin_path = Path(f"{root_path}/../ScreenPlay-vcpkg/installed/x64-windows/bin").resolve()
 		print(vcpkg_bin_path)
 		for file in vcpkg_bin_path.iterdir():
 			if file.suffix == ".dll" and file.is_file():
 				print(file, bin_dir)
 				shutil.copy2(file, bin_dir)
-
+	if not platform.system() == "Darwin":
 	for file_ending in file_endings:
 		for file in bin_dir.rglob("*" + file_ending):
 			if file.is_file():
@@ -239,6 +244,17 @@ if __name__ == "__main__":
 		os.chdir(build_folder)
 		print("Running cpack at: ", os.getcwd())
 		run("cpack", cwd=build_folder)
+		# We also need to sign the installer in osx:
+		if platform.system() == "Darwin" and args.sign_build:
+			run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlay-Installer.dmg/ScreenPlay-Installer.app/Contents/MacOS/ScreenPlay-Installer\"", cwd=build_folder)
+			run("codesign --verify --verbose=4  \"ScreenPlay-Installer.dmg/ScreenPlay-Installer.app/Contents/MacOS/ScreenPlay-Installer\"", cwd=build_folder)
+			run("xcnotary notarize ScreenPlay-Installer.dmg/ScreenPlay-Installer.app -d kelteseth@gmail.com -k ScreenPlay", cwd=build_folder)
+			run("spctl --assess --verbose  \"ScreenPlay-Installer.dmg/ScreenPlay-Installer.app/\"", cwd=build_folder)
+
+			run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlay-Installer.dmg/\"", cwd=build_folder)
+			run("codesign --verify --verbose=4  \"ScreenPlay-Installer.dmg/\"", cwd=build_folder)
+			run("xcnotary notarize ScreenPlay-Installer.dmg -d kelteseth@gmail.com -k ScreenPlay", cwd=build_folder)
+			run("spctl --assess --verbose  \"ScreenPlay-Installer.dmg/\"", cwd=build_folder)
 
 	print("Time taken: {}s".format(time.time() - start_time))
 	
