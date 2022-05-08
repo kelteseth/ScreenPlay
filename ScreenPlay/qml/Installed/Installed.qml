@@ -19,7 +19,7 @@ Item {
     property bool enabled: true
 
     property Sidebar sidebar
-
+    property Item modalSource
     signal setNavigationItem(var pos)
     signal setSidebarActive(var active)
 
@@ -284,7 +284,7 @@ Item {
         MenuItem {
             text: qsTr("Export")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
-            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_download.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_import_export_.svg"
             onClicked: {
                 exportFileDialog.absoluteStoragePath = contextMenu.absoluteStoragePath
                 let urlFileName = Labs.StandardPaths.writableLocation(
@@ -301,6 +301,7 @@ Item {
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_delete.svg"
             enabled: contextMenu.publishedFileID === 0
+                     || !App.settings.steamVersion
             onClicked: {
                 deleteDialog.open()
             }
@@ -309,6 +310,7 @@ Item {
         MenuItem {
             text: qsTr("Open Workshop Page")
             enabled: contextMenu.publishedFileID !== 0
+                     && App.settings.steamVersion
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
             onClicked: {
                 Qt.openUrlExternally(
@@ -316,41 +318,71 @@ Item {
             }
         }
     }
-    Labs.FileDialog {
-        id: exportFileDialog
-        fileMode: FileDialog.SaveFile
-        property string absoluteStoragePath
-        onAccepted: {
-            const success = App.util.exportProject(
-                              exportFileDialog.absoluteStoragePath,
-                              exportFileDialog.currentFile)
-        }
-
-        Dialog {
-            id: exportFileProgressDialog
-            modal: true
-            anchors.centerIn: Overlay.overlay
-            standardButtons: Dialog.Ok
-            onAccepted: errorDialog.close()
-
-            ProgressBar {
-                id: exportFileProgressBar
-                anchors.centerIn: parent
-            }
-        }
-    }
-
-    Dialog {
+    Util.Dialog {
         id: deleteDialog
         title: qsTr("Are you sure you want to delete this item?")
         standardButtons: Dialog.Ok | Dialog.Cancel
         modal: true
         dim: true
+        modalSource: root.modalSource
         anchors.centerIn: Overlay.overlay
         onAccepted: {
             root.sidebar.clear()
             App.installedListModel.deinstallItemAt(
                         contextMenu.absoluteStoragePath)
+        }
+    }
+
+    Labs.FileDialog {
+        id: exportFileDialog
+        fileMode: FileDialog.SaveFile
+        property string absoluteStoragePath
+        onAccepted: {
+            exportFileProgressDialog.open()
+        }
+    }
+
+    Util.Dialog {
+        id: exportFileProgressDialog
+        modal: true
+        anchors.centerIn: Overlay.overlay
+        width: 400
+        focus: true
+        modalSource: root.modalSource
+        closePolicy: Popup.NoAutoClose
+        onOpened: {
+            const success = App.util.exportProject(
+                              exportFileDialog.absoluteStoragePath,
+                              exportFileDialog.currentFile)
+        }
+        onClosed: exportProgressBar.value = 0
+        ColumnLayout {
+            width: parent.width
+            spacing: 20
+
+            Text {
+                text: qsTr("Export Content...")
+                color: Material.primaryTextColor
+                font.pointSize: 18
+                Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
+            }
+            ProgressBar {
+                id: exportProgressBar
+                from: 0
+                to: 100
+                Layout.alignment: Qt.AlignHCenter
+            }
+        }
+        Connections {
+            id: exportConnections
+            target: App.util.compressor
+            function onProgress(file, proc, total, br, bt) {
+                exportProgressBar.value = (br * 100 / bt)
+            }
+            function onFinished() {
+                exportFileProgressDialog.close()
+            }
         }
     }
 
@@ -376,17 +408,17 @@ Item {
             dropArea.enabled = false
 
             if (drop.urls.length > 1) {
-                errorDialog.title = qsTr(
+                importProjectErrorDialog.title = qsTr(
                             "We only support adding one item at once.")
-                errorDialog.open()
+                importProjectErrorDialog.open()
                 return
             }
             var file = "" // Convert url to string
             file = "" + drop.urls[0]
             if (!file.endsWith('.screenplay')) {
-                errorDialog.title = qsTr(
+                importProjectErrorDialog.title = qsTr(
                             "File type not supported. We only support '.screenplay' files.")
-                errorDialog.open()
+                importProjectErrorDialog.open()
                 return
             }
             importDialog.open()
@@ -396,30 +428,54 @@ Item {
             dropPopup.close()
         }
 
-        Dialog {
-            id: errorDialog
+        Util.Dialog {
+            id: importProjectErrorDialog
             modal: true
+            modalSource: root.modalSource
             anchors.centerIn: Overlay.overlay
             standardButtons: Dialog.Ok
-            onAccepted: errorDialog.close()
+            onAccepted: importProjectErrorDialog.close()
         }
-        Dialog {
+        Util.Dialog {
             id: importDialog
             modal: true
+            modalSource: root.modalSource
             anchors.centerIn: Overlay.overlay
-            standardButtons: Dialog.Ok
-            RowLayout {
-                Text {
-                    text: qsTr("Import Content...")
-                }
-            }
+            width: 400
+            focus: true
+            closePolicy: Popup.NoAutoClose
+            onClosed: importProgressBar.value = 0
             onOpened: {
                 App.util.importProject(dropArea.filePath,
                                        App.globalVariables.localStoragePath)
                 dropArea.filePath = ""
             }
-            onAccepted: {
-                importDialog.close()
+            ColumnLayout {
+                width: parent.width
+                spacing: 20
+                Text {
+                    text: qsTr("Import Content...")
+                    color: Material.primaryTextColor
+                    font.pointSize: 18
+                    Layout.fillWidth: true
+                    horizontalAlignment: Text.AlignHCenter
+                }
+                ProgressBar {
+                    id: importProgressBar
+                    from: 0
+                    to: 100
+                    Layout.alignment: Qt.AlignHCenter
+                }
+                Connections {
+                    id: importConnections
+                    target: App.util.extractor
+                    function onProgress(file, proc, total, br, bt) {
+                        importProgressBar.value = (br * 100 / bt)
+                    }
+                    function onFinished() {
+                        importDialog.close()
+                    }
+                }
             }
         }
     }
