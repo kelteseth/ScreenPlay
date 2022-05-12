@@ -231,6 +231,7 @@ set(RESOURCES
     assets/icons/icon_sort-up-solid.svg
     assets/icons/icon_sort-down-solid.svg
     assets/icons/brand_reddit.svg
+    assets/icons/icon_import_export_.svg
     assets/icons/steam_default_avatar.png
     assets/macos/app.screenplay.plist
     assets/icons/item_banner_new.svg

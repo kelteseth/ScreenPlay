@@ -18,12 +18,12 @@ namespace ScreenPlay {
 Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     : QObject(parent)
     , m_networkAccessManager { networkAccessManager }
+    , m_extractor { std::make_unique<QArchive::DiskExtractor>() }
+    , m_compressor { std::make_unique<QArchive::DiskCompressor>() }
 {
     utilPointer = this;
     // Fix log access vilation on quit
     QObject::connect(QGuiApplication::instance(), &QGuiApplication::aboutToQuit, this, []() { utilPointer = nullptr; });
-
-    qmlRegisterUncreatableType<Util>("ScreenPlay.QMLUtilities", 1, 0, "QMLUtilities", "Error only for enums");
 
     // In release mode redirect messages to logging otherwhise we break the nice clickable output :(
 #ifdef QT_NO_DEBUG
@@ -108,10 +108,11 @@ QString Util::toLocal(const QString& url)
 /*!
   \brief Exports a given project into a .screenplay 7Zip file.
 */
-bool Util::exportProject(QString& contentPath, QString& exportPath)
+bool Util::exportProject(QString& contentPath, QString& exportFileName)
 {
+    m_compressor->clear();
     contentPath = ScreenPlayUtil::toLocal(contentPath);
-    exportPath = ScreenPlayUtil::toLocal(exportPath);
+    exportFileName = ScreenPlayUtil::toLocal(exportFileName);
 
     QDir dir(contentPath);
     bool success = true;
@@ -123,38 +124,27 @@ bool Util::exportProject(QString& contentPath, QString& exportPath)
     for (auto& item : dir.entryInfoList(QDir::Files)) {
         files.append(item.absoluteFilePath());
     }
-    m_compressor = std::make_unique<QArchive::DiskCompressor>(exportPath);
+    QFile exportFile(exportFileName);
+    if (exportFile.exists()) {
+        if (!exportFile.remove()) {
+            qWarning() << "Unable to delte file marked to override!" << dir;
+            return false;
+        }
+    }
+    m_compressor->setFileName(exportFileName);
     m_compressor->setArchiveFormat(QArchive::SevenZipFormat);
     m_compressor->addFiles(files);
-    /* Connect Signals with Slots (in this case lambda functions). */
-    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::started, [&]() {
-        qInfo() << "[+] Starting Compressor... ";
-    });
-    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::finished, [&]() {
-        qInfo() << "[+] Compressed File(s) Successfully!";
-
-        return;
-    });
-    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::error, [&](short code, QString file) {
-        qInfo() << "[-] An error has occured :: " << QArchive::errorCodeToString(code) << " :: " << file;
-
-        return;
-    });
-
-    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::progress, [&](QString file, int proc, int total, qint64 br, qint64 bt) {
-        qInfo() << "Progress::" << file << ":: Done ( " << proc << " / " << total << ") " << (br * 100 / bt) << "%.";
-        return;
-    });
-
     m_compressor->start();
     return true;
 }
 
 /*!
-  \brief Imports a given project from a .screenplay zip file.
+  \brief Imports a given project from a .screenplay zip file. The argument extractionPath
+         must be copied otherwise it will get reset in qml before extracting.
 */
-bool Util::importProject(QString& archivePath, QString& extractionPath)
+bool Util::importProject(QString& archivePath, QString extractionPath)
 {
+    m_extractor->clear();
     archivePath = ScreenPlayUtil::toLocal(archivePath);
     extractionPath = ScreenPlayUtil::toLocal(extractionPath);
 
@@ -179,33 +169,8 @@ bool Util::importProject(QString& archivePath, QString& extractionPath)
         return false;
     }
 
-    m_extractor = std::make_unique<QArchive::DiskExtractor>(archivePath, extractionPath);
-
-    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::started, [&]() {
-        qInfo() << "[+] Starting Extractor... ";
-    });
-    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::finished, [&]() {
-        qInfo() << "[+] Extracted File(s) Successfully!";
-        return;
-    });
-    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::error, [&](short code) {
-        if (code == QArchive::ArchivePasswordNeeded || code == QArchive::ArchivePasswordIncorrect) {
-            return;
-        }
-        qInfo() << "[-] An error has occured :: " << QArchive::errorCodeToString(code);
-        return;
-    });
-    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::info, [&](QJsonObject info) {
-        qInfo() << "ARCHIVE CONTENTS:: " << info;
-        return;
-    });
-
-    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::progress,
-        [&](QString file, int proc, int total, qint64 br, qint64 bt) {
-            qInfo() << "Progress(" << proc << "/" << total << "): "
-                    << file << " : " << (br * 100 / bt) << "% done.";
-        });
-
+    m_extractor->setArchive(archivePath);
+    m_extractor->setOutputDirectory(extractionPath);
     m_extractor->setCalculateProgress(true);
     m_extractor->getInfo();
     m_extractor->start();

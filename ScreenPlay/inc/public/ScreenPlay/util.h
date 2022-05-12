@@ -88,14 +88,15 @@ class Util : public QObject {
     QML_ELEMENT
 
     Q_PROPERTY(QString debugMessages READ debugMessages NOTIFY debugMessagesChanged)
+    Q_PROPERTY(QArchive::DiskCompressor* compressor READ compressor NOTIFY compressorChanged)
+    Q_PROPERTY(QArchive::DiskExtractor* extractor READ extractor NOTIFY extractorChanged)
 
 public:
     explicit Util(QNetworkAccessManager* networkAccessManager, QObject* parent = nullptr);
 
-    QString debugMessages() const
-    {
-        return m_debugMessages;
-    }
+    QString debugMessages() const { return m_debugMessages; }
+    QArchive::DiskCompressor* compressor() const { return m_compressor.get(); }
+    QArchive::DiskExtractor* extractor() const { return m_extractor.get(); }
 
 signals:
     void requestNavigation(QString nav);
@@ -105,13 +106,15 @@ signals:
     void allLicenseLoaded(QString licensesText);
     void allDataProtectionLoaded(QString dataProtectionText);
     void debugMessagesChanged(QString debugMessages);
+    void compressorChanged(QArchive::DiskCompressor* compressor);
+    void extractorChanged(QArchive::DiskExtractor* extractor);
 
 public slots:
     void copyToClipboard(const QString& text) const;
     void openFolderInExplorer(const QString& url) const;
     QString toLocal(const QString& url);
-    bool exportProject(QString& contentPath, QString& exportPath);
-    bool importProject(QString& archivePath, QString& extractionPath);
+    bool exportProject(QString& contentPath, QString& exportFileName);
+    bool importProject(QString& archivePath, QString extractionPath);
     void requestAllLicenses();
     void requestDataProtection();
 
@@ -146,6 +149,22 @@ public slots:
 
         m_debugMessages += debugMessages;
         emit debugMessagesChanged(m_debugMessages);
+    }
+
+    void setCompressor(QArchive::DiskCompressor* compressor)
+    {
+        if (m_compressor.get() == compressor)
+            return;
+        m_compressor.reset(compressor);
+        emit compressorChanged(m_compressor.get());
+    }
+
+    void setExtractor(QArchive::DiskExtractor* extractor)
+    {
+        if (m_extractor.get() == extractor)
+            return;
+        m_extractor.reset(extractor);
+        emit extractorChanged(m_extractor.get());
     }
 
 private:
