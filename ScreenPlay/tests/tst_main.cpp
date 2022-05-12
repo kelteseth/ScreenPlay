@@ -32,8 +32,8 @@
 **
 ****************************************************************************/
 
-#include "app.h"
-#include "create.h"
+#include "ScreenPlay/app.h"
+#include "ScreenPlay/create.h"
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -42,23 +42,25 @@
 #include <QGuiApplication>
 #include <QQuickItem>
 #include <QtTest>
-#define DOCTEST_CONFIG_IMPLEMENT
-#define DOCTEST_CONFIG_SUPER_FAST_ASSERTS
-#include <doctest/doctest.h>
 
+Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+#ifdef SCREENPLAY_STEAM
+Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
+#endif
 class ScreenPlayTest : public QObject {
     Q_OBJECT
 
 private slots:
     void initTestCase()
     {
-        Q_INIT_RESOURCE(ScreenPlayQML);
-        Q_INIT_RESOURCE(ScreenPlayAssets);
 
         app.init();
-        m_window = qobject_cast<QQuickWindow*>(app.mainWindowEngine()->rootObjects().first());
+        m_window = qobject_cast<QQmlApplicationEngine*>(app.mainWindowEngine()->rootObjects().first());
+
+        m_window->addImportPath(QGuiApplication::instance()->applicationDirPath() + "/qml");
         QVERIFY(m_window);
-        QVERIFY(QTest::qWaitForWindowExposed(m_window));
+        //QVERIFY(QTest::qWaitForWindowExposed(m_window.));
 
         QTest::qWait(1000);
         m_installedSidebar = m_window->findChild<QQuickItem*>("installedSidebar");
@@ -71,7 +73,7 @@ private slots:
     void import_convert_video();
 
 private:
-    QQuickWindow* m_window = nullptr;
+    QQmlApplicationEngine* m_window = nullptr;
     QQuickItem* m_installedSidebar = nullptr;
     ScreenPlay::App app;
 };

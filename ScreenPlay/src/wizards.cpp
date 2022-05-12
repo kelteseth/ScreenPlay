@@ -1,4 +1,4 @@
-#include "wizards.h"
+#include "ScreenPlay/wizards.h"
 
 #include "ScreenPlayUtil/util.h"
 
@@ -31,7 +31,12 @@ void Wizards::createQMLWidget(const QString& title,
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
@@ -49,7 +54,7 @@ void Wizards::createQMLWidget(const QString& title,
         obj.insert("type", "qmlWidget");
         obj.insert("file", "main.qml");
 
-        if (!Util::writeFileFromQrc(":/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
@@ -92,7 +97,12 @@ void Wizards::createHTMLWidget(const QString& title,
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
@@ -110,7 +120,7 @@ void Wizards::createHTMLWidget(const QString& title,
         obj.insert("type", "htmlWidget");
         obj.insert("file", "index.html");
 
-        if (!Util::writeFileFromQrc(":/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
@@ -155,7 +165,12 @@ void Wizards::createHTMLWallpaper(
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
@@ -173,7 +188,7 @@ void Wizards::createHTMLWallpaper(
         obj.insert("type", "htmlWallpaper");
         obj.insert("file", "index.html");
 
-        if (!Util::writeFileFromQrc(":/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
@@ -217,7 +232,12 @@ void Wizards::createQMLWallpaper(
     const QString& previewThumbnail,
     const QVector<QString>& tags)
 {
-    QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
@@ -242,7 +262,7 @@ void Wizards::createQMLWallpaper(
             }
         }
 
-        if (!Util::writeFileFromQrc(":/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
@@ -270,7 +290,12 @@ void Wizards::createGifWallpaper(
     const QString& file,
     const QVector<QString>& tags)
 {
-    auto con = QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {
@@ -290,7 +315,7 @@ void Wizards::createGifWallpaper(
         obj.insert("tags", ScreenPlayUtil::fillArray(tags));
         obj.insert("type", "gifWallpaper");
 
-        if (!Util::writeFileFromQrc(":/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/assets/wizards/" + licenseFile, workingPath + "/" + licenseFile)) {
             qWarning() << "Could not write " << licenseFile;
             emit widgetCreationFinished(WizardResult::WriteLicenseFileError);
             return;
@@ -320,7 +345,12 @@ void Wizards::createWebsiteWallpaper(
     const QUrl& url,
     const QVector<QString>& tags)
 {
-    QtConcurrent::run([=]() {
+    if (m_wizardFuture.isRunning()) {
+        qWarning() << "Another wizard is already running! Abort.";
+        return;
+    }
+
+    m_wizardFuture = QtConcurrent::run([=]() {
         std::optional<QString> folderName = createTemporaryFolder();
 
         if (!folderName.has_value()) {

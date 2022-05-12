@@ -7,16 +7,9 @@ from pathlib import Path
 from execute_util import execute
 from download_ffmpeg import download_prebuild_ffmpeg
 
-vcpkg_version = "1085a57da0725c19e19586025438e8c16f34c890"  # Master 31.12.2021
+vcpkg_version = "2ac61f8"  # Master 23.04.2022
 
-vcpkg_packages_list = [
-    "openssl",
-    "curl",
-    "sentry-native",
-    "doctest",
-    "benchmark",
-    "cpp-httplib"
-]
+
 
 class commands_list():
     def __init__(self):
@@ -76,25 +69,33 @@ without the ScreenPlay-vcpkg folder (E.g. py .\setup.py --path "D:/Backup/Code/Q
     vcpkg_triplet = ""
     vcpkg_command = ""  
     platform_command = commands_list()
+    vcpkg_packages_list = [
+    "openssl",
+    "curl",
+    "cpp-httplib",
+    "libarchive"
+]
 
+    
     if system() == "Windows":
         vcpkg_command = "vcpkg.exe"
         vcpkg_packages_list.append("infoware[d3d]")
+        vcpkg_packages_list.append("sentry-native")
         if shutil.which("pwsh"):
             print("Using experimental pwsh, may not work properly.")
             platform_command.add("pwsh.exe -NoProfile -ExecutionPolicy Bypass .\scripts\\bootstrap.ps1", vcpkg_path)
         else:
             platform_command.add("bootstrap-vcpkg.bat", vcpkg_path, False)
         platform_command.add("download_ffmpeg.bat", project_source_path.joinpath("Tools"), False)
-        vcpkg_triplet = "x64-windows"
+        vcpkg_triplet = ["x64-windows"]
     elif system() == "Darwin":
         vcpkg_command = "./vcpkg"
-        vcpkg_packages_list.append("infoware[opencl]")
+        #vcpkg_packages_list.append("infoware[opencl]") does not work with arm
         vcpkg_packages_list.append("curl") # Hidden dependency from sentry
         platform_command.add("chmod +x bootstrap-vcpkg.sh", vcpkg_path)
         platform_command.add("./bootstrap-vcpkg.sh", vcpkg_path, False)
         platform_command.add("chmod +x vcpkg", vcpkg_path)
-        vcpkg_triplet = "x64-osx"
+        vcpkg_triplet = ["x64-osx", "arm64-osx"]
         platform_command.add(download_prebuild_ffmpeg)
     elif system() == "Linux":
         vcpkg_command = "./vcpkg"
@@ -102,18 +103,19 @@ without the ScreenPlay-vcpkg folder (E.g. py .\setup.py --path "D:/Backup/Code/Q
         platform_command.add("chmod +x bootstrap-vcpkg.sh", vcpkg_path)
         platform_command.add("./bootstrap-vcpkg.sh", vcpkg_path, False)
         platform_command.add("chmod +x vcpkg", vcpkg_path)
-        vcpkg_triplet = "x64-linux"
+        vcpkg_triplet = ["x64-linux"]
     else:
         raise NotImplementedError("Unknown system: {}".format(system()))
 
-    execute("git clone https://github.com/microsoft/vcpkg.git ScreenPlay-vcpkg", project_source_parent_path, True)
-    execute("git fetch", vcpkg_path)
-    execute("git checkout {}".format(vcpkg_version), vcpkg_path)
-    platform_command.execute_commands() # Execute platform specific commands.
-    vcpkg_packages = " ".join(vcpkg_packages_list)
-    execute("{} remove --outdated --recurse".format(vcpkg_command), vcpkg_path, False)
-    execute("{} update".format(vcpkg_command), vcpkg_path, False)
-    execute("{} upgrade --no-dry-run".format(vcpkg_command),
-            vcpkg_path, False)
-    execute("{} install {} --triplet {} --recurse".format(vcpkg_command,
-            vcpkg_packages, vcpkg_triplet), vcpkg_path, False)
+    for triplet in vcpkg_triplet:
+        execute("git clone https://github.com/microsoft/vcpkg.git ScreenPlay-vcpkg", project_source_parent_path, True)
+        execute("git fetch", vcpkg_path)
+        execute("git checkout {}".format(vcpkg_version), vcpkg_path)
+        platform_command.execute_commands() # Execute platform specific commands.
+        vcpkg_packages = " ".join(vcpkg_packages_list)
+        execute("{} remove --outdated --recurse".format(vcpkg_command), vcpkg_path, False)
+        execute("{} update".format(vcpkg_command), vcpkg_path, False)
+        execute("{} upgrade --no-dry-run".format(vcpkg_command),
+                vcpkg_path, False)
+        execute("{} install {} --triplet {} --recurse".format(vcpkg_command,
+                vcpkg_packages, triplet), vcpkg_path, False)

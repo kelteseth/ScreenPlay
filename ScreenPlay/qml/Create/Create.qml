@@ -5,9 +5,10 @@ import QtQuick.Controls.Material
 import QtQuick.Particles
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
-import ScreenPlay.QMLUtilities 1.0
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
+import ScreenPlay.QMLUtilities
 
 Item {
     id: root
@@ -16,10 +17,10 @@ Item {
 
     Component.onCompleted: {
         wizardContentWrapper.state = "in";
-        stackView.push("qrc:/ScreenPlayQml/qml/Create/StartInfo.qml");
+        stackView.push("qrc:/qml/ScreenPlayApp/qml/Create/StartInfo.qml");
     }
 
-    Sidebar {
+    CreateSidebar {
         id: sidebar
 
         stackView: stackView

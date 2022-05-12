@@ -1,35 +1,71 @@
-project(ScreenPlayShader LANGUAGES CXX)
+project(
+    ScreenPlayShader
+    VERSION 0.1
+    LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
 
 find_package(
     Qt6
-    COMPONENTS Quick Core
+    COMPONENTS Quick Core ShaderTools
     REQUIRED)
 
-set(SOURCES # cmake-format: sortable
-            screenplayshader_plugin.cpp shaderlibrary.cpp)
+set(QML src/ShadertoyShader.qml src/TestMain.qml)
 
-set(HEADER # cmake-format: sortable
-           screenplayshader_plugin.h shaderlibrary.h)
+set(QML_PLUGIN_SOURCES src/shaderlibrary.cpp)
 
-qt_add_resources(RESOURCES Resources.qrc)
+set(QML_PLUGIN_HEADER src/shaderlibrary.h)
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES} ${HEADER} ${RESOURCES})
+set(SHADER
+    shaders/lightning.vert
+    shaders/lightning.frag
+    shaders/wobble.frag
+    shaders/water.frag
+    shaders/water.vert)
+
+set(RESOURCES
+    assets/mask_01.png
+    assets/Shadertoy_Bayer.png
+    assets/Shadertoy_Gray_Noise_Medium.png
+    assets/Shadertoy_Lichen.jpg
+    assets/test_image_andras-vas-Bd7gNnWJBkU-unsplash.jpg)
+
+qt_add_library(${PROJECT_NAME} STATIC)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick)
+target_include_directories(${PROJECT_NAME} PUBLIC src/)
 
 qt_add_qml_module(
     ${PROJECT_NAME}
+    OUTPUT_DIRECTORY
+    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
     URI
     ${PROJECT_NAME}
+    RESOURCE_PREFIX /qml
     VERSION
     1.0
+    SOURCES
+    ${QML_PLUGIN_SOURCES}
+    ${QML_PLUGIN_HEADER}
     QML_FILES
-    ShadertoyShader.qml)
+    ${QML}
+    RESOURCES
+    ${RESOURCES})
 
-target_include_directories(${PROJECT_NAME} PRIVATE inc)
+# https://doc.qt.io/qt-6/qtshadertools-build.html
+qt6_add_shaders(
+    ${PROJECT_NAME}
+    "shaders"
+    BATCHABLE
+    PRECOMPILE
+    PREFIX
+    "/"
+    FILES
+    ${SHADER})
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick Qt6::Gui)
+if(${SCREENPLAY_TESTS})
+    qt_add_executable(tst_ScreenPlayShader src/TestMain.cpp)
+    target_link_libraries(tst_ScreenPlayShader PRIVATE Qt::Quick ${PROJECT_NAME}plugin)
+    target_compile_definitions(tst_ScreenPlayShader PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+endif()

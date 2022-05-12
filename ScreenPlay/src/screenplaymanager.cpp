@@ -1,6 +1,5 @@
-#include "screenplaymanager.h"
+#include "ScreenPlay/screenplaymanager.h"
 #include <QScopeGuard>
-#include <doctest/doctest.h>
 
 namespace ScreenPlay {
 
@@ -93,10 +92,12 @@ void ScreenPlayManager::init(
             });
             QObject::connect(socket, &QWebSocket::disconnected, this, [this, socket]() {
                 m_connections.removeOne(socket);
+                setIsKDEConnected(false);
                 qInfo() << "Disconnected connection count: " << m_connections.count();
             });
 
             m_connections.push_back(socket);
+            setIsKDEConnected(true);
             // socket->flush();
         });
     }
@@ -171,7 +172,7 @@ bool ScreenPlayManager::createWallpaper(
         for (auto& wallpaper : m_screenPlayWallpapers) {
             if (wallpaper->screenNumber().length() == 1) {
                 if (monitors.at(0) == wallpaper->screenNumber().at(0)) {
-                    wallpaper->replace(
+                    return wallpaper->replace(
                         path,
                         previewImage,
                         file,
@@ -180,8 +181,6 @@ bool ScreenPlayManager::createWallpaper(
                         type,
                         m_settings->checkWallpaperVisible());
                     m_monitorListModel->setWallpaperMonitor(wallpaper, monitorIndex);
-
-                    return true;
                 }
             }
             i++;
@@ -470,6 +469,7 @@ void ScreenPlayManager::newConnection()
     m_unconnectedClients.push_back(std::move(connection));
 }
 
+
 /*!
     \brief Removes a wallpaper from the given appID. Returns true on success.
 */
@@ -721,9 +721,17 @@ bool ScreenPlayManager::loadProfiles()
     return true;
 }
 
-TEST_CASE("Loads profiles.json")
+bool ScreenPlayManager::isKDEConnected() const
 {
-    GlobalVariables globalVariables;
-    ScreenPlayManager manager;
+    return m_isKDEConnected;
 }
+
+void ScreenPlayManager::setIsKDEConnected(bool isKDEConnected)
+{
+    if (m_isKDEConnected == isKDEConnected)
+        return;
+    m_isKDEConnected = isKDEConnected;
+    emit isKDEConnectedChanged(isKDEConnected);
+}
+
 }

@@ -3,10 +3,11 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
-import ScreenPlay.Enums.ImportVideoState 1.0
-import "../../../Common" as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
+import ScreenPlay.Enums.ImportVideoState
+import ScreenPlayUtil as Util
 
 Item {
     id: root
@@ -49,7 +50,7 @@ Item {
                 txtConvert.text = qsTr("Generating preview thumbnail image...");
                 break;
             case ImportVideoState.ConvertingPreviewImageFinished:
-                imgPreview.source = "file:///" + ScreenPlay.create.workingDir + "/preview.jpg";
+                imgPreview.source = "file:///" + App.create.workingDir + "/preview.jpg";
                 imgPreview.visible = true;
                 break;
             case ImportVideoState.ConvertingPreviewVideo:
@@ -59,7 +60,7 @@ Item {
                 txtConvert.text = qsTr("Generating preview gif...");
                 break;
             case ImportVideoState.ConvertingPreviewGifFinished:
-                gifPreview.source = "file:///" + ScreenPlay.create.workingDir + "/preview.gif";
+                gifPreview.source = "file:///" + App.create.workingDir + "/preview.gif";
                 imgPreview.visible = false;
                 gifPreview.visible = true;
                 gifPreview.playing = true;
@@ -97,10 +98,10 @@ Item {
             txtConvertNumber.text = percentage + "%";
         }
 
-        target: ScreenPlay.create
+        target: App.create
     }
 
-    Common.Headline {
+    Util.Headline {
         id: txtHeadline
 
         text: qsTr("Import a video to a wallpaper")
@@ -198,7 +199,7 @@ Item {
 
                 color: "white"
                 font.pointSize: 21
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
 
                 anchors {
                     horizontalCenter: parent.horizontalCenter
@@ -214,7 +215,7 @@ Item {
                 color: Material.secondaryTextColor
                 text: qsTr("Generating preview video...")
                 font.pointSize: 14
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
 
                 anchors {
                     horizontalCenter: parent.horizontalCenter
@@ -226,7 +227,7 @@ Item {
 
         }
 
-        Common.ImageSelector {
+        Util.ImageSelector {
             id: previewSelector
 
             height: 80
@@ -269,7 +270,7 @@ Item {
                 bottomMargin: 50
             }
 
-            Common.TextField {
+            Util.TextField {
                 id: textFieldName
 
                 placeholderText: qsTr("Name (required!)")
@@ -283,7 +284,7 @@ Item {
                 }
             }
 
-            Common.TextField {
+            Util.TextField {
                 id: textFieldDescription
 
                 placeholderText: qsTr("Description")
@@ -291,7 +292,7 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Common.TextField {
+            Util.TextField {
                 id: textFieldYoutubeURL
 
                 placeholderText: qsTr("Youtube URL")
@@ -299,7 +300,7 @@ Item {
                 Layout.fillWidth: true
             }
 
-            Common.TagSelector {
+            Util.TagSelector {
                 id: textFieldTags
 
                 width: parent.width
@@ -328,10 +329,10 @@ Item {
                 text: qsTr("Abort")
                 Material.accent: Material.color(Material.Red)
                 highlighted: true
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 onClicked: {
                     root.exit();
-                    ScreenPlay.create.cancel();
+                    App.create.cancel();
                 }
             }
 
@@ -342,11 +343,11 @@ Item {
                 enabled: false
                 Material.background: Material.accent
                 Material.foreground: "white"
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 onClicked: {
                     if (conversionFinishedSuccessful) {
                         btnSave.enabled = false;
-                        ScreenPlay.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, Create.VP9, textFieldTags.getTags());
+                        App.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, Create.VP9, textFieldTags.getTags());
                         savePopup.open();
                     }
                 }
@@ -377,7 +378,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.bottom: parent.bottom
             anchors.bottomMargin: 30
-            font.family: ScreenPlay.settings.font
+            font.family: App.settings.font
         }
 
         Timer {
@@ -386,7 +387,7 @@ Item {
             interval: 1000 + Math.random() * 1000
             onTriggered: {
                 savePopup.close();
-                ScreenPlay.util.setNavigationActive(true);
+                App.util.setNavigationActive(true);
                 root.exit();
             }
         }

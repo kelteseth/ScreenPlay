@@ -5,15 +5,16 @@ import QtQuick.Controls.Material
 import QtQuick.Particles
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
-import ScreenPlay.QMLUtilities 1.0
-import "../Common" as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
+import ScreenPlay.QMLUtilities
+import ScreenPlayUtil as Util
 
 Item {
     id: root
 
-    Common.Headline {
+    Util.Headline {
         id: headline
 
         text: qsTr("Free tools to help you to create wallpaper")
@@ -32,7 +33,7 @@ Item {
 
         color: Material.primaryTextColor
         font.pointSize: 12
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         text: qsTr("Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!")
 
         anchors {
@@ -51,7 +52,7 @@ Item {
         maximumFlickVelocity: 2500
         flickDeceleration: 500
         clip: true
-        cellWidth: 186
+        cellWidth: 180
         cellHeight: 280
 
         anchors {
@@ -69,7 +70,7 @@ Item {
         model: ListModel {
             ListElement {
                 text: "Subreddit"
-                image: "qrc:/assets/startinfo/reddit.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/reddit.png"
                 link: "https://www.reddit.com/r/ScreenPlayApp/"
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Community"
@@ -77,7 +78,7 @@ Item {
 
             ListElement {
                 text: "Forums"
-                image: "qrc:/assets/startinfo/forums.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/forums.png"
                 link: "https://forum.screen-play.app/"
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Community"
@@ -85,7 +86,7 @@ Item {
 
             ListElement {
                 text: "QML Online Editor"
-                image: "qrc:/assets/startinfo/qml_online.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/qml_online.png"
                 link: "https://qmlonline.kde.org/"
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Tools"
@@ -93,7 +94,7 @@ Item {
 
             ListElement {
                 text: "Godot"
-                image: "qrc:/assets/startinfo/godot.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/godot.png"
                 link: "https://godotengine.org/"
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit."
                 category: "Tools"
@@ -101,7 +102,7 @@ Item {
 
             ListElement {
                 text: "Handbreak"
-                image: "qrc:/assets/startinfo/handbreak.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/handbreak.png"
                 link: "https://handbrake.fr/"
                 description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes,"
                 category: "Tools"
@@ -109,7 +110,7 @@ Item {
 
             ListElement {
                 text: "Blender"
-                image: "qrc:/assets/startinfo/blender.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/blender.png"
                 link: "https://www.blender.org/"
                 description: ""
                 category: "Tools"
@@ -117,7 +118,7 @@ Item {
 
             ListElement {
                 text: "OBS Studio"
-                image: "qrc:/assets/startinfo/obs.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/obs.png"
                 link: "https://obsproject.com/"
                 description: ""
                 category: "Tools"
@@ -125,7 +126,7 @@ Item {
 
             ListElement {
                 text: "Krita"
-                image: "qrc:/assets/startinfo/krita.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/krita.png"
                 link: "https://krita.org/"
                 description: ""
                 category: "Tools"
@@ -133,7 +134,7 @@ Item {
 
             ListElement {
                 text: "Gimp"
-                image: "qrc:/assets/startinfo/gimp.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/gimp.png"
                 link: "https://gimp.org/"
                 description: ""
                 category: "Tools"
@@ -141,7 +142,7 @@ Item {
 
             ListElement {
                 text: "Inscape"
-                image: "qrc:/assets/startinfo/inkscape.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/inkscape.png"
                 link: "https://inkscape.org/"
                 description: ""
                 category: "Tools"
@@ -149,7 +150,7 @@ Item {
 
             ListElement {
                 text: "Kdenlive"
-                image: "qrc:/assets/startinfo/kdeenlive.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/kdeenlive.png"
                 link: "https://kdenlive.org/"
                 description: ""
                 category: "Tools"
@@ -157,7 +158,7 @@ Item {
 
             ListElement {
                 text: "ShareX"
-                image: "qrc:/assets/startinfo/sharex.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/sharex.png"
                 link: "https://getsharex.com/"
                 description: ""
                 category: "Tools"
@@ -165,7 +166,7 @@ Item {
 
             ListElement {
                 text: "GitLab"
-                image: "qrc:/assets/startinfo/gitlab.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/gitlab.png"
                 link: "https://about.gitlab.com/"
                 description: ""
                 category: "Tools"
@@ -173,7 +174,7 @@ Item {
 
             ListElement {
                 text: "Git Extensions - Git UI for Windows"
-                image: "qrc:/assets/startinfo/git_extentions.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/git_extentions.png"
                 link: "https://gitextensions.github.io/"
                 description: ""
                 category: "Tools"
@@ -181,7 +182,7 @@ Item {
 
             ListElement {
                 text: "Visual Studio Code"
-                image: "qrc:/assets/startinfo/vscode.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/vscode.png"
                 link: "https://code.visualstudio.com/"
                 description: ""
                 category: "Tools"
@@ -189,7 +190,7 @@ Item {
 
             ListElement {
                 text: "Shadertoy"
-                image: "qrc:/assets/startinfo/shadertoy.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/shadertoy.png"
                 link: "https://www.shadertoy.com/"
                 description: ""
                 category: "Resources"
@@ -197,7 +198,7 @@ Item {
 
             ListElement {
                 text: "Flaticon"
-                image: "qrc:/assets/startinfo/flaticon.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/flaticon.png"
                 link: "https://www.flaticon.com/"
                 description: ""
                 category: "Resources"
@@ -205,7 +206,7 @@ Item {
 
             ListElement {
                 text: "Unsplash"
-                image: "qrc:/assets/startinfo/unsplash.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/unsplash.png"
                 link: "https://unsplash.com/"
                 description: ""
                 category: "Resources"
@@ -213,7 +214,7 @@ Item {
 
             ListElement {
                 text: "FreeSound"
-                image: "qrc:/assets/startinfo/freesound.png"
+                image: "qrc:/qml/ScreenPlayApp/assets/startinfo/freesound.png"
                 link: "https://freesound.org/"
                 description: ""
                 category: "Resources"

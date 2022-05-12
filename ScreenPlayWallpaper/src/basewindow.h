@@ -48,7 +48,7 @@
 
 #include "ScreenPlayUtil/util.h"
 
-#include "screenplaysdk.h"
+#include "ScreenPlaySDK/screenplaysdk.h"
 
 #include <memory>
 

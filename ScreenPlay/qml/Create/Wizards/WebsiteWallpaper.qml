@@ -3,9 +3,10 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
-import "../../Common" as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
+import ScreenPlayUtil as Util
 
 WizardPage {
     id: root
@@ -14,7 +15,7 @@ WizardPage {
         property bool ready: tfTitle.text.length >= 1 && tfUrl.text.length > 1
 
         function create() {
-            ScreenPlay.wizards.createWebsiteWallpaper(tfTitle.text, previewSelector.imageSource, tfUrl.text, tagSelector.getTags());
+            App.wizards.createWebsiteWallpaper(tfTitle.text, previewSelector.imageSource, tfUrl.text, tagSelector.getTags());
         }
 
         spacing: 10
@@ -26,19 +27,19 @@ WizardPage {
             left: parent.left
         }
 
-        Common.Headline {
+        Util.Headline {
             text: qsTr("Create a Website Wallpaper")
             Layout.fillWidth: true
         }
 
-        Common.HeadlineSection {
+        Util.HeadlineSection {
             text: qsTr("General")
         }
 
         RowLayout {
             spacing: 20
 
-            Common.TextField {
+            Util.TextField {
                 id: tfTitle
 
                 Layout.fillWidth: true
@@ -47,7 +48,7 @@ WizardPage {
                 onTextChanged: root.ready = text.length >= 1
             }
 
-            Common.TextField {
+            Util.TextField {
                 id: tfCreatedBy
 
                 Layout.fillWidth: true
@@ -56,14 +57,14 @@ WizardPage {
 
         }
 
-        Common.TextField {
+        Util.TextField {
             id: tfDescription
 
             Layout.fillWidth: true
             placeholderText: qsTr("Description")
         }
 
-        Common.TextField {
+        Util.TextField {
             id: tfUrl
 
             Layout.fillWidth: true
@@ -75,11 +76,11 @@ WizardPage {
             height: 10
         }
 
-        Common.HeadlineSection {
+        Util.HeadlineSection {
             text: qsTr("Tags")
         }
 
-        Common.TagSelector {
+        Util.TagSelector {
             id: tagSelector
 
             Layout.fillWidth: true
@@ -89,11 +90,11 @@ WizardPage {
             height: 10
         }
 
-        Common.HeadlineSection {
+        Util.HeadlineSection {
             text: qsTr("Preview Image")
         }
 
-        Common.ImageSelector {
+        Util.ImageSelector {
             id: previewSelector
 
             Layout.fillWidth: true

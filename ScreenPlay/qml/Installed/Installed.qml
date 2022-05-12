@@ -1,12 +1,16 @@
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Dialogs
+import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlay 1.0
-import ScreenPlay.Enums.InstalledType 1.0
-import ScreenPlay.Enums.SearchType 1.0
-import "../Common" as Common
+import Qt.labs.platform 1.1 as Labs
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Enums.InstalledType
+import ScreenPlay.Enums.SearchType
+import ScreenPlayUtil as Util
 
 Item {
     id: root
@@ -20,7 +24,7 @@ Item {
     signal setSidebarActive(var active)
 
     function checkIsContentInstalled() {
-        if (ScreenPlay.installedListModel.count === 0) {
+        if (App.installedListModel.count === 0) {
             loaderHelp.active = true
             gridView.footerItem.isVisible = true
             gridView.visible = false
@@ -37,13 +41,13 @@ Item {
 
     Component.onCompleted: {
         navWrapper.state = "in"
-        ScreenPlay.installedListFilter.sortBySearchType(SearchType.All)
+        App.installedListFilter.sortBySearchType(SearchType.All)
         checkIsContentInstalled()
     }
 
     Action {
         shortcut: "F5"
-        onTriggered: ScreenPlay.installedListModel.reset()
+        onTriggered: App.installedListModel.reset()
     }
 
     Connections {
@@ -64,7 +68,7 @@ Item {
                 checkIsContentInstalled()
         }
 
-        target: ScreenPlay.installedListModel
+        target: App.installedListModel
     }
 
     Loader {
@@ -73,7 +77,7 @@ Item {
         active: false
         z: 99
         anchors.fill: parent
-        source: "qrc:/ScreenPlayQml/qml/Installed/InstalledWelcomeScreen.qml"
+        source: "qrc:/qml/ScreenPlayApp/qml/Installed/InstalledWelcomeScreen.qml"
     }
 
     Connections {
@@ -81,7 +85,7 @@ Item {
             gridView.positionViewAtBeginning()
         }
 
-        target: ScreenPlay.installedListFilter
+        target: App.installedListFilter
     }
 
     GridView {
@@ -102,7 +106,7 @@ Item {
         snapMode: GridView.SnapToRow
         onDragStarted: isDragging = true
         onDragEnded: isDragging = false
-        model: ScreenPlay.installedListFilter
+        model: App.installedListFilter
         removeDisplaced: Transition {
             SequentialAnimation {
                 PauseAnimation {
@@ -140,7 +144,7 @@ Item {
                 gridView.headerItem.isVisible = false
             //Pull to refresh
             if (contentY <= -180 && !refresh && !isDragging)
-                ScreenPlay.installedListModel.reset()
+                App.installedListModel.reset()
         }
 
         anchors {
@@ -177,7 +181,7 @@ Item {
                 id: txtHeader
 
                 text: qsTr("Pull to refresh!")
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 anchors.centerIn: parent
                 color: "gray"
                 font.pointSize: 18
@@ -204,7 +208,7 @@ Item {
             Text {
                 id: txtFooter
 
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 text: qsTr("Get more Wallpaper & Widgets via the Steam workshop!")
                 anchors.centerIn: parent
                 color: "gray"
@@ -244,6 +248,7 @@ Item {
                 // Set the menu to the current item informations
                 contextMenu.publishedFileID = delegate.publishedFileID
                 contextMenu.absoluteStoragePath = delegate.absoluteStoragePath
+                contextMenu.fileName = delegate.customTitle
                 const pos = delegate.mapToItem(root, position.x, position.y)
                 // Disable duplicate opening. The can happen if we
                 // call popup when we are in the closing animtion.
@@ -265,21 +270,36 @@ Item {
 
         property var publishedFileID: 0
         property url absoluteStoragePath
+        property string fileName
 
         MenuItem {
             text: qsTr("Open containing folder")
             objectName: "openFolder"
-            icon.source: "qrc:/assets/icons/icon_folder_open.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_folder_open.svg"
             onClicked: {
-                ScreenPlay.util.openFolderInExplorer(
-                            contextMenu.absoluteStoragePath)
+                App.util.openFolderInExplorer(contextMenu.absoluteStoragePath)
+            }
+        }
+
+        MenuItem {
+            text: qsTr("Export")
+            objectName: enabled ? "removeItem" : "removeWorkshopItem"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_download.svg"
+            onClicked: {
+                exportFileDialog.absoluteStoragePath = contextMenu.absoluteStoragePath
+                let urlFileName = Labs.StandardPaths.writableLocation(
+                        Labs.StandardPaths.DesktopLocation) + "/"
+                    + contextMenu.fileName + ".screenplay"
+
+                exportFileDialog.currentFile = urlFileName
+                exportFileDialog.open()
             }
         }
 
         MenuItem {
             text: enabled ? qsTr("Remove Item") : qsTr("Remove via Workshop")
             objectName: enabled ? "removeItem" : "removeWorkshopItem"
-            icon.source: "qrc:/assets/icons/icon_delete.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_delete.svg"
             enabled: contextMenu.publishedFileID === 0
             onClicked: {
                 deleteDialog.open()
@@ -289,10 +309,33 @@ Item {
         MenuItem {
             text: qsTr("Open Workshop Page")
             enabled: contextMenu.publishedFileID !== 0
-            icon.source: "qrc:/assets/icons/icon_steam.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
             onClicked: {
                 Qt.openUrlExternally(
                             "steam://url/CommunityFilePage/" + contextMenu.publishedFileID)
+            }
+        }
+    }
+    Labs.FileDialog {
+        id: exportFileDialog
+        fileMode: FileDialog.SaveFile
+        property string absoluteStoragePath
+        onAccepted: {
+            const success = App.util.exportProject(
+                              exportFileDialog.absoluteStoragePath,
+                              exportFileDialog.currentFile)
+        }
+
+        Dialog {
+            id: exportFileProgressDialog
+            modal: true
+            anchors.centerIn: Overlay.overlay
+            standardButtons: Dialog.Ok
+            onAccepted: errorDialog.close()
+
+            ProgressBar {
+                id: exportFileProgressBar
+                anchors.centerIn: parent
             }
         }
     }
@@ -306,18 +349,97 @@ Item {
         anchors.centerIn: Overlay.overlay
         onAccepted: {
             root.sidebar.clear()
-            ScreenPlay.installedListModel.deinstallItemAt(
+            App.installedListModel.deinstallItemAt(
                         contextMenu.absoluteStoragePath)
         }
     }
 
-    Navigation {
+    InstalledNavigation {
         id: navWrapper
 
         anchors {
             top: parent.top
             right: parent.right
             left: parent.left
+        }
+    }
+
+    DropArea {
+        id: dropArea
+        anchors.fill: parent
+        property string filePath
+        onEntered: function (drag) {
+            dropPopup.open()
+        }
+        onDropped: function (drop) {
+            dropPopup.close()
+            dropArea.enabled = false
+
+            if (drop.urls.length > 1) {
+                errorDialog.title = qsTr(
+                            "We only support adding one item at once.")
+                errorDialog.open()
+                return
+            }
+            var file = "" // Convert url to string
+            file = "" + drop.urls[0]
+            if (!file.endsWith('.screenplay')) {
+                errorDialog.title = qsTr(
+                            "File type not supported. We only support '.screenplay' files.")
+                errorDialog.open()
+                return
+            }
+            importDialog.open()
+            dropArea.filePath = file
+        }
+        onExited: {
+            dropPopup.close()
+        }
+
+        Dialog {
+            id: errorDialog
+            modal: true
+            anchors.centerIn: Overlay.overlay
+            standardButtons: Dialog.Ok
+            onAccepted: errorDialog.close()
+        }
+        Dialog {
+            id: importDialog
+            modal: true
+            anchors.centerIn: Overlay.overlay
+            standardButtons: Dialog.Ok
+            RowLayout {
+                Text {
+                    text: qsTr("Import Content...")
+                }
+            }
+            onOpened: {
+                App.util.importProject(dropArea.filePath,
+                                       App.globalVariables.localStoragePath)
+                dropArea.filePath = ""
+            }
+            onAccepted: {
+                importDialog.close()
+            }
+        }
+    }
+
+    Popup {
+        id: dropPopup
+        anchors.centerIn: Overlay.overlay
+        width: root.width * .95
+        height: root.height * .95
+        dim: true
+        modal: true
+        onOpened: fileDropAnimation.state = "fileDrop"
+        onClosed: {
+            fileDropAnimation.state = ""
+            dropArea.enabled = true
+        }
+
+        Util.FileDropAnimation {
+            id: fileDropAnimation
+            anchors.centerIn: parent
         }
     }
 }

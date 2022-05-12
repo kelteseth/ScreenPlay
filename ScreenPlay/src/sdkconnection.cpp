@@ -1,4 +1,4 @@
-#include "sdkconnection.h"
+#include "ScreenPlay/sdkconnection.h"
 
 namespace ScreenPlay {
 

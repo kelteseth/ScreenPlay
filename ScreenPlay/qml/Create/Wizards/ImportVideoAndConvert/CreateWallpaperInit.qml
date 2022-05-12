@@ -4,10 +4,10 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
-import "../../../Common" as Common
-
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
+import ScreenPlayUtil as Util
 Item {
     id: root
     objectName: "createWallpaperInit"
@@ -26,7 +26,7 @@ Item {
             margins: 20
         }
 
-        Common.Headline {
+        Util.Headline {
             Layout.alignment: Qt.AlignTop
             Layout.fillWidth: true
             text: qsTr("Import any video type")
@@ -41,7 +41,7 @@ Item {
             Layout.fillWidth: true
             font.pointSize: 13
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-            font.family: ScreenPlay.settings.font
+            font.family: App.settings.font
         }
 
         ColumnLayout {
@@ -54,7 +54,7 @@ Item {
                 color: Material.primaryTextColor
                 width: parent.width
                 font.pointSize: 14
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
             }
 
             ComboBox {
@@ -69,7 +69,7 @@ Item {
                 textRole: "text"
                 valueRole: "value"
                 currentIndex: 1
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
 
                 model: ListModel {
                     id: model
@@ -91,10 +91,10 @@ Item {
 
         }
 
-        Common.Slider {
+        Util.Slider {
             id: sliderQuality
 
-            iconSource: "qrc:/assets/icons/icon_settings.svg"
+            iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
             headline: qsTr("Quality slider. Lower value means better quality.")
             Layout.preferredWidth: 400
 
@@ -113,11 +113,11 @@ Item {
         text: qsTr("Open Documentation")
         Material.accent: Material.color(Material.LightGreen)
         highlighted: true
-        icon.source: "qrc:/assets/icons/icon_document.svg"
+        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_document.svg"
         icon.color: "white"
         icon.width: 16
         icon.height: 16
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
 
         anchors {
@@ -131,7 +131,7 @@ Item {
         objectName: "createWallpaperInitFileSelectButton"
         text: qsTr("Select file")
         highlighted: true
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         onClicked: {
             fileDialogImportVideo.open();
         }

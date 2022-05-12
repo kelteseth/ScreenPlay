@@ -32,33 +32,25 @@
 **
 ****************************************************************************/
 
-#include "app.h"
+#include "ScreenPlay/app.h"
 #include <QApplication>
 #include <QCommandLineParser>
 #include <QDebug>
-Q_IMPORT_QML_PLUGIN(ScreenPlayQmlPlugin)
 
+#if defined(Q_OS_WIN)
 #include <sentry.h>
-#define DOCTEST_CONFIG_IMPLEMENT
-#define DOCTEST_CONFIG_SUPER_FAST_ASSERTS
-#include <doctest/doctest.h>
+#endif
+
+Q_IMPORT_QML_PLUGIN(ScreenPlayAppPlugin)
+Q_IMPORT_QML_PLUGIN(ScreenPlayUtilPlugin)
+#ifdef SCREENPLAY_STEAM
+Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
+#endif
 
 int main(int argc, char* argv[])
 {
-    Q_INIT_RESOURCE(Resources);
 
     QApplication qtGuiApp(argc, argv);
-
-    // Unit tests
-    doctest::Context context;
-    context.setOption("abort-after", 5); // stop test execution after 5 failed assertions
-    context.setOption("order-by", "name"); // sort the test cases by their name
-    context.setOption("no-breaks", true); // don't break in the debugger when assertions fail
-    context.setOption("no-run", true); // No tests are executed by default
-    context.applyCommandLine(argc, argv); // Every setOption call after applyCommandLine overrides the command line arguments
-    const int testResult = context.run();
-    if (context.shouldExit())
-        return testResult;
 
     ScreenPlay::App app;
 
@@ -67,7 +59,9 @@ int main(int argc, char* argv[])
     } else {
         app.init();
         const int status = qtGuiApp.exec();
+#if defined(Q_OS_WIN)
         sentry_shutdown();
+#endif
         return status;
     }
 }

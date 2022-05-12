@@ -1,4 +1,4 @@
-#include "screenplaysdk.h"
+#include "ScreenPlaySDK/screenplaysdk.h"
 
 /*!
     \module ScreenPlaySDK

@@ -3,15 +3,14 @@ import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlay 1.0
-import Settings 1.0
+import ScreenPlayApp
+import ScreenPlay
+import Settings
+import ScreenPlayUtil
 import Qt5Compat.GraphicalEffects
 import "qml/Monitors" as Monitors
-import "qml/Common" as Common
-import "qml/Common/Dialogs" as Dialogs
 import "qml/Installed" as Installed
 import "qml/Navigation" as Navigation
-import "qml/Workshop" as Workshop
 import "qml/Community" as Community
 
 ApplicationWindow {
@@ -34,18 +33,21 @@ ApplicationWindow {
     function switchPage(name) {
         if (nav.currentNavigationName === name) {
             if (name === "Installed")
-                ScreenPlay.installedListModel.reset()
+                App.installedListModel.reset()
         }
 
         if (name === "Installed") {
-            stackView.replace("qrc:/ScreenPlayQml/qml/Installed/Installed.qml", {
-                                  "sidebar": sidebar
-                              })
+            stackView.replace(
+                        "qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
+                            "sidebar": sidebar
+                        })
             return
         }
-        stackView.replace("qrc:/ScreenPlayQml/qml/" + name + "/" + name + ".qml", {
-                              "modalSource": content
-                          })
+        stackView.replace(
+                    "qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + ".qml",
+                    {
+                        "modalSource": content
+                    })
         sidebar.state = "inactive"
     }
 
@@ -55,48 +57,49 @@ ApplicationWindow {
     visible: false
     width: 1400
     height: 788
-    title: "ScreenPlay Alpha - " + ScreenPlay.version()
+    title: "ScreenPlay Alpha - V" + App.version()
     minimumHeight: 450
     minimumWidth: 1050
-    property bool enableCustomWindowNavigation: Qt.platform.os === "windows" || Qt.platform.os === "osx"
+    property bool enableCustomWindowNavigation: Qt.platform.os === "windows"
+                                                || Qt.platform.os === "osx"
 
     // Partial workaround for
     // https://bugreports.qt.io/browse/QTBUG-86047
     Material.accent: Material.color(Material.Orange)
     onVisibilityChanged: {
         if (root.visibility === 2)
-            ScreenPlay.installedListModel.reset()
+            App.installedListModel.reset()
     }
     onClosing: {
-        if (ScreenPlay.screenPlayManager.activeWallpaperCounter === 0
-                && ScreenPlay.screenPlayManager.activeWidgetsCounter === 0) {
+        if (App.screenPlayManager.activeWallpaperCounter === 0
+                && App.screenPlayManager.activeWidgetsCounter === 0) {
             Qt.quit()
         }
     }
     Component.onCompleted: {
-        if(root.enableCustomWindowNavigation){
+        if (root.enableCustomWindowNavigation) {
             root.flags = Qt.FramelessWindowHint | Qt.Window
         }
-        setTheme(ScreenPlay.settings.theme)
-        stackView.push("qrc:/ScreenPlayQml/qml/Installed/Installed.qml", {
+        setTheme(App.settings.theme)
+        stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
                            "sidebar": sidebar
                        })
-        if (!ScreenPlay.settings.silentStart)
+        if (!App.settings.silentStart)
             root.show()
     }
 
     Item {
         id: noneContentItems
-        Dialogs.SteamNotAvailable {
+        SteamNotAvailable {
             id: dialogSteam
             modalSource: content
         }
 
-        Dialogs.MonitorConfiguration {
+        MonitorConfiguration {
             modalSource: content
         }
 
-        Dialogs.CriticalError {
+        CriticalError {
             window: root
             modalSource: content
         }
@@ -105,7 +108,7 @@ ApplicationWindow {
             id: monitors
             modalSource: content
         }
-        Common.TrayIcon {
+        TrayIcon {
             window: root
         }
     }
@@ -117,7 +120,7 @@ ApplicationWindow {
             id: windowNav
             enabled: root.enableCustomWindowNavigation
             visible: enabled
-            z:5
+            z: 5
             modalSource: content
             width: parent.width
             window: root
@@ -126,19 +129,18 @@ ApplicationWindow {
         Item {
             id: content
             anchors {
-                top: root.enableCustomWindowNavigation ?  windowNav.bottom : parent.top
+                top: root.enableCustomWindowNavigation ? windowNav.bottom : parent.top
                 right: parent.right
                 bottom: parent.bottom
                 left: parent.left
             }
-
 
             Connections {
                 function onThemeChanged(theme) {
                     setTheme(theme)
                 }
 
-                target: ScreenPlay.settings
+                target: App.settings
             }
 
             Connections {
@@ -146,7 +148,7 @@ ApplicationWindow {
                     switchPage(nav)
                 }
 
-                target: ScreenPlay.util
+                target: App.util
             }
 
             Connections {
@@ -154,7 +156,7 @@ ApplicationWindow {
                     root.show()
                 }
 
-                target: ScreenPlay.screenPlayManager
+                target: App.screenPlayManager
             }
 
             StackView {
@@ -287,14 +289,16 @@ ApplicationWindow {
         }
     }
 
-    Rectangle {
+    Item {
         width: 15
         height: width
-        color: "#555"
         anchors {
             right: parent.right
             bottom: parent.bottom
             margins: 1
+        }
+        Image {
+            source: "qrc:/qml/ScreenPlayApp/assets/images/scale_window_indicator.png"
         }
         MouseArea {
             id: maResize

@@ -2,9 +2,10 @@ import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlay 1.0
-import ScreenPlay.Enums.InstalledType 1.0
-import "../Common/Util.js" as JSUtil
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Enums.InstalledType
+import ScreenPlayUtil
 
 Item {
     id: root
@@ -24,15 +25,15 @@ Item {
     height: 180
     onTypeChanged: {
         if (JSUtil.isWidget(type)) {
-            icnType.source = "qrc:/assets/icons/icon_widgets.svg"
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg"
             return
         }
         if (JSUtil.isScene(type)) {
-            icnType.source = "qrc:/assets/icons/icon_code.svg"
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg"
             return
         }
         if (JSUtil.isVideo(type)) {
-            icnType.source = "qrc:/assets/icons/icon_movie.svg"
+            icnType.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
             return
         }
     }
@@ -117,7 +118,7 @@ Item {
         Image {
             id: mask
 
-            source: "qrc:/assets/images/Window.svg"
+            source: "qrc:/qml/ScreenPlayApp/assets/images/Window.svg"
             sourceSize: Qt.size(root.width, root.height)
             visible: false
             smooth: true
@@ -137,7 +138,7 @@ Item {
 
             Text {
                 text: root.customTitle
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 font.pointSize: 16
                 visible: !screenPlayItemImage.visible
                 color: Material.primaryTextColor
@@ -163,7 +164,7 @@ Item {
                 width: 20
                 height: 20
                 opacity: 0.25
-                source: "qrc:/assets/icons/icon_movie.svg"
+                source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
                 sourceSize: Qt.size(20, 20)
 
                 anchors {
@@ -190,7 +191,7 @@ Item {
                 visible: root.isNew
 
                 Text {
-                    font.family: ScreenPlay.settings.font
+                    font.family: App.settings.font
                     font.pointSize: 9
                     renderType: Text.QtRendering
                     color: "white"
@@ -225,7 +226,7 @@ Item {
                 }
                 onClicked: function (mouse) {
                     if (mouse.button === Qt.LeftButton)
-                        ScreenPlay.util.setSidebarItem(root.screenId, root.type)
+                        App.util.setSidebarItem(root.screenId, root.type)
                     else if (mouse.button === Qt.RightButton)
                         root.openContextMenu(Qt.point(mouseX, mouseY))
                 }

@@ -16,7 +16,8 @@ namespace ScreenPlayWorkshop {
 
 class SteamAccount : public QObject {
     Q_OBJECT
-    QML_NAMED_ELEMENT(SteamAccount)
+    QML_ELEMENT
+
     Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
     Q_PROPERTY(quint32 accountID READ accountID WRITE setAccountID NOTIFY accountIDChanged)
     Q_PROPERTY(QImage avatar READ avatar WRITE setAvatar NOTIFY avatarChanged)

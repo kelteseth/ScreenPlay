@@ -1,14 +1,15 @@
 import QtQuick
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
-import ScreenPlay 1.0
+import ScreenPlayApp
+import ScreenPlay
 
 Item {
     id: settingsHeader
 
     property color background: "#FFAB00"
     property string text: "HEADLINE"
-    property url image: "qrc:/assets/icons/icon_settings.svg"
+    property url image: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
 
     state: "out"
     Component.onCompleted: state = "in"
@@ -80,7 +81,7 @@ Item {
                 font.pointSize: 12
                 color: "white"
                 verticalAlignment: Text.AlignTop
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
 
                 anchors {
                     top: parent.top

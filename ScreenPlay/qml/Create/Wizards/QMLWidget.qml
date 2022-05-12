@@ -3,18 +3,19 @@ import QtQuick.Controls.Material
 import QtQuick.Controls
 import QtQuick.Layouts
 
-import ScreenPlay 1.0
-import "../../Common" as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlayUtil as Util
 
 WizardPage {
     id: root
 
     sourceComponent: ColumnLayout {
         function create() {
-            ScreenPlay.wizards.createQMLWidget(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags());
+            App.wizards.createQMLWidget(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags());
         }
 
-        Common.Headline {
+        Util.Headline {
             id: txtHeadline
 
             text: qsTr("Create a QML widget")
@@ -47,14 +48,14 @@ WizardPage {
                     Image {
                         id: imgPreview
 
-                        source: "qrc:/assets/wizards/example_qml.png"
+                        source: "qrc:/qml/ScreenPlayApp/assets/wizards/example_qml.png"
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectCrop
                     }
 
                 }
 
-                Common.ImageSelector {
+                Util.ImageSelector {
                     id: previewSelector
 
                     Layout.fillWidth: true
@@ -70,11 +71,11 @@ WizardPage {
                 Layout.preferredWidth: root.width * 0.5
                 Layout.alignment: Qt.AlignTop
 
-                Common.HeadlineSection {
+                Util.HeadlineSection {
                     text: qsTr("General")
                 }
 
-                Common.TextField {
+                Util.TextField {
                     id: tfTitle
 
                     Layout.fillWidth: true
@@ -83,22 +84,22 @@ WizardPage {
                     onTextChanged: root.ready = text.length >= 1
                 }
 
-                Common.TextField {
+                Util.TextField {
                     id: tfCreatedBy
 
                     Layout.fillWidth: true
                     placeholderText: qsTr("Created by")
                 }
 
-                Common.LicenseSelector {
+                Util.LicenseSelector {
                     id: cbLicense
                 }
 
-                Common.HeadlineSection {
+                Util.HeadlineSection {
                     text: qsTr("Tags")
                 }
 
-                Common.TagSelector {
+                Util.TagSelector {
                     id: tagSelector
 
                     Layout.fillWidth: true

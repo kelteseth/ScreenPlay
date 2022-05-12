@@ -4,9 +4,10 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Dialogs
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
-import "../../../Common" as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
+import ScreenPlayUtil as Util
 import "../../"
 
 Item {
@@ -27,7 +28,7 @@ Item {
             margins: 20
         }
 
-        Common.Headline {
+        Util.Headline {
             Layout.fillWidth: true
             text: qsTr("Import a .webm video")
         }
@@ -50,7 +51,7 @@ Item {
                     Layout.fillWidth: true
                     font.pointSize: 13
                     wrapMode: Text.WrapAtWordBoundaryOrAnywhere
-                    font.family: ScreenPlay.settings.font
+                    font.family: App.settings.font
                 }
 
                 DropArea {
@@ -66,7 +67,7 @@ Item {
                         drag.accept(Qt.LinkAction);
                     }
                     onDropped: {
-                        let file = ScreenPlay.util.toLocal(drop.urls[0]);
+                        let file = App.util.toLocal(drop.urls[0]);
                         bg.color = Qt.darker(Qt.darker(Material.backgroundColor));
                         if (file.endsWith(".webm"))
                             root.next(drop.urls[0]);
@@ -88,7 +89,7 @@ Item {
                         anchors.fill: parent
                         fillMode: Image.Tile
                         opacity: 0.2
-                        source: "qrc:/assets/images/noisy-texture-3.png"
+                        source: "qrc:/qml/ScreenPlayApp/assets/images/noisy-texture-3.png"
                     }
 
                     Text {
@@ -100,7 +101,7 @@ Item {
                         font.pointSize: 13
                         horizontalAlignment: Qt.AlignHCenter
                         verticalAlignment: Qt.AlignVCenter
-                        font.family: ScreenPlay.settings.font
+                        font.family: App.settings.font
 
                         anchors {
                             fill: parent
@@ -119,7 +120,7 @@ Item {
 
                 StartInfoLinkImage {
                     text: "Handbreak"
-                    image: "qrc:/assets/startinfo/handbreak.png"
+                    image: "qrc:/qml/ScreenPlayApp/assets/startinfo/handbreak.png"
                     link: "https://handbrake.fr/"
                     description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes,"
                     category: "Tools"
@@ -140,11 +141,11 @@ Item {
         text: qsTr("Open Documentation")
         Material.accent: Material.color(Material.LightGreen)
         highlighted: true
-        icon.source: "qrc:/assets/icons/icon_document.svg"
+        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_document.svg"
         icon.color: "white"
         icon.width: 16
         icon.height: 16
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/wallpaper/wallpaper/#performance")
 
         anchors {
@@ -158,7 +159,7 @@ Item {
     Button {
         text: qsTr("Select file")
         highlighted: true
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         onClicked: {
             fileDialogImportVideo.open();
         }

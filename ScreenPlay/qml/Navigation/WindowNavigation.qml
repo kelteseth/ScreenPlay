@@ -5,9 +5,9 @@ import QtQuick.Window
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlay 1.0
-import "../Workshop"
-import "../Common" as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlayUtil as Util
 
 Rectangle {
     id: root
@@ -19,8 +19,8 @@ Rectangle {
 
     Text {
         id: title
-        text: qsTr("ScreenPlay Alpha %1 - Open Source Wallpaper And Widgets").arg(
-                  ScreenPlay.version())
+        text: qsTr("ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets").arg(
+                  App.version())
         color: Material.primaryTextColor
         verticalAlignment: Text.AlignVCenter
 
@@ -47,7 +47,7 @@ Rectangle {
         }
         onPositionChanged: {
             if (mouseArea.pressed) {
-                let pos = ScreenPlay.cursorPos()
+                let pos = App.cursorPos()
                 window.setX(pos.x - clickPos.x)
                 window.setY(pos.y - clickPos.y)
             }
@@ -64,16 +64,16 @@ Rectangle {
         WindowNavButton {
             id: miMinimize
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_minimize.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_minimize.svg"
             onClicked: root.window.hide()
         }
         WindowNavButton {
             id: miquit
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_close.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_close.svg"
             onClicked: {
-                if (ScreenPlay.screenPlayManager.activeWallpaperCounter === 0
-                        && ScreenPlay.screenPlayManager.activeWidgetsCounter === 0) {
+                if (App.screenPlayManager.activeWallpaperCounter === 0
+                        && App.screenPlayManager.activeWidgetsCounter === 0) {
                     Qt.quit()
                     return
                 }
@@ -82,10 +82,10 @@ Rectangle {
         }
     }
 
-    Common.Dialog {
+    Util.Dialog {
         id: dialog
         modalSource: root.modalSource
-        title: qsTr("Are you sure you want to exit ScreenPlay? \nThis will shut down all Wallpaper and Widgets.")
+        title: qsTr("Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.")
         standardButtons: Dialog.Ok | Dialog.Cancel
         onAccepted: Qt.quit()
     }

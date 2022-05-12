@@ -4,8 +4,9 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import QtQuick.Window
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
 
 FocusScope {
     id: root
@@ -71,7 +72,7 @@ FocusScope {
             Material.background: Material.accent
             Material.foreground: "white"
             Layout.alignment: Qt.AlignRight
-            font.family: ScreenPlay.settings.font
+            font.family: App.settings.font
             onClicked: {
                 btnSave.enabled = false;
                 root.saveClicked();
@@ -100,7 +101,7 @@ FocusScope {
         Text {
             text: qsTr("Saving...")
             color: Material.primaryHighlightedTextColor
-            font.family: ScreenPlay.settings.font
+            font.family: App.settings.font
 
             anchors {
                 horizontalCenter: parent.horizontalCenter

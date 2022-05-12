@@ -3,9 +3,10 @@ import Qt5Compat.GraphicalEffects
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
-import "../../Common" as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
+import ScreenPlayUtil as Util
 
 WizardPage {
     id: root
@@ -14,7 +15,7 @@ WizardPage {
         id: rightWrapper
 
         function create() {
-            ScreenPlay.wizards.createHTMLWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags());
+            App.wizards.createHTMLWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, previewSelector.imageSource, tagSelector.getTags());
         }
 
         spacing: 10
@@ -25,19 +26,19 @@ WizardPage {
             left: parent.left
         }
 
-        Common.Headline {
+        Util.Headline {
             text: qsTr("Create a HTML Wallpaper")
             Layout.fillWidth: true
         }
 
-        Common.HeadlineSection {
+        Util.HeadlineSection {
             text: qsTr("General")
         }
 
         RowLayout {
             spacing: 20
 
-            Common.TextField {
+            Util.TextField {
                 id: tfTitle
 
                 Layout.fillWidth: true
@@ -46,7 +47,7 @@ WizardPage {
                 onTextChanged: root.ready = text.length >= 1
             }
 
-            Common.TextField {
+            Util.TextField {
                 id: tfCreatedBy
 
                 Layout.fillWidth: true
@@ -55,7 +56,7 @@ WizardPage {
 
         }
 
-        Common.TextField {
+        Util.TextField {
             id: tfDescription
 
             Layout.fillWidth: true
@@ -66,18 +67,18 @@ WizardPage {
             height: 30
         }
 
-        Common.HeadlineSection {
+        Util.HeadlineSection {
             text: qsTr("License & Tags")
         }
 
         RowLayout {
             spacing: 20
 
-            Common.LicenseSelector {
+            Util.LicenseSelector {
                 id: cbLicense
             }
 
-            Common.TagSelector {
+            Util.TagSelector {
                 id: tagSelector
 
                 Layout.fillWidth: true
@@ -89,11 +90,11 @@ WizardPage {
             height: 30
         }
 
-        Common.HeadlineSection {
+        Util.HeadlineSection {
             text: qsTr("Preview Image")
         }
 
-        Common.ImageSelector {
+        Util.ImageSelector {
             id: previewSelector
 
             Layout.fillWidth: true

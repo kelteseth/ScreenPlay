@@ -2,7 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
-import ScreenPlay 1.0
+import ScreenPlayApp
+import ScreenPlay
 
 Rectangle {
     id: root
@@ -12,10 +13,17 @@ Rectangle {
     property int fontSize: 12
     property bool monitorWithoutContentSelectable: true
     property bool multipleMonitorsSelectable: false
+    property bool isSelected: false
     // We preselect the main monitor
-    property var activeMonitors: [0]
+    property var activeMonitors: []
     property alias background: root.color
     property alias radius: root.radius
+
+    Component.onCompleted: {
+        resize()
+        selectOnly(0)
+
+    }
 
     signal requestProjectSettings(var index, var installedType, var appID)
 
@@ -27,6 +35,7 @@ Rectangle {
             }
             rp.itemAt(i).isSelected = false
         }
+        getActiveMonitors()
     }
 
     function reset() {
@@ -46,6 +55,7 @@ Rectangle {
         // Must be called manually. When QML properties are getting altered in js the
         // property binding breaks
         root.activeMonitorsChanged()
+        root.isSelected = root.activeMonitors.length > 0
         return root.activeMonitors
     }
 
@@ -61,7 +71,7 @@ Rectangle {
     }
 
     function resize() {
-        var absoluteDesktopSize = ScreenPlay.monitorListModel.absoluteDesktopSize()
+        var absoluteDesktopSize = App.monitorListModel.absoluteDesktopSize()
         var isWidthGreaterThanHeight = false
         var windowsDelta = 0
         if (absoluteDesktopSize.width < absoluteDesktopSize.height) {
@@ -105,16 +115,13 @@ Rectangle {
     width: parent.width
     clip: true
     layer.enabled: true
-    Component.onCompleted: {
-        resize()
-    }
 
     Connections {
         function onMonitorReloadCompleted() {
             resize()
         }
 
-        target: ScreenPlay.monitorListModel
+        target: App.monitorListModel
     }
 
     Flickable {
@@ -130,7 +137,7 @@ Rectangle {
             property int contentWidth
             property int contentHeight
 
-            model: ScreenPlay.monitorListModel
+            model: App.monitorListModel
 
             delegate: MonitorSelectionItem {
                 id: delegate

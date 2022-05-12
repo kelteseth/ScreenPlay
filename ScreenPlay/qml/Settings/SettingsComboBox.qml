@@ -2,7 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Controls.Material
-import ScreenPlay 1.0
+import ScreenPlayApp
+import ScreenPlay
 
 Control {
     id: settingsComboBox
@@ -23,7 +24,7 @@ Control {
         verticalAlignment: Text.AlignVCenter
         horizontalAlignment: Text.AlignLeft
         font.pointSize: 12
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
 
         anchors {
             top: parent.top
@@ -43,7 +44,7 @@ Control {
         horizontalAlignment: Text.AlignLeft
         wrapMode: Text.WordWrap
         font.pointSize: 10
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
 
         anchors {
             top: txtHeadline.bottom
@@ -62,7 +63,7 @@ Control {
         implicitWidth: 200
         textRole: "text"
         valueRole: "value"
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
 
         anchors {
             right: parent.right

@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtWebEngine
-import ScreenPlayWidget 1.0
-import ScreenPlay.Enums.InstalledType 1.0
+import ScreenPlayWidget
+import ScreenPlay.Enums.InstalledType
 
 Item {
     id: mainWindow
@@ -57,7 +57,7 @@ Item {
     Image {
         id: bg
 
-        source: "qrc:/assets/image/noisy-texture-3.png"
+        source: "qrc:/ScreenPlayWidget/assets/image/noisy-texture-3.png"
         anchors.fill: parent
         opacity: 0.05
         fillMode: Image.Tile
@@ -152,7 +152,7 @@ Item {
         Image {
             id: imgClose
 
-            source: "qrc:/assets/icons/baseline-close-24px.svg"
+            source: "qrc:/ScreenPlayWidget/assets/icons/baseline-close-24px.svg"
             anchors.centerIn: parent
             opacity: 0.15
 

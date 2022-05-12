@@ -8,42 +8,24 @@ import time
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
-qt_version = "6.2.2"
-steam_build = "OFF"
-build_tests = "OFF"
-create_installer = "OFF"
-
-qt_path = ""
-cmake_target_triplet = ""
-cmake_build_type = ""
-executable_file_ending = ""
-deploy_command = ""
-aqt_path = ""
-aqt_install_qt_packages = ""
-aqt_install_tool_packages = ""
-ifw_root_path = ""
-cmake_bin_path = ""
-
-file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".exp",
-				".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
-
-vcvars = "" # We support 2019 or 2022
-
 # Based on https://gist.github.com/l2m2/0d3146c53c767841c6ba8c4edbeb4c2c
 def get_vs_env_dict():
+	vcvars = "" # We support 2019 or 2022
+
 	# Hardcoded VS path
-	# check if vcvars64.bat is available
+	# check if vcvars64.bat is available.
 	msvc_2019_path = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
 	msvc_2022_path = "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
 
 	if Path(msvc_2019_path).exists():
 		vcvars = msvc_2019_path
-	elif Path(msvc_2022_path).exists():
+	# Prefer newer MSVC and override if exists
+	if Path(msvc_2022_path).exists():
 		vcvars = msvc_2022_path
-	else:
+	if not vcvars:
 		raise RuntimeError("No Visual Studio installation found, only 2019 and 2022 are supported.")
 
-	print("Loading MSVC env variables via {vcvars}".format(vcvars=vcvars))
+	print(f"\n\nLoading MSVC env variables via {vcvars}\n\n")
 
 	cmd = [vcvars, '&&', 'set']
 	popen = subprocess.Popen(
@@ -83,12 +65,14 @@ if __name__ == "__main__":
 						help="Absolute qt path. If not set the default path is used\Windows: C:\Qt\nLinux & macOS:~/Qt/.")
 	parser.add_argument('-sign', action="store_true", dest="sign_build",
 					help="Enable if you want to sign the apps. This is macOS only for now.")
-	parser.add_argument('-steam', action="store_true", dest="steam_build",
+	parser.add_argument('-steam', action="store_true", dest="build_steam",
 						help="Enable if you want to build the Steam workshop plugin.")
 	parser.add_argument('-tests', action="store_true", dest="build_tests",
                     help="Build tests.")             
 	parser.add_argument('-installer', action="store_true", dest="create_installer",
                     help="Create a installer.")
+	parser.add_argument('-release', action="store_true", dest="build_release",
+                    help="Create a release version of ScreenPlay for sharing with the world.")
 	args = parser.parse_args()
 
 	if not args.build_type:
@@ -96,12 +80,49 @@ if __name__ == "__main__":
 		exit(1)
 
 	root_path = Path.cwd()
+	qt_version = "6.3.0"
+	qt_path = ""
+	build_steam = "OFF"
+	build_tests = "OFF"
+	build_installer = "OFF"
+	build_release = "OFF"
+	cmake_target_triplet = ""
+	cmake_build_type = ""
+	executable_file_ending = ""
+	deploy_command = ""
+	aqt_path = ""
+	create_installer = False
+	ifw_root_path = ""
+	aqt_install_qt_packages = ""
+	aqt_install_tool_packages = ""
+	cmake_bin_path = ""
+	file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".exp",
+					".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
+
+	remove_files_from_build_folder = [
+		".ninja_deps",
+		".ninja", 
+		".ninja_log",
+		".lib", 
+		".a", 
+		".dylib",
+		".exp",
+		".manifest", 
+		".cmake",
+		".cbp", 
+		"CMakeCache.txt", 
+		"steam_appid.txt" # This file is only needed for testing. It must not be in a release version!
+		]
 
 	if root_path.name == "Tools":
 		root_path = root_path.parent
 
 	if args.use_aqt:
 		aqt_path =  Path(f"{root_path}/../aqt/").resolve()
+
+		if not Path(aqt_path).exists():
+			print("aqt path does not exist at %s. Please make sure you have installed aqt." % aqt_path)
+			exit(2)
 
 	if platform.system() == "Windows":
 		cmake_target_triplet = "x64-windows"
@@ -134,6 +155,8 @@ if __name__ == "__main__":
 			deploy_command = "cqtdeployer -qmlDir ../../{app}/qml -bin {app}"
 		else:
 			print("cqtdeployer not available, build may be incomplete and incompatible with some distro (typically Ubuntu)")
+		home_path = str(Path.home())
+		qt_path = aqt_path.joinpath(f"{qt_version}/gcc_64") if args.use_aqt else Path(f"{home_path}/Qt/{qt_version}/gcc_64")
 	else:
 		raise NotImplementedError("Unsupported platform, ScreenPlay only supports Windows, macOS and Linux.")
 		
@@ -151,9 +174,11 @@ if __name__ == "__main__":
 	print(f"cmake_toolchain_file: {cmake_toolchain_file}")
 	print(f"Starting build with type {args.build_type}. Qt Version: {qt_version}. Root path: {root_path}")
 	
-	if args.steam_build:
-		steam_build =  "ON"
+	if args.build_steam:
+		build_steam =  "ON"
 	if args.build_tests:
+		build_tests =  "ON"
+	if args.build_release:
 		build_tests =  "ON"
 	if args.create_installer:
 		create_installer =  "ON"
@@ -164,8 +189,9 @@ if __name__ == "__main__":
 	-DCMAKE_BUILD_TYPE={args.build_type} \
 	-DVCPKG_TARGET_TRIPLET={cmake_target_triplet} \
 	-DCMAKE_TOOLCHAIN_FILE={cmake_toolchain_file} \
-	-DSCREENPLAY_STEAM={steam_build} \
+	-DSCREENPLAY_STEAM={build_steam} \
 	-DSCREENPLAY_TESTS={build_tests} \
+	-DSCREENPLAY_RELEASE={build_release} \
 	-DSCREENPLAY_CREATE_INSTALLER={create_installer} \
 	-DSCREENPLAY_IFW_ROOT:STRING={ifw_root_path} \
 -G "CodeBlocks - Ninja" \
@@ -176,6 +202,7 @@ if __name__ == "__main__":
 
 	# Build
 	start_time = time.time()
+	print(cmake_configure_command)
 	run(cmake_configure_command, cwd=build_folder)
 	run("cmake --build . --target all", cwd=build_folder)
 
@@ -202,7 +229,43 @@ if __name__ == "__main__":
 			app="ScreenPlayWallpaper",
 			executable_file_ending=executable_file_ending), cwd=bin_dir)
 	else:
-		print("Not executing deploy commands due to missing dependencies.")
+		# just copy the folders and be done with it
+		if platform.system() == "Linux":
+			# Copy  all .so files from the qt_path lib folder into bin_dir
+			qt_lib_path = qt_path
+			for file in qt_lib_path.joinpath("lib").glob("*.so"):
+				shutil.copy(str(file), str(bin_dir))
+			
+			# Copy qt_qml_path folder content into bin_dir
+			qt_qml_path = qt_path
+			for folder in qt_qml_path.joinpath("qml").iterdir():
+				if not folder.is_file():
+					shutil.copytree(str(folder), str(bin_dir.joinpath(folder.name)))
+					print("Copied %s" % folder)
+
+
+			# Copy all plugin folder from qt_path plugins subfolder into bin_dir
+			qt_plugins_path = qt_path
+			for folder in qt_path.joinpath("plugins").iterdir():
+				if not folder.is_file():
+					shutil.copytree(str(folder), str(bin_dir.joinpath(folder.name)))
+					print("Copied %s" % folder)
+
+			# Copy all folder from qt_path translation files into bin_dir translation folder
+			qt_translations_path = qt_path
+			for folder in qt_translations_path.joinpath("translations").iterdir():
+				if not folder.is_file():
+					shutil.copytree(str(folder), str(bin_dir.joinpath("translations").joinpath(folder.name)))
+					print("Copied %s" % folder)
+
+			# Copy all  filesfrom qt_path resources folder into bin_dir folder
+			qt_resources_path = qt_path
+			for file in qt_path.joinpath("resources").glob("*"):
+				shutil.copy(str(file), str(bin_dir))
+				print("Copied %s" % file)
+
+		else:
+			print("Not executing deploy commands due to missing dependencies.")
 	
 	# Post-build
 	if platform.system() == "Darwin" and args.sign_build:
@@ -234,11 +297,11 @@ if __name__ == "__main__":
 				print(file, bin_dir)
 				shutil.copy2(file, bin_dir)
 	if not platform.system() == "Darwin":
-	for file_ending in file_endings:
-		for file in bin_dir.rglob("*" + file_ending):
-			if file.is_file():
-				print("Remove: %s" % file.resolve())
-				file.unlink()
+		for file_ending in file_endings:
+			for file in bin_dir.rglob("*" + file_ending):
+				if file.is_file():
+					print("Remove: %s" % file.resolve())
+					file.unlink()
 
 	if args.create_installer:
 		os.chdir(build_folder)

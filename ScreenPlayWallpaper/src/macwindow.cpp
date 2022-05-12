@@ -40,13 +40,22 @@ MacWindow::MacWindow(
     }
 
     qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
+#if defined(Q_OS_OSX)
+    QDir workingDir(QGuiApplication::instance()->applicationDirPath());
+    workingDir.cdUp();
+    workingDir.cdUp();
+    workingDir.cdUp();
+    // OSX Development workaround:
+    //
+    m_window.engine()->addImportPath(workingDir.path()+"/qml");
+#endif
 
     // WARNING: Setting Window flags must be called *here*!
     Qt::WindowFlags flags = m_window.flags();
     m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::Desktop);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
-    m_window.setSource(QUrl("qrc:/ScreenPlayWallpaper/qml/Wallpaper.qml"));
+    m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
 
     MacIntegration* macIntegration = new MacIntegration(this);
     macIntegration->SetBackgroundLevel(&m_window);

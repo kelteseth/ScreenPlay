@@ -32,15 +32,15 @@ Item {
         fillMode: Image.PreserveAspectCrop
         source: {
             if (root.sourceImage === "")
-                return "qrc:/assets/images/missingPreview.png";
+                return "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png";
 
-            return root.screenPreview === "" ? "qrc:/assets/images/missingPreview.png" : Qt.resolvedUrl(absoluteStoragePath + "/" + root.sourceImage);
+            return root.screenPreview === "" ? "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png" : Qt.resolvedUrl(absoluteStoragePath + "/" + root.sourceImage);
         }
         onStatusChanged: {
             if (image.status === Image.Ready) {
                 root.state = "loaded";
             } else if (image.status === Image.Error) {
-                source = "qrc:/assets/images/missingPreview.png";
+                source = "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png";
                 root.state = "loaded";
             }
         }
@@ -54,7 +54,7 @@ Item {
 
             asynchronous: true
             playing: true
-            source: root.sourceImageGIF === "" ? "qrc:/assets/images/missingPreview.png" : Qt.resolvedUrl(absoluteStoragePath + "/" + root.sourceImageGIF)
+            source: root.sourceImageGIF === "" ? "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png" : Qt.resolvedUrl(absoluteStoragePath + "/" + root.sourceImageGIF)
             fillMode: Image.PreserveAspectCrop
         }
 

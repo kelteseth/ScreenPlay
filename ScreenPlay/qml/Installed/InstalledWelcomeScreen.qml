@@ -1,8 +1,9 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlay 1.0
-import "../Common"
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlayUtil 
 
 Item {
     id: installedUserHelper
@@ -19,7 +20,7 @@ Item {
     Image {
         id: imgBg
 
-        source: "qrc:/assets/images/Intro.png"
+        source: "qrc:/qml/ScreenPlayApp/assets/images/Intro.png"
         anchors.fill: parent
     }
 
@@ -36,7 +37,7 @@ Item {
         Image {
             id: imgShine
 
-            source: "qrc:/assets/images/Intro_shine.png"
+            source: "qrc:/qml/ScreenPlayApp/assets/images/Intro_shine.png"
             height: 1753
             width: 1753
             opacity: 0
@@ -58,7 +59,7 @@ Item {
     Image {
         id: imgLogo
 
-        source: "qrc:/assets/images/Early_Access.png"
+        source: "qrc:/qml/ScreenPlayApp/assets/images/Early_Access.png"
         width: 539
         height: 148
         sourceSize: Qt.size(width, height)
@@ -75,8 +76,8 @@ Item {
         id: txtHeadline
 
         y: 80
-        text: qsTr("Get free Widgets and Wallpaper via the Steam Workshop")
-        font.family: ScreenPlay.settings.font
+        text: App.settings.steamVersion ? qsTr("Get free Widgets and Wallpaper via the Steam Workshop") : qsTr("Get content via our forum")
+        font.family: App.settings.font
         font.capitalization: Font.Capitalize
         wrapMode: Text.WordWrap
         color: "white"
@@ -95,7 +96,7 @@ Item {
     Image {
         id: imgPC
 
-        source: "qrc:/assets/images/Intro_PC.png"
+        source: "qrc:/qml/ScreenPlayApp/assets/images/Intro_PC.png"
         width: 500 * 0.8
         height: 500 * 0.8
         sourceSize: Qt.size(width, height)
@@ -118,7 +119,7 @@ Item {
         font.weight: Font.Thin
         width: implicitWidth + 20
         height: implicitHeight + 10
-        icon.source: "qrc:/assets/icons/icon_steam.svg"
+        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
         icon.width: 18
         icon.height: 18
         onClicked: helperButtonPressed(1)

@@ -19,31 +19,38 @@ find_package(
                Positioning)
 
 if(WIN32)
-    set(SOURCES # cmake-format: sortable
-                src/windowsdesktopproperties.cpp src/winwindow.cpp)
-    set(HEADER # cmake-format: sortable
-               src/windowsdesktopproperties.h src/winwindow.h)
+    set(SOURCES src/windowsdesktopproperties.cpp src/winwindow.cpp)
+    set(HEADER src/windowsdesktopproperties.h src/winwindow.h)
 elseif(APPLE)
-    set(SOURCES # cmake-format: sortable
-                src/macintegration.cpp src/macwindow.cpp)
-    set(HEADER # cmake-format: sortable
-               src/macintegration.h src/macbridge.h src/macwindow.h src/MacBridge.mm)
+    set(SOURCES src/macintegration.cpp src/macwindow.cpp)
+    set(HEADER
+        src/macbridge.h
+        src/MacBridge.mm
+        src/macintegration.h
+        src/macwindow.h)
 elseif(UNIX)
-    set(SOURCES # cmake-format: sortable
-                src/linuxwindow.cpp)
-    set(HEADER # cmake-format: sortable
-               src/linuxwindow.h)
+    set(SOURCES src/linuxwindow.cpp)
+    set(HEADER src/linuxwindow.h)
 endif()
 
 set(SOURCES ${SOURCES} main.cpp src/basewindow.cpp)
 set(HEADER ${HEADER} src/basewindow.h)
 
-set(QML # cmake-format: sortable
-        qml/GifWallpaper.qml qml/Test.qml qml/Wallpaper.qml qml/WebsiteWallpaper.qml qml/MultimediaView.qml qml/MultimediaWebView.qml)
+set(QML
+    qml/GifWallpaper.qml
+    qml/MultimediaView.qml
+    qml/MultimediaWebView.qml
+    qml/Test.qml
+    qml/Wallpaper.qml
+    qml/WebsiteWallpaper.qml)
 
-qt_add_resources(RESOURCES Resources.qrc)
+set(RESOURCES
+    dot.png
+    qtquickcontrols2.conf
+    index.html
+)
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER} ${RESOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER} )
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -51,13 +58,19 @@ qt_add_qml_module(
     ${PROJECT_NAME}
     VERSION
     1.0
+    OUTPUT_DIRECTORY
+    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
+    RESOURCE_PREFIX /qml
     QML_FILES
-    ${QML})
+    ${QML}
+    RESOURCES
+    ${RESOURCES})
 
 target_link_libraries(
     ${PROJECT_NAME}
     PRIVATE ScreenPlaySDK
             ScreenPlayUtil
+            ScreenPlayWeatherplugin
             Qt6::Quick
             Qt6::Gui
             Qt6::Widgets
@@ -67,6 +80,9 @@ target_link_libraries(
             Qt6::Multimedia
             Qt6::WebEngineCore
             Qt6::WebEngineQuick)
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin)
+endif()
 
 if(UNIX AND NOT APPLE)
     include(CopyRecursive)

@@ -1,7 +1,10 @@
-project(ScreenPlaySysInfo LANGUAGES CXX)
+project(
+    ScreenPlaySysInfo
+    VERSION 0.1
+    LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_AUTORCC ON)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_AUTOMOC ON)
 
 find_package(infoware CONFIG REQUIRED)
@@ -11,38 +14,52 @@ find_package(
     COMPONENTS Quick Core
     REQUIRED)
 
-set(SOURCES
-    # cmake-format: sortable
-    screenplaysysinfo_plugin.cpp
-    sysinfo.cpp
-    cpu.cpp
-    ram.cpp
-    storage.cpp
-    uptime.cpp
-    gpu.cpp)
+set(QML qml/TestMain.qml)
 
-set(HEADER
-    # cmake-format: sortable
-    screenplaysysinfo_plugin.h
-    sysinfo.h
-    cpu.h
-    ram.h
-    mathhelper.h
-    storage.h
-    uptime.h
-    gpu.h)
+set(QML_PLUGIN_SOURCES
+    src/cpu.cpp
+    src/gpu.cpp
+    src/ipaddress.cpp
+    src/ram.cpp
+    src/storage.cpp
+    src/sysinfo.cpp
+    src/uptime.cpp)
 
-add_library(${PROJECT_NAME} SHARED ${SOURCES} ${HEADER})
+set(QML_PLUGIN_HEADER
+    src/cpu.h
+    src/gpu.h
+    src/ipaddress.h
+    src/mathhelper.h
+    src/ram.h
+    src/storage.h
+    src/sysinfo.h
+    src/uptime.h)
+
+qt_add_library(${PROJECT_NAME} STATIC)
+target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick infoware)
+target_include_directories(${PROJECT_NAME} PUBLIC src/)
+
+if(WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE ole32.lib winmm.lib)
+endif()
 
 qt_add_qml_module(
     ${PROJECT_NAME}
-    OUTPUT_DIRECTORY
-    ${CMAKE_BINARY_DIR}/bin/SysInfo
     URI
     ${PROJECT_NAME}
     VERSION
-    1.0)
+    1.0
+    OUTPUT_DIRECTORY
+    ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
+    RESOURCE_PREFIX /qml
+    QML_FILES
+    ${QML}
+    SOURCES
+    ${QML_PLUGIN_SOURCES}
+    ${QML_PLUGIN_HEADER})
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE Qt6::Core Qt6::Quick infoware)
+if(${SCREENPLAY_TESTS})
+    qt_add_executable(tst_ScreenPlaySysInfo src/TestMain.cpp)
+    target_link_libraries(tst_ScreenPlaySysInfo PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
+    target_compile_definitions(tst_ScreenPlaySysInfo PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
+endif()

@@ -1,7 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import ScreenPlay 1.0
+import ScreenPlayApp
+import ScreenPlay
 
 TabButton {
     id: control
@@ -33,7 +34,7 @@ TabButton {
             id: txt
 
             text: control.text
-            font.family: ScreenPlay.settings.font
+            font.family: App.settings.font
             opacity: enabled ? 1 : 0.3
             color: control.checked ? Material.accentColor : Material.primaryTextColor
             horizontalAlignment: Text.AlignHCenter
@@ -48,7 +49,7 @@ TabButton {
         ToolButton {
             opacity: 0.6
             width: parent.width * 0.2
-            icon.source: "qrc:/assets/icons/icon_open_in_new.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_open_in_new.svg"
             icon.width: 16
             icon.height: 16
             onClicked: Qt.openUrlExternally(control.openLink)

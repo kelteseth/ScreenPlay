@@ -2,7 +2,8 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Controls.Material.impl
-import ScreenPlay 1.0
+import ScreenPlayApp
+import ScreenPlay
 
 Rectangle {
     id: root
@@ -38,7 +39,7 @@ Rectangle {
     Text {
         text: qsTr("Profile saved successfully!")
         color: "white"
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         font.pointSize: 14
         verticalAlignment: Qt.AlignVCenter
 

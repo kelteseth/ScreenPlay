@@ -12,7 +12,8 @@ import org.kde.newstuff 1.1 as NewStuff
 Column {
     id: root
 
-    property alias cfg_StopWallpaperIfHidden: stopWallpaperIfHidden.checked
+    property alias cfg_MonitorIndex: monitorIndex.text
+
 
     anchors.fill: parent
     spacing: units.largeSpacing
@@ -21,11 +22,11 @@ Column {
         anchors.horizontalCenter: parent.horizontalCenter
         spacing: units.largeSpacing
 
-        QQC.CheckBox {
-            id: stopWallpaperIfHidden
-
-            text: i18nd("plasma_applet_org.kde.image", "Stop animation when a window is maximized")
+        QQC.TextField {
+            id: monitorIndex
+            text: "0"
         }
+
 
     }
 

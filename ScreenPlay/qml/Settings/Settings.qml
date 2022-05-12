@@ -4,10 +4,11 @@ import Qt.labs.platform
 import QtQuick.Controls.Material
 import QtQuick.Layouts
 import Qt5Compat.GraphicalEffects
-import ScreenPlay 1.0
-import ScreenPlay.Enums.FillMode 1.0
-import Settings 1.0
-import "../Common"
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Enums.FillMode
+import Settings
+import ScreenPlayUtil
 
 Item {
     id: root
@@ -31,6 +32,9 @@ Item {
         contentHeight: columnWrapper.childrenRect.height
         contentWidth: 800
         flickableDirection: Flickable.VerticalFlick
+        ScrollBar.vertical: ScrollBar {
+            snapMode: ScrollBar.SnapOnRelease
+        }
 
         anchors {
             top: parent.top
@@ -55,26 +59,17 @@ Item {
                     text: qsTr("General")
                 }
 
-                contentItem: Column {
-                    id: columnGeneral
-
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 20
                     spacing: 20
-
-                    anchors {
-                        top: headerGeneral.bottom
-                        topMargin: 20
-                        right: parent.right
-                        left: parent.left
-                        leftMargin: 20
-                        rightMargin: 20
-                    }
 
                     SettingBool {
                         headline: qsTr("Autostart")
                         description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
-                        isChecked: ScreenPlay.settings.autostart
+                        isChecked: App.settings.autostart
                         onCheckboxChanged: function (checked) {
-                            ScreenPlay.settings.setAutostart(checked)
+                            App.settings.setAutostart(checked)
                         }
                     }
 
@@ -84,9 +79,9 @@ Item {
                         headline: qsTr("High priority Autostart")
                         available: false
                         description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
-                        isChecked: ScreenPlay.settings.highPriorityStart
+                        isChecked: App.settings.highPriorityStart
                         onCheckboxChanged: {
-                            ScreenPlay.settings.setHighPriorityStart(checked)
+                            App.settings.setHighPriorityStart(checked)
                         }
                     }
 
@@ -96,9 +91,9 @@ Item {
                         height: 70
                         headline: qsTr("Send anonymous crash reports and statistics")
                         description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use <a href=\"https://sentry.io\">sentry.io</a> to collect and analyze this data. A <b>big thanks to them</b> for providing us with free premium support for open source projects!")
-                        isChecked: ScreenPlay.settings.anonymousTelemetry
+                        isChecked: App.settings.anonymousTelemetry
                         onCheckboxChanged: function (checked) {
-                            ScreenPlay.settings.setAnonymousTelemetry(checked)
+                            App.settings.setAnonymousTelemetry(checked)
                         }
                     }
 
@@ -109,7 +104,7 @@ Item {
                         buttonText: qsTr("Set location")
                         description: {
                             // Remove file:/// so the used does not get confused
-                            let path = ScreenPlay.globalVariables.localStoragePath + ""
+                            let path = App.globalVariables.localStoragePath + ""
                             if (path.length === 0)
                                 return qsTr("Your storage path is empty!")
                             else
@@ -121,9 +116,9 @@ Item {
 
                         FolderDialog {
                             id: folderDialogSaveLocation
-                            folder: ScreenPlay.globalVariables.localStoragePath
+                            folder: App.globalVariables.localStoragePath
                             onAccepted: {
-                                ScreenPlay.settings.setLocalStoragePath(
+                                App.settings.setLocalStoragePath(
                                             folderDialogSaveLocation.currentFolder)
                             }
                         }
@@ -136,7 +131,7 @@ Item {
                         color: Qt.darker(Material.foreground)
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         font.pointSize: 10
-                        font.family: ScreenPlay.settings.font
+                        font.family: App.settings.font
                         height: 30
 
                         anchors {
@@ -157,7 +152,7 @@ Item {
                         Component.onCompleted: {
                             settingsLanguage.comboBox.currentIndex = root.indexOfValue(
                                         settingsLanguage.comboBox.model,
-                                        ScreenPlay.settings.language)
+                                        App.settings.language)
                         }
 
                         comboBox {
@@ -202,9 +197,9 @@ Item {
                                     "text": "Dutch"
                                 }]
                             onActivated: {
-                                ScreenPlay.settings.setLanguage(
+                                App.settings.setLanguage(
                                             settingsLanguage.comboBox.currentValue)
-                                ScreenPlay.settings.retranslateUI()
+                                App.settings.retranslateUI()
                             }
                         }
                     }
@@ -219,7 +214,7 @@ Item {
                         Component.onCompleted: {
                             settingsTheme.comboBox.currentIndex = root.indexOfValue(
                                         settingsTheme.comboBox.model,
-                                        ScreenPlay.settings.theme)
+                                        App.settings.theme)
                         }
 
                         comboBox {
@@ -234,7 +229,7 @@ Item {
                                     "text": qsTr("Light")
                                 }]
                             onActivated: {
-                                ScreenPlay.settings.setTheme(
+                                App.settings.setTheme(
                                             settingsTheme.comboBox.currentValue)
                             }
                         }
@@ -248,30 +243,20 @@ Item {
                     id: headerPerformance
 
                     text: qsTr("Performance")
-                    image: "qrc:/assets/icons/icon_build.svg"
+                    image: "qrc:/qml/ScreenPlayApp/assets/icons/icon_build.svg"
                 }
 
-                contentItem: Column {
-                    id: perfomanceWrapper
-
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 20
                     spacing: 20
-
-                    anchors {
-                        top: headerPerformance.bottom
-                        topMargin: 20
-                        right: parent.right
-                        left: parent.left
-                        leftMargin: 20
-                        rightMargin: 20
-                    }
 
                     SettingBool {
                         headline: qsTr("Pause wallpaper video rendering while another app is in the foreground")
                         description: qsTr("We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!")
-                        isChecked: ScreenPlay.settings.checkWallpaperVisible
+                        isChecked: App.settings.checkWallpaperVisible
                         onCheckboxChanged: function (checked) {
-                            ScreenPlay.settings.setCheckWallpaperVisible(
-                                        checked)
+                            App.settings.setCheckWallpaperVisible(checked)
                         }
                     }
 
@@ -285,11 +270,11 @@ Item {
                         Component.onCompleted: {
                             cbVideoFillMode.comboBox.currentIndex = root.indexOfValue(
                                         cbVideoFillMode.comboBox.model,
-                                        ScreenPlay.settings.videoFillMode)
+                                        App.settings.videoFillMode)
                         }
 
                         comboBox {
-                            onActivated: ScreenPlay.settings.setVideoFillMode(
+                            onActivated: App.settings.setVideoFillMode(
                                              cbVideoFillMode.comboBox.currentValue)
                             model: [{
                                     "value": FillMode.Stretch,
@@ -318,22 +303,13 @@ Item {
                     id: headerAbout
 
                     text: qsTr("About")
-                    image: "qrc:/assets/icons/icon_cake.svg"
+                    image: "qrc:/qml/ScreenPlayApp/assets/icons/icon_cake.svg"
                 }
 
-                contentItem: Column {
-                    id: aboutWrapper
-
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 20
                     spacing: 20
-
-                    anchors {
-                        top: headerAbout.bottom
-                        topMargin: 20
-                        right: parent.right
-                        left: parent.left
-                        leftMargin: 20
-                        rightMargin: 20
-                    }
 
                     Column {
                         id: settingsAboutrapperWrapper
@@ -354,7 +330,7 @@ Item {
                                 verticalAlignment: Text.AlignVCenter
                                 horizontalAlignment: Text.AlignLeft
                                 font.pointSize: 16
-                                font.family: ScreenPlay.settings.font
+                                font.family: App.settings.font
 
                                 anchors {
                                     top: parent.top
@@ -373,7 +349,7 @@ Item {
                                 verticalAlignment: Text.AlignTop
                                 horizontalAlignment: Text.AlignLeft
                                 font.pointSize: 11
-                                font.family: ScreenPlay.settings.font
+                                font.family: App.settings.font
                                 width: parent.width * 0.6
 
                                 anchors {
@@ -398,31 +374,31 @@ Item {
                                 }
 
                                 GrowIconLink {
-                                    iconSource: "qrc:/assets/icons/brand_github.svg"
+                                    iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_github.svg"
                                     url: "https://github.com/kelteseth"
                                     color: "#333333"
                                 }
 
                                 GrowIconLink {
-                                    iconSource: "qrc:/assets/icons/brand_gitlab.svg"
+                                    iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_gitlab.svg"
                                     url: "https://gitlab.com/kelteseth"
                                     color: "#FC6D26"
                                 }
 
                                 GrowIconLink {
-                                    iconSource: "qrc:/assets/icons/brand_twitter.svg"
+                                    iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_twitter.svg"
                                     url: "https://twitter.com/Kelteseth"
                                     color: "#1DA1F2"
                                 }
 
                                 GrowIconLink {
-                                    iconSource: "qrc:/assets/icons/brand_twitch.svg"
+                                    iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_twitch.svg"
                                     url: "https://www.twitch.tv/kelteseth/"
                                     color: "#6441A5"
                                 }
 
                                 GrowIconLink {
-                                    iconSource: "qrc:/assets/icons/brand_reddit.svg"
+                                    iconSource: "qrc:/qml/ScreenPlayApp/assets/icons/brand_reddit.svg"
                                     url: "https://www.reddit.com/r/ScreenPlayApp/"
                                     color: "#FF4500"
                                 }
@@ -448,7 +424,7 @@ Item {
                             Image {
                                 id: mask
 
-                                source: "qrc:/assets/images/mask_round.svg"
+                                source: "qrc:/qml/ScreenPlayApp/assets/images/mask_round.svg"
                                 sourceSize: Qt.size(width, height)
                                 smooth: true
                                 width: 120
@@ -470,10 +446,9 @@ Item {
                     SettingsHorizontalSeperator {}
 
                     SettingsButton {
-                        icon.source: "qrc:/assets/icons/icon_launch.svg"
+                        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_launch.svg"
                         headline: qsTr("Version")
-                        description: qsTr("ScreenPlay Build Version \n")
-                                     + ScreenPlay.settings.gitBuildHash
+                        description: qsTr("ScreenPlay Build Version \n") + App.settings.gitBuildHash
                         buttonText: qsTr("Open Changelog")
                         onButtonPressed: Qt.openUrlExternally(
                                              "https://gitlab.com/kelteseth/ScreenPlay/-/releases")
@@ -486,7 +461,7 @@ Item {
                         description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")
                         buttonText: qsTr("Licenses")
                         onButtonPressed: {
-                            ScreenPlay.util.requestAllLicenses()
+                            App.util.requestAllLicenses()
                             expanderCopyright.toggle()
                         }
                     }
@@ -499,7 +474,7 @@ Item {
                                 expanderCopyright.text = licensesText
                             }
 
-                            target: ScreenPlay.util
+                            target: App.util
                         }
                     }
 
@@ -517,7 +492,7 @@ Item {
                     SettingsExpander {
                         id: expanderDebug
 
-                        text: ScreenPlay.util.debugMessages
+                        text: App.util.debugMessages
                     }
 
                     SettingsHorizontalSeperator {}
@@ -527,7 +502,7 @@ Item {
                         description: qsTr("We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!")
                         buttonText: qsTr("Privacy")
                         onButtonPressed: {
-                            ScreenPlay.util.requestDataProtection()
+                            App.util.requestDataProtection()
                             expanderDataProtection.toggle()
                         }
                     }
@@ -540,15 +515,11 @@ Item {
                                 expanderDataProtection.text = dataProtectionText
                             }
 
-                            target: ScreenPlay.util
+                            target: App.util
                         }
                     }
                 }
             }
-        }
-
-        ScrollBar.vertical: ScrollBar {
-            snapMode: ScrollBar.SnapOnRelease
         }
     }
 }

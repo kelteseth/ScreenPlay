@@ -4,8 +4,9 @@ import QtQuick.Controls.Material
 import QtQuick.Layouts
 
 import Qt5Compat.GraphicalEffects
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
 
 Item {
     id: wrapperError
@@ -17,7 +18,7 @@ Item {
 
         text: qsTr("An error occurred!")
         height: 40
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         font.weight: Font.Light
         color: Material.color(Material.DeepOrange)
         font.pointSize: 32
@@ -53,10 +54,10 @@ Item {
             Text {
                 id: txtFFMPEGDebug
 
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 wrapMode: Text.WordWrap
                 color: "#626262"
-                text: ScreenPlay.create.ffmpegOutput
+                text: App.create.ffmpegOutput
                 height: txtFFMPEGDebug.paintedHeight
 
                 anchors {
@@ -90,7 +91,7 @@ Item {
         MenuItem {
             text: qsTr("Copy text to clipboard")
             onClicked: {
-                ScreenPlay.util.copyToClipboard(txtFFMPEGDebug.text);
+                App.util.copyToClipboard(txtFFMPEGDebug.text);
             }
         }
 
@@ -102,10 +103,10 @@ Item {
         text: qsTr("Back to create and send an error report!")
         Material.background: Material.accent
         Material.foreground: "white"
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         onClicked: {
-            ScreenPlay.util.setNavigationActive(true);
-            ScreenPlay.util.setNavigation("Create");
+            App.util.setNavigationActive(true);
+            App.util.setNavigation("Create");
         }
 
         anchors {

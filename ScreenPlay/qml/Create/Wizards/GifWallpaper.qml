@@ -2,8 +2,9 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Controls
 import QtQuick.Layouts
-import ScreenPlay 1.0
-import "../../Common" as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlayUtil as Util
 
 WizardPage {
     id: root
@@ -14,12 +15,12 @@ WizardPage {
         property bool ready: tfTitle.text.length >= 1 && root.file.length !== ""
 
         function create() {
-            ScreenPlay.wizards.createGifWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, root.file, tagSelector.getTags());
+            App.wizards.createGifWallpaper(tfTitle.text, cbLicense.name, cbLicense.licenseFile, tfCreatedBy.text, root.file, tagSelector.getTags());
         }
 
         onReadyChanged: root.ready = ready
 
-        Common.Headline {
+        Util.Headline {
             id: txtHeadline
 
             text: qsTr("Import a Gif Wallpaper")
@@ -71,12 +72,12 @@ WizardPage {
                         anchors.fill: parent
                         fillMode: Image.Tile
                         opacity: 0.2
-                        source: "qrc:/assets/images/noisy-texture-3.png"
+                        source: "qrc:/qml/ScreenPlayApp/assets/images/noisy-texture-3.png"
                     }
 
                     Text {
                         color: Material.primaryTextColor
-                        font.family: ScreenPlay.settings.font
+                        font.family: App.settings.font
                         font.pointSize: 13
                         text: qsTr("Drop a *.gif file here or use 'Select file' below.")
                         verticalAlignment: Text.AlignVCenter
@@ -104,7 +105,7 @@ WizardPage {
                     Layout.preferredHeight: 20
                 }
 
-                Common.FileSelector {
+                Util.FileSelector {
                     id: fileSelector
 
                     Layout.fillWidth: true
@@ -122,11 +123,11 @@ WizardPage {
                 Layout.fillHeight: true
                 Layout.preferredWidth: root.width * 0.5
 
-                Common.HeadlineSection {
+                Util.HeadlineSection {
                     text: qsTr("General")
                 }
 
-                Common.TextField {
+                Util.TextField {
                     id: tfTitle
 
                     Layout.fillWidth: true
@@ -134,24 +135,24 @@ WizardPage {
                     required: true
                 }
 
-                Common.TextField {
+                Util.TextField {
                     id: tfCreatedBy
 
                     Layout.fillWidth: true
                     placeholderText: qsTr("Created By")
                 }
 
-                Common.LicenseSelector {
+                Util.LicenseSelector {
                     id: cbLicense
 
                     Layout.fillWidth: true
                 }
 
-                Common.HeadlineSection {
+                Util.HeadlineSection {
                     text: qsTr("Tags")
                 }
 
-                Common.TagSelector {
+                Util.TagSelector {
                     id: tagSelector
 
                     Layout.fillWidth: true

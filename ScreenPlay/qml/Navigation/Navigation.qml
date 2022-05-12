@@ -5,9 +5,9 @@ import QtQuick.Window
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlay 1.0
-import "../Workshop"
-import "../Common"
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlayUtil
 
 Rectangle {
     id: root
@@ -67,86 +67,101 @@ Rectangle {
             onPageChanged(nav)
         }
 
-        target: ScreenPlay.util
+        target: App.util
     }
 
-    Row {
+    TabBar {
         id: row
-        height: 60
+        height: 50
+        currentIndex: 2
 
         anchors {
-            top: parent.top
-            right: parent.right
+            bottom: parent.bottom
             left: parent.left
             leftMargin: 20
         }
 
         spacing: 0
 
-        NavigationItem {
+        TabButton {
             id: navCreate
-
-            state: "inactive"
-            name: "Create"
             text: qsTr("Create")
-            iconSource: "qrc:/assets/icons/icon_plus.svg"
-            onPageClicked: function (name) {
-                root.onPageChanged(name)
+            icon.height: 16
+            icon.width: 16
+            font.pointSize: 12
+            height: parent.height
+            width: implicitWidth
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
+            onClicked: {
+                root.onPageChanged("Create")
             }
             objectName: "createTab"
+            background: Item {}
         }
 
-        NavigationItem {
+        TabButton {
             id: navWorkshop
-
-            state: "inactive"
-            name: "Workshop"
+            enabled: App.settings.steamVersion
             text: qsTr("Workshop")
-            iconSource: "qrc:/assets/icons/icon_steam.svg"
-            onPageClicked: function (name) {
-                root.onPageChanged(name)
+            icon.height: 16
+            icon.width: 16
+            font.pointSize: 12
+            height: parent.height
+            width: implicitWidth
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
+            onClicked: {
+                root.onPageChanged("Workshop")
             }
             objectName: "workshopTab"
+            background: Item {}
         }
 
-        NavigationItem {
+        TabButton {
             id: navInstalled
-
-            state: "active"
-            name: "Installed"
-            text: qsTr("Installed")
-            amount: ScreenPlay.installedListModel.count
-            iconSource: "qrc:/assets/icons/icon_installed.svg"
-            onPageClicked: function (name) {
-                root.onPageChanged(name)
+            text: qsTr("Installed") + " " + App.installedListModel.count
+            icon.height: 16
+            icon.width: 16
+            font.pointSize: 12
+            height: parent.height
+            width: implicitWidth
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
+            onClicked: {
+                root.onPageChanged("Installed")
             }
             objectName: "installedTab"
+            background: Item {}
         }
 
-        NavigationItem {
+        TabButton {
             id: navCommunity
-
-            state: "inactive"
-            name: "Community"
             text: qsTr("Community")
-            iconSource: "qrc:/assets/icons/icon_community.svg"
-            onPageClicked: function (name) {
-                root.onPageChanged(name)
+            icon.height: 16
+            icon.width: 16
+            font.pointSize: 12
+            height: parent.height
+            width: implicitWidth
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
+            onClicked: {
+                root.onPageChanged("Community")
             }
             objectName: "communityTab"
+            background: Item {}
         }
 
-        NavigationItem {
+        TabButton {
             id: navSettings
-
-            state: "inactive"
-            name: "Settings"
             text: qsTr("Settings")
-            iconSource: "qrc:/assets/icons/icon_settings.svg"
-            onPageClicked: function (name) {
-                root.onPageChanged(name)
+            icon.height: 16
+            icon.width: 16
+            font.pointSize: 12
+            height: parent.height
+            width: implicitWidth
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
+            onClicked: {
+                root.onPageChanged("Settings")
             }
             objectName: "settingsTab"
+            background: Item {}
         }
     }
 
@@ -171,7 +186,7 @@ Rectangle {
         }
 
         ToolButton {
-            icon.source: "qrc:/assets/icons/font-awsome/patreon-brands.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/patreon-brands.svg"
             text: qsTr("Support me on Patreon!")
             onClicked: Qt.openUrlExternally(
                            "https://www.patreon.com/ScreenPlayApp")
@@ -187,8 +202,8 @@ Rectangle {
             bottom: parent.bottom
         }
 
-        property bool contentActive: ScreenPlay.screenPlayManager.activeWallpaperCounter > 0
-                                     || ScreenPlay.screenPlayManager.activeWidgetsCounter > 0
+        property bool contentActive: App.screenPlayManager.activeWallpaperCounter > 0
+                                     || App.screenPlayManager.activeWidgetsCounter > 0
 
         onContentActiveChanged: {
             if (!contentActive) {
@@ -200,7 +215,7 @@ Rectangle {
         ToolButton {
             id: miMuteAll
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_volume.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             enabled: quickActionRow.contentActive
@@ -209,12 +224,12 @@ Rectangle {
             property bool soundEnabled: true
             onSoundEnabledChanged: {
                 if (miMuteAll.soundEnabled) {
-                    miMuteAll.icon.source = "qrc:/assets/icons/icon_volume.svg"
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted",
+                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
+                    App.screenPlayManager.setAllWallpaperValue("muted",
                                                                       "false")
                 } else {
-                    miMuteAll.icon.source = "qrc:/assets/icons/icon_volume_mute.svg"
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue("muted",
+                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg"
+                    App.screenPlayManager.setAllWallpaperValue("muted",
                                                                       "true")
                 }
             }
@@ -227,19 +242,19 @@ Rectangle {
             id: miStopAll
             enabled: quickActionRow.contentActive
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_pause.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: isPlaying = !isPlaying
             property bool isPlaying: true
             onIsPlayingChanged: {
                 if (miStopAll.isPlaying) {
-                    miStopAll.icon.source = "qrc:/assets/icons/icon_pause.svg"
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg"
+                    App.screenPlayManager.setAllWallpaperValue(
                                 "isPlaying", "true")
                 } else {
-                    miStopAll.icon.source = "qrc:/assets/icons/icon_play.svg"
-                    ScreenPlay.screenPlayManager.setAllWallpaperValue(
+                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_play.svg"
+                    App.screenPlayManager.setAllWallpaperValue(
                                 "isPlaying", "false")
                 }
             }
@@ -252,13 +267,12 @@ Rectangle {
             id: miCloseAll
             enabled: quickActionRow.contentActive
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_close.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_close.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
-            icon.color: Material.iconColor
             onClicked: {
-                ScreenPlay.screenPlayManager.removeAllWallpapers()
-                ScreenPlay.screenPlayManager.removeAllWidgets()
+                App.screenPlayManager.removeAllWallpapers()
+                App.screenPlayManager.removeAllWidgets()
                 miStopAll.isPlaying = true
                 miMuteAll.soundEnabled = true
             }
@@ -271,10 +285,10 @@ Rectangle {
         ToolButton {
             id: miConfig
             Layout.alignment: Qt.AlignVCenter
-            icon.source: "qrc:/assets/icons/icon_video_settings_black_24dp.svg"
+            icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_video_settings_black_24dp.svg"
             icon.width: root.iconWidth
             icon.height: root.iconHeight
-            onClicked: ScreenPlay.util.setToggleWallpaperConfiguration()
+            onClicked: App.util.setToggleWallpaperConfiguration()
             hoverEnabled: true
             ToolTip.text: qsTr("Configure Wallpaper")
             ToolTip.visible: hovered

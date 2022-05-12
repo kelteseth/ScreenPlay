@@ -5,10 +5,11 @@ import QtQuick.Controls.Material
 import QtQuick.Particles
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import ScreenPlay 1.0
-import ScreenPlay.Create 1.0
-import ScreenPlay.QMLUtilities 1.0
-import "../Common" as Common
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Create
+import ScreenPlay.QMLUtilities
+import ScreenPlayUtil
 
 Item {
     id: delegate
@@ -58,7 +59,7 @@ Item {
             id: txtCategory
 
             font.pointSize: 10
-            font.family: ScreenPlay.settings.font
+            font.family: App.settings.font
             color: "white"
 
             anchors {
@@ -75,7 +76,7 @@ Item {
             id: txtText
 
             font.pointSize: 16
-            font.family: ScreenPlay.settings.font
+            font.family: App.settings.font
             color: "white"
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
 
@@ -102,7 +103,7 @@ Item {
                 id: description
 
                 font.pointSize: 14
-                font.family: ScreenPlay.settings.font
+                font.family: App.settings.font
                 color: Material.primaryTextColor
 
                 anchors {

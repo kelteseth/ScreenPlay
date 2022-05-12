@@ -1,8 +1,9 @@
 import QtQuick
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
-import ScreenPlay 1.0
-import ScreenPlay.Enums.InstalledType 1.0
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Enums.InstalledType
 
 Item {
     id: root
@@ -42,7 +43,7 @@ Item {
         horizontalAlignment: Text.AlignHCenter
         verticalAlignment: Text.AlignVCenter
         font.pointSize: root.fontSize
-        font.family: ScreenPlay.settings.font
+        font.family: App.settings.font
         wrapMode: Text.WrapAnywhere
 
         anchors {

@@ -3,9 +3,10 @@ import QtQuick.Controls
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material
 import QtQuick.Layouts
-import ScreenPlay 1.0
-import ScreenPlay.Enums.FillMode 1.0
-import "../Common/" as SP
+import ScreenPlayApp
+import ScreenPlay
+import ScreenPlay.Enums.FillMode
+import ScreenPlayUtil as Util
 
 ColumnLayout {
     id: root
@@ -27,15 +28,10 @@ ColumnLayout {
     state: "hidden"
     clip: true
     onWallpaperChanged: {
-        if (!wallpaper) {
-            slPlaybackRate.slider.value = 1;
-            return ;
-        }
         slVolume.slider.value = wallpaper.volume;
-        slPlaybackRate.slider.value = wallpaper.playbackRate;
     }
 
-    SP.Slider {
+    Util.Slider {
         id: slVolume
 
         headline: qsTr("Volume")
@@ -44,16 +40,16 @@ ColumnLayout {
         Layout.leftMargin: 10
         Layout.rightMargin: 10
         slider.onValueChanged: {
-            ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(activeMonitorIndex, "volume", (Math.round(slVolume.slider.value * 100) / 100));
+            App.screenPlayManager.setWallpaperValueAtMonitorIndex(activeMonitorIndex, "volume", (Math.round(slVolume.slider.value * 100) / 100));
         }
     }
 
 
-    SP.Slider {
+    Util.Slider {
         id: slCurrentVideoTime
 
         headline: qsTr("Current Video Time")
-        slider.onValueChanged: ScreenPlay.screenPlayManager.setWallpaperValueAtMonitorIndex(activeMonitorIndex, "currentTime", (Math.round(slCurrentVideoTime.slider.value * 100) / 100))
+        slider.onValueChanged: App.screenPlayManager.setWallpaperValueAtMonitorIndex(activeMonitorIndex, "currentTime", (Math.round(slCurrentVideoTime.slider.value * 100) / 100))
         Layout.fillWidth: true
         slider.stepSize: 0.1
         Layout.leftMargin: 10
@@ -70,7 +66,7 @@ ColumnLayout {
             id: txtComboBoxFillMode
 
             text: qsTr("Fill Mode")
-            font.family: ScreenPlay.settings.font
+            font.family: App.settings.font
             verticalAlignment: Text.AlignVCenter
             font.pointSize: 10
             color: "#626262"
@@ -85,7 +81,7 @@ ColumnLayout {
             Layout.leftMargin: 10
             textRole: "text"
             valueRole: "value"
-            currentIndex: root.indexOfValue(settingsComboBox.model, ScreenPlay.settings.videoFillMode)
+            currentIndex: root.indexOfValue(settingsComboBox.model, App.settings.videoFillMode)
             model: [{
                 "value": FillMode.Stretch,
                 "text": qsTr("Stretch")
@@ -103,7 +99,7 @@ ColumnLayout {
                 "text": qsTr("Scale_Down")
             }]
             onActivated: {
-                ScreenPlay.screenPlayManager.setWallpaperFillModeAtMonitorIndex(activeMonitorIndex,settingsComboBox.currentValue);
+                App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(activeMonitorIndex,settingsComboBox.currentValue);
             }
         }
 
