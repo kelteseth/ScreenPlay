@@ -72,16 +72,12 @@ set(RESOURCES
 set(STEAM_LIB_PATH "${CMAKE_CURRENT_SOURCE_DIR}/SteamSDK/redistributable_bin/")
 
 if(WIN32)
-    set(WORKSHOP_PLUGIN_DIR ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME})
     set(STEAM_LIB "${STEAM_LIB_PATH}/win64/steam_api64.lib")
     set(STEAM_BIN "${STEAM_LIB_PATH}/win64/steam_api64.dll")
 elseif(APPLE)
-    set(WORKSHOP_PLUGIN_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/ScreenPlay/qml/${PROJECT_NAME})
-    set(MACOS_FRAMEWORKS_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/Frameworks/)
     set(STEAM_LIB "${STEAM_LIB_PATH}/osx/libsteam_api.dylib")
     set(STEAM_BIN ${STEAM_LIB})
 elseif(UNIX)
-    set(WORKSHOP_PLUGIN_DIR ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME})
     set(STEAM_LIB "${STEAM_LIB_PATH}/linux64/libsteam_api.so")
     set(STEAM_BIN ${STEAM_LIB})
 endif()
@@ -118,14 +114,10 @@ qt_add_qml_module(
 
 if(${SCREENPLAY_STEAM})
     if(APPLE)
-        file(MAKE_DIRECTORY ${WORKSHOP_PLUGIN_DIR})
+        set(MACOS_FRAMEWORKS_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ScreenPlay.app/Contents/MacOS/)
         file(MAKE_DIRECTORY ${MACOS_FRAMEWORKS_DIR})
-
-        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/ COPYONLY)
-        configure_file(${STEAM_BIN} ${WORKSHOP_PLUGIN_DIR} COPYONLY)
-
-        set_target_properties(${PROJECT_NAME} PROPERTIES LIBRARY_OUTPUT_DIRECTORY
-                                                         ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/Workshop)
+        configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${MACOS_FRAMEWORKS_DIR} COPYONLY)
+        configure_file(${STEAM_BIN} ${MACOS_FRAMEWORKS_DIR} COPYONLY)
     else()
         configure_file(${CMAKE_CURRENT_SOURCE_DIR}/steam_appid.txt ${CMAKE_BINARY_DIR}/bin/steam_appid.txt COPYONLY)
         configure_file(${STEAM_BIN} ${CMAKE_BINARY_DIR}/bin/ COPYONLY)

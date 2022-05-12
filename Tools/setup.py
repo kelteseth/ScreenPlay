@@ -75,7 +75,6 @@ without the ScreenPlay-vcpkg folder (E.g. py .\setup.py --path "D:/Backup/Code/Q
     "cpp-httplib",
     "libarchive"
 ]
-
     
     if system() == "Windows":
         vcpkg_command = "vcpkg.exe"

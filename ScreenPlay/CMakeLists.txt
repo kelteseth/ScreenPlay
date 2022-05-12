@@ -389,9 +389,6 @@ if(APPLE)
                    XCODE_ATTRIBUTE_ENABLE_HARDENED_RUNTIME TRUE
                    XCODE_ATTRIBUTE_EXECUTABLE_NAME ${PROJECT_NAME})
 
-    # Needed for the Steam Workshop qml plugin
-    file(MAKE_DIRECTORY ${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/Workshop)
-
     add_custom_command(
         TARGET ${PROJECT_NAME}
         POST_BUILD
