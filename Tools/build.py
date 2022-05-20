@@ -86,12 +86,12 @@ if __name__ == "__main__":
 	build_tests = "OFF"
 	build_installer = "OFF"
 	build_release = "OFF"
+	create_installer = "OFF"
 	cmake_target_triplet = ""
 	cmake_build_type = ""
 	executable_file_ending = ""
 	deploy_command = ""
 	aqt_path = ""
-	create_installer = False
 	ifw_root_path = ""
 	aqt_install_qt_packages = ""
 	aqt_install_tool_packages = ""
@@ -192,7 +192,7 @@ if __name__ == "__main__":
 	-DSCREENPLAY_STEAM={build_steam} \
 	-DSCREENPLAY_TESTS={build_tests} \
 	-DSCREENPLAY_RELEASE={build_release} \
-	-DSCREENPLAY_CREATE_INSTALLER={create_installer} \
+	-DSCREENPLAY_INSTALLER={create_installer} \
 	-DSCREENPLAY_IFW_ROOT:STRING={ifw_root_path} \
 -G "CodeBlocks - Ninja" \
 	-B.'
