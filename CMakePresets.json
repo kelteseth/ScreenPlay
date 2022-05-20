@@ -1,0 +1,33 @@
+{
+    "version": 4,
+    "cmakeMinimumRequired": {
+      "major": 3,
+      "minor": 23,
+      "patch": 0
+    },
+    "configurePresets": [
+        {
+            "name": "ScreenPlay_64bit_Debug",
+            "displayName": "Configure preset using toolchain file",
+            "description": "Sets Ninja generator, build and install directory",
+            "generator": "Ninja",
+            "binaryDir": "${sourceDir}/../build_${presetName}_Qt_6_3_0_MSVC2019",
+            "architecture": {
+                "value": "x64",
+                "strategy": "external"
+              },
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug",
+                "CMAKE_PREFIX_PATH": "C:/Qt/6.3.0/msvc2019_64",
+                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake",
+                "VCPKG_TARGET_TRIPLET": "x64-windows"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+          "name": "default",
+          "configurePreset": "ScreenPlay_64bit_Debug"
+        }
+      ]
+}
