@@ -572,6 +572,10 @@
         <source>Import Content...</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Export Content...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>InstalledNavigation</name>

@@ -8,7 +8,7 @@ import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlay
 import ScreenPlay.Create
-import ScreenPlay.QMLUtilities
+import ScreenPlayUtil
 
 Rectangle {
     id: root

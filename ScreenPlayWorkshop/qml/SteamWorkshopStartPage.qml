@@ -126,15 +126,24 @@ Item {
                         leftMargin: 100
                     }
 
-                    Text {
-                        id: bannerTxtUnderline
+                    Rectangle {
+                        height: 36
+                        width: 160
+                        color: Material.backgroundColor
+                        radius: 4
+                        Text {
+                            id: bannerTxtUnderline
 
-                        property int numberSubscriber: 0
+                            property int numberSubscriber: 0
 
-                        text: numberSubscriber + " SUBSCRIBED TO:"
-                        font.pointSize: 12
-                        color: "white"
-                        font.weight: Font.Thin
+                            text: numberSubscriber + " SUBSCRIBED TO:"
+                            font.pointSize: 12
+                            color: "white"
+                            font.weight: Font.Thin
+                            anchors.fill: parent
+                            horizontalAlignment: Qt.AlignHCenter
+                            verticalAlignment: Qt.AlignVCenter
+                        }
                     }
 
                     Text {
@@ -145,6 +154,13 @@ Item {
                         color: "white"
                         font.weight: Font.Thin
                         width: 400
+
+                        layer.enabled: true
+                        layer.effect: DropShadow {
+                            verticalOffset: 2
+                            color: "#80000000"
+                            radius: 3
+                        }
                     }
 
                     RowLayout {
@@ -195,6 +211,12 @@ Item {
                             color: "white"
                             font.underline: true
                             font.weight: Font.Thin
+                            layer.enabled: true
+                            layer.effect: DropShadow {
+                                verticalOffset: 2
+                                color: "#80000000"
+                                radius:3
+                            }
                         }
                     }
                 }
@@ -274,6 +296,7 @@ Item {
                         }
 
                         text: qsTr("Profile")
+                        icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_account_circle.svg"
                         onClicked: {
                             stackView.push(
                                         "qrc:/qml/ScreenPlayWorkshop/qml/SteamProfile.qml",
@@ -294,6 +317,7 @@ Item {
                         }
 
                         text: qsTr("Upload")
+                        icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_file_upload.svg"
                         onClicked: {
                             stackView.push(
                                         "qrc:/qml/ScreenPlayWorkshop/qml/upload/UploadProject.qml",
@@ -307,13 +331,30 @@ Item {
                     Item {
                         id: searchWrapper
 
-                        width: 400
                         height: 50
 
                         anchors {
-                            verticalCenter: parent.verticalCenter
                             left: btnSteamUpload.right
+                            right: wrapperRight.left
+                            rightMargin: 20
                             leftMargin: 20
+                            verticalCenter: parent.verticalCenter
+                        }
+                        ToolButton {
+                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
+                            onClicked: {
+                                root.state = "searching"
+                                root.steamWorkshop.searchWorkshopByText(
+                                            tiSearch.text)
+                            }
+                            icon.width: 20
+                            icon.height: 20
+                            anchors {
+                                left: parent.left
+                                leftMargin: -3
+                                bottom: parent.bottom
+                                bottomMargin: 3
+                            }
                         }
 
                         TextField {
@@ -329,39 +370,40 @@ Item {
                                 root.steamWorkshop.searchWorkshopByText(
                                             tiSearch.text)
                             }
+                            leftInset: -20
+                            leftPadding: 20
                             anchors {
                                 top: parent.top
                                 right: parent.right
                                 bottom: parent.bottom
                                 left: parent.left
-                                leftMargin: 10
+                                leftMargin: 20
                             }
                         }
-
                         ToolButton {
-                            id: tb
-                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
+                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg"
                             onClicked: {
                                 root.state = "searching"
-                                root.steamWorkshop.searchWorkshopByText(
-                                            tiSearch.text)
+                                tiSearch.text = ""
+                                root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend)
                             }
+                            enabled: tiSearch.text !== ""
                             icon.width: 20
                             icon.height: 20
                             anchors {
                                 right: parent.right
+                                rightMargin: -3
                                 bottom: parent.bottom
-                                bottomMargin: 10
+                                bottomMargin: 3
                             }
                         }
                     }
 
                     RowLayout {
+                        id: wrapperRight
                         spacing: 20
 
                         anchors {
-                            left: searchWrapper.right
-                            leftMargin: 20
                             right: cbQuerySort.left
                             rightMargin: 20
                             verticalCenter: parent.verticalCenter
@@ -448,7 +490,8 @@ Item {
                 itemIndex: index
                 steamWorkshop: root.steamWorkshop
                 onClicked: {
-                    sidebar.setWorkshopItem(publishedFileID, imgUrl,
+                    sidebar.setWorkshopItem(m_publishedFileID,
+                                            m_workshopPreview,
                                             additionalPreviewUrl,
                                             subscriptionCount)
                 }

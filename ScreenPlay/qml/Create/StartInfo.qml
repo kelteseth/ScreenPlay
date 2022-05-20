@@ -8,7 +8,6 @@ import QtQuick.Controls.Material.impl
 import ScreenPlayApp
 import ScreenPlay
 import ScreenPlay.Create
-import ScreenPlay.QMLUtilities
 import ScreenPlayUtil as Util
 
 Item {

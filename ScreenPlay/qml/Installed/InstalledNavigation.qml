@@ -47,6 +47,7 @@ Item {
         TabBar {
             height: parent.height
 
+            background: Item {}
             anchors {
                 top: parent.top
                 topMargin: 5
@@ -55,71 +56,51 @@ Item {
                 bottom: parent.bottom
             }
 
-            TabButton {
-                text: qsTr("All")
+            component CustomTabButton: TabButton {
                 icon.height: 16
                 icon.width: 16
                 height: parent.height
                 width: implicitWidth
+                background: Item {}
+                font.capitalization: Font.MixedCase
+            }
+
+            CustomTabButton {
+                text: qsTr("All")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
                 onClicked: {
                     setSidebarActive(false)
-                    App.installedListFilter.sortBySearchType(
-                                SearchType.All)
+                    App.installedListFilter.sortBySearchType(SearchType.All)
                 }
-
-                background: Item {}
             }
 
-            TabButton {
+            CustomTabButton {
                 text: qsTr("Scenes")
-                icon.height: 16
-                icon.width: 16
-                width: implicitWidth
-                height: parent.height
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_code.svg"
                 onClicked: {
                     setSidebarActive(false)
-                    App.installedListFilter.sortBySearchType(
-                                SearchType.Scene)
+                    App.installedListFilter.sortBySearchType(SearchType.Scene)
                 }
-
-                background: Item {}
             }
 
-            TabButton {
+            CustomTabButton {
                 text: qsTr("Videos")
-                icon.height: 16
-                icon.width: 16
-                height: parent.height
-                width: implicitWidth
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_movie.svg"
                 onClicked: {
                     setSidebarActive(false)
                     App.installedListFilter.sortBySearchType(
                                 SearchType.Wallpaper)
                 }
-
-                background: Item {}
             }
 
-            TabButton {
+            CustomTabButton {
                 text: qsTr("Widgets")
-                icon.height: 16
-                icon.width: 16
-                height: parent.height
-                width: implicitWidth
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_widgets.svg"
                 onClicked: {
                     setSidebarActive(false)
-                    App.installedListFilter.sortBySearchType(
-                                SearchType.Widget)
+                    App.installedListFilter.sortBySearchType(SearchType.Widget)
                 }
-
-                background: Item {}
             }
-
-            background: Item {}
         }
 
         Util.Search {
@@ -144,14 +125,12 @@ Item {
             ToolTip.delay: 100
             ToolTip.timeout: 5000
             ToolTip.visible: hovered
-            ToolTip.text: (btnSortOrder.sortOrder
-                           === Qt.AscendingOrder) ? "Install Date Ascending":  "Install Date Descending"
+            ToolTip.text: (btnSortOrder.sortOrder === Qt.AscendingOrder) ? "Install Date Ascending" : "Install Date Descending"
             onClicked: {
                 btnSortOrder.sortOrder
                         = (btnSortOrder.sortOrder
                            === Qt.DescendingOrder) ? Qt.AscendingOrder : Qt.DescendingOrder
-                App.installedListFilter.setSortOrder(
-                            btnSortOrder.sortOrder)
+                App.installedListFilter.setSortOrder(btnSortOrder.sortOrder)
             }
 
             anchors {

@@ -9,7 +9,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 find_package(
     Qt6
-    COMPONENTS Core Quick
+    COMPONENTS Core Quick QuickControls2
     REQUIRED)
 
 set(QML
@@ -56,12 +56,15 @@ set(HEADER
 
 set(RESOURCES
     assets/icons/icon_download.svg
+    assets/icons/icon_file_upload.svg
     assets/icons/icon_open_in_new.svg
     assets/icons/icon_plus.svg
     assets/icons/icon_steam.svg
     assets/icons/icon_thumb_down.svg
     assets/icons/icon_thumb_up.svg
+    assets/icons/icon_account_circle.svg
     assets/icons/icon_arrow_left.svg
+    assets/icons/icon_close.svg
     assets/icons/icon_arrow_right.svg
     assets/icons/icon_search.svg
     assets/icons/icon_info.svg
@@ -128,6 +131,7 @@ if(${SCREENPLAY_STEAM})
         target_link_libraries(
             tst_ScreenPlayWorkshop
             PRIVATE Qt6::Quick
+                    Qt6::QuickControls2
                     ${PROJECT_NAME}plugin
                     ScreenPlayUtilplugin
                     SteamSDK

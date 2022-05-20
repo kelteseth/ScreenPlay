@@ -83,85 +83,67 @@ Rectangle {
 
         spacing: 0
 
-        TabButton {
-            id: navCreate
-            text: qsTr("Create")
+        component CustomTabButton: TabButton {
             icon.height: 16
             icon.width: 16
             font.pointSize: 12
             height: parent.height
             width: implicitWidth
+            background: Item {}
+            font.capitalization: Font.MixedCase
+        }
+
+        CustomTabButton {
+            id: navCreate
+            icon.height: 22
+            icon.width: 22
+            text: qsTr("Create")
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
             onClicked: {
                 root.onPageChanged("Create")
             }
             objectName: "createTab"
-            background: Item {}
         }
 
-        TabButton {
+        CustomTabButton {
             id: navWorkshop
             enabled: App.settings.steamVersion
             text: qsTr("Workshop")
-            icon.height: 16
-            icon.width: 16
-            font.pointSize: 12
-            height: parent.height
-            width: implicitWidth
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
             onClicked: {
                 root.onPageChanged("Workshop")
             }
             objectName: "workshopTab"
-            background: Item {}
         }
 
-        TabButton {
+        CustomTabButton {
             id: navInstalled
             text: qsTr("Installed") + " " + App.installedListModel.count
-            icon.height: 16
-            icon.width: 16
-            font.pointSize: 12
-            height: parent.height
-            width: implicitWidth
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
             onClicked: {
                 root.onPageChanged("Installed")
             }
             objectName: "installedTab"
-            background: Item {}
         }
 
-        TabButton {
+        CustomTabButton {
             id: navCommunity
             text: qsTr("Community")
-            icon.height: 16
-            icon.width: 16
-            font.pointSize: 12
-            height: parent.height
-            width: implicitWidth
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
             onClicked: {
                 root.onPageChanged("Community")
             }
             objectName: "communityTab"
-            background: Item {}
         }
 
-        TabButton {
+        CustomTabButton {
             id: navSettings
             text: qsTr("Settings")
-            icon.height: 16
-            icon.width: 16
-            font.pointSize: 12
-            height: parent.height
-            width: implicitWidth
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
             onClicked: {
                 root.onPageChanged("Settings")
             }
             objectName: "settingsTab"
-            background: Item {}
         }
     }
 
@@ -225,12 +207,11 @@ Rectangle {
             onSoundEnabledChanged: {
                 if (miMuteAll.soundEnabled) {
                     miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
-                    App.screenPlayManager.setAllWallpaperValue("muted",
-                                                                      "false")
+                    App.screenPlayManager.setAllWallpaperValue("muted", "false")
                 } else {
-                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg"
-                    App.screenPlayManager.setAllWallpaperValue("muted",
-                                                                      "true")
+                    miMuteAll.icon.source
+                            = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg"
+                    App.screenPlayManager.setAllWallpaperValue("muted", "true")
                 }
             }
 
@@ -250,12 +231,12 @@ Rectangle {
             onIsPlayingChanged: {
                 if (miStopAll.isPlaying) {
                     miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg"
-                    App.screenPlayManager.setAllWallpaperValue(
-                                "isPlaying", "true")
+                    App.screenPlayManager.setAllWallpaperValue("isPlaying",
+                                                               "true")
                 } else {
                     miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_play.svg"
-                    App.screenPlayManager.setAllWallpaperValue(
-                                "isPlaying", "false")
+                    App.screenPlayManager.setAllWallpaperValue("isPlaying",
+                                                               "false")
                 }
             }
             hoverEnabled: true

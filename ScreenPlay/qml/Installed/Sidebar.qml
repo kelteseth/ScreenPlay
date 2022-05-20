@@ -353,8 +353,6 @@ Item {
                 Material.foreground: "white"
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
                 icon.color: "white"
-                icon.width: 16
-                icon.height: 16
                 font.pointSize: 12
                 onClicked: {
                     const absoluteStoragePath = App.globalVariables.localStoragePath

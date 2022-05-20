@@ -3,6 +3,7 @@
 #include "steam/steam_qt_enums_generated.h"
 #include <QProcessEnvironment>
 #include <QVersionNumber>
+#include <QQuickStyle>
 
 namespace ScreenPlay {
 /*!
@@ -203,6 +204,7 @@ void App::init()
         setupKDE();
     }
 
+    QQuickStyle::setStyle("Material");
     m_mainWindowEngine->load(QUrl(QStringLiteral("qrc:/qml/ScreenPlayApp/main.qml")));
 
     // Must be called last to display a error message on startup by the qml engine

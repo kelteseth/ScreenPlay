@@ -56,7 +56,7 @@ ApplicationWindow {
     // Set visible if the -silent parameter was not set (see app.cpp end of constructor).
     visible: false
     width: 1400
-    height: 788
+    height: 810
     title: "ScreenPlay Alpha - V" + App.version()
     minimumHeight: 450
     minimumWidth: 1050

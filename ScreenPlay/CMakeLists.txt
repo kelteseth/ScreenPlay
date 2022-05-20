@@ -136,20 +136,12 @@ set(RESOURCES
     assets/icons/icon_emptyWidget.svg
     assets/icons/icon_folder_open.svg
     assets/icons/icon_forum.svg
-    assets/icons/icon_hand_left.svg
-    assets/icons/icon_hand_right.svg
-    assets/icons/icon_heavy_metal.svg
     assets/icons/icon_help_center.svg
     assets/icons/icon_indicator_down.svg
     assets/icons/icon_info.svg
     assets/icons/icon_installed.svg
     assets/icons/icon_launch.svg
-    assets/icons/icon_library_music.svg
-    assets/icons/icon_local_movies.svg
-    assets/icons/icon_logo_head.svg
-    assets/icons/icon_monitor.svg
     assets/icons/icon_movie.svg
-    assets/icons/icon_multiple_images.svg
     assets/icons/icon_new_releases.svg
     assets/icons/icon_open_in_new.svg
     assets/icons/icon_pause.svg
@@ -157,8 +149,6 @@ set(RESOURCES
     assets/icons/icon_play.svg
     assets/icons/icon_plus.svg
     assets/icons/icon_report_problem.svg
-    assets/icons/icon_scene.svg
-    assets/icons/icon_screen.svg
     assets/icons/icon_search.svg
     assets/icons/icon_settings.svg
     assets/icons/icon_share.svg
@@ -167,8 +157,6 @@ set(RESOURCES
     assets/icons/icon_supervisor_account.svg
     assets/icons/icon_thumb_down.svg
     assets/icons/icon_thumb_up.svg
-    assets/icons/icon_time.svg
-    assets/icons/icon_tv.svg
     assets/icons/icon_upload.svg
     assets/icons/icon_volume.svg
     assets/icons/icon_volume_mute.svg
@@ -261,6 +249,7 @@ find_package(
     Qt6
     COMPONENTS Core
                Quick
+               QuickControls2
                Gui
                Widgets
                WebSockets
@@ -298,6 +287,7 @@ target_link_libraries(
            Qt6::Core
            Qt6::WebSockets
            Qt6::Svg
+           Qt6::QuickControls2
            ScreenPlayUtil
            ScreenPlayUtilplugin
            QArchive
