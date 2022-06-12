@@ -168,7 +168,7 @@
     </message>
     <message>
       <source>Converting Video... This can take some time!</source>
-      <translation>Conversione Video... Potrebbe richiedere un po' di tempo!</translation>
+      <translation>Conversione Video... Potrebbe richiedere un po&apos; di tempo!</translation>
     </message>
     <message>
       <source>Converting Video ERROR!</source>
@@ -395,7 +395,7 @@
     </message>
     <message>
       <source>Generating preview image...</source>
-      <translation>Generazione immagine d'anteprima...</translation>
+      <translation>Generazione immagine d&apos;anteprima...</translation>
     </message>
     <message>
       <source>Generating preview thumbnail image...</source>
@@ -415,7 +415,7 @@
     </message>
     <message>
       <source>Converting Video... This can take some time!</source>
-      <translation>Conversione Video... Potrebbe richiedere un po' di tempo!</translation>
+      <translation>Conversione Video... Potrebbe richiedere un po&apos; di tempo!</translation>
     </message>
     <message>
       <source>Converting Video ERROR!</source>
@@ -466,7 +466,7 @@
     </message>
     <message>
       <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-      <translation>Importando un file webm è possibile saltare la conversione. Se ottiene risultati insoddisfacenti dall'importer di ScreenPlay &apos;Importa e converti video (tutti i tipi)&apos; puoi anche farlo con il convertitore gratuito ed open source HandBrake!</translation>
+      <translation>Importando un file webm è possibile saltare la conversione. Se ottiene risultati insoddisfacenti dall&apos;importer di ScreenPlay &apos;Importa e converti video (tutti i tipi)&apos; puoi anche farlo con il convertitore gratuito ed open source HandBrake!</translation>
     </message>
     <message>
       <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
@@ -941,7 +941,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>Set the ScreenPlay UI Language</source>
-      <translation>Imposta la lingua dell'interfaccia utente di ScreenPlay</translation>
+      <translation>Imposta la lingua dell&apos;interfaccia utente di ScreenPlay</translation>
     </message>
     <message>
       <source>Theme</source>
@@ -969,11 +969,11 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>Pause wallpaper video rendering while another app is in the foreground</source>
-      <translation>Metti in pausa il rendering video dello sfondo mentre un'altra app è in primo piano</translation>
+      <translation>Metti in pausa il rendering video dello sfondo mentre un&apos;altra app è in primo piano</translation>
     </message>
     <message>
       <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-      <translation>Disattiviamo il rendering video (non l'audio!) per migliori prestazioni. Se hai problemi puoi disabilitare questa opzione qui. È necessario riavviare lo sfondo!</translation>
+      <translation>Disattiviamo il rendering video (non l&apos;audio!) per migliori prestazioni. Se hai problemi puoi disabilitare questa opzione qui. È necessario riavviare lo sfondo!</translation>
     </message>
     <message>
       <source>Default Fill Mode</source>
@@ -981,7 +981,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>Set this property to define how the video is scaled to fit the target area.</source>
-      <translation>Imposta questa proprietà per definire come il video viene adattato all'area di destinazione.</translation>
+      <translation>Imposta questa proprietà per definire come il video viene adattato all&apos;area di destinazione.</translation>
     </message>
     <message>
       <source>Stretch</source>
@@ -1041,7 +1041,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-      <translation>Se il tuo ScreenPlay non funziona correttamente questo è un buon modo per cercare risposte. Questo mostra tutti i log e gli avvisi durante l'esecuzione.</translation>
+      <translation>Se il tuo ScreenPlay non funziona correttamente questo è un buon modo per cercare risposte. Questo mostra tutti i log e gli avvisi durante l&apos;esecuzione.</translation>
     </message>
     <message>
       <source>Show Logs</source>
