@@ -342,7 +342,7 @@
     <name>HTMLWidget</name>
     <message>
       <source>Create a HTML widget</source>
-      <translation>Bir HTML widget'ı oluşturun</translation>
+      <translation>Bir HTML widget&apos;ı oluşturun</translation>
     </message>
     <message>
       <source>General</source>
@@ -466,7 +466,7 @@
     </message>
     <message>
       <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-      <translation>Webm'yi içe aktarırken uzun dönüşümü atlayabiliriz. &apos; Video içe aktarma ve dönüştürmeden (tüm türler) ScreenPlay içe aktarıcı ile tatmin edici olmayan sonuçlar aldığınızda, ücretsiz ve açık kaynaklı El Freni aracılığıyla da dönüştürebilirsiniz! &apos;</translation>
+      <translation>Webm&apos;yi içe aktarırken uzun dönüşümü atlayabiliriz. &apos; Video içe aktarma ve dönüştürmeden (tüm türler) ScreenPlay içe aktarıcı ile tatmin edici olmayan sonuçlar aldığınızda, ücretsiz ve açık kaynaklı El Freni aracılığıyla da dönüştürebilirsiniz! &apos;</translation>
     </message>
     <message>
       <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
@@ -626,7 +626,7 @@
     <name>InstalledWelcomeScreen</name>
     <message>
       <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-      <translation>Steam Atölyesi aracılığıyla ücretsiz Widget'lar ve Duvar Kağıdı alın</translation>
+      <translation>Steam Atölyesi aracılığıyla ücretsiz Widget&apos;lar ve Duvar Kağıdı alın</translation>
     </message>
     <message>
       <source>Browse the Steam Workshop</source>
@@ -849,7 +849,7 @@ Steam Error API Init: %2</translation>
     <name>QMLWidget</name>
     <message>
       <source>Create a QML widget</source>
-      <translation>Bir QML widget'ı oluşturun</translation>
+      <translation>Bir QML widget&apos;ı oluşturun</translation>
     </message>
     <message>
       <source>General</source>
@@ -909,7 +909,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-      <translation>Bu seçenekler, ScreenPlay'e diğer uygulamalardan daha yüksek bir otomatik başlatma önceliği verir.</translation>
+      <translation>Bu seçenekler, ScreenPlay&apos;e diğer uygulamalardan daha yüksek bir otomatik başlatma önceliği verir.</translation>
     </message>
     <message>
       <source>Send anonymous crash reports and statistics</source>
@@ -1009,7 +1009,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>Thank you for using ScreenPlay</source>
-      <translation>ScreePlay'i kullandığınız için teşekkür ederiz!</translation>
+      <translation>ScreePlay&apos;i kullandığınız için teşekkür ederiz!</translation>
     </message>
     <message>
       <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
