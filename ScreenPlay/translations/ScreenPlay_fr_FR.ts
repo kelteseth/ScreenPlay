@@ -104,7 +104,7 @@
       <source>Depending on your PC configuration it is better to convert your wallpaper to a specific video codec. If both have bad performance you can also try a QML wallpaper! Supported video formats are: 
 
 *.mp4  *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</source>
-      <translation>Selon la configuration de votre PC, il est préférable de convertir votre fond d'écran vers un codec vidéo spécifique. Si les deux ont de mauvaises performances, vous pouvez aussi essayer un fond d'écran QML! Les formats vidéo pris en charge sont : 
+      <translation>Selon la configuration de votre PC, il est préférable de convertir votre fond d&apos;écran vers un codec vidéo spécifique. Si les deux ont de mauvaises performances, vous pouvez aussi essayer un fond d&apos;écran QML! Les formats vidéo pris en charge sont : 
 
 *.mp4 *.mpg *.mp2 *.mpeg *.ogv *.avi *.wmv *.m4v *.3gp *.flv</translation>
     </message>
@@ -176,15 +176,15 @@
     </message>
     <message>
       <source>Analyse Video ERROR!</source>
-      <translation>Erreur d'Analyse Vidéo !</translation>
+      <translation>Erreur d&apos;Analyse Vidéo !</translation>
     </message>
     <message>
       <source>Convert a video to a wallpaper</source>
-      <translation>Convertir une vidéo en fond d'écran</translation>
+      <translation>Convertir une vidéo en fond d&apos;écran</translation>
     </message>
     <message>
       <source>Generating preview video...</source>
-      <translation>Génération de la vidéo d'aperçu...</translation>
+      <translation>Génération de la vidéo d&apos;aperçu...</translation>
     </message>
     <message>
       <source>Name (required!)</source>
@@ -196,7 +196,7 @@
     </message>
     <message>
       <source>Youtube URL</source>
-      <translation>URL Youtube </translation>
+      <translation>URL Youtube&#xa0;</translation>
     </message>
     <message>
       <source>Abort</source>
@@ -208,7 +208,7 @@
     </message>
     <message>
       <source>Save Wallpaper...</source>
-      <translation>Enregistrer le fond d'écran</translation>
+      <translation>Enregistrer le fond d&apos;écran</translation>
     </message>
   </context>
   <context>
@@ -223,7 +223,7 @@
     </message>
     <message>
       <source>Fill Mode</source>
-      <translation>Mode d'affichage</translation>
+      <translation>Mode d&apos;affichage</translation>
     </message>
     <message>
       <source>Stretch</source>
@@ -280,7 +280,7 @@
     <name>GifWallpaper</name>
     <message>
       <source>Import a Gif Wallpaper</source>
-      <translation>Importer un fond d'écran Gif</translation>
+      <translation>Importer un fond d&apos;écran Gif</translation>
     </message>
     <message>
       <source>Drop a *.gif file here or use &apos;Select file&apos; below.</source>
@@ -296,7 +296,7 @@
     </message>
     <message>
       <source>Wallpaper name</source>
-      <translation>Nom du fond d'écran</translation>
+      <translation>Nom du fond d&apos;écran</translation>
     </message>
     <message>
       <source>Created By</source>
@@ -311,7 +311,7 @@
     <name>HTMLWallpaper</name>
     <message>
       <source>Create a HTML Wallpaper</source>
-      <translation>Créer un fond d'écran HTML</translation>
+      <translation>Créer un fond d&apos;écran HTML</translation>
     </message>
     <message>
       <source>General</source>
@@ -319,7 +319,7 @@
     </message>
     <message>
       <source>Wallpaper name</source>
-      <translation>Nom du fond d'écran</translation>
+      <translation>Nom du fond d&apos;écran</translation>
     </message>
     <message>
       <source>Created By</source>
@@ -335,7 +335,7 @@
     </message>
     <message>
       <source>Preview Image</source>
-      <translation>Aperçu de l'image</translation>
+      <translation>Aperçu de l&apos;image</translation>
     </message>
   </context>
   <context>
@@ -395,7 +395,7 @@
     </message>
     <message>
       <source>Generating preview image...</source>
-      <translation>Génération de l'image d'aperçu...</translation>
+      <translation>Génération de l&apos;image d&apos;aperçu...</translation>
     </message>
     <message>
       <source>Generating preview thumbnail image...</source>
@@ -423,15 +423,15 @@
     </message>
     <message>
       <source>Analyse Video ERROR!</source>
-      <translation>Erreur d'Analyse Vidéo !</translation>
+      <translation>Erreur d&apos;Analyse Vidéo !</translation>
     </message>
     <message>
       <source>Import a video to a wallpaper</source>
-      <translation>Convertir une vidéo en fond d'écran</translation>
+      <translation>Convertir une vidéo en fond d&apos;écran</translation>
     </message>
     <message>
       <source>Generating preview video...</source>
-      <translation>Génération de la vidéo d'aperçu...</translation>
+      <translation>Génération de la vidéo d&apos;aperçu...</translation>
     </message>
     <message>
       <source>Name (required!)</source>
@@ -443,7 +443,7 @@
     </message>
     <message>
       <source>Youtube URL</source>
-      <translation>URL Youtube </translation>
+      <translation>URL Youtube&#xa0;</translation>
     </message>
     <message>
       <source>Abort</source>
@@ -455,7 +455,7 @@
     </message>
     <message>
       <source>Save Wallpaper...</source>
-      <translation>Enregistrer le fond d'écran</translation>
+      <translation>Enregistrer le fond d&apos;écran</translation>
     </message>
   </context>
   <context>
@@ -466,7 +466,7 @@
     </message>
     <message>
       <source>When importing webm we can skip the long conversion. When you get unsatisfying results with the ScreenPlay importer from &apos;ideo import and convert (all types)&apos; you can also convert via the free and open source HandBrake!</source>
-      <translation>Lors de l'importation de webm, vous pouvez ignorer l'étape de conversion. Lorsque vous obtenez des résultats insatisfaisants avec l'importateur de ScreenPlay via &apos;import et conversion de vidéo (tous types)&apos; vous pouvez convertir au format webm via le logiciel HandBrake. Il est gratuit et open source!</translation>
+      <translation>Lors de l&apos;importation de webm, vous pouvez ignorer l&apos;étape de conversion. Lorsque vous obtenez des résultats insatisfaisants avec l&apos;importateur de ScreenPlay via &apos;import et conversion de vidéo (tous types)&apos; vous pouvez convertir au format webm via le logiciel HandBrake. Il est gratuit et open source!</translation>
     </message>
     <message>
       <source>Invalid file type. Must be valid VP8 or VP9 (*.webm)!</source>
@@ -599,7 +599,7 @@
     </message>
     <message>
       <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-      <translation>Obtenez plus de fonds d'écran et de widgets via le Steam Workshop!</translation>
+      <translation>Obtenez plus de fonds d&apos;écran et de widgets via le Steam Workshop!</translation>
     </message>
     <message>
       <source>Open containing folder</source>
@@ -607,7 +607,7 @@
     </message>
     <message>
       <source>Remove Item</source>
-      <translation>Supprimer l'élément</translation>
+      <translation>Supprimer l&apos;élément</translation>
     </message>
     <message>
       <source>Remove via Workshop</source>
@@ -626,7 +626,7 @@
     <name>InstalledWelcomeScreen</name>
     <message>
       <source>Get free Widgets and Wallpaper via the Steam Workshop</source>
-      <translation>Obtenez des Widgets et des fonds d'écran gratuits via le Steam Workshop</translation>
+      <translation>Obtenez des Widgets et des fonds d&apos;écran gratuits via le Steam Workshop</translation>
     </message>
     <message>
       <source>Browse the Steam Workshop</source>
@@ -681,11 +681,11 @@
     <name>Monitors</name>
     <message>
       <source>Wallpaper Configuration</source>
-      <translation>Configuration du fond d'écran</translation>
+      <translation>Configuration du fond d&apos;écran</translation>
     </message>
     <message>
       <source>Remove selected</source>
-      <translation>Retirer l'écran sélectionné</translation>
+      <translation>Retirer l&apos;écran sélectionné</translation>
     </message>
     <message>
       <source>Wallpapers</source>
@@ -818,7 +818,7 @@ Steam Error API Init: %2</translation>
     <name>QMLWallpaper</name>
     <message>
       <source>Create a QML Wallpaper</source>
-      <translation>Créer un fond d'écran QML</translation>
+      <translation>Créer un fond d&apos;écran QML</translation>
     </message>
     <message>
       <source>General</source>
@@ -826,7 +826,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>Wallpaper name</source>
-      <translation>Nom du fond d'écran</translation>
+      <translation>Nom du fond d&apos;écran</translation>
     </message>
     <message>
       <source>Created By</source>
@@ -842,7 +842,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>Preview Image</source>
-      <translation>Image d'aperçu</translation>
+      <translation>Image d&apos;aperçu</translation>
     </message>
   </context>
   <context>
@@ -1041,7 +1041,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
-      <translation>Si ScreenPlay ne fonctionne pas correctement, c'est une bonne façon de chercher des réponses. Cela montre tous les logs et les avertissements émis pendant l'exécution.</translation>
+      <translation>Si ScreenPlay ne fonctionne pas correctement, c&apos;est une bonne façon de chercher des réponses. Cela montre tous les logs et les avertissements émis pendant l&apos;exécution.</translation>
     </message>
     <message>
       <source>Show Logs</source>
@@ -1053,7 +1053,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!</source>
-      <translation>Nous utilisons vos données exclusivement pour améliorer ScreenPlay. Nous ne vendons pas ou ne partageons pas ces données (anonyme) avec d'autres !</translation>
+      <translation>Nous utilisons vos données exclusivement pour améliorer ScreenPlay. Nous ne vendons pas ou ne partageons pas ces données (anonyme) avec d&apos;autres !</translation>
     </message>
     <message>
       <source>Privacy</source>
@@ -1117,7 +1117,7 @@ Steam Error API Init: %2</translation>
     </message>
     <message>
       <source>Set Wallpaper</source>
-      <translation>Définir le fond d'écran</translation>
+      <translation>Définir le fond d&apos;écran</translation>
     </message>
     <message>
       <source>Set Widget</source>
