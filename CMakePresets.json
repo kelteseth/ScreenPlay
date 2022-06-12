@@ -2,16 +2,16 @@
     "version": 4,
     "cmakeMinimumRequired": {
       "major": 3,
-      "minor": 23,
+      "minor": 18,
       "patch": 0
     },
     "configurePresets": [
         {
-            "name": "ScreenPlay_64bit_Debug",
-            "displayName": "Configure preset using toolchain file",
-            "description": "Sets Ninja generator, build and install directory",
+            "name": "ScreenPlay_64bit_Debug_Windows",
+            "displayName": "ScreenPlay 64bit Debug Windows",
+            "description": "Windows only!",
             "generator": "Ninja",
-            "binaryDir": "${sourceDir}/../build_${presetName}_Qt_6_3_0_MSVC2019",
+            "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_3_0_MSVC2019",
             "architecture": {
                 "value": "x64",
                 "strategy": "external"
@@ -22,7 +22,24 @@
                 "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake",
                 "VCPKG_TARGET_TRIPLET": "x64-windows"
             }
-        }
+        },
+        {
+          "name": "ScreenPlay_64bit_Debug_Linux",
+          "displayName": "ScreenPlay 64bit Debug Linux",
+          "description": "Linux only!",
+          "generator": "Ninja",
+          "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_3_0_GCC",
+          "architecture": {
+              "value": "x64",
+              "strategy": "external"
+            },
+          "cacheVariables": {
+              "CMAKE_BUILD_TYPE": "Debug",
+              "CMAKE_PREFIX_PATH": "~/aqt/6.3.0/gcc_64",
+              "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake",
+              "VCPKG_TARGET_TRIPLET": "x64-linux"
+          }
+      }
     ],
     "buildPresets": [
         {

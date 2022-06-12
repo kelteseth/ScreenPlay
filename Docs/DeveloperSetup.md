@@ -5,7 +5,7 @@
 ``` bash
 git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git ScreenPlay
 ```
-4. Download the latest __Qt 6.2.x__ for you platform. Earlier versions are not supported!
+4. Download the latest __Qt 6.3.x__ for you platform. Earlier versions are not supported!
     1. [Install instructions Windows](#windows)
     1. [Install instructions Linux](#linux)
     1. [Install instructions MacOSX](#macosx)
@@ -25,7 +25,7 @@ py setup.py
 </div>
 
 5. Open __QtCreator__ and open the settings `Tools -> Options`
-6. Clone an existing kit like `Qt 6.2.1 MSVC2019 64bit` and add `ScreenPlay` to the new kit name
+6. Clone an existing kit like `Qt 6.3.0 MSVC2019 64bit` and add `ScreenPlay` to the new kit name
 5. Edit CMake variables amd add CMAKE_TOOLCHAIN_FILE and VCPKG_TARGET_TRIPLET
     * `Kits -> <Your_Kit> -> CMake Configuration`
     
@@ -50,10 +50,10 @@ VCPKG_TARGET_TRIPLET:STRING=x64-osx
 1. It is recommended (but not necessary) to use an easy git UI like [gitextensions](https://gitextensions.github.io/).
 1. [Download and install the most recent MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)
     - Select "Desktop development with C++"
-1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
+1. [Download and install Qt 6 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 6.2.1
+        - Qt 6.3.0
             - MSVC 2019 64-bit
             - **ALL Additional Libraries**
             - Qt Quick 3d
@@ -62,24 +62,16 @@ VCPKG_TARGET_TRIPLET:STRING=x64-osx
         - Developer and Designer Tools
             - Cmake
             - Ninja
-
-## Linux
+## Linux via qt.io account
 1. Install dependencies for your distro:
 ``` bash
 # Debian/Ubuntu
-sudo apt install build-essential libgl1-mesa-dev lld ninja-build cmake git curl pkg-config ffmpeg qml-module-qt-websockets qtwebengine5-*
-
-# Fedora/RHEL/CentOS (yum)
-sudo yum groupinstall "C Development Tools and Libraries"
-sudo yum install mesa-libGL-devel
-
-# openSUSE (zypper)
-sudo zypper install -t pattern devel_basis
+sudo apt install build-essential  git gpg   ffmpeg mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common python3-pip  libgl1-mesa-dev lld ninja-build cmake  qml-module-qt-websockets qtwebengine5-* -y
 ```
 1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 6.2.1
+        - Qt 6.3.0
             - GCC
             - **ALL Additional Libraries**
             - Qt Quick 3d
@@ -90,11 +82,32 @@ sudo zypper install -t pattern devel_basis
                 - OpenSSL 64-bit binaries
             - Cmake
             - Ninja
+## Linux via aqt command line & VSCode
+1. Alternativly download via aqt
+```
+pip3 install -U pip
+pip3 install aqtinstall
+aqt install-qt -O ~/aqt linux desktop 6.3.0 gcc_64 -m all
+```
+1. Open VSCode and install the `CMake Tools`
+    1. ctrl + p: `CMake: Select Configure Preset`
+    2. Select `ScreenPlay 64bit Debug Linux`
+    3. ctrl + p: `CMake: Configure`
+    4. ctrl + p: `CMake: Build`
+### Fix python scripts not in path:
+```
+vim ~/.bashrc
+```
+Add at the end of the file and restart the console/terminal:
+```
+export PATH="~/.local/bin:$PATH"
+```
+
 ## MacOSX
 1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 6.2.1
+        - Qt 6.3.0
             - Qt WebEngine
             - **ALL Additional Libraries**
             - Qt Quick 3d
@@ -107,7 +120,7 @@ sudo zypper install -t pattern devel_basis
             - Ninja
 2. Install [homebrew](https://brew.sh/)
      - Open a terminal and install clang -> brew install llvm cmake ninja
-3. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 5.13.0) -> Change c and c++ Compiler to Apple Clang (x86_64)
+3. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 6.3.0) -> Change c and c++ Compiler to Apple Clang (x86_64)
 
 
 # Developer docs 
