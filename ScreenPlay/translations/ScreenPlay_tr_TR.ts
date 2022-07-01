@@ -562,6 +562,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Export Content...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>We only support adding one item at once.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -571,10 +575,6 @@
     </message>
     <message>
         <source>Import Content...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export Content...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
