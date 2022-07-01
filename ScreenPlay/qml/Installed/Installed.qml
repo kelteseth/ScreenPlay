@@ -21,7 +21,7 @@ Item {
     property Sidebar sidebar
     property Item modalSource
     signal setNavigationItem(var pos)
-    signal setSidebarActive(var active)
+    signal setSidebarActive(bool active)
 
     function checkIsContentInstalled() {
         if (App.installedListModel.count === 0) {
@@ -96,8 +96,8 @@ Item {
         property bool isScrolling: gridView.verticalVelocity !== 0
 
         boundsBehavior: Flickable.DragOverBounds
-        maximumFlickVelocity: 5000
-        flickDeceleration: 5000
+        maximumFlickVelocity: 3000
+        flickDeceleration: 7500
         anchors.fill: parent
         cellWidth: 340
         cellHeight: 200

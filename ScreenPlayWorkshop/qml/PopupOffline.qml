@@ -7,7 +7,7 @@ import ScreenPlayWorkshop
 import ScreenPlayUtil
 
 Popup {
-    id: popupOffline
+    id: root
 
     width: 1100
     height: 600
@@ -21,7 +21,7 @@ Popup {
     }
     required property ScreenPlayWorkshop workshop
     required property SteamWorkshop steam
-    required property Item modalSource
+    //required property Item modalSource
     Overlay.modal: ModalBackgroundBlur {
         sourceItem: root.modalSource
     }
@@ -45,9 +45,7 @@ Popup {
             horizontalAlignment: Text.AlignHCenter
             Layout.alignment: Qt.AlignHCenter
             color: Material.primaryTextColor
-            text: qsTr(
-                      "You need to run Steam to access the Steam Workshop").arg(
-                      steam.steamErrorRestart).arg(steam.steamErrorAPIInit)
+            text: qsTr("You need to run Steam to access the Steam Workshop")
         }
         Text {
             font.pointSize: 12
@@ -55,7 +53,7 @@ Popup {
             Layout.alignment: Qt.AlignHCenter
             color: Material.secondaryTextColor
             text: qsTr("Steam Error Restart: %1\nSteam Error API Init: %2").arg(
-                      steam.steamErrorRestart).arg(steam.steamErrorAPIInit)
+                      steam.steamErrorRestart).arg(root.steam.steamErrorAPIInit)
         }
 
         Button {
@@ -63,7 +61,7 @@ Popup {
             text: qsTr("Back")
             Layout.alignment: Qt.AlignHCenter
             onClicked: {
-                popupOffline.close()
+                root.close()
             }
         }
         Item {

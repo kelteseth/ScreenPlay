@@ -7,17 +7,12 @@ namespace ScreenPlayWorkshop {
 
 */
 
-SteamWorkshop::SteamWorkshop(AppId_t appID, QObject* parent)
-    : QObject(parent)
-    , m_appID(appID)
-{
-}
-
 bool SteamWorkshop::init()
 {
     // https://partner.steamgames.com/doc/sdk/api#SteamAPI_Init
     // A return of false indicates one of the following conditions:
-    // - The Steam client isn't running. A running Steam client is required to provide implementations of the various Steamworks interfaces.
+    // - The Steam client isn't running. A running Steam client is required to provide implementations
+    //   of the various Steamworks interfaces.
     // - The Steam client couldn't determine the App ID of game. If you're running your application from the executable or debugger directly
     //   then you must have a steam_appid.txt in your game directory next to the executable, with your app ID in it and nothing else.
     //   Steam will look for this file in the current working directory. If you are running your executable from a different directory
@@ -35,24 +30,37 @@ bool SteamWorkshop::init()
 
     // https://partner.steamgames.com/doc/sdk/api#SteamAPI_RestartAppIfNecessary
     // checks if your executable was launched through Steam and relaunches it through Steam if it wasn't.
-    // This is optional but highly recommended as the Steam context associated with your application (including your App ID) will not be set up if the user launches the executable directly. If this occurs then SteamAPI_Init will fail and you will be unable to use the Steamworks API.
-    // If you choose to use this then it should be the first Steamworks function call you make, right before SteamAPI_Init.
-    // If this returns true then it starts the Steam client if required and launches your game again through it, and you should quit your process as soon as possible. This effectively runs steam://run/<AppID> so it may not relaunch the exact executable that called this function (for example, if you were running from your debugger). It will always relaunch from the version installed in your Steam library folder.
-    // Otherwise, if it returns false, then your game was launched by the Steam client and no action needs to be taken. One exception is if a steam_appid.txt file is present then this will return false regardless. This allows you to develop and test without launching your game through the Steam client. Make sure to remove the steam_appid.txt file when uploading the game to your Steam depot!
+    // This is optional but highly recommended as the Steam context associated with your application
+    // (including your App ID) will not be set up if the user launches the executable directly.
+    // If this occurs then SteamAPI_Init will fail and you will be unable to use the Steamworks API.
+    // If you choose to use this then it should be the first Steamworks function call you make,
+    // right before SteamAPI_Init.
+    // If this returns true then it starts the Steam client if required and launches your game again
+    // through it, and you should quit your process as soon as possible. This effectively runs
+    // steam://run/<AppID> so it may not relaunch the exact executable that called this function
+    // (for example, if you were running from your debugger). It will always relaunch from the
+    // version installed in your Steam library folder.
+    // Otherwise, if it returns false, then your game was launched by the Steam client and no action
+    // needs to be taken. One exception is if a steam_appid.txt file is present then this will return
+    // false regardless. This allows you to develop and test without launching your game through the
+    // Steam client. Make sure to remove the steam_appid.txt file when uploading the game to your Steam depot!
     if (SteamAPI_RestartAppIfNecessary(m_appID)) {
         qWarning() << "SteamAPI_RestartAppIfNecessary failed";
         m_steamErrorRestart = true;
     }
 
-    QObject::connect(&m_pollTimer, &QTimer::timeout, this, []() { SteamAPI_RunCallbacks(); });
-    m_pollTimer.start(100);
 
     m_steamAccount = std::make_unique<SteamAccount>();
     m_workshopListModel = std::make_unique<SteamWorkshopListModel>(m_appID);
     m_workshopProfileListModel = std::make_unique<SteamWorkshopListModel>(m_appID);
     m_uploadListModel = std::make_unique<UploadListModel>();
+    QObject::connect(&m_pollTimer, &QTimer::timeout, this, []() { SteamAPI_RunCallbacks(); });
+    m_pollTimer.start(100);
+
     setOnline(true);
+
     return true;
+
 }
 
 bool SteamWorkshop::checkOnline()
@@ -82,6 +90,9 @@ void SteamWorkshop::onWorkshopItemInstalled(ItemInstalled_t* itemInstalled)
 
 void SteamWorkshop::requestWorkshopItemDetails(const QVariant publishedFileID)
 {
+    if (!checkAndSetQueryActive())
+        return;
+
     if (!checkOnline())
         return;
 
@@ -93,7 +104,7 @@ void SteamWorkshop::requestWorkshopItemDetails(const QVariant publishedFileID)
 
 void SteamWorkshop::onRequestItemDetailReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
 {
-
+    m_queryActive = false;
     if (bIOFailure) {
         qWarning() << "onRequestItemDetailReturned bIOFailure" << bIOFailure;
         return;
@@ -157,6 +168,9 @@ void SteamWorkshop::resetSteamErrorRestart()
 
 void SteamWorkshop::requestUserItems()
 {
+    if (!checkAndSetQueryActive())
+        return;
+
     if (!checkOnline())
         return;
 
@@ -195,14 +209,19 @@ void SteamWorkshop::subscribeItem(const QVariant publishedFileID)
     m_steamAccount->loadAmountSubscribedItems();
 }
 
-void SteamWorkshop::searchWorkshop(const int enumEUGCQuery)
+bool SteamWorkshop::searchWorkshop(const ScreenPlayWorkshopSteamEnums::EUGCQuery enumEUGCQuery)
 {
+    qInfo() << "searchWorkshop";
+
+    if (!checkAndSetQueryActive())
+        return false;
+
     if (!checkOnline())
-        return;
+        return false;
 
     if (m_searchHandle != 0) {
         qInfo() << "Invalid m_searchHandle";
-        return;
+        return false;
     }
 
     auto m_searchHandle = SteamUGC()->CreateQueryAllUGCRequest(
@@ -221,10 +240,12 @@ void SteamWorkshop::searchWorkshop(const int enumEUGCQuery)
     SteamUGC()->SetReturnKeyValueTags(m_searchHandle, true);
     SteamUGC()->SetReturnLongDescription(m_searchHandle, true);
     m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(m_searchHandle), this, &SteamWorkshop::onWorkshopSearched);
+    return true;
 }
 
 void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
 {
+    m_queryActive = false;
     if (bIOFailure) {
         qWarning() << "onWorkshopSearched ioFailure";
         return;
@@ -236,6 +257,7 @@ void SteamWorkshop::onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool
 
 bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listModel, SteamUGCQueryCompleted_t* pCallback)
 {
+    qInfo() << "queryWorkshopItemFromHandle";
 
     SteamUGCDetails_t details;
     const int urlLength = 200;
@@ -314,14 +336,19 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
     qInfo() << m_searchHandle << pCallback->m_handle;
     SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
 
-    qInfo() << m_searchHandle << pCallback->m_handle;
 
     emit workshopSearchCompleted(results);
     return true;
 }
 
-void SteamWorkshop::searchWorkshopByText(const QString& text, const ScreenPlayWorkshopSteamEnums::EUGCQuery rankedBy)
+void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayWorkshopSteamEnums::EUGCQuery rankedBy)
 {
+
+    qInfo() << "searchWorkshopByText" << text;
+
+    if (!checkAndSetQueryActive())
+        return;
+
     if (!checkOnline())
         return;
 
@@ -333,9 +360,9 @@ void SteamWorkshop::searchWorkshopByText(const QString& text, const ScreenPlayWo
         m_workshopListModel->currentPage());
 
     m_workshopListModel->clear();
-
-    if (!SteamUGC()->SetSearchText(searchHandle, QByteArray(text.toUtf8()).data())) {
-        qWarning() << "Search Failed with query: " << text;
+    QString a = text;
+    if (!SteamUGC()->SetSearchText(searchHandle, QByteArray(a.toUtf8()).data())) {
+        qWarning() << "Search Failed with query: " << a;
         return;
     }
 
@@ -345,6 +372,7 @@ void SteamWorkshop::searchWorkshopByText(const QString& text, const ScreenPlayWo
 
 void SteamWorkshop::onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure)
 {
+    m_queryActive = false;
     if (bIOFailure) {
         qDebug() << bIOFailure;
         return;

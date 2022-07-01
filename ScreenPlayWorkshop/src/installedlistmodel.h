@@ -22,7 +22,6 @@
 #include <QtQml>
 
 #include "ScreenPlayUtil/projectfile.h"
-#include "ScreenPlayUtil/util.h"
 
 /*!
     \class Installed List Model

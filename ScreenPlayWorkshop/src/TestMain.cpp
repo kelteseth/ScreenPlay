@@ -2,6 +2,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QtQml/qqmlextensionplugin.h>
+#include <QQuickStyle>
 
 Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 
@@ -18,6 +19,13 @@ int main(int argc, char* argv[])
         "SteamEnums",
         "Error: only enums");
 
+
+    // Must be set so we can access the global ScreenPlay settings like install path.
+    QGuiApplication::setOrganizationName("ScreenPlay");
+    QGuiApplication::setOrganizationDomain("screen-play.app");
+    QGuiApplication::setApplicationName("ScreenPlay");
+
+    QQuickStyle::setStyle("Material");
     QQmlApplicationEngine engine;
     engine.addImportPath(app.applicationDirPath() + "/qml");
     // The first subfolder is the libraryName followed by the regular

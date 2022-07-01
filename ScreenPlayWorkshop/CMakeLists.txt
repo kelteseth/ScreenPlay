@@ -40,7 +40,7 @@ set(SOURCES
     src/steamworkshop.cpp
     src/steamworkshopitem.cpp
     src/steamworkshoplistmodel.cpp
-    src/workshop.cpp)
+    src/screenplayworkshop.cpp)
 
 set(HEADER
     src/installedlistmodel.h
@@ -51,7 +51,7 @@ set(HEADER
     src/steamworkshopitem.h
     src/steamworkshoplistmodel.h
     src/uploadlistmodel.h
-    src/workshop.h
+    src/screenplayworkshop.h
     src/workshopitem.h)
 
 set(RESOURCES

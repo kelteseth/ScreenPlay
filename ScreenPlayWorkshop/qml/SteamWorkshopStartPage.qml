@@ -10,15 +10,14 @@ import "upload/"
 Item {
     id: root
 
-    property SteamWorkshop steamWorkshop
-    property ScreenPlayWorkshop screenPlayWorkshop
     property StackView stackView
+    property ScreenPlayWorkshop screenPlayWorkshop
+    property SteamWorkshop steamWorkshop
     property Background background
 
     Component.onCompleted: {
         root.state = "searching"
-        searchConnection.target = root.steamWorkshop
-        root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend)
+        root.steamWorkshop.searchWorkshopByText("")
     }
 
     onVisibleChanged: {
@@ -39,7 +38,7 @@ Item {
 
     Connections {
         id: searchConnection
-        ignoreUnknownSignals: true // This is needed for some reason...
+        target: root.steamWorkshop
         function onWorkshopBannerCompleted() {
             bannerTxt.text = root.steamWorkshop.workshopListModel.getBannerText(
                         )
@@ -68,6 +67,8 @@ Item {
 
     Flickable {
         id: scrollView
+        maximumFlickVelocity: 3000
+        flickDeceleration: 7500
 
         anchors.fill: parent
         contentWidth: parent.width
@@ -126,41 +127,44 @@ Item {
                         leftMargin: 100
                     }
 
-                    Rectangle {
-                        height: 36
-                        width: 160
-                        color: Material.backgroundColor
-                        radius: 4
-                        Text {
-                            id: bannerTxtUnderline
+                    spacing: 10
 
-                            property int numberSubscriber: 0
+                    component HeaderLabel: Label {
+                        id: textObj
+                        font.weight: Font.Thin
+                        color: "white"
+                        wrapMode: Text.WrapAnywhere
+                        clip: true
 
-                            text: numberSubscriber + " SUBSCRIBED TO:"
-                            font.pointSize: 12
-                            color: "white"
-                            font.weight: Font.Thin
-                            anchors.fill: parent
-                            horizontalAlignment: Qt.AlignHCenter
-                            verticalAlignment: Qt.AlignVCenter
+                        width: Math.min(100, textWidth)
+                        readonly property alias textWidth: textMetrics.boundingRect.width
+
+                        TextMetrics {
+                            id: textMetrics
+                            font: textObj.font
+                            text: textObj.text
+                            elide: textObj.elide
                         }
+
+                        background: Rectangle {
+                            opacity: .9
+                            color: Material.theme
+                                   === Material.Light ? Material.background : "#242424"
+                        }
+                        padding: 10
                     }
 
-                    Text {
+                    HeaderLabel {
+                        id: bannerTxtUnderline
+                        property int numberSubscriber: 0
+                        text: numberSubscriber + " SUBSCRIBED TO:"
+                        font.pointSize: 12
+                    }
+
+                    HeaderLabel {
+
                         id: bannerTxt
-
-                        text: qsTr("Loading")
                         font.pointSize: 42
-                        color: "white"
-                        font.weight: Font.Thin
-                        width: 400
-
-                        layer.enabled: true
-                        layer.effect: DropShadow {
-                            verticalOffset: 2
-                            color: "#80000000"
-                            radius: 3
-                        }
                     }
 
                     RowLayout {
@@ -179,43 +183,26 @@ Item {
                             }
                         }
 
-                        Button {
-                            text: qsTr("Details")
-                            Material.accent: Material.color(Material.Orange)
-                            highlighted: true
-                            icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_info.svg"
-                            visible: false
-                            onClicked: {
-                                sidebar.setWorkshopItem(publishedFileID,
-                                                        imgUrl,
-                                                        additionalPreviewUrl,
-                                                        subscriptionCount)
+                        RowLayout {
+                            spacing: 20
+                            Button {
+                                text: qsTr("Details")
+                                Material.accent: Material.color(Material.Orange)
+                                highlighted: true
+                                //icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_info.svg"
+                                visible: false
+                                onClicked: {
+                                    sidebar.setWorkshopItem(
+                                                publishedFileID, imgUrl,
+                                                additionalPreviewUrl,
+                                                subscriptionCount)
+                                }
                             }
-                        }
-                    }
-
-                    MouseArea {
-                        onClicked: Qt.openUrlExternally(
-                                       "steam://url/CommunityFilePage/"
-                                       + banner.bannerPublishedFileID)
-                        height: 30
-                        width: bannerTxtOpenInSteam.paintedWidth
-                        cursorShape: Qt.PointingHandCursor
-
-                        Text {
-                            id: bannerTxtOpenInSteam
-
-                            opacity: 0.7
-                            text: qsTr("Open In Steam")
-                            font.pointSize: 10
-                            color: "white"
-                            font.underline: true
-                            font.weight: Font.Thin
-                            layer.enabled: true
-                            layer.effect: DropShadow {
-                                verticalOffset: 2
-                                color: "#80000000"
-                                radius:3
+                            ToolButton {
+                                onClicked: Qt.openUrlExternally(
+                                               "steam://url/CommunityFilePage/"
+                                               + banner.bannerPublishedFileID)
+                                icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
                             }
                         }
                     }
@@ -226,8 +213,6 @@ Item {
         GridView {
             id: gridView
 
-            maximumFlickVelocity: 7000
-            flickDeceleration: 5000
             cellWidth: 330
             cellHeight: 190
             height: contentHeight
@@ -246,14 +231,15 @@ Item {
             header: Item {
                 property alias searchField: tiSearch
 
-                height: 80
+                height: 90
                 width: gridView.width - gridView.anchors.leftMargin
 
                 Rectangle {
                     color: Material.backgroundColor
                     radius: 3
-                    width: parent.width - 20
+                    width: parent.width - 10
                     height: 70
+                    clip: true
                     anchors.centerIn: parent
 
                     SteamImage {
@@ -361,15 +347,26 @@ Item {
                             id: tiSearch
                             placeholderTextColor: Material.secondaryTextColor
                             placeholderText: qsTr("Search for Wallpaper and Widgets...")
-                            onEditingFinished: {
-                                root.state = "searching"
-                                if (tiSearch.text === "")
-                                    return root.steamWorkshop.searchWorkshop(
-                                                SteamEnums.K_EUGCQuery_RankedByTrend)
+                            // WORKAROUND:
+                            // onEditingFinished causes internal qml layout crash in Qt 6.4
+                            Keys.onReturnPressed: event => {
+                                                      event.accepted = true
+                                                      if (root.state === "searching") {
+                                                          print("SEARCHING")
+                                                          return
+                                                      }
 
-                                root.steamWorkshop.searchWorkshopByText(
-                                            tiSearch.text)
-                            }
+                                                      root.state = "searching"
+                                                      print("EDITING FINISHED",
+                                                            root.state)
+                                                      if (tiSearch.text === "")
+                                                      return root.steamWorkshop.searchWorkshop(
+                                                          SteamEnums.K_EUGCQuery_RankedByTrend)
+
+                                                      root.steamWorkshop.searchWorkshopByText(
+                                                          tiSearch.text)
+                                                  }
+
                             leftInset: -20
                             leftPadding: 20
                             anchors {
@@ -385,7 +382,8 @@ Item {
                             onClicked: {
                                 root.state = "searching"
                                 tiSearch.text = ""
-                                root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend)
+                                root.steamWorkshop.searchWorkshop(
+                                            SteamEnums.K_EUGCQuery_RankedByTrend)
                             }
                             enabled: tiSearch.text !== ""
                             icon.width: 20
@@ -576,10 +574,11 @@ Item {
 
         topMargin: 60
         steamWorkshop: root.steamWorkshop
-        onTagClicked: {
-            gridView.headerItem.searchField.text = tag
-            sidebar.close()
-        }
+        onTagClicked: tag => {
+                          gridView.headerItem.searchField.text = tag
+                          root.steamWorkshop.searchWorkshopByText(tag)
+                          sidebar.close()
+                      }
     }
 
     states: [

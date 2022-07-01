@@ -92,8 +92,6 @@ Drawer {
             anchors.fill: parent
         }
 
-
-
         LinearGradient {
             height: 50
             cached: true
@@ -224,21 +222,27 @@ Drawer {
             }
 
             Flickable {
-                Layout.preferredHeight: 40
-                Layout.maximumHeight: 40
+                id: tagsFlickable
+                Layout.preferredHeight: 55
+                Layout.maximumHeight: 55
                 Layout.fillWidth: true
                 clip: true
-                contentWidth: rowTagList.width + rpTagList.count * rowTagList.spacing
-
-                ListModel {
-                    id: tagListModel
+                flickableDirection: Flickable.HorizontalFlick
+                ScrollBar.horizontal: ScrollBar {
+                    height: 5
                 }
+                contentWidth: rpTagList.childrenRect.width + rowTagList.width
+                              + (rpTagList.count * rowTagList.spacing)
+                contentHeight: 40
 
                 Row {
                     id: rowTagList
-
-                    width: parent.width
+                    height: parent.height
                     spacing: 10
+
+                    ListModel {
+                        id: tagListModel
+                    }
 
                     Repeater {
                         id: rpTagList
@@ -255,6 +259,7 @@ Drawer {
                     }
                 }
             }
+
 
             RowLayout {
                 Layout.fillWidth: true

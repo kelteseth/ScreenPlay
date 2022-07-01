@@ -21,31 +21,32 @@
 #include "steam_api_common.h"
 
 // All of the interfaces
-#include "isteamapplist.h"
-#include "isteamapps.h"
 #include "isteamclient.h"
-#include "isteamcontroller.h"
+#include "isteamuser.h"
 #include "isteamfriends.h"
-#include "isteamhtmlsurface.h"
-#include "isteamhttp.h"
-#include "isteaminput.h"
-#include "isteaminventory.h"
+#include "isteamutils.h"
 #include "isteammatchmaking.h"
+#include "isteamuserstats.h"
+#include "isteamapps.h"
+#include "isteamnetworking.h"
+#include "isteamremotestorage.h"
+#include "isteamscreenshots.h"
 #include "isteammusic.h"
 #include "isteammusicremote.h"
-#include "isteamnetworking.h"
+#include "isteamhttp.h"
+#include "isteamcontroller.h"
+#include "isteamugc.h"
+#include "isteamapplist.h"
+#include "isteamhtmlsurface.h"
+#include "isteaminventory.h"
+#include "isteamvideo.h"
+#include "isteamparentalsettings.h"
+#include "isteaminput.h"
+#include "isteamremoteplay.h"
 #include "isteamnetworkingmessages.h"
 #include "isteamnetworkingsockets.h"
 #include "isteamnetworkingutils.h"
-#include "isteamparentalsettings.h"
-#include "isteamremoteplay.h"
-#include "isteamremotestorage.h"
-#include "isteamscreenshots.h"
-#include "isteamugc.h"
-#include "isteamuser.h"
-#include "isteamuserstats.h"
-#include "isteamutils.h"
-#include "isteamvideo.h"
+
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------//
 //	Steam API setup & shutdown
@@ -53,6 +54,7 @@
 //	These functions manage loading, initializing and shutdown of the steamclient.dll
 //
 //----------------------------------------------------------------------------------------------------------------------------------------------------------//
+
 
 // SteamAPI_Init must be called before using any other API functions. If it fails, an
 // error message will be output to the debugger (or stderr) with further information.
@@ -71,7 +73,7 @@ S_API void S_CALLTYPE SteamAPI_Shutdown();
 //
 // NOTE: If you use the Steam DRM wrapper on your primary executable file, this check is unnecessary
 // since the DRM wrapper will ensure that your application was launched properly through Steam.
-S_API bool S_CALLTYPE SteamAPI_RestartAppIfNecessary(uint32 unOwnAppID);
+S_API bool S_CALLTYPE SteamAPI_RestartAppIfNecessary( uint32 unOwnAppID );
 
 // Many Steam API functions allocate a small amount of thread-local memory for parameter storage.
 // SteamAPI_ReleaseCurrentThreadMemory() will free API memory associated with the calling thread.
@@ -79,9 +81,10 @@ S_API bool S_CALLTYPE SteamAPI_RestartAppIfNecessary(uint32 unOwnAppID);
 // program never needs to explicitly call this function.
 S_API void S_CALLTYPE SteamAPI_ReleaseCurrentThreadMemory();
 
+
 // crash dump recording functions
-S_API void S_CALLTYPE SteamAPI_WriteMiniDump(uint32 uStructuredExceptionCode, void* pvExceptionInfo, uint32 uBuildID);
-S_API void S_CALLTYPE SteamAPI_SetMiniDumpComment(const char* pchMsg);
+S_API void S_CALLTYPE SteamAPI_WriteMiniDump( uint32 uStructuredExceptionCode, void* pvExceptionInfo, uint32 uBuildID );
+S_API void S_CALLTYPE SteamAPI_SetMiniDumpComment( const char *pchMsg );
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------//
 //	steamclient.dll private wrapper functions
@@ -94,13 +97,13 @@ S_API bool S_CALLTYPE SteamAPI_IsSteamRunning();
 
 // returns the filename path of the current running Steam process, used if you need to load an explicit steam dll by name.
 // DEPRECATED - implementation is Windows only, and the path returned is a UTF-8 string which must be converted to UTF-16 for use with Win32 APIs
-S_API const char* SteamAPI_GetSteamInstallPath();
+S_API const char *SteamAPI_GetSteamInstallPath();
 
 // sets whether or not Steam_RunCallbacks() should do a try {} catch (...) {} around calls to issuing callbacks
 // This is ignored if you are using the manual callback dispatch method
-S_API void SteamAPI_SetTryCatchCallbacks(bool bTryCatchCallbacks);
+S_API void SteamAPI_SetTryCatchCallbacks( bool bTryCatchCallbacks );
 
-#if defined(VERSION_SAFE_STEAM_API_INTERFACES)
+#if defined( VERSION_SAFE_STEAM_API_INTERFACES )
 // exists only for backwards compat with code written against older SDKs
 S_API bool S_CALLTYPE SteamAPI_InitSafe();
 #endif
@@ -112,8 +115,8 @@ S_API bool S_CALLTYPE SteamAPI_InitSafe();
 // bFullMemoryDumps (Win32 only) -- writes out a uuid-full.dmp in the client/dumps folder
 // pvContext-- can be NULL, will be the void * context passed into m_pfnPreMinidumpCallback
 // PFNPreMinidumpCallback m_pfnPreMinidumpCallback   -- optional callback which occurs just before a .dmp file is written during a crash.  Applications can hook this to allow adding additional information into the .dmp comment stream.
-S_API void S_CALLTYPE SteamAPI_UseBreakpadCrashHandler(char const* pchVersion, char const* pchDate, char const* pchTime, bool bFullMemoryDumps, void* pvContext, PFNPreMinidumpCallback m_pfnPreMinidumpCallback);
-S_API void S_CALLTYPE SteamAPI_SetBreakpadAppID(uint32 unAppID);
+S_API void S_CALLTYPE SteamAPI_UseBreakpadCrashHandler( char const *pchVersion, char const *pchDate, char const *pchTime, bool bFullMemoryDumps, void *pvContext, PFNPreMinidumpCallback m_pfnPreMinidumpCallback );
+S_API void S_CALLTYPE SteamAPI_SetBreakpadAppID( uint32 unAppID );
 #endif
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------//
@@ -164,19 +167,19 @@ S_API void S_CALLTYPE SteamAPI_SetBreakpadAppID(uint32 unAppID);
 S_API void S_CALLTYPE SteamAPI_ManualDispatch_Init();
 
 /// Perform certain periodic actions that need to be performed.
-S_API void S_CALLTYPE SteamAPI_ManualDispatch_RunFrame(HSteamPipe hSteamPipe);
+S_API void S_CALLTYPE SteamAPI_ManualDispatch_RunFrame( HSteamPipe hSteamPipe );
 
 /// Fetch the next pending callback on the given pipe, if any.  If a callback is available, true is returned
 /// and the structure is populated.  In this case, you MUST call SteamAPI_ManualDispatch_FreeLastCallback
 /// (after dispatching the callback) before calling SteamAPI_ManualDispatch_GetNextCallback again.
-S_API bool S_CALLTYPE SteamAPI_ManualDispatch_GetNextCallback(HSteamPipe hSteamPipe, CallbackMsg_t* pCallbackMsg);
+S_API bool S_CALLTYPE SteamAPI_ManualDispatch_GetNextCallback( HSteamPipe hSteamPipe, CallbackMsg_t *pCallbackMsg );
 
 /// You must call this after dispatching the callback, if SteamAPI_ManualDispatch_GetNextCallback returns true.
-S_API void S_CALLTYPE SteamAPI_ManualDispatch_FreeLastCallback(HSteamPipe hSteamPipe);
+S_API void S_CALLTYPE SteamAPI_ManualDispatch_FreeLastCallback( HSteamPipe hSteamPipe );
 
 /// Return the call result for the specified call on the specified pipe.  You really should
 /// only call this in a handler for SteamAPICallCompleted_t callback.
-S_API bool S_CALLTYPE SteamAPI_ManualDispatch_GetAPICallResult(HSteamPipe hSteamPipe, SteamAPICall_t hSteamAPICall, void* pCallback, int cubCallback, int iCallbackExpected, bool* pbFailed);
+S_API bool S_CALLTYPE SteamAPI_ManualDispatch_GetAPICallResult( HSteamPipe hSteamPipe, SteamAPICall_t hSteamAPICall, void *pCallback, int cubCallback, int iCallbackExpected, bool *pbFailed );
 
 //----------------------------------------------------------------------------------------------------------------------------------------------------------//
 //
@@ -190,103 +193,103 @@ S_API bool S_CALLTYPE SteamAPI_ManualDispatch_GetAPICallResult(HSteamPipe hSteam
 
 inline bool CSteamAPIContext::Init()
 {
-    m_pSteamClient = ::SteamClient();
-    if (!m_pSteamClient)
-        return false;
+	m_pSteamClient = ::SteamClient();
+	if ( !m_pSteamClient )
+		return false;
 
-    m_pSteamUser = ::SteamUser();
-    if (!m_pSteamUser)
-        return false;
+	m_pSteamUser = ::SteamUser();
+	if ( !m_pSteamUser )
+		return false;
 
-    m_pSteamFriends = ::SteamFriends();
-    if (!m_pSteamFriends)
-        return false;
+	m_pSteamFriends = ::SteamFriends();
+	if ( !m_pSteamFriends )
+		return false;
 
-    m_pSteamUtils = ::SteamUtils();
-    if (!m_pSteamUtils)
-        return false;
+	m_pSteamUtils = ::SteamUtils();
+	if ( !m_pSteamUtils )
+		return false;
 
-    m_pSteamMatchmaking = ::SteamMatchmaking();
-    if (!m_pSteamMatchmaking)
-        return false;
+	m_pSteamMatchmaking = ::SteamMatchmaking();
+	if ( !m_pSteamMatchmaking )
+		return false;
 
-    m_pSteamGameSearch = ::SteamGameSearch();
-    if (!m_pSteamGameSearch)
-        return false;
+	m_pSteamGameSearch = ::SteamGameSearch();
+	if ( !m_pSteamGameSearch )
+		return false;
 
-#if !defined(IOSALL) // Not yet supported on iOS.
-    m_pSteamMatchmakingServers = ::SteamMatchmakingServers();
-    if (!m_pSteamMatchmakingServers)
-        return false;
+#if !defined( IOSALL) // Not yet supported on iOS.
+	m_pSteamMatchmakingServers = ::SteamMatchmakingServers();
+	if ( !m_pSteamMatchmakingServers )
+		return false;
 #endif
 
-    m_pSteamUserStats = ::SteamUserStats();
-    if (!m_pSteamUserStats)
-        return false;
+	m_pSteamUserStats = ::SteamUserStats();
+	if ( !m_pSteamUserStats )
+		return false;
 
-    m_pSteamApps = ::SteamApps();
-    if (!m_pSteamApps)
-        return false;
+	m_pSteamApps = ::SteamApps();
+	if ( !m_pSteamApps )
+		return false;
 
-    m_pSteamNetworking = ::SteamNetworking();
-    if (!m_pSteamNetworking)
-        return false;
+	m_pSteamNetworking = ::SteamNetworking();
+	if ( !m_pSteamNetworking )
+		return false;
 
-    m_pSteamRemoteStorage = ::SteamRemoteStorage();
-    if (!m_pSteamRemoteStorage)
-        return false;
+	m_pSteamRemoteStorage = ::SteamRemoteStorage();
+	if ( !m_pSteamRemoteStorage )
+		return false;
 
-    m_pSteamScreenshots = ::SteamScreenshots();
-    if (!m_pSteamScreenshots)
-        return false;
+	m_pSteamScreenshots = ::SteamScreenshots();
+	if ( !m_pSteamScreenshots )
+		return false;
 
-    m_pSteamHTTP = ::SteamHTTP();
-    if (!m_pSteamHTTP)
-        return false;
+	m_pSteamHTTP = ::SteamHTTP();
+	if ( !m_pSteamHTTP )
+		return false;
 
-    m_pController = ::SteamController();
-    if (!m_pController)
-        return false;
+	m_pController = ::SteamController();
+	if ( !m_pController )
+		return false;
 
-    m_pSteamUGC = ::SteamUGC();
-    if (!m_pSteamUGC)
-        return false;
+	m_pSteamUGC = ::SteamUGC();
+	if ( !m_pSteamUGC )
+		return false;
 
-    m_pSteamAppList = ::SteamAppList();
-    if (!m_pSteamAppList)
-        return false;
+	m_pSteamAppList = ::SteamAppList();
+	if ( !m_pSteamAppList )
+		return false;
 
-    m_pSteamMusic = ::SteamMusic();
-    if (!m_pSteamMusic)
-        return false;
+	m_pSteamMusic = ::SteamMusic();
+	if ( !m_pSteamMusic )
+		return false;
 
-    m_pSteamMusicRemote = ::SteamMusicRemote();
-    if (!m_pSteamMusicRemote)
-        return false;
+	m_pSteamMusicRemote = ::SteamMusicRemote();
+	if ( !m_pSteamMusicRemote )
+		return false;
 
-#if !defined(ANDROID) && !defined(IOSALL) // Not yet supported on Android or ios.
-    m_pSteamHTMLSurface = ::SteamHTMLSurface();
-    if (!m_pSteamHTMLSurface)
-        return false;
+#if !defined( ANDROID ) && !defined( IOSALL) // Not yet supported on Android or ios.
+	m_pSteamHTMLSurface = ::SteamHTMLSurface();
+	if ( !m_pSteamHTMLSurface )
+	return false;
 #endif
 
-    m_pSteamInventory = ::SteamInventory();
-    if (!m_pSteamInventory)
-        return false;
+	m_pSteamInventory = ::SteamInventory();
+	if ( !m_pSteamInventory )
+		return false;
 
-    m_pSteamVideo = ::SteamVideo();
-    if (!m_pSteamVideo)
-        return false;
+	m_pSteamVideo = ::SteamVideo();
+	if ( !m_pSteamVideo )
+		return false;
 
-    m_pSteamParentalSettings = ::SteamParentalSettings();
-    if (!m_pSteamParentalSettings)
-        return false;
+	m_pSteamParentalSettings = ::SteamParentalSettings();
+	if ( !m_pSteamParentalSettings )
+		return false;
 
-    m_pSteamInput = ::SteamInput();
-    if (!m_pSteamInput)
-        return false;
+	m_pSteamInput = ::SteamInput();
+	if ( !m_pSteamInput )
+		return false;
 
-    return true;
+	return true;
 }
 
 #endif

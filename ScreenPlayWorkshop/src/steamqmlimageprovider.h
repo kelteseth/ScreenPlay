@@ -17,7 +17,8 @@ public:
     SteamQMLImageProvider() { setFlag(QQuickItem::ItemHasContents); }
     ~SteamQMLImageProvider()
     {
-        m_texture->deleteLater();
+        if (m_texture)
+            m_texture->deleteLater();
     }
     QSGNode* updatePaintNode(QSGNode* oldNode, QQuickItem::UpdatePaintNodeData*)
     {
@@ -41,6 +42,6 @@ public slots:
 
 private:
     QImage m_image;
-    QSGTexture* m_texture;
+    QSGTexture* m_texture = nullptr;
 };
 }

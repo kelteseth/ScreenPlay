@@ -16,8 +16,6 @@
 #include <QtQml>
 
 // Steam
-#include "cstring"
-#include "stdlib.h"
 #include "steam/steam_api.h"
 #include "steam/steam_qt_enums_generated.h"
 
@@ -43,6 +41,7 @@ class SteamWorkshop : public QObject {
     QML_ELEMENT
 
     Q_PROPERTY(bool online READ online WRITE setOnline NOTIFY onlineChanged)
+    Q_PROPERTY(bool queryActive READ queryActive WRITE setQueryActive NOTIFY queryActiveChanged)
     Q_PROPERTY(unsigned long long itemProcessed READ itemProcessed WRITE setItemProcessed NOTIFY itemProcessedChanged)
     Q_PROPERTY(unsigned long long bytesTotal READ bytesTotal WRITE setBytesTotal NOTIFY bytesTotalChanged)
     Q_PROPERTY(unsigned int appID READ appID)
@@ -54,10 +53,6 @@ class SteamWorkshop : public QObject {
     Q_PROPERTY(bool steamErrorAPIInit READ steamErrorAPIInit WRITE setSteamErrorAPIInit RESET resetSteamErrorAPIInit NOTIFY steamErrorAPIInitChanged)
 
 public:
-    SteamWorkshop()
-    {
-        qDebug() << "Steam workshop ";
-    }
     ~SteamWorkshop()
     {
         qDebug() << "Steam workshop destructor";
@@ -65,12 +60,12 @@ public:
         SteamAPI_Shutdown();
     }
     bool init();
-    explicit SteamWorkshop(AppId_t appID, QObject* parent = nullptr);
 
-    unsigned long long itemProcessed() const { return m_itemProcessed; }
-    unsigned long long bytesTotal() const { return m_bytesTotal; }
-    unsigned int appID() const { return m_appID; }
     bool online() const { return m_online; }
+    bool queryActive() const { return m_queryActive; }
+    unsigned long long itemProcessed() const { return m_itemProcessed; }
+    unsigned int appID() const { return m_appID; }
+    unsigned long long bytesTotal() const { return m_bytesTotal; }
     UploadListModel* uploadListModel() const { return m_uploadListModel.get(); }
     SteamAccount* steamAccount() const { return m_steamAccount.get(); }
     SteamWorkshopListModel* workshopListModel() const { return m_workshopListModel.get(); }
@@ -91,9 +86,20 @@ public slots:
     void requestWorkshopItemDetails(const QVariant publishedFileID);
     void vote(const QVariant publishedFileID, const bool voteUp);
     void subscribeItem(const QVariant publishedFileID);
-    void searchWorkshop(const int enumEUGCQuery);
-    void searchWorkshopByText(const QString& text,
+    bool searchWorkshop(const ScreenPlayWorkshopSteamEnums::EUGCQuery enumEUGCQuery);
+    void searchWorkshopByText(const QString text,
         const ScreenPlayWorkshopSteamEnums::EUGCQuery rankedBy = ScreenPlayWorkshopSteamEnums::EUGCQuery::K_EUGCQuery_RankedByTrend);
+
+    bool checkAndSetQueryActive(){
+        if (m_queryActive) {
+            qWarning() << "Query already active! Abort";
+            return false;
+        }
+
+        m_queryActive = true;
+
+        return m_queryActive;
+    }
 
     void setItemProcessed(unsigned long long itemProcessed)
     {
@@ -157,6 +163,14 @@ public slots:
         emit workshopProfileListModelChanged(m_workshopProfileListModel.get());
     }
 
+    void setQueryActive(bool queryActive)
+    {
+        if (m_queryActive == queryActive)
+            return;
+        m_queryActive = queryActive;
+        emit queryActiveChanged(m_queryActive);
+    }
+
 signals:
     void workshopSearchCompleted(const int itemCount);
     void workshopBannerCompleted();
@@ -192,6 +206,8 @@ signals:
 
     void steamErrorAPIInitChanged();
 
+    void queryActiveChanged(bool queryActive);
+
 private:
     void onWorkshopSearched(SteamUGCQueryCompleted_t* pCallback, bool bIOFailure);
     bool queryWorkshopItemFromHandle(SteamWorkshopListModel* listModel, SteamUGCQueryCompleted_t* pCallback);
@@ -221,8 +237,9 @@ private:
     bool m_steamErrorAPIInit = false;
     unsigned long long m_itemProcessed = 0;
     unsigned long long m_bytesTotal = 0;
-    const unsigned int m_appID = 0;
+    const unsigned int m_appID = 672870;
     bool m_online = false;
+    bool m_queryActive = false;
 
     std::unique_ptr<SteamWorkshopListModel> m_workshopListModel;
     std::unique_ptr<SteamWorkshopListModel> m_workshopProfileListModel;

@@ -4,23 +4,21 @@
 #include <QtDebug>
 #include <QtQml>
 
-#include "steam/steam_api.h"
-#include "steam/steam_qt_enums_generated.h"
-
 #include "installedlistmodel.h"
 #include "steamworkshop.h"
 
 namespace ScreenPlayWorkshop {
 
-class Workshop : public QQuickItem {
+class ScreenPlayWorkshop : public QObject {
     Q_OBJECT
-    QML_NAMED_ELEMENT(ScreenPlayWorkshop)
+    QML_ELEMENT
+
     Q_PROPERTY(InstalledListModel* installedListModel READ installedListModel NOTIFY installedListModelChanged)
     Q_PROPERTY(SteamWorkshop* steamWorkshop READ steamWorkshop NOTIFY steamWorkshopChanged)
 
 public:
-    Workshop(QQuickItem* parent = nullptr);
-    ~Workshop() { qInfo() << "workshop destructor"; }
+    explicit ScreenPlayWorkshop();
+    ~ScreenPlayWorkshop() { qInfo() << "ScreenPlayWorkshop destructor"; }
 
     InstalledListModel* installedListModel() const { return m_installedListModel.get(); }
     SteamWorkshop* steamWorkshop() const { return m_steamWorkshop.get(); }

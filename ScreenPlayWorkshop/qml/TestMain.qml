@@ -10,9 +10,30 @@ Window {
     height: 768
     visible: true
     title: qsTr("ScreenPlayWorkshop")
-    Component.onCompleted: root.Material.theme = Material.Dark
+    Component.onCompleted: {
+        root.Material.theme = Material.Dark
+    }
 
-    Loader {
+    ScreenPlayWorkshop {
+        id: screenPlayWorkshop
+        Component.onCompleted: {
+            if (screenPlayWorkshop.init()) {
+                print("init")
+                stackView.push(
+                            "qrc:/qml/ScreenPlayWorkshop/qml/SteamWorkshopStartPage.qml",
+                            {
+                                "stackView": stackView,
+                                "screenPlayWorkshop": screenPlayWorkshop,
+                                "steamWorkshop": screenPlayWorkshop.steamWorkshop,
+                                "background": background
+                            })
+            } else {
+                popupOffline.open()
+            }
+        }
+    }
+
+    Item {
         anchors {
             top: nav.bottom
             right: parent.right
@@ -20,7 +41,54 @@ Window {
             left: parent.left
         }
 
-        source: "qrc:/qml/ScreenPlayWorkshop/qml/SteamWorkshop.qml"
+        Background {
+            id: background
+            anchors.fill: parent
+            stackViewDepth: stackView.depth
+        }
+
+        PopupOffline {
+            id: popupOffline
+            workshop: screenPlayWorkshop
+            steam: screenPlayWorkshop.steamWorkshop
+        }
+        StackView {
+            id: stackView
+            property int duration: 300
+
+            anchors.fill: parent
+            replaceEnter: Transition {
+                OpacityAnimator {
+                    from: 0
+                    to: 1
+                    duration: stackView.duration
+                    easing.type: Easing.InOutQuart
+                }
+
+                ScaleAnimator {
+                    from: 0.8
+                    to: 1
+                    duration: stackView.duration
+                    easing.type: Easing.InOutQuart
+                }
+            }
+
+            replaceExit: Transition {
+                OpacityAnimator {
+                    from: 1
+                    to: 0
+                    duration: stackView.duration
+                    easing.type: Easing.InOutQuart
+                }
+
+                ScaleAnimator {
+                    from: 1
+                    to: 0.8
+                    duration: stackView.duration
+                    easing.type: Easing.InOutQuart
+                }
+            }
+        }
     }
     Rectangle {
         height: 60
@@ -31,5 +99,4 @@ Window {
             left: parent.left
         }
     }
-
 }
