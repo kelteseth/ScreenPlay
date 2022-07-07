@@ -634,7 +634,7 @@
     </message>
     <message>
       <source>Get content via our forum</source>
-      <translation type="unfinished">Get content via our forum</translation>
+      <translation>通过论坛获取内容</translation>
     </message>
   </context>
   <context>
@@ -786,13 +786,13 @@
     </message>
     <message>
       <source>You need to run Steam to access the Steam Workshop</source>
-      <translation type="unfinished">You need to run Steam to access the Steam Workshop</translation>
+      <translation>您需要运行steam再访问steam创意工厂</translation>
     </message>
     <message>
       <source>Steam Error Restart: %1
 Steam Error API Init: %2</source>
-      <translation type="unfinished">Steam Error Restart: %1
-Steam Error API Init: %2</translation>
+      <translation>Steam 错误重启: %1
+Steam 错误接口初始化: %2</translation>
     </message>
   </context>
   <context>
@@ -1904,11 +1904,11 @@ Steam Error API Init: %2</translation>
     <name>WindowNavigation</name>
     <message>
       <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
-      <translation type="unfinished">Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</translation>
+      <translation>您确定要退出ScreenPlay吗？这将关闭所有的壁纸和部件。如果您想要继续使用壁纸，请最小化。</translation>
     </message>
     <message>
       <source>ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</source>
-      <translation type="unfinished">ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</translation>
+      <translation>ScreenPlay Alpha V%1 - 开源壁纸与部件</translation>
     </message>
   </context>
   <context>
