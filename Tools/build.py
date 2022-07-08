@@ -2,6 +2,7 @@
 import platform
 import os
 import subprocess
+import platform
 import shutil
 import argparse
 import time
@@ -58,7 +59,34 @@ def run(cmd, cwd = Path.cwd()):
 		raise RuntimeError(f"Failed to execute {cmd}")
 
 if __name__ == "__main__":
+
+	root_path = Path.cwd()
+	qt_version = "6.3.0"
+	qt_installer_version = "4.4"
+	qt_path = ""
+	build_steam = "OFF"
+	build_tests = "OFF"
+	build_installer = "OFF"
+	build_release = "OFF"
+	create_installer = "OFF"
+	cmake_target_triplet = ""
+	cmake_build_type = ""
+	executable_file_ending = ""
+	deploy_command = ""
+	aqt_path = ""
+	ifw_root_path = ""
+	aqt_install_qt_packages = ""
+	aqt_install_tool_packages = ""
+	cmake_bin_path = ""
+	file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".exp",
+					".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
+
 	parser = argparse.ArgumentParser(description='Build and Package ScreenPlay')
+	
+	parser.add_argument('-qt-version', action="store", dest="qt_version_overwrite",
+						help="Overwrites the default Qt version")
+	parser.add_argument('-qt-installer-version', action="store", dest="qt_installer_version_overwrite",
+						help="Overwrites the default Qt installer framework version")
 	parser.add_argument('-type', action="store", dest="build_type",
 						help="Build type. This is either debug or release.")
 	parser.add_argument('-use-aqt', action="store_true", dest="use_aqt",
@@ -77,27 +105,17 @@ if __name__ == "__main__":
 
 	if not args.build_type:
 		print("Build type argument is missing (release, debug). E.g: python build.py -type release -steam")
+		print(f"Defaulting to Qt version: {qt_version}. This can be overwritten via -qt-version 6.5.0")
 		exit(1)
 
-	root_path = Path.cwd()
-	qt_version = "6.3.0"
-	qt_path = ""
-	build_steam = "OFF"
-	build_tests = "OFF"
-	build_installer = "OFF"
-	build_release = "OFF"
-	create_installer = "OFF"
-	cmake_target_triplet = ""
-	cmake_build_type = ""
-	executable_file_ending = ""
-	deploy_command = ""
-	aqt_path = ""
-	ifw_root_path = ""
-	aqt_install_qt_packages = ""
-	aqt_install_tool_packages = ""
-	cmake_bin_path = ""
-	file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".exp",
-					".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
+	if args.qt_version_overwrite:
+		qt_version = args.qt_version_overwrite
+		print("Using Qt version {qt_version}")
+
+	if args.qt_installer_version_overwrite:
+		qt_installer_version = args.qt_installer_version_overwrite
+		print("Using Qt installer framework version {qt_installer_version}")
+
 
 	remove_files_from_build_folder = [
 		".ninja_deps",
@@ -125,7 +143,7 @@ if __name__ == "__main__":
 		aqt_path =  Path(f"{root_path}/../aqt/").resolve()
 
 		if not Path(aqt_path).exists():
-			print("aqt path does not exist at %s. Please make sure you have installed aqt." % aqt_path)
+			print(f"aqt path does not exist at {aqt_path}. Please make sure you have installed aqt.")
 			exit(2)
 
 	if platform.system() == "Windows":
@@ -143,7 +161,11 @@ if __name__ == "__main__":
 		aqt_install_tool_packages = "windows desktop tools_ifw"
 
 	elif platform.system() == "Darwin":
-		cmake_target_triplet = "x64-osx"
+		if(platform.processor() == "arm"):
+			cmake_target_triplet = "arm64-osx"
+		else:
+			cmake_target_triplet = "x64-osx"
+			
 		qt_path = aqt_path.joinpath(f"{qt_version}/macos") if args.use_aqt else Path(f"~/Qt/{qt_version}/macos")
 		deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app}"
 
@@ -186,7 +208,7 @@ if __name__ == "__main__":
 		build_release =  "ON"
 	if args.create_installer:
 		create_installer =  "ON"
-		ifw_root_path =  f"{aqt_path}\\Tools\\QtInstallerFramework\\4.2"
+		ifw_root_path =  f"{aqt_path}\\Tools\\QtInstallerFramework\\{qt_installer_version}"
 
 	cmake_configure_command = f'cmake ../ \
 	-DCMAKE_PREFIX_PATH={qt_path} \

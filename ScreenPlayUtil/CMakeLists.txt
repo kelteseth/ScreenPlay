@@ -43,7 +43,7 @@ set(HEADER
     inc/public/ScreenPlayUtil/AutoPropertyHelpers.h
     inc/public/ScreenPlayUtil/ConstRefPropertyHelpers.h
     inc/public/ScreenPlayUtil/contenttypes.h
-    inc/public/ScreenPlayUtil/EnumClassHelper.h
+    #inc/public/ScreenPlayUtil/EnumClassHelper.h
     inc/public/ScreenPlayUtil/HelpersCommon.h
     inc/public/ScreenPlayUtil/httpfileserver.h
     inc/public/ScreenPlayUtil/ListPropertyHelper.h

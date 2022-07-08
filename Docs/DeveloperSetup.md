@@ -31,11 +31,12 @@ py setup.py
     
 Append this:
 ``` bash
-CMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake
+-DCMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake
 # Only _one_ of these lines that match your OS:
-VCPKG_TARGET_TRIPLET:STRING=x64-windows
-VCPKG_TARGET_TRIPLET:STRING=x64-linux
-VCPKG_TARGET_TRIPLET:STRING=x64-osx
+-DVCPKG_TARGET_TRIPLET:STRING=x64-windows
+-DVCPKG_TARGET_TRIPLET:STRING=x64-linux
+-DVCPKG_TARGET_TRIPLET:STRING=x64-osx
+-DVCPKG_TARGET_TRIPLET:STRING=arm64-osx
 ```
 
 
@@ -50,7 +51,7 @@ VCPKG_TARGET_TRIPLET:STRING=x64-osx
 1. It is recommended (but not necessary) to use an easy git UI like [gitextensions](https://gitextensions.github.io/).
 1. [Download and install the most recent MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)
     - Select "Desktop development with C++"
-1. [Download and install Qt 6 binary installer from qt.io](https://www.qt.io/download-qt-installer)
+1. [Download and install Qt binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
         - Qt 6.3.0
@@ -68,7 +69,7 @@ VCPKG_TARGET_TRIPLET:STRING=x64-osx
 # Debian/Ubuntu
 sudo apt install build-essential  git gpg   ffmpeg mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common python3-pip  libgl1-mesa-dev lld ninja-build cmake  qml-module-qt-websockets qtwebengine5-* -y
 ```
-1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
+1. [Download and install Qt binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
         - Qt 6.3.0
@@ -104,7 +105,9 @@ export PATH="~/.local/bin:$PATH"
 ```
 
 ## MacOSX
-1. [Download and install Qt 5 binary installer from qt.io](https://www.qt.io/download-qt-installer)
+1. Install [brew](https://brew.sh) that is needed by some third party vcpkg packages. Do not forget to add brew to your path as outlined at the on of the installation!
+    - `brew install pkg-config git llvm cmake ninja`
+1. [Download and install Qt binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
         - Qt 6.3.0
@@ -118,9 +121,8 @@ export PATH="~/.local/bin:$PATH"
                 - OpenSSL 64-bit binaries
             - Cmake
             - Ninja
-2. Install [homebrew](https://brew.sh/)
-     - Open a terminal and install clang -> brew install llvm cmake ninja
-3. Change your default kit: QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 6.3.0) -> Change c and c++ Compiler to Apple Clang (x86_64)
+1. Change your default kit: 
+    - `QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 6.3.0) -> Change c and c++ Compiler to Apple Clang (x86_64)`
 
 
 # Developer docs 
