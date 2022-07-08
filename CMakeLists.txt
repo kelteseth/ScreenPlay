@@ -7,12 +7,18 @@ project(
     HOMEPAGE_URL "https://screen-play.app/"
     LANGUAGES CXX)
 
+# Only used for some custom file copy
 if(WIN32)
     set(VCPKG_ARCH "x64-windows")
 elseif(UNIX AND NOT APPLE)
     set(VCPKG_ARCH "x64-linux")
 elseif(APPLE)
-    set(VCPKG_ARCH "x64-osx")
+     # CMAKE_HOST_SYSTEM_PROCESSOR returns the value of `uname -p` on host.
+    if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL x86_64 OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL amd64)
+        set(VCPKG_ARCH "x64-osx")
+    elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL arm)
+        set(VCPKG_ARCH "arm64-osx")
+    endif()
 endif()
 
 # This sets cmake to compile all dlls into the main directory
