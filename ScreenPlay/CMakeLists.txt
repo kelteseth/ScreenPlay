@@ -294,7 +294,7 @@ target_link_libraries(
            SteamSDKQtEnums)
 
 if(${SCREENPLAY_STEAM})
-    target_compile_definitions(ScreenPlayApp PRIVATE SCREENPLAY_STEAM=1)
+    target_compile_definitions(ScreenPlayApp PRIVATE SCREENPLAY_STEAM)
     target_link_libraries(ScreenPlayApp PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
 endif()
 
@@ -305,7 +305,7 @@ if(${SCREENPLAY_TESTS})
     add_executable(tst_ScreenPlay tests/tst_main.cpp)
     target_link_libraries(tst_ScreenPlay PRIVATE ScreenPlayApp ScreenPlayAppplugin Qt6::Test)
     if(${SCREENPLAY_STEAM})
-        target_compile_definitions(tst_ScreenPlay PRIVATE SCREENPLAY_STEAM=1)
+        target_compile_definitions(tst_ScreenPlay PRIVATE SCREENPLAY_STEAM)
         target_link_libraries(tst_ScreenPlay PUBLIC ScreenPlayWorkshopplugin ScreenPlayWorkshop)
     endif()
 endif()

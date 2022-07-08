@@ -57,7 +57,10 @@ file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 add_compile_definitions(COMPILE_INFO="Build Date: ${BUILD_DATE}. Git Hash: ${GIT_COMMIT_HASH}. ")
 add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
-add_compile_definitions(RELEASE_VERSION="${SCREENPLAY_RELEASE}")
+if(${SCREENPLAY_RELEASE})
+add_compile_definitions(RELEASE_VERSION)
+endif()
+
 
 find_package(Git REQUIRED)
 if(WIN32)

@@ -72,7 +72,7 @@ if __name__ == "__main__":
 	parser.add_argument('-installer', action="store_true", dest="create_installer",
                     help="Create a installer.")
 	parser.add_argument('-release', action="store_true", dest="build_release",
-                    help="Create a release version of ScreenPlay for sharing with the world.")
+                    help="Create a release version of ScreenPlay for sharing with the world. This is not about debug/release build, but the c++ define SCREENPLAY_RELEASE.")
 	args = parser.parse_args()
 
 	if not args.build_type:
@@ -113,6 +113,10 @@ if __name__ == "__main__":
 		"CMakeCache.txt", 
 		"steam_appid.txt" # This file is only needed for testing. It must not be in a release version!
 		]
+
+	if args.build_steam and not args.build_release:
+		print("Steam Builds must have release option enabled via -release")
+		exit(4)
 
 	if root_path.name == "Tools":
 		root_path = root_path.parent
@@ -179,7 +183,7 @@ if __name__ == "__main__":
 	if args.build_tests:
 		build_tests =  "ON"
 	if args.build_release:
-		build_tests =  "ON"
+		build_release =  "ON"
 	if args.create_installer:
 		create_installer =  "ON"
 		ifw_root_path =  f"{aqt_path}\\Tools\\QtInstallerFramework\\4.2"

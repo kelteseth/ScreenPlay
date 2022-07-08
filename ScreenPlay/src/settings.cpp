@@ -62,21 +62,21 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
 
     qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
 
-    if (!m_qSettings.contains("Autostart")) {
-        if (desktopEnvironment() == DesktopEnvironment::Windows) {
-            QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
-            if (!m_qSettings.value("Autostart").toBool()) {
-                if (!settings.contains("ScreenPlay")) {
-                }
-            }
+    // Lets not set the dev version as startup.
+#ifdef RELEASE_VERSION
+    if (desktopEnvironment() == DesktopEnvironment::Windows) {
+        QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
+        if (!settings.childGroups().contains("ScreenPlay", Qt::CaseSensitive)) {
             settings.setValue("ScreenPlay", QDir::toNativeSeparators(QCoreApplication::applicationFilePath()) + " -silent");
             settings.sync();
+            if (!m_qSettings.contains("Autostart")) {
+                m_qSettings.setValue("Autostart", true);
+                m_qSettings.sync();
+            }
         }
-        m_qSettings.setValue("Autostart", true);
-        m_qSettings.sync();
-    } else {
-        setAutostart(m_qSettings.value("Autostart", true).toBool());
     }
+
+#endif
 
     setCheckWallpaperVisible(m_qSettings.value("CheckWallpaperVisible", false).toBool());
     setHighPriorityStart(m_qSettings.value("ScreenPlayExecutable", false).toBool());
