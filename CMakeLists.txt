@@ -19,6 +19,13 @@ elseif(APPLE)
     elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL arm)
         set(VCPKG_ARCH "arm64-osx")
     endif()
+
+    # Universal builds are not available with vcpkg,
+    # but the prebuild Qt binaries are.
+    # https://github.com/microsoft/vcpkg/discussions/19454
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
+    set(VCPKG_TARGET_ARCHITECTURE x86_64 arm64)
+    message(STATUS "[PROJECT] CMAKE_OSX_ARCHITECTURES      = ${CMAKE_OSX_ARCHITECTURES}")
 endif()
 
 # This sets cmake to compile all dlls into the main directory
@@ -129,14 +136,6 @@ endif()
 
 if(${SCREENPLAY_INSTALLER})
     include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/CreateIFWInstaller.cmake)
-endif()
-
-# Universal builds are not available with vcpkg
-# https://github.com/microsoft/vcpkg/discussions/19454
-if(APPLE)
-    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
-    set(VCPKG_TARGET_ARCHITECTURE x86_64 arm64)
-    message(STATUS "[PROJECT] CMAKE_OSX_ARCHITECTURES      = ${CMAKE_OSX_ARCHITECTURES}")
 endif()
 
 message(STATUS "[CPP DEFINE] RELEASE_VERSION           = ${RELEASE_VERSION}")
