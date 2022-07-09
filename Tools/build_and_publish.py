@@ -12,9 +12,9 @@ if __name__ == "__main__":
     # Script needs to run in the tools folder
     tools_path = Path.cwd()
     os.chdir(tools_path)
-    build(
-        qt_version="6.4.0",
-        qt_ifw_version="4.4", 
+    build.build(
+        qt_version="6.3.1",
+        qt_ifw_version="4.3", 
         build_steam="ON",
         build_tests="OFF",
         build_release="ON",
@@ -25,7 +25,7 @@ if __name__ == "__main__":
     )
     # Make sure to reset to tools path
     os.chdir(tools_path)
-    steam_publish(
+    steam_publish.steam_publish(
         steam_username="tachiom",
         steam_password=args.steam_password,
         set_live_branch_name="internal"
