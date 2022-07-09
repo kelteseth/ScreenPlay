@@ -2,8 +2,8 @@
     "version": "0.15.0",
     "description": "ScreenPlay is an Open Source Live-Wallpaper app for Windows and OSX. ",
     "homepage": "https://screen-play.app/",
-    "url": "https://kelteseth.com/SP.zip",
+    "url": "https://kelteseth.com/screenplay/ScreenPlay-0.15.0-RC1-x64-windows-release.zip",
     "bin": "ScreenPlay.exe",
     "license": "AGPL-3.0",
-    "extract_dir": "build-x64-windows-release/bin"
+    "extract_dir": "bin"
 }
