@@ -55,6 +55,7 @@ set(SCREENPLAY_IFW_VERSION "4.3")
 
 set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlay-vcpkg")
 set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
+set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
 option(SCREENPLAY_RELEASE "Marks this version as an official release version. This version uses different import paths and other settings." OFF)
