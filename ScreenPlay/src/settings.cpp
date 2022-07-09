@@ -40,8 +40,11 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     : QObject(parent)
     , m_globalVariables { globalVariables }
 {
-    const QString qtVersion = QString("Qt Version: %1.%2.%3").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH);
-    setGitBuildHash(COMPILE_INFO + qtVersion);
+    const QString qtVersion = QString("Qt Version: %1.%2.%3\n").arg(QT_VERSION_MAJOR).arg(QT_VERSION_MINOR).arg(QT_VERSION_PATCH);
+    const QString buildType = QString("Build type: %1\n").arg(BUILD_TYPE);
+    const QString buildDate = QString("Build date: %1\n").arg(BUILD_DATE);
+    const QString commitHash = QString("Git commit hash: %1").arg(GIT_COMMIT_HASH);
+    setBuildInfos(qtVersion + buildType + buildDate + commitHash);
 #ifdef SCREENPLAY_STEAM
     setSteamVersion(true);
 #endif

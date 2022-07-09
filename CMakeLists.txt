@@ -77,28 +77,38 @@ endif()
 
 find_package(Git REQUIRED)
 if(WIN32)
-    set(date_command "CMD")
-    set(date_arg "/c date /t")
+    set(DATE_COMMAND "CMD")
+    set(DATE_ARG "/c date /t")
 elseif(APPLE)
-    set(date_command "date")
-    set(date_arg "")
+    set(DATE_COMMAND "date")
+    set(DATE_ARG " +%y.%m.%d")
 elseif(UNIX)
-    set(date_command "date")
-    set(date_arg "")
+    set(DATE_COMMAND "date")
+    set(DATE_ARG "")
 endif()
 
 execute_process(
-    COMMAND ${date_command} ${date_arg}
+    COMMAND ${DATE_COMMAND} ${DATE_ARG}
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
     OUTPUT_VARIABLE BUILD_DATE
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
+    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
 
 execute_process(
-    COMMAND "${GIT_EXECUTABLE}" describe --always
+    COMMAND "${GIT_EXECUTABLE}" rev-parse --abbrev-ref HEAD
+    WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+    OUTPUT_VARIABLE GIT_BRANCH_NAME
+    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+
+execute_process(
+    COMMAND "${GIT_EXECUTABLE}" rev-parse --short HEAD
     WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
     OUTPUT_VARIABLE GIT_COMMIT_HASH
-    OUTPUT_STRIP_TRAILING_WHITESPACE)
+    ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
 
+add_compile_definitions(BUILD_TYPE="${CMAKE_BUILD_TYPE}")
+add_compile_definitions(BUILD_DATE="${BUILD_DATE}")
+add_compile_definitions(GIT_BRANCH_NAME="${GIT_BRANCH_NAME}")
+add_compile_definitions(GIT_COMMIT_HASH="${GIT_COMMIT_HASH}")
 
 if(UNIX AND NOT APPLE)
     # Fixes QWebEngine linker errors on Ubuntu 20.04

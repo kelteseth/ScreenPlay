@@ -92,7 +92,7 @@ class Settings : public QObject {
     Q_PROPERTY(Theme theme READ theme WRITE setTheme NOTIFY themeChanged)
 
     Q_PROPERTY(QString decoder READ decoder WRITE setDecoder NOTIFY decoderChanged)
-    Q_PROPERTY(QString gitBuildHash READ gitBuildHash WRITE setGitBuildHash NOTIFY gitBuildHashChanged)
+    Q_PROPERTY(QString buildInfos READ buildInfos WRITE setBuildInfos NOTIFY buildInfosChanged)
     Q_PROPERTY(QString font READ font WRITE setFont NOTIFY fontChanged)
 
 public:
@@ -144,7 +144,6 @@ public:
     bool autostart() const { return m_autostart; }
     bool highPriorityStart() const { return m_highPriorityStart; }
     QString decoder() const { return m_decoder; }
-    QString gitBuildHash() const { return m_gitBuildHash; }
     bool silentStart() const { return m_silentStart; }
     bool anonymousTelemetry() const { return m_anonymousTelemetry; }
     bool checkWallpaperVisible() const { return m_checkWallpaperVisible; }
@@ -157,6 +156,11 @@ public:
 
     void setupLanguage();
 
+    const QString &buildInfos() const
+    {
+        return m_buildInfos;
+    }
+
 signals:
     void requestRetranslation();
     void resetInstalledListmodel();
@@ -167,7 +171,6 @@ signals:
     void decoderChanged(QString decoder);
     void setMainWindowVisible(bool visible);
     void offlineModeChanged(bool offlineMode);
-    void gitBuildHashChanged(QString gitBuildHash);
     void silentStartChanged(bool silentStart);
     void anonymousTelemetryChanged(bool anonymousTelemetry);
     void checkWallpaperVisibleChanged(bool checkWallpaperVisible);
@@ -177,6 +180,8 @@ signals:
     void themeChanged(ScreenPlay::Settings::Theme theme);
     void steamVersionChanged(bool steamVersion);
     void desktopEnvironmentChanged(DesktopEnvironment desktopEnvironment);
+
+    void buildInfosChanged(const QString &buildInfos);
 
 public slots:
     void writeJsonFileFromResource(const QString& filename);
@@ -304,15 +309,6 @@ public slots:
         emit offlineModeChanged(m_offlineMode);
     }
 
-    void setGitBuildHash(QString gitBuildHash)
-    {
-        if (m_gitBuildHash == gitBuildHash)
-            return;
-
-        m_gitBuildHash = gitBuildHash;
-        emit gitBuildHashChanged(m_gitBuildHash);
-    }
-
     void setSilentStart(bool silentStart)
     {
         if (m_silentStart == silentStart)
@@ -404,6 +400,14 @@ public slots:
         emit desktopEnvironmentChanged(m_desktopEnvironment);
     }
 
+    void setBuildInfos(const QString &buildInfos)
+    {
+        if (m_buildInfos == buildInfos)
+            return;
+        m_buildInfos = buildInfos;
+        emit buildInfosChanged(m_buildInfos);
+    }
+
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
     void initInstalledPath();
@@ -422,7 +426,6 @@ private:
     bool m_silentStart { false };
     bool m_anonymousTelemetry { true };
 
-    QString m_gitBuildHash;
     QString m_decoder;
     ScreenPlay::FillMode::FillMode m_videoFillMode { ScreenPlay::FillMode::FillMode::Cover };
     Language m_language { Language::En_US };
@@ -430,5 +433,6 @@ private:
     QString m_font { "Roboto" };
     bool m_steamVersion { false };
     DesktopEnvironment m_desktopEnvironment = DesktopEnvironment::Unknown;
+    QString m_buildInfos;
 };
 }
