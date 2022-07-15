@@ -78,11 +78,7 @@ without the ScreenPlay-vcpkg folder (E.g. py .\setup.py --path "D:/Backup/Code/Q
         vcpkg_command = "vcpkg.exe"
         vcpkg_packages_list.append("infoware[d3d]")
         vcpkg_packages_list.append("sentry-native")
-        if shutil.which("pwsh"):
-            print("Using experimental pwsh, may not work properly.")
-            platform_command.add("pwsh.exe -NoProfile -ExecutionPolicy Bypass .\scripts\\bootstrap.ps1", vcpkg_path)
-        else:
-            platform_command.add("bootstrap-vcpkg.bat", vcpkg_path, False)
+        platform_command.add("bootstrap-vcpkg.bat", vcpkg_path, False)
         platform_command.add(download_prebuild_ffmpeg)
         vcpkg_triplet = ["x64-windows"]
     elif system() == "Darwin":
