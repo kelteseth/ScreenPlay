@@ -7,6 +7,7 @@ import shutil
 import argparse
 import time
 import zipfile
+from shutil import copytree
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
@@ -288,6 +289,12 @@ def build(
         run("spctl --assess --verbose  \"ScreenPlay.app/\"", cwd=bin_dir)
         run("spctl --assess --verbose  \"ScreenPlayWallpaper.app/\"", cwd=bin_dir)
         run("spctl --assess --verbose  \"ScreenPlayWidget.app/\"", cwd=bin_dir)
+
+	# Copy qml dir into all .app/Contents/MacOS/
+    if platform.system() == "Darwin":
+        copytree(Path.joinpath(bin_dir, "qml"), Path.joinpath(bin_dir, "ScreenPlay.app/Contents/MacOS/qml"))
+        copytree(Path.joinpath(bin_dir, "qml"), Path.joinpath(bin_dir, "ScreenPlayWallpaper.app/Contents/MacOS/qml"))
+        copytree(Path.joinpath(bin_dir, "qml"), Path.joinpath(bin_dir, "ScreenPlayWidget.app/Contents/MacOS/qml"))
 
     # Some dlls like openssl do no longer get copied automatically.
     # Lets just copy all of them into bin.
