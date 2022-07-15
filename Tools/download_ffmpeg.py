@@ -2,6 +2,7 @@ import zipfile
 from urllib.request import urlopen
 import os
 
+FFMPEG_VERSION ="5.0.1"
 
 def download_and_extract(file_base_path, name):
     print("Download: ", name)
@@ -25,8 +26,8 @@ def download_and_extract(file_base_path, name):
     os.remove(path_and_filename) 
 
 def download_prebuild_ffmpeg():
-    ffmpeg_7zip_name  = 'ffmpeg-4.4.zip'
-    ffprobe_7zip_name = 'ffprobe-4.4.zip'
+    ffmpeg_7zip_name  = f'ffmpeg-{FFMPEG_VERSION}.zip'
+    ffprobe_7zip_name = f'ffprobe-{FFMPEG_VERSION}.zip'
     current_path = os.path.join(os.path.abspath(os.getcwd()),"")
     extraction_path = os.path.abspath(os.path.join(current_path, "../Common/ffmpeg"))
 
