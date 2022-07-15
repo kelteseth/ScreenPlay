@@ -13,19 +13,22 @@ if(WIN32)
 elseif(UNIX AND NOT APPLE)
     set(VCPKG_ARCH "x64-linux")
 elseif(APPLE)
-     # CMAKE_HOST_SYSTEM_PROCESSOR returns the value of `uname -p` on host.
-    if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL x86_64 OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL amd64)
-        set(VCPKG_ARCH "x64-osx")
-    elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL arm)
-        set(VCPKG_ARCH "arm64-osx")
-    endif()
-
+    # CMAKE_HOST_SYSTEM_PROCESSOR returns the value of `uname -p` on host.
     # Universal builds are not available with vcpkg,
-    # but the prebuild Qt binaries are.
+    # but the prebuild Qt binaries are. CMake also handles
     # https://github.com/microsoft/vcpkg/discussions/19454
-    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
-    set(VCPKG_TARGET_ARCHITECTURE x86_64 arm64)
-    message(STATUS "[PROJECT] CMAKE_OSX_ARCHITECTURES      = ${CMAKE_OSX_ARCHITECTURES}")
+    # This means we must compile twice and then merge the binaries with lipo
+   if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL x86_64 OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL amd64)
+       set(VCPKG_ARCH "x64-osx")
+       set(CMAKE_OSX_ARCHITECTURES "x86_64")
+       set(VCPKG_TARGET_ARCHITECTURE x86_64)
+   elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL arm)
+       set(VCPKG_ARCH "arm64-osx")
+       set(CMAKE_OSX_ARCHITECTURES "arm64")
+       set(VCPKG_TARGET_ARCHITECTURE arm64)
+   endif()
+
+   message(STATUS "[PROJECT] CMAKE_OSX_ARCHITECTURES      = ${CMAKE_OSX_ARCHITECTURES}")
 endif()
 
 # This sets cmake to compile all dlls into the main directory
