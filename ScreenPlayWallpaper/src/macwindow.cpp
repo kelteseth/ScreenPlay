@@ -46,7 +46,8 @@ MacWindow::MacWindow(
     workingDir.cdUp();
     workingDir.cdUp();
     // OSX Development workaround:
-    //
+    // This folder needs then to be copied into the .app/Contents/MacOS/
+    // for the deploy version.
     m_window.engine()->addImportPath(workingDir.path()+"/qml");
 #endif
 
