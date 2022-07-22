@@ -49,6 +49,7 @@ build:shared_windows_release:
         expire_in: "4 weeks"
         paths:
             - build-x64-windows-release/bin/
+            - build-x64-windows-release/ScreenPlay-Installer.exe
 
 
 build:windows_release:
@@ -67,6 +68,7 @@ build:windows_release:
         expire_in: "4 weeks"
         paths:
             - build-x64-windows-release/bin/
+            - build-x64-windows-release/ScreenPlay-Installer.exe
 
 build:windows_release_steam:
     stage: build
@@ -84,6 +86,7 @@ build:windows_release_steam:
         expire_in: "4 weeks"
         paths:
             - build-x64-windows-release/bin/
+            - build-x64-windows-release/ScreenPlay-Installer.exe
 
 build:osx_release:
     stage: build
@@ -96,11 +99,15 @@ build:osx_release:
         - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
         - cd Tools
         - python3 setup.py
-        - python3 build.py -type release -use-aqt -installer
+        - python3 build.py -type release -use-aqt -installer -architecture x64
+        - python3 build.py -type release -use-aqt -installer -architecture arm64
     artifacts:
         expire_in: "4 weeks"
         paths:
             - build-x64-osx-release/bin/
+            - build-arm-osx-release/bin/
+            - build-x64-osx-release/ScreenPlay-Installer.dmg
+            - build-arm-osx-release/ScreenPlay-Installer.dmg
 
 build:osx_release_steam:
     stage: build
@@ -113,11 +120,15 @@ build:osx_release_steam:
         - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
         - cd Tools
         - python3 setup.py
-        - python3 build.py -type release -steam -use-aqt -installer
+        - python3 build.py -type release -steam -use-aqt -installer -architecture x64
+        - python3 build.py -type release -steam -use-aqt -installer -architecture arm64
     artifacts:
         expire_in: "4 weeks"
         paths:
             - build-x64-osx-release/bin/
+            - build-arm-osx-release/bin/
+            - build-x64-osx-release/ScreenPlay-Installer.dmg
+            - build-arm-osx-release/ScreenPlay-Installer.dmg
 
 build:linux_release:
     stage: build
@@ -184,6 +195,7 @@ release:windows_standalone:
         expire_in: "never"
         paths:
             - build-x64-windows-release/bin/
+            - build-x64-windows-release/ScreenPlay-Installer.exe
 
 release:osx_steam:
     stage: build
@@ -196,13 +208,17 @@ release:osx_steam:
         - python -m aqt install-tool -O ../aqt mac desktop tools_ifw
         - cd Tools
         - python3 setup.py
-        - python3 build.py -type release -steam -use-aqt -sign
+        - python3 build.py -type release -steam -use-aqt -sign -architecture x64
+        - python3 build.py -type release -steam -use-aqt -sign -architecture arm64
     only:
         - release
     artifacts:
         expire_in: "never"
         paths:
             - build-x64-osx-release/bin/
+            - build-arm-osx-release/bin/
+            - build-x64-osx-release/ScreenPlay-Installer.dmg
+            - build-arm-osx-release/ScreenPlay-Installer.dmg
 
 release:osx_standalone:
     stage: build
@@ -215,13 +231,16 @@ release:osx_standalone:
         - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
         - cd Tools
         - python3 setup.py
-        - python3 build.py -type release -installer -use-aqt -sign
+        - python3 build.py -type release -installer -use-aqt -sign 
     only:
         - release
     artifacts:
         expire_in: "never"
         paths:
             - build-x64-osx-release/bin/
+            - build-arm-osx-release/bin/
+            - build-x64-osx-release/ScreenPlay-Installer.dmg
+            - build-arm-osx-release/ScreenPlay-Installer.dmg
 
 release:linux_steam:
     stage: build
