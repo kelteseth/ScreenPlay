@@ -25,7 +25,7 @@ void ScreenPlayWeather::updateLatitudeLongtitude(const QString& city)
     request.setUrl(url);
     auto* reply = m_networkAccessManager.get(request);
 
-    QObject::connect(reply, &QNetworkReply::readyRead, this, [this, reply]() {
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         const QByteArray data = reply->readAll();
         if (data.size() <= 0)
             return;
@@ -50,7 +50,7 @@ void ScreenPlayWeather::updateLatitudeLongtitude(const QString& city)
         if (result.contains("population"))
             setPopulation(result.value("population").toInt());
     });
-    QObject::connect(reply, &QNetworkReply::finished, this, []() { qInfo() << "finished!"; });
+    QObject::connect(reply, &QNetworkReply::finished, this, []() { qInfo() << "updateLatitudeLongtitude finished!"; });
     QObject::connect(reply, &QNetworkReply::errorOccurred, this, []() { qInfo() << "errorOccurred!"; });
 }
 
@@ -80,7 +80,7 @@ void ScreenPlayWeather::update()
     qInfo() << url;
     auto* reply = m_networkAccessManager.get(request);
 
-    QObject::connect(reply, &QNetworkReply::readyRead, this, [this, reply]() {
+    QObject::connect(reply, &QNetworkReply::finished, this, [this, reply]() {
         const QByteArray data = reply->readAll();
         if (data.size() <= 0)
             return;
@@ -108,9 +108,9 @@ void ScreenPlayWeather::update()
         for (int i = 0; i < time.size(); ++i) {
             auto day = new Day();
             day->set_day(i);
-            day->set_sunrise(QDateTime::fromString(sunrise.at(i).toString(), m_dataTimeFormat));
-            day->set_sunset(QDateTime::fromString(sunset.at(i).toString(), m_dataTimeFormat));
             day->set_dateTime(QDateTime::fromString(time.at(i).toString(), m_dataTimeFormat));
+            day->set_sunrise(QDateTime::fromString(sunrise.at(i).toString(), m_dataTimeFormat).toString("mm:ss"));
+            day->set_sunset(QDateTime::fromString(sunset.at(i).toString(), m_dataTimeFormat).toString("mm:ss"));
             day->set_weatherCode(weathercode.at(i).toInt());
             day->set_temperature_2m_min(ScreenPlayUtil::roundDecimalPlaces(temperature_2m_min.at(i).toDouble()));
             day->set_temperature_2m_max(ScreenPlayUtil::roundDecimalPlaces(temperature_2m_max.at(i).toDouble()));
@@ -121,7 +121,7 @@ void ScreenPlayWeather::update()
         const auto hourly = msgOpt->value("hourly").toObject();
         emit ready();
     });
-    QObject::connect(reply, &QNetworkReply::finished, this, []() { qInfo() << "finished!"; });
+
     QObject::connect(reply, &QNetworkReply::errorOccurred, this, []() { qInfo() << "errorOccurred!"; });
 }
 

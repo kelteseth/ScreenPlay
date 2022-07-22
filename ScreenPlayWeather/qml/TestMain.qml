@@ -2,6 +2,8 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import QtQuick.Controls.Material.impl
+import Qt5Compat.GraphicalEffects
 import ScreenPlayWeather
 
 Window {
@@ -16,8 +18,12 @@ Window {
         city: "Friedrichshafen"
         onReady: {
             rp.model = weather.days
+            // Qt bug https://bugreports.qt.io/browse/QTBUG-105137
+            test()
         }
     }
+    function test() {}
+
     function mapWeatherCode(code) {
         const weather_time = "" // or "-day", "-night"
         const weather_prefix = "wi" + weather_time + "-"
@@ -62,10 +68,29 @@ Window {
             return weather_prefix + "storm-showers"
         }
     }
+    Rectangle {
+        anchors.fill: wrapper
+        color: Material.backgroundColor
+        Material.elevation: 5
+        radius: 4
+    }
+
+    Rectangle {
+        anchors.fill: wrapper
+        color: Material.backgroundColor
+        radius: 4
+
+        layer.enabled: true
+        layer.effect: ElevationEffect {
+            elevation: 4
+        }
+    }
 
     ColumnLayout {
-        anchors.fill: parent
-        anchors.margins: 20
+        id: wrapper
+        anchors.centerIn: parent
+        width: implicitWidth + 100
+        height: implicitHeight + 100
         TextField {
             Layout.alignment: Qt.AlignCenter
             horizontalAlignment: Text.AlignHCenter
@@ -80,75 +105,86 @@ Window {
                   + "m - population: " + weather.population
         }
 
+        component TextItem: Column {
+            property alias value: value.text
+            property alias text: description.text
+            Layout.preferredWidth: 120
+            Text {
+                id: value
+                width: 120
+                font.pointSize: 16
+                horizontalAlignment: Text.AlignHCenter
+                color: Material.primaryTextColor
+            }
+            Text {
+                id: description
+                horizontalAlignment: Text.AlignHCenter
+                color: Material.secondaryTextColor
+                width: 120
+            }
+        }
+
         RowLayout {
             Layout.alignment: Qt.AlignHCenter
             Repeater {
                 id: rp
+                onModelChanged: print("MODEL CHANGED")
                 onCountChanged: print(count)
                 ColumnLayout {
                     id: cl
                     spacing: 20
-                    Text {
-                        Layout.alignment: Qt.AlignCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        text: day + "\nday"
+                    Layout.preferredWidth: 120
+                    TextItem {
+                        text: "Day"
+                        value: day
                     }
-                    Text {
-                        Layout.alignment: Qt.AlignCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        text: dateTime + "\ndateTime"
+                    TextItem {
+                        text: "Sunrise"
+                        value: sunrise
                     }
-                    Text {
-                        Layout.alignment: Qt.AlignCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        text: sunrise + "\nsunrise"
-                    }
-                    Text {
-                        Layout.alignment: Qt.AlignCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        text: sunset + "\nsunset"
+                    TextItem {
+                        text: "Sunset"
+                        value: sunset
                     }
 
                     Image {
+                        height: 64
+                        width: height
+                        sourceSize: Qt.size(height, height)
+                        layer {
+                            enabled: true
+                            effect: ColorOverlay {
+                                color: Material.primaryColor
+                            }
+                        }
                         Layout.alignment: Qt.AlignCenter
                         horizontalAlignment: Image.AlignHCenter
                         source: "qrc:/qml/ScreenPlayWeather/assets/icons/" + root.mapWeatherCode(
                                     weatherCode) + ".svg"
                     }
+                    TextItem {
+                        text: "Weather Code"
+                        value: weatherCode
+                    }
+                    TextItem {
+                        text: "Temperature min"
+                        value: temperature_2m_min
+                    }
+                    TextItem {
+                        text: "Temperature max"
+                        value: temperature_2m_max
+                    }
 
-                    Text {
-                        Layout.alignment: Qt.AlignCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        text: weatherCode + "\nweatherCode"
-                    }
-                    Text {
-                        Layout.alignment: Qt.AlignCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        text: temperature_2m_min + "\ntemperature_2m_min"
-                    }
-                    Text {
-                        Layout.alignment: Qt.AlignCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        text: temperature_2m_max + "\ntemperature_2m_max"
-                    }
-                    Text {
-                        Layout.alignment: Qt.AlignCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        text: precipitationHours + "\nprecipitationHours"
-                    }
-                    Text {
-                        Layout.alignment: Qt.AlignCenter
-                        horizontalAlignment: Text.AlignHCenter
-                        text: precipitationSum + "\nprecipitationSum"
-                    }
+                    //                    TextItem {
+                    //                        text: "Precipitation Sum"
+                    //                        value: precipitationSum
+                    //                    }
+
+                    //                    TextItem {
+                    //                        text: "Precipitation Hours"
+                    //                        value: precipitationHours
+                    //                    }
                 }
-            }
-        }
-        Button {
-            text: "getDay"
-            onClicked: {
-                var day = weather.getDay(1)
-                print("weatherCode:", day.weatherCode, day.precipitationSum)
             }
         }
     }
