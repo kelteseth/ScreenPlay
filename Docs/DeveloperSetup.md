@@ -25,7 +25,7 @@ py setup.py
 </div>
 
 5. Open __QtCreator__ and open the settings `Tools -> Options`
-6. Clone an existing kit like `Qt 6.3.0 MSVC2019 64bit` and add `ScreenPlay` to the new kit name
+6. Clone an existing kit like `Qt 6.3.1 MSVC2019 64bit` and add `ScreenPlay` to the new kit name
 5. Edit CMake variables amd add CMAKE_TOOLCHAIN_FILE and VCPKG_TARGET_TRIPLET
     * `Kits -> <Your_Kit> -> CMake Configuration`
     
@@ -54,7 +54,7 @@ Append this:
 1. [Download and install Qt binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 6.3.0
+        - Qt 6.3.1
             - MSVC 2019 64-bit
             - **ALL Additional Libraries**
             - Qt Quick 3d
@@ -72,7 +72,7 @@ sudo apt install build-essential  git gpg   ffmpeg mesa-common-dev libxkbcommon-
 1. [Download and install Qt binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 6.3.0
+        - Qt 6.3.1
             - GCC
             - **ALL Additional Libraries**
             - Qt Quick 3d
@@ -88,7 +88,7 @@ sudo apt install build-essential  git gpg   ffmpeg mesa-common-dev libxkbcommon-
 ```
 pip3 install -U pip
 pip3 install aqtinstall
-aqt install-qt -O ~/aqt linux desktop 6.3.0 gcc_64 -m all
+aqt install-qt -O ~/aqt linux desktop 6.3.1 gcc_64 -m all
 ```
 1. Open VSCode and install the `CMake Tools`
     1. ctrl + p: `CMake: Select Configure Preset`
@@ -110,7 +110,7 @@ export PATH="~/.local/bin:$PATH"
 1. [Download and install Qt binary installer from qt.io](https://www.qt.io/download-qt-installer)
     - Install the Maintaince tool
     - Select the following features to install:
-        - Qt 6.3.0
+        - Qt 6.3.1
             - Qt WebEngine
             - **ALL Additional Libraries**
             - Qt Quick 3d
@@ -122,7 +122,7 @@ export PATH="~/.local/bin:$PATH"
             - Cmake
             - Ninja
 1. Change your default kit: 
-    - `QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 6.3.0) -> Change c and c++ Compiler to Apple Clang (x86_64)`
+    - `QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 6.3.1) -> Change c and c++ Compiler to Apple Clang (x86_64)`
 
 
 # Developer docs 

@@ -107,6 +107,8 @@ def build(
                 f"aqt path does not exist at {aqt_path}. Please make sure you have installed aqt.")
             exit(2)
 
+
+    CMAKE_OSX_ARCHITECTURES: str = ""
     deploy_command: str = ""
     executable_file_ending: str = ""
     qt_path: str = ""
@@ -136,11 +138,14 @@ def build(
     elif platform.system() == "Darwin":
         if(build_architecture == "arm64"):
             cmake_target_triplet = "arm64-osx"
+            CMAKE_OSX_ARCHITECTURES = "-DCMAKE_OSX_ARCHITECTURES=arm64"
         elif(build_architecture == "x64"):
             cmake_target_triplet = "x64-osx"
+            CMAKE_OSX_ARCHITECTURES = "-DCMAKE_OSX_ARCHITECTURES=x86_64"
         else:
             print("MISSING BUILD ARCH: SET arm64 or x64")
             exit(1)
+
         qt_path =  aqt_path if use_aqt else Path("~/Qt/")
         qt_bin_path = aqt_path.joinpath(
             f"{qt_version}/macos") if use_aqt else Path(f"~/Qt/{qt_version}/macos")
@@ -191,11 +196,6 @@ def build(
         f"build-{cmake_target_triplet}-{build_type}")
     clean_build_dir(build_folder)
 
-    CMAKE_OSX_ARCHITECTURES: str = ""
-    # The entire parameter should be optional. We need this to explicity build
-    # x84 and arm version seperat, only because we cannot compile two at once with vcpkg
-    if build_architecture:
-        CMAKE_OSX_ARCHITECTURES = f"-DCMAKE_OSX_ARCHITECTURES={build_architecture}"
 
     cmake_configure_command = f'cmake ../ \
 	{CMAKE_OSX_ARCHITECTURES} \
@@ -379,7 +379,7 @@ if __name__ == "__main__":
                         help="Sets the build architecture. Used to build x86 and ARM osx versions. Currently only works with x86_64 and arm64")
     args = parser.parse_args()
 
-    qt_version = "6.3.0"
+    qt_version = "6.3.1"
     qt_ifw_version = "4.4"  # Not yet used.
     qt_version_overwrite = ""
     use_aqt = False
