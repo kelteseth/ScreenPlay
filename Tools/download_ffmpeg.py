@@ -99,12 +99,9 @@ def download_prebuild_ffmpeg_windows(extraction_path: str):
 
     extract_zip_executables(extraction_path, ffmpeg_path_and_filename)
 
-
-if __name__ == "__main__":
-
+def execute():
     # Make sure the script is always started from the same folder
     root_path = cd_repo_root_path()
-    tools_path = os.path.join(root_path, "Tools")
     extraction_path = os.path.join(root_path, "Common/ffmpeg")
 
     if os.path.exists(extraction_path):
@@ -112,8 +109,11 @@ if __name__ == "__main__":
         
     os.makedirs(extraction_path)
     
-
     if platform.system() == "Windows":
         download_prebuild_ffmpeg_windows(extraction_path)
-    elif platform.os.system() == "Darwin":
+    elif platform.system() == "Darwin":
         download_prebuild_ffmpeg_mac(extraction_path)
+
+
+if __name__ == "__main__":
+    execute()

@@ -78,12 +78,13 @@ without the ScreenPlay-vcpkg folder (E.g. py .\setup.py --path "D:/Backup/Code/Q
     "libarchive"
 ]
     
+    download_ffmpeg.execute()
+
     if system() == "Windows":
         vcpkg_command = "vcpkg.exe"
         vcpkg_packages_list.append("infoware[d3d]")
         vcpkg_packages_list.append("sentry-native")
         platform_command.add("bootstrap-vcpkg.bat", vcpkg_path, False)
-        download_ffmpeg.download_prebuild_ffmpeg_windows()
         vcpkg_triplet = ["x64-windows"]
     elif system() == "Darwin":
         vcpkg_command = "./vcpkg"
@@ -93,7 +94,6 @@ without the ScreenPlay-vcpkg folder (E.g. py .\setup.py --path "D:/Backup/Code/Q
         platform_command.add("./bootstrap-vcpkg.sh", vcpkg_path, False)
         platform_command.add("chmod +x vcpkg", vcpkg_path)
         vcpkg_triplet = ["x64-osx", "arm64-osx"]
-        download_ffmpeg.download_prebuild_ffmpeg_mac()
     elif system() == "Linux":
         vcpkg_command = "./vcpkg"
         #vcpkg_packages_list.append("infoware[opengl]")
