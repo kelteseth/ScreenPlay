@@ -26,31 +26,6 @@ check:
         - python clang_format.py
         - python cmake_format.py
 
-build:shared_windows_release:
-    stage: build
-    allow_failure: true
-    tags:
-        - shared-windows
-    before_script:
-        # https://stackoverflow.com/a/68671843/12619313
-        - Import-Module "$env:ChocolateyInstall\helpers\chocolateyProfile.psm1"
-        - choco install python3 --version=$PYTHON_VERSION --yes --force --no-progress
-        - choco install powershell-core --yes --force --no-progress
-        - refreshenv
-    script:
-        - python -m pip install -U pip wheel
-        - python -m pip install -U aqtinstall
-        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
-        - cd Tools
-        - python setup.py
-        - python build.py -type release -use-aqt -installer
-    artifacts:
-        expire_in: "4 weeks"
-        paths:
-            - build-x64-windows-release/bin/
-
-
 build:windows_release:
     stage: build
     tags:
@@ -67,6 +42,7 @@ build:windows_release:
         expire_in: "4 weeks"
         paths:
             - build-x64-windows-release/bin/
+            - build-x64-windows-release/ScreenPlay-Installer.exe
 
 build:windows_release_steam:
     stage: build
@@ -84,6 +60,7 @@ build:windows_release_steam:
         expire_in: "4 weeks"
         paths:
             - build-x64-windows-release/bin/
+            - build-x64-windows-release/ScreenPlay-Installer.exe
 
 build:osx_release:
     stage: build
@@ -101,6 +78,7 @@ build:osx_release:
         expire_in: "4 weeks"
         paths:
             - build-x64-osx-release/bin/
+            - build-x64-osx-release/ScreenPlay-Installer.dmg
 
 build:osx_release_steam:
     stage: build
