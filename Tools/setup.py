@@ -1,5 +1,9 @@
 #!/usr/bin/python3
 
+from install_requirements import install_requirements
+
+install_requirements()
+
 import argparse
 import shutil
 from platform import system
