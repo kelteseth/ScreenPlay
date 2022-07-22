@@ -110,6 +110,7 @@ def build(
     deploy_command: str = ""
     executable_file_ending: str = ""
     qt_path: str = ""
+    qt_bin_path: str = ""
     aqt_install_qt_packages: str = ""
     aqt_install_tool_packages: str = ""
     cmake_target_triplet: str = ""
@@ -120,11 +121,12 @@ def build(
         cmake_target_triplet = "x64-windows"
         windows_msvc = "msvc2019_64"
         executable_file_ending = ".exe"
-        qt_path = aqt_path.joinpath(qt_version).joinpath(
+        qt_path =  aqt_path if use_aqt else Path("C:/Qt")
+        qt_bin_path = aqt_path.joinpath(qt_version).joinpath(
             windows_msvc) if use_aqt else Path(f"C:/Qt/{qt_version}/{windows_msvc}")
         vs_env_dict = get_vs_env_dict()
         vs_env_dict["PATH"] = vs_env_dict["PATH"] + \
-            ";" + str(qt_path) + "\\bin"
+            ";" + str(qt_bin_path) + "\\bin"
         os.environ.update(vs_env_dict)
         deploy_command = "windeployqt.exe --{type}  --qmldir ../../{app}/qml {app}{executable_file_ending}"
 
@@ -134,10 +136,13 @@ def build(
     elif platform.system() == "Darwin":
         if(build_architecture == "arm64"):
             cmake_target_triplet = "arm64-osx"
-        else:
+        elif(build_architecture == "x64"):
             cmake_target_triplet = "x64-osx"
-
-        qt_path = aqt_path.joinpath(
+        else:
+            print("MISSING BUILD ARCH: SET arm64 or x64")
+            exit(1)
+        qt_path =  aqt_path if use_aqt else Path("~/Qt/")
+        qt_bin_path = aqt_path.joinpath(
             f"{qt_version}/macos") if use_aqt else Path(f"~/Qt/{qt_version}/macos")
         deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app}"
 
@@ -146,7 +151,8 @@ def build(
 
     elif platform.system() == "Linux":
         cmake_target_triplet = "x64-linux"
-        qt_path = aqt_path.joinpath(
+        qt_path =  aqt_path if use_aqt else Path("~/Qt/")
+        qt_bin_path = aqt_path.joinpath(
             f"{qt_version}/gcc_64") if use_aqt else Path(f"~/Qt/{qt_version}/gcc_64")
         aqt_install_qt_packages = f"linux desktop {qt_version} gcc_64 -m all"
         aqt_install_tool_packages = "linux desktop tools_ifw"
@@ -155,7 +161,7 @@ def build(
         else:
             print("cqtdeployer not available, build may be incomplete and incompatible with some distro (typically Ubuntu)")
         home_path = str(Path.home())
-        qt_path = aqt_path.joinpath(
+        qt_bin_path = aqt_path.joinpath(
             f"{qt_version}/gcc_64") if use_aqt else Path(f"{home_path}/Qt/{qt_version}/gcc_64")
     else:
         raise NotImplementedError(
@@ -163,7 +169,7 @@ def build(
 
     # Default to QtMaintainance installation.
     if use_aqt:
-        print(f"qt_path: {qt_path}.")
+        print(f"qt_bin_path: {qt_bin_path}.")
         if not Path(aqt_path).exists():
             print(
                 f"aqt path does not exist at {aqt_path}. Installing now into...")
@@ -173,10 +179,17 @@ def build(
 
     # Prepare
     cmake_toolchain_file = f"'{root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake'"
-    ifw_root_path = f"{qt_path}\\Tools\\QtInstallerFramework\\{qt_ifw_version}"
+    ifw_root_path = f"{qt_path}/Tools/QtInstallerFramework/{qt_ifw_version}"
     print(f"cmake_toolchain_file: {cmake_toolchain_file}")
     print(
         f"Starting build with type {build_type}. Qt Version: {qt_version}. Root path: {root_path}")
+
+
+	# Remove old build folder to before configuring to get rid of
+	# all cmake chaches
+    build_folder = root_path.joinpath(
+        f"build-{cmake_target_triplet}-{build_type}")
+    clean_build_dir(build_folder)
 
     CMAKE_OSX_ARCHITECTURES: str = ""
     # The entire parameter should be optional. We need this to explicity build
@@ -186,7 +199,7 @@ def build(
 
     cmake_configure_command = f'cmake ../ \
 	{CMAKE_OSX_ARCHITECTURES} \
-	-DCMAKE_PREFIX_PATH={qt_path} \
+	-DCMAKE_PREFIX_PATH={qt_bin_path} \
 	-DCMAKE_BUILD_TYPE={build_type} \
 	-DVCPKG_TARGET_TRIPLET={cmake_target_triplet} \
 	-DCMAKE_TOOLCHAIN_FILE={cmake_toolchain_file} \
@@ -198,9 +211,6 @@ def build(
 -G "CodeBlocks - Ninja" \
 	-B.'
 
-    build_folder = root_path.joinpath(
-        f"build-{cmake_target_triplet}-{build_type}")
-    clean_build_dir(build_folder)
 
     # Build
     start_time = time.time()
@@ -215,56 +225,56 @@ def build(
         print("Executing deploy commands...")
         run(deploy_command.format(
             type=build_type,
-            prefix_path=qt_path,
+            prefix_path=qt_bin_path,
             app="ScreenPlay",
             executable_file_ending=executable_file_ending), cwd=bin_dir)
 
         run(deploy_command.format(
             type=build_type,
-            prefix_path=qt_path,
+            prefix_path=qt_bin_path,
             app="ScreenPlayWidget",
             executable_file_ending=executable_file_ending), cwd=bin_dir)
 
         run(deploy_command.format(
             type=build_type,
-            prefix_path=qt_path,
+            prefix_path=qt_bin_path,
             app="ScreenPlayWallpaper",
             executable_file_ending=executable_file_ending), cwd=bin_dir)
     else:
         # just copy the folders and be done with it
         if platform.system() == "Linux":
-            # Copy  all .so files from the qt_path lib folder into bin_dir
-            qt_lib_path = qt_path
+            # Copy  all .so files from the qt_bin_path lib folder into bin_dir
+            qt_lib_path = qt_bin_path
             for file in qt_lib_path.joinpath("lib").glob("*.so"):
                 shutil.copy(str(file), str(bin_dir))
 
             # Copy qt_qml_path folder content into bin_dir
-            qt_qml_path = qt_path
+            qt_qml_path = qt_bin_path
             for folder in qt_qml_path.joinpath("qml").iterdir():
                 if not folder.is_file():
                     shutil.copytree(str(folder), str(
                         bin_dir.joinpath(folder.name)))
                     print("Copied %s" % folder)
 
-            # Copy all plugin folder from qt_path plugins subfolder into bin_dir
-            qt_plugins_path = qt_path
-            for folder in qt_path.joinpath("plugins").iterdir():
+            # Copy all plugin folder from qt_bin_path plugins subfolder into bin_dir
+            qt_plugins_path = qt_bin_path
+            for folder in qt_bin_path.joinpath("plugins").iterdir():
                 if not folder.is_file():
                     shutil.copytree(str(folder), str(
                         bin_dir.joinpath(folder.name)))
                     print("Copied %s" % folder)
 
-            # Copy all folder from qt_path translation files into bin_dir translation folder
-            qt_translations_path = qt_path
+            # Copy all folder from qt_bin_path translation files into bin_dir translation folder
+            qt_translations_path = qt_bin_path
             for folder in qt_translations_path.joinpath("translations").iterdir():
                 if not folder.is_file():
                     shutil.copytree(str(folder), str(
                         bin_dir.joinpath("translations").joinpath(folder.name)))
                     print("Copied %s" % folder)
 
-            # Copy all  filesfrom qt_path resources folder into bin_dir folder
-            qt_resources_path = qt_path
-            for file in qt_path.joinpath("resources").glob("*"):
+            # Copy all  filesfrom qt_bin_path resources folder into bin_dir folder
+            qt_resources_path = qt_bin_path
+            for file in qt_bin_path.joinpath("resources").glob("*"):
                 shutil.copy(str(file), str(bin_dir))
                 print("Copied %s" % file)
 

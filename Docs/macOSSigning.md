@@ -11,10 +11,15 @@
 - Select `Developer ID Application`
     - _This certificate is used to code sign your app for distribution outside of the Mac App Store._
 
+## Adding an existing certificate
+1. Go to https://developer.apple.com/account/resources/certificates/download
+1. Download `Developer ID Application`
+2. Add certificate `System`
+
 ## Sign the app locally with codesign
 We need to sign every single file in the .app file. For this we use the name from the installed cert. This can be copied from the `Keychain Access.app`.
 
-`codesign --deep -f -s "Developer ID Application: Elias Steurer (AAABCXYZAA)" --options "runtime" "ScreenPlay.app/"`
+`codesign --deep -f -s "Developer ID Application: Elias Steurer (V887LHYKRH)" --options "runtime" "ScreenPlay.app/"`
 
 ## Upload to apple for notization
 We use [xcnotary](https://github.com/akeru-inc/xcnotary) tools for fast automatic upload. Install it via brew:
