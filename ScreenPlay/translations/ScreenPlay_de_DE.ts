@@ -926,12 +926,6 @@
         <source>Privacy</source>
         <translation>Datenschutz</translation>
     </message>
-    <message>
-        <source>ScreenPlay Build Version 
-</source>
-        <translation type="unfinished">ScreenPlay Build Version 
-</translation>
-    </message>
 </context>
 <context>
     <name>SettingsExpander</name>

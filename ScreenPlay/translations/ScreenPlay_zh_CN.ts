@@ -927,11 +927,6 @@
         <source>Privacy</source>
         <translation>隐私</translation>
     </message>
-    <message>
-        <source>ScreenPlay Build Version 
-</source>
-        <translation>ScreenPlay构建版本</translation>
-    </message>
 </context>
 <context>
     <name>SettingsExpander</name>

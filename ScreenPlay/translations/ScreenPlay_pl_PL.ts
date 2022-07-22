@@ -927,12 +927,6 @@
         <source>Privacy</source>
         <translation>Prywatność</translation>
     </message>
-    <message>
-        <source>ScreenPlay Build Version 
-</source>
-        <translation>Wersja kompilacji ScreenPlay
-</translation>
-    </message>
 </context>
 <context>
     <name>SettingsExpander</name>
