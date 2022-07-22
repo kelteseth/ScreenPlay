@@ -40,8 +40,8 @@ build:shared_windows_release:
     script:
         - python -m pip install -U pip wheel
         - python -m pip install -U aqtinstall
-        - aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - aqt install-tool -O ../aqt windows desktop tools_ifw
+        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
+        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
         - cd Tools
         - python setup.py
         - python build.py -type release -use-aqt -installer
@@ -58,8 +58,8 @@ build:windows_release:
     script:
         - python -m pip install -U pip wheel
         - python -m pip install -U aqtinstall
-        - aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - aqt install-tool -O ../aqt windows desktop tools_ifw
+        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
+        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
         - cd Tools
         - python setup.py
         - python build.py -type release -use-aqt -installer
@@ -75,8 +75,8 @@ build:windows_release_steam:
     script:
         - python -m pip install -U pip wheel
         - python -m pip install -U aqtinstall
-        - aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - aqt install-tool -O ../aqt windows desktop tools_ifw
+        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
+        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
         - cd Tools
         - python setup.py
         - python build.py -type release -steam -use-aqt -installer
@@ -92,8 +92,8 @@ build:osx_release:
     script:
         - pip3 install -U pip
         - pip3 install aqtinstall
-        - aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
-        - aqt install-tool -O ../aqt mac desktop tools_ifw
+        - python3 -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
+        - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
         - cd Tools
         - python3 setup.py
         - python3 build.py -type release -use-aqt -installer
@@ -109,8 +109,8 @@ build:osx_release_steam:
     script:
         - pip3 install -U pip
         - pip3 install aqtinstall
-        - aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
-        - aqt install-tool -O ../aqt mac desktop tools_ifw
+        - python3 -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
+        - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
         - cd Tools
         - python3 setup.py
         - python3 build.py -type release -steam -use-aqt -installer
@@ -137,8 +137,8 @@ build:linux_release:
         - apt install mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install -U pip
         - pip3 install aqtinstall
-        - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
-        - aqt install-tool -O ../aqt linux desktop tools_ifw
+        - python3 -m aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
+        - python3 -m aqt install-tool -O ../aqt linux desktop tools_ifw
         - cd Tools
         - python3 setup.py
         - python3 build.py -type release -steam -use-aqt -installer
@@ -154,8 +154,8 @@ release:windows_steam:
     script:
         - python -m pip install -U pip wheel
         - python -m pip install -U aqtinstall
-        - aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - aqt install-tool -O ../aqt windows desktop tools_ifw
+        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
+        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
         - cd Tools
         - python setup.py
         - python build.py -type release -use-aqt -steam
@@ -173,8 +173,8 @@ release:windows_standalone:
     script:
         - python -m pip install -U pip wheel
         - python -m pip install -U aqtinstall
-        - aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - aqt install-tool -O ../aqt windows desktop tools_ifw
+        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
+        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
         - cd Tools
         - python setup.py
         - python build.py -type release -use-aqt -installer
@@ -192,8 +192,8 @@ release:osx_steam:
     script:
         - pip3 install -U pip
         - pip3 install aqtinstall
-        - aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
-        - aqt install-tool -O ../aqt mac desktop tools_ifw
+        - python -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
+        - python -m aqt install-tool -O ../aqt mac desktop tools_ifw
         - cd Tools
         - python3 setup.py
         - python3 build.py -type release -steam -use-aqt -sign
@@ -211,8 +211,8 @@ release:osx_standalone:
     script:
         - pip3 install -U pip
         - pip3 install aqtinstall
-        - aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
-        - aqt install-tool -O ../aqt mac desktop tools_ifw
+        - python3 -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
+        - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
         - cd Tools
         - python3 setup.py
         - python3 build.py -type release -installer -use-aqt -sign
@@ -241,8 +241,8 @@ release:linux_steam:
         - apt install mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install -U pip
         - pip3 install aqtinstall
-        - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
-        - aqt install-tool -O ../aqt linux desktop tools_ifw
+        - python3 -m aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
+        - python3 -m aqt install-tool -O ../aqt linux desktop tools_ifw
         - curl -OL $CQTDEPLOYER_URL
         - chmod +x ./CQtDeployer_*.deb
         - apt install ./CQtDeployer_*.deb -y
@@ -274,8 +274,8 @@ release:linux_standalone:
         - apt install mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
         - pip3 install -U pip
         - pip3 install aqtinstall
-        - aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
-        - aqt install-tool -O ../aqt linux desktop tools_ifw
+        - python3 -m aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
+        - python3 -m aqt install-tool -O ../aqt linux desktop tools_ifw
         - cd Tools
         - python3 setup.py
         - python3 build.py -type release -installer -use-aqt

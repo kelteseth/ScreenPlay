@@ -54,10 +54,11 @@ list(APPEND QML_DIRS "${SCREENPLAY_QML_MODULES_PATH}")
 set(QML_IMPORT_PATH "${QML_DIRS}" CACHE STRING "Qt Creator extra qml import paths")
 
 set(SCREENPLAY_IFW_ROOT "")
-set(SCREENPLAY_IFW_VERSION "4.3")
+set(SCREENPLAY_IFW_VERSION "4.4")
 
 set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlay-vcpkg")
 set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
+set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
 option(SCREENPLAY_RELEASE "Marks this version as an official release version. This version uses different import paths and other settings." OFF)

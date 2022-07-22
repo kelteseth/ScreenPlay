@@ -5,12 +5,12 @@
 
 #include "HelpersCommon.h"
 
-template <class ObjType>
-class QQmlSmartListWrapper : public QQmlListProperty<ObjType> {
+template <class T>
+class QQmlSmartListWrapper : public QQmlListProperty<T> {
 public:
-    typedef QVector<ObjType*> CppListType;
-    typedef QQmlListProperty<ObjType> QmlListPropertyType;
-    typedef QQmlSmartListWrapper<ObjType> SmartListWrapperType;
+    typedef QVector<T*> CppListType;
+    typedef QQmlListProperty<T> QmlListPropertyType;
+    typedef QQmlSmartListWrapper<T> SmartListWrapperType;
 
     typedef typename CppListType::const_iterator const_iterator;
 
@@ -41,12 +41,12 @@ public:
 
     static void callbackClear(QmlListPropertyType* prop) { static_cast<CppListType*>(prop->data)->clear(); }
 
-    static void callbackAppend(QmlListPropertyType* prop, ObjType* obj)
+    static void callbackAppend(QmlListPropertyType* prop, T* obj)
     {
         static_cast<CppListType*>(prop->data)->append(obj);
     }
 
-    static ObjType* callbackAt(QmlListPropertyType* prop, qsizetype idx)
+    static T* callbackAt(QmlListPropertyType* prop, qsizetype idx)
     {
         return static_cast<CppListType*>(prop->data)->at(idx);
     }

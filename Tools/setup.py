@@ -1,15 +1,17 @@
 #!/usr/bin/python3
 
+from install_requirements import install_requirements
+
+install_requirements()
+
 import argparse
 import shutil
 from platform import system
 from pathlib import Path
 from execute_util import execute
-from download_ffmpeg import download_prebuild_ffmpeg
+import download_ffmpeg
 
-vcpkg_version = "2ac61f8"  # Master 23.04.2022
-
-
+vcpkg_version = "98f8d00e89fb6a8019c2045cfa1edbe9d92d3405"  # Master 09.07.2022
 
 class commands_list():
     def __init__(self):
@@ -80,12 +82,8 @@ without the ScreenPlay-vcpkg folder (E.g. py .\setup.py --path "D:/Backup/Code/Q
         vcpkg_command = "vcpkg.exe"
         vcpkg_packages_list.append("infoware[d3d]")
         vcpkg_packages_list.append("sentry-native")
-        if shutil.which("pwsh"):
-            print("Using experimental pwsh, may not work properly.")
-            platform_command.add("pwsh.exe -NoProfile -ExecutionPolicy Bypass .\scripts\\bootstrap.ps1", vcpkg_path)
-        else:
-            platform_command.add("bootstrap-vcpkg.bat", vcpkg_path, False)
-        platform_command.add("download_ffmpeg.bat", project_source_path.joinpath("Tools"), False)
+        platform_command.add("bootstrap-vcpkg.bat", vcpkg_path, False)
+        download_ffmpeg.download_prebuild_ffmpeg_windows()
         vcpkg_triplet = ["x64-windows"]
     elif system() == "Darwin":
         vcpkg_command = "./vcpkg"
@@ -95,7 +93,7 @@ without the ScreenPlay-vcpkg folder (E.g. py .\setup.py --path "D:/Backup/Code/Q
         platform_command.add("./bootstrap-vcpkg.sh", vcpkg_path, False)
         platform_command.add("chmod +x vcpkg", vcpkg_path)
         vcpkg_triplet = ["x64-osx", "arm64-osx"]
-        platform_command.add(download_prebuild_ffmpeg)
+        download_ffmpeg.download_prebuild_ffmpeg_mac()
     elif system() == "Linux":
         vcpkg_command = "./vcpkg"
         #vcpkg_packages_list.append("infoware[opengl]")

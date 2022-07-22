@@ -364,6 +364,9 @@ if(WIN32)
     configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/crashpad_handler.exe ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
     configure_file(${VCPKG_INSTALLED_PATH}/tools/sentry-native/zlib1.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
 
+    configure_file(${VCPKG_BIN_PATH}/libssl-3-x64.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
+    configure_file(${VCPKG_BIN_PATH}/libcrypto-3-x64.dll ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/ COPYONLY)
+
 endif()
 
 if(APPLE)

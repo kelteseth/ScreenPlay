@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
 import QtQuick.Controls.Material
+import QtQuick.Controls.Material.impl
 import ScreenPlaySysInfo
 
 Window {
@@ -10,11 +11,10 @@ Window {
     height: 768
     visible: true
     title: qsTr("ScreenPlaySysInfo")
-    color: "#19181E"
 
-    property color accentColor: "#FF9800"
+    property color accentColor: Material.secondaryTextColor
     property string fontFamily: "Arial"
-    property int fontPointSize: 16
+    property int fontPointSize: 14
 
     SysInfo {
         id: sysInfo
@@ -32,27 +32,44 @@ Window {
         return out
     }
 
-    RowLayout {
-        spacing: 40
-        anchors.fill: parent
-        anchors.margins: 20
+    Rectangle {
+        anchors.fill: wrapper
+        anchors.margins: -50
+        color: Material.backgroundColor
+        radius: 4
 
+        layer.enabled: true
+        layer.effect: ElevationEffect {
+            elevation: 4
+        }
+    }
+
+    RowLayout {
+        id:wrapper
+        spacing: 40
+        anchors.centerIn: parent
         ColumnLayout {
             id: wrapperLeft
-            Text {
-                text: "IpAddress"
-                color: root.accentColor
-                font.family: root.fontFamily
-                font.pointSize: 60
-                horizontalAlignment: Text.AlignHCenter
-            }
+            Layout.preferredWidth: 500
+
 
             ColumnLayout {
+                spacing: 10
+                Item {
+                    Layout.fillWidth: true
+                }
+                Text {
+                    text: "Private Addresses"
+                    color: root.accentColor
+                    font {
+                        pointSize: 24
+                        family: root.fontFamily
+                    }
+                }
                 Text {
                     text: root.stringListToString(
                               ipAddress.privateIpV4AddressList)
                     color: root.accentColor
-                    horizontalAlignment: Text.AlignHCenter
                     font {
                         pointSize: 16
                         family: "Fira Code"
@@ -62,22 +79,35 @@ Window {
                     text: root.stringListToString(
                               ipAddress.privateIpV6AddressList)
                     color: root.accentColor
-                    horizontalAlignment: Text.AlignHCenter
                     font {
                         pointSize: 16
                         family: "Fira Code"
                     }
                 }
+                Item {
+                    Layout.fillWidth: true
+                }
+
                 Rectangle {
                     color: root.accentColor
-                    Layout.preferredHeight: 5
+                    Layout.preferredHeight: 3
                     Layout.fillWidth: true
+                }
+                Item {
+                    Layout.fillWidth: true
+                }
+                Text {
+                    text: "Public Addresses"
+                    color: root.accentColor
+                    font {
+                        pointSize: 24
+                        family: root.fontFamily
+                    }
                 }
 
                 Text {
                     text: ipAddress.publicIpV4Address
                     color: root.accentColor
-                    horizontalAlignment: Text.AlignHCenter
                     font {
                         pointSize: 16
                         family: root.fontFamily
@@ -86,7 +116,6 @@ Window {
                 Text {
                     text: ipAddress.publicIpV6Address
                     color: root.accentColor
-                    horizontalAlignment: Text.AlignHCenter
                     font {
                         pointSize: 16
                         family: root.fontFamily
@@ -96,18 +125,19 @@ Window {
         }
         Rectangle {
             color: root.accentColor
-            Layout.fillHeight: true
-            width: 10
+            Layout.preferredHeight: 600
+            width: 3
         }
         ColumnLayout {
             id: wrapperRight
-
+            spacing: 20
+            Layout.preferredWidth: 500
             Text {
                 id: txtGPU
                 text: "GPU"
                 color: root.accentColor
                 font.family: root.fontFamily
-                font.pointSize: 60
+                font.pointSize: 36
                 horizontalAlignment: Text.AlignHCenter
             }
 
@@ -137,20 +167,13 @@ Window {
                 text: "UPTIME"
                 color: root.accentColor
                 font.family: root.fontFamily
-                font.pointSize: 60
+                font.pointSize: 36
                 horizontalAlignment: Text.AlignHCenter
             }
 
             RowLayout {
                 id: valuesLayout
                 spacing: 20
-                Text {
-                    id: txtYears
-                    text: "YEARS " + sysInfo.uptime.years
-                    color: root.accentColor
-                    font.family: root.fontFamily
-                    font.pointSize: root.fontPointSize
-                }
                 Text {
                     text: "DAYS " + sysInfo.uptime.days
                     color: root.accentColor
@@ -183,13 +206,12 @@ Window {
                 text: "CPU"
                 color: root.accentColor
                 font.family: root.fontFamily
-                font.pointSize: 60
+                font.pointSize: 36
                 horizontalAlignment: Text.AlignHCenter
             }
-            Row {
-                id: row
+            RowLayout {
                 spacing: 10
-                Layout.fillWidth: true
+                Layout.preferredWidth: 300
                 Text {
                     id: txtCPUValue
                     text: Math.floor(sysInfo.cpu.usage)
@@ -210,14 +232,10 @@ Window {
                 text: "STORAGE"
                 color: root.accentColor
                 font.family: root.fontFamily
-                font.pointSize: 60
+                font.pointSize: 36
                 horizontalAlignment: Text.AlignHCenter
             }
 
-            Item {
-                Layout.fillWidth: true
-                Layout.preferredHeight: 20
-            }
 
             ListView {
                 id: storageListView
@@ -225,10 +243,12 @@ Window {
                 Layout.preferredHeight: 100
                 model: sysInfo.storage
                 delegate: Item {
-                    width: storageListView.width
+                    width: 500
                     height: 40
-                    Row {
+                    RowLayout {
                         spacing: 10
+                        width: 500
+
                         Text {
                             id: txtStorageName
                             text: name
@@ -240,7 +260,7 @@ Window {
                             from: 0
                             to: bytesTotal
                             value: bytesAvailable
-                            width: storageListView.width - txtStorageName.width - row.spacing
+                            Layout.fillWidth: true
                         }
                     }
                 }
