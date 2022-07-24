@@ -21,7 +21,7 @@ def get_git_revision_short_hash():
 def get_git_commit_text():
     return subprocess.check_output(['git', 'log', '-1', '--pretty=%B'])
 
-def steam_publish(
+def publish(
     steam_username,
     steam_password,
     set_live_branch_name
@@ -102,7 +102,7 @@ if __name__ == "__main__":
     else:
         set_live_branch_name = "internal"
 
-    steam_publish(
+    publish(
         steam_username=args.steam_username,
         steam_password=args.steam_password,
         set_live_branch_name=set_live_branch_name
