@@ -132,7 +132,7 @@ def execute(
 
     # Creates a Qt InstallerFrameWork (IFW) installer
     if build_config.create_installer == "ON":
-        create_installer(build_config, build_result)
+        build_installer(build_config, build_result)
 
     # Mac needs signed builds for user to run the app
     if platform.system() == "Darwin" and build_config.sign_build:
@@ -194,7 +194,7 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
         else:
             print("MISSING BUILD ARCH: SET arm64 or x64")
             exit(1)
-
+        build_config.executable_file_ending = ".app"
         build_config.qt_path = build_config.aqt_path if build_config.use_aqt else Path(
             "~/Qt/")
         build_config.qt_bin_path = build_config.aqt_path.joinpath(
@@ -207,6 +207,7 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
 
     elif platform.system() == "Linux":
         build_config.cmake_target_triplet = "x64-linux"
+        build_config.executable_file_ending = ""
         build_config.qt_path = build_config.aqt_path if build_config.use_aqt else Path(
             "~/Qt/")
         build_config.qt_bin_path = build_config.aqt_path.joinpath(
@@ -378,7 +379,7 @@ def deploy(build_config: BuildConfig):
                     file.unlink()
 
 
-def create_installer(build_config: BuildConfig, build_result: BuildResult):
+def build_installer(build_config: BuildConfig, build_result: BuildResult):
     os.chdir(build_result.build)
     print("Running cpack at: ", os.getcwd())
     run("cpack", cwd=build_config.build_folder)
