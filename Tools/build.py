@@ -483,6 +483,7 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     qt_version = "6.3.1"
+    screenplay_version = "0.15.0-RC1"
     qt_ifw_version = "4.4"  # Not yet used.
     qt_version_overwrite: str
     use_aqt = False
@@ -535,6 +536,7 @@ if __name__ == "__main__":
     build_config.build_type = build_type
     build_config.sign_build = args.sign_build
     build_config.use_aqt = use_aqt
+    build_config.screenplay_version = screenplay_version
     build_config.build_architecture = args.build_architecture
 
     execute(build_config)
