@@ -214,11 +214,6 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
             f"{build_config.qt_version}/gcc_64") if build_config.use_aqt else Path(f"~/Qt/{build_config.qt_version}/gcc_64")
         build_config.aqt_install_qt_packages = f"linux desktop {build_config.qt_version} gcc_64 -m all"
         build_config.aqt_install_tool_packages = "linux desktop tools_ifw"
-        if shutil.which("cqtdeployer"):
-            # NO f string we fill it later!
-            build_config.deploy_command = "cqtdeployer -qmlDir ../../{app}/qml -bin {app}"
-        else:
-            print("cqtdeployer not available, build may be incomplete and incompatible with some distro (typically Ubuntu)")
         home_path = str(Path.home())
         build_config.qt_bin_path = build_config.aqt_path.joinpath(
             f"{build_config.qt_version}/gcc_64") if build_config.use_aqt else Path(f"{home_path}/Qt/{build_config.qt_version}/gcc_64")
@@ -290,7 +285,7 @@ def build(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
 
 def deploy(build_config: BuildConfig):
 
-    if build_config.deploy_command:  # Only deploy if we have the dependencies
+    if platform.system() == "Windows" or platform.system() == "Darwin":
         print("Executing deploy commands...")
         run(build_config.deploy_command.format(
             type=build_config.build_type,
@@ -310,45 +305,40 @@ def deploy(build_config: BuildConfig):
             app="ScreenPlayWallpaper",
             executable_file_ending=build_config.executable_file_ending), cwd=build_config.bin_dir)
     else:
-        # just copy the folders and be done with it
-        if platform.system() == "Linux":
-            # Copy  all .so files from the qt_bin_path lib folder into bin_dir
-            qt_lib_path = build_config.qt_bin_path
-            for file in qt_lib_path.joinpath("lib").glob("*.so"):
-                shutil.copy(str(file), str(build_config.bin_dir))
+        # Copy  all .so files from the qt_bin_path lib folder into bin_dir
+        qt_lib_path = build_config.qt_bin_path
+        for file in qt_lib_path.joinpath("lib").glob("*.so"):
+            shutil.copy(str(file), str(build_config.bin_dir))
 
-            # Copy qt_qml_path folder content into bin_dir
-            qt_qml_path = build_config.qt_bin_path
-            for folder in qt_qml_path.joinpath("qml").iterdir():
-                if not folder.is_file():
-                    shutil.copytree(str(folder), str(
-                        build_config.bin_dir.joinpath(folder.name)))
-                    print("Copied %s" % folder)
+        # Copy qt_qml_path folder content into bin_dir
+        qt_qml_path = build_config.qt_bin_path
+        for folder in qt_qml_path.joinpath("qml").iterdir():
+            if not folder.is_file():
+                shutil.copytree(str(folder), str(
+                    build_config.bin_dir.joinpath(folder.name)))
+                print("Copied %s" % folder)
 
-            # Copy all plugin folder from qt_bin_path plugins subfolder into bin_dir
-            qt_plugins_path = build_config.qt_bin_path
-            for folder in build_config.qt_bin_path.joinpath("plugins").iterdir():
-                if not folder.is_file():
-                    shutil.copytree(str(folder), str(
-                        build_config.bin_dir.joinpath(folder.name)))
-                    print("Copied %s" % folder)
+        # Copy all plugin folder from qt_bin_path plugins subfolder into bin_dir
+        qt_plugins_path = build_config.qt_bin_path
+        for folder in build_config.qt_bin_path.joinpath("plugins").iterdir():
+            if not folder.is_file():
+                shutil.copytree(str(folder), str(
+                    build_config.bin_dir.joinpath(folder.name)))
+                print("Copied %s" % folder)
 
-            # Copy all folder from qt_bin_path translation files into bin_dir translation folder
-            qt_translations_path = build_config.qt_bin_path
-            for folder in qt_translations_path.joinpath("translations").iterdir():
-                if not folder.is_file():
-                    shutil.copytree(str(folder), str(
-                        build_config.bin_dir.joinpath("translations").joinpath(folder.name)))
-                    print("Copied %s" % folder)
+        # Copy all folder from qt_bin_path translation files into bin_dir translation folder
+        qt_translations_path = build_config.qt_bin_path
+        for folder in qt_translations_path.joinpath("translations").iterdir():
+            if not folder.is_file():
+                shutil.copytree(str(folder), str(
+                    build_config.bin_dir.joinpath("translations").joinpath(folder.name)))
+                print("Copied %s" % folder)
 
-            # Copy all  filesfrom qt_bin_path resources folder into bin_dir folder
-            qt_resources_path = build_config.qt_bin_path
-            for file in build_config.qt_bin_path.joinpath("resources").glob("*"):
-                shutil.copy(str(file), str(build_config.bin_dir))
-                print("Copied %s" % file)
-
-        else:
-            print("Not executing deploy commands due to missing dependencies.")
+        # Copy all  filesfrom qt_bin_path resources folder into bin_dir folder
+        qt_resources_path = build_config.qt_bin_path
+        for file in build_config.qt_bin_path.joinpath("resources").glob("*"):
+            shutil.copy(str(file), str(build_config.bin_dir))
+            print("Copied %s" % file)
 
     # Copy qml dir into all .app/Contents/MacOS/
     if platform.system() == "Darwin":
