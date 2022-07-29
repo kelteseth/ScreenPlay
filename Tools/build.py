@@ -521,6 +521,9 @@ if __name__ == "__main__":
     if args.sign_build:
         sign_build = True
 
+    if args.use_aqt:
+        use_aqt = True
+
     build_config = BuildConfig()
     build_config.qt_version = qt_version
     build_config.qt_ifw_version = qt_ifw_version
