@@ -620,7 +620,7 @@
     </message>
     <message>
       <source>Remove selected</source>
-      <translation type="unfinished">Remove selected</translation>
+      <translation>Eliminar selección</translation>
     </message>
     <message>
       <source>Wallpapers</source>
