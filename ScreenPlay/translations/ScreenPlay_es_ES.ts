@@ -9,7 +9,7 @@
     </message>
     <message>
       <source>Wiki</source>
-      <translation type="unfinished">Wiki</translation>
+      <translation>Wiki</translation>
     </message>
     <message>
       <source>Forum</source>
@@ -371,11 +371,11 @@
     </message>
     <message>
       <source>Name (required!)</source>
-      <translation type="unfinished">Name (required!)</translation>
+      <translation>Nombre (requerido!)</translation>
     </message>
     <message>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Descripción</translation>
     </message>
     <message>
       <source>Youtube URL</source>
@@ -414,26 +414,26 @@
     </message>
     <message>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>Abrir documentación</translation>
     </message>
     <message>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Seleccionar archivo</translation>
     </message>
   </context>
   <context>
     <name>Importh264Convert</name>
     <message>
       <source>AnalyseVideo...</source>
-      <translation type="unfinished">AnalyseVideo...</translation>
+      <translation>Analizando Vídeo...</translation>
     </message>
     <message>
       <source>Generating preview image...</source>
-      <translation type="unfinished">Generating preview image...</translation>
+      <translation>Generando vista previa...</translation>
     </message>
     <message>
       <source>Generating preview thumbnail image...</source>
-      <translation type="unfinished">Generating preview thumbnail image...</translation>
+      <translation>Generando miniaturas...</translation>
     </message>
     <message>
       <source>Generating 5 second preview video...</source>
@@ -453,7 +453,7 @@
     </message>
     <message>
       <source>Converting Video ERROR!</source>
-      <translation type="unfinished">Converting Video ERROR!</translation>
+      <translation>¡Error de conversión del Video!</translation>
     </message>
     <message>
       <source>Analyse Video ERROR!</source>
@@ -559,7 +559,7 @@
     </message>
     <message>
       <source>Export</source>
-      <translation type="unfinished">Export</translation>
+      <translation>Exportar</translation>
     </message>
     <message>
       <source>We only support adding one item at once.</source>
@@ -586,15 +586,15 @@
     </message>
     <message>
       <source>Scenes</source>
-      <translation type="unfinished">Scenes</translation>
+      <translation>Escenas</translation>
     </message>
     <message>
       <source>Videos</source>
-      <translation type="unfinished">Videos</translation>
+      <translation>Vídeos</translation>
     </message>
     <message>
       <source>Widgets</source>
-      <translation type="unfinished">Widgets</translation>
+      <translation>Widgets</translation>
     </message>
   </context>
   <context>
