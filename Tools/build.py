@@ -6,8 +6,8 @@ import platform
 import shutil
 import argparse
 import time
-from typing import Tuple
 import zipfile
+from typing import Tuple
 from shutil import copytree
 from pathlib import Path
 from datetime import datetime
@@ -138,8 +138,9 @@ def execute(
     if platform.system() == "Darwin" and build_config.sign_build:
         sign(build_config)
 
-    # Create a zip file for scoop
-    build_result = zip(build_config, build_result)
+    # Create a zip file for scoop & chocolatey
+    if platform.system() == "Windows":
+        build_result = zip(build_config, build_result)
 
     print("Time taken: {}s".format(time.time() - start_time))
 
@@ -421,26 +422,27 @@ def sign(build_config: BuildConfig):
 
 def zip(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     zipName = f"ScreenPlay-{build_config.screenplay_version}-{build_config.cmake_target_triplet}-{build_config.build_type}.zip"
-    build_result.build_zip = Path(build_config.bin_dir).joinpath(zipName)
-    print(f"Creating scoop zip file")
+    build_result.build_zip = Path(build_result.build).joinpath(zipName)
+    print(f"Creating bin folder zip file: {build_result.build_zip}")
     os.chdir(build_config.build_folder)
     with zipfile.ZipFile(zipName, 'w', zipfile.ZIP_DEFLATED) as zipf:
         zipdir(build_config.bin_dir, zipf)
 
-    # Create sha256 hash from zip file
     zip_file_path = os.path.join(build_result.build, zipName)
     build_hash = sha256(zip_file_path)
     build_result.build_hash = Path(
         build_result.build).joinpath(zipName + ".sha256.txt")
+    print(f"Create sha256 hash: {build_result.build_hash}")
     f = open(build_result.build_hash, "a")
     f.write(build_hash)
     f.close()
 
     # Some weird company firewalls do not allow direct .exe downloads
     # lets just zip the installer lol
-    installer_zip = build_result.installer.stem + ".zip"
     build_result.installer_zip = Path(build_result.build).joinpath(build_result.installer.stem + ".zip")
-    zipfile.ZipFile(installer_zip, mode='w').write(build_result.installer)
+    print(f"Create zip from installer: {build_result.installer_zip}")
+    zipfile.ZipFile(build_result.installer_zip, 'w').write(build_result.installer, build_result.build)
+
 
     return build_result
 
