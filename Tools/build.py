@@ -439,10 +439,10 @@ def zip(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
 
     # Some weird company firewalls do not allow direct .exe downloads
     # lets just zip the installer lol
-    build_result.installer_zip = Path(build_result.build).joinpath(build_result.installer.stem + ".zip")
-    print(f"Create zip from installer: {build_result.installer_zip}")
-    zipfile.ZipFile(build_result.installer_zip, 'w').write(build_result.installer, build_result.build)
-
+    if build_config.create_installer == "ON":
+        build_result.installer_zip = Path(build_result.build).joinpath(build_result.installer.stem + ".zip")
+        print(f"Create zip from installer: {build_result.installer_zip}")
+        zipfile.ZipFile(build_result.installer_zip, 'w').write(build_result.installer, build_result.build)
 
     return build_result
 
