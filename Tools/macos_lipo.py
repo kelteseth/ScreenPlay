@@ -23,30 +23,8 @@ def listfiles(path):
             if Path(fname).suffix in extensions and not fname in ignored:
                 file =  path + os.path.join(dir, fname)
                 if(os.path.isfile(file)):
-                    #print(file)
                     files.append(file)
     return files
-
-
-def create_fat_binary():
-    # Make sure the script is always started from the same folder
-    root_path = Path.cwd()
-    if root_path.name == "Tools":
-        root_path = root_path.parent
-    print(f"Change root directory to: {root_path}")
-    os.chdir(root_path)
-
-    arm64_dir = 'build-arm64-osx-release/bin/ScreenPlay.app'
-    x64_dir = "build-x64-osx-release/bin/ScreenPlay.app"
-    arm64_files = listfiles(
-        str(Path.joinpath(root_path, arm64_dir)))
-    x64_files = listfiles(str(Path.joinpath(root_path, x64_dir)))
-
-    for file in arm64_files:
-        run(f"lipo -info {file}")
-
-    # print(arm64_files)
-    # print(x64_files)
 
 def run_lipo():
       # Make sure the script is always started from the same folder
@@ -82,10 +60,7 @@ def check_fat_binary():
         out = run_and_capture_output(f"lipo -info {file}")
         if out.startswith('Non-fat'):
             print(out)
-        
-
 
 if __name__ == "__main__":
-    #run_lipo()
+    run_lipo()
     check_fat_binary()
-    #create_fat_binary()
