@@ -65,6 +65,7 @@ signals:
 public slots:
     void setVisible(bool show) override;
     void destroyThis() override;
+    void terminate();
     void clearComponentCache() override;
 
 private:
