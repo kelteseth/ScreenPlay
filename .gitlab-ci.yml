@@ -1,6 +1,5 @@
 stages:
-    - build_steam
-    - build_standalone
+    - build
     - check
 
 variables:
@@ -8,7 +7,7 @@ variables:
     QT_VERSION: 6.3.1
     PYTHON_VERSION: 3.10.1
 
-build_standalone:windows:
+standalone:windows:
     stage: build
     tags:
         - windows10
@@ -21,12 +20,12 @@ build_standalone:windows:
         - python setup.py
         - python build.py -type release -use-aqt -installer -deploy
     artifacts:
-        expire_in: "never"
+        expire_in: "2 weeks"
         paths:
             - build-x64-windows-release/bin/
             - build-x64-windows-release/ScreenPlay-Installer.exe
 
-build_standalone:osx:
+standalone:osx:
     stage: build
     tags:
         - osx
@@ -41,11 +40,11 @@ build_standalone:osx:
         - python3 build.py -type release -use-aqt -deploy -architecture arm64
         - python3 macos_lipo.py
     artifacts:
-        expire_in: "never"
+        expire_in: "2 weeks"
         paths:
             - build-universal-osx-release/bin/
 
-build_steam:windows:
+steam:windows:
     stage: build
     tags:
         - windows10
@@ -58,11 +57,11 @@ build_steam:windows:
         - python setup.py
         - python build.py -type release -steam -use-aqt -deploy
     artifacts:
-        expire_in: "never"
+        expire_in: "2 weeks"
         paths:
             - build-x64-windows-release/bin/
 
-build_steam:osx:
+steam:osx:
     stage: build
     tags:
         - osx
@@ -77,11 +76,11 @@ build_steam:osx:
         - python3 build.py -type release -steam -use-aqt -deploy -architecture arm64
         - python3 macos_lipo.py
     artifacts:
-        expire_in: "4 weeks"
+        expire_in: "2 weeks"
         paths:
             - build-universal-osx-release/bin/
 
-check:
+formatting:
     stage: check
     allow_failure: true
     image:
@@ -98,7 +97,7 @@ check:
         - python clang_format.py
         - python cmake_format.py
 
-build_docs:
+documentation:
     stage: .post
     script:
         - curl --request POST --form "token=$CI_JOB_TOKEN" --form ref=master https://gitlab.com/api/v4/projects/15800262/trigger/pipeline
