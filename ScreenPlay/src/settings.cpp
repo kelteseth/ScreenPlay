@@ -66,7 +66,7 @@ Settings::Settings(const std::shared_ptr<GlobalVariables>& globalVariables,
     qmlRegisterUncreatableType<Settings>("Settings", 1, 0, "Settings", "Error only for enums");
 
     // Lets not set the dev version as startup.
-#ifdef RELEASE_VERSION
+#ifdef DEPLOY_VERSION
     if (desktopEnvironment() == DesktopEnvironment::Windows) {
         QSettings settings("HKEY_CURRENT_USER\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", QSettings::NativeFormat);
         if (!settings.childGroups().contains("ScreenPlay", Qt::CaseSensitive)) {

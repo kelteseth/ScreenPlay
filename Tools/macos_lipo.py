@@ -10,7 +10,7 @@ from shutil import copytree
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime
-from util import run
+from util import run, run_and_capture_output
 
 def listfiles(path):
     files = []
@@ -23,7 +23,7 @@ def listfiles(path):
             if Path(fname).suffix in extensions and not fname in ignored:
                 file =  path + os.path.join(dir, fname)
                 if(os.path.isfile(file)):
-                    print(file)
+                    #print(file)
                     files.append(file)
     return files
 
@@ -79,10 +79,13 @@ def check_fat_binary():
     files = listfiles(str(Path.joinpath(root_path, dir)))
 
     for file in files:
-        run(f"lipo -info {file}")
+        out = run_and_capture_output(f"lipo -info {file}")
+        if out.startswith('Non-fat'):
+            print(out)
+        
 
 
 if __name__ == "__main__":
-    run_lipo()
+    #run_lipo()
     check_fat_binary()
     #create_fat_binary()

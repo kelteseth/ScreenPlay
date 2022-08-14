@@ -74,7 +74,7 @@ class BuildConfig:
     root_path: str
     cmake_osx_architectures: str
     cmake_target_triplet: str
-    deploy_command: str
+    package_command: str
     executable_file_ending: str
     qt_path: str
     qt_bin_path: str
@@ -94,7 +94,7 @@ class BuildConfig:
     # CMake variables need str: "ON" or "OFF"
     build_steam: str
     build_tests: str
-    build_release: str
+    build_deploy: str
     build_type: str
     build_architecture: str
     create_installer: str
@@ -128,7 +128,7 @@ def execute(
     build_result = build(build_config, build_result)
 
     # Copies all needed libraries and assets into the bin folder
-    deploy(build_config)
+    package(build_config)
 
     # Creates a Qt InstallerFrameWork (IFW) installer
     if build_config.create_installer == "ON":
@@ -180,7 +180,7 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
             ";" + str(build_config.qt_bin_path) + "\\bin"
         os.environ.update(vs_env_dict)
         # NO f string we fill it later!
-        build_config.deploy_command = "windeployqt.exe --{type}  --qmldir ../../{app}/qml {app}{executable_file_ending}"
+        build_config.package_command = "windeployqt.exe --{type}  --qmldir ../../{app}/qml {app}{executable_file_ending}"
 
         build_config.aqt_install_qt_packages = f"windows desktop {build_config.qt_version} win64_msvc2019_64 -m all"
         build_config.aqt_install_tool_packages = "windows desktop tools_ifw"
@@ -201,7 +201,7 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
         build_config.qt_bin_path = build_config.aqt_path.joinpath(
             f"{build_config.qt_version}/macos") if build_config.use_aqt else Path(f"~/Qt/{build_config.qt_version}/macos")
         # NO f string we fill it later!
-        build_config.deploy_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app}"
+        build_config.package_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app}"
 
         build_config.aqt_install_qt_packages = f"mac desktop {build_config.qt_version} clang_64 -m all"
         build_config.aqt_install_tool_packages = "mac desktop tools_ifw"
@@ -268,7 +268,7 @@ def build(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
 	-DCMAKE_TOOLCHAIN_FILE={build_config.cmake_toolchain_file} \
 	-DSCREENPLAY_STEAM={build_config.build_steam} \
 	-DSCREENPLAY_TESTS={build_config.build_tests} \
-	-DSCREENPLAY_RELEASE={build_config.build_release} \
+	-DSCREENPLAY_DEPLOY={build_config.build_deploy} \
 	-DSCREENPLAY_INSTALLER={build_config.create_installer} \
 	-DSCREENPLAY_IFW_ROOT:STRING={build_config.ifw_root_path} \
     -G "CodeBlocks - Ninja" \
@@ -284,23 +284,23 @@ def build(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     return build_result
 
 
-def deploy(build_config: BuildConfig):
+def package(build_config: BuildConfig):
 
     if platform.system() == "Windows" or platform.system() == "Darwin":
         print("Executing deploy commands...")
-        run(build_config.deploy_command.format(
+        run(build_config.package_command.format(
             type=build_config.build_type,
             prefix_path=build_config.qt_bin_path,
             app="ScreenPlay",
             executable_file_ending=build_config.executable_file_ending), cwd=build_config.bin_dir)
 
-        run(build_config.deploy_command.format(
+        run(build_config.package_command.format(
             type=build_config.build_type,
             prefix_path=build_config.qt_bin_path,
             app="ScreenPlayWidget",
             executable_file_ending=build_config.executable_file_ending), cwd=build_config.bin_dir)
 
-        run(build_config.deploy_command.format(
+        run(build_config.package_command.format(
             type=build_config.build_type,
             prefix_path=build_config.qt_bin_path,
             app="ScreenPlayWallpaper",
@@ -343,12 +343,16 @@ def deploy(build_config: BuildConfig):
 
     # Copy qml dir into all .app/Contents/MacOS/
     if platform.system() == "Darwin":
-        copytree(Path.joinpath(build_config.bin_dir, "qml"), Path.joinpath(
+        qml_plugins_path = Path.joinpath(build_config.bin_dir, "qml")
+        copytree(qml_plugins_path, Path.joinpath(
             build_config.bin_dir, "ScreenPlay.app/Contents/MacOS/qml"))
-        copytree(Path.joinpath(build_config.bin_dir, "qml"), Path.joinpath(
+        copytree(qml_plugins_path, Path.joinpath(
             build_config.bin_dir, "ScreenPlayWallpaper.app/Contents/MacOS/qml"))
-        copytree(Path.joinpath(build_config.bin_dir, "qml"), Path.joinpath(
+        copytree(qml_plugins_path, Path.joinpath(
             build_config.bin_dir, "ScreenPlayWidget.app/Contents/MacOS/qml"))
+
+        print(f"Deleting qml plugins path: {qml_plugins_path}")
+        shutil.rmtree(qml_plugins_path)
 
     # Some dlls like openssl do no longer get copied automatically.
     # Lets just copy all of them into bin.
@@ -388,6 +392,7 @@ def sign(build_config: BuildConfig):
     run("codesign --verify --verbose=4  \"ScreenPlayWidget.app/\"",
         cwd=build_config.bin_dir)
 
+    # TODO: Replace with https://github.com/akeru-inc/xcnotary/issues/22#issuecomment-1179170957
     run("xcnotary notarize ScreenPlay.app -d kelteseth@gmail.com -k ScreenPlay",
         cwd=build_config.bin_dir),
     run("xcnotary notarize ScreenPlayWallpaper.app -d kelteseth@gmail.com -k ScreenPlay",
@@ -468,8 +473,8 @@ if __name__ == "__main__":
                         help="Build tests.")
     parser.add_argument('-installer', action="store_true", dest="create_installer",
                         help="Create a installer.")
-    parser.add_argument('-release', action="store_true", dest="build_release",
-                        help="Create a release version of ScreenPlay for sharing with the world. This is not about debug/release build, but the c++ define SCREENPLAY_RELEASE.")
+    parser.add_argument('-deploy', action="store_true", dest="build_deploy",
+                        help="Create a deploy version of ScreenPlay for sharing with the world. A not deploy version is for local development only!")
     parser.add_argument('-architecture', action="store", dest="build_architecture",
                         help="Sets the build architecture. Used to build x86 and ARM osx versions. Currently only works with x86_64 and arm64")
     args = parser.parse_args()
@@ -503,9 +508,9 @@ if __name__ == "__main__":
     if args.build_tests:
         build_tests = "ON"
 
-    build_release = "OFF"
-    if args.build_release:
-        build_release = "ON"
+    build_deploy = "OFF"
+    if args.build_deploy:
+        build_deploy = "ON"
 
     create_installer = "OFF"
     if args.create_installer:
@@ -523,7 +528,7 @@ if __name__ == "__main__":
     build_config.qt_ifw_version = qt_ifw_version
     build_config.build_steam = build_steam
     build_config.build_tests = build_tests
-    build_config.build_release = build_release
+    build_config.build_deploy = build_deploy
     build_config.create_installer = create_installer
     build_config.build_type = build_type
     build_config.sign_build = args.sign_build

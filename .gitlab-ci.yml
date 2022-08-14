@@ -1,13 +1,85 @@
 stages:
-    - build
-    - release
+    - build_steam
+    - build_standalone
     - check
-    - test
 
 variables:
     GIT_STRATEGY: clone
     QT_VERSION: 6.3.1
     PYTHON_VERSION: 3.10.1
+
+build_standalone:windows:
+    stage: build
+    tags:
+        - windows10
+    script:
+        - python -m pip install -U pip wheel
+        - python -m pip install -U aqtinstall
+        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
+        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
+        - cd Tools
+        - python setup.py
+        - python build.py -type release -use-aqt -installer -deploy
+    artifacts:
+        expire_in: "never"
+        paths:
+            - build-x64-windows-release/bin/
+            - build-x64-windows-release/ScreenPlay-Installer.exe
+
+build_standalone:osx:
+    stage: build
+    tags:
+        - osx
+    script:
+        - pip3 install -U pip
+        - pip3 install aqtinstall
+        - python3 -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
+        - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
+        - cd Tools
+        - python3 setup.py
+        - python3 build.py -type release -use-aqt -deploy -architecture x64
+        - python3 build.py -type release -use-aqt -deploy -architecture arm64
+        - python3 macos_lipo.py
+    artifacts:
+        expire_in: "never"
+        paths:
+            - build-universal-osx-release/bin/
+
+build_steam:windows:
+    stage: build
+    tags:
+        - windows10
+    script:
+        - python -m pip install -U pip wheel
+        - python -m pip install -U aqtinstall
+        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
+        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
+        - cd Tools
+        - python setup.py
+        - python build.py -type release -steam -use-aqt -deploy
+    artifacts:
+        expire_in: "never"
+        paths:
+            - build-x64-windows-release/bin/
+
+build_steam:osx:
+    stage: build
+    tags:
+        - osx
+    script:
+        - pip3 install -U pip
+        - pip3 install aqtinstall
+        - python3 -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
+        - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
+        - cd Tools
+        - python3 setup.py
+        - python3 build.py -type release -steam -use-aqt -deploy -architecture x64
+        - python3 build.py -type release -steam -use-aqt -deploy -architecture arm64
+        - python3 macos_lipo.py
+    artifacts:
+        expire_in: "4 weeks"
+        paths:
+            - build-universal-osx-release/bin/
 
 check:
     stage: check
@@ -25,271 +97,6 @@ check:
         - cd ./Tools
         - python clang_format.py
         - python cmake_format.py
-
-build:windows_release:
-    stage: build
-    tags:
-        - windows10
-    script:
-        - python -m pip install -U pip wheel
-        - python -m pip install -U aqtinstall
-        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
-        - cd Tools
-        - python setup.py
-        - python build.py -type release -use-aqt -installer
-    artifacts:
-        expire_in: "never"
-        paths:
-            - build-x64-windows-release/bin/
-            - build-x64-windows-release/ScreenPlay-Installer.exe
-
-build:windows_release_steam:
-    stage: build
-    tags:
-        - windows10
-    script:
-        - python -m pip install -U pip wheel
-        - python -m pip install -U aqtinstall
-        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
-        - cd Tools
-        - python setup.py
-        - python build.py -type release -steam -use-aqt
-    artifacts:
-        expire_in: "never"
-        paths:
-            - build-x64-windows-release/bin/
-
-build:osx_release:
-    stage: build
-    tags:
-        - osx
-    script:
-        - pip3 install -U pip
-        - pip3 install aqtinstall
-        - python3 -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
-        - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
-        - cd Tools
-        - python3 setup.py
-        - python3 build.py -type release -use-aqt -installer -architecture x64
-        - python3 build.py -type release -use-aqt -installer -architecture arm64
-    artifacts:
-        expire_in: "never"
-        paths:
-            - build-x64-osx-release/bin/
-            - build-arm-osx-release/bin/
-            - build-x64-osx-release/ScreenPlay-Installer.dmg
-            - build-arm-osx-release/ScreenPlay-Installer.dmg
-
-build:osx_release_steam:
-    stage: build
-    tags:
-        - osx
-    script:
-        - pip3 install -U pip
-        - pip3 install aqtinstall
-        - python3 -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
-        - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
-        - cd Tools
-        - python3 setup.py
-        - python3 build.py -type release -steam -use-aqt -architecture x64
-        - python3 build.py -type release -steam -use-aqt -architecture arm64
-    artifacts:
-        expire_in: "never"
-        paths:
-            - build-x64-osx-release/bin/
-            - build-arm-osx-release/bin/
-
-build:linux_release:
-    stage: build
-    image:
-        name: ubuntu:20.04
-    tags:
-        - gitlab-org-docker
-    script:
-        - apt update -y
-        # We need cmake 3.23 to fix IFW
-        - apt install gpg wget -y
-        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-        - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal-rc main' | tee -a /etc/apt/sources.list.d/kitware.list >/dev/null
-        - apt update -y
-        # Otherwise libglib2 needs interaction
-        - export DEBIAN_FRONTEND=noninteractive
-        - apt install mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
-        - pip3 install -U pip
-        - pip3 install aqtinstall
-        - python3 -m aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
-        - python3 -m aqt install-tool -O ../aqt linux desktop tools_ifw
-        - cd Tools
-        - python3 setup.py
-        - python3 build.py -type release -steam -use-aqt -installer
-    artifacts:
-        expire_in: "never"
-        paths:
-            - build-x64-linux-release/bin/
-
-release:windows_steam:
-    stage: build
-    tags:
-        - windows10
-    script:
-        - python -m pip install -U pip wheel
-        - python -m pip install -U aqtinstall
-        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
-        - cd Tools
-        - python setup.py
-        - python build.py -type release -use-aqt -steam
-    only:
-        - release
-    artifacts:
-        expire_in: "never"
-        paths:
-            - build-x64-windows-release/bin/
-
-release:windows_standalone:
-    stage: build
-    tags:
-        - windows10
-    script:
-        - python -m pip install -U pip wheel
-        - python -m pip install -U aqtinstall
-        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
-        - cd Tools
-        - python setup.py
-        - python build.py -type release -use-aqt -installer
-    only:
-        - release
-    artifacts:
-        expire_in: "never"
-        paths:
-            - build-x64-windows-release/bin/
-            - build-x64-windows-release/ScreenPlay-Installer.exe
-
-release:osx_steam:
-    stage: build
-    tags:
-        - osx
-    script:
-        - pip3 install -U pip
-        - pip3 install aqtinstall
-        - python -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
-        - python -m aqt install-tool -O ../aqt mac desktop tools_ifw
-        - cd Tools
-        - python3 setup.py
-        - python3 build.py -type release -steam -use-aqt -sign -architecture x64
-        - python3 build.py -type release -steam -use-aqt -sign -architecture arm64
-    only:
-        - release
-    artifacts:
-        expire_in: "never"
-        paths:
-            - build-x64-osx-release/bin/
-            - build-arm-osx-release/bin/
-
-release:osx_standalone:
-    stage: build
-    tags:
-        - osx
-    script:
-        - pip3 install -U pip
-        - pip3 install aqtinstall
-        - python3 -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
-        - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
-        - cd Tools
-        - python3 setup.py
-        - python3 build.py -type release -installer -use-aqt -sign 
-    only:
-        - release
-    artifacts:
-        expire_in: "never"
-        paths:
-            - build-x64-osx-release/bin/
-            - build-arm-osx-release/bin/
-            - build-x64-osx-release/ScreenPlay-Installer.dmg
-            - build-arm-osx-release/ScreenPlay-Installer.dmg
-
-release:linux_steam:
-    stage: build
-    image:
-        name: ubuntu:20.04
-    tags:
-        - gitlab-org-docker
-    script:
-        - apt update -y
-        # We need cmake 3.23 to fix IFW
-        - apt install gpg wget -y
-        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-        - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal-rc main' | tee -a /etc/apt/sources.list.d/kitware.list >/dev/null
-        - apt update -y
-        # Otherwise libglib2 needs interaction
-        - export DEBIAN_FRONTEND=noninteractive
-        - apt install mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
-        - pip3 install -U pip
-        - pip3 install aqtinstall
-        - python3 -m aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
-        - python3 -m aqt install-tool -O ../aqt linux desktop tools_ifw
-        - curl -OL $CQTDEPLOYER_URL
-        - chmod +x ./CQtDeployer_*.deb
-        - apt install ./CQtDeployer_*.deb -y
-        - cd Tools
-        - python3 setup.py
-        - python3 build.py -type release -steam -use-aqt
-    only:
-        - release
-    artifacts:
-        expire_in: "never"
-        paths:
-            - build-x64-linux-release/bin/
-
-release:linux_standalone:
-    stage: build
-    image:
-        name: ubuntu:20.04
-    tags:
-        - gitlab-org-docker
-    script:
-        - apt update -y
-        # We need cmake 3.23 to fix IFW
-        - apt install gpg wget -y
-        - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
-        - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal-rc main' | tee -a /etc/apt/sources.list.d/kitware.list >/dev/null
-        - apt update -y
-        # Otherwise libglib2 needs interaction
-        - export DEBIAN_FRONTEND=noninteractive
-        - apt install mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common wget python3-pip build-essential libgl1-mesa-dev lld ninja-build cmake -y
-        - pip3 install -U pip
-        - pip3 install aqtinstall
-        - python3 -m aqt install-qt -O ../aqt linux desktop $QT_VERSION gcc_64 -m all
-        - python3 -m aqt install-tool -O ../aqt linux desktop tools_ifw
-        - cd Tools
-        - python3 setup.py
-        - python3 build.py -type release -installer -use-aqt
-    only:
-        - release
-    artifacts:
-        expire_in: "never"
-        paths:
-            - build-x64-linux-release/bin/
-
-
-test:windows_release:
-    stage: test
-    tags:
-        - shared-windows
-    dependencies:
-        - build:windows_release
-    needs:
-        - build:windows_release
-    script:
-        - ./build-x64-windows-release/bin/ScreenPlay.exe --no-run=false --exit=true --reporters=junit --out=test-report-junit.xml
-    artifacts:
-        expire_in: "never"
-        when: always
-        reports:
-            junit: test-report-junit.xml
 
 build_docs:
     stage: .post

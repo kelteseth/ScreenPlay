@@ -9,9 +9,9 @@ import paramiko
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Build and Package ScreenPlay')
-    parser.add_argument('-steam_password', '-sp', action="store", dest="steam_password", required=True, help="Steam password")
-    parser.add_argument('-hosting_username','-hu', action="store", dest="hosting_username", required=True, help="ssh username")
-    parser.add_argument('-hosting_password', '-hp', action="store", dest="hosting_password", required=True, help="ssh password")
+    parser.add_argument('-steam_password', '-sp', action="store", dest="steam_password",  help="Steam password")
+    parser.add_argument('-hosting_username','-hu', action="store", dest="hosting_username", help="ssh username")
+    parser.add_argument('-hosting_password', '-hp', action="store", dest="hosting_password",  help="ssh password")
     args = parser.parse_args()
 
     # Script needs to run in the tools folder
@@ -28,7 +28,7 @@ if __name__ == "__main__":
     build_config.qt_ifw_version = "4.4"
     build_config.build_steam = "ON"
     build_config.build_tests = "OFF"
-    build_config.build_release = "ON"
+    build_config.build_deploy = "ON"
     build_config.create_installer = "ON"
     build_config.build_type = "release"
     build_config.sign_build = True
@@ -36,6 +36,8 @@ if __name__ == "__main__":
 
 
     if platform.system() == "Darwin":
+        # We do not yet support a standalone osx installer
+        build_config.create_installer = "OFF"
         # OSX builds needs to build for x86 and arm
         # and also be signed!
         
@@ -69,10 +71,12 @@ if __name__ == "__main__":
         sftp.close()
         ssh.close()
 
+        
+
     # Make sure to reset to tools path
-    os.chdir(tools_path)
-    steam_publish.publish(
-        steam_username="tachiom",
-        steam_password=args.steam_password,
-        set_live_branch_name="internal"
-    )
+    #os.chdir(tools_path)
+    #steam_publish.publish(
+    #    steam_username="tachiom",
+    #    steam_password=args.steam_password,
+    #    set_live_branch_name="internal"
+    #)

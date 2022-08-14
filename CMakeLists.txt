@@ -42,7 +42,7 @@ set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 # they both need other QML dependencies like ScreenPlayUtil.
 # The fastest way is to use a shared QML module path for development
 # and add this path to the qml engines import pah.
-# For the SCREENPLAY_RELEASE we copy them into the matching dirs
+# For the SCREENPLAY_DEPLOY we copy them into the matching dirs
 # via the build.py
 #
 # This subdirectoy is needed for OSX and Linux to fix linker errors because
@@ -61,7 +61,7 @@ set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
 set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
-option(SCREENPLAY_RELEASE "Marks this version as an official release version. This version uses different import paths and other settings." OFF)
+option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings." OFF)
 option(SCREENPLAY_TESTS "Enables UI tests." ON)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 
@@ -74,8 +74,8 @@ file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 
 add_compile_definitions(COMPILE_INFO="Build Date: ${BUILD_DATE}. Git Hash: ${GIT_COMMIT_HASH}. ")
 add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
-if(${SCREENPLAY_RELEASE})
-add_compile_definitions(RELEASE_VERSION)
+if(${SCREENPLAY_DEPLOY})
+add_compile_definitions(DEPLOY_VERSION)
 endif()
 
 
@@ -152,12 +152,12 @@ if(${SCREENPLAY_INSTALLER})
     include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/CreateIFWInstaller.cmake)
 endif()
 
-message(STATUS "[CPP DEFINE] RELEASE_VERSION           = ${RELEASE_VERSION}")
+message(STATUS "[CPP DEFINE] DEPLOY_VERSION            = ${DEPLOY_VERSION}")
 message(STATUS "[CPP DEFINE] SOURCE_DIR                = ${CMAKE_CURRENT_SOURCE_DIR}")
 message(STATUS "[CPP DEFINE] BUILD_DATE                = ${BUILD_DATE}")
 message(STATUS "[DEFINE] BUILD_TYPE                    = ${CMAKE_BUILD_TYPE}")
 message(STATUS "[DEFINE] GIT_COMMIT_HASH               = ${GIT_COMMIT_HASH}")
-message(STATUS "[OPTION] SCREENPLAY_RELEASE            = ${SCREENPLAY_RELEASE}")
+message(STATUS "[OPTION] SCREENPLAY_DEPLOY             = ${SCREENPLAY_DEPLOY}")
 message(STATUS "[OPTION] SCREENPLAY_INSTALLER          = ${SCREENPLAY_INSTALLER}")
 message(STATUS "[OPTION] SCREENPLAY_STEAM              = ${SCREENPLAY_STEAM}")
 message(STATUS "[OPTION] SCREENPLAY_TESTS              = ${SCREENPLAY_TESTS}")

@@ -12,6 +12,14 @@ def run(cmd, cwd=Path.cwd()):
     if result.returncode != 0:
         raise RuntimeError(f"Failed to execute {cmd}")
 
+def run_and_capture_output(cmd, cwd=Path.cwd()) -> str:
+    result = subprocess.run(cmd, shell=True, cwd=cwd, stdout=subprocess.PIPE)
+    if result.returncode != 0:
+        print(f"Failed to execute {cmd}")
+    if result.stdout is not None:
+        return str(result.stdout.decode('utf-8'))
+    return ""
+
 def cd_repo_root_path() -> str:
     # Make sure the script is always started from the same 
     # ScreenPlay root folder
