@@ -1,4 +1,7 @@
 import steam_publish
+import shutil
+import sys
+import macos_sign
 import argparse
 import os
 import build
@@ -32,15 +35,25 @@ if __name__ == "__main__":
     build_config.build_deploy = "ON"
     build_config.create_installer = "ON"
     build_config.build_type = "release"
-    build_config.sign_build = True
     build_config.use_aqt = False
-
 
     if platform.system() == "Darwin":
         # We do not yet support a standalone osx installer
         build_config.create_installer = "OFF"
         # OSX builds needs to build for x86 and arm
         # and also be signed!
+
+        # We need to manually package here at the end after
+        # we run 
+        build_config.package = True
+
+        # Remove old build-universal-osx-release dir that does not automatically
+        # deleted because it is not build directly but generated from x64 and arm64
+        universal_build_dir = Path(os.path.join(root_path, "build-universal-osx-release"))
+        if universal_build_dir.exists():
+            print(f"Remove previous build folder: {universal_build_dir}")
+            # ignore_errors removes also not empty folders...
+            shutil.rmtree(universal_build_dir, ignore_errors=True)
         
         build_config.build_architecture = "arm64"
         build_result = build.execute(build_config)
@@ -53,6 +66,10 @@ if __name__ == "__main__":
         # Create universal (fat) binary
         run_lipo()
         check_fat_binary()
+
+        build_config.bin_dir = os.path.join(build_config.root_path,'build-universal-osx-release/bin/')
+        print(f"Change binary dir to: {build_config.bin_dir}")
+        macos_sign.sign(build_config=build_config)
     else:
         build_config.build_architecture = "x64"
         build_result = build.execute(build_config)
