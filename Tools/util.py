@@ -5,7 +5,6 @@ from os import chdir
 from concurrent.futures import ThreadPoolExecutor
 import os
 import subprocess
-import zipfile
 
 def run(cmd, cwd=Path.cwd()):
     result = subprocess.run(cmd, shell=True, cwd=cwd)
@@ -53,3 +52,35 @@ def run_io_tasks_in_parallel(tasks):
         running_tasks = [executor.submit(task) for task in tasks]
         for running_task in running_tasks:
             running_task.result()
+
+# Based on https://gist.github.com/l2m2/0d3146c53c767841c6ba8c4edbeb4c2c
+
+
+def get_vs_env_dict():
+    vcvars: str  # We support 2019 or 2022
+
+    # Hardcoded VS path
+    # check if vcvars64.bat is available.
+    msvc_2019_path = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
+    msvc_2022_path = "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
+
+    if Path(msvc_2019_path).exists():
+        vcvars = msvc_2019_path
+    # Prefer newer MSVC and override if exists
+    if Path(msvc_2022_path).exists():
+        vcvars = msvc_2022_path
+    if not vcvars:
+        raise RuntimeError(
+            "No Visual Studio installation found, only 2019 and 2022 are supported.")
+
+    print(f"\n\nLoading MSVC env variables via {vcvars}\n\n")
+
+    cmd = [vcvars, '&&', 'set']
+    popen = subprocess.Popen(
+        cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    stdout, stderr = popen.communicate()
+
+    if popen.wait() != 0:
+        raise ValueError(stderr.decode("mbcs"))
+    output = stdout.decode("mbcs").split("\r\n")
+    return dict((e[0].upper(), e[1]) for e in [p.rstrip().split("=", 1) for p in output] if len(e) == 2)

@@ -105,6 +105,7 @@ export PATH="~/.local/bin:$PATH"
 ```
 
 ## MacOSX
+1. Install XCode 13+ , open and restart your device.
 1. Install [brew](https://brew.sh) that is needed by some third party vcpkg packages. Do not forget to add brew to your path as outlined at the on of the installation!
     - `brew install pkg-config git llvm cmake ninja`
 1. [Download and install Qt binary installer from qt.io](https://www.qt.io/download-qt-installer)

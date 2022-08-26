@@ -1,16 +1,11 @@
 #!/usr/bin/python3
-import platform
+from distutils.dir_util import mkpath
 import os
-import subprocess
 import shutil
-import argparse
-import time
-import zipfile
-from shutil import copytree
+import pathlib
 from pathlib import Path
-from concurrent.futures import ThreadPoolExecutor
-from datetime import datetime
-from util import run, run_and_capture_output
+from util import run, run_and_capture_output, cd_repo_root_path
+import warnings
 
 def listfiles(path):
     files = []
@@ -24,18 +19,19 @@ def listfiles(path):
                 file =  path + os.path.join(dir, fname)
                 if(os.path.isfile(file)):
                     files.append(file)
+                    if  os.path.islink(file):
+                        print(f"Warning: file {file} is a symlink!")
+                        print("Symlink target: ", os.readlink(file))
     return files
 
-def run_lipo():
-      # Make sure the script is always started from the same folder
-    root_path = Path.cwd()
-    if root_path.name == "Tools":
-        root_path = root_path.parent
-    print(f"Change root directory to: {root_path}")
-    os.chdir(root_path)
+# Merges x64 and arm64 build into universal
+def run_lipo() :
+    root_path = cd_repo_root_path()
 
-    shutil.copytree(str(Path.joinpath(root_path, "build-arm64-osx-release/bin/")) , 
-                    str(Path.joinpath(root_path, "build-universal-osx-release/bin/")) )
+    # Looks like it is ok the contain symlinks otherwise we get these errors for qml plugins:
+    # bundle format is ambiguous (could be app or framework)
+    # https://bugreports.qt.io/browse/QTBUG-101338
+    run("cp -a build-arm64-osx-release build-universal-osx-release",root_path)
 
     apps = ["ScreenPlay","ScreenPlayWallpaper", "ScreenPlayWidget"]
     for app in apps:

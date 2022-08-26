@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 import platform
 import os
-import subprocess
 import platform
 import shutil
 import argparse
@@ -10,41 +9,7 @@ import zipfile
 from typing import Tuple
 from shutil import copytree
 from pathlib import Path
-from datetime import datetime
-from util import sha256, cd_repo_root_path, zipdir, run
-
-# Based on https://gist.github.com/l2m2/0d3146c53c767841c6ba8c4edbeb4c2c
-
-
-def get_vs_env_dict():
-    vcvars: str  # We support 2019 or 2022
-
-    # Hardcoded VS path
-    # check if vcvars64.bat is available.
-    msvc_2019_path = "C:\\Program Files (x86)\\Microsoft Visual Studio\\2019\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
-    msvc_2022_path = "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat"
-
-    if Path(msvc_2019_path).exists():
-        vcvars = msvc_2019_path
-    # Prefer newer MSVC and override if exists
-    if Path(msvc_2022_path).exists():
-        vcvars = msvc_2022_path
-    if not vcvars:
-        raise RuntimeError(
-            "No Visual Studio installation found, only 2019 and 2022 are supported.")
-
-    print(f"\n\nLoading MSVC env variables via {vcvars}\n\n")
-
-    cmd = [vcvars, '&&', 'set']
-    popen = subprocess.Popen(
-        cmd, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    stdout, stderr = popen.communicate()
-
-    if popen.wait() != 0:
-        raise ValueError(stderr.decode("mbcs"))
-    output = stdout.decode("mbcs").split("\r\n")
-    return dict((e[0].upper(), e[1]) for e in [p.rstrip().split("=", 1) for p in output] if len(e) == 2)
-
+from util import sha256, cd_repo_root_path, zipdir, run, get_vs_env_dict
 
 def clean_build_dir(build_dir):
     if isinstance(build_dir, str):
@@ -74,6 +39,7 @@ class BuildConfig:
     root_path: str
     cmake_osx_architectures: str
     cmake_target_triplet: str
+    package: bool
     package_command: str
     executable_file_ending: str
     qt_path: str
@@ -89,7 +55,6 @@ class BuildConfig:
     executable_file_ending: str
     build_folder: str
     bin_dir: str
-    sign_build: bool
     screenplay_version: str
     # CMake variables need str: "ON" or "OFF"
     build_steam: str
@@ -133,10 +98,6 @@ def execute(
     # Creates a Qt InstallerFrameWork (IFW) installer
     if build_config.create_installer == "ON":
         build_installer(build_config, build_result)
-
-    # Mac needs signed builds for user to run the app
-    if platform.system() == "Darwin" and build_config.sign_build:
-        sign(build_config)
 
     # Create a zip file for scoop & chocolatey
     if platform.system() == "Windows":
@@ -201,7 +162,7 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
         build_config.qt_bin_path = build_config.aqt_path.joinpath(
             f"{build_config.qt_version}/macos") if build_config.use_aqt else Path(f"~/Qt/{build_config.qt_version}/macos")
         # NO f string we fill it later!
-        build_config.package_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app}"
+        build_config.package_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app} -appstore-compliant"
 
         build_config.aqt_install_qt_packages = f"mac desktop {build_config.qt_version} clang_64 -m all"
         build_config.aqt_install_tool_packages = "mac desktop tools_ifw"
@@ -379,52 +340,6 @@ def build_installer(build_config: BuildConfig, build_result: BuildResult):
     print("Running cpack at: ", os.getcwd())
     run("cpack", cwd=build_config.build_folder)
 
-
-def sign(build_config: BuildConfig):
-
-    run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --entitlements \"../../ScreenPlay/entitlements.plist\"  --deep \"ScreenPlay.app/\"", cwd=build_config.bin_dir)
-    run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlayWallpaper.app/\"", cwd=build_config.bin_dir)
-    run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlayWidget.app/\"", cwd=build_config.bin_dir)
-
-    run("codesign --verify --verbose=4  \"ScreenPlay.app/\"", cwd=build_config.bin_dir)
-    run("codesign --verify --verbose=4  \"ScreenPlayWallpaper.app/\"",
-        cwd=build_config.bin_dir)
-    run("codesign --verify --verbose=4  \"ScreenPlayWidget.app/\"",
-        cwd=build_config.bin_dir)
-
-    # TODO: Replace with https://github.com/akeru-inc/xcnotary/issues/22#issuecomment-1179170957
-    run("xcnotary notarize ScreenPlay.app -d kelteseth@gmail.com -k ScreenPlay",
-        cwd=build_config.bin_dir),
-    run("xcnotary notarize ScreenPlayWallpaper.app -d kelteseth@gmail.com -k ScreenPlay",
-        cwd=build_config.bin_dir),
-    run("xcnotary notarize ScreenPlayWidget.app -d kelteseth@gmail.com -k ScreenPlay",
-        cwd=build_config.bin_dir)
-
-    run("spctl --assess --verbose  \"ScreenPlay.app/\"", cwd=build_config.bin_dir)
-    run("spctl --assess --verbose  \"ScreenPlayWallpaper.app/\"",
-        cwd=build_config.bin_dir)
-    run("spctl --assess --verbose  \"ScreenPlayWidget.app/\"",
-        cwd=build_config.bin_dir)
-
-    # We also need to sign the installer in osx:
-    if build_config.create_installer == "ON":
-        run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlay-Installer.dmg/ScreenPlay-Installer.app/Contents/MacOS/ScreenPlay-Installer\"", cwd=build_config.build_folder)
-        run("codesign --verify --verbose=4  \"ScreenPlay-Installer.dmg/ScreenPlay-Installer.app/Contents/MacOS/ScreenPlay-Installer\"",
-            cwd=build_config.build_folder)
-        run("xcnotary notarize ScreenPlay-Installer.dmg/ScreenPlay-Installer.app -d kelteseth@gmail.com -k ScreenPlay",
-            cwd=build_config.build_folder)
-        run("spctl --assess --verbose  \"ScreenPlay-Installer.dmg/ScreenPlay-Installer.app/\"",
-            cwd=build_config.build_folder)
-
-        run("codesign --deep -f -s \"Developer ID Application: Elias Steurer (V887LHYKRH)\" --timestamp --options \"runtime\" -f --deep \"ScreenPlay-Installer.dmg/\"", cwd=build_config.build_folder)
-        run("codesign --verify --verbose=4  \"ScreenPlay-Installer.dmg/\"",
-            cwd=build_config.build_folder)
-        run("xcnotary notarize ScreenPlay-Installer.dmg -d kelteseth@gmail.com -k ScreenPlay",
-            cwd=build_config.build_folder)
-        run("spctl --assess --verbose  \"ScreenPlay-Installer.dmg/\"",
-            cwd=build_config.build_folder)
-
-
 def zip(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     zipName = f"ScreenPlay-{build_config.screenplay_version}-{build_config.cmake_target_triplet}-{build_config.build_type}.zip"
     build_result.build_zip = Path(build_result.build).joinpath(zipName)
@@ -465,8 +380,6 @@ if __name__ == "__main__":
                         help="Build type. This is either debug or release.")
     parser.add_argument('-use-aqt', action="store_true", dest="use_aqt",
                         help="Absolute qt path. If not set the default path is used\Windows: C:\Qt\nLinux & macOS:~/Qt/.")
-    parser.add_argument('-sign', action="store_true", dest="sign_build",
-                        help="Enable if you want to sign the apps. This is macOS only for now.")
     parser.add_argument('-steam', action="store_true", dest="build_steam",
                         help="Enable if you want to build the Steam workshop plugin.")
     parser.add_argument('-tests', action="store_true", dest="build_tests",
@@ -516,10 +429,6 @@ if __name__ == "__main__":
     if args.create_installer:
         create_installer = "ON"
 
-    sign_build = False
-    if args.sign_build:
-        sign_build = True
-
     if args.use_aqt:
         use_aqt = True
 
@@ -531,7 +440,6 @@ if __name__ == "__main__":
     build_config.build_deploy = build_deploy
     build_config.create_installer = create_installer
     build_config.build_type = build_type
-    build_config.sign_build = args.sign_build
     build_config.use_aqt = use_aqt
     build_config.screenplay_version = screenplay_version
     build_config.build_architecture = args.build_architecture
