@@ -9,6 +9,16 @@ Welcome to the Steamworks SDK.  For documentation please see our partner
 website at: http://partner.steamgames.com
 
 ----------------------------------------------------------------
+v1.55 29th July 2022
+----------------------------------------------------------------
+
+ISteamInput
+* Added SetDualSenseTriggerEffect and corresponding header isteamdualsense.h for setting the adaptive trigger effect on DualSense controllers
+
+Spacewar example:
+* Added an example of using SetDualSenseTriggerEffect
+
+----------------------------------------------------------------
 v1.54 16th June 2022
 ----------------------------------------------------------------
 

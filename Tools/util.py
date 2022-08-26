@@ -7,6 +7,14 @@ import os
 import subprocess
 import zipfile
 
+def sftp_exists(sftp, path) -> bool:
+    try:
+        sftp.stat(path)
+        return True
+    except FileNotFoundError:
+        return False
+
+
 def run(cmd, cwd=Path.cwd()):
     result = subprocess.run(cmd, shell=True, cwd=cwd)
     if result.returncode != 0:

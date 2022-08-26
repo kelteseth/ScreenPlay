@@ -155,6 +155,7 @@ enum class EResult
 	K_EResultInsufficientBattery = 124,
 	K_EResultChargerRequired = 125,
 	K_EResultCachedCredentialInvalid = 126,
+	K_EResultPhoneNumberIsVOIP = 127,
  };
 Q_ENUM_NS(EResult)
 

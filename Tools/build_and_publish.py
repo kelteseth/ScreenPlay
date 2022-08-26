@@ -6,6 +6,7 @@ from pathlib import Path
 from macos_lipo import run_lipo, check_fat_binary
 import platform
 import paramiko
+from util import sftp_exists
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Build and Package ScreenPlay')
@@ -57,11 +58,18 @@ if __name__ == "__main__":
         build_result = build.execute(build_config)
 
         ssh = paramiko.SSHClient() 
-        ssh.load_host_keys(os.path.expanduser(os.path.join("~", ".ssh", "known_hosts")))
+        ssh.load_system_host_keys()
+        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
         ssh.connect('kelteseth.com', username=args.hosting_username, password=args.hosting_password)
         sftp = ssh.open_sftp()
         release_folder = "/kelteseth_com/public/releases/" + build_config.screenplay_version + "/"
-        sftp.mkdir(release_folder)
+        if sftp_exists(sftp,release_folder):
+            remoteFiles = sftp.listdir(path=release_folder)
+            for file in remoteFiles:
+                print(f"Delte old: {release_folder+file}")
+                sftp.remove(release_folder+file)
+        else:
+            sftp.mkdir(release_folder)
         print("Uploading files...")
 
         sftp.put(build_result.build_zip,    release_folder + str(build_result.build_zip.name))
@@ -71,12 +79,10 @@ if __name__ == "__main__":
         sftp.close()
         ssh.close()
 
-        
-
     # Make sure to reset to tools path
-    #os.chdir(tools_path)
-    #steam_publish.publish(
-    #    steam_username="tachiom",
-    #    steam_password=args.steam_password,
-    #    set_live_branch_name="internal"
-    #)
+    os.chdir(tools_path)
+    steam_publish.publish(
+        steam_username="tachiom",
+        steam_password=args.steam_password,
+        set_live_branch_name="internal"
+    )
