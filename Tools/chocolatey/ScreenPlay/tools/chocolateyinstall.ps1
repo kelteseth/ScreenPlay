@@ -14,7 +14,7 @@ $packageArgs = @{
   softwareName  = 'ScreenPlay*'
   checksum      = ''
   checksumType  = 'sha256'
-  checksum64    = 'e7dc40f99d681db2146a5f48e6bb1c0d8b46af40c9dde896975117b82c7e535f'
+  checksum64    = '0502e549ff4f10ec8b9090eb1fc35a9fe6297ea64f435aaefd87a77e5f70190f'
   checksumType64= 'sha256'
 }
 
