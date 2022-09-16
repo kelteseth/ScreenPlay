@@ -61,5 +61,4 @@ qt_add_qml_module(
 if(${SCREENPLAY_TESTS})
     qt_add_executable(tst_ScreenPlaySysInfo src/TestMain.cpp)
     target_link_libraries(tst_ScreenPlaySysInfo PRIVATE Qt6::Quick ${PROJECT_NAME}plugin)
-    target_compile_definitions(tst_ScreenPlaySysInfo PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 endif()

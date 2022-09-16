@@ -136,6 +136,5 @@ if(${SCREENPLAY_STEAM})
                     ScreenPlayUtilplugin
                     SteamSDK
                     SteamSDKQtEnums)
-        target_compile_definitions(tst_ScreenPlayWorkshop PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
     endif()
 endif()

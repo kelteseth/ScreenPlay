@@ -326,9 +326,6 @@ endforeach()
 
 qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES})
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
-
-
 target_include_directories(
     ScreenPlayApp
     PUBLIC inc/public/

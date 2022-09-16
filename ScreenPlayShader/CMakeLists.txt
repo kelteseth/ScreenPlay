@@ -67,5 +67,4 @@ qt6_add_shaders(
 if(${SCREENPLAY_TESTS})
     qt_add_executable(tst_ScreenPlayShader src/TestMain.cpp)
     target_link_libraries(tst_ScreenPlayShader PRIVATE Qt::Quick ${PROJECT_NAME}plugin)
-    target_compile_definitions(tst_ScreenPlayShader PRIVATE $<$<OR:$<CONFIG:Debug>,$<CONFIG:RelWithDebInfo>>:QT_QML_DEBUG>)
 endif()
