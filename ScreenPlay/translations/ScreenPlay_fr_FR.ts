@@ -59,27 +59,27 @@
     </message>
     <message>
       <source>GIF Wallpaper</source>
-      <translation type="unfinished">GIF Wallpaper</translation>
+      <translation>Fond d'écran GIF</translation>
     </message>
     <message>
       <source>QML Wallpaper</source>
-      <translation type="unfinished">QML Wallpaper</translation>
+      <translation>Fond d'écran QML</translation>
     </message>
     <message>
       <source>HTML5 Wallpaper</source>
-      <translation type="unfinished">HTML5 Wallpaper</translation>
+      <translation>Fond d'écran HTML5</translation>
     </message>
     <message>
       <source>Website Wallpaper</source>
-      <translation type="unfinished">Website Wallpaper</translation>
+      <translation>Fond d'écran web</translation>
     </message>
     <message>
       <source>QML Widget</source>
-      <translation type="unfinished">QML Widget</translation>
+      <translation>Widget QML</translation>
     </message>
     <message>
       <source>HTML Widget</source>
-      <translation type="unfinished">HTML Widget</translation>
+      <translation>Widget HTML</translation>
     </message>
   </context>
   <context>
@@ -160,7 +160,7 @@
     </message>
     <message>
       <source>Converting Video ERROR!</source>
-      <translation>Erreur de conversion de la vidéo !</translation>
+      <translation>Erreur de conversion vidéo !</translation>
     </message>
     <message>
       <source>Analyse Video ERROR!</source>
@@ -351,7 +351,7 @@
     </message>
     <message>
       <source>Converting Video... This can take some time!</source>
-      <translation>Conversion de vidéo... Cela peut prendre du temps!</translation>
+      <translation>Conversion de la vidéo... Cela peut prendre un certain temps !</translation>
     </message>
     <message>
       <source>Converting Video ERROR!</source>
@@ -425,39 +425,39 @@
     <name>Importh264Convert</name>
     <message>
       <source>AnalyseVideo...</source>
-      <translation type="unfinished">AnalyseVideo...</translation>
+      <translation>AnalyseVidéo...</translation>
     </message>
     <message>
       <source>Generating preview image...</source>
-      <translation type="unfinished">Generating preview image...</translation>
+      <translation>Génération de l'image d'aperçu...</translation>
     </message>
     <message>
       <source>Generating preview thumbnail image...</source>
-      <translation type="unfinished">Generating preview thumbnail image...</translation>
+      <translation>Génération de la miniature de l’aperçu...</translation>
     </message>
     <message>
       <source>Generating 5 second preview video...</source>
-      <translation type="unfinished">Generating 5 second preview video...</translation>
+      <translation>Génération d’une vidéo d’aperçu de 5 secondes...</translation>
     </message>
     <message>
       <source>Generating preview gif...</source>
-      <translation type="unfinished">Generating preview gif...</translation>
+      <translation>Génération du GIF d’aperçu...</translation>
     </message>
     <message>
       <source>Converting Audio...</source>
-      <translation type="unfinished">Converting Audio...</translation>
+      <translation>Conversion de l’audio...</translation>
     </message>
     <message>
       <source>Converting Video... This can take some time!</source>
-      <translation type="unfinished">Converting Video... This can take some time!</translation>
+      <translation>Conversion de la vidéo... Cela peut prendre un certain temps !</translation>
     </message>
     <message>
       <source>Converting Video ERROR!</source>
-      <translation type="unfinished">Converting Video ERROR!</translation>
+      <translation>Erreur de conversion vidéo !</translation>
     </message>
     <message>
       <source>Analyse Video ERROR!</source>
-      <translation type="unfinished">Analyse Video ERROR!</translation>
+      <translation>Erreur d&apos;Analyse Vidéo !</translation>
     </message>
     <message>
       <source>Import a video to a wallpaper</source>
@@ -465,11 +465,11 @@
     </message>
     <message>
       <source>Generating preview video...</source>
-      <translation type="unfinished">Generating preview video...</translation>
+      <translation>Génération de la vidéo d'aperçu...</translation>
     </message>
     <message>
       <source>Name (required!)</source>
-      <translation type="unfinished">Name (required!)</translation>
+      <translation>Nom (obligatoire)</translation>
     </message>
     <message>
       <source>Description</source>
@@ -496,27 +496,27 @@
     <name>Importh264Init</name>
     <message>
       <source>Import a .mp4 video</source>
-      <translation type="unfinished">Import a .mp4 video</translation>
+      <translation>Importer une vidéo .mp4</translation>
     </message>
     <message>
       <source>ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</source>
-      <translation type="unfinished">ScreenPlay V0.15 and up can play *.mp4 (also more known as h264). This can improove performance on older systems.</translation>
+      <translation>ScreenPlay V0.15 et plus peuvent lire des fichiers *.mp4 (également connu sous le nom de h264). Cela peut améliorer les performances sur les anciens systèmes.</translation>
     </message>
     <message>
       <source>Invalid file type. Must be valid h264 (*.mp4)!</source>
-      <translation type="unfinished">Invalid file type. Must be valid h264 (*.mp4)!</translation>
+      <translation>Type de fichier invalide. Doit être un h264 (*.mp4) valide !</translation>
     </message>
     <message>
       <source>Drop a *.mp4 file here or use &apos;Select file&apos; below.</source>
-      <translation type="unfinished">Drop a *.mp4 file here or use &apos;Select file&apos; below.</translation>
+      <translation>Déposez un fichier *.mp4 ici ou utilisez &apos;Sélectionner un fichier&apos; ci-dessous.</translation>
     </message>
     <message>
       <source>Open Documentation</source>
-      <translation type="unfinished">Open Documentation</translation>
+      <translation>Ouvrir la documentation</translation>
     </message>
     <message>
       <source>Select file</source>
-      <translation type="unfinished">Select file</translation>
+      <translation>Sélectionner un fichier</translation>
     </message>
   </context>
   <context>
@@ -555,7 +555,7 @@
     </message>
     <message>
       <source>Are you sure you want to delete this item?</source>
-      <translation>Êtes-vous sûr de vouloir supprimer cet élément?</translation>
+      <translation>Êtes-vous sûr de vouloir supprimer cet élément ?</translation>
     </message>
     <message>
       <source>Export</source>
@@ -563,11 +563,11 @@
     </message>
     <message>
       <source>We only support adding one item at once.</source>
-      <translation type="unfinished">We only support adding one item at once.</translation>
+      <translation>Nous ne prenons en charge que l'ajout d'un élément à la fois.</translation>
     </message>
     <message>
       <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-      <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
+      <translation>Type de fichier non pris en charge. Nous supportons uniquement les fichiers &apos;.screenplay&apos;.</translation>
     </message>
     <message>
       <source>Import Content...</source>
@@ -594,7 +594,7 @@
     </message>
     <message>
       <source>Widgets</source>
-      <translation type="unfinished">Widgets</translation>
+      <translation>Widgets</translation>
     </message>
   </context>
   <context>
@@ -609,7 +609,7 @@
     </message>
     <message>
       <source>Get content via our forum</source>
-      <translation type="unfinished">Get content via our forum</translation>
+      <translation>Obtenir du contenu via notre forum</translation>
     </message>
   </context>
   <context>
@@ -670,11 +670,11 @@
     </message>
     <message>
       <source>Mute/Unmute all Wallpaper</source>
-      <translation type="unfinished">Mute/Unmute all Wallpaper</translation>
+      <translation>Activer/désactiver le son tous les fonds d'écran</translation>
     </message>
     <message>
       <source>Pause/Play all Wallpaper</source>
-      <translation type="unfinished">Pause/Play all Wallpaper</translation>
+      <translation>Pause/Lecture de tous les fonds d'écran</translation>
     </message>
     <message>
       <source>Configure Wallpaper</source>
@@ -682,7 +682,7 @@
     </message>
     <message>
       <source>Support me on Patreon!</source>
-      <translation type="unfinished">Support me on Patreon!</translation>
+      <translation>Soutenez-moi sur Patreon !</translation>
     </message>
     <message>
       <source>Close All Content</source>
@@ -769,7 +769,7 @@
     </message>
     <message>
       <source>ScreenPlay will start with Windows and will setup your Desktop every time for you.</source>
-      <translation type="unfinished">ScreenPlay will start with Windows and will setup your Desktop every time for you.</translation>
+      <translation>ScreenPlay démarrera avec Windows et configurera votre bureau à chaque fois pour vous.</translation>
     </message>
     <message>
       <source>High priority Autostart</source>
@@ -781,7 +781,7 @@
     </message>
     <message>
       <source>Send anonymous crash reports and statistics</source>
-      <translation type="unfinished">Send anonymous crash reports and statistics</translation>
+      <translation>Envoyer des rapports d'incidents et des statistiques anonymes</translation>
     </message>
     <message>
       <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
@@ -789,11 +789,11 @@
     </message>
     <message>
       <source>Set save location</source>
-      <translation type="unfinished">Set save location</translation>
+      <translation>Définir l'emplacement de sauvegarde</translation>
     </message>
     <message>
       <source>Set location</source>
-      <translation type="unfinished">Set location</translation>
+      <translation>Définir l'emplacement</translation>
     </message>
     <message>
       <source>Your storage path is empty!</source>
@@ -801,55 +801,55 @@
     </message>
     <message>
       <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-      <translation type="unfinished">Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</translation>
+      <translation>Important : La modification de ce répertoire n'a aucun effet sur le chemin de téléchargement du workshop. ScreenPlay ne prend en charge qu'un seul dossier de contenu !</translation>
     </message>
     <message>
       <source>Language</source>
-      <translation type="unfinished">Language</translation>
+      <translation>Langue</translation>
     </message>
     <message>
       <source>Set the ScreenPlay UI Language</source>
-      <translation type="unfinished">Set the ScreenPlay UI Language</translation>
+      <translation>Définir la langue de l'interface de ScreenPlay</translation>
     </message>
     <message>
       <source>Theme</source>
-      <translation type="unfinished">Theme</translation>
+      <translation>Thème</translation>
     </message>
     <message>
       <source>Switch dark/light theme</source>
-      <translation type="unfinished">Switch dark/light theme</translation>
+      <translation>Changer de thème sombre/clair</translation>
     </message>
     <message>
       <source>System Default</source>
-      <translation type="unfinished">System Default</translation>
+      <translation>Défaut du système</translation>
     </message>
     <message>
       <source>Dark</source>
-      <translation type="unfinished">Dark</translation>
+      <translation>Sombre</translation>
     </message>
     <message>
       <source>Light</source>
-      <translation type="unfinished">Light</translation>
+      <translation>Clair</translation>
     </message>
     <message>
       <source>Performance</source>
-      <translation type="unfinished">Performance</translation>
+      <translation>Performance</translation>
     </message>
     <message>
       <source>Pause wallpaper video rendering while another app is in the foreground</source>
-      <translation type="unfinished">Pause wallpaper video rendering while another app is in the foreground</translation>
+      <translation>Mettre en pause le rendu vidéo du fond d'écran quand une autre application est en premier plan</translation>
     </message>
     <message>
       <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-      <translation type="unfinished">We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</translation>
+      <translation>Nous désactivons le rendu vidéo (pas l'audio) pour obtenir les meilleures performances. Si vous rencontrez des problèmes, vous pouvez désactiver ce comportement ici. Redémarrage du fond d'écran requis !</translation>
     </message>
     <message>
       <source>Default Fill Mode</source>
-      <translation type="unfinished">Default Fill Mode</translation>
+      <translation>Mode de remplissage par défaut</translation>
     </message>
     <message>
       <source>Set this property to define how the video is scaled to fit the target area.</source>
-      <translation type="unfinished">Set this property to define how the video is scaled to fit the target area.</translation>
+      <translation>Définissez cette propriété afin de déterminer la façon dont la vidéo est mise à l'échelle pour s'adapter à la zone cible.</translation>
     </message>
     <message>
       <source>Stretch</source>
@@ -857,7 +857,7 @@
     </message>
     <message>
       <source>Fill</source>
-      <translation type="unfinished">Fill</translation>
+      <translation>Remplir</translation>
     </message>
     <message>
       <source>Contain</source>
@@ -873,35 +873,35 @@
     </message>
     <message>
       <source>About</source>
-      <translation type="unfinished">About</translation>
+      <translation>À propos</translation>
     </message>
     <message>
       <source>Thank you for using ScreenPlay</source>
-      <translation type="unfinished">Thank you for using ScreenPlay</translation>
+      <translation>Merci d'utiliser ScreenPlay</translation>
     </message>
     <message>
       <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-      <translation type="unfinished">Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</translation>
+      <translation>Salut, je suis Elias Steurer aussi connu sous le nom de Kelteseth et je suis le développeur de ScreenPlay. Merci d'utiliser mon logiciel. Vous pouvez me suivre pour recevoir les mises à jour concernant ScreenPlay ici :</translation>
     </message>
     <message>
       <source>Version</source>
-      <translation type="unfinished">Version</translation>
+      <translation>Version</translation>
     </message>
     <message>
       <source>Open Changelog</source>
-      <translation type="unfinished">Open Changelog</translation>
+      <translation>Ouvrir le journal des modifications</translation>
     </message>
     <message>
       <source>Third Party Software</source>
-      <translation type="unfinished">Third Party Software</translation>
+      <translation>Logiciel tiers</translation>
     </message>
     <message>
       <source>ScreenPlay would not be possible without the work of others. A big thank you to: </source>
-      <translation type="unfinished">ScreenPlay would not be possible without the work of others. A big thank you to: </translation>
+      <translation>ScreenPlay ne serait pas possible sans le travail des autres. Un grand merci à : </translation>
     </message>
     <message>
       <source>Licenses</source>
-      <translation type="unfinished">Licenses</translation>
+      <translation>Licences</translation>
     </message>
     <message>
       <source>Logs</source>
@@ -986,38 +986,38 @@
     <name>StartInfo</name>
     <message>
       <source>Free tools to help you to create wallpaper</source>
-      <translation type="unfinished">Free tools to help you to create wallpaper</translation>
+      <translation>Outils gratuits pour vous aider à créer des fonds d'écran</translation>
     </message>
     <message>
       <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
-      <translation type="unfinished">Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</translation>
+      <translation>Vous trouverez ci-dessous des outils pour créer des fonds d'écran, au-delà des outils que ScreenPlay met à votre disposition !</translation>
     </message>
   </context>
   <context>
     <name>WebsiteWallpaper</name>
     <message>
       <source>Create a Website Wallpaper</source>
-      <translation type="unfinished">Create a Website Wallpaper</translation>
+      <translation>Créer un fond d&apos;écran web</translation>
     </message>
     <message>
       <source>General</source>
-      <translation type="unfinished">General</translation>
+      <translation>Général</translation>
     </message>
     <message>
       <source>Wallpaper name</source>
-      <translation type="unfinished">Wallpaper name</translation>
+      <translation>Nom du fond d'écran</translation>
     </message>
     <message>
       <source>Created By</source>
-      <translation type="unfinished">Created By</translation>
+      <translation>Créé par</translation>
     </message>
     <message>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Description</translation>
     </message>
     <message>
       <source>Tags</source>
-      <translation type="unfinished">Tags</translation>
+      <translation>Mots-clés</translation>
     </message>
     <message>
       <source>Preview Image</source>
@@ -1028,7 +1028,7 @@
     <name>WindowNavigation</name>
     <message>
       <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
-      <translation type="unfinished">Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</translation>
+      <translation>Êtes-vous sûr de vouloir quitter ScreenPlay ? Cela éteindra tous les fonds d'écran et les widgets. Si vous voulez que votre fond d'écran continue à jouer, appuyez sur le bouton minimiser.</translation>
     </message>
     <message>
       <source>ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</source>
@@ -1039,18 +1039,18 @@
     <name>WizardPage</name>
     <message>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Enregistrer</translation>
     </message>
     <message>
       <source>Saving...</source>
-      <translation type="unfinished">Saving...</translation>
+      <translation>Enregistrement...</translation>
     </message>
   </context>
   <context>
     <name>XMLNewsfeed</name>
     <message>
       <source>News &amp; Patchnotes</source>
-      <translation type="unfinished">News &amp; Patchnotes</translation>
+      <translation>Actualités et notes de mise à jour</translation>
     </message>
   </context>
 </TS>
