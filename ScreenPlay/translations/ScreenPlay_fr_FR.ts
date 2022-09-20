@@ -29,7 +29,7 @@
     </message>
     <message>
       <source>Reddit</source>
-      <translation type="unfinished">Reddit</translation>
+      <translation>Reddit</translation>
     </message>
   </context>
   <context>
@@ -473,19 +473,19 @@
     </message>
     <message>
       <source>Description</source>
-      <translation type="unfinished">Description</translation>
+      <translation>Description</translation>
     </message>
     <message>
       <source>Youtube URL</source>
-      <translation type="unfinished">Youtube URL</translation>
+      <translation>URL Youtube</translation>
     </message>
     <message>
       <source>Abort</source>
-      <translation type="unfinished">Abort</translation>
+      <translation>Annuler</translation>
     </message>
     <message>
       <source>Save</source>
-      <translation type="unfinished">Save</translation>
+      <translation>Enregistrer</translation>
     </message>
     <message>
       <source>Save Wallpaper...</source>
@@ -559,7 +559,7 @@
     </message>
     <message>
       <source>Export</source>
-      <translation type="unfinished">Export</translation>
+      <translation>Exporter</translation>
     </message>
     <message>
       <source>We only support adding one item at once.</source>
@@ -586,11 +586,11 @@
     </message>
     <message>
       <source>Scenes</source>
-      <translation type="unfinished">Scenes</translation>
+      <translation>Scènes</translation>
     </message>
     <message>
       <source>Videos</source>
-      <translation type="unfinished">Videos</translation>
+      <translation>Vidéos</translation>
     </message>
     <message>
       <source>Widgets</source>
