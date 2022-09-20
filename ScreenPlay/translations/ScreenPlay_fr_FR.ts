@@ -25,7 +25,7 @@
     </message>
     <message>
       <source>Issue Tracker</source>
-      <translation type="unfinished">Issue Tracker</translation>
+      <translation>Issue Tracker</translation>
     </message>
     <message>
       <source>Reddit</source>
@@ -43,7 +43,7 @@
     <name>CreateSidebar</name>
     <message>
       <source>Tools Overview</source>
-      <translation type="unfinished">Tools Overview</translation>
+      <translation>Aperçu des outils</translation>
     </message>
     <message>
       <source>Video Import h264 (.mp4)</source>
@@ -59,19 +59,19 @@
     </message>
     <message>
       <source>GIF Wallpaper</source>
-      <translation>Fond d'écran GIF</translation>
+      <translation>Fond d&apos;écran GIF</translation>
     </message>
     <message>
       <source>QML Wallpaper</source>
-      <translation>Fond d'écran QML</translation>
+      <translation>Fond d&apos;écran QML</translation>
     </message>
     <message>
       <source>HTML5 Wallpaper</source>
-      <translation>Fond d'écran HTML5</translation>
+      <translation>Fond d&apos;écran HTML5</translation>
     </message>
     <message>
       <source>Website Wallpaper</source>
-      <translation>Fond d'écran web</translation>
+      <translation>Fond d&apos;écran web</translation>
     </message>
     <message>
       <source>QML Widget</source>
@@ -136,7 +136,7 @@
     </message>
     <message>
       <source>Generating preview image...</source>
-      <translation>Génération de l'image d'aperçu...</translation>
+      <translation>Génération de l&apos;image d&apos;aperçu...</translation>
     </message>
     <message>
       <source>Generating preview thumbnail image...</source>
@@ -148,7 +148,7 @@
     </message>
     <message>
       <source>Generating preview gif...</source>
-      <translation>Génération de l’aperçu gif...</translation>
+      <translation>Génération du gif d&apos;aperçu...</translation>
     </message>
     <message>
       <source>Converting Audio...</source>
@@ -192,7 +192,7 @@
     </message>
     <message>
       <source>Save</source>
-      <translation>Sauvegarder</translation>
+      <translation>Enregistrer</translation>
     </message>
     <message>
       <source>Save Wallpaper...</source>
@@ -293,7 +293,7 @@
     </message>
     <message>
       <source>Preview Image</source>
-      <translation>Aperçu de l&apos;image</translation>
+      <translation>Image d&apos;aperçu</translation>
     </message>
   </context>
   <context>
@@ -343,7 +343,7 @@
     </message>
     <message>
       <source>Generating preview gif...</source>
-      <translation>Génération du Gif d’aperçu...</translation>
+      <translation>Génération du gif d&apos;aperçu...</translation>
     </message>
     <message>
       <source>Converting Audio...</source>
@@ -429,7 +429,7 @@
     </message>
     <message>
       <source>Generating preview image...</source>
-      <translation>Génération de l'image d'aperçu...</translation>
+      <translation>Génération de l&apos;image d&apos;aperçu...</translation>
     </message>
     <message>
       <source>Generating preview thumbnail image...</source>
@@ -441,7 +441,7 @@
     </message>
     <message>
       <source>Generating preview gif...</source>
-      <translation>Génération du GIF d’aperçu...</translation>
+      <translation>Génération du gif d&apos;aperçu...</translation>
     </message>
     <message>
       <source>Converting Audio...</source>
@@ -465,11 +465,11 @@
     </message>
     <message>
       <source>Generating preview video...</source>
-      <translation>Génération de la vidéo d'aperçu...</translation>
+      <translation>Génération de la vidéo d&apos;aperçu...</translation>
     </message>
     <message>
       <source>Name (required!)</source>
-      <translation>Nom (obligatoire)</translation>
+      <translation>Nom (requis!)</translation>
     </message>
     <message>
       <source>Description</source>
@@ -477,7 +477,7 @@
     </message>
     <message>
       <source>Youtube URL</source>
-      <translation>URL Youtube</translation>
+      <translation>URL Youtube&#xa0;</translation>
     </message>
     <message>
       <source>Abort</source>
@@ -489,7 +489,7 @@
     </message>
     <message>
       <source>Save Wallpaper...</source>
-      <translation type="unfinished">Save Wallpaper...</translation>
+      <translation>Enregistrer le fond d&apos;écran</translation>
     </message>
   </context>
   <context>
@@ -527,15 +527,15 @@
     </message>
     <message>
       <source>Refreshing!</source>
-      <translation>Actualisation!</translation>
+      <translation>Actualisation !</translation>
     </message>
     <message>
       <source>Pull to refresh!</source>
-      <translation>Faire glisser pour actualiser!</translation>
+      <translation>Faire glisser pour actualiser !</translation>
     </message>
     <message>
       <source>Get more Wallpaper &amp; Widgets via the Steam workshop!</source>
-      <translation>Obtenez plus de fonds d&apos;écran et de widgets via le Steam Workshop!</translation>
+      <translation>Obtenez plus de fonds d&apos;écran et de widgets via le Steam Workshop !</translation>
     </message>
     <message>
       <source>Open containing folder</source>
@@ -563,7 +563,7 @@
     </message>
     <message>
       <source>We only support adding one item at once.</source>
-      <translation>Nous ne prenons en charge que l'ajout d'un élément à la fois.</translation>
+      <translation>Nous ne prenons en charge que l&apos;ajout d&apos;un élément à la fois.</translation>
     </message>
     <message>
       <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
@@ -670,15 +670,15 @@
     </message>
     <message>
       <source>Mute/Unmute all Wallpaper</source>
-      <translation>Activer/désactiver le son tous les fonds d'écran</translation>
+      <translation>Activer/désactiver le son tous les fonds d&apos;écran</translation>
     </message>
     <message>
       <source>Pause/Play all Wallpaper</source>
-      <translation>Pause/Lecture de tous les fonds d'écran</translation>
+      <translation>Pause/Lecture de tous les fonds d&apos;écran</translation>
     </message>
     <message>
       <source>Configure Wallpaper</source>
-      <translation type="unfinished">Configure Wallpaper</translation>
+      <translation>Configurer le fond d&apos;écran</translation>
     </message>
     <message>
       <source>Support me on Patreon!</source>
@@ -747,7 +747,7 @@
     <name>SaveNotification</name>
     <message>
       <source>Profile saved successfully!</source>
-      <translation>Profil enregistré avec succès!</translation>
+      <translation>Profil enregistré avec succès !</translation>
     </message>
   </context>
   <context>
@@ -773,27 +773,27 @@
     </message>
     <message>
       <source>High priority Autostart</source>
-      <translation type="unfinished">High priority Autostart</translation>
+      <translation>Démarrage automatique haute priorité</translation>
     </message>
     <message>
       <source>This options grants ScreenPlay a higher autostart priority than other apps.</source>
-      <translation type="unfinished">This options grants ScreenPlay a higher autostart priority than other apps.</translation>
+      <translation>Cette option accorde à ScreenPlay une priorité de démarrage automatique plus élevée que les autres applications.</translation>
     </message>
     <message>
       <source>Send anonymous crash reports and statistics</source>
-      <translation>Envoyer des rapports d'incidents et des statistiques anonymes</translation>
+      <translation>Envoyer des rapports d&apos;incidents et des statistiques anonymes</translation>
     </message>
     <message>
       <source>Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</source>
-      <translation type="unfinished">Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; to collect and analyze this data. A &lt;b&gt;big thanks to them&lt;/b&gt; for providing us with free premium support for open source projects!</translation>
+      <translation>Aidez-nous à rendre ScreenPlay plus rapide et plus stable. Toutes les données collectées sont purement anonymes et utilisées à des fins de développement uniquement ! Nous utilisons &lt;a href=&quot;https://sentry.io&quot;&gt;sentry.io&lt;/a&gt; pour collecter et analyser ces données. Un &lt;b&gt;grand merci à eux&lt;/b&gt; de nous fourni un support premium gratuit pour les projets open source !</translation>
     </message>
     <message>
       <source>Set save location</source>
-      <translation>Définir l'emplacement de sauvegarde</translation>
+      <translation>Définir l&apos;emplacement de sauvegarde</translation>
     </message>
     <message>
       <source>Set location</source>
-      <translation>Définir l'emplacement</translation>
+      <translation>Définir l&apos;emplacement</translation>
     </message>
     <message>
       <source>Your storage path is empty!</source>
@@ -801,7 +801,7 @@
     </message>
     <message>
       <source>Important: Changing this directory has no effect on the workshop download path. ScreenPlay only supports having one content folder!</source>
-      <translation>Important : La modification de ce répertoire n'a aucun effet sur le chemin de téléchargement du workshop. ScreenPlay ne prend en charge qu'un seul dossier de contenu !</translation>
+      <translation>Important : La modification de ce répertoire n&apos;a aucun effet sur le chemin de téléchargement du workshop. ScreenPlay ne prend en charge qu&apos;un seul dossier de contenu !</translation>
     </message>
     <message>
       <source>Language</source>
@@ -809,7 +809,7 @@
     </message>
     <message>
       <source>Set the ScreenPlay UI Language</source>
-      <translation>Définir la langue de l'interface de ScreenPlay</translation>
+      <translation>Définir la langue de l&apos;interface de ScreenPlay</translation>
     </message>
     <message>
       <source>Theme</source>
@@ -837,11 +837,11 @@
     </message>
     <message>
       <source>Pause wallpaper video rendering while another app is in the foreground</source>
-      <translation>Mettre en pause le rendu vidéo du fond d'écran quand une autre application est en premier plan</translation>
+      <translation>Mettre en pause le rendu vidéo du fond d&apos;écran quand une autre application est en premier plan</translation>
     </message>
     <message>
       <source>We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!</source>
-      <translation>Nous désactivons le rendu vidéo (pas l'audio) pour obtenir les meilleures performances. Si vous rencontrez des problèmes, vous pouvez désactiver ce comportement ici. Redémarrage du fond d'écran requis !</translation>
+      <translation>Nous désactivons le rendu vidéo (pas l&apos;audio) pour obtenir les meilleures performances. Si vous rencontrez des problèmes, vous pouvez désactiver ce comportement ici. Redémarrage du fond d&apos;écran requis !</translation>
     </message>
     <message>
       <source>Default Fill Mode</source>
@@ -849,11 +849,11 @@
     </message>
     <message>
       <source>Set this property to define how the video is scaled to fit the target area.</source>
-      <translation>Définissez cette propriété afin de déterminer la façon dont la vidéo est mise à l'échelle pour s'adapter à la zone cible.</translation>
+      <translation>Définissez cette propriété afin de déterminer la façon dont la vidéo est mise à l&apos;échelle pour s&apos;adapter à la zone cible.</translation>
     </message>
     <message>
       <source>Stretch</source>
-      <translation type="unfinished">Stretch</translation>
+      <translation>Étirer</translation>
     </message>
     <message>
       <source>Fill</source>
@@ -861,15 +861,15 @@
     </message>
     <message>
       <source>Contain</source>
-      <translation type="unfinished">Contain</translation>
+      <translation>Contenir</translation>
     </message>
     <message>
       <source>Cover</source>
-      <translation type="unfinished">Cover</translation>
+      <translation>Couvrir</translation>
     </message>
     <message>
       <source>Scale-Down</source>
-      <translation type="unfinished">Scale-Down</translation>
+      <translation>Réduire</translation>
     </message>
     <message>
       <source>About</source>
@@ -877,11 +877,11 @@
     </message>
     <message>
       <source>Thank you for using ScreenPlay</source>
-      <translation>Merci d'utiliser ScreenPlay</translation>
+      <translation>Merci d&apos;utiliser ScreenPlay</translation>
     </message>
     <message>
       <source>Hi, I&apos;m Elias Steurer also known as Kelteseth and I&apos;m the developer of ScreenPlay. Thank you for using my software. You can follow me to receive updates about ScreenPlay here:</source>
-      <translation>Salut, je suis Elias Steurer aussi connu sous le nom de Kelteseth et je suis le développeur de ScreenPlay. Merci d'utiliser mon logiciel. Vous pouvez me suivre pour recevoir les mises à jour concernant ScreenPlay ici :</translation>
+      <translation>Salut, je suis Elias Steurer aussi connu sous le nom de Kelteseth et je suis le développeur de ScreenPlay. Merci d&apos;utiliser mon logiciel. Vous pouvez me suivre pour recevoir les mises à jour concernant ScreenPlay ici :</translation>
     </message>
     <message>
       <source>Version</source>
@@ -905,7 +905,7 @@
     </message>
     <message>
       <source>Logs</source>
-      <translation type="unfinished">Logs</translation>
+      <translation>Logs</translation>
     </message>
     <message>
       <source>If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.</source>
@@ -986,11 +986,11 @@
     <name>StartInfo</name>
     <message>
       <source>Free tools to help you to create wallpaper</source>
-      <translation>Outils gratuits pour vous aider à créer des fonds d'écran</translation>
+      <translation>Outils gratuits pour vous aider à créer des fonds d&apos;écran</translation>
     </message>
     <message>
       <source>Below you can find tools to create wallaper, beyond the tools that ScreenPlay provides for you!</source>
-      <translation>Vous trouverez ci-dessous des outils pour créer des fonds d'écran, au-delà des outils que ScreenPlay met à votre disposition !</translation>
+      <translation>Vous trouverez ci-dessous des outils pour créer des fonds d&apos;écran, au-delà des outils que ScreenPlay met à votre disposition !</translation>
     </message>
   </context>
   <context>
@@ -1005,7 +1005,7 @@
     </message>
     <message>
       <source>Wallpaper name</source>
-      <translation>Nom du fond d'écran</translation>
+      <translation>Nom du fond d&apos;écran</translation>
     </message>
     <message>
       <source>Created By</source>
@@ -1017,22 +1017,22 @@
     </message>
     <message>
       <source>Tags</source>
-      <translation>Mots-clés</translation>
+      <translation>Tags</translation>
     </message>
     <message>
       <source>Preview Image</source>
-      <translation type="unfinished">Preview Image</translation>
+      <translation>Image d&apos;aperçu</translation>
     </message>
   </context>
   <context>
     <name>WindowNavigation</name>
     <message>
       <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
-      <translation>Êtes-vous sûr de vouloir quitter ScreenPlay ? Cela éteindra tous les fonds d'écran et les widgets. Si vous voulez que votre fond d'écran continue à jouer, appuyez sur le bouton minimiser.</translation>
+      <translation>Êtes-vous sûr de vouloir quitter ScreenPlay ? Cela éteindra tous les fonds d&apos;écran et les widgets. Si vous voulez que votre fond d&apos;écran continue à jouer, appuyez sur le bouton minimiser.</translation>
     </message>
     <message>
       <source>ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</source>
-      <translation type="unfinished">ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</translation>
+      <translation>ScreenPlay Alpha V%1 - Fond d&apos;écran et widgets open source</translation>
     </message>
   </context>
   <context>
