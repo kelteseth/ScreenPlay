@@ -17,7 +17,7 @@ Rectangle {
             if (Wallpaper.videoCodec === VideoCodec.Unknown) {
                 Wallpaper.terminate()
             }
-            
+
             // macOS only supports h264 via the native Qt MM
             if (Qt.platform.os === "osx") {
                 if ((Wallpaper.videoCodec === VideoCodec.VP8
@@ -36,7 +36,8 @@ Rectangle {
             break
         case InstalledType.HTMLWallpaper:
             loader.setSource(
-                        "qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
+                        "qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml",
+                        {
                             "url": Qt.resolvedUrl(
                                        Wallpaper.projectSourceFileAbsolute)
                         })
@@ -47,16 +48,18 @@ Rectangle {
             break
         case InstalledType.WebsiteWallpaper:
             loader.setSource(
-                        "qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml", {
+                        "qrc:/qml/ScreenPlayWallpaper/qml/WebsiteWallpaper.qml",
+                        {
                             "url": Wallpaper.projectSourceFileAbsolute
                         })
             fadeIn()
             break
         case InstalledType.GifWallpaper:
-            loader.setSource("qrc:/qml/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
-                                 "source": Qt.resolvedUrl(
-                                               Wallpaper.projectSourceFileAbsolute)
-                             })
+            loader.setSource(
+                        "qrc:/qml/ScreenPlayWallpaper/qml/GifWallpaper.qml", {
+                            "source": Qt.resolvedUrl(
+                                          Wallpaper.projectSourceFileAbsolute)
+                        })
             fadeIn()
             break
         }
@@ -297,7 +300,8 @@ Rectangle {
             }
 
             Text {
-                text: "projectSourceFileAbsolute " + Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
+                text: "projectSourceFileAbsolute " + Qt.resolvedUrl(
+                          Wallpaper.projectSourceFileAbsolute)
                 font.pointSize: 14
             }
 
@@ -346,10 +350,13 @@ Rectangle {
                 text: "imgCover.status " + imgCover.status
                 font.pointSize: 14
             }
+
         }
 
         background: Rectangle {
             opacity: 0.5
         }
     }
+
+
 }

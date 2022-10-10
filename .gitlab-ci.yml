@@ -2,23 +2,26 @@ stages:
     - build
     - check
 
-variables:
-    GIT_STRATEGY: clone
-    QT_VERSION: 6.3.1
-    PYTHON_VERSION: 3.10.1
+.base_windows_build:
+  before_script:
+    - python -m pip install -U pip wheel
+    - python -m pip install -r Tools/requirements.txt
+    - python Tools/setup.py
+
+.base_unix_build:
+  before_script:
+    - pip3 install -U pip
+    - pip3 install -r Tools/requirements.txt
+    - python3 Tools/setup.py
 
 standalone:windows:
     stage: build
+    extends:
+        - .base_windows_build
     tags:
         - windows10
     script:
-        - python -m pip install -U pip wheel
-        - python -m pip install -U aqtinstall
-        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
-        - cd Tools
-        - python setup.py
-        - python build.py -type release -use-aqt -installer -deploy
+        - python Tools/build.py -type release -use-aqt -installer -deploy-version
     artifacts:
         expire_in: "2 weeks"
         paths:
@@ -27,18 +30,14 @@ standalone:windows:
 
 standalone:osx:
     stage: build
+    extends:
+        - .base_unix_build
     tags:
         - osx
     script:
-        - pip3 install -U pip
-        - pip3 install aqtinstall
-        - python3 -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
-        - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
-        - cd Tools
-        - python3 setup.py
-        - python3 build.py -type release -use-aqt -deploy -architecture x64
-        - python3 build.py -type release -use-aqt -deploy -architecture arm64
-        - python3 macos_lipo.py
+        - python3 Tools/build.py -type release -use-aqt -deploy-version -architecture x64
+        - python3 Tools/build.py -type release -use-aqt -deploy-version -architecture arm64
+        - python3 Tools/macos_lipo.py
     artifacts:
         expire_in: "2 weeks"
         paths:
@@ -46,16 +45,12 @@ standalone:osx:
 
 steam:windows:
     stage: build
+    extends:
+        - .base_windows_build
     tags:
         - windows10
     script:
-        - python -m pip install -U pip wheel
-        - python -m pip install -U aqtinstall
-        - python -m aqt install-qt -O ../aqt windows desktop $QT_VERSION win64_msvc2019_64 -m all
-        - python -m aqt install-tool -O ../aqt windows desktop tools_ifw
-        - cd Tools
-        - python setup.py
-        - python build.py -type release -steam -use-aqt -deploy
+        - python Tools/build.py -type release -steam -use-aqt -deploy-version
     artifacts:
         expire_in: "2 weeks"
         paths:
@@ -63,18 +58,14 @@ steam:windows:
 
 steam:osx:
     stage: build
+    extends:
+        - .base_unix_build
     tags:
         - osx
     script:
-        - pip3 install -U pip
-        - pip3 install aqtinstall
-        - python3 -m aqt install-qt -O ../aqt mac desktop $QT_VERSION clang_64 -m all
-        - python3 -m aqt install-tool -O ../aqt mac desktop tools_ifw
-        - cd Tools
-        - python3 setup.py
-        - python3 build.py -type release -steam -use-aqt -deploy -architecture x64
-        - python3 build.py -type release -steam -use-aqt -deploy -architecture arm64
-        - python3 macos_lipo.py
+        - python3 Tools/build.py -type release -steam -use-aqt -deploy-version -architecture x64
+        - python3 Tools/build.py -type release -steam -use-aqt -deploy-version -architecture arm64
+        - python3 Tools/macos_lipo.py
     artifacts:
         expire_in: "2 weeks"
         paths:

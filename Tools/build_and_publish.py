@@ -9,6 +9,7 @@ from pathlib import Path
 from macos_lipo import run_lipo, check_fat_binary
 import platform
 import paramiko
+import defines
 from util import sftp_exists
 
 if __name__ == "__main__":
@@ -27,9 +28,9 @@ if __name__ == "__main__":
     build_result = build.BuildResult()
 
     build_config = build.BuildConfig()
-    build_config.screenplay_version = "0.15.0-RC2"
-    build_config.qt_version = "6.3.1"
-    build_config.qt_ifw_version = "4.4"
+    build_config.screenplay_version = defines.SCREENPLAY_VERSION
+    build_config.qt_version = defines.QT_VERSION
+    build_config.qt_ifw_version = defines.QT_IFW_VERSION
     build_config.build_steam = "ON"
     build_config.build_tests = "OFF"
     build_config.build_deploy = "ON"

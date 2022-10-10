@@ -2,3 +2,4 @@ pyunpack
 py7zr
 cmake-format
 paramiko
+aqtinstall

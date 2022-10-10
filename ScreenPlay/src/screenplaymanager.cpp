@@ -1,6 +1,9 @@
 #include "ScreenPlay/screenplaymanager.h"
 #include <QScopeGuard>
 
+#include "util.h"
+
+
 namespace ScreenPlay {
 
 /*!

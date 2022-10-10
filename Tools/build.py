@@ -6,6 +6,7 @@ import shutil
 import argparse
 import time
 import zipfile
+import defines
 from typing import Tuple
 from shutil import copytree
 from pathlib import Path
@@ -117,8 +118,7 @@ def execute(
 def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildConfig, BuildResult]:
 
     if build_config.use_aqt:
-        build_config.aqt_path = Path(
-            f"{build_config.root_path}/../aqt/").resolve()
+        build_config.aqt_path = defines.AQT_PATH
 
         if not Path(build_config.aqt_path).exists():
             print(
@@ -386,15 +386,15 @@ if __name__ == "__main__":
                         help="Build tests.")
     parser.add_argument('-installer', action="store_true", dest="create_installer",
                         help="Create a installer.")
-    parser.add_argument('-deploy', action="store_true", dest="build_deploy",
+    parser.add_argument('-deploy-version', action="store_true", dest="build_deploy",
                         help="Create a deploy version of ScreenPlay for sharing with the world. A not deploy version is for local development only!")
     parser.add_argument('-architecture', action="store", dest="build_architecture",
                         help="Sets the build architecture. Used to build x86 and ARM osx versions. Currently only works with x86_64 and arm64")
     args = parser.parse_args()
 
-    qt_version = "6.3.1"
-    screenplay_version = "0.15.0-RC1"
-    qt_ifw_version = "4.4"  # Not yet used.
+    qt_version = defines.QT_VERSION
+    screenplay_version = defines.SCREENPLAY_VERSION
+    qt_ifw_version = defines.QT_IFW_VERSION  # Not yet used.
     qt_version_overwrite: str
     use_aqt = False
 
@@ -407,10 +407,10 @@ if __name__ == "__main__":
         print("Using Qt installer framework version {qt_ifw_version}")
 
     if not args.build_type:
-        print("Build type argument is missing (release, debug). E.g: python build_config.py -type release -steam")
-        print(
-            f"Defaulting to Qt version: {qt_version}. This can be overwritten via -qt-version 6.5.0")
+        parser.print_help()
+        print("\n\nBuild type argument is missing (release, debug). E.g: python build.py -type release -steam\n\n")
         exit(1)
+
     build_type = args.build_type
 
     build_steam = "OFF"
