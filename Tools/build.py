@@ -120,9 +120,8 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
     if build_config.use_aqt:
         build_config.aqt_path = defines.AQT_PATH
 
-        if not Path(build_config.aqt_path).exists():
-            print(
-                f"aqt path does not exist at {build_config.aqt_path}. Please make sure you have installed aqt.")
+        if not build_config.aqt_path.exists():
+            print(f"aqt path does not exist at {build_config.aqt_path}. Please make sure to run setup.py!")
             exit(2)
 
     # Set default to empty, because it is only used on mac
