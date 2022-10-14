@@ -46,8 +46,8 @@ def download(aqt_path: Path, qt_platform: Path):
     elif system() == "Linux":
         os = "linux"
     
-    # aqt list-qt windows desktop --modules 6.2.0 win64_msvc2019_64
-    qt_packages = "qt3d qt5compat qtimageformats qtmultimedia qtshadertools qtquick3d qtwebengine qtwebsockets qtwebview qtpositioning"
+    # aqt list-qt windows desktop --modules 6.3.2 win64_msvc2019_64
+    qt_packages = "qt3d qtquick3d qt5compat qtimageformats qtmultimedia qtshadertools qtwebchannel qtwebengine qtwebsockets qtwebview qtpositioning"
     print(f"Downloading: {qt_packages} to {aqt_path}")
     execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-qt -O  {aqt_path} {os} desktop {defines.QT_VERSION} {qt_platform} -m {qt_packages}")
 
