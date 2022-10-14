@@ -38,17 +38,24 @@ class commands_list():
                 command["command"]()
 
 def download(aqt_path: Path, qt_platform: Path):
+
+    if system() == "Windows":
+        os = "windows"
+    elif system() == "Darwin":
+        os = "mac"
+    elif system() == "Linux":
+        os = "linux"
     
     # aqt list-qt windows desktop --modules 6.2.0 win64_msvc2019_64
     qt_packages = "qt3d qt5compat qtimageformats qtmultimedia qtshadertools qtquick3d qtwebengine qtwebsockets qtwebview qtpositioning"
     print(f"Downloading: {qt_packages} to {aqt_path}")
-    execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-qt -O  {aqt_path} windows desktop {defines.QT_VERSION} {qt_platform} -m {qt_packages}")
+    execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-qt -O  {aqt_path} {os} desktop {defines.QT_VERSION} {qt_platform} -m {qt_packages}")
 
     # Tools can only be installed one at the time:
     # see: aqt list-tool windows desktop
     tools = ["tools_ifw", "tools_qtcreator", "tools_ninja" ,"tools_cmake"]
     for tool in tools:
-        execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-tool -O {aqt_path} windows desktop {tool}")
+        execute(f"{defines.PYTHON_EXECUTABLE} -m aqt install-tool -O {aqt_path} {os} desktop {tool}")
 
 def setup_qt():
 
@@ -136,7 +143,7 @@ def main():
     
     # Setup vcpkg via boostrap script first
     platform_command.execute_commands() # Execute platform specific commands.
-    
+
     execute(f"{vcpkg_command} remove --outdated --recurse", vcpkg_path, False)
 
     for triplet in vcpkg_triplet:
