@@ -6,3 +6,4 @@ QT_VERSION = "6.3.2"
 QT_IFW_VERSION = "4.4"
 SCREENPLAY_VERSION = "0.15.0-RC1"
 AQT_PATH = Path("C:/aqt") if sys.platform == "win32" else Path("~/aqt")
+PYTHON_EXECUTABLE = "python" if sys.platform == "win32" else "python3"
