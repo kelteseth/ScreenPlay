@@ -48,9 +48,10 @@
 #include <QScopeGuard>
 #include <QString>
 #include <QtMath>
+#include <QQmlEngine>
+#include <QThread>
 
 #include "ScreenPlay/createimportstates.h"
-#include "ScreenPlay/util.h"
 
 namespace ScreenPlay {
 

@@ -67,9 +67,6 @@
 #include <memory>
 #include <optional>
 
-#ifdef Q_OS_WIN
-#include <qt_windows.h>
-#endif
 
 namespace ScreenPlay {
 class ActiveProfile;

@@ -45,7 +45,6 @@
 #include "ScreenPlay/projectsettingslistmodel.h"
 #include "ScreenPlay/sdkconnection.h"
 #include "ScreenPlay/settings.h"
-#include "ScreenPlay/util.h"
 
 namespace ScreenPlay {
 

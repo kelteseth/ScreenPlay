@@ -49,8 +49,6 @@
 #include "screenplaywallpaper.h"
 #include "screenplaywidget.h"
 #include "settings.h"
-#include "util.h"
-
 #include <memory>
 #include <optional>
 

@@ -51,9 +51,9 @@
 #include <QWindow>
 #include <QtQuick/QQuickView>
 #include <QtQuick/QQuickWindow>
+#include <QFileSystemWatcher>
 
 #ifdef Q_OS_WIN
-#include <QFileSystemWatcher>
 #include <qt_windows.h>
 #endif
 

@@ -34,6 +34,7 @@
 
 #pragma once
 
+#include <QMetaType>
 #include <QApplication>
 #include <QClipboard>
 #include <QCoreApplication>
@@ -51,9 +52,10 @@
 #include <QTextStream>
 #include <QVersionNumber>
 #include <QtConcurrent/QtConcurrent>
-#include <qqml.h>
+#include <QQmlEngine>
 
 #include "ScreenPlay/globalvariables.h"
+#include "ScreenPlayUtil/contenttypes.h"
 #include "ScreenPlayUtil/util.h"
 
 #include "qarchive_enums.hpp"

@@ -39,7 +39,6 @@
 #if defined(Q_OS_WIN)
 // Must be first!
 #include <qt_windows.h>
-
 #include "WinUser.h"
 #include <ShellScalingApi.h>
 #endif
@@ -48,6 +47,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMetaEnum>
+#include <QMetaType>
 #include <QString>
 #include <QVersionNumber>
 #include <cmath>
