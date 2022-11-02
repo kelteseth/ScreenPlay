@@ -37,10 +37,12 @@
 #include <QtGlobal>
 
 #if defined(Q_OS_WIN)
+
 // Must be first!
+#include <qt_windows.h>
+// Do not sort !
 #include "WinUser.h"
 #include <ShellScalingApi.h>
-#include <qt_windows.h>
 #endif
 
 #include "ScreenPlayUtil/contenttypes.h"
