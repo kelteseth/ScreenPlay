@@ -51,14 +51,6 @@ Item {
     }
 
     Connections {
-        function onHelperButtonPressed(pos) {
-            setNavigationItem(pos)
-        }
-
-        target: loaderHelp.item
-    }
-
-    Connections {
         function onInstalledLoadingFinished() {
             checkIsContentInstalled()
         }
@@ -74,7 +66,6 @@ Item {
     Loader {
         id: loaderHelp
         active: false
-        z: 99
         anchors.fill: parent
         source: "qrc:/qml/ScreenPlayApp/qml/Installed/InstalledWelcomeScreen.qml"
     }

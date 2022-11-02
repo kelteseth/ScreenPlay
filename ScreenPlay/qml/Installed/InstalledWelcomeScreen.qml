@@ -7,9 +7,6 @@ import ScreenPlayUtil
 
 Item {
     id: installedUserHelper
-
-    signal helperButtonPressed(var pos)
-
     state: "out"
     Component.onCompleted: state = "in"
 
@@ -119,7 +116,7 @@ Item {
         font.pointSize: 16
         width: implicitWidth + 20
         height: implicitHeight + 10
-        icon.source:{
+        icon.source: {
             if (App.settings.steamVersion) {
                 return "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
             } else {
@@ -130,7 +127,7 @@ Item {
         icon.height: 18
         onClicked: {
             if (App.settings.steamVersion) {
-                helperButtonPressed(1)
+                App.util.setNavigation("Workshop")
             } else {
                 Qt.openUrlExternally("https://forum.screen-play.app/")
             }
