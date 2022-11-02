@@ -78,7 +78,7 @@ SystemTrayIcon {
         }
 
         MenuItem {
-            text: qsTr("Quit")
+            text: qsTr("Quit ScreenPlay")
             onTriggered: App.exit()
         }
     }

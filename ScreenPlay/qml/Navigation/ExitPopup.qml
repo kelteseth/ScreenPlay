@@ -27,7 +27,7 @@ Util.Popup {
             spacing: 20
 
             Text {
-                text: qsTr("You have active Wallpaper. ScreenPlay will keep running in the background.")
+                text: qsTr("You have active Wallpaper.\nScreenPlay will only quit if no Wallpaper are running.")
                 Layout.fillWidth: true
                 Layout.fillHeight: true
                 wrapMode: Text.WrapAtWordBoundaryOrAnywhere
@@ -46,10 +46,10 @@ Util.Popup {
             Text {
                 text: {
                     if (Qt.platform.os === "windows") {
-                        return qsTr("You can <b>exit</b> ScreenPlay via the bottom right Tray-Icon.")
+                        return qsTr("You can <b>quit</b> ScreenPlay via the bottom right Tray-Icon.")
                     }
                     if (Qt.platform.os === "osx") {
-                        return qsTr("You can <b>exit</b> ScreenPlay via the top right Tray-Icon.")
+                        return qsTr("You can <b>quit</b> ScreenPlay via the top right Tray-Icon.")
                     }
                 }
 
@@ -69,7 +69,7 @@ Util.Popup {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 Button {
-                    text: qsTr("Exit ScreenPlay now")
+                    text: qsTr("Quit ScreenPlay now")
                     onClicked: Qt.quit()
                 }
                 Button {
