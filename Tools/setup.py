@@ -8,6 +8,10 @@ import defines
 import argparse
 import util
 import datetime
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
+
 
 class commands_list():
     def __init__(self):
@@ -139,7 +143,7 @@ def main():
     print(f"Clone into {vcpkg_path}")
     execute("git clone https://github.com/microsoft/vcpkg.git ScreenPlay-vcpkg", project_source_parent_path, True)
     execute("git fetch", vcpkg_path)
-    execute("git checkout {}".format(defines.VCPKG_VERSION), vcpkg_path)
+    execute(f"git checkout {defines.VCPKG_VERSION}", vcpkg_path)
     
     # Setup vcpkg via boostrap script first
     platform_command.execute_commands() # Execute platform specific commands.

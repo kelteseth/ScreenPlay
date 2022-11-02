@@ -1,6 +1,9 @@
 import subprocess
 import os
 import shutil
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
 
 def main():
     print("\nRuns qdoc with the settings from Docs/config.qdocconf. For this you need to have Qt 6.1 installed!")

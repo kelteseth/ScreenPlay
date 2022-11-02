@@ -1,11 +1,11 @@
 #!/usr/bin/python3
 from distutils.dir_util import mkpath
 import os
-import shutil
-import pathlib
 from pathlib import Path
 from util import run, run_and_capture_output, cd_repo_root_path
-import warnings
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
 
 def listfiles(path):
     files = []

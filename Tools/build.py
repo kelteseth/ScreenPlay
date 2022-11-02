@@ -11,6 +11,10 @@ from typing import Tuple
 from shutil import copytree
 from pathlib import Path
 from util import sha256, cd_repo_root_path, zipdir, run, get_vs_env_dict
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
+
 
 def clean_build_dir(build_dir):
     if isinstance(build_dir, str):

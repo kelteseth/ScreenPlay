@@ -1,16 +1,14 @@
 from fileinput import filename
-import pathlib
 from zipfile import ZipFile
-from pathlib import Path
-import py7zr
 import platform
 from urllib.request import urlopen
 import os
+import defines
 from shutil import move, rmtree
 from util import cd_repo_root_path
+from sys import stdout
 
-FFMPEG_VERSION = "5.0.1"
-
+stdout.reconfigure(encoding='utf-8')
 
 def download(
         download_server_base_url,
@@ -75,8 +73,8 @@ def extract_zip_executables(extraction_path, path_and_filename):
 def download_prebuild_ffmpeg_mac(extraction_path: str):
 
     print("Setup ffmpeg mac")
-    ffmpeg_zip_name = f'ffmpeg-{FFMPEG_VERSION}.zip'
-    ffprobe_zip_name = f'ffprobe-{FFMPEG_VERSION}.zip'
+    ffmpeg_zip_name = f'ffmpeg-{defines.FFMPEG_VERSION}.zip'
+    ffprobe_zip_name = f'ffprobe-{defines.FFMPEG_VERSION}.zip'
     download_server_base_url = 'https://evermeet.cx/ffmpeg/'
 
     ffmpeg_path_and_filename = download(

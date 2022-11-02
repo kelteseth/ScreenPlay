@@ -5,6 +5,9 @@ from multiprocessing import cpu_count
 from multiprocessing import Pool
 from multiprocessing import dummy
 from pathlib import Path
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
 
 
 def find_all_files(path) -> []:
