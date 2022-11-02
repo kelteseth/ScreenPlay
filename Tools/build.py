@@ -110,7 +110,7 @@ def execute(
         step_time = time.time()
         build_installer(build_config, build_result)
         build_installer_duration = time.time() - step_time
-        print(f"⏱️ build_installer_duration: {zip_duration}s")
+        print(f"⏱️ build_installer_duration: {build_installer_duration}s")
 
     # Create a zip file for scoop & chocolatey
     if platform.system() == "Windows":
