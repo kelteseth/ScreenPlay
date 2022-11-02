@@ -1,11 +1,8 @@
 #!/usr/bin/python3
 from distutils.dir_util import mkpath
 import os
-import shutil
-import pathlib
 from pathlib import Path
 from util import run, run_and_capture_output, cd_repo_root_path
-import warnings
 
 def listfiles(path):
     files = []
@@ -31,7 +28,7 @@ def run_lipo() :
     # Looks like it is ok the contain symlinks otherwise we get these errors for qml plugins:
     # bundle format is ambiguous (could be app or framework)
     # https://bugreports.qt.io/browse/QTBUG-101338
-    run("cp -a build-arm64-osx-release build-universal-osx-release",root_path)
+    run("cp -a build-x64-osx-release build-universal-osx-release",root_path)
 
     apps = ["ScreenPlay","ScreenPlayWallpaper", "ScreenPlayWidget"]
     for app in apps:

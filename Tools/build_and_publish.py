@@ -14,6 +14,7 @@ from util import sftp_exists
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Build and Package ScreenPlay')
+    parser.add_argument('-skip_publish', '-skp', action="store_true", dest="skip_publish",  help="Steam password")
     parser.add_argument('-steam_password', '-sp', action="store", dest="steam_password",  help="Steam password")
     parser.add_argument('-hosting_username','-hu', action="store", dest="hosting_username", help="ssh username")
     parser.add_argument('-hosting_password', '-hp', action="store", dest="hosting_password",  help="ssh password")
@@ -97,6 +98,9 @@ if __name__ == "__main__":
         sftp.close()
         ssh.close()
 
+    if args.skip_publish:
+        print("Skip publishing.")
+        sys.exit(0)
     # Make sure to reset to tools path
     os.chdir(tools_path)
     steam_publish.publish(
