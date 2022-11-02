@@ -3,7 +3,7 @@ import QtQuick.Controls
 import QtQuick.Controls.Material
 import ScreenPlayApp
 import ScreenPlay
-import ScreenPlayUtil 
+import ScreenPlayUtil
 
 Item {
     id: installedUserHelper
@@ -51,9 +51,7 @@ Item {
                 running: true
                 loops: Animation.Infinite
             }
-
         }
-
     }
 
     Image {
@@ -69,19 +67,18 @@ Item {
             topMargin: -200
             horizontalCenter: parent.horizontalCenter
         }
-
     }
 
     Text {
         id: txtHeadline
 
         y: 80
-        text: App.settings.steamVersion ? qsTr("Get free Widgets and Wallpaper via the Steam Workshop") : qsTr("Get content via our forum")
+        text: App.settings.steamVersion ? qsTr("Get free Widgets and Wallpaper via the Steam Workshop") : qsTr(
+                                              "Get content via our forum")
         font.family: App.settings.font
         font.capitalization: Font.Capitalize
         wrapMode: Text.WordWrap
         color: "white"
-        font.weight: Font.Thin
         font.pointSize: 28
         horizontalAlignment: Text.AlignHCenter
 
@@ -90,7 +87,6 @@ Item {
             left: parent.left
             top: parent.top
         }
-
     }
 
     Image {
@@ -106,23 +102,40 @@ Item {
             topMargin: 50
             horizontalCenter: parent.horizontalCenter
         }
-
     }
 
     Button {
         id: btnWorkshop
 
-        text: qsTr("Browse the Steam Workshop")
+        text: {
+            if (App.settings.steamVersion) {
+                return qsTr("Browse the Steam Workshop")
+            } else {
+                return qsTr("Open the ScreenPlay forum")
+            }
+        }
         Material.background: Material.color(Material.Orange)
         Material.foreground: "white"
         font.pointSize: 16
-        font.weight: Font.Thin
         width: implicitWidth + 20
         height: implicitHeight + 10
-        icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
+        icon.source:{
+            if (App.settings.steamVersion) {
+                return "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
+            } else {
+                return "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
+            }
+        }
         icon.width: 18
         icon.height: 18
-        onClicked: helperButtonPressed(1)
+        onClicked: {
+            if (App.settings.steamVersion) {
+                helperButtonPressed(1)
+            } else {
+                Qt.openUrlExternally("https://forum.screen-play.app/")
+            }
+        }
+
         transform: [
             Shake {
                 id: animShake
@@ -141,7 +154,6 @@ Item {
             bottomMargin: -100
             horizontalCenter: parent.horizontalCenter
         }
-
     }
 
     states: [
@@ -173,14 +185,13 @@ Item {
             PropertyChanges {
                 target: txtHeadline
                 opacity: 0
-                anchors.topMargin: -300
+                anchors.topMargin: 0
             }
 
             PropertyChanges {
                 target: btnWorkshop
                 anchors.bottomMargin: -100
             }
-
         },
         State {
             name: "in"
@@ -218,7 +229,6 @@ Item {
                 target: btnWorkshop
                 anchors.bottomMargin: 50
             }
-
         }
     ]
     transitions: [
@@ -239,12 +249,11 @@ Item {
                     property: "opacity"
                     duration: 600
                 }
-
             }
 
             SequentialAnimation {
                 PauseAnimation {
-                    duration: 500
+                    duration: 200
                 }
 
                 PropertyAnimation {
@@ -260,29 +269,28 @@ Item {
                     duration: 600
                     easing.type: Easing.OutBack
                 }
-
             }
 
-            SequentialAnimation {
+            ParallelAnimation {
+
                 PropertyAnimation {
                     targets: imgLogo
                     property: "opacity"
-                    duration: 500
+                    duration: 600
                     easing.type: Easing.InOutExpo
                 }
 
                 PropertyAnimation {
                     targets: imgLogo
                     property: "topMargin"
-                    duration: 500
+                    duration: 1000
                     easing.type: Easing.InOutExpo
                 }
-
             }
 
             SequentialAnimation {
                 PauseAnimation {
-                    duration: 200
+                    duration: 400
                 }
 
                 PropertyAnimation {
@@ -291,7 +299,6 @@ Item {
                     duration: 1100
                     easing.type: Easing.InOutExpo
                 }
-
             }
 
             SequentialAnimation {
@@ -302,18 +309,16 @@ Item {
                 PropertyAnimation {
                     targets: btnWorkshop
                     properties: "bottomMargin"
-                    duration: 400
+                    duration: 1500
                     easing.type: Easing.OutBack
                 }
 
                 ScriptAction {
                     script: {
-                        animShake.start(2000, 1000, -1);
+                        animShake.start(2000, 1000, -1)
                     }
                 }
-
             }
-
         }
     ]
 }
