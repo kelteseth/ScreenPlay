@@ -42,18 +42,20 @@
 #include <QDir>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QMetaType>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QObject>
 #include <QProcess>
+#include <QQmlEngine>
 #include <QScopeGuard>
 #include <QString>
 #include <QTextStream>
 #include <QVersionNumber>
 #include <QtConcurrent/QtConcurrent>
-#include <qqml.h>
 
 #include "ScreenPlay/globalvariables.h"
+#include "ScreenPlayUtil/contenttypes.h"
 #include "ScreenPlayUtil/util.h"
 
 #include "qarchive_enums.hpp"

@@ -67,10 +67,6 @@
 #include <memory>
 #include <optional>
 
-#ifdef Q_OS_WIN
-#include <qt_windows.h>
-#endif
-
 namespace ScreenPlay {
 class ActiveProfile;
 
@@ -153,18 +149,11 @@ public:
     Theme theme() const { return m_theme; }
     bool steamVersion() const { return m_steamVersion; }
     DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
-
-    void setupLanguage();
-
-    const QString &buildInfos() const
-    {
-        return m_buildInfos;
-    }
+    const QString& buildInfos() const { return m_buildInfos; }
 
 signals:
     void requestRetranslation();
     void resetInstalledListmodel();
-
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
     void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
@@ -180,10 +169,10 @@ signals:
     void themeChanged(ScreenPlay::Settings::Theme theme);
     void steamVersionChanged(bool steamVersion);
     void desktopEnvironmentChanged(DesktopEnvironment desktopEnvironment);
-
-    void buildInfosChanged(const QString &buildInfos);
+    void buildInfosChanged(const QString& buildInfos);
 
 public slots:
+    void setupLanguage();
     void writeJsonFileFromResource(const QString& filename);
     void setupWidgetAndWindowPaths();
     bool retranslateUI();
@@ -281,7 +270,7 @@ public slots:
 
     void setLocalStoragePath(QUrl localStoragePath)
     {
-        //Remove: "file:///"
+        // Remove: "file:///"
         QJsonValue cleanedPath = QJsonValue(localStoragePath.toString());
 
         setqSetting("ScreenPlayContentPath", cleanedPath);
@@ -400,7 +389,7 @@ public slots:
         emit desktopEnvironmentChanged(m_desktopEnvironment);
     }
 
-    void setBuildInfos(const QString &buildInfos)
+    void setBuildInfos(const QString& buildInfos)
     {
         if (m_buildInfos == buildInfos)
             return;
@@ -411,6 +400,7 @@ public slots:
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
     void initInstalledPath();
+    void initSteamInstalledPath();
     QString fixLanguageCode(const QString& languageCode);
 
 private:

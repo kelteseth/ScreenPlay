@@ -192,7 +192,7 @@ void SteamWorkshopItem::submitItemUpdateStatus(SubmitItemUpdateResult_t* pCallba
     default: {
 
         qDebug() << "Delete item with status: " << status();
-        //SteamUGC()->DeleteItem(pCallback->m_nPublishedFileId);
+        // SteamUGC()->DeleteItem(pCallback->m_nPublishedFileId);
     }
     }
 

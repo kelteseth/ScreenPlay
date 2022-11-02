@@ -45,12 +45,13 @@
 #include <QJsonParseError>
 #include <QObject>
 #include <QProcess>
+#include <QQmlEngine>
 #include <QScopeGuard>
 #include <QString>
+#include <QThread>
 #include <QtMath>
 
 #include "ScreenPlay/createimportstates.h"
-#include "ScreenPlay/util.h"
 
 namespace ScreenPlay {
 

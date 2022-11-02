@@ -2,6 +2,9 @@
 import os
 import sys
 import subprocess
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
 
 def install_requirements():
     print("Set up required python modules")

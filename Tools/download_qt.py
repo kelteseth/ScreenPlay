@@ -5,7 +5,9 @@ import subprocess
 from platform import platform, system
 from pathlib import Path
 from execute_util import execute
+from sys import stdout
 
+stdout.reconfigure(encoding='utf-8')
 
 def run(cmd, cwd=Path.cwd()):
 	result = subprocess.run(cmd, shell=True, cwd=cwd)

@@ -10,6 +10,9 @@ from shutil import copyfile
 import subprocess
 from util import cd_repo_root_path
 import platform
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
 
 # Executes steamcmd with username and password. Changes the content of the config
 # for better readability in the steam builds tab

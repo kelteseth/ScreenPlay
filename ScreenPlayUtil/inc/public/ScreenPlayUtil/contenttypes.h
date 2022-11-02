@@ -47,7 +47,7 @@ namespace SearchType {
     enum class SearchType {
         All,
         Text,
-        Scene, //QML, HTML, Godot, Gif, Website wallpaper
+        Scene, // QML, HTML, Godot, Gif, Website wallpaper
         Wallpaper,
         Widget,
     };
@@ -88,14 +88,14 @@ namespace InstalledType {
 
     enum class InstalledType {
         Unknown,
-        //Wallpaper
+        // Wallpaper
         VideoWallpaper,
         QMLWallpaper,
         HTMLWallpaper,
         GodotWallpaper,
         GifWallpaper,
         WebsiteWallpaper,
-        //Widgets
+        // Widgets
         QMLWidget,
         HTMLWidget,
     };

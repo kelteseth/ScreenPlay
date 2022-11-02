@@ -53,12 +53,11 @@
 #include <QtQuick/QQuickWindow>
 
 #ifdef Q_OS_WIN
-#include <QFileSystemWatcher>
 #include <qt_windows.h>
 #endif
 
-#include "ScreenPlayUtil/util.h"
 #include "ScreenPlaySDK/screenplaysdk.h"
+#include "ScreenPlayUtil/util.h"
 #include <memory>
 
 class WidgetWindow : public QObject {

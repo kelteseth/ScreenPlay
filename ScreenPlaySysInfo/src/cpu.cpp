@@ -32,21 +32,21 @@ void CPU::update()
     if (status == 0)
         return;
 
-    //convert times to uint by appending low and high bits
+    // convert times to uint by appending low and high bits
     uint64_t newIdleTime = FileTimeToInt64(ftIdleTime);
     uint64_t newKernelTime = FileTimeToInt64(ftKernelTime);
     uint64_t newUserTime = FileTimeToInt64(ftUserTime);
 
-    //subtract old times
+    // subtract old times
     uint64_t userTime = newUserTime - lastUserTime;
     uint64_t kernelTime = newKernelTime - lastKernelTime;
     double idleTime = newIdleTime - lastIdleTime;
 
-    //calculate the usage
+    // calculate the usage
     double sysTime = kernelTime + userTime;
     float currentUsage = float((sysTime - idleTime) * 100 / sysTime);
 
-    //save the new values
+    // save the new values
     lastIdleTime = newIdleTime;
     lastKernelTime = newKernelTime;
     lastUserTime = newUserTime;
@@ -54,6 +54,6 @@ void CPU::update()
     float cu = int(currentUsage * 100);
     currentUsage = float(cu / 100);
 
-    //publish result
+    // publish result
     setUsage(currentUsage);
 }

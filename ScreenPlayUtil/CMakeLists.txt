@@ -10,18 +10,21 @@ find_package(
     REQUIRED)
 
 set(QML
+    # cmake-format: sort
     qml/CloseIcon.qml
     qml/ColorPicker.qml
     qml/Dialog.qml
     qml/Dialogs/CriticalError.qml
     qml/Dialogs/MonitorConfiguration.qml
     qml/Dialogs/SteamNotAvailable.qml
+    qml/FileDropAnimation.qml
     qml/FileSelector.qml
     qml/Grow.qml
     qml/GrowIconLink.qml
     qml/Headline.qml
     qml/HeadlineSection.qml
     qml/ImageSelector.qml
+    qml/JSUtil.js
     qml/LicenseSelector.qml
     qml/ModalBackgroundBlur.qml
     qml/MouseHoverBlocker.qml
@@ -29,17 +32,17 @@ set(QML
     qml/RippleEffect.qml
     qml/Search.qml
     qml/Shake.qml
-    qml/FileDropAnimation.qml
     qml/Slider.qml
     qml/Tag.qml
     qml/TagSelector.qml
     qml/TextField.qml
-    qml/TrayIcon.qml
-    qml/JSUtil.js)
+    qml/TrayIcon.qml)
 
-set(SOURCES inc/public/ScreenPlayUtil/httpfileserver.cpp src/contenttypes.cpp src/util.cpp)
+set(SOURCES # cmake-format: sort
+            inc/public/ScreenPlayUtil/httpfileserver.cpp src/contenttypes.cpp src/util.cpp)
 
 set(HEADER
+    # cmake-format: sort
     inc/public/ScreenPlayUtil/AutoPropertyHelpers.h
     inc/public/ScreenPlayUtil/ConstRefPropertyHelpers.h
     inc/public/ScreenPlayUtil/contenttypes.h
@@ -52,10 +55,8 @@ set(HEADER
     inc/public/ScreenPlayUtil/SingletonHelper.h
     inc/public/ScreenPlayUtil/util.h)
 
-set(RESOURCES
-    assets/icons/folder.svg
-    assets/icons/description.svg
-    assets/icons/attach_file.svg)
+set(RESOURCES # cmake-format: sort
+              assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
 
 qt_add_library(
     ${PROJECT_NAME}
@@ -67,7 +68,8 @@ qt_add_qml_module(
     ${PROJECT_NAME}
     OUTPUT_DIRECTORY
     ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
-    RESOURCE_PREFIX /qml
+    RESOURCE_PREFIX
+    /qml
     URI
     ${PROJECT_NAME}
     VERSION

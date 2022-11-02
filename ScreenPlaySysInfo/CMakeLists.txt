@@ -17,6 +17,7 @@ find_package(
 set(QML qml/TestMain.qml)
 
 set(QML_PLUGIN_SOURCES
+    # cmake-format: sort
     src/cpu.cpp
     src/gpu.cpp
     src/ipaddress.cpp
@@ -26,6 +27,7 @@ set(QML_PLUGIN_SOURCES
     src/uptime.cpp)
 
 set(QML_PLUGIN_HEADER
+    # cmake-format: sort
     src/cpu.h
     src/gpu.h
     src/ipaddress.h
@@ -51,7 +53,8 @@ qt_add_qml_module(
     1.0
     OUTPUT_DIRECTORY
     ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
-    RESOURCE_PREFIX /qml
+    RESOURCE_PREFIX
+    /qml
     QML_FILES
     ${QML}
     SOURCES

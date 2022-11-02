@@ -32,7 +32,7 @@ MacWindow::MacWindow(
 
     // Ether for one Screen or for all
     if ((QApplication::screens().length() == activeScreensList.length()) && (activeScreensList.length() != 1)) {
-        //setupWallpaperForAllScreens();
+        // setupWallpaperForAllScreens();
     } else if (activeScreensList.length() == 1) {
         auto* screen = QGuiApplication::screens().at(activeScreensList.at(0));
         m_window.setGeometry(screen->geometry());
@@ -48,7 +48,7 @@ MacWindow::MacWindow(
     // OSX Development workaround:
     // This folder needs then to be copied into the .app/Contents/MacOS/
     // for the deploy version.
-    m_window.engine()->addImportPath(workingDir.path()+"/qml");
+    m_window.engine()->addImportPath(workingDir.path() + "/qml");
 #endif
 
     // WARNING: Setting Window flags must be called *here*!

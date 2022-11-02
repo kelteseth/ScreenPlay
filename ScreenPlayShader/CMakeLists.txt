@@ -19,13 +19,15 @@ set(QML_PLUGIN_SOURCES src/shaderlibrary.cpp)
 set(QML_PLUGIN_HEADER src/shaderlibrary.h)
 
 set(SHADER
-    shaders/lightning.vert
+    # cmake-format: sort
     shaders/lightning.frag
-    shaders/wobble.frag
+    shaders/lightning.vert
     shaders/water.frag
-    shaders/water.vert)
+    shaders/water.vert
+    shaders/wobble.frag)
 
 set(RESOURCES
+    # cmake-format: sort
     assets/mask_01.png
     assets/Shadertoy_Bayer.png
     assets/Shadertoy_Gray_Noise_Medium.png
@@ -42,7 +44,8 @@ qt_add_qml_module(
     ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
     URI
     ${PROJECT_NAME}
-    RESOURCE_PREFIX /qml
+    RESOURCE_PREFIX
+    /qml
     VERSION
     1.0
     SOURCES

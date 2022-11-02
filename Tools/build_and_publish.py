@@ -11,6 +11,10 @@ import platform
 import paramiko
 import defines
 from util import sftp_exists
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
+
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Build and Package ScreenPlay')

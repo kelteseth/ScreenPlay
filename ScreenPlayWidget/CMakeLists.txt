@@ -24,9 +24,10 @@ find_package(
                Positioning)
 
 set(RESOURCES
+    # cmake-format: sort
+    assets/icons/baseline-close-24px.svg
     assets/icons/baseline-opacity-24px.svg
     assets/icons/baseline-settings-20px.svg
-    assets/icons/baseline-close-24px.svg
     assets/image/noisy-texture-3.png)
 
 qt_add_executable(
@@ -61,7 +62,8 @@ qt_add_qml_module(
     1.0
     OUTPUT_DIRECTORY
     ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
-    RESOURCE_PREFIX /qml
+    RESOURCE_PREFIX
+    /qml
     QML_FILES
     ${QML}
     RESOURCES

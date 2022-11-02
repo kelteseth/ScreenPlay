@@ -73,7 +73,6 @@ Item {
 
     Loader {
         id: loaderHelp
-
         active: false
         z: 99
         anchors.fill: parent

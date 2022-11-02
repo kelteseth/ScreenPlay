@@ -3,7 +3,6 @@
 
 #include "util.h"
 
-
 namespace ScreenPlay {
 
 /*!
@@ -471,7 +470,6 @@ void ScreenPlayManager::newConnection()
     });
     m_unconnectedClients.push_back(std::move(connection));
 }
-
 
 /*!
     \brief Removes a wallpaper from the given appID. Returns true on success.

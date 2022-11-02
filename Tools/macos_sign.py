@@ -1,8 +1,9 @@
 #!/usr/bin/python3
-import platform
-import os
 from build import BuildConfig
 from util import  run
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
 
 def sign(build_config: BuildConfig):
     print("Run codedesign")

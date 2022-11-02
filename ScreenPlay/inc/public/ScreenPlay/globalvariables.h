@@ -41,7 +41,7 @@
 #include <QUrl>
 #include <QVersionNumber>
 
-#include "ScreenPlayUtil/contenttypes.h"
+#include <QQmlEngine>
 
 namespace ScreenPlay {
 

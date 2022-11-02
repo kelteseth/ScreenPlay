@@ -1,5 +1,7 @@
 #include "ScreenPlay/screenplaywallpaper.h"
 
+#include "util.h"
+
 namespace ScreenPlay {
 
 /*!

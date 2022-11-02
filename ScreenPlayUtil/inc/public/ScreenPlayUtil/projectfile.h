@@ -124,13 +124,13 @@ struct ProjectFile {
 
     QString m_title;
     QString m_description;
-    //Filenames
+    // Filenames
     QString m_file;
     QString m_preview;
     QString m_previewGIF;
-    //Path
+    // Path
     QUrl m_absoluteStoragePath;
-    //Folder name
+    // Folder name
     QString m_folderId;
 
     QVariant m_publishedFileID { 0 };

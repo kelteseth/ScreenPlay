@@ -22,7 +22,7 @@ namespace ImportVideoState {
         ConvertingPreviewVideoFinished,
         ConvertingPreviewVideoError,
         ConvertingPreviewGif,
-        ConvertingPreviewGifFinished, //10
+        ConvertingPreviewGifFinished, // 10
         ConvertingPreviewGifError,
         ConvertingPreviewImage,
         ConvertingPreviewImageFinished,
@@ -32,7 +32,7 @@ namespace ImportVideoState {
         ConvertingPreviewImageThumbnailError,
         ConvertingAudio,
         ConvertingAudioFinished,
-        ConvertingAudioError, //20
+        ConvertingAudioError, // 20
         ConvertingVideo,
         ConvertingVideoFinished,
         ConvertingVideoError,
@@ -42,7 +42,7 @@ namespace ImportVideoState {
         CreateProjectFile,
         CreateProjectFileFinished,
         CreateProjectFileError,
-        AbortCleanupError, //30
+        AbortCleanupError, // 30
         CreateTmpFolderError,
         Finished,
         Failed,

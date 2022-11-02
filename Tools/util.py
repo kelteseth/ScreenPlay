@@ -5,6 +5,9 @@ from os import chdir
 from concurrent.futures import ThreadPoolExecutor
 import os
 import subprocess
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
 
 def sftp_exists(sftp, path) -> bool:
     try:

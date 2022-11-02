@@ -37,9 +37,10 @@
 #include <QtGlobal>
 
 #if defined(Q_OS_WIN)
+
 // Must be first!
 #include <qt_windows.h>
-
+// Do not sort !
 #include "WinUser.h"
 #include <ShellScalingApi.h>
 #endif
@@ -48,6 +49,7 @@
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMetaEnum>
+#include <QMetaType>
 #include <QString>
 #include <QVersionNumber>
 #include <cmath>
@@ -79,7 +81,7 @@ struct WinMonitorStats {
         pThis->rcMonitors.push_back(*lprcMonitor);
         pThis->iMonitors.push_back(pThis->hdcMonitors.size());
 
-        //qInfo() << std::abs(lprcMonitor->right - lprcMonitor->left) << std::abs(lprcMonitor->top - lprcMonitor->bottom);
+        // qInfo() << std::abs(lprcMonitor->right - lprcMonitor->left) << std::abs(lprcMonitor->top - lprcMonitor->bottom);
 
         return TRUE;
     }

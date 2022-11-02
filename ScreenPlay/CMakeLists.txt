@@ -5,6 +5,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
 set(SOURCES
+    # cmake-format: sort
     src/app.cpp
     src/create.cpp
     src/createimportvideo.cpp
@@ -23,6 +24,7 @@ set(SOURCES
     src/wizards.cpp)
 
 set(HEADER
+    # cmake-format: sort
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/create.h
     inc/public/ScreenPlay/createimportstates.h
@@ -43,15 +45,16 @@ set(HEADER
     inc/public/ScreenPlay/wizards.h)
 
 set(QML
+    # cmake-format: sort
     main.qml
     qml/Community/Community.qml
     qml/Community/CommunityNavItem.qml
     qml/Community/XMLNewsfeed.qml
-    qml/Create/Wizard.qml
     qml/Create/Create.qml
     qml/Create/CreateSidebar.qml
     qml/Create/StartInfo.qml
     qml/Create/StartInfoLinkImage.qml
+    qml/Create/Wizard.qml
     qml/Create/Wizards/GifWallpaper.qml
     qml/Create/Wizards/HTMLWallpaper.qml
     qml/Create/Wizards/HTMLWidget.qml
@@ -72,8 +75,8 @@ set(QML
     qml/Create/WizardsFiles/QMLWallpaperMain.qml
     qml/Create/WizardsFiles/QMLWidgetMain.qml
     qml/Installed/Installed.qml
-    qml/Installed/InstalledWelcomeScreen.qml
     qml/Installed/InstalledNavigation.qml
+    qml/Installed/InstalledWelcomeScreen.qml
     qml/Installed/ScreenPlayItem.qml
     qml/Installed/ScreenPlayItemImage.qml
     qml/Installed/Sidebar.qml
@@ -83,9 +86,8 @@ set(QML
     qml/Monitors/MonitorSelectionItem.qml
     qml/Monitors/MonitorsProjectSettingItem.qml
     qml/Monitors/SaveNotification.qml
+    qml/Navigation/ExitPopup.qml
     qml/Navigation/Navigation.qml
-    qml/Navigation/WindowNavButton.qml
-    qml/Navigation/WindowNavigation.qml
     qml/Settings/SettingBool.qml
     qml/Settings/Settings.qml
     qml/Settings/SettingsButton.qml
@@ -97,6 +99,7 @@ set(QML
     qml/Workshop/Workshop.qml)
 
 set(TS_FILES
+    # cmake-format: sort
     translations/ScreenPlay_.ts
     translations/ScreenPlay_de_DE.ts
     translations/ScreenPlay_es_ES.ts
@@ -112,15 +115,19 @@ set(TS_FILES
     translations/ScreenPlay_zh_CN.ts)
 
 set(RESOURCES
-    assets/WorkshopPreview.html
+    # cmake-format: sort
+    "legal/Font Awesome Free License.txt"
+    "legal/Qt LGPLv3.txt"
     assets/icons/app.ico
     assets/icons/brand_github.svg
     assets/icons/brand_gitlab.svg
+    assets/icons/brand_reddit.svg
     assets/icons/brand_twitch.svg
     assets/icons/brand_twitter.svg
     assets/icons/exclamation-triangle-solid.svg
     assets/icons/font-awsome/close.svg
     assets/icons/font-awsome/frown-o.svg
+    assets/icons/font-awsome/patreon-brands.svg
     assets/icons/icon_arrow_left.svg
     assets/icons/icon_arrow_right.svg
     assets/icons/icon_build.svg
@@ -137,10 +144,12 @@ set(RESOURCES
     assets/icons/icon_folder_open.svg
     assets/icons/icon_forum.svg
     assets/icons/icon_help_center.svg
+    assets/icons/icon_import_export_.svg
     assets/icons/icon_indicator_down.svg
     assets/icons/icon_info.svg
     assets/icons/icon_installed.svg
     assets/icons/icon_launch.svg
+    assets/icons/icon_minimize.svg
     assets/icons/icon_movie.svg
     assets/icons/icon_new_releases.svg
     assets/icons/icon_open_in_new.svg
@@ -153,28 +162,38 @@ set(RESOURCES
     assets/icons/icon_settings.svg
     assets/icons/icon_share.svg
     assets/icons/icon_single_image.svg
+    assets/icons/icon_sort-down-solid.svg
+    assets/icons/icon_sort-up-solid.svg
     assets/icons/icon_steam.svg
     assets/icons/icon_supervisor_account.svg
     assets/icons/icon_thumb_down.svg
     assets/icons/icon_thumb_up.svg
     assets/icons/icon_upload.svg
+    assets/icons/icon_video_settings_black_24dp.svg
     assets/icons/icon_volume.svg
     assets/icons/icon_volume_mute.svg
     assets/icons/icon_volume_up.svg
     assets/icons/icon_widgets.svg
     assets/icons/icon_window.svg
+    assets/icons/item_banner_new.svg
     assets/icons/monitor_setup.svg
+    assets/icons/steam_default_avatar.png
+    assets/images/Early_Access.png
     assets/images/Intro.png
     assets/images/Intro_PC.png
     assets/images/Intro_shine.png
-    assets/images/Window.svg
     assets/images/mask_round.svg
     assets/images/mask_workshop.png
     assets/images/missingPreview.png
     assets/images/noisy-texture-3.png
     assets/images/noisy-texture.png
+    assets/images/scale_window_indicator.png
+    assets/images/steam_offline.png
+    assets/images/trayIcon_windows.png
+    assets/images/Window.svg
     assets/licenses/Apache2.txt
     assets/licenses/OFL.txt
+    assets/macos/app.screenplay.plist
     assets/particle/backgroundGlow.png
     assets/particle/dot.png
     assets/shader/movingcolorramp.fsh
@@ -197,6 +216,8 @@ set(RESOURCES
     assets/startinfo/sharex.png
     assets/startinfo/unsplash.png
     assets/startinfo/vscode.png
+    assets/wizards/example_html.png
+    assets/wizards/example_qml.png
     assets/wizards/License_All_Rights_Reserved_1.0.txt
     assets/wizards/License_Apache_2.0.txt
     assets/wizards/License_CC0_1.0.txt
@@ -204,35 +225,18 @@ set(RESOURCES
     assets/wizards/License_CC_Attribution-ShareAlike_4.0.txt
     assets/wizards/License_CC_Attribution_4.0.txt
     assets/wizards/License_GPL_3.0.txt
-    assets/wizards/example_html.png
-    assets/wizards/example_qml.png
+    assets/WorkshopPreview.html
     legal/DataProtection.txt
-    "legal/Font Awesome Free License.txt"
-    legal/OFL.txt
-    legal/OpenSSL.txt
-    "legal/Qt LGPLv3.txt"
     legal/gpl-3.0.txt
     legal/lgpl-2.1.txt
+    legal/OFL.txt
+    legal/OpenSSL.txt
     profiles.json
-    qtquickcontrols2.conf
-    assets/images/Early_Access.png
-    assets/icons/icon_sort-up-solid.svg
-    assets/icons/icon_sort-down-solid.svg
-    assets/icons/brand_reddit.svg
-    assets/icons/icon_import_export_.svg
-    assets/icons/steam_default_avatar.png
-    assets/macos/app.screenplay.plist
-    assets/icons/item_banner_new.svg
     qml/Create/WizardsFiles/HTMLWallpaperMain.html
     qml/Create/WizardsFiles/HTMLWidgetMain.html
-    assets/icons/icon_minimize.svg
-    assets/icons/icon_video_settings_black_24dp.svg
     qml/Create/WizardsFiles/QMLWallpaperMain.qml
     qml/Create/WizardsFiles/QMLWidgetMain.qml
-    assets/icons/font-awsome/patreon-brands.svg
-    assets/images/steam_offline.png
-    assets/images/scale_window_indicator.png
-)
+    qtquickcontrols2.conf)
 
 # Needed on macos
 find_package(Threads REQUIRED)
@@ -266,7 +270,8 @@ qt_add_qml_module(
     ScreenPlayApp
     OUTPUT_DIRECTORY
     ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}App
-    RESOURCE_PREFIX /qml
+    RESOURCE_PREFIX
+    /qml
     VERSION
     1.0
     QML_FILES
@@ -275,8 +280,7 @@ qt_add_qml_module(
     ${SOURCES}
     ${HEADER}
     RESOURCES
-    ${RESOURCES}
-)
+    ${RESOURCES})
 target_link_libraries(
     ScreenPlayApp
     PUBLIC ScreenPlaySDK
@@ -311,7 +315,8 @@ if(${SCREENPLAY_TESTS})
 endif()
 
 if(APPLE)
-    set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.app/Contents/Resources/translations")
+    set_source_files_properties(
+        ${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/${PROJECT_NAME}.app/Contents/Resources/translations")
 else()
     set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
 endif()
@@ -331,7 +336,9 @@ target_include_directories(
     PUBLIC inc/public/
     PRIVATE src/)
 
-if(WIN32 OR UNIX AND NOT APPLE)
+if(WIN32
+   OR UNIX
+   AND NOT APPLE)
     include(CopyRecursive)
     set(FONTS_OUT_DIR ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/assets/fonts)
     file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
@@ -411,6 +418,5 @@ if(APPLE)
     file(MAKE_DIRECTORY ${FONTS_OUT_DIR})
     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.ttf")
     copy_recursive(${CMAKE_CURRENT_SOURCE_DIR}/assets/fonts ${FONTS_OUT_DIR} "*.otf")
-
 
 endif()

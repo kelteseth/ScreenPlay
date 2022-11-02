@@ -735,7 +735,7 @@ QString CreateImportVideo::waitForFinished(
 
     qInfo() << m_process->workingDirectory() << m_process->program() << m_process->arguments();
 
-    while (!m_process->waitForFinished(10)) //Wake up every 10ms and check if we must exit
+    while (!m_process->waitForFinished(10)) // Wake up every 10ms and check if we must exit
     {
         if (m_interrupt) {
             qInfo() << "Interrupt thread";

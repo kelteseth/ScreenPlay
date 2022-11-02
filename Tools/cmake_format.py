@@ -3,6 +3,10 @@ import argparse
 from format_util import find_files
 from format_util import check_git_exit
 from format_util import execute_threaded
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
+
 
 def format_file_function(file):
     executable = "cmake-format"

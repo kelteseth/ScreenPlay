@@ -1,9 +1,10 @@
 import subprocess
+from sys import stdout
+
+stdout.reconfigure(encoding='utf-8')
 
 # Python program to print
 # colored text and background
-
-
 def printRed(skk): print("\033[91m {}\033[0;37;40m" .format(skk))
 def printGreen(skk): print("\033[92m {}\033[0;37;40m" .format(skk))
 def printYellow(skk): print("\033[93m {}\033[0;37;40m" .format(skk))

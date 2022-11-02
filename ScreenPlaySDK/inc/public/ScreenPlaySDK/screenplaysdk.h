@@ -51,7 +51,6 @@
 
 class ScreenPlaySDK : public QObject {
     Q_OBJECT
-    QML_UNCREATABLE("")
 
 public:
     ScreenPlaySDK(const QString& appID, const QString& type);

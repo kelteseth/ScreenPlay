@@ -47,7 +47,7 @@ void ScreenPlay::SDKConnection::readyRead()
     // The first message allways contains the appID
     if (msg.startsWith("appID=")) {
         QStringList args = msg.split(",");
-        //Only use the first 32 chars for the appID
+        // Only use the first 32 chars for the appID
         QString appID = args.at(0);
         m_appID = appID.remove("appID=");
 

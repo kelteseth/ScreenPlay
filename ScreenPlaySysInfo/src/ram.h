@@ -60,43 +60,43 @@ class RAM : public QObject {
 public:
     explicit RAM(QObject* parent = nullptr);
 
-    //total memory usage in percent
+    // total memory usage in percent
     float usage() const
     {
         return m_usage;
     }
 
-    //used physical memory in byte
+    // used physical memory in byte
     DWORDLONG usedPhysicalMemory() const
     {
         return m_usedPhysicalMemory;
     }
 
-    //total physical memory in byte
+    // total physical memory in byte
     DWORDLONG totalPhysicalMemory() const
     {
         return m_totalPhysicalMemory;
     }
 
-    //total virtual memory in byte
+    // total virtual memory in byte
     DWORDLONG totalVirtualMemory() const
     {
         return m_totalVirtualMemory;
     }
 
-    //used virtual memory in byte
+    // used virtual memory in byte
     DWORDLONG usedVirtualMemory() const
     {
         return m_usedVirtualMemory;
     }
 
-    //used paging memory in byte
+    // used paging memory in byte
     DWORDLONG usedPagingMemory() const
     {
         return m_usedPagingMemory;
     }
 
-    //total paging memory in byte
+    // total paging memory in byte
     DWORDLONG totalPagingMemory() const
     {
         return m_totalPagingMemory;
