@@ -37,6 +37,7 @@ set(SOURCES ${SOURCES} main.cpp src/basewindow.cpp)
 set(HEADER ${HEADER} src/basewindow.h)
 
 set(QML
+    # cmake-format: sort
     qml/GifWallpaper.qml
     qml/MultimediaView.qml
     qml/MultimediaWebView.qml
@@ -44,13 +45,9 @@ set(QML
     qml/Wallpaper.qml
     qml/WebsiteWallpaper.qml)
 
-set(RESOURCES
-    dot.png
-    qtquickcontrols2.conf
-    index.html
-)
+set(RESOURCES dot.png qtquickcontrols2.conf index.html)
 
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER} )
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADER})
 
 qt_add_qml_module(
     ${PROJECT_NAME}
@@ -60,7 +57,8 @@ qt_add_qml_module(
     1.0
     OUTPUT_DIRECTORY
     ${SCREENPLAY_QML_MODULES_PATH}/${PROJECT_NAME}
-    RESOURCE_PREFIX /qml
+    RESOURCE_PREFIX
+    /qml
     QML_FILES
     ${QML}
     RESOURCES
