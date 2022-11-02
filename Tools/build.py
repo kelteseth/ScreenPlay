@@ -26,19 +26,22 @@ def clean_build_dir(build_dir):
     build_dir.mkdir(parents=True, exist_ok=True)
 
 
-class BuildResult:       # Windows example with absolute paths:
-    build: Path          # [...]/build-x64-windows-release/
-    binary: Path         # [...]/build-x64-windows-release/bin
+class BuildResult:       
+    # Windows example with absolute paths:
+    # [...]/build-x64-windows-release/
+    build: Path
+    # [...]/build-x64-windows-release/bin
+    bin: Path
     # [...]/build-x64-windows-release/ScreenPlay-Installer.exe
     installer: Path
     # [...]/build-x64-windows-release/ScreenPlay-Installer.zip
     installer_zip: Path
     # [...]/build-x64-windows-release/ScreenPlay-0.15.0-RC1-x64-windows-release.zip
     build_zip: Path
-    # [...]/build-x64-windows-release/ScreenPlay-0.15.0-RC1-x64-windows-release.txt
-    build_hash: Path     # sha256, needed for scoop
-    build_arch: str      # x64, arm64, universal
-
+    # [...]/build-x64-windows-release/ScreenPlay-0.15.0-RC1-x64-windows-release.txt :sha256, needed for scoop
+    build_hash: Path
+    # x64, arm64, universal
+    build_arch: str
 
 class BuildConfig:
     root_path: str
@@ -85,7 +88,7 @@ def execute(
     build_result = setup_tuple[1]
 
     build_result.build = Path(build_config.build_folder)
-    build_result.binary = Path(build_config.bin_dir)
+    build_result.bin = Path(build_config.bin_dir)
 
     # Make sure to always delete everything first.
     # 3rd party tools like the crashreporter create local
@@ -255,7 +258,7 @@ def build(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     print(f"\n\n⚙️ CMake build:\n\n")
     run("cmake --build . --target all", cwd=build_config.build_folder)
 
-    build_result.binary = Path(build_config.bin_dir)
+    build_result.bin = Path(build_config.bin_dir)
 
     return build_result
 
@@ -377,7 +380,7 @@ def zip(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     if build_config.create_installer == "ON":
         build_result.installer_zip = Path(build_result.build).joinpath(build_result.installer.stem + ".zip")
         print(f"Create zip from installer: {build_result.installer_zip}")
-        zipfile.ZipFile(build_result.installer_zip, 'w').write(build_result.installer, build_result.build)
+        zipfile.ZipFile(build_result.installer_zip, 'w').write(build_result.installer, build_result.installer.name)
 
     return build_result
 
