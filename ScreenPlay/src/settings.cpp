@@ -203,7 +203,7 @@ void Settings::restoreDefault(const QString& appConfigLocation, const QString& s
 
 void Settings::initInstalledPath()
 {
-    const QString contentPath = m_qSettings.value("ScreenPlayContentPath").toString();
+    const QString contentPath = m_qSettings.value("ScreenPlayContentPath", "").toString();
 
     // Steamless
     if (!steamVersion() && contentPath.isEmpty()) {
@@ -216,46 +216,51 @@ void Settings::initInstalledPath()
 
     // Steam
     if (contentPath.isEmpty()) {
-
-        /*
-         * ! We must use this (ugly) method, because to stay FOSS we cannot call the steamAPI here !
-         *
-         * We start with the assumption that when we go up 2 folder.
-         * So that there must be at least a common folder:
-         * Windows example:
-         * From -> C:\Program Files (x86)\Steam\steamapps\common\ScreenPlay
-         * To   -> C:\Program Files (x86)\Steam\steamapps\
-         * Dest.-> C:\Program Files (x86)\Steam\steamapps\workshop\content\672870
-         *
-         * When we reach the folder it _can_ contain a workshop folder when the user
-         * previously installed any workshop content. If the folder does not exsist we
-         * need to create it by hand. Normally Steam will create this folder but we need to
-         * set it here at this point so that the QFileSystemWatcher in InstalledListModel does
-         * not generate warnings.
-         */
-        QDir dir;
-        QString appBasePath = QApplication::instance()->applicationDirPath();
-        if (desktopEnvironment() == DesktopEnvironment::OSX) {
-            appBasePath += "/../../..";
-        }
-        QString path = appBasePath + "/../../workshop/content/672870";
-        qInfo() << path;
-
-        if (!dir.mkpath(path)) {
-            qWarning() << "Could not create steam workshop path for path: " << path;
-        }
-
-        if (QDir(path).exists()) {
-            m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(path));
-            m_qSettings.setValue("ScreenPlayContentPath", dir.cleanPath(path));
-            m_qSettings.sync();
-        } else {
-            qWarning() << "The following path could not be resolved to search for workshop content: " << path;
-        }
-        return;
+        return initSteamInstalledPath();
     }
 
     m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(contentPath));
+}
+
+/*!
+  \brief We must use this (ugly) method, because to stay FOSS we cannot call the steamAPI here !
+
+  We start with the assumption that when we go up 2 folder.
+  So that there must be at least a common folder:
+  Windows example:
+  From -> C:\Program Files (x86)\Steam\steamapps\common\ScreenPlay
+  To   -> C:\Program Files (x86)\Steam\steamapps\
+  Dest.-> C:\Program Files (x86)\Steam\steamapps\workshop\content\672870
+
+  When we reach the folder it _can_ contain a workshop folder when the user
+  previously installed any workshop content. If the folder does not exsist we
+  need to create it by hand. Normally Steam will create this folder but we need to
+  set it here at this point so that the QFileSystemWatcher in InstalledListModel does
+  not generate warnings.
+*/
+void Settings::initSteamInstalledPath()
+{
+    QString appBasePath = QApplication::instance()->applicationDirPath();
+    if (desktopEnvironment() == DesktopEnvironment::OSX) {
+        appBasePath += "/../../..";
+    }
+    QString path = appBasePath + "/../../workshop/content/672870";
+    qInfo() << "InitSteamInstalledPath:" << path;
+
+    QDir dir;
+    if (!dir.exists()) {
+        if (!dir.mkpath(path)) {
+            qWarning() << "Could not create steam workshop path for path: " << path;
+        }
+    }
+
+    if (QDir(path).exists()) {
+        m_globalVariables->setLocalStoragePath(QUrl::fromUserInput(path));
+        m_qSettings.setValue("ScreenPlayContentPath", dir.cleanPath(path));
+        m_qSettings.sync();
+    } else {
+        qWarning() << "The following path could not be resolved to search for workshop content: " << path;
+    }
 }
 
 /*!

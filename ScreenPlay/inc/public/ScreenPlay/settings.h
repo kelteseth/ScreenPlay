@@ -149,18 +149,11 @@ public:
     Theme theme() const { return m_theme; }
     bool steamVersion() const { return m_steamVersion; }
     DesktopEnvironment desktopEnvironment() const { return m_desktopEnvironment; }
-
-    void setupLanguage();
-
-    const QString& buildInfos() const
-    {
-        return m_buildInfos;
-    }
+    const QString& buildInfos() const { return m_buildInfos; }
 
 signals:
     void requestRetranslation();
     void resetInstalledListmodel();
-
     void autostartChanged(bool autostart);
     void highPriorityStartChanged(bool highPriorityStart);
     void hasWorkshopBannerSeenChanged(bool hasWorkshopBannerSeen);
@@ -176,10 +169,10 @@ signals:
     void themeChanged(ScreenPlay::Settings::Theme theme);
     void steamVersionChanged(bool steamVersion);
     void desktopEnvironmentChanged(DesktopEnvironment desktopEnvironment);
-
     void buildInfosChanged(const QString& buildInfos);
 
 public slots:
+    void setupLanguage();
     void writeJsonFileFromResource(const QString& filename);
     void setupWidgetAndWindowPaths();
     bool retranslateUI();
@@ -407,6 +400,7 @@ public slots:
 private:
     void restoreDefault(const QString& appConfigLocation, const QString& settingsFileType);
     void initInstalledPath();
+    void initSteamInstalledPath();
     QString fixLanguageCode(const QString& languageCode);
 
 private:
