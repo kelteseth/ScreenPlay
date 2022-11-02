@@ -75,8 +75,12 @@ if __name__ == "__main__":
         build_config.bin_dir = os.path.join(build_config.root_path,'build-universal-osx-release/bin/')
         print(f"Change binary dir to: {build_config.bin_dir}")
         macos_sign.sign(build_config=build_config)
-    else:
+        sys.exit(0)
+
+    if platform.system() == "Windows":
+        # Steamless version first
         build_config.build_architecture = "x64"
+        build_config.build_steam = "OFF"
         build_result = build.execute(build_config)
 
         ssh = paramiko.SSHClient() 
@@ -100,6 +104,11 @@ if __name__ == "__main__":
         sftp.put(build_result.build_hash,   release_folder + str(build_result.build_hash.name))
         sftp.close()
         ssh.close()
+
+        # Now build the steam version
+        build_config.build_steam = "ON"
+        build_config.create_installer = "OFF"
+        build_result = build.execute(build_config)
 
     # Make sure to reset to tools path
     os.chdir(tools_path)
