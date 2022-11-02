@@ -38,9 +38,9 @@
 
 #if defined(Q_OS_WIN)
 // Must be first!
-#include <qt_windows.h>
 #include "WinUser.h"
 #include <ShellScalingApi.h>
+#include <qt_windows.h>
 #endif
 
 #include "ScreenPlayUtil/contenttypes.h"
@@ -79,7 +79,7 @@ struct WinMonitorStats {
         pThis->rcMonitors.push_back(*lprcMonitor);
         pThis->iMonitors.push_back(pThis->hdcMonitors.size());
 
-        //qInfo() << std::abs(lprcMonitor->right - lprcMonitor->left) << std::abs(lprcMonitor->top - lprcMonitor->bottom);
+        // qInfo() << std::abs(lprcMonitor->right - lprcMonitor->left) << std::abs(lprcMonitor->top - lprcMonitor->bottom);
 
         return TRUE;
     }

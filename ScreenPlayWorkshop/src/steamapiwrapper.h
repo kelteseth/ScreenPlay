@@ -15,7 +15,7 @@ struct ItemUpdateData {
     QStringList m_tags;
     QString m_content; // update item content from this local folder
     QString m_preview;
-    QMap<QString, QString> m_keyValueTag; //add new key-value tags for the item. Note that there can be multiple values for a tag.
+    QMap<QString, QString> m_keyValueTag; // add new key-value tags for the item. Note that there can be multiple values for a tag.
     QString m_changeNote;
     QPair<QString, ScreenPlayWorkshopSteamEnums::EItemPreviewType> m_previewFile;
     QPair<QString, ScreenPlayWorkshopSteamEnums::EItemPreviewType> m_previewVideo;
@@ -28,5 +28,5 @@ struct ItemUpdateData {
 };
 
 bool setItemTags(const QVariant& updateHandle, const QStringList tags);
-//SteamAPICall_t submitItemUpdate(const int appID, const QVariant& updateHandle, ItemUpdateData data);
+// SteamAPICall_t submitItemUpdate(const int appID, const QVariant& updateHandle, ItemUpdateData data);
 }

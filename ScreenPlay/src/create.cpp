@@ -2,7 +2,6 @@
 #include "ScreenPlay/util.h"
 #include "ScreenPlayUtil/util.h"
 
-
 namespace ScreenPlay {
 
 /*!

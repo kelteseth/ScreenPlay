@@ -2,8 +2,8 @@
 
 #include "steam/steam_qt_enums_generated.h"
 #include <QProcessEnvironment>
-#include <QVersionNumber>
 #include <QQuickStyle>
+#include <QVersionNumber>
 
 namespace ScreenPlay {
 /*!
@@ -196,9 +196,9 @@ void App::init()
     workingDir.cdUp();
     workingDir.cdUp();
     // OSX Development workaround:
-    m_mainWindowEngine->addImportPath(workingDir.path()+"/qml");
+    m_mainWindowEngine->addImportPath(workingDir.path() + "/qml");
 #endif
-    guiApplication->addLibraryPath(guiApplication->applicationDirPath()+ "/qml");
+    guiApplication->addLibraryPath(guiApplication->applicationDirPath() + "/qml");
 
     if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
         setupKDE();

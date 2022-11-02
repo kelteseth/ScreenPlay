@@ -21,23 +21,23 @@ RAM::RAM(QObject* parent)
  */
 void RAM::update()
 {
-    //Get values from system
+    // Get values from system
     MEMORYSTATUSEX memoryStatus;
-    memoryStatus.dwLength = sizeof(MEMORYSTATUSEX); //needed for internal api
+    memoryStatus.dwLength = sizeof(MEMORYSTATUSEX); // needed for internal api
     bool success = GlobalMemoryStatusEx(&memoryStatus);
     if (!success)
         return;
 
-    //Apply total values
+    // Apply total values
     setTotalPhysicalMemory(memoryStatus.ullTotalPhys);
     setTotalPagingMemory(memoryStatus.ullTotalPageFile);
     setTotalVirtualMemory(memoryStatus.ullTotalVirtual);
 
-    //calculate usages
+    // calculate usages
     setUsedPhysicalMemory(m_totalPhysicalMemory - memoryStatus.ullAvailPhys);
     setUsedPagingMemory(m_totalPagingMemory - memoryStatus.ullAvailPageFile);
     setUsedVirtualMemory(m_totalVirtualMemory - memoryStatus.ullAvailVirtual);
 
-    //set overall usage
+    // set overall usage
     setUsage(memoryStatus.dwMemoryLoad);
 }

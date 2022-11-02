@@ -49,7 +49,6 @@ bool SteamWorkshop::init()
         m_steamErrorRestart = true;
     }
 
-
     m_steamAccount = std::make_unique<SteamAccount>();
     m_workshopListModel = std::make_unique<SteamWorkshopListModel>(m_appID);
     m_workshopProfileListModel = std::make_unique<SteamWorkshopListModel>(m_appID);
@@ -60,7 +59,6 @@ bool SteamWorkshop::init()
     setOnline(true);
 
     return true;
-
 }
 
 bool SteamWorkshop::checkOnline()
@@ -84,7 +82,7 @@ void SteamWorkshop::bulkUploadToWorkshop(QStringList absoluteStoragePaths)
 
 void SteamWorkshop::onWorkshopItemInstalled(ItemInstalled_t* itemInstalled)
 {
-    //GetItemInstallInfo(itemInstalled->m_nPublishedFileId, uint64 *punSizeOnDisk, char *pchFolder, uint32 cchFolderSize, uint32 *punTimeStamp );
+    // GetItemInstallInfo(itemInstalled->m_nPublishedFileId, uint64 *punSizeOnDisk, char *pchFolder, uint32 cchFolderSize, uint32 *punTimeStamp );
     emit workshopItemInstalled(itemInstalled->m_unAppID, itemInstalled->m_nPublishedFileId);
 }
 
@@ -235,7 +233,7 @@ bool SteamWorkshop::searchWorkshop(const ScreenPlayWorkshopSteamEnums::EUGCQuery
 
     m_workshopListModel->clear();
 
-    //Important: First send the request to get the Steam API Call then set the handler
+    // Important: First send the request to get the Steam API Call then set the handler
     SteamUGC()->SetReturnAdditionalPreviews(m_searchHandle, true);
     SteamUGC()->SetReturnKeyValueTags(m_searchHandle, true);
     SteamUGC()->SetReturnLongDescription(m_searchHandle, true);
@@ -293,7 +291,7 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
             if (SteamUGC()->GetQueryUGCPreviewURL(pCallback->m_handle, i, url, static_cast<uint32>(urlLength))) {
                 QByteArray urlData(url);
 
-                //Todo use multiple preview for gif hover effect
+                // Todo use multiple preview for gif hover effect
                 quint64 subscriptionCount = 0;
                 SteamUGC()->GetQueryUGCStatistic(pCallback->m_handle, i, EItemStatistic::k_EItemStatistic_NumSubscriptions, &subscriptionCount);
 
@@ -336,7 +334,6 @@ bool SteamWorkshop::queryWorkshopItemFromHandle(SteamWorkshopListModel* listMode
     qInfo() << m_searchHandle << pCallback->m_handle;
     SteamUGC()->ReleaseQueryUGCRequest(pCallback->m_handle);
 
-
     emit workshopSearchCompleted(results);
     return true;
 }
@@ -366,7 +363,7 @@ void SteamWorkshop::searchWorkshopByText(const QString text, const ScreenPlayWor
         return;
     }
 
-    //Important: First send the request to get the Steam API Call then set the handler
+    // Important: First send the request to get the Steam API Call then set the handler
     m_steamUGCQuerySearchWorkshopResult.Set(SteamUGC()->SendQueryUGCRequest(searchHandle), this, &SteamWorkshop::onWorkshopSearched);
 }
 

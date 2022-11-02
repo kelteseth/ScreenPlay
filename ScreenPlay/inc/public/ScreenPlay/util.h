@@ -34,7 +34,6 @@
 
 #pragma once
 
-#include <QMetaType>
 #include <QApplication>
 #include <QClipboard>
 #include <QCoreApplication>
@@ -43,16 +42,17 @@
 #include <QDir>
 #include <QJsonDocument>
 #include <QJsonObject>
+#include <QMetaType>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QObject>
 #include <QProcess>
+#include <QQmlEngine>
 #include <QScopeGuard>
 #include <QString>
 #include <QTextStream>
 #include <QVersionNumber>
 #include <QtConcurrent/QtConcurrent>
-#include <QQmlEngine>
 
 #include "ScreenPlay/globalvariables.h"
 #include "ScreenPlayUtil/contenttypes.h"

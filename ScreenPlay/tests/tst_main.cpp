@@ -60,7 +60,7 @@ private slots:
 
         m_window->addImportPath(QGuiApplication::instance()->applicationDirPath() + "/qml");
         QVERIFY(m_window);
-        //QVERIFY(QTest::qWaitForWindowExposed(m_window.));
+        // QVERIFY(QTest::qWaitForWindowExposed(m_window.));
 
         QTest::qWait(1000);
         m_installedSidebar = m_window->findChild<QQuickItem*>("installedSidebar");

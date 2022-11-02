@@ -90,7 +90,8 @@ public slots:
     void searchWorkshopByText(const QString text,
         const ScreenPlayWorkshopSteamEnums::EUGCQuery rankedBy = ScreenPlayWorkshopSteamEnums::EUGCQuery::K_EUGCQuery_RankedByTrend);
 
-    bool checkAndSetQueryActive(){
+    bool checkAndSetQueryActive()
+    {
         if (m_queryActive) {
             qWarning() << "Query already active! Abort";
             return false;

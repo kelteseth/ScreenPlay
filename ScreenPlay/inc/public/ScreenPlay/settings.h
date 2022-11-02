@@ -67,7 +67,6 @@
 #include <memory>
 #include <optional>
 
-
 namespace ScreenPlay {
 class ActiveProfile;
 
@@ -153,7 +152,7 @@ public:
 
     void setupLanguage();
 
-    const QString &buildInfos() const
+    const QString& buildInfos() const
     {
         return m_buildInfos;
     }
@@ -178,7 +177,7 @@ signals:
     void steamVersionChanged(bool steamVersion);
     void desktopEnvironmentChanged(DesktopEnvironment desktopEnvironment);
 
-    void buildInfosChanged(const QString &buildInfos);
+    void buildInfosChanged(const QString& buildInfos);
 
 public slots:
     void writeJsonFileFromResource(const QString& filename);
@@ -278,7 +277,7 @@ public slots:
 
     void setLocalStoragePath(QUrl localStoragePath)
     {
-        //Remove: "file:///"
+        // Remove: "file:///"
         QJsonValue cleanedPath = QJsonValue(localStoragePath.toString());
 
         setqSetting("ScreenPlayContentPath", cleanedPath);
@@ -397,7 +396,7 @@ public slots:
         emit desktopEnvironmentChanged(m_desktopEnvironment);
     }
 
-    void setBuildInfos(const QString &buildInfos)
+    void setBuildInfos(const QString& buildInfos)
     {
         if (m_buildInfos == buildInfos)
             return;
