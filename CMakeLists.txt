@@ -13,22 +13,20 @@ if(WIN32)
 elseif(UNIX AND NOT APPLE)
     set(VCPKG_ARCH "x64-linux")
 elseif(APPLE)
-    # CMAKE_HOST_SYSTEM_PROCESSOR returns the value of `uname -p` on host.
-    # Universal builds are not available with vcpkg,
-    # but the prebuild Qt binaries are. CMake also handles
-    # https://github.com/microsoft/vcpkg/discussions/19454
-    # This means we must compile twice and then merge the binaries with lipo
-   if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL x86_64 OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL amd64)
-       set(VCPKG_ARCH "x64-osx")
-       set(CMAKE_OSX_ARCHITECTURES "x86_64")
-       set(VCPKG_TARGET_ARCHITECTURE x86_64)
-   elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL arm)
-       set(VCPKG_ARCH "arm64-osx")
-       set(CMAKE_OSX_ARCHITECTURES "arm64")
-       set(VCPKG_TARGET_ARCHITECTURE arm64)
-   endif()
+    # CMAKE_HOST_SYSTEM_PROCESSOR returns the value of `uname -p` on host. Universal builds are not available with vcpkg, but the prebuild
+    # Qt binaries are. CMake also handles https://github.com/microsoft/vcpkg/discussions/19454 This means we must compile twice and then
+    # merge the binaries with lipo
+    if(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL x86_64 OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL amd64)
+        set(VCPKG_ARCH "x64-osx")
+        set(CMAKE_OSX_ARCHITECTURES "x86_64")
+        set(VCPKG_TARGET_ARCHITECTURE x86_64)
+    elseif(CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL arm)
+        set(VCPKG_ARCH "arm64-osx")
+        set(CMAKE_OSX_ARCHITECTURES "arm64")
+        set(VCPKG_TARGET_ARCHITECTURE arm64)
+    endif()
 
-   message(STATUS "[PROJECT] CMAKE_OSX_ARCHITECTURES      = ${CMAKE_OSX_ARCHITECTURES}")
+    message(STATUS "[PROJECT] CMAKE_OSX_ARCHITECTURES      = ${CMAKE_OSX_ARCHITECTURES}")
 endif()
 
 # This sets cmake to compile all dlls into the main directory
@@ -37,21 +35,18 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/CMake" ${CMAKE_MODULE_PATH})
 
-# This is needed for OSX:
-# Because we bundle ScreenPlay and ScreenPlayWallpaper into .app
-# they both need other QML dependencies like ScreenPlayUtil.
-# The fastest way is to use a shared QML module path for development
-# and add this path to the qml engines import pah.
-# For the SCREENPLAY_DEPLOY we copy them into the matching dirs
-# via the build.py
+# This is needed for OSX: Because we bundle ScreenPlay and ScreenPlayWallpaper into .app they both need other QML dependencies like
+# ScreenPlayUtil. The fastest way is to use a shared QML module path for development and add this path to the qml engines import pah. For
+# the SCREENPLAY_DEPLOY we copy them into the matching dirs via the build.py
 #
-# This subdirectoy is needed for OSX and Linux to fix linker errors because
-# we would have ScreenPlayApp executable and folder for the qml files in the
-# same directory.
+# This subdirectoy is needed for OSX and Linux to fix linker errors because we would have ScreenPlayApp executable and folder for the qml
+# files in the same directory.
 set(SCREENPLAY_QML_MODULES_PATH "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/qml")
 # Adds the qml import path so QtCreator can find them
 list(APPEND QML_DIRS "${SCREENPLAY_QML_MODULES_PATH}")
-set(QML_IMPORT_PATH "${QML_DIRS}" CACHE STRING "Qt Creator extra qml import paths")
+set(QML_IMPORT_PATH
+    "${QML_DIRS}"
+    CACHE STRING "Qt Creator extra qml import paths")
 
 set(SCREENPLAY_IFW_ROOT "")
 set(SCREENPLAY_IFW_VERSION "4.4")
@@ -61,7 +56,8 @@ set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
 set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 
 option(SCREENPLAY_STEAM "For FOSS distribution so we do not bundle proprietary code." ON)
-option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings." OFF)
+option(SCREENPLAY_DEPLOY "Marks this version as an official deploy version. This version uses different import paths and other settings."
+       OFF)
 option(SCREENPLAY_TESTS "Enables UI tests." ON)
 option(SCREENPLAY_INSTALLER "Indicates whether an installer via the Qt Installer Framework is created." OFF)
 
@@ -75,9 +71,8 @@ file(MAKE_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY})
 add_compile_definitions(COMPILE_INFO="Build Date: ${BUILD_DATE}. Git Hash: ${GIT_COMMIT_HASH}. ")
 add_compile_definitions(SOURCE_DIR="${CMAKE_CURRENT_SOURCE_DIR}")
 if(${SCREENPLAY_DEPLOY})
-add_compile_definitions(DEPLOY_VERSION)
+    add_compile_definitions(DEPLOY_VERSION)
 endif()
-
 
 find_package(Git REQUIRED)
 if(WIN32)
@@ -132,11 +127,9 @@ add_subdirectory(ScreenPlayWeather)
 add_subdirectory(ThirdParty/QArchive)
 add_subdirectory(Tools)
 
-
 if(${SCREENPLAY_TESTS})
     enable_testing()
 endif()
-
 
 # Only add target SteamSDKQtEnums
 add_subdirectory(ScreenPlayWorkshop/SteamSDK)
