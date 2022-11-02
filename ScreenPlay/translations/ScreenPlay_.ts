@@ -233,6 +233,25 @@
     </message>
 </context>
 <context>
+    <name>ExitPopup</name>
+    <message>
+        <source>Are you sure you want to exit ScreenPlay?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This will shut down all Wallpaper and Widgets. If you want your Wallpaper to continue playing, press the minimize button.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GifWallpaper</name>
     <message>
         <source>Import a Gif Wallpaper</source>
@@ -1019,17 +1038,6 @@
     </message>
     <message>
         <source>Preview Image</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>WindowNavigation</name>
-    <message>
-        <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

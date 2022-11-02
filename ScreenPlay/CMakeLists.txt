@@ -5,6 +5,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOMOC ON)
 
 set(SOURCES
+    # cmake-format: sort
     src/app.cpp
     src/create.cpp
     src/createimportvideo.cpp
@@ -23,6 +24,7 @@ set(SOURCES
     src/wizards.cpp)
 
 set(HEADER
+    # cmake-format: sort
     inc/public/ScreenPlay/app.h
     inc/public/ScreenPlay/create.h
     inc/public/ScreenPlay/createimportstates.h
@@ -43,6 +45,7 @@ set(HEADER
     inc/public/ScreenPlay/wizards.h)
 
 set(QML
+    # cmake-format: sort
     main.qml
     qml/Community/Community.qml
     qml/Community/CommunityNavItem.qml
@@ -84,8 +87,7 @@ set(QML
     qml/Monitors/MonitorsProjectSettingItem.qml
     qml/Monitors/SaveNotification.qml
     qml/Navigation/Navigation.qml
-    qml/Navigation/WindowNavButton.qml
-    qml/Navigation/WindowNavigation.qml
+    qml/Navigation/ExitPopup.qml
     qml/Settings/SettingBool.qml
     qml/Settings/Settings.qml
     qml/Settings/SettingsButton.qml
@@ -97,6 +99,7 @@ set(QML
     qml/Workshop/Workshop.qml)
 
 set(TS_FILES
+    # cmake-format: sort
     translations/ScreenPlay_.ts
     translations/ScreenPlay_de_DE.ts
     translations/ScreenPlay_es_ES.ts
@@ -112,6 +115,7 @@ set(TS_FILES
     translations/ScreenPlay_zh_CN.ts)
 
 set(RESOURCES
+    # cmake-format: sort
     assets/WorkshopPreview.html
     assets/icons/app.ico
     assets/icons/brand_github.svg
@@ -165,6 +169,7 @@ set(RESOURCES
     assets/icons/icon_window.svg
     assets/icons/monitor_setup.svg
     assets/images/Intro.png
+    assets/images/trayIcon_windows.png
     assets/images/Intro_PC.png
     assets/images/Intro_shine.png
     assets/images/Window.svg

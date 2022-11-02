@@ -235,6 +235,25 @@
     </message>
 </context>
 <context>
+    <name>ExitPopup</name>
+    <message>
+        <source>Are you sure you want to exit ScreenPlay?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This will shut down all Wallpaper and Widgets. If you want your Wallpaper to continue playing, press the minimize button.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>GifWallpaper</name>
     <message>
         <source>Import a Gif Wallpaper</source>
@@ -1022,17 +1041,6 @@
     <message>
         <source>Preview Image</source>
         <translation>预览图</translation>
-    </message>
-</context>
-<context>
-    <name>WindowNavigation</name>
-    <message>
-        <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
-        <translation>您确定要退出ScreenPlay吗？这将关闭所有的壁纸和部件。如果您想要继续使用壁纸，请最小化。</translation>
-    </message>
-    <message>
-        <source>ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</source>
-        <translation>ScreenPlay Alpha V%1 - 开源壁纸与部件</translation>
     </message>
 </context>
 <context>
