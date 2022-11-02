@@ -639,6 +639,10 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
         <source>Get content via our forum</source>
         <translation>通过论坛获取内容</translation>
     </message>
+    <message>
+        <source>Open the ScreenPlay forum</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>Monitors</name>

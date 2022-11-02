@@ -235,19 +235,28 @@
 <context>
     <name>ExitPopup</name>
     <message>
-        <source>Are you sure you want to exit ScreenPlay?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This will shut down all Wallpaper and Widgets. If you want your Wallpaper to continue playing, press the minimize button.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Close ScreenPlay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Minimize ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Always minimize ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You have active Wallpaper.
+ScreenPlay will only quit if no Wallpaper are running.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quit ScreenPlay now</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -626,6 +635,10 @@
     </message>
     <message>
         <source>Get content via our forum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the ScreenPlay forum</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
