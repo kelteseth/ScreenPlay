@@ -73,7 +73,7 @@ class BuildConfig:
 def execute(
     build_config: BuildConfig
 ) -> BuildResult:
-
+    start_time = time.time()
     # Make sure the script is always started from the same folder
     build_config.root_path = cd_repo_root_path()
 
@@ -92,29 +92,41 @@ def execute(
     # temporary files in the build directory.
     clean_build_dir(build_config.build_folder)
 
-    start_time = time.time()
 
     # Runs cmake configure and cmake build
+    step_time = time.time()
     build_result = build(build_config, build_result)
+    build_duration = time.time() - step_time
+    print(f"⏱️ build_duration: {build_duration}s")
 
     # Copies all needed libraries and assets into the bin folder
+    step_time = time.time()
     package(build_config)
+    package_duration = time.time() - step_time
+    print(f"⏱️ package_duration: {package_duration}s")
 
     # Creates a Qt InstallerFrameWork (IFW) installer
     if build_config.create_installer == "ON":
+        step_time = time.time()
         build_installer(build_config, build_result)
+        build_installer_duration = time.time() - step_time
+        print(f"⏱️ build_installer_duration: {zip_duration}s")
 
     # Create a zip file for scoop & chocolatey
     if platform.system() == "Windows":
+        step_time = time.time()
         build_result = zip(build_config, build_result)
+        zip_duration = time.time() - step_time
+        print(f"⏱️ zip_duration: {zip_duration}s")
 
-    print("Time taken: {}s".format(time.time() - start_time))
+    duration = time.time() - start_time
+    print(f"⏱️ Build completed in: {duration}s")
 
     # Print BuildConfig & BuildResult member for easier debugging
-    print("BuildResult:\n")
-    print(' '.join("- %s: \t\t%s\n" % item for item in vars(build_result).items()))
-    print("BuildConfig:\n")
-    print(' '.join("- %s: \t\t%s\n" % item for item in vars(build_config).items()))
+    print("\n🆗 BuildResult:")
+    print(' '.join("\n- %s: \t\t%s" % item for item in vars(build_result).items()))
+    print("\n⚙️ BuildConfig:")
+    print(' '.join("\n- %s: \t\t%s" % item for item in vars(build_config).items()))
 
     return build_result
 
@@ -238,9 +250,9 @@ def build(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     -G "CodeBlocks - Ninja" \
 	-B.'
 
-    print(f"CMake configure:\n{cmake_configure_command}\n\n")
+    print(f"\n\n⚙️ CMake configure:\n{cmake_configure_command}\n\n")
     run(cmake_configure_command, cwd=build_config.build_folder)
-    print(f"\nCMake build:\n")
+    print(f"\n\n⚙️ CMake build:\n\n")
     run("cmake --build . --target all", cwd=build_config.build_folder)
 
     build_result.binary = Path(build_config.bin_dir)
