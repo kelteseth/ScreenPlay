@@ -79,34 +79,36 @@ if __name__ == "__main__":
         sys.exit(0)
 
     if platform.system() == "Windows":
-        # Steamless version first
         build_config.build_architecture = "x64"
-        build_config.build_steam = "OFF"
-        build_result = build.execute(build_config)
+        
+        if not args.skip_publish:
+            # Steamless version first
+            build_config.build_steam = "OFF"
+            build_result = build.execute(build_config)
+            ssh = paramiko.SSHClient() 
+            ssh.load_system_host_keys()
+            ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            ssh.connect('kelteseth.com', username=args.hosting_username, password=args.hosting_password)
+            sftp = ssh.open_sftp()
+            release_folder = "/kelteseth_com/public/releases/" + build_config.screenplay_version + "/"
+            if sftp_exists(sftp,release_folder):
+                remoteFiles = sftp.listdir(path=release_folder)
+                for file in remoteFiles:
+                    print(f"Delte old: {release_folder+file}")
+                    sftp.remove(release_folder+file)
+            else:
+                sftp.mkdir(release_folder)
+            print("Uploading files...")
 
-        ssh = paramiko.SSHClient() 
-        ssh.load_system_host_keys()
-        ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-        ssh.connect('kelteseth.com', username=args.hosting_username, password=args.hosting_password)
-        sftp = ssh.open_sftp()
-        release_folder = "/kelteseth_com/public/releases/" + build_config.screenplay_version + "/"
-        if sftp_exists(sftp,release_folder):
-            remoteFiles = sftp.listdir(path=release_folder)
-            for file in remoteFiles:
-                print(f"Delte old: {release_folder+file}")
-                sftp.remove(release_folder+file)
-        else:
-            sftp.mkdir(release_folder)
-        print("Uploading files...")
-
-        sftp.put(build_result.build_zip,    release_folder + str(build_result.build_zip.name))
-        sftp.put(build_result.installer,    release_folder + str(build_result.installer.name))
-        sftp.put(build_result.installer_zip,release_folder + str(build_result.installer_zip.name))
-        sftp.put(build_result.build_hash,   release_folder + str(build_result.build_hash.name))
-        sftp.close()
-        ssh.close()
+            sftp.put(build_result.build_zip,    release_folder + str(build_result.build_zip.name))
+            sftp.put(build_result.installer,    release_folder + str(build_result.installer.name))
+            sftp.put(build_result.installer_zip,release_folder + str(build_result.installer_zip.name))
+            sftp.put(build_result.build_hash,   release_folder + str(build_result.build_hash.name))
+            sftp.close()
+            ssh.close()
 
         # Now build the steam version
+        os.chdir(tools_path)
         build_config.build_steam = "ON"
         build_config.create_installer = "OFF"
         build_result = build.execute(build_config)
