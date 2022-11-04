@@ -60,7 +60,7 @@ void Wizards::createQMLWidget(const QString& title,
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/Create/WizardsFiles/QMLWidgetMain.qml", workingPath + "main.qml")) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWidgetMain.qml", workingPath + "main.qml")) {
             qWarning() << "Could not write main.qml";
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
@@ -126,7 +126,7 @@ void Wizards::createHTMLWidget(const QString& title,
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/Create/WizardsFiles/HTMLWidgetMain.html", workingPath + "/index.html")) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/HTMLWidgetMain.html", workingPath + "/index.html")) {
             qWarning() << "Could not write HTMLWidgetMain.html";
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
@@ -194,7 +194,7 @@ void Wizards::createHTMLWallpaper(
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/Create/WizardsFiles/HTMLWallpaperMain.html", workingPath + "/index.html")) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/HTMLWallpaperMain.html", workingPath + "/index.html")) {
             qWarning() << "Could not write HTMLWallpaperMain.html";
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
@@ -273,7 +273,7 @@ void Wizards::createQMLWallpaper(
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/Create/WizardsFiles/QMLWallpaperMain.qml", workingPath + "/main.qml")) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWallpaperMain.qml", workingPath + "/main.qml")) {
             qWarning() << "Could not write main.qml";
             return;
         }
