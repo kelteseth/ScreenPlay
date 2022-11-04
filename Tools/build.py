@@ -253,7 +253,8 @@ def build(build_config: BuildConfig, build_result: BuildResult) -> BuildResult:
     -G "CodeBlocks - Ninja" \
 	-B.'
 
-    print(f"\n\n⚙️ CMake configure:\n{cmake_configure_command}\n\n")
+    print(f"\n⚙️ CMake configure:\n", cmake_configure_command.replace(
+        "-D", "\n-D").replace("-G", "\n-G"), "\n")
     run(cmake_configure_command, cwd=build_config.build_folder)
     print(f"\n\n⚙️ CMake build:\n\n")
     run("cmake --build . --target all", cwd=build_config.build_folder)
