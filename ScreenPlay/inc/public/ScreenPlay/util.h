@@ -114,11 +114,12 @@ signals:
 public slots:
     void copyToClipboard(const QString& text) const;
     void openFolderInExplorer(const QString& url) const;
-    QString toLocal(const QString& url);
+    QString toLocal(const QString& url) const;
     bool exportProject(QString& contentPath, QString& exportFileName);
     bool importProject(QString& archivePath, QString extractionPath);
     void requestAllLicenses();
     void requestDataProtection();
+    bool fileExists(const QString& filePath) const;
 
     static void logToGui(QtMsgType type, const QMessageLogContext& context, const QString& msg);
     static bool writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObject& object, bool truncate = true);

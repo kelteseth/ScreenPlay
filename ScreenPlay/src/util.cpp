@@ -100,7 +100,7 @@ void Util::openFolderInExplorer(const QString& url) const
 /*!
   \brief Removes file///: or file:// from the url/string
 */
-QString Util::toLocal(const QString& url)
+QString Util::toLocal(const QString& url) const
 {
     return ScreenPlayUtil::toLocal(url);
 }
@@ -241,6 +241,12 @@ void Util::Util::requestDataProtection()
     file.close();
 
     emit this->allDataProtectionLoaded(tmp);
+}
+
+bool Util::fileExists(const QString& filePath) const
+{
+    const QFileInfo file(toLocal(filePath));
+    return file.isFile();
 }
 
 static const char*

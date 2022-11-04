@@ -37,24 +37,30 @@ Item {
 
     width: 400
     state: "inactive"
+    property bool hasPreviewGif: false
     onContentFolderNameChanged: {
         txtHeadline.text = App.installedListModel.get(
                     root.contentFolderName).m_title
-        const hasPreviewGif = App.installedListModel.get(
-                                root.contentFolderName).m_previewGIF !== undefined
-        if (!hasPreviewGif) {
-            image.source = Qt.resolvedUrl(
-                        App.globalVariables.localStoragePath + "/"
-                        + root.contentFolderName + "/" + App.installedListModel.get(
-                            root.contentFolderName).m_preview)
-            image.playing = false
+
+        const previewGiFilePath = Qt.resolvedUrl(
+                                    App.globalVariables.localStoragePath + "/"
+                                    + root.contentFolderName + "/" + App.installedListModel.get(
+                                        root.contentFolderName).m_previewGIF)
+
+        const previewImageFilePath = Qt.resolvedUrl(
+                                       App.globalVariables.localStoragePath + "/"
+                                       + root.contentFolderName + "/" + App.installedListModel.get(
+                                           root.contentFolderName).m_preview)
+
+        root.hasPreviewGif = App.util.fileExists(previewGiFilePath)
+
+        if (hasPreviewGif) {
+            animatedImagePreview.source = previewGiFilePath
+            animatedImagePreview.playing = true
         } else {
-            image.source = Qt.resolvedUrl(
-                        App.globalVariables.localStoragePath + "/"
-                        + root.contentFolderName + "/" + App.installedListModel.get(
-                            root.contentFolderName).m_previewGIF)
-            image.playing = true
+            imagePreview.source = previewImageFilePath
         }
+
         if (JSUtil.isWidget(root.type)
                 || (monitorSelection.activeMonitors.length > 0)) {
             btnSetWallpaper.enabled = true
@@ -162,19 +168,27 @@ Item {
                 anchors.left: parent.left
                 anchors.leftMargin: 0
 
+                // Do NOT enable async image loading!
+                // Otherwhise it will still hold the file
+                // when calling InstalledListModel::deinstallItemAt
+                // -> asynchronous: false
                 AnimatedImage {
-                    id: image
-                    // Do NOT enable async image loading!
-                    // Otherwhise it will still hold the file
-                    // when calling InstalledListModel::deinstallItemAt
+                    id: animatedImagePreview
                     asynchronous: false
                     playing: true
                     fillMode: Image.PreserveAspectCrop
                     anchors.fill: parent
-                    onStatusChanged: {
-                        if (image.status === Image.Error)
-                            source = "qrc:/qml/ScreenPlayApp/assets/images/missingPreview.png"
-                    }
+                    visible: enabled
+                    enabled: root.hasPreviewGif
+                }
+
+                Image {
+                    id: imagePreview
+                    asynchronous: false
+                    fillMode: Image.PreserveAspectCrop
+                    anchors.fill: parent
+                    enabled: !root.hasPreviewGif
+                    visible: enabled
                 }
 
                 LinearGradient {
@@ -409,7 +423,12 @@ Item {
             }
 
             PropertyChanges {
-                target: image
+                target: imagePreview
+                opacity: 0
+                anchors.topMargin: 20
+            }
+            PropertyChanges {
+                target: animatedImagePreview
                 opacity: 0
                 anchors.topMargin: 20
             }
@@ -429,7 +448,12 @@ Item {
             }
 
             PropertyChanges {
-                target: image
+                target: imagePreview
+                opacity: 1
+                anchors.topMargin: 0
+            }
+            PropertyChanges {
+                target: animatedImagePreview
                 opacity: 1
                 anchors.topMargin: 0
             }
@@ -443,7 +467,12 @@ Item {
             name: "activeWallpaper"
 
             PropertyChanges {
-                target: image
+                target: imagePreview
+                opacity: 1
+                anchors.topMargin: 0
+            }
+            PropertyChanges {
+                target: animatedImagePreview
                 opacity: 1
                 anchors.topMargin: 0
             }
@@ -469,7 +498,12 @@ Item {
             name: "activeScene"
 
             PropertyChanges {
-                target: image
+                target: imagePreview
+                opacity: 1
+                anchors.topMargin: 0
+            }
+            PropertyChanges {
+                target: animatedImagePreview
                 opacity: 1
                 anchors.topMargin: 0
             }
@@ -493,13 +527,13 @@ Item {
             reversible: true
 
             NumberAnimation {
-                target: image
+                targets: [animatedImagePreview, imagePreview]
                 property: "opacity"
                 duration: 200
             }
 
             NumberAnimation {
-                target: image
+                targets: [animatedImagePreview, imagePreview]
                 property: "anchors.topMargin"
                 duration: 400
             }
@@ -525,13 +559,13 @@ Item {
 
                 ParallelAnimation {
                     NumberAnimation {
-                        target: image
+                        targets: [animatedImagePreview, imagePreview]
                         property: "opacity"
                         duration: 200
                     }
 
                     NumberAnimation {
-                        target: image
+                        targets: [animatedImagePreview, imagePreview]
                         property: "anchors.topMargin"
                         duration: 100
                     }
@@ -552,13 +586,13 @@ Item {
 
                 ParallelAnimation {
                     NumberAnimation {
-                        target: image
+                        targets: [animatedImagePreview, imagePreview]
                         property: "opacity"
                         duration: 200
                     }
 
                     NumberAnimation {
-                        target: image
+                        targets: [animatedImagePreview, imagePreview]
                         property: "anchors.topMargin"
                         duration: 100
                     }
@@ -578,13 +612,13 @@ Item {
 
                 ParallelAnimation {
                     NumberAnimation {
-                        target: image
+                        targets: [animatedImagePreview, imagePreview]
                         property: "opacity"
                         duration: 200
                     }
 
                     NumberAnimation {
-                        target: image
+                        targets: [animatedImagePreview, imagePreview]
                         property: "anchors.topMargin"
                         duration: 100
                     }
