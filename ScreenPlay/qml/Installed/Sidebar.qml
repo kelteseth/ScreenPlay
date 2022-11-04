@@ -30,7 +30,8 @@ Item {
     // This is used for removing wallpaper. We need to clear
     // the preview image/gif so we can release the file for deletion.
     function clear() {
-        image.source = ""
+        imagePreview.source = ""
+        animatedImagePreview.source = ""
         txtHeadline.text = ""
         root.state = "inactive"
     }
