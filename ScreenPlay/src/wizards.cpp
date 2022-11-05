@@ -60,7 +60,7 @@ void Wizards::createQMLWidget(const QString& title,
             return;
         }
 
-        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWidgetMain.qml", workingPath + "main.qml")) {
+        if (!Util::writeFileFromQrc(":/qml/ScreenPlayApp/qml/Create/WizardsFiles/QMLWidgetMain.qml", workingPath + "/main.qml")) {
             qWarning() << "Could not write main.qml";
             emit widgetCreationFinished(WizardResult::WriteProjectFileError);
             return;
