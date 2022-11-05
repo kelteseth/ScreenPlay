@@ -5,15 +5,20 @@ import ScreenPlayWidget
 import ScreenPlay.Enums.InstalledType
 
 Item {
-    id: mainWindow
-
-    anchors.fill: parent
+    id: root
+    // We must set a default size not not
+    // trigger render errors.
+    width: 200
+    height: 100
+    state: "out"
+    opacity: 0
 
     Connections {
+        target: Widget
         function onQmlExit() {
             if (Qt.platform.os === "windows")
                 Widget.setWindowBlur(0)
-
+            loader.source = ""
             animFadeOut.start()
         }
 
@@ -31,41 +36,29 @@ Item {
             Widget.clearComponentCache()
             loader.source = Qt.resolvedUrl(Widget.projectSourceFileAbsolute)
         }
-
-        target: Widget
     }
 
     OpacityAnimator {
         id: animFadeOut
-
         from: 1
         to: 0
-        target: parent
+        target: root
         duration: 800
         easing.type: Easing.InOutQuad
         onFinished: Widget.destroyThis()
     }
 
-    Rectangle {
-        id: bgColor
-
-        anchors.fill: parent
-        color: "white"
-        opacity: 0.15
-    }
-
     Image {
-        id: bg
-
-        source: "qrc:/ScreenPlayWidget/assets/image/noisy-texture-3.png"
+        id: bgNoise
+        source: "qrc:/qml/ScreenPlayWidget/assets/image/noisy-texture-3.png"
         anchors.fill: parent
-        opacity: 0.05
         fillMode: Image.Tile
+        opacity: 0
     }
 
     Loader {
         id: loader
-
+        opacity: 0
         anchors.fill: parent
         asynchronous: true
         Component.onCompleted: {
@@ -79,17 +72,14 @@ Item {
             }
         }
         onStatusChanged: {
-            if (loader.status == Loader.Ready) {
-                if (loader.item.widgetBackground !== undefined)
-                    bgColor.color = loader.item.widgetBackground
-
-                if (loader.item.widgetBackgroundOpacity !== undefined)
-                    bgColor.opacity = loader.item.widgetBackgroundOpacity
-
-                if (loader.item.widgetWidth !== undefined
-                        && loader.item.widgetHeight !== undefined)
-                    Widget.setWidgetSize(loader.item.widgetWidth,
-                                         loader.item.widgetHeight)
+            if (loader.status == Loader.Ready && loader.source !== "") {
+                // Resize to loaded widget size
+                // Note: We must use implicit* here to not
+                // break the set values.
+                root.width = loader.item.implicitWidth
+                root.height = loader.item.implicitHeight
+                Widget.show()
+                root.state = "in"
             }
         }
     }
@@ -152,7 +142,7 @@ Item {
         Image {
             id: imgClose
 
-            source: "qrc:/ScreenPlayWidget/assets/icons/baseline-close-24px.svg"
+            source: "qrc:/qml/ScreenPlayWidget/assets/icons/baseline-close-24px.svg"
             anchors.centerIn: parent
             opacity: 0.15
 
@@ -185,4 +175,33 @@ Item {
             right: parent.right
         }
     }
+    states: [
+        State {
+            name: "in"
+            PropertyChanges {
+                target: root
+                opacity: 1
+            }
+            PropertyChanges {
+                target: bgNoise
+                opacity: 0.05
+            }
+            PropertyChanges {
+                target: loader
+                opacity: 1
+            }
+        }
+    ]
+    transitions: [
+        Transition {
+            from: "out"
+            to: "in"
+
+            PropertyAnimation {
+                targets: [root, bgNoise, loader]
+                duration: 250
+                property: "opacity"
+            }
+        }
+    ]
 }

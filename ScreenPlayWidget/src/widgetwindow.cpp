@@ -73,7 +73,6 @@ WidgetWindow::WidgetWindow(
     m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
     m_window.setSource(QUrl("qrc:/qml/ScreenPlayWidget/qml/Widget.qml"));
     m_window.setPosition(m_position);
-    m_window.show();
 
     // Debug mode means we directly start the ScreenPlayWallpaper for easy debugging.
     // This means we do not have a running ScreenPlay instance to connect to.
@@ -183,6 +182,11 @@ void WidgetWindow::setWindowBlur(unsigned int style)
 void WidgetWindow::clearComponentCache()
 {
     m_window.engine()->clearComponentCache();
+}
+
+void WidgetWindow::show()
+{
+    m_window.show();
 }
 
 /*!
