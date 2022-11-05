@@ -392,7 +392,6 @@ Item {
                                 root.type, cbVideoFillMode.currentValue,
                                 absoluteStoragePath, previewImage, screenFile,
                                 activeMonitors, volume, 1, {}, true)
-                        print(success)
                     }
                     if (JSUtil.isWidget(root.type))
                         App.screenPlayManager.createWidget(type,
