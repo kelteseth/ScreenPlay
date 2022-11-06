@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtWebEngine
 import ScreenPlayWidget
 import ScreenPlay.Enums.InstalledType
+import ScreenPlayUtil as Util
 
 Item {
     id: root
@@ -106,6 +107,13 @@ Item {
 
         anchors.fill: parent
         hoverEnabled: true
+        onEntered: imgClose.state = "areaHover"
+        onExited: {
+            if (mouseAreaClose.containsMouse)
+                return
+            imgClose.state = ""
+        }
+
         onPressed: function (mouse) {
             clickPos = {
                 "x": mouse.x,
@@ -121,13 +129,12 @@ Item {
 
     MouseArea {
         id: mouseAreaClose
-
-        width: 20
+        width: 16
         height: width
         cursorShape: Qt.PointingHandCursor
         hoverEnabled: true
-        onEntered: imgClose.opacity = 1
-        onExited: imgClose.opacity = 0.15
+        onEntered: imgClose.state = "iconHover"
+        onExited: imgClose.state = ""
         onClicked: {
             if (Qt.platform.os === "windows")
                 Widget.setWindowBlur(0)
@@ -135,46 +142,49 @@ Item {
         }
 
         anchors {
+            margins: 5
             top: parent.top
             right: parent.right
         }
 
-        Image {
+        ColorImage {
             id: imgClose
-
             source: "qrc:/qml/ScreenPlayWidget/assets/icons/baseline-close-24px.svg"
             anchors.centerIn: parent
-            opacity: 0.15
+            width: parent.width
+            height: parent.height
+            sourceSize: Qt.size(width, height)
+            opacity: 0
+            color: "white"
 
-            OpacityAnimator {
-                target: parent
-                duration: 300
-            }
+            states: [
+                State {
+                    name: "areaHover"
+                    PropertyChanges {
+                        target: imgClose
+                        opacity: .5
+                    }
+                },
+                State {
+                    name: "iconHover"
+                    PropertyChanges {
+                        target: imgClose
+                        opacity: 1
+                    }
+                }
+            ]
+            transitions: [
+                Transition {
+                    PropertyAnimation {
+                        duration: 250
+                        target: imgClose
+                        property: "opacity"
+                    }
+                }
+            ]
         }
     }
 
-    MouseArea {
-        id: mouseAreaResize
-
-        property point clickPosition
-
-        width: 20
-        height: width
-        cursorShape: Qt.SizeFDiagCursor
-        onPressed: {
-            clickPosition = Qt.point(mouseX, mouseY)
-        }
-        onPositionChanged: {
-            if (mouseAreaResize.pressed)
-                Widget.setWidgetSize(clickPosition.x + mouseX,
-                                     clickPosition.y + mouseY)
-        }
-
-        anchors {
-            bottom: parent.bottom
-            right: parent.right
-        }
-    }
     states: [
         State {
             name: "in"

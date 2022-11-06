@@ -12,6 +12,7 @@ find_package(
 set(QML
     # cmake-format: sort
     qml/CloseIcon.qml
+    qml/ColorImage.qml
     qml/ColorPicker.qml
     qml/Dialog.qml
     qml/Dialogs/CriticalError.qml
