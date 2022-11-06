@@ -235,6 +235,35 @@
     </message>
   </context>
   <context>
+    <name>ExitPopup</name>
+    <message>
+      <source>Minimize ScreenPlay</source>
+      <translation type="unfinished">Minimize ScreenPlay</translation>
+    </message>
+    <message>
+      <source>Always minimize ScreenPlay</source>
+      <translation type="unfinished">Always minimize ScreenPlay</translation>
+    </message>
+    <message>
+      <source>You have active Wallpaper.
+ScreenPlay will only quit if no Wallpaper are running.</source>
+      <translation type="unfinished">You have active Wallpaper.
+ScreenPlay will only quit if no Wallpaper are running.</translation>
+    </message>
+    <message>
+      <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</source>
+      <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the bottom right Tray-Icon.</translation>
+    </message>
+    <message>
+      <source>You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</source>
+      <translation type="unfinished">You can &lt;b&gt;quit&lt;/b&gt; ScreenPlay via the top right Tray-Icon.</translation>
+    </message>
+    <message>
+      <source>Quit ScreenPlay now</source>
+      <translation type="unfinished">Quit ScreenPlay now</translation>
+    </message>
+  </context>
+  <context>
     <name>GifWallpaper</name>
     <message>
       <source>Import a Gif Wallpaper</source>
@@ -611,6 +640,10 @@
       <source>Get content via our forum</source>
       <translation>通过论坛获取内容</translation>
     </message>
+    <message>
+      <source>Open the ScreenPlay forum</source>
+      <translation type="unfinished">Open the ScreenPlay forum</translation>
+    </message>
   </context>
   <context>
     <name>Monitors</name>
@@ -721,6 +754,13 @@
     </message>
   </context>
   <context>
+    <name>QMLWallpaperMain</name>
+    <message>
+      <source>My Wallpaper 🚀</source>
+      <translation type="unfinished">My Wallpaper 🚀</translation>
+    </message>
+  </context>
+  <context>
     <name>QMLWidget</name>
     <message>
       <source>Create a QML widget</source>
@@ -741,6 +781,13 @@
     <message>
       <source>Tags</source>
       <translation>标签</translation>
+    </message>
+  </context>
+  <context>
+    <name>QMLWidgetMain</name>
+    <message>
+      <source>My Widget 🚀</source>
+      <translation type="unfinished">My Widget 🚀</translation>
     </message>
   </context>
   <context>
@@ -1022,17 +1069,6 @@
     <message>
       <source>Preview Image</source>
       <translation>预览图</translation>
-    </message>
-  </context>
-  <context>
-    <name>WindowNavigation</name>
-    <message>
-      <source>Are you sure you want to exit ScreenPlay? This will shut down all Wallpaper and Widgets. If you want your Wallpaper to  continue playing, press the minimize button.</source>
-      <translation>您确定要退出ScreenPlay吗？这将关闭所有的壁纸和部件。如果您想要继续使用壁纸，请最小化。</translation>
-    </message>
-    <message>
-      <source>ScreenPlay Alpha V%1 - Open Source Wallpaper And Widgets</source>
-      <translation>ScreenPlay Alpha V%1 - 开源壁纸与部件</translation>
     </message>
   </context>
   <context>
