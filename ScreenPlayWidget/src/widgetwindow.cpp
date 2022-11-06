@@ -1,6 +1,7 @@
 #include "widgetwindow.h"
 
 #include <QCoreApplication>
+#include <QSysInfo>
 
 #include "ScreenPlayUtil/contenttypes.h"
 #include "ScreenPlayUtil/util.h"
@@ -38,8 +39,13 @@ WidgetWindow::WidgetWindow(
         "Error: only enums");
 
     Qt::WindowFlags flags = m_window.flags();
-    m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
-    m_window.setColor(Qt::transparent);
+    if(QSysInfo::productType() == "macos") {
+        // Setting it as a SlashScreen causes the window to hide on focus lost
+        m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint );
+    } else if(QSysInfo::productType() == "windows") {
+        // Must be splash screen to not show up in the taskbar
+        m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
+    }
 
     qmlRegisterSingletonInstance<WidgetWindow>("ScreenPlayWidget", 1, 0, "Widget", this);
 
@@ -56,6 +62,7 @@ WidgetWindow::WidgetWindow(
         auto projectOpt = ScreenPlayUtil::openJsonFileToObject(m_projectPath + "/project.json");
         if (!projectOpt.has_value()) {
             qWarning() << "Unable to parse project file!";
+            return;
         }
 
         m_project = projectOpt.value();
@@ -68,10 +75,12 @@ WidgetWindow::WidgetWindow(
             qWarning() << "Cannot parse Wallpaper type from value" << m_project.value("type");
         }
     }
+
     m_window.engine()->addImportPath(qGuiApp->applicationDirPath() + "/qml");
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeViewToRootObject);
     m_window.setSource(QUrl("qrc:/qml/ScreenPlayWidget/qml/Widget.qml"));
+    m_window.setColor(Qt::transparent);
     m_window.setPosition(m_position);
 
     // Debug mode means we directly start the ScreenPlayWallpaper for easy debugging.
@@ -102,7 +111,8 @@ WidgetWindow::WidgetWindow(
         });
     }
 
-    setupLiveReloading();
+    if (projectPath != "test")
+        setupLiveReloading();
 }
 
 void WidgetWindow::setSize(QSize size)
@@ -209,3 +219,4 @@ void WidgetWindow::setupLiveReloading()
     QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
     m_fileSystemWatcher.addPaths({ projectPath() });
 }
+
