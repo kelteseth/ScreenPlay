@@ -753,6 +753,13 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
 </context>
 <context>
+    <name>QMLWallpaperMain</name>
+    <message>
+        <source>My Wallpaper 🚀</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>QMLWidget</name>
     <message>
         <source>Create a QML widget</source>
@@ -773,6 +780,13 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     <message>
         <source>Tags</source>
         <translation>Etiketler</translation>
+    </message>
+</context>
+<context>
+    <name>QMLWidgetMain</name>
+    <message>
+        <source>My Widget 🚀</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
