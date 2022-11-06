@@ -43,43 +43,43 @@
     <name>CreateSidebar</name>
     <message>
         <source>Tools Overview</source>
-        <translation type="unfinished">Przegląd narzędzi</translation>
+        <translation type="unfinished">Tools Overview</translation>
     </message>
     <message>
         <source>Video Import h264 (.mp4)</source>
-        <translation type="unfinished">Importuj film h264 (.mp4)</translation>
+        <translation type="unfinished">Video Import h264 (.mp4)</translation>
     </message>
     <message>
         <source>Video Import VP8 &amp; VP9 (.webm)</source>
-        <translation type="unfinished">Importuj film VP8 lub VP9 (.webm)</translation>
+        <translation type="unfinished">Video Import VP8 &amp; VP9 (.webm)</translation>
     </message>
     <message>
         <source>Video import (all types)</source>
-        <translation type="unfinished">Importuj film (dowolny typ)</translation>
+        <translation type="unfinished">Video import (all types)</translation>
     </message>
     <message>
         <source>GIF Wallpaper</source>
-        <translation type="unfinished">Tapeta GIF</translation>
+        <translation type="unfinished">GIF Wallpaper</translation>
     </message>
     <message>
         <source>QML Wallpaper</source>
-        <translation type="unfinished">Tapeta QML</translation>
+        <translation type="unfinished">QML Wallpaper</translation>
     </message>
     <message>
         <source>HTML5 Wallpaper</source>
-        <translation type="unfinished">Tapeta HTML5</translation>
+        <translation type="unfinished">HTML5 Wallpaper</translation>
     </message>
     <message>
         <source>Website Wallpaper</source>
-        <translation type="unfinished">Strona WWW jako tapeta</translation>
+        <translation type="unfinished">Website Wallpaper</translation>
     </message>
     <message>
         <source>QML Widget</source>
-        <translation type="unfinished">Widżet QML</translation>
+        <translation type="unfinished">QML Widget</translation>
     </message>
     <message>
         <source>HTML Widget</source>
-        <translation type="unfinished">Widżet HTML</translation>
+        <translation type="unfinished">HTML Widget</translation>
     </message>
 </context>
 <context>
@@ -237,14 +237,6 @@
 <context>
     <name>ExitPopup</name>
     <message>
-        <source>Minimize ScreenPlay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Always minimize ScreenPlay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You have active Wallpaper.
 ScreenPlay will only quit if no Wallpaper are running.</source>
         <translation type="unfinished"></translation>
@@ -259,6 +251,14 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Quit ScreenPlay now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Always minimize ScreenPlay</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -587,42 +587,42 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Export</translation>
     </message>
     <message>
         <source>We only support adding one item at once.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">We only support adding one item at once.</translation>
     </message>
     <message>
         <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
     </message>
     <message>
         <source>Import Content...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Import Content...</translation>
     </message>
     <message>
         <source>Export Content...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Export Content...</translation>
     </message>
 </context>
 <context>
     <name>InstalledNavigation</name>
     <message>
         <source>All</source>
-        <translation type="unfinished">Wszystko</translation>
+        <translation type="unfinished">All</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="unfinished">Sceny</translation>
+        <translation type="unfinished">Scenes</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Filmy</translation>
+        <translation type="unfinished">Videos</translation>
     </message>
     <message>
         <source>Widgets</source>
-        <translation type="unfinished">Widżety</translation>
+        <translation type="unfinished">Widgets</translation>
     </message>
 </context>
 <context>

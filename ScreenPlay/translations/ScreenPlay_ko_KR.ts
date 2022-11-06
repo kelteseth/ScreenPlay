@@ -237,14 +237,6 @@
 <context>
     <name>ExitPopup</name>
     <message>
-        <source>Minimize ScreenPlay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Always minimize ScreenPlay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You have active Wallpaper.
 ScreenPlay will only quit if no Wallpaper are running.</source>
         <translation type="unfinished"></translation>
@@ -259,6 +251,14 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Quit ScreenPlay now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Always minimize ScreenPlay</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -587,23 +587,23 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Export</translation>
     </message>
     <message>
         <source>We only support adding one item at once.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">We only support adding one item at once.</translation>
     </message>
     <message>
         <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
     </message>
     <message>
         <source>Import Content...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Import Content...</translation>
     </message>
     <message>
         <source>Export Content...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Export Content...</translation>
     </message>
 </context>
 <context>

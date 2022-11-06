@@ -43,7 +43,7 @@
     <name>CreateSidebar</name>
     <message>
         <source>Tools Overview</source>
-        <translation type="unfinished">Werkzeugeübersicht</translation>
+        <translation type="unfinished">Tools Overview</translation>
     </message>
     <message>
         <source>Video Import h264 (.mp4)</source>
@@ -236,14 +236,6 @@
 <context>
     <name>ExitPopup</name>
     <message>
-        <source>Minimize ScreenPlay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Always minimize ScreenPlay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You have active Wallpaper.
 ScreenPlay will only quit if no Wallpaper are running.</source>
         <translation type="unfinished"></translation>
@@ -258,6 +250,14 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Quit ScreenPlay now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Always minimize ScreenPlay</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -586,34 +586,34 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Export</translation>
     </message>
     <message>
         <source>We only support adding one item at once.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">We only support adding one item at once.</translation>
     </message>
     <message>
         <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
     </message>
     <message>
         <source>Import Content...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Import Content...</translation>
     </message>
     <message>
         <source>Export Content...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Export Content...</translation>
     </message>
 </context>
 <context>
     <name>InstalledNavigation</name>
     <message>
         <source>All</source>
-        <translation type="unfinished">Alles</translation>
+        <translation type="unfinished">All</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="unfinished">Szenen</translation>
+        <translation type="unfinished">Scenes</translation>
     </message>
     <message>
         <source>Videos</source>

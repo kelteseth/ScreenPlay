@@ -43,7 +43,7 @@
     <name>CreateSidebar</name>
     <message>
         <source>Tools Overview</source>
-        <translation type="unfinished">Panoramica Strumenti</translation>
+        <translation type="unfinished">Tools Overview</translation>
     </message>
     <message>
         <source>Video Import h264 (.mp4)</source>
@@ -59,27 +59,27 @@
     </message>
     <message>
         <source>GIF Wallpaper</source>
-        <translation type="unfinished">Sfondo GIF</translation>
+        <translation type="unfinished">GIF Wallpaper</translation>
     </message>
     <message>
         <source>QML Wallpaper</source>
-        <translation type="unfinished">Sfondo QML</translation>
+        <translation type="unfinished">QML Wallpaper</translation>
     </message>
     <message>
         <source>HTML5 Wallpaper</source>
-        <translation type="unfinished">Sfondo HTML5</translation>
+        <translation type="unfinished">HTML5 Wallpaper</translation>
     </message>
     <message>
         <source>Website Wallpaper</source>
-        <translation type="unfinished">Sfondo Web</translation>
+        <translation type="unfinished">Website Wallpaper</translation>
     </message>
     <message>
         <source>QML Widget</source>
-        <translation type="unfinished">Widget QML</translation>
+        <translation type="unfinished">QML Widget</translation>
     </message>
     <message>
         <source>HTML Widget</source>
-        <translation type="unfinished">Widget HTML</translation>
+        <translation type="unfinished">HTML Widget</translation>
     </message>
 </context>
 <context>
@@ -237,14 +237,6 @@
 <context>
     <name>ExitPopup</name>
     <message>
-        <source>Minimize ScreenPlay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Always minimize ScreenPlay</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You have active Wallpaper.
 ScreenPlay will only quit if no Wallpaper are running.</source>
         <translation type="unfinished"></translation>
@@ -259,6 +251,14 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Quit ScreenPlay now</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Minimize ScreenPlay</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Always minimize ScreenPlay</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -587,38 +587,38 @@ ScreenPlay will only quit if no Wallpaper are running.</source>
     </message>
     <message>
         <source>Export</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Export Content...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Export</translation>
     </message>
     <message>
         <source>We only support adding one item at once.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">We only support adding one item at once.</translation>
     </message>
     <message>
         <source>File type not supported. We only support &apos;.screenplay&apos; files.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">File type not supported. We only support &apos;.screenplay&apos; files.</translation>
     </message>
     <message>
         <source>Import Content...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Import Content...</translation>
+    </message>
+    <message>
+        <source>Export Content...</source>
+        <translation type="unfinished">Export Content...</translation>
     </message>
 </context>
 <context>
     <name>InstalledNavigation</name>
     <message>
         <source>All</source>
-        <translation type="unfinished">Tutto</translation>
+        <translation type="unfinished">All</translation>
     </message>
     <message>
         <source>Scenes</source>
-        <translation type="unfinished">Scene</translation>
+        <translation type="unfinished">Scenes</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished">Video</translation>
+        <translation type="unfinished">Videos</translation>
     </message>
     <message>
         <source>Widgets</source>
