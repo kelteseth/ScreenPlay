@@ -1,24 +1,4 @@
-# Variable must be around "" to be equal!
-if("${CPACK_IFW_ROOT}" STREQUAL "")
-    # Hardcoded Qt paths that are used by the QtMaintanance tool for now...
-    if(${GITLAB_CI})
-        set(SCREENPLAY_IFW_ROOT "${CMAKE_SOURCE_DIR}/../aqt/Tools/QtInstallerFramework/${SCREENPLAY_IFW_VERSION}")
-    else()
-        if(WIN32)
-            set(SCREENPLAY_IFW_ROOT "C:/Qt/Tools/QtInstallerFramework/${SCREENPLAY_IFW_VERSION}")
-        elseif(UNIX)
-            set(SCREENPLAY_IFW_ROOT "$ENV{HOME}/Qt/Tools/QtInstallerFramework/${SCREENPLAY_IFW_VERSION}")
-        endif()
-    endif()
-
-    message(AUTHOR_WARNING "[CPACK_IFW_ROOT] Not set. Using hardcoded value: ${SCREENPLAY_IFW_ROOT}")
-    message(AUTHOR_WARNING "WARNING: MAKE SURE YOU HAVE THIS EXACT VERSION INSTALLED VIA THE QTMAINTANANCE TOOL!")
-else()
-    message(STATUS "[CPACK_IFW_ROOT]  =  ${SCREENPLAY_IFW_ROOT}")
-endif()
-
 message(STATUS "[IFW INSTALLER ENABLED]: Configuring. This can take some time...")
-
 
 set(CPACK_COMPONENTS_GROUPING IGNORE)
 set(CPACK_PACKAGE_NAME "ScreenPlay")

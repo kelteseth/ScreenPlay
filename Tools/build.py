@@ -50,8 +50,9 @@ class BuildConfig:
     package: bool
     package_command: str
     executable_file_ending: str
-    qt_path: str
-    qt_bin_path: str
+    # qt_* use either aqt or from the maintenance tool
+    qt_path: str #  C:\Qt
+    qt_bin_path: str #  C:\Qt\6.3.2\msvc2019_64
     qt_version: str
     qt_ifw_version: str
     ifw_root_path: str
@@ -142,25 +143,25 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
         if not build_config.aqt_path.exists():
             print(f"aqt path does not exist at {build_config.aqt_path}. Please make sure to run setup.py!")
             exit(2)
-
-    # Set default to empty, because it is only used on mac
+    
+    build_config.qt_path = defines.AQT_PATH if build_config.use_aqt else defines.MAINTENANCE_PATH
+    build_config.qt_bin_path = Path(build_config.qt_path).joinpath(f"{build_config.qt_version}/{defines.QT_PLATFORM}").resolve()
+    build_config.ifw_root_path = Path(f"{build_config.qt_path}/Tools/QtInstallerFramework/{build_config.qt_ifw_version}").resolve()    
+    
+    # Set default to empty for linux and windows, because it is only used on mac
     build_config.cmake_osx_architectures = ""
 
     if platform.system() == "Windows":
         build_config.cmake_target_triplet = "x64-windows"
         build_config.executable_file_ending = ".exe"
-        build_config.qt_path = build_config.aqt_path if build_config.use_aqt else Path(
-            "C:/Qt")
-        windows_msvc = "msvc2019_64"  # This will change once prebuild Qt bins change
-        build_config.qt_bin_path = build_config.aqt_path.joinpath(build_config.qt_version).joinpath(
-            windows_msvc) if build_config.use_aqt else Path(f"C:/Qt/{build_config.qt_version}/{windows_msvc}")
-        vs_env_dict = get_vs_env_dict()
-        vs_env_dict["PATH"] = vs_env_dict["PATH"] + \
-            ";" + str(build_config.qt_bin_path) + "\\bin"
-        os.environ.update(vs_env_dict)
+        env_dict = get_vs_env_dict()
+        env_dict["PATH"] = env_dict["PATH"] + \
+            ";" + str(Path(build_config.qt_bin_path).joinpath("bin").resolve()) + \
+            ";" + str(build_config.ifw_root_path.resolve())
+        print(f"Using env_dict:\n{env_dict}")
+        os.environ.update(env_dict)
         # NO f string we fill it later!
         build_config.package_command = "windeployqt.exe --{type}  --qmldir ../../{app}/qml {app}{executable_file_ending}"
-
         build_config.aqt_install_qt_packages = f"windows desktop {build_config.qt_version} win64_msvc2019_64 -m all"
         build_config.aqt_install_tool_packages = "windows desktop tools_ifw"
 
@@ -175,49 +176,25 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
             print("MISSING BUILD ARCH: SET arm64 or x64")
             exit(1)
         build_config.executable_file_ending = ".app"
-        build_config.qt_path = build_config.aqt_path if build_config.use_aqt else Path(
-            "~/Qt/")
-        build_config.qt_bin_path = build_config.aqt_path.joinpath(
-            f"{build_config.qt_version}/macos") if build_config.use_aqt else Path(f"~/Qt/{build_config.qt_version}/macos")
         # NO f string we fill it later!
         build_config.package_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app} -appstore-compliant"
-
         build_config.aqt_install_qt_packages = f"mac desktop {build_config.qt_version} clang_64 -m all"
         build_config.aqt_install_tool_packages = "mac desktop tools_ifw"
-
+        
     elif platform.system() == "Linux":
         build_config.cmake_target_triplet = "x64-linux"
         build_config.executable_file_ending = ""
-        build_config.qt_path = build_config.aqt_path if build_config.use_aqt else Path(
-            "~/Qt/")
-        build_config.qt_bin_path = build_config.aqt_path.joinpath(
-            f"{build_config.qt_version}/gcc_64") if build_config.use_aqt else Path(f"~/Qt/{build_config.qt_version}/gcc_64")
         build_config.aqt_install_qt_packages = f"linux desktop {build_config.qt_version} gcc_64 -m all"
         build_config.aqt_install_tool_packages = "linux desktop tools_ifw"
-        home_path = str(Path.home())
-        build_config.qt_bin_path = build_config.aqt_path.joinpath(
-            f"{build_config.qt_version}/gcc_64") if build_config.use_aqt else Path(f"{home_path}/Qt/{build_config.qt_version}/gcc_64")
     else:
         raise NotImplementedError(
             "Unsupported platform, ScreenPlay only supports Windows, macOS and Linux.")
 
-    # Default to QtMaintainance installation.
-    if build_config.use_aqt:
-        print(f"qt_bin_path: {build_config.qt_bin_path}.")
-        if not Path(build_config.aqt_path).exists():
-            print(
-                f"aqt path does not exist at {build_config.aqt_path}. Installing now into...")
-            run(f"aqt install-qt -O ../aqt {build_config.aqt_install_qt_packages}",
-                cwd=build_config.root_path)
-            run(
-                f"aqt install-tool -O ../aqt {build_config.aqt_install_tool_packages}", cwd=build_config.root_path)
-
     # Prepare
-    build_config.cmake_toolchain_file = f"'{build_config.root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake'"
-    build_config.ifw_root_path = f"{build_config.qt_path}/Tools/QtInstallerFramework/{build_config.qt_ifw_version}"
+    build_config.cmake_toolchain_file = Path(f"{build_config.root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake").resolve()
     print(f"cmake_toolchain_file: {build_config.cmake_toolchain_file}")
-    print(
-        f"Starting build with type {build_config.build_type}. Qt Version: {build_config.qt_version}. Root path: {build_config.root_path}")
+    print(f"Starting build with type {build_config.build_type}.")
+    print(f"Qt Version: {build_config.qt_version}. Root path: {build_config.root_path}")
 
     # Remove old build folder to before configuring to get rid of
     # all cmake chaches
