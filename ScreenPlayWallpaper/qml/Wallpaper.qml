@@ -200,13 +200,16 @@ Rectangle {
         anchors {
             top: parent.top
             topMargin: {
-                // 16:9
-                if(root.width === 1920 && root.height === 1080)
-                    return  0
-                // Ultrawide 21:9
-                if(root.width === 3440 && root.height === 1440)
+                // FHD 16:9
+                if (root.width === 1920 && root.height === 1080)
+                    return 0
+                // FHD 21:9
+                if (root.width === 2560 && root.height === 1080)
+                    return -66
+                // WQHD 21:9
+                if (root.width === 3440 && root.height === 1440)
                     return -93
-                return  0
+                return 0
             }
             left: parent.left
             right: parent.right
@@ -356,13 +359,10 @@ Rectangle {
                 text: "imgCover.status " + imgCover.status
                 font.pointSize: 14
             }
-
         }
 
         background: Rectangle {
             opacity: 0.5
         }
     }
-
-
 }
