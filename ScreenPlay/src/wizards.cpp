@@ -391,8 +391,8 @@ const std::optional<QString> Wizards::createTemporaryFolder() const
     const QDir dir { localStoragePathUrl.toLocalFile() };
 
     // Create a temp dir so we can later alter it to the workshop id
-    const QString currentTime = QTime::currentTime().toString().replace(":", "");
-    const QString folderName = "_tmp_" + currentTime;
+    const QString currentTime = QDateTime::currentDateTime().toString("yyyy_MM_dd_hhmmss");
+    const QString folderName = currentTime;
 
     if (!dir.mkdir(folderName)) {
         qWarning() << "Could create folder: " << folderName;
