@@ -199,9 +199,15 @@ Rectangle {
 
         anchors {
             top: parent.top
-            // To fix the offset from setupWallpaperForOneScreen
-            // but I'm not sure when it happens
-            //topMargin: -3
+            topMargin: {
+                // 16:9
+                if(root.width === 1920 && root.height === 1080)
+                    return  0
+                // Ultrawide 21:9
+                if(root.width === 3440 && root.height === 1440)
+                    return -93
+                return  0
+            }
             left: parent.left
             right: parent.right
         }
