@@ -16,7 +16,7 @@ if sys.platform == "win32":
     QT_PLATFORM = "msvc2019_64"
 elif sys.platform == "darwin":
     OS = "mac"
-    QT_PLATFORM = "clang_64"
+    QT_PLATFORM = "macos"
 elif sys.platform ==  "linux":
     OS = "linux"
     QT_PLATFORM = "gcc_64"
