@@ -48,10 +48,12 @@ def publish(
         vdf_config_name = "app_build_mac.vdf"
         depot_config_name = "depot_build_mac.vdf"
         steamcmd_path = os.path.join(contentBuiler_path, "builder_osx/steamcmd")
+        execute(f"chmod +x {steamcmd_path}")
     elif platform.system() == "Linux":
         vdf_config_name = "app_build_linux.vdf"
         depot_config_name = "depot_build_linux.vdf"
         steamcmd_path = os.path.join(contentBuiler_path, "builder_linux/steamcmd.sh")
+        execute(f"chmod +x {steamcmd_path}")
 
     print(f"Set steamCmd path: {steamcmd_path}")
 
@@ -66,7 +68,7 @@ def publish(
     config_content = file.read()
     git_hash = get_git_revision_short_hash().decode("utf-8").replace("\n", "")
     git_commit_text = get_git_commit_text().decode("utf-8").replace("\n", "")
-    current_date_time = datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
+    current_date_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
 
     build_description = "- git hash: " + git_hash + ", commit: " +  git_commit_text + " - upload datetime: " + current_date_time
     config_content = config_content.replace("{{BUILD_DESCRIPTION}}", build_description)

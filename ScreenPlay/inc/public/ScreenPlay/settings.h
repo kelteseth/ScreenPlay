@@ -197,11 +197,12 @@ public slots:
         }
         if (desktopEnvironment() == DesktopEnvironment::OSX) {
             const QString plistFileName = "app.screenplay.plist";
-            QFile defaultPListFile(":/assets/macos/" + plistFileName);
+            QFile defaultPListFile(":/qml/ScreenPlayApp/assets/macos/" + plistFileName);
             defaultPListFile.open(QIODevice::ReadOnly);
             QString settingsPlistContent = defaultPListFile.readAll();
             if (!settingsPlistContent.contains("{{SCREENPLAY_PATH}}")) {
                 qCritical() << "Unable to load plist settings template from qrc to set autostart!";
+                return;
             }
 
             QDir workingDir(QGuiApplication::applicationDirPath());
@@ -226,6 +227,8 @@ public slots:
             out << settingsPlistContent;
             settingsPlist.flush();
             settingsPlist.close();
+
+            qInfo() << "Set autostart enabled: " << autostart;
         }
         setqSetting("Autostart", autostart);
 
