@@ -1,5 +1,9 @@
 #include "ScreenPlay/util.h"
 
+#include "qarchive_enums.hpp"
+#include "qarchivediskcompressor.hpp"
+#include "qarchivediskextractor.hpp"
+
 #if defined(Q_OS_WIN)
 #include <sentry.h>
 #endif
@@ -15,15 +19,21 @@ namespace ScreenPlay {
 /*!
   \brief Constructor.
 */
-Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
-    : QObject(parent)
-    , m_networkAccessManager { networkAccessManager }
-    , m_extractor { std::make_unique<QArchive::DiskExtractor>() }
-    , m_compressor { std::make_unique<QArchive::DiskCompressor>() }
+Util::Util()
+    : QObject(nullptr)
 {
-    utilPointer = this;
     // Fix log access vilation on quit
+    utilPointer = this;
     QObject::connect(QGuiApplication::instance(), &QGuiApplication::aboutToQuit, this, []() { utilPointer = nullptr; });
+
+    m_extractor = std::make_unique<QArchive::DiskExtractor>();
+    m_compressor = std::make_unique<QArchive::DiskCompressor>();
+
+    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::progress, this, &Util::extractionProgressChanged);
+    QObject::connect(m_extractor.get(), &QArchive::DiskExtractor::finished, this, &Util::extractionFinished);
+
+    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::progress, this, &Util::compressionProgressChanged);
+    QObject::connect(m_compressor.get(), &QArchive::DiskCompressor::finished, this, &Util::compressionFinished);
 
     // In release mode redirect messages to logging otherwhise we break the nice clickable output :(
 #ifdef QT_NO_DEBUG
@@ -34,6 +44,12 @@ Util::Util(QNetworkAccessManager* networkAccessManager, QObject* parent)
     // This gives us nice clickable output in QtCreator
     qSetMessagePattern("%{if-category}%{category}: %{endif}%{message}\n   Loc: [%{file}:%{line}]");
 }
+
+/*!
+  \brief Needed only for QArchive unique_ptr
+        https://stackoverflow.com/questions/28386185/cant-use-stdunique-ptrt-with-t-being-a-forward-declaration
+*/
+Util::~Util() { }
 
 /*!
   \brief Copies the given string to the clipboard.
@@ -108,7 +124,7 @@ QString Util::toLocal(const QString& url) const
 /*!
   \brief Exports a given project into a .screenplay 7Zip file.
 */
-bool Util::exportProject(QString& contentPath, QString& exportFileName)
+bool Util::exportProject(QString contentPath, QString exportFileName)
 {
     m_compressor->clear();
     contentPath = ScreenPlayUtil::toLocal(contentPath);
@@ -142,7 +158,7 @@ bool Util::exportProject(QString& contentPath, QString& exportFileName)
   \brief Imports a given project from a .screenplay zip file. The argument extractionPath
          must be copied otherwise it will get reset in qml before extracting.
 */
-bool Util::importProject(QString& archivePath, QString extractionPath)
+bool Util::importProject(QString archivePath, QString extractionPath)
 {
     m_extractor->clear();
     archivePath = ScreenPlayUtil::toLocal(archivePath);

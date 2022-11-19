@@ -132,7 +132,7 @@ void App::init()
     using std::make_shared, std::make_unique;
 
     // Util should be created as first so we redirect qDebugs etc. into the log
-    m_util = std::make_unique<Util>(&m_networkAccessManager);
+    m_util = make_unique<Util>();
     m_globalVariables = make_shared<GlobalVariables>();
     m_installedListModel = make_shared<InstalledListModel>(m_globalVariables);
     m_installedListFilter = make_shared<InstalledListFilter>(m_installedListModel);

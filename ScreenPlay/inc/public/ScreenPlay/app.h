@@ -103,17 +103,17 @@ public:
     Wizards* wizards() const { return m_wizards.get(); }
 
 signals:
-    void globalVariablesChanged(GlobalVariables* globalVariables);
-    void screenPlayManagerChanged(ScreenPlayManager* screenPlayManager);
-    void createChanged(Create* create);
-    void utilChanged(Util* util);
-    void settingsChanged(Settings* settings);
-    void installedListModelChanged(InstalledListModel* installedListModel);
-    void monitorListModelChanged(MonitorListModel* monitorListModel);
-    void profileListModelChanged(ProfileListModel* profileListModel);
-    void installedListFilterChanged(InstalledListFilter* installedListFilter);
+    void globalVariablesChanged(ScreenPlay::GlobalVariables* globalVariables);
+    void screenPlayManagerChanged(ScreenPlay::ScreenPlayManager* screenPlayManager);
+    void createChanged(ScreenPlay::Create* create);
+    void utilChanged(ScreenPlay::Util* util);
+    void settingsChanged(ScreenPlay::Settings* settings);
+    void installedListModelChanged(ScreenPlay::InstalledListModel* installedListModel);
+    void monitorListModelChanged(ScreenPlay::MonitorListModel* monitorListModel);
+    void profileListModelChanged(ScreenPlay::ProfileListModel* profileListModel);
+    void installedListFilterChanged(ScreenPlay::InstalledListFilter* installedListFilter);
     void mainWindowEngineChanged(QQmlApplicationEngine* mainWindowEngine);
-    void wizardsChanged(Wizards* wizards);
+    void wizardsChanged(ScreenPlay::Wizards* wizards);
 
 public slots:
     QString version() const;

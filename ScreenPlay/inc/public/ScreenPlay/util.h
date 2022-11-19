@@ -58,13 +58,14 @@
 #include "ScreenPlayUtil/contenttypes.h"
 #include "ScreenPlayUtil/util.h"
 
-#include "qarchive_enums.hpp"
-#include "qarchivediskcompressor.hpp"
-#include "qarchivediskextractor.hpp"
-
 #include <fstream>
 #include <iostream>
 #include <optional>
+
+namespace QArchive {
+    class DiskCompressor;
+    class DiskExtractor;
+}
 
 namespace ScreenPlay {
 
@@ -87,20 +88,20 @@ T QStringToEnum(const QString& key, const T defaultValue)
 
 class Util : public QObject {
     Q_OBJECT
-    QML_ELEMENT
-
     Q_PROPERTY(QString debugMessages READ debugMessages NOTIFY debugMessagesChanged)
-    Q_PROPERTY(QArchive::DiskCompressor* compressor READ compressor NOTIFY compressorChanged)
-    Q_PROPERTY(QArchive::DiskExtractor* extractor READ extractor NOTIFY extractorChanged)
 
 public:
-    explicit Util(QNetworkAccessManager* networkAccessManager, QObject* parent = nullptr);
+    Util();
+    ~Util();
 
     QString debugMessages() const { return m_debugMessages; }
-    QArchive::DiskCompressor* compressor() const { return m_compressor.get(); }
-    QArchive::DiskExtractor* extractor() const { return m_extractor.get(); }
 
 signals:
+    void extractionProgressChanged(QString file, int proc, int total, qint64 br, qint64 bt);
+    void extractionFinished();
+    void compressionProgressChanged(QString file, int proc, int total, qint64 br, qint64 bt);
+    void compressionFinished();
+
     void requestNavigation(QString nav);
     void requestNavigationActive(bool isActive);
     void requestToggleWallpaperConfiguration();
@@ -108,16 +109,14 @@ signals:
     void allLicenseLoaded(QString licensesText);
     void allDataProtectionLoaded(QString dataProtectionText);
     void debugMessagesChanged(QString debugMessages);
-    void compressorChanged(QArchive::DiskCompressor* compressor);
-    void extractorChanged(QArchive::DiskExtractor* extractor);
 
 public slots:
     void copyToClipboard(const QString& text) const;
     void openFolderInExplorer(const QString& url) const;
     QString toLocal(const QString& url) const;
-    bool exportProject(QString& contentPath, QString& exportFileName);
-    bool importProject(QString& archivePath, QString extractionPath);
-    void requestAllLicenses();
+    bool exportProject(QString contentPath, QString exportFileName);
+    bool importProject(QString archivePath, QString extractionPath);
+    void requestAllLicenses() ;
     void requestDataProtection();
     bool fileExists(const QString& filePath) const;
 
@@ -154,25 +153,8 @@ public slots:
         emit debugMessagesChanged(m_debugMessages);
     }
 
-    void setCompressor(QArchive::DiskCompressor* compressor)
-    {
-        if (m_compressor.get() == compressor)
-            return;
-        m_compressor.reset(compressor);
-        emit compressorChanged(m_compressor.get());
-    }
-
-    void setExtractor(QArchive::DiskExtractor* extractor)
-    {
-        if (m_extractor.get() == extractor)
-            return;
-        m_extractor.reset(extractor);
-        emit extractorChanged(m_extractor.get());
-    }
 
 private:
-    QNetworkAccessManager* m_networkAccessManager { nullptr };
-
     QString m_debugMessages {};
     QFuture<void> m_requestAllLicensesFuture;
     std::unique_ptr<QArchive::DiskCompressor> m_compressor;

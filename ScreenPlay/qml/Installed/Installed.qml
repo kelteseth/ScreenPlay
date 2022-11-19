@@ -366,11 +366,11 @@ Item {
         }
         Connections {
             id: exportConnections
-            target: App.util.compressor
-            function onProgress(file, proc, total, br, bt) {
+            target: App.util
+            function onCompressionProgressChanged(file, proc, total, br, bt) {
                 exportProgressBar.value = (br * 100 / bt)
             }
-            function onFinished() {
+            function onCompressionFinished() {
                 exportFileProgressDialog.close()
             }
         }
@@ -436,8 +436,9 @@ Item {
             closePolicy: Popup.NoAutoClose
             onClosed: importProgressBar.value = 0
             onOpened: {
-                App.util.importProject(dropArea.filePath,
+                const success = App.util.importProject(dropArea.filePath,
                                        App.globalVariables.localStoragePath)
+                print("finished", success)
                 dropArea.filePath = ""
             }
             ColumnLayout {
@@ -458,11 +459,11 @@ Item {
                 }
                 Connections {
                     id: importConnections
-                    target: App.util.extractor
-                    function onProgress(file, proc, total, br, bt) {
+                    target: App.util
+                    function onExtractionProgressChanged(file, proc, total, br, bt) {
                         importProgressBar.value = (br * 100 / bt)
                     }
-                    function onFinished() {
+                    function onExtractionFinished() {
                         importDialog.close()
                     }
                 }
