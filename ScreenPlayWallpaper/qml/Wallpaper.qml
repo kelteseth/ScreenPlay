@@ -7,7 +7,6 @@ import ScreenPlay.Enums.VideoCodec
 
 Rectangle {
     id: root
-    onStateChanged: print(state)
 
     property bool canFadeByWallpaperFillMode: true
 
@@ -173,6 +172,43 @@ Rectangle {
             switch (Wallpaper.windowsDesktopProperties.wallpaperStyle) {
             case 10:
                 imgCover.fillMode = Image.PreserveAspectCrop
+                // We only support fade in for one screen
+                if (Wallpaper.activeScreensList.length !== 1)
+                    return
+                if (Wallpaper.width === 0)
+                    return
+
+                if (Wallpaper.width > Wallpaper.windowsDesktopProperties.defaultWallpaperSize.width)
+                    return
+
+                // Windows does some weird top margin if the Wallpaper
+                // is bigger than the monitor. So instead of centering
+                // it vertically it moves the wallpaper down by 1/3 of
+                // the remaining height.
+                // 1. Scale down the wallpaper based on the height.
+                // The default Windows 11 wallpaper C:\Windows\Web\Wallpaper\Windows\img19.jpg
+                // has a resoltion of 3841x2400 scaled down to 3440x2150,3 with a given monitor
+                // resolution of 3440x1440 resulting in a 2150,3 - 1440 = 710,3
+                // 710,3 / (1/3) = 236,767
+                const monitorWidth = Wallpaper.width
+                const monitorHeight = Wallpaper.height
+                const windowsWallpaperWidth = Wallpaper.windowsDesktopProperties.defaultWallpaperSize.width
+                const windowsWallpapeHeight = Wallpaper.windowsDesktopProperties.defaultWallpaperSize.height
+
+                // 1. Get scale factor:
+                //    ->  3440 / 3840 = 0.8956
+                const scaleFactor = monitorWidth / windowsWallpaperWidth
+                // 2. Scale down the default Windows wallpaper height (width stays the same for correct aspect ratio):
+                //    -> 2400 * 0.8956 = 2149.4
+                const scaledDownDefaultWallpaperHeight = windowsWallpapeHeight * scaleFactor
+                // 3. Calc offste
+                //    -> 2150,3 - 1440 = 710,3
+                const offset = scaledDownDefaultWallpaperHeight - monitorHeight
+                // 4. Calc the one third offset (topMargin)
+                //    -> 710,3 * (1/3) = 236,767
+                const topMargin = Math.floor(offset * 0.3333333)
+                imgCover.anchors.topMargin = -topMargin
+
                 break
             case 6:
                 imgCover.fillMode = Image.PreserveAspectFit
@@ -199,18 +235,6 @@ Rectangle {
 
         anchors {
             top: parent.top
-            topMargin: {
-                // FHD 16:9
-                if (root.width === 1920 && root.height === 1080)
-                    return 0
-                // FHD 21:9
-                if (root.width === 2560 && root.height === 1080)
-                    return -66
-                // WQHD 21:9
-                if (root.width === 3440 && root.height === 1440)
-                    return -93
-                return 0
-            }
             left: parent.left
             right: parent.right
         }

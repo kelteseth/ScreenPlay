@@ -41,6 +41,7 @@
 #include <QPoint>
 #include <QSettings>
 #include <QString>
+#include <QSize>
 #include <qqml.h>
 #include <qt_windows.h>
 
@@ -51,6 +52,8 @@ public:
     explicit WindowsDesktopProperties(QObject* parent = nullptr);
 
     Q_PROPERTY(int windowsVersion READ windowsVersion WRITE setWindowsVersion NOTIFY windowsVersionChanged)
+    Q_PROPERTY(QSize defaultWallpaperSize READ defaultWallpaperSize WRITE setDefaultWallpaperSize NOTIFY defaultWallpaperSizeChanged)
+
     Q_PROPERTY(QString wallpaperPath READ wallpaperPath WRITE setWallpaperPath NOTIFY wallpaperPathChanged)
     Q_PROPERTY(QPoint position READ position WRITE setPosition NOTIFY positionChanged)
     Q_PROPERTY(bool isTiled READ isTiled WRITE setIsTiled NOTIFY isTiledChanged)
@@ -72,6 +75,7 @@ public:
     int wallpaperStyle() const { return m_wallpaperStyle; }
     QColor color() const { return m_color; }
     int windowsVersion() const { return m_windowsVersion; }
+    QSize defaultWallpaperSize() const { return m_defaultWallpaperSize; }
 
 signals:
     void wallpaperPathChanged(QString wallpaperPath);
@@ -81,7 +85,17 @@ signals:
     void colorChanged(QColor color);
     void windowsVersionChanged(int windowsVersion);
 
+    void defaultWallpaperSizeChanged();
+
 public slots:
+    void setDefaultWallpaperSize(const QSize& newDefaultWallpaperSize)
+    {
+        if (m_defaultWallpaperSize == newDefaultWallpaperSize)
+            return;
+        m_defaultWallpaperSize = newDefaultWallpaperSize;
+        emit defaultWallpaperSizeChanged();
+    }
+
     void setWallpaperPath(QString wallpaperPath)
     {
         if (m_wallpaperPath == wallpaperPath)
@@ -139,4 +153,5 @@ private:
     int m_wallpaperStyle;
     QColor m_color;
     int m_windowsVersion;
+    QSize m_defaultWallpaperSize;
 };

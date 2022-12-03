@@ -1,5 +1,8 @@
 #include "windowsdesktopproperties.h"
 
+#include <QFileInfo>
+#include <QImage>
+
 /*!
     \class WindowsDesktopProperties
     \inmodule ScreenPlayWallpaper
@@ -14,6 +17,12 @@ WindowsDesktopProperties::WindowsDesktopProperties(QObject* parent)
 
     setWallpaperPath(settings.value("WallPaper").toString());
     setIsTiled(settings.value("TileWallpaper").toBool());
+
+    QFileInfo defaultBackgroundImageInfo(m_wallpaperPath);
+    if(defaultBackgroundImageInfo.exists()){
+        QImage backgroundImage(defaultBackgroundImageInfo.absoluteFilePath());
+        setDefaultWallpaperSize(backgroundImage.size());
+    }
 
     QPoint pos;
     pos.setX(settings.value("WallpaperOriginX").toInt());

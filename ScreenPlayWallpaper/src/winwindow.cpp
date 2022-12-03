@@ -264,7 +264,9 @@ void WinWindow::setupWallpaperForOneScreen(int activeScreen)
     const int x = monitors.rcMonitors[activeScreen].left + m_zeroPoint.x() + borderOffset;
     const int y = monitors.rcMonitors[activeScreen].top + m_zeroPoint.y() + borderOffset;
     qInfo() << QString("Setup window activeScreen: %1 scaling: %2 x: %3 y: %4 width: %5 height: %6").arg(activeScreen).arg(scaling).arg(x).arg(y).arg(width).arg(height);
-
+    // Also set it in BaseWindow. This is needed for Windows fade in.
+    setWidth(width - boderWidth);
+    setHeight(height - boderWidth);
     {
         // Must be called twice for some reason when window has scaling...
         if (!SetWindowPos(m_windowHandle, nullptr, x, y, width, height, SWP_HIDEWINDOW)) {
@@ -387,7 +389,6 @@ float WinWindow::getScaling(const int monitorIndex)
         return 1;
     case 107:
         return 1.5;
-
     case 109:
         return 1;
     case 161:
@@ -417,6 +418,7 @@ bool WinWindow::hasWindowScaling()
 */
 void WinWindow::configureWindowGeometry()
 {
+    qInfo() << "configureWindowGeometry";
     setVisible(false);
 
     if (!searchWorkerWindowToParentTo()) {
@@ -448,12 +450,12 @@ void WinWindow::configureWindowGeometry()
         setupWallpaperForMultipleScreens(activeScreensList());
     }
 
-    setWidth(m_window.width());
-    setHeight(m_window.height());
-
     // Instead of setting "renderType: Text.NativeRendering" every time  we can set it here once
     m_window.setTextRenderType(QQuickWindow::TextRenderType::NativeTextRendering);
     m_window.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    m_window.setWidth(width());
+    m_window.setHeight(height());
+    qInfo() << "Setup " << width() << height();
     m_window.setSource(QUrl("qrc:/qml/ScreenPlayWallpaper/qml/Wallpaper.qml"));
     m_window.hide();
 }
