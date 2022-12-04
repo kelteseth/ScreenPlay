@@ -105,7 +105,6 @@ Item {
                     text: m_title
                     color: Material.foreground
                     font.pointSize: 18
-                    font.weight: Font.Thin
                 }
 
                 Text {
@@ -134,7 +133,6 @@ Item {
                 color: Material.color(Material.Red)
                 anchors.fill: screenPlayItemImage
                 font.pointSize: 18
-                font.weight: Font.Thin
                 opacity: 0
             }
 

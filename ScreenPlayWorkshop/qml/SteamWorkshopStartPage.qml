@@ -131,7 +131,6 @@ Item {
 
                     component HeaderLabel: Label {
                         id: textObj
-                        font.weight: Font.Thin
                         color: "white"
                         wrapMode: Text.WrapAnywhere
                         clip: true

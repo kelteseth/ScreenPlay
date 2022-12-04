@@ -30,7 +30,6 @@ Item {
             text: qsTr("Upload Wallpaper/Widgets to Steam")
             color: Material.foreground
             font.pointSize: 21
-            font.weight: Font.Thin
 
             anchors {
                 top: parent.top

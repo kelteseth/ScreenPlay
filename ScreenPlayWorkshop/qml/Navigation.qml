@@ -32,7 +32,6 @@ Rectangle {
 
             font.pointSize: 14
             color: Material.primaryTextColor
-            font.weight: Font.Thin
             verticalAlignment: Qt.AlignVCenter
             wrapMode: Text.WrapAtWordBoundaryOrAnywhere
             text: {

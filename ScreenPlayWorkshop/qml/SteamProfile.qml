@@ -67,7 +67,6 @@ Item {
                     text: root.steamWorkshop.steamAccount.username
                     font.pointSize: 12
                     color: "white"
-                    font.weight: Font.Thin
                 }
 
                 Button {

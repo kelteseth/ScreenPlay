@@ -119,7 +119,6 @@ Drawer {
 
         Text {
             id: txtTitle
-            font.weight: Font.Thin
             verticalAlignment: Text.AlignBottom
             font.pointSize: 16
             color: "white"
