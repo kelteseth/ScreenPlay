@@ -3,6 +3,7 @@
 #include "qarchive_enums.hpp"
 #include "qarchivediskcompressor.hpp"
 #include "qarchivediskextractor.hpp"
+#include <QDesktopServices>
 
 #if defined(Q_OS_WIN)
 #include <sentry.h>
@@ -93,24 +94,8 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
 */
 void Util::openFolderInExplorer(const QString& url) const
 {
-
-    QString path = QUrl::fromUserInput(url).toLocalFile();
-
-    QProcess explorer;
-#ifdef Q_OS_WIN
-    explorer.setProgram("explorer.exe");
-    // When we have space in the path like
-    // C:\Program Files (x86)\Steam\...
-    // we cannot set the path as an argument. But we can set the working it
-    // to the wanted path and open the current path via the dot.
-    explorer.setWorkingDirectory(QDir::toNativeSeparators(path));
-    explorer.setArguments({ "." });
-#elif defined(Q_OS_OSX)
-    explorer.setProgram("open");
-    explorer.setArguments({ QDir::toNativeSeparators(path) });
-#endif
-
-    explorer.startDetached();
+    const QString path = QUrl::fromUserInput(url).toLocalFile();
+    QDesktopServices::openUrl(QUrl::fromLocalFile(path));
 }
 
 /*!
