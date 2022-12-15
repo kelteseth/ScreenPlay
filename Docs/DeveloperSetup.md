@@ -63,7 +63,7 @@ Append this:
 ## Linux dependencies
 1. Install dependencies for Debian/Ubuntu:
 ``` bash
-sudo apt install build-essential git gpg ffmpeg mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar git pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common python3 python3-pip  libgl1-mesa-dev lld ninja-build cmake qml-module-qt-websockets qtwebengine5-* -y
+sudo apt install build-essential git gpg ffmpeg mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar cmake pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common python3 python3-pip  libgl1-mesa-dev lld ninja-build qml-module-qt-websockets qtwebengine5-* -y
 ```
 
 ## Linux via qt.io account
@@ -87,6 +87,7 @@ sudo apt install build-essential git gpg ffmpeg mesa-common-dev libxkbcommon-* l
 ```
 python3 -m pip install aqtinstall
 python3 -m aqt install-qt -O ~/aqt linux desktop 6.4.1 gcc_64 -m all
+python3 -m aqt install-tool -O ~/aqt linux desktop tools_qtcreator
 ```
 1. Open VSCode and install the `CMake Tools`
     1. ctrl + p: `CMake: Select Configure Preset`
