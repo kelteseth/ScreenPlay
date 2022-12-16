@@ -35,10 +35,9 @@ git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git ScreenPlay/Scr
 1. Start the following script to download _all_ needed dependencies automatically. 
 ``` bash
 cd Tools
-# Windows defaults to python
+# Windows defaults to python, linux and macOS uses python3
+python -m pip install -r requirements.txt
 python setup.py
-# Linux and macOS uses python3
-python3 setup.py
 ```
 1. This will:
    1. Download `Qt` and `QtCreator` into:
