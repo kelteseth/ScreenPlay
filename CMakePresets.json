@@ -1,50 +1,66 @@
 {
-    "version": 4,
-    "cmakeMinimumRequired": {
-      "major": 3,
-      "minor": 18,
-      "patch": 0
-    },
-    "configurePresets": [
-        {
-            "name": "ScreenPlay_64bit_Debug_Windows",
-            "displayName": "ScreenPlay 64bit Debug Windows",
-            "description": "Windows only!",
-            "generator": "Ninja",
-            "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_3_0_MSVC2019",
-            "architecture": {
-                "value": "x64",
-                "strategy": "external"
-              },
-            "cacheVariables": {
-                "CMAKE_BUILD_TYPE": "Debug",
-                "CMAKE_PREFIX_PATH": "C:/Qt/6.3.1/msvc2019_64",
-                "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake",
-                "VCPKG_TARGET_TRIPLET": "x64-windows"
-            }
-        },
-        {
-          "name": "ScreenPlay_64bit_Debug_Linux",
-          "displayName": "ScreenPlay 64bit Debug Linux",
-          "description": "Linux only!",
-          "generator": "Ninja",
-          "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_3_0_GCC",
-          "architecture": {
-              "value": "x64",
-              "strategy": "external"
-            },
-          "cacheVariables": {
-              "CMAKE_BUILD_TYPE": "Debug",
-              "CMAKE_PREFIX_PATH": "~/aqt/6.3.1/gcc_64",
-              "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake",
-              "VCPKG_TARGET_TRIPLET": "x64-linux"
-          }
+  "version": 4,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 18,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "windows-debug",
+      "displayName": "ScreenPlay 64bit Debug Windows",
+      "description": "Windows only!",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_4_1_MSVC2019",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Windows"
+      },
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_PREFIX_PATH": "C:/Qt/6.4.1/msvc2019_64",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-windows"
       }
-    ],
-    "buildPresets": [
-        {
-          "name": "default",
-          "configurePreset": "ScreenPlay_64bit_Debug"
-        }
-      ]
+    },
+    {
+      "name": "linux-debug",
+      "displayName": "ScreenPlay 64bit Debug Linux",
+      "description": "Linux only!",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_4_1_GCC",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      },
+      "cacheVariables": {
+        "CMAKE_CXX_COMPILER": "g++",
+        "CMAKE_C_COMPILER": "gcc",
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_PREFIX_PATH": "$env{HOME}/aqt/6.4.1/gcc_64",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "VCPKG_TARGET_TRIPLET": "x64-linux"
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "linux-debug",
+      "configurePreset": "linux-debug"
+    },
+    {
+      "name": "windows-debug",
+      "configurePreset": "windows-debug"
+    }
+  ]
 }
