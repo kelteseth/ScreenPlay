@@ -1,9 +1,9 @@
 # Setup
-1. Download and install the tool for your platform.
+1. Download and install the tools for your platform __first__.
    1. [Windows](#windows)
    1. [Linux](#linux)
    1. [MacOS](#macos)
-2. See the instruction of [how to setup QtCreator and compile ScreenPlay](#setup-qtcreator-and-compile-screenplay)
+2. __Then__ see the instruction of [how to setup QtCreator and compile ScreenPlay](#setup-qtcreator-and-compile-screenplay)
 
 ## Windows
 1. Download and install:
