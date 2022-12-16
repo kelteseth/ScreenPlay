@@ -8,7 +8,7 @@
   "configurePresets": [
     {
       "name": "windows-debug",
-      "displayName": "ScreenPlay 64bit Debug Windows",
+      "displayName": "ScreenPlay 64bit Debug Windows MSVC 2022 Community VCToolsVersion: $env{VCToolsVersion}, WindowsSDKVersion  $env{WindowsSDKVersion}",
       "description": "Windows only!",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_4_1_MSVC2019",
@@ -17,15 +17,34 @@
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
       },
+      "environment" : {
+        "aqt_path": "C:/aqt",
+        "qt_version": "6.4.1",
+        "VCToolsVersion": "14.34.31933",
+        "WindowsSDKVersion" : "10.0.22621.0",
+        "VCArch": "x64",
+        "VCHostArch": "Hostx64",
+        "VCToolsInstallDir": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/$env{VCToolsVersion}",
+        "WindowsSdkDir" : "C:/Program Files (x86)/Windows Kits/10",
+        "WindowsSdkIncVerDir": "$env{WindowsSdkDir}/Include/$env{WindowsSDKVersion}",
+        "WindowsSdkLibVerDir": "$env{WindowsSdkDir}/Lib/$env{WindowsSDKVersion}",
+
+        "INCLUDE": "$env{VCToolsInstallDir}/ATLMFC/include;$env{VCToolsInstallDir}/include;$env{WindowsSdkIncVerDir}/ucrt;$env{WindowsSdkIncVerDir}/shared;$env{WindowsSdkIncVerDir}/um;$env{WindowsSdkIncVerDir}/winrt;$env{WindowsSdkIncVerDir}/cppwinrt",
+        "LIB": "$env{VCToolsInstallDir}/ATLMFC/lib/$env{VCArch};$env{VCToolsInstallDir}/lib/$env{VCArch};$env{WindowsSdkLibVerDir}/ucrt/$env{VCArch};$env{WindowsSdkLibVerDir}/um/$env{VCArch}",
+        "PATH": "$env{aqt_path}/Tools/Ninja/;$env{VCToolsInstallDir}/bin/$env{VCHostArch}/$env{VCArch};$env{WindowsSdkDir}/bin/$env{WindowsSDKVersion}/$env{VCArch};$penv{PATH}"
+      },
       "architecture": {
         "value": "x64",
         "strategy": "external"
       },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_PREFIX_PATH": "C:/Qt/6.4.1/msvc2019_64",
+        "CMAKE_PREFIX_PATH": "$env{aqt_path}/$env{qt_version}/msvc2019_64",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake",
-        "VCPKG_TARGET_TRIPLET": "x64-windows"
+        "VCPKG_TARGET_TRIPLET": "x64-windows",
+        "CMAKE_C_COMPILER": "$env{VCToolsInstallDir}/bin/$env{VCHostArch}/x64/cl.exe",
+        "CMAKE_CXX_COMPILER": "$env{VCToolsInstallDir}/bin/$env{VCHostArch}/x64/cl.exe"
+
       }
     },
     {
