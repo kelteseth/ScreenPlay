@@ -48,7 +48,7 @@ set(QML_IMPORT_PATH
     "${QML_DIRS}"
     CACHE STRING "Qt Creator extra qml import paths")
 
-set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../ScreenPlay-vcpkg")
+set(VCPKG_PATH "${CMAKE_CURRENT_SOURCE_DIR}/../vcpkg")
 set(VCPKG_INSTALLED_PATH "${VCPKG_PATH}/installed/${VCPKG_ARCH}")
 set(VCPKG_BIN_PATH "${VCPKG_INSTALLED_PATH}/bin")
 

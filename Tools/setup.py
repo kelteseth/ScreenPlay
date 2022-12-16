@@ -101,7 +101,7 @@ def main():
 
     root_path = Path(util.cd_repo_root_path())
     project_source_parent_path = root_path.joinpath("../").resolve()
-    vcpkg_path = project_source_parent_path.joinpath("ScreenPlay-vcpkg").resolve()
+    vcpkg_path = project_source_parent_path.joinpath("vcpkg").resolve()
     vcpkg_packages_list = [
     "openssl",
     "curl",
@@ -141,7 +141,7 @@ def main():
         raise NotImplementedError("Unknown system: {}".format(system()))
 
     print(f"Clone into {vcpkg_path}")
-    execute("git clone https://github.com/microsoft/vcpkg.git ScreenPlay-vcpkg", project_source_parent_path, True)
+    execute("git clone https://github.com/microsoft/vcpkg.git vcpkg", project_source_parent_path, True)
     execute("git fetch", vcpkg_path)
     execute(f"git checkout {defines.VCPKG_VERSION}", vcpkg_path)
     

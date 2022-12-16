@@ -191,7 +191,7 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
             "Unsupported platform, ScreenPlay only supports Windows, macOS and Linux.")
 
     # Prepare
-    build_config.cmake_toolchain_file = Path(f"{build_config.root_path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake").resolve()
+    build_config.cmake_toolchain_file = Path(f"{build_config.root_path}/../vcpkg/scripts/buildsystems/vcpkg.cmake").resolve()
     print(f"cmake_toolchain_file: {build_config.cmake_toolchain_file}")
     print(f"Starting build with type {build_config.build_type}.")
     print(f"Qt Version: {build_config.qt_version}. Root path: {build_config.root_path}")
@@ -315,7 +315,7 @@ def package(build_config: BuildConfig):
     # Lets just copy all of them into bin.
     if platform.system() == "Windows":
         vcpkg_bin_path = Path(
-            f"{build_config.root_path}/../ScreenPlay-vcpkg/installed/x64-windows/bin").resolve()
+            f"{build_config.root_path}/../vcpkg/installed/x64-windows/bin").resolve()
         print(f"Copy dlls from vcpkg bin path: {vcpkg_bin_path}")
         for file in vcpkg_bin_path.iterdir():
             if file.suffix == ".dll" and file.is_file():

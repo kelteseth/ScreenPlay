@@ -40,7 +40,7 @@
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_PREFIX_PATH": "$env{aqt_path}/$env{qt_version}/msvc2019_64",
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows",
         "CMAKE_C_COMPILER": "$env{VCToolsInstallDir}/bin/$env{VCHostArch}/x64/cl.exe",
         "CMAKE_CXX_COMPILER": "$env{VCToolsInstallDir}/bin/$env{VCHostArch}/x64/cl.exe"
@@ -67,7 +67,7 @@
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_PREFIX_PATH": "$env{HOME}/aqt/6.4.1/gcc_64",
-        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake",
+        "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-linux"
       }
     }

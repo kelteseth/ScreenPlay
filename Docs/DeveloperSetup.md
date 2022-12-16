@@ -1,15 +1,35 @@
-# Developer Setup
-1. Install latest [git + git-lfs](https://git-scm.com/)
-2. Install latest [python 3](https://www.python.org/)
-3. Clone ScreenPlay
+# Setup
+1. Download and install the tool for your platform.
+   1. [Windows](#windows)
+   1. [Linux](#linux)
+   1. [MacOS](#macos)
+2. See the instruction of [how to setup QtCreator and compile ScreenPlay](#setup-qtcreator-and-compile-screenplay)
+
+## Windows
+1. Download and install:
+   1. Microsoft Visual Studio Community 2022 [Download](https://visualstudio.microsoft.com/de/vs/community/)
+   2. Python 3.11+ and select `Add to Path` during the installation. [Download](https://www.python.org/downloads/)
+   3. Optional if you do not have tools like `git` or `cmake` installed, we recommend `Chocolatey`:
+      1. Chocolatey via Powershell (Administrator) [Download](https://chocolatey.org/install)
+      2. Run `choco.exe install git cmake -y`
+
+## Linux
+1. Install dependencies for Debian/Ubuntu:
+``` bash
+sudo apt install build-essential git gpg ffmpeg mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar cmake pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common python3 python3-pip  libgl1-mesa-dev lld ninja-build qml-module-qt-websockets qtwebengine5-* -y
+```
+
+## MacOS
+1. Install XCode 14+ , open and restart your device.
+1. Install [brew](https://brew.sh) that is needed by some third party vcpkg packages. Do not forget to add brew to your path as outlined at the on of the installation!
+    - `brew install pkg-config git llvm cmake`
+
+# Setup QtCreator and compile ScreenPlay
+1. Clone ScreenPlay
 ``` bash
 git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git ScreenPlay/ScreenPlay
 ```
-4. Download the latest __Qt 6.4.x__ for you platform. Earlier versions are not supported!
-    1. [Install instructions Windows](#windows)
-    1. [Install instructions Linux](#linux)
-    1. [Install instructions MacOSX](#macosx)
-5. Start the following script to download all needed dependencies automatically. This will create a ScreenPlay-vcpkg folder in the same directory as your ScreenPlay source folder. 
+1. Start the following script to download _all_ needed dependencies automatically. 
 ``` bash
 cd Tools
 # Windows defaults to python
@@ -17,106 +37,19 @@ python setup.py
 # Linux and macOS uses python3
 python3 setup.py
 ```
-
-<div>
-<img width="100%" height="auto" src="../.gitlab/media/QtCreator_kit.png">
-</div>
-
-5. Open __QtCreator__ and open the settings `Tools -> Options`
-6. Clone an existing kit like `Qt 6.4.1 MSVC2019 64bit` and add `ScreenPlay` to the new kit name
-5. Edit CMake variables amd add CMAKE_TOOLCHAIN_FILE and VCPKG_TARGET_TRIPLET
-    * `Kits -> <Your_Kit> -> CMake Configuration`
-    
-Append this:
-``` bash
--DCMAKE_TOOLCHAIN_FILE:STRING=%{CurrentProject:Path}/../ScreenPlay-vcpkg/scripts/buildsystems/vcpkg.cmake
-# Only _one_ of these lines that match your OS:
--DVCPKG_TARGET_TRIPLET:STRING=x64-windows
--DVCPKG_TARGET_TRIPLET:STRING=x64-linux
--DVCPKG_TARGET_TRIPLET:STRING=x64-osx
--DVCPKG_TARGET_TRIPLET:STRING=arm64-osx
-```
-
-6. Save and close the settings.
-7. Open Project via `File -> Open File or Project` and select your `CMakeLists.txt`. Then select __our created kit__, press `Configure Project`
-<div>
-<img  height="auto" src="../.gitlab/media/QtCreator_kit_select.png">
-</div>
-8. Press build (the big green play button on the bottom left). This will compile and start ScreenPlay and copy all necessary files into your Qt installation.
-
-## Windows
-1. It is recommended (but not necessary) to use an easy git UI like [gitextensions](https://gitextensions.github.io/).
-1. [Download and install the most recent MSVC 2019 Community](https://visualstudio.microsoft.com/vs/community/)
-    - Select "Desktop development with C++"
-1. [Download and install Qt binary installer from qt.io](https://www.qt.io/download-qt-installer)
-    - Install the Maintaince tool
-    - Select the following features to install:
-        - Qt 6.4.1
-            - MSVC 2019 64-bit
-            - **ALL Additional Libraries**
-            - Qt Quick 3d
-            - Qt 5 Compatibility Module
-            - Qt Shader Tools
-        - Developer and Designer Tools
-            - Cmake
-            - Ninja
-## Linux dependencies
-1. Install dependencies for Debian/Ubuntu:
-``` bash
-sudo apt install build-essential git gpg ffmpeg mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar cmake pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common python3 python3-pip  libgl1-mesa-dev lld ninja-build qml-module-qt-websockets qtwebengine5-* -y
-```
-
-## Linux via qt.io account
-1. [Download and install Qt binary installer from qt.io](https://www.qt.io/download-qt-installer)
-    - Install the Maintaince tool
-    - Select the following features to install:
-        - Qt 6.4.1
-            - GCC
-            - **ALL Additional Libraries**
-            - Qt Quick 3d
-            - Qt 5 Compatibility Module
-            - Qt Shader Tools
-        - Developer and Designer Tools
-            - OpenSSL 1.1.1.c Toolkit
-                - OpenSSL 64-bit binaries
-            - Cmake
-            - Ninja
-
-## Linux via aqt
-1. Alternativly download via aqt
-```
-python3 -m pip install aqtinstall
-python3 -m aqt install-qt -O ~/aqt linux desktop 6.4.1 gcc_64 -m all
-python3 -m aqt install-tool -O ~/aqt linux desktop tools_qtcreator
-```
-1. Open VSCode and install the `CMake Tools`
-    1. ctrl + p: `CMake: Select Configure Preset`
-    2. Select `ScreenPlay 64bit Debug Linux`
-    3. ctrl + p: `CMake: Configure`
-    4. ctrl + p: `CMake: Build`
-    
-
-## MacOSX
-1. Install XCode 13+ , open and restart your device.
-1. Install [brew](https://brew.sh) that is needed by some third party vcpkg packages. Do not forget to add brew to your path as outlined at the on of the installation!
-    - `brew install pkg-config git llvm cmake ninja`
-1. [Download and install Qt binary installer from qt.io](https://www.qt.io/download-qt-installer)
-    - Install the Maintaince tool
-    - Select the following features to install:
-        - Qt 6.4.1
-            - Qt WebEngine
-            - **ALL Additional Libraries**
-            - Qt Quick 3d
-            - Qt 5 Compatibility Module
-            - Qt Shader Tools
-        - Developer and Designer Tools
-            - OpenSSL 1.1.1.c Toolkit
-                - OpenSSL 64-bit binaries
-            - Cmake
-            - Ninja
-1. Change your default kit: 
-    - `QtCreator -> Options -> Kits -> Select your default kit (Desktop Qt 6.4.1) -> Change c and c++ Compiler to Apple Clang (x86_64)`
-
+1. This will:
+   1. Download `Qt` and `QtCreator` into:
+      1. Windows: `C:\aqt`
+      2. MacOS and Linux: `~/aqt`
+   2. Create a `vcpkg` folder for dependencies
+   3. Compile the dependencies
+   4. Download ffmpeg
+1. Open QtCreator
+      1. Windows: `C:\aqt\Tools\QtCreator\bin\qtcreator.exe`
+      2. Linux: `~/aqt/Tools/QtCreator/bin/qtcreator`
+      3. MacOS: `~/aqt/qtcreator`
+1. Select the imported temporary kit like `ScreenPlay 64bit Debug Windows MSVC 2022 Community`
+2. Compile!
 
 # Developer docs 
 We use qdoc to generate documentation. Qt6 is the minimum version qdoc, because of vastly improved c++ parsing support. 
@@ -126,3 +59,4 @@ If you have installed Qt in a different directory, change the path to your Qt lo
 Some useful links:
 * [Introduction to QDoc](https://doc.qt.io/qt-5/01-qdoc-manual.html)
 * [Writing qdoc comments](https://doc.qt.io/qt-5/qdoc-guide-writing.html)
+
