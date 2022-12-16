@@ -8,6 +8,9 @@
 ## Windows
 1. Download and install:
    1. Microsoft Visual Studio Community 2022 [Download](https://visualstudio.microsoft.com/de/vs/community/)
+      1. Make sure you have the exact Windows SDK and MSVC version installed we use in `CMakePresets.json`
+         1. `"VCToolsVersion": "14.34.31933"` aka Visual Studio `17.4.3`
+         2. `"WindowsSDKVersion" : "10.0.22621.0"`  
    2. Python 3.11+ and select `Add to Path` during the installation. [Download](https://www.python.org/downloads/)
    3. Optional if you do not have tools like `git` or `cmake` installed, we recommend `Chocolatey`:
       1. Chocolatey via Powershell (Administrator) [Download](https://chocolatey.org/install)
