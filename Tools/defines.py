@@ -5,7 +5,7 @@ from sys import stdout
 stdout.reconfigure(encoding='utf-8')
 
 VCPKG_VERSION = "2871ddd"  # Master 11.11.2022
-QT_VERSION = "6.4.1"
+QT_VERSION = "6.4.1" if sys.platform != "darwin" else "6.3.2"
 QT_IFW_VERSION = "4.5"
 SCREENPLAY_VERSION = "0.15.0-RC3"
 AQT_PATH = Path.cwd().parent.parent.joinpath("aqt")
