@@ -9,10 +9,18 @@ stages:
     - python -m pip install -r Tools/requirements.txt
     - python Tools/setup.py
 
-.base_unix_build:
+.base_linux_build:
   before_script:
+    - apt update -y
+    - apt install python3 python3-pip -y
     - python3 -m pip3 install -U pip
     - python3 -m pip3 install -r Tools/requirements.txt
+    - python3 Tools/setup.py
+
+.base_osx_build:
+  before_script:
+    - pip3 install -U pip
+    - pip3 install -r Tools/requirements.txt
     - python3 Tools/setup.py
 
 standalone_windows:
@@ -32,7 +40,7 @@ standalone_windows:
 standalone_osx:
     stage: build
     extends:
-        - .base_unix_build
+        - .base_osx_build
     tags:
         - osx
     script:
@@ -47,15 +55,12 @@ standalone_osx:
 standalone_linux:
     stage: build
     extends:
-        - .base_unix_build
+        - .base_linux_build
     image:
         name: ubuntu:20.04
     tags:
         - gitlab-org-docker
     script:
-        - apt update -y
-        # We need cmake 3.23 to fix IFW
-        - apt install gpg wget -y
         - wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | tee /usr/share/keyrings/kitware-archive-keyring.gpg >/dev/null
         - echo 'deb [signed-by=/usr/share/keyrings/kitware-archive-keyring.gpg] https://apt.kitware.com/ubuntu/ focal-rc main' | tee -a /etc/apt/sources.list.d/kitware.list >/dev/null
         - apt update -y
@@ -84,7 +89,7 @@ steam_windows:
 steam_osx:
     stage: build
     extends:
-        - .base_unix_build
+        - .base_osx_build
     tags:
         - osx
     script:
