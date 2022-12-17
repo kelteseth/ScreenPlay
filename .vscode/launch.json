@@ -5,37 +5,18 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "type": "lldb",
+            "name": "Debug SP",
+            "type": "cppvsdbg",
             "request": "launch",
-            "name": "ScreenPlay Linux CodeLLDB",
-            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6_3_0_GCC/bin/ScreenPlay",
+            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6_4_1_MSVC2019/bin/ScreenPlay.exe",
             "args": [],
-            "cwd": "${workspaceFolder}"
-        },
-        {
-            "name": "ScreenPlay Linux (gdb) Launch",
-            "type": "cppdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6_3_0_GCC/bin/ScreenPlay",
-            "args": [],
-            "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/../build_ScreenPlay_Qt_6_3_0_GCC/bin/",
-            "environment": [],
-            "externalConsole": false,
-            "MIMode": "gdb",
-            "setupCommands": [
+            "cwd": "${workspaceFolder}",
+            "environment": [
                 {
-                    "description": "Enable pretty-printing for gdb",
-                    "text": "-enable-pretty-printing",
-                    "ignoreFailures": true
-                },
-                {
-                    "description":  "Set Disassembly Flavor to Intel",
-                    "text": "-gdb-set disassembly-flavor intel",
-                    "ignoreFailures": true
+                    "name": "Path",
+                    "value": "${env:Path};C:\\Qt\\6.4.1\\msvc2019_64\\bin\\;c:\\Qt\\6.4.1\\msvc2019_64\\modules\\;c:\\Qt\\6.4.1\\msvc2019_64\\qml\\;"
                 }
             ]
         }
-
     ]
 }
