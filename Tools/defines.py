@@ -8,7 +8,7 @@ VCPKG_VERSION = "2871ddd"  # Master 11.11.2022
 QT_VERSION = "6.4.1"
 QT_IFW_VERSION = "4.5"
 SCREENPLAY_VERSION = "0.15.0-RC3"
-AQT_PATH = Path("C:/aqt") if sys.platform == "win32" else Path().home().joinpath("aqt")
+AQT_PATH = Path.cwd().parent.parent.joinpath("aqt")
 MAINTENANCE_PATH = Path("C:/Qt") if sys.platform == "win32" else Path().home().joinpath("Qt")
 # Defined by Qt
 if sys.platform == "win32":

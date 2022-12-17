@@ -18,7 +18,7 @@
         "rhs": "Windows"
       },
       "environment" : {
-        "aqt_path": "C:/aqt",
+        "aqt_path": "${sourceDir}/../aqt",
         "qt_version": "6.4.1",
         "VCToolsVersion": "14.34.31933",
         "WindowsSDKVersion" : "10.0.22621.0",
@@ -58,6 +58,9 @@
         "lhs": "${hostSystemName}",
         "rhs": "Linux"
       },
+      "environment" : {
+        "aqt_path": "${sourceDir}/../aqt"
+      },
       "architecture": {
         "value": "x64",
         "strategy": "external"
@@ -66,7 +69,7 @@
         "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_PREFIX_PATH": "$env{HOME}/aqt/6.4.1/gcc_64",
+        "CMAKE_PREFIX_PATH": "$env{aqt_path}/6.4.1/gcc_64",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-linux"
       }
@@ -82,6 +85,9 @@
         "lhs": "${hostSystemName}",
         "rhs": "Darwin"
       },
+      "environment" : {
+        "aqt_path": "${sourceDir}/../aqt"
+      },
       "architecture": {
         "value": "x64",
         "strategy": "external"
@@ -90,7 +96,7 @@
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_PREFIX_PATH": "$env{HOME}/aqt/6.4.1/macos",
+        "CMAKE_PREFIX_PATH": "$env{aqt_path}/6.4.1/macos",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake"
       }
     }
