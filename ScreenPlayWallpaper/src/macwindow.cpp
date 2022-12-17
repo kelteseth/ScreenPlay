@@ -61,7 +61,8 @@ MacWindow::MacWindow(
     MacIntegration* macIntegration = new MacIntegration(this);
     macIntegration->SetBackgroundLevel(&m_window);
 
-    sdk()->start();
+    if (!debugMode)
+        sdk()->start();
 }
 
 void MacWindow::setVisible(bool show)
