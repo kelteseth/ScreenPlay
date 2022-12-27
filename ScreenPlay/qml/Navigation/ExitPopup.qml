@@ -76,6 +76,7 @@ Util.Popup {
                     text: qsTr("Minimize ScreenPlay")
                     onClicked: {
                         applicationWindow.hide()
+                        App.showDockIcon(false)
                         root.close()
                     }
                 }
@@ -85,6 +86,7 @@ Util.Popup {
                     onClicked: {
                         settings.setValue("alwaysMinimize", true)
                         settings.sync()
+                        App.showDockIcon(false)
                         applicationWindow.hide()
                         root.close()
                     }

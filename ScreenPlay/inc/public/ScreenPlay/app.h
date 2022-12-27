@@ -117,6 +117,7 @@ signals:
 
 public slots:
     QString version() const;
+    void showDockIcon(const bool show);
     void exit();
 
     QPointF cursorPos() { return QCursor::pos(); }

@@ -1,4 +1,7 @@
 #include "ScreenPlay/app.h"
+#if defined(Q_OS_OSX)
+#include "ScreenPlayUtil/macutils.h"
+#endif
 
 #include "steam/steam_qt_enums_generated.h"
 #include <QProcessEnvironment>
@@ -330,6 +333,13 @@ bool App::setupKDE()
     } else {
         return false;
     }
+}
+
+void App::showDockIcon(const bool show)
+{
+#if defined(Q_OS_OSX)
+    MacUtils::instance()->showDockIcon(show);
+#endif
 }
 
 }

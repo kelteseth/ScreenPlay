@@ -31,6 +31,7 @@ SystemTrayIcon {
         MenuItem {
             text: qsTr("Open ScreenPlay")
             onTriggered: {
+                App.showDockIcon(true);
                 window.show()
             }
         }

@@ -40,7 +40,7 @@ set(QML
     qml/TrayIcon.qml)
 
 set(SOURCES # cmake-format: sort
-            inc/public/ScreenPlayUtil/httpfileserver.cpp src/contenttypes.cpp src/util.cpp)
+            inc/public/ScreenPlayUtil/httpfileserver.cpp src/contenttypes.cpp src/util.cpp src/macutils.mm)
 
 set(HEADER
     # cmake-format: sort
@@ -54,6 +54,7 @@ set(HEADER
     inc/public/ScreenPlayUtil/PropertyHelpers.h
     inc/public/ScreenPlayUtil/PtrPropertyHelpers.h
     inc/public/ScreenPlayUtil/SingletonHelper.h
+    inc/public/ScreenPlayUtil/macutils.h
     inc/public/ScreenPlayUtil/util.h)
 
 set(RESOURCES # cmake-format: sort

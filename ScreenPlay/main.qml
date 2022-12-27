@@ -84,6 +84,7 @@ ApplicationWindow {
 
         if(alwaysMinimize === "true"){
            root.hide()
+           App.showDockIcon(false);
            return
         }
 
@@ -105,8 +106,10 @@ ApplicationWindow {
         stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
                            "sidebar": sidebar
                        })
-        if (!App.settings.silentStart)
+        if (!App.settings.silentStart){
+            App.showDockIcon(true)
             root.show()
+        }
     }
 
     Item {
@@ -152,6 +155,7 @@ ApplicationWindow {
 
     Connections {
         function onRequestRaise() {
+            App.showDockIcon(true)
             root.show()
         }
 
