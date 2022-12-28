@@ -40,7 +40,7 @@ set(QML
     qml/TrayIcon.qml)
 
 set(SOURCES # cmake-format: sort
-            inc/public/ScreenPlayUtil/httpfileserver.cpp src/contenttypes.cpp src/util.cpp src/macutils.mm)
+            inc/public/ScreenPlayUtil/httpfileserver.cpp src/contenttypes.cpp src/util.cpp)
 
 set(HEADER
     # cmake-format: sort
@@ -54,8 +54,12 @@ set(HEADER
     inc/public/ScreenPlayUtil/PropertyHelpers.h
     inc/public/ScreenPlayUtil/PtrPropertyHelpers.h
     inc/public/ScreenPlayUtil/SingletonHelper.h
-    inc/public/ScreenPlayUtil/macutils.h
     inc/public/ScreenPlayUtil/util.h)
+
+if(APPLE)
+    list(APPEND SOURCES src/macutils.mm)
+    list(APPEND HEADER inc/public/ScreenPlayUtil/macutils.h)
+endif()
 
 set(RESOURCES # cmake-format: sort
               assets/icons/attach_file.svg assets/icons/description.svg assets/icons/folder.svg)
