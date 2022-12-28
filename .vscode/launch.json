@@ -10,13 +10,15 @@
             "request": "launch",
             "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6_4_1_MSVC2019/bin/ScreenPlay.exe",
             "args": [],
+            "preLaunchTask": "CMake: build",
             "cwd": "${workspaceFolder}",
             "environment": [
                 {
                     "name": "Path",
                     "value": "${env:Path};C:\\Qt\\6.4.1\\msvc2019_64\\bin\\;c:\\Qt\\6.4.1\\msvc2019_64\\modules\\;c:\\Qt\\6.4.1\\msvc2019_64\\qml\\;"
                 }
-            ]
+            ],
+            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
         }
     ]
 }
