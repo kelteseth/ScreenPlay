@@ -79,7 +79,7 @@
       "displayName": "ScreenPlay 64bit Debug osx",
       "description": "Osx only!",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_3_2_GCC",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_3_2_Clang",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",

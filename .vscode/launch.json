@@ -5,7 +5,19 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug SP",
+            "name": "MacOS (lldb) Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6_3_2_Clang/bin/ScreenPlay.app/Contents/MacOS/ScreenPlay",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb"
+        },
+        {
+            "name": "Windows Debug ScreenPlay",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6_4_1_MSVC2019/bin/ScreenPlay.exe",
