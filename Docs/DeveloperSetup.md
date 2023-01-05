@@ -32,7 +32,7 @@ sudo apt install build-essential git gpg ffmpeg mesa-common-dev libxkbcommon-* l
 ``` bash
 git clone --recursive https://gitlab.com/kelteseth/ScreenPlay.git ScreenPlay/ScreenPlay
 ```
-1. Start the following script to download _all_ needed dependencies automatically. 
+1. Start the following script to download _all_ needed dependencies automatically.
 ``` bash
 cd Tools
 # Windows defaults to python, linux and macOS uses python3
@@ -40,18 +40,16 @@ python -m pip install -r requirements.txt
 python setup.py
 ```
 1. This will:
-   1. Download `Qt` and `QtCreator` into:
-      1. Windows: `C:\aqt`
-      2. MacOS and Linux: `~/aqt`
+   1. Download `Qt` and `QtCreator`
    2. Create a `vcpkg` folder for dependencies
    3. Compile the dependencies
    4. Download ffmpeg
-1. Open QtCreator
-      1. Windows: `C:\aqt\Tools\QtCreator\bin\qtcreator.exe`
-      2. Linux: `~/aqt/Tools/QtCreator/bin/qtcreator`
-      3. MacOS: `~/aqt/qtcreator`
-1. Select the imported temporary kit like `ScreenPlay 64bit Debug Windows MSVC 2022 Community`
-2. Compile!
+2. Open QtCreator or VSCode 
+      1. Windows: `..\aqt\Tools\QtCreator\bin\qtcreator.exe`
+      2. Linux: `../aqt/Tools/QtCreator/bin/qtcreator`
+      3. MacOS: `../aqt/Qt Creator`
+3. Select the imported temporary kit like `ScreenPlay 64bit Debug Windows MSVC 2022 Community`
+4. Compile!
 
 # Developer docs 
 We use qdoc to generate documentation. Qt6 is the minimum version qdoc, because of vastly improved c++ parsing support. 
