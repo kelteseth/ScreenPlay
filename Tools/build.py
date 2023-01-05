@@ -57,10 +57,8 @@ class BuildConfig:
     qt_ifw_version: str
     ifw_root_path: str
     cmake_toolchain_file: str
-    use_aqt: bool
     aqt_install_qt_packages: str
     aqt_install_tool_packages: str
-    aqt_path: str
     executable_file_ending: str
     build_folder: str
     bin_dir: str
@@ -137,14 +135,11 @@ def execute(
 
 def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildConfig, BuildResult]:
 
-    if build_config.use_aqt:
-        build_config.aqt_path = defines.AQT_PATH
+    build_config.qt_path = defines.QT_PATH
 
-        if not build_config.aqt_path.exists():
-            print(f"aqt path does not exist at {build_config.aqt_path}. Please make sure to run setup.py!")
-            exit(2)
-    
-    build_config.qt_path = defines.AQT_PATH if build_config.use_aqt else defines.MAINTENANCE_PATH
+    if not build_config.qt_path.exists():
+        print(f"Qt path does not exist at {build_config.qt_path}. Please make sure to run setup.py!")
+        exit(2)
     build_config.qt_bin_path = Path(build_config.qt_path).joinpath(f"{build_config.qt_version}/{defines.QT_PLATFORM}").resolve()
     build_config.ifw_root_path = Path(f"{build_config.qt_path}/Tools/QtInstallerFramework/{build_config.qt_ifw_version}").resolve()    
     
@@ -436,7 +431,6 @@ if __name__ == "__main__":
     build_config.build_deploy = build_deploy
     build_config.create_installer = create_installer
     build_config.build_type = build_type
-    build_config.use_aqt = use_aqt
     build_config.screenplay_version = screenplay_version
     build_config.build_architecture = args.build_architecture
 

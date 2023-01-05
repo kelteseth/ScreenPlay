@@ -63,7 +63,7 @@ def download(aqt_path: Path, qt_platform: Path):
 
 def setup_qt():
 
-    aqt_path = defines.AQT_PATH
+    aqt_path = defines.QT_PATH
 
     print(f"Setup Qt via aqt at {aqt_path}")
 

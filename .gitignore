@@ -255,5 +255,6 @@ cython_debug/
 
 # SteamCmd creates a ton of tmp files
 /Tools/Steam/ContentBuilder/builder/**
+/Tools/Steam/ContentBuilder/builder_osx/**
 /tmp_steam_config/**
 /Tools/Steam/ContentBuilder/output/**

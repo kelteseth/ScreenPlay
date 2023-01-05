@@ -15,10 +15,10 @@ from sys import stdout
 
 stdout.reconfigure(encoding='utf-8')
 
-
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description='Build and Package ScreenPlay')
-    parser.add_argument('-skip_publish', '-skp', action="store_true", dest="skip_publish",  help="Steam password")
+    parser.add_argument('-skip_publish', '-skp', action="store_true", dest="skip_publish", default=False,  help="skip publish")
+    parser.add_argument('-skip_build', '-skb', action="store_true", dest="skip_build", default=False, help="skip build. If we already have a build and only want to upload it")
     parser.add_argument('-steam_password', '-sp', action="store", dest="steam_password",  help="Steam password")
     parser.add_argument('-hosting_username','-hu', action="store", dest="hosting_username", help="ssh username")
     parser.add_argument('-hosting_password', '-hp', action="store", dest="hosting_password",  help="ssh password")
@@ -41,9 +41,8 @@ if __name__ == "__main__":
     build_config.build_deploy = "ON"
     build_config.create_installer = "ON"
     build_config.build_type = "release"
-    build_config.use_aqt = False
 
-    if platform.system() == "Darwin":
+    if platform.system() == "Darwin" and not args.skip_build:
         # We do not yet support a standalone osx installer
         build_config.create_installer = "OFF"
         # OSX builds needs to build for x86 and arm
@@ -76,9 +75,8 @@ if __name__ == "__main__":
         build_config.bin_dir = os.path.join(build_config.root_path,'build-universal-osx-release/bin/')
         print(f"Change binary dir to: {build_config.bin_dir}")
         macos_sign.sign(build_config=build_config)
-        sys.exit(0)
 
-    if platform.system() == "Windows":
+    if platform.system() == "Windows" and not args.skip_build:
         build_config.build_architecture = "x64"
         
         if not args.skip_publish:
