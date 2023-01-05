@@ -384,7 +384,12 @@ bool Util::writeFileFromQrc(const QString& qrcPath, const QString& absolutePath)
 
     QFile qrc(qrcPath);
     qrc.open(QIODevice::ReadOnly);
-    out << qrc.readAll();
+
+    QTextStream in(&qrc);
+    // Read line by line to avoid CLRF/LF issues
+    while (!in.atEnd()) {
+        out << in.readLine() << "\n";
+    }
 
     qrc.close();
     file.close();

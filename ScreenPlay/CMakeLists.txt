@@ -218,6 +218,7 @@ set(RESOURCES
     assets/startinfo/vscode.png
     assets/wizards/example_html.png
     assets/wizards/example_qml.png
+    assets/wizards/QmlProject.qmlproject
     assets/wizards/License_All_Rights_Reserved_1.0.txt
     assets/wizards/License_Apache_2.0.txt
     assets/wizards/License_CC0_1.0.txt
