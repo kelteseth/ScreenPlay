@@ -95,6 +95,21 @@ bool Util::writeJsonObjectToFile(const QString& absoluteFilePath, const QJsonObj
 void Util::openFolderInExplorer(const QString& url) const
 {
     const QString path = QUrl::fromUserInput(url).toLocalFile();
+
+    // QDesktopServices can hang on Windows
+    if (QSysInfo::productType() == "windows") {
+        QProcess explorer;
+        explorer.setProgram("explorer.exe");
+        // When we have space in the path like
+        // C:\Program Files (x86)\Steam\...
+        // we cannot set the path as an argument. But we can set the working it
+        // to the wanted path and open the current path via the dot.
+        explorer.setWorkingDirectory(QDir::toNativeSeparators(path));
+        explorer.setArguments({ "." });
+        explorer.startDetached();
+        return;
+    }
+
     QDesktopServices::openUrl(QUrl::fromLocalFile(path));
 }
 
