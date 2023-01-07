@@ -756,8 +756,8 @@ ScreenPlay will only quit if no Wallpaper are running.</translation>
 <context>
     <name>QMLWallpaperMain</name>
     <message>
-        <source>My Wallpaper 🚀</source>
-        <translation type="unfinished">My Wallpaper 🚀</translation>
+        <source>My ScreenPlay Wallpaper 🚀</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
