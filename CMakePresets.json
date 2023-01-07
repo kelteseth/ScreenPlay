@@ -7,19 +7,19 @@
   },
   "configurePresets": [
     {
-      "name": "windows-debug",
-      "displayName": "ScreenPlay 64bit Debug Windows MSVC 2022 Community VCToolsVersion: $env{VCToolsVersion}, WindowsSDKVersion  $env{WindowsSDKVersion}",
+      "name": "default-windows",
+      "displayName": "ScreenPlay 64bit Windows",
       "description": "Windows only!",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_4_1_MSVC2019",
+      "hidden": true,
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
       },
       "environment" : {
-        "aqt_path": "${sourceDir}/../aqt",
-        "qt_version": "6.4.1",
+        "qt_path": "${sourceDir}/../aqt",
+        "qt_version": "6.4.2",
         "VCToolsVersion": "14.34.31933",
         "WindowsSDKVersion" : "10.0.22621.0",
         "VCArch": "x64",
@@ -31,20 +31,42 @@
 
         "INCLUDE": "$env{VCToolsInstallDir}/ATLMFC/include;$env{VCToolsInstallDir}/include;$env{WindowsSdkIncVerDir}/ucrt;$env{WindowsSdkIncVerDir}/shared;$env{WindowsSdkIncVerDir}/um;$env{WindowsSdkIncVerDir}/winrt;$env{WindowsSdkIncVerDir}/cppwinrt",
         "LIB": "$env{VCToolsInstallDir}/ATLMFC/lib/$env{VCArch};$env{VCToolsInstallDir}/lib/$env{VCArch};$env{WindowsSdkLibVerDir}/ucrt/$env{VCArch};$env{WindowsSdkLibVerDir}/um/$env{VCArch}",
-        "PATH": "$env{aqt_path}/Tools/Ninja/;$env{VCToolsInstallDir}/bin/$env{VCHostArch}/$env{VCArch};$env{WindowsSdkDir}/bin/$env{WindowsSDKVersion}/$env{VCArch};$penv{PATH}"
+        "PATH": "$env{qt_path}/Tools/Ninja/;$env{VCToolsInstallDir}/bin/$env{VCHostArch}/$env{VCArch};$env{WindowsSdkDir}/bin/$env{WindowsSDKVersion}/$env{VCArch};$penv{PATH}"
       },
       "architecture": {
         "value": "x64",
         "strategy": "external"
       },
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_PREFIX_PATH": "$env{aqt_path}/$env{qt_version}/msvc2019_64",
+        "CMAKE_PREFIX_PATH": "$env{qt_path}/$env{qt_version}/msvc2019_64",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-windows",
         "CMAKE_C_COMPILER": "$env{VCToolsInstallDir}/bin/$env{VCHostArch}/x64/cl.exe",
         "CMAKE_CXX_COMPILER": "$env{VCToolsInstallDir}/bin/$env{VCHostArch}/x64/cl.exe"
-
+      }
+    },
+    {
+      "name": "windows-debug-qt-6.4.2",
+      "inherits": "default-windows",
+      "displayName": "MSVC K3000 Qt 6.4.2 Debug",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.4.2_MSVC_Debug",
+      "environment": {
+        "qt_version": "6.4.2"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug"
+      }
+    },
+    {
+      "name": "windows-debug-qt-6.4.2",
+      "inherits": "default-windows",
+      "displayName": "MSVC K3000 Qt 6.4.2 RelWithDebInfo",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.4.2_MSVC_RelWithDebInfo",
+      "environment": {
+        "qt_version": "6.4.2"
+      },
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
     },
     {
@@ -52,14 +74,14 @@
       "displayName": "ScreenPlay 64bit Debug Linux",
       "description": "Linux only!",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_4_1_GCC",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.4.2_GCC",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
         "rhs": "Linux"
       },
       "environment" : {
-        "aqt_path": "${sourceDir}/../aqt"
+        "qt_path": "${sourceDir}/../aqt"
       },
       "architecture": {
         "value": "x64",
@@ -69,7 +91,7 @@
         "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_PREFIX_PATH": "$env{aqt_path}/6.4.1/gcc_64",
+        "CMAKE_PREFIX_PATH": "$env{qt_path}/6.4.2/gcc_64",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-linux"
       }
@@ -79,14 +101,14 @@
       "displayName": "ScreenPlay 64bit Debug osx",
       "description": "Osx only!",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6_3_2_Clang",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.3.2_Clang",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
         "rhs": "Darwin"
       },
       "environment" : {
-        "aqt_path": "${sourceDir}/../aqt"
+        "qt_path": "${sourceDir}/../aqt"
       },
       "architecture": {
         "value": "x64",
@@ -96,7 +118,7 @@
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_PREFIX_PATH": "$env{aqt_path}/6.3.2/macos",
+        "CMAKE_PREFIX_PATH": "$env{qt_path}/6.3.2/macos",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake"
       }
     }
@@ -107,8 +129,8 @@
       "configurePreset": "linux-debug"
     },
     {
-      "name": "windows-debug",
-      "configurePreset": "windows-debug"
+      "name": "default-windows",
+      "configurePreset": "default-windows"
     },
     {
       "name": "osx-debug",

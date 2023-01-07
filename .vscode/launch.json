@@ -8,7 +8,7 @@
             "name": "MacOS (lldb) Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6_3_2_Clang/bin/ScreenPlay.app/Contents/MacOS/ScreenPlay",
+            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.3.2_Clang/bin/ScreenPlay.app/Contents/MacOS/ScreenPlay",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -17,17 +17,34 @@
             "MIMode": "lldb"
         },
         {
+            
             "name": "Windows Debug ScreenPlay",
             "type": "cppvsdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6_4_1_MSVC2019/bin/ScreenPlay.exe",
+            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_MSVC_Debug/bin/ScreenPlay.exe",
             "args": [],
             "preLaunchTask": "CMake: build",
             "cwd": "${workspaceFolder}",
             "environment": [
                 {
                     "name": "Path",
-                    "value": "${env:Path};C:\\Qt\\6.4.1\\msvc2019_64\\bin\\;c:\\Qt\\6.4.1\\msvc2019_64\\modules\\;c:\\Qt\\6.4.1\\msvc2019_64\\qml\\;"
+                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\qml\\;"
+                }
+            ],
+            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
+        },
+        {
+            "name": "Windows RelWithDebInfo ScreenPlay",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_MSVC_RelWithDebInfo/bin/ScreenPlay.exe",
+            "args": [],
+            "preLaunchTask": "CMake: build",
+            "cwd": "${workspaceFolder}",
+            "environment": [
+                {
+                    "name": "Path",
+                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\qml\\;"
                 }
             ],
             "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
