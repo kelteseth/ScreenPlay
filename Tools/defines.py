@@ -7,7 +7,7 @@ stdout.reconfigure(encoding='utf-8')
 VCPKG_VERSION = "2871ddd"  # Master 11.11.2022
 QT_VERSION = "6.4.2" if sys.platform != "darwin" else "6.3.2"
 QT_IFW_VERSION = "4.5"
-SCREENPLAY_VERSION = "0.15.0-RC3"
+SCREENPLAY_VERSION = "0.15.0-RC4"
 QT_PATH = Path.cwd().parent.parent.joinpath("aqt")
 # Defined by Qt
 if sys.platform == "win32":
