@@ -82,7 +82,7 @@ Item {
                     width: gridView.cellWidth - 30
                     customTitle: m_title
                     type: m_type
-                    screenId: m_folderId
+                    screenId: m_folderName
                     absoluteStoragePath: m_absoluteStoragePath
                     publishedFileID: m_publishedFileID
                     preview: m_preview

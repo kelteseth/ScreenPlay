@@ -117,7 +117,6 @@ signals:
     void projectPathChanged(const QString& rojectPath);
     void projectSourceFileChanged(const QString& projectSourceFile);
     void projectSourceFileAbsoluteChanged(const QUrl& rojectSourceFileAbsolute);
-
     void videoCodecChanged();
 
 public slots:
@@ -280,8 +279,6 @@ public slots:
     {
         if (m_visualsPaused == visualsPaused)
             return;
-
-        qInfo() << "visualsPaused: " << visualsPaused;
 
         m_visualsPaused = visualsPaused;
         emit visualsPausedChanged(m_visualsPaused);

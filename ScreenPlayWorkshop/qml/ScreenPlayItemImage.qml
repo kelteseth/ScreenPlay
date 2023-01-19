@@ -1,7 +1,7 @@
 import QtQuick
 
 Item {
-    id: screenPlayItemImage
+    id: root
 
     property string sourceImage
     property string sourceImageGIF
@@ -15,13 +15,13 @@ Item {
 
         anchors.fill: parent
         fillMode: Image.PreserveAspectCrop
-        source: screenPlayItemImage.sourceImage.trim()
+        source: root.sourceImage.trim()
         onStatusChanged: {
             if (image.status === Image.Ready) {
-                screenPlayItemImage.state = "loaded";
+                root.state = "loaded";
             } else if (image.status === Image.Error) {
                 source = "images/missingPreview.png";
-                screenPlayItemImage.state = "loaded";
+                root.state = "loaded";
             }
         }
     }

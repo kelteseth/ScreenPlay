@@ -8,15 +8,14 @@ Item {
     property alias checkBox: checkBox
     property string preview: screenPreview
     property bool isSelected: false
-    property string customTitle: "name here"
     property string absoluteStoragePath
     property string type
     property bool hasMenuOpen: false
     property var publishedFileID: 0
     property int itemIndex
-    property string screenId: ""
+    property string folderName
 
-    signal itemClicked(var screenId, var type, var isActive)
+    signal itemClicked(var folderName, var type, var isActive)
 
     width: 320
     height: 180

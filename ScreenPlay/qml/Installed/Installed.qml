@@ -229,7 +229,7 @@ Item {
             customTitle: m_title
             type: m_type
             isNew: m_isNew
-            screenId: m_folderId
+            screenId: m_folderName
             absoluteStoragePath: m_absoluteStoragePath
             publishedFileID: m_publishedFileID
             itemIndex: index

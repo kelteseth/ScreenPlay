@@ -41,7 +41,7 @@ set(QML
     qml/TrayIcon.qml)
 
 set(SOURCES # cmake-format: sort
-            inc/public/ScreenPlayUtil/httpfileserver.cpp src/contenttypes.cpp src/util.cpp)
+            inc/public/ScreenPlayUtil/httpfileserver.cpp src/contenttypes.cpp src/util.cpp src/projectfile.cpp)
 
 set(HEADER
     # cmake-format: sort
