@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "cpu.h"
 #include "mathhelper.h"
 #include <QtQml/qqml.h>

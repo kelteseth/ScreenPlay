@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 project(
     ScreenPlayWorkshop
     VERSION 0.1

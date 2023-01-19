@@ -1,3 +1,5 @@
+#!/usr/bin/python3
+# SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 from fileinput import filename
 from zipfile import ZipFile
 import platform

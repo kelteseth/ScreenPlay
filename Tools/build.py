@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+# SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 import platform
 import os
 import platform

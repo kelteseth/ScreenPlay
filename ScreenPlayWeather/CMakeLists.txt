@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 project(
     ScreenPlayWeather
     VERSION 0.1

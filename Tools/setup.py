@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-
+# SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 from platform import system
 from pathlib import Path
 from execute_util import execute

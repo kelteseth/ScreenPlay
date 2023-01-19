@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "basewindow.h"
 
 #include "ScreenPlayUtil/util.h"

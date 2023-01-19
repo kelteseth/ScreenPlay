@@ -1,3 +1,5 @@
+// SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
+
 #include "ScreenPlay/app.h"
 #if defined(Q_OS_OSX)
 #include "ScreenPlayUtil/macutils.h"

@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 project(Tools LANGUAGES CXX)
 
 file(GLOB PYTHON *.py)
