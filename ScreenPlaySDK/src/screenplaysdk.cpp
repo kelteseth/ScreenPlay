@@ -54,6 +54,11 @@ void ScreenPlaySDK::sendMessage(const QJsonObject& obj)
 void ScreenPlaySDK::connected()
 {
     m_firstConnectionTimer.stop();
+    if (m_appID.isEmpty() || m_type.isEmpty()) {
+        qCritical() << "Unable to connect with empyt: " << m_appID << m_type;
+        emit disconnected();
+        return;
+    }
 
     QByteArray welcomeMessage = QString(m_appID + "," + m_type).toUtf8();
     m_socket.write(welcomeMessage);

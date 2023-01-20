@@ -34,13 +34,17 @@ struct ProjectFile {
     QString title;
     QString description;
     // Filenames
-    QString file;
+    QString file; // myFancyVideo.mp
     QString preview;
     QString previewGIF;
     // Path to project.json
     QFileInfo projectJsonFilePath;
     // Folder name
     QString folderName;
+    // Website Wallpaper
+    QUrl url;
+    // Video Wallpaper
+    ScreenPlay::VideoCodec::VideoCodec videoCodec;
 
     QVariant publishedFileID { 0 };
     QStringList tags;

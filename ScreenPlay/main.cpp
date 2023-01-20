@@ -17,10 +17,10 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 
 int main(int argc, char* argv[])
 {
-    #if defined(Q_OS_WIN)
-        // https://bugreports.qt.io/browse/QTBUG-72028
-        qputenv("QT_QPA_PLATFORM", "windows:darkmode=2");
-    #endif
+#if defined(Q_OS_WIN)
+    // https://bugreports.qt.io/browse/QTBUG-72028
+    qputenv("QT_QPA_PLATFORM", "windows:darkmode=2");
+#endif
 
     QApplication qtGuiApp(argc, argv);
     ScreenPlay::App app;

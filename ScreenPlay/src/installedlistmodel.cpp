@@ -193,8 +193,8 @@ void InstalledListModel::append(const QString& projectJsonFilePath)
     beginInsertRows(QModelIndex(), m_screenPlayFiles.size(), m_screenPlayFiles.size());
     ProjectFile projectFile;
     projectFile.projectJsonFilePath = QFileInfo(projectJsonFilePath);
-    if(!projectFile.init()){
-        qWarning() << "Invalid project at "<< projectJsonFilePath;
+    if (!projectFile.init()) {
+        qWarning() << "Invalid project at " << projectJsonFilePath;
         return;
     }
     m_screenPlayFiles.append(std::move(projectFile));

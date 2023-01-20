@@ -8,8 +8,8 @@
 #include <QObject>
 #include <QPoint>
 #include <QSettings>
-#include <QString>
 #include <QSize>
+#include <QString>
 #include <qqml.h>
 #include <qt_windows.h>
 

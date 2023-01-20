@@ -26,16 +26,9 @@ class WinWindow : public BaseWindow {
     Q_PROPERTY(WindowsDesktopProperties* windowsDesktopProperties READ windowsDesktopProperties WRITE setWindowsDesktopProperties NOTIFY windowsDesktopPropertiesChanged)
 
 public:
-    explicit WinWindow(
-        const QVector<int>& activeScreensList,
-        const QString& projectFilePath,
-        const QString& appID,
-        const QString& volume,
-        const QString& fillmode, const QString& type,
-        const bool checkWallpaperVisible,
-        const bool debugMode = false);
-
     WindowsDesktopProperties* windowsDesktopProperties() const { return m_windowsDesktopProperties.get(); }
+
+    BaseWindow::ExitCode start() override;
 
 public slots:
     void setVisible(bool show) override;

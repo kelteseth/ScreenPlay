@@ -24,14 +24,18 @@ class BaseWindow : public QObject {
     Q_OBJECT
 
 public:
-    BaseWindow(QObject* parent = nullptr);
-    BaseWindow(
-        const QVector<int> activeScreensList,
-        const QString& projectFilePath,
-        const QString& type,
-        const bool checkWallpaperVisible,
-        const QString& appID,
-        const bool debugMode);
+    BaseWindow();
+
+    enum ExitCode {
+        Success = 0,
+        ParsingError = 1,
+        Error = 3,
+    };
+    Q_ENUM(ExitCode)
+
+    virtual BaseWindow::ExitCode setup() final;
+
+    virtual BaseWindow::ExitCode start() = 0;
 
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
@@ -339,7 +343,6 @@ private:
     float m_playbackRate { 1.0f };
     float m_currentTime { 0.0f };
 
-    QString m_contentBasePath;
     QString m_projectPath;
     QString m_projectSourceFile;
     QString m_appID;

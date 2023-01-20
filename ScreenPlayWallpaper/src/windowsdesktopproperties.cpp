@@ -20,7 +20,7 @@ WindowsDesktopProperties::WindowsDesktopProperties(QObject* parent)
     setIsTiled(settings.value("TileWallpaper").toBool());
 
     QFileInfo defaultBackgroundImageInfo(m_wallpaperPath);
-    if(defaultBackgroundImageInfo.exists()){
+    if (defaultBackgroundImageInfo.exists()) {
         QImage backgroundImage(defaultBackgroundImageInfo.absoluteFilePath());
         setDefaultWallpaperSize(backgroundImage.size());
     }

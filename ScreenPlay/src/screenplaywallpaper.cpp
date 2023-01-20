@@ -158,9 +158,8 @@ void ScreenPlayWallpaper::close()
 */
 void ScreenPlayWallpaper::processExit(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    Q_UNUSED(exitStatus)
     if (exitCode != 0)
-        qWarning() << "WARNING EXIT CODE: " << exitCode;
+        qWarning() << "WARNING EXIT CODE: " << exitCode << exitStatus;
 }
 
 /*!

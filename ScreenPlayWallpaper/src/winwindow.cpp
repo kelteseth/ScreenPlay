@@ -1,9 +1,16 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "winwindow.h"
+#include "ScreenPlayUtil/projectfile.h"
 #include "qqml.h"
 #include <algorithm>
 #include <iostream>
 #include <vector>
+
+/*!
+    \class WinWindow
+    \inmodule ScreenPlayWallpaper
+    \brief  ScreenPlayWindow used for the Windows implementation.
+*/
 
 /*!
   \brief Searches for the worker window for our window to parent to.
@@ -104,68 +111,21 @@ void WinWindow::setupWindowMouseHook()
     }
 }
 
-/*!
-    \class WinWindow
-    \inmodule ScreenPlayWallpaper
-    \brief  ScreenPlayWindow used for the Windows implementation.
-*/
-
-/*!
- \brief Creates a window on Windows from the give parameters:
-     \a activeScreensList
-     \a projectFilePath
-     \a appID
-     \a volume
-     \a fillmode
-     \a type
-     \a checkWallpaperVisible
-     \a debugMode
- */
-WinWindow::WinWindow(
-    const QVector<int>& activeScreensList,
-    const QString& projectFilePath,
-    const QString& appID,
-    const QString& volume,
-    const QString& fillmode,
-    const QString& type,
-    const bool checkWallpaperVisible,
-    const bool debugMode)
-    : BaseWindow(
-        activeScreensList,
-        projectFilePath,
-        type,
-        checkWallpaperVisible,
-        appID,
-        debugMode)
-
+BaseWindow::ExitCode WinWindow::start()
 {
-    auto* guiAppInst = dynamic_cast<QApplication*>(QApplication::instance());
-    connect(this, &BaseWindow::reloadQML, this, [this]() {
-        clearComponentCache();
-    });
     connect(
-        &m_window, &QQuickView::statusChanged,
-        this, [](auto status) {
-            if (status == QQuickView::Status::Error)
-                QCoreApplication::exit(-1);
-        },
-        Qt::QueuedConnection);
-    connect(guiAppInst, &QApplication::screenAdded, this, &WinWindow::configureWindowGeometry);
-    connect(guiAppInst, &QApplication::screenRemoved, this, &WinWindow::configureWindowGeometry);
-    connect(guiAppInst, &QApplication::primaryScreenChanged, this, &WinWindow::configureWindowGeometry);
-    connect(sdk(), &ScreenPlaySDK::sdkDisconnected, this, &WinWindow::destroyThis);
-    connect(sdk(), &ScreenPlaySDK::incommingMessage, this, &WinWindow::messageReceived);
-    connect(sdk(), &ScreenPlaySDK::replaceWallpaper, this, &WinWindow::replaceWallpaper);
-    connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);
-    connect(
-        &m_window, &QQuickView::statusChanged,
-        this, [](auto status) {
+        &m_window, &QQuickView::statusChanged, this, [this](auto status) {
             if (status == QQuickView::Status::Error) {
-                qInfo() << status;
-                QCoreApplication::exit(-1);
+                destroyThis();
             }
         },
         Qt::QueuedConnection);
+    auto* guiAppInst = dynamic_cast<QApplication*>(QApplication::instance());
+    connect(guiAppInst, &QApplication::screenAdded, this, &WinWindow::configureWindowGeometry);
+    connect(guiAppInst, &QApplication::screenRemoved, this, &WinWindow::configureWindowGeometry);
+    connect(guiAppInst, &QApplication::primaryScreenChanged, this, &WinWindow::configureWindowGeometry);
+    connect(this, &BaseWindow::reloadQML, this, &WinWindow::clearComponentCache);
+    connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);
 
     const auto screens = QApplication::screens();
     for (const auto& screen : screens) {
@@ -175,27 +135,18 @@ WinWindow::WinWindow(
     m_windowsDesktopProperties = std::make_unique<WindowsDesktopProperties>();
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
     if (!IsWindow(m_windowHandle)) {
-        qFatal("Could not get a valid window handle!");
+        qCritical("Could not get a valid window handle!");
+        return BaseWindow::ExitCode::Error;
     }
     qRegisterMetaType<WindowsDesktopProperties*>();
     qRegisterMetaType<WinWindow*>();
-
-    bool ok = false;
-    float volumeParsed = volume.toFloat(&ok);
-    if (!ok) {
-        qFatal("Could not parse volume");
-    }
-
-    setVolume(volumeParsed);
-    setFillMode(fillmode);
-
     qmlRegisterSingletonInstance<WinWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
 
     configureWindowGeometry();
 
     // We do not support autopause for multi monitor wallpaper
     if (this->activeScreensList().length() == 1) {
-        if (checkWallpaperVisible) {
+        if (checkWallpaperVisible()) {
             m_checkForFullScreenWindowTimer.start(10);
         }
     }
@@ -204,9 +155,9 @@ WinWindow::WinWindow(
         setupWindowMouseHook();
     });
 
-    if (!debugMode)
-        sdk()->start();
+    return BaseWindow::ExitCode::Success;
 }
+
 /*!
   \brief Calls ShowWindow function to set the main window in/visible.
 */
@@ -228,6 +179,7 @@ void WinWindow::setVisible(bool show)
          nice fade out animation first. Then the UI is responsible for calling
          WinWindow::terminate().
 */
+
 void WinWindow::destroyThis()
 {
     emit qmlExit();
