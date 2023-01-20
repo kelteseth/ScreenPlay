@@ -17,8 +17,19 @@
             "MIMode": "lldb"
         },
         {
-            
-            "name": "ScreenPlay Windows Debug",
+            "name": "Wallpaper MacOS (lldb) Debug",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.3.2_Clang/bin/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb"
+        },
+        {
+            "name": "Windows Debug ScreenPlay",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_MSVC_Debug/bin/ScreenPlay.exe",
@@ -34,27 +45,10 @@
             "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
         },
         {
-            "name": "ScreenPlay Windows RelWithDebInfo",
+            "name": "Windows RelWithDebInfo ScreenPlay",
             "type": "cppvsdbg",
             "request": "launch",
             "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_MSVC_RelWithDebInfo/bin/ScreenPlay.exe",
-            "args": [],
-            "preLaunchTask": "CMake: build",
-            "cwd": "${workspaceFolder}",
-            "environment": [
-                {
-                    "name": "Path",
-                    "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.4.2\\msvc2019_64\\qml\\;"
-                }
-            ],
-            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml"
-        },
-        {
-            
-            "name": "ScreenPlayWallpaper Windows Debug",
-            "type": "cppvsdbg",
-            "request": "launch",
-            "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_MSVC_Debug/bin/ScreenPlayWallpaper.exe",
             "args": [],
             "preLaunchTask": "CMake: build",
             "cwd": "${workspaceFolder}",
