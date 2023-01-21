@@ -29,14 +29,15 @@ void ScreenPlaySDK::start()
     global_sdkPtr = this;
     qInstallMessageHandler(ScreenPlaySDK::redirectMessageOutputToMainWindow);
 
-    m_socket.setServerName("ScreenPlay");
     connect(&m_socket, &QLocalSocket::connected, this, &ScreenPlaySDK::connected);
     connect(&m_socket, &QLocalSocket::disconnected, this, &ScreenPlaySDK::disconnected);
     connect(&m_socket, &QLocalSocket::readyRead, this, &ScreenPlaySDK::readyRead);
-    connect(&m_firstConnectionTimer, &QTimer::timeout, this, &ScreenPlaySDK::disconnected);
-    // When we do not establish a connection in the first 5 seconds we abort.
-    m_firstConnectionTimer.start(5000);
-    m_socket.connectToServer();
+
+    m_socket.connectToServer("ScreenPlay");
+    if (!m_socket.waitForConnected(1000)){
+        emit disconnected();
+    }
+
 }
 
 ScreenPlaySDK::~ScreenPlaySDK()
@@ -53,14 +54,14 @@ void ScreenPlaySDK::sendMessage(const QJsonObject& obj)
 
 void ScreenPlaySDK::connected()
 {
-    m_firstConnectionTimer.stop();
+    
     if (m_appID.isEmpty() || m_type.isEmpty()) {
         qCritical() << "Unable to connect with empyt: " << m_appID << m_type;
         emit disconnected();
         return;
     }
 
-    QByteArray welcomeMessage = QString(m_appID + "," + m_type).toUtf8();
+    QByteArray welcomeMessage = QString("appID="+m_appID + "," + m_type).toUtf8();
     m_socket.write(welcomeMessage);
     if (!m_socket.waitForBytesWritten()) {
         disconnected();
