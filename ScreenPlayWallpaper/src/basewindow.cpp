@@ -68,12 +68,9 @@ BaseWindow::ExitCode BaseWindow::setup()
     // directly without an running ScreenPlay
     if (!debugMode()) {
         m_sdk = std::make_unique<ScreenPlaySDK>(appID(), QVariant::fromValue(type()).toString());
-        // QObject::connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, [this]() {
-        //     destroyThis();
-        // });
-        connect(sdk(), &ScreenPlaySDK::sdkDisconnected, this, &BaseWindow::destroyThis);
-        connect(sdk(), &ScreenPlaySDK::incommingMessage, this, &BaseWindow::messageReceived);
-        connect(sdk(), &ScreenPlaySDK::replaceWallpaper, this, &BaseWindow::replaceWallpaper);
+        connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &BaseWindow::destroyThis);
+        connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &BaseWindow::messageReceived);
+        connect(m_sdk.get(), &ScreenPlaySDK::replaceWallpaper, this, &BaseWindow::replaceWallpaper);
         sdk()->start();
     }
 

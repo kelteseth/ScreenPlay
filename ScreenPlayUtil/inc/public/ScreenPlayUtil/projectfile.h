@@ -4,20 +4,20 @@
 
 #include <QDateTime>
 #include <QDebug>
-#include <QObject>
+#include <QDir>
+#include <QFileInfo>
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMetaEnum>
+#include <QObject>
+#include <QQmlEngine>
 #include <QString>
 #include <QUrl>
-#include <QDir>
 #include <QVariant>
 #include <QVariantList>
-#include <QQmlEngine>
-#include <QFileInfo>
 
-#include "ScreenPlayUtil/util.h"
 #include "ScreenPlayUtil/PropertyHelpers.h"
+#include "ScreenPlayUtil/util.h"
 
 /*!
     \class ProjectFile

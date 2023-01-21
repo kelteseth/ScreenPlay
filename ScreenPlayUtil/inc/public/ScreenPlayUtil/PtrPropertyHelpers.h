@@ -5,9 +5,12 @@
 
 #include "HelpersCommon.h"
 
-#define PTR_GETTER(type, name) \
-public:                        \
-    type* MAKE_GETTER_NAME(name)() const { return m_##name; }
+#define PTR_GETTER(type, name)           \
+public:                                  \
+    type* MAKE_GETTER_NAME(name)() const \
+    {                                    \
+        return m_##name;                 \
+    }
 
 #define PTR_SETTER(type, name)      \
 public:                             \
@@ -19,9 +22,12 @@ public:                             \
         }                           \
     }
 
-#define SMART_PTR_GETTER(type, name) \
-public:                              \
-    type* MAKE_GETTER_NAME(name)() const { return m_##name.get(); }
+#define SMART_PTR_GETTER(type, name)     \
+public:                                  \
+    type* MAKE_GETTER_NAME(name)() const \
+    {                                    \
+        return m_##name.get();           \
+    }
 
 #define SMART_PTR_SETTER(type, name) \
 public:                              \

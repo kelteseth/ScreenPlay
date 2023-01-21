@@ -4,9 +4,12 @@
 
 #include "HelpersCommon.h"
 
-#define PROP_GETTER(type, name) \
-public:                         \
-    type MAKE_GETTER_NAME(name)() const { return m_##name; }
+#define PROP_GETTER(type, name)         \
+public:                                 \
+    type MAKE_GETTER_NAME(name)() const \
+    {                                   \
+        return m_##name;                \
+    }
 
 #define PROP_SETTER(type, name)     \
 public:                             \

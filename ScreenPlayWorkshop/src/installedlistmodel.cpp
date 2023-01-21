@@ -50,7 +50,7 @@ QVariant InstalledListModel::data(const QModelIndex& index, int role) const
             return m_screenPlayFiles.at(row).folderName;
         case static_cast<int>(ScreenPlayItem::FileId):
             return m_screenPlayFiles.at(row).file;
-        case static_cast<int>(ScreenPlayItem::AbsoluteStoragePath):           
+        case static_cast<int>(ScreenPlayItem::AbsoluteStoragePath):
             return QUrl::fromLocalFile(m_screenPlayFiles.at(row).projectJsonFilePath.dir().path());
         case static_cast<int>(ScreenPlayItem::PublishedFileID):
             return m_screenPlayFiles.at(row).publishedFileID;
@@ -86,8 +86,8 @@ void InstalledListModel::append(const QString& projectJsonFilePath)
     using namespace ScreenPlay;
     ProjectFile projectFile;
     projectFile.projectJsonFilePath = QFileInfo(projectJsonFilePath);
-    if(!projectFile.init()){
-        qWarning() << "Invalid project at "<< projectJsonFilePath;
+    if (!projectFile.init()) {
+        qWarning() << "Invalid project at " << projectJsonFilePath;
         return;
     }
     m_screenPlayFiles.append(std::move(projectFile));

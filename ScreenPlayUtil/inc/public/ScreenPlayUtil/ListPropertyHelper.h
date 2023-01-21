@@ -56,11 +56,14 @@ private:
     CppListType m_items;
 };
 
-#define LIST_PROPERTY(TYPE, NAME)                                                         \
-private:                                                                                  \
-    Q_PROPERTY(QQmlListProperty<TYPE> NAME READ MAKE_GETTER_NAME(NAME) CONSTANT)          \
-public:                                                                                   \
-    const QQmlSmartListWrapper<TYPE>& MAKE_GETTER_NAME(NAME)() const { return m_##NAME; } \
-                                                                                          \
-private:                                                                                  \
+#define LIST_PROPERTY(TYPE, NAME)                                                \
+private:                                                                         \
+    Q_PROPERTY(QQmlListProperty<TYPE> NAME READ MAKE_GETTER_NAME(NAME) CONSTANT) \
+public:                                                                          \
+    const QQmlSmartListWrapper<TYPE>& MAKE_GETTER_NAME(NAME)() const             \
+    {                                                                            \
+        return m_##NAME;                                                         \
+    }                                                                            \
+                                                                                 \
+private:                                                                         \
     QQmlSmartListWrapper<TYPE> m_##NAME;

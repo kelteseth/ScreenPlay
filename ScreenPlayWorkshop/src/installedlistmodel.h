@@ -19,9 +19,9 @@
 #include <QVariant>
 #include <QVariantList>
 #include <QVector>
-#include <vector>
 #include <QtConcurrent/QtConcurrent>
 #include <QtQml>
+#include <vector>
 
 #include "ScreenPlayUtil/projectfile.h"
 

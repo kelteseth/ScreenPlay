@@ -14,9 +14,12 @@ public:                               \
         }                             \
     }
 
-#define CONST_GETTER(type, name) \
-public:                          \
-    const type& MAKE_GETTER_NAME(name)() const { return m_##name; }
+#define CONST_GETTER(type, name)               \
+public:                                        \
+    const type& MAKE_GETTER_NAME(name)() const \
+    {                                          \
+        return m_##name;                       \
+    }
 
 #define W_CREF_PROPERTY(type, name)                                                         \
 protected:                                                                                  \

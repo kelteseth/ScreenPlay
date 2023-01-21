@@ -40,10 +40,10 @@ WidgetWindow::WidgetWindow(
         "Error: only enums");
 
     Qt::WindowFlags flags = m_window.flags();
-    if(QSysInfo::productType() == "macos") {
+    if (QSysInfo::productType() == "macos") {
         // Setting it as a SlashScreen causes the window to hide on focus lost
-        m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint );
-    } else if(QSysInfo::productType() == "windows") {
+        m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint);
+    } else if (QSysInfo::productType() == "windows") {
         // Must be splash screen to not show up in the taskbar
         m_window.setFlags(flags | Qt::FramelessWindowHint | Qt::NoDropShadowWindowHint | Qt::BypassWindowManagerHint | Qt::SplashScreen);
     }
@@ -220,4 +220,3 @@ void WidgetWindow::setupLiveReloading()
     QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
     m_fileSystemWatcher.addPaths({ projectPath() });
 }
-
