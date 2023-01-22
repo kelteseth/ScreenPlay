@@ -6,6 +6,7 @@
 #include <QtWebEngineQuick>
 
 #include "ScreenPlayUtil/util.h"
+#include "ScreenPlayUtil/exitcodes.h"
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
