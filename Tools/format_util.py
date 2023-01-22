@@ -12,7 +12,7 @@ from sys import stdout
 stdout.reconfigure(encoding='utf-8')
 
 
-def find_all_files(path) -> []:
+def find_all_files(path):
     file_list = []
     for root, dirnames, files in os.walk(path):
         for filename in files:
@@ -20,7 +20,7 @@ def find_all_files(path) -> []:
     return file_list
 
 
-def find_all_git_staged_files() -> []:
+def find_all_git_staged_files():
     process = subprocess.run("git diff --name-only --staged",
                              capture_output=True, shell=True)
     out = process.stdout.decode("utf-8")
@@ -28,7 +28,7 @@ def find_all_git_staged_files() -> []:
     return out
 
 
-def find_files(file_endings_tuple, path="", git_staged_only=False) -> []:
+def find_files(file_endings_tuple, path="", git_staged_only=False):
     file_list = []
     # Get the root folder by moving one up
     root = Path(__file__).parent.absolute()
@@ -71,25 +71,3 @@ def check_git_exit(caller_name):
         # print(out)
         sys.exit(1)
 
-
-def find_absolute_qt_path(qt_version) -> os.path:
-    compiler = ""
-    if os.name != 'nt':
-        print("find_absolute_qt_path is only implemented for Windows!")
-        sys.exit(1)
-
-    compiler = "msvc2019_64"
-
-    qt_base_path = "C:\\Qt"
-    if not os.path.exists(qt_base_path):
-        print("No suitable Qt version found! Searching for version %s" % qt_version)
-        print("Path searches the root Qt version folder like: C:/Qt/6.0.0/msvc2019_64")
-        sys.exit(1)
-
-    absolute_qt_path = os.path.join(qt_base_path, qt_version)
-    if os.path.exists(absolute_qt_path):
-        return os.path.join(absolute_qt_path, compiler)
-    else:
-        print("No suitable Qt version found! Searching for version %s" % qt_version)
-        print("Path searches the root Qt version folder like: C:/Qt/6.0.0/msvc2019_64")
-        sys.exit(1)
