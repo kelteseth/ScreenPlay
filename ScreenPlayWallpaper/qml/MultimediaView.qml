@@ -24,7 +24,7 @@ Item {
 
     onIsPlayingChanged: isPlaying ? mediaPlayer.play() : mediaPlayer.pause()
     property bool isWindows: Qt.platform.os === "windows"
-    signal requestFadeIn
+    property bool ready: false
 
     property string source: Wallpaper.projectSourceFileAbsolute
     onSourceChanged: {
@@ -36,10 +36,11 @@ Item {
 
     MediaPlayer {
         id: mediaPlayer
-        Component.onCompleted: {
-            mediaPlayer.play()
-            root.requestFadeIn()
-        }
+     onPlaybackStateChanged:{
+         if( mediaPlayer.playbackState == MediaPlayer.PlayingState){
+             root.ready = true
+         }
+     }
         loops: root.loops ? MediaPlayer.Infinite : 1
         videoOutput: vo
         audioOutput: ao
