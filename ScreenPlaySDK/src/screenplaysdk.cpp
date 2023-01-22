@@ -32,6 +32,9 @@ void ScreenPlaySDK::start()
     connect(&m_socket, &QLocalSocket::connected, this, &ScreenPlaySDK::connected);
     connect(&m_socket, &QLocalSocket::disconnected, this, &ScreenPlaySDK::disconnected);
     connect(&m_socket, &QLocalSocket::readyRead, this, &ScreenPlaySDK::readyRead);
+    connect(&m_socket, &QLocalSocket::errorOccurred, this, [this](){
+        emit disconnected();
+    });
 
     m_socket.connectToServer("ScreenPlay");
     if (!m_socket.waitForConnected(1000)){
