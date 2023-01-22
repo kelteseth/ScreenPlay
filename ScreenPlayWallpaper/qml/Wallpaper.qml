@@ -11,6 +11,7 @@ Rectangle {
     property bool canFadeByWallpaperFillMode: true
 
     function init() {
+        fadeInImageSetup()
         switch (Wallpaper.type) {
         case InstalledType.VideoWallpaper:
             if (Wallpaper.videoCodec === VideoCodec.Unknown) {
@@ -31,7 +32,6 @@ Rectangle {
                 loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml"
             }
 
-            fadeIn()
             break
         case InstalledType.HTMLWallpaper:
             loader.setSource(
@@ -43,7 +43,6 @@ Rectangle {
             break
         case InstalledType.QMLWallpaper:
             loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
-            fadeIn()
             break
         case InstalledType.WebsiteWallpaper:
             loader.setSource(
@@ -51,7 +50,6 @@ Rectangle {
                         {
                             "url": Wallpaper.projectSourceFileAbsolute
                         })
-            fadeIn()
             break
         case InstalledType.GifWallpaper:
             loader.setSource(
@@ -59,116 +57,18 @@ Rectangle {
                             "source": Qt.resolvedUrl(
                                           Wallpaper.projectSourceFileAbsolute)
                         })
-            fadeIn()
             break
         }
     }
 
-    function fadeIn() {
-        Wallpaper.setVisible(true)
-        if (canFadeByWallpaperFillMode && Wallpaper.canFade)
-            imgCover.state = "hideDefaultBackgroundImage"
-        else
-            imgCover.opacity = 0
-    }
-
-    anchors.fill: parent
-    color: {
-        if (Qt.platform.os !== "windows")
-            return "black"
-        else
-            return Wallpaper.windowsDesktopProperties.color
-    }
-    Component.onCompleted: {
-        init()
-    }
-
-    Connections {
-        function onQmlExit() {
-            if (canFadeByWallpaperFillMode && Wallpaper.canFade)
-                imgCover.state = "exit"
-            else
-                Wallpaper.terminate()
-        }
-
-        function onQmlSceneValueReceived(key, value) {
-            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.'
-                    + key + ' = ' + value + '; }'
-            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
-            newObject.destroy(10000)
-        }
-
-        // Replace wallpaper with QML Scene
-        function onReloadQML(oldType) {
-            loader.sourceComponent = undefined
-            loader.source = ""
-            Wallpaper.clearComponentCache()
-            loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
-        }
-
-        // Replace wallpaper with GIF
-        function onReloadGIF(oldType) {
-            init()
-        }
-
-        // This function only gets called here (the same function
-        // is inside the MultimediaWebView.qml) when the previous Wallpaper type
-        // was not a video
-        function onReloadVideo(oldType) {
-            // We need to check if the old type
-            // was also Video not get called twice
-            if (oldType === InstalledType.VideoWallpaper)
-                return
-
-            loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml"
-        }
-
-        target: Wallpaper
-    }
-
-    Loader {
-        id: loader
-
-        anchors.fill: parent
-        // QML Engine deadlocks in 5.15.2 when a loader cannot load
-        // an item. QApplication::quit(); waits for the destruction forever.
-        //asynchronous: true
-        onStatusChanged: {
-            if (loader.status === Loader.Error) {
-                loader.source = ""
-                // Wallpaper.terminate();
-            }
-        }
-
-        Connections {
-            function onRequestFadeIn() {
-                fadeIn()
-            }
-
-            ignoreUnknownSignals: true
-            target: loader.item
-        }
-    }
-
-    Image {
-        id: imgCover
-
-        state: "showDefaultBackgroundImage"
-        sourceSize.width: Wallpaper.width
-        sourceSize.height: Wallpaper.height
-        source: {
-            if (Qt.platform.os === "windows")
-                return Qt.resolvedUrl(
-                            "file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath)
-            else
-                return ""
-        }
-
-        Component.onCompleted: {
+    function fadeInImageSetup(){
             if (Qt.platform.os !== "windows") {
                 root.canFadeByWallpaperFillMode = false
                 return
             }
+
+            imgCover.source = Qt.resolvedUrl("file:///" + Wallpaper.windowsDesktopProperties.wallpaperPath)
+  
             switch (Wallpaper.windowsDesktopProperties.wallpaperStyle) {
             case 10:
                 imgCover.fillMode = Image.PreserveAspectCrop
@@ -231,8 +131,99 @@ Rectangle {
                 root.canFadeByWallpaperFillMode = false
                 break
             }
+    }
+
+    function fadeIn() {
+        Wallpaper.setVisible(true)
+        
+        if (canFadeByWallpaperFillMode && Wallpaper.canFade)
+            imgCover.state = "hideDefaultBackgroundImage"
+        else
+            imgCover.opacity = 0
+    }
+
+    anchors.fill: parent
+    color: {
+        if (Qt.platform.os !== "windows")
+            return "black"
+        else
+            return Wallpaper.windowsDesktopProperties.color
+    }
+    
+    Component.onCompleted: {
+        init()
+    }
+
+    Connections {
+        function onQmlExit() {
+            if (canFadeByWallpaperFillMode && Wallpaper.canFade)
+                imgCover.state = "exit"
+            else
+                Wallpaper.terminate()
         }
 
+        function onQmlSceneValueReceived(key, value) {
+            var obj2 = 'import QtQuick; Item {Component.onCompleted: loader.item.'
+                    + key + ' = ' + value + '; }'
+            var newObject = Qt.createQmlObject(obj2.toString(), root, "err")
+            newObject.destroy(10000)
+        }
+
+        // Replace wallpaper with QML Scene
+        function onReloadQML(oldType) {
+            loader.sourceComponent = undefined
+            loader.source = ""
+            Wallpaper.clearComponentCache()
+            loader.source = Qt.resolvedUrl(Wallpaper.projectSourceFileAbsolute)
+        }
+
+        // Replace wallpaper with GIF
+        function onReloadGIF(oldType) {
+            init()
+        }
+
+        // This function only gets called here (the same function
+        // is inside the MultimediaWebView.qml) when the previous Wallpaper type
+        // was not a video
+        function onReloadVideo(oldType) {
+            // We need to check if the old type
+            // was also Video not get called twice
+            if (oldType === InstalledType.VideoWallpaper)
+                return
+
+            loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml"
+        }
+
+        target: Wallpaper
+    }
+
+
+    Loader {
+        id: loader
+        anchors.fill: parent
+        // QML Engine deadlocks in 5.15.2 when a loader cannot load
+        // an item. QApplication::quit(); waits for the destruction forever.
+        //asynchronous: true
+        onStatusChanged: {
+             if (loader.status === Loader.Ready ) {
+                if(loader.item.ready)
+                    root.fadeIn()
+            }
+            if (loader.status === Loader.Error) {
+                loader.source = ""
+                imgCover.state = "exit"
+            }
+        }
+
+
+    }
+
+    Image {
+        id: imgCover
+        state: "showDefaultBackgroundImage"
+        sourceSize.width: Wallpaper.width
+        sourceSize.height: Wallpaper.height
+ 
         anchors {
             top: parent.top
             left: parent.left

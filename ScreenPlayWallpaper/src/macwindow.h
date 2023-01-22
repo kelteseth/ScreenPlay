@@ -19,7 +19,7 @@
 class MacWindow : public BaseWindow {
     Q_OBJECT
 public:
-    BaseWindow::ExitCode start() override;
+    ScreenPlay::WallpaperExitCode start() override;
 
 signals:
 

@@ -45,6 +45,7 @@ set(SOURCES # cmake-format: sort
 
 set(HEADER
     # cmake-format: sort
+    inc/public/ScreenPlayUtil/exitcodes.h
     inc/public/ScreenPlayUtil/AutoPropertyHelpers.h
     inc/public/ScreenPlayUtil/ConstRefPropertyHelpers.h
     inc/public/ScreenPlayUtil/contenttypes.h

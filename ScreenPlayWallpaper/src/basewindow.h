@@ -15,7 +15,7 @@
 #include <QtQml>
 
 #include "ScreenPlayUtil/util.h"
-
+#include "ScreenPlayUtil/exitcodes.h"
 #include "ScreenPlaySDK/screenplaysdk.h"
 
 #include <memory>
@@ -26,16 +26,9 @@ class BaseWindow : public QObject {
 public:
     BaseWindow();
 
-    enum ExitCode {
-        Success = 0,
-        ParsingError = 1,
-        Error = 3,
-    };
-    Q_ENUM(ExitCode)
+    virtual ScreenPlay::WallpaperExitCode setup() final;
 
-    virtual BaseWindow::ExitCode setup() final;
-
-    virtual BaseWindow::ExitCode start() = 0;
+    virtual ScreenPlay::WallpaperExitCode start() = 0;
 
     Q_PROPERTY(int width READ width WRITE setWidth NOTIFY widthChanged)
     Q_PROPERTY(int height READ height WRITE setHeight NOTIFY heightChanged)
@@ -330,7 +323,7 @@ public slots:
 private:
     void setupLiveReloading();
 
-private:
+protected:
     bool m_checkWallpaperVisible { false };
     bool m_visualsPaused { false };
     bool m_loops { true };

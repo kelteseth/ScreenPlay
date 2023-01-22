@@ -51,14 +51,14 @@ int main(int argc, char* argv[])
     } else {
         // 8 parameter + 1 OS working directory as the first default paramter
         if (argumentList.length() != 9) {
-            return -3;
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_ArgumentSize);
         }
 
         const auto activeScreensList = ScreenPlayUtil::parseStringToIntegerList(argumentList.at(1));
 
         if (!activeScreensList.has_value()) {
             qCritical("Could not activeScreensList");
-            return -1;
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_ActiveScreensList);
         }
 
         auto installedType = ScreenPlay::InstalledType::InstalledType::Unknown;
@@ -66,26 +66,26 @@ int main(int argc, char* argv[])
             installedType = typeOpt.value();
         } else {
             qCritical() << "Cannot parse Wallpaper type from value" << argumentList.at(6);
-            return -6;
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_InstalledType);
         }
 
         bool okParseCheckWallpaperVisible = false;
         const bool checkWallpaperVisible = argumentList.at(7).toInt(&okParseCheckWallpaperVisible);
         if (!okParseCheckWallpaperVisible) {
             qCritical("Could not parse checkWallpaperVisible");
-            return -5;
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_CheckWallpaperVisible);
         }
         bool okParseVolume = 0.0f;
         const float volume = argumentList.at(4).toFloat(&okParseVolume);
         if (!okParseVolume) {
             qCritical("Could not parse Volume");
-            return -6;
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_Volume);
         }
 
         QString appID = argumentList.at(3);
         if (!appID.startsWith("appID=")) {
             qCritical("Invalid appID");
-            return -6;
+            return static_cast<int>(ScreenPlay::WallpaperExitCode::Invalid_AppID);
         }
         appID = appID.remove("appID=");
 
@@ -100,11 +100,11 @@ int main(int argc, char* argv[])
     }
 
     const auto setupStatus = window.setup();
-    if (setupStatus != BaseWindow::ExitCode::Success) {
+    if (setupStatus != ScreenPlay::WallpaperExitCode::Ok) {
         return static_cast<int>(setupStatus);
     }
     const auto startStatus = window.start();
-    if (startStatus != BaseWindow::ExitCode::Success) {
+    if (startStatus != ScreenPlay::WallpaperExitCode::Ok) {
         return static_cast<int>(startStatus);
     }
     return app.exec();

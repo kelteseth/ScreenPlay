@@ -111,7 +111,7 @@ void WinWindow::setupWindowMouseHook()
     }
 }
 
-BaseWindow::ExitCode WinWindow::start()
+ScreenPlay::WallpaperExitCode WinWindow::start()
 {
     connect(
         &m_window, &QQuickView::statusChanged, this, [this](auto status) {
@@ -121,6 +121,9 @@ BaseWindow::ExitCode WinWindow::start()
         },
         Qt::QueuedConnection);
     auto* guiAppInst = dynamic_cast<QApplication*>(QApplication::instance());
+    if(!debugMode()){
+        connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WinWindow::destroyThis);
+    }
     connect(guiAppInst, &QApplication::screenAdded, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QApplication::screenRemoved, this, &WinWindow::configureWindowGeometry);
     connect(guiAppInst, &QApplication::primaryScreenChanged, this, &WinWindow::configureWindowGeometry);
@@ -136,7 +139,7 @@ BaseWindow::ExitCode WinWindow::start()
     m_windowHandle = reinterpret_cast<HWND>(m_window.winId());
     if (!IsWindow(m_windowHandle)) {
         qCritical("Could not get a valid window handle!");
-        return BaseWindow::ExitCode::Error;
+        return ScreenPlay::WallpaperExitCode::Invalid_Start_Windows_HandleError;
     }
     qRegisterMetaType<WindowsDesktopProperties*>();
     qRegisterMetaType<WinWindow*>();
@@ -155,7 +158,7 @@ BaseWindow::ExitCode WinWindow::start()
         setupWindowMouseHook();
     });
 
-    return BaseWindow::ExitCode::Success;
+    return ScreenPlay::WallpaperExitCode::Ok;
 }
 
 /*!
@@ -174,12 +177,12 @@ void WinWindow::setVisible(bool show)
         }
     }
 }
+
 /*!
   \brief This function fires a qmlExit() signal to the UI for it to handle
          nice fade out animation first. Then the UI is responsible for calling
          WinWindow::terminate().
 */
-
 void WinWindow::destroyThis()
 {
     emit qmlExit();
@@ -371,9 +374,6 @@ bool WinWindow::hasWindowScaling()
 */
 void WinWindow::configureWindowGeometry()
 {
-    qInfo() << "configureWindowGeometry";
-    setVisible(false);
-
     if (!searchWorkerWindowToParentTo()) {
         qFatal("No worker window found");
     }

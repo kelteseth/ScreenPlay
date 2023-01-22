@@ -2,7 +2,7 @@
 #include "macwindow.h"
 
 
-BaseWindow::ExitCode MacWindow::start()
+ScreenPlay::WallpaperExitCode MacWindow::start()
 {
     auto* screen = QGuiApplication::screens().at(activeScreensList().at(0));
     m_window.setGeometry(screen->geometry());
@@ -28,7 +28,7 @@ BaseWindow::ExitCode MacWindow::start()
     MacIntegration* macIntegration = new MacIntegration(this);
     macIntegration->SetBackgroundLevel(&m_window);
 
-    return BaseWindow::ExitCode::Success;
+    return ScreenPlay::WallpaperExitCode::Ok;
 }
 
 void MacWindow::setVisible(bool show)

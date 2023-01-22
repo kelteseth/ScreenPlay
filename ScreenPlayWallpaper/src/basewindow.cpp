@@ -38,20 +38,20 @@ BaseWindow::BaseWindow()
     setOSVersion(QSysInfo::productVersion());
 }
 
-BaseWindow::ExitCode BaseWindow::setup()
+ScreenPlay::WallpaperExitCode BaseWindow::setup()
 {
 
     if (projectPath() == "test") {
         setType(ScreenPlay::InstalledType::InstalledType::QMLWallpaper);
         setProjectSourceFileAbsolute({ "qrc:/qml/ScreenPlayWallpaper/qml/Test.qml" });
         setupLiveReloading();
-        return BaseWindow::Success;
+        return ScreenPlay::WallpaperExitCode::Ok;
     }
     ScreenPlay::ProjectFile projectFile;
     projectFile.projectJsonFilePath = QFileInfo(projectPath() + "/project.json");
     if (!projectFile.init()) {
         qWarning() << "Invalid project at " << projectPath();
-        return BaseWindow::ParsingError;
+        return ScreenPlay::WallpaperExitCode::Invalid_Setup_ProjectParsingError;
     }
 
     setProjectSourceFile(projectFile.file);
@@ -68,13 +68,12 @@ BaseWindow::ExitCode BaseWindow::setup()
     // directly without an running ScreenPlay
     if (!debugMode()) {
         m_sdk = std::make_unique<ScreenPlaySDK>(appID(), QVariant::fromValue(type()).toString());
-        connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &BaseWindow::destroyThis);
         connect(m_sdk.get(), &ScreenPlaySDK::incommingMessage, this, &BaseWindow::messageReceived);
         connect(m_sdk.get(), &ScreenPlaySDK::replaceWallpaper, this, &BaseWindow::replaceWallpaper);
         sdk()->start();
     }
 
-    return BaseWindow::Success;
+    return ScreenPlay::WallpaperExitCode::Ok;
 }
 
 /*!
