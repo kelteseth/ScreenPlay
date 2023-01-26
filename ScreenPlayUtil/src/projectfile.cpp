@@ -23,10 +23,6 @@ bool ProjectFile::init()
         return false;
 
     // Required:
-    if (!obj.contains("description"))
-        return false;
-    description = obj.value("description").toString();
-
     if (!obj.contains("file"))
         return false;
     file = obj.value("file").toString();
@@ -38,7 +34,17 @@ bool ProjectFile::init()
     if (!obj.contains("type"))
         return false;
 
+    auto typeParsed = ScreenPlayUtil::getInstalledTypeFromString(obj.value("type").toString());
+    if (!typeParsed) {
+        qWarning() << "Type could not parsed from: " << *typeParsed;
+        return false;
+    }
+    type = typeParsed.value();
+
     // Optional:
+    if (!obj.contains("description"))
+        description = obj.value("description").toString();
+
     if (obj.contains("previewGIF"))
         previewGIF = obj.value("previewGIF").toString();
 
@@ -51,10 +57,8 @@ bool ProjectFile::init()
     if (obj.contains("previewThumbnail")) {
         preview = obj.value("previewThumbnail").toString();
     } else {
-        if (!obj.contains("preview")) {
-            return false;
-        }
-        preview = obj.value("preview").toString();
+        if (obj.contains("preview")) 
+            preview = obj.value("preview").toString();
     }
 
     if (obj.contains("tags")) {
@@ -68,13 +72,7 @@ bool ProjectFile::init()
         }
     }
 
-    auto typeParsed = ScreenPlayUtil::getInstalledTypeFromString(obj.value("type").toString());
-    if (!typeParsed) {
-        qWarning() << "Type could not parsed from: " << *typeParsed;
-        return false;
-    }
 
-    type = typeParsed.value();
     if (type == InstalledType::InstalledType::GifWallpaper) {
         preview = previewGIF;
     }
