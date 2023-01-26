@@ -95,8 +95,10 @@ bool ProjectFile::init()
         qWarning("No videoCodec was specified inside the json object!");
         if (file.endsWith(".mp4")) {
             videoCodec = ScreenPlay::VideoCodec::VideoCodec::H264;
+            qWarning("Eyeball to h264 because of .mp4");
         } else if (file.endsWith(".webm")) {
             videoCodec = ScreenPlay::VideoCodec::VideoCodec::VP8;
+            qWarning("Eyeball to VP8 because of .webm");
         }
     }
 
