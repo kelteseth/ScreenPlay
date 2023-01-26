@@ -12,6 +12,8 @@
             "cwd": "${workspaceFolder}",
             "environment": [],
             "internalConsoleOptions": "openOnSessionStart",
+            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml",
+            "showDisplayString": true,
             "windows": {
                 "environment": [
                     {
@@ -36,6 +38,8 @@
             "cwd": "${workspaceFolder}",
             "environment": [],
             "internalConsoleOptions": "openOnSessionStart",
+            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml",
+            "showDisplayString": true,
             "windows": {
                 "environment": [
                     {
@@ -84,6 +88,8 @@
             "cwd": "${workspaceFolder}",
             "environment": [],
             "internalConsoleOptions": "openOnSessionStart",
+            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml",
+            "showDisplayString": true,
             "windows": {
                 "environment": [
                     {
@@ -108,6 +114,8 @@
             "cwd": "${workspaceFolder}",
             "environment": [],
             "internalConsoleOptions": "openOnSessionStart",
+            "visualizerFile": "${workspaceFolder}/.vscode/qt.natvis.xml",
+            "showDisplayString": true,
             "windows": {
                 "environment": [
                     {
