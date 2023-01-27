@@ -20,7 +20,8 @@ Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 
 int main(int argc, char* argv[])
-{
+{ 
+    qputenv("QT_MEDIA_BACKEND","ffmpeg");
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QtWebEngineQuick::initialize();
 
@@ -42,7 +43,7 @@ int main(int argc, char* argv[])
     if (argumentList.length() == 1) {
         window.setActiveScreensList({ 0 });
         // window.setProjectPath("test");
-        window.setProjectPath("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/1958068741");
+        window.setProjectPath("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/19112022140605-Horde 1980");
         window.setAppID("test");
         window.setVolume(1);
         window.setFillMode("fill");

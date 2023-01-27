@@ -19,7 +19,7 @@
       },
       "environment" : {
         "qt_path": "${sourceDir}/../aqt",
-        "qt_version": "6.4.2",
+        "qt_version": "6.5.0",
         "VCToolsVersion": "14.34.31933",
         "WindowsSDKVersion" : "10.0.22621.0",
         "VCArch": "x64",
@@ -46,24 +46,24 @@
       }
     },
     {
-      "name": "windows-debug-qt-6.4.2",
+      "name": "windows-debug-qt-6.5.0",
       "inherits": "default-windows",
-      "displayName": "MSVC K3000 Qt 6.4.2 Debug",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.4.2_MSVC_Debug",
+      "displayName": "MSVC K3000 Qt 6.5.0 Debug",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.0_MSVC_Debug",
       "environment": {
-        "qt_version": "6.4.2"
+        "qt_version": "6.5.0"
       },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug"
       }
     },
     {
-      "name": "windows-relwithdebinfo-qt-6.4.2",
+      "name": "windows-relwithdebinfo-qt-6.5.0",
       "inherits": "default-windows",
-      "displayName": "MSVC K3000 Qt 6.4.2 RelWithDebInfo",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.4.2_MSVC_RelWithDebInfo",
+      "displayName": "MSVC K3000 Qt 6.5.0 RelWithDebInfo",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.0_MSVC_RelWithDebInfo",
       "environment": {
-        "qt_version": "6.4.2"
+        "qt_version": "6.5.0"
       },
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
@@ -74,7 +74,7 @@
       "displayName": "ScreenPlay 64bit Debug Linux",
       "description": "Linux only!",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.4.2_GCC_Debug",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.0_GCC_Debug",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -91,7 +91,7 @@
         "CMAKE_CXX_COMPILER": "g++",
         "CMAKE_C_COMPILER": "gcc",
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_PREFIX_PATH": "$env{qt_path}/6.4.2/gcc_64",
+        "CMAKE_PREFIX_PATH": "$env{qt_path}/6.5.0/gcc_64",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake",
         "VCPKG_TARGET_TRIPLET": "x64-linux"
       }
@@ -100,7 +100,7 @@
       "name": "linux-relwithdebinfo",
       "displayName": "ScreenPlay 64bit RelWithDebInfo Linux",
       "inherits":"linux-debug",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.4.2_GCC_RelWithDebInfo",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.0_GCC_RelWithDebInfo",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }
@@ -110,7 +110,7 @@
       "displayName": "ScreenPlay 64bit Debug osx",
       "description": "Osx only!",
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.3.2_Clang_Debug",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.0_Clang_Debug",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -127,7 +127,7 @@
         "CMAKE_CXX_COMPILER": "clang++",
         "CMAKE_C_COMPILER": "clang",
         "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_PREFIX_PATH": "$env{qt_path}/6.3.2/macos",
+        "CMAKE_PREFIX_PATH": "$env{qt_path}/6.5.0/macos",
         "CMAKE_TOOLCHAIN_FILE": "${sourceDir}/../vcpkg/scripts/buildsystems/vcpkg.cmake"
       }
     },
@@ -135,7 +135,7 @@
       "name": "osx-relwithdebinfo",
       "displayName": "ScreenPlay 64bit RelWithDebInfo osx",
       "inherits": "osx-debug",
-      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.3.2_Clang_RelWithDebInfo",
+      "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.0_Clang_RelWithDebInfo",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "RelWithDebInfo"
       }

@@ -17,6 +17,7 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWorkshopPlugin)
 
 int main(int argc, char* argv[])
 {
+    qputenv("QT_MEDIA_BACKEND","ffmpeg");
 #if defined(Q_OS_WIN)
     // https://bugreports.qt.io/browse/QTBUG-72028
     qputenv("QT_QPA_PLATFORM", "windows:darkmode=2");
