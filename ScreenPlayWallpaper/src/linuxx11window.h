@@ -15,7 +15,7 @@
 
 #include "basewindow.h"
 
-class LinuxWindow : public BaseWindow {
+class LinuxX11Window : public BaseWindow {
     Q_OBJECT
     
 public:

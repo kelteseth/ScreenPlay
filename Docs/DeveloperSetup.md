@@ -20,6 +20,8 @@
 1. Install dependencies for Debian/Ubuntu:
 ``` bash
 sudo apt install build-essential git gpg ffmpeg mesa-common-dev libxkbcommon-* libfontconfig curl zip unzip tar cmake pkg-config apt-transport-https ca-certificates gnupg software-properties-common wget software-properties-common python3 python3-pip  libgl1-mesa-dev lld ninja-build qml-module-qt-websockets qtwebengine5-* -y
+# Only needed if we want x11 support
+sudo apt-get install libx11-dev xserver-xorg-dev xorg-dev
 ```
 
 ## MacOS

@@ -14,7 +14,11 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 
 int main(int argc, char* argv[])
 {
+
+#if !defined(Q_OS_LINUX)
     qputenv("QT_MEDIA_BACKEND","ffmpeg");
+#endif
+
     QtWebEngineQuick::initialize();
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 

@@ -12,7 +12,7 @@
 #include "src/winwindow.h"
 Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 #elif defined(Q_OS_LINUX)
-#include "src/linuxwindow.h"
+#include "src/linuxx11window.h"
 #elif defined(Q_OS_OSX)
 #include "src/macwindow.h"
 #endif
@@ -21,7 +21,11 @@ Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 
 int main(int argc, char* argv[])
 { 
+
+#if !defined(Q_OS_LINUX)
     qputenv("QT_MEDIA_BACKEND","ffmpeg");
+#endif
+
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QtWebEngineQuick::initialize();
 
@@ -30,7 +34,7 @@ int main(int argc, char* argv[])
 #if defined(Q_OS_WIN)
     WinWindow window;
 #elif defined(Q_OS_LINUX)
-    LinuxWindow window;
+    LinuxX11Window window;
 #elif defined(Q_OS_OSX)
     MacWindow window;
 #endif
@@ -42,8 +46,8 @@ int main(int argc, char* argv[])
     // For testing purposes when starting the ScreenPlayWallpaper directly.
     if (argumentList.length() == 1) {
         window.setActiveScreensList({ 0 });
-        // window.setProjectPath("test");
-        window.setProjectPath("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/19112022140605-Horde 1980");
+        window.setProjectPath("test");
+        //window.setProjectPath("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/19112022140605-Horde 1980");
         window.setAppID("test");
         window.setVolume(1);
         window.setFillMode("fill");

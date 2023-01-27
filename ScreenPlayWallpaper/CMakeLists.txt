@@ -30,8 +30,8 @@ elseif(APPLE)
         src/macintegration.h
         src/macwindow.h)
 elseif(UNIX)
-    set(SOURCES src/linuxwindow.cpp)
-    set(HEADER src/linuxwindow.h)
+    set(SOURCES src/linuxx11window.cpp)
+    set(HEADER src/linuxx11window.h)
 endif()
 
 set(SOURCES ${SOURCES} main.cpp src/basewindow.cpp)
@@ -81,6 +81,8 @@ target_link_libraries(
             Qt6::WebEngineQuick)
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin)
+elseif(UNIX)
+    target_link_libraries(    ${PROJECT_NAME}    PRIVATE X11)
 endif()
 
 if(UNIX AND NOT APPLE)
