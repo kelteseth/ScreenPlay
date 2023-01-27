@@ -21,7 +21,7 @@ SCREENPLAY_VERSION = "0.15.0-RC4"
 
 
 QT_PATH = Path.cwd().parent.parent.joinpath("aqt")
-QT_VERSION = "6.5.0"
+QT_VERSION = "6.5.0" if sys.platform != "linux" else "6.4.2"
 QT_BIN_PATH = QT_PATH.joinpath(f"{QT_VERSION}/{QT_PLATFORM}/bin")
 QT_TOOLS_PATH = QT_PATH.joinpath("Tools/")
 QT_IFW_VERSION = "4.5"

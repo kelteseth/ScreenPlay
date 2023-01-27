@@ -17,17 +17,9 @@
 
 class LinuxWindow : public BaseWindow {
     Q_OBJECT
+    
 public:
-    explicit LinuxWindow(
-        const QVector<int>& activeScreensList,
-        const QString& projectFilePath,
-        const QString& appID,
-        const QString& volume,
-        const QString& fillmode,
-        const QString& type,
-        const bool checkWallpaperVisible,
-        const bool debugMode,
-        QObject* parent = nullptr);
+    ScreenPlay::WallpaperExitCode start() override;
 
 signals:
 

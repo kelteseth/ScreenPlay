@@ -21,12 +21,16 @@
                         "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\qml\\;"
                     }
                 ],
-                "type": "cppvsdbg",
                 "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_MSVC_Debug/bin/ScreenPlay.exe"
             },
             "osx": {
                 "MIMode": "lldb",
                 "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_Debug/bin/ScreenPlay.app/Contents/MacOS/ScreenPlay",
+                "type": "lldb"
+            },
+            "linux": {
+                "MIMode": "lldb",
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_GCC_Debug/bin/ScreenPlay",
                 "type": "lldb"
             }
         },
@@ -53,6 +57,10 @@
                 "MIMode": "lldb",
                 "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_RelWithDebInfo/bin/ScreenPlay.app/Contents/MacOS/ScreenPlay",
                 "type": "lldb"
+            },
+            "linux": {
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_GCC_RelWithDebInfo/bin/ScreenPlay",
+                "type": "lldb"
             }
         },
         {
@@ -76,6 +84,10 @@
             "osx": {
                 "MIMode": "lldb",
                 "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_Debug/bin/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper",
+                "type": "lldb"
+            },
+            "linux": {
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_GCC_Debug/bin/ScreenPlayWallpaper",
                 "type": "lldb"
             }
         },
@@ -103,6 +115,10 @@
                 "MIMode": "lldb",
                 "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_RelWithDebInfo/bin/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper",
                 "type": "lldb"
+            },
+            "linux": {
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_GCC_RelWithDebInfo/bin/ScreenPlayWallpaper",
+                "type": "lldb"
             }
         },
         {
@@ -128,6 +144,10 @@
             "osx": {
                 "MIMode": "lldb",
                 "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_Debug/bin/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget",
+                "type": "lldb"
+            },
+            "linux": {
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.4.2_GCC_Debug/bin/ScreenPlayWidget",
                 "type": "lldb"
             }
         }
