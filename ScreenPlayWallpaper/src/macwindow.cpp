@@ -8,6 +8,10 @@ ScreenPlay::WallpaperExitCode MacWindow::start()
     m_window.setGeometry(screen->geometry());
     
     qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
+    
+    if(!debugMode()){
+        connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &MacWindow::destroyThis);
+    }
 
     QDir workingDir(QGuiApplication::instance()->applicationDirPath());
     workingDir.cdUp();
