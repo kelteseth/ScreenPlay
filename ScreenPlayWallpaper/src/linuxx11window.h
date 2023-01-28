@@ -17,7 +17,7 @@
 
 class LinuxX11Window : public BaseWindow {
     Q_OBJECT
-    
+
 public:
     ScreenPlay::WallpaperExitCode start() override;
 

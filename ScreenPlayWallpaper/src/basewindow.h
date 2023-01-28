@@ -14,9 +14,9 @@
 #include <QSysInfo>
 #include <QtQml>
 
-#include "ScreenPlayUtil/util.h"
-#include "ScreenPlayUtil/exitcodes.h"
 #include "ScreenPlaySDK/screenplaysdk.h"
+#include "ScreenPlayUtil/exitcodes.h"
+#include "ScreenPlayUtil/util.h"
 
 #include <memory>
 

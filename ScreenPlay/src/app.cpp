@@ -5,15 +5,19 @@
 #include "ScreenPlayUtil/macutils.h"
 #endif
 
+#include "app.h"
 #include "steam/steam_qt_enums_generated.h"
 #include <QProcessEnvironment>
 #include <QQuickStyle>
 #include <QVersionNumber>
 
 namespace ScreenPlay {
+
 /*!
     \module ScreenPlay
+
     \title ScreenPlay
+
     \brief Module for ScreenPlay.
 */
 /*!
@@ -344,4 +348,158 @@ void App::showDockIcon(const bool show)
 #endif
 }
 
+/*!
+    \property App::globalVariables
+    \brief .
+
+   .
+*/
+void App::setGlobalVariables(GlobalVariables* globalVariables)
+{
+    if (m_globalVariables.get() == globalVariables)
+        return;
+
+    m_globalVariables.reset(globalVariables);
+    emit globalVariablesChanged(m_globalVariables.get());
+}
+/*!
+    \property App::screenPlayManager
+    \brief .
+
+   .
+*/
+void App::setScreenPlayManager(ScreenPlayManager* screenPlayManager)
+{
+    if (m_screenPlayManager.get() == screenPlayManager)
+        return;
+
+    m_screenPlayManager.reset(screenPlayManager);
+    emit screenPlayManagerChanged(m_screenPlayManager.get());
+}
+/*!
+    \property App::create
+    \brief .
+
+   .
+*/
+void App::setCreate(Create* create)
+{
+    if (m_create.get() == create)
+        return;
+
+    m_create.reset(create);
+    emit createChanged(m_create.get());
+}
+/*!
+    \property App::util
+    \brief .
+
+   .
+*/
+void App::setUtil(Util* util)
+{
+    if (m_util.get() == util)
+        return;
+
+    m_util.reset(util);
+    emit utilChanged(m_util.get());
+}
+/*!
+    \property App::settings
+    \brief .
+
+   .
+*/
+void App::setSettings(Settings* settings)
+{
+    if (m_settings.get() == settings)
+        return;
+
+    m_settings.reset(settings);
+    emit settingsChanged(m_settings.get());
+}
+/*!
+    \property App::installedListModel
+    \brief .
+
+   .
+*/
+void App::setInstalledListModel(InstalledListModel* installedListModel)
+{
+    if (m_installedListModel.get() == installedListModel)
+        return;
+
+    m_installedListModel.reset(installedListModel);
+    emit installedListModelChanged(m_installedListModel.get());
+}
+/*!
+    \property App::monitorListModel
+    \brief .
+
+   .
+*/
+void App::setMonitorListModel(MonitorListModel* monitorListModel)
+{
+    if (m_monitorListModel.get() == monitorListModel)
+        return;
+
+    m_monitorListModel.reset(monitorListModel);
+    emit monitorListModelChanged(m_monitorListModel.get());
+}
+/*!
+    \property App::profileListModel
+    \brief .
+
+   .
+*/
+void App::setProfileListModel(ProfileListModel* profileListModel)
+{
+    if (m_profileListModel.get() == profileListModel)
+        return;
+
+    m_profileListModel.reset(profileListModel);
+    emit profileListModelChanged(m_profileListModel.get());
+}
+/*!
+    \property App::installedListFilter
+    \brief .
+
+   .
+*/
+void App::setInstalledListFilter(InstalledListFilter* installedListFilter)
+{
+    if (m_installedListFilter.get() == installedListFilter)
+        return;
+
+    m_installedListFilter.reset(installedListFilter);
+    emit installedListFilterChanged(m_installedListFilter.get());
+}
+/*!
+    \property App::mainWindowEngine
+    \brief .
+
+   .
+*/
+void App::setMainWindowEngine(QQmlApplicationEngine* mainWindowEngine)
+{
+    if (m_mainWindowEngine.get() == mainWindowEngine)
+        return;
+
+    m_mainWindowEngine.reset(mainWindowEngine);
+    emit mainWindowEngineChanged(m_mainWindowEngine.get());
+}
+/*!
+    \property App::wizards
+    \brief .
+
+   .
+*/
+void App::setWizards(Wizards* wizards)
+{
+    if (m_wizards.get() == wizards)
+        return;
+
+    m_wizards.reset(wizards);
+    emit wizardsChanged(m_wizards.get());
+}
 }

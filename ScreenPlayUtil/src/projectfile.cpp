@@ -57,7 +57,7 @@ bool ProjectFile::init()
     if (obj.contains("previewThumbnail")) {
         preview = obj.value("previewThumbnail").toString();
     } else {
-        if (obj.contains("preview")) 
+        if (obj.contains("preview"))
             preview = obj.value("preview").toString();
     }
 
@@ -71,7 +71,6 @@ bool ProjectFile::init()
             }
         }
     }
-
 
     if (type == InstalledType::InstalledType::GifWallpaper) {
         preview = previewGIF;

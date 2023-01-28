@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 {
 
 #if !defined(Q_OS_LINUX)
-    qputenv("QT_MEDIA_BACKEND","ffmpeg");
+    qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
 
 #if defined(Q_OS_WIN)

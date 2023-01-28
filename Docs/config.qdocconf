@@ -2,69 +2,124 @@
 # C:\Qt\6.1.0\msvc2019_64\bin\qdoc.exe config.qdocconf
 # in this directory. You can shift + right click in this explorer
 # window and select "Open PowerShell Window here" for this.
-
-include(C:\Qt\6.1.0\msvc2019_64\doc\global\qt-cpp-defines.qdocconf)
-include(C:\Qt\6.1.0\msvc2019_64\doc\global\compat.qdocconf)
-include(C:\Qt\6.1.0\msvc2019_64\doc\global\fileextensions.qdocconf)
+QT_VER = 6.4.1
+QT_VERSION = 6.4.1
+include(C:\Qt\6.4.1\msvc2019_64\doc\global\qt-cpp-defines.qdocconf)
+include(C:\Qt\6.4.1\msvc2019_64\doc\global\compat.qdocconf)
+include(C:\Qt\6.4.1\msvc2019_64\doc\global\fileextensions.qdocconf)
+include(C:\Qt\6.4.1\msvc2019_64\doc\global\macros.qdocconf)
 
 descripton  = ScreenPlay is an open source cross plattform app for displaying Wallpaper, Widgets and AppDrawer. 
 language    = Cpp
 project     = ScreenPlay
 
 # Source
-sourcedirs += ../ScreenPlay/src/
-sourcedirs += ../ScreenPlay/
-sourcedirs += ../ScreenPlaySDK/
-sourcedirs += ../ScreenPlaySysInfo/
-sourcedirs += ../ScreenPlayWallpaper/src/
-sourcedirs += ../ScreenPlayWallpaper/
-sourcedirs += ../ScreenPlayWidget/src/
-sourcedirs += ../ScreenPlayWidget/
-sourcedirs += ../ScreenPlayShader/
-sourcedirs += ../ScreenPlayUtil/
-sourcedirs += ../ScreenPlayUtil/src/
+sourcedirs  += ../ScreenPlay/
+sourcedirs  += ../ScreenPlay/inc/public/ScreenPlay/
+sourcedirs  += ../ScreenPlay/src/
+ 
+sourcedirs  += ../ScreenPlaySDK/
+sourcedirs  += ../ScreenPlaySDK/inc/public/ScreenPlaySDK/
+sourcedirs  += ../ScreenPlaySDK/src/
+ 
+sourcedirs  += ../ScreenPlayShader/
+sourcedirs  += ../ScreenPlayShader/src/
+ 
+sourcedirs  += ../ScreenPlaySysInfo/
+sourcedirs  += ../ScreenPlaySysInfo/src/
+ 
+sourcedirs  += ../ScreenPlayUtil/
+sourcedirs  += ../ScreenPlayUtil/inc/public/ScreenPlayUtil/
+sourcedirs  += ../ScreenPlayUtil/src/
+ 
+sourcedirs  += ../ScreenPlayWallpaper/
+sourcedirs  += ../ScreenPlayWallpaper/src/
+ 
+sourcedirs  += ../ScreenPlayWeather/
+sourcedirs  += ../ScreenPlayWeather/src/
+ 
+sourcedirs  += ../ScreenPlayWidget/
+sourcedirs  += ../ScreenPlayWidget/src/
+
+sourcedirs  += ../ScreenPlayWorkshop/
+sourcedirs  += ../ScreenPlayWorkshop/src/
 
 # Header
-headerdirs += ../ScreenPlay/src/
-headerdirs += ../ScreenPlay/
-headerdirs += ../ScreenPlaySDK/
-headerdirs += ../ScreenPlaySDK/inc/
-headerdirs += ../ScreenPlaySysInfo/
-headerdirs += ../ScreenPlayWallpaper/src/
-headerdirs += ../ScreenPlayWallpaper/
-headerdirs += ../ScreenPlayWidget/src/
-headerdirs += ../ScreenPlayWidget/
-headerdirs += ../ScreenPlayShader/
-headerdirs += ../ScreenPlayUtil/inc/
+headerdirs  += ../ScreenPlay/
+headerdirs  += ../ScreenPlay/inc/public/ScreenPlay/
+headerdirs  += ../ScreenPlay/src/
+ 
+headerdirs  += ../ScreenPlaySDK/
+headerdirs  += ../ScreenPlaySDK/inc/public/ScreenPlaySDK/
+headerdirs  += ../ScreenPlaySDK/src/
+ 
+headerdirs  += ../ScreenPlayShader/
+headerdirs  += ../ScreenPlayShader/src/
+ 
+headerdirs  += ../ScreenPlaySysInfo/
+headerdirs  += ../ScreenPlaySysInfo/src/
+ 
+headerdirs  += ../ScreenPlayUtil/
+headerdirs  += ../ScreenPlayUtil/inc/public/ScreenPlayUtil/
+headerdirs  += ../ScreenPlayUtil/src/
+ 
+headerdirs  += ../ScreenPlayWallpaper/
+headerdirs  += ../ScreenPlayWallpaper/src/
+ 
+headerdirs  += ../ScreenPlayWeather/
+headerdirs  += ../ScreenPlayWeather/src/
+ 
+headerdirs  += ../ScreenPlayWidget/
+headerdirs  += ../ScreenPlayWidget/src/
+ 
+headerdirs  += ../ScreenPlayWorkshop/
+headerdirs  += ../ScreenPlayWorkshop/src/
 
 # Include
-includepaths += ../ScreenPlay/src/
 includepaths += ../ScreenPlay/
+includepaths += ../ScreenPlay/inc/public/ScreenPlay/
+includepaths += ../ScreenPlay/src/
+
 includepaths += ../ScreenPlaySDK/
+includepaths += ../ScreenPlaySDK/inc/public/ScreenPlaySDK/
 includepaths += ../ScreenPlaySDK/src/
-includepaths += ../ScreenPlaySysInfo/
-includepaths += ../ScreenPlayWallpaper/src/
-includepaths += ../ScreenPlayWallpaper/
-includepaths += ../ScreenPlayWidget/src/
-includepaths += ../ScreenPlayWidget/
+
 includepaths += ../ScreenPlayShader/
+includepaths += ../ScreenPlayShader/src/
+
+includepaths += ../ScreenPlaySysInfo/
+includepaths += ../ScreenPlaySysInfo/src/
+
 includepaths += ../ScreenPlayUtil/
+includepaths += ../ScreenPlayUtil/inc/public/ScreenPlayUtil/
+includepaths += ../ScreenPlayUtil/src/
+
+includepaths += ../ScreenPlayWallpaper/
+includepaths += ../ScreenPlayWallpaper/src/
+
+includepaths += ../ScreenPlayWeather/
+includepaths += ../ScreenPlayWeather/src/
+
+includepaths += ../ScreenPlayWidget/
+includepaths += ../ScreenPlayWidget/src/
+
+includepaths += ../ScreenPlayWorkshop/
+includepaths += ../ScreenPlayWorkshop/src/
+
 
 # qt
-includepaths += C:/Qt/6.1.0/msvc2019_64/include/
-includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtCore/
-includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtGui/
-includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtQml/
-includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtWebEngine/
-includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtNetwork/
-includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtQuick/
-includepaths += C:/Qt/6.1.0/msvc2019_64/include/QtQuickControls2/
-
-
+QT_INSTALL_HEADERS = C:/Qt/6.4.1/msvc2019_64/include/
+includepaths += C:/Qt/6.4.1/msvc2019_64/include/
+includepaths += C:/Qt/6.4.1/msvc2019_64/include/QtCore/
+includepaths += C:/Qt/6.4.1/msvc2019_64/include/QtGui/
+includepaths += C:/Qt/6.4.1/msvc2019_64/include/QtQml/
+includepaths += C:/Qt/6.4.1/msvc2019_64/include/QtWebEngine/
+includepaths += C:/Qt/6.4.1/msvc2019_64/include/QtNetwork/
+includepaths += C:/Qt/6.4.1/msvc2019_64/include/QtQuick/
+includepaths += C:/Qt/6.4.1/msvc2019_64/include/QtQuickControls2/
 
 # Images
 imagedirs = ./images
-
 
 # what kind of sources should be processed
 sources.fileextensions += "*.qdoc *.cpp *.qml"

@@ -1,15 +1,14 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "macwindow.h"
 
-
 ScreenPlay::WallpaperExitCode MacWindow::start()
 {
     auto* screen = QGuiApplication::screens().at(activeScreensList().at(0));
     m_window.setGeometry(screen->geometry());
-    
+
     qmlRegisterSingletonInstance<MacWindow>("ScreenPlayWallpaper", 1, 0, "Wallpaper", this);
-    
-    if(!debugMode()){
+
+    if (!debugMode()) {
         connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &MacWindow::destroyThis);
     }
 

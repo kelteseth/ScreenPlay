@@ -121,7 +121,7 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
         },
         Qt::QueuedConnection);
     auto* guiAppInst = dynamic_cast<QApplication*>(QApplication::instance());
-    if(!debugMode()){
+    if (!debugMode()) {
         connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WinWindow::destroyThis);
     }
     connect(guiAppInst, &QApplication::screenAdded, this, &WinWindow::configureWindowGeometry);

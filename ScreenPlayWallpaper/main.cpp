@@ -5,8 +5,8 @@
 #include <QtGlobal>
 #include <QtWebEngineQuick>
 
-#include "ScreenPlayUtil/util.h"
 #include "ScreenPlayUtil/exitcodes.h"
+#include "ScreenPlayUtil/util.h"
 
 #if defined(Q_OS_WIN)
 #include "src/winwindow.h"
@@ -20,10 +20,10 @@ Q_IMPORT_QML_PLUGIN(ScreenPlaySysInfoPlugin)
 Q_IMPORT_QML_PLUGIN(ScreenPlayWeatherPlugin)
 
 int main(int argc, char* argv[])
-{ 
+{
 
 #if !defined(Q_OS_LINUX)
-    qputenv("QT_MEDIA_BACKEND","ffmpeg");
+    qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
 
     QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
@@ -47,7 +47,7 @@ int main(int argc, char* argv[])
     if (argumentList.length() == 1) {
         window.setActiveScreensList({ 0 });
         window.setProjectPath("test");
-        //window.setProjectPath("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/19112022140605-Horde 1980");
+        // window.setProjectPath("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/19112022140605-Horde 1980");
         window.setAppID("test");
         window.setVolume(1);
         window.setFillMode("fill");
