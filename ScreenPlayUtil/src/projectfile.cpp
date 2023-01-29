@@ -35,8 +35,8 @@ bool ProjectFile::init()
         return false;
 
     auto typeParsed = ScreenPlayUtil::getInstalledTypeFromString(obj.value("type").toString());
-    if (!typeParsed) {
-        qWarning() << "Type could not parsed from: " << *typeParsed;
+    if (!typeParsed.has_value()) {
+        qWarning() << "Type could not parsed from string: " << obj.value("type").toString();
         return false;
     }
     type = typeParsed.value();
@@ -87,6 +87,8 @@ bool ProjectFile::init()
     if (obj.contains("codec")) {
         if (auto videoCodecOpt = ScreenPlayUtil::getVideoCodecFromString(obj.value("codec").toString())) {
             videoCodec = videoCodecOpt.value();
+        } else{
+            qWarning("Invalid videoCodec was specified inside the json object!");
         }
     } else if (type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {
         qWarning("No videoCodec was specified inside the json object!");
