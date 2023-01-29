@@ -48,7 +48,7 @@
     {
       "name": "windows-debug-qt-6.5.0",
       "inherits": "default-windows",
-      "displayName": "MSVC K3000 Qt 6.5.0 Debug",
+      "displayName": "MSVC SP Qt 6.5.0 Debug",
       "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.0_MSVC_Debug",
       "environment": {
         "qt_version": "6.5.0"
@@ -60,7 +60,7 @@
     {
       "name": "windows-relwithdebinfo-qt-6.5.0",
       "inherits": "default-windows",
-      "displayName": "MSVC K3000 Qt 6.5.0 RelWithDebInfo",
+      "displayName": "MSVC SP Qt 6.5.0 RelWithDebInfo",
       "binaryDir": "${sourceDir}/../build_ScreenPlay_Qt_6.5.0_MSVC_RelWithDebInfo",
       "environment": {
         "qt_version": "6.5.0"
