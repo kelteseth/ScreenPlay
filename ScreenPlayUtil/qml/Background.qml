@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
-import QtQuick.Particles
 
 Rectangle {
     id: element

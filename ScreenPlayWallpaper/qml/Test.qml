@@ -1,8 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Controls.Material
-import QtQuick.Particles 2.12
-import QtQuick.Shapes 1.12
+import QtQuick.Particles
+import QtQuick.Shapes
 import ScreenPlayWallpaper
 
 Rectangle {
