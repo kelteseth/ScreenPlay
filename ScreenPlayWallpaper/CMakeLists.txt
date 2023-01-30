@@ -81,8 +81,8 @@ target_link_libraries(
             Qt6::WebEngineQuick)
 if(WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE ScreenPlaySysInfoplugin)
-elseif(UNIX)
-    target_link_libraries(    ${PROJECT_NAME}    PRIVATE X11)
+elseif(UNIX AND NOT APPLE)
+    target_link_libraries(${PROJECT_NAME} PRIVATE X11)
 endif()
 
 if(UNIX AND NOT APPLE)
