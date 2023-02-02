@@ -87,7 +87,7 @@
             "args": [
                 "build.py",
                 "-type=release",
-                "-deploy_version",
+                "-deploy-version",
                 "-steam"
             ]
         },
