@@ -3,8 +3,7 @@ project(CMake)
 set(FILES
     CopyRecursive.cmake
     CreateIFWInstaller.cmake
-    FetchContentThirdParty.cmake
-    QtUpdateTranslations.cmake)
+    FetchContentThirdParty.cmake)
 
 add_custom_target(
     ${PROJECT_NAME}

@@ -323,14 +323,6 @@ else()
     set_source_files_properties(${TS_FILES} PROPERTIES OUTPUT_LOCATION "${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/translations")
 endif()
 
-# qt_add_lupdate does not work for some reason. Lets do it manually:
-find_program(LUPDATE_EXECUTABLE lupdate)
-foreach(_ts_file ${TS_FILES})
-    message(STATUS "Update Translation: ${_ts_file}")
-    execute_process(COMMAND ${LUPDATE_EXECUTABLE} -noobsolete -locations none -recursive ${CMAKE_CURRENT_SOURCE_DIR}/qml -ts
-                            ${CMAKE_CURRENT_SOURCE_DIR}/${_ts_file} OUTPUT_QUIET)
-endforeach()
-
 qt_add_lrelease(${PROJECT_NAME} TS_FILES ${TS_FILES})
 
 target_include_directories(

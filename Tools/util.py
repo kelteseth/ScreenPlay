@@ -31,6 +31,11 @@ def run_and_capture_output(cmd, cwd=Path.cwd()) -> str:
     if result.stdout is not None:
         return str(result.stdout.decode('utf-8'))
     return ""
+    
+def repo_root_path() -> str:
+    # Root dir of the repository
+    path = os.path.join(os.path.realpath(__file__), "../../")
+    return os.path.realpath(path)
 
 def cd_repo_root_path() -> str:
     # Make sure the script is always started from the same 
