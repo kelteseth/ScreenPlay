@@ -7,7 +7,7 @@ Item {
 
     Rectangle {
         id: background
-        anchors.fill:parent
+        anchors.fill: parent
         opacity: 0.9
         color: "#333333"
     }

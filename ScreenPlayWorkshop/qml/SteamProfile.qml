@@ -45,13 +45,13 @@ Item {
                     width: 70
                     height: 70
                     Component.onCompleted: {
-                        root.steamWorkshop.steamAccount.loadAvatar()
+                        root.steamWorkshop.steamAccount.loadAvatar();
                     }
 
                     Connections {
                         function onAvatarChanged(_avatar) {
-                            avatar.setImage(_avatar)
-                            avatarPlaceholder.opacity = 0
+                            avatar.setImage(_avatar);
+                            avatarPlaceholder.opacity = 0;
                         }
 
                         target: root.steamWorkshop.steamAccount
@@ -133,8 +133,7 @@ Item {
                     text: qsTr("Back")
                     enabled: root.steamWorkshop.workshopProfileListModel.currentPage > 1
                     onClicked: {
-                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(
-                                    root.steamWorkshop.workshopProfileListModel.currentPage - 1)
+                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(root.steamWorkshop.workshopProfileListModel.currentPage - 1);
                     }
                 }
 
@@ -142,8 +141,7 @@ Item {
                     id: txtPage
 
                     Layout.alignment: Qt.AlignVCenter
-                    text: root.steamWorkshop.workshopProfileListModel.currentPage
-                          + "/" + root.steamWorkshop.workshopProfileListModel.pages
+                    text: root.steamWorkshop.workshopProfileListModel.currentPage + "/" + root.steamWorkshop.workshopProfileListModel.pages
                     color: Material.primaryTextColor
                 }
 
@@ -152,11 +150,9 @@ Item {
 
                     Layout.alignment: Qt.AlignVCenter
                     text: qsTr("Forward")
-                    enabled: root.steamWorkshop.workshopProfileListModel.currentPage
-                             <= root.steamWorkshop.workshopProfileListModel.pages - 1
+                    enabled: root.steamWorkshop.workshopProfileListModel.currentPage <= root.steamWorkshop.workshopProfileListModel.pages - 1
                     onClicked: {
-                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(
-                                    root.steamWorkshop.workshopProfileListModel.currentPage + 1)
+                        root.steamWorkshop.workshopProfileListModel.setCurrentPage(root.steamWorkshop.workshopProfileListModel.currentPage + 1);
                     }
                 }
 

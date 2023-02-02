@@ -22,31 +22,30 @@ Rectangle {
     signal changePage(string name)
 
     function setActive(active) {
-        navActive = active
+        navActive = active;
         if (active)
-            root.state = "enabled"
+            root.state = "enabled";
         else
-            root.state = "disabled"
+            root.state = "disabled";
     }
 
     function setNavigation(name) {
-        var i = 0
+        var i = 0;
         for (; i < navArray.length; i++) {
             if (navArray[i].name === name) {
-                navArray[i].state = "active"
-                root.currentNavigationName = name
+                navArray[i].state = "active";
+                root.currentNavigationName = name;
             } else {
-                navArray[i].state = "inactive"
+                navArray[i].state = "inactive";
             }
         }
     }
 
     function onPageChanged(name) {
         if (!navActive)
-            return
-
-        root.changePage(name)
-        setNavigation(name)
+            return;
+        root.changePage(name);
+        setNavigation(name);
     }
 
     implicitWidth: 1366
@@ -60,11 +59,11 @@ Rectangle {
 
     Connections {
         function onRequestNavigationActive(isActive) {
-            setActive(isActive)
+            setActive(isActive);
         }
 
         function onRequestNavigation(nav) {
-            onPageChanged(nav)
+            onPageChanged(nav);
         }
 
         target: App.util
@@ -83,16 +82,6 @@ Rectangle {
 
         spacing: 0
 
-        component CustomTabButton: TabButton {
-            icon.height: 16
-            icon.width: 16
-            font.pointSize: 12
-            height: parent.height
-            width: implicitWidth
-            background: Item {}
-            font.capitalization: Font.MixedCase
-        }
-
         CustomTabButton {
             id: navCreate
             icon.height: 22
@@ -100,7 +89,7 @@ Rectangle {
             text: qsTr("Create")
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_plus.svg"
             onClicked: {
-                root.onPageChanged("Create")
+                root.onPageChanged("Create");
             }
             objectName: "createTab"
         }
@@ -111,7 +100,7 @@ Rectangle {
             text: qsTr("Workshop")
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
             onClicked: {
-                root.onPageChanged("Workshop")
+                root.onPageChanged("Workshop");
             }
             objectName: "workshopTab"
         }
@@ -121,7 +110,7 @@ Rectangle {
             text: qsTr("Installed") + " " + App.installedListModel.count
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_installed.svg"
             onClicked: {
-                root.onPageChanged("Installed")
+                root.onPageChanged("Installed");
             }
             objectName: "installedTab"
         }
@@ -131,7 +120,7 @@ Rectangle {
             text: qsTr("Community")
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
             onClicked: {
-                root.onPageChanged("Community")
+                root.onPageChanged("Community");
             }
             objectName: "communityTab"
         }
@@ -141,10 +130,21 @@ Rectangle {
             text: qsTr("Settings")
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_settings.svg"
             onClicked: {
-                root.onPageChanged("Settings")
+                root.onPageChanged("Settings");
             }
             objectName: "settingsTab"
         }
+    }
+
+    component CustomTabButton: TabButton {
+        icon.height: 16
+        icon.width: 16
+        font.pointSize: 12
+        height: parent.height
+        width: implicitWidth
+        background: Item {
+        }
+        font.capitalization: Font.MixedCase
     }
 
     Rectangle {
@@ -153,8 +153,7 @@ Rectangle {
         width: quickActionRow.width + 5
         height: quickActionRow.height - 16
         color: Material.theme === Material.Light ? Material.background : "#242424"
-        border.color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(
-                                                              Material.background)
+        border.color: Material.theme === Material.Light ? Material.iconDisabledColor : Qt.darker(Material.background)
         border.width: 1
         radius: 3
     }
@@ -170,8 +169,7 @@ Rectangle {
         ToolButton {
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/font-awsome/patreon-brands.svg"
             text: qsTr("Support me on Patreon!")
-            onClicked: Qt.openUrlExternally(
-                           "https://www.patreon.com/ScreenPlayApp")
+            onClicked: Qt.openUrlExternally("https://www.patreon.com/ScreenPlayApp")
         }
     }
 
@@ -184,13 +182,12 @@ Rectangle {
             bottom: parent.bottom
         }
 
-        property bool contentActive: App.screenPlayManager.activeWallpaperCounter > 0
-                                     || App.screenPlayManager.activeWidgetsCounter > 0
+        property bool contentActive: App.screenPlayManager.activeWallpaperCounter > 0 || App.screenPlayManager.activeWidgetsCounter > 0
 
         onContentActiveChanged: {
             if (!contentActive) {
-                miMuteAll.soundEnabled = true
-                miStopAll.isPlaying = true
+                miMuteAll.soundEnabled = true;
+                miStopAll.isPlaying = true;
             }
         }
 
@@ -206,12 +203,11 @@ Rectangle {
             property bool soundEnabled: true
             onSoundEnabledChanged: {
                 if (miMuteAll.soundEnabled) {
-                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg"
-                    App.screenPlayManager.setAllWallpaperValue("muted", "false")
+                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume.svg";
+                    App.screenPlayManager.setAllWallpaperValue("muted", "false");
                 } else {
-                    miMuteAll.icon.source
-                            = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg"
-                    App.screenPlayManager.setAllWallpaperValue("muted", "true")
+                    miMuteAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_volume_mute.svg";
+                    App.screenPlayManager.setAllWallpaperValue("muted", "true");
                 }
             }
 
@@ -230,13 +226,11 @@ Rectangle {
             property bool isPlaying: true
             onIsPlayingChanged: {
                 if (miStopAll.isPlaying) {
-                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg"
-                    App.screenPlayManager.setAllWallpaperValue("isPlaying",
-                                                               "true")
+                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_pause.svg";
+                    App.screenPlayManager.setAllWallpaperValue("isPlaying", "true");
                 } else {
-                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_play.svg"
-                    App.screenPlayManager.setAllWallpaperValue("isPlaying",
-                                                               "false")
+                    miStopAll.icon.source = "qrc:/qml/ScreenPlayApp/assets/icons/icon_play.svg";
+                    App.screenPlayManager.setAllWallpaperValue("isPlaying", "false");
                 }
             }
             hoverEnabled: true
@@ -252,10 +246,10 @@ Rectangle {
             icon.width: root.iconWidth
             icon.height: root.iconHeight
             onClicked: {
-                App.screenPlayManager.removeAllWallpapers()
-                App.screenPlayManager.removeAllWidgets()
-                miStopAll.isPlaying = true
-                miMuteAll.soundEnabled = true
+                App.screenPlayManager.removeAllWallpapers();
+                App.screenPlayManager.removeAllWidgets();
+                miStopAll.isPlaying = true;
+                miMuteAll.soundEnabled = true;
             }
 
             hoverEnabled: true

@@ -84,7 +84,7 @@ WizardPage {
                         horizontalAlignment: Text.AlignHCenter
                         wrapMode: Text.WrapAtWordBoundaryOrAnywhere
                         width: parent.width
-                        anchors{
+                        anchors {
                             fill: parent
                             margins: 40
                         }
@@ -97,7 +97,6 @@ WizardPage {
                         fillMode: Image.PreserveAspectCrop
                         source: root.file
                     }
-
                 }
 
                 Item {
@@ -113,7 +112,6 @@ WizardPage {
                     fileDialog.nameFilters: ["Gif (*.gif)"]
                     onFileChanged: root.file = file
                 }
-
             }
 
             ColumnLayout {
@@ -162,11 +160,7 @@ WizardPage {
                     Layout.fillHeight: true
                     Layout.fillWidth: true
                 }
-
             }
-
         }
-
     }
-
 }

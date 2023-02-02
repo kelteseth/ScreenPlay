@@ -79,9 +79,7 @@ ColumnLayout {
                     description: qsTr("You do not share any rights and nobody is allowed to use or remix it (Not recommended). Can also used to credit work others.")
                     licenseFile: "License_All_Rights_Reserved_1.0.txt"
                 }
-
             }
-
         }
 
         ToolButton {
@@ -101,7 +99,5 @@ ColumnLayout {
 
             text: licenseModel.get(cb.currentIndex).description
         }
-
     }
-
 }

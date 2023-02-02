@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 
-
 /*!
    \qmltype ColorImage
    \inqmlmodule Common
@@ -13,7 +12,6 @@ import Qt5Compat.GraphicalEffects
 */
 Image {
     id: root
-
 
     /*!
         \qmlproperty color ColorImage::color

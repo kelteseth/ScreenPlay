@@ -16,7 +16,7 @@ Item {
     property bool enabled: true
     property bool available: true
 
-    signal buttonPressed()
+    signal buttonPressed
 
     height: txtHeadline.paintedHeight + txtDescription.paintedHeight + 20
     width: parent.width
@@ -46,7 +46,6 @@ Item {
             left: parent.left
             leftMargin: 20
         }
-
     }
 
     Text {
@@ -68,7 +67,6 @@ Item {
             right: btnSettings.left
             rightMargin: 20
         }
-
     }
 
     Button {
@@ -87,7 +85,5 @@ Item {
             rightMargin: 20
             verticalCenter: parent.verticalCenter
         }
-
     }
-
 }

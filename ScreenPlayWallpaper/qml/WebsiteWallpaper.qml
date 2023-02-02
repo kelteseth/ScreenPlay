@@ -7,7 +7,7 @@ Item {
 
     property string url
 
-    signal requestFadeIn()
+    signal requestFadeIn
 
     Component.onCompleted: {
         WebEngine.settings.localContentCanAccessFileUrls = true;
@@ -29,8 +29,6 @@ Item {
         onLoadProgressChanged: {
             if ((loadProgress === 100))
                 root.requestFadeIn();
-
         }
     }
-
 }

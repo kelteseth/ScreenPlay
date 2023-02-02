@@ -15,15 +15,14 @@ Util.Dialog {
     property string message
     standardButtons: Dialog.Ok | Dialog.Help
     onHelpRequested: {
-        Qt.openUrlExternally(
-                    "https://forum.screen-play.app/category/7/troubleshooting")
+        Qt.openUrlExternally("https://forum.screen-play.app/category/7/troubleshooting");
     }
 
     Connections {
         function onDisplayErrorPopup(msg) {
-            root.message = msg
-            root.window.show()
-            root.open()
+            root.message = msg;
+            root.window.show();
+            root.open();
         }
 
         target: App.screenPlayManager

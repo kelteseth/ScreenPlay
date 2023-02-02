@@ -29,7 +29,5 @@ Item {
             left: parent.left
             bottom: parent.bottom
         }
-
     }
-
 }

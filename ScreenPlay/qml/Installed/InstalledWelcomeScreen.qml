@@ -70,8 +70,7 @@ Item {
         id: txtHeadline
 
         y: 80
-        text: App.settings.steamVersion ? qsTr("Get free Widgets and Wallpaper via the Steam Workshop") : qsTr(
-                                              "Get content via our forum")
+        text: App.settings.steamVersion ? qsTr("Get free Widgets and Wallpaper via the Steam Workshop") : qsTr("Get content via our forum")
         font.family: App.settings.font
         font.capitalization: Font.Capitalize
         wrapMode: Text.WordWrap
@@ -106,9 +105,9 @@ Item {
 
         text: {
             if (App.settings.steamVersion) {
-                return qsTr("Browse the Steam Workshop")
+                return qsTr("Browse the Steam Workshop");
             } else {
-                return qsTr("Open the ScreenPlay forum")
+                return qsTr("Open the ScreenPlay forum");
             }
         }
         Material.background: Material.color(Material.Orange)
@@ -118,18 +117,18 @@ Item {
         height: implicitHeight + 10
         icon.source: {
             if (App.settings.steamVersion) {
-                return "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg"
+                return "qrc:/qml/ScreenPlayApp/assets/icons/icon_steam.svg";
             } else {
-                return "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg"
+                return "qrc:/qml/ScreenPlayApp/assets/icons/icon_community.svg";
             }
         }
         icon.width: 18
         icon.height: 18
         onClicked: {
             if (App.settings.steamVersion) {
-                App.util.setNavigation("Workshop")
+                App.util.setNavigation("Workshop");
             } else {
-                Qt.openUrlExternally("https://forum.screen-play.app/")
+                Qt.openUrlExternally("https://forum.screen-play.app/");
             }
         }
 
@@ -312,7 +311,7 @@ Item {
 
                 ScriptAction {
                     script: {
-                        animShake.start(2000, 1000, -1)
+                        animShake.start(2000, 1000, -1);
                     }
                 }
             }

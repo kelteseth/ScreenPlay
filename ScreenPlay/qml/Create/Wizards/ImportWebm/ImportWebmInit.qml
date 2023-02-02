@@ -107,32 +107,10 @@ Item {
                             fill: parent
                             margins: 40
                         }
-
                     }
-
                 }
-
             }
-
-            Item {
-                Layout.fillHeight: true
-                Layout.preferredWidth: wrapper.width * 0.33
-
-                StartInfoLinkImage {
-                    text: "Handbreak"
-                    image: "qrc:/qml/ScreenPlayApp/assets/startinfo/handbreak.png"
-                    link: "https://handbrake.fr/"
-                    description: "Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Cum sociis natoque penatibus et magnis dis parturient montes,"
-                    category: "Tools"
-                    width: 300
-                    height: parent.height
-                    anchors.centerIn: parent
-                }
-
-            }
-
         }
-
     }
 
     Button {
@@ -153,7 +131,6 @@ Item {
             left: parent.left
             margins: 20
         }
-
     }
 
     Button {
@@ -178,7 +155,5 @@ Item {
             bottom: parent.bottom
             margins: 20
         }
-
     }
-
 }

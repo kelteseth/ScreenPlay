@@ -219,7 +219,6 @@ set(RESOURCES
     assets/startinfo/vscode.png
     assets/wizards/example_html.png
     assets/wizards/example_qml.png
-    assets/wizards/QmlProject.qmlproject
     assets/wizards/License_All_Rights_Reserved_1.0.txt
     assets/wizards/License_Apache_2.0.txt
     assets/wizards/License_CC0_1.0.txt
@@ -227,6 +226,7 @@ set(RESOURCES
     assets/wizards/License_CC_Attribution-ShareAlike_4.0.txt
     assets/wizards/License_CC_Attribution_4.0.txt
     assets/wizards/License_GPL_3.0.txt
+    assets/wizards/QmlProject.qmlproject
     assets/WorkshopPreview.html
     legal/DataProtection.txt
     legal/gpl-3.0.txt

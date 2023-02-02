@@ -34,7 +34,6 @@ Item {
                 target: image
                 opacity: 0
             }
-
         },
         State {
             name: "loaded"
@@ -43,7 +42,6 @@ Item {
                 target: image
                 opacity: 1
             }
-
         }
     ]
     transitions: [
@@ -57,7 +55,6 @@ Item {
                 duration: 300
                 easing.type: Easing.InOutQuad
             }
-
         }
     ]
 }

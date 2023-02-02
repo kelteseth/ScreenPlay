@@ -54,7 +54,6 @@ WizardPage {
                 Layout.fillWidth: true
                 placeholderText: qsTr("Created By")
             }
-
         }
 
         Util.TextField {
@@ -99,7 +98,5 @@ WizardPage {
 
             Layout.fillWidth: true
         }
-
     }
-
 }

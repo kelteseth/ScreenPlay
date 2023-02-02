@@ -2,10 +2,9 @@ import QtQuick
 import ScreenPlayWidget
 
 Rectangle {
-    implicitWidth:  500
+    implicitWidth: 500
     implicitHeight: 300
     color: "#80000000"
-
 
     Text {
         id: name
@@ -18,5 +17,4 @@ Rectangle {
         anchors.margins: 10
         color: "white"
     }
-
 }

@@ -20,40 +20,35 @@ ApplicationWindow {
     function setTheme(theme) {
         switch (theme) {
         case Settings.System:
-            root.Material.theme = Material.System
-            break
+            root.Material.theme = Material.System;
+            break;
         case Settings.Dark:
-            root.Material.theme = Material.Dark
-            break
+            root.Material.theme = Material.Dark;
+            break;
         case Settings.Light:
-            root.Material.theme = Material.Light
-            break
+            root.Material.theme = Material.Light;
+            break;
         }
     }
 
     function switchPage(name) {
         if (nav.currentNavigationName === name) {
             if (name === "Installed")
-                App.installedListModel.reset()
+                App.installedListModel.reset();
         }
-
         if (name === "Installed") {
-            stackView.replace(
-                        "qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
-                            "sidebar": sidebar
-                        })
-            return
+            stackView.replace("qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
+                    "sidebar": sidebar
+                });
+            return;
         }
-        stackView.replace(
-                    "qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + ".qml",
-                    {
-                        "modalSource": content
-                    })
-        sidebar.state = "inactive"
+        stackView.replace("qrc:/qml/ScreenPlayApp/qml/" + name + "/" + name + ".qml", {
+                "modalSource": content
+            });
+        sidebar.state = "inactive";
     }
 
-    color: Material.theme === Material.Dark ? Qt.darker(
-                                                  Material.background) : Material.background
+    color: Material.theme === Material.Dark ? Qt.darker(Material.background) : Material.background
     // Set visible if the -silent parameter was not set (see app.cpp end of constructor).
     visible: false
     width: 1400
@@ -67,28 +62,23 @@ ApplicationWindow {
     Material.accent: Material.color(Material.Orange)
     onVisibilityChanged: {
         if (root.visibility === 2)
-            App.installedListModel.reset()
+            App.installedListModel.reset();
     }
-    onClosing: (close) => {
-        close.accepted = false
-
-        if (App.screenPlayManager.activeWallpaperCounter === 0
-                && App.screenPlayManager.activeWidgetsCounter === 0) {
-            Qt.quit()
+    onClosing: close => {
+        close.accepted = false;
+        if (App.screenPlayManager.activeWallpaperCounter === 0 && App.screenPlayManager.activeWidgetsCounter === 0) {
+            Qt.quit();
         }
-
-        const alwaysMinimize = settings.value("alwaysMinimize", null)
-        if(alwaysMinimize === null){
-            console.error("Unable to retreive alwaysMinimize setting")
+        const alwaysMinimize = settings.value("alwaysMinimize", null);
+        if (alwaysMinimize === null) {
+            console.error("Unable to retreive alwaysMinimize setting");
         }
-
-        if(alwaysMinimize === "true"){
-           root.hide()
-           App.showDockIcon(false);
-           return
+        if (alwaysMinimize === "true") {
+            root.hide();
+            App.showDockIcon(false);
+            return;
         }
-
-        exitDialog.open()
+        exitDialog.open();
     }
 
     Labs.Settings {
@@ -102,13 +92,13 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
-        setTheme(App.settings.theme)
+        setTheme(App.settings.theme);
         stackView.push("qrc:/qml/ScreenPlayApp/qml/Installed/Installed.qml", {
-                           "sidebar": sidebar
-                       })
-        if (!App.settings.silentStart){
-            App.showDockIcon(true)
-            root.show()
+                "sidebar": sidebar
+            });
+        if (!App.settings.silentStart) {
+            App.showDockIcon(true);
+            root.show();
         }
     }
 
@@ -139,7 +129,7 @@ ApplicationWindow {
 
     Connections {
         function onThemeChanged(theme) {
-            setTheme(theme)
+            setTheme(theme);
         }
 
         target: App.settings
@@ -147,7 +137,7 @@ ApplicationWindow {
 
     Connections {
         function onRequestNavigation(nav) {
-            switchPage(nav)
+            switchPage(nav);
         }
 
         target: App.util
@@ -155,8 +145,8 @@ ApplicationWindow {
 
     Connections {
         function onRequestRaise() {
-            App.showDockIcon(true)
-            root.show()
+            App.showDockIcon(true);
+            root.show();
         }
 
         target: App.screenPlayManager
@@ -164,98 +154,97 @@ ApplicationWindow {
 
     Item {
         id: content
-        anchors.fill:parent
+        anchors.fill: parent
 
+        StackView {
+            id: stackView
+            objectName: "stackView"
+            property int duration: 300
 
-    StackView {
-        id: stackView
-        objectName: "stackView"
-        property int duration: 300
+            anchors {
+                top: nav.bottom
+                right: parent.right
+                bottom: parent.bottom
+                left: parent.left
+            }
 
-        anchors {
-            top: nav.bottom
-            right: parent.right
-            bottom: parent.bottom
-            left: parent.left
+            replaceEnter: Transition {
+                OpacityAnimator {
+                    from: 0
+                    to: 1
+                    duration: stackView.duration
+                    easing.type: Easing.InOutQuart
+                }
+
+                ScaleAnimator {
+                    from: 0.8
+                    to: 1
+                    duration: stackView.duration
+                    easing.type: Easing.InOutQuart
+                }
+            }
+
+            replaceExit: Transition {
+                OpacityAnimator {
+                    from: 1
+                    to: 0
+                    duration: stackView.duration
+                    easing.type: Easing.InOutQuart
+                }
+
+                ScaleAnimator {
+                    from: 1
+                    to: 0.8
+                    duration: stackView.duration
+                    easing.type: Easing.InOutQuart
+                }
+            }
         }
 
-        replaceEnter: Transition {
-            OpacityAnimator {
-                from: 0
-                to: 1
-                duration: stackView.duration
-                easing.type: Easing.InOutQuart
+        Connections {
+            function onSetSidebarActive(active) {
+                if (active)
+                    sidebar.state = "active";
+                else
+                    sidebar.state = "inactive";
             }
 
-            ScaleAnimator {
-                from: 0.8
-                to: 1
-                duration: stackView.duration
-                easing.type: Easing.InOutQuart
+            function onSetNavigationItem(pos) {
+                if (pos === 0)
+                    nav.onPageChanged("Create");
+                else
+                    nav.onPageChanged("Workshop");
+            }
+
+            target: stackView.currentItem
+            ignoreUnknownSignals: true
+        }
+
+        Installed.Sidebar {
+            id: sidebar
+            objectName: "installedSidebar"
+            navHeight: nav.height
+
+            anchors {
+                top: parent.top
+                right: parent.right
+                bottom: parent.bottom
             }
         }
 
-        replaceExit: Transition {
-            OpacityAnimator {
-                from: 1
-                to: 0
-                duration: stackView.duration
-                easing.type: Easing.InOutQuart
+        Navigation.Navigation {
+            id: nav
+            modalSource: content
+            anchors {
+                top: parent.top
+                right: parent.right
+                left: parent.left
             }
 
-            ScaleAnimator {
-                from: 1
-                to: 0.8
-                duration: stackView.duration
-                easing.type: Easing.InOutQuart
+            onChangePage: function (name) {
+                monitors.close();
+                switchPage(name);
             }
         }
     }
-
-    Connections {
-        function onSetSidebarActive(active) {
-            if (active)
-                sidebar.state = "active"
-            else
-                sidebar.state = "inactive"
-        }
-
-        function onSetNavigationItem(pos) {
-            if (pos === 0)
-                nav.onPageChanged("Create")
-            else
-                nav.onPageChanged("Workshop")
-        }
-
-        target: stackView.currentItem
-        ignoreUnknownSignals: true
-    }
-
-    Installed.Sidebar {
-        id: sidebar
-        objectName: "installedSidebar"
-        navHeight: nav.height
-
-        anchors {
-            top: parent.top
-            right: parent.right
-            bottom: parent.bottom
-        }
-    }
-
-    Navigation.Navigation {
-        id: nav
-        modalSource: content
-        anchors {
-            top: parent.top
-            right: parent.right
-            left: parent.left
-        }
-
-        onChangePage: function (name) {
-            monitors.close()
-            switchPage(name)
-        }
-    }
-}
 }

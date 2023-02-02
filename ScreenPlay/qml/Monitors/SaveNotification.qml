@@ -51,7 +51,6 @@ Rectangle {
             bottom: parent.bottom
             bottomMargin: 5
         }
-
     }
 
     layer.effect: ElevationEffect {
@@ -70,7 +69,6 @@ Rectangle {
                 duration: 250
                 easing.type: Easing.InOutQuart
             }
-
         }
     ]
     states: [
@@ -82,7 +80,6 @@ Rectangle {
                 anchors.bottomMargin: 10
                 opacity: 1
             }
-
         }
     ]
 }

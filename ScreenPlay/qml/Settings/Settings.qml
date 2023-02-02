@@ -17,11 +17,11 @@ Item {
 
     function indexOfValue(model, value) {
         for (var i = 0; i < model.length; i++) {
-            let ourValue = model[i].value
+            let ourValue = model[i].value;
             if (value === ourValue)
-                return i
+                return i;
         }
-        return -1
+        return -1;
     }
 
     Flickable {
@@ -69,11 +69,12 @@ Item {
                         description: qsTr("ScreenPlay will start with Windows and will setup your Desktop every time for you.")
                         isChecked: App.settings.autostart
                         onCheckboxChanged: function (checked) {
-                            App.settings.setAutostart(checked)
+                            App.settings.setAutostart(checked);
                         }
                     }
 
-                    SettingsHorizontalSeperator {}
+                    SettingsHorizontalSeperator {
+                    }
 
                     SettingBool {
                         headline: qsTr("High priority Autostart")
@@ -81,11 +82,12 @@ Item {
                         description: qsTr("This options grants ScreenPlay a higher autostart priority than other apps.")
                         isChecked: App.settings.highPriorityStart
                         onCheckboxChanged: {
-                            App.settings.setHighPriorityStart(checked)
+                            App.settings.setHighPriorityStart(checked);
                         }
                     }
 
-                    SettingsHorizontalSeperator {}
+                    SettingsHorizontalSeperator {
+                    }
 
                     SettingBool {
                         height: 70
@@ -93,33 +95,33 @@ Item {
                         description: qsTr("Help us make ScreenPlay faster and more stable. All collected data is purely anonymous and only used for development purposes! We use <a href=\"https://sentry.io\">sentry.io</a> to collect and analyze this data. A <b>big thanks to them</b> for providing us with free premium support for open source projects!")
                         isChecked: App.settings.anonymousTelemetry
                         onCheckboxChanged: function (checked) {
-                            App.settings.setAnonymousTelemetry(checked)
+                            App.settings.setAnonymousTelemetry(checked);
                         }
                     }
 
-                    SettingsHorizontalSeperator {}
+                    SettingsHorizontalSeperator {
+                    }
 
                     SettingsButton {
                         headline: qsTr("Set save location")
                         buttonText: qsTr("Set location")
                         description: {
                             // Remove file:/// so the used does not get confused
-                            let path = App.globalVariables.localStoragePath + ""
+                            let path = App.globalVariables.localStoragePath + "";
                             if (path.length === 0)
-                                return qsTr("Your storage path is empty!")
+                                return qsTr("Your storage path is empty!");
                             else
-                                return path.replace('file:///', '')
+                                return path.replace('file:///', '');
                         }
                         onButtonPressed: {
-                            folderDialogSaveLocation.open()
+                            folderDialogSaveLocation.open();
                         }
 
                         FolderDialog {
                             id: folderDialogSaveLocation
                             folder: App.globalVariables.localStoragePath
                             onAccepted: {
-                                App.settings.setLocalStoragePath(
-                                            folderDialogSaveLocation.currentFolder)
+                                App.settings.setLocalStoragePath(folderDialogSaveLocation.currentFolder);
                             }
                         }
                     }
@@ -142,7 +144,8 @@ Item {
                         }
                     }
 
-                    SettingsHorizontalSeperator {}
+                    SettingsHorizontalSeperator {
+                    }
 
                     SettingsComboBox {
                         id: settingsLanguage
@@ -150,9 +153,7 @@ Item {
                         headline: qsTr("Language")
                         description: qsTr("Set the ScreenPlay UI Language")
                         Component.onCompleted: {
-                            settingsLanguage.comboBox.currentIndex = root.indexOfValue(
-                                        settingsLanguage.comboBox.model,
-                                        App.settings.language)
+                            settingsLanguage.comboBox.currentIndex = root.indexOfValue(settingsLanguage.comboBox.model, App.settings.language);
                         }
 
                         comboBox {
@@ -197,14 +198,14 @@ Item {
                                     "text": "Dutch"
                                 }]
                             onActivated: {
-                                App.settings.setLanguage(
-                                            settingsLanguage.comboBox.currentValue)
-                                App.settings.retranslateUI()
+                                App.settings.setLanguage(settingsLanguage.comboBox.currentValue);
+                                App.settings.retranslateUI();
                             }
                         }
                     }
 
-                    SettingsHorizontalSeperator {}
+                    SettingsHorizontalSeperator {
+                    }
 
                     SettingsComboBox {
                         id: settingsTheme
@@ -212,9 +213,7 @@ Item {
                         headline: qsTr("Theme")
                         description: qsTr("Switch dark/light theme")
                         Component.onCompleted: {
-                            settingsTheme.comboBox.currentIndex = root.indexOfValue(
-                                        settingsTheme.comboBox.model,
-                                        App.settings.theme)
+                            settingsTheme.comboBox.currentIndex = root.indexOfValue(settingsTheme.comboBox.model, App.settings.theme);
                         }
 
                         comboBox {
@@ -229,8 +228,7 @@ Item {
                                     "text": qsTr("Light")
                                 }]
                             onActivated: {
-                                App.settings.setTheme(
-                                            settingsTheme.comboBox.currentValue)
+                                App.settings.setTheme(settingsTheme.comboBox.currentValue);
                             }
                         }
                     }
@@ -256,11 +254,12 @@ Item {
                         description: qsTr("We disable the video rendering (not the audio!) for the best performance. If you have problem you can disable this behaviour here. Wallpaper restart required!")
                         isChecked: App.settings.checkWallpaperVisible
                         onCheckboxChanged: function (checked) {
-                            App.settings.setCheckWallpaperVisible(checked)
+                            App.settings.setCheckWallpaperVisible(checked);
                         }
                     }
 
-                    SettingsHorizontalSeperator {}
+                    SettingsHorizontalSeperator {
+                    }
 
                     SettingsComboBox {
                         id: cbVideoFillMode
@@ -268,14 +267,11 @@ Item {
                         headline: qsTr("Default Fill Mode")
                         description: qsTr("Set this property to define how the video is scaled to fit the target area.")
                         Component.onCompleted: {
-                            cbVideoFillMode.comboBox.currentIndex = root.indexOfValue(
-                                        cbVideoFillMode.comboBox.model,
-                                        App.settings.videoFillMode)
+                            cbVideoFillMode.comboBox.currentIndex = root.indexOfValue(cbVideoFillMode.comboBox.model, App.settings.videoFillMode);
                         }
 
                         comboBox {
-                            onActivated: App.settings.setVideoFillMode(
-                                             cbVideoFillMode.comboBox.currentValue)
+                            onActivated: App.settings.setVideoFillMode(cbVideoFillMode.comboBox.currentValue)
                             model: [{
                                     "value": FillMode.Stretch,
                                     "text": qsTr("Stretch")
@@ -319,8 +315,7 @@ Item {
 
                         Item {
                             width: parent.width
-                            height: txtHeadline.paintedHeight + txtDescriptionAbout.paintedHeight
-                                    + wrapperLinks.childrenRect.height + 80
+                            height: txtHeadline.paintedHeight + txtDescriptionAbout.paintedHeight + wrapperLinks.childrenRect.height + 80
 
                             Text {
                                 id: txtHeadline
@@ -443,26 +438,27 @@ Item {
                         }
                     }
 
-                    SettingsHorizontalSeperator {}
+                    SettingsHorizontalSeperator {
+                    }
 
                     SettingsButton {
                         icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_launch.svg"
                         headline: qsTr("Version")
                         description: App.settings.buildInfos
                         buttonText: qsTr("Open Changelog")
-                        onButtonPressed: Qt.openUrlExternally(
-                                             "https://gitlab.com/kelteseth/ScreenPlay/-/releases")
+                        onButtonPressed: Qt.openUrlExternally("https://gitlab.com/kelteseth/ScreenPlay/-/releases")
                     }
 
-                    SettingsHorizontalSeperator {}
+                    SettingsHorizontalSeperator {
+                    }
 
                     SettingsButton {
                         headline: qsTr("Third Party Software")
                         description: qsTr("ScreenPlay would not be possible without the work of others. A big thank you to: ")
                         buttonText: qsTr("Licenses")
                         onButtonPressed: {
-                            App.util.requestAllLicenses()
-                            expanderCopyright.toggle()
+                            App.util.requestAllLicenses();
+                            expanderCopyright.toggle();
                         }
                     }
 
@@ -471,21 +467,22 @@ Item {
 
                         Connections {
                             function onAllLicenseLoaded(licensesText) {
-                                expanderCopyright.text = licensesText
+                                expanderCopyright.text = licensesText;
                             }
 
                             target: App.util
                         }
                     }
 
-                    SettingsHorizontalSeperator {}
+                    SettingsHorizontalSeperator {
+                    }
 
                     SettingsButton {
                         headline: qsTr("Logs")
                         description: qsTr("If your ScreenPlay missbehaves this is a good way to look for answers. This shows all logs and warning during runtime.")
                         buttonText: qsTr("Show Logs")
                         onButtonPressed: {
-                            expanderDebug.toggle()
+                            expanderDebug.toggle();
                         }
                     }
 
@@ -495,15 +492,16 @@ Item {
                         text: App.util.debugMessages
                     }
 
-                    SettingsHorizontalSeperator {}
+                    SettingsHorizontalSeperator {
+                    }
 
                     SettingsButton {
                         headline: qsTr("Data Protection")
                         description: qsTr("We use you data very carefully to improve ScreenPlay. We do not sell or share this (anonymous) information with others!")
                         buttonText: qsTr("Privacy")
                         onButtonPressed: {
-                            App.util.requestDataProtection()
-                            expanderDataProtection.toggle()
+                            App.util.requestDataProtection();
+                            expanderDataProtection.toggle();
                         }
                     }
 
@@ -512,7 +510,7 @@ Item {
 
                         Connections {
                             function onAllDataProtectionLoaded(dataProtectionText) {
-                                expanderDataProtection.text = dataProtectionText
+                                expanderDataProtection.text = dataProtectionText;
                             }
 
                             target: App.util

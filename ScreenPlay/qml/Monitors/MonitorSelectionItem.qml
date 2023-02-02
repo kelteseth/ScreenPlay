@@ -10,10 +10,10 @@ Item {
 
     property rect geometry
     onGeometryChanged: {
-        root.width = geometry.width
-        root.height = geometry.height
-        root.x = geometry.x
-        root.y = geometry.y
+        root.width = geometry.width;
+        root.height = geometry.height;
+        root.x = geometry.x;
+        root.y = geometry.y;
     }
 
     property string previewImage
@@ -51,7 +51,6 @@ Item {
             top: wrapper.bottom
             topMargin: 5
         }
-
     }
 
     Rectangle {
@@ -83,14 +82,12 @@ Item {
             onClicked: {
                 if (monitorWithoutContentSelectable) {
                     monitorSelected(index);
-                    return
+                    return;
                 }
                 if (root.hasContent && !root.monitorWithoutContentSelectable)
                     monitorSelected(index);
-
             }
         }
-
     }
 
     states: [
@@ -101,7 +98,6 @@ Item {
                 target: wrapper
                 border.color: "#373737"
             }
-
         },
         State {
             name: "selected"
@@ -110,7 +106,6 @@ Item {
                 target: wrapper
                 border.color: "#F28E0D"
             }
-
         }
     ]
     transitions: [
@@ -125,7 +120,6 @@ Item {
                 easing.type: Easing.InOutQuart
                 property: "border.color"
             }
-
         }
     ]
 }

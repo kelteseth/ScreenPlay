@@ -23,15 +23,15 @@ Item {
 
         CreateWallpaperInit {
             onNext: function (filePath, codec) {
-                startConvert(filePath, codec)
+                startConvert(filePath, codec);
             }
 
             function startConvert(filePath, codec) {
-                root.wizardStarted()
-                swipeView.currentIndex = 1
-                createWallpaperVideoImportConvert.codec = codec
-                createWallpaperVideoImportConvert.filePath = filePath
-                App.create.createWallpaperStart(filePath, codec, quality)
+                root.wizardStarted();
+                swipeView.currentIndex = 1;
+                createWallpaperVideoImportConvert.codec = codec;
+                createWallpaperVideoImportConvert.filePath = filePath;
+                App.create.createWallpaperStart(filePath, codec, quality);
             }
         }
 
@@ -41,6 +41,7 @@ Item {
             onAbort: root.wizardExited()
         }
 
-        CreateWallpaperResult {}
+        CreateWallpaperResult {
+        }
     }
 }

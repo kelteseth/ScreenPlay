@@ -9,7 +9,6 @@ import ScreenPlay
 import ScreenPlayUtil as Util
 import Qt5Compat.GraphicalEffects
 
-
 /*!
    \qmltype exitDialog
    \brief exitDialog
@@ -46,10 +45,10 @@ Util.Popup {
             Text {
                 text: {
                     if (Qt.platform.os === "windows") {
-                        return qsTr("You can <b>quit</b> ScreenPlay via the bottom right Tray-Icon.")
+                        return qsTr("You can <b>quit</b> ScreenPlay via the bottom right Tray-Icon.");
                     }
                     if (Qt.platform.os === "osx") {
-                        return qsTr("You can <b>quit</b> ScreenPlay via the top right Tray-Icon.")
+                        return qsTr("You can <b>quit</b> ScreenPlay via the top right Tray-Icon.");
                     }
                 }
 
@@ -75,20 +74,20 @@ Util.Popup {
                 Button {
                     text: qsTr("Minimize ScreenPlay")
                     onClicked: {
-                        applicationWindow.hide()
-                        App.showDockIcon(false)
-                        root.close()
+                        applicationWindow.hide();
+                        App.showDockIcon(false);
+                        root.close();
                     }
                 }
                 Button {
                     highlighted: true
                     text: qsTr("Always minimize ScreenPlay")
                     onClicked: {
-                        settings.setValue("alwaysMinimize", true)
-                        settings.sync()
-                        App.showDockIcon(false)
-                        applicationWindow.hide()
-                        root.close()
+                        settings.setValue("alwaysMinimize", true);
+                        settings.sync();
+                        App.showDockIcon(false);
+                        applicationWindow.hide();
+                        root.close();
                     }
                 }
             }

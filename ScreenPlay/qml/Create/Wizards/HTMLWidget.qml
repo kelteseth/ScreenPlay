@@ -2,7 +2,6 @@ import QtQuick
 import QtQuick.Controls.Material
 import QtQuick.Controls
 import QtQuick.Layouts
-
 import ScreenPlayApp
 import ScreenPlay
 import ScreenPlayUtil as Util
@@ -52,7 +51,6 @@ WizardPage {
                         anchors.fill: parent
                         fillMode: Image.PreserveAspectCrop
                     }
-
                 }
 
                 Util.ImageSelector {
@@ -60,7 +58,6 @@ WizardPage {
 
                     Layout.fillWidth: true
                 }
-
             }
 
             ColumnLayout {
@@ -104,11 +101,7 @@ WizardPage {
 
                     Layout.fillWidth: true
                 }
-
             }
-
         }
-
     }
-
 }

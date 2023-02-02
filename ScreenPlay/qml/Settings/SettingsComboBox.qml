@@ -32,7 +32,6 @@ Control {
             left: parent.left
             leftMargin: 20
         }
-
     }
 
     Text {
@@ -54,7 +53,6 @@ Control {
             right: comboBox.left
             rightMargin: 20
         }
-
     }
 
     ComboBox {
@@ -70,7 +68,5 @@ Control {
             rightMargin: 20
             verticalCenter: parent.verticalCenter
         }
-
     }
-
 }

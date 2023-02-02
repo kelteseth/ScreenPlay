@@ -12,6 +12,99 @@
 			"group": "build",
 			"problemMatcher": [],
 			"detail": "CMake template build task"
-		}
+		},
+		{
+			"type": "process",
+            "label": "Format Cpp files",
+            "command": "python",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+			"options": {
+				"cwd": "${workspaceFolder}/Tools"
+			},
+            "args": [
+                "clang_format.py"
+            ]
+        },
+		{
+			"type": "process",
+            "label": "Format CMake files",
+            "command": "python",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+			"options": {
+				"cwd": "${workspaceFolder}/Tools"
+			},
+            "args": [
+                "cmake_format.py"
+            ]
+        },
+		{
+			"type": "process",
+            "label": "Format Qml files",
+            "command": "python",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+			"options": {
+				"cwd": "${workspaceFolder}/Tools"
+			},
+            "args": [
+                "qml_format.py"
+            ]
+        },
+		{
+			"type": "process",
+            "label": "Run setup.py",
+            "command": "python",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+			"options": {
+				"cwd": "${workspaceFolder}/Tools"
+			},
+            "args": [
+                "setup.py"
+            ]
+        },
+		{
+			"type": "process",
+            "label": "Export ScreenPlay release, with deploy and steam enabled",
+            "command": "python",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+			"options": {
+				"cwd": "${workspaceFolder}/Tools"
+			},
+            "args": [
+                "build.py",
+                "-type=release",
+                "-deploy_version",
+                "-steam"
+            ]
+        },
+		{
+			"type": "process",
+            "label": "Update Qt *.ts translations",
+            "command": "python",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+			"options": {
+				"cwd": "${workspaceFolder}/Tools"
+			},
+            "args": [
+                "update_translations.py"
+            ]
+        }
 	]
 }

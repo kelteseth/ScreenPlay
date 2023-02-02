@@ -43,13 +43,10 @@ Scale {
                 to: 1
                 duration: 300
             }
-
         }
 
         PauseAnimation {
             duration: root.loopOffset
         }
-
     }
-
 }

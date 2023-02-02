@@ -41,7 +41,6 @@ Item {
                 left: parent.left
                 margins: 20
             }
-
         }
 
         MouseArea {
@@ -55,7 +54,6 @@ Item {
             snapMode: ScrollBar.SnapOnRelease
             policy: ScrollBar.AlwaysOn
         }
-
     }
 
     Menu {
@@ -67,7 +65,6 @@ Item {
                 App.util.copyToClipboard(txtExpander.text);
             }
         }
-
     }
 
     states: [
@@ -78,7 +75,6 @@ Item {
                 target: root
                 height: 500
             }
-
         },
         State {
             name: "off"
@@ -87,7 +83,6 @@ Item {
                 target: root
                 height: 0
             }
-
         }
     ]
     transitions: [
@@ -101,7 +96,6 @@ Item {
                 property: "height"
                 duration: 250
             }
-
         }
     ]
 }

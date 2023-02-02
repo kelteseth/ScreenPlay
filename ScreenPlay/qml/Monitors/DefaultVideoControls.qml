@@ -19,7 +19,6 @@ ColumnLayout {
             let ourValue = model[i].value;
             if (value === ourValue)
                 return i;
-
         }
         return -1;
     }
@@ -43,7 +42,6 @@ ColumnLayout {
             App.screenPlayManager.setWallpaperValueAtMonitorIndex(activeMonitorIndex, "volume", (Math.round(slVolume.slider.value * 100) / 100));
         }
     }
-
 
     Util.Slider {
         id: slCurrentVideoTime
@@ -83,23 +81,23 @@ ColumnLayout {
             valueRole: "value"
             currentIndex: root.indexOfValue(settingsComboBox.model, App.settings.videoFillMode)
             model: [{
-                "value": FillMode.Stretch,
-                "text": qsTr("Stretch")
-            }, {
-                "value": FillMode.Fill,
-                "text": qsTr("Fill")
-            }, {
-                "value": FillMode.Contain,
-                "text": qsTr("Contain")
-            }, {
-                "value": FillMode.Cover,
-                "text": qsTr("Cover")
-            }, {
-                "value": FillMode.Scale_Down,
-                "text": qsTr("Scale_Down")
-            }]
+                    "value": FillMode.Stretch,
+                    "text": qsTr("Stretch")
+                }, {
+                    "value": FillMode.Fill,
+                    "text": qsTr("Fill")
+                }, {
+                    "value": FillMode.Contain,
+                    "text": qsTr("Contain")
+                }, {
+                    "value": FillMode.Cover,
+                    "text": qsTr("Cover")
+                }, {
+                    "value": FillMode.Scale_Down,
+                    "text": qsTr("Scale_Down")
+                }]
             onActivated: {
-                App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(activeMonitorIndex,settingsComboBox.currentValue);
+                App.screenPlayManager.setWallpaperFillModeAtMonitorIndex(activeMonitorIndex, settingsComboBox.currentValue);
             }
         }
 
@@ -107,7 +105,6 @@ ColumnLayout {
             Layout.fillHeight: true
             Layout.fillWidth: true
         }
-
     }
 
     states: [
@@ -119,7 +116,6 @@ ColumnLayout {
                 opacity: 1
                 anchors.topMargin: 20
             }
-
         },
         State {
             name: "hidden"
@@ -129,7 +125,6 @@ ColumnLayout {
                 opacity: 0
                 anchors.topMargin: -50
             }
-
         }
     ]
     transitions: [
@@ -144,7 +139,6 @@ ColumnLayout {
                 easing.type: Easing.InOutQuart
                 properties: "anchors.topMargin, opacity"
             }
-
         }
     ]
 }

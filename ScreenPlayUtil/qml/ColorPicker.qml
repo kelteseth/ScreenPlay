@@ -23,7 +23,6 @@
     OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
     SOFTWARE.
 */
-
 import QtQuick
 import QtQuick.Layouts
 import QtQuick.Controls
@@ -65,9 +64,9 @@ Pane {
     function hexToRgb(hex) {
         // Expand shorthand form (e.g. "03F") to full form (e.g. "0033FF")
         var shorthandRegex = /^#?([a-f\d])([a-f\d])([a-f\d])$/i;
-        hex = hex.replace(shorthandRegex, function(m, r, g, b) {
-            return r + r + g + g + b + b;
-        });
+        hex = hex.replace(shorthandRegex, function (m, r, g, b) {
+                return r + r + g + g + b + b;
+            });
         var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
         return result ? {
             "r": parseInt(result[1], 16),
@@ -188,9 +187,7 @@ Pane {
                                 position: 1
                                 color: hueColor
                             }
-
                         }
-
                     }
 
                     Rectangle {
@@ -211,9 +208,7 @@ Pane {
                                 position: 0
                                 color: "#00000000"
                             }
-
                         }
-
                     }
 
                     Rectangle {
@@ -234,7 +229,6 @@ Pane {
                             radius: width / 2
                             color: "transparent"
                         }
-
                     }
 
                     MouseArea {
@@ -250,7 +244,6 @@ Pane {
                         onPositionChanged: handleMouse(mouse)
                         onPressed: handleMouse(mouse)
                     }
-
                 }
 
                 Rectangle {
@@ -272,7 +265,6 @@ Pane {
                             PathSvg {
                                 path: "M0,0 L30,0"
                             }
-
                         }
 
                         ShapePath {
@@ -283,9 +275,7 @@ Pane {
                             PathSvg {
                                 path: "M0,-5 L30,-5 L30,4 L0,4z"
                             }
-
                         }
-
                     }
 
                     MouseArea {
@@ -329,11 +319,8 @@ Pane {
                             position: 0
                             color: "#FF0000"
                         }
-
                     }
-
                 }
-
             }
 
             ColumnLayout {
@@ -356,7 +343,6 @@ Pane {
                     onValueChanged: {
                         if (!updatingControls)
                             setCurrentColor();
-
                     }
                 }
 
@@ -375,7 +361,6 @@ Pane {
                     onValueChanged: {
                         if (!updatingControls)
                             setCurrentColor();
-
                     }
                 }
 
@@ -394,14 +379,12 @@ Pane {
                     onValueChanged: {
                         if (!updatingControls)
                             setCurrentColor();
-
                     }
                 }
 
                 Item {
                     Layout.fillHeight: true
                 }
-
             }
 
             Rectangle {
@@ -436,22 +419,16 @@ Pane {
                                     var compColor = Qt.rgba(1, 1, 1, 1);
                                     if (color.hsvValue > 0.5)
                                         compColor = Qt.rgba(0, 0, 0, 1);
-
                                     border.color = compColor;
                                 }
                                 onExited: {
                                     border.width = 0;
                                 }
                             }
-
                         }
-
                     }
-
                 }
-
             }
-
         }
 
         Canvas {
@@ -480,7 +457,6 @@ Pane {
                         PathSvg {
                             path: "M0,0 L30,0"
                         }
-
                     }
 
                     ShapePath {
@@ -491,9 +467,7 @@ Pane {
                         PathSvg {
                             path: "M0,-5 L30,-5 L30,4 L0,4z"
                         }
-
                     }
-
                 }
 
                 MouseArea {
@@ -513,11 +487,8 @@ Pane {
                         position: 1
                         color: "#00000000"
                     }
-
                 }
-
             }
-
         }
 
         ColumnLayout {
@@ -555,11 +526,8 @@ Pane {
                             Layout.fillHeight: true
                             color: currentColor
                         }
-
                     }
-
                 }
-
             }
 
             ColumnLayout {
@@ -580,7 +548,6 @@ Pane {
                         leftPadding: optRgb.indicator.width + optRgb.spacing
                         verticalAlignment: Text.AlignVCenter
                     }
-
                 }
 
                 RadioButton {
@@ -600,9 +567,7 @@ Pane {
                         leftPadding: optHsv.indicator.width + optHsv.spacing
                         verticalAlignment: Text.AlignVCenter
                     }
-
                 }
-
             }
 
             Item {
@@ -623,7 +588,6 @@ Pane {
                     Layout.fillWidth: true
                     color: BppMetrics.textColor
                 }
-
             }
 
             RowLayout {
@@ -640,7 +604,6 @@ Pane {
                     Layout.fillWidth: true
                     color: BppMetrics.textColor
                 }
-
             }
 
             RowLayout {
@@ -657,7 +620,6 @@ Pane {
                     Layout.fillWidth: true
                     color: BppMetrics.textColor
                 }
-
             }
 
             RowLayout {
@@ -674,7 +636,6 @@ Pane {
                     Layout.fillWidth: true
                     color: BppMetrics.textColor
                 }
-
             }
 
             RowLayout {
@@ -691,7 +652,6 @@ Pane {
                     Layout.fillWidth: true
                     color: BppMetrics.textColor
                 }
-
             }
 
             RowLayout {
@@ -708,7 +668,6 @@ Pane {
                     Layout.fillWidth: true
                     color: BppMetrics.textColor
                 }
-
             }
 
             Item {
@@ -729,7 +688,6 @@ Pane {
                     Layout.fillWidth: true
                     color: BppMetrics.textColor
                 }
-
             }
 
             RowLayout {
@@ -751,23 +709,16 @@ Pane {
                     color: BppMetrics.textColor
                     onTextChanged: {
                         if (!hexColor.focus)
-                            return ;
-
+                            return;
                         if (!updatingControls && acceptableInput) {
                             //console.log('updating', rgbColor.r, currentColor.r * 255, rgbColor.g, currentColor.g * 255, rgbColor.b, currentColor.b * 255)
-
                             var rgbColor = hexToRgb(text);
                             if (rgbColor && rgbColor.r !== Math.floor(currentColor.r * 255) && rgbColor.g !== Math.floor(currentColor.g * 255) && rgbColor.b !== Math.floor(currentColor.b * 255))
                                 initColorRGB(rgbColor.r, rgbColor.g, rgbColor.b, currentColor.a * 255);
-
                         }
                     }
                 }
-
             }
-
         }
-
     }
-
 }

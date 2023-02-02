@@ -4,55 +4,51 @@ import QtWebSockets 1.1
 import QtWebEngine 1.8
 import QtMultimedia 5.12
 import Qt.labs.settings 1.1
-
 import org.kde.plasma.core 2.0 as PlasmaCore
 
 Rectangle {
-    id:root
-    color:"orange"
+    id: root
+    color: "orange"
     property bool connected: false
 
     Settings {
-        id:settings
+        id: settings
     }
 
     Component.onCompleted: {
-        wallpaper.projectSourceFileAbsolute = settings.value("SP_projectSourceFileAbsolute","NULL")
-//        if(root.projectSourceFileAbsolute === "NULL")
-//            return
-
-        wallpaper.type = settings.value("SP_type")
-        wallpaper.fillMode = settings.value("SP_fillMode")
+        wallpaper.projectSourceFileAbsolute = settings.value("SP_projectSourceFileAbsolute", "NULL");
+        //        if(root.projectSourceFileAbsolute === "NULL")
+        //            return
+        wallpaper.type = settings.value("SP_type");
+        wallpaper.fillMode = settings.value("SP_fillMode");
         //wallpaper.volume = settings.value("SP_volume")
-        wallpaper.play()
+        wallpaper.play();
     }
 
-
     Wallpaper {
-        id:wallpaper
+        id: wallpaper
         anchors.fill: parent
-       // visible: root.connected
 
-        onFullContentPathChanged: settings.setValue("SP_fullContentPath",fullContentPath)
-        onVolumeChanged: settings.setValue("SP_volume",volume)
-        onFillModeChanged: settings.setValue("SP_fillMode",fillMode)
-        onTypeChanged: settings.setValue("SP_type",type)
-        onProjectSourceFileAbsoluteChanged: settings.setValue("SP_projectSourceFileAbsolute",projectSourceFileAbsolute)
-        onLoopsChanged: settings.setValue("SP_loops",loops)
-
+        // visible: root.connected
+        onFullContentPathChanged: settings.setValue("SP_fullContentPath", fullContentPath)
+        onVolumeChanged: settings.setValue("SP_volume", volume)
+        onFillModeChanged: settings.setValue("SP_fillMode", fillMode)
+        onTypeChanged: settings.setValue("SP_type", type)
+        onProjectSourceFileAbsoluteChanged: settings.setValue("SP_projectSourceFileAbsolute", projectSourceFileAbsolute)
+        onLoopsChanged: settings.setValue("SP_loops", loops)
     }
 
     Timer {
-        id:reconnectTimer
+        id: reconnectTimer
         interval: 1000
         running: true
         repeat: true
         onTriggered: {
             if (socket.status === WebSocket.Open)
-                return
-            socket.active = false
-            socket.active = true
-            reconnectTimer.retryCounter += 1
+                return;
+            socket.active = false;
+            socket.active = true;
+            reconnectTimer.retryCounter += 1;
         }
         property int retryCounter: 0
     }
@@ -61,35 +57,33 @@ Rectangle {
         id: socket
         url: "ws://127.0.0.1:16395"
         onStatusChanged: {
-             if (socket.status === WebSocket.Open)
-                socket.sendTextMessage("Hello World from QML wallpaper")
+            if (socket.status === WebSocket.Open)
+                socket.sendTextMessage("Hello World from QML wallpaper");
         }
 
-        onTextMessageReceived: (message)=> {
-
-            var obj = JSON.parse(message)
-            root.connected = true
-            txtCommand.text = obj.command
-
+        onTextMessageReceived: message => {
+            var obj = JSON.parse(message);
+            root.connected = true;
+            txtCommand.text = obj.command;
             if (obj.command === "replace") {
-                socket.sendTextMessage("replace")
-                wallpaper.type = obj.type
-                wallpaper.fillMode = obj.fillMode
-                wallpaper.volume = obj.volume
-                wallpaper.projectSourceFileAbsolute = "file://" + obj.absolutePath + "/" + obj.file
-                print("got: " + root.projectSourceFileAbsolute)
-                wallpaper.play()
+                socket.sendTextMessage("replace");
+                wallpaper.type = obj.type;
+                wallpaper.fillMode = obj.fillMode;
+                wallpaper.volume = obj.volume;
+                wallpaper.projectSourceFileAbsolute = "file://" + obj.absolutePath + "/" + obj.file;
+                print("got: " + root.projectSourceFileAbsolute);
+                wallpaper.play();
                 return;
-           }
-           if(obj.command === "quit"){
-               wallpaper.stop()
-           }
+            }
+            if (obj.command === "quit") {
+                wallpaper.stop();
+            }
         }
     }
-//    WaitingForScreenplay {
-//        anchors.fill: parent
-//        visible: !root.connected
-//    }
+    //    WaitingForScreenplay {
+    //        anchors.fill: parent
+    //        visible: !root.connected
+    //    }
     Column {
         anchors {
             horizontalCenter: parent.horizontalCenter
@@ -97,7 +91,7 @@ Rectangle {
             margins: 60
         }
         Text {
-            id:txtCommand
+            id: txtCommand
             color: "white"
         }
         Text {
@@ -106,20 +100,15 @@ Rectangle {
         }
         Text {
             color: "white"
-            text: "projectSourceFileAbsolute "  +  wallpaper.projectSourceFileAbsolute
+            text: "projectSourceFileAbsolute " + wallpaper.projectSourceFileAbsolute
         }
         Text {
             color: "white"
-            text:"reconnectTimer.retryCounter : "+ reconnectTimer.retryCounter
+            text: "reconnectTimer.retryCounter : " + reconnectTimer.retryCounter
         }
         Text {
             color: "white"
             text: "MonitorIndex: " + wallpaper.configuration.MonitorIndex
         }
-        
     }
-
-
-
 }
-

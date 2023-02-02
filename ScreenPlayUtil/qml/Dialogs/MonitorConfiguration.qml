@@ -14,7 +14,7 @@ Util.Dialog {
 
     Connections {
         function onMonitorConfigurationChanged() {
-            root.open()
+            root.open();
         }
 
         target: App.monitorListModel

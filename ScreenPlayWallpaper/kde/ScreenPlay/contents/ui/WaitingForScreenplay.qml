@@ -20,27 +20,27 @@ Rectangle {
             font.pixelSize: 50
         }
 
-        OpacityAnimator on opacity{
-               id: createAnimation
-               from: 0;
-               to: 1;
-               duration: 1000
-               onRunningChanged: {
-                   if(!running){
-                       toBeDeleted.opacity = 1
-                       toBeCreated.opacity = 0
-                       destroyAnimation.start()
-                   }
-               }
+        OpacityAnimator on opacity  {
+            id: createAnimation
+            from: 0
+            to: 1
+            duration: 1000
+            onRunningChanged: {
+                if (!running) {
+                    toBeDeleted.opacity = 1;
+                    toBeCreated.opacity = 0;
+                    destroyAnimation.start();
+                }
+            }
         }
         Component.onCompleted: {
-            createAnimation.start()
+            createAnimation.start();
         }
     }
 
     Rectangle {
-        opacity: 0
         id: toBeDeleted
+        opacity: 0
         anchors.fill: parent
         color: "black"
 
@@ -54,21 +54,19 @@ Rectangle {
             font.pixelSize: 50
         }
 
-        OpacityAnimator on opacity{
-               id: destroyAnimation
-               from: 1;
-               to: 0;
-               duration: 1000
-               running: false
-               onRunningChanged: {
-                   if(!running){
-                       toBeDeleted.opacity = 0
-                       toBeCreated.opacity = 0
-                       createAnimation.start()
-                   }
-               }
+        OpacityAnimator on opacity  {
+            id: destroyAnimation
+            from: 1
+            to: 0
+            duration: 1000
+            running: false
+            onRunningChanged: {
+                if (!running) {
+                    toBeDeleted.opacity = 0;
+                    toBeCreated.opacity = 0;
+                    createAnimation.start();
+                }
+            }
         }
     }
 }
-
-

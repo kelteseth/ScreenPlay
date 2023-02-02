@@ -37,15 +37,15 @@ Rectangle {
             id: loaderConnections
 
             function onWizardStarted() {
-                root.expanded = false
+                root.expanded = false;
             }
 
             function onWizardExited() {
-                root.expanded = true
-                stackView.clear(StackView.PushTransition)
-                stackView.push("qrc:/qml/ScreenPlayApp/qml/Create/StartInfo.qml")
-                listView.currentIndex = 0
-                App.util.setNavigationActive(true)
+                root.expanded = true;
+                stackView.clear(StackView.PushTransition);
+                stackView.push("qrc:/qml/ScreenPlayApp/qml/Create/StartInfo.qml");
+                listView.currentIndex = 0;
+                App.util.setNavigationActive(true);
             }
 
             ignoreUnknownSignals: true
@@ -152,9 +152,9 @@ Rectangle {
             highlighted: ListView.isCurrentItem
             text: headline
             onClicked: {
-                listView.currentIndex = index
-                const item = stackView.push(source)
-                loaderConnections.target = item
+                listView.currentIndex = index;
+                const item = stackView.push(source);
+                loaderConnections.target = item;
             }
         }
     }

@@ -23,7 +23,6 @@ Item {
             right: parent.right
             verticalCenter: parent.verticalCenter
         }
-
     }
 
     TextField {
@@ -46,7 +45,5 @@ Item {
             top: parent.top
             topMargin: 10
         }
-
     }
-
 }

@@ -8,12 +8,10 @@ import org.kde.kcm 1.1 as KCM
 import org.kde.kirigami 2.4 as Kirigami
 import org.kde.newstuff 1.1 as NewStuff
 
-
 Column {
     id: root
 
     property alias cfg_MonitorIndex: monitorIndex.text
-
 
     anchors.fill: parent
     spacing: units.largeSpacing
@@ -26,8 +24,5 @@ Column {
             id: monitorIndex
             text: "0"
         }
-
-
     }
-
 }

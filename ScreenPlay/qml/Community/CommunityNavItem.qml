@@ -27,7 +27,6 @@ TabButton {
                 right: txt.left
                 verticalCenter: txt.verticalCenter
             }
-
         }
 
         Text {
@@ -63,12 +62,9 @@ TabButton {
                 topMargin: 15
                 right: parent.right
             }
-
         }
-
     }
 
     background: Item {
     }
-
 }

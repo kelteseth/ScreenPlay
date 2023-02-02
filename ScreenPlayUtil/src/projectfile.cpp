@@ -87,7 +87,7 @@ bool ProjectFile::init()
     if (obj.contains("codec")) {
         if (auto videoCodecOpt = ScreenPlayUtil::getVideoCodecFromString(obj.value("codec").toString())) {
             videoCodec = videoCodecOpt.value();
-        } else{
+        } else {
             qWarning("Invalid videoCodec was specified inside the json object!");
         }
     } else if (type == ScreenPlay::InstalledType::InstalledType::VideoWallpaper) {

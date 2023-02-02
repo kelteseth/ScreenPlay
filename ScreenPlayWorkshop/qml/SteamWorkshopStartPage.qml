@@ -16,13 +16,13 @@ Item {
     property Background background
 
     Component.onCompleted: {
-        root.state = "searching"
-        root.steamWorkshop.searchWorkshopByText("")
+        root.state = "searching";
+        root.steamWorkshop.searchWorkshopByText("");
     }
 
     onVisibleChanged: {
         if (!visible)
-            sidebar.close()
+            sidebar.close();
     }
 
     MouseArea {
@@ -40,16 +40,14 @@ Item {
         id: searchConnection
         target: root.steamWorkshop
         function onWorkshopBannerCompleted() {
-            bannerTxt.text = root.steamWorkshop.workshopListModel.getBannerText(
-                        )
-            background.backgroundImage = root.steamWorkshop.workshopListModel.getBannerUrl()
-            banner.bannerPublishedFileID = root.steamWorkshop.workshopListModel.getBannerID()
-            bannerTxtUnderline.numberSubscriber
-                    = root.steamWorkshop.workshopListModel.getBannerAmountSubscriber()
+            bannerTxt.text = root.steamWorkshop.workshopListModel.getBannerText();
+            background.backgroundImage = root.steamWorkshop.workshopListModel.getBannerUrl();
+            banner.bannerPublishedFileID = root.steamWorkshop.workshopListModel.getBannerID();
+            bannerTxtUnderline.numberSubscriber = root.steamWorkshop.workshopListModel.getBannerAmountSubscriber();
         }
 
         function onWorkshopSearchCompleted(itemCount) {
-            root.state = ""
+            root.state = "";
         }
     }
 
@@ -59,7 +57,7 @@ Item {
 
     Connections {
         function onUserNeedsToAcceptWorkshopLegalAgreement() {
-            popupSteamWorkshopAgreement.open()
+            popupSteamWorkshopAgreement.open();
         }
 
         target: root.steamWorkshop.uploadListModel
@@ -76,9 +74,9 @@ Item {
         onContentYChanged: {
             // Calculate parallax scrolling
             if (contentY >= 0)
-                background.imageOffsetTop = (contentY * -0.4)
+                background.imageOffsetTop = (contentY * -0.4);
             else
-                background.imageOffsetTop = 0
+                background.imageOffsetTop = 0;
         }
 
         Item {
@@ -129,30 +127,6 @@ Item {
 
                     spacing: 10
 
-                    component HeaderLabel: Label {
-                        id: textObj
-                        color: "white"
-                        wrapMode: Text.WrapAnywhere
-                        clip: true
-
-                        width: Math.min(100, textWidth)
-                        readonly property alias textWidth: textMetrics.boundingRect.width
-
-                        TextMetrics {
-                            id: textMetrics
-                            font: textObj.font
-                            text: textObj.text
-                            elide: textObj.elide
-                        }
-
-                        background: Rectangle {
-                            opacity: .9
-                            color: Material.theme
-                                   === Material.Light ? Material.background : "#242424"
-                        }
-                        padding: 10
-                    }
-
                     HeaderLabel {
                         id: bannerTxtUnderline
                         property int numberSubscriber: 0
@@ -161,7 +135,6 @@ Item {
                     }
 
                     HeaderLabel {
-
                         id: bannerTxt
                         font.pointSize: 42
                     }
@@ -175,10 +148,8 @@ Item {
                             highlighted: true
                             icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_download.svg"
                             onClicked: {
-                                text = qsTr("Downloading...")
-                                root.steamWorkshop.subscribeItem(
-                                            root.steamWorkshop.workshopListModel.getBannerID(
-                                                ))
+                                text = qsTr("Downloading...");
+                                root.steamWorkshop.subscribeItem(root.steamWorkshop.workshopListModel.getBannerID());
                             }
                         }
 
@@ -191,16 +162,11 @@ Item {
                                 //icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_info.svg"
                                 visible: false
                                 onClicked: {
-                                    sidebar.setWorkshopItem(
-                                                publishedFileID, imgUrl,
-                                                additionalPreviewUrl,
-                                                subscriptionCount)
+                                    sidebar.setWorkshopItem(publishedFileID, imgUrl, additionalPreviewUrl, subscriptionCount);
                                 }
                             }
                             ToolButton {
-                                onClicked: Qt.openUrlExternally(
-                                               "steam://url/CommunityFilePage/"
-                                               + banner.bannerPublishedFileID)
+                                onClicked: Qt.openUrlExternally("steam://url/CommunityFilePage/" + banner.bannerPublishedFileID)
                                 icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_open_in_new.svg"
                             }
                         }
@@ -247,7 +213,7 @@ Item {
                         width: 70
                         height: 70
                         Component.onCompleted: {
-                            steamWorkshop.steamAccount.loadAvatar()
+                            steamWorkshop.steamAccount.loadAvatar();
                         }
 
                         anchors {
@@ -257,8 +223,8 @@ Item {
 
                         Connections {
                             function onAvatarChanged(_avatar) {
-                                avatar.setImage(_avatar)
-                                avatarPlaceholder.opacity = 0
+                                avatar.setImage(_avatar);
+                                avatarPlaceholder.opacity = 0;
                             }
 
                             target: steamWorkshop.steamAccount
@@ -283,12 +249,10 @@ Item {
                         text: qsTr("Profile")
                         icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_account_circle.svg"
                         onClicked: {
-                            stackView.push(
-                                        "qrc:/qml/ScreenPlayWorkshop/qml/SteamProfile.qml",
-                                        {
-                                            "screenPlayWorkshop": root.screenPlayWorkshop,
-                                            "steamWorkshop": root.steamWorkshop
-                                        })
+                            stackView.push("qrc:/qml/ScreenPlayWorkshop/qml/SteamProfile.qml", {
+                                    "screenPlayWorkshop": root.screenPlayWorkshop,
+                                    "steamWorkshop": root.steamWorkshop
+                                });
                         }
                     }
 
@@ -304,12 +268,10 @@ Item {
                         text: qsTr("Upload")
                         icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_file_upload.svg"
                         onClicked: {
-                            stackView.push(
-                                        "qrc:/qml/ScreenPlayWorkshop/qml/upload/UploadProject.qml",
-                                        {
-                                            "screenPlayWorkshop": root.screenPlayWorkshop,
-                                            "steamWorkshop": root.steamWorkshop
-                                        })
+                            stackView.push("qrc:/qml/ScreenPlayWorkshop/qml/upload/UploadProject.qml", {
+                                    "screenPlayWorkshop": root.screenPlayWorkshop,
+                                    "steamWorkshop": root.steamWorkshop
+                                });
                         }
                     }
 
@@ -328,9 +290,8 @@ Item {
                         ToolButton {
                             icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_search.svg"
                             onClicked: {
-                                root.state = "searching"
-                                root.steamWorkshop.searchWorkshopByText(
-                                            tiSearch.text)
+                                root.state = "searching";
+                                root.steamWorkshop.searchWorkshopByText(tiSearch.text);
                             }
                             icon.width: 20
                             icon.height: 20
@@ -349,22 +310,17 @@ Item {
                             // WORKAROUND:
                             // onEditingFinished causes internal qml layout crash in Qt 6.4
                             Keys.onReturnPressed: event => {
-                                                      event.accepted = true
-                                                      if (root.state === "searching") {
-                                                          print("SEARCHING")
-                                                          return
-                                                      }
-
-                                                      root.state = "searching"
-                                                      print("EDITING FINISHED",
-                                                            root.state)
-                                                      if (tiSearch.text === "")
-                                                      return root.steamWorkshop.searchWorkshop(
-                                                          SteamEnums.K_EUGCQuery_RankedByTrend)
-
-                                                      root.steamWorkshop.searchWorkshopByText(
-                                                          tiSearch.text)
-                                                  }
+                                event.accepted = true;
+                                if (root.state === "searching") {
+                                    print("SEARCHING");
+                                    return;
+                                }
+                                root.state = "searching";
+                                print("EDITING FINISHED", root.state);
+                                if (tiSearch.text === "")
+                                    return root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
+                                root.steamWorkshop.searchWorkshopByText(tiSearch.text);
+                            }
 
                             leftInset: -20
                             leftPadding: 20
@@ -379,10 +335,9 @@ Item {
                         ToolButton {
                             icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_close.svg"
                             onClicked: {
-                                root.state = "searching"
-                                tiSearch.text = ""
-                                root.steamWorkshop.searchWorkshop(
-                                            SteamEnums.K_EUGCQuery_RankedByTrend)
+                                root.state = "searching";
+                                tiSearch.text = "";
+                                root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
                             }
                             enabled: tiSearch.text !== ""
                             icon.width: 20
@@ -414,8 +369,7 @@ Item {
                         Button {
                             text: qsTr("Open Workshop in Steam")
                             font.capitalization: Font.Capitalize
-                            onClicked: Qt.openUrlExternally(
-                                           "steam://url/SteamWorkshopPage/672870")
+                            onClicked: Qt.openUrlExternally("steam://url/SteamWorkshopPage/672870")
                             icon.source: "qrc:/qml/ScreenPlayWorkshop/assets/icons/icon_steam.svg"
                             icon.width: 18
                             icon.height: 18
@@ -464,9 +418,8 @@ Item {
                                 "text": qsTr("Total Unique Subscriptions")
                             }]
                         onActivated: {
-                            root.state = "searching"
-                            root.steamWorkshop.searchWorkshop(
-                                        cbQuerySort.currentValue)
+                            root.state = "searching";
+                            root.steamWorkshop.searchWorkshop(cbQuerySort.currentValue);
                         }
 
                         anchors {
@@ -487,10 +440,7 @@ Item {
                 itemIndex: index
                 steamWorkshop: root.steamWorkshop
                 onClicked: {
-                    sidebar.setWorkshopItem(m_publishedFileID,
-                                            m_workshopPreview,
-                                            additionalPreviewUrl,
-                                            subscriptionCount)
+                    sidebar.setWorkshopItem(m_publishedFileID, m_workshopPreview, additionalPreviewUrl, subscriptionCount);
                 }
             }
 
@@ -516,11 +466,9 @@ Item {
                     text: qsTr("Back")
                     enabled: root.steamWorkshop.workshopListModel.currentPage > 1
                     onClicked: {
-                        root.state = "searching"
-                        root.steamWorkshop.workshopListModel.setCurrentPage(
-                                    root.steamWorkshop.workshopListModel.currentPage - 1)
-                        root.steamWorkshop.searchWorkshop(
-                                    SteamEnums.K_EUGCQuery_RankedByTrend)
+                        root.state = "searching";
+                        root.steamWorkshop.workshopListModel.setCurrentPage(root.steamWorkshop.workshopListModel.currentPage - 1);
+                        root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
                     }
                 }
 
@@ -528,8 +476,7 @@ Item {
                     id: txtPage
 
                     Layout.alignment: Qt.AlignVCenter
-                    text: root.steamWorkshop.workshopListModel.currentPage + "/"
-                          + root.steamWorkshop.workshopListModel.pages
+                    text: root.steamWorkshop.workshopListModel.currentPage + "/" + root.steamWorkshop.workshopListModel.pages
                     color: Material.primaryTextColor
                 }
 
@@ -538,14 +485,11 @@ Item {
 
                     Layout.alignment: Qt.AlignVCenter
                     text: qsTr("Forward")
-                    enabled: root.steamWorkshop.workshopListModel.currentPage
-                             <= root.steamWorkshop.workshopListModel.pages - 1
+                    enabled: root.steamWorkshop.workshopListModel.currentPage <= root.steamWorkshop.workshopListModel.pages - 1
                     onClicked: {
-                        root.state = "searching"
-                        root.steamWorkshop.workshopListModel.setCurrentPage(
-                                    root.steamWorkshop.workshopListModel.currentPage + 1)
-                        root.steamWorkshop.searchWorkshop(
-                                    SteamEnums.K_EUGCQuery_RankedByTrend)
+                        root.state = "searching";
+                        root.steamWorkshop.workshopListModel.setCurrentPage(root.steamWorkshop.workshopListModel.currentPage + 1);
+                        root.steamWorkshop.searchWorkshop(SteamEnums.K_EUGCQuery_RankedByTrend);
                     }
                 }
 
@@ -555,7 +499,7 @@ Item {
             }
         }
 
-        Behavior on contentHeight {
+        Behavior on contentHeight  {
             PropertyAnimation {
                 duration: 400
                 property: "contentHeight"
@@ -568,16 +512,39 @@ Item {
         }
     }
 
+    component HeaderLabel: Label {
+        id: textObj
+        color: "white"
+        wrapMode: Text.WrapAnywhere
+        clip: true
+
+        width: Math.min(100, textWidth)
+        readonly property alias textWidth: textMetrics.boundingRect.width
+
+        TextMetrics {
+            id: textMetrics
+            font: textObj.font
+            text: textObj.text
+            elide: textObj.elide
+        }
+
+        background: Rectangle {
+            opacity: .9
+            color: Material.theme === Material.Light ? Material.background : "#242424"
+        }
+        padding: 10
+    }
+
     Sidebar {
         id: sidebar
 
         topMargin: 60
         steamWorkshop: root.steamWorkshop
         onTagClicked: tag => {
-                          gridView.headerItem.searchField.text = tag
-                          root.steamWorkshop.searchWorkshopByText(tag)
-                          sidebar.close()
-                      }
+            gridView.headerItem.searchField.text = tag;
+            root.steamWorkshop.searchWorkshopByText(tag);
+            sidebar.close();
+        }
     }
 
     states: [

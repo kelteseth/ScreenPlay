@@ -6,7 +6,7 @@ import QtQuick.Layouts
 import ScreenPlayApp
 import ScreenPlay
 import ScreenPlay.Create
-import ScreenPlayUtil 
+import ScreenPlayUtil
 
 Item {
     id: root
@@ -42,7 +42,6 @@ Item {
             right: wrapper.right
             topMargin: 3
         }
-
     }
 
     Rectangle {
@@ -53,7 +52,6 @@ Item {
         radius: 4
         width: {
             // Add small margin left and right
-
             if (parent.width < 1200)
                 return parent.width - 20;
             else
@@ -86,9 +84,7 @@ Item {
                     App.util.setNavigation("Create");
                 }
             }
-
         }
-
     }
 
     states: [
@@ -105,7 +101,6 @@ Item {
                 target: effect
                 opacity: 0
             }
-
         },
         State {
             name: "in"
@@ -125,7 +120,6 @@ Item {
                 target: effect
                 opacity: 0.4
             }
-
         },
         State {
             name: "error"
@@ -146,7 +140,6 @@ Item {
                 opacity: 1
                 z: 1
             }
-
         },
         State {
             name: "success"
@@ -167,7 +160,6 @@ Item {
                 opacity: 0
                 z: 0
             }
-
         }
     ]
     transitions: [
@@ -206,13 +198,9 @@ Item {
                             property: "opacity"
                             easing.type: Easing.OutQuart
                         }
-
                     }
-
                 }
-
             }
-
         },
         Transition {
             from: "in"
@@ -244,11 +232,8 @@ Item {
                         property: "opacity"
                         easing.type: Easing.OutQuart
                     }
-
                 }
-
             }
-
         },
         Transition {
             from: "in"
@@ -265,9 +250,7 @@ Item {
                 PauseAnimation {
                     duration: 50
                 }
-
             }
-
         }
     ]
 }

@@ -10,7 +10,6 @@ Rectangle {
     implicitWidth: 1366
     implicitHeight: 768
 
-
     Text {
         id: name
         text: qsTr("My ScreenPlay Wallpaper 🚀")

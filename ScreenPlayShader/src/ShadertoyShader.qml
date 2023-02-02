@@ -152,5 +152,4 @@ qt_TexCoord0 = qt_MultiTexCoord0;
             root.iDate.w = currentDate.getSeconds();
         }
     }
-
 }

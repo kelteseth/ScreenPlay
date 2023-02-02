@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/app.h"
-#include <QGuiApplication>
 #include <QCommandLineParser>
 #include <QDebug>
+#include <QGuiApplication>
 #include <QStyleFactory>
 
 #if defined(Q_OS_WIN)

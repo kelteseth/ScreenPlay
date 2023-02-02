@@ -42,7 +42,6 @@ Item {
                 Layout.fillWidth: true
             }
 
-
             Button {
                 text: qsTr("News")
                 onClicked: Qt.openUrlExternally("https://screen-play.app/blog/")
@@ -54,8 +53,7 @@ Item {
 
             Button {
                 text: qsTr("Wiki")
-                onClicked: Qt.openUrlExternally(
-                               "https://kelteseth.gitlab.io/ScreenPlayDocs/")
+                onClicked: Qt.openUrlExternally("https://kelteseth.gitlab.io/ScreenPlayDocs/")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_help_center.svg"
                 icon.width: 14
                 icon.height: 14
@@ -64,8 +62,7 @@ Item {
 
             Button {
                 text: qsTr("Forum")
-                onClicked: Qt.openUrlExternally(
-                               "https://forum.screen-play.app/")
+                onClicked: Qt.openUrlExternally("https://forum.screen-play.app/")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_forum.svg"
                 icon.width: 14
                 icon.height: 14
@@ -74,8 +71,7 @@ Item {
 
             Button {
                 text: qsTr("Reddit")
-                onClicked: Qt.openUrlExternally(
-                               "https://www.reddit.com/r/ScreenPlayApp/")
+                onClicked: Qt.openUrlExternally("https://www.reddit.com/r/ScreenPlayApp/")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/brand_reddit.svg"
                 icon.width: 14
                 icon.height: 14
@@ -84,8 +80,7 @@ Item {
 
             Button {
                 text: qsTr("Issue Tracker")
-                onClicked: Qt.openUrlExternally(
-                               "https://gitlab.com/kelteseth/ScreenPlay/-/issues")
+                onClicked: Qt.openUrlExternally("https://gitlab.com/kelteseth/ScreenPlay/-/issues")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_report_problem.svg"
                 icon.width: 14
                 icon.height: 14
@@ -94,8 +89,7 @@ Item {
 
             Button {
                 text: qsTr("Contribute")
-                onClicked: Qt.openUrlExternally(
-                               "https://gitlab.com/kelteseth/ScreenPlay#general-contributing")
+                onClicked: Qt.openUrlExternally("https://gitlab.com/kelteseth/ScreenPlay#general-contributing")
                 icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_supervisor_account.svg"
                 icon.width: 14
                 icon.height: 14
@@ -115,7 +109,6 @@ Item {
                 Layout.fillHeight: true
                 Layout.fillWidth: true
             }
-
         }
     }
 

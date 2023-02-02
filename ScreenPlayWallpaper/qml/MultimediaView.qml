@@ -10,15 +10,14 @@ Item {
     property string fillMode: Wallpaper.fillMode
     onFillModeChanged: {
         // Convert Web based video modes to the limited Qt fillModes
-        if (fillMode === "cover" || fillMode === "stretch"
-                || fillMode === "contain") {
-            return vo.fillMode = VideoOutput.Stretch
+        if (fillMode === "cover" || fillMode === "stretch" || fillMode === "contain") {
+            return vo.fillMode = VideoOutput.Stretch;
         }
         if (fillMode === "fill") {
-            return vo.fillMode = VideoOutput.PreserveAspectFit
+            return vo.fillMode = VideoOutput.PreserveAspectFit;
         }
         if (fillMode === "scale_down") {
-            return vo.fillMode = VideoOutput.PreserveAspectCrop
+            return vo.fillMode = VideoOutput.PreserveAspectCrop;
         }
     }
 
@@ -29,18 +28,18 @@ Item {
     property string source: Wallpaper.projectSourceFileAbsolute
     onSourceChanged: {
         // Qt 6.3 workaround
-        mediaPlayer.stop()
-        mediaPlayer.source = Qt.resolvedUrl(root.source)
-        mediaPlayer.play()
+        mediaPlayer.stop();
+        mediaPlayer.source = Qt.resolvedUrl(root.source);
+        mediaPlayer.play();
     }
 
     MediaPlayer {
         id: mediaPlayer
-     onPlaybackStateChanged:{
-         if( mediaPlayer.playbackState == MediaPlayer.PlayingState){
-             root.ready = true
-         }
-     }
+        onPlaybackStateChanged: {
+            if (mediaPlayer.playbackState == MediaPlayer.PlayingState) {
+                root.ready = true;
+            }
+        }
         loops: root.loops ? MediaPlayer.Infinite : 1
         videoOutput: vo
         audioOutput: ao
@@ -59,21 +58,20 @@ Item {
     Connections {
         function onFillModeChanged(fillMode) {
             if (fillMode === "stretch") {
-                vo.fillMode = VideoOutput.Stretch
-                return
+                vo.fillMode = VideoOutput.Stretch;
+                return;
             }
             if (fillMode === "fill") {
-                vo.fillMode = VideoOutput.PreserveAspectFit
-                return
+                vo.fillMode = VideoOutput.PreserveAspectFit;
+                return;
             }
-            if (fillMode === "contain" || fillMode === "cover"
-                    || fillMode === "scale-down") {
-                vo.fillMode = VideoOutput.PreserveAspectCrop
+            if (fillMode === "contain" || fillMode === "cover" || fillMode === "scale-down") {
+                vo.fillMode = VideoOutput.PreserveAspectCrop;
             }
         }
 
         function onCurrentTimeChanged(currentTime) {
-            mediaPlayer.position = currentTime * mediaPlayer.duration
+            mediaPlayer.position = currentTime * mediaPlayer.duration;
         }
 
         target: Wallpaper

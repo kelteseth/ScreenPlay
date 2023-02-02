@@ -35,7 +35,6 @@ Item {
             left: parent.left
             leftMargin: root.isHeadline ? 0 : 25
         }
-
     }
 
     Item {
@@ -43,8 +42,7 @@ Item {
         visible: !root.isHeadline
         Component.onCompleted: {
             if (root.isHeadline)
-                return ;
-
+                return;
             switch (root.value["type"]) {
             case "slider":
                 loader.sourceComponent = compSlider;
@@ -64,7 +62,6 @@ Item {
             }
             if (root.value["text"])
                 txtDescription.text = root.value["text"];
-
         }
 
         anchors {
@@ -86,7 +83,6 @@ Item {
 
                 target: loader.item
             }
-
         }
 
         Component {
@@ -119,11 +115,8 @@ Item {
                         right: parent.right
                         verticalCenter: parent.verticalCenter
                     }
-
                 }
-
             }
-
         }
 
         Component {
@@ -148,7 +141,6 @@ Item {
                         right: parent.right
                         verticalCenter: parent.verticalCenter
                     }
-
                 }
 
                 Rectangle {
@@ -166,7 +158,6 @@ Item {
                         rightMargin: 20
                         verticalCenter: parent.verticalCenter
                     }
-
                 }
 
                 ColorDialog {
@@ -184,9 +175,7 @@ Item {
                         App.screenPlayManager.setWallpaperValueAtMonitorIndex(selectedMonitor, name, tmpColor);
                     }
                 }
-
             }
-
         }
 
         Component {
@@ -233,7 +222,6 @@ Item {
                         left: parent.left
                         leftMargin: 20
                     }
-
                 }
 
                 Text {
@@ -247,13 +235,8 @@ Item {
                         right: parent.right
                         verticalCenter: parent.verticalCenter
                     }
-
                 }
-
             }
-
         }
-
     }
-
 }

@@ -44,7 +44,6 @@ Item {
         layer.effect: ElevationEffect {
             elevation: 6
         }
-
     }
 
     Item {
@@ -71,7 +70,6 @@ Item {
                     left: parent.left
                     bottom: parent.bottom
                 }
-
             }
 
             Image {
@@ -86,7 +84,6 @@ Item {
                     left: parent.left
                     margins: 10
                 }
-
             }
 
             ColumnLayout {
@@ -111,7 +108,6 @@ Item {
                     text: qsTr("Type: ") + m_type
                     color: Material.foreground
                 }
-
             }
 
             Button {
@@ -123,7 +119,6 @@ Item {
                     bottom: parent.bottom
                     margins: 20
                 }
-
             }
 
             Text {
@@ -135,7 +130,6 @@ Item {
                 font.pointSize: 18
                 opacity: 0
             }
-
         }
 
         CheckBox {
@@ -154,9 +148,7 @@ Item {
                 right: parent.right
                 margins: 10
             }
-
         }
-
     }
 
     states: [
@@ -173,7 +165,6 @@ Item {
                 target: icnType
                 opacity: 0.5
             }
-
         },
         State {
             name: "invalid"
@@ -187,7 +178,6 @@ Item {
                 target: txtInvalidError
                 opacity: 1
             }
-
         }
     ]
     transitions: [
@@ -200,7 +190,6 @@ Item {
                 target: txtInvalidError
                 duration: 250
             }
-
         }
     ]
 }

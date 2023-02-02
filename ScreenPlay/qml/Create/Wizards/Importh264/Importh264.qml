@@ -23,11 +23,11 @@ Item {
 
         Importh264Init {
             onNext: function (filePath) {
-                root.wizardStarted()
-                swipeView.currentIndex = 1
-                createWallpaperVideoImportConvert.filePath = filePath
-                App.util.setNavigationActive(false)
-                App.create.importH264(filePath)
+                root.wizardStarted();
+                swipeView.currentIndex = 1;
+                createWallpaperVideoImportConvert.filePath = filePath;
+                App.util.setNavigationActive(false);
+                App.create.importH264(filePath);
             }
         }
 

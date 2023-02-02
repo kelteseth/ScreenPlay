@@ -33,7 +33,6 @@ Item {
                 y: 0
                 z: 0
             }
-
         },
         Translate {
             id: tr
@@ -62,7 +61,6 @@ Item {
             top: parent.top
             topMargin: 3
         }
-
     }
 
     Timer {
@@ -114,7 +112,6 @@ Item {
             easing.type: Easing.OutQuint
             properties: "xScale,yScale"
         }
-
     }
 
     Item {
@@ -177,9 +174,7 @@ Item {
                         position: 1
                         color: "#00000000"
                     }
-
                 }
-
             }
 
             Text {
@@ -202,7 +197,6 @@ Item {
                     leftMargin: 20
                     bottomMargin: -50
                 }
-
             }
 
             Item {
@@ -224,9 +218,7 @@ Item {
                     sourceSize: Qt.size(parent.width, parent.height)
                     fillMode: Image.PreserveAspectFit
                 }
-
             }
-
         }
 
         OpacityMask {
@@ -264,9 +256,7 @@ Item {
                     top: parent.top
                     right: parent.right
                 }
-
             }
-
         }
 
         FastBlur {
@@ -306,11 +296,8 @@ Item {
                     left: parent.left
                     leftMargin: 20
                 }
-
             }
-
         }
-
     }
 
     states: [
@@ -337,7 +324,6 @@ Item {
                 target: effBlur
                 radius: 0
             }
-
         },
         State {
             name: "downloading"
@@ -367,7 +353,6 @@ Item {
                 opacity: 1
                 anchors.topMargin: 0
             }
-
         },
         State {
             name: "installed"
@@ -397,7 +382,6 @@ Item {
                 target: txtDownloading
                 text: qsTr("Download complete!")
             }
-
         }
     ]
     transitions: [
@@ -423,7 +407,6 @@ Item {
                 duration: 100
                 properties: "opacity"
             }
-
         },
         Transition {
             from: "*"
@@ -454,9 +437,7 @@ Item {
                     duration: 200
                     properties: "opacity, anchors.topMargin"
                 }
-
             }
-
         }
     ]
 }

@@ -8,7 +8,6 @@ import ScreenPlayWorkshop
 import WorkshopEnums
 
 Page {
-
     id: root
 
     property string previewImagePath
@@ -27,10 +26,10 @@ Page {
         switch (steamStatus) {
         case SteamEnums.K_EResultNone:
             root.contentItem.state = "uploadComplete";
-            return ;
+            return;
         case SteamEnums.K_EResultOK:
             root.contentItem.state = "uploadComplete";
-            return ;
+            return;
         case SteamEnums.K_EResultFail:
             errorText = qsTr("Fail");
             break;
@@ -387,7 +386,6 @@ Page {
         layer.effect: ElevationEffect {
             elevation: 6
         }
-
     }
 
     contentItem: Item {
@@ -429,11 +427,8 @@ Page {
                         position: 1
                         color: "#00000000"
                     }
-
                 }
-
             }
-
         }
 
         ColumnLayout {
@@ -498,9 +493,7 @@ Page {
                     value: root.progress
                     to: 100
                 }
-
             }
-
         }
 
         states: [
@@ -509,7 +502,6 @@ Page {
 
                 PropertyChanges {
                 }
-
             },
             State {
                 name: "uploadComplete"
@@ -533,7 +525,6 @@ Page {
                     target: gradientStop1
                     color: Material.color(Material.LightGreen)
                 }
-
             },
             State {
                 name: "error"
@@ -552,7 +543,6 @@ Page {
                     target: gradientStop1
                     color: Material.color(Material.DeepOrange)
                 }
-
             }
         ]
         transitions: [
@@ -564,9 +554,7 @@ Page {
                     targets: [gradient, gradientStop0, gradientStop1]
                     duration: 500
                 }
-
             }
         ]
     }
-
 }

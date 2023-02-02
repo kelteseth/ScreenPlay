@@ -25,11 +25,11 @@ Window {
     }
 
     function stringListToString(list) {
-        let out = ""
+        let out = "";
         for (var i = 0; i < list.length; i++) {
-            out += "\n" + list[i]
+            out += "\n" + list[i];
         }
-        return out
+        return out;
     }
 
     Rectangle {
@@ -45,13 +45,12 @@ Window {
     }
 
     RowLayout {
-        id:wrapper
+        id: wrapper
         spacing: 40
         anchors.centerIn: parent
         ColumnLayout {
             id: wrapperLeft
             Layout.preferredWidth: 500
-
 
             ColumnLayout {
                 spacing: 10
@@ -67,8 +66,7 @@ Window {
                     }
                 }
                 Text {
-                    text: root.stringListToString(
-                              ipAddress.privateIpV4AddressList)
+                    text: root.stringListToString(ipAddress.privateIpV4AddressList)
                     color: root.accentColor
                     font {
                         pointSize: 16
@@ -76,8 +74,7 @@ Window {
                     }
                 }
                 Text {
-                    text: root.stringListToString(
-                              ipAddress.privateIpV6AddressList)
+                    text: root.stringListToString(ipAddress.privateIpV6AddressList)
                     color: root.accentColor
                     font {
                         pointSize: 16
@@ -235,7 +232,6 @@ Window {
                 font.pointSize: 36
                 horizontalAlignment: Text.AlignHCenter
             }
-
 
             ListView {
                 id: storageListView

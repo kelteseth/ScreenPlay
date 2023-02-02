@@ -21,84 +21,81 @@ Item {
     signal save
 
     function cleanup() {
-        App.create.cancel()
+        App.create.cancel();
     }
 
     function basename(str) {
-        let filenameWithExtentions = (str.slice(str.lastIndexOf("/") + 1))
-        let filename = filenameWithExtentions.split('.').slice(0, -1).join('.')
-        return filename
+        let filenameWithExtentions = (str.slice(str.lastIndexOf("/") + 1));
+        let filename = filenameWithExtentions.split('.').slice(0, -1).join('.');
+        return filename;
     }
 
     function checkCanSave() {
         if (canSave && conversionFinishedSuccessful)
-            btnSave.enabled = true
+            btnSave.enabled = true;
         else
-            btnSave.enabled = false
+            btnSave.enabled = false;
     }
 
     onCanSaveChanged: root.checkCanSave()
     onFilePathChanged: {
-        textFieldName.text = basename(filePath)
+        textFieldName.text = basename(filePath);
     }
 
     Connections {
         function onCreateWallpaperStateChanged(state) {
             switch (state) {
             case ImportVideoState.ConvertingPreviewImage:
-                txtConvert.text = qsTr("Generating preview image...")
-                break
+                txtConvert.text = qsTr("Generating preview image...");
+                break;
             case ImportVideoState.ConvertingPreviewThumbnailImage:
-                txtConvert.text = qsTr("Generating preview thumbnail image...")
-                break
+                txtConvert.text = qsTr("Generating preview thumbnail image...");
+                break;
             case ImportVideoState.ConvertingPreviewImageFinished:
-                imgPreview.source = "file:///" + App.create.workingDir + "/preview.jpg"
-                imgPreview.visible = true
-                break
+                imgPreview.source = "file:///" + App.create.workingDir + "/preview.jpg";
+                imgPreview.visible = true;
+                break;
             case ImportVideoState.ConvertingPreviewVideo:
-                txtConvert.text = qsTr("Generating 5 second preview video...")
-                break
+                txtConvert.text = qsTr("Generating 5 second preview video...");
+                break;
             case ImportVideoState.ConvertingPreviewGif:
-                txtConvert.text = qsTr("Generating preview gif...")
-                break
+                txtConvert.text = qsTr("Generating preview gif...");
+                break;
             case ImportVideoState.ConvertingPreviewGifFinished:
-                gifPreview.source = "file:///" + App.create.workingDir + "/preview.gif"
-                imgPreview.visible = false
-                gifPreview.visible = true
-                gifPreview.playing = true
-                break
+                gifPreview.source = "file:///" + App.create.workingDir + "/preview.gif";
+                imgPreview.visible = false;
+                gifPreview.visible = true;
+                gifPreview.playing = true;
+                break;
             case ImportVideoState.ConvertingAudio:
-                txtConvert.text = qsTr("Converting Audio...")
-                break
+                txtConvert.text = qsTr("Converting Audio...");
+                break;
             case ImportVideoState.ConvertingVideo:
-                txtConvert.text = qsTr(
-                            "Converting Video... This can take some time!")
-                break
+                txtConvert.text = qsTr("Converting Video... This can take some time!");
+                break;
             case ImportVideoState.ConvertingVideoError:
-                txtConvert.text = qsTr("Converting Video ERROR!")
-                break
+                txtConvert.text = qsTr("Converting Video ERROR!");
+                break;
             case ImportVideoState.AnalyseVideoError:
-                txtConvert.text = qsTr("Analyse Video ERROR!")
-                break
+                txtConvert.text = qsTr("Analyse Video ERROR!");
+                break;
             case ImportVideoState.Finished:
-                txtConvert.text = ""
-                conversionFinishedSuccessful = true
-                busyIndicator.running = false
+                txtConvert.text = "";
+                conversionFinishedSuccessful = true;
+                busyIndicator.running = false;
                 btnExit.enabled = false;
-                root.checkCanSave()
-                break
+                root.checkCanSave();
+                break;
             }
         }
 
         function onProgressChanged(progress) {
-            var percentage = Math.floor(progress * 100)
+            var percentage = Math.floor(progress * 100);
             if (percentage > 100 || progress > 0.95)
-                percentage = 100
-
+                percentage = 100;
             if (percentage === NaN)
-                print(progress, percentage)
-
-            txtConvertNumber.text = percentage + "%"
+                print(progress, percentage);
+            txtConvertNumber.text = percentage + "%";
         }
 
         target: App.create
@@ -278,9 +275,9 @@ Item {
                 Layout.fillWidth: true
                 onTextChanged: {
                     if (textFieldName.text.length >= 3)
-                        canSave = true
+                        canSave = true;
                     else
-                        canSave = false
+                        canSave = false;
                 }
             }
 
@@ -330,8 +327,8 @@ Item {
                 highlighted: true
                 font.family: App.settings.font
                 onClicked: {
-                    root.abort()
-                    App.create.cancel()
+                    root.abort();
+                    App.create.cancel();
                 }
             }
 
@@ -345,14 +342,9 @@ Item {
                 font.family: App.settings.font
                 onClicked: {
                     if (conversionFinishedSuccessful) {
-                        btnSave.enabled = false
-                        App.create.saveWallpaper(
-                                    textFieldName.text,
-                                    textFieldDescription.text, root.filePath,
-                                    previewSelector.imageSource,
-                                    textFieldYoutubeURL.text, codec,
-                                    textFieldTags.getTags())
-                        savePopup.open()
+                        btnSave.enabled = false;
+                        App.create.saveWallpaper(textFieldName.text, textFieldDescription.text, root.filePath, previewSelector.imageSource, textFieldYoutubeURL.text, codec, textFieldTags.getTags());
+                        savePopup.open();
                     }
                 }
             }
@@ -388,9 +380,9 @@ Item {
 
             interval: 1000 + Math.random() * 1000
             onTriggered: {
-                savePopup.close()
-                App.util.setNavigationActive(true)
-                App.util.setNavigation("Installed")
+                savePopup.close();
+                App.util.setNavigationActive(true);
+                App.util.setNavigation("Installed");
             }
         }
     }
