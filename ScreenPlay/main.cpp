@@ -1,9 +1,10 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
 #include "ScreenPlay/app.h"
-#include <QApplication>
+#include <QGuiApplication>
 #include <QCommandLineParser>
 #include <QDebug>
+#include <QStyleFactory>
 
 #if defined(Q_OS_WIN)
 #include <sentry.h>
@@ -22,12 +23,7 @@ int main(int argc, char* argv[])
     qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
 
-#if defined(Q_OS_WIN)
-    // https://bugreports.qt.io/browse/QTBUG-72028
-    qputenv("QT_QPA_PLATFORM", "windows:darkmode=2");
-#endif
-
-    QApplication qtGuiApp(argc, argv);
+    QGuiApplication qtGuiApp(argc, argv);
     ScreenPlay::App app;
 
     if (app.m_isAnotherScreenPlayInstanceRunning) {
