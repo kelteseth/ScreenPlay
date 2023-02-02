@@ -47,7 +47,7 @@ python -m pip install -r requirements.txt
 python setup.py
 ```
 Now you can either use VSCode or QtCreator:
-# Option 1: Setup VSCode and compile ScreenPlay
+# Option 1 (Recommended): Setup VSCode and compile ScreenPlay
 1. Open VSCode
 1. Install these extentions:
    1. [C/C++ for Visual Studio Code](https://marketplace.visualstudio.com/items?itemName=ms-vscode.cpptools)
@@ -55,7 +55,9 @@ Now you can either use VSCode or QtCreator:
 2. Press: `CTRL` + `SHIFT` + `P` for every command:
    1. `CMake: Select Configure Preset`. Select one of the listed presets like `MSVC SP Qt 6.4.2 Debug`
    2. `CMake: Configure`
-3. Press `F7` to Compile and `F5` to run!
+4. Press `F7` to Compile and `F5` to run!
+
+⚠️ Do not forget to switch you CMake build target when switching run targets! For example you need to select the `debug` run target when you compile in `debug` mode!
 # Option 2: Setup QtCreator and compile ScreenPlay
 1. Open QtCreator at:
       1. Windows: `..\aqt\Tools\QtCreator\bin\qtcreator.exe`
