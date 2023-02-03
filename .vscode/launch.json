@@ -78,7 +78,6 @@
                         "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\qml\\;"
                     }
                 ],
-                "type": "lldb",
                 "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_MSVC_Debug/bin/ScreenPlayWallpaper.exe"
             },
             "osx": {
@@ -108,7 +107,6 @@
                         "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\qml\\;"
                     }
                 ],
-                "type": "lldb",
                 "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_MSVC_RelWithDebInfo/bin/ScreenPlayWallpaper.exe"
             },
             "osx": {
@@ -138,7 +136,6 @@
                         "value": "${env:Path};${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\bin\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\modules\\;${workspaceFolder}\\..\\aqt\\6.5.0\\msvc2019_64\\qml\\;"
                     }
                 ],
-                "type": "cppvsdbg",
                 "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_MSVC_Debug/bin/ScreenPlayWidget.exe"
             },
             "osx": {
