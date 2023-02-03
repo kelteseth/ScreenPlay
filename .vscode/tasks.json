@@ -16,7 +16,8 @@
 		{
 			"type": "process",
             "label": "Format Cpp files",
-            "command": "python",
+            "command": "python3",
+            "windows": { "command": "python" },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -31,7 +32,8 @@
 		{
 			"type": "process",
             "label": "Format CMake files",
-            "command": "python",
+            "command": "python3",
+            "windows": { "command": "python" },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -46,7 +48,8 @@
 		{
 			"type": "process",
             "label": "Format Qml files",
-            "command": "python",
+            "command": "python3",
+            "windows": { "command": "python" },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -61,7 +64,8 @@
 		{
 			"type": "process",
             "label": "Run setup.py",
-            "command": "python",
+            "command": "python3",
+            "windows": { "command": "python" },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -76,7 +80,8 @@
 		{
 			"type": "process",
             "label": "Export ScreenPlay release, with deploy and steam enabled",
-            "command": "python",
+            "command": "python3",
+            "windows": { "command": "python" },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -94,7 +99,8 @@
 		{
 			"type": "process",
             "label": "Update Qt *.ts translations",
-            "command": "python",
+            "command": "python3",
+            "windows": { "command": "python" },
             "group": {
                 "kind": "build",
                 "isDefault": true
