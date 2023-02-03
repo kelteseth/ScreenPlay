@@ -232,6 +232,8 @@ QString App::version() const
 */
 void App::exit()
 {
+    m_screenPlayManager->removeAllWallpapers();
+    m_screenPlayManager->removeAllWidgets();
     QApplication::instance()->quit();
 }
 

@@ -1,5 +1,6 @@
 import QtQuick
-import Qt.labs.settings 1.0 as Labs
+import QtQml
+import QtCore as QCore
 import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Controls.Material
@@ -61,15 +62,16 @@ Util.Popup {
                 color: Material.primaryTextColor
             }
 
-            Labs.Settings {
+            QCore.Settings {
                 id: settings
             }
+
             RowLayout {
                 Layout.alignment: Qt.AlignHCenter
                 Layout.fillWidth: true
                 Button {
                     text: qsTr("Quit ScreenPlay now")
-                    onClicked: Qt.quit()
+                    onClicked:  App.exit();
                 }
                 Button {
                     text: qsTr("Minimize ScreenPlay")
@@ -85,6 +87,7 @@ Util.Popup {
                     onClicked: {
                         settings.setValue("alwaysMinimize", true);
                         settings.sync();
+                        print(settings.value("alwaysMinimize"))
                         App.showDockIcon(false);
                         applicationWindow.hide();
                         root.close();

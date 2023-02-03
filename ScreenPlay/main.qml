@@ -1,3 +1,5 @@
+import QtCore as QCore
+import QtQml
 import QtQuick
 import QtQuick.Window
 import QtQuick.Controls
@@ -8,7 +10,6 @@ import ScreenPlay
 import Settings
 import ScreenPlayUtil as Util
 import Qt5Compat.GraphicalEffects
-import Qt.labs.settings 1.0 as Labs
 import "qml/Monitors" as Monitors
 import "qml/Installed" as Installed
 import "qml/Navigation" as Navigation
@@ -67,7 +68,7 @@ ApplicationWindow {
     onClosing: close => {
         close.accepted = false;
         if (App.screenPlayManager.activeWallpaperCounter === 0 && App.screenPlayManager.activeWidgetsCounter === 0) {
-            Qt.quit();
+            App.exit();
         }
         const alwaysMinimize = settings.value("alwaysMinimize", null);
         if (alwaysMinimize === null) {
@@ -81,7 +82,7 @@ ApplicationWindow {
         exitDialog.open();
     }
 
-    Labs.Settings {
+    QCore.Settings {
         id: settings
     }
 
