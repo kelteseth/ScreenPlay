@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <QApplication>
+
 #include <QDebug>
 #include <QObject>
 #include <QQmlContext>

@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-#include <QApplication>
+
 #include <QQmlApplicationEngine>
 #include <QStringList>
 #include <QtWebEngineQuick>
+#include <QGuiApplication>
 
 #include "src/widgetwindow.h"
 
@@ -20,9 +21,9 @@ int main(int argc, char* argv[])
 #endif
 
     QtWebEngineQuick::initialize();
-    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
 
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
 
     const QStringList argumentList = app.arguments();
 

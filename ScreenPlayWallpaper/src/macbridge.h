@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <QApplication>
+
 
 class MacBridge : public QObject {
     Q_OBJECT

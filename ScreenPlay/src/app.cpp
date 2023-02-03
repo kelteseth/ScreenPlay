@@ -10,6 +10,7 @@
 #include <QProcessEnvironment>
 #include <QQuickStyle>
 #include <QVersionNumber>
+#include <QGuiApplication>
 
 namespace ScreenPlay {
 
@@ -132,7 +133,7 @@ App::App()
 /*!
     \brief Used for initialization after the constructor. The sole purpose is to check if
     another ScreenPlay instance is running and then quit early. This is also because we cannot
-    call QApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
+    call QGuiApplication::quit(); in the SDKConnector before the app.exec(); ( the Qt main event
     loop ) has started.
 */
 void App::init()
@@ -189,25 +190,25 @@ void App::init()
     // Init after we have the paths from settings
     m_installedListModel->init();
 
-    auto* guiApplication = QGuiApplication::instance();
+    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
 
     // Set visible if the -silent parameter was not set
-    if (guiApplication->arguments().contains("-silent")) {
+    if (guiAppInst->arguments().contains("-silent")) {
         qInfo() << "Starting in silent mode.";
         settings()->setSilentStart(true);
     }
 
     qmlRegisterSingletonInstance("ScreenPlay", 1, 0, "App", this);
-    m_mainWindowEngine->addImportPath(guiApplication->applicationDirPath() + "/qml");
+    m_mainWindowEngine->addImportPath(guiAppInst->applicationDirPath() + "/qml");
 #if defined(Q_OS_OSX)
-    QDir workingDir(guiApplication->applicationDirPath());
+    QDir workingDir(guiAppInst->applicationDirPath());
     workingDir.cdUp();
     workingDir.cdUp();
     workingDir.cdUp();
     // OSX Development workaround:
     m_mainWindowEngine->addImportPath(workingDir.path() + "/qml");
 #endif
-    guiApplication->addLibraryPath(guiApplication->applicationDirPath() + "/qml");
+    guiAppInst->addLibraryPath(guiAppInst->applicationDirPath() + "/qml");
 
     if (m_settings->desktopEnvironment() == Settings::DesktopEnvironment::KDE) {
         setupKDE();
@@ -227,14 +228,15 @@ QString App::version() const
 }
 
 /*!
-    \brief Calls QApplication quit() and can be used to do additional
+    \brief Calls QGuiApplication quit() and can be used to do additional
            tasks before exiting.
 */
 void App::exit()
 {
     m_screenPlayManager->removeAllWallpapers();
     m_screenPlayManager->removeAllWidgets();
-    QApplication::instance()->quit();
+    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
+    guiAppInst->quit();
 }
 
 bool App::isKDEInstalled()

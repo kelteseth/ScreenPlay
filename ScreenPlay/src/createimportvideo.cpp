@@ -2,6 +2,7 @@
 
 #include "ScreenPlay/createimportvideo.h"
 #include "ScreenPlayUtil/util.h"
+#include <QGuiApplication>
 
 namespace ScreenPlay {
 
@@ -61,8 +62,8 @@ void CreateImportVideo::setupFFMPEG()
     m_ffprobeExecutable = "ffprobe";
     m_ffmpegExecutable = "ffmpeg";
 #else
-    m_ffprobeExecutable = QApplication::applicationDirPath() + "/ffprobe" + ScreenPlayUtil::executableBinEnding();
-    m_ffmpegExecutable = QApplication::applicationDirPath() + "/ffmpeg" + ScreenPlayUtil::executableBinEnding();
+    m_ffprobeExecutable = QGuiApplication::applicationDirPath() + "/ffprobe" + ScreenPlayUtil::executableBinEnding();
+    m_ffmpegExecutable = QGuiApplication::applicationDirPath() + "/ffmpeg" + ScreenPlayUtil::executableBinEnding();
 #endif
 
     if (!QFileInfo::exists(m_ffprobeExecutable)) {
@@ -732,7 +733,7 @@ QString CreateImportVideo::waitForFinished(
 
     m_process->setProcessChannelMode(processChannelMode);
     m_process->setArguments(args);
-    m_process->setWorkingDirectory(QApplication::applicationDirPath());
+    m_process->setWorkingDirectory(QGuiApplication::applicationDirPath());
     m_process->start();
 
     qInfo() << m_process->workingDirectory() << m_process->program() << m_process->arguments();

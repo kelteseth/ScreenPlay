@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 #include "macwindow.h"
 
+#include <QGuiApplication>
+
 ScreenPlay::WallpaperExitCode MacWindow::start()
 {
     auto* screen = QGuiApplication::screens().at(activeScreensList().at(0));

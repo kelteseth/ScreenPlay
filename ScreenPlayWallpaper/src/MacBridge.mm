@@ -2,7 +2,7 @@
 
 #include "macbridge.h"
 #import <Cocoa/Cocoa.h>
-#include <QApplication>
+
 #include <QWindow>
 #import <objc/runtime.h>
 

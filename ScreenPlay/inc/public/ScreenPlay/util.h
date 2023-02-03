@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <QApplication>
+
 #include <QClipboard>
 #include <QCoreApplication>
 #include <QDateTime>

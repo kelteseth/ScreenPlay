@@ -4,6 +4,9 @@
 #include "ScreenPlayUtil/projectfile.h"
 #include "ScreenPlayUtil/util.h"
 
+#include <QGuiApplication>
+
+
 /*!
     \module ScreenPlayWallpaper
     \title ScreenPlayWallpaper
@@ -18,7 +21,7 @@
 
 BaseWindow::BaseWindow()
 {
-    QApplication::instance()->installEventFilter(this);
+    QGuiApplication::instance()->installEventFilter(this);
 
     qRegisterMetaType<ScreenPlay::InstalledType::InstalledType>();
     qmlRegisterUncreatableMetaObject(ScreenPlay::InstalledType::staticMetaObject,
@@ -196,7 +199,7 @@ QString BaseWindow::loadFromFile(const QString& filename)
  */
 QString BaseWindow::getApplicationPath()
 {
-    return QApplication::applicationDirPath();
+    return QGuiApplication::applicationDirPath();
 }
 
 /*!

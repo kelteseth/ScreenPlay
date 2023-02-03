@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <QApplication>
+
 
 class MacIntegration : public QObject {
     Q_OBJECT

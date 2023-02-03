@@ -1,9 +1,10 @@
-#include <QApplication>
+
 #include <QObject>
 #include <QStringList>
 #include <QVector>
 #include <QtGlobal>
 #include <QtWebEngineQuick>
+#include <QGuiApplication>
 
 #include "ScreenPlayUtil/exitcodes.h"
 #include "ScreenPlayUtil/util.h"
@@ -23,13 +24,13 @@ int main(int argc, char* argv[])
 {
 
 #if !defined(Q_OS_LINUX)
-    qputenv("QT_MEDIA_BACKEND", "ffmpeg");
+    qputenv("QT_MEDIA_BACKEND", "windows");
 #endif
 
-    QApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
+    QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);
     QtWebEngineQuick::initialize();
 
-    QApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
 
 #if defined(Q_OS_WIN)
     WinWindow window;
@@ -46,8 +47,8 @@ int main(int argc, char* argv[])
     // For testing purposes when starting the ScreenPlayWallpaper directly.
     if (argumentList.length() == 1) {
         window.setActiveScreensList({ 0 });
-        window.setProjectPath("test");
-        // window.setProjectPath("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/19112022140605-Horde 1980");
+        //window.setProjectPath("test");
+        window.setProjectPath("C:/Program Files (x86)/Steam/steamapps/workshop/content/672870/particles");
         window.setAppID("test");
         window.setVolume(1);
         window.setFillMode("fill");

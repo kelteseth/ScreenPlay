@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
-#include "winwindow.h"
 #include "ScreenPlayUtil/projectfile.h"
-#include "qqml.h"
+#include "winwindow.h"
+#include <QtQml>
+#include <QGuiApplication>
 #include <algorithm>
 #include <iostream>
 #include <vector>
@@ -77,15 +78,15 @@ LRESULT __stdcall MouseHookCallback(int nCode, WPARAM wParam, LPARAM lParam)
 
     auto event = QMouseEvent(type, g_LastMousePosition, mouseButton, mouseButtons, keyboardModifier);
 
-    QApplication::sendEvent(g_winGlobalHook, &event);
+    QGuiApplication::sendEvent(g_winGlobalHook, &event);
 
     if (type == QMouseEvent::Type::MouseButtonPress) {
     }
     QTimer::singleShot(100, [&]() {
         // auto eventPress = QMouseEvent(QMouseEvent::Type::MouseButtonPress, g_LastMousePosition, mouseButton, mouseButtons, {});
-        // qInfo() << mouseButton << QApplication::sendEvent(g_winGlobalHook, &eventPress) << g_globalOffset.x() << g_globalOffset.y();
+        // qInfo() << mouseButton << QGuiApplication::sendEvent(g_winGlobalHook, &eventPress) << g_globalOffset.x() << g_globalOffset.y();
         auto eventRelease = QMouseEvent(QMouseEvent::Type::MouseButtonRelease, g_LastMousePosition, mouseButton, mouseButtons, {});
-        QApplication::sendEvent(g_winGlobalHook, &eventRelease);
+        QGuiApplication::sendEvent(g_winGlobalHook, &eventRelease);
     });
 
     return CallNextHookEx(g_mouseHook, nCode, wParam, lParam);
@@ -120,17 +121,17 @@ ScreenPlay::WallpaperExitCode WinWindow::start()
             }
         },
         Qt::QueuedConnection);
-    auto* guiAppInst = dynamic_cast<QApplication*>(QApplication::instance());
+    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
     if (!debugMode()) {
         connect(m_sdk.get(), &ScreenPlaySDK::sdkDisconnected, this, &WinWindow::destroyThis);
     }
-    connect(guiAppInst, &QApplication::screenAdded, this, &WinWindow::configureWindowGeometry);
-    connect(guiAppInst, &QApplication::screenRemoved, this, &WinWindow::configureWindowGeometry);
-    connect(guiAppInst, &QApplication::primaryScreenChanged, this, &WinWindow::configureWindowGeometry);
+    connect(guiAppInst, &QGuiApplication::screenAdded, this, &WinWindow::configureWindowGeometry);
+    connect(guiAppInst, &QGuiApplication::screenRemoved, this, &WinWindow::configureWindowGeometry);
+    connect(guiAppInst, &QGuiApplication::primaryScreenChanged, this, &WinWindow::configureWindowGeometry);
     connect(this, &BaseWindow::reloadQML, this, &WinWindow::clearComponentCache);
     connect(&m_checkForFullScreenWindowTimer, &QTimer::timeout, this, &WinWindow::checkForFullScreenWindow);
 
-    const auto screens = QApplication::screens();
+    const auto screens = QGuiApplication::screens();
     for (const auto& screen : screens) {
         connect(screen, &QScreen::geometryChanged, this, &WinWindow::configureWindowGeometry);
     }
@@ -209,7 +210,7 @@ BOOL CALLBACK GetMonitorByIndex(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMo
 void WinWindow::setupWallpaperForOneScreen(int activeScreen)
 {
 
-    const QRect screenRect = QApplication::screens().at(activeScreen)->geometry();
+    const QRect screenRect = QGuiApplication::screens().at(activeScreen)->geometry();
     const int boderWidth = 2;
     const float scaling = getScaling(activeScreen);
     const int borderOffset = -1;
@@ -291,7 +292,7 @@ void WinWindow::setupWallpaperForMultipleScreens(const QVector<int>& activeScree
     QScreen* upperLeftScreen { nullptr };
     // Check for the upper left screen first so we get x and y positions
     for (const int screen : activeScreensList) {
-        QScreen* screenTmp = QApplication::screens().at(screen);
+        QScreen* screenTmp = QGuiApplication::screens().at(screen);
         if (upperLeftScreen != nullptr) {
             if (screenTmp->geometry().x() < upperLeftScreen->geometry().x() || screenTmp->geometry().y() < upperLeftScreen->geometry().y()) {
                 upperLeftScreen = screenTmp;
@@ -338,7 +339,7 @@ bool WinWindow::searchWorkerWindowToParentTo()
 */
 float WinWindow::getScaling(const int monitorIndex)
 {
-    QScreen* screen = QApplication::screens().at(monitorIndex);
+    QScreen* screen = QGuiApplication::screens().at(monitorIndex);
     const int factor = screen->physicalDotsPerInch();
     switch (factor) {
     case 72:
@@ -359,7 +360,7 @@ float WinWindow::getScaling(const int monitorIndex)
 */
 bool WinWindow::hasWindowScaling()
 {
-    const auto screens = QApplication::screens();
+    const auto screens = QGuiApplication::screens();
     for (int i = 0; i < screens.count(); i++) {
         if (getScaling(i) != 1) {
             return true;
@@ -394,7 +395,7 @@ void WinWindow::configureWindowGeometry()
     SetWindowLongPtr(m_windowHandle, GWL_STYLE, WS_POPUPWINDOW);
 
     // Ether for one Screen or for all
-    if ((QApplication::screens().length() == activeScreensList().length()) && (activeScreensList().length() != 1)) {
+    if ((QGuiApplication::screens().length() == activeScreensList().length()) && (activeScreensList().length() != 1)) {
         setupWallpaperForAllScreens();
     } else if (activeScreensList().length() == 1) {
         setupWallpaperForOneScreen(activeScreensList().at(0));
@@ -494,7 +495,7 @@ void WinWindow::terminate()
     ShowWindow(m_windowHandleWorker, SW_HIDE);
     ShowWindow(m_windowHandleWorker, SW_SHOW);
 
-    QApplication::quit();
+    QGuiApplication::quit();
 }
 
 /*!

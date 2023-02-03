@@ -4,7 +4,9 @@
 #include "qarchive_enums.hpp"
 #include "qarchivediskcompressor.hpp"
 #include "qarchivediskextractor.hpp"
+
 #include <QDesktopServices>
+#include <QGuiApplication>
 
 #if defined(Q_OS_WIN)
 #include <sentry.h>
@@ -26,7 +28,8 @@ Util::Util()
 {
     // Fix log access vilation on quit
     utilPointer = this;
-    QObject::connect(QGuiApplication::instance(), &QGuiApplication::aboutToQuit, this, []() { utilPointer = nullptr; });
+    auto* guiAppInst = dynamic_cast<QGuiApplication*>(QGuiApplication::instance());
+    QObject::connect(guiAppInst, &QGuiApplication::aboutToQuit, this, []() { utilPointer = nullptr; });
 
     m_extractor = std::make_unique<QArchive::DiskExtractor>();
     m_compressor = std::make_unique<QArchive::DiskCompressor>();
@@ -58,7 +61,7 @@ Util::~Util() { }
 */
 void Util::copyToClipboard(const QString& text) const
 {
-    auto* clipboard = QApplication::clipboard();
+    auto* clipboard = QGuiApplication::clipboard();
     clipboard->setText(text);
 }
 

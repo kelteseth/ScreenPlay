@@ -2,7 +2,7 @@
 
 #include "ScreenPlay/app.h"
 #include "ScreenPlay/create.h"
-#include <QApplication>
+
 #include <QCommandLineParser>
 #include <QCoreApplication>
 #include <QDebug>

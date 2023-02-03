@@ -2,7 +2,7 @@
 
 #pragma once
 
-#include <QApplication>
+
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QJsonValue>

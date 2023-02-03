@@ -16,6 +16,8 @@
 #include <sys/wait.h>
 #include <unistd.h>
 
+#include <QGuiApplication>
+
 #define WIDTH 512
 #define HEIGHT 384
 #define OPAQUE 0xffffffff
