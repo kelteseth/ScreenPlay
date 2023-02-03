@@ -2,7 +2,6 @@
 
 #pragma once
 
-
 #include <QDebug>
 #include <QDir>
 #include <QFile>

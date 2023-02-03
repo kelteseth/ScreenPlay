@@ -2,8 +2,6 @@
 
 #pragma once
 
-
-
 class MacIntegration : public QObject {
     Q_OBJECT
 public:

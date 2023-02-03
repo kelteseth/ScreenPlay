@@ -7,10 +7,10 @@
 
 #include "app.h"
 #include "steam/steam_qt_enums_generated.h"
+#include <QGuiApplication>
 #include <QProcessEnvironment>
 #include <QQuickStyle>
 #include <QVersionNumber>
-#include <QGuiApplication>
 
 namespace ScreenPlay {
 

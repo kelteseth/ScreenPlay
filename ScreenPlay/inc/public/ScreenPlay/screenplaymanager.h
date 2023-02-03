@@ -2,7 +2,6 @@
 
 #pragma once
 
-
 #include <QObject>
 #include <QPoint>
 #include <QProcess>

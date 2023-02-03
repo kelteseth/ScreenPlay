@@ -2,11 +2,11 @@
 
 #pragma once
 
-#include <QGuiApplication>
 #include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QFontDatabase>
+#include <QGuiApplication>
 #include <QIODevice>
 #include <QJsonArray>
 #include <QJsonDocument>
