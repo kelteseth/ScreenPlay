@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Dialogs
 import QtQuick.Controls
 import QtQuick.Controls.Material
 import QtQuick.Layouts
@@ -118,7 +119,7 @@ Item {
 
                         FolderDialog {
                             id: folderDialogSaveLocation
-                            folder: App.globalVariables.localStoragePath
+                            currentFolder : App.globalVariables.localStoragePath
                             onAccepted: {
                                 App.settings.setLocalStoragePath(folderDialogSaveLocation.currentFolder);
                             }
