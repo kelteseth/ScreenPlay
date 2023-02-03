@@ -53,7 +53,7 @@ ScreenPlay::WallpaperExitCode BaseWindow::setup()
         qWarning() << "Invalid project at " << projectPath();
         return ScreenPlay::WallpaperExitCode::Invalid_Setup_ProjectParsingError;
     }
-
+    setType(projectFile.type);
     setProjectSourceFile(projectFile.file);
 
     if (m_type == ScreenPlay::InstalledType::InstalledType::WebsiteWallpaper) {
