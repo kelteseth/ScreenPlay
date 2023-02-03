@@ -2,7 +2,6 @@
 
 #pragma once
 
-
 #include <QDebug>
 #include <QFile>
 #include <QFileSystemWatcher>
@@ -87,7 +86,9 @@ public:
     void setVideoCodec(ScreenPlay::VideoCodec::VideoCodec newVideoCodec);
 
 signals:
+    void qmlStart();
     void qmlExit();
+    void fadeIn();
     void reloadQML(const ScreenPlay::InstalledType::InstalledType oldType);
     void reloadVideo(const ScreenPlay::InstalledType::InstalledType oldType);
     void reloadGIF(const ScreenPlay::InstalledType::InstalledType oldType);
@@ -114,10 +115,12 @@ signals:
     void projectPathChanged(const QString& rojectPath);
     void projectSourceFileChanged(const QString& projectSourceFile);
     void projectSourceFileAbsoluteChanged(const QUrl& rojectSourceFileAbsolute);
-    void videoCodecChanged();
+    void videoCodecChanged(ScreenPlay::VideoCodec::VideoCodec codec);
 
 public slots:
+    void requestFadeIn();
     virtual void destroyThis() { }
+    virtual void terminate() { }
     virtual void setVisible(bool show) { Q_UNUSED(show) }
     virtual void messageReceived(QString key, QString value) final;
     virtual void clearComponentCache() { }

@@ -7,8 +7,6 @@ Item {
 
     property string url
 
-    signal requestFadeIn
-
     Component.onCompleted: {
         WebEngine.settings.localContentCanAccessFileUrls = true;
         WebEngine.settings.localContentCanAccessRemoteUrls = true;
@@ -27,8 +25,8 @@ Item {
         url: Qt.resolvedUrl(root.url)
         onJavaScriptConsoleMessage: print(lineNumber, message)
         onLoadProgressChanged: {
-            if ((loadProgress === 100))
-                root.requestFadeIn();
+            if (loadProgress === 100)
+               Wallpaper.requestFadeIn();
         }
     }
 }

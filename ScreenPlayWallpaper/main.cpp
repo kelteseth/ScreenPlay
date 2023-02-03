@@ -1,10 +1,10 @@
 
+#include <QGuiApplication>
 #include <QObject>
 #include <QStringList>
 #include <QVector>
 #include <QtGlobal>
 #include <QtWebEngineQuick>
-#include <QGuiApplication>
 
 #include "ScreenPlayUtil/exitcodes.h"
 #include "ScreenPlayUtil/util.h"
@@ -114,5 +114,6 @@ int main(int argc, char* argv[])
     if (startStatus != ScreenPlay::WallpaperExitCode::Ok) {
         return static_cast<int>(startStatus);
     }
+    emit window.qmlStart();
     return app.exec();
 }

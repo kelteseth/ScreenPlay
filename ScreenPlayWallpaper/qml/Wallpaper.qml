@@ -9,8 +9,9 @@ Rectangle {
     id: root
 
     property bool canFadeByWallpaperFillMode: true
+    anchors.fill: parent
 
-    function init() {
+    function start() {
         fadeInImageSetup();
         switch (Wallpaper.type) {
         case InstalledType.VideoWallpaper:
@@ -130,19 +131,15 @@ Rectangle {
             imgCover.opacity = 0;
     }
 
-    anchors.fill: parent
-    color: {
-        if (Qt.platform.os !== "windows")
-            return "black";
-        else
-            return Wallpaper.windowsDesktopProperties.color;
-    }
-
-    Component.onCompleted: {
-        init();
-    }
 
     Connections {
+        target: Wallpaper
+        function onQmlStart(){
+            root.start()
+        }
+        function onFadeIn(){
+            root.fadeIn()
+        }
         function onQmlExit() {
             if (canFadeByWallpaperFillMode && Wallpaper.canFade)
                 imgCover.state = "exit";
@@ -180,23 +177,31 @@ Rectangle {
             loader.source = "qrc:/qml/ScreenPlayWallpaper/qml/MultimediaView.qml";
         }
 
-        target: Wallpaper
     }
-
     Loader {
         id: loader
         anchors.fill: parent
         // QML Engine deadlocks in 5.15.2 when a loader cannot load
-        // an item. QApplication::quit(); waits for the destruction forever.
+        // an item. QGuiApplication::quit(); waits for the destruction forever.
         //asynchronous: true
         onStatusChanged: {
             if (loader.status === Loader.Ready) {
-                if (loader.item.ready)
+                if(Wallpaper.type === InstalledType.QMLWallpaper) {
                     root.fadeIn();
+                }
             }
             if (loader.status === Loader.Error) {
-                loader.source = "";
-                imgCover.state = "exit";
+                print("ScreenPlayWallpaper encountered an error and will be terminated.")
+                // Must be callLater so we do not kill on startup
+                // See  emit window.qmlStart();
+                 Qt.callLater(function(){
+                    loader.source = ""
+                    Qt.callLater(function(){
+                        Wallpaper.terminate()
+                    })
+                 })
+                
+               
             }
         }
     }
@@ -313,21 +318,6 @@ Rectangle {
 
             Text {
                 text: "fillMode " + Wallpaper.fillMode
-                font.pointSize: 14
-            }
-
-            Text {
-                text: "sdk.type " + Wallpaper.sdk.type
-                font.pointSize: 14
-            }
-
-            Text {
-                text: "sdk.isConnected " + Wallpaper.sdk.isConnected
-                font.pointSize: 14
-            }
-
-            Text {
-                text: "sdk.appID " + Wallpaper.sdk.appID
                 font.pointSize: 14
             }
 

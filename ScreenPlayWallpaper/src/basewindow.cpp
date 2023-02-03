@@ -6,7 +6,6 @@
 
 #include <QGuiApplication>
 
-
 /*!
     \module ScreenPlayWallpaper
     \title ScreenPlayWallpaper
@@ -178,6 +177,15 @@ void BaseWindow::replaceWallpaper(
         emit reloadGIF(oldType);
 }
 
+
+/*!
+ \brief QML Convenience function for global fade in
+ */
+void BaseWindow::requestFadeIn()
+{
+    emit fadeIn();
+}
+
 /*!
  \brief Used for loading shader. Loading shader relative to the qml file will be available in Qt 6
  */
@@ -233,5 +241,5 @@ void BaseWindow::setVideoCodec(ScreenPlay::VideoCodec::VideoCodec newVideoCodec)
     if (m_videoCodec == newVideoCodec)
         return;
     m_videoCodec = newVideoCodec;
-    emit videoCodecChanged();
+    emit videoCodecChanged(newVideoCodec);
 }

@@ -2,7 +2,6 @@
 
 #pragma once
 
-
 #include <QDebug>
 #include <QObject>
 #include <QQmlContext>
@@ -26,7 +25,7 @@ signals:
 public slots:
     void setVisible(bool show) override;
     void destroyThis() override;
-    void terminate();
+    void terminate() override;
     void clearComponentCache() override;
 
 private:

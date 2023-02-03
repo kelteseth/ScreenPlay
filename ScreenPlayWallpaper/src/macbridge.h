@@ -2,8 +2,6 @@
 
 #pragma once
 
-
-
 class MacBridge : public QObject {
     Q_OBJECT
 

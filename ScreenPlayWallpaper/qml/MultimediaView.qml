@@ -23,7 +23,6 @@ Item {
 
     onIsPlayingChanged: isPlaying ? mediaPlayer.play() : mediaPlayer.pause()
     property bool isWindows: Qt.platform.os === "windows"
-    property bool ready: false
 
     property string source: Wallpaper.projectSourceFileAbsolute
     onSourceChanged: {
@@ -37,7 +36,7 @@ Item {
         id: mediaPlayer
         onPlaybackStateChanged: {
             if (mediaPlayer.playbackState == MediaPlayer.PlayingState) {
-                root.ready = true;
+                Wallpaper.requestFadeIn();
             }
         }
         loops: root.loops ? MediaPlayer.Infinite : 1

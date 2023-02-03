@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: LicenseRef-EliasSteurerTachiom OR AGPL-3.0-only
 
+#include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QStringList>
 #include <QtWebEngineQuick>
-#include <QGuiApplication>
 
 #include "src/widgetwindow.h"
 

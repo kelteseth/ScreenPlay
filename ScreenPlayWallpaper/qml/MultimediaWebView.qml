@@ -9,8 +9,6 @@ import ScreenPlayWallpaper
 Item {
     id: root
 
-    signal requestFadeIn
-
     function getSetVideoCommand() {
         // TODO 30:
         // Currently wont work. Commit anyways til QtCreator and Qt work with js template literals
@@ -48,7 +46,7 @@ Item {
         onLoadProgressChanged: {
             if (loadProgress === 100) {
                 webView.runJavaScript(root.getSetVideoCommand(), function (result) {
-                        requestFadeIn();
+                        Wallpaper.requestFadeIn();
                     });
             }
         }

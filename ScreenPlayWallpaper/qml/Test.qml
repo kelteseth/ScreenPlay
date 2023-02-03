@@ -19,13 +19,11 @@ Rectangle {
     //Image
     property real imgOpacity: 0.75
 
-    signal requestFadeIn
-
     anchors.fill: parent
     color: Material.color(Material.Grey, Material.Shade800)
     border.width: 10
     border.color: "orange"
-    Component.onCompleted: root.requestFadeIn()
+    Component.onCompleted:  Wallpaper.requestFadeIn();
 
     MouseArea {
 

@@ -136,3 +136,8 @@ void LinuxX11Window::destroyThis()
 {
     QCoreApplication::quit();
 }
+
+void LinuxX11Window::terminate()
+{
+    QCoreApplication::quit();
+}
