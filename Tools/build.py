@@ -157,7 +157,7 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
         print(f"Using env_dict:\n{env_dict}")
         os.environ.update(env_dict)
         # NO f string we fill it later!
-        build_config.package_command = "windeployqt.exe --{type}  --qmldir ../../{app}/qml {app}{executable_file_ending}"
+        build_config.package_command = "windeployqt6.exe --{type}  --qmldir ../../{app}/qml {app}{executable_file_ending}"
         build_config.aqt_install_qt_packages = f"windows desktop {build_config.qt_version} win64_msvc2019_64 -m all"
         build_config.aqt_install_tool_packages = "windows desktop tools_ifw"
 
