@@ -5,7 +5,7 @@ import QtQuick.Layouts
 import QtQuick.Controls.Material
 import Qt5Compat.GraphicalEffects
 import QtQuick.Controls.Material.impl
-import Qt.labs.platform 1.1 as Labs
+import QtCore as QCore
 import ScreenPlayApp
 import ScreenPlay
 import ScreenPlay.Enums.InstalledType
@@ -276,7 +276,7 @@ Item {
             icon.source: "qrc:/qml/ScreenPlayApp/assets/icons/icon_import_export_.svg"
             onClicked: {
                 exportFileDialog.absoluteStoragePath = contextMenu.absoluteStoragePath;
-                let urlFileName = Labs.StandardPaths.writableLocation(Labs.StandardPaths.DesktopLocation) + "/" + contextMenu.fileName + ".screenplay";
+                let urlFileName = QCore.StandardPaths.writableLocation(QCore.StandardPaths.DesktopLocation) + "/" + contextMenu.fileName + ".screenplay";
                 exportFileDialog.currentFile = urlFileName;
                 exportFileDialog.open();
             }
@@ -315,7 +315,7 @@ Item {
         }
     }
 
-    Labs.FileDialog {
+    FileDialog {
         id: exportFileDialog
         fileMode: FileDialog.SaveFile
         property string absoluteStoragePath

@@ -1,9 +1,9 @@
 import QtQuick
 import QtQuick.Controls
-import Qt5Compat.GraphicalEffects
-import Qt.labs.platform 1.1
 import QtQuick.Controls.Material
 import QtQuick.Layouts
+import QtQuick.Dialogs
+import Qt5Compat.GraphicalEffects
 import ScreenPlayApp
 import ScreenPlay
 
@@ -165,8 +165,8 @@ Item {
 
                     title: qsTr("Please choose a color")
                     onAccepted: {
-                        rctPreviewColor.color = colorDialog.color;
-                        let tmpColor = "'" + colorDialog.color.toString() + "'";
+                        rctPreviewColor.color = colorDialog.selectedColor;
+                        let tmpColor = "'" + colorDialog.selectedColor.toString() + "'";
                         let obj = {
                             "value": colorDialog.color,
                             "type": "color"
