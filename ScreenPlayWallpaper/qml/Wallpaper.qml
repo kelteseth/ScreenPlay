@@ -117,6 +117,9 @@ Rectangle {
             root.canFadeByWallpaperFillMode = false;
             break;
         }
+        // NOTE: If we do not set it visible here 
+        // AND in the fadeIn function we get a white frame
+        Wallpaper.setVisible(true);
     }
 
     function fadeIn() {
