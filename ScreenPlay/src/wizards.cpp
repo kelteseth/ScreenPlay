@@ -409,3 +409,5 @@ const std::optional<QString> Wizards::createTemporaryFolder() const
     return folderName;
 }
 }
+
+#include "moc_wizards.cpp"

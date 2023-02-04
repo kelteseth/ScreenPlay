@@ -282,3 +282,5 @@ bool ScreenPlayWallpaper::replace(
 }
 
 }
+
+#include "moc_screenplaywallpaper.cpp"

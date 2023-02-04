@@ -506,3 +506,5 @@ void App::setWizards(Wizards* wizards)
     emit wizardsChanged(m_wizards.get());
 }
 }
+
+#include "moc_app.cpp"

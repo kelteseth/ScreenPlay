@@ -439,3 +439,5 @@ bool Util::copyPreviewThumbnail(QJsonObject& obj, const QString& previewThumbnai
 }
 
 }
+
+#include "moc_util.cpp"

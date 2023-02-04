@@ -329,3 +329,5 @@ QString Settings::fixLanguageCode(const QString& languageCode)
 }
 
 }
+
+#include "moc_settings.cpp"

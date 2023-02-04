@@ -58,3 +58,5 @@ void CPU::update()
     // publish result
     setUsage(currentUsage);
 }
+
+#include "moc_cpu.cpp"

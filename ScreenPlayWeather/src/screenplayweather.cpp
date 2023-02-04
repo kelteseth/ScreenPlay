@@ -144,3 +144,5 @@ QNetworkRequest ScreenPlayWeather::defaultRequest() const
     request.setHeader(QNetworkRequest::KnownHeaders::ContentTypeHeader, "application/json");
     return request;
 }
+
+#include "moc_screenplayweather.cpp"

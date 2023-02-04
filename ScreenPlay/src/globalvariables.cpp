@@ -20,3 +20,5 @@ ScreenPlay::GlobalVariables::GlobalVariables(QObject* parent)
 }
 
 }
+
+#include "moc_globalvariables.cpp"

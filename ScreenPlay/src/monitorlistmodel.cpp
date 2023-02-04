@@ -272,3 +272,5 @@ void MonitorListModel::reset()
 }
 
 }
+
+#include "moc_monitorlistmodel.cpp"

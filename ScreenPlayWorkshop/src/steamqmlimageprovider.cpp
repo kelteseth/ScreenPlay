@@ -8,3 +8,5 @@ SteamQMLImageProvider::SteamQMLImageProvider(QQuickItem* parent)
     setFlag(QQuickItem::ItemHasContents);
 }
 }
+
+#include "moc_steamqmlimageprovider.cpp"

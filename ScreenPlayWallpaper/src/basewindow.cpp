@@ -243,3 +243,5 @@ void BaseWindow::setVideoCodec(ScreenPlay::VideoCodec::VideoCodec newVideoCodec)
     m_videoCodec = newVideoCodec;
     emit videoCodecChanged(newVideoCodec);
 }
+
+#include "moc_basewindow.cpp"

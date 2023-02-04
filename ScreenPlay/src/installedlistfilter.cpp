@@ -83,3 +83,5 @@ void InstalledListFilter::resetFilter()
 }
 
 }
+
+#include "moc_installedlistfilter.cpp"

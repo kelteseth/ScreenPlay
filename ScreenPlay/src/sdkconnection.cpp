@@ -125,3 +125,5 @@ bool ScreenPlay::SDKConnection::close()
     return m_socket->state() == QLocalSocket::UnconnectedState;
 }
 }
+
+#include "moc_sdkconnection.cpp"

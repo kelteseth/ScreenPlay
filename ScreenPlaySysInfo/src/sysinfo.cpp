@@ -26,3 +26,5 @@ SysInfo::SysInfo(QQuickItem* parent)
     , m_uptime(std::make_unique<Uptime>())
 {
 }
+
+#include "moc_sysinfo.cpp"

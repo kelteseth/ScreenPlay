@@ -100,3 +100,5 @@ void Storage::loadStorageDevices()
     }
     endInsertRows();
 }
+
+#include "moc_storage.cpp"

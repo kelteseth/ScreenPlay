@@ -155,3 +155,5 @@ void InstalledListModel::reset()
     loadInstalledContent();
 }
 }
+
+#include "moc_installedlistmodel.cpp"
