@@ -18,12 +18,11 @@ import Qt5Compat.GraphicalEffects
 Util.Popup {
     id: root
     property ApplicationWindow applicationWindow
-    contentHeight: 400
-    contentWidth: 600
-    contentItem: Item {
+    contentItem: Pane  {
+        background: Item{}
+        padding:20
+        bottomPadding: 10
         ColumnLayout {
-            anchors.margins: 20
-            anchors.fill: parent
             spacing: 20
 
             Text {
@@ -39,7 +38,15 @@ Util.Popup {
 
             Image {
                 Layout.alignment: Qt.AlignHCenter
-                source: "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_windows.png"
+                source: {
+                    if (Qt.platform.os === "windows") {
+                        return "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_windows.png"
+                    }
+                    if (Qt.platform.os === "osx") {
+                        return "qrc:/qml/ScreenPlayApp/assets/images/trayIcon_osx.png"
+                    }
+                }
+                
                 fillMode: Image.PreserveAspectFit
             }
 
