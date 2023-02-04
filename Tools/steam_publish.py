@@ -70,6 +70,9 @@ def publish(
     config_content = file.read()
     git_hash = get_git_revision_short_hash().decode("utf-8").replace("\n", "")
     git_commit_text = get_git_commit_text().decode("utf-8").replace("\n", "")
+    # Remove ' and " that can occour it is a merge commit
+    git_commit_text = git_commit_text.replace('\"','')
+    git_commit_text = git_commit_text.replace('\'','')
     current_date_time = datetime.now().strftime("%d/%m/%Y, %H:%M:%S")
 
     build_description = "- git hash: " + git_hash + ", commit: " +  git_commit_text + " - upload datetime: " + current_date_time
