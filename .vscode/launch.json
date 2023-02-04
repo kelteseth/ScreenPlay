@@ -140,7 +140,7 @@
             },
             "osx": {
                 "MIMode": "lldb",
-                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_Debug/bin/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget",
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_Debug/bin/ScreenPlay.app/Contents/MacOS/ScreenPlayWidget",
                 "type": "lldb"
             },
             "linux": {

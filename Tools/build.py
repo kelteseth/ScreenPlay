@@ -173,7 +173,7 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
             exit(1)
         build_config.executable_file_ending = ".app"
         # NO f string we fill it later!
-        build_config.package_command = "{prefix_path}/bin/macdeployqt {app}.app  -qmldir=../../{app}/qml -executable={app}.app/Contents/MacOS/{app} -appstore-compliant"
+        build_config.package_command = "{prefix_path}/bin/macdeployqt ScreenPlay.app  -qmldir=../../{app}/qml -executable=ScreenPlay.app/Contents/MacOS/{app} -appstore-compliant"
         build_config.aqt_install_qt_packages = f"mac desktop {build_config.qt_version} clang_64 -m all"
         build_config.aqt_install_tool_packages = "mac desktop tools_ifw"
         
