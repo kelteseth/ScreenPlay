@@ -157,7 +157,7 @@ def setup(build_config: BuildConfig, build_result: BuildResult) -> Tuple[BuildCo
         print(f"Using env_dict:\n{env_dict}")
         os.environ.update(env_dict)
         # NO f string we fill it later!
-        build_config.package_command = "windeployqt6.exe --{type}  --qmldir ../../{app}/qml {app}{executable_file_ending}"
+        build_config.package_command = "windeployqt.exe --{type}  --qmldir ../../{app}/qml {app}{executable_file_ending}"
         build_config.aqt_install_qt_packages = f"windows desktop {build_config.qt_version} win64_msvc2019_64 -m all"
         build_config.aqt_install_tool_packages = "windows desktop tools_ifw"
 
@@ -317,6 +317,27 @@ def package(build_config: BuildConfig):
             if file.suffix == ".dll" and file.is_file():
                 print(file, build_config.bin_dir)
                 shutil.copy2(file, build_config.bin_dir)
+
+        # ⚠️WORKAROUND. REMOVE ME WHEN FIXED: 
+        # https://bugreports.qt.io/browse/QTBUG-110937
+        qt_bin_path = defines.QT_BIN_PATH
+        qt6Widgets_path = Path(qt_bin_path).joinpath("Qt6Widgets.dll").resolve()
+        print(f"⚠️WORKAROUND: Copy Qt6Widgets.dll from: {qt6Widgets_path}")
+        shutil.copy2(qt6Widgets_path, build_config.bin_dir)
+        qt_qml_Qt_plugin_path =  Path(qt_bin_path).joinpath("./../qml/Qt").resolve()
+        qt_qml_Qt_plugin_target_path =  Path(build_config.bin_dir).joinpath("Qt").resolve()
+        print(f"⚠️WORKAROUND: Copy qml folder from: {qt_qml_Qt_plugin_path}, to {qt_qml_Qt_plugin_target_path}")
+        shutil.copytree(str(qt_qml_Qt_plugin_path), str(qt_qml_Qt_plugin_target_path))
+
+    if platform.system() == "Darwin":
+        # ⚠️WORKAROUND. REMOVE ME WHEN FIXED: 
+        # https://bugreports.qt.io/browse/QTBUG-110937
+        qt_bin_path = defines.QT_BIN_PATH
+        qt_qml_Qt_plugin_path =  Path(qt_bin_path).joinpath("./../qml/Qt").resolve()
+        qt_qml_Qt_plugin_target_path =  Path(build_config.bin_dir).joinpath("ScreenPlay.app/Contents/Resources/qml/Qt").resolve()
+        print(f"⚠️WORKAROUND: Copy qml folder from: {qt_qml_Qt_plugin_path}, to {qt_qml_Qt_plugin_target_path}")
+        shutil.copytree(str(qt_qml_Qt_plugin_path), str(qt_qml_Qt_plugin_target_path))
+
     if not platform.system() == "Darwin":
         file_endings = [".ninja_deps", ".ninja", ".ninja_log", ".lib", ".a", ".exp",
                         ".manifest", ".cmake", ".cbp", "CMakeCache.txt"]
