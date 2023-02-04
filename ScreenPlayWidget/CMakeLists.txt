@@ -77,5 +77,8 @@ if(WIN32)
 endif()
 
 if(APPLE)
-    set_target_properties(${PROJECT_NAME} PROPERTIES MACOSX_BUNDLE TRUE MACOSX_BUNDLE_INFO_PLIST ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
+    set_target_properties(${PROJECT_NAME}
+        PROPERTIES
+        RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin/ScreenPlay.app/Contents/MacOS/"
+    )
 endif()

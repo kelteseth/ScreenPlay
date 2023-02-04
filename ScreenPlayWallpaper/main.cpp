@@ -24,7 +24,7 @@ int main(int argc, char* argv[])
 {
 
 #if !defined(Q_OS_LINUX)
-    qputenv("QT_MEDIA_BACKEND", "windows");
+    qputenv("QT_MEDIA_BACKEND", "ffmpeg");
 #endif
 
     QGuiApplication::setAttribute(Qt::AA_ShareOpenGLContexts);

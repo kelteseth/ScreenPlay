@@ -172,8 +172,8 @@ void Settings::setupWidgetAndWindowPaths()
         workingDir.cdUp();
     }
 
-    m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWidget.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
-    m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
+    m_globalVariables->setWidgetExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlay.app/Contents/MacOS/ScreenPlayWidget").toLocalFile());
+    m_globalVariables->setWallpaperExecutablePath(QUrl::fromUserInput(workingDir.path() + "/ScreenPlay.app/Contents/MacOS/ScreenPlayWallpaper").toLocalFile());
 
 #endif
 

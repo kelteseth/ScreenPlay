@@ -82,7 +82,7 @@
             },
             "osx": {
                 "MIMode": "lldb",
-                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_Debug/bin/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper",
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_Debug/bin/ScreenPlay.app/Contents/MacOS/ScreenPlayWallpaper",
                 "type": "lldb"
             },
             "linux": {
@@ -111,7 +111,7 @@
             },
             "osx": {
                 "MIMode": "lldb",
-                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_RelWithDebInfo/bin/ScreenPlayWallpaper.app/Contents/MacOS/ScreenPlayWallpaper",
+                "program": "${workspaceFolder}/../build_ScreenPlay_Qt_6.5.0_Clang_RelWithDebInfo/bin/ScreenPlay.app/Contents/MacOS/ScreenPlayWallpaper",
                 "type": "lldb"
             },
             "linux": {

@@ -299,11 +299,6 @@ def package(build_config: BuildConfig):
         qml_plugins_path = Path.joinpath(build_config.bin_dir, "qml")
         copytree(qml_plugins_path, Path.joinpath(
             build_config.bin_dir, "ScreenPlay.app/Contents/MacOS/qml"))
-        copytree(qml_plugins_path, Path.joinpath(
-            build_config.bin_dir, "ScreenPlayWallpaper.app/Contents/MacOS/qml"))
-        copytree(qml_plugins_path, Path.joinpath(
-            build_config.bin_dir, "ScreenPlayWidget.app/Contents/MacOS/qml"))
-
         print(f"Deleting qml plugins path: {qml_plugins_path}")
         shutil.rmtree(qml_plugins_path)
 
