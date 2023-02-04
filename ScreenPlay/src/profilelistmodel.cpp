@@ -95,3 +95,5 @@ void ProfileListModel::append(const Profile& profile)
 {
 }
 }
+
+#include "moc_profilelistmodel.cpp"

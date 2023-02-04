@@ -396,3 +396,5 @@ void SteamWorkshop::onRequestUserItemsReturned(SteamUGCQueryCompleted_t* pCallba
     //    }
 }
 }
+
+#include "moc_steamworkshop.cpp"

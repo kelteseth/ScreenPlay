@@ -766,3 +766,5 @@ QString CreateImportVideo::waitForFinished(
 }
 
 }
+
+#include "moc_createimportvideo.cpp"

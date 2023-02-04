@@ -737,3 +737,5 @@ void ScreenPlayManager::setIsKDEConnected(bool isKDEConnected)
 }
 
 }
+
+#include "moc_screenplaymanager.cpp"

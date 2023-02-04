@@ -58,3 +58,5 @@ WindowsDesktopProperties::WindowsDesktopProperties(QObject* parent)
     if (canParse)
         setWindowsVersion(value);
 }
+
+#include "moc_windowsdesktopproperties.cpp"

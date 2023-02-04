@@ -43,3 +43,5 @@ void Uptime::update()
     setYears(years);
 #endif
 }
+
+#include "moc_uptime.cpp"

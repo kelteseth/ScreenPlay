@@ -280,3 +280,5 @@ void InstalledListModel::reset()
 }
 
 }
+
+#include "moc_installedlistmodel.cpp"

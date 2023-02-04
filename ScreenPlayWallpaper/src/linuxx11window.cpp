@@ -141,3 +141,5 @@ void LinuxX11Window::terminate()
 {
     QCoreApplication::quit();
 }
+
+#include "moc_linuxx11window.cpp"

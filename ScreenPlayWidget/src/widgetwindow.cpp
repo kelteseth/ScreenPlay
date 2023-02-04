@@ -220,3 +220,5 @@ void WidgetWindow::setupLiveReloading()
     QObject::connect(&m_liveReloadLimiter, &QTimer::timeout, this, reloadQMLLambda);
     m_fileSystemWatcher.addPaths({ projectPath() });
 }
+
+#include "moc_widgetwindow.cpp"

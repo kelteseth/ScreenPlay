@@ -38,3 +38,5 @@ ShaderLibrary::ShaderLibrary(QQuickItem* parent)
 ShaderLibrary::~ShaderLibrary()
 {
 }
+
+#include "moc_shaderlibrary.cpp"

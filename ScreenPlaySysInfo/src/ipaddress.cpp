@@ -48,3 +48,5 @@ IpAddress::IpAddress(QObject* parent)
         });
     }
 }
+
+#include "moc_ipaddress.cpp"

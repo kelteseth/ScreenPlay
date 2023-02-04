@@ -507,3 +507,5 @@ void WinWindow::clearComponentCache()
 {
     m_window.engine()->clearComponentCache();
 }
+
+#include "moc_winwindow.cpp"

@@ -81,3 +81,5 @@ void SteamAccount::onAvatarImageLoaded(AvatarImageLoaded_t* avatarImage)
     m_avatarLoaded = true;
 }
 }
+
+#include "moc_steamaccount.cpp"

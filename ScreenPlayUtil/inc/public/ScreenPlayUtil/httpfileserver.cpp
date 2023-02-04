@@ -27,3 +27,5 @@ void HttpFileServer::stopServer()
         m_thread.join();
 }
 }
+
+#include "moc_httpfileserver.cpp"

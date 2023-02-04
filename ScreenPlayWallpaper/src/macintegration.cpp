@@ -12,3 +12,5 @@ void MacIntegration::SetBackgroundLevel(QWindow* window)
 {
     MacBridge::SetBackgroundLevel(window);
 }
+
+#include "moc_macintegration.cpp"
