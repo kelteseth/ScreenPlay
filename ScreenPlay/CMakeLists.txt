@@ -261,6 +261,7 @@ find_package(
                Widgets
                WebSockets
                Svg
+               Xml
                LinguistTools
                Test)
 
@@ -284,6 +285,7 @@ qt_add_qml_module(
     ${HEADER}
     RESOURCES
     ${RESOURCES})
+
 target_link_libraries(
     ScreenPlayApp
     PUBLIC ScreenPlaySDK
@@ -295,6 +297,7 @@ target_link_libraries(
            Qt6::WebSockets
            Qt6::Svg
            Qt6::QuickControls2
+           Qt6::Xml
            ScreenPlayUtil
            ScreenPlayUtilplugin
            QArchive
